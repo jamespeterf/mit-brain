@@ -1,0 +1,2680 @@
+1
+00:00:01,319 --> 00:00:06,240
+okay our next speaker we're very excited
+
+2
+00:00:03,240 --> 00:00:08,440
+to have Alexandra hi yeah so thank you
+
+3
+00:00:06,240 --> 00:00:10,160
+so much hi everyone I'm Alexandra I'm a
+
+4
+00:00:08,440 --> 00:00:12,000
+grad student here in the department and
+
+5
+00:00:10,160 --> 00:00:13,679
+I'm going to talk to you today about new
+
+6
+00:00:12,000 --> 00:00:15,639
+constructions of somewhat homomorphic
+
+7
+00:00:13,679 --> 00:00:18,640
+encryption uh and this is Joint work
+
+8
+00:00:15,639 --> 00:00:22,080
+with my adviser Henry and with Yale and
+
+9
+00:00:18,640 --> 00:00:24,439
+venod okay so the classic problem solved
+
+10
+00:00:22,080 --> 00:00:26,480
+by cryptography is that of secure
+
+11
+00:00:24,439 --> 00:00:28,279
+communication so in this problem my
+
+12
+00:00:26,480 --> 00:00:30,480
+friend and I want to communicate but we
+
+13
+00:00:28,279 --> 00:00:32,559
+can only talk over some public or
+
+14
+00:00:30,480 --> 00:00:34,800
+insecure Network and the way
+
+15
+00:00:32,559 --> 00:00:37,520
+cryptography solves this problem is by
+
+16
+00:00:34,800 --> 00:00:39,760
+letting me sample an encryption key that
+
+17
+00:00:37,520 --> 00:00:41,920
+I can share with my friend and now we
+
+18
+00:00:39,760 --> 00:00:44,399
+can send encrypted pieces of information
+
+19
+00:00:41,920 --> 00:00:46,680
+over this network so that each of us can
+
+20
+00:00:44,399 --> 00:00:48,800
+decrypt the packets and see what the
+
+21
+00:00:46,680 --> 00:00:51,039
+information is but to anyone who's just
+
+22
+00:00:48,800 --> 00:00:53,800
+e dropping on our messages they have no
+
+23
+00:00:51,039 --> 00:00:55,760
+idea what we're saying a downside here
+
+24
+00:00:53,800 --> 00:00:58,280
+though is that F this fundamentally
+
+25
+00:00:55,760 --> 00:01:01,280
+requires trusting the recipient so here
+
+26
+00:00:58,280 --> 00:01:03,239
+for example I trust my friend but this
+
+27
+00:01:01,280 --> 00:01:05,159
+isn't always want what we want to do in
+
+28
+00:01:03,239 --> 00:01:07,040
+the real world so in the real world
+
+29
+00:01:05,159 --> 00:01:09,040
+today we're sending our personal data
+
+30
+00:01:07,040 --> 00:01:11,360
+all over the place to many many
+
+31
+00:01:09,040 --> 00:01:13,920
+recipients and it really only takes one
+
+32
+00:01:11,360 --> 00:01:16,640
+of them to be breached compromised or
+
+33
+00:01:13,920 --> 00:01:17,439
+malicious for our data to fall into the
+
+34
+00:01:16,640 --> 00:01:20,720
+wrong
+
+35
+00:01:17,439 --> 00:01:23,360
+hands and so what we can do is we can
+
+36
+00:01:20,720 --> 00:01:25,799
+ask whether we can ask for more from
+
+37
+00:01:23,360 --> 00:01:28,920
+cryptography and specifically whether we
+
+38
+00:01:25,799 --> 00:01:32,119
+can protect our data not just during
+
+39
+00:01:28,920 --> 00:01:34,320
+communication but even during
+
+40
+00:01:32,119 --> 00:01:36,880
+computation uh and so cryptographers
+
+41
+00:01:34,320 --> 00:01:39,560
+have formalized this notion of that as
+
+42
+00:01:36,880 --> 00:01:41,240
+that of homomorphic encryption so the
+
+43
+00:01:39,560 --> 00:01:43,479
+idea here is that in a homomorphic
+
+44
+00:01:41,240 --> 00:01:46,600
+encryption scheme anyone can compute
+
+45
+00:01:43,479 --> 00:01:48,680
+directly on encrypted data without ever
+
+46
+00:01:46,600 --> 00:01:51,920
+decrypting it and without ever learning
+
+47
+00:01:48,680 --> 00:01:53,920
+what the underlying data is so to be a
+
+48
+00:01:51,920 --> 00:01:56,240
+little bit more precise here again I'm
+
+49
+00:01:53,920 --> 00:01:58,719
+going to sample a secret encryption key
+
+50
+00:01:56,240 --> 00:02:00,399
+and now I can encrypt any values of my
+
+51
+00:01:58,719 --> 00:02:03,240
+choosing so here I'm encrypting these
+
+52
+00:02:00,399 --> 00:02:05,600
+values X1 through XM and I can publish
+
+53
+00:02:03,240 --> 00:02:08,039
+them in a way that any recipient so here
+
+54
+00:02:05,600 --> 00:02:10,959
+for example This Server can apply a
+
+55
+00:02:08,039 --> 00:02:13,080
+function directly to the encrypted data
+
+56
+00:02:10,959 --> 00:02:15,560
+without ever decrypting and without ever
+
+57
+00:02:13,080 --> 00:02:17,160
+learning my messages so here for example
+
+58
+00:02:15,560 --> 00:02:20,160
+the server is going to produce the
+
+59
+00:02:17,160 --> 00:02:23,519
+encryption of f applied to X1 through
+
+60
+00:02:20,160 --> 00:02:24,840
+XM so to be just a little more formal uh
+
+61
+00:02:23,519 --> 00:02:27,239
+we say an encryption scheme is
+
+62
+00:02:24,840 --> 00:02:29,879
+homomorphic if it satisfies three
+
+63
+00:02:27,239 --> 00:02:31,680
+properties so first of all if our
+
+64
+00:02:29,879 --> 00:02:33,360
+encryption scheme is correct which
+
+65
+00:02:31,680 --> 00:02:35,239
+really just means that given the secret
+
+66
+00:02:33,360 --> 00:02:37,519
+key I can decrypt the server's message
+
+67
+00:02:35,239 --> 00:02:40,480
+here and I'm correctly going to recover
+
+68
+00:02:37,519 --> 00:02:42,640
+F apply to X1 through XM with good
+
+69
+00:02:40,480 --> 00:02:44,360
+probability so second we need our
+
+70
+00:02:42,640 --> 00:02:46,560
+encryption scheme to be secure which
+
+71
+00:02:44,360 --> 00:02:49,480
+means that anyone who does not have my
+
+72
+00:02:46,560 --> 00:02:52,200
+secret key has no idea what the messages
+
+73
+00:02:49,480 --> 00:02:54,040
+are that these Cipher texts encrypt and
+
+74
+00:02:52,200 --> 00:02:56,159
+finally we want our encryption scheme to
+
+75
+00:02:54,040 --> 00:02:57,560
+be compact which really just means that
+
+76
+00:02:56,159 --> 00:03:00,760
+the bit length of all of our Cipher
+
+77
+00:02:57,560 --> 00:03:02,200
+texts here should be a fixed parameter
+
+78
+00:03:00,760 --> 00:03:04,400
+and really should not grow with the
+
+79
+00:03:02,200 --> 00:03:05,840
+function f that we're applying to them
+
+80
+00:03:04,400 --> 00:03:08,239
+uh and really the intuition for this
+
+81
+00:03:05,840 --> 00:03:09,879
+last requirement here is that what this
+
+82
+00:03:08,239 --> 00:03:12,440
+protocol here is doing is it's sort of
+
+83
+00:03:09,879 --> 00:03:14,680
+Outsourcing the computation of f to the
+
+84
+00:03:12,440 --> 00:03:16,400
+server so it had better be that the
+
+85
+00:03:14,680 --> 00:03:18,080
+communication that we're incurring is
+
+86
+00:03:16,400 --> 00:03:21,040
+smaller than if the server were just to
+
+87
+00:03:18,080 --> 00:03:22,599
+send us F in the first place so really
+
+88
+00:03:21,040 --> 00:03:24,680
+this compactness here captures what we
+
+89
+00:03:22,599 --> 00:03:26,280
+mean to actually compute on the
+
+90
+00:03:24,680 --> 00:03:29,360
+encrypted
+
+91
+00:03:26,280 --> 00:03:31,519
+data okay uh and so a long and very
+
+92
+00:03:29,360 --> 00:03:33,959
+fruitful line of work has shown that if
+
+93
+00:03:31,519 --> 00:03:36,799
+we have homomorphic encryption then we
+
+94
+00:03:33,959 --> 00:03:39,640
+can use this to build a whole Suite of
+
+95
+00:03:36,799 --> 00:03:41,080
+privacy preserving applications so for
+
+96
+00:03:39,640 --> 00:03:42,959
+example you could imagine that the
+
+97
+00:03:41,080 --> 00:03:45,239
+function f here is a machine learning
+
+98
+00:03:42,959 --> 00:03:46,920
+model uh and so we can have our user
+
+99
+00:03:45,239 --> 00:03:48,920
+Make private queries to the machine
+
+100
+00:03:46,920 --> 00:03:51,519
+learning model without revealing what
+
+101
+00:03:48,920 --> 00:03:53,519
+she's querying the model on or similarly
+
+102
+00:03:51,519 --> 00:03:56,360
+you could imagine F here to be web
+
+103
+00:03:53,519 --> 00:03:57,760
+search or like the Google functionality
+
+104
+00:03:56,360 --> 00:03:59,840
+and then in that setting you can use
+
+105
+00:03:57,760 --> 00:04:01,519
+this to build a private search engine
+
+106
+00:03:59,840 --> 00:04:03,360
+that never actually learns what its
+
+107
+00:04:01,519 --> 00:04:05,720
+users are searching
+
+108
+00:04:03,360 --> 00:04:08,239
+for okay so this is homomorphic
+
+109
+00:04:05,720 --> 00:04:10,120
+encryption uh and so sort of as the
+
+110
+00:04:08,239 --> 00:04:12,959
+definition implies homomorphic
+
+111
+00:04:10,120 --> 00:04:14,760
+encryption exists along a gradient
+
+112
+00:04:12,959 --> 00:04:18,239
+depending on what types of functions we
+
+113
+00:04:14,760 --> 00:04:20,280
+can actually apply to encrypted data so
+
+114
+00:04:18,239 --> 00:04:22,520
+at the very bottom here I have classic
+
+115
+00:04:20,280 --> 00:04:24,440
+private key encryption which is not
+
+116
+00:04:22,520 --> 00:04:27,880
+homomorphic so we can't perform any
+
+117
+00:04:24,440 --> 00:04:29,919
+computations on encrypted data then
+
+118
+00:04:27,880 --> 00:04:31,840
+above this we have linearly homomorphic
+
+119
+00:04:29,919 --> 00:04:34,320
+encryption which can evaluate only
+
+120
+00:04:31,840 --> 00:04:37,520
+linear functions so perform only
+
+121
+00:04:34,320 --> 00:04:39,960
+additions on encrypted data and then at
+
+122
+00:04:37,520 --> 00:04:42,240
+the very top here most powerful we have
+
+123
+00:04:39,960 --> 00:04:44,199
+fully homomorphic encryption uh which
+
+124
+00:04:42,240 --> 00:04:46,560
+can evaluate any function on encrypted
+
+125
+00:04:44,199 --> 00:04:48,039
+data so really uh for the point of this
+
+126
+00:04:46,560 --> 00:04:50,000
+for the purposes of this talk you should
+
+127
+00:04:48,039 --> 00:04:51,400
+think of this as evaluating any number
+
+128
+00:04:50,000 --> 00:04:54,360
+of additions and any number of
+
+129
+00:04:51,400 --> 00:04:55,919
+multiplications on Cipher texts and so
+
+130
+00:04:54,360 --> 00:04:57,199
+really in between linearly homomorphic
+
+131
+00:04:55,919 --> 00:04:59,759
+encryption and fully homomorphic
+
+132
+00:04:57,199 --> 00:05:01,639
+encryption there's a huge range uh
+
+133
+00:04:59,759 --> 00:05:03,520
+depending on how many multiplications
+
+134
+00:05:01,639 --> 00:05:05,400
+your scheme can support so really how
+
+135
+00:05:03,520 --> 00:05:07,720
+expressive the function classes that it
+
+136
+00:05:05,400 --> 00:05:10,039
+can handle uh and we generally refer to
+
+137
+00:05:07,720 --> 00:05:12,800
+this as somewhat homomorphic
+
+138
+00:05:10,039 --> 00:05:15,039
+encryption okay so what do we have today
+
+139
+00:05:12,800 --> 00:05:17,120
+well the classic encryption schemes that
+
+140
+00:05:15,039 --> 00:05:19,160
+we use every day to protect our
+
+141
+00:05:17,120 --> 00:05:21,280
+communication on the internet are not
+
+142
+00:05:19,160 --> 00:05:23,960
+homomorphic but fortunately we can do
+
+143
+00:05:21,280 --> 00:05:26,560
+better uh and so specifically the number
+
+144
+00:05:23,960 --> 00:05:28,800
+theoretic cryptography of the 1980s
+
+145
+00:05:26,560 --> 00:05:31,919
+gives us a whole Suite of linearly
+
+146
+00:05:28,800 --> 00:05:33,240
+homomorphic in Crypt schemes and a
+
+147
+00:05:31,919 --> 00:05:34,600
+really beautiful line of work showed
+
+148
+00:05:33,240 --> 00:05:37,039
+that you can actually boost these
+
+149
+00:05:34,600 --> 00:05:39,240
+schemes to compute some nonlinear
+
+150
+00:05:37,039 --> 00:05:41,440
+functions so specifically to compute
+
+151
+00:05:39,240 --> 00:05:43,880
+branching programs of a certain type on
+
+152
+00:05:41,440 --> 00:05:48,160
+encrypted
+
+153
+00:05:43,880 --> 00:05:50,600
+data then in 2005 we learned that using
+
+154
+00:05:48,160 --> 00:05:52,520
+cryptographic pairings you can compute
+
+155
+00:05:50,600 --> 00:05:54,960
+any number of additions and one
+
+156
+00:05:52,520 --> 00:05:57,039
+multiplication on encrypted data so this
+
+157
+00:05:54,960 --> 00:06:00,240
+here is really degree 2
+
+158
+00:05:57,039 --> 00:06:01,880
+polinomial and then in 2009 there was a
+
+159
+00:06:00,240 --> 00:06:04,039
+huge breakthrough in cryptography that
+
+160
+00:06:01,880 --> 00:06:06,039
+showed that using lates we can actually
+
+161
+00:06:04,039 --> 00:06:08,360
+get all the way to fully homomorphic
+
+162
+00:06:06,039 --> 00:06:09,919
+encryption and today we also know how to
+
+163
+00:06:08,360 --> 00:06:11,720
+get there using the Machinery of
+
+164
+00:06:09,919 --> 00:06:13,759
+indistinguishability
+
+165
+00:06:11,720 --> 00:06:15,440
+obfuscation so really this is the
+
+166
+00:06:13,759 --> 00:06:17,720
+landscape of homomorphic encryption
+
+167
+00:06:15,440 --> 00:06:19,919
+today so if we want to compute somewhat
+
+168
+00:06:17,720 --> 00:06:21,960
+complex functions uh and nonlinear
+
+169
+00:06:19,919 --> 00:06:24,400
+functions on encrypted data we really
+
+170
+00:06:21,960 --> 00:06:26,440
+only have a few ways of getting there
+
+171
+00:06:24,400 --> 00:06:28,080
+and for the schemes on the right here
+
+172
+00:06:26,440 --> 00:06:30,560
+you should think of them as relatively
+
+173
+00:06:28,080 --> 00:06:33,720
+heavy cryptographic machinery that you
+
+174
+00:06:30,560 --> 00:06:36,000
+know like rockets can be somewhat
+
+175
+00:06:33,720 --> 00:06:38,400
+expensive and so this talk is going to
+
+176
+00:06:36,000 --> 00:06:40,360
+be about uh new construction of somewhat
+
+177
+00:06:38,400 --> 00:06:41,759
+homomorphic encryption uh and
+
+178
+00:06:40,360 --> 00:06:44,240
+specifically we're going to build an
+
+179
+00:06:41,759 --> 00:06:46,000
+encryption scheme that lets us compute a
+
+180
+00:06:44,240 --> 00:06:48,080
+fixed and bounded number of
+
+181
+00:06:46,000 --> 00:06:51,319
+multiplications followed by many
+
+182
+00:06:48,080 --> 00:06:53,080
+additions on encrypted data and so to
+
+183
+00:06:51,319 --> 00:06:55,560
+build this scheme we're going to combine
+
+184
+00:06:53,080 --> 00:06:57,520
+two tools so first we're going to take a
+
+185
+00:06:55,560 --> 00:06:59,599
+linearly homomorphic encryption scheme
+
+186
+00:06:57,520 --> 00:07:01,879
+so this is the balloon here given to us
+
+187
+00:06:59,599 --> 00:07:03,360
+by number theoretic cryptography and
+
+188
+00:07:01,879 --> 00:07:05,240
+we're going to show how to lift a
+
+189
+00:07:03,360 --> 00:07:07,560
+linearly homomorphic encryption scheme
+
+190
+00:07:05,240 --> 00:07:10,319
+into a somewhat homomorphic one by using
+
+191
+00:07:07,560 --> 00:07:12,919
+just one additional assumption and this
+
+192
+00:07:10,319 --> 00:07:14,879
+assumption here on its own uh just gives
+
+193
+00:07:12,919 --> 00:07:17,160
+us private key encryption so on its own
+
+194
+00:07:14,879 --> 00:07:19,000
+it has no homomorphism but when we put
+
+195
+00:07:17,160 --> 00:07:20,639
+these two relatively simple tools
+
+196
+00:07:19,000 --> 00:07:21,440
+together we get something that's much
+
+197
+00:07:20,639 --> 00:07:23,840
+more
+
+198
+00:07:21,440 --> 00:07:25,280
+powerful and so that's exactly what this
+
+199
+00:07:23,840 --> 00:07:27,479
+talk is going to be about so we're going
+
+200
+00:07:25,280 --> 00:07:29,240
+to see how we can combine this sparse
+
+201
+00:07:27,479 --> 00:07:30,639
+learning pars with noise assumption
+
+202
+00:07:29,240 --> 00:07:33,280
+which is is the assumption that only
+
+203
+00:07:30,639 --> 00:07:35,160
+gives us private key encryption with a
+
+204
+00:07:33,280 --> 00:07:37,960
+linearly homomorphic encryption scheme
+
+205
+00:07:35,160 --> 00:07:39,400
+to build somewhat homomorphic encryption
+
+206
+00:07:37,960 --> 00:07:40,879
+uh and so specifically the somewhat
+
+207
+00:07:39,400 --> 00:07:44,120
+homomorphic encryption that we'll build
+
+208
+00:07:40,879 --> 00:07:46,240
+today is such that for any a priori
+
+209
+00:07:44,120 --> 00:07:48,319
+fixed parameter L that's at most
+
+210
+00:07:46,240 --> 00:07:50,120
+polinomial in our security parameter
+
+211
+00:07:48,319 --> 00:07:52,919
+we're going to be able to perform just
+
+212
+00:07:50,120 --> 00:07:56,319
+slightly less than logl multiplications
+
+213
+00:07:52,919 --> 00:07:58,840
+followed by logl additions on encrypted
+
+214
+00:07:56,319 --> 00:08:01,159
+data okay and so let's begin by
+
+215
+00:07:58,840 --> 00:08:03,639
+discussing this sparse LPN
+
+216
+00:08:01,159 --> 00:08:05,240
+assumption so the sparse learning
+
+217
+00:08:03,639 --> 00:08:07,960
+parities with noise assumption is based
+
+218
+00:08:05,240 --> 00:08:11,560
+on the following problem so say I sample
+
+219
+00:08:07,960 --> 00:08:13,560
+some random Matrix a that's sparse so
+
+220
+00:08:11,560 --> 00:08:17,520
+specifically every row is just going to
+
+221
+00:08:13,560 --> 00:08:20,879
+have very few nonzero entries and then I
+
+222
+00:08:17,520 --> 00:08:24,000
+sample some dense and random Vector s
+
+223
+00:08:20,879 --> 00:08:25,840
+say have Dimension n and some error
+
+224
+00:08:24,000 --> 00:08:27,840
+Vector e and specifically I'm going to
+
+225
+00:08:25,840 --> 00:08:30,240
+sample these errors so that most of them
+
+226
+00:08:27,840 --> 00:08:33,399
+are zero but with some very small
+
+227
+00:08:30,240 --> 00:08:36,000
+probability so here 1 over root n each
+
+228
+00:08:33,399 --> 00:08:37,200
+error is going to be completely random
+
+229
+00:08:36,000 --> 00:08:38,919
+and so now what I'm going to do is I'm
+
+230
+00:08:37,200 --> 00:08:42,039
+going to publish a and I'm going to
+
+231
+00:08:38,919 --> 00:08:44,000
+publish a * S Plus e and I'm going to
+
+232
+00:08:42,039 --> 00:08:46,480
+ask you can you distinguish this from
+
+233
+00:08:44,000 --> 00:08:47,440
+just a random a and a truly random
+
+234
+00:08:46,480 --> 00:08:50,080
+Vector
+
+235
+00:08:47,440 --> 00:08:52,279
+B and it turns out to the best of our
+
+236
+00:08:50,080 --> 00:08:54,480
+knowledge the answer here is actually no
+
+237
+00:08:52,279 --> 00:08:55,680
+so this is a hard problem we don't have
+
+238
+00:08:54,480 --> 00:08:57,440
+any efficient algorithms for
+
+239
+00:08:55,680 --> 00:08:59,680
+distinguishing between these two
+
+240
+00:08:57,440 --> 00:09:01,079
+distributions uh and in fact this is to
+
+241
+00:08:59,680 --> 00:09:03,079
+the hardness of random constraint
+
+242
+00:09:01,079 --> 00:09:04,920
+satisfaction problems and other problems
+
+243
+00:09:03,079 --> 00:09:07,160
+in average case
+
+244
+00:09:04,920 --> 00:09:09,040
+complexity okay so first of all as
+
+245
+00:09:07,160 --> 00:09:10,680
+scientists here we might be sad right
+
+246
+00:09:09,040 --> 00:09:13,519
+this is a hard problem that we don't
+
+247
+00:09:10,680 --> 00:09:15,040
+know how to solve but as cryptographers
+
+248
+00:09:13,519 --> 00:09:17,399
+we can be happy because we're going to
+
+249
+00:09:15,040 --> 00:09:18,680
+use this encryption scheme to build or
+
+250
+00:09:17,399 --> 00:09:21,200
+we're going to use the hardness of this
+
+251
+00:09:18,680 --> 00:09:22,959
+problem to build encryption schemes uh
+
+252
+00:09:21,200 --> 00:09:24,880
+and specifically today we're going to
+
+253
+00:09:22,959 --> 00:09:27,760
+use it to build a somewhat homomorphic
+
+254
+00:09:24,880 --> 00:09:30,040
+encryption scheme and so the way we're
+
+255
+00:09:27,760 --> 00:09:33,240
+going to build this scheme is using two
+
+256
+00:09:30,040 --> 00:09:35,079
+key design steps so in a first step
+
+257
+00:09:33,240 --> 00:09:37,000
+we're going to use this sparse alpan
+
+258
+00:09:35,079 --> 00:09:39,720
+assumption to construct an encryption
+
+259
+00:09:37,000 --> 00:09:41,880
+scheme that's going to let us perform a
+
+260
+00:09:39,720 --> 00:09:42,600
+bounded number of homomorphic additions
+
+261
+00:09:41,880 --> 00:09:44,480
+and
+
+262
+00:09:42,600 --> 00:09:45,760
+multiplications so this this already
+
+263
+00:09:44,480 --> 00:09:47,800
+sounds great right this is what we
+
+264
+00:09:45,760 --> 00:09:49,600
+wanted to construct but this is going to
+
+265
+00:09:47,800 --> 00:09:51,560
+have a huge caveat which is that our
+
+266
+00:09:49,600 --> 00:09:53,079
+Cipher texts are going to be huge so
+
+267
+00:09:51,560 --> 00:09:54,680
+really our scheme is not going to be
+
+268
+00:09:53,079 --> 00:09:56,399
+Compact and it's not going to meet our
+
+269
+00:09:54,680 --> 00:09:58,560
+definition of homomorphic
+
+270
+00:09:56,399 --> 00:10:01,000
+encryption but it's still going to have
+
+271
+00:09:58,560 --> 00:10:03,240
+one nice property which is that to
+
+272
+00:10:01,000 --> 00:10:05,399
+decrypt these Cipher text we're only
+
+273
+00:10:03,240 --> 00:10:07,360
+going to need to apply a linear function
+
+274
+00:10:05,399 --> 00:10:08,560
+so decryption here is only going to
+
+275
+00:10:07,360 --> 00:10:10,680
+require
+
+276
+00:10:08,560 --> 00:10:11,959
+additions uh and so then in a second
+
+277
+00:10:10,680 --> 00:10:13,680
+step what we're going to do is we're
+
+278
+00:10:11,959 --> 00:10:15,480
+going to use a linearly homomorphic
+
+279
+00:10:13,680 --> 00:10:18,160
+encryption scheme so this is one that
+
+280
+00:10:15,480 --> 00:10:20,720
+can perform only additions in a compact
+
+281
+00:10:18,160 --> 00:10:23,720
+way on encrypted data to shrink down the
+
+282
+00:10:20,720 --> 00:10:24,920
+cipher text in our original scheme and
+
+283
+00:10:23,720 --> 00:10:26,839
+so now what I'm going to do is I'm going
+
+284
+00:10:24,920 --> 00:10:28,000
+to step through each of these two ideas
+
+285
+00:10:26,839 --> 00:10:30,959
+in much more
+
+286
+00:10:28,000 --> 00:10:32,440
+detail so specifically our goal in this
+
+287
+00:10:30,959 --> 00:10:34,160
+work is going to be to build an
+
+288
+00:10:32,440 --> 00:10:36,399
+encryption scheme that meets the
+
+289
+00:10:34,160 --> 00:10:39,920
+following properties so what we would
+
+290
+00:10:36,399 --> 00:10:42,600
+like is for our Cipher texts to be
+
+291
+00:10:39,920 --> 00:10:44,680
+matrices and for our server who here is
+
+292
+00:10:42,600 --> 00:10:48,160
+going to apply some function f to the
+
+293
+00:10:44,680 --> 00:10:51,360
+cipher text to operate as follows so if
+
+294
+00:10:48,160 --> 00:10:53,560
+our server wants to uh add two encrypted
+
+295
+00:10:51,360 --> 00:10:55,880
+values it should just have to add the
+
+296
+00:10:53,560 --> 00:10:58,120
+corresponding Cipher text matrices and
+
+297
+00:10:55,880 --> 00:10:59,800
+if our server wants to multiply two
+
+298
+00:10:58,120 --> 00:11:02,320
+encrypted values it should just have to
+
+299
+00:10:59,800 --> 00:11:04,600
+multiply the corresponding Cipher text
+
+300
+00:11:02,320 --> 00:11:05,920
+matrices so for the cryptographers in
+
+301
+00:11:04,600 --> 00:11:07,440
+the audience this should really remind
+
+302
+00:11:05,920 --> 00:11:09,600
+you of the Gentry sah High waters's
+
+303
+00:11:07,440 --> 00:11:12,399
+fully homomorphic encryption scheme from
+
+304
+00:11:09,600 --> 00:11:14,480
+lates which here we're trying to port to
+
+305
+00:11:12,399 --> 00:11:16,279
+the setting of code-based encryption
+
+306
+00:11:14,480 --> 00:11:18,360
+with the sparse LPN
+
+307
+00:11:16,279 --> 00:11:19,880
+assumption uh and I'll introduce one
+
+308
+00:11:18,360 --> 00:11:22,399
+more requirement which is that we'd like
+
+309
+00:11:19,880 --> 00:11:24,240
+our decryption function to be linear so
+
+310
+00:11:22,399 --> 00:11:26,959
+what this means is that when our user
+
+311
+00:11:24,240 --> 00:11:28,839
+gets back this big Cipher Tech CF here
+
+312
+00:11:26,959 --> 00:11:31,040
+it should just need to apply a linear
+
+313
+00:11:28,839 --> 00:11:32,720
+function to it so do some additions in
+
+314
+00:11:31,040 --> 00:11:34,240
+order to get back the underlying
+
+315
+00:11:32,720 --> 00:11:36,800
+encrypted
+
+316
+00:11:34,240 --> 00:11:39,200
+message okay so how are we going to do
+
+317
+00:11:36,800 --> 00:11:42,000
+this well the key idea is going to be
+
+318
+00:11:39,200 --> 00:11:45,440
+the following so as our secret key we're
+
+319
+00:11:42,000 --> 00:11:47,399
+going to sample a random Vector s and
+
+320
+00:11:45,440 --> 00:11:49,639
+this should sort of remind you of the S
+
+321
+00:11:47,399 --> 00:11:53,279
+Vector in the sparse alpan
+
+322
+00:11:49,639 --> 00:11:55,360
+assumption and then to encrypt any value
+
+323
+00:11:53,279 --> 00:11:57,880
+x what we're going to do is we're going
+
+324
+00:11:55,360 --> 00:12:00,200
+to build a cipher text that's a sparse
+
+325
+00:11:57,880 --> 00:12:02,480
+Matrix and that has the following
+
+326
+00:12:00,200 --> 00:12:05,519
+special special structure so we're going
+
+327
+00:12:02,480 --> 00:12:09,480
+to have our encrypted value X be sort of
+
+328
+00:12:05,519 --> 00:12:11,360
+a noisy igen value of this Matrix where
+
+329
+00:12:09,480 --> 00:12:14,120
+the corresponding IG Vector just depends
+
+330
+00:12:11,360 --> 00:12:16,120
+on the secret key so let me be a little
+
+331
+00:12:14,120 --> 00:12:18,440
+more precise what I mean here is that if
+
+332
+00:12:16,120 --> 00:12:20,920
+I have my Cipher text Matrix C and I'm
+
+333
+00:12:18,440 --> 00:12:22,880
+going to multiply by this igen Vector
+
+334
+00:12:20,920 --> 00:12:26,199
+which here will be minus s and then a
+
+335
+00:12:22,880 --> 00:12:29,480
+one what I'd like is to get back roughly
+
+336
+00:12:26,199 --> 00:12:31,720
+the underlying encrypted value X again
+
+337
+00:12:29,480 --> 00:12:33,800
+multiplied by the same igen Vector so
+
+338
+00:12:31,720 --> 00:12:36,600
+this is what it means for X to be an IG
+
+339
+00:12:33,800 --> 00:12:39,399
+value of the Matrix C and when I say
+
+340
+00:12:36,600 --> 00:12:41,399
+noisy here is uh I just mean that I'll
+
+341
+00:12:39,399 --> 00:12:43,480
+be okay with this equation here being
+
+342
+00:12:41,399 --> 00:12:46,120
+corrupted in a couple of locations as
+
+343
+00:12:43,480 --> 00:12:48,240
+long as it holds like
+
+344
+00:12:46,120 --> 00:12:50,120
+mostly okay so first of all you might
+
+345
+00:12:48,240 --> 00:12:53,079
+ask how are we going to do this how can
+
+346
+00:12:50,120 --> 00:12:55,399
+we H inject this noisy igen value into a
+
+347
+00:12:53,079 --> 00:12:58,000
+matrix and the idea is going to be
+
+348
+00:12:55,399 --> 00:12:59,920
+roughly to do the following so to build
+
+349
+00:12:58,000 --> 00:13:01,519
+the cipher text Matrix what we're going
+
+350
+00:12:59,920 --> 00:13:03,639
+to do is we're going to sample a random
+
+351
+00:13:01,519 --> 00:13:05,440
+a matrix uh we're going to sample a
+
+352
+00:13:03,639 --> 00:13:07,160
+random error vector and then as our
+
+353
+00:13:05,440 --> 00:13:10,000
+Cipher text we're just going to publish
+
+354
+00:13:07,160 --> 00:13:12,760
+the a matrix concatenated with one more
+
+355
+00:13:10,000 --> 00:13:15,279
+column which is going to be a * S Plus
+
+356
+00:13:12,760 --> 00:13:17,680
+the errors plus our message times some
+
+357
+00:13:15,279 --> 00:13:19,880
+function of the secret key so really
+
+358
+00:13:17,680 --> 00:13:22,680
+here we see that what the sparse LPN
+
+359
+00:13:19,880 --> 00:13:25,279
+assumption tells us is that a * S Plus e
+
+360
+00:13:22,680 --> 00:13:27,000
+looks random so this Cipher text here
+
+361
+00:13:25,279 --> 00:13:29,600
+really is hiding the message that we
+
+362
+00:13:27,000 --> 00:13:31,760
+embedded into it but if you stare at it
+
+363
+00:13:29,600 --> 00:13:35,000
+for a while you can see that it actually
+
+364
+00:13:31,760 --> 00:13:38,120
+satisfies this noisy igen value
+
+365
+00:13:35,000 --> 00:13:39,800
+equation okay so what I argued so far is
+
+366
+00:13:38,120 --> 00:13:42,120
+that we can actually build Cipher Tex of
+
+367
+00:13:39,800 --> 00:13:43,920
+this form and now you might wonder why
+
+368
+00:13:42,120 --> 00:13:46,839
+is this useful why do we want this
+
+369
+00:13:43,920 --> 00:13:48,680
+special structure and the reason really
+
+370
+00:13:46,839 --> 00:13:50,320
+is because it's going to let us perform
+
+371
+00:13:48,680 --> 00:13:53,440
+these homomorphic
+
+372
+00:13:50,320 --> 00:13:55,199
+operations so specifically to add two
+
+373
+00:13:53,440 --> 00:13:56,639
+encrypted values what we're going to do
+
+374
+00:13:55,199 --> 00:13:59,519
+is we're just going to add the
+
+375
+00:13:56,639 --> 00:14:01,440
+corresponding Cipher Tex matrices and
+
+376
+00:13:59,519 --> 00:14:03,800
+what we see is that we if we add two
+
+377
+00:14:01,440 --> 00:14:05,360
+matrices that have the same igen Vector
+
+378
+00:14:03,800 --> 00:14:08,399
+this has the effect of just adding their
+
+379
+00:14:05,360 --> 00:14:10,320
+igen values so really what we get out of
+
+380
+00:14:08,399 --> 00:14:11,560
+here is an encryption of the sum of the
+
+381
+00:14:10,320 --> 00:14:14,600
+underlying
+
+382
+00:14:11,560 --> 00:14:16,600
+messages and in exactly the same way we
+
+383
+00:14:14,600 --> 00:14:19,000
+can multiply Cipher texts so
+
+384
+00:14:16,600 --> 00:14:21,199
+specifically if we multiply two matrices
+
+385
+00:14:19,000 --> 00:14:23,279
+what we get out here is a matrix whose
+
+386
+00:14:21,199 --> 00:14:25,519
+igen value is the product of the
+
+387
+00:14:23,279 --> 00:14:27,279
+underlying I values so really by
+
+388
+00:14:25,519 --> 00:14:29,160
+multiplying two matrices we get out a
+
+389
+00:14:27,279 --> 00:14:30,160
+cipher text that encrypts the product of
+
+390
+00:14:29,160 --> 00:14:32,519
+their two
+
+391
+00:14:30,160 --> 00:14:34,800
+messages uh and last but not least I
+
+392
+00:14:32,519 --> 00:14:36,959
+said we wanted decryption to be linear
+
+393
+00:14:34,800 --> 00:14:39,199
+and again this here follows by this same
+
+394
+00:14:36,959 --> 00:14:41,480
+uh blue equation so specifically to
+
+395
+00:14:39,199 --> 00:14:43,519
+decrypt a cipher text all we need to do
+
+396
+00:14:41,480 --> 00:14:45,720
+is to multiply by this secret Vector
+
+397
+00:14:43,519 --> 00:14:47,360
+which has the negative s in a one and
+
+398
+00:14:45,720 --> 00:14:49,519
+what this gives us is the message
+
+399
+00:14:47,360 --> 00:14:50,839
+multiplied by the same Vector so we can
+
+400
+00:14:49,519 --> 00:14:53,639
+then check whether the underlying
+
+401
+00:14:50,839 --> 00:14:56,800
+encrypted value was a zero or a
+
+402
+00:14:53,639 --> 00:15:00,000
+one okay so that
+
+403
+00:14:56,800 --> 00:15:01,399
+yeah linear right it's linear with noise
+
+404
+00:15:00,000 --> 00:15:03,759
+linear with
+
+405
+00:15:01,399 --> 00:15:04,920
+noise exactly well so for our purposes
+
+406
+00:15:03,759 --> 00:15:07,320
+it's going to be linear because we're
+
+407
+00:15:04,920 --> 00:15:08,720
+just going to look at one location in
+
+408
+00:15:07,320 --> 00:15:10,480
+this equation and we're going to just
+
+409
+00:15:08,720 --> 00:15:12,360
+guess that it has no noise but you're
+
+410
+00:15:10,480 --> 00:15:13,759
+totally right you could do some error
+
+411
+00:15:12,360 --> 00:15:16,120
+correction here like you could compute
+
+412
+00:15:13,759 --> 00:15:18,399
+some majority function but what we just
+
+413
+00:15:16,120 --> 00:15:22,040
+won't do that for our purposes so
+
+414
+00:15:18,399 --> 00:15:24,000
+far great okay so now zooming out again
+
+415
+00:15:22,040 --> 00:15:26,000
+we have this scheme our Cipher Tex are
+
+416
+00:15:24,000 --> 00:15:27,480
+these sparse matrices our server can
+
+417
+00:15:26,000 --> 00:15:29,880
+compute on them by just adding these
+
+418
+00:15:27,480 --> 00:15:31,920
+matrices and multiplying these mat icies
+
+419
+00:15:29,880 --> 00:15:34,120
+and when we do this they get somewhat
+
+420
+00:15:31,920 --> 00:15:35,639
+less sparse and the errors in the
+
+421
+00:15:34,120 --> 00:15:38,240
+underlying equation are going to
+
+422
+00:15:35,639 --> 00:15:40,480
+propagate somewhat but if we sit down
+
+423
+00:15:38,240 --> 00:15:43,240
+and analyze this we see that if we have
+
+424
+00:15:40,480 --> 00:15:45,199
+our initial Matrix Dimension be n byn
+
+425
+00:15:43,240 --> 00:15:48,360
+and if we have our initial error rate be
+
+426
+00:15:45,199 --> 00:15:50,480
+something like 1/ root n then we get a
+
+427
+00:15:48,360 --> 00:15:53,240
+scheme that actually can perform just
+
+428
+00:15:50,480 --> 00:15:55,199
+slightly less than login multiplications
+
+429
+00:15:53,240 --> 00:15:57,360
+and just slightly less than root and
+
+430
+00:15:55,199 --> 00:16:00,079
+additions and we'll still be able to
+
+431
+00:15:57,360 --> 00:16:02,079
+decrypt correctly
+
+432
+00:16:00,079 --> 00:16:04,560
+okay so so far this seems great right we
+
+433
+00:16:02,079 --> 00:16:07,240
+can just pick our parameter n to be as
+
+434
+00:16:04,560 --> 00:16:09,120
+big as we would like to support as many
+
+435
+00:16:07,240 --> 00:16:10,319
+operations as we would like on these
+
+436
+00:16:09,120 --> 00:16:12,399
+Cipher
+
+437
+00:16:10,319 --> 00:16:14,680
+texts unfortunately though what I just
+
+438
+00:16:12,399 --> 00:16:16,920
+said should be a huge red flag to you
+
+439
+00:16:14,680 --> 00:16:19,079
+because and here is also the dimension
+
+440
+00:16:16,920 --> 00:16:20,519
+of our Cipher texts so what I said is
+
+441
+00:16:19,079 --> 00:16:22,440
+that we have to make our Cipher texts
+
+442
+00:16:20,519 --> 00:16:24,680
+bigger if we want to compute on them
+
+443
+00:16:22,440 --> 00:16:27,199
+more and so in fact we have a scheme
+
+444
+00:16:24,680 --> 00:16:29,399
+that's not at all compact uh and it
+
+445
+00:16:27,199 --> 00:16:31,319
+turns out our server would always be
+
+446
+00:16:29,399 --> 00:16:33,759
+better off just sending a description of
+
+447
+00:16:31,319 --> 00:16:35,800
+the function f to the user instead of
+
+448
+00:16:33,759 --> 00:16:37,880
+operating on these big Cipher texts
+
+449
+00:16:35,800 --> 00:16:39,839
+whose uh whose size must be bigger than
+
+450
+00:16:37,880 --> 00:16:41,920
+the description of F and then sending
+
+451
+00:16:39,839 --> 00:16:44,000
+back another big Cipher deex again whose
+
+452
+00:16:41,920 --> 00:16:45,120
+size is bigger than just the description
+
+453
+00:16:44,000 --> 00:16:48,920
+of
+
+454
+00:16:45,120 --> 00:16:50,480
+f okay uh so that's the bad news but the
+
+455
+00:16:48,920 --> 00:16:52,360
+good news is we've only used one of our
+
+456
+00:16:50,480 --> 00:16:54,399
+two ingredients here and we're going to
+
+457
+00:16:52,360 --> 00:16:55,639
+try and save this using linearly
+
+458
+00:16:54,399 --> 00:16:58,160
+homomorphic
+
+459
+00:16:55,639 --> 00:17:00,040
+encryption and so specifically what we
+
+460
+00:16:58,160 --> 00:17:03,319
+have right now is a scheme where we have
+
+461
+00:17:00,040 --> 00:17:05,240
+these big bulky sparse LPN Cipher texts
+
+462
+00:17:03,319 --> 00:17:07,039
+that our server can compute on right so
+
+463
+00:17:05,240 --> 00:17:09,039
+our server can go from an input Cipher
+
+464
+00:17:07,039 --> 00:17:11,760
+text evaluate some function on it to get
+
+465
+00:17:09,039 --> 00:17:14,520
+an output Cipher text that now encrypts
+
+466
+00:17:11,760 --> 00:17:16,240
+the function applied to the data and
+
+467
+00:17:14,520 --> 00:17:18,360
+really what we would like is a way for
+
+468
+00:17:16,240 --> 00:17:21,120
+our server to translate this bulky
+
+469
+00:17:18,360 --> 00:17:24,039
+output Cipher text into a new Cipher
+
+470
+00:17:21,120 --> 00:17:27,039
+text from a compact and small encryption
+
+471
+00:17:24,039 --> 00:17:28,160
+scheme that encrypts the same message
+
+472
+00:17:27,039 --> 00:17:30,520
+right this would be great if we could
+
+473
+00:17:28,160 --> 00:17:33,360
+just shrink our big Cipher texts into a
+
+474
+00:17:30,520 --> 00:17:35,280
+much smaller one from a different scheme
+
+475
+00:17:33,360 --> 00:17:36,679
+and the way we're going to do this is
+
+476
+00:17:35,280 --> 00:17:38,960
+taking advantage of
+
+477
+00:17:36,679 --> 00:17:41,960
+homomorphism so specifically what we
+
+478
+00:17:38,960 --> 00:17:44,320
+know is that our green sparse LPN Cipher
+
+479
+00:17:41,960 --> 00:17:46,760
+text here has a linear decryption
+
+480
+00:17:44,320 --> 00:17:49,559
+function and really decryption is just a
+
+481
+00:17:46,760 --> 00:17:52,280
+function so we can homomorphically apply
+
+482
+00:17:49,559 --> 00:17:53,760
+this function to this Cipher text and
+
+483
+00:17:52,280 --> 00:17:56,039
+since it's a linear function we know
+
+484
+00:17:53,760 --> 00:17:58,360
+that this only requires performing
+
+485
+00:17:56,039 --> 00:18:00,600
+additions so what we could do here is we
+
+486
+00:17:58,360 --> 00:18:04,159
+can take the secret key of our sparse
+
+487
+00:18:00,600 --> 00:18:06,360
+LPN scheme and we can encrypt it under a
+
+488
+00:18:04,159 --> 00:18:08,360
+linearly homomorphic scheme and then
+
+489
+00:18:06,360 --> 00:18:11,520
+under this scheme we can homomorphically
+
+490
+00:18:08,360 --> 00:18:13,600
+run our decryption function and so what
+
+491
+00:18:11,520 --> 00:18:15,280
+this is going to give us uh so what the
+
+492
+00:18:13,600 --> 00:18:16,919
+decryption function does is it takes
+
+493
+00:18:15,280 --> 00:18:19,320
+this big Cipher text and outputs the
+
+494
+00:18:16,919 --> 00:18:21,919
+underlying encrypted message so if we
+
+495
+00:18:19,320 --> 00:18:24,799
+run this under encryption what we get
+
+496
+00:18:21,919 --> 00:18:26,960
+out is an encryption of the underlying
+
+497
+00:18:24,799 --> 00:18:28,520
+encrypted message so really we've
+
+498
+00:18:26,960 --> 00:18:30,600
+managed to translate from this scheme
+
+499
+00:18:28,520 --> 00:18:32,799
+with the bulky Cipher text to the scheme
+
+500
+00:18:30,600 --> 00:18:33,960
+with the small Cipher text just taking
+
+501
+00:18:32,799 --> 00:18:36,080
+advantage of
+
+502
+00:18:33,960 --> 00:18:38,240
+homomorphism and I should say this idea
+
+503
+00:18:36,080 --> 00:18:40,200
+of sort of decrypting under encryption
+
+504
+00:18:38,240 --> 00:18:42,280
+goes all the way back to the very first
+
+505
+00:18:40,200 --> 00:18:44,240
+encryption schemes uh or fully
+
+506
+00:18:42,280 --> 00:18:45,720
+homomorphic encryption schemes of gentry
+
+507
+00:18:44,240 --> 00:18:48,360
+in
+
+508
+00:18:45,720 --> 00:18:50,440
+2009 okay so now we've partially fixed
+
+509
+00:18:48,360 --> 00:18:52,440
+our problem right we no longer have this
+
+510
+00:18:50,440 --> 00:18:54,440
+big output Cipher text instead we can
+
+511
+00:18:52,440 --> 00:18:56,720
+have our server shrink it down into a
+
+512
+00:18:54,440 --> 00:18:59,120
+small and compact Cipher text of a
+
+513
+00:18:56,720 --> 00:19:01,120
+linearly homomorphic encryption scheme
+
+514
+00:18:59,120 --> 00:19:04,200
+but we're still not quite happy because
+
+515
+00:19:01,120 --> 00:19:06,080
+we still have this big input Cipher text
+
+516
+00:19:04,200 --> 00:19:08,400
+the good news though is that we can play
+
+517
+00:19:06,080 --> 00:19:09,880
+this exact same trick again so
+
+518
+00:19:08,400 --> 00:19:12,480
+specifically what we would like our
+
+519
+00:19:09,880 --> 00:19:15,000
+server to do is to start with a compact
+
+520
+00:19:12,480 --> 00:19:17,520
+Cipher text from some uh small
+
+521
+00:19:15,000 --> 00:19:19,880
+encryption scheme and then have a way to
+
+522
+00:19:17,520 --> 00:19:22,880
+translate this into a big Cipher text
+
+523
+00:19:19,880 --> 00:19:25,440
+from our sparse LPN scheme and what we
+
+524
+00:19:22,880 --> 00:19:26,760
+see is that our sparse LPN scheme by
+
+525
+00:19:25,440 --> 00:19:29,880
+construction we built it to be
+
+526
+00:19:26,760 --> 00:19:32,080
+homomorphic right so if our sparse LPN
+
+527
+00:19:29,880 --> 00:19:34,039
+scheme can evaluate the decryption
+
+528
+00:19:32,080 --> 00:19:35,960
+function of this orange encryption
+
+529
+00:19:34,039 --> 00:19:38,240
+scheme then we're in business and then
+
+530
+00:19:35,960 --> 00:19:41,080
+we can indeed perform this translation
+
+531
+00:19:38,240 --> 00:19:44,039
+in exactly the same way so specifically
+
+532
+00:19:41,080 --> 00:19:45,600
+we can take the orange secret key we can
+
+533
+00:19:44,039 --> 00:19:48,120
+encrypt it under our somewhat
+
+534
+00:19:45,600 --> 00:19:50,000
+homomorphic scheme and then whenever our
+
+535
+00:19:48,120 --> 00:19:52,440
+server gets this orange Cipher text
+
+536
+00:19:50,000 --> 00:19:54,720
+encrypting the input value it can
+
+537
+00:19:52,440 --> 00:19:58,240
+homomorphically run the decryption
+
+538
+00:19:54,720 --> 00:20:00,640
+function to get a big green so sparse
+
+539
+00:19:58,240 --> 00:20:01,960
+LPN Cipher text that encrypts the exact
+
+540
+00:20:00,640 --> 00:20:04,360
+same
+
+541
+00:20:01,960 --> 00:20:06,559
+message okay so now what we can do is we
+
+542
+00:20:04,360 --> 00:20:09,200
+can put all of these steps together and
+
+543
+00:20:06,559 --> 00:20:11,760
+we get a final construction that looks
+
+544
+00:20:09,200 --> 00:20:14,080
+roughly as follows so first we're going
+
+545
+00:20:11,760 --> 00:20:16,520
+to have our user send a one-time
+
+546
+00:20:14,080 --> 00:20:18,559
+evaluation key to the server so you can
+
+547
+00:20:16,520 --> 00:20:20,440
+think of this as just like an identity
+
+548
+00:20:18,559 --> 00:20:22,559
+card that the user publishes to the
+
+549
+00:20:20,440 --> 00:20:25,360
+server that it can later reuse as many
+
+550
+00:20:22,559 --> 00:20:27,480
+times as it would like and what this
+
+551
+00:20:25,360 --> 00:20:29,799
+evaluation key is going to hold is going
+
+552
+00:20:27,480 --> 00:20:32,760
+to be a chain of encryptions of one
+
+553
+00:20:29,799 --> 00:20:34,039
+schemes key under the previous one so
+
+554
+00:20:32,760 --> 00:20:37,080
+specifically what I'm going to do here
+
+555
+00:20:34,039 --> 00:20:40,120
+is I'm going to publish a a sparle PN so
+
+556
+00:20:37,080 --> 00:20:41,600
+a green encryption of the orange key and
+
+557
+00:20:40,120 --> 00:20:44,679
+then I'm going to publish a linearly
+
+558
+00:20:41,600 --> 00:20:46,039
+homomorphic so a pink encryption of the
+
+559
+00:20:44,679 --> 00:20:48,799
+green secret
+
+560
+00:20:46,039 --> 00:20:50,559
+key and so now uh when our our user
+
+561
+00:20:48,799 --> 00:20:52,600
+wants to send Cipher text to our server
+
+562
+00:20:50,559 --> 00:20:55,280
+what our user can do is it can send just
+
+563
+00:20:52,600 --> 00:20:57,360
+these small in compact orange Cipher
+
+564
+00:20:55,280 --> 00:21:00,120
+text to the server it can have the
+
+565
+00:20:57,360 --> 00:21:02,679
+server locally expand them into the big
+
+566
+00:21:00,120 --> 00:21:04,440
+Spar alpan Cipher Tex then use the
+
+567
+00:21:02,679 --> 00:21:06,880
+homomorphism of these Cipher Texs to
+
+568
+00:21:04,440 --> 00:21:09,080
+compute on them and then finally squish
+
+569
+00:21:06,880 --> 00:21:11,000
+them back down into a small Cipher text
+
+570
+00:21:09,080 --> 00:21:13,159
+from a linearly homomorphic encryption
+
+571
+00:21:11,000 --> 00:21:15,720
+scheme and so this is what our server
+
+572
+00:21:13,159 --> 00:21:17,320
+can send back so really what we've built
+
+573
+00:21:15,720 --> 00:21:19,240
+here is a scheme where all of the
+
+574
+00:21:17,320 --> 00:21:20,760
+communication that's sent on The Wire so
+
+575
+00:21:19,240 --> 00:21:23,360
+all of these Cipher texts that are
+
+576
+00:21:20,760 --> 00:21:25,360
+actually being sent here are tiny and
+
+577
+00:21:23,360 --> 00:21:27,120
+all of the computation with the big
+
+578
+00:21:25,360 --> 00:21:30,880
+blowup that happens from using sparse
+
+579
+00:21:27,120 --> 00:21:34,080
+LPN just happen sort of in the server's
+
+580
+00:21:30,880 --> 00:21:35,520
+head okay so uh this was this was it we
+
+581
+00:21:34,080 --> 00:21:38,039
+just constructed a whole somewhat
+
+582
+00:21:35,520 --> 00:21:39,799
+homomorphic encryption scheme and so
+
+583
+00:21:38,039 --> 00:21:42,360
+really the takeaway from this talk is
+
+584
+00:21:39,799 --> 00:21:44,679
+that we can combine these two relatively
+
+585
+00:21:42,360 --> 00:21:46,880
+you know simple and in some sense weak
+
+586
+00:21:44,679 --> 00:21:49,039
+Primitives so specifically The Spar
+
+587
+00:21:46,880 --> 00:21:50,960
+alpan assumption and a linearly
+
+588
+00:21:49,039 --> 00:21:53,039
+homomorphic encryption scheme which is
+
+589
+00:21:50,960 --> 00:21:55,760
+given to us by a whole Suite of number
+
+590
+00:21:53,039 --> 00:21:57,240
+theoretic uh Primitives and when we
+
+591
+00:21:55,760 --> 00:21:58,919
+combine them we can build something
+
+592
+00:21:57,240 --> 00:22:00,760
+that's much more powerful so
+
+593
+00:21:58,919 --> 00:22:02,559
+specifically we built a somewhat
+
+594
+00:22:00,760 --> 00:22:05,360
+homomorphic encryption scheme where we
+
+595
+00:22:02,559 --> 00:22:07,799
+can compute a fixed but and bounded
+
+596
+00:22:05,360 --> 00:22:11,000
+number of multiplications followed by
+
+597
+00:22:07,799 --> 00:22:12,919
+many additions on encrypted data so what
+
+598
+00:22:11,000 --> 00:22:14,640
+I wanted to do now is just leave you
+
+599
+00:22:12,919 --> 00:22:17,600
+with a couple open questions in this
+
+600
+00:22:14,640 --> 00:22:19,039
+area of research so the first question
+
+601
+00:22:17,600 --> 00:22:21,000
+is whether we can actually make our
+
+602
+00:22:19,039 --> 00:22:23,440
+schemes concretely efficient and
+
+603
+00:22:21,000 --> 00:22:25,559
+practical and really the barrier here is
+
+604
+00:22:23,440 --> 00:22:27,880
+this big evaluation key that we had our
+
+605
+00:22:25,559 --> 00:22:29,480
+user send to the server even though it's
+
+606
+00:22:27,880 --> 00:22:31,520
+reusable so so you only need to send it
+
+607
+00:22:29,480 --> 00:22:33,919
+once but it would be really nice to get
+
+608
+00:22:31,520 --> 00:22:36,120
+rid of this key and if we were able to
+
+609
+00:22:33,919 --> 00:22:38,600
+do this then our scheme would already
+
+610
+00:22:36,120 --> 00:22:40,960
+have a couple appealing properties and
+
+611
+00:22:38,600 --> 00:22:42,520
+so specifically most of our servers work
+
+612
+00:22:40,960 --> 00:22:44,799
+here was really doing these sparse
+
+613
+00:22:42,520 --> 00:22:47,600
+Matrix operations which on their own are
+
+614
+00:22:44,799 --> 00:22:50,440
+already a heavily optimized
+
+615
+00:22:47,600 --> 00:22:53,000
+workload the second question I wanted to
+
+616
+00:22:50,440 --> 00:22:54,480
+ask is with this homomorphism so given
+
+617
+00:22:53,000 --> 00:22:57,240
+that we can evaluate this class of
+
+618
+00:22:54,480 --> 00:22:59,480
+functions what can we build uh and so
+
+619
+00:22:57,240 --> 00:23:02,600
+here at first glance you might be kind
+
+620
+00:22:59,480 --> 00:23:04,159
+of skeptical right this seems like a
+
+621
+00:23:02,600 --> 00:23:06,279
+quite simple class of functions that
+
+622
+00:23:04,159 --> 00:23:08,679
+we're evaluating here but in fact
+
+623
+00:23:06,279 --> 00:23:10,480
+there's some hope uh and specifically in
+
+624
+00:23:08,679 --> 00:23:12,720
+Prior work my collaborators and I showed
+
+625
+00:23:10,480 --> 00:23:14,480
+that if you can homomorphically evaluate
+
+626
+00:23:12,720 --> 00:23:16,360
+this class of functions so many
+
+627
+00:23:14,480 --> 00:23:18,679
+additions and maybe just a couple
+
+628
+00:23:16,360 --> 00:23:20,240
+multiplications and if you combine this
+
+629
+00:23:18,679 --> 00:23:22,240
+with modern machine learning and
+
+630
+00:23:20,240 --> 00:23:23,960
+specifically semantic embeddings then
+
+631
+00:23:22,240 --> 00:23:26,400
+you can build things like private web
+
+632
+00:23:23,960 --> 00:23:27,880
+search so I think it's a fun time to
+
+633
+00:23:26,400 --> 00:23:29,279
+think about what else we can build with
+
+634
+00:23:27,880 --> 00:23:31,559
+these types of
+
+635
+00:23:29,279 --> 00:23:33,720
+techniques uh and last but not least
+
+636
+00:23:31,559 --> 00:23:36,120
+sort of the moonshot question here is
+
+637
+00:23:33,720 --> 00:23:37,480
+whether we can fly even higher so
+
+638
+00:23:36,120 --> 00:23:39,799
+whether we can get even more
+
+639
+00:23:37,480 --> 00:23:41,840
+homomorphism from these schemes uh and
+
+640
+00:23:39,799 --> 00:23:43,039
+perhaps even get all the way to fully
+
+641
+00:23:41,840 --> 00:23:45,440
+homomorphic
+
+642
+00:23:43,039 --> 00:23:49,840
+encryption cool yeah so thank you so
+
+643
+00:23:45,440 --> 00:23:49,840
+much and I'm happy to take any questions
+
+644
+00:23:59,279 --> 00:24:03,960
+uh thanks for your talk and and for the
+
+645
+00:24:01,480 --> 00:24:06,720
+work that you put into the presentation
+
+646
+00:24:03,960 --> 00:24:09,840
+also is really uh I appreciate it so
+
+647
+00:24:06,720 --> 00:24:11,960
+thank you for that um I wanted to ask
+
+648
+00:24:09,840 --> 00:24:14,120
+you you seem to be careful to say that
+
+649
+00:24:11,960 --> 00:24:16,360
+you can do multiplications followed by
+
+650
+00:24:14,120 --> 00:24:18,320
+additions yeah is it just because if you
+
+651
+00:24:16,360 --> 00:24:20,640
+do some additions first then the noise
+
+652
+00:24:18,320 --> 00:24:22,840
+from the additions grows too much like
+
+653
+00:24:20,640 --> 00:24:24,760
+could you do one addition first if you
+
+654
+00:24:22,840 --> 00:24:26,720
+wanted yeah so you totally can you
+
+655
+00:24:24,760 --> 00:24:28,880
+totally have can inter leave additions
+
+656
+00:24:26,720 --> 00:24:30,320
+and multiplications as you want and
+
+657
+00:24:28,880 --> 00:24:32,840
+you're exactly right the only thing that
+
+658
+00:24:30,320 --> 00:24:34,520
+changes is sort of the error analysis so
+
+659
+00:24:32,840 --> 00:24:36,480
+both the sparsity of your Cipher text
+
+660
+00:24:34,520 --> 00:24:38,039
+would grow differently and the errors
+
+661
+00:24:36,480 --> 00:24:39,880
+would grow differently and so then you
+
+662
+00:24:38,039 --> 00:24:41,399
+sort of need to perform some accounting
+
+663
+00:24:39,880 --> 00:24:43,480
+of like how many operations can you
+
+664
+00:24:41,399 --> 00:24:45,360
+still do before the errors become too
+
+665
+00:24:43,480 --> 00:24:46,919
+large but you're totally right in in
+
+666
+00:24:45,360 --> 00:24:48,840
+principle you can operate however you
+
+667
+00:24:46,919 --> 00:24:50,039
+would like uh I just gave this
+
+668
+00:24:48,840 --> 00:24:52,840
+presentation because it's sort of a
+
+669
+00:24:50,039 --> 00:24:52,840
+simple
+
+670
+00:24:54,080 --> 00:24:58,240
+overview okay perfect
+

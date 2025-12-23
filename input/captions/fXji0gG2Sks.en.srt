@@ -1,0 +1,3212 @@
+1
+00:00:06,160 --> 00:00:09,760
+My name is Tvor Baharav and I'm a
+
+2
+00:00:08,000 --> 00:00:11,759
+secondy year postdoal fellow at the Eric
+
+3
+00:00:09,760 --> 00:00:12,960
+Wendy Schmidt Center. I'm delighted to
+
+4
+00:00:11,759 --> 00:00:15,360
+kick off the afternoon session and
+
+5
+00:00:12,960 --> 00:00:17,119
+introduce our next speaker Donna Pel. So
+
+6
+00:00:15,360 --> 00:00:19,520
+Donna is the chair of computational
+
+7
+00:00:17,119 --> 00:00:22,160
+systems biology uh at Sloan Ketaring and
+
+8
+00:00:19,520 --> 00:00:23,680
+is an HHMI investigator. Her lab's
+
+9
+00:00:22,160 --> 00:00:25,199
+research combines advanced genomic
+
+10
+00:00:23,680 --> 00:00:26,800
+approaches with various computational
+
+11
+00:00:25,199 --> 00:00:28,080
+techniques including machine learning to
+
+12
+00:00:26,800 --> 00:00:29,599
+address fundamental questions in
+
+13
+00:00:28,080 --> 00:00:33,399
+biomedical science spanning gene
+
+14
+00:00:29,599 --> 00:00:36,320
+regulation, cellular plasticity and cell
+
+15
+00:00:33,399 --> 00:00:37,920
+communication. Donna received her PhD in
+
+16
+00:00:36,320 --> 00:00:39,280
+computer science from the Hebrew Hebrew
+
+17
+00:00:37,920 --> 00:00:42,399
+University of Jerusalem and she has
+
+18
+00:00:39,280 --> 00:00:45,200
+numerous awards uh including the IC ISCB
+
+19
+00:00:42,399 --> 00:00:46,879
+Overton Prize in 2014. So with that,
+
+20
+00:00:45,200 --> 00:00:48,559
+let's welcome Donna for her talk on
+
+21
+00:00:46,879 --> 00:00:51,559
+decoding tissue architecture. Thanks so
+
+22
+00:00:48,559 --> 00:00:51,559
+much.
+
+23
+00:00:51,840 --> 00:00:57,600
+And so really things are fun and this
+
+24
+00:00:54,879 --> 00:01:01,359
+morning we saw super cool imaging
+
+25
+00:00:57,600 --> 00:01:02,199
+technologies and imaging is the name of
+
+26
+00:01:01,359 --> 00:01:04,360
+the
+
+27
+00:01:02,199 --> 00:01:07,439
+game
+
+28
+00:01:04,360 --> 00:01:11,439
+and there's lots of technologies and and
+
+29
+00:01:07,439 --> 00:01:14,000
+we saw incredible work in cell biology
+
+30
+00:01:11,439 --> 00:01:16,640
+but I would actually argue that for you
+
+31
+00:01:14,000 --> 00:01:19,920
+know my field of looking at tissues and
+
+32
+00:01:16,640 --> 00:01:22,479
+I call it painting molecules and adding
+
+33
+00:01:19,920 --> 00:01:25,439
+you know, hundreds of of RNAs and where
+
+34
+00:01:22,479 --> 00:01:27,119
+they are in this tissue and and dozens
+
+35
+00:01:25,439 --> 00:01:30,000
+of proteins, which is what we're able to
+
+36
+00:01:27,119 --> 00:01:32,000
+do now. Um, we still don't know how to
+
+37
+00:01:30,000 --> 00:01:34,119
+interpret these tissues. We're actually
+
+38
+00:01:32,000 --> 00:01:37,600
+not as advanced as my cell biology
+
+39
+00:01:34,119 --> 00:01:39,759
+colleagues. Even something as simple as
+
+40
+00:01:37,600 --> 00:01:42,640
+segmenting these cells is something that
+
+41
+00:01:39,759 --> 00:01:45,200
+we us our spatial transferics haven't
+
+42
+00:01:42,640 --> 00:01:47,920
+yet solved, uh, let alone interpret the
+
+43
+00:01:45,200 --> 00:01:49,680
+data. And one of the problems that we
+
+44
+00:01:47,920 --> 00:01:51,600
+suffer and this is why I'm a little bit
+
+45
+00:01:49,680 --> 00:01:53,520
+jealous of my cell biology colleagues
+
+46
+00:01:51,600 --> 00:01:56,000
+that we heard from you this morning is
+
+47
+00:01:53,520 --> 00:01:59,520
+that our problems are illdefined. They
+
+48
+00:01:56,000 --> 00:02:01,439
+come and you know uh Jennifer said go
+
+49
+00:01:59,520 --> 00:02:03,439
+find me something that looks exactly
+
+50
+00:02:01,439 --> 00:02:05,040
+like this ribosome structure that I've
+
+51
+00:02:03,439 --> 00:02:08,000
+resolved and that's what I want. It's a
+
+52
+00:02:05,040 --> 00:02:10,000
+very well-defined problem. You can train
+
+53
+00:02:08,000 --> 00:02:12,400
+an AI to do that and you can tell an A
+
+54
+00:02:10,000 --> 00:02:15,520
+to do that successfully.
+
+55
+00:02:12,400 --> 00:02:18,800
+you know we uh tissue biology people uh
+
+56
+00:02:15,520 --> 00:02:22,560
+are asking it interpret this image teach
+
+57
+00:02:18,800 --> 00:02:25,040
+me biology from it and you know AI is
+
+58
+00:02:22,560 --> 00:02:26,640
+not magical and uh we need to give it
+
+59
+00:02:25,040 --> 00:02:30,480
+you know in order to train it we need to
+
+60
+00:02:26,640 --> 00:02:32,319
+figure out what we want to ask it and we
+
+61
+00:02:30,480 --> 00:02:35,280
+need to give it the the right training
+
+62
+00:02:32,319 --> 00:02:38,480
+data in order to be able to ask it. So
+
+63
+00:02:35,280 --> 00:02:40,160
+that's where my field is at and uh you
+
+64
+00:02:38,480 --> 00:02:42,879
+know we've made I I'll tell you a little
+
+65
+00:02:40,160 --> 00:02:44,959
+bit uh progress that we made. We need
+
+66
+00:02:42,879 --> 00:02:48,319
+new algorithms. We need new foundations.
+
+67
+00:02:44,959 --> 00:02:50,879
+We cannot take chat GPT out of the box
+
+68
+00:02:48,319 --> 00:02:53,680
+and say let's throw it at this as well.
+
+69
+00:02:50,879 --> 00:02:56,160
+It just won't uh help us to get new
+
+70
+00:02:53,680 --> 00:02:58,720
+biology. And you know, if if you're in
+
+71
+00:02:56,160 --> 00:03:01,040
+this audience and want to do anything uh
+
+72
+00:02:58,720 --> 00:03:04,319
+meaningful, your goal should be I want
+
+73
+00:03:01,040 --> 00:03:06,400
+to use my my toolkit, my AI toolkit to
+
+74
+00:03:04,319 --> 00:03:09,440
+really advance our understanding of
+
+75
+00:03:06,400 --> 00:03:11,920
+biology and and help people in medicine
+
+76
+00:03:09,440 --> 00:03:14,800
+rather than, you know, just say, "Hey,
+
+77
+00:03:11,920 --> 00:03:17,040
+I'm doing AI." And so, you know, here's
+
+78
+00:03:14,800 --> 00:03:19,840
+a typical image. This is a slice of
+
+79
+00:03:17,040 --> 00:03:23,599
+premalignant pancreas tissue uh measured
+
+80
+00:03:19,840 --> 00:03:25,680
+with uh 480 molecules from zenium. And
+
+81
+00:03:23,599 --> 00:03:28,560
+as I said, we can't segment it. So this
+
+82
+00:03:25,680 --> 00:03:30,159
+is a really quick uh thing of of an
+
+83
+00:03:28,560 --> 00:03:32,239
+algorithm where we've made a tiny
+
+84
+00:03:30,159 --> 00:03:34,560
+progress. It's not perfect, but it's
+
+85
+00:03:32,239 --> 00:03:36,760
+benchmarked as the best. And you know,
+
+86
+00:03:34,560 --> 00:03:39,360
+here's a ground truth that we
+
+87
+00:03:36,760 --> 00:03:41,760
+collected. Here's what 10X gives you out
+
+88
+00:03:39,360 --> 00:03:43,760
+of the box. All the orange molecules are
+
+89
+00:03:41,760 --> 00:03:45,760
+contaminations. These are molecules from
+
+90
+00:03:43,760 --> 00:03:47,360
+completely different cells. If you
+
+91
+00:03:45,760 --> 00:03:48,799
+include these molecules in your
+
+92
+00:03:47,360 --> 00:03:50,400
+segmented issues, you're going to get
+
+93
+00:03:48,799 --> 00:03:52,720
+completely wrong biology. And you're
+
+94
+00:03:50,400 --> 00:03:54,560
+like, okay, why do you trust NX? But you
+
+95
+00:03:52,720 --> 00:03:56,400
+know, Baser, nothing else does better.
+
+96
+00:03:54,560 --> 00:03:58,720
+We've benchmarked everything and here's
+
+97
+00:03:56,400 --> 00:04:00,560
+how you get all the wrong things. So,
+
+98
+00:03:58,720 --> 00:04:02,480
+you know, there's just so many problems
+
+99
+00:04:00,560 --> 00:04:04,480
+with the problem of associating
+
+100
+00:04:02,480 --> 00:04:07,239
+transcripts to the right cell. Even if
+
+101
+00:04:04,480 --> 00:04:09,360
+you have perfect cell membrane
+
+102
+00:04:07,239 --> 00:04:10,959
+segmentation and so we just, you know,
+
+103
+00:04:09,360 --> 00:04:12,879
+build a heterogeneous graph of saying
+
+104
+00:04:10,959 --> 00:04:14,879
+these transcripts are next to each other
+
+105
+00:04:12,879 --> 00:04:18,079
+and these transcripts are next to a
+
+106
+00:04:14,879 --> 00:04:20,639
+nucleus and we're going to learn a a
+
+107
+00:04:18,079 --> 00:04:24,479
+latent of cells as represented by their
+
+108
+00:04:20,639 --> 00:04:26,479
+nuclei. and and uh transcripts so that
+
+109
+00:04:24,479 --> 00:04:27,840
+the transcripts are near and correct to
+
+110
+00:04:26,479 --> 00:04:31,759
+the right cell. That's what we train it
+
+111
+00:04:27,840 --> 00:04:34,000
+to do. And we train it using the more um
+
+112
+00:04:31,759 --> 00:04:35,520
+you know the more correct uh transcripts
+
+113
+00:04:34,000 --> 00:04:37,680
+on the nucleus. They're not perfect. We
+
+114
+00:04:35,520 --> 00:04:39,199
+say okay um those that align with the
+
+115
+00:04:37,680 --> 00:04:41,199
+nucleus are probably belong to that
+
+116
+00:04:39,199 --> 00:04:42,960
+cell. Those that are in a nearby nucleus
+
+117
+00:04:41,199 --> 00:04:44,520
+probably don't. We frame it that way.
+
+118
+00:04:42,960 --> 00:04:46,880
+And now we do link
+
+119
+00:04:44,520 --> 00:04:48,240
+prediction. And lo and behold, it's not
+
+120
+00:04:46,880 --> 00:04:49,600
+perfect. And we have like is this is
+
+121
+00:04:48,240 --> 00:04:51,440
+still work in progress even though it's
+
+122
+00:04:49,600 --> 00:04:53,840
+available. And you can see we do a much
+
+123
+00:04:51,440 --> 00:04:56,560
+better job and and we outperform on
+
+124
+00:04:53,840 --> 00:04:58,720
+metrics and get that sweet spot of of
+
+125
+00:04:56,560 --> 00:05:00,240
+you know not getting contaminations. The
+
+126
+00:04:58,720 --> 00:05:02,880
+solution of just looking at the nuclear
+
+127
+00:05:00,240 --> 00:05:05,280
+transcripts isn't good enough but also
+
+128
+00:05:02,880 --> 00:05:06,960
+uh not getting incorrect or or
+
+129
+00:05:05,280 --> 00:05:09,039
+infrequently getting incorrect
+
+130
+00:05:06,960 --> 00:05:10,960
+transcripts from other cells to get much
+
+131
+00:05:09,039 --> 00:05:14,240
+cleaner biology for all the downstream
+
+132
+00:05:10,960 --> 00:05:17,039
+analysis that we want to do. So now we
+
+133
+00:05:14,240 --> 00:05:18,960
+have this image uh which now we have
+
+134
+00:05:17,039 --> 00:05:21,039
+everything linked spatially. We can
+
+135
+00:05:18,960 --> 00:05:23,759
+assign the transcripts correctly to the
+
+136
+00:05:21,039 --> 00:05:26,240
+right cell and map it back to the
+
+137
+00:05:23,759 --> 00:05:29,280
+phenotypic landscape that we're used to.
+
+138
+00:05:26,240 --> 00:05:31,720
+And now we can have accurate cell phen
+
+139
+00:05:29,280 --> 00:05:34,320
+phenotypes embedded in
+
+140
+00:05:31,720 --> 00:05:37,280
+space. Yay. That's a well- definfined
+
+141
+00:05:34,320 --> 00:05:40,240
+problem. So I can solve it. But how does
+
+142
+00:05:37,280 --> 00:05:42,880
+one describe and interpret this image?
+
+143
+00:05:40,240 --> 00:05:45,039
+You know, no even, you know, let's
+
+144
+00:05:42,880 --> 00:05:47,199
+define some questions. What type of
+
+145
+00:05:45,039 --> 00:05:50,960
+niches? what type of environments exist
+
+146
+00:05:47,199 --> 00:05:53,440
+in this cell? Uh how do change uh change
+
+147
+00:05:50,960 --> 00:05:55,479
+when I perturb it towards malignancy
+
+148
+00:05:53,440 --> 00:05:59,280
+under drug?
+
+149
+00:05:55,479 --> 00:06:00,800
+Um you know the idea the problem is that
+
+150
+00:05:59,280 --> 00:06:03,280
+what do you mean what is a niche? You
+
+151
+00:06:00,800 --> 00:06:04,960
+have all these nice spots. How I need a
+
+152
+00:06:03,280 --> 00:06:07,199
+formulism for a niche? The reason single
+
+153
+00:06:04,960 --> 00:06:09,120
+cell uh genomics worked so well is that
+
+154
+00:06:07,199 --> 00:06:11,919
+we had a wonderful representation for
+
+155
+00:06:09,120 --> 00:06:13,440
+cells. It's a vector of the expression
+
+156
+00:06:11,919 --> 00:06:17,680
+of everything we've measured in that
+
+157
+00:06:13,440 --> 00:06:20,240
+cell. And we had a semi okay workable
+
+158
+00:06:17,680 --> 00:06:22,160
+definition for similarity. You know two
+
+159
+00:06:20,240 --> 00:06:24,880
+cells are similar if the L2 norm of
+
+160
+00:06:22,160 --> 00:06:27,360
+their expression is similar. And we
+
+161
+00:06:24,880 --> 00:06:29,120
+don't have that uh for niches and that's
+
+162
+00:06:27,360 --> 00:06:31,120
+a problem. So what I'm going to try and
+
+163
+00:06:29,120 --> 00:06:33,360
+tell you today in a pretty uh more
+
+164
+00:06:31,120 --> 00:06:36,000
+technical uh talk which I've gutted most
+
+165
+00:06:33,360 --> 00:06:37,639
+of the biology out is how do we begin to
+
+166
+00:06:36,000 --> 00:06:41,039
+try and tackle
+
+167
+00:06:37,639 --> 00:06:43,360
+that? And so the critical thing to get
+
+168
+00:06:41,039 --> 00:06:45,120
+anything to work is we need to be if if
+
+169
+00:06:43,360 --> 00:06:47,120
+we want the AI to help us. AI is
+
+170
+00:06:45,120 --> 00:06:49,360
+actually really dumb. It doesn't know
+
+171
+00:06:47,120 --> 00:06:51,199
+biology. It's not smarter than us. We
+
+172
+00:06:49,360 --> 00:06:53,360
+can't just give it images and saying you
+
+173
+00:06:51,199 --> 00:06:55,280
+know we can't figure it out so you do.
+
+174
+00:06:53,360 --> 00:06:57,520
+Uh we need to tell them we need to teach
+
+175
+00:06:55,280 --> 00:07:00,400
+it what what's meaningful and
+
+176
+00:06:57,520 --> 00:07:03,599
+specifically what is biologically
+
+177
+00:07:00,400 --> 00:07:05,599
+meaningful similarity between niches and
+
+178
+00:07:03,599 --> 00:07:07,919
+that you know is actually you know
+
+179
+00:07:05,599 --> 00:07:11,520
+stumping the field now for for about two
+
+180
+00:07:07,919 --> 00:07:13,360
+years because defining which two niches
+
+181
+00:07:11,520 --> 00:07:15,360
+you know you just have these little
+
+182
+00:07:13,360 --> 00:07:18,479
+snippets of images and and and tell me
+
+183
+00:07:15,360 --> 00:07:21,120
+if this little field of view of a of a
+
+184
+00:07:18,479 --> 00:07:22,560
+cell and it's like 10 20 neighbors and
+
+185
+00:07:21,120 --> 00:07:24,400
+this little snippet of another cell and
+
+186
+00:07:22,560 --> 00:07:26,160
+its 20 neighbor neighbors. Is it similar
+
+187
+00:07:24,400 --> 00:07:27,199
+or different? Is it meaningful? How
+
+188
+00:07:26,160 --> 00:07:28,960
+similar and how different? Even
+
+189
+00:07:27,199 --> 00:07:30,960
+something like that we haven't defined.
+
+190
+00:07:28,960 --> 00:07:32,720
+This is work mostly by Doran who
+
+191
+00:07:30,960 --> 00:07:35,599
+recently graduated from my lab. He
+
+192
+00:07:32,720 --> 00:07:37,680
+celebrated his defense uh two weeks ago.
+
+193
+00:07:35,599 --> 00:07:39,120
+And uh a lot of innovation is thanks to
+
+194
+00:07:37,680 --> 00:07:41,919
+him and not to me. But I'm going to tell
+
+195
+00:07:39,120 --> 00:07:43,599
+you his story. So again, we're going to
+
+196
+00:07:41,919 --> 00:07:45,039
+start with something fairly concrete.
+
+197
+00:07:43,599 --> 00:07:46,400
+We're going to take an anchor cell at
+
+198
+00:07:45,039 --> 00:07:48,160
+the middle and we're going to look at
+
+199
+00:07:46,400 --> 00:07:50,000
+its neighbors. You have to decide how
+
+200
+00:07:48,160 --> 00:07:51,840
+many neighbors do you do it by radius?
+
+201
+00:07:50,000 --> 00:07:53,759
+What resolution? I'm not even going to
+
+202
+00:07:51,840 --> 00:07:55,759
+go into that and I would say that
+
+203
+00:07:53,759 --> 00:07:58,479
+different resolutions give you different
+
+204
+00:07:55,759 --> 00:08:00,520
+biology. So if you ask me how big is a
+
+205
+00:07:58,479 --> 00:08:03,280
+niche I ask you what is your biological
+
+206
+00:08:00,520 --> 00:08:05,360
+question and we're saying that a niche
+
+207
+00:08:03,280 --> 00:08:07,720
+is a distribution. So we're going to try
+
+208
+00:08:05,360 --> 00:08:11,240
+and treat treat the anchor cell and its
+
+209
+00:08:07,720 --> 00:08:13,280
+behavior and its neighbors as a
+
+210
+00:08:11,240 --> 00:08:14,800
+distribution. And actually this is what
+
+211
+00:08:13,280 --> 00:08:17,120
+the field has been doing without even
+
+212
+00:08:14,800 --> 00:08:18,800
+knowing. most of the field is being is
+
+213
+00:08:17,120 --> 00:08:21,120
+collapsing this information this very
+
+214
+00:08:18,800 --> 00:08:24,800
+rich inter information to frequencies of
+
+215
+00:08:21,120 --> 00:08:26,960
+cell types. This is remnants from when
+
+216
+00:08:24,800 --> 00:08:28,560
+uh we had 30 markers and all they could
+
+217
+00:08:26,960 --> 00:08:30,160
+do is distinguish cell types. So if you
+
+218
+00:08:28,560 --> 00:08:32,640
+have 30 markers to distinguish cell
+
+219
+00:08:30,160 --> 00:08:35,599
+types then collapsing it and saying okay
+
+220
+00:08:32,640 --> 00:08:37,440
+I have three T- cells two myoid cells
+
+221
+00:08:35,599 --> 00:08:39,599
+two fiberblasts and three epithelial
+
+222
+00:08:37,440 --> 00:08:41,760
+cells that's all all you can barely do
+
+223
+00:08:39,599 --> 00:08:46,080
+and that's all you can get. But if you
+
+224
+00:08:41,760 --> 00:08:47,920
+have 480 transcripts representing rich
+
+225
+00:08:46,080 --> 00:08:49,600
+states and rich differences between
+
+226
+00:08:47,920 --> 00:08:52,080
+cells which you've spent a lot of money
+
+227
+00:08:49,600 --> 00:08:53,600
+to collect, collapsing it and throwing
+
+228
+00:08:52,080 --> 00:08:55,600
+most of the information out the window
+
+229
+00:08:53,600 --> 00:08:58,680
+is a wrong idea. So we want to keep as
+
+230
+00:08:55,600 --> 00:09:01,279
+much information as possible in our
+
+231
+00:08:58,680 --> 00:09:04,720
+distributions. So again, when are two
+
+232
+00:09:01,279 --> 00:09:07,839
+matrices uh similar? Here are two
+
+233
+00:09:04,720 --> 00:09:09,760
+matrices of cells and their neighbors.
+
+234
+00:09:07,839 --> 00:09:10,959
+Uh, and uh, you know, uh, some of you
+
+235
+00:09:09,760 --> 00:09:13,760
+know this because I've been doing this
+
+236
+00:09:10,959 --> 00:09:16,120
+for a while, but those of you who don't,
+
+237
+00:09:13,760 --> 00:09:18,959
+are these two
+
+238
+00:09:16,120 --> 00:09:21,680
+environments very similar, very
+
+239
+00:09:18,959 --> 00:09:23,959
+different? Who uh, sort of different?
+
+240
+00:09:21,680 --> 00:09:26,160
+Who thinks that they're very
+
+241
+00:09:23,959 --> 00:09:29,080
+different? Who thinks that they're, you
+
+242
+00:09:26,160 --> 00:09:31,760
+know, they're intermediate
+
+243
+00:09:29,080 --> 00:09:33,000
+different? Okay, who thinks that they're
+
+244
+00:09:31,760 --> 00:09:35,519
+very
+
+245
+00:09:33,000 --> 00:09:38,240
+similar? Most people don't want to vote.
+
+246
+00:09:35,519 --> 00:09:40,160
+They're identical. It's a permutation
+
+247
+00:09:38,240 --> 00:09:42,080
+and you can get this permutation by
+
+248
+00:09:40,160 --> 00:09:44,480
+rotating the image. I don't want the way
+
+249
+00:09:42,080 --> 00:09:47,120
+that the that the technician put the
+
+250
+00:09:44,480 --> 00:09:49,360
+slide into my microscope to make the
+
+251
+00:09:47,120 --> 00:09:51,440
+whole thing differently. So we need a
+
+252
+00:09:49,360 --> 00:09:54,640
+rich representation that's permutation
+
+253
+00:09:51,440 --> 00:09:56,080
+and variant and um we need it to really
+
+254
+00:09:54,640 --> 00:09:57,839
+not chuck away most of the gene
+
+255
+00:09:56,080 --> 00:09:59,959
+expression I worked so hard and paid so
+
+256
+00:09:57,839 --> 00:10:04,320
+much money to
+
+257
+00:09:59,959 --> 00:10:06,240
+collect. And uh again when you just take
+
+258
+00:10:04,320 --> 00:10:09,720
+um all the gene expression I mean this
+
+259
+00:10:06,240 --> 00:10:12,480
+is a a niche
+
+260
+00:10:09,720 --> 00:10:14,320
+um in you know this permutation
+
+261
+00:10:12,480 --> 00:10:16,320
+invariant this it looks at all the
+
+262
+00:10:14,320 --> 00:10:18,000
+expression mean that's been around for a
+
+263
+00:10:16,320 --> 00:10:19,920
+while now recently there's a couple
+
+264
+00:10:18,000 --> 00:10:22,320
+papers saying okay let's take the mean
+
+265
+00:10:19,920 --> 00:10:24,160
+of the niche but you can see these are
+
+266
+00:10:22,320 --> 00:10:26,320
+actually genuinely very very different
+
+267
+00:10:24,160 --> 00:10:29,519
+they're not permutations and we get the
+
+268
+00:10:26,320 --> 00:10:32,800
+same mean so we really have to stick to
+
+269
+00:10:29,519 --> 00:10:34,560
+the full distribution. ution. So we
+
+270
+00:10:32,800 --> 00:10:36,880
+started by working and this again we did
+
+271
+00:10:34,560 --> 00:10:39,120
+a few years ago uh taking one of my
+
+272
+00:10:36,880 --> 00:10:40,480
+favorite tools optical transport.
+
+273
+00:10:39,120 --> 00:10:43,360
+There's a couple people here who love
+
+274
+00:10:40,480 --> 00:10:46,959
+it. Optical transport is a very rich and
+
+275
+00:10:43,360 --> 00:10:50,079
+expressive uh uh language and uh you
+
+276
+00:10:46,959 --> 00:10:52,640
+know you can basically say okay we want
+
+277
+00:10:50,079 --> 00:10:56,200
+to find the permutation that makes this
+
+278
+00:10:52,640 --> 00:10:58,720
+most similar. That's really really nasty
+
+279
+00:10:56,200 --> 00:11:00,880
+computation but you know we we we don't
+
+280
+00:10:58,720 --> 00:11:04,720
+like permutations. we want to smooth
+
+281
+00:11:00,880 --> 00:11:06,959
+things. Uh let's just look for an op,
+
+282
+00:11:04,720 --> 00:11:09,519
+you know, a mapping, a probabilistic
+
+283
+00:11:06,959 --> 00:11:12,399
+mapping that's smooth, a soft assignment
+
+284
+00:11:09,519 --> 00:11:16,760
+that says, let me try and basically move
+
+285
+00:11:12,399 --> 00:11:16,760
+one distribution to the next.
+
+286
+00:11:16,959 --> 00:11:20,640
+And you know we were really happy for it
+
+287
+00:11:19,200 --> 00:11:22,959
+for a while and then discovered you know
+
+288
+00:11:20,640 --> 00:11:25,680
+as much as I love optimal transport you
+
+289
+00:11:22,959 --> 00:11:27,920
+know the you know I have data sets a
+
+290
+00:11:25,680 --> 00:11:30,279
+single posttock now is collecting data
+
+291
+00:11:27,920 --> 00:11:34,320
+sets of 15 million
+
+292
+00:11:30,279 --> 00:11:37,680
+cells a data set of 50k cells takes two
+
+293
+00:11:34,320 --> 00:11:40,240
+weeks on my most powerful GPU to compute
+
+294
+00:11:37,680 --> 00:11:42,640
+that is not scalable. So we were stuck
+
+295
+00:11:40,240 --> 00:11:46,480
+for a while like how do we handle these
+
+296
+00:11:42,640 --> 00:11:48,640
+big data sets with optimal transport? I
+
+297
+00:11:46,480 --> 00:11:50,560
+want to preserve a rich metric that
+
+298
+00:11:48,640 --> 00:11:53,200
+actually is is rich and biologically
+
+299
+00:11:50,560 --> 00:11:55,279
+meaningful and I want to run it on my 15
+
+300
+00:11:53,200 --> 00:11:57,839
+million cells and and counting and we
+
+301
+00:11:55,279 --> 00:11:59,519
+just saw data sets of you know 200
+
+302
+00:11:57,839 --> 00:12:03,279
+million cells and it's you know just
+
+303
+00:11:59,519 --> 00:12:06,399
+going to grow. So again each of these
+
+304
+00:12:03,279 --> 00:12:07,880
+niches is a point cloud. It's a
+
+305
+00:12:06,399 --> 00:12:10,000
+distribution of
+
+306
+00:12:07,880 --> 00:12:12,000
+distributions. And so, how do we model
+
+307
+00:12:10,000 --> 00:12:13,200
+this distribution of distributions? And
+
+308
+00:12:12,000 --> 00:12:15,440
+again, I'm going to give the credit
+
+309
+00:12:13,200 --> 00:12:18,000
+where it's due. This was entirely
+
+310
+00:12:15,440 --> 00:12:20,320
+Doran's aha moment. He got this aha
+
+311
+00:12:18,000 --> 00:12:22,079
+moment when he was giving uh journal
+
+312
+00:12:20,320 --> 00:12:24,240
+club on a paper that was using a
+
+313
+00:12:22,079 --> 00:12:26,160
+transformer. This is why actually giving
+
+314
+00:12:24,240 --> 00:12:28,399
+journal club can lead you to a you know
+
+315
+00:12:26,160 --> 00:12:30,320
+great insights by understanding other
+
+316
+00:12:28,399 --> 00:12:32,000
+people's ideas and being forced to
+
+317
+00:12:30,320 --> 00:12:34,959
+explain it to the group. something
+
+318
+00:12:32,000 --> 00:12:36,760
+clicks in your mind and it's like yes
+
+319
+00:12:34,959 --> 00:12:40,639
+this is exactly what we need a
+
+320
+00:12:36,760 --> 00:12:42,560
+transformer can is um you know
+
+321
+00:12:40,639 --> 00:12:44,720
+permutation environment the fact we
+
+322
+00:12:42,560 --> 00:12:46,560
+actually for like you know chat dpt
+
+323
+00:12:44,720 --> 00:12:48,560
+force it and tell this is the order of
+
+324
+00:12:46,560 --> 00:12:51,440
+the words the transformer itself
+
+325
+00:12:48,560 --> 00:12:52,880
+actually is is is permutation invariant
+
+326
+00:12:51,440 --> 00:12:55,279
+and it's you know you could take
+
+327
+00:12:52,880 --> 00:12:59,240
+different niche sizes it doesn't need a
+
+328
+00:12:55,279 --> 00:13:01,360
+a a a a standard input so we have this
+
+329
+00:12:59,240 --> 00:13:03,279
+transformer and we're going to take our
+
+330
+00:13:01,360 --> 00:13:06,079
+optimal transport distance and use a
+
+331
+00:13:03,279 --> 00:13:08,519
+transformer to learn an embedding that
+
+332
+00:13:06,079 --> 00:13:11,600
+actually um is an
+
+333
+00:13:08,519 --> 00:13:14,480
+approximation to um the optimal
+
+334
+00:13:11,600 --> 00:13:15,920
+transport distance in L2. So what we're
+
+335
+00:13:14,480 --> 00:13:17,680
+really going to take is really small
+
+336
+00:13:15,920 --> 00:13:19,120
+batches that we're going to choose. And
+
+337
+00:13:17,680 --> 00:13:22,079
+for each of these batches, we're going
+
+338
+00:13:19,120 --> 00:13:23,920
+to learn a latent and use optimal
+
+339
+00:13:22,079 --> 00:13:26,639
+transport distance in the training to
+
+340
+00:13:23,920 --> 00:13:29,120
+say we want our the distance of these
+
+341
+00:13:26,639 --> 00:13:31,519
+cells in the latent space to match their
+
+342
+00:13:29,120 --> 00:13:35,120
+optimal transport distance. We also want
+
+343
+00:13:31,519 --> 00:13:37,839
+to be able to decode. So we want the
+
+344
+00:13:35,120 --> 00:13:39,839
+optimal transport distance between you
+
+345
+00:13:37,839 --> 00:13:41,839
+know the original input and the decoded
+
+346
+00:13:39,839 --> 00:13:44,480
+input to be close according to this
+
+347
+00:13:41,839 --> 00:13:46,240
+optimal transport distance and and yes
+
+348
+00:13:44,480 --> 00:13:48,720
+it's a little bit you know heavy to
+
+349
+00:13:46,240 --> 00:13:51,760
+compute but because we need to train it
+
+350
+00:13:48,720 --> 00:13:54,720
+on just small batches then I have this
+
+351
+00:13:51,760 --> 00:13:57,519
+magical latent that then allows me you
+
+352
+00:13:54,720 --> 00:13:59,160
+know this is you know training I can
+
+353
+00:13:57,519 --> 00:14:02,560
+train very quickly in these small
+
+354
+00:13:59,160 --> 00:14:04,880
+batches and the latent actually works.
+
+355
+00:14:02,560 --> 00:14:07,680
+So once I've trained it on some pairs
+
+356
+00:14:04,880 --> 00:14:11,120
+and I have a latent and if it works then
+
+357
+00:14:07,680 --> 00:14:13,199
+I can now take any pair of cells and
+
+358
+00:14:11,120 --> 00:14:15,440
+compute their distance in L2 which is
+
+359
+00:14:13,199 --> 00:14:17,399
+very quick and if the latent is good it
+
+360
+00:14:15,440 --> 00:14:20,399
+will you know match optimal transport
+
+361
+00:14:17,399 --> 00:14:23,120
+distance and again we actually ran this
+
+362
+00:14:20,399 --> 00:14:25,440
+uh we ran a you know a a ground truth
+
+363
+00:14:23,120 --> 00:14:28,680
+for a month trained on a very small
+
+364
+00:14:25,440 --> 00:14:31,360
+subset and actually got incredible
+
+365
+00:14:28,680 --> 00:14:34,160
+accuracy. And I sometimes like to ask,
+
+366
+00:14:31,360 --> 00:14:36,480
+well, how well did we do and how well
+
+367
+00:14:34,160 --> 00:14:38,079
+can we do? And what makes me happy about
+
+368
+00:14:36,480 --> 00:14:40,320
+this is there's some theoretical
+
+369
+00:14:38,079 --> 00:14:42,399
+guarantees and I can actually look at my
+
+370
+00:14:40,320 --> 00:14:44,240
+data and and and know am I if I'm doing
+
+371
+00:14:42,399 --> 00:14:46,720
+well or not. Now, this is all published
+
+372
+00:14:44,240 --> 00:14:48,480
+in in in archive and in ICML
+
+373
+00:14:46,720 --> 00:14:51,079
+proceedings. So you know just to
+
+374
+00:14:48,480 --> 00:14:55,120
+summarize very quickly we can be
+
+375
+00:14:51,079 --> 00:14:56,639
+accurate if um our distance metric we
+
+376
+00:14:55,120 --> 00:14:59,079
+can embed our distance metric if our
+
+377
+00:14:56,639 --> 00:15:02,199
+dist met metric is
+
+378
+00:14:59,079 --> 00:15:06,639
+ukitian and unfortunately a metric is
+
+379
+00:15:02,199 --> 00:15:09,920
+ukitian if all its values are positive
+
+380
+00:15:06,639 --> 00:15:14,399
+and optimal transport is not ukitian. So
+
+381
+00:15:09,920 --> 00:15:16,399
+this is certainly not distance. So it is
+
+382
+00:15:14,399 --> 00:15:19,199
+impossible to get a perfect embedding.
+
+383
+00:15:16,399 --> 00:15:21,360
+So I asked, okay, how bad can we go?
+
+384
+00:15:19,199 --> 00:15:25,720
+Because you know, perfect is the enemy
+
+385
+00:15:21,360 --> 00:15:28,120
+of the good. And what really made me
+
+386
+00:15:25,720 --> 00:15:31,600
+happy is
+
+387
+00:15:28,120 --> 00:15:33,920
+that you know you can get really good or
+
+388
+00:15:31,600 --> 00:15:36,800
+or the the way you sort of break it is
+
+389
+00:15:33,920 --> 00:15:39,680
+by having a lot of negative values with
+
+390
+00:15:36,800 --> 00:15:42,240
+with heavy absolute value. So if your
+
+391
+00:15:39,680 --> 00:15:45,839
+actual signal, your real positive igen
+
+392
+00:15:42,240 --> 00:15:48,320
+values are really big relative to the
+
+393
+00:15:45,839 --> 00:15:50,160
+sum of these small values down here at
+
+394
+00:15:48,320 --> 00:15:52,560
+the bottom, then you have a really good
+
+395
+00:15:50,160 --> 00:15:54,560
+chance of doing really really well. And
+
+396
+00:15:52,560 --> 00:15:56,560
+this is fortunately the case of most
+
+397
+00:15:54,560 --> 00:16:00,000
+real world data sets uh that we've
+
+398
+00:15:56,560 --> 00:16:03,560
+looked at. So now we have this uh latent
+
+399
+00:16:00,000 --> 00:16:06,480
+space that approximates Waserstein uh
+
+400
+00:16:03,560 --> 00:16:08,800
+distance but it is fully L2 and we can
+
+401
+00:16:06,480 --> 00:16:11,440
+do all the fun stuff that we like to do
+
+402
+00:16:08,800 --> 00:16:13,279
+with all the power and the ease and
+
+403
+00:16:11,440 --> 00:16:15,199
+efficiency of L2 and I'm going to
+
+404
+00:16:13,279 --> 00:16:16,880
+actually bring airplanes because no
+
+405
+00:16:15,199 --> 00:16:19,120
+one's going to actually see cells and
+
+406
+00:16:16,880 --> 00:16:21,759
+say oh yeah that makes sense and you
+
+407
+00:16:19,120 --> 00:16:23,920
+know even computing the Barry center in
+
+408
+00:16:21,759 --> 00:16:24,959
+in in optimal transport space is is
+
+409
+00:16:23,920 --> 00:16:27,600
+really hard because you have to do all
+
+410
+00:16:24,959 --> 00:16:30,560
+the pair wise things and stuff But you
+
+411
+00:16:27,600 --> 00:16:32,880
+know computing the mean airplane in
+
+412
+00:16:30,560 --> 00:16:34,800
+uklitian space is is awesome. And
+
+413
+00:16:32,880 --> 00:16:36,880
+another thing that we really like to do
+
+414
+00:16:34,800 --> 00:16:39,279
+and we saw actually a lot of examples
+
+415
+00:16:36,880 --> 00:16:41,680
+today in the morning of of actually
+
+416
+00:16:39,279 --> 00:16:43,600
+something that that we do in latens is
+
+417
+00:16:41,680 --> 00:16:45,199
+interpolation. We can again do these
+
+418
+00:16:43,600 --> 00:16:48,000
+linear interpolations and take this
+
+419
+00:16:45,199 --> 00:16:50,959
+slant and turn it into a toilet
+
+420
+00:16:48,000 --> 00:16:53,759
+gradually in this L2 space and it
+
+421
+00:16:50,959 --> 00:16:56,240
+actually learns paths because our latent
+
+422
+00:16:53,759 --> 00:16:58,880
+space is a good approximation of
+
+423
+00:16:56,240 --> 00:17:00,240
+Waserstein distance a little bit of
+
+424
+00:16:58,880 --> 00:17:01,839
+biology and I said I gutted you know
+
+425
+00:17:00,240 --> 00:17:04,000
+most of the biology and the really cool
+
+426
+00:17:01,839 --> 00:17:06,280
+cancer stuff out but neurobiology is
+
+427
+00:17:04,000 --> 00:17:09,280
+very structured so it's very quick to go
+
+428
+00:17:06,280 --> 00:17:11,679
+through and you know here we have
+
+429
+00:17:09,280 --> 00:17:13,919
+Washington applied to to this neural
+
+430
+00:17:11,679 --> 00:17:16,160
+cortex text data. You know, this is the
+
+431
+00:17:13,919 --> 00:17:18,880
+UMAP data. And now we can actually say,
+
+432
+00:17:16,160 --> 00:17:22,400
+let me actually define archetypical
+
+433
+00:17:18,880 --> 00:17:24,079
+niches of this data set around uh these
+
+434
+00:17:22,400 --> 00:17:25,520
+uh inter neurons which are sort of
+
+435
+00:17:24,079 --> 00:17:27,679
+really small and they're dispersed and
+
+436
+00:17:25,520 --> 00:17:30,840
+they have very different niches. And we
+
+437
+00:17:27,679 --> 00:17:33,200
+can actually say, okay, find me
+
+438
+00:17:30,840 --> 00:17:35,600
+inside the latent. Now, what we're
+
+439
+00:17:33,200 --> 00:17:37,360
+looking at is the fusion component in
+
+440
+00:17:35,600 --> 00:17:40,480
+the latent that's approximating the
+
+441
+00:17:37,360 --> 00:17:43,400
+wormhole space. And okay, what does this
+
+442
+00:17:40,480 --> 00:17:47,720
+look like? And we see that this
+
+443
+00:17:43,400 --> 00:17:50,360
+latent in the wormhole space perfectly
+
+444
+00:17:47,720 --> 00:17:52,720
+recapitulates cortical depth of these
+
+445
+00:17:50,360 --> 00:17:55,039
+neurons. You know, here's the diffusion
+
+446
+00:17:52,720 --> 00:17:58,400
+component. Here is the cortical depth
+
+447
+00:17:55,039 --> 00:18:00,640
+mapped back onto the original image.
+
+448
+00:17:58,400 --> 00:18:03,440
+Now, we can look for these archetypicals
+
+449
+00:18:00,640 --> 00:18:05,720
+looking at Barry centers and see how
+
+450
+00:18:03,440 --> 00:18:08,799
+things change around in terms of
+
+451
+00:18:05,720 --> 00:18:11,360
+neighbors as you go up through the
+
+452
+00:18:08,799 --> 00:18:13,120
+cortical depth. And you can see that
+
+453
+00:18:11,360 --> 00:18:15,600
+things shift around. The neighbors shift
+
+454
+00:18:13,120 --> 00:18:17,840
+around. And even within a cell type,
+
+455
+00:18:15,600 --> 00:18:20,400
+let's look at the blue cell types, these
+
+456
+00:18:17,840 --> 00:18:24,559
+neurons right here. Here's how this cell
+
+457
+00:18:20,400 --> 00:18:27,280
+type looks at this depth. And you go a
+
+458
+00:18:24,559 --> 00:18:29,440
+little bit deeper and you see that the
+
+459
+00:18:27,280 --> 00:18:31,039
+same cell type is expressing genes in a
+
+460
+00:18:29,440 --> 00:18:33,120
+completely different way. So while the
+
+461
+00:18:31,039 --> 00:18:34,720
+cell type label has just collapsed this
+
+462
+00:18:33,120 --> 00:18:37,360
+information and if we were using just
+
+463
+00:18:34,720 --> 00:18:38,720
+cell type just the blue um then you know
+
+464
+00:18:37,360 --> 00:18:42,559
+you would have thought it's the same
+
+465
+00:18:38,720 --> 00:18:45,200
+thing. But look at how the the state of
+
+466
+00:18:42,559 --> 00:18:47,200
+these cells is so very different in
+
+467
+00:18:45,200 --> 00:18:49,120
+these different cortical depths. And
+
+468
+00:18:47,200 --> 00:18:51,520
+this sort of gives us these archetypical
+
+469
+00:18:49,120 --> 00:18:53,280
+behaviors of this is the typical niche
+
+470
+00:18:51,520 --> 00:18:55,080
+that you see at different cortical
+
+471
+00:18:53,280 --> 00:18:57,760
+depths in in the
+
+472
+00:18:55,080 --> 00:18:59,600
+neuron. Now I said interpolation. So I'm
+
+473
+00:18:57,760 --> 00:19:01,200
+going to you know Dorne tried to push
+
+474
+00:18:59,600 --> 00:19:03,640
+this forward and I actually thought it
+
+475
+00:19:01,200 --> 00:19:06,799
+would never work. I told him you're
+
+476
+00:19:03,640 --> 00:19:10,559
+crazy. And so he's saying, okay, so
+
+477
+00:19:06,799 --> 00:19:13,440
+let's actually try and take a cell and
+
+478
+00:19:10,559 --> 00:19:16,720
+predict its environment
+
+479
+00:19:13,440 --> 00:19:20,559
+uh generative AI. And so we're going to
+
+480
+00:19:16,720 --> 00:19:22,320
+use um diffusion uh flow matching. And
+
+481
+00:19:20,559 --> 00:19:24,960
+basically you have data. It's hard to
+
+482
+00:19:22,320 --> 00:19:27,600
+generate a sample from that. So you're
+
+483
+00:19:24,960 --> 00:19:29,280
+going to sample from noise and learn to
+
+484
+00:19:27,600 --> 00:19:31,120
+go from noise to a sample. That's what
+
+485
+00:19:29,280 --> 00:19:33,840
+the fusion does. You have a forward
+
+486
+00:19:31,120 --> 00:19:35,840
+process to learn a reverse process. And
+
+487
+00:19:33,840 --> 00:19:38,240
+what you really need to make this work
+
+488
+00:19:35,840 --> 00:19:40,160
+is interpolation. But I've just shown
+
+489
+00:19:38,240 --> 00:19:42,160
+you that I can do interpolation in this
+
+490
+00:19:40,160 --> 00:19:45,039
+washerstein space. So I could take the
+
+491
+00:19:42,160 --> 00:19:47,520
+classic flow matching algorithms. I can
+
+492
+00:19:45,039 --> 00:19:49,840
+sort of lift them into wa into the
+
+493
+00:19:47,520 --> 00:19:52,080
+washerstein space through the wormhole
+
+494
+00:19:49,840 --> 00:19:53,960
+embedding which now allows me to
+
+495
+00:19:52,080 --> 00:19:56,720
+approximate this you know
+
+496
+00:19:53,960 --> 00:20:00,160
+weirdasserstein space but in a uklidian
+
+497
+00:19:56,720 --> 00:20:03,520
+world and now go from noise to airplanes
+
+498
+00:20:00,160 --> 00:20:06,880
+uh in in this sort of space which allows
+
+499
+00:20:03,520 --> 00:20:09,360
+me to map entire distribution so this
+
+500
+00:20:06,880 --> 00:20:11,600
+space doesn't map single objects which
+
+501
+00:20:09,360 --> 00:20:15,600
+works in uklidian space it actually
+
+502
+00:20:11,600 --> 00:20:18,000
+allows me to map distribution ions in a
+
+503
+00:20:15,600 --> 00:20:20,720
+meaningful way actually using the
+
+504
+00:20:18,000 --> 00:20:23,360
+Waserstein uh optimal transport distance
+
+505
+00:20:20,720 --> 00:20:25,440
+between these distributions in an
+
+506
+00:20:23,360 --> 00:20:29,120
+embedding that approximates uh the
+
+507
+00:20:25,440 --> 00:20:31,039
+Waserstein space. So we can say okay how
+
+508
+00:20:29,120 --> 00:20:33,280
+does it look like on on these niches I
+
+509
+00:20:31,039 --> 00:20:36,320
+just showed you and this is like going
+
+510
+00:20:33,280 --> 00:20:38,240
+from noise to creating you know niches
+
+511
+00:20:36,320 --> 00:20:41,280
+that that look like real niches from
+
+512
+00:20:38,240 --> 00:20:43,840
+real data. This is entirely generated by
+
+513
+00:20:41,280 --> 00:20:46,159
+flow matching. And these niches actually
+
+514
+00:20:43,840 --> 00:20:48,159
+really ma match the examples I showed
+
+515
+00:20:46,159 --> 00:20:50,480
+you earlier except they're generated
+
+516
+00:20:48,159 --> 00:20:52,640
+from random noise at the beginning. And
+
+517
+00:20:50,480 --> 00:20:55,919
+if actually you look uh at the real
+
+518
+00:20:52,640 --> 00:20:58,320
+neurons and their environments versus
+
+519
+00:20:55,919 --> 00:21:01,840
+those that I you know pulled out and
+
+520
+00:20:58,320 --> 00:21:04,159
+generated uh from uh you know generative
+
+521
+00:21:01,840 --> 00:21:07,039
+AI, you can see that it actually does a
+
+522
+00:21:04,159 --> 00:21:08,640
+pretty good job. And you know, I was
+
+523
+00:21:07,039 --> 00:21:11,919
+shocked because I actually thought it
+
+524
+00:21:08,640 --> 00:21:13,919
+would never work. I'm a pessimist. So
+
+525
+00:21:11,919 --> 00:21:15,520
+why does it work? It's the scale of the
+
+526
+00:21:13,919 --> 00:21:18,080
+data. You know, we're we're learning
+
+527
+00:21:15,520 --> 00:21:20,080
+from, you know, millions of samples.
+
+528
+00:21:18,080 --> 00:21:22,880
+Each niche is very very different. We're
+
+529
+00:21:20,080 --> 00:21:25,600
+actually sampling a lot of biological
+
+530
+00:21:22,880 --> 00:21:27,840
+variability. These niches are very very
+
+531
+00:21:25,600 --> 00:21:29,760
+different from one another. uh this is
+
+532
+00:21:27,840 --> 00:21:31,360
+actually uh very different than some of
+
+533
+00:21:29,760 --> 00:21:33,400
+the perturbation challenges you said at
+
+534
+00:21:31,360 --> 00:21:36,799
+the beginning where your pertibbation
+
+535
+00:21:33,400 --> 00:21:39,520
+challenges are you know learned this
+
+536
+00:21:36,799 --> 00:21:42,320
+thing after we've sampled a small number
+
+537
+00:21:39,520 --> 00:21:44,480
+of samples that only take a fraction of
+
+538
+00:21:42,320 --> 00:21:46,720
+the space here we have a very large
+
+539
+00:21:44,480 --> 00:21:49,039
+number of samples that seem to capture
+
+540
+00:21:46,720 --> 00:21:50,559
+the space which is because some of the
+
+541
+00:21:49,039 --> 00:21:52,720
+things I can say is that these models
+
+542
+00:21:50,559 --> 00:21:54,080
+don't know biology and a lot of the
+
+543
+00:21:52,720 --> 00:21:56,400
+problem with these models and everyone
+
+544
+00:21:54,080 --> 00:21:59,120
+that uses them needs to be careful is
+
+545
+00:21:56,400 --> 00:22:01,440
+that They are still pretty bad at out of
+
+546
+00:21:59,120 --> 00:22:03,600
+sample distributions. Anytime you take
+
+547
+00:22:01,440 --> 00:22:05,440
+one of these algorithms that work and
+
+548
+00:22:03,600 --> 00:22:08,000
+you say look at how awesome it does and
+
+549
+00:22:05,440 --> 00:22:09,760
+look at my R squared, I ask you show me
+
+550
+00:22:08,000 --> 00:22:12,080
+it on out of sample and I'll believe
+
+551
+00:22:09,760 --> 00:22:13,600
+you. Here we cheated because all these
+
+552
+00:22:12,080 --> 00:22:15,919
+things I showed you wasn't out of
+
+553
+00:22:13,600 --> 00:22:18,400
+sample. So as long as I'm not out of
+
+554
+00:22:15,919 --> 00:22:20,159
+sample, it hasn't learned anything new.
+
+555
+00:22:18,400 --> 00:22:22,320
+And we're working to try and teach it to
+
+556
+00:22:20,159 --> 00:22:25,120
+learn something new now that at least we
+
+557
+00:22:22,320 --> 00:22:26,960
+gave it a metric of of real biology. But
+
+558
+00:22:25,120 --> 00:22:29,039
+I want to and and again this is
+
+559
+00:22:26,960 --> 00:22:31,520
+something that I I I I want to you know
+
+560
+00:22:29,039 --> 00:22:34,400
+warn you you know foundation models are
+
+561
+00:22:31,520 --> 00:22:37,440
+are great except for the fact that the
+
+562
+00:22:34,400 --> 00:22:39,760
+real ones trained on trillions of images
+
+563
+00:22:37,440 --> 00:22:42,159
+and you know we don't have enough images
+
+564
+00:22:39,760 --> 00:22:45,039
+yet to learn out of enough biology to
+
+565
+00:22:42,159 --> 00:22:48,080
+learn out of sample. And so where you
+
+566
+00:22:45,039 --> 00:22:51,360
+want to be in my opinion the sweet spot
+
+567
+00:22:48,080 --> 00:22:52,880
+for having impact is yes you can try and
+
+568
+00:22:51,360 --> 00:22:55,200
+build this is going to be a foundation
+
+569
+00:22:52,880 --> 00:22:57,760
+model in the future once we have you
+
+570
+00:22:55,200 --> 00:23:00,320
+know 20 billion patients where we've
+
+571
+00:22:57,760 --> 00:23:03,440
+like thrown the kitchen sink at it but
+
+572
+00:23:00,320 --> 00:23:05,440
+by then the AI architectures are going
+
+573
+00:23:03,440 --> 00:23:09,280
+to be really different. So my advice to
+
+574
+00:23:05,440 --> 00:23:12,159
+you is work where you can have actual
+
+575
+00:23:09,280 --> 00:23:15,080
+impact today on learning something new
+
+576
+00:23:12,159 --> 00:23:17,520
+learning new biology that you
+
+577
+00:23:15,080 --> 00:23:19,840
+know learning you know having a real
+
+578
+00:23:17,520 --> 00:23:22,919
+impact on medicine and that's currently
+
+579
+00:23:19,840 --> 00:23:26,360
+not the foundational models simpler
+
+580
+00:23:22,919 --> 00:23:29,559
+architectures are you know maybe less
+
+581
+00:23:26,360 --> 00:23:32,640
+sexy but they actually have enough
+
+582
+00:23:29,559 --> 00:23:35,520
+data to give us real progress in in
+
+583
+00:23:32,640 --> 00:23:39,760
+biology today. What I really like and
+
+584
+00:23:35,520 --> 00:23:42,480
+what personally excites me about this um
+
+585
+00:23:39,760 --> 00:23:45,520
+transformer that takes optimal transport
+
+586
+00:23:42,480 --> 00:23:48,320
+and embeds it into L2 is you could use
+
+587
+00:23:45,520 --> 00:23:50,240
+any easily computable optimal transport
+
+588
+00:23:48,320 --> 00:23:53,760
+distance. This actually gives us a
+
+589
+00:23:50,240 --> 00:23:56,000
+language where we can actually give rich
+
+590
+00:23:53,760 --> 00:23:58,640
+biologically meaningful uh distance
+
+591
+00:23:56,000 --> 00:24:00,960
+metrics between biological entities and
+
+592
+00:23:58,640 --> 00:24:03,520
+try and map them into a latent that now
+
+593
+00:24:00,960 --> 00:24:05,280
+has more biology imbued into it. So just
+
+594
+00:24:03,520 --> 00:24:07,200
+to give you a quick example, something
+
+595
+00:24:05,280 --> 00:24:08,480
+completely different. We saw some attack
+
+596
+00:24:07,200 --> 00:24:11,520
+this morning. I'm going to go through
+
+597
+00:24:08,480 --> 00:24:14,240
+this real quickly, I promise. Um I'm
+
+598
+00:24:11,520 --> 00:24:16,320
+going to now model distributions of cut
+
+599
+00:24:14,240 --> 00:24:18,559
+sites. So this is a taxi data and rather
+
+600
+00:24:16,320 --> 00:24:20,640
+than taking peaks and whatnot I'm going
+
+601
+00:24:18,559 --> 00:24:23,840
+to ask exactly what is the distribution
+
+602
+00:24:20,640 --> 00:24:25,919
+of each and every cut site and we see
+
+603
+00:24:23,840 --> 00:24:27,960
+that you know different places we have
+
+604
+00:24:25,919 --> 00:24:31,120
+very very different distributions of cut
+
+605
+00:24:27,960 --> 00:24:33,200
+sites. This is ex I mean this is earth
+
+606
+00:24:31,120 --> 00:24:35,279
+movers distance this is the simplest of
+
+607
+00:24:33,200 --> 00:24:37,679
+optimal transport distances that you
+
+608
+00:24:35,279 --> 00:24:40,320
+have and now we can take all these
+
+609
+00:24:37,679 --> 00:24:42,840
+attack uh regions. We take a region, we
+
+610
+00:24:40,320 --> 00:24:45,520
+could look at their cut sites and define
+
+611
+00:24:42,840 --> 00:24:47,760
+the optimal transport earth mover
+
+612
+00:24:45,520 --> 00:24:50,799
+distance in this case distances between
+
+613
+00:24:47,760 --> 00:24:52,520
+all these little snippets of of DNA uh
+
+614
+00:24:50,799 --> 00:24:55,520
+profiled with a
+
+615
+00:24:52,520 --> 00:24:57,200
+paxi and you know we we try and push it
+
+616
+00:24:55,520 --> 00:25:00,320
+a little forward. So this is the actual
+
+617
+00:24:57,200 --> 00:25:02,240
+chromatin accessibility data. You see it
+
+618
+00:25:00,320 --> 00:25:04,320
+has a really really rich shape and we
+
+619
+00:25:02,240 --> 00:25:07,440
+were like really excited at first. Then
+
+620
+00:25:04,320 --> 00:25:10,640
+we read Anchul's paper and we realized
+
+621
+00:25:07,440 --> 00:25:12,159
+most of it is actually uh PN5 bias. So
+
+622
+00:25:10,640 --> 00:25:14,559
+of course if you have that it's going to
+
+623
+00:25:12,159 --> 00:25:17,279
+create a lot of structure for any random
+
+624
+00:25:14,559 --> 00:25:19,840
+sequence of DNA irregardless of the cut
+
+625
+00:25:17,279 --> 00:25:22,440
+sites. So what we really want is the
+
+626
+00:25:19,840 --> 00:25:25,600
+signal beyond this TN5
+
+627
+00:25:22,440 --> 00:25:28,320
+bias and this TN5 bias isn't exactly
+
+628
+00:25:25,600 --> 00:25:30,960
+aligned. So again we use Anul's approach
+
+629
+00:25:28,320 --> 00:25:33,760
+to actually learn a function of this
+
+630
+00:25:30,960 --> 00:25:36,320
+bias using a simple net again like
+
+631
+00:25:33,760 --> 00:25:38,960
+classic nets that existed a decade ago
+
+632
+00:25:36,320 --> 00:25:40,559
+works perfectly and now we're going to
+
+633
+00:25:38,960 --> 00:25:44,000
+take the signal we're going to remove
+
+634
+00:25:40,559 --> 00:25:46,400
+the bias and learn an optimal transport
+
+635
+00:25:44,000 --> 00:25:48,960
+distance between uh the residual which
+
+636
+00:25:46,400 --> 00:25:51,440
+is what we care about and now we have
+
+637
+00:25:48,960 --> 00:25:53,120
+embeddings and we can actually you know
+
+638
+00:25:51,440 --> 00:25:54,720
+attack is really sparse so we can
+
+639
+00:25:53,120 --> 00:25:57,440
+aggregate these embeddings in different
+
+640
+00:25:54,720 --> 00:25:59,840
+ways here We're aggregating it at level
+
+641
+00:25:57,440 --> 00:26:01,360
+of transcription factor in a meta cell.
+
+642
+00:25:59,840 --> 00:26:04,240
+This is all the places where we have
+
+643
+00:26:01,360 --> 00:26:06,799
+CTCF motifs in a particular cell state
+
+644
+00:26:04,240 --> 00:26:08,640
+during hematocesis. We see that this has
+
+645
+00:26:06,799 --> 00:26:11,440
+a lot of structures. The cells are
+
+646
+00:26:08,640 --> 00:26:13,919
+colored by cell type and we see at
+
+647
+00:26:11,440 --> 00:26:17,760
+different cell types and different uh uh
+
+648
+00:26:13,919 --> 00:26:20,400
+uh progressions in hematis. we have very
+
+649
+00:26:17,760 --> 00:26:23,360
+very different cuts site distributions
+
+650
+00:26:20,400 --> 00:26:26,320
+for CTCFS which again both told us how
+
+651
+00:26:23,360 --> 00:26:28,480
+important it is how the the genome and
+
+652
+00:26:26,320 --> 00:26:30,559
+uh 3D genome is being completely
+
+653
+00:26:28,480 --> 00:26:32,720
+shuffled jiggered and jigged over the
+
+654
+00:26:30,559 --> 00:26:35,360
+course of of hematopolesis
+
+655
+00:26:32,720 --> 00:26:38,320
+um we can take another viewpoint and say
+
+656
+00:26:35,360 --> 00:26:41,200
+let's take a a specific region for and
+
+657
+00:26:38,320 --> 00:26:43,039
+and and look at how it changes across
+
+658
+00:26:41,200 --> 00:26:44,720
+cells so now we're going to take these
+
+659
+00:26:43,039 --> 00:26:46,720
+enhancers we're going to average them
+
+660
+00:26:44,720 --> 00:26:49,200
+we're going to sodtobulk uh But we're
+
+661
+00:26:46,720 --> 00:26:51,440
+going to look at the enhancer level and
+
+662
+00:26:49,200 --> 00:26:54,400
+we can see that there are very different
+
+663
+00:26:51,440 --> 00:26:56,960
+regions that actually now you know some
+
+664
+00:26:54,400 --> 00:26:58,240
+of them are TF bound by CTC or CTCF
+
+665
+00:26:56,960 --> 00:27:00,080
+bound some of them are repressed and
+
+666
+00:26:58,240 --> 00:27:02,000
+some of them are active and we can look
+
+667
+00:27:00,080 --> 00:27:06,320
+and see that this structure has real
+
+668
+00:27:02,000 --> 00:27:10,080
+meaning. We can find co- uh um binding
+
+669
+00:27:06,320 --> 00:27:12,360
+of CTCF CTCF with additional factors
+
+670
+00:27:10,080 --> 00:27:14,480
+CTCF with differential chro
+
+671
+00:27:12,360 --> 00:27:17,120
+modifications. These cuts sites
+
+672
+00:27:14,480 --> 00:27:19,200
+distributions have a very rich biology
+
+673
+00:27:17,120 --> 00:27:21,360
+so that we can extract very rich
+
+674
+00:27:19,200 --> 00:27:24,080
+biological interpretation from this
+
+675
+00:27:21,360 --> 00:27:26,000
+latent that we just defined. In fact, we
+
+676
+00:27:24,080 --> 00:27:28,679
+can even go towards a universal
+
+677
+00:27:26,000 --> 00:27:32,679
+chromatin expression. So people like to
+
+678
+00:27:28,679 --> 00:27:34,880
+go from um you
+
+679
+00:27:32,679 --> 00:27:36,960
+know sequence to expression from
+
+680
+00:27:34,880 --> 00:27:38,720
+promoter accessibility to expression and
+
+681
+00:27:36,960 --> 00:27:41,840
+there's lots of models that do that
+
+682
+00:27:38,720 --> 00:27:43,919
+really really well and we can use our
+
+683
+00:27:41,840 --> 00:27:46,159
+latent to do the exact same thing and
+
+684
+00:27:43,919 --> 00:27:48,400
+it's sort of almost as good as these
+
+685
+00:27:46,159 --> 00:27:51,279
+really high-end models that are designed
+
+686
+00:27:48,400 --> 00:27:52,799
+to predict sequence from accessibility
+
+687
+00:27:51,279 --> 00:27:55,600
+except what is the difference between
+
+688
+00:27:52,799 --> 00:27:57,520
+this latent that we learned uh from uh
+
+689
+00:27:55,600 --> 00:27:59,360
+the cut sites themselves
+
+690
+00:27:57,520 --> 00:28:01,039
+is you know these are very gene
+
+691
+00:27:59,360 --> 00:28:02,640
+specific. So if you actually use this
+
+692
+00:28:01,039 --> 00:28:04,559
+model on all genes rather than the
+
+693
+00:28:02,640 --> 00:28:07,279
+individual gene it trained for it
+
+694
+00:28:04,559 --> 00:28:09,279
+collapses to random noise. We can train
+
+695
+00:28:07,279 --> 00:28:12,240
+it on you know a subset of genes and
+
+696
+00:28:09,279 --> 00:28:15,080
+then run it on uh test genes and we've
+
+697
+00:28:12,240 --> 00:28:18,640
+actually learned something real about
+
+698
+00:28:15,080 --> 00:28:21,520
+accessibility that generalizes beyond
+
+699
+00:28:18,640 --> 00:28:25,200
+individual cut sites. a real example of
+
+700
+00:28:21,520 --> 00:28:28,480
+out of sample. Um, but this is passible
+
+701
+00:28:25,200 --> 00:28:31,120
+because we imbued our model with some
+
+702
+00:28:28,480 --> 00:28:33,919
+biological meaning and a distance metric
+
+703
+00:28:31,120 --> 00:28:35,360
+that has some biological meaning. So,
+
+704
+00:28:33,919 --> 00:28:36,960
+you know, what I hope we take out of
+
+705
+00:28:35,360 --> 00:28:38,720
+this beyond the fact that you should be,
+
+706
+00:28:36,960 --> 00:28:40,480
+you know, working on on fundamental
+
+707
+00:28:38,720 --> 00:28:42,600
+things that actually push biology
+
+708
+00:28:40,480 --> 00:28:44,720
+forward rather than the fanciest
+
+709
+00:28:42,600 --> 00:28:47,760
+architecture is that I'm hoping that
+
+710
+00:28:44,720 --> 00:28:51,520
+this tool allows you to take your
+
+711
+00:28:47,760 --> 00:28:54,559
+favorite problem, define, use the
+
+712
+00:28:51,520 --> 00:28:57,120
+awesome, expressive, powerful, flexible
+
+713
+00:28:54,559 --> 00:28:59,679
+language of optimal transport to define
+
+714
+00:28:57,120 --> 00:29:02,000
+what is a meaningful biological distance
+
+715
+00:28:59,679 --> 00:29:03,919
+between these entities. And then you
+
+716
+00:29:02,000 --> 00:29:06,559
+could use the wormhole transformer to
+
+717
+00:29:03,919 --> 00:29:08,880
+embed it into L2 and explore to your
+
+718
+00:29:06,559 --> 00:29:10,960
+heart's desires. We're using it right
+
+719
+00:29:08,880 --> 00:29:13,080
+now as a building blocks of a lot of
+
+720
+00:29:10,960 --> 00:29:15,760
+more fancy models to get a lot better
+
+721
+00:29:13,080 --> 00:29:17,840
+interpretations of images to distinguish
+
+722
+00:29:15,760 --> 00:29:20,159
+between cell intrinsic, cell extrinsic,
+
+723
+00:29:17,840 --> 00:29:24,240
+predict perturbations. But this building
+
+724
+00:29:20,159 --> 00:29:26,240
+block of a biologically imbued
+
+725
+00:29:24,240 --> 00:29:28,799
+um latent which actually has more
+
+726
+00:29:26,240 --> 00:29:31,039
+biologically meaningful distance metrics
+
+727
+00:29:28,799 --> 00:29:33,039
+is is something that I think really we
+
+728
+00:29:31,039 --> 00:29:36,080
+need this and more things like it to
+
+729
+00:29:33,039 --> 00:29:39,360
+push the field forward. Um I still have
+
+730
+00:29:36,080 --> 00:29:41,440
+money. So there are positions including
+
+731
+00:29:39,360 --> 00:29:43,279
+staff positions for those who don't want
+
+732
+00:29:41,440 --> 00:29:45,360
+to enter the academia right now. My
+
+733
+00:29:43,279 --> 00:29:48,159
+single cell innovation lab also has lots
+
+734
+00:29:45,360 --> 00:29:50,000
+of philanthropic money and we're hiring.
+
+735
+00:29:48,159 --> 00:29:53,880
+But really what's awesome is is my
+
+736
+00:29:50,000 --> 00:29:56,799
+group. This is Doran. Uh he did most of
+
+737
+00:29:53,880 --> 00:29:59,039
+uh what I told you about. And thank you
+
+738
+00:29:56,799 --> 00:29:59,039
+very
+
+739
+00:30:04,120 --> 00:30:09,720
+much. I think we probably have time for
+
+740
+00:30:06,399 --> 00:30:09,720
+one question.
+
+741
+00:30:14,080 --> 00:30:17,600
+Oh yeah, now you're getting back at me
+
+742
+00:30:15,520 --> 00:30:19,919
+for saying foundation models are bad.
+
+743
+00:30:17,600 --> 00:30:21,760
+Not at all. Great talk and this is
+
+744
+00:30:19,919 --> 00:30:23,840
+fantastic. Now my question is more about
+
+745
+00:30:21,760 --> 00:30:27,200
+the starting point to define the niches.
+
+746
+00:30:23,840 --> 00:30:29,760
+You say I represent a niche by a cloud
+
+747
+00:30:27,200 --> 00:30:31,679
+point, you know, a set of points and you
+
+748
+00:30:29,760 --> 00:30:34,559
+seem to forget about the relative
+
+749
+00:30:31,679 --> 00:30:37,919
+positions of the cells. And I wonder if
+
+750
+00:30:34,559 --> 00:30:40,240
+this is on purpose or if you think an X
+
+751
+00:30:37,919 --> 00:30:42,880
+version could be optimal transport on
+
+752
+00:30:40,240 --> 00:30:44,720
+not only the the values of the gene
+
+753
+00:30:42,880 --> 00:30:46,799
+expression but as well the relative
+
+754
+00:30:44,720 --> 00:30:48,720
+positions of the neighboring cells
+
+755
+00:30:46,799 --> 00:30:51,279
+because in a sense in in your current
+
+756
+00:30:48,720 --> 00:30:52,559
+interpretation if I understand correctly
+
+757
+00:30:51,279 --> 00:30:54,159
+you don't care about how they are
+
+758
+00:30:52,559 --> 00:30:56,240
+organized. We've played a little bit
+
+759
+00:30:54,159 --> 00:30:58,080
+with representation because you know
+
+760
+00:30:56,240 --> 00:31:00,080
+again I've smoothed out and this doesn't
+
+761
+00:30:58,080 --> 00:31:01,919
+work perfectly. So it's you know it
+
+762
+00:31:00,080 --> 00:31:03,520
+helps get biology but this is still work
+
+763
+00:31:01,919 --> 00:31:06,320
+in progress in terms of getting the rich
+
+764
+00:31:03,520 --> 00:31:09,120
+biology I hoped it would give uh the
+
+765
+00:31:06,320 --> 00:31:11,000
+exact order of of usually the exact
+
+766
+00:31:09,120 --> 00:31:14,240
+order of the cells around that their
+
+767
+00:31:11,000 --> 00:31:15,760
+distances don't impact things very much.
+
+768
+00:31:14,240 --> 00:31:17,919
+The thing that actually makes really
+
+769
+00:31:15,760 --> 00:31:19,919
+really big difference is how to actually
+
+770
+00:31:17,919 --> 00:31:23,279
+represent these cells. So when when we
+
+771
+00:31:19,919 --> 00:31:25,679
+are at these data sets which have 500
+
+772
+00:31:23,279 --> 00:31:29,679
+genes let alone some of these you know
+
+773
+00:31:25,679 --> 00:31:31,919
+cosmx 5,000 gene data sets uh actually
+
+774
+00:31:29,679 --> 00:31:34,320
+this thing you know optimal transport
+
+775
+00:31:31,919 --> 00:31:37,440
+doesn't work really really well you know
+
+776
+00:31:34,320 --> 00:31:39,840
+to go from such high dimension and so
+
+777
+00:31:37,440 --> 00:31:43,440
+actually featurization of the data and
+
+778
+00:31:39,840 --> 00:31:45,760
+how do I go and not represent all 480
+
+779
+00:31:43,440 --> 00:31:49,279
+genes but actually uh represent them
+
+780
+00:31:45,760 --> 00:31:52,159
+down to a 100 genes and again PC PCA is
+
+781
+00:31:49,279 --> 00:31:54,640
+too blunt. So basically getting better
+
+782
+00:31:52,159 --> 00:31:57,679
+featurizations uh that aren't the full
+
+783
+00:31:54,640 --> 00:32:00,000
+gene expression and not PCA as input is
+
+784
+00:31:57,679 --> 00:32:02,399
+the way uh that we've seen the biggest
+
+785
+00:32:00,000 --> 00:32:04,720
+impact and we're trying a bunch of
+
+786
+00:32:02,399 --> 00:32:06,320
+featurizations depending on the
+
+787
+00:32:04,720 --> 00:32:07,919
+biological question that that really
+
+788
+00:32:06,320 --> 00:32:10,159
+helped. That is that is where we need
+
+789
+00:32:07,919 --> 00:32:11,440
+more because we've pushed and and I
+
+790
+00:32:10,159 --> 00:32:13,039
+already know that even the
+
+791
+00:32:11,440 --> 00:32:16,039
+featurizations I've pulled out of the
+
+792
+00:32:13,039 --> 00:32:18,880
+hat are are not the best ones. So, um,
+
+793
+00:32:16,039 --> 00:32:21,519
+that's how to featurize the space is is
+
+794
+00:32:18,880 --> 00:32:23,840
+where the money is right now. But yes,
+
+795
+00:32:21,519 --> 00:32:25,279
+optimal transport allows you to do all
+
+796
+00:32:23,840 --> 00:32:27,440
+sorts of stuff. It allows you to go
+
+797
+00:32:25,279 --> 00:32:30,399
+multimodal. It allows you to represent
+
+798
+00:32:27,440 --> 00:32:32,399
+the geometry of the cells. It allows you
+
+799
+00:32:30,399 --> 00:32:35,039
+to to represent the distance. It's such
+
+800
+00:32:32,399 --> 00:32:35,039
+an expressive
+
+801
+00:32:36,200 --> 00:32:41,070
+language. Okay, let's thank the speaker
+
+802
+00:32:38,240 --> 00:32:44,119
+one more time then.
+
+803
+00:32:41,070 --> 00:32:44,119
+[Music]
+

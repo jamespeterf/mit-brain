@@ -1,0 +1,5368 @@
+1
+00:00:00,080 --> 00:00:03,840
+thank you for that kind introduction
+
+2
+00:00:01,400 --> 00:00:07,040
+it's always a pleasure um to be here at
+
+3
+00:00:03,840 --> 00:00:08,719
+at MIT um I have an occasion now and I
+
+4
+00:00:07,040 --> 00:00:11,799
+won't say about it to to come here more
+
+5
+00:00:08,719 --> 00:00:14,120
+often and so maybe I will do that um I
+
+6
+00:00:11,799 --> 00:00:15,679
+should do two disclaimers before I start
+
+7
+00:00:14,120 --> 00:00:18,400
+the talk today the first is you know
+
+8
+00:00:15,679 --> 00:00:21,800
+this is ongoing work I'm hoping we'll
+
+9
+00:00:18,400 --> 00:00:24,680
+have stuff uploaded um to Archive before
+
+10
+00:00:21,800 --> 00:00:25,840
+the year ends it's work in control and I
+
+11
+00:00:24,680 --> 00:00:27,320
+figured if I want to talk about
+
+12
+00:00:25,840 --> 00:00:29,160
+something new in control I've never
+
+13
+00:00:27,320 --> 00:00:31,679
+presented this work before Lids is a
+
+14
+00:00:29,160 --> 00:00:33,480
+perfect place with it's eminent history
+
+15
+00:00:31,679 --> 00:00:36,480
+and control theory to do that so I'm
+
+16
+00:00:33,480 --> 00:00:39,000
+excited to do that the second
+
+17
+00:00:36,480 --> 00:00:41,360
+disclaimer that I want to do is you know
+
+18
+00:00:39,000 --> 00:00:43,239
+I'm going to do a major transgression
+
+19
+00:00:41,360 --> 00:00:46,399
+and not talk about machine learning in
+
+20
+00:00:43,239 --> 00:00:49,120
+this talk um so I'm going to apologize
+
+21
+00:00:46,399 --> 00:00:50,600
+to the machine learning Gods you know to
+
+22
+00:00:49,120 --> 00:00:53,960
+forgive me for that so there won't be
+
+23
+00:00:50,600 --> 00:00:57,199
+any machine learning um in my talk today
+
+24
+00:00:53,960 --> 00:01:00,440
+um so this is Joint work with um two of
+
+25
+00:00:57,199 --> 00:01:03,000
+my current PhD students Judy and Resa
+
+26
+00:01:00,440 --> 00:01:04,439
+um and you know we'll get into the
+
+27
+00:01:03,000 --> 00:01:06,760
+details in a moment but it's something
+
+28
+00:01:04,439 --> 00:01:09,600
+I've been thinking about for for quite
+
+29
+00:01:06,760 --> 00:01:12,920
+some time in terms of how we could or
+
+30
+00:01:09,600 --> 00:01:15,320
+how is it possible perhaps to to extend
+
+31
+00:01:12,920 --> 00:01:18,200
+um some techniques that are very
+
+32
+00:01:15,320 --> 00:01:21,000
+classical in control theory to maybe a
+
+33
+00:01:18,200 --> 00:01:23,680
+wider range of of applications and so
+
+34
+00:01:21,000 --> 00:01:27,240
+let me let me get into that um so here
+
+35
+00:01:23,680 --> 00:01:30,200
+is the outline um I'll briefly say a few
+
+36
+00:01:27,240 --> 00:01:32,399
+words about you know um convexity in
+
+37
+00:01:30,200 --> 00:01:35,920
+control in particular non-quadratic
+
+38
+00:01:32,399 --> 00:01:37,479
+conve convex costs and and issues that
+
+39
+00:01:35,920 --> 00:01:39,720
+come up in control when one wants to
+
+40
+00:01:37,479 --> 00:01:41,680
+study to go beyond quadratics I'll
+
+41
+00:01:39,720 --> 00:01:43,880
+introduce something called bregman
+
+42
+00:01:41,680 --> 00:01:46,439
+Divergence um many of you might have
+
+43
+00:01:43,880 --> 00:01:48,119
+heard about it but but maybe I'll I'll
+
+44
+00:01:46,439 --> 00:01:50,200
+present it from a slightly different
+
+45
+00:01:48,119 --> 00:01:53,240
+perspective I want to apply bregman
+
+46
+00:01:50,200 --> 00:01:55,640
+Divergence to control that's um most of
+
+47
+00:01:53,240 --> 00:01:58,079
+the talk I'll give some examples of the
+
+48
+00:01:55,640 --> 00:02:01,159
+utility of this and and then I will
+
+49
+00:01:58,079 --> 00:02:03,880
+conclude um so you know if you've been
+
+50
+00:02:01,159 --> 00:02:06,079
+in Signal processing or machine learning
+
+51
+00:02:03,880 --> 00:02:09,759
+or statistics you know you all know that
+
+52
+00:02:06,079 --> 00:02:13,200
+in the last three decades um there's
+
+53
+00:02:09,759 --> 00:02:15,560
+been a lot of work moving from you know
+
+54
+00:02:13,200 --> 00:02:18,959
+quadratics and least squares and least
+
+55
+00:02:15,560 --> 00:02:21,239
+means squares this kind of things to to
+
+56
+00:02:18,959 --> 00:02:23,720
+convex costs that are not quadratic so
+
+57
+00:02:21,239 --> 00:02:25,840
+when I was in grad school svds and
+
+58
+00:02:23,720 --> 00:02:28,640
+Subspace methods and so on were all the
+
+59
+00:02:25,840 --> 00:02:31,800
+rage everything was kind of quadratic
+
+60
+00:02:28,640 --> 00:02:33,760
+but you know you've all heard lwan loso
+
+61
+00:02:31,800 --> 00:02:36,959
+compressed sensing things like this low
+
+62
+00:02:33,760 --> 00:02:39,239
+rank Matrix recovery nuclear Norms in
+
+63
+00:02:36,959 --> 00:02:42,200
+machine learning then I am not
+
+64
+00:02:39,239 --> 00:02:46,599
+transgressing maybe um you know people
+
+65
+00:02:42,200 --> 00:02:49,159
+use cross entropy loss a lot um uh out
+
+66
+00:02:46,599 --> 00:02:51,720
+of MIT came this notion of atomic Norm
+
+67
+00:02:49,159 --> 00:02:53,720
+minimization so it's it's had a big
+
+68
+00:02:51,720 --> 00:02:56,159
+impact and it allows people when they're
+
+69
+00:02:53,720 --> 00:02:59,840
+looking for solutions to impose
+
+70
+00:02:56,159 --> 00:03:02,440
+structure or to recover models that are
+
+71
+00:02:59,840 --> 00:03:04,920
+or behaviors that are not easy to to
+
+72
+00:03:02,440 --> 00:03:08,920
+recover if all you're um focused on is
+
+73
+00:03:04,920 --> 00:03:11,840
+just quadratic loss um but in control I
+
+74
+00:03:08,920 --> 00:03:13,640
+I would like to argue that people have
+
+75
+00:03:11,840 --> 00:03:16,200
+not been able to do that to the same
+
+76
+00:03:13,640 --> 00:03:18,440
+extent largely you know if you look
+
+77
+00:03:16,200 --> 00:03:20,519
+especially at classical control people
+
+78
+00:03:18,440 --> 00:03:24,640
+focus on quadratic cost so there's the
+
+79
+00:03:20,519 --> 00:03:26,440
+famous you know lqr lqg criteria where
+
+80
+00:03:24,640 --> 00:03:28,519
+you have a quadratic cost on the state
+
+81
+00:03:26,440 --> 00:03:31,360
+of your system in this talk X will
+
+82
+00:03:28,519 --> 00:03:33,840
+always be the state a quadratic cost
+
+83
+00:03:31,360 --> 00:03:35,480
+perhaps on your control you and this
+
+84
+00:03:33,840 --> 00:03:38,760
+talk will always be the control signal
+
+85
+00:03:35,480 --> 00:03:41,159
+and so some expected you know um
+
+86
+00:03:38,760 --> 00:03:43,840
+quadratic cost of those even in h
+
+87
+00:03:41,159 --> 00:03:45,959
+Infiniti people still you know they look
+
+88
+00:03:43,840 --> 00:03:48,480
+at energy gains or quadratic cost you
+
+89
+00:03:45,959 --> 00:03:51,080
+have disturbances you measure as energy
+
+90
+00:03:48,480 --> 00:03:53,680
+and again you have your cost up here um
+
+91
+00:03:51,080 --> 00:03:55,680
+so things are typically quadratic and so
+
+92
+00:03:53,680 --> 00:03:59,200
+the question is why is that why haven't
+
+93
+00:03:55,680 --> 00:04:03,200
+we been able to to look at other things
+
+94
+00:03:59,200 --> 00:04:05,280
+um and so let me begin to slowly go into
+
+95
+00:04:03,200 --> 00:04:08,040
+this um so I'm going to take a very
+
+96
+00:04:05,280 --> 00:04:10,400
+simple example to begin with so this is
+
+97
+00:04:08,040 --> 00:04:12,120
+just a you know linear time invariant
+
+98
+00:04:10,400 --> 00:04:15,040
+State space model that's what I'll stick
+
+99
+00:04:12,120 --> 00:04:17,519
+through throughout this talk um X is the
+
+100
+00:04:15,040 --> 00:04:19,320
+state U is the control it's an
+
+101
+00:04:17,519 --> 00:04:21,720
+n-dimensional state in this case it's a
+
+102
+00:04:19,320 --> 00:04:24,720
+scalar control signal there's some
+
+103
+00:04:21,720 --> 00:04:26,560
+initial state which we assume we know
+
+104
+00:04:24,720 --> 00:04:28,680
+and so the the classical linear
+
+105
+00:04:26,560 --> 00:04:30,120
+quadratic regulator problem just
+
+106
+00:04:28,680 --> 00:04:33,600
+attempts to minimize you have two
+
+107
+00:04:30,120 --> 00:04:36,759
+quadratic costs defined through two PSD
+
+108
+00:04:33,600 --> 00:04:39,000
+matrices R and Q quadratic on the state
+
+109
+00:04:36,759 --> 00:04:42,039
+quadratic on on the control and you want
+
+110
+00:04:39,000 --> 00:04:43,919
+to minimize this over this sequence of
+
+111
+00:04:42,039 --> 00:04:46,240
+of control so this is clearly just a
+
+112
+00:04:43,919 --> 00:04:48,800
+quadratic problem there's only one
+
+113
+00:04:46,240 --> 00:04:51,240
+unknown in it which is the initial state
+
+114
+00:04:48,800 --> 00:04:54,759
+so you can certainly do that um that's
+
+115
+00:04:51,240 --> 00:04:56,759
+the lqr problem now if I want to like
+
+116
+00:04:54,759 --> 00:04:58,800
+look at this thing more generally well
+
+117
+00:04:56,759 --> 00:05:01,880
+clearly what I could do I can take two
+
+118
+00:04:58,800 --> 00:05:05,639
+general convex cost I'll use Q for the
+
+119
+00:05:01,880 --> 00:05:08,759
+state cost R for the control cost just
+
+120
+00:05:05,639 --> 00:05:11,800
+replace these quadratics by this and so
+
+121
+00:05:08,759 --> 00:05:13,840
+this is clearly again a quadratic cost
+
+122
+00:05:11,800 --> 00:05:15,919
+subject to a bunch of linear constraints
+
+123
+00:05:13,840 --> 00:05:19,919
+again the only unknown is X knot so this
+
+124
+00:05:15,919 --> 00:05:22,120
+is not a big deal you can solve this so
+
+125
+00:05:19,919 --> 00:05:26,080
+just to to spell it out a little bit
+
+126
+00:05:22,120 --> 00:05:28,240
+I'll take a very um special case this is
+
+127
+00:05:26,080 --> 00:05:30,880
+the lqr problem so I want to minimize
+
+128
+00:05:28,240 --> 00:05:33,840
+the quadratic cost subject to the state
+
+129
+00:05:30,880 --> 00:05:36,600
+space equations and here all I'm doing
+
+130
+00:05:33,840 --> 00:05:39,479
+is I'm going to replace this quadratic
+
+131
+00:05:36,600 --> 00:05:41,720
+cost here with an L1 so an L1 penalty on
+
+132
+00:05:39,479 --> 00:05:45,560
+the state and so those of you who know
+
+133
+00:05:41,720 --> 00:05:48,440
+L1 L1 pushes things to
+
+134
+00:05:45,560 --> 00:05:53,120
+sparsity um so when I do this I'll get
+
+135
+00:05:48,440 --> 00:05:55,319
+sparcity both in space across the um
+
+136
+00:05:53,120 --> 00:05:57,160
+State vectors but also across time
+
+137
+00:05:55,319 --> 00:05:59,639
+because you add the l1s it's essentially
+
+138
+00:05:57,160 --> 00:06:01,400
+the L1 Norm of an aggregated Vector so
+
+139
+00:05:59,639 --> 00:06:03,960
+so I expect that this will give me
+
+140
+00:06:01,400 --> 00:06:05,759
+somewhat sparse Solutions and so this
+
+141
+00:06:03,960 --> 00:06:08,680
+these are both convex optimization
+
+142
+00:06:05,759 --> 00:06:10,400
+problems I can solve them and here is
+
+143
+00:06:08,680 --> 00:06:12,199
+what you get if you just solve what I
+
+144
+00:06:10,400 --> 00:06:14,639
+wrote there this is for some fifth order
+
+145
+00:06:12,199 --> 00:06:18,280
+system the system doesn't matter the
+
+146
+00:06:14,639 --> 00:06:20,280
+blue curve is so I'm here writing the
+
+147
+00:06:18,280 --> 00:06:23,880
+magnitude the torm if you will of the
+
+148
+00:06:20,280 --> 00:06:27,080
+state the blue curve is what you get
+
+149
+00:06:23,880 --> 00:06:28,560
+from lqr it's a linear controller you
+
+150
+00:06:27,080 --> 00:06:30,720
+know when you have linear systems
+
+151
+00:06:28,560 --> 00:06:33,960
+everything decays X exponentially that's
+
+152
+00:06:30,720 --> 00:06:37,000
+what happens the L1 controller the one
+
+153
+00:06:33,960 --> 00:06:38,880
+that has the L1 on the state at the
+
+154
+00:06:37,000 --> 00:06:41,280
+beginning doesn't do as well but it
+
+155
+00:06:38,880 --> 00:06:43,440
+pushes the state absolutely to zero
+
+156
+00:06:41,280 --> 00:06:47,039
+after 25 steps it it wants something
+
+157
+00:06:43,440 --> 00:06:49,360
+that's sparse it it will do that in fact
+
+158
+00:06:47,039 --> 00:06:51,560
+you know if I put a weight in front of
+
+159
+00:06:49,360 --> 00:06:54,720
+this Matrix or excuse me in front of
+
+160
+00:06:51,560 --> 00:06:57,800
+this L1 norm and Crank It
+
+161
+00:06:54,720 --> 00:07:00,160
+Up um this happens earlier and earlier
+
+162
+00:06:57,800 --> 00:07:02,199
+and if you Crank It Up sufficiently at
+
+163
+00:07:00,160 --> 00:07:04,160
+some point it will set the state to zero
+
+164
+00:07:02,199 --> 00:07:06,120
+after five steps which because the
+
+165
+00:07:04,160 --> 00:07:08,680
+system I was looking at was controllable
+
+166
+00:07:06,120 --> 00:07:11,120
+is the shortest amount of time required
+
+167
+00:07:08,680 --> 00:07:13,560
+to push the state to zero so the point I
+
+168
+00:07:11,120 --> 00:07:16,240
+want to make is that you know this is
+
+169
+00:07:13,560 --> 00:07:18,520
+not just you know for curiosity you can
+
+170
+00:07:16,240 --> 00:07:21,000
+get behaviors that are very different
+
+171
+00:07:18,520 --> 00:07:23,560
+from what you get from lqr by just
+
+172
+00:07:21,000 --> 00:07:25,240
+changing that cost to an L1 this is now
+
+173
+00:07:23,560 --> 00:07:27,840
+something that is going to push the
+
+174
+00:07:25,240 --> 00:07:32,039
+state to zero earlier yes sorry what's
+
+175
+00:07:27,840 --> 00:07:34,319
+the control doing and that's SP driven I
+
+176
+00:07:32,039 --> 00:07:35,680
+I I will show you later when I add noise
+
+177
+00:07:34,319 --> 00:07:37,720
+I I will show you that in much more
+
+178
+00:07:35,680 --> 00:07:39,240
+detail this is just this is all
+
+179
+00:07:37,720 --> 00:07:42,759
+motivation but that's an excellent
+
+180
+00:07:39,240 --> 00:07:44,720
+question it will be doing more of course
+
+181
+00:07:42,759 --> 00:07:47,319
+but but I will show you all of that um
+
+182
+00:07:44,720 --> 00:07:49,280
+thank you okay so you know you can do
+
+183
+00:07:47,319 --> 00:07:51,800
+other crazy things and so I'll maybe go
+
+184
+00:07:49,280 --> 00:07:54,639
+over this quickly I can put for example
+
+185
+00:07:51,800 --> 00:07:57,680
+a peak bound on the
+
+186
+00:07:54,639 --> 00:08:00,080
+control you know so I can say if my
+
+187
+00:07:57,680 --> 00:08:02,840
+control is within an interval of
+
+188
+00:08:00,080 --> 00:08:05,759
+you know Delta I will penalize it
+
+189
+00:08:02,840 --> 00:08:07,280
+quadratically but if you exceed this you
+
+190
+00:08:05,759 --> 00:08:09,400
+you're not allowed to exceed this I'm
+
+191
+00:08:07,280 --> 00:08:12,120
+going to give infinite penalty to that
+
+192
+00:08:09,400 --> 00:08:14,840
+again this is convex I can put my L1
+
+193
+00:08:12,120 --> 00:08:17,759
+Norm here I can add that I can solve
+
+194
+00:08:14,840 --> 00:08:19,919
+this so convex
+
+195
+00:08:17,759 --> 00:08:23,159
+optimization um and then here is an
+
+196
+00:08:19,919 --> 00:08:24,639
+answer to your question um so so here
+
+197
+00:08:23,159 --> 00:08:26,720
+again I have the magnitude of the state
+
+198
+00:08:24,639 --> 00:08:29,599
+this is the second order system here the
+
+199
+00:08:26,720 --> 00:08:32,399
+red is the lqr
+
+200
+00:08:29,599 --> 00:08:34,080
+the blue is what this controller does
+
+201
+00:08:32,399 --> 00:08:36,279
+again it pushed it absolutely to zero
+
+202
+00:08:34,080 --> 00:08:38,640
+after five but because I had a
+
+203
+00:08:36,279 --> 00:08:42,080
+constraint on the magnitude of the
+
+204
+00:08:38,640 --> 00:08:44,760
+control at the beginning because the lqr
+
+205
+00:08:42,080 --> 00:08:48,000
+applied a pretty large control this one
+
+206
+00:08:44,760 --> 00:08:49,920
+couldn't the performance got a bit worse
+
+207
+00:08:48,000 --> 00:08:51,839
+before it you know got in better and
+
+208
+00:08:49,920 --> 00:08:53,560
+here you're you're it's exactly your
+
+209
+00:08:51,839 --> 00:08:55,959
+question you can see what the lqr
+
+210
+00:08:53,560 --> 00:08:57,600
+controller did and what this controller
+
+211
+00:08:55,959 --> 00:09:00,440
+did and so once you hit zero it doesn't
+
+212
+00:08:57,600 --> 00:09:02,519
+have to do anything after that um so you
+
+213
+00:09:00,440 --> 00:09:04,160
+can do in principle you know so why am I
+
+214
+00:09:02,519 --> 00:09:07,320
+even giving this talk I just showed you
+
+215
+00:09:04,160 --> 00:09:09,000
+you can put you know convex costs and
+
+216
+00:09:07,320 --> 00:09:12,240
+you can get behaviors that are
+
+217
+00:09:09,000 --> 00:09:13,959
+qualitatively different than what you
+
+218
+00:09:12,240 --> 00:09:15,640
+get with an lqr controller and there may
+
+219
+00:09:13,959 --> 00:09:17,160
+be reasons why you want to do this I
+
+220
+00:09:15,640 --> 00:09:19,399
+might have a control system where in
+
+221
+00:09:17,160 --> 00:09:22,959
+fact I do have a peak constraint on the
+
+222
+00:09:19,399 --> 00:09:24,920
+control um so these these make sense
+
+223
+00:09:22,959 --> 00:09:27,399
+from a from a practical point of view
+
+224
+00:09:24,920 --> 00:09:29,720
+certainly so what is the issue why am I
+
+225
+00:09:27,399 --> 00:09:31,880
+giving a talk
+
+226
+00:09:29,720 --> 00:09:33,959
+um so there's you know as I said you can
+
+227
+00:09:31,880 --> 00:09:35,320
+get these exotic controllers if you want
+
+228
+00:09:33,959 --> 00:09:38,040
+through convex
+
+229
+00:09:35,320 --> 00:09:42,760
+optimization um but there's at least two
+
+230
+00:09:38,040 --> 00:09:45,160
+issues the first is you know um for a
+
+231
+00:09:42,760 --> 00:09:48,040
+fixed Horizon if I want to solve these
+
+232
+00:09:45,160 --> 00:09:49,720
+problems is a convex optimization uh
+
+233
+00:09:48,040 --> 00:09:52,920
+there's quite a bit of complexity the
+
+234
+00:09:49,720 --> 00:09:54,680
+complexity grows polom in the Horizon T
+
+235
+00:09:52,920 --> 00:09:58,279
+typically like T
+
+236
+00:09:54,680 --> 00:10:00,320
+cubed um so that could be problematic
+
+237
+00:09:58,279 --> 00:10:02,399
+the lqr Sol solution because it has
+
+238
+00:10:00,320 --> 00:10:05,560
+dynamic programming built into it is
+
+239
+00:10:02,399 --> 00:10:08,000
+actually the complexity grows linearly
+
+240
+00:10:05,560 --> 00:10:10,560
+with the Horizon not not not cubically
+
+241
+00:10:08,000 --> 00:10:12,519
+so it's much better but in particular we
+
+242
+00:10:10,560 --> 00:10:15,079
+cannot solve infinite Horizon problems
+
+243
+00:10:12,519 --> 00:10:17,079
+this way and if you want to there's no
+
+244
+00:10:15,079 --> 00:10:21,079
+stability guarantees with this so people
+
+245
+00:10:17,079 --> 00:10:22,680
+do like you know I don't know what they
+
+246
+00:10:21,079 --> 00:10:24,720
+call them but they do these things in
+
+247
+00:10:22,680 --> 00:10:26,399
+blocks and Stitch them together and hope
+
+248
+00:10:24,720 --> 00:10:30,440
+that everything works and who knows if
+
+249
+00:10:26,399 --> 00:10:33,000
+it does um but the bigger issue
+
+250
+00:10:30,440 --> 00:10:37,639
+is that you know any respectable
+
+251
+00:10:33,000 --> 00:10:39,000
+system has noise in it okay um so
+
+252
+00:10:37,639 --> 00:10:41,000
+there's there's a noise there's
+
+253
+00:10:39,000 --> 00:10:42,680
+something also you know disturbing the
+
+254
+00:10:41,000 --> 00:10:44,839
+system that you're not fully aware of
+
+255
+00:10:42,680 --> 00:10:47,079
+and typically you know people say this
+
+256
+00:10:44,839 --> 00:10:49,519
+is maybe zero mean and IID and that's
+
+257
+00:10:47,079 --> 00:10:51,079
+what I will assume um and so this
+
+258
+00:10:49,519 --> 00:10:53,720
+precludes us from doing a simple
+
+259
+00:10:51,079 --> 00:10:55,279
+deterministic optimization because in
+
+260
+00:10:53,720 --> 00:10:57,839
+the previous case the only unknown was
+
+261
+00:10:55,279 --> 00:11:00,079
+the initial State here there's this
+
+262
+00:10:57,839 --> 00:11:01,959
+process constantly hitting me which is
+
+263
+00:11:00,079 --> 00:11:03,360
+which is unknown and so the way you have
+
+264
+00:11:01,959 --> 00:11:05,600
+to deal with
+
+265
+00:11:03,360 --> 00:11:08,279
+that
+
+266
+00:11:05,600 --> 00:11:10,240
+um of course is you you can no longer
+
+267
+00:11:08,279 --> 00:11:12,440
+Talk of the cost but you now have to
+
+268
+00:11:10,240 --> 00:11:16,000
+talk of the expected
+
+269
+00:11:12,440 --> 00:11:17,200
+cost um over you know the the randomness
+
+270
+00:11:16,000 --> 00:11:19,839
+in the
+
+271
+00:11:17,200 --> 00:11:22,839
+disturbances you also need to be very
+
+272
+00:11:19,839 --> 00:11:25,120
+careful about what information is
+
+273
+00:11:22,839 --> 00:11:27,880
+available to the controller um in the
+
+274
+00:11:25,120 --> 00:11:30,160
+previous case the only Known Unknown was
+
+275
+00:11:27,880 --> 00:11:31,760
+X notot so all the control signals at
+
+276
+00:11:30,160 --> 00:11:34,079
+different times could be a function of X
+
+277
+00:11:31,760 --> 00:11:35,720
+notot it was not a problem once you're
+
+278
+00:11:34,079 --> 00:11:38,160
+in this setting with noise it really
+
+279
+00:11:35,720 --> 00:11:40,519
+depends on what the controller knows and
+
+280
+00:11:38,160 --> 00:11:42,399
+for the majority of this talk to make
+
+281
+00:11:40,519 --> 00:11:44,720
+things simple I'll say a few words about
+
+282
+00:11:42,399 --> 00:11:46,360
+more General cases at the end I'm going
+
+283
+00:11:44,720 --> 00:11:48,600
+to assume something that's called a full
+
+284
+00:11:46,360 --> 00:11:51,600
+information controller which means that
+
+285
+00:11:48,600 --> 00:11:53,560
+the control signal at time I gets to see
+
+286
+00:11:51,600 --> 00:11:55,120
+the state of the system it doesn't see
+
+287
+00:11:53,560 --> 00:11:58,720
+the disturbance but it sees the state of
+
+288
+00:11:55,120 --> 00:12:00,440
+the system so it it's its control is
+
+289
+00:11:58,720 --> 00:12:02,000
+allowed to be a function of all the
+
+290
+00:12:00,440 --> 00:12:05,200
+states it's seen which are all the
+
+291
+00:12:02,000 --> 00:12:07,320
+states XJ up to the current time okay so
+
+292
+00:12:05,200 --> 00:12:10,040
+that is that is the information
+
+293
+00:12:07,320 --> 00:12:11,959
+available and so when you think of this
+
+294
+00:12:10,040 --> 00:12:14,440
+kind of setting the optimal control is
+
+295
+00:12:11,959 --> 00:12:17,160
+not really a signal it's really a policy
+
+296
+00:12:14,440 --> 00:12:20,199
+so it's really you know based on my
+
+297
+00:12:17,160 --> 00:12:23,079
+observations how do I you know it's
+
+298
+00:12:20,199 --> 00:12:25,079
+really these collections of functions F
+
+299
+00:12:23,079 --> 00:12:28,560
+that that that determine the control so
+
+300
+00:12:25,079 --> 00:12:30,839
+I'm looking for a policy now okay and so
+
+301
+00:12:28,560 --> 00:12:33,000
+if I just want to write it up this is
+
+302
+00:12:30,839 --> 00:12:35,519
+the optimization problem that we want to
+
+303
+00:12:33,000 --> 00:12:38,240
+solve we still have the constraints
+
+304
+00:12:35,519 --> 00:12:41,040
+there's noise here now and I'm looking
+
+305
+00:12:38,240 --> 00:12:44,399
+at minimizing over this policy the
+
+306
+00:12:41,040 --> 00:12:46,839
+expected value of say this convex cost
+
+307
+00:12:44,399 --> 00:12:48,360
+okay so that's what we like to do now I
+
+308
+00:12:46,839 --> 00:12:50,639
+want to convince you that even though
+
+309
+00:12:48,360 --> 00:12:53,399
+this looks very easy it's easy to write
+
+310
+00:12:50,639 --> 00:12:55,639
+it's actually very difficult to solve
+
+311
+00:12:53,399 --> 00:12:57,959
+and so to do this I can show the
+
+312
+00:12:55,639 --> 00:12:59,600
+difficulty in just a very simple toy
+
+313
+00:12:57,959 --> 00:13:01,760
+example so let me assume this system is
+
+314
+00:12:59,600 --> 00:13:04,760
+scaler X is a
+
+315
+00:13:01,760 --> 00:13:07,800
+scaler um control is a scaler the noise
+
+316
+00:13:04,760 --> 00:13:09,800
+is a scaler let's assume it's it's
+
+317
+00:13:07,800 --> 00:13:12,600
+gausian standard
+
+318
+00:13:09,800 --> 00:13:15,720
+normal um I'm going to assume the the
+
+319
+00:13:12,600 --> 00:13:17,199
+cost on the control is simple quadratic
+
+320
+00:13:15,720 --> 00:13:19,320
+and I'm going to assume the cost on the
+
+321
+00:13:17,199 --> 00:13:22,360
+state is the absolute value so it's the
+
+322
+00:13:19,320 --> 00:13:25,199
+one Norm for a scaler and you'll see
+
+323
+00:13:22,360 --> 00:13:26,880
+already this will become complicated now
+
+324
+00:13:25,199 --> 00:13:29,360
+when you're looking at this problem this
+
+325
+00:13:26,880 --> 00:13:30,959
+is over Horizon T the way we saw solve
+
+326
+00:13:29,360 --> 00:13:33,959
+this is dynamic programming you note
+
+327
+00:13:30,959 --> 00:13:37,000
+that the last control signal at UT it
+
+328
+00:13:33,959 --> 00:13:41,160
+only influences the last the state at
+
+329
+00:13:37,000 --> 00:13:43,199
+t+1 and so um in order to find the last
+
+330
+00:13:41,160 --> 00:13:48,160
+policy I just need to look at the last
+
+331
+00:13:43,199 --> 00:13:50,959
+terms in this um in that sum and so this
+
+332
+00:13:48,160 --> 00:13:53,120
+is how you find UT so I need to take the
+
+333
+00:13:50,959 --> 00:13:55,720
+expectation that's the absolute value
+
+334
+00:13:53,120 --> 00:13:58,519
+term this is the quadratic on the on the
+
+335
+00:13:55,720 --> 00:14:00,720
+control um and so in this expectation
+
+336
+00:13:58,519 --> 00:14:03,160
+because I'm sitting at time T the
+
+337
+00:14:00,720 --> 00:14:06,240
+controller Knows X it's going to decide
+
+338
+00:14:03,160 --> 00:14:08,680
+on what U is so the only Randomness here
+
+339
+00:14:06,240 --> 00:14:11,480
+is the noise that hits you right now
+
+340
+00:14:08,680 --> 00:14:14,279
+okay so this expectation is over this W
+
+341
+00:14:11,480 --> 00:14:17,040
+which is a standard normal now if you
+
+342
+00:14:14,279 --> 00:14:19,279
+sweat or you look up some book or
+
+343
+00:14:17,040 --> 00:14:21,600
+something it turns out you know one can
+
+344
+00:14:19,279 --> 00:14:23,399
+find the expectation of the absolute
+
+345
+00:14:21,600 --> 00:14:26,040
+value against the gaus and it has an
+
+346
+00:14:23,399 --> 00:14:28,519
+exponential term it has a q function Q
+
+347
+00:14:26,040 --> 00:14:30,440
+is the tail of a gausian this is the
+
+348
+00:14:28,519 --> 00:14:32,560
+formula for for it it ends up being a
+
+349
+00:14:30,440 --> 00:14:35,320
+function of the absolute value of this
+
+350
+00:14:32,560 --> 00:14:37,720
+deterministic part and here of course is
+
+351
+00:14:35,320 --> 00:14:40,600
+that and so I have to minimize this this
+
+352
+00:14:37,720 --> 00:14:42,959
+is convex so I can numerically minimize
+
+353
+00:14:40,600 --> 00:14:46,160
+it if I know what x is and a and b I
+
+354
+00:14:42,959 --> 00:14:48,519
+know um and so you minimize it you get
+
+355
+00:14:46,160 --> 00:14:52,360
+your U okay so I can I can numerically
+
+356
+00:14:48,519 --> 00:14:54,839
+compute this and I can take this U and I
+
+357
+00:14:52,360 --> 00:14:57,480
+can plug it in and I'll call this thing
+
+358
+00:14:54,839 --> 00:15:00,079
+M this is like the cost to go so if I'm
+
+359
+00:14:57,480 --> 00:15:03,279
+sitting at time capital t T and I
+
+360
+00:15:00,079 --> 00:15:05,560
+minimize this from the vantage point of
+
+361
+00:15:03,279 --> 00:15:07,240
+the time before me this is the optimal
+
+362
+00:15:05,560 --> 00:15:09,639
+cost to go it's sometimes called the
+
+363
+00:15:07,240 --> 00:15:11,959
+value function and as I said you can
+
+364
+00:15:09,639 --> 00:15:14,040
+numerically compute it but I don't know
+
+365
+00:15:11,959 --> 00:15:16,079
+it in closed form already you know with
+
+366
+00:15:14,040 --> 00:15:18,920
+with before the minimization it already
+
+367
+00:15:16,079 --> 00:15:20,680
+had Q functions and whatever in it um
+
+368
+00:15:18,920 --> 00:15:23,279
+and so the challenge is now if I go to
+
+369
+00:15:20,680 --> 00:15:26,240
+the next step so if I want to find the
+
+370
+00:15:23,279 --> 00:15:29,839
+control at UT minus one I have to take
+
+371
+00:15:26,240 --> 00:15:32,040
+this optimal cost to go and add it to my
+
+372
+00:15:29,839 --> 00:15:34,319
+current cost this is dynamic
+
+373
+00:15:32,040 --> 00:15:37,920
+programming um to get this expression
+
+374
+00:15:34,319 --> 00:15:39,920
+here and I've replaced XT in terms of UT
+
+375
+00:15:37,920 --> 00:15:41,560
+minus one the previous state and so on
+
+376
+00:15:39,920 --> 00:15:45,279
+and so here I have to do this
+
+377
+00:15:41,560 --> 00:15:46,800
+expectation over W UT minus one so this
+
+378
+00:15:45,279 --> 00:15:49,680
+part of it I know how to do it as Q
+
+379
+00:15:46,800 --> 00:15:51,880
+functions and everything this I don't
+
+380
+00:15:49,680 --> 00:15:53,759
+because the this m function I don't even
+
+381
+00:15:51,880 --> 00:15:55,680
+know it in closed form I have to compute
+
+382
+00:15:53,759 --> 00:15:58,560
+it and so the only way I can do this
+
+383
+00:15:55,680 --> 00:16:00,680
+expectation is through Monte Carlo so
+
+384
+00:15:58,560 --> 00:16:02,160
+every time you know I want to to find
+
+385
+00:16:00,680 --> 00:16:03,880
+out what it is either if I want the
+
+386
+00:16:02,160 --> 00:16:05,959
+gradient or the value to somehow
+
+387
+00:16:03,880 --> 00:16:08,079
+optimize this I have to generate
+
+388
+00:16:05,959 --> 00:16:10,160
+different realizations of w for each
+
+389
+00:16:08,079 --> 00:16:13,360
+realization I have to solve the problem
+
+390
+00:16:10,160 --> 00:16:14,839
+on the previous slide to find mome and
+
+391
+00:16:13,360 --> 00:16:17,519
+so this is cumbersome and you can
+
+392
+00:16:14,839 --> 00:16:19,720
+imagine if I do this two or three steps
+
+393
+00:16:17,519 --> 00:16:21,759
+I will have these nested optimizations
+
+394
+00:16:19,720 --> 00:16:25,560
+and it exponentially blows up in your
+
+395
+00:16:21,759 --> 00:16:27,639
+face and so nobody does this at best you
+
+396
+00:16:25,560 --> 00:16:30,079
+can do this for two three steps in
+
+397
+00:16:27,639 --> 00:16:31,720
+advance and sometimes people do this is
+
+398
+00:16:30,079 --> 00:16:34,800
+sometimes called receding Horizon
+
+399
+00:16:31,720 --> 00:16:36,639
+control so you make a control action
+
+400
+00:16:34,800 --> 00:16:39,040
+looking two steps into the future but
+
+401
+00:16:36,639 --> 00:16:40,959
+this is not something that you can do
+
+402
+00:16:39,040 --> 00:16:45,079
+okay so that's in a
+
+403
+00:16:40,959 --> 00:16:46,920
+nutshell um why no one does this okay
+
+404
+00:16:45,079 --> 00:16:48,839
+and so you might ask well what what is
+
+405
+00:16:46,920 --> 00:16:51,440
+going on in the quadratic case that
+
+406
+00:16:48,839 --> 00:16:53,759
+allows us to do everything and so let me
+
+407
+00:16:51,440 --> 00:16:55,680
+explain that because we will get cues
+
+408
+00:16:53,759 --> 00:16:58,920
+from that as we move move forward so in
+
+409
+00:16:55,680 --> 00:17:01,839
+the quadratic case if I look at time t
+
+410
+00:16:58,920 --> 00:17:04,919
+my costs are both quadratic the cost on
+
+411
+00:17:01,839 --> 00:17:07,640
+the uh control and on the state which I
+
+412
+00:17:04,919 --> 00:17:08,839
+have spelled out everything is quadratic
+
+413
+00:17:07,640 --> 00:17:11,120
+and so this
+
+414
+00:17:08,839 --> 00:17:14,319
+expectation is very easy to do because
+
+415
+00:17:11,120 --> 00:17:17,079
+if I take this quadratic and I expand it
+
+416
+00:17:14,319 --> 00:17:19,039
+out um there's a quadratic term these
+
+417
+00:17:17,079 --> 00:17:21,679
+are deterministic this is random and
+
+418
+00:17:19,039 --> 00:17:22,880
+zero mean so the deterministic terms
+
+419
+00:17:21,679 --> 00:17:25,880
+come
+
+420
+00:17:22,880 --> 00:17:28,480
+out there's cross terms involving this
+
+421
+00:17:25,880 --> 00:17:31,679
+random times this deterministic those in
+
+422
+00:17:28,480 --> 00:17:33,120
+expect a go to zero because W is zero
+
+423
+00:17:31,679 --> 00:17:36,520
+meain and so you're left with the
+
+424
+00:17:33,120 --> 00:17:38,360
+quadratic term in the random stuff which
+
+425
+00:17:36,520 --> 00:17:41,360
+has some expectation doesn't matter it's
+
+426
+00:17:38,360 --> 00:17:42,720
+not a function of you okay so so the
+
+427
+00:17:41,360 --> 00:17:45,799
+important thing is when things are
+
+428
+00:17:42,720 --> 00:17:48,880
+quadratic this expectation is Trivial
+
+429
+00:17:45,799 --> 00:17:50,280
+and essentially it amounts to dropping W
+
+430
+00:17:48,880 --> 00:17:53,400
+this is the term that
+
+431
+00:17:50,280 --> 00:17:55,600
+matters and so your optimization now is
+
+432
+00:17:53,400 --> 00:17:57,880
+just a simple quadratic
+
+433
+00:17:55,600 --> 00:18:00,120
+optimization um you can take derivatives
+
+434
+00:17:57,880 --> 00:18:03,559
+or complete squar or whatever you get a
+
+435
+00:18:00,120 --> 00:18:07,320
+control law which is now linear in the
+
+436
+00:18:03,559 --> 00:18:10,000
+state and then this you can plug this
+
+437
+00:18:07,320 --> 00:18:12,200
+back into here or do sure complement or
+
+438
+00:18:10,000 --> 00:18:14,679
+whatever your favorite method is the
+
+439
+00:18:12,200 --> 00:18:17,960
+important thing is this cost to go is
+
+440
+00:18:14,679 --> 00:18:19,679
+quadratic it's a function of a and Q and
+
+441
+00:18:17,960 --> 00:18:22,480
+all the parameters but there's a center
+
+442
+00:18:19,679 --> 00:18:24,480
+Matrix sitting here it's quadratic and
+
+443
+00:18:22,480 --> 00:18:27,000
+because that's the case when I go to the
+
+444
+00:18:24,480 --> 00:18:30,360
+next step I just have to take this
+
+445
+00:18:27,000 --> 00:18:34,480
+quadratic cost to go add it to the
+
+446
+00:18:30,360 --> 00:18:36,240
+quadratic you know Q here which is my is
+
+447
+00:18:34,480 --> 00:18:38,159
+the current cost and then this is the
+
+448
+00:18:36,240 --> 00:18:39,480
+cost on the state so everything remains
+
+449
+00:18:38,159 --> 00:18:43,000
+quadratic I know how to do the
+
+450
+00:18:39,480 --> 00:18:46,760
+expectation here uh once I replace XT
+
+451
+00:18:43,000 --> 00:18:49,200
+with UT minus one and XT minus1 and WT
+
+452
+00:18:46,760 --> 00:18:50,919
+minus one so everything remains
+
+453
+00:18:49,200 --> 00:18:53,360
+quadratic you know I you know the
+
+454
+00:18:50,919 --> 00:18:55,360
+expectation keeps quadratic the
+
+455
+00:18:53,360 --> 00:18:57,280
+minimization keeps things quadratic and
+
+456
+00:18:55,360 --> 00:18:59,240
+so tracking what happens to this Center
+
+457
+00:18:57,280 --> 00:19:01,240
+Matrix this uh
+
+458
+00:18:59,240 --> 00:19:02,919
+object is really what this rotti
+
+459
+00:19:01,240 --> 00:19:04,720
+recursion is for those of you who know
+
+460
+00:19:02,919 --> 00:19:08,000
+what it is in in control it runs
+
+461
+00:19:04,720 --> 00:19:12,000
+backwards in time okay so things worked
+
+462
+00:19:08,000 --> 00:19:13,960
+out because both the expectation and the
+
+463
+00:19:12,000 --> 00:19:16,440
+deterministic minimization kept
+
+464
+00:19:13,960 --> 00:19:18,000
+everything quadratic we never got into
+
+465
+00:19:16,440 --> 00:19:19,720
+like more complicated and more
+
+466
+00:19:18,000 --> 00:19:22,240
+complicated functions where you know
+
+467
+00:19:19,720 --> 00:19:25,120
+after a while we just have to throw our
+
+468
+00:19:22,240 --> 00:19:27,520
+hands up everything was self-contained
+
+469
+00:19:25,120 --> 00:19:29,320
+and easy to to do recursion on so I
+
+470
+00:19:27,520 --> 00:19:33,360
+would like to mimic this
+
+471
+00:19:29,320 --> 00:19:35,480
+if possible and um before I go into how
+
+472
+00:19:33,360 --> 00:19:37,039
+to do that I will just make one comment
+
+473
+00:19:35,480 --> 00:19:38,559
+that I'm going to focus on infinite
+
+474
+00:19:37,039 --> 00:19:41,480
+Horizon problem so in the infinite
+
+475
+00:19:38,559 --> 00:19:45,080
+Horizon case it's the same control
+
+476
+00:19:41,480 --> 00:19:46,919
+policy full information causal um except
+
+477
+00:19:45,080 --> 00:19:49,039
+that the cost will be the following I
+
+478
+00:19:46,919 --> 00:19:51,880
+will look at a finite Horizon cost
+
+479
+00:19:49,039 --> 00:19:54,559
+divide by 1 /t take the expected cost
+
+480
+00:19:51,880 --> 00:19:55,919
+let T run to infinite this is the object
+
+481
+00:19:54,559 --> 00:19:58,360
+I will try to
+
+482
+00:19:55,919 --> 00:20:00,320
+minimize um and again I don't know if I
+
+483
+00:19:58,360 --> 00:20:02,159
+should show this if if you attempt to do
+
+484
+00:20:00,320 --> 00:20:05,159
+this then you get What's called the
+
+485
+00:20:02,159 --> 00:20:06,880
+Hamilton jacobe Bellman equation which
+
+486
+00:20:05,159 --> 00:20:09,520
+is essentially the following thing so
+
+487
+00:20:06,880 --> 00:20:11,559
+you're looking for M which is a value
+
+488
+00:20:09,520 --> 00:20:14,080
+function or cost to go which has the
+
+489
+00:20:11,559 --> 00:20:17,320
+property that when you take M and you
+
+490
+00:20:14,080 --> 00:20:19,679
+put in ax plus bu plus W in it so like
+
+491
+00:20:17,320 --> 00:20:21,240
+the current state this is the cost on
+
+492
+00:20:19,679 --> 00:20:24,679
+the state this is the cost on the
+
+493
+00:20:21,240 --> 00:20:27,760
+control I have to average over W or take
+
+494
+00:20:24,679 --> 00:20:31,200
+expectations over W minimize over U and
+
+495
+00:20:27,760 --> 00:20:33,520
+I have to get the same am back yes it
+
+496
+00:20:31,200 --> 00:20:36,640
+seems to me in continuous time this
+
+497
+00:20:33,520 --> 00:20:38,360
+would look I don't know more uh you get
+
+498
+00:20:36,640 --> 00:20:40,480
+more Trac yes I think you would I
+
+499
+00:20:38,360 --> 00:20:42,200
+haven't looked at it but you but you
+
+500
+00:20:40,480 --> 00:20:44,880
+would
+
+501
+00:20:42,200 --> 00:20:47,000
+um but thank you for that anyway so this
+
+502
+00:20:44,880 --> 00:20:48,520
+was just a side remark what I want to do
+
+503
+00:20:47,000 --> 00:20:50,919
+is really to try to connect to the
+
+504
+00:20:48,520 --> 00:20:52,480
+quadratic thing um and I will just say
+
+505
+00:20:50,919 --> 00:20:54,480
+one thing because it's important the
+
+506
+00:20:52,480 --> 00:20:57,200
+good thing about this is if it also
+
+507
+00:20:54,480 --> 00:20:59,400
+comes with a guarantee of stability
+
+508
+00:20:57,200 --> 00:21:03,520
+because um
+
+509
+00:20:59,400 --> 00:21:05,840
+this M plus Q I'll call it P is a liuna
+
+510
+00:21:03,520 --> 00:21:08,320
+function that guarantees stability but I
+
+511
+00:21:05,840 --> 00:21:10,279
+won't go into that okay so what is it
+
+512
+00:21:08,320 --> 00:21:11,960
+that I want to do so this is all
+
+513
+00:21:10,279 --> 00:21:14,640
+introduction for me to get to this
+
+514
+00:21:11,960 --> 00:21:16,320
+concept of bregman Divergence okay so if
+
+515
+00:21:14,640 --> 00:21:19,880
+there's one thing I want you to take
+
+516
+00:21:16,320 --> 00:21:21,559
+away from this talk is that the closest
+
+517
+00:21:19,880 --> 00:21:24,440
+thing to quadratics is bregman
+
+518
+00:21:21,559 --> 00:21:26,720
+Divergence and I I'll show you why so if
+
+519
+00:21:24,440 --> 00:21:27,919
+you have things that work for quadratics
+
+520
+00:21:26,720 --> 00:21:29,400
+and you're wondering whether they can
+
+521
+00:21:27,919 --> 00:21:32,000
+extend to any anything else I would
+
+522
+00:21:29,400 --> 00:21:34,039
+always try out prman Divergence okay so
+
+523
+00:21:32,000 --> 00:21:36,880
+how does this thing work so you start
+
+524
+00:21:34,039 --> 00:21:38,799
+off with a convex differentiable
+
+525
+00:21:36,880 --> 00:21:41,840
+function some people insist that it be
+
+526
+00:21:38,799 --> 00:21:44,559
+strictly convex and I'll talk about that
+
+527
+00:21:41,840 --> 00:21:47,720
+um so this is called the potential s
+
+528
+00:21:44,559 --> 00:21:50,480
+it's it has to be differentiable or even
+
+529
+00:21:47,720 --> 00:21:54,720
+that can be relaxed um may or may not be
+
+530
+00:21:50,480 --> 00:21:57,039
+strictly convex okay and so the bregman
+
+531
+00:21:54,720 --> 00:21:59,240
+Divergence essentially what it is so
+
+532
+00:21:57,039 --> 00:22:01,640
+it's it's a function it has two inputs
+
+533
+00:21:59,240 --> 00:22:02,640
+in it and so the way you think of it is
+
+534
+00:22:01,640 --> 00:22:05,640
+this is
+
+535
+00:22:02,640 --> 00:22:08,760
+your say convex potential it's some
+
+536
+00:22:05,640 --> 00:22:11,960
+function so I look at the potential at
+
+537
+00:22:08,760 --> 00:22:15,679
+at the first argument and I subtract
+
+538
+00:22:11,960 --> 00:22:18,559
+from it the best linear approximation to
+
+539
+00:22:15,679 --> 00:22:20,720
+this function at the point w Prime at
+
+540
+00:22:18,559 --> 00:22:24,320
+the second Point okay so I'm sitting at
+
+541
+00:22:20,720 --> 00:22:26,520
+w Prime I draw this tangent to this
+
+542
+00:22:24,320 --> 00:22:29,520
+convex function and then I'm looking at
+
+543
+00:22:26,520 --> 00:22:34,080
+the difference between
+
+544
+00:22:29,520 --> 00:22:37,159
+the potential itself and its first order
+
+545
+00:22:34,080 --> 00:22:39,720
+approximation now since this function is
+
+546
+00:22:37,159 --> 00:22:42,200
+convex you know the tangents are always
+
+547
+00:22:39,720 --> 00:22:44,840
+below so this quantity is always non-
+
+548
+00:22:42,200 --> 00:22:46,559
+negative so bregman Divergence is an
+
+549
+00:22:44,840 --> 00:22:48,400
+immediate way where you know if if you
+
+550
+00:22:46,559 --> 00:22:50,080
+give me a convex function I can give you
+
+551
+00:22:48,400 --> 00:22:53,640
+something that's always non-
+
+552
+00:22:50,080 --> 00:22:56,000
+negative um through this and so this has
+
+553
+00:22:53,640 --> 00:22:58,679
+nice properties first of all it's clear
+
+554
+00:22:56,000 --> 00:23:02,840
+as I said it's not negative if you're St
+
+555
+00:22:58,679 --> 00:23:04,240
+L convex it's zero if and only if the
+
+556
+00:23:02,840 --> 00:23:06,279
+arguments
+
+557
+00:23:04,240 --> 00:23:08,320
+match that's why I prefer things that
+
+558
+00:23:06,279 --> 00:23:09,240
+are strictly convex because I I like
+
+559
+00:23:08,320 --> 00:23:11,080
+this
+
+560
+00:23:09,240 --> 00:23:15,440
+property
+
+561
+00:23:11,080 --> 00:23:17,279
+um so that's one thing um now there's
+
+562
+00:23:15,440 --> 00:23:20,760
+numerous examples of this so for example
+
+563
+00:23:17,279 --> 00:23:24,000
+if I take my potential to be squared
+
+564
+00:23:20,760 --> 00:23:26,400
+ukian distance the bregman Divergence is
+
+565
+00:23:24,000 --> 00:23:28,559
+just you know the difference or the
+
+566
+00:23:26,400 --> 00:23:30,960
+squared ukian
+
+567
+00:23:28,559 --> 00:23:33,600
+distance of the difference between um
+
+568
+00:23:30,960 --> 00:23:34,960
+the two arguments okay but you can take
+
+569
+00:23:33,600 --> 00:23:37,799
+anything else you want if you take
+
+570
+00:23:34,960 --> 00:23:39,480
+negative entropy which is convex then
+
+571
+00:23:37,799 --> 00:23:42,000
+you get K Divergence the bregman
+
+572
+00:23:39,480 --> 00:23:44,640
+Divergence for entropy is is KL
+
+573
+00:23:42,000 --> 00:23:46,679
+Divergence um but you know choose your
+
+574
+00:23:44,640 --> 00:23:47,880
+favorite convex function and so on so
+
+575
+00:23:46,679 --> 00:23:49,720
+these things are even though they're
+
+576
+00:23:47,880 --> 00:23:50,679
+non- negative they're Divergence they're
+
+577
+00:23:49,720 --> 00:23:52,600
+not
+
+578
+00:23:50,679 --> 00:23:55,039
+distances they there's no triangle
+
+579
+00:23:52,600 --> 00:23:56,760
+inequality so for clearly you know this
+
+580
+00:23:55,039 --> 00:23:58,440
+is not a distance it's the square of a
+
+581
+00:23:56,760 --> 00:24:00,120
+distance in this case um so that's
+
+582
+00:23:58,440 --> 00:24:01,840
+that's why it's a Divergence but why do
+
+583
+00:24:00,120 --> 00:24:04,559
+I care about this so if if you think
+
+584
+00:24:01,840 --> 00:24:06,120
+about what bregman Divergence is is
+
+585
+00:24:04,559 --> 00:24:08,159
+you're you're taking your convex
+
+586
+00:24:06,120 --> 00:24:10,640
+function and you're
+
+587
+00:24:08,159 --> 00:24:13,480
+subtracting the zeroth and first order
+
+588
+00:24:10,640 --> 00:24:15,760
+terms so everything that remains are
+
+589
+00:24:13,480 --> 00:24:18,559
+quadratics and higher and so that's why
+
+590
+00:24:15,760 --> 00:24:21,480
+it kind of behaves like quadratics and
+
+591
+00:24:18,559 --> 00:24:23,960
+let me show you some examples so we all
+
+592
+00:24:21,480 --> 00:24:26,320
+know hopefully from high school geometry
+
+593
+00:24:23,960 --> 00:24:27,880
+the law of cosines because you have a
+
+594
+00:24:26,320 --> 00:24:30,080
+triangle so if I'm interested in the
+
+595
+00:24:27,880 --> 00:24:33,279
+distance between W and W Prime and I
+
+596
+00:24:30,080 --> 00:24:36,000
+have this third Point here you know this
+
+597
+00:24:33,279 --> 00:24:38,559
+is this squared distance plus that
+
+598
+00:24:36,000 --> 00:24:40,320
+squared distance whatever minus the two
+
+599
+00:24:38,559 --> 00:24:42,600
+times the product of that so there's a
+
+600
+00:24:40,320 --> 00:24:45,320
+cosine I mean this is a whatever cosine
+
+601
+00:24:42,600 --> 00:24:48,080
+law there is a bregman Divergence
+
+602
+00:24:45,320 --> 00:24:49,679
+counterpart which is this so that's the
+
+603
+00:24:48,080 --> 00:24:51,279
+bregman Divergence that's a bregman
+
+604
+00:24:49,679 --> 00:24:54,880
+Divergence that's a bregman Divergence
+
+605
+00:24:51,279 --> 00:24:58,399
+this inner product takes this form so if
+
+606
+00:24:54,880 --> 00:25:00,200
+if if you take the square two Norm these
+
+607
+00:24:58,399 --> 00:25:02,720
+radians are just two times the weight
+
+608
+00:25:00,200 --> 00:25:04,399
+vector and you get that back okay so
+
+609
+00:25:02,720 --> 00:25:07,120
+this is
+
+610
+00:25:04,399 --> 00:25:09,440
+that more importantly for me there's a
+
+611
+00:25:07,120 --> 00:25:11,320
+completion of squares similar to what
+
+612
+00:25:09,440 --> 00:25:14,120
+happens for quadratics so if you have
+
+613
+00:25:11,320 --> 00:25:16,279
+two bregman Divergence terms there's a w
+
+614
+00:25:14,120 --> 00:25:18,000
+here and a w here with quadratics when
+
+615
+00:25:16,279 --> 00:25:19,960
+you do completion of squares what you
+
+616
+00:25:18,000 --> 00:25:22,440
+like to do is to bring these two
+
+617
+00:25:19,960 --> 00:25:23,679
+variables together under one quadratic
+
+618
+00:25:22,440 --> 00:25:25,919
+and then have the
+
+619
+00:25:23,679 --> 00:25:27,880
+leftovers so bregman Divergence there's
+
+620
+00:25:25,919 --> 00:25:29,679
+a formula similar to that so you get the
+
+621
+00:25:27,880 --> 00:25:32,840
+bregman Divergence for the sum of these
+
+622
+00:25:29,679 --> 00:25:34,760
+two w sits here but it's a bregman
+
+623
+00:25:32,840 --> 00:25:37,720
+Divergence to some W star and then you
+
+624
+00:25:34,760 --> 00:25:39,320
+get these two extra terms and W star is
+
+625
+00:25:37,720 --> 00:25:40,720
+found from this equation it's sometimes
+
+626
+00:25:39,320 --> 00:25:45,080
+called the normal
+
+627
+00:25:40,720 --> 00:25:47,080
+equation um and so it turns out when s 1
+
+628
+00:25:45,080 --> 00:25:50,039
+plus S 2 is strictly
+
+629
+00:25:47,080 --> 00:25:53,159
+convex this mapping defined through the
+
+630
+00:25:50,039 --> 00:25:54,679
+gradient of the potentials is invertible
+
+631
+00:25:53,159 --> 00:25:56,240
+and so there's a unique W star so
+
+632
+00:25:54,679 --> 00:25:59,080
+there's a completion of
+
+633
+00:25:56,240 --> 00:26:00,600
+squares so this and you know I've made
+
+634
+00:25:59,080 --> 00:26:04,200
+use of this but the thing that I will
+
+635
+00:26:00,600 --> 00:26:06,799
+make use of most is this next property
+
+636
+00:26:04,200 --> 00:26:10,960
+so again for quadratics let's assume V
+
+637
+00:26:06,799 --> 00:26:13,000
+is deterministic w Is Random okay and
+
+638
+00:26:10,960 --> 00:26:16,640
+let's say I want to take the expectation
+
+639
+00:26:13,000 --> 00:26:18,159
+of V minus W mod Square we all know the
+
+640
+00:26:16,640 --> 00:26:20,480
+trick we've seen this you know you add
+
+641
+00:26:18,159 --> 00:26:23,520
+and subtract the mean of
+
+642
+00:26:20,480 --> 00:26:25,640
+w um and so when you then expand things
+
+643
+00:26:23,520 --> 00:26:28,320
+out you get this term which is
+
+644
+00:26:25,640 --> 00:26:30,200
+deterministic there's no expectation the
+
+645
+00:26:28,320 --> 00:26:32,240
+last terms vanish because you've added
+
+646
+00:26:30,200 --> 00:26:35,399
+and subtracted the means you get these
+
+647
+00:26:32,240 --> 00:26:39,120
+zero mean terms and then the last term
+
+648
+00:26:35,399 --> 00:26:40,600
+is just W minus its expected value um
+
+649
+00:26:39,120 --> 00:26:43,440
+and you have to take this is random and
+
+650
+00:26:40,600 --> 00:26:45,240
+so it need some expectation okay but the
+
+651
+00:26:43,440 --> 00:26:47,440
+but the reason why this is important is
+
+652
+00:26:45,240 --> 00:26:50,799
+because this deterministic quantity got
+
+653
+00:26:47,440 --> 00:26:52,600
+separated out it's no longer under an
+
+654
+00:26:50,799 --> 00:26:54,840
+expectation okay so if I need to
+
+655
+00:26:52,600 --> 00:26:57,240
+optimize over it later on it's easy to
+
+656
+00:26:54,840 --> 00:26:59,480
+do I got rid of there is a bragman
+
+657
+00:26:57,240 --> 00:27:01,240
+Divergence counterpart part okay so if
+
+658
+00:26:59,480 --> 00:27:02,840
+I'm looking at the expected value of the
+
+659
+00:27:01,240 --> 00:27:04,399
+bregman Divergence between something
+
+660
+00:27:02,840 --> 00:27:06,000
+that's deterministic and something
+
+661
+00:27:04,399 --> 00:27:08,360
+that's
+
+662
+00:27:06,000 --> 00:27:10,080
+random the first term there's no
+
+663
+00:27:08,360 --> 00:27:11,480
+expectation in it it turns out it's just
+
+664
+00:27:10,080 --> 00:27:13,360
+the bregman Divergence between the
+
+665
+00:27:11,480 --> 00:27:14,720
+deterministic term and the thing that
+
+666
+00:27:13,360 --> 00:27:17,120
+you put here instead of being the
+
+667
+00:27:14,720 --> 00:27:18,320
+expected value of w you take the
+
+668
+00:27:17,120 --> 00:27:21,960
+expected
+
+669
+00:27:18,320 --> 00:27:25,360
+value of the gradient of the potential
+
+670
+00:27:21,960 --> 00:27:27,120
+evaluated at your random W so this
+
+671
+00:27:25,360 --> 00:27:28,880
+becomes deterministic after you take the
+
+672
+00:27:27,120 --> 00:27:31,039
+expected value and then you put it
+
+673
+00:27:28,880 --> 00:27:34,120
+through the inverse map of the
+
+674
+00:27:31,039 --> 00:27:36,240
+gradient okay and then the second term
+
+675
+00:27:34,120 --> 00:27:39,120
+which is kind of like this you just take
+
+676
+00:27:36,240 --> 00:27:42,000
+this quantity I described and you put
+
+677
+00:27:39,120 --> 00:27:43,960
+the bragman Divergence with the random W
+
+678
+00:27:42,000 --> 00:27:47,320
+so this term has Randomness in it so you
+
+679
+00:27:43,960 --> 00:27:48,960
+throw an expectation appr so this has no
+
+680
+00:27:47,320 --> 00:27:51,840
+Randomness in
+
+681
+00:27:48,960 --> 00:27:53,480
+it okay so this this this is this is
+
+682
+00:27:51,840 --> 00:27:55,080
+what essentially this is what I will use
+
+683
+00:27:53,480 --> 00:27:59,519
+it's the counterpart of
+
+684
+00:27:55,080 --> 00:28:02,279
+that okay so here is what we're going to
+
+685
+00:27:59,519 --> 00:28:06,360
+do um so this is the problem ideally I
+
+686
+00:28:02,279 --> 00:28:09,880
+would like to solve right I have um some
+
+687
+00:28:06,360 --> 00:28:13,880
+stochastic control problem with a convex
+
+688
+00:28:09,880 --> 00:28:15,919
+cost on the state a convex cost on the
+
+689
+00:28:13,880 --> 00:28:17,480
+control um and the problem is I don't
+
+690
+00:28:15,919 --> 00:28:20,240
+know how to do the expectation so I'm
+
+691
+00:28:17,480 --> 00:28:25,279
+going to say I'm not going to solve this
+
+692
+00:28:20,240 --> 00:28:25,279
+I'm going to solve this okay
+
+693
+00:28:25,399 --> 00:28:30,480
+so this second term I really being cous
+
+694
+00:28:28,679 --> 00:28:32,240
+because they're the same thing so I'm
+
+695
+00:28:30,480 --> 00:28:35,039
+going to take I'm going to assume my
+
+696
+00:28:32,240 --> 00:28:37,279
+potentials are convex let's say they're
+
+697
+00:28:35,039 --> 00:28:40,240
+non- Negative they hit their minimum at
+
+698
+00:28:37,279 --> 00:28:41,880
+zero I'm going to assume they're even
+
+699
+00:28:40,240 --> 00:28:44,960
+which is totally reasonable in control
+
+700
+00:28:41,880 --> 00:28:47,279
+there's no reason to differentiate
+
+701
+00:28:44,960 --> 00:28:49,919
+between positive and negative controls
+
+702
+00:28:47,279 --> 00:28:51,399
+or States let me assume that so this
+
+703
+00:28:49,919 --> 00:28:55,039
+thing here is just a bragman Divergence
+
+704
+00:28:51,399 --> 00:28:57,480
+between U and0 corresponding to R
+
+705
+00:28:55,039 --> 00:29:00,640
+because r at 0 is0 and the gradient at 0
+
+706
+00:28:57,480 --> 00:29:04,039
+is0 this is is just this but this term
+
+707
+00:29:00,640 --> 00:29:07,279
+I've changed quite a bit so rather than
+
+708
+00:29:04,039 --> 00:29:10,000
+minimize the convex function at this I'm
+
+709
+00:29:07,279 --> 00:29:12,399
+going to minimize the bregman Divergence
+
+710
+00:29:10,000 --> 00:29:16,080
+between this and that and note that this
+
+711
+00:29:12,399 --> 00:29:17,799
+is zero when you know the difference of
+
+712
+00:29:16,080 --> 00:29:20,519
+these which is the next state is zero so
+
+713
+00:29:17,799 --> 00:29:22,840
+I am penalizing the next state but I'm
+
+714
+00:29:20,519 --> 00:29:25,159
+penalizing it in this fashion I'm
+
+715
+00:29:22,840 --> 00:29:27,559
+putting all the deterministic stuff to
+
+716
+00:29:25,159 --> 00:29:30,519
+the left I'm putting all the random
+
+717
+00:29:27,559 --> 00:29:32,760
+stuff to to the right and this is really
+
+718
+00:29:30,519 --> 00:29:35,640
+the key so I've changed the problem on
+
+719
+00:29:32,760 --> 00:29:37,399
+you um and you'll see why as you can
+
+720
+00:29:35,640 --> 00:29:40,600
+imagine this expectation now will be
+
+721
+00:29:37,399 --> 00:29:42,559
+easy to do whereas the whole difficulty
+
+722
+00:29:40,600 --> 00:29:44,399
+with the one above was the expectation
+
+723
+00:29:42,559 --> 00:29:48,200
+was what you needed to bony Carlo and
+
+724
+00:29:44,399 --> 00:29:49,279
+all of that okay so let's do that so
+
+725
+00:29:48,200 --> 00:29:50,480
+again I'm going to do dynamic
+
+726
+00:29:49,279 --> 00:29:54,760
+programming I'm going to look at things
+
+727
+00:29:50,480 --> 00:29:58,200
+at time T yes can you say a few words
+
+728
+00:29:54,760 --> 00:30:00,960
+about how expressed that change
+
+729
+00:29:58,200 --> 00:30:03,159
+so so so okay so I will say this so when
+
+730
+00:30:00,960 --> 00:30:05,640
+the noise is small so you're looking at
+
+731
+00:30:03,159 --> 00:30:07,200
+the so if you look at the picture that I
+
+732
+00:30:05,640 --> 00:30:10,880
+had
+
+733
+00:30:07,200 --> 00:30:14,320
+earlier um you know so ideally you would
+
+734
+00:30:10,880 --> 00:30:16,919
+want to say minimize this you know
+
+735
+00:30:14,320 --> 00:30:19,600
+potential and I'm kind of expanding a
+
+736
+00:30:16,919 --> 00:30:21,880
+bit around it and so when your noise is
+
+737
+00:30:19,600 --> 00:30:23,559
+small when your second argument is close
+
+738
+00:30:21,880 --> 00:30:27,600
+to the first
+
+739
+00:30:23,559 --> 00:30:29,720
+argument um then this is a good the
+
+740
+00:30:27,600 --> 00:30:31,360
+farther way it is you you get a bit more
+
+741
+00:30:29,720 --> 00:30:34,760
+difference I don't know if that makes
+
+742
+00:30:31,360 --> 00:30:37,760
+sense to you so I mean not not not that
+
+743
+00:30:34,760 --> 00:30:41,640
+W Prime has to be close to W the closer
+
+744
+00:30:37,760 --> 00:30:44,559
+W Prime is to zero so if if your convex
+
+745
+00:30:41,640 --> 00:30:48,440
+potential had its minimum at zero at
+
+746
+00:30:44,559 --> 00:30:50,200
+zero you know the um the tangent is just
+
+747
+00:30:48,440 --> 00:30:52,880
+the all zero thing and so the bregman
+
+748
+00:30:50,200 --> 00:30:56,039
+Divergence is the potential that you
+
+749
+00:30:52,880 --> 00:30:59,639
+want as you move away from zero it
+
+750
+00:30:56,039 --> 00:31:03,080
+departs so for noise this is very close
+
+751
+00:30:59,639 --> 00:31:04,760
+to actually what you want um if the
+
+752
+00:31:03,080 --> 00:31:07,360
+noise term is bigger it's not it's
+
+753
+00:31:04,760 --> 00:31:09,039
+something else but but this is something
+
+754
+00:31:07,360 --> 00:31:11,240
+I always tell my students right I mean
+
+755
+00:31:09,039 --> 00:31:12,720
+we're Engineers right so we're not
+
+756
+00:31:11,240 --> 00:31:15,840
+mathematicians so this is a problem you
+
+757
+00:31:12,720 --> 00:31:17,919
+want to solve this is where the math is
+
+758
+00:31:15,840 --> 00:31:22,279
+if I'm really smart I move the math this
+
+759
+00:31:17,919 --> 00:31:24,039
+much and so the problem I bring you so
+
+760
+00:31:22,279 --> 00:31:27,000
+that's what I have
+
+761
+00:31:24,039 --> 00:31:29,519
+done um okay so this is the problem I'm
+
+762
+00:31:27,000 --> 00:31:31,240
+going to solve uh instead of looking at
+
+763
+00:31:29,519 --> 00:31:32,840
+this I'm going to insist this is what I
+
+764
+00:31:31,240 --> 00:31:36,360
+want to solve the bregman Divergence
+
+765
+00:31:32,840 --> 00:31:40,200
+between the deterministic part and the
+
+766
+00:31:36,360 --> 00:31:41,399
+random part for that for the potential
+
+767
+00:31:40,200 --> 00:31:43,600
+this is what I mean by bregman
+
+768
+00:31:41,399 --> 00:31:46,159
+Divergence control solving this problem
+
+769
+00:31:43,600 --> 00:31:48,399
+and I'm going to show you the what this
+
+770
+00:31:46,159 --> 00:31:50,039
+means hopefully if there's time so I
+
+771
+00:31:48,399 --> 00:31:51,960
+think I have to rush a little bit but
+
+772
+00:31:50,039 --> 00:31:54,639
+the point is if I now do the dynamic
+
+773
+00:31:51,960 --> 00:31:57,000
+programming if I look at time capital T
+
+774
+00:31:54,639 --> 00:31:58,799
+I need to do the expectation so I'll
+
+775
+00:31:57,000 --> 00:32:00,399
+just use the formula so this was
+
+776
+00:31:58,799 --> 00:32:03,080
+deterministic the only thing I have to
+
+777
+00:32:00,399 --> 00:32:06,360
+do is here I have to write the expected
+
+778
+00:32:03,080 --> 00:32:09,600
+value of the potential of Q at minus WT
+
+779
+00:32:06,360 --> 00:32:14,000
+and then invert it now the point is if W
+
+780
+00:32:09,600 --> 00:32:17,880
+is gaussian or if it has any even PDF Q
+
+781
+00:32:14,000 --> 00:32:19,880
+is even the gradient is odd so the
+
+782
+00:32:17,880 --> 00:32:23,039
+expectation of any odd function against
+
+783
+00:32:19,880 --> 00:32:28,240
+an even PDF is zero so this is
+
+784
+00:32:23,039 --> 00:32:30,320
+zero um and again because Q is even
+
+785
+00:32:28,240 --> 00:32:32,039
+uh the the the inverse gradient at zero
+
+786
+00:32:30,320 --> 00:32:33,440
+will also map to zero so this whole
+
+787
+00:32:32,039 --> 00:32:36,519
+thing becomes
+
+788
+00:32:33,440 --> 00:32:39,120
+zero and I had to put the same thing
+
+789
+00:32:36,519 --> 00:32:40,519
+here against minus WT so I just put zero
+
+790
+00:32:39,120 --> 00:32:43,480
+and again I don't even care about this
+
+791
+00:32:40,519 --> 00:32:47,519
+term because it's not has no u in
+
+792
+00:32:43,480 --> 00:32:49,120
+it and so lo and behold when I put zero
+
+793
+00:32:47,519 --> 00:32:50,960
+here the bregman Divergence between a
+
+794
+00:32:49,120 --> 00:32:52,279
+quantity and zero as I showed from the
+
+795
+00:32:50,960 --> 00:32:55,919
+figure is just
+
+796
+00:32:52,279 --> 00:32:58,279
+the um convex function that we wanted
+
+797
+00:32:55,919 --> 00:33:00,600
+and so my deterministic optimization is
+
+798
+00:32:58,279 --> 00:33:02,679
+this so it's just like the quadratic
+
+799
+00:33:00,600 --> 00:33:04,639
+case what happens is you just drop that
+
+800
+00:33:02,679 --> 00:33:07,360
+term which is what happened in the
+
+801
+00:33:04,639 --> 00:33:09,159
+quadratic Cas as well but an engineer
+
+802
+00:33:07,360 --> 00:33:10,919
+you could have made that step directly
+
+803
+00:33:09,159 --> 00:33:12,559
+yeah but then I would not have any
+
+804
+00:33:10,919 --> 00:33:14,799
+optimality I would not be able to say
+
+805
+00:33:12,559 --> 00:33:16,399
+what on Earth it is that I'm doing at
+
+806
+00:33:14,799 --> 00:33:18,840
+least I can tell you what it is I'm
+
+807
+00:33:16,399 --> 00:33:21,480
+doing and and there's a second step
+
+808
+00:33:18,840 --> 00:33:23,039
+which I as you will see is even more
+
+809
+00:33:21,480 --> 00:33:26,639
+critical
+
+810
+00:33:23,039 --> 00:33:28,559
+okay I I totally appreciate your comment
+
+811
+00:33:26,639 --> 00:33:30,440
+um okay so in princi I can do this
+
+812
+00:33:28,559 --> 00:33:32,320
+optimization now it's
+
+813
+00:33:30,440 --> 00:33:34,320
+deterministic maybe I can't do it in
+
+814
+00:33:32,320 --> 00:33:35,360
+closed form I don't know but I'll call
+
+815
+00:33:34,320 --> 00:33:38,320
+this thing
+
+816
+00:33:35,360 --> 00:33:41,360
+M and so now I want to do the next
+
+817
+00:33:38,320 --> 00:33:43,880
+step and so I have to take this guy
+
+818
+00:33:41,360 --> 00:33:47,159
+bring him here write XT in terms of UT
+
+819
+00:33:43,880 --> 00:33:49,039
+minus one bring in the next cost I do I
+
+820
+00:33:47,159 --> 00:33:50,960
+have to do expectation and I have to do
+
+821
+00:33:49,039 --> 00:33:53,000
+minimization so I know how to do the
+
+822
+00:33:50,960 --> 00:33:55,000
+expectation with this that was the whole
+
+823
+00:33:53,000 --> 00:33:59,240
+point of bregman Divergence to put it
+
+824
+00:33:55,000 --> 00:34:03,080
+here but I'm back to square one
+
+825
+00:33:59,240 --> 00:34:06,159
+um what do I do with that yes were you
+
+826
+00:34:03,080 --> 00:34:08,280
+I'm sorry um and so in order to the
+
+827
+00:34:06,159 --> 00:34:09,960
+expectation I need this thing to be a
+
+828
+00:34:08,280 --> 00:34:13,079
+bragman Divergence between the
+
+829
+00:34:09,960 --> 00:34:15,800
+deterministic part and the random part
+
+830
+00:34:13,079 --> 00:34:18,520
+that's the only way I can do the
+
+831
+00:34:15,800 --> 00:34:22,079
+expectation okay and there's only one
+
+832
+00:34:18,520 --> 00:34:22,079
+way that this can be a bragman
+
+833
+00:34:22,599 --> 00:34:28,399
+Divergence can anyone tell me or guess
+
+834
+00:34:25,359 --> 00:34:31,200
+what that is
+
+835
+00:34:28,399 --> 00:34:34,159
+so if I want the sum of the two things
+
+836
+00:34:31,200 --> 00:34:35,359
+or the difference of two things to be
+
+837
+00:34:34,159 --> 00:34:38,200
+the bregman
+
+838
+00:34:35,359 --> 00:34:39,879
+Divergence of those two things there's
+
+839
+00:34:38,200 --> 00:34:42,720
+only one way to do it and that's when
+
+840
+00:34:39,879 --> 00:34:45,359
+the thing is quadratic so if I want the
+
+841
+00:34:42,720 --> 00:34:49,079
+bregman Divergence between W and W Prime
+
+842
+00:34:45,359 --> 00:34:52,240
+to be a function of w minus W Prime the
+
+843
+00:34:49,079 --> 00:34:53,800
+only way that can happen is if the
+
+844
+00:34:52,240 --> 00:34:56,839
+function is
+
+845
+00:34:53,800 --> 00:35:00,800
+quadratic which means that I am going to
+
+846
+00:34:56,839 --> 00:35:03,599
+insist that the cost to go is quadratic
+
+847
+00:35:00,800 --> 00:35:06,960
+because if it's not again I'm
+
+848
+00:35:03,599 --> 00:35:08,400
+stuck okay so I I made two things I I
+
+849
+00:35:06,960 --> 00:35:10,960
+changed the problem to bregman
+
+850
+00:35:08,400 --> 00:35:14,079
+Divergence and I insisted that the cost
+
+851
+00:35:10,960 --> 00:35:16,960
+to go be quadratic because otherwise I'm
+
+852
+00:35:14,079 --> 00:35:19,119
+stuck okay so you might think I've
+
+853
+00:35:16,960 --> 00:35:22,000
+sacrificed the lot I I hope I convince
+
+854
+00:35:19,119 --> 00:35:24,880
+you that I haven't um okay so once you
+
+855
+00:35:22,000 --> 00:35:26,960
+do that the cost to go is quadratic this
+
+856
+00:35:24,880 --> 00:35:28,760
+is the equation and I tried to number it
+
+857
+00:35:26,960 --> 00:35:32,240
+and I don't know why Tech put a zero in
+
+858
+00:35:28,760 --> 00:35:34,040
+front of my number but um this is the
+
+859
+00:35:32,240 --> 00:35:38,000
+most important equation in this talk
+
+860
+00:35:34,040 --> 00:35:41,640
+this is the counterpart of the raati
+
+861
+00:35:38,000 --> 00:35:44,599
+equation um so I need I'll speak to this
+
+862
+00:35:41,640 --> 00:35:47,920
+equation quite a bit um and again this
+
+863
+00:35:44,599 --> 00:35:51,400
+quantity m + Q is a leuna function so if
+
+864
+00:35:47,920 --> 00:35:54,480
+you can solve this um stability is
+
+865
+00:35:51,400 --> 00:35:57,400
+guaranteed okay so I will say any triple
+
+866
+00:35:54,480 --> 00:35:59,480
+so any M that's PSD in fact I'll make it
+
+867
+00:35:57,400 --> 00:36:03,200
+POS positive definite in a moment and
+
+868
+00:35:59,480 --> 00:36:06,079
+any convex q andr that satisfy this
+
+869
+00:36:03,200 --> 00:36:07,640
+equation if I can find a Triple M QR
+
+870
+00:36:06,079 --> 00:36:11,200
+that satisfy this
+
+871
+00:36:07,640 --> 00:36:16,280
+equation um I can construct an optimal
+
+872
+00:36:11,200 --> 00:36:16,280
+stochastic prman Divergence control
+
+873
+00:36:16,920 --> 00:36:19,920
+yes
+
+874
+00:36:21,160 --> 00:36:27,920
+01ra M and M yes so so as you will see I
+
+875
+00:36:25,440 --> 00:36:31,480
+will not be able to willy-nilly choose Q
+
+876
+00:36:27,920 --> 00:36:33,400
+andr of okay what I will be able to do
+
+877
+00:36:31,480 --> 00:36:37,640
+is I as I'll show you many I can choose
+
+878
+00:36:33,400 --> 00:36:41,400
+one of them so let's say I want a uh
+
+879
+00:36:37,640 --> 00:36:44,160
+Peak constraint on the control I can
+
+880
+00:36:41,400 --> 00:36:46,319
+choose that I have a degree of Freedom
+
+881
+00:36:44,160 --> 00:36:48,560
+which is M because it's not as
+
+882
+00:36:46,319 --> 00:36:52,079
+meaningful to me and then based on that
+
+883
+00:36:48,560 --> 00:36:53,599
+I can see what Q's satisfy this equation
+
+884
+00:36:52,079 --> 00:36:56,079
+and then I'll look at them and I'll say
+
+885
+00:36:53,599 --> 00:36:58,960
+okay this is a reasonable Q or I might
+
+886
+00:36:56,079 --> 00:37:00,920
+choose a q for some reason and do this
+
+887
+00:36:58,960 --> 00:37:03,520
+choose M and as a function of M look at
+
+888
+00:37:00,920 --> 00:37:06,079
+what kind of RS I get and decide on but
+
+889
+00:37:03,520 --> 00:37:09,640
+I will not be able to choose them simult
+
+890
+00:37:06,079 --> 00:37:10,800
+things yes you're saying there are
+
+891
+00:37:09,640 --> 00:37:13,560
+nonquadratic
+
+892
+00:37:10,800 --> 00:37:15,839
+I will show you lots of them yes I will
+
+893
+00:37:13,560 --> 00:37:17,800
+show you lots yes yes yes so it gives
+
+894
+00:37:15,839 --> 00:37:19,280
+you a lot more flexibility than what you
+
+895
+00:37:17,800 --> 00:37:22,400
+had earlier I I'll show you many
+
+896
+00:37:19,280 --> 00:37:25,079
+examples Depending on time okay let me
+
+897
+00:37:22,400 --> 00:37:27,240
+say a few so I can parse out this
+
+898
+00:37:25,079 --> 00:37:29,440
+equation a little bit so you it'll it'll
+
+899
+00:37:27,240 --> 00:37:30,880
+be clear how I solve it and so to do
+
+900
+00:37:29,440 --> 00:37:33,319
+that I need to introduce this IDE of
+
+901
+00:37:30,880 --> 00:37:35,480
+fential duel many of you might have
+
+902
+00:37:33,319 --> 00:37:38,000
+heard so if I have a convex function f
+
+903
+00:37:35,480 --> 00:37:41,480
+its fental duel is defined in this way
+
+904
+00:37:38,000 --> 00:37:43,480
+you maximize over x x transpose Lambda
+
+905
+00:37:41,480 --> 00:37:46,720
+minus F so you're left with a function
+
+906
+00:37:43,480 --> 00:37:49,800
+of Lambda it's called the fenal duel I
+
+907
+00:37:46,720 --> 00:37:52,160
+can talk Lots about it I'm short on time
+
+908
+00:37:49,800 --> 00:37:53,920
+I'll only say it has certain properties
+
+909
+00:37:52,160 --> 00:37:56,599
+the Dual is
+
+910
+00:37:53,920 --> 00:37:58,880
+convex it the Dual of the Dual it's
+
+911
+00:37:56,599 --> 00:38:01,400
+itself so this is actually an involution
+
+912
+00:37:58,880 --> 00:38:05,960
+so it's appropriate to call it a
+
+913
+00:38:01,400 --> 00:38:08,160
+dual um for us if this F is even non-
+
+914
+00:38:05,960 --> 00:38:11,680
+negative with minimum at zero the same
+
+915
+00:38:08,160 --> 00:38:15,560
+is true for the The fential Duel this
+
+916
+00:38:11,680 --> 00:38:17,720
+will also be important for me the
+
+917
+00:38:15,560 --> 00:38:19,520
+inverse of the gradient of the function
+
+918
+00:38:17,720 --> 00:38:22,240
+f inverse here I mean viewing the
+
+919
+00:38:19,520 --> 00:38:25,520
+gradient as a mapping it's a vector um
+
+920
+00:38:22,240 --> 00:38:28,440
+if I view it as a mapping the inverse is
+
+921
+00:38:25,520 --> 00:38:30,160
+the gradient of the fenal dual
+
+922
+00:38:28,440 --> 00:38:32,119
+and if I look at
+
+923
+00:38:30,160 --> 00:38:33,920
+quadratics the fential Dual of a
+
+924
+00:38:32,119 --> 00:38:36,400
+quadratic is a quadratic where you
+
+925
+00:38:33,920 --> 00:38:39,400
+replace the center Matrix with its
+
+926
+00:38:36,400 --> 00:38:43,440
+inverse um so that's all I will
+
+927
+00:38:39,400 --> 00:38:45,880
+need and so let me now look at this
+
+928
+00:38:43,440 --> 00:38:48,599
+equation okay so I want to minimize over
+
+929
+00:38:45,880 --> 00:38:51,920
+U and I want to get back a
+
+930
+00:38:48,599 --> 00:38:53,599
+quadratic and so you know if if you look
+
+931
+00:38:51,920 --> 00:38:55,480
+at the optimality condition if I
+
+932
+00:38:53,599 --> 00:38:58,200
+differentiate with respect to you this
+
+933
+00:38:55,480 --> 00:39:00,760
+is what you get I don't expect you to
+
+934
+00:38:58,200 --> 00:39:02,800
+remember the equation you get this if
+
+935
+00:39:00,760 --> 00:39:05,240
+you differentiate with respect to X
+
+936
+00:39:02,800 --> 00:39:09,680
+because the equation was an identity
+
+937
+00:39:05,240 --> 00:39:13,000
+over X you get this doesn't matter um I
+
+938
+00:39:09,680 --> 00:39:15,079
+can eliminate this nasty quantity P if
+
+939
+00:39:13,000 --> 00:39:20,800
+you recall I had defined
+
+940
+00:39:15,079 --> 00:39:22,079
+as um Q + m anyway um you can eliminate
+
+941
+00:39:20,800 --> 00:39:24,839
+it you get
+
+942
+00:39:22,079 --> 00:39:29,119
+this um so it says the gradient of the
+
+943
+00:39:24,839 --> 00:39:30,880
+of the cost on the the control is this
+
+944
+00:39:29,119 --> 00:39:34,200
+quantity it's a linear function of X
+
+945
+00:39:30,880 --> 00:39:35,240
+depends on M but more importantly the
+
+946
+00:39:34,200 --> 00:39:37,599
+optimal
+
+947
+00:39:35,240 --> 00:39:39,280
+control you just invert this but
+
+948
+00:39:37,599 --> 00:39:42,359
+inverting this is just the gradient of
+
+949
+00:39:39,280 --> 00:39:44,079
+the fal du okay so what this shows is
+
+950
+00:39:42,359 --> 00:39:45,160
+significant because it shows the optimal
+
+951
+00:39:44,079 --> 00:39:48,119
+control
+
+952
+00:39:45,160 --> 00:39:50,880
+law is a nonlinear State feedback law
+
+953
+00:39:48,119 --> 00:39:55,480
+the control signal is a function of the
+
+954
+00:39:50,880 --> 00:39:59,000
+state it depends on the
+
+955
+00:39:55,480 --> 00:40:01,960
+um I guess Co cost on the control
+
+956
+00:39:59,000 --> 00:40:03,880
+through the gradient of its fental duel
+
+957
+00:40:01,960 --> 00:40:05,599
+it also depends on Q IND directly
+
+958
+00:40:03,880 --> 00:40:07,400
+through the M that satisfies the
+
+959
+00:40:05,599 --> 00:40:09,200
+equation that had q in it but it's a
+
+960
+00:40:07,400 --> 00:40:13,720
+nonlinear State
+
+961
+00:40:09,200 --> 00:40:15,400
+feedback um okay now I can say certain
+
+962
+00:40:13,720 --> 00:40:16,880
+other things so if I go back to this
+
+963
+00:40:15,400 --> 00:40:19,640
+equation this is the equation we wanted
+
+964
+00:40:16,880 --> 00:40:21,880
+to solve I'll skip if I go and I take
+
+965
+00:40:19,640 --> 00:40:24,240
+fental duels from both
+
+966
+00:40:21,880 --> 00:40:25,880
+sides uh you will end up with this
+
+967
+00:40:24,240 --> 00:40:29,000
+equation here so this is very nice it
+
+968
+00:40:25,880 --> 00:40:32,280
+says the fental Duel of this P plus the
+
+969
+00:40:29,000 --> 00:40:34,599
+fential Dual of the r has to be a
+
+970
+00:40:32,280 --> 00:40:37,040
+quadratic and so this is usually so we
+
+971
+00:40:34,599 --> 00:40:40,079
+usually solve these equations in the
+
+972
+00:40:37,040 --> 00:40:42,440
+Dual domain um so if I choose one of
+
+973
+00:40:40,079 --> 00:40:45,119
+these guys the other one is clear it's
+
+974
+00:40:42,440 --> 00:40:46,560
+just a quadratic minus the other that
+
+975
+00:40:45,119 --> 00:40:49,359
+that's how we will be solving these
+
+976
+00:40:46,560 --> 00:40:51,480
+things okay so here's the main theorem
+
+977
+00:40:49,359 --> 00:40:55,480
+here's your
+
+978
+00:40:51,480 --> 00:40:58,040
+system if you find convex functions QR
+
+979
+00:40:55,480 --> 00:40:59,680
+and a positive M that satisfy this
+
+980
+00:40:58,040 --> 00:41:01,359
+equation this is like the Hamilton
+
+981
+00:40:59,680 --> 00:41:04,560
+jacobe equation this was the definition
+
+982
+00:41:01,359 --> 00:41:07,160
+of p then this state feedback control
+
+983
+00:41:04,560 --> 00:41:09,680
+law which I described solves this
+
+984
+00:41:07,160 --> 00:41:11,319
+problem is the solution to this optimal
+
+985
+00:41:09,680 --> 00:41:14,160
+control problem the infinite Horizon
+
+986
+00:41:11,319 --> 00:41:15,119
+problem where you know my cost for
+
+987
+00:41:14,160 --> 00:41:17,440
+bregman
+
+988
+00:41:15,119 --> 00:41:20,200
+Divergence this is the
+
+989
+00:41:17,440 --> 00:41:22,880
+claim um and as I said the way we use
+
+990
+00:41:20,200 --> 00:41:24,720
+this theorem is depending on the
+
+991
+00:41:22,880 --> 00:41:27,000
+application you you have freedom to
+
+992
+00:41:24,720 --> 00:41:30,079
+choose either Q or R I'll give you many
+
+993
+00:41:27,000 --> 00:41:33,480
+examp examples if you choose Q then you
+
+994
+00:41:30,079 --> 00:41:35,760
+should find all RS and M's that satisfy
+
+995
+00:41:33,480 --> 00:41:38,599
+this equation which was point2 I guess
+
+996
+00:41:35,760 --> 00:41:40,480
+on the previous slide and then m is
+
+997
+00:41:38,599 --> 00:41:43,200
+really we don't really it's not as
+
+998
+00:41:40,480 --> 00:41:45,200
+meaningful the meaningful object is is R
+
+999
+00:41:43,200 --> 00:41:47,839
+the cost on the control if you've
+
+1000
+00:41:45,200 --> 00:41:49,839
+choosen C you tune M until you find an R
+
+1001
+00:41:47,839 --> 00:41:52,760
+that's acceptable and then you you write
+
+1002
+00:41:49,839 --> 00:41:54,960
+down your control if you choose R you do
+
+1003
+00:41:52,760 --> 00:41:58,079
+the same thing to find an acceptable q i
+
+1004
+00:41:54,960 --> 00:41:59,880
+I'll show you examples of this um very
+
+1005
+00:41:58,079 --> 00:42:02,839
+I just want to make a comment about what
+
+1006
+00:41:59,880 --> 00:42:06,079
+happens when um so what I looked at was
+
+1007
+00:42:02,839 --> 00:42:07,560
+the full information case in many cases
+
+1008
+00:42:06,079 --> 00:42:09,400
+what's more reasonable is I don't have
+
+1009
+00:42:07,560 --> 00:42:12,119
+access to the state what I have access
+
+1010
+00:42:09,400 --> 00:42:14,000
+to is a noisy observation of the state
+
+1011
+00:42:12,119 --> 00:42:16,119
+is sometimes called measurement
+
+1012
+00:42:14,000 --> 00:42:17,760
+feedback and so again if you look at the
+
+1013
+00:42:16,119 --> 00:42:19,960
+vantage point of the controller in the
+
+1014
+00:42:17,760 --> 00:42:23,359
+measurement case if I'm sitting at time
+
+1015
+00:42:19,960 --> 00:42:25,960
+I I don't know the State anymore but I
+
+1016
+00:42:23,359 --> 00:42:29,520
+can construct my best estimate of the
+
+1017
+00:42:25,960 --> 00:42:31,200
+state given the past observations that's
+
+1018
+00:42:29,520 --> 00:42:32,839
+the conditional mean of the current
+
+1019
+00:42:31,200 --> 00:42:35,000
+state given everything I've observed
+
+1020
+00:42:32,839 --> 00:42:37,640
+till the current time and this is very
+
+1021
+00:42:35,000 --> 00:42:39,640
+easy to find from the Colman filter and
+
+1022
+00:42:37,640 --> 00:42:41,720
+it and and what this state estimate is
+
+1023
+00:42:39,640 --> 00:42:43,559
+is kind of independent of well not the
+
+1024
+00:42:41,720 --> 00:42:47,599
+state estimate the error is independent
+
+1025
+00:42:43,559 --> 00:42:49,400
+of the control that I do but anyway um
+
+1026
+00:42:47,599 --> 00:42:51,599
+so I can take the state and I can write
+
+1027
+00:42:49,400 --> 00:42:53,960
+it as what I know and what I don't know
+
+1028
+00:42:51,599 --> 00:42:56,680
+which is the randomness this x Tilda is
+
+1029
+00:42:53,960 --> 00:42:58,880
+zero mean if everything is gausian it's
+
+1030
+00:42:56,680 --> 00:43:01,720
+gusan its Co Varian is known from the
+
+1031
+00:42:58,880 --> 00:43:03,480
+Colman filter all of that and so the
+
+1032
+00:43:01,720 --> 00:43:05,839
+optimal control problem that I will
+
+1033
+00:43:03,480 --> 00:43:08,760
+solve is now
+
+1034
+00:43:05,839 --> 00:43:11,079
+this so in my bregman Divergence term I
+
+1035
+00:43:08,760 --> 00:43:14,280
+put all the deterministic stuff to the
+
+1036
+00:43:11,079 --> 00:43:16,640
+left I put all the random stuff to the
+
+1037
+00:43:14,280 --> 00:43:18,599
+right so I'm looking the bregman
+
+1038
+00:43:16,640 --> 00:43:20,680
+Divergence you know so when when you
+
+1039
+00:43:18,599 --> 00:43:23,079
+when I take the difference of these two
+
+1040
+00:43:20,680 --> 00:43:26,000
+things it is the state XI + one but I've
+
+1041
+00:43:23,079 --> 00:43:28,480
+taken the state XI + one I've broken it
+
+1042
+00:43:26,000 --> 00:43:30,920
+up into its deterministic in random
+
+1043
+00:43:28,480 --> 00:43:33,680
+parts and I put the random Parts on the
+
+1044
+00:43:30,920 --> 00:43:36,640
+right and again I've done this just so I
+
+1045
+00:43:33,680 --> 00:43:38,800
+can do the expectation and so if you if
+
+1046
+00:43:36,640 --> 00:43:42,800
+you agree with this
+
+1047
+00:43:38,800 --> 00:43:44,839
+premise or you know agree to do this
+
+1048
+00:43:42,800 --> 00:43:46,440
+then the solution is exactly what I
+
+1049
+00:43:44,839 --> 00:43:49,400
+described to you earlier the equations
+
+1050
+00:43:46,440 --> 00:43:51,920
+for pqr are all the same the only
+
+1051
+00:43:49,400 --> 00:43:55,359
+difference is your control now is a
+
+1052
+00:43:51,920 --> 00:43:56,839
+function of xat same function of xat and
+
+1053
+00:43:55,359 --> 00:43:58,760
+so this is called certainty equivalence
+
+1054
+00:43:56,839 --> 00:44:02,079
+it holds in the quadratic case which
+
+1055
+00:43:58,760 --> 00:44:04,480
+says that if you don't know the state
+
+1056
+00:44:02,079 --> 00:44:06,440
+the controller can kind of ignore the
+
+1057
+00:44:04,480 --> 00:44:08,240
+estimation part and just plug in the
+
+1058
+00:44:06,440 --> 00:44:10,800
+best estimate of the state into its
+
+1059
+00:44:08,240 --> 00:44:12,440
+control and the estimator can ignore the
+
+1060
+00:44:10,800 --> 00:44:15,200
+control it can just run its column and
+
+1061
+00:44:12,440 --> 00:44:17,640
+filter whatever okay so that's all I
+
+1062
+00:44:15,200 --> 00:44:20,160
+want to say so measurement feedback is
+
+1063
+00:44:17,640 --> 00:44:21,599
+the same again provided you push all the
+
+1064
+00:44:20,160 --> 00:44:23,319
+randomness to the right all the
+
+1065
+00:44:21,599 --> 00:44:26,319
+determinism to the
+
+1066
+00:44:23,319 --> 00:44:29,800
+left I think I'm singing a Beyonce song
+
+1067
+00:44:26,319 --> 00:44:32,400
+or something about the left right
+
+1068
+00:44:29,800 --> 00:44:34,640
+anyway okay let me just do some examples
+
+1069
+00:44:32,400 --> 00:44:36,160
+and then wide up so so in these examples
+
+1070
+00:44:34,640 --> 00:44:37,839
+because I don't want to get into rotti
+
+1071
+00:44:36,160 --> 00:44:39,960
+equations whatever I'm going to do
+
+1072
+00:44:37,839 --> 00:44:41,440
+everything for a simple scalar system
+
+1073
+00:44:39,960 --> 00:44:44,000
+because I just want to demonstrate what
+
+1074
+00:44:41,440 --> 00:44:45,640
+we get okay so the system will be
+
+1075
+00:44:44,000 --> 00:44:49,160
+because I can do everything closed form
+
+1076
+00:44:45,640 --> 00:44:52,640
+here um it'll be a scalar
+
+1077
+00:44:49,160 --> 00:44:56,559
+system this scalar system okay so the
+
+1078
+00:44:52,640 --> 00:44:59,880
+first one is I'm going to put an elastic
+
+1079
+00:44:56,559 --> 00:45:02,240
+net on the state so the absolute value
+
+1080
+00:44:59,880 --> 00:45:04,680
+of x plus a little bit of a quadratic
+
+1081
+00:45:02,240 --> 00:45:06,680
+term and I'm adding this a little bit
+
+1082
+00:45:04,680 --> 00:45:09,599
+because if I don't add it I don't have
+
+1083
+00:45:06,680 --> 00:45:14,160
+strict convexity and so sometimes that
+
+1084
+00:45:09,599 --> 00:45:16,520
+bothers me um so this is customary to do
+
+1085
+00:45:14,160 --> 00:45:18,839
+this will still induce sparcity as you
+
+1086
+00:45:16,520 --> 00:45:21,359
+will see in a moment and so if you run
+
+1087
+00:45:18,839 --> 00:45:23,640
+through the Machinery that I just
+
+1088
+00:45:21,359 --> 00:45:25,640
+described if you want things to work if
+
+1089
+00:45:23,640 --> 00:45:27,880
+you choose an M for any M that you
+
+1090
+00:45:25,640 --> 00:45:31,680
+choose m is now a scal
+
+1091
+00:45:27,880 --> 00:45:36,319
+this is the cost on the
+
+1092
+00:45:31,680 --> 00:45:39,720
+control okay now if you look at this
+
+1093
+00:45:36,319 --> 00:45:41,760
+thing um you know I want this cost to be
+
+1094
+00:45:39,720 --> 00:45:45,440
+convex and so I need the coefficient of
+
+1095
+00:45:41,760 --> 00:45:47,559
+U sare here to be positive and so that
+
+1096
+00:45:45,440 --> 00:45:49,800
+puts a constraint on what M's I can
+
+1097
+00:45:47,559 --> 00:45:52,599
+choose so I cannot choose M willy nilly
+
+1098
+00:45:49,800 --> 00:45:55,040
+there's some range of M you know so if a
+
+1099
+00:45:52,599 --> 00:45:57,680
+is unstable any M works but if a is
+
+1100
+00:45:55,040 --> 00:46:00,000
+stable I have to make sure that the M I
+
+1101
+00:45:57,680 --> 00:46:02,520
+choose guarantees that this is
+
+1102
+00:46:00,000 --> 00:46:04,280
+positive um but that's what I was saying
+
+1103
+00:46:02,520 --> 00:46:06,880
+so you can look at this if you look for
+
+1104
+00:46:04,280 --> 00:46:08,480
+example at the leading order terms you
+
+1105
+00:46:06,880 --> 00:46:10,880
+know there's M's here but there's an
+
+1106
+00:46:08,480 --> 00:46:14,079
+extra m in the numerator of both of
+
+1107
+00:46:10,880 --> 00:46:17,160
+these so the bigger m is
+
+1108
+00:46:14,079 --> 00:46:20,240
+the um more penalty if you will on on
+
+1109
+00:46:17,160 --> 00:46:22,440
+the control but but typically this um
+
+1110
+00:46:20,240 --> 00:46:24,839
+cost on the control it's piecewise
+
+1111
+00:46:22,440 --> 00:46:28,839
+quadratic if you will but again you can
+
+1112
+00:46:24,839 --> 00:46:30,520
+choose M to your desire now more
+
+1113
+00:46:28,839 --> 00:46:32,160
+interesting is what the the optimal
+
+1114
+00:46:30,520 --> 00:46:33,720
+control is again the way you find the
+
+1115
+00:46:32,160 --> 00:46:35,319
+optimal control is you find the fental
+
+1116
+00:46:33,720 --> 00:46:37,520
+Duel of this and you take the gradient
+
+1117
+00:46:35,319 --> 00:46:41,119
+of the fenal duel you get a piece-wise
+
+1118
+00:46:37,520 --> 00:46:44,240
+linear control which is
+
+1119
+00:46:41,119 --> 00:46:46,800
+this okay so this is explicitly what the
+
+1120
+00:46:44,240 --> 00:46:50,599
+controller is let me show you it its
+
+1121
+00:46:46,800 --> 00:46:52,319
+performance so um again as I said you
+
+1122
+00:46:50,599 --> 00:46:54,800
+know so I'm taking these are so it's an
+
+1123
+00:46:52,319 --> 00:46:57,839
+unstable system in the Epsilon net I
+
+1124
+00:46:54,800 --> 00:47:01,440
+took Epsilon very small I took a small M
+
+1125
+00:46:57,839 --> 00:47:04,559
+so this is the cost on the state it's an
+
+1126
+00:47:01,440 --> 00:47:06,480
+elastic net so it almost looks like you
+
+1127
+00:47:04,559 --> 00:47:08,559
+know an absolute value function there's
+
+1128
+00:47:06,480 --> 00:47:11,640
+a tiny bit of quadratic on top of it
+
+1129
+00:47:08,559 --> 00:47:13,960
+which you can't see for small M we're
+
+1130
+00:47:11,640 --> 00:47:16,800
+not putting a lot of penalty on the
+
+1131
+00:47:13,960 --> 00:47:18,760
+controller so it's quadratic but very
+
+1132
+00:47:16,800 --> 00:47:20,520
+barely um and so if you look at the
+
+1133
+00:47:18,760 --> 00:47:22,760
+performance again so here I'm looking at
+
+1134
+00:47:20,520 --> 00:47:28,040
+the absolute value of the state the red
+
+1135
+00:47:22,760 --> 00:47:30,839
+is the lqr the blue you know um because
+
+1136
+00:47:28,040 --> 00:47:32,880
+I'm not being very demanding of the
+
+1137
+00:47:30,839 --> 00:47:35,400
+control the controller is not penalized
+
+1138
+00:47:32,880 --> 00:47:38,119
+a lot it takes the state to zero after
+
+1139
+00:47:35,400 --> 00:47:39,920
+one step and then after that it deals
+
+1140
+00:47:38,119 --> 00:47:42,319
+with the noise okay so it's very
+
+1141
+00:47:39,920 --> 00:47:44,040
+different behavior from the lqr you
+
+1142
+00:47:42,319 --> 00:47:46,800
+might say well I should penalize you
+
+1143
+00:47:44,040 --> 00:47:49,119
+know maybe the state more and so if you
+
+1144
+00:47:46,800 --> 00:47:51,440
+up this m you get something that's more
+
+1145
+00:47:49,119 --> 00:47:53,240
+quadratic maybe this you like more and
+
+1146
+00:47:51,440 --> 00:47:55,599
+so again here this is not as
+
+1147
+00:47:53,240 --> 00:47:58,079
+aggressively pushing me down to
+
+1148
+00:47:55,599 --> 00:48:00,520
+zero um but you know it's still doing a
+
+1149
+00:47:58,079 --> 00:48:02,240
+better job of that than than the lqr
+
+1150
+00:48:00,520 --> 00:48:04,040
+okay so you have some flexibility in
+
+1151
+00:48:02,240 --> 00:48:08,960
+terms of what you want through this
+
+1152
+00:48:04,040 --> 00:48:10,559
+parameter M but the cost on the state is
+
+1153
+00:48:08,960 --> 00:48:13,319
+kind of quadratic looking it's a
+
+1154
+00:48:10,559 --> 00:48:15,880
+piecewise quadratic let me do another
+
+1155
+00:48:13,319 --> 00:48:18,160
+example we can take like a peak con
+
+1156
+00:48:15,880 --> 00:48:19,280
+constraint control so this is what we
+
+1157
+00:48:18,160 --> 00:48:20,340
+saw
+
+1158
+00:48:19,280 --> 00:48:21,760
+earlier
+
+1159
+00:48:20,340 --> 00:48:25,000
+[Music]
+
+1160
+00:48:21,760 --> 00:48:27,440
+um if I'm below a threshold t i just
+
+1161
+00:48:25,000 --> 00:48:29,960
+quadratically penalize if I'm above T
+
+1162
+00:48:27,440 --> 00:48:30,839
+I'm disallowing it okay so you can go
+
+1163
+00:48:29,960 --> 00:48:32,960
+through the
+
+1164
+00:48:30,839 --> 00:48:36,880
+Machinery again you know so you choose
+
+1165
+00:48:32,960 --> 00:48:38,599
+an M you you do finantial dels all this
+
+1166
+00:48:36,880 --> 00:48:40,839
+business you find the Q This Is What You
+
+1167
+00:48:38,599 --> 00:48:44,960
+Get again it's piecewise
+
+1168
+00:48:40,839 --> 00:48:49,400
+quadratic um if you look at this one
+
+1169
+00:48:44,960 --> 00:48:51,319
+now um you know to get a convex Q This
+
+1170
+00:48:49,400 --> 00:48:53,160
+coefficient has to be positive which
+
+1171
+00:48:51,319 --> 00:48:55,960
+means that a has to be less than one it
+
+1172
+00:48:53,160 --> 00:48:57,280
+has to be stable and this is totally
+
+1173
+00:48:55,960 --> 00:48:59,559
+expected because
+
+1174
+00:48:57,280 --> 00:49:03,040
+you cannot hope to stabilize an
+
+1175
+00:48:59,559 --> 00:49:04,760
+arbitrary unstable plant if you're Peak
+
+1176
+00:49:03,040 --> 00:49:06,599
+constrainted you know because if you're
+
+1177
+00:49:04,760 --> 00:49:08,680
+initial state is too big it'll run away
+
+1178
+00:49:06,599 --> 00:49:11,000
+too fast the peak constrained Guy cannot
+
+1179
+00:49:08,680 --> 00:49:13,799
+catch up and so that's very natural that
+
+1180
+00:49:11,000 --> 00:49:16,119
+this was the answer so what I just said
+
+1181
+00:49:13,799 --> 00:49:17,720
+the controller again is piecewise it's
+
+1182
+00:49:16,119 --> 00:49:19,799
+actually interesting it's linear up to a
+
+1183
+00:49:17,720 --> 00:49:22,880
+point and after that point it just
+
+1184
+00:49:19,799 --> 00:49:25,359
+levels off a t as you would
+
+1185
+00:49:22,880 --> 00:49:28,319
+expect um let me show you the
+
+1186
+00:49:25,359 --> 00:49:30,799
+performance so again again here is the
+
+1187
+00:49:28,319 --> 00:49:33,880
+cost on the controller it's infinite
+
+1188
+00:49:30,799 --> 00:49:36,920
+once I I guess I took t equal to 4
+
+1189
+00:49:33,880 --> 00:49:38,920
+here and you know for this value of M we
+
+1190
+00:49:36,920 --> 00:49:40,200
+thought this was a reasonable cost on
+
+1191
+00:49:38,920 --> 00:49:43,559
+the
+
+1192
+00:49:40,200 --> 00:49:45,000
+state um and you can kind of see the
+
+1193
+00:49:43,559 --> 00:49:46,960
+performance so here I'm showing you the
+
+1194
+00:49:45,000 --> 00:49:50,000
+absolute value of the state so here
+
+1195
+00:49:46,960 --> 00:49:51,839
+because we are Peak constrained the lqr
+
+1196
+00:49:50,000 --> 00:49:54,720
+isn't we do a little bit worse than the
+
+1197
+00:49:51,839 --> 00:49:56,680
+lqr but not a whole lot because we're
+
+1198
+00:49:54,720 --> 00:49:58,280
+Peak constrainted but here you see this
+
+1199
+00:49:56,680 --> 00:50:01,000
+this is the actual control signal we're
+
+1200
+00:49:58,280 --> 00:50:03,960
+constrained by four so this guy has put
+
+1201
+00:50:01,000 --> 00:50:07,040
+in a lot less effort to get this
+
+1202
+00:50:03,960 --> 00:50:09,799
+performance than the
+
+1203
+00:50:07,040 --> 00:50:10,880
+lqr okay so this is the effect so we've
+
+1204
+00:50:09,799 --> 00:50:13,119
+put in a peak
+
+1205
+00:50:10,880 --> 00:50:15,400
+constraint um you know you might care
+
+1206
+00:50:13,119 --> 00:50:19,040
+about safety control so now I'm going to
+
+1207
+00:50:15,400 --> 00:50:20,680
+put a limit on the deviation of x from
+
+1208
+00:50:19,040 --> 00:50:22,520
+zero so you might have a robot and you
+
+1209
+00:50:20,680 --> 00:50:25,319
+want it to go you know up the stair and
+
+1210
+00:50:22,520 --> 00:50:26,960
+not bang onto the sides so this is
+
+1211
+00:50:25,319 --> 00:50:29,079
+supposed to be that scenario I'm giving
+
+1212
+00:50:26,960 --> 00:50:32,599
+infinite penalty if you exceed
+
+1213
+00:50:29,079 --> 00:50:37,599
+T um okay so I'll show you some of the
+
+1214
+00:50:32,599 --> 00:50:40,440
+steps here so if this is q p was M plus
+
+1215
+00:50:37,599 --> 00:50:43,359
+this thing so it's this object P star
+
+1216
+00:50:40,440 --> 00:50:46,160
+you take the fenal duel it's this object
+
+1217
+00:50:43,359 --> 00:50:48,200
+R star you go you know P Star Plus R
+
+1218
+00:50:46,160 --> 00:50:52,400
+star was a quadratic so you can find R
+
+1219
+00:50:48,200 --> 00:50:54,160
+star it's this object who cares um and
+
+1220
+00:50:52,400 --> 00:50:57,240
+then you know if I take the gradient of
+
+1221
+00:50:54,160 --> 00:51:00,280
+this thing well that's the r if you want
+
+1222
+00:50:57,240 --> 00:51:01,799
+to know what the r is but um you can get
+
+1223
+00:51:00,280 --> 00:51:03,920
+the optimal controller so this is the
+
+1224
+00:51:01,799 --> 00:51:06,200
+controller again it's piecewise
+
+1225
+00:51:03,920 --> 00:51:07,440
+linear I would not have guessed this
+
+1226
+00:51:06,200 --> 00:51:09,880
+without this
+
+1227
+00:51:07,440 --> 00:51:14,599
+Machinery um let me show you the
+
+1228
+00:51:09,880 --> 00:51:17,640
+behavior so the red is the cost on the
+
+1229
+00:51:14,599 --> 00:51:20,400
+state so my safety guard rails are minus
+
+1230
+00:51:17,640 --> 00:51:23,880
+.1 to 0.1 I don't want the state to
+
+1231
+00:51:20,400 --> 00:51:26,079
+exceed this for this value of M this
+
+1232
+00:51:23,880 --> 00:51:27,599
+blue curve is the cost on the control
+
+1233
+00:51:26,079 --> 00:51:30,280
+which looks reasonable to me again it's
+
+1234
+00:51:27,599 --> 00:51:32,839
+piecewise quadratic and so this is the
+
+1235
+00:51:30,280 --> 00:51:34,839
+behavior so these are the the I don't
+
+1236
+00:51:32,839 --> 00:51:38,040
+know why he used green it should be red
+
+1237
+00:51:34,839 --> 00:51:41,200
+I think for safety but anyway um these
+
+1238
+00:51:38,040 --> 00:51:43,319
+are the margins this is where the safety
+
+1239
+00:51:41,200 --> 00:51:46,040
+controller that I just showed you this
+
+1240
+00:51:43,319 --> 00:51:48,359
+peie wise controller behaves and the
+
+1241
+00:51:46,040 --> 00:51:49,960
+other one is the lqr I mean it doesn't
+
+1242
+00:51:48,359 --> 00:51:53,480
+have the safety built into it so it
+
+1243
+00:51:49,960 --> 00:51:56,799
+exceeds these bounds quite often okay so
+
+1244
+00:51:53,480 --> 00:51:58,559
+we can actually build in you know a
+
+1245
+00:51:56,799 --> 00:52:00,000
+constraint like this and construct a
+
+1246
+00:51:58,559 --> 00:52:01,280
+controller and again these are non
+
+1247
+00:52:00,000 --> 00:52:04,760
+obvious I
+
+1248
+00:52:01,280 --> 00:52:08,200
+mean this is what it is okay now
+
+1249
+00:52:04,760 --> 00:52:10,920
+everything I showed you was you know
+
+1250
+00:52:08,200 --> 00:52:13,480
+piecewise linear doesn't have to be you
+
+1251
+00:52:10,920 --> 00:52:16,319
+can get more exotic than that so I just
+
+1252
+00:52:13,480 --> 00:52:19,640
+randomly chose this as my so I'm putting
+
+1253
+00:52:16,319 --> 00:52:21,599
+exponential cost on you I don't know why
+
+1254
+00:52:19,640 --> 00:52:24,599
+you'd want to but let's assume you
+
+1255
+00:52:21,599 --> 00:52:26,760
+do um and if you push through this
+
+1256
+00:52:24,599 --> 00:52:29,200
+Machinery this is the U that you you'll
+
+1257
+00:52:26,760 --> 00:52:31,760
+get so it turns out the U the optimal
+
+1258
+00:52:29,200 --> 00:52:34,119
+control is kind of logarithmic in this
+
+1259
+00:52:31,760 --> 00:52:36,839
+state because this guy doesn't really
+
+1260
+00:52:34,119 --> 00:52:39,839
+want to expand anything on on the
+
+1261
+00:52:36,839 --> 00:52:42,000
+control so its growth with the state is
+
+1262
+00:52:39,839 --> 00:52:44,599
+only logarithmic and for this reason it
+
+1263
+00:52:42,000 --> 00:52:48,319
+turns out that if you insist on this
+
+1264
+00:52:44,599 --> 00:52:49,960
+kind of penalty on the control uh your
+
+1265
+00:52:48,319 --> 00:52:52,400
+controller will only work with a stable
+
+1266
+00:52:49,960 --> 00:52:54,200
+a you're penalizing you're tying the
+
+1267
+00:52:52,400 --> 00:52:56,520
+hands of the controller so much that it
+
+1268
+00:52:54,200 --> 00:52:59,119
+can't really deal with an unstable but
+
+1269
+00:52:56,520 --> 00:53:02,119
+you can get like some crazy
+
+1270
+00:52:59,119 --> 00:53:03,079
+logarithmic controller and you can look
+
+1271
+00:53:02,119 --> 00:53:05,240
+at its
+
+1272
+00:53:03,079 --> 00:53:07,799
+Behavior again it's not as good as the
+
+1273
+00:53:05,240 --> 00:53:09,839
+lqr because you've really constrained
+
+1274
+00:53:07,799 --> 00:53:12,160
+what it can do but again if you look at
+
+1275
+00:53:09,839 --> 00:53:14,640
+the control signal compared to what the
+
+1276
+00:53:12,160 --> 00:53:17,559
+lqr does it it you know it's putting in
+
+1277
+00:53:14,640 --> 00:53:20,880
+a lot less effort um and so maybe that
+
+1278
+00:53:17,559 --> 00:53:22,760
+matters to you you can do quantization
+
+1279
+00:53:20,880 --> 00:53:26,000
+you know if your say your control only
+
+1280
+00:53:22,760 --> 00:53:27,440
+was allowed to do three things up down
+
+1281
+00:53:26,000 --> 00:53:29,880
+or zero
+
+1282
+00:53:27,440 --> 00:53:31,720
+how do I design an optimal controller if
+
+1283
+00:53:29,880 --> 00:53:33,480
+this is all the controller can do right
+
+1284
+00:53:31,720 --> 00:53:35,480
+there might be very simple controllers
+
+1285
+00:53:33,480 --> 00:53:38,520
+where this is all you can do well this
+
+1286
+00:53:35,480 --> 00:53:42,760
+control you can think of if it's in this
+
+1287
+00:53:38,520 --> 00:53:47,319
+framework it'll be the gradient of the
+
+1288
+00:53:42,760 --> 00:53:51,319
+fental Duel of the cost on the um
+
+1289
+00:53:47,319 --> 00:53:53,880
+control and so from this you can go back
+
+1290
+00:53:51,319 --> 00:53:55,920
+and actually figure out what the fental
+
+1291
+00:53:53,880 --> 00:53:58,119
+duel is by just integrating this out
+
+1292
+00:53:55,920 --> 00:54:00,079
+it's something thing and from here I
+
+1293
+00:53:58,119 --> 00:54:03,160
+haven't done it cuz I was too tired last
+
+1294
+00:54:00,079 --> 00:54:05,480
+night you can you know find R and Q and
+
+1295
+00:54:03,160 --> 00:54:07,400
+M and so I just want to convince you
+
+1296
+00:54:05,480 --> 00:54:11,160
+there's a lot that you can do with this
+
+1297
+00:54:07,400 --> 00:54:13,680
+um so even though we insisted on bregman
+
+1298
+00:54:11,160 --> 00:54:15,880
+Divergence and I move the random stuff
+
+1299
+00:54:13,680 --> 00:54:19,000
+to the right and then I had to insist
+
+1300
+00:54:15,880 --> 00:54:21,920
+that the cost to go is quadratic there's
+
+1301
+00:54:19,000 --> 00:54:25,160
+still a lot of flexibility so to
+
+1302
+00:54:21,920 --> 00:54:27,240
+conclude um non-quadratic convex costs
+
+1303
+00:54:25,160 --> 00:54:28,920
+are rarely used in Su itic control
+
+1304
+00:54:27,240 --> 00:54:31,880
+because as I said Computing this
+
+1305
+00:54:28,920 --> 00:54:36,040
+expected cost to go is
+
+1306
+00:54:31,880 --> 00:54:38,160
+often to put it mildly um intractable
+
+1307
+00:54:36,040 --> 00:54:40,319
+and so the idea here was to introduce
+
+1308
+00:54:38,160 --> 00:54:42,680
+bregman Divergence again if you want to
+
+1309
+00:54:40,319 --> 00:54:45,720
+remember anything from this talk is that
+
+1310
+00:54:42,680 --> 00:54:46,960
+the closest thing to quadratics is
+
+1311
+00:54:45,720 --> 00:54:49,280
+bregman
+
+1312
+00:54:46,960 --> 00:54:51,319
+Divergence um it allowed us to compute
+
+1313
+00:54:49,280 --> 00:54:53,280
+the cost to go again the trick was you
+
+1314
+00:54:51,319 --> 00:54:56,000
+put everything deterministic to the left
+
+1315
+00:54:53,280 --> 00:54:58,000
+everything random to the right we had to
+
+1316
+00:54:56,000 --> 00:55:00,240
+insist the cost to go is quadratic so
+
+1317
+00:54:58,000 --> 00:55:02,599
+that it would be a bregman Divergence
+
+1318
+00:55:00,240 --> 00:55:04,400
+itself the optimal controllers are
+
+1319
+00:55:02,599 --> 00:55:08,359
+nonlinear State feedback
+
+1320
+00:55:04,400 --> 00:55:10,680
+laws stability comes for free certainly
+
+1321
+00:55:08,359 --> 00:55:12,400
+equivalence holds if you don't observe
+
+1322
+00:55:10,680 --> 00:55:14,119
+the state and you have estimates of it
+
+1323
+00:55:12,400 --> 00:55:17,559
+you just plug in the estimates into your
+
+1324
+00:55:14,119 --> 00:55:21,440
+control law there's total freedom in
+
+1325
+00:55:17,559 --> 00:55:23,359
+choosing either the cost on the state or
+
+1326
+00:55:21,440 --> 00:55:25,839
+the cost on the controller as I showed
+
+1327
+00:55:23,359 --> 00:55:28,240
+you but once you choose one the other
+
+1328
+00:55:25,839 --> 00:55:29,960
+one is is you know you have some
+
+1329
+00:55:28,240 --> 00:55:33,480
+flexibility with it but you cannot
+
+1330
+00:55:29,960 --> 00:55:36,880
+choose I cannot say I want an L1 cost on
+
+1331
+00:55:33,480 --> 00:55:39,240
+the state and an Infinity cost on the
+
+1332
+00:55:36,880 --> 00:55:42,280
+control that I cannot do I can choose
+
+1333
+00:55:39,240 --> 00:55:44,440
+one and then the other one I can play
+
+1334
+00:55:42,280 --> 00:55:45,359
+around with the m parameter until I like
+
+1335
+00:55:44,440 --> 00:55:48,520
+what I
+
+1336
+00:55:45,359 --> 00:55:50,319
+see um but nonetheless it gives us a lot
+
+1337
+00:55:48,520 --> 00:55:53,119
+more flexibility in the designer of the
+
+1338
+00:55:50,319 --> 00:55:55,359
+controller than the standard lqr lqg
+
+1339
+00:55:53,119 --> 00:55:58,359
+which just gives you linear controllers
+
+1340
+00:55:55,359 --> 00:56:00,319
+and I guess I did some examples for you
+
+1341
+00:55:58,359 --> 00:56:04,000
+so I hope I didn't rush it too much I
+
+1342
+00:56:00,319 --> 00:56:04,000
+will stop here thank you
+

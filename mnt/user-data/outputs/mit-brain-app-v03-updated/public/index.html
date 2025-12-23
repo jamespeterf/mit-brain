@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MIT Brain</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f8f8f8;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    #searchPanel, #resultsPanel, #emailPanel {
+      background: white;
+      padding: 20px;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    }
+
+    #resultsContainer .article-card {
+      border: 1px solid #ddd;
+      background: #fafafa;
+      margin-bottom: 12px;
+      padding: 12px;
+      border-radius: 6px;
+    }
+
+    .article-title a {
+      font-weight: bold;
+      font-size: 1.1rem;
+      text-decoration: none;
+      color: #0065a4;
+    }
+
+    .article-meta {
+      color: #666;
+      font-size: 0.85rem;
+      margin-top: 2px;
+      margin-bottom: 8px;
+    }
+
+    .article-summary {
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .article-ilp-keywords {
+      margin-bottom: 6px;
+      font-style: italic;
+      color: #333;
+      font-size: 0.9rem;
+    }
+
+    .article-tags {
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    #emailOutput {
+      background: #ffffff;
+      padding: 16px;
+      min-height: 200px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-top: 10px;
+      white-space: normal;
+      overflow-y: auto;
+      max-height: 600px;
+    }
+    
+    #emailOutput a {
+      color: #0065a4;
+      text-decoration: underline;
+    }
+    
+    #emailOutput a:hover {
+      text-decoration: underline;
+      color: #004080;
+    }
+
+    #progressOverlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #progressModal {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+    }
+
+    .spinner {
+      border: 4px solid #eee;
+      border-top: 4px solid #0077cc;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      margin: 0 auto 12px auto;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    button {
+      padding: 6px 12px;
+      cursor: pointer;
+      background: #0065a4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background: #00548a;
+    }
+
+    #copyEmailButton {
+      background: #5d9b3d;
+    }
+
+    #copyEmailButton:hover {
+      background: #4c842f;
+    }
+
+    #clearFormButton {
+      background: #999;
+    }
+    #clearFormButton:hover {
+      background: #777;
+    }
+
+    #selectAllButton, #deselectAllButton {
+      background: #444;
+    }
+    #selectAllButton:hover, #deselectAllButton:hover {
+      background: #222;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>MIT Brain</h1>
+
+  <!-- Search Panel -->
+  <div id="searchPanel">
+    <h2>Find Relevant MIT Knowledge</h2>
+
+    <div id="searchControls">
+      <input id="phraseInput" type="text" placeholder="Search phrase (e.g., data centers)" style="width: 260px; padding: 6px;" />
+      <input id="minScoreInput" type="number" placeholder="Min score (default 1)" value="1" style="width: 150px; padding: 6px;" />
+
+      <button id="searchButton">Search Knowledge Base</button>
+      <button id="clearFormButton" style="margin-left: 8px;">Clear Form</button>
+    </div>
+
+    <div id="kindFilters" style="margin-top: 15px; padding: 10px; background: #f5f5f5; border-radius: 4px;">
+      <div style="margin-bottom: 8px;">
+        <strong>Filter by Type:</strong>
+        <button id="selectAllKinds" style="margin-left: 10px; padding: 4px 12px; font-size: 0.9em;">Select All</button>
+        <button id="deselectAllKinds" style="margin-left: 5px; padding: 4px 12px; font-size: 0.9em;">Deselect All</button>
+      </div>
+      <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+        <label style="display: flex; align-items: center; cursor: pointer;">
+          <input type="checkbox" id="kindVideo" value="video" checked style="margin-right: 5px;" />
+          Videos
+        </label>
+        <label style="display: flex; align-items: center; cursor: pointer;">
+          <input type="checkbox" id="kindNews" value="news" checked style="margin-right: 5px;" />
+          News
+        </label>
+        <label style="display: flex; align-items: center; cursor: pointer;">
+          <input type="checkbox" id="kindPaper" value="paper" checked style="margin-right: 5px;" />
+          Academic Papers
+        </label>
+        <label style="display: flex; align-items: center; cursor: pointer;">
+          <input type="checkbox" id="kindStartup" value="startup" checked style="margin-right: 5px;" />
+          Startups
+        </label>
+        <label style="display: flex; align-items: center; cursor: pointer;">
+          <input type="checkbox" id="kindEvent" value="event" checked style="margin-right: 5px;" />
+          Events
+        </label>
+      </div>
+    </div>
+
+    <div id="status" style="margin-top: 10px; color: #333;"></div>
+  </div>
+
+  <!-- Results Panel -->
+  <div id="resultsPanel">
+    <h2>Matching Knowledge</h2>
+
+    <div id="resultsToolbar" style="margin-bottom: 8px; font-size: 0.9rem;">
+      <button id="selectAllButton" type="button">Select All</button>
+      <button id="deselectAllButton" type="button" style="margin-left: 6px;">Deselect All</button>
+    </div>
+
+    <div id="resultsContainer"></div>
+  </div>
+
+  <!-- Email Panel -->
+  <div id="emailPanel">
+    <h2>Knowledge List</h2>
+
+    <div style="margin-bottom: 15px;">
+      <label><strong>Program Director: </strong></label>
+      <select id="personSelect" style="min-width: 180px; padding: 4px;">
+        <option value="">Select a person...</option>
+      </select>
+    </div>
+
+    <div id="personOptions" style="display: none;">
+      <div style="margin-bottom: 10px;">
+        <label>Template: </label>
+        <select id="templateSelect" style="min-width: 220px; padding: 4px;">
+          <option value="">Select a template...</option>
+        </select>
+
+        <label style="margin-left: 20px;">ILP Member: </label>
+        <select id="memberSelect" style="min-width: 220px; padding: 4px;">
+          <option value="">(Optional: tailor to member)</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom: 10px;">
+        <label>Tone: </label>
+        <select id="toneSelect" style="min-width: 140px; padding: 4px;">
+          <option value="familiar" selected>Familiar</option>
+          <option value="formal">Formal</option>
+          <option value="funny">Funny</option>
+          <option value="myvoice">My Voice</option>
+        </select>
+
+        <label style="margin-left: 20px;">Language: </label>
+        <select id="languageSelect" style="min-width: 140px; padding: 4px;">
+          <option value="chinese">Chinese</option>
+          <option value="english" selected>English</option>
+          <option value="french">French</option>
+          <option value="german">German</option>
+          <option value="hindi">Hindi</option>
+          <option value="italian">Italian</option>
+          <option value="japanese">Japanese</option>
+          <option value="korean">Korean</option>
+          <option value="portuguese">Portuguese</option>
+          <option value="spanish">Spanish</option>
+        </select>
+
+        <button id="generateEmailButton" style="margin-left: 15px;">Generate List</button>
+      </div>
+
+      <div id="emailHint" style="color: #555; margin-bottom: 10px;">
+        Select one or more articles above, then click "Generate List".
+      </div>
+
+      <button id="copyEmailButton" style="margin-bottom: 10px;">Copy List</button>
+      <div id="emailOutput"></div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="progressOverlay">
+    <div id="progressModal">
+      <div class="spinner"></div>
+      <div id="progressText">Working…</div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

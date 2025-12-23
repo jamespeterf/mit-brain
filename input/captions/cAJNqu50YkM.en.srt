@@ -1,0 +1,9052 @@
+1
+00:00:13,480 --> 00:00:18,199
+so I'm really excited uh to be here
+
+2
+00:00:15,160 --> 00:00:20,840
+today and uh and with nor to talk about
+
+3
+00:00:18,199 --> 00:00:23,240
+um to talk about some of our work and uh
+
+4
+00:00:20,840 --> 00:00:24,960
+nor is going to talk about uh the the
+
+5
+00:00:23,240 --> 00:00:26,800
+more research part and I'm going to give
+
+6
+00:00:24,960 --> 00:00:29,519
+the the primer that gives the um the
+
+7
+00:00:26,800 --> 00:00:31,320
+relevant background so um the title for
+
+8
+00:00:29,519 --> 00:00:32,680
+this talk is counting is not easy
+
+9
+00:00:31,320 --> 00:00:34,239
+assessing and quantifying uncertainty
+
+10
+00:00:32,680 --> 00:00:37,079
+and abundance inferences from highr
+
+11
+00:00:34,239 --> 00:00:39,079
+sequencing data and the the title um was
+
+12
+00:00:37,079 --> 00:00:41,000
+inspired by one of my younger son's
+
+13
+00:00:39,079 --> 00:00:43,920
+favorite books which is waiting is not
+
+14
+00:00:41,000 --> 00:00:46,920
+easy um so credit to the artwork to Mo
+
+15
+00:00:43,920 --> 00:00:49,520
+Williams um so it's a great series of
+
+16
+00:00:46,920 --> 00:00:52,239
+books um so I want to start out with
+
+17
+00:00:49,520 --> 00:00:54,559
+acknowledgements um all of the work here
+
+18
+00:00:52,239 --> 00:00:57,239
+is done in collaboration with uh
+
+19
+00:00:54,559 --> 00:00:59,199
+students past and present uh as well as
+
+20
+00:00:57,239 --> 00:01:00,199
+external collaborators uh the work I'm
+
+21
+00:00:59,199 --> 00:01:02,680
+going to talk about today is
+
+22
+00:01:00,199 --> 00:01:04,760
+particularly related to work done by U
+
+23
+00:01:02,680 --> 00:01:07,080
+my former student hak and nor who you'll
+
+24
+00:01:04,760 --> 00:01:08,920
+hear talk later um and all of this is in
+
+25
+00:01:07,080 --> 00:01:12,159
+collaboration with Mike love parts of it
+
+26
+00:01:08,920 --> 00:01:16,360
+with Hector Kat Bravo and yui
+
+27
+00:01:12,159 --> 00:01:18,320
+wo okay so um we're going to talk about
+
+28
+00:01:16,360 --> 00:01:20,040
+RNA SE a lot um because that's going to
+
+29
+00:01:18,320 --> 00:01:21,640
+be the motivating assay type that we're
+
+30
+00:01:20,040 --> 00:01:24,759
+going to discuss so let me give sort of
+
+31
+00:01:21,640 --> 00:01:28,240
+my one slide overview uh simplified RNA
+
+32
+00:01:24,759 --> 00:01:30,640
+seek so um we have some gene on the
+
+33
+00:01:28,240 --> 00:01:35,040
+genome here the colored boxes denote
+
+34
+00:01:30,640 --> 00:01:37,479
+exons uh that gets transcribed into a
+
+35
+00:01:35,040 --> 00:01:39,360
+unspaced RNA molecule uh and then
+
+36
+00:01:37,479 --> 00:01:41,640
+alternative splicing occurs creating
+
+37
+00:01:39,360 --> 00:01:43,200
+different transcripts now in reality if
+
+38
+00:01:41,640 --> 00:01:45,759
+we're doing short read sequencing we
+
+39
+00:01:43,200 --> 00:01:47,960
+would reverse transcribe this in cdna
+
+40
+00:01:45,759 --> 00:01:51,000
+but let's uh gloss over that we're going
+
+41
+00:01:47,960 --> 00:01:53,399
+to sequence small bits of this RNA um
+
+42
+00:01:51,000 --> 00:01:55,560
+and that produces the uh the reads that
+
+43
+00:01:53,399 --> 00:01:57,320
+we're going to generate uh and then our
+
+44
+00:01:55,560 --> 00:02:00,039
+task is going to be to infer the
+
+45
+00:01:57,320 --> 00:02:01,759
+abundance of the original RNA molecules
+
+46
+00:02:00,039 --> 00:02:06,280
+from this set of
+
+47
+00:02:01,759 --> 00:02:08,239
+reads so um there are two parts to this
+
+48
+00:02:06,280 --> 00:02:10,679
+process the first one is mapping or
+
+49
+00:02:08,239 --> 00:02:13,280
+alignment um and sometimes a mapping
+
+50
+00:02:10,679 --> 00:02:15,280
+itself tells you exactly which original
+
+51
+00:02:13,280 --> 00:02:17,239
+molecule the read came from so for
+
+52
+00:02:15,280 --> 00:02:20,040
+example this read is easy to resolve
+
+53
+00:02:17,239 --> 00:02:21,599
+there's only one uh place in the set of
+
+54
+00:02:20,040 --> 00:02:23,920
+molecules where this read could have
+
+55
+00:02:21,599 --> 00:02:26,000
+Arisen from and that's at this xon xon
+
+56
+00:02:23,920 --> 00:02:28,440
+Junction this one's a little bit less
+
+57
+00:02:26,000 --> 00:02:30,319
+easy right there's two uh different
+
+58
+00:02:28,440 --> 00:02:32,080
+transcripts that alternatively place the
+
+59
+00:02:30,319 --> 00:02:34,280
+same pair of exons and so the read
+
+60
+00:02:32,080 --> 00:02:35,640
+itself is ambiguous uh and then this one
+
+61
+00:02:34,280 --> 00:02:37,120
+is even more ambiguous right it comes
+
+62
+00:02:35,640 --> 00:02:38,519
+from completely within an Exxon that's
+
+63
+00:02:37,120 --> 00:02:40,680
+contained in all three
+
+64
+00:02:38,519 --> 00:02:42,800
+transcripts uh so that's the first part
+
+65
+00:02:40,680 --> 00:02:44,080
+the second part of the process is once
+
+66
+00:02:42,800 --> 00:02:45,879
+we have all of that alignment
+
+67
+00:02:44,080 --> 00:02:48,000
+information we have to do some sort of
+
+68
+00:02:45,879 --> 00:02:49,720
+estimation process right because we have
+
+69
+00:02:48,000 --> 00:02:51,760
+to figure out what the abundances of the
+
+70
+00:02:49,720 --> 00:02:53,280
+transcripts is from the reads but the
+
+71
+00:02:51,760 --> 00:02:54,319
+reads themselves have an ambiguous
+
+72
+00:02:53,280 --> 00:02:57,159
+mapping or
+
+73
+00:02:54,319 --> 00:02:59,000
+align okay so uh the problem that we
+
+74
+00:02:57,159 --> 00:03:00,640
+have is how do you handle these reads
+
+75
+00:02:59,000 --> 00:03:03,920
+that align equally well to multiple
+
+76
+00:03:00,640 --> 00:03:06,159
+places the most common uh cause of this
+
+77
+00:03:03,920 --> 00:03:07,799
+is alternative splicing but it can also
+
+78
+00:03:06,159 --> 00:03:10,640
+happen even across genes when you have
+
+79
+00:03:07,799 --> 00:03:11,760
+genes of a paralus family for example um
+
+80
+00:03:10,640 --> 00:03:13,400
+so there are a couple things you could
+
+81
+00:03:11,760 --> 00:03:14,920
+do you could just throw away the
+
+82
+00:03:13,400 --> 00:03:16,280
+multimapping reads um but I'm going to
+
+83
+00:03:14,920 --> 00:03:19,000
+try to convince you that leads to
+
+84
+00:03:16,280 --> 00:03:20,959
+Incorrect and and biased quantification
+
+85
+00:03:19,000 --> 00:03:22,720
+um but also this happens even at the
+
+86
+00:03:20,959 --> 00:03:24,319
+gene level like I mentioned so even if
+
+87
+00:03:22,720 --> 00:03:25,959
+you're not interested in just transcript
+
+88
+00:03:24,319 --> 00:03:28,159
+level expression but Gene level
+
+89
+00:03:25,959 --> 00:03:31,280
+aggregate expression it's not a not a
+
+90
+00:03:28,159 --> 00:03:34,920
+good solution so um I want to start with
+
+91
+00:03:31,280 --> 00:03:37,519
+a non-biological example to try to uh
+
+92
+00:03:34,920 --> 00:03:39,840
+propose and um inform why we need to
+
+93
+00:03:37,519 --> 00:03:43,000
+solve this inference problem so here's a
+
+94
+00:03:39,840 --> 00:03:46,920
+thought experience imagine that uh I
+
+95
+00:03:43,000 --> 00:03:48,480
+have a circles on the caresan plane um
+
+96
+00:03:46,920 --> 00:03:51,000
+and they're one of two species either a
+
+97
+00:03:48,480 --> 00:03:52,920
+red circle or a blue circle and I can't
+
+98
+00:03:51,000 --> 00:03:54,319
+view them directly much like we can't
+
+99
+00:03:52,920 --> 00:03:55,799
+view the RNA directly unless you're
+
+100
+00:03:54,319 --> 00:03:58,319
+doing a lower throughput like
+
+101
+00:03:55,799 --> 00:03:59,959
+visualization assay um but I can sample
+
+102
+00:03:58,319 --> 00:04:00,920
+them and so my sampling procedures is
+
+103
+00:03:59,959 --> 00:04:03,239
+going to be I'm going to throw down a
+
+104
+00:04:00,920 --> 00:04:05,200
+dart on the plane and it's going to hit
+
+105
+00:04:03,239 --> 00:04:08,040
+and it's going to uh show a certain
+
+106
+00:04:05,200 --> 00:04:11,000
+color and the color it shows is the type
+
+107
+00:04:08,040 --> 00:04:13,280
+of circle in which it landed okay so I
+
+108
+00:04:11,000 --> 00:04:14,720
+throw down a dart it shows red it hit a
+
+109
+00:04:13,280 --> 00:04:17,280
+red circle I show down I throw down a
+
+110
+00:04:14,720 --> 00:04:19,440
+dart it shows blue it hit a blue circle
+
+111
+00:04:17,280 --> 00:04:21,239
+so uh through this sampling process this
+
+112
+00:04:19,440 --> 00:04:22,919
+random sampling process I can try and
+
+113
+00:04:21,239 --> 00:04:24,960
+answer different questions like what
+
+114
+00:04:22,919 --> 00:04:26,919
+type of circle is more prevalent blue or
+
+115
+00:04:24,960 --> 00:04:29,280
+red or what is the fraction of red
+
+116
+00:04:26,919 --> 00:04:31,080
+circles to Blue circles so without any
+
+117
+00:04:29,280 --> 00:04:33,360
+extra information if I just showed you
+
+118
+00:04:31,080 --> 00:04:34,800
+this uh this picture um and I asked the
+
+119
+00:04:33,360 --> 00:04:37,639
+question which type of circle is more
+
+120
+00:04:34,800 --> 00:04:40,840
+prevalent um there might be a natural
+
+121
+00:04:37,639 --> 00:04:43,120
+answer so a show of hands who would say
+
+122
+00:04:40,840 --> 00:04:45,960
+blue okay who would say
+
+123
+00:04:43,120 --> 00:04:47,520
+red okay so uh it's kind of a false
+
+124
+00:04:45,960 --> 00:04:49,479
+choice because there's something I
+
+125
+00:04:47,520 --> 00:04:52,039
+didn't tell you which is the area of the
+
+126
+00:04:49,479 --> 00:04:53,520
+circles now blue is the obvious correct
+
+127
+00:04:52,039 --> 00:04:55,039
+answer under the assumption the
+
+128
+00:04:53,520 --> 00:04:57,440
+parsimonious assumption that all circles
+
+129
+00:04:55,039 --> 00:04:59,720
+are equal area um but that was a hidden
+
+130
+00:04:57,440 --> 00:05:02,360
+assumption to make my point right uh
+
+131
+00:04:59,720 --> 00:05:04,039
+there's a direct analog here to rnac
+
+132
+00:05:02,360 --> 00:05:06,479
+which is that at least with short read
+
+133
+00:05:04,039 --> 00:05:08,639
+protocols the probability of sampling a
+
+134
+00:05:06,479 --> 00:05:10,520
+read is a function not only of the
+
+135
+00:05:08,639 --> 00:05:12,759
+abundance of that molecule but of the
+
+136
+00:05:10,520 --> 00:05:14,680
+length of the molecule if I have the
+
+137
+00:05:12,759 --> 00:05:16,840
+same number of copies of a short and
+
+138
+00:05:14,680 --> 00:05:18,440
+long molecule in short read sequencing
+
+139
+00:05:16,840 --> 00:05:19,880
+because of the fragmentation process I
+
+140
+00:05:18,440 --> 00:05:22,000
+will get more reads from the longer
+
+141
+00:05:19,880 --> 00:05:24,039
+molecule compared to the shorter one so
+
+142
+00:05:22,000 --> 00:05:25,560
+I need to know the length of a target
+
+143
+00:05:24,039 --> 00:05:27,039
+from what your read is drawn in order to
+
+144
+00:05:25,560 --> 00:05:29,440
+meaningfully inferus
+
+145
+00:05:27,039 --> 00:05:31,400
+abundance all right and so this is why I
+
+146
+00:05:29,440 --> 00:05:33,520
+need to resolve the read back to the
+
+147
+00:05:31,400 --> 00:05:36,120
+transcript of origin not just the gene
+
+148
+00:05:33,520 --> 00:05:38,240
+of origin so um let me give a couple
+
+149
+00:05:36,120 --> 00:05:41,479
+more motivations for this uh so this is
+
+150
+00:05:38,240 --> 00:05:44,840
+a plot in some simulated data from uh a
+
+151
+00:05:41,479 --> 00:05:47,199
+2016 paper uh by Charlotte sonis Mike
+
+152
+00:05:44,840 --> 00:05:48,680
+love and Mark Robinson uh where they did
+
+153
+00:05:47,199 --> 00:05:50,520
+simulations and then they compared
+
+154
+00:05:48,680 --> 00:05:51,759
+different counting approaches to
+
+155
+00:05:50,520 --> 00:05:54,199
+approaches that do transcript level
+
+156
+00:05:51,759 --> 00:05:56,240
+inference um and so this is different
+
+157
+00:05:54,199 --> 00:05:59,120
+genes that are in the parus family of
+
+158
+00:05:56,240 --> 00:06:01,440
+this Gene here uh on each case uh in the
+
+159
+00:05:59,120 --> 00:06:03,319
+plots the x- axis is the true abundance
+
+160
+00:06:01,440 --> 00:06:05,400
+of that Gene and the y- axis is the
+
+161
+00:06:03,319 --> 00:06:07,039
+estimated abundance of that Gene um and
+
+162
+00:06:05,400 --> 00:06:09,000
+what you can see is that uh the feature
+
+163
+00:06:07,039 --> 00:06:10,720
+counts approach which essentially counts
+
+164
+00:06:09,000 --> 00:06:13,479
+reads mapping to the genome uh
+
+165
+00:06:10,720 --> 00:06:15,199
+discarding ambiguous reads uh has some
+
+166
+00:06:13,479 --> 00:06:16,680
+some misestimation both the Spearman and
+
+167
+00:06:15,199 --> 00:06:19,400
+Pearson correlation are considerably
+
+168
+00:06:16,680 --> 00:06:21,800
+lower the inference approach does a
+
+169
+00:06:19,400 --> 00:06:24,520
+pretty good job not perfect but uh
+
+170
+00:06:21,800 --> 00:06:27,360
+resolves most of those uh abundances
+
+171
+00:06:24,520 --> 00:06:29,759
+correctly it turns out that this uh has
+
+172
+00:06:27,360 --> 00:06:31,759
+effects on Downstream processing as well
+
+173
+00:06:29,759 --> 00:06:35,240
+uh so these plots are showing again in
+
+174
+00:06:31,759 --> 00:06:37,720
+simulated data um the false Discovery
+
+175
+00:06:35,240 --> 00:06:41,319
+rate versus the true posit positive rate
+
+176
+00:06:37,720 --> 00:06:43,199
+in uh dge calling for these genes um and
+
+177
+00:06:41,319 --> 00:06:45,960
+this is particularly designed to be a
+
+178
+00:06:43,199 --> 00:06:47,520
+challenging example where between the
+
+179
+00:06:45,960 --> 00:06:49,280
+conditions of Interest there's
+
+180
+00:06:47,520 --> 00:06:51,120
+differential transcript usage so the
+
+181
+00:06:49,280 --> 00:06:53,000
+gene is overall expressed at a similar
+
+182
+00:06:51,120 --> 00:06:55,120
+level but the dominant transcripts are
+
+183
+00:06:53,000 --> 00:06:56,759
+changing um and so what you can see is
+
+184
+00:06:55,120 --> 00:06:59,199
+the variance of of the approaches that
+
+185
+00:06:56,759 --> 00:07:02,080
+solve via inference are up here whereas
+
+186
+00:06:59,199 --> 00:07:03,919
+the count approaches are down here um so
+
+187
+00:07:02,080 --> 00:07:05,120
+the problem overall is challenging we're
+
+188
+00:07:03,919 --> 00:07:06,759
+you know sort of maxing out at
+
+189
+00:07:05,120 --> 00:07:09,319
+reasonable false positive rates about a
+
+190
+00:07:06,759 --> 00:07:10,599
+50% true positive rate but clearly the
+
+191
+00:07:09,319 --> 00:07:15,000
+inference approaches are doing a lot
+
+192
+00:07:10,599 --> 00:07:18,000
+better okay um so this is a well-known
+
+193
+00:07:15,000 --> 00:07:19,639
+problem um and there's many times that
+
+194
+00:07:18,000 --> 00:07:22,720
+you really need information that is
+
+195
+00:07:19,639 --> 00:07:24,400
+subgene level um so uh one particular
+
+196
+00:07:22,720 --> 00:07:26,599
+example I really like is uh you know
+
+197
+00:07:24,400 --> 00:07:28,039
+this paper here which demonstrates that
+
+198
+00:07:26,599 --> 00:07:30,160
+during progression in Parkinson's
+
+199
+00:07:28,039 --> 00:07:32,599
+disease uh there's over overall similar
+
+200
+00:07:30,160 --> 00:07:35,080
+gene expression of key marker genes but
+
+201
+00:07:32,599 --> 00:07:36,720
+there's uh systematic changes in in the
+
+202
+00:07:35,080 --> 00:07:39,160
+dominant transcript usage right so
+
+203
+00:07:36,720 --> 00:07:40,840
+there's differential transcript usage so
+
+204
+00:07:39,160 --> 00:07:42,639
+uh understanding transcript or at least
+
+205
+00:07:40,840 --> 00:07:44,560
+subgene level abundances groups of
+
+206
+00:07:42,639 --> 00:07:47,000
+transcripts is critical to understanding
+
+207
+00:07:44,560 --> 00:07:48,400
+biological mechanisms and even if you
+
+208
+00:07:47,000 --> 00:07:50,120
+want to understand the transcript
+
+209
+00:07:48,400 --> 00:07:51,800
+abundance at the gene level you should
+
+210
+00:07:50,120 --> 00:07:53,159
+first quantify the transcripts and then
+
+211
+00:07:51,800 --> 00:07:54,039
+aggregate those estimates to the level
+
+212
+00:07:53,159 --> 00:07:56,280
+of the
+
+213
+00:07:54,039 --> 00:07:57,800
+gene so let me talk a little bit about
+
+214
+00:07:56,280 --> 00:07:59,680
+the underlying statistical model we
+
+215
+00:07:57,800 --> 00:08:02,240
+might use in order to perform this kind
+
+216
+00:07:59,680 --> 00:08:03,840
+of inference um so the Assumption we're
+
+217
+00:08:02,240 --> 00:08:05,280
+going to make is that we have some
+
+218
+00:08:03,840 --> 00:08:06,840
+population of molecules that we want to
+
+219
+00:08:05,280 --> 00:08:09,240
+sequence uh here there's only three
+
+220
+00:08:06,840 --> 00:08:10,599
+types red green and blue um they have
+
+221
+00:08:09,240 --> 00:08:12,759
+different lengths these lengths are
+
+222
+00:08:10,599 --> 00:08:14,240
+known to us a priority uh we could
+
+223
+00:08:12,759 --> 00:08:16,319
+assume for example we're working in a
+
+224
+00:08:14,240 --> 00:08:18,599
+well annotated model organism we know
+
+225
+00:08:16,319 --> 00:08:19,960
+the catalog of genes or we've assembled
+
+226
+00:08:18,599 --> 00:08:23,680
+them and we know what the gene models
+
+227
+00:08:19,960 --> 00:08:26,280
+are okay so here um there's fewer copies
+
+228
+00:08:23,680 --> 00:08:28,319
+of the blue transcript uh than the green
+
+229
+00:08:26,280 --> 00:08:30,159
+there's only six copies but it's long so
+
+230
+00:08:28,319 --> 00:08:32,880
+there's 600 total nucle Tides we could
+
+231
+00:08:30,159 --> 00:08:34,360
+sample from a blue transcript about 30%
+
+232
+00:08:32,880 --> 00:08:36,320
+of the total mixture at the nucleotide
+
+233
+00:08:34,360 --> 00:08:38,519
+level uh for the green there's about
+
+234
+00:08:36,320 --> 00:08:41,240
+1,00 nucleotides and for the red about
+
+235
+00:08:38,519 --> 00:08:43,000
+200 so uh we can think about the number
+
+236
+00:08:41,240 --> 00:08:44,440
+of nucleotides but it turns out that
+
+237
+00:08:43,000 --> 00:08:46,880
+because we're making relative
+
+238
+00:08:44,440 --> 00:08:49,200
+measurements uh the more we sequence the
+
+239
+00:08:46,880 --> 00:08:52,000
+more we'll see generally uh it's best to
+
+240
+00:08:49,200 --> 00:08:54,680
+think about these as as fractions right
+
+241
+00:08:52,000 --> 00:08:57,800
+so the mixture is about 30% blue 60%
+
+242
+00:08:54,680 --> 00:08:59,600
+green and 10% red at the nucleotide
+
+243
+00:08:57,800 --> 00:09:01,519
+level these are going to turn turn out
+
+244
+00:08:59,600 --> 00:09:04,800
+to be the quantities of interest that we
+
+245
+00:09:01,519 --> 00:09:06,360
+want to infer in our inference process
+
+246
+00:09:04,800 --> 00:09:08,440
+all right so let's look at what a a
+
+247
+00:09:06,360 --> 00:09:11,000
+sample experiment would be like in the
+
+248
+00:09:08,440 --> 00:09:12,839
+perfect case assuming no bias um in
+
+249
+00:09:11,000 --> 00:09:15,079
+sampling and everything works out like
+
+250
+00:09:12,839 --> 00:09:18,040
+we expect um what we're going to do is
+
+251
+00:09:15,079 --> 00:09:19,600
+pick a transcript uh proportional to the
+
+252
+00:09:18,040 --> 00:09:21,160
+total available nucle ties from that
+
+253
+00:09:19,600 --> 00:09:23,040
+transcript so proportional to the count
+
+254
+00:09:21,160 --> 00:09:25,320
+times the length and then pick a
+
+255
+00:09:23,040 --> 00:09:27,600
+position P uniformly at random on that
+
+256
+00:09:25,320 --> 00:09:28,880
+transcript now this is not exactly what
+
+257
+00:09:27,600 --> 00:09:30,560
+the sequencing experiment is doing
+
+258
+00:09:28,880 --> 00:09:32,720
+because it's usually fragmenting first
+
+259
+00:09:30,560 --> 00:09:34,640
+and then randomly sampling but the
+
+260
+00:09:32,720 --> 00:09:36,800
+probabilities will work out correctly
+
+261
+00:09:34,640 --> 00:09:38,800
+okay so uh if we sample we're going to
+
+262
+00:09:36,800 --> 00:09:40,440
+get uh a lot of green reads because that
+
+263
+00:09:38,800 --> 00:09:42,120
+is the most abundant thing we'll see
+
+264
+00:09:40,440 --> 00:09:43,959
+some blue eventually um and if we
+
+265
+00:09:42,120 --> 00:09:46,240
+sequence long enough we'll see the the
+
+266
+00:09:43,959 --> 00:09:48,200
+rare transcript like the red one here um
+
+267
+00:09:46,240 --> 00:09:50,320
+and then we get a mixture like this now
+
+268
+00:09:48,200 --> 00:09:51,760
+of course the problem is not this simple
+
+269
+00:09:50,320 --> 00:09:53,760
+because we don't get the reads
+
+270
+00:09:51,760 --> 00:09:56,040
+colorcoded by their transcript of origin
+
+271
+00:09:53,760 --> 00:09:58,600
+we just get the sequence right and as I
+
+272
+00:09:56,040 --> 00:10:01,320
+explained in my first uh two slides the
+
+273
+00:09:58,600 --> 00:10:02,560
+multimapping self is is part of what uh
+
+274
+00:10:01,320 --> 00:10:05,560
+induces the
+
+275
+00:10:02,560 --> 00:10:07,399
+challenge okay so um to motivate a
+
+276
+00:10:05,560 --> 00:10:10,279
+potential solution here I want to think
+
+277
+00:10:07,399 --> 00:10:12,720
+about the simplest case so imagine that
+
+278
+00:10:10,279 --> 00:10:14,440
+I have this read here this black read
+
+279
+00:10:12,720 --> 00:10:16,000
+and it aligns equally well to both the
+
+280
+00:10:14,440 --> 00:10:20,079
+green and the red
+
+281
+00:10:16,000 --> 00:10:23,200
+transcript um and assume that we also
+
+282
+00:10:20,079 --> 00:10:25,360
+know the overall nucleotide fractions so
+
+283
+00:10:23,200 --> 00:10:26,760
+these values here now of course we don't
+
+284
+00:10:25,360 --> 00:10:28,680
+right to know the nucleotide fractions
+
+285
+00:10:26,760 --> 00:10:31,120
+we have to solve the inference problem
+
+286
+00:10:28,680 --> 00:10:34,040
+but uh I want to argue that assigning a
+
+287
+00:10:31,120 --> 00:10:35,959
+read and estimating the nucleotide
+
+288
+00:10:34,040 --> 00:10:38,079
+abundances are really dual problems if
+
+289
+00:10:35,959 --> 00:10:40,920
+we know the answer to one we can easily
+
+290
+00:10:38,079 --> 00:10:42,760
+solve for the other and vice versa okay
+
+291
+00:10:40,920 --> 00:10:45,120
+so um imagine these are our nucleotide
+
+292
+00:10:42,760 --> 00:10:47,480
+fractions we observe one new read the
+
+293
+00:10:45,120 --> 00:10:48,920
+multimaps to both of these transcripts
+
+294
+00:10:47,480 --> 00:10:51,000
+uh the argument I want to make is that
+
+295
+00:10:48,920 --> 00:10:52,720
+we can make an informed estimate of the
+
+296
+00:10:51,000 --> 00:10:54,240
+probability of each of these events the
+
+297
+00:10:52,720 --> 00:10:56,320
+probability that the read actually came
+
+298
+00:10:54,240 --> 00:10:58,639
+from the green transcript versus that it
+
+299
+00:10:56,320 --> 00:11:01,200
+actually came from the red transcript um
+
+300
+00:10:58,639 --> 00:11:03,320
+and so by by looking at the model that
+
+301
+00:11:01,200 --> 00:11:04,959
+we have for how the reads are generated
+
+302
+00:11:03,320 --> 00:11:06,839
+we can estimate what those probabilities
+
+303
+00:11:04,959 --> 00:11:08,440
+are um and so the probability that the
+
+304
+00:11:06,839 --> 00:11:10,480
+read comes from the green transcript is
+
+305
+00:11:08,440 --> 00:11:11,760
+just proportional to the total
+
+306
+00:11:10,480 --> 00:11:14,040
+nucleotide fraction of the green
+
+307
+00:11:11,760 --> 00:11:16,440
+transcript over its length appropriately
+
+308
+00:11:14,040 --> 00:11:18,920
+normalized so that we observe the read
+
+309
+00:11:16,440 --> 00:11:21,639
+at all with probability one okay so this
+
+310
+00:11:18,920 --> 00:11:23,720
+works out to about a 75% chance that the
+
+311
+00:11:21,639 --> 00:11:26,160
+read comes from the green transcript and
+
+312
+00:11:23,720 --> 00:11:27,680
+here a 25% chance that it comes from Red
+
+313
+00:11:26,160 --> 00:11:29,079
+it works out regardless of how you do it
+
+314
+00:11:27,680 --> 00:11:30,399
+because of the normalization but because
+
+315
+00:11:29,079 --> 00:11:32,079
+there only two possibilities here we
+
+316
+00:11:30,399 --> 00:11:34,680
+could just say 1 minus
+
+317
+00:11:32,079 --> 00:11:36,240
+75 all right so these probabilities tell
+
+318
+00:11:34,680 --> 00:11:39,200
+us the probability that the read came
+
+319
+00:11:36,240 --> 00:11:41,760
+from each of these places um and in fact
+
+320
+00:11:39,200 --> 00:11:44,320
+um if I looked at the probabilistic
+
+321
+00:11:41,760 --> 00:11:46,240
+assignments of each read and summed them
+
+322
+00:11:44,320 --> 00:11:47,680
+up those would give me an estimate of
+
+323
+00:11:46,240 --> 00:11:49,639
+the nucleotide fractions of each
+
+324
+00:11:47,680 --> 00:11:52,760
+transcript right so this is why this
+
+325
+00:11:49,639 --> 00:11:54,839
+this problem is a dual problem so this
+
+326
+00:11:52,760 --> 00:11:57,560
+leads to a probabilistic generative
+
+327
+00:11:54,839 --> 00:11:59,279
+model um this is a variant of one of the
+
+328
+00:11:57,560 --> 00:12:02,120
+first models proposed for this problem
+
+329
+00:11:59,279 --> 00:12:03,920
+problem in the RSM paper by B and others
+
+330
+00:12:02,120 --> 00:12:06,079
+um and so the variables of interest uh
+
+331
+00:12:03,920 --> 00:12:08,160
+that that are going to be used here are
+
+332
+00:12:06,079 --> 00:12:10,839
+uh Ada are the nucleotide
+
+333
+00:12:08,160 --> 00:12:12,720
+abundances uh f is the set of observed
+
+334
+00:12:10,839 --> 00:12:15,199
+fra fragments uh T is a set of
+
+335
+00:12:12,720 --> 00:12:16,480
+transcript sequences this is assumed
+
+336
+00:12:15,199 --> 00:12:19,800
+known the set of things that could
+
+337
+00:12:16,480 --> 00:12:23,480
+generate reads and uh Z are these latent
+
+338
+00:12:19,800 --> 00:12:26,560
+variables so there's a matrix of of Z
+
+339
+00:12:23,480 --> 00:12:28,720
+variables um where every read has a a
+
+340
+00:12:26,560 --> 00:12:30,199
+single one designating the transcript
+
+341
+00:12:28,720 --> 00:12:31,920
+from which it actually arose and a zero
+
+342
+00:12:30,199 --> 00:12:34,639
+everywhere else but we don't observe
+
+343
+00:12:31,920 --> 00:12:36,560
+these they're latent and so uh the the
+
+344
+00:12:34,639 --> 00:12:38,560
+generative model says that the
+
+345
+00:12:36,560 --> 00:12:40,760
+probability the likelihood of generating
+
+346
+00:12:38,560 --> 00:12:43,480
+a particular set of fragments for a
+
+347
+00:12:40,760 --> 00:12:45,320
+particular Ada is equal to the product
+
+348
+00:12:43,480 --> 00:12:47,560
+over all of the fragments of the
+
+349
+00:12:45,320 --> 00:12:50,160
+probability of generating that fragment
+
+350
+00:12:47,560 --> 00:12:53,360
+given Ada okay so this is a likelihood
+
+351
+00:12:50,160 --> 00:12:55,000
+so we we are optimizing over the Ada uh
+
+352
+00:12:53,360 --> 00:12:57,560
+conditioned on the fragments in the
+
+353
+00:12:55,000 --> 00:12:59,600
+transcripts but um it's proportional
+
+354
+00:12:57,560 --> 00:13:02,279
+here to the probability of the data
+
+355
+00:12:59,600 --> 00:13:03,839
+given the parameters and so we're making
+
+356
+00:13:02,279 --> 00:13:05,600
+an assumption here which is Independence
+
+357
+00:13:03,839 --> 00:13:07,040
+assumption which is that we've generated
+
+358
+00:13:05,600 --> 00:13:08,600
+enough fragments such that the
+
+359
+00:13:07,040 --> 00:13:11,560
+probability of sampling one doesn't
+
+360
+00:13:08,600 --> 00:13:14,720
+affect the pool that we're sampling from
+
+361
+00:13:11,560 --> 00:13:17,320
+um and if we want to unfold this uh
+
+362
+00:13:14,720 --> 00:13:19,360
+product a little bit what we can say is
+
+363
+00:13:17,320 --> 00:13:21,519
+well that product of generating each
+
+364
+00:13:19,360 --> 00:13:23,680
+fragment is really asking what is the
+
+365
+00:13:21,519 --> 00:13:26,120
+product over all fragments of generating
+
+366
+00:13:23,680 --> 00:13:29,199
+every possible mapping for that fragment
+
+367
+00:13:26,120 --> 00:13:31,440
+so the uh the sum over all fragments
+
+368
+00:13:29,199 --> 00:13:34,800
+ments though here we can sort of ignore
+
+369
+00:13:31,440 --> 00:13:36,560
+or set to zero uh uh transcripts where
+
+370
+00:13:34,800 --> 00:13:38,680
+the fragment has no alignment right
+
+371
+00:13:36,560 --> 00:13:41,000
+assume that they're vanishingly small so
+
+372
+00:13:38,680 --> 00:13:44,040
+the sum over all transcripts were the
+
+373
+00:13:41,000 --> 00:13:46,000
+read aligns of the probability of first
+
+374
+00:13:44,040 --> 00:13:48,000
+selecting that transcript given our
+
+375
+00:13:46,000 --> 00:13:49,639
+estimated abundances and then the
+
+376
+00:13:48,000 --> 00:13:51,480
+probability of generating this
+
+377
+00:13:49,639 --> 00:13:53,440
+particular fragment conditioned on the
+
+378
+00:13:51,480 --> 00:13:54,480
+fact that it comes from this transcript
+
+379
+00:13:53,440 --> 00:13:56,519
+okay so the first term is the
+
+380
+00:13:54,480 --> 00:13:57,920
+probability of a transcript selecting it
+
+381
+00:13:56,519 --> 00:13:59,440
+and the second term is the probability
+
+382
+00:13:57,920 --> 00:14:01,360
+of observing this particular fragment
+
+383
+00:13:59,440 --> 00:14:02,680
+from the transcript in the simplest case
+
+384
+00:14:01,360 --> 00:14:03,920
+this is just one over the length of the
+
+385
+00:14:02,680 --> 00:14:06,160
+transcript because we're choosing
+
+386
+00:14:03,920 --> 00:14:08,440
+positions uniformly around them so there
+
+387
+00:14:06,160 --> 00:14:10,560
+are standard solutions to this problem
+
+388
+00:14:08,440 --> 00:14:12,880
+uh a statistical generative model gives
+
+389
+00:14:10,560 --> 00:14:14,639
+a nice principled way to solve this and
+
+390
+00:14:12,880 --> 00:14:17,519
+it turns out that we can at least
+
+391
+00:14:14,639 --> 00:14:19,839
+locally optimize this likelihood that is
+
+392
+00:14:17,519 --> 00:14:22,600
+find the Ada that maximize the
+
+393
+00:14:19,839 --> 00:14:24,480
+likelihood of The observed data using an
+
+394
+00:14:22,600 --> 00:14:26,680
+algorithm like the EM algorithm or the
+
+395
+00:14:24,480 --> 00:14:29,720
+variational beian EM algorithm or other
+
+396
+00:14:26,680 --> 00:14:32,920
+variational inference techniques okay
+
+397
+00:14:29,720 --> 00:14:34,000
+so this is a widely adopted solution to
+
+398
+00:14:32,920 --> 00:14:35,720
+these problems with different
+
+399
+00:14:34,000 --> 00:14:37,680
+formulations of the EM different things
+
+400
+00:14:35,720 --> 00:14:40,279
+being considered slightly different
+
+401
+00:14:37,680 --> 00:14:43,560
+changes to the model um some of the
+
+402
+00:14:40,279 --> 00:14:47,920
+original work uh in this field um goes
+
+403
+00:14:43,560 --> 00:14:50,560
+back to uh 2011 uh these papers here and
+
+404
+00:14:47,920 --> 00:14:51,600
+um then continues on into the current
+
+405
+00:14:50,560 --> 00:14:54,759
+day
+
+406
+00:14:51,600 --> 00:14:56,360
+actually so uh that's the model uh I'm
+
+407
+00:14:54,759 --> 00:14:57,800
+not going to go over pseudo code or
+
+408
+00:14:56,360 --> 00:15:00,360
+anything but I will give you the two
+
+409
+00:14:57,800 --> 00:15:02,639
+main steps of the EML algorithm uh it's
+
+410
+00:15:00,360 --> 00:15:05,360
+an iterative algorithm that goes back
+
+411
+00:15:02,639 --> 00:15:07,480
+and forth between an expectation step
+
+412
+00:15:05,360 --> 00:15:11,560
+and a maximization step so the
+
+413
+00:15:07,480 --> 00:15:13,920
+expectation step says uh what is the
+
+414
+00:15:11,560 --> 00:15:16,160
+expected value of each of my latent
+
+415
+00:15:13,920 --> 00:15:19,320
+variables right another way of thinking
+
+416
+00:15:16,160 --> 00:15:21,040
+about this is given my current estimate
+
+417
+00:15:19,320 --> 00:15:24,240
+of the transcript abundances here
+
+418
+00:15:21,040 --> 00:15:25,800
+denoted as Ada sup T where T is a Time
+
+419
+00:15:24,240 --> 00:15:29,519
+step in the algorithm what iteration I'm
+
+420
+00:15:25,800 --> 00:15:31,560
+in um I can ask for every lat what is
+
+421
+00:15:29,519 --> 00:15:34,000
+the probability that Z J equals 1 that
+
+422
+00:15:31,560 --> 00:15:36,759
+is the probability that read I comes
+
+423
+00:15:34,000 --> 00:15:38,920
+from transcript J um that's just equal
+
+424
+00:15:36,759 --> 00:15:40,600
+to this equation I showed in the other
+
+425
+00:15:38,920 --> 00:15:42,240
+slide right this is the generalized
+
+426
+00:15:40,600 --> 00:15:45,079
+version of it the abundance of this
+
+427
+00:15:42,240 --> 00:15:48,560
+transcript over its length uh normalized
+
+428
+00:15:45,079 --> 00:15:50,880
+so that the total sum is one okay so I
+
+429
+00:15:48,560 --> 00:15:52,160
+sum over all transcripts the total sum
+
+430
+00:15:50,880 --> 00:15:54,639
+of the expected values is going to be
+
+431
+00:15:52,160 --> 00:15:57,279
+one because I had to generate this once
+
+432
+00:15:54,639 --> 00:15:59,560
+I have determined the allocations or the
+
+433
+00:15:57,279 --> 00:16:02,600
+soft assignments for each read then I
+
+434
+00:15:59,560 --> 00:16:05,759
+can write down the maximum likelihood uh
+
+435
+00:16:02,600 --> 00:16:08,639
+parameter estimates conditioned on those
+
+436
+00:16:05,759 --> 00:16:11,040
+uh assignments as this uh the total
+
+437
+00:16:08,639 --> 00:16:13,240
+nucleotide fraction of a particular
+
+438
+00:16:11,040 --> 00:16:15,680
+transcript is just the sum over all
+
+439
+00:16:13,240 --> 00:16:18,319
+alignments for this read of the expected
+
+440
+00:16:15,680 --> 00:16:20,279
+value of that latent variable divided by
+
+441
+00:16:18,319 --> 00:16:21,759
+the total number of reads and so what
+
+442
+00:16:20,279 --> 00:16:24,079
+the EM algorithm does is it starts out
+
+443
+00:16:21,759 --> 00:16:26,560
+with a random guess for the adaa uh it
+
+444
+00:16:24,079 --> 00:16:28,519
+computes the expectations based on those
+
+445
+00:16:26,560 --> 00:16:30,600
+expectations it computes a new maximum
+
+446
+00:16:28,519 --> 00:16:32,279
+likelihood estimate based on that
+
+447
+00:16:30,600 --> 00:16:34,199
+likelihood estimate it updates the
+
+448
+00:16:32,279 --> 00:16:36,480
+expectations and it continues to do this
+
+449
+00:16:34,199 --> 00:16:38,440
+until convergence so this is a quite
+
+450
+00:16:36,480 --> 00:16:41,040
+effective method unfortunately uh it's
+
+451
+00:16:38,440 --> 00:16:43,160
+also somewhat slow so in terms of how
+
+452
+00:16:41,040 --> 00:16:45,680
+effective it is um this is a plots from
+
+453
+00:16:43,160 --> 00:16:47,600
+the original RSM paper and what they're
+
+454
+00:16:45,680 --> 00:16:49,720
+showing is in different simulated
+
+455
+00:16:47,600 --> 00:16:51,360
+experiments where we have the true
+
+456
+00:16:49,720 --> 00:16:53,600
+abundance on the x-axis and the
+
+457
+00:16:51,360 --> 00:16:55,079
+predicted abundance on the y- axis how
+
+458
+00:16:53,600 --> 00:16:57,880
+well do different methods do at
+
+459
+00:16:55,079 --> 00:17:01,800
+estimating uh transcript abundance and
+
+460
+00:16:57,880 --> 00:17:04,280
+so the first here uh the the top row is
+
+461
+00:17:01,800 --> 00:17:07,360
+in a mouse liver sample the bottom row
+
+462
+00:17:04,280 --> 00:17:09,120
+is in a maze uh sample so the the
+
+463
+00:17:07,360 --> 00:17:11,679
+leftmost column is showing if you just
+
+464
+00:17:09,120 --> 00:17:13,120
+used unique counting of reads and so
+
+465
+00:17:11,679 --> 00:17:14,600
+what you can see here is there's kind of
+
+466
+00:17:13,120 --> 00:17:16,079
+systematic underestimation because
+
+467
+00:17:14,600 --> 00:17:17,600
+you're throwing away those reads that
+
+468
+00:17:16,079 --> 00:17:19,520
+don't uniquely map to this this
+
+469
+00:17:17,600 --> 00:17:21,439
+transcript and so you're sort of
+
+470
+00:17:19,520 --> 00:17:24,079
+generally systematically underestimating
+
+471
+00:17:21,439 --> 00:17:25,240
+the abundances the rescue method uh in
+
+472
+00:17:24,079 --> 00:17:26,839
+the middle I'll come back to in one
+
+473
+00:17:25,240 --> 00:17:28,480
+second uh and then the best looking
+
+474
+00:17:26,839 --> 00:17:30,559
+method is this em procedure I just
+
+475
+00:17:28,480 --> 00:17:31,840
+discussed on the right so the rescue
+
+476
+00:17:30,559 --> 00:17:33,720
+method is something that that was
+
+477
+00:17:31,840 --> 00:17:36,679
+developed in some of the original work
+
+478
+00:17:33,720 --> 00:17:39,080
+for uh the RNA seek assay um and it was
+
+479
+00:17:36,679 --> 00:17:40,880
+a heuristic and it turns out that it's
+
+480
+00:17:39,080 --> 00:17:42,880
+really just uh equivalent to basically
+
+481
+00:17:40,880 --> 00:17:44,520
+running one round of the EM so you look
+
+482
+00:17:42,880 --> 00:17:46,039
+at the uniquely mapped reads you
+
+483
+00:17:44,520 --> 00:17:47,679
+estimate the abundances based on those
+
+484
+00:17:46,039 --> 00:17:49,240
+alone then you go back to all of the
+
+485
+00:17:47,679 --> 00:17:51,280
+reads that map to more than one place
+
+486
+00:17:49,240 --> 00:17:52,640
+and you allocate them proportionally
+
+487
+00:17:51,280 --> 00:17:55,720
+based on the estimates from the unique
+
+488
+00:17:52,640 --> 00:17:57,919
+mapping okay so it already resolves uh
+
+489
+00:17:55,720 --> 00:17:59,120
+you know a lot of the problems but it's
+
+490
+00:17:57,919 --> 00:18:02,240
+not as good as actually running the
+
+491
+00:17:59,120 --> 00:18:05,880
+algorithm to convergence as you would
+
+492
+00:18:02,240 --> 00:18:08,159
+expect okay so this is a great solution
+
+493
+00:18:05,880 --> 00:18:09,480
+why aren't we done what still remains uh
+
+494
+00:18:08,159 --> 00:18:12,640
+you know what what else is in this
+
+495
+00:18:09,480 --> 00:18:14,320
+primer so uh it it's this is a way to
+
+496
+00:18:12,640 --> 00:18:16,480
+find at least locally the maximum
+
+497
+00:18:14,320 --> 00:18:17,840
+likelihood estimates and parameters
+
+498
+00:18:16,480 --> 00:18:19,440
+however the problem is that every
+
+499
+00:18:17,840 --> 00:18:21,600
+iteration of the expectation
+
+500
+00:18:19,440 --> 00:18:23,520
+maximization algorithm scales in the
+
+501
+00:18:21,600 --> 00:18:24,919
+total number of alignments right even
+
+502
+00:18:23,520 --> 00:18:26,799
+when we're being sparse and not
+
+503
+00:18:24,919 --> 00:18:28,840
+considering every transcript to generate
+
+504
+00:18:26,799 --> 00:18:30,720
+every read we still have to Loop over
+
+505
+00:18:28,840 --> 00:18:32,720
+all of the transcripts to which this
+
+506
+00:18:30,720 --> 00:18:35,360
+read has an alignment and we have to
+
+507
+00:18:32,720 --> 00:18:37,360
+evaluate those expectations those those
+
+508
+00:18:35,360 --> 00:18:39,640
+expected values of the latent variables
+
+509
+00:18:37,360 --> 00:18:41,799
+and then uh we have to do that for as
+
+510
+00:18:39,640 --> 00:18:44,000
+many iterations as we need to converge
+
+511
+00:18:41,799 --> 00:18:45,400
+so uh in a typical rnas experiment we
+
+512
+00:18:44,000 --> 00:18:47,520
+might have 10 to the 7th to 10 to the
+
+513
+00:18:45,400 --> 00:18:50,280
+eth alignments and we might have
+
+514
+00:18:47,520 --> 00:18:53,000
+hundreds to thousands of iterations okay
+
+515
+00:18:50,280 --> 00:18:54,679
+so uh this whole thing is going to take
+
+516
+00:18:53,000 --> 00:18:57,320
+quite a while to
+
+517
+00:18:54,679 --> 00:18:59,240
+optimize luckily uh people have thought
+
+518
+00:18:57,320 --> 00:19:04,039
+about solving this problem as well
+
+519
+00:18:59,240 --> 00:19:06,000
+okay so uh a common way to reduce the uh
+
+520
+00:19:04,039 --> 00:19:08,840
+number of the complexity of the
+
+521
+00:19:06,000 --> 00:19:11,120
+likelihood function is to collapse
+
+522
+00:19:08,840 --> 00:19:15,600
+redundant reads there are many ways to
+
+523
+00:19:11,120 --> 00:19:17,240
+do this uh but they are um different
+
+524
+00:19:15,600 --> 00:19:19,400
+mostly in the details than the
+
+525
+00:19:17,240 --> 00:19:22,480
+fundamentals um and I'll give sort of
+
+526
+00:19:19,400 --> 00:19:25,480
+the most simple uh explanation of of how
+
+527
+00:19:22,480 --> 00:19:28,200
+this this process works um interestingly
+
+528
+00:19:25,480 --> 00:19:30,840
+this idea of collapsing redundant reads
+
+529
+00:19:28,200 --> 00:19:35,280
+into equivalence classes of reads goes
+
+530
+00:19:30,840 --> 00:19:37,080
+back almost to um the original work on
+
+531
+00:19:35,280 --> 00:19:38,600
+do solving that estimation problem so
+
+532
+00:19:37,080 --> 00:19:41,360
+from the GetGo people realized this was
+
+533
+00:19:38,600 --> 00:19:43,000
+a computationally challenging problem um
+
+534
+00:19:41,360 --> 00:19:44,559
+and thought about variable reduction
+
+535
+00:19:43,000 --> 00:19:46,080
+strategies that would allow us to solve
+
+536
+00:19:44,559 --> 00:19:48,640
+it more
+
+537
+00:19:46,080 --> 00:19:50,039
+quickly okay so what are these
+
+538
+00:19:48,640 --> 00:19:52,679
+equivalence classes and how are they
+
+539
+00:19:50,039 --> 00:19:54,559
+helpful so here's the key idea um
+
+540
+00:19:52,679 --> 00:19:56,240
+imagine I have an experiment where I
+
+541
+00:19:54,559 --> 00:19:58,159
+have a set of transcripts and a set of
+
+542
+00:19:56,240 --> 00:20:00,360
+fragments fragments is just the generic
+
+543
+00:19:58,159 --> 00:20:03,919
+term for a read could be a read or a
+
+544
+00:20:00,360 --> 00:20:06,000
+read pair and the arrows here show the
+
+545
+00:20:03,919 --> 00:20:08,440
+alignments of those fragments to the
+
+546
+00:20:06,000 --> 00:20:10,440
+transcripts so for example fragment one
+
+547
+00:20:08,440 --> 00:20:13,120
+maps to transcript B and also to
+
+548
+00:20:10,440 --> 00:20:16,240
+transcript e uh as does fragment three
+
+549
+00:20:13,120 --> 00:20:19,559
+andag fragment five whereas two and four
+
+550
+00:20:16,240 --> 00:20:21,960
+only map uniquely to transcript C and
+
+551
+00:20:19,559 --> 00:20:25,400
+this is not an atypical kind of pattern
+
+552
+00:20:21,960 --> 00:20:28,679
+because the alignment is not um
+
+553
+00:20:25,400 --> 00:20:30,360
+ambiguous randomly it's ambiguous mostly
+
+554
+00:20:28,679 --> 00:20:31,880
+driven by the sequence structure of the
+
+555
+00:20:30,360 --> 00:20:33,679
+transcript so when I have alternative
+
+556
+00:20:31,880 --> 00:20:35,720
+splicing those transcripts are going to
+
+557
+00:20:33,679 --> 00:20:37,720
+tend to have multimapping reads in the
+
+558
+00:20:35,720 --> 00:20:39,360
+areas where they share sequence and
+
+559
+00:20:37,720 --> 00:20:40,320
+transcripts that have unique SPL
+
+560
+00:20:39,360 --> 00:20:42,280
+Junctions are going to tend to have
+
+561
+00:20:40,320 --> 00:20:45,640
+uniquely mapping reads across those spce
+
+562
+00:20:42,280 --> 00:20:49,000
+Junctions so I I um tend to get very
+
+563
+00:20:45,640 --> 00:20:50,400
+structured patterns of read alignment so
+
+564
+00:20:49,000 --> 00:20:53,440
+despite the fact that I have five
+
+565
+00:20:50,400 --> 00:20:57,000
+fragments here I only have two types of
+
+566
+00:20:53,440 --> 00:20:59,080
+fragments right and so those types are
+
+567
+00:20:57,000 --> 00:21:01,320
+the type of fragment that aligns to B
+
+568
+00:20:59,080 --> 00:21:04,280
+and E and the type of fragment that
+
+569
+00:21:01,320 --> 00:21:07,080
+aligns to C so one way to classify this
+
+570
+00:21:04,280 --> 00:21:09,720
+experiment it does lose some information
+
+571
+00:21:07,080 --> 00:21:12,880
+um but it still turns out to be pretty
+
+572
+00:21:09,720 --> 00:21:14,360
+good for most cases is to represent my
+
+573
+00:21:12,880 --> 00:21:15,360
+experiment like this rather than
+
+574
+00:21:14,360 --> 00:21:17,760
+considering every alignment
+
+575
+00:21:15,360 --> 00:21:21,400
+independently I'm going to consider that
+
+576
+00:21:17,760 --> 00:21:24,039
+there are three alignments that uh map
+
+577
+00:21:21,400 --> 00:21:27,080
+to the group be and two alignments that
+
+578
+00:21:24,039 --> 00:21:29,159
+map uniquely to see I can optionally try
+
+579
+00:21:27,080 --> 00:21:31,960
+and keep a little extra information
+
+580
+00:21:29,159 --> 00:21:34,440
+about the Affinity of those fragments in
+
+581
+00:21:31,960 --> 00:21:35,480
+that group to each transcript or I can
+
+582
+00:21:34,440 --> 00:21:37,360
+just sort of assume that it's
+
+583
+00:21:35,480 --> 00:21:39,559
+uninformative and all I care about is uh
+
+584
+00:21:37,360 --> 00:21:42,760
+compatibility of
+
+585
+00:21:39,559 --> 00:21:44,320
+mapping okay so um this particular
+
+586
+00:21:42,760 --> 00:21:45,679
+notion of an equivalence class that is
+
+587
+00:21:44,320 --> 00:21:48,240
+completely induced by the mappings
+
+588
+00:21:45,679 --> 00:21:51,080
+itself uh goes back at least to the uh
+
+589
+00:21:48,240 --> 00:21:53,880
+work of turo at all in
+
+590
+00:21:51,080 --> 00:21:55,960
+2011 so what does this do for us what
+
+591
+00:21:53,880 --> 00:21:58,600
+does this give us so what we're really
+
+592
+00:21:55,960 --> 00:22:00,480
+doing if we optimize this new
+
+593
+00:21:58,600 --> 00:22:02,640
+representation of the data in the EM
+
+594
+00:22:00,480 --> 00:22:04,679
+algorithm is we had this original
+
+595
+00:22:02,640 --> 00:22:07,279
+likelihood um you know written in in
+
+596
+00:22:04,679 --> 00:22:09,240
+slightly simpler notation here which was
+
+597
+00:22:07,279 --> 00:22:10,799
+the product over all fragments that we
+
+598
+00:22:09,240 --> 00:22:13,000
+sequenced and then the sum over all
+
+599
+00:22:10,799 --> 00:22:15,840
+alignments of that fragment and we're
+
+600
+00:22:13,000 --> 00:22:18,600
+approximating that likelihood by this
+
+601
+00:22:15,840 --> 00:22:20,640
+thing which you know looks in notation
+
+602
+00:22:18,600 --> 00:22:23,080
+here maybe a little bit more complex but
+
+603
+00:22:20,640 --> 00:22:24,600
+it's actually much simpler it says we're
+
+604
+00:22:23,080 --> 00:22:27,400
+going to take the product overall
+
+605
+00:22:24,600 --> 00:22:30,080
+equivalence classes of fragments so all
+
+606
+00:22:27,400 --> 00:22:31,679
+types of fragment Ms and then we're
+
+607
+00:22:30,080 --> 00:22:33,760
+going to take the sum over all the
+
+608
+00:22:31,679 --> 00:22:35,960
+transcripts that label this equivalence
+
+609
+00:22:33,760 --> 00:22:40,120
+class so in our previous example one of
+
+610
+00:22:35,960 --> 00:22:42,360
+them was labeled B and uh go back B and
+
+611
+00:22:40,120 --> 00:22:44,480
+E and the other one was labeled C so
+
+612
+00:22:42,360 --> 00:22:46,720
+there's two types one labeled B and E we
+
+613
+00:22:44,480 --> 00:22:48,760
+sum over b and e one labeled with just C
+
+614
+00:22:46,720 --> 00:22:50,320
+we sum over C and this is the
+
+615
+00:22:48,760 --> 00:22:52,400
+probability of of selecting this
+
+616
+00:22:50,320 --> 00:22:54,039
+transcript given the parameters and then
+
+617
+00:22:52,400 --> 00:22:57,200
+this is the probability of generating a
+
+618
+00:22:54,039 --> 00:22:59,360
+fragment uh from this transcript given
+
+619
+00:22:57,200 --> 00:23:01,640
+that it comes from this equivalence CL
+
+620
+00:22:59,360 --> 00:23:04,000
+and then the idea here is because every
+
+621
+00:23:01,640 --> 00:23:06,480
+fragment in an equivalence class is
+
+622
+00:23:04,000 --> 00:23:09,600
+equivalent under our notion of the
+
+623
+00:23:06,480 --> 00:23:11,400
+generative model then the contribution
+
+624
+00:23:09,600 --> 00:23:13,919
+to the overall likelihood is just the
+
+625
+00:23:11,400 --> 00:23:15,400
+probability of that one fragment raised
+
+626
+00:23:13,919 --> 00:23:16,760
+to the number of fragments in that
+
+627
+00:23:15,400 --> 00:23:18,559
+equivalence class right because they're
+
+628
+00:23:16,760 --> 00:23:20,720
+all independent we're taking that that
+
+629
+00:23:18,559 --> 00:23:24,000
+multiplication by just exponentiating
+
+630
+00:23:20,720 --> 00:23:27,640
+this term so this turns out to be much
+
+631
+00:23:24,000 --> 00:23:29,679
+better um there are uh many fewer
+
+632
+00:23:27,640 --> 00:23:32,320
+equivalence classes then there are
+
+633
+00:23:29,679 --> 00:23:35,679
+transcripts yeah so quick question here
+
+634
+00:23:32,320 --> 00:23:38,360
+so would I so when so would these be the
+
+635
+00:23:35,679 --> 00:23:40,039
+same if I make the assumption that my
+
+636
+00:23:38,360 --> 00:23:42,600
+probability of FJ being generated from
+
+637
+00:23:40,039 --> 00:23:44,200
+TI is just the same independent of where
+
+638
+00:23:42,600 --> 00:23:46,240
+this was generated from within the
+
+639
+00:23:44,200 --> 00:23:48,159
+transcript I guess when should I assume
+
+640
+00:23:46,240 --> 00:23:52,120
+that these two are the same ah great
+
+641
+00:23:48,159 --> 00:23:55,000
+question um so uh if I go back here so
+
+642
+00:23:52,120 --> 00:23:56,559
+the the um typical Notions of
+
+643
+00:23:55,000 --> 00:23:59,039
+equivalence classes going back to the
+
+644
+00:23:56,559 --> 00:24:01,440
+original tarot at all work um well
+
+645
+00:23:59,039 --> 00:24:04,080
+actually I will mention Julia Salman's
+
+646
+00:24:01,440 --> 00:24:06,000
+work um so this is based primarily on
+
+647
+00:24:04,080 --> 00:24:09,919
+annotation so things coming from the
+
+648
+00:24:06,000 --> 00:24:12,120
+same Exon or not um the the uh turo all
+
+649
+00:24:09,919 --> 00:24:14,520
+work defines it in a data driven fashion
+
+650
+00:24:12,120 --> 00:24:16,320
+so the only thing that matters is the
+
+651
+00:24:14,520 --> 00:24:17,880
+specific set of transcripts to which
+
+652
+00:24:16,320 --> 00:24:19,880
+your read aligns that uniquely
+
+653
+00:24:17,880 --> 00:24:21,120
+determines the equivalence class so if
+
+654
+00:24:19,880 --> 00:24:22,400
+read align to the same set of
+
+655
+00:24:21,120 --> 00:24:24,480
+transcripts even if they're in different
+
+656
+00:24:22,400 --> 00:24:27,480
+positions they are equivalent for the
+
+657
+00:24:24,480 --> 00:24:29,640
+purposes of inference um we had a paper
+
+658
+00:24:27,480 --> 00:24:31,520
+in uh 17 where we looked at other
+
+659
+00:24:29,640 --> 00:24:33,000
+Notions of equivalence classes and it
+
+660
+00:24:31,520 --> 00:24:34,679
+turns out you can recover a little bit
+
+661
+00:24:33,000 --> 00:24:36,679
+of extra information because you're
+
+662
+00:24:34,679 --> 00:24:38,760
+throwing some stuff away so for example
+
+663
+00:24:36,679 --> 00:24:41,720
+here what we do is we look for every
+
+664
+00:24:38,760 --> 00:24:43,679
+transcript not just at the set of
+
+665
+00:24:41,720 --> 00:24:44,880
+transcripts that it maps to for every
+
+666
+00:24:43,679 --> 00:24:47,000
+fragment the set of transcripts that
+
+667
+00:24:44,880 --> 00:24:48,399
+they maps to but also the conditional
+
+668
+00:24:47,000 --> 00:24:50,399
+probability because there are other
+
+669
+00:24:48,399 --> 00:24:52,520
+things in the model that matter like the
+
+670
+00:24:50,399 --> 00:24:55,480
+implied fragment length they get thrown
+
+671
+00:24:52,520 --> 00:24:57,760
+away in the simpler Notions that get uh
+
+672
+00:24:55,480 --> 00:24:59,240
+captured in in other Notions right but
+
+673
+00:24:57,760 --> 00:25:00,799
+um for the purpose of this talk I'm just
+
+674
+00:24:59,240 --> 00:25:02,840
+going to assume compatibility is the
+
+675
+00:25:00,799 --> 00:25:04,840
+only thing we care about the reads map
+
+676
+00:25:02,840 --> 00:25:06,679
+to the same set of transcripts but um it
+
+677
+00:25:04,840 --> 00:25:08,200
+is right to think that there could be
+
+678
+00:25:06,679 --> 00:25:09,399
+differences even within an equivalence
+
+679
+00:25:08,200 --> 00:25:11,240
+class in terms of the actual
+
+680
+00:25:09,399 --> 00:25:13,600
+probabilities you care about in which
+
+681
+00:25:11,240 --> 00:25:16,440
+case you can refine that
+
+682
+00:25:13,600 --> 00:25:21,559
+notion thanks of
+
+683
+00:25:16,440 --> 00:25:23,120
+course okay so um this is great uh but
+
+684
+00:25:21,559 --> 00:25:26,360
+it still doesn't completely solve the
+
+685
+00:25:23,120 --> 00:25:29,240
+problems that we care about um because
+
+686
+00:25:26,360 --> 00:25:31,240
+even when I have this em solution this
+
+687
+00:25:29,240 --> 00:25:33,240
+this point solution it is exactly that
+
+688
+00:25:31,240 --> 00:25:36,279
+it's a point solution I have optimized
+
+689
+00:25:33,240 --> 00:25:38,039
+for the maximum likelihood set of
+
+690
+00:25:36,279 --> 00:25:40,880
+parameters for my model based on the
+
+691
+00:25:38,039 --> 00:25:44,480
+data uh I'm not guaranteed that I find a
+
+692
+00:25:40,880 --> 00:25:45,799
+local maximum so where I find my maximum
+
+693
+00:25:44,480 --> 00:25:47,559
+likelihood parameters could depend on
+
+694
+00:25:45,799 --> 00:25:50,559
+where I started the inference if I took
+
+695
+00:25:47,559 --> 00:25:54,440
+an a uniform guess as my initial step or
+
+696
+00:25:50,559 --> 00:25:58,559
+a random guess as my initial step um and
+
+697
+00:25:54,440 --> 00:26:02,039
+uh I'm not guaranteed uh to um to always
+
+698
+00:25:58,559 --> 00:26:03,640
+find a a global Optima okay and the
+
+699
+00:26:02,039 --> 00:26:05,240
+there could in fact be multiple Global
+
+700
+00:26:03,640 --> 00:26:07,279
+Optima different settings of the of the
+
+701
+00:26:05,240 --> 00:26:10,840
+transcript abundances that have the same
+
+702
+00:26:07,279 --> 00:26:13,440
+overall likelihood okay so uh there are
+
+703
+00:26:10,840 --> 00:26:16,039
+different kinds of variants in my my
+
+704
+00:26:13,440 --> 00:26:18,279
+whole process uh at least two of which
+
+705
+00:26:16,039 --> 00:26:20,360
+are important here so one is technical
+
+706
+00:26:18,279 --> 00:26:22,760
+variance uh which is if I had the same
+
+707
+00:26:20,360 --> 00:26:25,000
+biological sample and I sequenced it
+
+708
+00:26:22,760 --> 00:26:27,399
+again I would draw a different specific
+
+709
+00:26:25,000 --> 00:26:29,480
+set of transcripts and that transcript
+
+710
+00:26:27,399 --> 00:26:30,840
+fragments and that specific set of
+
+711
+00:26:29,480 --> 00:26:33,320
+fragments might lead to a different
+
+712
+00:26:30,840 --> 00:26:35,559
+maximum likelihood solution the other is
+
+713
+00:26:33,320 --> 00:26:37,360
+simply uncertainty and inference right
+
+714
+00:26:35,559 --> 00:26:39,960
+we are trying to optimize a likelihood
+
+715
+00:26:37,360 --> 00:26:41,880
+function in a a space of tens to
+
+716
+00:26:39,960 --> 00:26:43,559
+hundreds of thousands of parameters the
+
+717
+00:26:41,880 --> 00:26:45,559
+dimensionality is equal to the number of
+
+718
+00:26:43,559 --> 00:26:48,360
+transcripts and that's a hard inference
+
+719
+00:26:45,559 --> 00:26:50,039
+problem okay and so we have uncertainty
+
+720
+00:26:48,360 --> 00:26:51,960
+and inference as well we're never
+
+721
+00:26:50,039 --> 00:26:54,000
+guaranteed that we found a unique Global
+
+722
+00:26:51,960 --> 00:26:57,279
+Optimum uh if we start from different
+
+723
+00:26:54,000 --> 00:26:59,679
+places and so uh we'd like to assess
+
+724
+00:26:57,279 --> 00:27:01,520
+that uncertainty
+
+725
+00:26:59,679 --> 00:27:03,240
+so it turns out that people have studied
+
+726
+00:27:01,520 --> 00:27:05,039
+this problem for quite a while as well
+
+727
+00:27:03,240 --> 00:27:06,679
+is specifically in the context of RN
+
+728
+00:27:05,039 --> 00:27:08,240
+abundance estimation and there are
+
+729
+00:27:06,679 --> 00:27:10,240
+multiple different ways to try to assess
+
+730
+00:27:08,240 --> 00:27:12,240
+the uncertainty so one thing you could
+
+731
+00:27:10,240 --> 00:27:13,720
+do is get rid of this maximum likelihood
+
+732
+00:27:12,240 --> 00:27:16,880
+framework at all and think about doing
+
+733
+00:27:13,720 --> 00:27:19,200
+this in a fully beijan contents um so
+
+734
+00:27:16,880 --> 00:27:21,240
+one of the first tools to do this was uh
+
+735
+00:27:19,200 --> 00:27:23,320
+the bit seek work and there they
+
+736
+00:27:21,240 --> 00:27:26,799
+proposed a fully basan model for
+
+737
+00:27:23,320 --> 00:27:28,919
+transcript uh inference um and it's very
+
+738
+00:27:26,799 --> 00:27:33,000
+accurate it just turns out to be very
+
+739
+00:27:28,919 --> 00:27:34,600
+slow for uh large scale samples right um
+
+740
+00:27:33,000 --> 00:27:36,000
+in the original paper granted this is
+
+741
+00:27:34,600 --> 00:27:37,799
+quite a while ago so the computational
+
+742
+00:27:36,000 --> 00:27:40,159
+infastructure is different the slowest
+
+743
+00:27:37,799 --> 00:27:41,399
+samples took almost a week to do the uh
+
+744
+00:27:40,159 --> 00:27:43,720
+abundance
+
+745
+00:27:41,399 --> 00:27:46,760
+estimation you could uh do something
+
+746
+00:27:43,720 --> 00:27:48,799
+like um a posterior Gibb sampling where
+
+747
+00:27:46,760 --> 00:27:52,880
+you start from an informed location and
+
+748
+00:27:48,799 --> 00:27:54,480
+so actually uh the the RSM work uh did
+
+749
+00:27:52,880 --> 00:27:56,919
+this I think not the original paper but
+
+750
+00:27:54,480 --> 00:27:58,480
+the 2011 follow-up to the original paper
+
+751
+00:27:56,919 --> 00:28:00,240
+where the idea is you start from the
+
+752
+00:27:58,480 --> 00:28:01,720
+maximum likelihood estimate so now
+
+753
+00:28:00,240 --> 00:28:04,440
+you're in a good place in the parameter
+
+754
+00:28:01,720 --> 00:28:06,480
+space and you do some sort of sampling
+
+755
+00:28:04,440 --> 00:28:08,399
+around that um and you get a sense of
+
+756
+00:28:06,480 --> 00:28:10,480
+the variance of the posterior at least
+
+757
+00:28:08,399 --> 00:28:12,360
+close to the maximum likelihood estimate
+
+758
+00:28:10,480 --> 00:28:13,799
+this can be made to be quite fast right
+
+759
+00:28:12,360 --> 00:28:16,240
+you don't have to draw that many samples
+
+760
+00:28:13,799 --> 00:28:18,279
+to get a decent sense of the variance um
+
+761
+00:28:16,240 --> 00:28:20,480
+and then there's also um techniques like
+
+762
+00:28:18,279 --> 00:28:21,760
+bootstrap sample and this could be done
+
+763
+00:28:20,480 --> 00:28:24,000
+either at the level of the original
+
+764
+00:28:21,760 --> 00:28:25,440
+reads or could be done at the level of
+
+765
+00:28:24,000 --> 00:28:27,640
+the equivalence classes which is much
+
+766
+00:28:25,440 --> 00:28:29,480
+much faster and much more efficient um
+
+767
+00:28:27,640 --> 00:28:31,880
+and doesn't lose that much extra
+
+768
+00:28:29,480 --> 00:28:33,320
+information um and so the idea here like
+
+769
+00:28:31,880 --> 00:28:35,200
+a normal bootstrap procedure is you're
+
+770
+00:28:33,320 --> 00:28:36,799
+going to sample with replacement from
+
+771
+00:28:35,200 --> 00:28:39,519
+your data and then you're going to rerun
+
+772
+00:28:36,799 --> 00:28:41,320
+your whole inference procedure and so um
+
+773
+00:28:39,519 --> 00:28:43,200
+if I resample from the original reads I
+
+774
+00:28:41,320 --> 00:28:44,360
+just basically redo everything um I
+
+775
+00:28:43,200 --> 00:28:45,760
+could actually just resample from the
+
+776
+00:28:44,360 --> 00:28:47,640
+alignments I've already computed for
+
+777
+00:28:45,760 --> 00:28:49,200
+those reads but if I resample from the
+
+778
+00:28:47,640 --> 00:28:51,039
+equivalence class counts that's super
+
+779
+00:28:49,200 --> 00:28:52,360
+fast right I have a count Vector I
+
+780
+00:28:51,039 --> 00:28:54,279
+resample with replacement from that
+
+781
+00:28:52,360 --> 00:28:56,080
+count vector and I run my em algorithm
+
+782
+00:28:54,279 --> 00:28:57,679
+again all of these are going to give you
+
+783
+00:28:56,080 --> 00:28:59,880
+some sense of at least the variance of
+
+784
+00:28:57,679 --> 00:29:01,960
+the Poss poor the variance of of around
+
+785
+00:28:59,880 --> 00:29:04,720
+the point estimate uh some of them will
+
+786
+00:29:01,960 --> 00:29:08,840
+give you the full posterior
+
+787
+00:29:04,720 --> 00:29:13,399
+distribution okay so uh this uncertainty
+
+788
+00:29:08,840 --> 00:29:16,200
+matters so this uh the the next uh two
+
+789
+00:29:13,399 --> 00:29:19,640
+uh or three slides actually are uh all
+
+790
+00:29:16,200 --> 00:29:22,360
+images from uh Peter Glow's uh PhD
+
+791
+00:29:19,640 --> 00:29:23,799
+thesis he's one of the authors of bitse
+
+792
+00:29:22,360 --> 00:29:26,200
+and uh there's some really nice
+
+793
+00:29:23,799 --> 00:29:28,519
+visualizations here about how this
+
+794
+00:29:26,200 --> 00:29:30,159
+uncertainty is structured okay so for
+
+795
+00:29:28,519 --> 00:29:32,559
+example here we have three similar
+
+796
+00:29:30,159 --> 00:29:34,799
+isoforms of this Gene and what these
+
+797
+00:29:32,559 --> 00:29:37,120
+plots are showing is the density of the
+
+798
+00:29:34,799 --> 00:29:39,120
+posterior jointly between Pairs of
+
+799
+00:29:37,120 --> 00:29:40,519
+transcripts so here between the bottom
+
+800
+00:29:39,120 --> 00:29:42,600
+and top transcript what we see is
+
+801
+00:29:40,519 --> 00:29:44,760
+there's a strong anti-correlation the
+
+802
+00:29:42,600 --> 00:29:47,080
+more abundant this transcript is the
+
+803
+00:29:44,760 --> 00:29:48,919
+less abundant this transcript is uh and
+
+804
+00:29:47,080 --> 00:29:50,799
+then likewise between the the bottom and
+
+805
+00:29:48,919 --> 00:29:52,799
+middle transcripts there's a strong
+
+806
+00:29:50,799 --> 00:29:56,720
+anti-correlation there's not so much
+
+807
+00:29:52,799 --> 00:29:58,720
+between uh the the middle and um uh or I
+
+808
+00:29:56,720 --> 00:30:02,720
+think this is this is
+
+809
+00:29:58,720 --> 00:30:05,600
+B WM so that's this one and then this
+
+810
+00:30:02,720 --> 00:30:07,279
+one is o oh okay this one is the top so
+
+811
+00:30:05,600 --> 00:30:09,240
+between the middle and the top this line
+
+812
+00:30:07,279 --> 00:30:11,320
+is wrong there's not so much of a a
+
+813
+00:30:09,240 --> 00:30:13,840
+strong anti-correlation in the
+
+814
+00:30:11,320 --> 00:30:15,720
+posterior okay so this means that it's
+
+815
+00:30:13,840 --> 00:30:17,519
+not just variance in the estimate but
+
+816
+00:30:15,720 --> 00:30:20,200
+there's co-variance in the estimates
+
+817
+00:30:17,519 --> 00:30:22,200
+between different pairs of variables um
+
+818
+00:30:20,200 --> 00:30:23,480
+so this is important to understand the
+
+819
+00:30:22,200 --> 00:30:25,720
+variance of the estimate when you want
+
+820
+00:30:23,480 --> 00:30:27,120
+to do Downstream analysis so imagine we
+
+821
+00:30:25,720 --> 00:30:29,039
+wanted to do differential testing
+
+822
+00:30:27,120 --> 00:30:31,480
+between these these transcripts between
+
+823
+00:30:29,039 --> 00:30:33,240
+conditions um so if I look at the
+
+824
+00:30:31,480 --> 00:30:35,799
+posterior estimates of the abundance of
+
+825
+00:30:33,240 --> 00:30:37,480
+these transcripts what I can see is um
+
+826
+00:30:35,799 --> 00:30:39,240
+it's pretty clear that this red
+
+827
+00:30:37,480 --> 00:30:42,559
+transcript is more highly expressed than
+
+828
+00:30:39,240 --> 00:30:44,440
+the others um and the distributions are
+
+829
+00:30:42,559 --> 00:30:46,640
+not really overlapping that much but
+
+830
+00:30:44,440 --> 00:30:48,320
+between the green and the blue my
+
+831
+00:30:46,640 --> 00:30:50,120
+estimate is that the green transcript is
+
+832
+00:30:48,320 --> 00:30:51,600
+more abundant and the posterior supports
+
+833
+00:30:50,120 --> 00:30:53,480
+that but there's a fair degree of
+
+834
+00:30:51,600 --> 00:30:56,080
+Uncertain right it might be that these
+
+835
+00:30:53,480 --> 00:30:59,279
+are the same abundance or that the blue
+
+836
+00:30:56,080 --> 00:31:02,559
+uh transcript has higher abundance Etc
+
+837
+00:30:59,279 --> 00:31:05,440
+uh okay so finally um this kind of
+
+838
+00:31:02,559 --> 00:31:08,720
+happened systematically so what this uh
+
+839
+00:31:05,440 --> 00:31:11,679
+what this density plot is showing is the
+
+840
+00:31:08,720 --> 00:31:14,760
+um the total variance that I I measure
+
+841
+00:31:11,679 --> 00:31:17,840
+in the abundance estimate versus the
+
+842
+00:31:14,760 --> 00:31:20,880
+mean of the abundance and so if the only
+
+843
+00:31:17,840 --> 00:31:22,880
+uncertainty I had was shotgun sampling
+
+844
+00:31:20,880 --> 00:31:24,760
+uncertainty if this was a purely Pon
+
+845
+00:31:22,880 --> 00:31:26,760
+process then I would expect that the
+
+846
+00:31:24,760 --> 00:31:28,320
+variance scales exactly with the mean
+
+847
+00:31:26,760 --> 00:31:30,480
+it's the characteristic of the Pon
+
+848
+00:31:28,320 --> 00:31:32,519
+function but instead I see this this
+
+849
+00:31:30,480 --> 00:31:34,559
+extra dispersion this extra variance
+
+850
+00:31:32,519 --> 00:31:37,000
+right most things have a higher variance
+
+851
+00:31:34,559 --> 00:31:40,559
+than the me okay so it's a systematic
+
+852
+00:31:37,000 --> 00:31:45,120
+effect see how I'm doing one
+
+853
+00:31:40,559 --> 00:31:46,639
+time all right so um we can account for
+
+854
+00:31:45,120 --> 00:31:48,840
+this uncertainty in differential
+
+855
+00:31:46,639 --> 00:31:50,760
+expression testing uh and there's a a
+
+856
+00:31:48,840 --> 00:31:53,279
+lot of work that does this uh in
+
+857
+00:31:50,760 --> 00:31:55,360
+different various different ways um
+
+858
+00:31:53,279 --> 00:31:57,080
+we've worked on this this problem um in
+
+859
+00:31:55,360 --> 00:31:58,399
+collaboration with with Mike love and
+
+860
+00:31:57,080 --> 00:32:00,159
+folks in his group
+
+861
+00:31:58,399 --> 00:32:01,919
+um though I would say that the the sort
+
+862
+00:32:00,159 --> 00:32:04,440
+of most recent state-of-the-art approach
+
+863
+00:32:01,919 --> 00:32:06,320
+here is uh represented in the Ed R4
+
+864
+00:32:04,440 --> 00:32:07,840
+package uh where they tested different
+
+865
+00:32:06,320 --> 00:32:09,399
+methods for posterior uncertainty
+
+866
+00:32:07,840 --> 00:32:11,399
+estimation along with different
+
+867
+00:32:09,399 --> 00:32:16,039
+transcript expression estimates um and
+
+868
+00:32:11,399 --> 00:32:17,720
+found that uh the ed4 method along with
+
+869
+00:32:16,039 --> 00:32:19,519
+Gibb sampling to be the the most
+
+870
+00:32:17,720 --> 00:32:21,360
+accurate and efficient so I'm not going
+
+871
+00:32:19,519 --> 00:32:23,039
+to talk about the differential testing
+
+872
+00:32:21,360 --> 00:32:26,279
+today ough nor will talk about that a
+
+873
+00:32:23,039 --> 00:32:30,519
+little bit later um what I want to talk
+
+874
+00:32:26,279 --> 00:32:34,559
+about now is a new idea um and uh the
+
+875
+00:32:30,519 --> 00:32:36,519
+idea here is that we could imagine
+
+876
+00:32:34,559 --> 00:32:38,480
+trying to propagate this uncertainty
+
+877
+00:32:36,519 --> 00:32:40,000
+through the entire analysis from the
+
+878
+00:32:38,480 --> 00:32:42,559
+quantification to the differential
+
+879
+00:32:40,000 --> 00:32:45,919
+testing um in order to improve our
+
+880
+00:32:42,559 --> 00:32:47,840
+sensitivity and uh in order to maybe
+
+881
+00:32:45,919 --> 00:32:50,120
+improve our statistical power at a given
+
+882
+00:32:47,840 --> 00:32:51,559
+sensitivity and that definitely works
+
+883
+00:32:50,120 --> 00:32:53,200
+you get much better estimates of
+
+884
+00:32:51,559 --> 00:32:55,120
+transcript level differential expression
+
+885
+00:32:53,200 --> 00:32:57,600
+when you know the uncertainty in those
+
+886
+00:32:55,120 --> 00:32:59,240
+abundance estimates but sometimes you
+
+887
+00:32:57,600 --> 00:33:01,559
+just really can't decide there's not
+
+888
+00:32:59,240 --> 00:33:03,480
+enough information in the experiment so
+
+889
+00:33:01,559 --> 00:33:06,440
+in that case you could fall back to Gene
+
+890
+00:33:03,480 --> 00:33:08,760
+level estimates but maybe you're missing
+
+891
+00:33:06,440 --> 00:33:11,080
+the important biological signal of the
+
+892
+00:33:08,760 --> 00:33:13,799
+subgene level transcriptional activity
+
+893
+00:33:11,080 --> 00:33:17,200
+that's driving your biological process
+
+894
+00:33:13,799 --> 00:33:19,960
+so uh the idea uh that I'm going to talk
+
+895
+00:33:17,200 --> 00:33:21,960
+about is what if we could use the data
+
+896
+00:33:19,960 --> 00:33:24,760
+to generate inferentially
+
+897
+00:33:21,960 --> 00:33:27,240
+distinguishable groups that is groups of
+
+898
+00:33:24,760 --> 00:33:29,440
+transcripts where together the
+
+899
+00:33:27,240 --> 00:33:31,919
+uncertainty is low enough that we can
+
+900
+00:33:29,440 --> 00:33:33,679
+make confident predictions about their
+
+901
+00:33:31,919 --> 00:33:34,960
+abundance and therefore make confident
+
+902
+00:33:33,679 --> 00:33:37,679
+predictions about differential
+
+903
+00:33:34,960 --> 00:33:40,279
+expression so uh here's an example of
+
+904
+00:33:37,679 --> 00:33:43,120
+such a group so what I'm showing here is
+
+905
+00:33:40,279 --> 00:33:44,799
+the posterior density estimates um for
+
+906
+00:33:43,120 --> 00:33:46,519
+two different transcripts where the
+
+907
+00:33:44,799 --> 00:33:50,880
+density estimates are just the frequency
+
+908
+00:33:46,519 --> 00:33:53,279
+of of abundances over Gibb samples and
+
+909
+00:33:50,880 --> 00:33:57,799
+um this is the posterior density
+
+910
+00:33:53,279 --> 00:33:59,679
+estimate for the group okay so if I um
+
+911
+00:33:57,799 --> 00:34:02,559
+group these two transcripts together in
+
+912
+00:33:59,679 --> 00:34:04,639
+every iteration of my posterior sampling
+
+913
+00:34:02,559 --> 00:34:07,080
+and I look at the sum of their estimated
+
+914
+00:34:04,639 --> 00:34:08,960
+abundances it's very tightly centered
+
+915
+00:34:07,080 --> 00:34:11,839
+around uh this particular value around
+
+916
+00:34:08,960 --> 00:34:14,040
+1500 so the spread is very large for the
+
+917
+00:34:11,839 --> 00:34:16,679
+individual transcripts but the spread is
+
+918
+00:34:14,040 --> 00:34:18,440
+very narrow for this particular group
+
+919
+00:34:16,679 --> 00:34:20,399
+what this means is these probably have
+
+920
+00:34:18,440 --> 00:34:23,599
+highly anti-correlated posterior
+
+921
+00:34:20,399 --> 00:34:25,560
+distributions um or posterior samples
+
+922
+00:34:23,599 --> 00:34:27,000
+and uh when I group them together
+
+923
+00:34:25,560 --> 00:34:31,079
+there's very little uncertainty in their
+
+924
+00:34:27,000 --> 00:34:33,399
+abundance okay so how do we estimate
+
+925
+00:34:31,079 --> 00:34:34,919
+this uncertainty or how do we measure it
+
+926
+00:34:33,399 --> 00:34:37,359
+uh there there are different ways to do
+
+927
+00:34:34,919 --> 00:34:38,800
+it um but I'm going to propose this uh
+
+928
+00:34:37,359 --> 00:34:40,679
+this metric that we use originally in
+
+929
+00:34:38,800 --> 00:34:42,440
+the swish paper which we call the
+
+930
+00:34:40,679 --> 00:34:44,760
+inferential relative variance it's meant
+
+931
+00:34:42,440 --> 00:34:47,440
+to be sort of a scale-free measure of
+
+932
+00:34:44,760 --> 00:34:48,960
+the uh uncertainty in the estimate um
+
+933
+00:34:47,440 --> 00:34:51,679
+and this is just showing what this looks
+
+934
+00:34:48,960 --> 00:34:53,879
+like for transcript uh at the transcript
+
+935
+00:34:51,679 --> 00:34:55,800
+level and at the gene level where the uh
+
+936
+00:34:53,879 --> 00:34:57,760
+observation is just it's much wider the
+
+937
+00:34:55,800 --> 00:34:59,520
+transcript level and it's much narrower
+
+938
+00:34:57,760 --> 00:35:01,240
+at the gene level um and you can think
+
+939
+00:34:59,520 --> 00:35:04,040
+about this as just sort of a a scaled
+
+940
+00:35:01,240 --> 00:35:07,160
+version of the um the standard deviation
+
+941
+00:35:04,040 --> 00:35:08,599
+minus the mean over the mean there's uh
+
+942
+00:35:07,160 --> 00:35:09,720
+a couple of extra details about like
+
+943
+00:35:08,599 --> 00:35:12,119
+shifting and making sure you don't
+
+944
+00:35:09,720 --> 00:35:13,200
+divide by zero Etc but that's the idea
+
+945
+00:35:12,119 --> 00:35:15,560
+right we're measuring the spread of the
+
+946
+00:35:13,200 --> 00:35:19,160
+distribution over
+
+947
+00:35:15,560 --> 00:35:21,240
+its so um how should we address this
+
+948
+00:35:19,160 --> 00:35:23,839
+problem right what what is the primary
+
+949
+00:35:21,240 --> 00:35:24,640
+computational challenge here we we would
+
+950
+00:35:23,839 --> 00:35:28,480
+like
+
+951
+00:35:24,640 --> 00:35:31,480
+to find the abundances at the
+
+952
+00:35:28,480 --> 00:35:34,160
+finest grain level that is supported by
+
+953
+00:35:31,480 --> 00:35:36,000
+the data such that the inferential
+
+954
+00:35:34,160 --> 00:35:37,720
+groups we find are distinguishable from
+
+955
+00:35:36,000 --> 00:35:39,480
+each other and we'd like to do this in a
+
+956
+00:35:37,720 --> 00:35:41,520
+data driven way we want to let we want
+
+957
+00:35:39,480 --> 00:35:43,000
+to let the data speak for themselves and
+
+958
+00:35:41,520 --> 00:35:44,599
+tell us what the inferentially dist
+
+959
+00:35:43,000 --> 00:35:45,960
+distinguishable transcriptional groups
+
+960
+00:35:44,599 --> 00:35:50,640
+could
+
+961
+00:35:45,960 --> 00:35:52,839
+be so it turns out um that in 2013 only
+
+962
+00:35:50,640 --> 00:35:56,160
+two years after the uh the mm seek work
+
+963
+00:35:52,839 --> 00:35:58,359
+turo and others had a a very nice
+
+964
+00:35:56,160 --> 00:36:00,880
+solution to this problem as well
+
+965
+00:35:58,359 --> 00:36:02,880
+um so what they noticed in this paper
+
+966
+00:36:00,880 --> 00:36:05,280
+flexible analysis of RNA seek data using
+
+967
+00:36:02,880 --> 00:36:06,839
+mixed effect models is that often sets
+
+968
+00:36:05,280 --> 00:36:08,880
+of transcripts with poorly estimated
+
+969
+00:36:06,839 --> 00:36:10,960
+expression are anti-correlated because
+
+970
+00:36:08,880 --> 00:36:12,520
+reads can be mapped to the combined set
+
+971
+00:36:10,960 --> 00:36:13,880
+of transcripts with confidence but no
+
+972
+00:36:12,520 --> 00:36:16,280
+reads can be mapped to specific
+
+973
+00:36:13,880 --> 00:36:17,880
+transcripts within the set in these
+
+974
+00:36:16,280 --> 00:36:19,200
+circumstances it may be more informative
+
+975
+00:36:17,880 --> 00:36:20,800
+to treat the set of transcripts as a
+
+976
+00:36:19,200 --> 00:36:22,760
+unit of inference rather than the
+
+977
+00:36:20,800 --> 00:36:25,960
+individual transcripts and then they
+
+978
+00:36:22,760 --> 00:36:28,440
+propose algorithms to do this okay um so
+
+979
+00:36:25,960 --> 00:36:31,280
+when we read this paper uh it was very
+
+980
+00:36:28,440 --> 00:36:32,480
+inspiring um however there were some
+
+981
+00:36:31,280 --> 00:36:35,040
+places where we thought we might be able
+
+982
+00:36:32,480 --> 00:36:37,079
+to improve it okay so particularly the
+
+983
+00:36:35,040 --> 00:36:39,480
+problem is that as the size of the data
+
+984
+00:36:37,079 --> 00:36:41,359
+sets gets bigger uh both in terms of the
+
+985
+00:36:39,480 --> 00:36:43,160
+size of the annotated transcript set and
+
+986
+00:36:41,359 --> 00:36:44,880
+the number of reads we found that the
+
+987
+00:36:43,160 --> 00:36:46,960
+implementation becomes kind of
+
+988
+00:36:44,880 --> 00:36:48,480
+Impractical um and the reason for that
+
+989
+00:36:46,960 --> 00:36:51,359
+is that the first step of their
+
+990
+00:36:48,480 --> 00:36:53,359
+algorithm is to look at all of the
+
+991
+00:36:51,359 --> 00:36:55,280
+inferential samples so all the sort of
+
+992
+00:36:53,359 --> 00:36:57,599
+GIB samples for every transcript and
+
+993
+00:36:55,280 --> 00:36:59,480
+compute all the pawise anti-correlations
+
+994
+00:36:57,599 --> 00:37:01,000
+to group the things with the greatest
+
+995
+00:36:59,480 --> 00:37:03,319
+anti-correlations uh and then to
+
+996
+00:37:01,000 --> 00:37:06,280
+recompute those correlation estimates
+
+997
+00:37:03,319 --> 00:37:07,640
+right so there's this huge computation
+
+998
+00:37:06,280 --> 00:37:11,319
+um in every step that can be
+
+999
+00:37:07,640 --> 00:37:13,319
+parallelized but still grows quite slow
+
+1000
+00:37:11,319 --> 00:37:15,160
+uh so we thought of a different way to
+
+1001
+00:37:13,319 --> 00:37:17,680
+try to tackle this problem we're trying
+
+1002
+00:37:15,160 --> 00:37:19,319
+to get at the same thing but doing it in
+
+1003
+00:37:17,680 --> 00:37:20,760
+a different way uh and we're going to
+
+1004
+00:37:19,319 --> 00:37:23,640
+make use of this equivalence class
+
+1005
+00:37:20,760 --> 00:37:25,599
+notion and specifically a graph induced
+
+1006
+00:37:23,640 --> 00:37:28,520
+by the equivalence classes uh that's
+
+1007
+00:37:25,599 --> 00:37:30,599
+called the fragment ambiguity graph so
+
+1008
+00:37:28,520 --> 00:37:33,480
+uh I'm going to sort of briefly describe
+
+1009
+00:37:30,599 --> 00:37:35,760
+the approach uh behind a a method called
+
+1010
+00:37:33,480 --> 00:37:39,680
+Terminus that was developed uh by my
+
+1011
+00:37:35,760 --> 00:37:41,480
+former student HK and um no's work
+
+1012
+00:37:39,680 --> 00:37:45,040
+naturally builds upon and extends this
+
+1013
+00:37:41,480 --> 00:37:48,920
+in in several very useful ways so
+
+1014
+00:37:45,040 --> 00:37:51,000
+um here's a another view of the example
+
+1015
+00:37:48,920 --> 00:37:53,040
+that I was giving before okay so this is
+
+1016
+00:37:51,000 --> 00:37:55,400
+actually showing over time or over
+
+1017
+00:37:53,040 --> 00:37:58,240
+iterations of a Gibb sampler the
+
+1018
+00:37:55,400 --> 00:38:00,640
+posterior estimates of uh abundance that
+
+1019
+00:37:58,240 --> 00:38:03,079
+are assigned to each transcript so the
+
+1020
+00:38:00,640 --> 00:38:04,720
+spread of these things right the the the
+
+1021
+00:38:03,079 --> 00:38:09,000
+difference between the the lowest Valley
+
+1022
+00:38:04,720 --> 00:38:10,800
+and uh the highest peak is the overall
+
+1023
+00:38:09,000 --> 00:38:12,560
+sort of uncertainty we have in the
+
+1024
+00:38:10,800 --> 00:38:15,280
+abundance of this transcript over all of
+
+1025
+00:38:12,560 --> 00:38:17,640
+the Gib samples um and so it's big for
+
+1026
+00:38:15,280 --> 00:38:20,319
+the orange and the blue transcripts but
+
+1027
+00:38:17,640 --> 00:38:23,319
+if in each iteration we sum together
+
+1028
+00:38:20,319 --> 00:38:26,079
+those two estimates we get this green
+
+1029
+00:38:23,319 --> 00:38:29,480
+estimate and the spread of this is quite
+
+1030
+00:38:26,079 --> 00:38:32,240
+small okay and in fact we can formalize
+
+1031
+00:38:29,480 --> 00:38:33,599
+this notion um which is that if we take
+
+1032
+00:38:32,240 --> 00:38:35,599
+random pairs of transcripts that are
+
+1033
+00:38:33,599 --> 00:38:38,680
+uncorrelated and we sum together their
+
+1034
+00:38:35,599 --> 00:38:41,400
+their Gib samples we expect that the sum
+
+1035
+00:38:38,680 --> 00:38:43,680
+has not much smaller of a spread than
+
+1036
+00:38:41,400 --> 00:38:46,359
+the individual components but if they
+
+1037
+00:38:43,680 --> 00:38:48,680
+are well anti-correlated then that
+
+1038
+00:38:46,359 --> 00:38:50,440
+spread should get much smaller okay and
+
+1039
+00:38:48,680 --> 00:38:52,000
+so this is the intuition that we're
+
+1040
+00:38:50,440 --> 00:38:54,119
+looking for we'd like to find groups of
+
+1041
+00:38:52,000 --> 00:38:55,800
+transcripts such that when we sum them
+
+1042
+00:38:54,119 --> 00:38:59,119
+together the uncertainty becomes much
+
+1043
+00:38:55,800 --> 00:39:01,200
+smaller than it would be if they were
+
+1044
+00:38:59,119 --> 00:39:03,200
+separate okay so we're going to employ
+
+1045
+00:39:01,200 --> 00:39:05,480
+an iterative algorithm to do this this
+
+1046
+00:39:03,200 --> 00:39:07,119
+follows the same idea as the turo at all
+
+1047
+00:39:05,480 --> 00:39:09,079
+work uh which is that we're going to do
+
+1048
+00:39:07,119 --> 00:39:10,920
+this greedily but the the real question
+
+1049
+00:39:09,079 --> 00:39:12,440
+is how do we find good candidates
+
+1050
+00:39:10,920 --> 00:39:15,119
+transcripts or transcript groups that
+
+1051
+00:39:12,440 --> 00:39:17,760
+are good to collapse and what makes a
+
+1052
+00:39:15,119 --> 00:39:19,800
+good cab so we're going to use this
+
+1053
+00:39:17,760 --> 00:39:22,400
+notion of inferential relative variance
+
+1054
+00:39:19,800 --> 00:39:24,119
+as kind of a score function to measure
+
+1055
+00:39:22,400 --> 00:39:25,680
+how good it would be to take a pair of
+
+1056
+00:39:24,119 --> 00:39:27,599
+transcripts or a pair of groups of
+
+1057
+00:39:25,680 --> 00:39:30,079
+transcripts and merge them together in
+
+1058
+00:39:27,599 --> 00:39:32,119
+terms of reducing the uncertainty in our
+
+1059
+00:39:30,079 --> 00:39:34,440
+inference so specifically what we're
+
+1060
+00:39:32,119 --> 00:39:36,680
+going to say is for uh any pair of
+
+1061
+00:39:34,440 --> 00:39:38,359
+transcripts I andj where they could be
+
+1062
+00:39:36,680 --> 00:39:40,599
+either transcripts in our original
+
+1063
+00:39:38,359 --> 00:39:42,760
+annotation or groups that we've already
+
+1064
+00:39:40,599 --> 00:39:45,000
+created earlier on in the algorithm
+
+1065
+00:39:42,760 --> 00:39:47,920
+we're going to say the score is equal to
+
+1066
+00:39:45,000 --> 00:39:50,119
+the inferential relative variance of the
+
+1067
+00:39:47,920 --> 00:39:53,760
+um the vector of GIB samples from I and
+
+1068
+00:39:50,119 --> 00:39:56,319
+J summed together minus the mean
+
+1069
+00:39:53,760 --> 00:39:59,640
+inferential variance of them separately
+
+1070
+00:39:56,319 --> 00:40:02,920
+right so what exactly is saying is um if
+
+1071
+00:39:59,640 --> 00:40:05,680
+this value is very small the influential
+
+1072
+00:40:02,920 --> 00:40:07,440
+relative variance um when I group them
+
+1073
+00:40:05,680 --> 00:40:09,480
+together compared to the average of the
+
+1074
+00:40:07,440 --> 00:40:11,760
+individuals then this is a good collapse
+
+1075
+00:40:09,480 --> 00:40:13,599
+to make good things to group together if
+
+1076
+00:40:11,760 --> 00:40:14,720
+they're similar then they're not a good
+
+1077
+00:40:13,599 --> 00:40:16,920
+thing to group together and if they're
+
+1078
+00:40:14,720 --> 00:40:18,560
+larger which shouldn't happen too often
+
+1079
+00:40:16,920 --> 00:40:21,200
+um then they're definitely not good to
+
+1080
+00:40:18,560 --> 00:40:23,400
+group together so what does this look
+
+1081
+00:40:21,200 --> 00:40:25,240
+like this is just showing plotting this
+
+1082
+00:40:23,400 --> 00:40:28,760
+score for for transcripts in the
+
+1083
+00:40:25,240 --> 00:40:31,640
+original set um one way to view it is we
+
+1084
+00:40:28,760 --> 00:40:34,240
+have it uh this is set up such that zero
+
+1085
+00:40:31,640 --> 00:40:36,520
+is the variances are the same when I add
+
+1086
+00:40:34,240 --> 00:40:38,560
+them together versus when I look at them
+
+1087
+00:40:36,520 --> 00:40:40,920
+separately so things that are above this
+
+1088
+00:40:38,560 --> 00:40:42,920
+line are pairs where collapse would be a
+
+1089
+00:40:40,920 --> 00:40:45,240
+good thing right where I would reduce
+
+1090
+00:40:42,920 --> 00:40:46,720
+the inferential uncertainty a lot so
+
+1091
+00:40:45,240 --> 00:40:48,119
+especially these ones up here I would
+
+1092
+00:40:46,720 --> 00:40:50,119
+get a big reduction in uncertainty by
+
+1093
+00:40:48,119 --> 00:40:51,520
+grouping them together there are some
+
+1094
+00:40:50,119 --> 00:40:53,920
+where I would actually do worse by
+
+1095
+00:40:51,520 --> 00:40:55,960
+grouping them together um but you can't
+
+1096
+00:40:53,920 --> 00:40:58,119
+see the density great on this plot um
+
+1097
+00:40:55,960 --> 00:41:01,599
+but most points are sort of at zero or
+
+1098
+00:40:58,119 --> 00:41:04,200
+slightly above the Yeah question so some
+
+1099
+00:41:01,599 --> 00:41:07,560
+of this um uncertainty comes from like
+
+1100
+00:41:04,200 --> 00:41:09,960
+you know sequence similarity yes so how
+
+1101
+00:41:07,560 --> 00:41:12,000
+much of this um of these ones that you
+
+1102
+00:41:09,960 --> 00:41:14,240
+can actually merge are like consistent
+
+1103
+00:41:12,000 --> 00:41:17,480
+across many different data sets versus
+
+1104
+00:41:14,240 --> 00:41:19,960
+specific to the yeah right so uh
+
+1105
+00:41:17,480 --> 00:41:22,440
+excellent question um and something that
+
+1106
+00:41:19,960 --> 00:41:24,640
+I think uh nor will tackle in a little
+
+1107
+00:41:22,440 --> 00:41:27,480
+bit more detail but um it is largely
+
+1108
+00:41:24,640 --> 00:41:29,240
+driven by the sequence um the main
+
+1109
+00:41:27,480 --> 00:41:31,400
+reason we're not directly using the
+
+1110
+00:41:29,240 --> 00:41:33,560
+sequence here but rather using the
+
+1111
+00:41:31,400 --> 00:41:35,280
+grouping based on the sequence
+
+1112
+00:41:33,560 --> 00:41:37,720
+similarity as viewed through
+
+1113
+00:41:35,280 --> 00:41:40,640
+multimapping is that uh it does it in a
+
+1114
+00:41:37,720 --> 00:41:42,720
+data dependent way so uh we we don't
+
+1115
+00:41:40,640 --> 00:41:44,200
+have um like if things aren't expressed
+
+1116
+00:41:42,720 --> 00:41:47,240
+they're never going to be group together
+
+1117
+00:41:44,200 --> 00:41:49,160
+but also individual experiments uh
+
+1118
+00:41:47,240 --> 00:41:50,920
+depending on the depth of coverage may
+
+1119
+00:41:49,160 --> 00:41:52,680
+or may not be able to distinguish
+
+1120
+00:41:50,920 --> 00:41:54,960
+between transcript so you could imagine
+
+1121
+00:41:52,680 --> 00:41:57,240
+in some data set where it's low coverage
+
+1122
+00:41:54,960 --> 00:41:59,480
+I don't get enough unique regions to be
+
+1123
+00:41:57,240 --> 00:42:01,599
+able to separate a pair of very similar
+
+1124
+00:41:59,480 --> 00:42:02,800
+transcripts but in a very high depth
+
+1125
+00:42:01,599 --> 00:42:04,640
+experiment or in a sample where those
+
+1126
+00:42:02,800 --> 00:42:06,640
+are highly expressed transcripts I might
+
+1127
+00:42:04,640 --> 00:42:09,359
+have enough reads to cover those
+
+1128
+00:42:06,640 --> 00:42:11,440
+distinctive regions right but yeah it's
+
+1129
+00:42:09,359 --> 00:42:13,800
+it's driven by it's a function of both
+
+1130
+00:42:11,440 --> 00:42:14,839
+the transcript structure as well as the
+
+1131
+00:42:13,800 --> 00:42:17,720
+sequence
+
+1132
+00:42:14,839 --> 00:42:20,720
+coverage thank you
+
+1133
+00:42:17,720 --> 00:42:23,400
+thanks okay so um let me talk a little
+
+1134
+00:42:20,720 --> 00:42:26,880
+bit about the computational idea here so
+
+1135
+00:42:23,400 --> 00:42:28,520
+um finding all the and correlations is
+
+1136
+00:42:26,880 --> 00:42:31,920
+kind of the prohibitive step so we want
+
+1137
+00:42:28,520 --> 00:42:34,520
+to avoid that um but the intuition is
+
+1138
+00:42:31,920 --> 00:42:36,400
+that not all pairs are important in fact
+
+1139
+00:42:34,520 --> 00:42:38,200
+almost all pairs are probably not good
+
+1140
+00:42:36,400 --> 00:42:39,960
+candidates for collapse pick two random
+
+1141
+00:42:38,200 --> 00:42:41,280
+transcripts in the transcript Dome
+
+1142
+00:42:39,960 --> 00:42:42,400
+probably not a good idea to merge them
+
+1143
+00:42:41,280 --> 00:42:44,960
+together because they probably don't
+
+1144
+00:42:42,400 --> 00:42:46,079
+have a lot of sequence similarity so the
+
+1145
+00:42:44,960 --> 00:42:48,079
+key idea is we're going to use the
+
+1146
+00:42:46,079 --> 00:42:49,800
+structure of the alignment ambiguity to
+
+1147
+00:42:48,079 --> 00:42:52,640
+efficiently call the search
+
+1148
+00:42:49,800 --> 00:42:54,520
+space all right so here's the idea uh we
+
+1149
+00:42:52,640 --> 00:42:56,160
+talked about these equivalence classes
+
+1150
+00:42:54,520 --> 00:42:58,240
+all right so we have this scenario where
+
+1151
+00:42:56,160 --> 00:43:00,640
+reads multimap to transcripts this
+
+1152
+00:42:58,240 --> 00:43:03,480
+induces some set of equivalence classes
+
+1153
+00:43:00,640 --> 00:43:05,559
+um each equivalence class is a set of
+
+1154
+00:43:03,480 --> 00:43:08,640
+transcripts and we can think about that
+
+1155
+00:43:05,559 --> 00:43:10,839
+set as inducing edges pairwise between
+
+1156
+00:43:08,640 --> 00:43:12,440
+all of the elements of that set so this
+
+1157
+00:43:10,839 --> 00:43:14,839
+equivalence class induces a pairwise
+
+1158
+00:43:12,440 --> 00:43:16,760
+edge between A and B this equivalence
+
+1159
+00:43:14,839 --> 00:43:18,960
+class induces a pair wise Edge between B
+
+1160
+00:43:16,760 --> 00:43:20,920
+and C uh a single equivalence class
+
+1161
+00:43:18,960 --> 00:43:23,160
+could induce more than one Edge but here
+
+1162
+00:43:20,920 --> 00:43:26,839
+there they're just pairs so we just get
+
+1163
+00:43:23,160 --> 00:43:29,240
+edges so uh if we look at the full set
+
+1164
+00:43:26,839 --> 00:43:31,440
+of edges induced by this graph uh by
+
+1165
+00:43:29,240 --> 00:43:33,559
+this relation what we get is a graph
+
+1166
+00:43:31,440 --> 00:43:35,119
+where the transcripts are the nodes and
+
+1167
+00:43:33,559 --> 00:43:37,480
+there's edges between every pair of
+
+1168
+00:43:35,119 --> 00:43:39,680
+nodes that co-occur in some equivalence
+
+1169
+00:43:37,480 --> 00:43:41,040
+class and furthermore reads can co-occur
+
+1170
+00:43:39,680 --> 00:43:43,119
+in many equivalence classes and so we
+
+1171
+00:43:41,040 --> 00:43:45,359
+can assign weights to these edges so we
+
+1172
+00:43:43,119 --> 00:43:46,839
+just get a weighted graph okay and what
+
+1173
+00:43:45,359 --> 00:43:48,839
+we're going to do is we're going to view
+
+1174
+00:43:46,839 --> 00:43:50,760
+the process of finding good candidates
+
+1175
+00:43:48,839 --> 00:43:52,319
+and collapsing them is simply the
+
+1176
+00:43:50,760 --> 00:43:54,119
+process of collapsing edges in this
+
+1177
+00:43:52,319 --> 00:43:56,280
+graph we want to we want to merge pairs
+
+1178
+00:43:54,119 --> 00:43:57,720
+of nodes that are good candidates this
+
+1179
+00:43:56,280 --> 00:43:59,720
+will simplify the and then we're going
+
+1180
+00:43:57,720 --> 00:44:01,440
+to iterate that process but the number
+
+1181
+00:43:59,720 --> 00:44:04,559
+of edges is way smaller than the number
+
+1182
+00:44:01,440 --> 00:44:06,880
+of transcripts choose to okay so here's
+
+1183
+00:44:04,559 --> 00:44:08,760
+what this graph kind of looks like again
+
+1184
+00:44:06,880 --> 00:44:12,000
+vertices are sets of transcripts the
+
+1185
+00:44:08,760 --> 00:44:14,400
+edges uh exist between every pair VI VJ
+
+1186
+00:44:12,000 --> 00:44:17,040
+such that vij co-occur in at least one
+
+1187
+00:44:14,400 --> 00:44:19,960
+equivalence class so our motivation for
+
+1188
+00:44:17,040 --> 00:44:22,839
+this interestingly enough uh is comes
+
+1189
+00:44:19,960 --> 00:44:24,160
+from computer Graphics uh so there's a
+
+1190
+00:44:22,839 --> 00:44:26,880
+similar problem in computer Graphics
+
+1191
+00:44:24,160 --> 00:44:29,079
+where you have a fine resolution mesh
+
+1192
+00:44:26,880 --> 00:44:32,359
+which you want to progressively simplify
+
+1193
+00:44:29,079 --> 00:44:34,839
+while maintaining the core geometric
+
+1194
+00:44:32,359 --> 00:44:36,640
+details um they do this with this notion
+
+1195
+00:44:34,839 --> 00:44:38,839
+of a quadric aerometric and then Edge
+
+1196
+00:44:36,640 --> 00:44:40,240
+collapse um we wanted to do the same
+
+1197
+00:44:38,839 --> 00:44:42,079
+kind of thing in this graph right we
+
+1198
+00:44:40,240 --> 00:44:45,599
+want to greedily collapse pairs of
+
+1199
+00:44:42,079 --> 00:44:47,520
+transcripts such that uh we merge the
+
+1200
+00:44:45,599 --> 00:44:48,520
+best things so we're going to take this
+
+1201
+00:44:47,520 --> 00:44:50,520
+approach we're going to put all the
+
+1202
+00:44:48,520 --> 00:44:52,160
+edges in a Min Heap uh and while we've
+
+1203
+00:44:50,520 --> 00:44:53,559
+not exceeded our approximation budget
+
+1204
+00:44:52,160 --> 00:44:56,079
+we're going to extract the edge with the
+
+1205
+00:44:53,559 --> 00:44:58,160
+best collapse um we're going to contract
+
+1206
+00:44:56,079 --> 00:45:01,640
+The Edge and then we're going to update
+
+1207
+00:44:58,160 --> 00:45:03,680
+only those uh only those Edge weights
+
+1208
+00:45:01,640 --> 00:45:05,200
+adjacent to our newly created node so
+
+1209
+00:45:03,680 --> 00:45:06,920
+we're doing a small amount of work in
+
+1210
+00:45:05,200 --> 00:45:09,319
+each iteration of the algorithm so
+
+1211
+00:45:06,920 --> 00:45:10,800
+overall the algorithm looks like this uh
+
+1212
+00:45:09,319 --> 00:45:12,800
+we're going to continue this process
+
+1213
+00:45:10,800 --> 00:45:14,319
+until we exceed some threshold which I
+
+1214
+00:45:12,800 --> 00:45:16,440
+won't have time to talk about threshold
+
+1215
+00:45:14,319 --> 00:45:18,400
+selection today but we have a a
+
+1216
+00:45:16,440 --> 00:45:20,880
+reasonably principled way to select when
+
+1217
+00:45:18,400 --> 00:45:22,559
+to stop collapsing okay so let me just
+
+1218
+00:45:20,880 --> 00:45:24,839
+quickly show some results from this this
+
+1219
+00:45:22,559 --> 00:45:26,720
+approach um I'm going to focus in on
+
+1220
+00:45:24,839 --> 00:45:29,200
+these two which are full transcriptome
+
+1221
+00:45:26,720 --> 00:45:32,119
+simul data in in human and full
+
+1222
+00:45:29,200 --> 00:45:36,079
+transcript a specific simulated data in
+
+1223
+00:45:32,119 --> 00:45:38,640
+Mouse um okay so here is uh true Count
+
+1224
+00:45:36,079 --> 00:45:40,040
+versus estimated count under mm collapse
+
+1225
+00:45:38,640 --> 00:45:42,040
+salmon which is our transcript level
+
+1226
+00:45:40,040 --> 00:45:44,079
+abundance estimator and Terminus which
+
+1227
+00:45:42,040 --> 00:45:45,640
+is what I just described um and I'd like
+
+1228
+00:45:44,079 --> 00:45:47,839
+to draw your attention to these off
+
+1229
+00:45:45,640 --> 00:45:50,200
+diagonal places right Terminus reduces
+
+1230
+00:45:47,839 --> 00:45:51,599
+the off diagonals uh again it's not
+
+1231
+00:45:50,200 --> 00:45:53,359
+changing the underlying estimation
+
+1232
+00:45:51,599 --> 00:45:55,520
+algorithm it's just using Salmon's
+
+1233
+00:45:53,359 --> 00:45:57,599
+estimates but it's intelligently
+
+1234
+00:45:55,520 --> 00:45:59,200
+grouping together things such that when
+
+1235
+00:45:57,599 --> 00:46:02,800
+you group them together they move closer
+
+1236
+00:45:59,200 --> 00:46:05,839
+to the Diagon okay so uh this is this is
+
+1237
+00:46:02,800 --> 00:46:07,720
+effective uh both toward uh you know
+
+1238
+00:46:05,839 --> 00:46:10,119
+places like this as well as along the
+
+1239
+00:46:07,720 --> 00:46:12,599
+axes you get less extreme misestimates
+
+1240
+00:46:10,119 --> 00:46:13,720
+but should shouldn't we kind of expect
+
+1241
+00:46:12,599 --> 00:46:15,200
+this right I mean if I grouped
+
+1242
+00:46:13,720 --> 00:46:18,520
+everything together it would exactly
+
+1243
+00:46:15,200 --> 00:46:19,720
+fall in the day yes perfect yeah so if I
+
+1244
+00:46:18,520 --> 00:46:22,280
+grouped everything together and I had
+
+1245
+00:46:19,720 --> 00:46:24,400
+one group the only difference would be
+
+1246
+00:46:22,280 --> 00:46:25,920
+the total estimate of aligned reads
+
+1247
+00:46:24,400 --> 00:46:28,599
+versus the number of reads I sequenced
+
+1248
+00:46:25,920 --> 00:46:30,040
+so you absolutely Ely expect this um the
+
+1249
+00:46:28,599 --> 00:46:32,200
+the reasonable Baseline here is MM
+
+1250
+00:46:30,040 --> 00:46:34,240
+collapse so these end up having a very
+
+1251
+00:46:32,200 --> 00:46:36,040
+similar number of groups but we find
+
+1252
+00:46:34,240 --> 00:46:37,440
+that the groups in Terminus tend to be
+
+1253
+00:46:36,040 --> 00:46:39,599
+better but yeah that's that's a great
+
+1254
+00:46:37,440 --> 00:46:43,000
+Point Baseline expectation is kind of
+
+1255
+00:46:39,599 --> 00:46:44,880
+hard to determine in this case um and so
+
+1256
+00:46:43,000 --> 00:46:47,680
+if we look at the correlation of the
+
+1257
+00:46:44,880 --> 00:46:49,920
+estimates or the relative error we find
+
+1258
+00:46:47,680 --> 00:46:51,040
+that um we improve the correlation of
+
+1259
+00:46:49,920 --> 00:46:52,800
+the estimates it's actually pretty
+
+1260
+00:46:51,040 --> 00:46:54,760
+similar to the transcript level but
+
+1261
+00:46:52,800 --> 00:46:57,200
+there's a lot of transcripts so this
+
+1262
+00:46:54,760 --> 00:46:58,559
+this change is non-trivial uh and then
+
+1263
+00:46:57,200 --> 00:47:01,280
+the error goes
+
+1264
+00:46:58,559 --> 00:47:02,960
+down um the same thing happens with AAL
+
+1265
+00:47:01,280 --> 00:47:06,559
+specific transcript expression so here
+
+1266
+00:47:02,960 --> 00:47:09,400
+what we did is we took um a known uh set
+
+1267
+00:47:06,559 --> 00:47:13,119
+of alic variants and we induced a um an
+
+1268
+00:47:09,400 --> 00:47:16,280
+alic uh transcriptome and simulated from
+
+1269
+00:47:13,119 --> 00:47:18,200
+that um and then we can quantify what
+
+1270
+00:47:16,280 --> 00:47:19,440
+the the error looks like and so we
+
+1271
+00:47:18,200 --> 00:47:22,480
+notice that there are different types of
+
+1272
+00:47:19,440 --> 00:47:25,000
+error distribution so for example mmek
+
+1273
+00:47:22,480 --> 00:47:26,920
+tends to make the biggest errors um in
+
+1274
+00:47:25,000 --> 00:47:29,079
+the case where the truth is zero but the
+
+1275
+00:47:26,920 --> 00:47:30,960
+estimate is greater than one right so
+
+1276
+00:47:29,079 --> 00:47:33,680
+that's the red bars here they're they're
+
+1277
+00:47:30,960 --> 00:47:35,599
+calling a lot of nonzero things is uh a
+
+1278
+00:47:33,680 --> 00:47:38,680
+lot of truly unexpressed things is
+
+1279
+00:47:35,599 --> 00:47:40,400
+expressed um on on the flip side um
+
+1280
+00:47:38,680 --> 00:47:42,920
+there tends to be some false negatives
+
+1281
+00:47:40,400 --> 00:47:45,040
+under both salmon and uh Terminus but
+
+1282
+00:47:42,920 --> 00:47:46,359
+fewer under Terminus and then for things
+
+1283
+00:47:45,040 --> 00:47:48,400
+that are neither false positives nor
+
+1284
+00:47:46,359 --> 00:47:49,920
+false negatives the estimation error is
+
+1285
+00:47:48,400 --> 00:47:52,720
+the smallest under terminous right we
+
+1286
+00:47:49,920 --> 00:47:56,240
+can sort of stratify that um and if we
+
+1287
+00:47:52,720 --> 00:47:59,880
+look at how frequently we induce the
+
+1288
+00:47:56,240 --> 00:48:02,960
+wrong dominant Al that is in Truth Al a
+
+1289
+00:47:59,880 --> 00:48:04,240
+is greater than b um but we predict B to
+
+1290
+00:48:02,960 --> 00:48:05,720
+be greater than a or actually the
+
+1291
+00:48:04,240 --> 00:48:07,319
+opposite here the truth is B is greater
+
+1292
+00:48:05,720 --> 00:48:10,280
+than a and we predict a is greater than
+
+1293
+00:48:07,319 --> 00:48:12,079
+b the number of switches is small uh
+
+1294
+00:48:10,280 --> 00:48:13,800
+less than half under the methods that
+
+1295
+00:48:12,079 --> 00:48:15,359
+collapse and the method that doesn't now
+
+1296
+00:48:13,800 --> 00:48:18,559
+you're not picking the right Al here
+
+1297
+00:48:15,359 --> 00:48:20,119
+necessarily instead but uh the primary
+
+1298
+00:48:18,559 --> 00:48:21,760
+mechanism to achieve this is we group
+
+1299
+00:48:20,119 --> 00:48:23,480
+together alals where there's not enough
+
+1300
+00:48:21,760 --> 00:48:25,559
+information to determine one or the
+
+1301
+00:48:23,480 --> 00:48:26,800
+other and this happens in an intelligent
+
+1302
+00:48:25,559 --> 00:48:28,960
+way so that we still do call the
+
+1303
+00:48:26,800 --> 00:48:30,200
+dominant Al one is clear but when we
+
+1304
+00:48:28,960 --> 00:48:31,680
+can't make that determination we don't
+
+1305
+00:48:30,200 --> 00:48:34,160
+call any because we put them together in
+
+1306
+00:48:31,680 --> 00:48:36,480
+the same group uh finally I'll just
+
+1307
+00:48:34,160 --> 00:48:39,079
+mention the method is is fast uh and
+
+1308
+00:48:36,480 --> 00:48:40,640
+memory efficient so uh Terminus you know
+
+1309
+00:48:39,079 --> 00:48:42,559
+Works in a few gigabytes of memory at
+
+1310
+00:48:40,640 --> 00:48:44,839
+least on samples of this size uh
+
+1311
+00:48:42,559 --> 00:48:46,920
+compared to for large transcriptomes
+
+1312
+00:48:44,839 --> 00:48:49,160
+hundreds of gigabytes of memory for mm
+
+1313
+00:48:46,920 --> 00:48:51,359
+collaps uh and it's quite fast right
+
+1314
+00:48:49,160 --> 00:48:54,839
+because we're avoiding all that
+
+1315
+00:48:51,359 --> 00:48:56,480
+computation okay so uh in closing um I
+
+1316
+00:48:54,839 --> 00:48:58,640
+just want to make a few observations to
+
+1317
+00:48:56,480 --> 00:49:00,920
+sort of lead into what nor is going to
+
+1318
+00:48:58,640 --> 00:49:02,440
+talk about um but some of them are
+
+1319
+00:49:00,920 --> 00:49:03,760
+independent so when you're doing this
+
+1320
+00:49:02,440 --> 00:49:05,599
+kind of inference you should always
+
+1321
+00:49:03,760 --> 00:49:07,799
+account for inferential uncertainty this
+
+1322
+00:49:05,599 --> 00:49:09,240
+is relatively common now in RNA seek
+
+1323
+00:49:07,799 --> 00:49:11,520
+though I'd argue not as common as it
+
+1324
+00:49:09,240 --> 00:49:14,720
+should be but it applies to other assays
+
+1325
+00:49:11,520 --> 00:49:17,119
+wherever there's uh ambiguity as well so
+
+1326
+00:49:14,720 --> 00:49:19,359
+uh quantification itself can be done on
+
+1327
+00:49:17,119 --> 00:49:21,359
+a spectrum where transcripts are at one
+
+1328
+00:49:19,359 --> 00:49:23,799
+end and genes or groups of genes are at
+
+1329
+00:49:21,359 --> 00:49:26,000
+the other but one thing that might be a
+
+1330
+00:49:23,799 --> 00:49:27,319
+nice way to view this is to let the data
+
+1331
+00:49:26,000 --> 00:49:29,520
+themselves dictate what the group should
+
+1332
+00:49:27,319 --> 00:49:31,880
+be rather than predetermining the level
+
+1333
+00:49:29,520 --> 00:49:33,559
+of modification right rather than
+
+1334
+00:49:31,880 --> 00:49:35,920
+choosing genes or transcripts allow the
+
+1335
+00:49:33,559 --> 00:49:37,520
+data to tell us what is distinguishable
+
+1336
+00:49:35,920 --> 00:49:39,359
+so I talked about a method to do that
+
+1337
+00:49:37,520 --> 00:49:42,319
+which is uh Terminus and we've since
+
+1338
+00:49:39,359 --> 00:49:44,880
+improved this method um and and made it
+
+1339
+00:49:42,319 --> 00:49:46,520
+more accurate um we tend to find these
+
+1340
+00:49:44,880 --> 00:49:47,960
+groups that are biologically meaningful
+
+1341
+00:49:46,520 --> 00:49:49,400
+under known annotation so I haven't
+
+1342
+00:49:47,960 --> 00:49:51,040
+shown the data for this for a lack of
+
+1343
+00:49:49,400 --> 00:49:52,920
+time but despite the fact that the
+
+1344
+00:49:51,040 --> 00:49:56,079
+algorithm is purely data driven we
+
+1345
+00:49:52,920 --> 00:49:58,799
+recover um groups that preserve and
+
+1346
+00:49:56,079 --> 00:50:00,400
+respect no annotations most of the time
+
+1347
+00:49:58,799 --> 00:50:02,400
+and we can even apply these same ideas
+
+1348
+00:50:00,400 --> 00:50:04,079
+to ambiguity that arises in other assay
+
+1349
+00:50:02,400 --> 00:50:06,440
+types at different levels so for example
+
+1350
+00:50:04,079 --> 00:50:07,799
+in tagged in single cell data we get the
+
+1351
+00:50:06,440 --> 00:50:10,119
+similar kind of ambiguity at the gene
+
+1352
+00:50:07,799 --> 00:50:11,680
+level uh we can apply the same kinds of
+
+1353
+00:50:10,119 --> 00:50:13,920
+algorithms though we haven't actually
+
+1354
+00:50:11,680 --> 00:50:15,160
+done that work yet uh but there's a
+
+1355
+00:50:13,920 --> 00:50:17,240
+challenge a key challenge that was
+
+1356
+00:50:15,160 --> 00:50:19,359
+brought up by one of the questioners uh
+
+1357
+00:50:17,240 --> 00:50:21,599
+which is the groups are data driven and
+
+1358
+00:50:19,359 --> 00:50:23,520
+can change between experiments so how
+
+1359
+00:50:21,599 --> 00:50:24,960
+should we compare across the experiments
+
+1360
+00:50:23,520 --> 00:50:26,200
+and how should we use these groups for
+
+1361
+00:50:24,960 --> 00:50:28,359
+something like differential testing when
+
+1362
+00:50:26,200 --> 00:50:30,440
+the groups M themselves can change uh
+
+1363
+00:50:28,359 --> 00:50:32,240
+that's something that uh was subsequent
+
+1364
+00:50:30,440 --> 00:50:34,839
+work to this uh that that nor is going
+
+1365
+00:50:32,240 --> 00:50:34,839
+to tell us more
+
+1366
+00:50:36,240 --> 00:50:43,200
+about okay so starting from where Rob
+
+1367
+00:50:39,280 --> 00:50:45,599
+left so uh we uh we do have uncertainty
+
+1368
+00:50:43,200 --> 00:50:48,440
+then we talking with RN abundance
+
+1369
+00:50:45,599 --> 00:50:50,559
+estimates and the way we usually end up
+
+1370
+00:50:48,440 --> 00:50:52,680
+estimating is like generating B either
+
+1371
+00:50:50,559 --> 00:50:55,839
+we do a posterior sampling through Gib
+
+1372
+00:50:52,680 --> 00:50:58,599
+sampling or mcmc or what we can do is uh
+
+1373
+00:50:55,839 --> 00:51:00,599
+generate a bunch of bootstrap samples
+
+1374
+00:50:58,599 --> 00:51:02,119
+and let's say for the purpose of this
+
+1375
+00:51:00,599 --> 00:51:04,920
+these additional samples that are we are
+
+1376
+00:51:02,119 --> 00:51:06,680
+generating for a given RM example to
+
+1377
+00:51:04,920 --> 00:51:09,680
+either of these approaches let's call
+
+1378
+00:51:06,680 --> 00:51:12,000
+them inferential replicates and the way
+
+1379
+00:51:09,680 --> 00:51:13,760
+we are measuring uncertainty is using
+
+1380
+00:51:12,000 --> 00:51:16,079
+this metric introduced in this paper
+
+1381
+00:51:13,760 --> 00:51:17,760
+from Mike's group uh where they
+
+1382
+00:51:16,079 --> 00:51:21,119
+introduced wish is called inferential
+
+1383
+00:51:17,760 --> 00:51:24,000
+relative variance and again U it's a
+
+1384
+00:51:21,119 --> 00:51:26,240
+sort of a scale fee metric and idea
+
+1385
+00:51:24,000 --> 00:51:29,240
+being is like we are trying to we would
+
+1386
+00:51:26,240 --> 00:51:31,119
+assume a poison variance where uh
+
+1387
+00:51:29,240 --> 00:51:34,200
+variance skilles with the mean and any
+
+1388
+00:51:31,119 --> 00:51:37,280
+additional variance that is observed uh
+
+1389
+00:51:34,200 --> 00:51:40,559
+is sort of Duey uncertainty and we
+
+1390
+00:51:37,280 --> 00:51:42,920
+comput it by subtracting mean from the
+
+1391
+00:51:40,559 --> 00:51:46,040
+variance that is over these bootstap
+
+1392
+00:51:42,920 --> 00:51:47,880
+samples and then divide by the mean and
+
+1393
+00:51:46,040 --> 00:51:49,640
+the reason we care about it again is
+
+1394
+00:51:47,880 --> 00:51:51,200
+like any Downstream analysis such as
+
+1395
+00:51:49,640 --> 00:51:55,400
+differential testing is going to be at
+
+1396
+00:51:51,200 --> 00:51:57,880
+the end of the day as good as the ab
+
+1397
+00:51:55,400 --> 00:52:01,000
+estimates that we have
+
+1398
+00:51:57,880 --> 00:52:04,559
+so higher the value for this metric the
+
+1399
+00:52:01,000 --> 00:52:07,359
+higher the uncertainty that we going to
+
+1400
+00:52:04,559 --> 00:52:09,640
+see so again if you look at the gene
+
+1401
+00:52:07,359 --> 00:52:11,880
+level uh we don't need to worry that
+
+1402
+00:52:09,640 --> 00:52:16,119
+much because in most for most genes we
+
+1403
+00:52:11,880 --> 00:52:18,559
+have a very low uh value uh very there's
+
+1404
+00:52:16,119 --> 00:52:19,680
+very low uncertainty and does we see
+
+1405
+00:52:18,559 --> 00:52:21,880
+very low value for this particular
+
+1406
+00:52:19,680 --> 00:52:23,799
+metric on the other hand for transcripts
+
+1407
+00:52:21,880 --> 00:52:26,000
+this value can increase a lot and that's
+
+1408
+00:52:23,799 --> 00:52:29,839
+why you you see that histogram spread
+
+1409
+00:52:26,000 --> 00:52:33,040
+all over the place B uh while genes are
+
+1410
+00:52:29,839 --> 00:52:35,400
+the most certain but and um thus we
+
+1411
+00:52:33,040 --> 00:52:39,520
+should get very accurate analysis but
+
+1412
+00:52:35,400 --> 00:52:42,000
+then we in many cases like we we are
+
+1413
+00:52:39,520 --> 00:52:44,000
+then uh masking transcription level
+
+1414
+00:52:42,000 --> 00:52:47,200
+Dynamics and which might be important
+
+1415
+00:52:44,000 --> 00:52:49,520
+for uh certain applications other
+
+1416
+00:52:47,200 --> 00:52:52,880
+transcripts not all but for many they
+
+1417
+00:52:49,520 --> 00:52:56,040
+can be a lot of uncertainity so the then
+
+1418
+00:52:52,880 --> 00:52:59,559
+the question is perhaps is um can we do
+
+1419
+00:52:56,040 --> 00:53:01,920
+something in a Midway so in this talk
+
+1420
+00:52:59,559 --> 00:53:04,839
+I'll be talking about two different
+
+1421
+00:53:01,920 --> 00:53:06,400
+projects one is three Terminus which is
+
+1422
+00:53:04,839 --> 00:53:08,480
+effectively the framework for handling
+
+1423
+00:53:06,400 --> 00:53:10,960
+this uncertainty and then second is a
+
+1424
+00:53:08,480 --> 00:53:12,240
+tool called mendi which is a sort of a
+
+1425
+00:53:10,960 --> 00:53:16,200
+differential testing framework that is
+
+1426
+00:53:12,240 --> 00:53:16,200
+built on based off on the top of the
+
+1427
+00:53:16,920 --> 00:53:24,720
+street so uh starting witherus so uh we
+
+1428
+00:53:21,839 --> 00:53:27,160
+already heard about uh Terminus and the
+
+1429
+00:53:24,720 --> 00:53:29,359
+idea is to form sort of discreet groups
+
+1430
+00:53:27,160 --> 00:53:31,040
+but what termin Tre Terminus is doing is
+
+1431
+00:53:29,359 --> 00:53:32,960
+building on top of terminus but rather
+
+1432
+00:53:31,040 --> 00:53:35,079
+than having a discrete group of
+
+1433
+00:53:32,960 --> 00:53:37,040
+transcripts as an output we are rather
+
+1434
+00:53:35,079 --> 00:53:39,480
+now outputting a set Forest of
+
+1435
+00:53:37,040 --> 00:53:39,480
+transcript
+
+1436
+00:53:39,960 --> 00:53:47,040
+trees so the input to is like a given RN
+
+1437
+00:53:45,359 --> 00:53:51,040
+samples or a set of samples that are
+
+1438
+00:53:47,040 --> 00:53:53,040
+Quantified using salmon uh we take make
+
+1439
+00:53:51,040 --> 00:53:57,040
+use of the equivalence class information
+
+1440
+00:53:53,040 --> 00:54:00,880
+and then output a set of uh of of uh set
+
+1441
+00:53:57,040 --> 00:54:04,280
+of transcript trees and where the leaves
+
+1442
+00:54:00,880 --> 00:54:06,280
+represent the uh individual transcripts
+
+1443
+00:54:04,280 --> 00:54:08,480
+and the notes represent that aggregated
+
+1444
+00:54:06,280 --> 00:54:11,119
+set of groups the key feature of this
+
+1445
+00:54:08,480 --> 00:54:13,799
+tree is that that uncertainty decreases
+
+1446
+00:54:11,119 --> 00:54:13,799
+as we go up the
+
+1447
+00:54:14,799 --> 00:54:20,680
+tree um just to provide an examp example
+
+1448
+00:54:18,040 --> 00:54:24,160
+so this is one particular Gene called uh
+
+1449
+00:54:20,680 --> 00:54:26,079
+PK qr6 and this let sort of set of
+
+1450
+00:54:24,160 --> 00:54:27,839
+transs that are present within it and
+
+1451
+00:54:26,079 --> 00:54:30,559
+this is sort of the tree that is being
+
+1452
+00:54:27,839 --> 00:54:33,400
+created uh for this vory
+
+1453
+00:54:30,559 --> 00:54:37,160
+Terminus and if you just look at these
+
+1454
+00:54:33,400 --> 00:54:40,119
+two particular transcripts and and look
+
+1455
+00:54:37,160 --> 00:54:42,640
+at the corresponding uh arrangement of
+
+1456
+00:54:40,119 --> 00:54:45,599
+exons within it you could see that these
+
+1457
+00:54:42,640 --> 00:54:47,440
+two share a very similar set of exons
+
+1458
+00:54:45,599 --> 00:54:49,640
+the only difference being is like one is
+
+1459
+00:54:47,440 --> 00:54:52,240
+slightly shorter than the other in in
+
+1460
+00:54:49,640 --> 00:54:54,160
+just a few bases so it is going to be
+
+1461
+00:54:52,240 --> 00:54:56,400
+very hard to be
+
+1462
+00:54:54,160 --> 00:54:57,400
+actually uh sort of be distinguished
+
+1463
+00:54:56,400 --> 00:54:59,520
+between them when you're trying to
+
+1464
+00:54:57,400 --> 00:55:02,799
+assign deeds and these sort of things
+
+1465
+00:54:59,520 --> 00:55:04,079
+sort of get group first uh are very the
+
+1466
+00:55:02,799 --> 00:55:07,920
+transcript that are very hard to
+
+1467
+00:55:04,079 --> 00:55:11,520
+quantify so tend to get group first and
+
+1468
+00:55:07,920 --> 00:55:11,520
+as denoted there in that particular
+
+1469
+00:55:11,680 --> 00:55:17,200
+example so why do we just care about
+
+1470
+00:55:14,880 --> 00:55:20,119
+these trees and not just uh looked at
+
+1471
+00:55:17,200 --> 00:55:23,280
+the stopped at the uh transcript group
+
+1472
+00:55:20,119 --> 00:55:24,559
+level the key thing is like when we at
+
+1473
+00:55:23,280 --> 00:55:27,160
+the end we are getting discrete groups
+
+1474
+00:55:24,559 --> 00:55:29,119
+as an output we are
+
+1475
+00:55:27,160 --> 00:55:31,520
+the place that we sto grouping is
+
+1476
+00:55:29,119 --> 00:55:33,920
+dependent on a threshold and that might
+
+1477
+00:55:31,520 --> 00:55:37,280
+not be necessarily optimized for some
+
+1478
+00:55:33,920 --> 00:55:40,480
+downam analysis further depending on the
+
+1479
+00:55:37,280 --> 00:55:41,880
+use case and flexibility like if you
+
+1480
+00:55:40,480 --> 00:55:43,920
+want to increase the resolution or
+
+1481
+00:55:41,880 --> 00:55:46,039
+decrease it that would mean that we have
+
+1482
+00:55:43,920 --> 00:55:50,559
+to rerun the entire grouping process
+
+1483
+00:55:46,039 --> 00:55:53,039
+again so in this case uh the tree helps
+
+1484
+00:55:50,559 --> 00:55:55,920
+and just to give you an example here is
+
+1485
+00:55:53,039 --> 00:55:57,799
+a Terminus group and what we do is on a
+
+1486
+00:55:55,920 --> 00:56:02,400
+similar data set we do a differential
+
+1487
+00:55:57,799 --> 00:56:05,480
+testing between a set of uh between a
+
+1488
+00:56:02,400 --> 00:56:08,359
+uh two group condition uh with each
+
+1489
+00:56:05,480 --> 00:56:12,640
+group containing six samples and in this
+
+1490
+00:56:08,359 --> 00:56:14,760
+particular thing we see that uh the the
+
+1491
+00:56:12,640 --> 00:56:16,400
+uh in these two conditions there this
+
+1492
+00:56:14,760 --> 00:56:18,640
+particular group is not
+
+1493
+00:56:16,400 --> 00:56:21,240
+differential but when we look at the
+
+1494
+00:56:18,640 --> 00:56:22,359
+three structure we uh it consists of
+
+1495
+00:56:21,240 --> 00:56:24,440
+these three transcripts and it is
+
+1496
+00:56:22,359 --> 00:56:27,720
+grouping these this terminous group
+
+1497
+00:56:24,440 --> 00:56:30,839
+consists of this these three Set uh
+
+1498
+00:56:27,720 --> 00:56:33,119
+transcripts but if we were not to over
+
+1499
+00:56:30,839 --> 00:56:34,400
+agregate and we just were to look at
+
+1500
+00:56:33,119 --> 00:56:36,039
+this particular group that just
+
+1501
+00:56:34,400 --> 00:56:38,799
+consisted of two transcripts then there
+
+1502
+00:56:36,039 --> 00:56:41,920
+was a clear differential signal so what
+
+1503
+00:56:38,799 --> 00:56:44,000
+could happen there sometimes that uh you
+
+1504
+00:56:41,920 --> 00:56:46,440
+having just a set of discrete proofs
+
+1505
+00:56:44,000 --> 00:56:49,160
+with beforehand without considering the
+
+1506
+00:56:46,440 --> 00:56:51,240
+downstream analysis we can over agregate
+
+1507
+00:56:49,160 --> 00:56:54,079
+and in many cases we will also under
+
+1508
+00:56:51,240 --> 00:56:56,440
+agregate in this particular example I
+
+1509
+00:56:54,079 --> 00:56:58,359
+had an example for over agregation but
+
+1510
+00:56:56,440 --> 00:57:00,240
+in MO most cases we see a lot of under
+
+1511
+00:56:58,359 --> 00:57:01,760
+aggregation and where more aggregation
+
+1512
+00:57:00,240 --> 00:57:04,599
+would have helped us in leveraging the
+
+1513
+00:57:01,760 --> 00:57:06,640
+signal that was there in the data so the
+
+1514
+00:57:04,599 --> 00:57:10,880
+tree structure sort from T Terminus sort
+
+1515
+00:57:06,640 --> 00:57:10,880
+of can help in addressing these
+
+1516
+00:57:11,440 --> 00:57:17,640
+issues so uh how the next question then
+
+1517
+00:57:15,160 --> 00:57:20,640
+comes is perhaps that how do we go about
+
+1518
+00:57:17,640 --> 00:57:24,280
+constructing such trees so again ideas
+
+1519
+00:57:20,640 --> 00:57:26,720
+is built on top of uh ter Terminus which
+
+1520
+00:57:24,280 --> 00:57:29,960
+Rob explained in the Prima
+
+1521
+00:57:26,720 --> 00:57:33,000
+and idea is that we first construct a
+
+1522
+00:57:29,960 --> 00:57:35,000
+graph on these transcripts and the edge
+
+1523
+00:57:33,000 --> 00:57:37,359
+between these transcripts sort of denote
+
+1524
+00:57:35,000 --> 00:57:40,000
+that they co-occurred in at least one
+
+1525
+00:57:37,359 --> 00:57:41,520
+equivalence class and the reason again
+
+1526
+00:57:40,000 --> 00:57:43,720
+for considering the equivalence classes
+
+1527
+00:57:41,520 --> 00:57:45,720
+is because these are the places where
+
+1528
+00:57:43,720 --> 00:57:47,880
+the transcripts are sh would be end up
+
+1529
+00:57:45,720 --> 00:57:50,160
+would be sharing reads and which is sort
+
+1530
+00:57:47,880 --> 00:57:53,079
+of one of the main causes of
+
+1531
+00:57:50,160 --> 00:57:56,760
+uncertainty uh the weight for this Edge
+
+1532
+00:57:53,079 --> 00:58:00,000
+is denoted um by again um
+
+1533
+00:57:56,760 --> 00:58:02,359
+uh this uh value called s which is sort
+
+1534
+00:58:00,000 --> 00:58:04,400
+of computing the difference in the
+
+1535
+00:58:02,359 --> 00:58:07,319
+inferential relative variance between of
+
+1536
+00:58:04,400 --> 00:58:09,480
+that particular group assuming that part
+
+1537
+00:58:07,319 --> 00:58:11,760
+set of transcripts was to be collapsed
+
+1538
+00:58:09,480 --> 00:58:15,599
+and the the mean across the individual
+
+1539
+00:58:11,760 --> 00:58:17,880
+transcripts that constituted that group
+
+1540
+00:58:15,599 --> 00:58:20,400
+and this sort of graph serves as a
+
+1541
+00:58:17,880 --> 00:58:22,039
+starting point for for uh for towards
+
+1542
+00:58:20,400 --> 00:58:26,799
+constructing this
+
+1543
+00:58:22,039 --> 00:58:29,160
+Forest so um um here in in this toy
+
+1544
+00:58:26,799 --> 00:58:31,720
+example I have a set of just let's say
+
+1545
+00:58:29,160 --> 00:58:34,880
+four transcripts and the weights are
+
+1546
+00:58:31,720 --> 00:58:36,200
+like denote like what how much reduction
+
+1547
+00:58:34,880 --> 00:58:38,720
+and inferential relative variance we'll
+
+1548
+00:58:36,200 --> 00:58:41,200
+observe if that particular pair of
+
+1549
+00:58:38,720 --> 00:58:43,480
+transcript through collapse so it's a
+
+1550
+00:58:41,200 --> 00:58:45,920
+this is a greedy approach and then uh
+
+1551
+00:58:43,480 --> 00:58:47,839
+again we see that for the in this
+
+1552
+00:58:45,920 --> 00:58:50,599
+particular graph these two particular
+
+1553
+00:58:47,839 --> 00:58:52,480
+set of transcripts uh have the highest
+
+1554
+00:58:50,599 --> 00:58:54,559
+reduction in fential relative Vari this
+
+1555
+00:58:52,480 --> 00:58:57,680
+means that this is a good Edge to
+
+1556
+00:58:54,559 --> 00:59:00,880
+collapse so as soon as we collapse this
+
+1557
+00:58:57,680 --> 00:59:02,839
+Edge we end up sort of creating a tree
+
+1558
+00:59:00,880 --> 00:59:04,480
+and now these two set of transcripts
+
+1559
+00:59:02,839 --> 00:59:06,480
+that will collapse now they became the
+
+1560
+00:59:04,480 --> 00:59:09,920
+children for my new node for that tree
+
+1561
+00:59:06,480 --> 00:59:11,240
+that was constructed and now we uh since
+
+1562
+00:59:09,920 --> 00:59:13,480
+this these two particular edges have
+
+1563
+00:59:11,240 --> 00:59:17,160
+been collapsed uh what we end up doing
+
+1564
+00:59:13,480 --> 00:59:19,359
+is uh we sort of re Computing the weight
+
+1565
+00:59:17,160 --> 00:59:23,599
+with the uh neighboring transcripts
+
+1566
+00:59:19,359 --> 00:59:25,599
+corresponding to this particular Edge so
+
+1567
+00:59:23,599 --> 00:59:30,920
+that's why with uh we recompute the
+
+1568
+00:59:25,599 --> 00:59:34,440
+weight for T4 and T1 T2 and T3 and T1 T2
+
+1569
+00:59:30,920 --> 00:59:36,280
+and we um uh and then we continue this
+
+1570
+00:59:34,440 --> 00:59:38,920
+procedure again and again end up picking
+
+1571
+00:59:36,280 --> 00:59:42,680
+the picking up the edge with the lowest
+
+1572
+00:59:38,920 --> 00:59:45,000
+weight and we keep doing this till the
+
+1573
+00:59:42,680 --> 00:59:47,079
+time we can't collapse anymore or we
+
+1574
+00:59:45,000 --> 00:59:48,960
+reach some sort of a stopping
+
+1575
+00:59:47,079 --> 00:59:51,920
+criteria
+
+1576
+00:59:48,960 --> 00:59:54,240
+now while I have been talking about
+
+1577
+00:59:51,920 --> 00:59:56,119
+Forest here U but in this particular
+
+1578
+00:59:54,240 --> 00:59:59,160
+example might seem that we just have
+
+1579
+00:59:56,119 --> 01:00:00,799
+have a s a single tree but in many cases
+
+1580
+00:59:59,160 --> 01:00:02,280
+what you might have is like this is just
+
+1581
+01:00:00,799 --> 01:00:04,000
+I took a toy example but you could have
+
+1582
+01:00:02,280 --> 01:00:06,000
+many disconnected components in the
+
+1583
+01:00:04,000 --> 01:00:08,480
+original transer craft and so you would
+
+1584
+01:00:06,000 --> 01:00:10,319
+be running this procedure IND
+
+1585
+01:00:08,480 --> 01:00:12,319
+individually on each of these connected
+
+1586
+01:00:10,319 --> 01:00:14,640
+components or sometimes you might end up
+
+1587
+01:00:12,319 --> 01:00:16,319
+breaking that uh because of we might
+
+1588
+01:00:14,640 --> 01:00:19,280
+have some stopping criteria and that
+
+1589
+01:00:16,319 --> 01:00:21,200
+might need that we we just stop stop
+
+1590
+01:00:19,280 --> 01:00:24,640
+there right there and then you'll get
+
+1591
+01:00:21,200 --> 01:00:26,160
+two individual trees so the key key
+
+1592
+01:00:24,640 --> 01:00:28,200
+thing to not is that with the this
+
+1593
+01:00:26,160 --> 01:00:30,640
+procedure is run on a given individual
+
+1594
+01:00:28,200 --> 01:00:34,000
+sample and we get sort of an output as a
+
+1595
+01:00:30,640 --> 01:00:37,200
+forested piece now the next question um
+
+1596
+01:00:34,000 --> 01:00:39,039
+which many had as well in the streamer
+
+1597
+01:00:37,200 --> 01:00:41,640
+as well is like how do we do when we
+
+1598
+01:00:39,039 --> 01:00:44,799
+have a set of RN examples because this
+
+1599
+01:00:41,640 --> 01:00:46,119
+is just for a given given RN this is
+
+1600
+01:00:44,799 --> 01:00:48,720
+this procedure right now that I've
+
+1601
+01:00:46,119 --> 01:00:51,599
+demonstrated works on single RN example
+
+1602
+01:00:48,720 --> 01:00:54,039
+but what we have in most RN analysis is
+
+1603
+01:00:51,599 --> 01:00:54,039
+a set of
+
+1604
+01:00:54,359 --> 01:00:59,720
+samples so uh we sort of provide two
+
+1605
+01:00:57,799 --> 01:01:01,599
+different modes to constructores one is
+
+1606
+01:00:59,720 --> 01:01:04,119
+called the mean mode and the second is
+
+1607
+01:01:01,599 --> 01:01:05,400
+called the consensus mode each have its
+
+1608
+01:01:04,119 --> 01:01:08,000
+own different
+
+1609
+01:01:05,400 --> 01:01:09,559
+ways uh for the mean mode what we
+
+1610
+01:01:08,000 --> 01:01:12,200
+provide is
+
+1611
+01:01:09,559 --> 01:01:17,240
+um um we again go back to this graph
+
+1612
+01:01:12,200 --> 01:01:19,880
+approach but now uh uh this time H
+
+1613
+01:01:17,240 --> 01:01:21,680
+rather than for a given sample uh rather
+
+1614
+01:01:19,880 --> 01:01:24,880
+than into a single sample now the S
+
+1615
+01:01:21,680 --> 01:01:27,640
+denotes that it the these two transcript
+
+1616
+01:01:24,880 --> 01:01:30,920
+set of occur in equivalence class in at
+
+1617
+01:01:27,640 --> 01:01:34,680
+least one one RN example across a set of
+
+1618
+01:01:30,920 --> 01:01:37,880
+samples and then what we do is we uh the
+
+1619
+01:01:34,680 --> 01:01:40,319
+weight now denotes is the mean of that
+
+1620
+01:01:37,880 --> 01:01:42,400
+collapse score across all the set of
+
+1621
+01:01:40,319 --> 01:01:45,680
+samples and then we go by that same
+
+1622
+01:01:42,400 --> 01:01:47,760
+procedure that we had for an individual
+
+1623
+01:01:45,680 --> 01:01:54,960
+samples and this and we end up getting a
+
+1624
+01:01:47,760 --> 01:01:54,960
+tree for the entire set of RM examples
+
+1625
+01:01:56,160 --> 01:02:01,279
+the SE the second mode that we provide
+
+1626
+01:01:58,599 --> 01:02:02,559
+is a consensus mode this idea sort of
+
+1627
+01:02:01,279 --> 01:02:06,240
+borrows from
+
+1628
+01:02:02,559 --> 01:02:08,240
+phenetics and idea is that the we want
+
+1629
+01:02:06,240 --> 01:02:11,880
+to preserve that inferential uncertainty
+
+1630
+01:02:08,240 --> 01:02:13,440
+structure that was uh preserved sort of
+
+1631
+01:02:11,880 --> 01:02:15,359
+that is that represents that provides
+
+1632
+01:02:13,440 --> 01:02:18,000
+some sort of summarized top political
+
+1633
+01:02:15,359 --> 01:02:20,559
+structure across a set of samples so
+
+1634
+01:02:18,000 --> 01:02:24,160
+what we do is we end up creating trees
+
+1635
+01:02:20,559 --> 01:02:27,000
+for across each RN sample and then for
+
+1636
+01:02:24,160 --> 01:02:31,520
+the set of samples uh what we do is we
+
+1637
+01:02:27,000 --> 01:02:34,079
+apply uh a consensus algorithm and we
+
+1638
+01:02:31,520 --> 01:02:36,079
+get sort of with a hope to get that
+
+1639
+01:02:34,079 --> 01:02:38,480
+summarized structure that for that
+
+1640
+01:02:36,079 --> 01:02:42,880
+uncertainty that is observed across
+
+1641
+01:02:38,480 --> 01:02:45,799
+majority of samples uh um just a brief
+
+1642
+01:02:42,880 --> 01:02:48,760
+notice that what we do is also apply
+
+1643
+01:02:45,799 --> 01:02:51,440
+majority rule extended algorithm the
+
+1644
+01:02:48,760 --> 01:02:53,839
+idea being there is let's say if there
+
+1645
+01:02:51,440 --> 01:02:57,799
+are certain ages or certain structures
+
+1646
+01:02:53,839 --> 01:03:00,160
+or clusters uh are going if um that are
+
+1647
+01:02:57,799 --> 01:03:02,520
+present um between a certain set of
+
+1648
+01:03:00,160 --> 01:03:04,359
+samples that are still not in majority
+
+1649
+01:03:02,520 --> 01:03:06,640
+and if you can still add them to this
+
+1650
+01:03:04,359 --> 01:03:07,799
+existing structure uh till the time they
+
+1651
+01:03:06,640 --> 01:03:10,920
+don't end up breaking the threee
+
+1652
+01:03:07,799 --> 01:03:13,440
+structure we try to add them so if there
+
+1653
+01:03:10,920 --> 01:03:16,079
+is a pop if that structure is let's say
+
+1654
+01:03:13,440 --> 01:03:19,440
+present in
+
+1655
+01:03:16,079 --> 01:03:22,520
+a a rear population like a set of
+
+1656
+01:03:19,440 --> 01:03:25,359
+samples that represent a condition um
+
+1657
+01:03:22,520 --> 01:03:27,319
+which could be a real cell type or so
+
+1658
+01:03:25,359 --> 01:03:30,599
+and if the a possibility to preserve
+
+1659
+01:03:27,319 --> 01:03:33,200
+that this algorithm tries to take that
+
+1660
+01:03:30,599 --> 01:03:33,200
+into account as
+
+1661
+01:03:34,000 --> 01:03:39,039
+well so now once we have the three then
+
+1662
+01:03:37,480 --> 01:03:41,880
+the question next question is like how
+
+1663
+01:03:39,039 --> 01:03:44,000
+do we go about analyzing it so there are
+
+1664
+01:03:41,880 --> 01:03:47,079
+different multiple options and what we
+
+1665
+01:03:44,000 --> 01:03:50,160
+provide is like a dynamic programming
+
+1666
+01:03:47,079 --> 01:03:52,200
+approach and you what we could do is
+
+1667
+01:03:50,160 --> 01:03:54,960
+like given a objective function that we
+
+1668
+01:03:52,200 --> 01:03:58,400
+can of objective metric that we care
+
+1669
+01:03:54,960 --> 01:03:59,920
+about for each node we could run a DP
+
+1670
+01:03:58,400 --> 01:04:03,760
+and sort
+
+1671
+01:03:59,920 --> 01:04:06,640
+of optimize that over the entire set of
+
+1672
+01:04:03,760 --> 01:04:09,039
+tree and get a cut from that tree and
+
+1673
+01:04:06,640 --> 01:04:11,319
+then that cut perhaps can be used for
+
+1674
+01:04:09,039 --> 01:04:14,880
+Downstream analysis
+
+1675
+01:04:11,319 --> 01:04:17,960
+so we in this particular paper we we
+
+1676
+01:04:14,880 --> 01:04:20,160
+looked at two different uh objective
+
+1677
+01:04:17,960 --> 01:04:22,119
+functions which looked reasonable one
+
+1678
+01:04:20,160 --> 01:04:24,240
+was like one could be that we want to
+
+1679
+01:04:22,119 --> 01:04:27,799
+minimize the uncertainty but at the same
+
+1680
+01:04:24,240 --> 01:04:30,119
+time we want the nodes to be situated at
+
+1681
+01:04:27,799 --> 01:04:32,039
+a low height and that's why we minimize
+
+1682
+01:04:30,119 --> 01:04:34,200
+that so and this this particular thing
+
+1683
+01:04:32,039 --> 01:04:36,799
+can be computed for all node in the tree
+
+1684
+01:04:34,200 --> 01:04:38,880
+so we have a DP that can optimize this
+
+1685
+01:04:36,799 --> 01:04:41,200
+objective function from the differential
+
+1686
+01:04:38,880 --> 01:04:43,720
+analysis perspective one could be that
+
+1687
+01:04:41,200 --> 01:04:46,000
+we could compute the effect effect size
+
+1688
+01:04:43,720 --> 01:04:48,160
+of the lock full changes and we want to
+
+1689
+01:04:46,000 --> 01:04:50,680
+maximize that at the same time we want
+
+1690
+01:04:48,160 --> 01:04:52,720
+to minimize the uncertainty so that's
+
+1691
+01:04:50,680 --> 01:04:57,520
+the second objective function and we
+
+1692
+01:04:52,720 --> 01:05:01,119
+sort of uh uh optimize for these two
+
+1693
+01:04:57,520 --> 01:05:03,520
+metrics in that uh using the Tre termin
+
+1694
+01:05:01,119 --> 01:05:05,920
+Tre uh on both simulated and
+
+1695
+01:05:03,520 --> 01:05:08,160
+experimental data set and try to see
+
+1696
+01:05:05,920 --> 01:05:09,720
+plot these metrics and then see and get
+
+1697
+01:05:08,160 --> 01:05:11,359
+a cut and then see if he can use those
+
+1698
+01:05:09,720 --> 01:05:16,119
+for Downstream
+
+1699
+01:05:11,359 --> 01:05:18,799
+analysis so uh the U another key aspect
+
+1700
+01:05:16,119 --> 01:05:22,599
+is since we have we get a forest again
+
+1701
+01:05:18,799 --> 01:05:25,119
+to get uh we have another package which
+
+1702
+01:05:22,599 --> 01:05:27,079
+sort of first unifies the individual
+
+1703
+01:05:25,119 --> 01:05:29,200
+forest and then creates a unified tree
+
+1704
+01:05:27,079 --> 01:05:32,480
+and then on that easily these objective
+
+1705
+01:05:29,200 --> 01:05:36,559
+functions can can be
+
+1706
+01:05:32,480 --> 01:05:39,000
+computed so so U now to talk about
+
+1707
+01:05:36,559 --> 01:05:40,920
+results since the to the best of our
+
+1708
+01:05:39,000 --> 01:05:42,119
+knowledge uh they existed no other
+
+1709
+01:05:40,920 --> 01:05:45,920
+method that actually constructed
+
+1710
+01:05:42,119 --> 01:05:48,039
+transcript Tre so what we uh for as a to
+
+1711
+01:05:45,920 --> 01:05:50,440
+serve as a baseline we went back to the
+
+1712
+01:05:48,039 --> 01:05:52,960
+idea of mm collapse from tarot which had
+
+1713
+01:05:50,440 --> 01:05:54,599
+the initial grouping IDE of transcripts
+
+1714
+01:05:52,960 --> 01:05:57,480
+and what they had they were grouping
+
+1715
+01:05:54,599 --> 01:06:00,119
+transcripts based on anti-correlation so
+
+1716
+01:05:57,480 --> 01:06:03,079
+what we did was like we sort of computed
+
+1717
+01:06:00,119 --> 01:06:05,760
+the correlation or the negative of that
+
+1718
+01:06:03,079 --> 01:06:08,520
+correlation between um all that all
+
+1719
+01:06:05,760 --> 01:06:11,319
+pairs of transcripts and then converted
+
+1720
+01:06:08,520 --> 01:06:14,640
+that to a distance metric and gave that
+
+1721
+01:06:11,319 --> 01:06:16,319
+as an input to upgma which is sort of
+
+1722
+01:06:14,640 --> 01:06:18,680
+does a high hierarchical clustering
+
+1723
+01:06:16,319 --> 01:06:21,599
+based on a distance distance Matrix
+
+1724
+01:06:18,680 --> 01:06:24,160
+across all set of features and then we
+
+1725
+01:06:21,599 --> 01:06:26,839
+we sort of try to compare Tre terminous
+
+1726
+01:06:24,160 --> 01:06:29,279
+tree with this tree just as give as a
+
+1727
+01:06:26,839 --> 01:06:33,119
+baseline comparison and the first thing
+
+1728
+01:06:29,279 --> 01:06:36,240
+that we look at is the
+
+1729
+01:06:33,119 --> 01:06:38,559
+uncertainty and what we have on the
+
+1730
+01:06:36,240 --> 01:06:40,400
+different axises the these are the three
+
+1731
+01:06:38,559 --> 01:06:45,319
+terbus trees to the two modes consensus
+
+1732
+01:06:40,400 --> 01:06:47,880
+and mean and this is the Baseline tree
+
+1733
+01:06:45,319 --> 01:06:50,480
+and uh on the right we are plotting
+
+1734
+01:06:47,880 --> 01:06:52,640
+rightmost is the we are plotting the
+
+1735
+01:06:50,480 --> 01:06:56,520
+inferential the uncertainty metric for
+
+1736
+01:06:52,640 --> 01:06:58,599
+the genes and this is for the transcript
+
+1737
+01:06:56,520 --> 01:07:02,000
+uh we for the trees we are only looking
+
+1738
+01:06:58,599 --> 01:07:05,160
+at nodes at four and as we could see
+
+1739
+01:07:02,000 --> 01:07:06,039
+that while expected genes have the
+
+1740
+01:07:05,160 --> 01:07:08,279
+lowest
+
+1741
+01:07:06,039 --> 01:07:10,319
+uncertainty uh and transcripts have the
+
+1742
+01:07:08,279 --> 01:07:13,520
+largest uh if you look at this file and
+
+1743
+01:07:10,319 --> 01:07:15,760
+part both these consensus mean somewhere
+
+1744
+01:07:13,520 --> 01:07:19,960
+between the transcript and the gene
+
+1745
+01:07:15,760 --> 01:07:21,400
+genes and is sort of lower than the
+
+1746
+01:07:19,960 --> 01:07:23,640
+anticorrelation
+
+1747
+01:07:21,400 --> 01:07:25,039
+tree and just to show demonstrate that
+
+1748
+01:07:23,640 --> 01:07:27,599
+I'm just not cherry picking on one
+
+1749
+01:07:25,039 --> 01:07:29,559
+particular height we do it we do this is
+
+1750
+01:07:27,599 --> 01:07:31,839
+the same plot but repeat it across
+
+1751
+01:07:29,559 --> 01:07:34,240
+different heights and we tend sort of
+
+1752
+01:07:31,839 --> 01:07:36,680
+tend to see a similar Behavior across
+
+1753
+01:07:34,240 --> 01:07:39,400
+the across the different node situated
+
+1754
+01:07:36,680 --> 01:07:45,640
+at different height in the
+
+1755
+01:07:39,400 --> 01:07:47,200
+tree uh next thing uh so um uh since we
+
+1756
+01:07:45,640 --> 01:07:49,240
+care about at the end for the groups to
+
+1757
+01:07:47,200 --> 01:07:51,920
+have some sort of biological meaning we
+
+1758
+01:07:49,240 --> 01:07:53,839
+also sort of tend to look the to uh try
+
+1759
+01:07:51,920 --> 01:07:57,079
+to look at the total number of unique
+
+1760
+01:07:53,839 --> 01:08:00,400
+genes these AR trees map to and as you
+
+1761
+01:07:57,079 --> 01:08:02,599
+could consistently see that uh the total
+
+1762
+01:08:00,400 --> 01:08:05,880
+number of unique genes that are mapped
+
+1763
+01:08:02,599 --> 01:08:08,480
+by the nodes of Three termin Trees is
+
+1764
+01:08:05,880 --> 01:08:11,520
+much lower compared to and the
+
+1765
+01:08:08,480 --> 01:08:13,559
+anti-correlation tree and again no
+
+1766
+01:08:11,520 --> 01:08:16,359
+annotation information has been provided
+
+1767
+01:08:13,559 --> 01:08:19,239
+to as an input it's all just based on
+
+1768
+01:08:16,359 --> 01:08:22,400
+the equivalence class information so
+
+1769
+01:08:19,239 --> 01:08:26,799
+this nodes would have some can in many
+
+1770
+01:08:22,400 --> 01:08:30,120
+ways be used for um uh have have a
+
+1771
+01:08:26,799 --> 01:08:30,120
+consistent sort of biological
+
+1772
+01:08:32,400 --> 01:08:37,679
+information and um uh we also then
+
+1773
+01:08:36,440 --> 01:08:39,640
+though again I'll be talking about
+
+1774
+01:08:37,679 --> 01:08:42,759
+differential testing Al together on its
+
+1775
+01:08:39,640 --> 01:08:45,560
+own but just using some the cuts that I
+
+1776
+01:08:42,759 --> 01:08:49,239
+had talked about and if I we try to
+
+1777
+01:08:45,560 --> 01:08:51,120
+compare uh run uh do differential
+
+1778
+01:08:49,239 --> 01:08:52,880
+testing on these uh using the Terminus
+
+1779
+01:08:51,120 --> 01:08:55,839
+groups at the transcrip level at the
+
+1780
+01:08:52,880 --> 01:08:58,640
+gene level and using the cuts and we see
+
+1781
+01:08:55,839 --> 01:09:03,400
+that again um uh while genes have the
+
+1782
+01:08:58,640 --> 01:09:05,040
+lowest FDR uh uh the the the particular
+
+1783
+01:09:03,400 --> 01:09:08,960
+card that was optimized for the effect
+
+1784
+01:09:05,040 --> 01:09:12,279
+size of the LFC that has the highest
+
+1785
+01:09:08,960 --> 01:09:15,000
+DPR uh again it's these features are
+
+1786
+01:09:12,279 --> 01:09:17,920
+since are different so it's not directly
+
+1787
+01:09:15,000 --> 01:09:20,560
+one to one comparison between these
+
+1788
+01:09:17,920 --> 01:09:22,880
+different features but a thing worth
+
+1789
+01:09:20,560 --> 01:09:26,560
+noting is that what we next do a more of
+
+1790
+01:09:22,880 --> 01:09:29,000
+a qualitative analysis uh
+
+1791
+01:09:26,560 --> 01:09:30,440
+the cut that is obtained on this using
+
+1792
+01:09:29,000 --> 01:09:32,960
+that was maximizing for the lock for
+
+1793
+01:09:30,440 --> 01:09:34,960
+change uh that sort of ends up mapping
+
+1794
+01:09:32,960 --> 01:09:37,560
+to more unique transcripts then that
+
+1795
+01:09:34,960 --> 01:09:39,640
+would have been covered by Terminus so
+
+1796
+01:09:37,560 --> 01:09:41,520
+on the other hand Terminus Maps the cut
+
+1797
+01:09:39,640 --> 01:09:43,640
+that is covered by Terminus ends a maap
+
+1798
+01:09:41,520 --> 01:09:46,120
+to relatively much few positive
+
+1799
+01:09:43,640 --> 01:09:49,400
+transcripts that we actually so there's
+
+1800
+01:09:46,120 --> 01:09:52,239
+definitely a PO like potential for being
+
+1801
+01:09:49,400 --> 01:09:52,239
+able to recover more
+
+1802
+01:09:53,640 --> 01:09:58,800
+signal so to summon summarize just uh
+
+1803
+01:09:56,520 --> 01:10:00,560
+this part of the talk uh Tre Terminus is
+
+1804
+01:09:58,800 --> 01:10:02,880
+sort of its one of its own sort of
+
+1805
+01:10:00,560 --> 01:10:04,800
+methods that construct transcript trees
+
+1806
+01:10:02,880 --> 01:10:06,960
+and provides the flexibility with the
+
+1807
+01:10:04,800 --> 01:10:09,640
+end to the end user to analyze notes at
+
+1808
+01:10:06,960 --> 01:10:12,159
+different resolutions uh it can be
+
+1809
+01:10:09,640 --> 01:10:15,640
+leveraged to find signal with respect to
+
+1810
+01:10:12,159 --> 01:10:18,560
+the transcripts which might be lost uh
+
+1811
+01:10:15,640 --> 01:10:21,679
+by doing transcript level
+
+1812
+01:10:18,560 --> 01:10:23,960
+analysis uh so far like we have
+
+1813
+01:10:21,679 --> 01:10:26,920
+demonstrated this this its application
+
+1814
+01:10:23,960 --> 01:10:29,480
+to its shorted sequence data but then
+
+1815
+01:10:26,920 --> 01:10:32,120
+this is also equally applicable to Long
+
+1816
+01:10:29,480 --> 01:10:33,960
+Reach uh the key being there again is
+
+1817
+01:10:32,120 --> 01:10:35,800
+that they're still a read through
+
+1818
+01:10:33,960 --> 01:10:38,159
+transcript mapping ambiguity for the
+
+1819
+01:10:35,800 --> 01:10:41,480
+long read as well and it has a Rel it
+
+1820
+01:10:38,159 --> 01:10:42,960
+has also low throughput so uncertainty
+
+1821
+01:10:41,480 --> 01:10:45,000
+is bound to exist and then pre
+
+1822
+01:10:42,960 --> 01:10:48,159
+terminuses also be will be applicable
+
+1823
+01:10:45,000 --> 01:10:49,840
+for long days and another interesting
+
+1824
+01:10:48,159 --> 01:10:52,440
+application would be of course to single
+
+1825
+01:10:49,840 --> 01:10:56,360
+cells though again since if you look at
+
+1826
+01:10:52,440 --> 01:10:59,040
+the 10x or the top based protocols the
+
+1827
+01:10:56,360 --> 01:11:04,159
+uh since we are only able to effectively
+
+1828
+01:10:59,040 --> 01:11:06,159
+sort of map uh map genes uh so there
+
+1829
+01:11:04,159 --> 01:11:08,280
+rather than the transcript trees the key
+
+1830
+01:11:06,159 --> 01:11:09,760
+would be the gene trees though again if
+
+1831
+01:11:08,280 --> 01:11:11,840
+you have full length protocols like
+
+1832
+01:11:09,760 --> 01:11:15,400
+smart seek or the ones with back bio
+
+1833
+01:11:11,840 --> 01:11:20,640
+nanop for then of course then we can map
+
+1834
+01:11:15,400 --> 01:11:23,159
+this to uh on transcript back though the
+
+1835
+01:11:20,640 --> 01:11:26,159
+key thing then that they will be look at
+
+1836
+01:11:23,159 --> 01:11:27,679
+would be looking at is is perhaps work
+
+1837
+01:11:26,159 --> 01:11:30,360
+working on improving the scalability of
+
+1838
+01:11:27,679 --> 01:11:34,040
+tre terminal because if we were to take
+
+1839
+01:11:30,360 --> 01:11:35,800
+each cell as a sample then um and we
+
+1840
+01:11:34,040 --> 01:11:37,480
+could have millions of cells that is
+
+1841
+01:11:35,800 --> 01:11:40,560
+something we need to come up with more
+
+1842
+01:11:37,480 --> 01:11:44,040
+intelligent strategies right now because
+
+1843
+01:11:40,560 --> 01:11:45,880
+uh it uh the SP the inherent sparity
+
+1844
+01:11:44,040 --> 01:11:49,719
+that is present within an e cell might
+
+1845
+01:11:45,880 --> 01:11:54,280
+also be a hindrance to effectively
+
+1846
+01:11:49,719 --> 01:11:57,239
+uh uh re run through that the UN IND
+
+1847
+01:11:54,280 --> 01:11:57,239
+profile
+
+1848
+01:11:58,040 --> 01:12:03,960
+uh so uh T Terminus is available quick
+
+1849
+01:12:01,000 --> 01:12:06,639
+quick question yeah so I guess going
+
+1850
+01:12:03,960 --> 01:12:08,320
+back it seems like you're generating
+
+1851
+01:12:06,639 --> 01:12:10,199
+these trees kind of off of all of these
+
+1852
+01:12:08,320 --> 01:12:12,159
+different samples and then you can show
+
+1853
+01:12:10,199 --> 01:12:13,719
+that when you test you you identify
+
+1854
+01:12:12,159 --> 01:12:15,800
+these like larger discrepancies between
+
+1855
+01:12:13,719 --> 01:12:18,360
+samples are there any kind of double
+
+1856
+01:12:15,800 --> 01:12:20,960
+dipping issues or is there some way of
+
+1857
+01:12:18,360 --> 01:12:22,360
+mitigating anything yeah so yeah I'll be
+
+1858
+01:12:20,960 --> 01:12:25,920
+talking about that in the late second
+
+1859
+01:12:22,360 --> 01:12:29,480
+part of the talk so I'll wait until
+
+1860
+01:12:25,920 --> 01:12:29,480
+thanks yeah
+
+1861
+01:12:30,120 --> 01:12:34,159
+Co so because yeah the second part of
+
+1862
+01:12:33,080 --> 01:12:41,440
+the talk I'll be talking differential
+
+1863
+01:12:34,159 --> 01:12:44,199
+testing so go so uh so we
+
+1864
+01:12:41,440 --> 01:12:46,639
+uh um PR terminat is available in Rust
+
+1865
+01:12:44,199 --> 01:12:48,480
+and then we also have an R interface uh
+
+1866
+01:12:46,639 --> 01:12:51,199
+so that since most of the downstream
+
+1867
+01:12:48,480 --> 01:12:53,880
+tools are written in R so to effectively
+
+1868
+01:12:51,199 --> 01:12:56,880
+read the input uh we have an r package
+
+1869
+01:12:53,880 --> 01:12:56,880
+VR
+
+1870
+01:12:57,360 --> 01:13:03,239
+so uh coming back now to this the second
+
+1871
+01:13:01,159 --> 01:13:05,639
+part of the stock that sort of focuses
+
+1872
+01:13:03,239 --> 01:13:09,840
+on differential testing because one of
+
+1873
+01:13:05,639 --> 01:13:13,639
+the key uh Downstream analysis is that
+
+1874
+01:13:09,840 --> 01:13:17,159
+is differential testing so we we we
+
+1875
+01:13:13,639 --> 01:13:18,840
+focus on building a differential testing
+
+1876
+01:13:17,159 --> 01:13:21,960
+tool that leverages the tree that we
+
+1877
+01:13:18,840 --> 01:13:21,960
+have obtain from three
+
+1878
+01:13:22,040 --> 01:13:29,280
+terminal so so again um uh um Rob
+
+1879
+01:13:27,440 --> 01:13:30,480
+mentioned a bit about this uh there like
+
+1880
+01:13:29,280 --> 01:13:32,280
+there bunch of differential testing
+
+1881
+01:13:30,480 --> 01:13:34,520
+Methods at the level of transcripts that
+
+1882
+01:13:32,280 --> 01:13:38,199
+leverage these additional inferential
+
+1883
+01:13:34,520 --> 01:13:42,000
+replicates sluth switch recently EDR uh
+
+1884
+01:13:38,199 --> 01:13:45,159
+for U uh just to name a few and a key
+
+1885
+01:13:42,000 --> 01:13:47,280
+thing to note is like they they
+
+1886
+01:13:45,159 --> 01:13:49,960
+demonstrate a high performance and this
+
+1887
+01:13:47,280 --> 01:13:52,080
+is spe uh especially related to when the
+
+1888
+01:13:49,960 --> 01:13:55,199
+transcripts are very high uncertainty so
+
+1889
+01:13:52,080 --> 01:13:58,480
+if you look at this particular plot um
+
+1890
+01:13:55,199 --> 01:14:02,320
+we could see that clearly that there's
+
+1891
+01:13:58,480 --> 01:14:04,120
+U swish uh here which is which is the
+
+1892
+01:14:02,320 --> 01:14:07,000
+method that is making use of inferential
+
+1893
+01:14:04,120 --> 01:14:09,679
+replicates that has a much uh low false
+
+1894
+01:14:07,000 --> 01:14:12,800
+positive uh low low much low FDR
+
+1895
+01:14:09,679 --> 01:14:17,239
+compared to the other methods so using
+
+1896
+01:14:12,800 --> 01:14:19,880
+these inferential replicates helps us in
+
+1897
+01:14:17,239 --> 01:14:22,920
+uh uh preventing the aggregation of
+
+1898
+01:14:19,880 --> 01:14:25,080
+false positives and um this is sort of
+
+1899
+01:14:22,920 --> 01:14:27,760
+one of the guiding philosophies that m
+
+1900
+01:14:25,080 --> 01:14:34,239
+Ed us to build further on top of
+
+1901
+01:14:27,760 --> 01:14:35,960
+this so um the goal of the mendi is we
+
+1902
+01:14:34,239 --> 01:14:38,000
+want to Output a set of differentially
+
+1903
+01:14:35,960 --> 01:14:40,480
+expressed notes from the trees and these
+
+1904
+01:14:38,000 --> 01:14:43,239
+notes can either consist of transcripts
+
+1905
+01:14:40,480 --> 01:14:46,040
+or in a notes but this should be output
+
+1906
+01:14:43,239 --> 01:14:49,159
+in a data driven Manner and at the same
+
+1907
+01:14:46,040 --> 01:14:52,120
+time what we want to do is prevent over
+
+1908
+01:14:49,159 --> 01:14:55,280
+aggregation and ideally an inner node
+
+1909
+01:14:52,120 --> 01:14:57,280
+should be only output when there's exist
+
+1910
+01:14:55,280 --> 01:15:00,000
+at least one underlying transcript whose
+
+1911
+01:14:57,280 --> 01:15:03,480
+signal gets marked masked due to
+
+1912
+01:15:00,000 --> 01:15:06,000
+uncertainty but at the same time uh we
+
+1913
+01:15:03,480 --> 01:15:08,040
+want to make sure that whatever signal
+
+1914
+01:15:06,000 --> 01:15:10,400
+there exists in data we are able to
+
+1915
+01:15:08,040 --> 01:15:10,400
+capture
+
+1916
+01:15:11,840 --> 01:15:17,400
+that so initially when we started with
+
+1917
+01:15:15,520 --> 01:15:18,639
+the idea of tre Terminus was like we
+
+1918
+01:15:17,400 --> 01:15:21,560
+thought since there's a lot of
+
+1919
+01:15:18,639 --> 01:15:23,040
+literature that exists on uh tree based
+
+1920
+01:15:21,560 --> 01:15:25,639
+differential testing methods we could
+
+1921
+01:15:23,040 --> 01:15:27,679
+just use those and apply do on
+
+1922
+01:15:25,639 --> 01:15:29,239
+determinist but when we started
+
+1923
+01:15:27,679 --> 01:15:31,920
+exploring this project we sort of
+
+1924
+01:15:29,239 --> 01:15:34,920
+realized like the existing methods don't
+
+1925
+01:15:31,920 --> 01:15:37,080
+end up doing what we don't necessarily
+
+1926
+01:15:34,920 --> 01:15:39,639
+do what we want them to do at least the
+
+1927
+01:15:37,080 --> 01:15:41,719
+use case that is described above or are
+
+1928
+01:15:39,639 --> 01:15:44,360
+perhaps not directly applicable to the
+
+1929
+01:15:41,719 --> 01:15:47,840
+tree that is output by Tre Terminus so
+
+1930
+01:15:44,360 --> 01:15:50,639
+to give a brief ey overview what exists
+
+1931
+01:15:47,840 --> 01:15:52,760
+right now like a lot of them are focused
+
+1932
+01:15:50,639 --> 01:15:55,280
+at improving the sensitivity at the leaf
+
+1933
+01:15:52,760 --> 01:15:58,440
+level with the goal being that if an
+
+1934
+01:15:55,280 --> 01:16:00,320
+inner node is selected uh then all the
+
+1935
+01:15:58,440 --> 01:16:04,000
+underlying transcripts would also be
+
+1936
+01:16:00,320 --> 01:16:06,320
+called differentially expressed then for
+
+1937
+01:16:04,000 --> 01:16:08,080
+this we have no different again within
+
+1938
+01:16:06,320 --> 01:16:11,000
+that we have different subcategories one
+
+1939
+01:16:08,080 --> 01:16:14,000
+is trying to use the tree structure and
+
+1940
+01:16:11,000 --> 01:16:16,159
+using correlation and then then to share
+
+1941
+01:16:14,000 --> 01:16:18,080
+the information information among leaves
+
+1942
+01:16:16,159 --> 01:16:20,000
+and then that's how they're propagating
+
+1943
+01:16:18,080 --> 01:16:22,880
+the signal or you could and these
+
+1944
+01:16:20,000 --> 01:16:25,400
+includes like struct TDR or Zazu and
+
+1945
+01:16:22,880 --> 01:16:28,360
+then or there was three climb bar um
+
+1946
+01:16:25,400 --> 01:16:31,600
+which has a different strategy but again
+
+1947
+01:16:28,360 --> 01:16:33,360
+the goal is that all the underlying
+
+1948
+01:16:31,600 --> 01:16:35,440
+transcripts are called differentially
+
+1949
+01:16:33,360 --> 01:16:38,880
+expressed then there are a bunch of
+
+1950
+01:16:35,440 --> 01:16:42,400
+methods which output nodes but then the
+
+1951
+01:16:38,880 --> 01:16:45,320
+thing between with them is like if they
+
+1952
+01:16:42,400 --> 01:16:47,280
+say if they find that uh in a node is
+
+1953
+01:16:45,320 --> 01:16:48,639
+not differential then they stop testing
+
+1954
+01:16:47,280 --> 01:16:50,360
+and then say that not none of the
+
+1955
+01:16:48,639 --> 01:16:52,560
+underlying transcripts or the whatever
+
+1956
+01:16:50,360 --> 01:16:56,239
+notes like between them are all
+
+1957
+01:16:52,560 --> 01:16:58,480
+significant for this might not be uh
+
+1958
+01:16:56,239 --> 01:17:00,560
+true U applic this is not applicable
+
+1959
+01:16:58,480 --> 01:17:01,760
+when we for three ter Ministries or in
+
+1960
+01:17:00,560 --> 01:17:04,880
+or at least when you have transcripts
+
+1961
+01:17:01,760 --> 01:17:06,760
+groups together uh because let's say
+
+1962
+01:17:04,880 --> 01:17:09,679
+what if you have a DTU and then the
+
+1963
+01:17:06,760 --> 01:17:12,280
+signals get cancelled at an in a node
+
+1964
+01:17:09,679 --> 01:17:14,560
+when uh definitely that there were
+
+1965
+01:17:12,280 --> 01:17:17,120
+differential transcript that existed
+
+1966
+01:17:14,560 --> 01:17:19,199
+below that particular node so for these
+
+1967
+01:17:17,120 --> 01:17:21,800
+sort of cases we can't just directly
+
+1968
+01:17:19,199 --> 01:17:24,120
+apply these sort of methods and then
+
+1969
+01:17:21,800 --> 01:17:25,360
+none of these methods also take into
+
+1970
+01:17:24,120 --> 01:17:27,880
+account inferential
+
+1971
+01:17:25,360 --> 01:17:31,000
+uncertainty or infal relative variance
+
+1972
+01:17:27,880 --> 01:17:35,760
+into the into account and they just work
+
+1973
+01:17:31,000 --> 01:17:38,360
+on a given set of P values so mendi is
+
+1974
+01:17:35,760 --> 01:17:42,600
+sort of designed to take these things
+
+1975
+01:17:38,360 --> 01:17:46,040
+into account and what we do is propose a
+
+1976
+01:17:42,600 --> 01:17:48,719
+top down solution and with a goal that
+
+1977
+01:17:46,040 --> 01:17:52,080
+we get somewhere between the leaf and
+
+1978
+01:17:48,719 --> 01:17:55,120
+the gene level so what we do
+
+1979
+01:17:52,080 --> 01:17:59,480
+is first for each note we compute
+
+1980
+01:17:55,120 --> 01:18:01,880
+certain metrics uh we compute we first
+
+1981
+01:17:59,480 --> 01:18:04,159
+assign look at it inferential relative
+
+1982
+01:18:01,880 --> 01:18:07,840
+variance which if this particular toy
+
+1983
+01:18:04,159 --> 01:18:11,120
+example uh is denoted by these numbers
+
+1984
+01:18:07,840 --> 01:18:13,000
+right next to this node and then we also
+
+1985
+01:18:11,120 --> 01:18:16,360
+try to assign a
+
+1986
+01:18:13,000 --> 01:18:18,239
+sign um to that particular node which uh
+
+1987
+01:18:16,360 --> 01:18:20,560
+which says that whether that particular
+
+1988
+01:18:18,239 --> 01:18:23,760
+node was up or down regulated between
+
+1989
+01:18:20,560 --> 01:18:26,360
+the conditions of interest and a plus
+
+1990
+01:18:23,760 --> 01:18:28,520
+minus means that we were uncertain about
+
+1991
+01:18:26,360 --> 01:18:30,920
+that particular node what we do we
+
+1992
+01:18:28,520 --> 01:18:35,320
+leverage are the information replicates
+
+1993
+01:18:30,920 --> 01:18:37,000
+and then make uh if that particular sign
+
+1994
+01:18:35,320 --> 01:18:39,080
+occurs in a certain proportion of this
+
+1995
+01:18:37,000 --> 01:18:41,960
+inferential replicates then only we
+
+1996
+01:18:39,080 --> 01:18:44,760
+assign that that we're confident about
+
+1997
+01:18:41,960 --> 01:18:45,800
+the direction between this um the
+
+1998
+01:18:44,760 --> 01:18:47,520
+conditions of interest for that
+
+1999
+01:18:45,800 --> 01:18:50,920
+particular node and a plus minus means
+
+2000
+01:18:47,520 --> 01:18:52,760
+that we not sure and then uh based on
+
+2001
+01:18:50,920 --> 01:18:54,480
+these small informations that we have
+
+2002
+01:18:52,760 --> 01:18:55,760
+from the node we start from the top of
+
+2003
+01:18:54,480 --> 01:18:58,120
+the
+
+2004
+01:18:55,760 --> 01:19:00,360
+and oh one thing I forgot to mention is
+
+2005
+01:18:58,120 --> 01:19:02,000
+like we also sort of tend to label a
+
+2006
+01:19:00,360 --> 01:19:05,080
+note sort of significant or
+
+2007
+01:19:02,000 --> 01:19:08,520
+non-significant based on a particular P
+
+2008
+01:19:05,080 --> 01:19:11,040
+value threshold and the the set of notes
+
+2009
+01:19:08,520 --> 01:19:14,120
+that will be finally be output would be
+
+2010
+01:19:11,040 --> 01:19:15,440
+a subset of these notes uh that have a
+
+2011
+01:19:14,120 --> 01:19:18,000
+significant P
+
+2012
+01:19:15,440 --> 01:19:20,520
+value so we start from the top from the
+
+2013
+01:19:18,000 --> 01:19:24,840
+top of the tree and we keep iterating
+
+2014
+01:19:20,520 --> 01:19:27,480
+down till the time we don't find a given
+
+2015
+01:19:24,840 --> 01:19:30,719
+uh select a significant node or we reach
+
+2016
+01:19:27,480 --> 01:19:34,679
+at the leaf level and once we reach a
+
+2017
+01:19:30,719 --> 01:19:37,320
+significant node we check that it uh
+
+2018
+01:19:34,679 --> 01:19:40,520
+follows three different criteria one
+
+2019
+01:19:37,320 --> 01:19:42,920
+that at least one child note should be
+
+2020
+01:19:40,520 --> 01:19:44,639
+non-significant because if all of them
+
+2021
+01:19:42,920 --> 01:19:47,639
+are significant that means that there
+
+2022
+01:19:44,639 --> 01:19:49,360
+already exist signal Downstream and we
+
+2023
+01:19:47,639 --> 01:19:52,159
+are definitely over aggregating so we
+
+2024
+01:19:49,360 --> 01:19:55,080
+want to go down the second criteria is
+
+2025
+01:19:52,159 --> 01:19:57,239
+that all the under if uh under
+
+2026
+01:19:55,080 --> 01:20:00,000
+underlying note should have the same
+
+2027
+01:19:57,239 --> 01:20:02,520
+direction of sign change so for from the
+
+2028
+01:20:00,000 --> 01:20:05,360
+biological interpretation it makes sense
+
+2029
+01:20:02,520 --> 01:20:08,400
+that the direction is the same and
+
+2030
+01:20:05,360 --> 01:20:10,080
+finally uh all the all the children node
+
+2031
+01:20:08,400 --> 01:20:11,880
+should have a mean inferential relative
+
+2032
+01:20:10,080 --> 01:20:14,679
+variance above a certain threshold
+
+2033
+01:20:11,880 --> 01:20:17,080
+because uh if we are already confident
+
+2034
+01:20:14,679 --> 01:20:20,400
+about our prediction then there's no
+
+2035
+01:20:17,080 --> 01:20:23,320
+point of aggregation so keeping these
+
+2036
+01:20:20,400 --> 01:20:26,320
+three criteria in mind if the uh if a
+
+2037
+01:20:23,320 --> 01:20:29,040
+selected note follows all of these then
+
+2038
+01:20:26,320 --> 01:20:31,679
+um um um if if a significant node
+
+2039
+01:20:29,040 --> 01:20:34,040
+follows all of these then for for us
+
+2040
+01:20:31,679 --> 01:20:36,600
+that node is called a selected node and
+
+2041
+01:20:34,040 --> 01:20:40,120
+if you look at this particular example
+
+2042
+01:20:36,600 --> 01:20:43,679
+uh even uh this particular node was had
+
+2043
+01:20:40,120 --> 01:20:45,600
+a significant uh was significant but uh
+
+2044
+01:20:43,679 --> 01:20:48,360
+since both the children had uh
+
+2045
+01:20:45,600 --> 01:20:50,800
+significant P values so we go down and
+
+2046
+01:20:48,360 --> 01:20:56,639
+output these two notes as a selected
+
+2047
+01:20:50,800 --> 01:21:00,800
+note um when we uh uh
+
+2048
+01:20:56,639 --> 01:21:03,639
+um uh when you go to Let's and9 again uh
+
+2049
+01:21:00,800 --> 01:21:06,480
+the children had uh opposite signs so
+
+2050
+01:21:03,639 --> 01:21:14,639
+that means we go down and then we select
+
+2051
+01:21:06,480 --> 01:21:16,960
+N5 and uh similarly uh for N20 both N7
+
+2052
+01:21:14,639 --> 01:21:19,800
+and N8 were nonsignificant so that means
+
+2053
+01:21:16,960 --> 01:21:24,600
+we could take this into account and
+
+2054
+01:21:19,800 --> 01:21:27,880
+again uh similarly for n21 again and and
+
+2055
+01:21:24,600 --> 01:21:29,800
+11 we were not sure about the uh
+
+2056
+01:21:27,880 --> 01:21:32,480
+particular sign changes so that means we
+
+2057
+01:21:29,800 --> 01:21:32,480
+could aggregate
+
+2058
+01:21:34,199 --> 01:21:39,520
+them so uh there are two sort of things
+
+2059
+01:21:37,520 --> 01:21:44,239
+that we do is like when we are Computing
+
+2060
+01:21:39,520 --> 01:21:46,199
+P values uh uh we tend to Cal compute
+
+2061
+01:21:44,239 --> 01:21:48,400
+the P value separately for the inner
+
+2062
+01:21:46,199 --> 01:21:50,760
+nodes and the leaf nodes the reason
+
+2063
+01:21:48,400 --> 01:21:53,800
+being is that since there's less
+
+2064
+01:21:50,760 --> 01:21:55,480
+uncertainty on the nature of the we
+
+2065
+01:21:53,800 --> 01:21:58,280
+using we use Swit as a differential
+
+2066
+01:21:55,480 --> 01:22:00,639
+testing method here and uh for computing
+
+2067
+01:21:58,280 --> 01:22:03,400
+the P values of all these nodes uh in
+
+2068
+01:22:00,639 --> 01:22:05,679
+the tree and the reason we we compute
+
+2069
+01:22:03,400 --> 01:22:07,719
+this uh separately is because when we
+
+2070
+01:22:05,679 --> 01:22:11,199
+computed them together we saw this sort
+
+2071
+01:22:07,719 --> 01:22:15,760
+of shift in the P values uh which
+
+2072
+01:22:11,199 --> 01:22:17,639
+ideally for um um um if there's no
+
+2073
+01:22:15,760 --> 01:22:19,800
+differential signal they we should have
+
+2074
+01:22:17,639 --> 01:22:21,920
+seen a sort of a uniform shift in P
+
+2075
+01:22:19,800 --> 01:22:25,159
+distribution of the P values the reason
+
+2076
+01:22:21,920 --> 01:22:28,440
+again here is because um high level
+
+2077
+01:22:25,159 --> 01:22:30,520
+nodes have less uncertainty and as a
+
+2078
+01:22:28,440 --> 01:22:31,760
+result that the value of the relative
+
+2079
+01:22:30,520 --> 01:22:35,199
+relatively the value of the test
+
+2080
+01:22:31,760 --> 01:22:39,600
+statistic get shifted so and and they
+
+2081
+01:22:35,199 --> 01:22:42,560
+end up getting uh low low P values more
+
+2082
+01:22:39,600 --> 01:22:45,520
+compared to the in notes so we compute
+
+2083
+01:22:42,560 --> 01:22:50,040
+the P Valu separately for the uh Leaf
+
+2084
+01:22:45,520 --> 01:22:52,800
+notes and the inner notes and uh uh to
+
+2085
+01:22:50,040 --> 01:22:55,000
+have more of this sort of distribution
+
+2086
+01:22:52,800 --> 01:22:57,679
+again this I'm talking about
+
+2087
+01:22:55,000 --> 01:23:01,199
+showing this on a Sim similar data which
+
+2088
+01:22:57,679 --> 01:23:02,880
+has no differential signal and this was
+
+2089
+01:23:01,199 --> 01:23:05,239
+the test statistic that I was talking
+
+2090
+01:23:02,880 --> 01:23:07,679
+about and could see that when they were
+
+2091
+01:23:05,239 --> 01:23:10,719
+computed together and if you look at
+
+2092
+01:23:07,679 --> 01:23:13,920
+distribution um this has a higher width
+
+2093
+01:23:10,719 --> 01:23:13,920
+compared to the
+
+2094
+01:23:15,120 --> 01:23:27,239
+Le so uh we were sort of uh since we are
+
+2095
+01:23:21,960 --> 01:23:29,120
+not doing uh after any hypo hypothesis
+
+2096
+01:23:27,239 --> 01:23:31,280
+correction later on on the set of filter
+
+2097
+01:23:29,120 --> 01:23:34,440
+filtering criteria that we have so what
+
+2098
+01:23:31,280 --> 01:23:39,800
+we did did was we generated bunch of
+
+2099
+01:23:34,440 --> 01:23:42,040
+null simulations and um uh sort I think
+
+2100
+01:23:39,800 --> 01:23:43,840
+here here A bunch of 10 n simulations
+
+2101
+01:23:42,040 --> 01:23:46,040
+and then computed the total number of
+
+2102
+01:23:43,840 --> 01:23:48,400
+false positives that we get in those
+
+2103
+01:23:46,040 --> 01:23:50,320
+simulations and on the right on the
+
+2104
+01:23:48,400 --> 01:23:52,600
+right we have if we were to just run it
+
+2105
+01:23:50,320 --> 01:23:54,560
+on the transcripts you and on the left
+
+2106
+01:23:52,600 --> 01:23:56,159
+is when we do it for M and we do it a
+
+2107
+01:23:54,560 --> 01:23:58,400
+bunch of P value different P value
+
+2108
+01:23:56,159 --> 01:24:00,600
+thresholds and what we see is again you
+
+2109
+01:23:58,400 --> 01:24:02,440
+could see that the total number the
+
+2110
+01:24:00,600 --> 01:24:04,520
+false positive rate at the different
+
+2111
+01:24:02,440 --> 01:24:06,560
+thresholds of P values these are very
+
+2112
+01:24:04,520 --> 01:24:09,320
+comparable between when
+
+2113
+01:24:06,560 --> 01:24:12,040
+running when when we just run it on the
+
+2114
+01:24:09,320 --> 01:24:14,239
+transcripts or when we run mendi on the
+
+2115
+01:24:12,040 --> 01:24:16,400
+tree so this me this sort of gives us
+
+2116
+01:24:14,239 --> 01:24:21,040
+some sort of an confidence that we are
+
+2117
+01:24:16,400 --> 01:24:21,040
+not aggregating the false positives with
+
+2118
+01:24:22,239 --> 01:24:30,120
+meni uh I'll skip for this one slide for
+
+2119
+01:24:27,080 --> 01:24:31,600
+time constraints and U so then we
+
+2120
+01:24:30,120 --> 01:24:33,159
+actually created a bunch of different
+
+2121
+01:24:31,600 --> 01:24:34,880
+simulations this is one particular
+
+2122
+01:24:33,159 --> 01:24:37,719
+simulation with actually differential
+
+2123
+01:24:34,880 --> 01:24:44,600
+signal and again compare it with the
+
+2124
+01:24:37,719 --> 01:24:46,080
+different methods and if you look at uh
+
+2125
+01:24:44,600 --> 01:24:48,400
+particular
+
+2126
+01:24:46,080 --> 01:24:51,760
+particularly uh this one which is mendi
+
+2127
+01:24:48,400 --> 01:24:54,199
+blue one uh we are controlling the false
+
+2128
+01:24:51,760 --> 01:24:56,199
+positives at the different thresholds uh
+
+2129
+01:24:54,199 --> 01:24:59,440
+but in point
+
+2130
+01:24:56,199 --> 01:25:02,280
+05 uh which is slightly aggregated but
+
+2131
+01:24:59,440 --> 01:25:04,880
+still very close to the noral threshold
+
+2132
+01:25:02,280 --> 01:25:05,679
+uh while at the same time having a very
+
+2133
+01:25:04,880 --> 01:25:09,000
+high
+
+2134
+01:25:05,679 --> 01:25:11,360
+sensitivity and genes again we compare
+
+2135
+01:25:09,000 --> 01:25:14,280
+it with genes the terminous groups tree
+
+2136
+01:25:11,360 --> 01:25:16,400
+climber is the other method uh and
+
+2137
+01:25:14,280 --> 01:25:18,639
+threee climber is specifically designed
+
+2138
+01:25:16,400 --> 01:25:20,679
+for it gives inner nodes as an output
+
+2139
+01:25:18,639 --> 01:25:22,800
+but the key thing with threee climb bar
+
+2140
+01:25:20,679 --> 01:25:24,400
+is that when an in a node is selected
+
+2141
+01:25:22,800 --> 01:25:25,800
+then it assumes that all the underlying
+
+2142
+01:25:24,400 --> 01:25:29,040
+transcripts are also
+
+2143
+01:25:25,800 --> 01:25:32,119
+different and uh again we see an
+
+2144
+01:25:29,040 --> 01:25:33,639
+exaggerated false positive these metrics
+
+2145
+01:25:32,119 --> 01:25:34,920
+again because the feature features are
+
+2146
+01:25:33,639 --> 01:25:36,840
+very different are not directly
+
+2147
+01:25:34,920 --> 01:25:39,080
+comparable between the different methods
+
+2148
+01:25:36,840 --> 01:25:44,840
+but still this does give us some sort of
+
+2149
+01:25:39,080 --> 01:25:50,119
+an overall idea of how the method
+
+2150
+01:25:44,840 --> 01:25:52,560
+performs and we then um run it um on
+
+2151
+01:25:50,119 --> 01:25:55,800
+bunch of experimental data sets as well
+
+2152
+01:25:52,560 --> 01:25:57,400
+and specifically we find many genes that
+
+2153
+01:25:55,800 --> 01:25:59,840
+are called significant when testing at
+
+2154
+01:25:57,400 --> 01:26:01,679
+the gene level but none of the
+
+2155
+01:25:59,840 --> 01:26:03,760
+underlying trans if we were to do a
+
+2156
+01:26:01,679 --> 01:26:04,960
+transcript level analysis now now their
+
+2157
+01:26:03,760 --> 01:26:06,760
+transcripts would have been called
+
+2158
+01:26:04,960 --> 01:26:09,400
+significant when doing differential
+
+2159
+01:26:06,760 --> 01:26:11,440
+analysis on the other hand meny we find
+
+2160
+01:26:09,400 --> 01:26:13,400
+a lot of notes that are given by Mii in
+
+2161
+01:26:11,440 --> 01:26:17,199
+the form of these inner notes and this
+
+2162
+01:26:13,400 --> 01:26:21,600
+is one such example in this Mii finds a
+
+2163
+01:26:17,199 --> 01:26:23,320
+group with threee transcripts and on the
+
+2164
+01:26:21,600 --> 01:26:24,800
+this is how the tree looks for that
+
+2165
+01:26:23,320 --> 01:26:26,760
+particular Gene
+
+2166
+01:26:24,800 --> 01:26:29,960
+uh that these notes belong to this note
+
+2167
+01:26:26,760 --> 01:26:32,840
+belongs to and here in the bottom we
+
+2168
+01:26:29,960 --> 01:26:34,880
+plot the uh the individual inferential
+
+2169
+01:26:32,840 --> 01:26:37,040
+replicates across the samples this is
+
+2170
+01:26:34,880 --> 01:26:38,800
+for the transcript that had the most
+
+2171
+01:26:37,040 --> 01:26:41,719
+significant P value but still did not
+
+2172
+01:26:38,800 --> 01:26:44,639
+meet that criteria and you can see that
+
+2173
+01:26:41,719 --> 01:26:46,000
+the difference uh difference between in
+
+2174
+01:26:44,639 --> 01:26:49,639
+the mendi group becomes much more
+
+2175
+01:26:46,000 --> 01:26:53,760
+clearer for the note that is output via
+
+2176
+01:26:49,639 --> 01:26:55,840
+mendi we find many such examples uh um
+
+2177
+01:26:53,760 --> 01:26:57,880
+during the course of a experiment and
+
+2178
+01:26:55,840 --> 01:26:59,520
+this is another such example and you
+
+2179
+01:26:57,880 --> 01:27:01,360
+could clearly see the signal becomes
+
+2180
+01:26:59,520 --> 01:27:03,520
+much more clearer when looked at that in
+
+2181
+01:27:01,360 --> 01:27:03,520
+a
+
+2182
+01:27:03,679 --> 01:27:11,560
+note so uh you summarize uh uh the uh us
+
+2183
+01:27:09,600 --> 01:27:13,840
+think the tree from T Terminus we are
+
+2184
+01:27:11,560 --> 01:27:17,080
+able to extract differential nodes in a
+
+2185
+01:27:13,840 --> 01:27:19,040
+data driven manner uh again when we are
+
+2186
+01:27:17,080 --> 01:27:20,600
+outputting an inner node we don't want
+
+2187
+01:27:19,040 --> 01:27:22,239
+to comment anything about the
+
+2188
+01:27:20,600 --> 01:27:24,719
+differential status for that underlying
+
+2189
+01:27:22,239 --> 01:27:27,840
+transcript because we are whole point of
+
+2190
+01:27:24,719 --> 01:27:29,360
+grouping is that we sort of are unsure
+
+2191
+01:27:27,840 --> 01:27:31,000
+about at least one underlying
+
+2192
+01:27:29,360 --> 01:27:34,119
+transcripts and that's why we want to
+
+2193
+01:27:31,000 --> 01:27:36,560
+look at the groups and we are able to
+
+2194
+01:27:34,119 --> 01:27:38,760
+preserve the signal that might have
+
+2195
+01:27:36,560 --> 01:27:41,000
+existed at the transcript through the
+
+2196
+01:27:38,760 --> 01:27:43,760
+inner notes and perhaps would have been
+
+2197
+01:27:41,000 --> 01:27:48,360
+missed when doing a transcrip level
+
+2198
+01:27:43,760 --> 01:27:52,280
+analysis so uh as you mentioned um So
+
+2199
+01:27:48,360 --> 01:27:54,880
+currently uh we um there uh we are doing
+
+2200
+01:27:52,280 --> 01:27:56,760
+double dipping and because we are using
+
+2201
+01:27:54,880 --> 01:27:59,239
+that same data for creating the tree and
+
+2202
+01:27:56,760 --> 01:28:02,679
+for differential testing and this is
+
+2203
+01:27:59,239 --> 01:28:05,639
+something we plan to look uh work on and
+
+2204
+01:28:02,679 --> 01:28:09,239
+uh in in the future one of the
+
+2205
+01:28:05,639 --> 01:28:11,920
+approaches perhaps could be like so um
+
+2206
+01:28:09,239 --> 01:28:13,320
+from Daniela vens group a paper came a
+
+2207
+01:28:11,920 --> 01:28:15,080
+couple of years ago called count
+
+2208
+01:28:13,320 --> 01:28:17,040
+splitting the idea there was that you
+
+2209
+01:28:15,080 --> 01:28:21,400
+split the data into a training test test
+
+2210
+01:28:17,040 --> 01:28:23,840
+and test set test set and accordingly uh
+
+2211
+01:28:21,400 --> 01:28:25,800
+use one set for actually learning data
+
+2212
+01:28:23,840 --> 01:28:28,040
+level properties and then the other set
+
+2213
+01:28:25,800 --> 01:28:30,199
+for uh doing differential uh
+
+2214
+01:28:28,040 --> 01:28:32,280
+differential testing or any other
+
+2215
+01:28:30,199 --> 01:28:34,480
+Downstream analysis that you want to do
+
+2216
+01:28:32,280 --> 01:28:37,239
+so that could be one area to explore the
+
+2217
+01:28:34,480 --> 01:28:40,320
+key thing to note there would be is that
+
+2218
+01:28:37,239 --> 01:28:43,840
+that leads to low power so we need to be
+
+2219
+01:28:40,320 --> 01:28:46,280
+come up with appropriate um be mindful
+
+2220
+01:28:43,840 --> 01:28:50,480
+of that and then come up with approaches
+
+2221
+01:28:46,280 --> 01:28:53,280
+that sort of control that and the second
+
+2222
+01:28:50,480 --> 01:28:55,040
+thing to be mindful is that at the end
+
+2223
+01:28:53,280 --> 01:28:57,840
+we what we are
+
+2224
+01:28:55,040 --> 01:29:01,480
+um the error FDR error control is
+
+2225
+01:28:57,840 --> 01:29:04,159
+usually based on a given on the total
+
+2226
+01:29:01,480 --> 01:29:06,840
+set on the total rejected set and not on
+
+2227
+01:29:04,159 --> 01:29:09,040
+a filtered set by that I mean is like
+
+2228
+01:29:06,840 --> 01:29:11,159
+once we do a differential testing we get
+
+2229
+01:29:09,040 --> 01:29:13,040
+let's even on transcripts we get a bunch
+
+2230
+01:29:11,159 --> 01:29:15,600
+of different transcripts as an output
+
+2231
+01:29:13,040 --> 01:29:18,400
+but for analysis we end up looking in
+
+2232
+01:29:15,600 --> 01:29:21,080
+most cases is at a set a a subset of
+
+2233
+01:29:18,400 --> 01:29:23,280
+those transcripts that are above a given
+
+2234
+01:29:21,080 --> 01:29:24,840
+effect size and even when you're looking
+
+2235
+01:29:23,280 --> 01:29:27,520
+at that particular effect size though
+
+2236
+01:29:24,840 --> 01:29:30,600
+more biologically meaningful we we lose
+
+2237
+01:29:27,520 --> 01:29:32,199
+the error control so similarly while we
+
+2238
+01:29:30,600 --> 01:29:34,880
+have r mendi on a bunch of different
+
+2239
+01:29:32,199 --> 01:29:37,280
+data sets and we seem to control the
+
+2240
+01:29:34,880 --> 01:29:39,920
+false positives based on the the way
+
+2241
+01:29:37,280 --> 01:29:41,679
+filters have been designed um there's
+
+2242
+01:29:39,920 --> 01:29:44,560
+still a possibility in some cases that
+
+2243
+01:29:41,679 --> 01:29:46,480
+we might not be giving we we might we
+
+2244
+01:29:44,560 --> 01:29:50,440
+might not be fully be able to control
+
+2245
+01:29:46,480 --> 01:29:53,360
+the control so developing a more of a
+
+2246
+01:29:50,440 --> 01:29:55,199
+the theoretical framework uh so that we
+
+2247
+01:29:53,360 --> 01:29:57,360
+can control the r that is something we
+
+2248
+01:29:55,199 --> 01:30:01,440
+plan to work in the
+
+2249
+01:29:57,360 --> 01:30:05,040
+future and finally uh uh the pre-int is
+
+2250
+01:30:01,440 --> 01:30:07,480
+out and we just put the pre uh uh an
+
+2251
+01:30:05,040 --> 01:30:10,239
+updated prein just a couple of days ago
+
+2252
+01:30:07,480 --> 01:30:15,239
+and the r package is available
+
+2253
+01:30:10,239 --> 01:30:18,440
+here and I would like to acknowledge Rob
+
+2254
+01:30:15,239 --> 01:30:21,760
+and uh Jason who who is a PG student in
+
+2255
+01:30:18,440 --> 01:30:24,400
+a lab and then this both pre terminat
+
+2256
+01:30:21,760 --> 01:30:27,320
+and meni have been done in collaboration
+
+2257
+01:30:24,400 --> 01:30:30,040
+with Mike uh during this project the
+
+2258
+01:30:27,320 --> 01:30:30,960
+student yui was involved and then
+
+2259
+01:30:30,040 --> 01:30:34,080
+finally
+
+2260
+01:30:30,960 --> 01:30:36,280
+hi who who actually started the Terminus
+
+2261
+01:30:34,080 --> 01:30:38,800
+project and then had provided us some
+
+2262
+01:30:36,280 --> 01:30:43,960
+really good ke insights during the
+
+2263
+01:30:38,800 --> 01:30:43,960
+construction of PR ter thank you
+

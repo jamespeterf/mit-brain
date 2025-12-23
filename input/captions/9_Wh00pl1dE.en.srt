@@ -1,0 +1,1260 @@
+1
+00:00:12,640 --> 00:00:36,190
+Daniela Rus: MIT, CSAIL, and I want to give you a warm welcome to our CSAIL Forum. We are kicking off the fall series, and we're very happy to have you with us. Today, we are very fortunate to have a very special guest, our colleague and friend, Professor Josh Tenenbaum.
+
+2
+00:00:36,190 --> 00:00:45,989
+Daniela Rus: Who is a brilliant professor of computational cognitive science at MIT, and also a member of, CSAIL.
+
+3
+00:00:45,990 --> 00:00:54,800
+Daniela Rus: Josh is also a core leader in the Center for Brains, Machines, and Minds, or Brains, Minds, and Machines.
+
+4
+00:00:55,230 --> 00:01:09,150
+Daniela Rus: And, he has been at the forefront of artificial intelligence for a long time. He asks a very important question. How do humans learn from so little?
+
+5
+00:01:09,320 --> 00:01:25,470
+Daniela Rus: And, he wants to turn those insights into AI. And so, he has really pioneered a different kind of thinking in AI, bringing to us probabilistic models.
+
+6
+00:01:25,470 --> 00:01:31,930
+Daniela Rus: Program induction, intuitive, intuitive physics, few-shot, learning.
+
+7
+00:01:32,200 --> 00:01:46,330
+Daniela Rus: And so today, we will hear from him about his greatest and latest ideas that are shaping how we think about generalization and common sense in machines.
+
+8
+00:01:46,670 --> 00:02:05,189
+Daniela Rus: Before I turn it over to him, I would like to remind you of our rules of engagement. Josh will speak for 45 to 50 minutes. We will then have an opportunity to do Q&A. Please be engaged, and please put in the chat
+
+9
+00:02:05,190 --> 00:02:08,310
+Daniela Rus: Your name and your location.
+
+10
+00:02:08,310 --> 00:02:15,520
+Daniela Rus: And so please, then be engaged by posting your comments and questions to the chat.
+
+11
+00:02:15,520 --> 00:02:20,530
+Daniela Rus: And we will get back to them during Q&A. Josh, the floor is yours.
+
+12
+00:02:20,530 --> 00:02:22,660
+Josh Tenenbaum: Okay, great. Can you hear me all okay?
+
+13
+00:02:24,520 --> 00:02:25,530
+Daniela Rus: Yeah, we can.
+
+14
+00:02:25,530 --> 00:02:39,579
+Josh Tenenbaum: Okay, very good. Thank you so much. It's a great honor to be here, and I will talk about both cognitive science and AI, and building the bridge between them, and I will touch on all the themes that Daniela mentioned in that very generous and…
+
+15
+00:02:39,820 --> 00:02:57,410
+Josh Tenenbaum: warm introduction. So, you'll get all of that. But I also want to give a perspective that I think is very much one of the present moment, but also really looking back into the history of these two fields, artificial intelligence and cognitive science, as well as into the future and different potential futures.
+
+16
+00:02:57,660 --> 00:03:06,690
+Josh Tenenbaum: So, you know, oh, and let me also just say, to start off with, I want to acknowledge there's a lot of folks that I've worked with, junior colleagues, students, former students, postdocs.
+
+17
+00:03:06,780 --> 00:03:19,319
+Josh Tenenbaum: who contribute to the work that I'm talking about, but I want to highlight these people here because their work really forms the core of what I'm doing, and also many of the slides that I'm going to show you are really just directly based on their work.
+
+18
+00:03:19,590 --> 00:03:30,920
+Josh Tenenbaum: And, you know, it's one of the… one of the things that makes MIT and CSAIL, one of the very best places to be in the entire world, is the opportunity and the privilege to work with these amazing junior colleagues.
+
+19
+00:03:31,480 --> 00:03:36,369
+Josh Tenenbaum: And really to think with them, so the thoughts that I'm going to be presenting here are also very much joint with them.
+
+20
+00:03:37,260 --> 00:03:56,429
+Josh Tenenbaum: So these two fields, cognitive science and artificial intelligence, they are, in some sense, almost twins that grew up together. They are both the studies of intelligence, but in cognitive science, we ask, how does the human mind work in computational terms, and in artificial intelligence, we ask, how do we take these computers that we have built and make them more intelligent?
+
+21
+00:03:56,430 --> 00:03:59,959
+Josh Tenenbaum: Often, but not always, in ways that,
+
+22
+00:04:00,180 --> 00:04:03,489
+Josh Tenenbaum: Resmble or instantiate our ideas of human intelligence.
+
+23
+00:04:03,660 --> 00:04:11,849
+Josh Tenenbaum: Now, these fields both have their… have similar and even overlapping origin stories. In the late 1950s and through the 1960s is when they grew up.
+
+24
+00:04:11,940 --> 00:04:30,330
+Josh Tenenbaum: And over time, over the decades, they've produced a lot of really deep and important insights and understanding about how intelligence works, both natural and artificial. You can see much of this reflected in a number of amazing books. This is just a highlight of some of the books that have influenced me in both fields and across the intersection.
+
+25
+00:04:30,580 --> 00:04:33,719
+Josh Tenenbaum: It's not just books, but also papers.
+
+26
+00:04:33,800 --> 00:04:44,999
+Josh Tenenbaum: For example, these are a few classic papers that really laid the foundations for what we now call deep learning, and so much of what the whole broader world considers to be artificial intelligence.
+
+27
+00:04:45,060 --> 00:05:01,560
+Josh Tenenbaum: whether it's backpropagation in multi-layer neural networks, reinforcement learning, recurrent neural networks, or both machines and energy-based models, and then in their modern incarnation diffusion models. And I just want to note that these papers
+
+28
+00:05:01,740 --> 00:05:17,330
+Josh Tenenbaum: were published originally by psychologists or cognitive scientists, or in cognitive science journals. And that's really quite striking, because it shows how much the history of this field, these fields have been interleaved, and how much trying to take even simple mathematical models of human intelligence
+
+29
+00:05:17,330 --> 00:05:22,020
+Josh Tenenbaum: And then scale them up, have been incredibly influential and impactful.
+
+30
+00:05:22,060 --> 00:05:40,269
+Josh Tenenbaum: in the history of our fields, and again, we might look forward to what the possible futures are like. Now, in the last few years, cognitive science has produced a lot more books. Here's some more books, including the one over here on the right, a book that I was really privileged to work on with my colleagues Tom Griffith and Nick Chater and a number of others. It's really sort of an edited collection.
+
+31
+00:05:40,420 --> 00:05:48,939
+Josh Tenenbaum: That introduces and kind of overviews a lot of the work we've been doing in Bayesian models of cognition for the last two decades, really. Okay.
+
+32
+00:05:49,250 --> 00:05:54,239
+Josh Tenenbaum: But while cognitive science has been writing books, AI has done this.
+
+33
+00:05:54,310 --> 00:06:10,599
+Josh Tenenbaum: And this. It's everywhere now, deployed as a real technology, right? Whether it's self-driving cars, like the Waymo taxi that you can get in yourself, or ChatGPT, and many other things, such as, you know, now you can't even do a Google search without getting an AI overview, at least by default.
+
+34
+00:06:10,650 --> 00:06:23,769
+Josh Tenenbaum: AI is everywhere deployed in the world in ways that are saving a lot of lives, and tragically also occasionally take… maybe taking some lives. So it's really an issue of great economic impact, societal impact, and even life or death, how these systems work.
+
+35
+00:06:23,980 --> 00:06:35,119
+Josh Tenenbaum: The leaders of AI now are often considered to be the leaders of the tech companies that have built these products, and they are everywhere, including at the height of power and influence in our world.
+
+36
+00:06:36,100 --> 00:06:53,999
+Josh Tenenbaum: It's no surprise that the world is having an AI moment, because in a sense, AI has achieved, or really started to take very serious steps towards what you might call its oldest dream. In Alan Turing's famous paper, when he introduced the very idea of intelligence as computing, and he introduced
+
+37
+00:06:54,010 --> 00:06:58,749
+Josh Tenenbaum: what we now call the Turing Test, or what he called the imitation game, as a way to operationalize
+
+38
+00:06:58,870 --> 00:07:18,669
+Josh Tenenbaum: whether a machine is thinking. You know, the idea that intelligence in machines would present itself as a system that you could have a chat with about any topic, and expect to get a reasonable response and answer to your questions, that is how AI has always presented itself as, you know, what it means to the broader world.
+
+39
+00:07:18,670 --> 00:07:31,529
+Josh Tenenbaum: And that includes in science fiction, back in the early days on some of the movies and TV shows that some of us grew up with. And, you know, though we don't really have any AI system that achieves the full general intelligence of these systems.
+
+40
+00:07:31,840 --> 00:07:40,259
+Josh Tenenbaum: Things like ChatGPT really take a significant step towards that in ways that everybody in the world can appreciate and actually interact with themselves.
+
+41
+00:07:41,430 --> 00:07:42,560
+Josh Tenenbaum: And yet…
+
+42
+00:07:46,190 --> 00:08:02,240
+Josh Tenenbaum: I'm not gonna do… I'm not… this is a silent slide, in a sense. It refers to a kind of a trope of many talks that I or others would give. There are many ways in which these remarkable systems that, you know, the chatbots call them, or just large language models, and their cousins
+
+43
+00:08:02,240 --> 00:08:11,699
+Josh Tenenbaum: language code or vision language models. There's many ways that you can find, despite their remarkable accomplishments, things that, like, surprising
+
+44
+00:08:11,700 --> 00:08:29,369
+Josh Tenenbaum: errors and things like that. Or pick dimensions along which these models aren't as good, or especially as efficient as humans. Whether it's data efficiency or energy efficiency, those are two big ones. They, you know, they're built and trained from tens of thousands of times or maybe more than that of the data that a human
+
+45
+00:08:29,600 --> 00:08:37,419
+Josh Tenenbaum: Gets in their lifetime, and the amount of energy use, you know, and just the cost is quite remarkable also.
+
+46
+00:08:37,490 --> 00:08:50,280
+Josh Tenenbaum: Maybe the best way to diagnose some of the puzzles that these models present and opportunities for cognitive science is this notion of jaggedness. So this is a slide that I borrowed from my CCL colleagues, Jacob Andreas and Gabe Grand.
+
+47
+00:08:50,290 --> 00:09:00,949
+Josh Tenenbaum: who've also collaborated on some of the work here. And it refers to just a few things that other people in the world have mentioned under this idea of jaggedness. By jaggedness, we mean something like what Andrei Karpathy was talking about here.
+
+48
+00:09:00,980 --> 00:09:16,689
+Josh Tenenbaum: Where you have systems that can do something really remarkable, and yet something that, like, at the level of very strong human competence, and yet something that you think should be a lot easier, they're not doing. Like, solve Olympiad math problems, but not being able to play tic-tac-toe, for example.
+
+49
+00:09:16,890 --> 00:09:23,250
+Josh Tenenbaum: These are examples of… which… which highlight, like, okay, however these systems are working, there's something rather different about them.
+
+50
+00:09:23,630 --> 00:09:34,600
+Josh Tenenbaum: than the way our own minds work, and that raises opportunities and questions. So, here's the way I think about it, and again, I'm going to present this perspective between these fields of AI and cognitive science.
+
+51
+00:09:34,600 --> 00:09:44,079
+Josh Tenenbaum: I would say there's a real challenge to those of us in cognitive science, especially as we've been building computational models and writing about our insights in papers and books.
+
+52
+00:09:44,080 --> 00:09:52,879
+Josh Tenenbaum: And so on. And then we have, on the one hand, or on the other hand, we have these systems, which actually do general-purpose kinds of thinking and reasoning in some form.
+
+53
+00:09:53,090 --> 00:10:10,579
+Josh Tenenbaum: And it's sort of a challenge. Okay, well, where's your unified theory of cognition to cognitive scientists? Where's your foundation model? You think you've made progress? If you have, show us the model. Or if you've really just even made progress in, quote, understanding the mind in computational terms, then you should be able to help us make AI better. And I take that seriously.
+
+54
+00:10:10,700 --> 00:10:26,759
+Josh Tenenbaum: There's also an opportunity, though, and as I'll try to show in this talk, I think there's ways in which today's AI breakthroughs can help advance, even resolve, some long-standing theoretical questions in cognitive science, as well as ways cognitive science can help to advance AI, especially in terms of data and energy efficiency.
+
+55
+00:10:26,780 --> 00:10:31,550
+Josh Tenenbaum: As well as other kinds of, let's call it, robustness and resiliency.
+
+56
+00:10:32,500 --> 00:10:33,330
+Josh Tenenbaum: Now…
+
+57
+00:10:33,410 --> 00:10:49,939
+Josh Tenenbaum: One of the central theses here, I think, is that, and this is what I want to argue for, is that if we think about AI in a way that engages with and complements what cognitive science, as well as earlier AI paradigms that aren't just scaling up large neural networks, have come to understand about human intelligence.
+
+58
+00:10:49,940 --> 00:10:59,880
+Josh Tenenbaum: through all the decades of theories, model building, and experiments, then I think this will be an AI that contributes to and really amplifies and scales up our understanding
+
+59
+00:10:59,880 --> 00:11:02,380
+Josh Tenenbaum: Of human and just intelligence in general.
+
+60
+00:11:02,380 --> 00:11:07,409
+Josh Tenenbaum: Rather than replacing it, I think that's an urgent need for our fields and our society here.
+
+61
+00:11:08,730 --> 00:11:21,210
+Josh Tenenbaum: To make this challenge concrete, right, I think, you know, it's pretty clear, at least on the surface, that whatever goes on inside ChatGPT or other state-of-the-art AI chatbots, as well as how they're built.
+
+62
+00:11:21,210 --> 00:11:34,190
+Josh Tenenbaum: are very different from the mechanisms and the origins of the human mind, even just the fact of how much vastly more data a state-of-the-art AI system is trained on compared to a human child. Many people have remarked on this.
+
+63
+00:11:34,190 --> 00:11:45,169
+Josh Tenenbaum: So we might ask, what would it take to build a model with something like the input-output behavior of ChatGPT, but whose inner workings actually instantiated a theory of human cognition, and even our best current theory?
+
+64
+00:11:45,170 --> 00:11:50,039
+Josh Tenenbaum: I'm using the word theory deliberately, because I mean, of course, I model, like, a mechanistic piece of code.
+
+65
+00:11:50,130 --> 00:11:55,480
+Josh Tenenbaum: That captures what goes on inside the mind and the brain, as well as how it gets there through learning.
+
+66
+00:11:55,560 --> 00:12:13,640
+Josh Tenenbaum: that has the same input-output sort of relations. But also, in the spirit of cognitive science, and there's analogs of this on the AI side too, our field has been driven as an academic and research enterprise by big questions. Questions that we have theories about, and that we want to turn those theories into code.
+
+67
+00:12:13,680 --> 00:12:22,550
+Josh Tenenbaum: with… in concrete models that we can test, but our understanding is about linking all those levels. So we want to know what kind of computation is cognition?
+
+68
+00:12:22,900 --> 00:12:31,330
+Josh Tenenbaum: Or, how do we learn everything we could learn, given so much less data than a conventional machine learning might work?
+
+69
+00:12:31,530 --> 00:12:35,139
+Josh Tenenbaum: How can cognition, again, be so efficient, yet so flexible?
+
+70
+00:12:35,160 --> 00:12:50,509
+Josh Tenenbaum: Why do our minds have the limits? It's not like, though human intelligence has been and continues to be the gold standard in many areas of AI, it's not like we're perfect. There's many ways in which, especially the broader world, are quite, or maybe even more aware of our limits and the ways our minds can break.
+
+71
+00:12:50,520 --> 00:12:54,509
+Josh Tenenbaum: How can they be… why do they do that, and how can they be re-repaired?
+
+72
+00:12:54,510 --> 00:13:12,650
+Josh Tenenbaum: How does cognition work mechanistically in the brain? What links up the algorithmic level to the levels of neural circuits and real biological neural networks? And then maybe the ultimate theoretical questions, just like the questions of, what is the origin of the universe, or the origin of life? What is the origin of our minds? How do we get there?
+
+73
+00:13:13,560 --> 00:13:22,579
+Josh Tenenbaum: So, I think it's fair to say there's, like, two approaches that you might take to address these questions. To build a system that actually,
+
+74
+00:13:24,250 --> 00:13:38,670
+Josh Tenenbaum: You know, confronts like a… presents and confronts us like a, say, a language model chatbot, but whose inner workings are a model, in some sense, and an instantiation of a theory of the human mind.
+
+75
+00:13:38,980 --> 00:13:51,660
+Josh Tenenbaum: So one way you could call it is, like, the Silicon Valley scaling route, and another way is what I'd call the human scaling route, right? And I just, you know, in a sense, the Silicon Valley route, which some of my colleagues in cognitive science are considering, they're taking
+
+76
+00:13:51,660 --> 00:14:02,620
+Josh Tenenbaum: open source, or at least publicly available, large language models, like the Llama models from Meta, and fine-tuning them in certain ways to turn them into
+
+77
+00:14:02,620 --> 00:14:12,389
+Josh Tenenbaum: or attempt to turn them into sort of general models of human cognition. Like, you might have seen the Centaur paper, from Marcel Binns and many other colleagues that was published in Nature not too long ago.
+
+78
+00:14:12,650 --> 00:14:29,700
+Josh Tenenbaum: It's an example of this. And in some sense, you might say, well, maybe just, like, keep going with scaling up large models, more and more data, more and more compute, maybe fine-tune them in certain ways on human behavior, as those models have been, and you'll get something that is effectively a theory of how the mind works.
+
+79
+00:14:29,810 --> 00:14:49,149
+Josh Tenenbaum: But I think it's really important to recognize ways in which that route to building a system and the ways in which the human micro-up are quite different. So, in some ways, the most important slide of this talk is the two halves of this slide. I'll show you the second in a minute. But I'm just identifying three high-level bullet points of how…
+
+80
+00:14:49,210 --> 00:14:59,110
+Josh Tenenbaum: the route to building intelligence based on machine learning that Silicon Valley has been scaling up with, you know, great success and also some big questions.
+
+81
+00:14:59,230 --> 00:15:03,330
+Josh Tenenbaum: How different that is, and how much it contrasts with the way our human minds grow up.
+
+82
+00:15:03,640 --> 00:15:17,300
+Josh Tenenbaum: So the first is this idea that intelligence is the end result of learning, and a surprising emergent phenomena of mechanisms that are not intelligent, that are dumb in some sense. So, the end-to-end gradient descent-based learning algorithms.
+
+83
+00:15:17,320 --> 00:15:31,450
+Josh Tenenbaum: that drive, you know, modern deep learning, they're dumb by design. I put dumb in quotes, because it's smart in a certain way, but you take a very simple mechanism that can be scaled with lots of compute and lots of data, and it's… that's a good idea if you have a lot of compute and a lot of data.
+
+84
+00:15:31,450 --> 00:15:41,140
+Josh Tenenbaum: Right? And the amount of money that's being invested is quite remarkable, and, you know, only a small number of people can do it, but certainly for those folks, it's smart, right? But under this view.
+
+85
+00:15:41,140 --> 00:15:48,739
+Josh Tenenbaum: What we call intelligence is an emergent phenomena that comes at the end of learning, right? That's really important. It doesn't start intelligent.
+
+86
+00:15:48,890 --> 00:15:56,710
+Josh Tenenbaum: And the fundamental, maybe the most important thing about intelligence is the ability to generalize to new problems.
+
+87
+00:15:56,880 --> 00:16:16,689
+Josh Tenenbaum: And we have remarkable generalization, as well as these head-scratching failures, that's what the jaggedness is about. But those puzzles come from the fact that generalization depends on similarity to the training data. That's just how machine learning has always been, and there's really no free lunch, that doesn't change in this era, it just gets a lot better. But still, you know, if you can…
+
+88
+00:16:16,690 --> 00:16:22,720
+Josh Tenenbaum: If you have new problems that in some sense, interpolate between the ones that your system has been trained on, then you should expect generalization.
+
+89
+00:16:22,740 --> 00:16:28,130
+Josh Tenenbaum: But beyond the data distribution, you might get it, but you might not. So it's weak and unpredictable.
+
+90
+00:16:28,600 --> 00:16:31,960
+Josh Tenenbaum: And that's… that's a really important feature of these methods.
+
+91
+00:16:32,120 --> 00:16:36,289
+Josh Tenenbaum: And then lastly is about the relationship between thinking and language.
+
+92
+00:16:36,500 --> 00:16:58,150
+Josh Tenenbaum: So in these models, they start off as predicting the next token in language. They start off as just predicting text, and then what emerges are thinking abilities. So the key is that training on language, language comes first, and then training on all the language that is the written residue of pretty much all of human thought captured in digital form, can back out interesting approximations to thinking.
+
+93
+00:16:58,660 --> 00:17:05,899
+Josh Tenenbaum: But again, these are all the properties that are distinct from humans. So for us, if you think about a human child.
+
+94
+00:17:06,200 --> 00:17:24,640
+Josh Tenenbaum: we start off intelligent, I'll talk more about this, but of course, in some ways, in important ways, human adults are more intelligent than babies. But even from very early on, even from well before we start learning language, we are intelligent learners. There's architecture built into our brains and minds that
+
+95
+00:17:24,640 --> 00:17:35,139
+Josh Tenenbaum: that make us intelligent in how we learn about the world, explore and learn from each other. And we're designed to be that kind of intelligent learner. It's not just the end result of
+
+96
+00:17:35,220 --> 00:17:38,330
+Josh Tenenbaum: Of simple, dumb, quote, learning mechanisms.
+
+97
+00:17:38,800 --> 00:17:52,080
+Josh Tenenbaum: Deeply related is a different thesis about generalization. Generalization depends on our models of the world. The idea that what we do, the basis of our intelligent learning is to build and construct and manipulate mental models.
+
+98
+00:17:52,080 --> 00:18:00,940
+Josh Tenenbaum: allows us to generalize in ways that don't merely depend on similarity to the training data. Of course, as we learn, there's data. It's not like the data's irrelevant, it's quite relevant.
+
+99
+00:18:00,940 --> 00:18:14,089
+Josh Tenenbaum: But the mechanisms and substrate that enables generalization are fundamentally the models we build, and those can extend outside the data distribution, even to worlds we've never actually experienced, but could imagine because of our models.
+
+100
+00:18:14,280 --> 00:18:22,010
+Josh Tenenbaum: And then lastly is about the relation between thinking and language, which is the opposite, both causally and, of course, temporally.
+
+101
+00:18:22,120 --> 00:18:31,089
+Josh Tenenbaum: Humans think before we have language, and our… the intelligence that's built into the minds of even very young children is what allows us to learn language so quickly.
+
+102
+00:18:31,240 --> 00:18:33,419
+Josh Tenenbaum: And so, resiliently and robustly.
+
+103
+00:18:33,680 --> 00:18:42,520
+Josh Tenenbaum: And that's really important. So we need a computational theory and model of thinking that isn't just dependent on language. At the same time.
+
+104
+00:18:42,630 --> 00:18:58,619
+Josh Tenenbaum: human learning language, it really is our superpower, and language… learning language transforms human thinking and learning. It unlocks new kinds of thinking and new kinds of learning. So we need to have models that can capture all of that, and that's what we've been trying to do in our work, and many colleagues.
+
+105
+00:18:58,620 --> 00:19:03,240
+Josh Tenenbaum: And I want to lay that out, just show you a little bit of what that looks like in computational terms.
+
+106
+00:19:03,240 --> 00:19:14,789
+Josh Tenenbaum: And just open that up to you, and to our community, of whether this could be the basis not only for a scalable, generalizable model of how human thinking works and comes to be, but also, perhaps, new
+
+107
+00:19:14,920 --> 00:19:17,649
+Josh Tenenbaum: approaches to artificial intelligence.
+
+108
+00:19:17,980 --> 00:19:32,000
+Josh Tenenbaum: Okay, so when I say that we're intelligent from the start, I don't just mean developmentally, I mean evolutionarily, even. So, looking at brains which are many thousands of times smaller than ours, or tens or hundreds of times, whether it's the fly, or the larval zebrafish.
+
+109
+00:19:32,000 --> 00:19:40,990
+Josh Tenenbaum: Or smarter animals like the crow… tool-using crows or chimps. Or here's sort of a mid-sized brain, a mouse from this famous mouse versus cracker video.
+
+110
+00:19:40,990 --> 00:19:45,470
+Josh Tenenbaum: You see these animals making, as we like to call it,
+
+111
+00:19:45,510 --> 00:19:49,700
+Josh Tenenbaum: office light sensor is the least artificial intelligence system on the MIT campus, so…
+
+112
+00:19:50,130 --> 00:19:55,659
+Josh Tenenbaum: I have to wave my hands around so that the light goes back on. There we go. Maybe.
+
+113
+00:19:56,000 --> 00:19:57,090
+Josh Tenenbaum: Okay.
+
+114
+00:19:57,420 --> 00:20:05,080
+Josh Tenenbaum: Sorry about that. So, these, you know, these, these, these, much smaller brains than ours.
+
+115
+00:20:05,160 --> 00:20:24,399
+Josh Tenenbaum: They build models that are much less sophisticated and much less flexible than ours, but they still build models, and they use those to generalize to new situations in their often much more limited Umwelt. But like the mouse who's getting a cracker in this situation that evolution didn't exactly prepare itself for.
+
+116
+00:20:24,450 --> 00:20:33,770
+Josh Tenenbaum: It's… or the crows in famous tool use experiments. We are remarkably flexible, even these systems that don't have language.
+
+117
+00:20:33,820 --> 00:20:52,499
+Josh Tenenbaum: Okay. But of course, there's something different about humans, including the flexibility of our goals, like this one-year-old baby who decided to set for herself the goal of seeing how many cups she could stack on the back of a cat. It's safe to say that she probably never saw anybody in her environment trying that, yet she still came up with that.
+
+118
+00:20:52,710 --> 00:21:02,729
+Josh Tenenbaum: Or this older kid who's building a tall tower out of Legos, and of course, older kids built much more complex things. Or this video here.
+
+119
+00:21:02,860 --> 00:21:19,080
+Josh Tenenbaum: that my colleague Kelsey Allen has studied, or has used often to motivate some of her work on tool use, this 3- or 4-year-old who's in an Easter egg hunt, and using a tool, this shovel, to try to get that Easter egg down from the top in ways that, again, I think it's pretty safe to say he never saw anyone doing that.
+
+120
+00:21:19,080 --> 00:21:22,930
+Josh Tenenbaum: When it's not working, he flexibly repurposes the tool and tries it that way.
+
+121
+00:21:22,960 --> 00:21:39,259
+Josh Tenenbaum: Right? This ability to not just make tools, but remake and creatively see objects that could be used as means to accomplish our ends, really remarkable feature of how human evolution, biological and cultural evolution, put us in a position that no other brain is in.
+
+122
+00:21:39,390 --> 00:21:51,049
+Josh Tenenbaum: And then again, as I said, language is the real superpower. Learning to speak and understand language, and then to read and write, especially, unlocks the ability to learn
+
+123
+00:21:51,050 --> 00:22:01,000
+Josh Tenenbaum: Not only from your direct experience, but from all the knowledge and understanding that humanity has built up collectively across generations and across cultures.
+
+124
+00:22:01,530 --> 00:22:09,930
+Josh Tenenbaum: So this is the path that we want to understand in computational terms. And we might say, well, how close are we to doing this? Or what… how do we actually do this, alright?
+
+125
+00:22:10,150 --> 00:22:21,199
+Josh Tenenbaum: So, to start to put a little bit of math and formalism on this, I would say that the most basic thing that's built into the architecture of brains and minds, not just human ones, but other animals too.
+
+126
+00:22:21,360 --> 00:22:34,969
+Josh Tenenbaum: is captured by this equation, which was… which is a decorated version of something from my long-ago former student, Max Kleiman Weiner and collaborator, and he himself was inspired by Peter Norvig, co-author with Stuart Russell of the leading AI textbook.
+
+127
+00:22:35,020 --> 00:22:53,190
+Josh Tenenbaum: And I think it was Peter Norvig who called this the fundamental equation of AI. But, you know, you might also recognize this as the fundamental equation of just rationality, like going back a couple of hundred years in at least the Western tradition, of what is it to be a rational creature? It's to make good guesses and good bets, is the popular way to put it.
+
+128
+00:22:53,390 --> 00:23:13,379
+Josh Tenenbaum: Or in other words, to have some kind of model of your environment, which takes as inputs this current state, which itself is the result of your perception. You take actions, and the environment model tells you what the future state might be. Then you can assign utilities to possible future states. Those utilities might reflect your goals.
+
+129
+00:23:13,380 --> 00:23:21,040
+Josh Tenenbaum: All of these are uncertain and probability distributions, so you have to take expected values of expected utility, given your expected environment, or your
+
+130
+00:23:21,130 --> 00:23:37,549
+Josh Tenenbaum: probabilistic distribution on environment models and your probability distribution on world states from perception. And then you take… making a good action, taking a good bet, is choosing an action which either maximizes or approximately maximizes, subject to some resource constraints, perhaps, your expected utility.
+
+131
+00:23:37,760 --> 00:23:53,969
+Josh Tenenbaum: That idea is an old one, but it's also a right one, in the sense that in cognitive science as well as in AI, but certainly I will speak mostly as a computational cognitive scientist, this is the heart of many of the models, pretty much all the best models that we built, do something like this.
+
+132
+00:23:53,970 --> 00:24:03,960
+Josh Tenenbaum: Of course, in humans, again, the space of our world models, the range of our goals, and the time scales on which we can make plans go way beyond what many other animals can do.
+
+133
+00:24:04,310 --> 00:24:12,960
+Josh Tenenbaum: And to expand to even things like social and moral reasoning, or planning across days, years, maybe decades, or even beyond our own lifetimes, okay?
+
+134
+00:24:12,960 --> 00:24:27,429
+Josh Tenenbaum: And intelligence gets even better when you bring in learning and meta-reasoning. So these are ways in which you don't just have one world model, but you can construct and improve your world models, or manipulate and think about your world models, and thereby be able to make better guesses and bets.
+
+135
+00:24:27,430 --> 00:24:37,230
+Josh Tenenbaum: So we want to capture these kinds of world modeling capacities in computational terms, as well as to understand what happens with language here. And again, this is where
+
+136
+00:24:37,400 --> 00:24:43,320
+Josh Tenenbaum: Oh, I'll come back to this. This is where some of the modern language models really play an interesting role.
+
+137
+00:24:44,170 --> 00:24:57,920
+Josh Tenenbaum: So how… how do we actually start to capture these ideas more concretely? Well, the book I mentioned before, Bayesian Models of Cognition, which you can get, from the MIT Press or from Amazon, and if you follow this QR code here.
+
+138
+00:24:57,920 --> 00:25:06,170
+Josh Tenenbaum: This will take you straight to an open access, free version on the MIT Press, which I highly encourage checking out, and thanks to the MIT Press for making that available.
+
+139
+00:25:06,180 --> 00:25:11,679
+Josh Tenenbaum: This book shows the ways we've been taking the math of,
+
+140
+00:25:11,770 --> 00:25:26,639
+Josh Tenenbaum: effectively kinds of Bayesian and hierarchical Bayesian inference over structured representations and world models to capture many, many different aspects of cognition. These are just a few of the domains that you can see if you look in the current cognitive science literature, or if you look in that book.
+
+141
+00:25:26,640 --> 00:25:37,519
+Josh Tenenbaum: Where the tools and techniques in that book are being deployed, and have been deployed to build really both principled and quantitatively strong behavioral models of many domains of cognition.
+
+142
+00:25:38,220 --> 00:25:49,800
+Josh Tenenbaum: Another key idea is this idea of probabilistic programs. So this is a slide that I borrowed from my colleague Vakash Mansinga, also a member of CSAIL and the quest for intelligence.
+
+143
+00:25:50,050 --> 00:25:55,579
+Josh Tenenbaum: And, you know, he's one of the world leaders in what's called probabilistic programming, which is
+
+144
+00:25:55,580 --> 00:26:11,680
+Josh Tenenbaum: the discipline of building programming languages and programming models that bring together these different ideas, certainly the ideas of probabilistic modeling and symbolic languages, so two ideas that maybe have not gotten as much credit in recent AI, if everybody's talking about neural networks.
+
+145
+00:26:11,680 --> 00:26:28,299
+Josh Tenenbaum: But that are really important for representation, abstraction, and inference under uncertainty. And I think it actually really increasingly are being recognized as very complementary to the neural network thesis that has been driving most of the machine learning and industry. And if you look at especially where, like, inference time compute
+
+146
+00:26:28,300 --> 00:26:45,280
+Josh Tenenbaum: looks like right now, you know, even at the frontier labs and industry, that's quite recognized, I think, that you really need this full toolset here. We call it the modern probabilistic Programming Toolset. But modern probabilistic programming languages are really powerful software
+
+147
+00:26:45,330 --> 00:27:02,579
+Josh Tenenbaum: software platforms and software… enabling software ecosystems, that allow you, even small-scale academic research or small research groups, to build these models that combine the most powerful features of probabilistic, symbolic, and 10 differentiable or differentiable programming approaches.
+
+148
+00:27:02,670 --> 00:27:12,709
+Josh Tenenbaum: This link here will take you to just a very simple tutorial in the Problemods.org web book that Noah Goodman and I and other colleagues put together. This is what I teach from in my intro class.
+
+149
+00:27:12,860 --> 00:27:19,599
+Josh Tenenbaum: It's really designed for pedagogy. And then, just one other set of references if you want to follow up on these ideas.
+
+150
+00:27:19,800 --> 00:27:31,630
+Josh Tenenbaum: these are some of the most recent probabilistic programming platforms. The JEN family are ones that have come out of Vikash Mansinga's Probcomp group and collaborators. An amazing CSAIL student.
+
+151
+00:27:31,630 --> 00:27:39,979
+Josh Tenenbaum: Kartik Chandra, who works with me as well as Jonathan Reagan Kelly, but really he just works so much on his own. He's a really brilliant and independent force of nature.
+
+152
+00:27:39,980 --> 00:27:52,680
+Josh Tenenbaum: Kartik, together with a few of us, developed another interesting probabilistic programming language that's been getting a lot of traction in the COGSI community, but also really anybody interested in modeling minds, the language called Memo.
+
+153
+00:27:52,680 --> 00:28:03,399
+Josh Tenenbaum: which stands for metacognitive modeling, and it's really designed for recursive reasoning about reasoning, both your own reasoning and others' reasoning. So, theory of mind, but many other kinds of multi-agent reasoning scenarios.
+
+154
+00:28:03,910 --> 00:28:11,510
+Josh Tenenbaum: All of these models, importantly, have, like, really powerful, backends, such as the JAX framework.
+
+155
+00:28:11,780 --> 00:28:23,369
+Josh Tenenbaum: Coming out of Google, which integrates differentiable programming as well as the sort of modern Python ecosystem around, and also, like, efficient use of GPU and other parallel compute.
+
+156
+00:28:23,380 --> 00:28:33,520
+Josh Tenenbaum: So it's, again, it's really… these are really new things. All of these models have just come out in the last year or two, and they're really enabling and being used by many folks, not just at MIT, so I encourage you to check those out as well.
+
+157
+00:28:33,530 --> 00:28:50,630
+Josh Tenenbaum: And then lastly, this other part of the technical toolkit, is the ways in which language models, especially modern language-to-code models, can actually be a way to capture how we use, in human minds, natural language to effectively communicate about, to translate into and out of.
+
+158
+00:28:50,740 --> 00:28:56,300
+Josh Tenenbaum: a probabilistic programming language of thought. So these probabilistic programming languages give us ways to model
+
+159
+00:28:56,430 --> 00:29:05,389
+Josh Tenenbaum: How we start and what goes on before language, and then the idea of a sequence model that can capture patterns and data can give us a way to understand how language
+
+160
+00:29:05,410 --> 00:29:20,810
+Josh Tenenbaum: builds on that, grounds on that, and transforms it. But crucially, and I won't really have time to go into too many details on the technical side, but I'll show you for the second half of this talk some of the applications that we're doing, is we're using language models not as general models of thinking.
+
+161
+00:29:20,940 --> 00:29:38,049
+Josh Tenenbaum: But as models of the aspects of cognition that language actually seems to be used for in human minds and brains. My colleague Ev. Fedarenko in BCS at MIT has… is one of many people who study language in the human brain, and as she would tell you, there's just one or two percent of the human brain that
+
+162
+00:29:38,050 --> 00:29:51,219
+Josh Tenenbaum: properly computes language, and it's a recent evolutionary development. So, in a sense, most of thinking goes on in other parts of the brain, and it's that interface that we're trying to understand. So, in some sense, while many people in
+
+163
+00:29:51,260 --> 00:30:01,579
+Josh Tenenbaum: Frontier AI labs are trying to use language models to do as much as possible. We're using them to try to do as little as possible, but really to do the things that human minds and brains seem to do with language.
+
+164
+00:30:02,060 --> 00:30:04,570
+Josh Tenenbaum: So, turning more just to the specific work.
+
+165
+00:30:04,640 --> 00:30:15,949
+Josh Tenenbaum: That, we've been doing recently. So, one paper that I'll… that sort of sets the framework is a very large paper that you can read on archive from Leo Wong and Gabe Grand.
+
+166
+00:30:15,950 --> 00:30:25,669
+Josh Tenenbaum: Leo recently graduated with a PhD from MIT and is now at Stanford as an AI… Human AI Fellow. Gabe Grand is still here as a member of CSAIL. Alex Lev also was a key
+
+167
+00:30:25,760 --> 00:30:34,989
+Josh Tenenbaum: founder of this work, and recently graduated from CSAIL, and is in programming languages and AI, and just started as a faculty member.
+
+168
+00:30:35,320 --> 00:30:37,290
+Josh Tenenbaum: at Yale, in computer science.
+
+169
+00:30:37,360 --> 00:30:56,549
+Josh Tenenbaum: And the idea that we developed here, along with Vikash, Noah Goodman, and Jacob Andreas, the other folks I mentioned, is effectively a sort of general framework and some particular demo models of what Leo calls rational meaning construction, which is basically just the idea that I said, where thinking is constructing and manipulating
+
+170
+00:30:56,550 --> 00:31:12,409
+Josh Tenenbaum: probabilistic programs, so symbolic probabilistic models of the world and doing inference in those. And language understanding, communicating, is about using natural language and using code LLMs, so we actually, when we first started doing this, we used the very first versions of OpenAI's Codex model.
+
+171
+00:31:12,410 --> 00:31:24,149
+Josh Tenenbaum: Much smaller and simpler and less powerful coding models than the ones that many people are using now, as effectively models for translating in and out of the language of thought to externally understandable natural language.
+
+172
+00:31:24,760 --> 00:31:43,270
+Josh Tenenbaum: I'll show you a few places where we've used this approach, especially in what you might call a multimodal vision language setting, or a setting where what we're doing is we're modeling how people reason about the physical world or other people's minds. And in this paper here, which recently appeared
+
+173
+00:31:43,500 --> 00:31:58,900
+Josh Tenenbaum: in, Nature Machine Intelligence, I think, or it was one of the nature journals, might have been Nature, Human Behavior, Machine Intelligence, one of those ones. This is, from Eric Schultz's group, and Luca Schultz-Buschoff and others. They, they, they highlighted ways in which some of the
+
+174
+00:31:58,920 --> 00:32:10,450
+Josh Tenenbaum: Classic experiments from computational cognitive science, including our lab and others, in these domains of, like, intuitive physics, causal reasoning, or theory of mind, intuitive psychology, pose really severe challenges
+
+175
+00:32:10,850 --> 00:32:18,690
+Josh Tenenbaum: for the modern vision language models. So it's just sort of helpful to set the contrast.
+
+176
+00:32:18,910 --> 00:32:21,620
+Josh Tenenbaum: Because these are things that even young children do very well.
+
+177
+00:32:22,060 --> 00:32:37,960
+Josh Tenenbaum: So, for example, we've long been studying intuitive physics in scenes like these Blox World scenes, like these Jenga blocks, where we ask people to make a judgment, shown these towers on the left here. How stable is this? How likely, say, on a scale of 1 to 7, is any one of these towers to fall?
+
+178
+00:32:38,050 --> 00:32:51,210
+Josh Tenenbaum: That's a behavioral experiment which we model by the probabilistic program which follows the sketch in the lower left, and that scatter plot that I'm showing is just an example of comparing our model with human judgments, where the way the model works
+
+179
+00:32:51,210 --> 00:33:13,269
+Josh Tenenbaum: Is we, do a kind of inverse graphics, given an image, we make guesses about the underlying world state, three-dimensional configuration of blocks and their physics parameters, and then we run a small number of simulations in a probabilistic physics engine, something like the kind of very approximate physics engines used in game engines, and just a few simulations on a few sampled guesses of the world state.
+
+180
+00:33:13,270 --> 00:33:18,720
+Josh Tenenbaum: Their average value of, like, how much of the tower falls is a very good predictive model of human judgments.
+
+181
+00:33:18,890 --> 00:33:38,080
+Josh Tenenbaum: Here, just… I'm just showing in contrast from the Bushoff et al. paper, taking, some of the state-of-the-art vision language models, they're… they can be quite good at, telling you, like, the colors of blocks, but they're near chance in terms of their correlation with people's judgments about the… what's gonna happen physically.
+
+182
+00:33:38,360 --> 00:33:42,600
+Josh Tenenbaum: It's not only scenes like these… these ones, but we can give people
+
+183
+00:33:42,830 --> 00:33:55,809
+Josh Tenenbaum: questions, or tasks, that are defined by questions that really, unless you… you know, many of us maybe played the game Django or built LEGO towers, we have certain intuitions from lots of experience in whether something's gonna fall.
+
+184
+00:33:55,940 --> 00:34:04,000
+Josh Tenenbaum: But a task like this one here, where I say, what if you bump one of these tables hard enough to knock some of the blocks onto the floor? Will you knock off more red or yellow?
+
+185
+00:34:04,000 --> 00:34:17,729
+Josh Tenenbaum: That's really only something that we can define in language and with these scenes. And yet, even with this new question, people are quite systematic, as this scatterpot is showing you, again, human judgments on the y-axis, and the very same model predicts
+
+186
+00:34:17,730 --> 00:34:19,400
+Josh Tenenbaum: Also, almost as well.
+
+187
+00:34:19,400 --> 00:34:33,510
+Josh Tenenbaum: their judgments. Just to give you a sense of what goes on inside one of these models, here's one of these red and yellow scenes, and we can simulate a small bump of one of these tables, or a large bump. And the idea is, even just a few time steps, notice I'm freezing the simulation after just a couple of time steps.
+
+188
+00:34:33,530 --> 00:34:40,600
+Josh Tenenbaum: Even just a few time steps of simulation with a few guesses at the underlying physics. Is it a big bump or a little bump? I didn't really say.
+
+189
+00:34:40,630 --> 00:34:50,049
+Josh Tenenbaum: Still, you can make a pretty good prediction. In this case, it's very clear that all of the yellow blocks are going to fall over, and few are none of the red blocks. So that's the way the model works, a little bit inside.
+
+190
+00:34:50,190 --> 00:34:58,910
+Josh Tenenbaum: Now, what, what I think is especially exciting, and again, these are things that we've been doing for more than 10 years in our lab, okay?
+
+191
+00:34:59,230 --> 00:35:11,619
+Josh Tenenbaum: But what I think is especially exciting here, as showing one small step towards the kind of general model that we're talking about, is where now we can integrate language via language-to-code LLMs
+
+192
+00:35:11,620 --> 00:35:15,430
+Josh Tenenbaum: With these probabilistic, approximate simulation-based intuitive physics.
+
+193
+00:35:15,430 --> 00:35:32,169
+Josh Tenenbaum: to give you a system that can do something that certainly we couldn't do before, but that humans can do, which is I can describe to you one of these scenes. I don't have to show you a picture. I can describe to you one of these tabletop scenes of red and yellow blocks, and then describe the particular thing. There's one, in this case, let's say, one tall stack of red blocks and two short stack of yellow blocks.
+
+194
+00:35:32,340 --> 00:35:35,310
+Josh Tenenbaum: And then, we can model, using the
+
+195
+00:35:35,390 --> 00:35:50,839
+Josh Tenenbaum: effectively this as a translation model to make guesses at code in a probabilistic programming language. These statements here are in the language web people. They express, like, conditions on probabilistic scene priors, that then you can now draw samples in your probabilistic physics engine.
+
+196
+00:35:50,840 --> 00:36:07,679
+Josh Tenenbaum: of what might happen. So this is an example of a scene that fits these conditions that's sampled from a prior, but it's a runnable simulation, so you can simulate now, it's just a simple 2D simulation, a bump of the table, and also make the appropriate inference that, in this case, it's a little bit more likely to be red than yellow.
+
+197
+00:36:07,760 --> 00:36:27,689
+Josh Tenenbaum: Or a more complex scene. Like, there's several stacks of red blocks, and there are a few blocks on the edge of the table. Less than half of the blocks on the edges are yellow. So again, we can flexibly translate any of these scene descriptions, in this case, to a more complex scene. And again, I want to emphasize that what you're seeing on the right is just the mental image that the system creates in its own mind, visualized for you.
+
+198
+00:36:27,820 --> 00:36:44,780
+Josh Tenenbaum: It doesn't actually see this, but it can create and run this simulation. And it's able to deal with the inherent vagueness of language, like several or few. They don't tell you exactly how many or how much, but our system is able to make good guesses using the fact that these language-to-code models are themselves probabilistic models
+
+199
+00:36:44,780 --> 00:36:53,850
+Josh Tenenbaum: of the… effectively, the meaning of sentences. Okay, so here we can simulate this, and now if we take… we can effectively reconstruct that experiment that we saw before.
+
+200
+00:36:53,850 --> 00:37:05,760
+Josh Tenenbaum: comparing, again, human judgments on the y-axis with model judgments on the x-axis, and we can reconstruct and still find a pretty good correlation between what our model is able to do and what these,
+
+201
+00:37:06,170 --> 00:37:08,360
+Josh Tenenbaum: What people do. Okay.
+
+202
+00:37:09,440 --> 00:37:21,109
+Josh Tenenbaum: Turning to one other domain of intuitive psychology or theory of mind, one of the areas that computational cognitive science has made the most progress in over the last, really, 15 or even 20 years
+
+203
+00:37:21,420 --> 00:37:32,700
+Josh Tenenbaum: Is this idea of modeling theory of mind, how we reason about and make inferences about other people's mental states, their beliefs and desires, what they think or know, and what they want, what their goals are.
+
+204
+00:37:32,740 --> 00:37:42,760
+Josh Tenenbaum: by what's sometimes called inverse planning. It's related to inverse reinforcement learning, if you've heard of that. But this is really much more of a sort of model-based, goal-directed planning, which is why we call it that.
+
+205
+00:37:42,760 --> 00:37:53,800
+Josh Tenenbaum: And the idea is you have a model of how an agent's actions are the result of their beliefs and desires, their probabilistic beliefs, and their rewards and costs for states and actions.
+
+206
+00:37:53,910 --> 00:38:12,440
+Josh Tenenbaum: And you model them as if they're doing some approximate, rational, probabilistic planning, and then you work backwards to see what actions did they take in the state of the world, and to make inferences about their underlying beliefs and desires, as if they were some kind of simple model of a probabilistic rational agent.
+
+207
+00:38:12,520 --> 00:38:22,290
+Josh Tenenbaum: Again, this isn't saying that people actually think this way, although we have good reason to think that in a lot of cases, people do approximately think this way, but it's how we model people thinking about how other people think.
+
+208
+00:38:23,440 --> 00:38:37,880
+Josh Tenenbaum: So, for example, you can deploy these kinds of models in, these, various spatial-temporal scenes. This is from the work of Julian Haettinger, who's now a professor at Yale, both in psychology as well as, in computer science.
+
+209
+00:38:38,110 --> 00:38:38,980
+Josh Tenenbaum: End.
+
+210
+00:38:39,080 --> 00:38:57,740
+Josh Tenenbaum: He's developed, in particular, this idea of a naive utility calculus of how people make inferences about both rewards and costs by watching agents, like in this case, the astronaut, who starts somewhere with, and then moves to a home base, and takes various paths, either towards objects that they might like or not like.
+
+211
+00:38:57,770 --> 00:39:14,449
+Josh Tenenbaum: Or you might think they like or not like them, and various terrains that are harder or easy to travel over. And we ask people, given any one of these scenes, and seeing the astronaut take a path that isn't just a straight line path, but deviates from a straight line from their start to their end, what can you infer about what they want, or what they want to avoid?
+
+212
+00:39:14,450 --> 00:39:21,699
+Josh Tenenbaum: And I'm highlighting this domain because it's one of the domains where we can very systematically and quantitatively study people's intuitions.
+
+213
+00:39:21,700 --> 00:39:26,730
+Josh Tenenbaum: build models of these. These are… what's being shown here are predictions about
+
+214
+00:39:27,080 --> 00:39:43,500
+Josh Tenenbaum: people's relative… what relative costs people assigned to the different kinds of terrain and relative rewards they assigned to the different objects. But this was also one of the domains where the Schulz-Buschoff paper benchmarked against state-of-the-art vision language models and showed
+
+215
+00:39:43,500 --> 00:40:02,359
+Josh Tenenbaum: That, effectively, while these models, again, could do a pretty good job of analyzing the scenes, they were, again, near chance in terms of their correlation with people's predictions about costs and rewards for these agents, so the underlying mental states. They fit about 10% of the variance in human judgments, or, you know, basically a small fraction.
+
+216
+00:40:02,410 --> 00:40:03,470
+Josh Tenenbaum: Close to zero.
+
+217
+00:40:03,670 --> 00:40:21,440
+Josh Tenenbaum: In contrast, one of these Bayesian inverse planning models is an almost perfect fit, and this is just one of dozens of experiments that have been done by Julian and many others with these kind of models. So here I'm showing you the human judgments with the error bars, and the model fits there. And the correlations are, you know, in the high, you know.
+
+218
+00:40:21,440 --> 00:40:24,600
+Josh Tenenbaum: Basically, 80-90% variance accounted for.
+
+219
+00:40:24,840 --> 00:40:35,760
+Josh Tenenbaum: Okay. And again, these models are built to be intelligent models of how even young children… Julian actually also works in developmental psychology, and has built and tested these models of young children.
+
+220
+00:40:35,940 --> 00:40:43,230
+Josh Tenenbaum: How we understand the, in this case, the goals as well as the anticipated subjective costs that an agent would have.
+
+221
+00:40:43,650 --> 00:40:57,470
+Josh Tenenbaum: Okay. I think for reasons of time, I'll skip over, how this also can extend to making inferences about agents' beliefs, but I would encourage you to check out this paper by Chris Baker, as well as Julian Haredinger from Nature Human Behavior.
+
+222
+00:40:57,470 --> 00:41:09,110
+Josh Tenenbaum: In 2017, which just shows, again, how you can make joint inferences not only about what someone wants, but what they… what… where they might have had false beliefs, or graded beliefs, because of an inefficient path.
+
+223
+00:41:09,170 --> 00:41:17,730
+Josh Tenenbaum: And again, here, we can build models that follow the same basic logic that are quantitative… that quantitatively capture people's judgments about
+
+224
+00:41:17,870 --> 00:41:37,329
+Josh Tenenbaum: both what another agent wants, but also what another agent thought maybe was true, even if it's different from what you know or believe to be true. Because to explain that otherwise what would have otherwise been an inefficient path, you have to posit that they both wanted something, and also that they thought something might have been true, and they were going and acting on it until they learned otherwise.
+
+225
+00:41:37,800 --> 00:41:42,730
+Josh Tenenbaum: Bringing back language, and language models, the,
+
+226
+00:41:42,950 --> 00:41:52,880
+Josh Tenenbaum: And here's some recent work that was done by Lance Ying and, Shen. She goes by Shen, but, Tan Shi Xuan is her full name.
+
+227
+00:41:53,110 --> 00:41:57,249
+Josh Tenenbaum: Lance is a professor… is a student who works with us, he's a Harvard CF student.
+
+228
+00:41:57,380 --> 00:42:03,769
+Josh Tenenbaum: And Shen is, just started as a professor, in Singapore, at the NUS there.
+
+229
+00:42:03,770 --> 00:42:20,799
+Josh Tenenbaum: And they showed how to do an analogous thing that I was talking about there, with, to the intuitive physics, where we would describe an agent moving around in a world in language, and purely from language, people can reason about, construct a mental model, and reason about the agent's goals and beliefs and rewards and costs and so on.
+
+230
+00:42:20,810 --> 00:42:25,059
+Josh Tenenbaum: In the most recent work that this team, Lance and others did.
+
+231
+00:42:25,300 --> 00:42:42,570
+Josh Tenenbaum: we've… we've now sort of brought this into the 2025 era. That was originally done in 2023. Now this has been integrated not just with a language model, but with a vision language model. And it's… there's a really… this… there's too much for me to tell you about here in terms of the technical stuff, but it's really important that…
+
+232
+00:42:42,620 --> 00:42:59,340
+Josh Tenenbaum: that what makes this work under the hood isn't just Bayesian inference in a symbolic world model, but it also builds on, if you're familiar with PDDL, or the planning domain description language, and other work that Shen did on Bayesian inverse planning, what's called the SIPS model.
+
+233
+00:42:59,610 --> 00:43:13,300
+Josh Tenenbaum: And it's really just a really rich stack of probabilistic and symbolic reasoning that is quite general for capturing both how agents can plan at multiple scales and long time scales, and how we can do probabilistic inverse planning.
+
+234
+00:43:13,300 --> 00:43:31,639
+Josh Tenenbaum: And the model, though it doesn't fit quite as well as the various bespoke models that we built, you know, almost 10 years ago, that's the Lyrus thing here, comparing with people, it fits pretty well, explains most of the variants, and much better than some of the most recent multimodal vision models, such as the Gemini models or OpenAI's…
+
+235
+00:43:31,640 --> 00:43:47,170
+Josh Tenenbaum: 03 series in this case, which, you know, they do okay, but there's many places where these models are either uncorrelated with people's judgments, or explain only a small fraction of the variance, where these language-enabled probabilistic programming models can explain most of what people think.
+
+236
+00:43:47,510 --> 00:43:51,469
+Josh Tenenbaum: Okay, so just to wrap up in the last few minutes,
+
+237
+00:43:51,940 --> 00:44:11,699
+Josh Tenenbaum: I want to talk about some of the most recent work that is really the basis for saying, well, how do we scale from everything… like, what I showed you is, like, how we build models of our intelligence in our models of the physical world, or the social world of others' minds, in a couple of domains, but you might ask, well, how do we scale to all the other things that people can think about?
+
+238
+00:44:12,270 --> 00:44:29,240
+Josh Tenenbaum: And this is, again, a place where language unlocks a new superpower. Because, of course, one of the ways that we can learn to think about other domains and build world models is by actually learning a new world model from our experience. Just as a… what is effectively a side note, but to highlight some other
+
+239
+00:44:29,240 --> 00:44:33,349
+Josh Tenenbaum: work that our group did a while ago that was just published. We can…
+
+240
+00:44:33,350 --> 00:44:51,090
+Josh Tenenbaum: study, for example, how people learn a new video game much faster than a deep reinforcement learning algorithm. In just a couple of minutes, people can learn these simplified Atari-like games. Pedro Savides worked on this for his PhD thesis, and he has a paper coming out in the Philosophical Transactions of the Royal Society. And he shows how you can do Bayesian
+
+241
+00:44:51,090 --> 00:45:04,920
+Josh Tenenbaum: learning of a symbolic world model and match human learning efficiencies in just, like, about a thousand steps, so just a minute or two of play in these simplified games. So this is a thing you can do. You can do probabilistic learning of new symbolic world models.
+
+242
+00:45:04,920 --> 00:45:20,640
+Josh Tenenbaum: But in most of these domains, in many of the domains humans think about, we have very little direct experience. So this is where language is the superpower. This is where you can learn from what people tell you, and all the ways that language provides a bridge between your experience and all the rest of cultural knowledge.
+
+243
+00:45:20,830 --> 00:45:28,099
+Josh Tenenbaum: So the last research I'll show you about is work that was done by some of the same people I mentioned here, like Leo Wang, Lance Yang, and others.
+
+244
+00:45:28,340 --> 00:45:33,579
+Josh Tenenbaum: But especially I want to highlight Katie Collins, and Tyler Brooke Wilson.
+
+245
+00:45:33,980 --> 00:45:50,470
+Josh Tenenbaum: Tyler… Tyler's the senior author, and this builds on work that he did in his PhD thesis at MIT in philosophy, believe it or not. He's now a professor at Yale, also in philosophy and cognitive science, and is doing some of the leading work at the interface of not just philosophy, but computational, cognitive science, and AI.
+
+246
+00:45:50,470 --> 00:46:00,259
+Josh Tenenbaum: Katie Collins is a recently arrived postdoc here at MIT, and has contributed very much to this work, and they're really the drivers of it.
+
+247
+00:46:00,590 --> 00:46:13,170
+Josh Tenenbaum: And what we're trying to do here is to try to explain, and I'll illustrate this just with one domain of probabilistic reasoning here. Actually, maybe I'll go through this really quickly, because I want to leave at least a few minutes for questions.
+
+248
+00:46:13,460 --> 00:46:29,859
+Josh Tenenbaum: But just to illustrate how we can use language to think about a new domain of probabilistic causal reasoning. So this builds on a domain that we… that's called the Bayesian tug-of-war, which we've used for a long time in Bayesian models as, like, just a generic model of how people can
+
+249
+00:46:29,860 --> 00:46:38,039
+Josh Tenenbaum: do inference about the different factors that might cause complex events. Like, if you imagine a tug-of-war match between some people.
+
+250
+00:46:38,600 --> 00:46:51,030
+Josh Tenenbaum: Take one possible person, Jack. I just made up a name. How strong do you think Jack is? If I ask you that with no information, you just will have to say average. I can give you more information, like, well, Jack beat Leo in a game of tongue-of-war, which might bump up your strength.
+
+251
+00:46:51,270 --> 00:47:03,590
+Josh Tenenbaum: Leo had already beat Alice, Bob, and Charlie. Wow, you might think, well, then Jack must be pretty strong. But Leo doesn't always try as hard, so I can give you various things, and in the classic tradition of non-monotonic reasoning, your degree of belief in this question will go up and down.
+
+252
+00:47:03,660 --> 00:47:14,810
+Josh Tenenbaum: We can model this as inference in a probabilistic program. Here's a classic probabilistic program model with this domain, which defines various variables and how they relate to each other, and then lets you do probabilistic inference.
+
+253
+00:47:14,910 --> 00:47:21,299
+Josh Tenenbaum: In this symbolic world model that can, again, quantitatively capture very much what… what
+
+254
+00:47:21,460 --> 00:47:24,669
+Josh Tenenbaum: people's judgments. So these are, again, human judgments on the… on the…
+
+255
+00:47:24,780 --> 00:47:43,020
+Josh Tenenbaum: Y-axis here, model judgments on the x-axis. So it's just yet another domain. But this is not one that was built into us evolutionarily. Many of us have played tug-of-war maybe once or twice in our life. Some of us have probably never even seen a real live tug-of-war game. Somehow, though, we're able to reason about this. Somehow, we get a model like this in our head.
+
+256
+00:47:43,020 --> 00:47:47,119
+Josh Tenenbaum: That lets us make these inferences. How does that work? Where did we get that model?
+
+257
+00:47:47,120 --> 00:47:55,649
+Josh Tenenbaum: And not only that, how can we extend the model to so many other kinds of things? I could condition not only on the variables that are in the model, like strength and effort, but I could tell you, well.
+
+258
+00:47:55,660 --> 00:48:14,179
+Josh Tenenbaum: But suppose you knew that Charlie's been sick all week, or Jack was distracted in that last match. Alice broke her finger in a skiing accident the night before. Leo never gets enough protein, despite advice from their friends. The robe was extra slippery, so almost anything I could say in language, you could incorporate into your model. But what we used to be able to do, again, we built these models, like, 10 years ago.
+
+259
+00:48:14,180 --> 00:48:21,659
+Josh Tenenbaum: They don't… they don't do those. They're just bespoke models of one set of things that we built by hand. But people are able to do all of this, so how does that work?
+
+260
+00:48:21,930 --> 00:48:34,850
+Josh Tenenbaum: This is what Tyler Brooke Wilson, who I mentioned, and Leo and Katie have developed in what they call a model synthesis architecture, and it's, I think, a really exciting way to think about the human mind, as well as how AI might move in this direction as well.
+
+261
+00:48:35,140 --> 00:48:54,999
+Josh Tenenbaum: And it's really this idea that while the heart of our ability to do all these different domains of reasoning is based on having a model of the world, constructing it, manipulating it, and doing probabilistic inference in it, those models are things that are synthesized bespoke in the moment. It's not like they're all built into our head, although there's some
+
+262
+00:48:55,130 --> 00:49:02,069
+Josh Tenenbaum: Modeling components that are built in. But what we learn over our life is the ability to make the models we need when we need them.
+
+263
+00:49:02,290 --> 00:49:21,749
+Josh Tenenbaum: And to do so in a way that balances global relevance and local coherence. So by global relevance, I mean the ability to take into account anything you could know and anything someone could say, but still reasons coherently and probabilistically, rationally, in a sense, about this one particular situation. So the way this works, just in high-level detail, is, again, here, language models.
+
+264
+00:49:21,990 --> 00:49:24,229
+Josh Tenenbaum: Are being used to
+
+265
+00:49:24,240 --> 00:49:37,300
+Josh Tenenbaum: go from the natural language description of the problem to construct or propose candidate small-scale ad hoc world models, which then support probabilistic inference to answer the questions. And there's, again, some technical details in this paper, if,
+
+266
+00:49:37,300 --> 00:49:48,260
+Josh Tenenbaum: If you didn't catch this, there was a QR code where you could go and read the archive version of this. I'll skip the details of this, but there's… but the interesting… it is quite interesting, actually, the pipeline that leads to basically parsing language.
+
+267
+00:49:48,260 --> 00:50:00,260
+Josh Tenenbaum: And then drawing in from the language model, just purely in natural language, considerations about how this domain might work, and then turning that into a symbolic probabilistic program that can support inference.
+
+268
+00:50:00,540 --> 00:50:13,639
+Josh Tenenbaum: And again, though I'll just skip the details to wrap up in a minute, but we can test this behaviorally, where we give people now just very limited descriptions of tug-of-war, very little, and crucially, we ask
+
+269
+00:50:13,710 --> 00:50:29,680
+Josh Tenenbaum: we give people, to really test the open-endedness of the reasoning here, is we ask people who are not us, just human, random humans we get online, to describe these arbitrary considerations. These are actual,
+
+270
+00:50:29,750 --> 00:50:33,860
+Josh Tenenbaum: You know, new variables, new factors described by a person.
+
+271
+00:50:33,860 --> 00:50:50,870
+Josh Tenenbaum: which the model synthesis architecture can handle. It can propose ways to integrate what somebody says into the model, translating both taking their natural language, reasoning in natural language about what might be relevant, and then turning that into code that gets integrated into the model to support inference. And…
+
+272
+00:50:50,870 --> 00:50:53,629
+Josh Tenenbaum: Don't worry about the slide, but I'll just say.
+
+273
+00:50:53,630 --> 00:51:04,359
+Josh Tenenbaum: It… this fits people… people's judgments in these open-ended cases reasonably well, and substantially better than even a state-of-the-art large language model.
+
+274
+00:51:04,620 --> 00:51:11,730
+Josh Tenenbaum: So to wrap up, I've given what I think are, like, a sketch of where our field has come and where I think we could all go together.
+
+275
+00:51:11,790 --> 00:51:21,519
+Josh Tenenbaum: This idea of how to think about the human scaling root for intelligence, the ways in which our minds are built from the beginning to be… to make good guesses and bets, to be rational.
+
+276
+00:51:21,550 --> 00:51:34,050
+Josh Tenenbaum: inference and decision agents, and ways that, whether it's probabilistic programming languages that integrate some of the best of multiple eras of AI ideas, not just neural networks, but symbolic and probabilistic approaches.
+
+277
+00:51:34,050 --> 00:51:42,010
+Josh Tenenbaum: With the kinds of core systems of intuitive physics and understanding agents that seem to be built into our minds and the ways that language can change this.
+
+278
+00:51:42,060 --> 00:51:48,209
+Josh Tenenbaum: Can ground language in those systems, and then use language to bring together so many things we can think about.
+
+279
+00:51:48,260 --> 00:52:07,670
+Josh Tenenbaum: This is, I think, a toolkit that has a lot of potential. I'll skip the many open questions, and if you want to ask about this, but if you want to ask about future work and open questions, happy to do that. Or if you want to ask about how this is relevant and really does address, I think, all the big theoretical questions of cognitive science.
+
+280
+00:52:07,830 --> 00:52:16,910
+Josh Tenenbaum: I'll leave it at this, but along with two lessons to take home, especially for those of you who are working in, you know, what so much of the world is today is in sort of LLM-based AI.
+
+281
+00:52:16,910 --> 00:52:28,560
+Josh Tenenbaum: I think it's really important that, in contrast to the ways a lot of industry or mainstream AI folks are thinking, where you say, let's start with a language model and then give it some tools for, like, rational thinking, right?
+
+282
+00:52:28,560 --> 00:52:45,249
+Josh Tenenbaum: For human minds, language is the tool. It's a superpower. It's a really powerful tool. But if we build an approach to intelligence the way our minds and brains work, then what we… when we can start to understand, and how we can bring together neuro-symbolic and probabilistic inference to have an architecture for intelligence.
+
+283
+00:52:45,250 --> 00:52:49,639
+Josh Tenenbaum: That really allows language models to do the things that they've done for language.
+
+284
+00:52:49,640 --> 00:53:10,090
+Josh Tenenbaum: Communication, knowledge representation, integrating knowledge across domains, associative memory, general relevance, analogical retrieval, these are all things that humans do, and they use language for it, and that's what we're using language for here. But we're not using language as our only substrate of thinking. We're using it to capture… we're using language models to capture the ways language contributes to our human intelligence.
+
+285
+00:53:10,180 --> 00:53:24,510
+Josh Tenenbaum: And then lastly, in contrast to classical symbolic AI and cognitive architectures, because many people, if they hear me talk about, oh, we should have symbolic things, or whatever, they'll say, oh, it's like a return to good old-fashioned AI, and maybe that's good, or maybe that's not good, but that's not what this is about.
+
+286
+00:53:24,550 --> 00:53:41,589
+Josh Tenenbaum: Because again, like, in traditional earlier generations of AI, when people talked about symbolic models and were criticized for them being brittle, intractable, hard-coded, and flexible, the key here, right, is these symbolic models, they're probabilistic, so they support uncertainty and coherent and approximate reasoning.
+
+287
+00:53:41,690 --> 00:53:58,079
+Josh Tenenbaum: And crucially, there's not one big codebase in the head that some human team of engineers has to build. Rather, our models are small, bespoke, transient, fast to build, quick to do inference in, and quick to throw aside. The code isn't written by hand, but it's written by our own minds, or by our models.
+
+288
+00:53:58,090 --> 00:54:13,210
+Josh Tenenbaum: And through capacities that are built, especially through cultural evolution, as we learn language and learn how to write code that goes beyond our innate programming languages of thought, into all these other bespoke domain-specific languages, and then all the bespoke models of new situations that they enable.
+
+289
+00:54:13,420 --> 00:54:18,790
+Josh Tenenbaum: So, that's the picture, and I'll just leave it at that. We have just a couple minutes for questions. Thank you.
+
+290
+00:54:20,030 --> 00:54:24,339
+Daniela Rus: Thank you very much, Josh, for this tour de force.
+
+291
+00:54:24,430 --> 00:54:37,600
+Daniela Rus: We have only a couple of minutes left for questions, because we have to end at, at 1 o'clock, so I will just pick, one from the, from the chat.
+
+292
+00:54:37,670 --> 00:54:55,169
+Daniela Rus: And so here's a first question in the chat from John Sopka. Is the fact that AI is digital discrete and not analog continuous a fundamental cause of the difference between AI and cognition? What do you think?
+
+293
+00:54:56,230 --> 00:55:10,780
+Josh Tenenbaum: You know, I think that's… that's a question that many people have asked, and I think it's just too simplified, honestly, to put it that way, too oversimplified. I think that, you know, it's… while it's true that our… our digital
+
+294
+00:55:11,180 --> 00:55:19,689
+Josh Tenenbaum: Computers are… discrete. We work hard that way because it supports certain kinds of engineering.
+
+295
+00:55:19,790 --> 00:55:35,390
+Josh Tenenbaum: I would say the way… if you look at the full software hardware stack, the way computing is used these days, and really any approach to AI, it interleaves various levels of discrete and continuous, including probability distributions, or gradients that are more continuous. And similarly with brains.
+
+296
+00:55:35,390 --> 00:55:54,790
+Josh Tenenbaum: Brains have both continuous and discrete things. There's discrete spikes, and that's really important to, many people think, to the energy efficiency of biological neural networks. At the same time, we take averages of spikes, and there's graded things that go on inside cells and inside synapses. So, I think it's, I get why one wants to look for some
+
+297
+00:55:54,810 --> 00:56:10,170
+Josh Tenenbaum: simple thing like that that might distinguish these, but I think, actually, much like I think that we need to understand how probabilistic, symbolic, and differentiable programming effectively go together to build cognitive architectures, both in science and engineering, I think we really also need to understand how continuous and discrete
+
+298
+00:56:10,170 --> 00:56:19,659
+Josh Tenenbaum: Across the stack go together. And, that doesn't mean there aren't really important lessons to learn from the efficiency that comes from the way those motifs are mixed in biology.
+
+299
+00:56:19,850 --> 00:56:31,190
+Josh Tenenbaum: Actually, some of Daniela's work, I think, speaks to that as well. But, yeah, I'd encourage us to just engage more with the details of biology and cognition to draw these…
+
+300
+00:56:31,310 --> 00:56:32,599
+Josh Tenenbaum: Insights and lessons.
+
+301
+00:56:33,370 --> 00:56:36,000
+Daniela Rus: Let me sneak in another question before
+
+302
+00:56:36,270 --> 00:56:48,979
+Daniela Rus: 1 o'clock. And also from the chat, isn't learning by any being through all the senses, not just using the mind? So, how do we bridge this gap between living beings and machines?
+
+303
+00:56:49,760 --> 00:56:57,080
+Josh Tenenbaum: Yeah, that's a great question also. And I tried to… I hope what I said might come to address some of that, because I think…
+
+304
+00:56:57,280 --> 00:57:03,230
+Josh Tenenbaum: Well, it's… so, if I understood the question, you're saying, isn't learning through the senses, not just the mind? So…
+
+305
+00:57:04,780 --> 00:57:20,169
+Josh Tenenbaum: I would say that one of the remarkable features of human minds, and as far as we can tell other animal minds too, is their integration. It's not… I don't just mean what we experience consciously, and I also don't mean to say that there isn't parallel processing or things going on that can be
+
+306
+00:57:20,290 --> 00:57:34,769
+Josh Tenenbaum: dissociated or disintegrated, okay, because that also can happen in brains. For example, there's the famous split-brain patients where the corpus callosum, the big wiring bust that connects the two hemispheres, if that gets cut, then in some sense there can be some
+
+307
+00:57:34,980 --> 00:57:41,390
+Josh Tenenbaum: you know, independent dissociation of what's going on in one hemisphere from the other. But that's just sort of the exception that proves the rule.
+
+308
+00:57:41,610 --> 00:57:44,950
+Josh Tenenbaum: That actually, in most brains, most of the time.
+
+309
+00:57:45,010 --> 00:58:04,600
+Josh Tenenbaum: evolution has worked really hard to build a single, coherent, integrated system, just as multicellular organisms have worked… evolution worked really hard to get all those cells to kind of work together. So, what that means is that, I think, the kinds of learning that are really powerful and that really drive our intelligence, they have to take input from all the senses, that's exactly right.
+
+310
+00:58:04,840 --> 00:58:22,249
+Josh Tenenbaum: But it's all filtered through and integrated through our overall cognitive architecture, which is designed, again, by evolution, to build models of the world, both our direct and immediate experience, and then, with language and cultural evolution, all the world models that we humans have come to be able to build that go beyond our direct experience.
+
+311
+00:58:22,250 --> 00:58:28,210
+Josh Tenenbaum: So that's what we're trying to do here. We're trying to develop, effectively, models of intelligence that are models of intelligent learning
+
+312
+00:58:28,520 --> 00:58:46,810
+Josh Tenenbaum: that center the integrated cognitive minds models of the world. And that includes our models of other people's minds, because our worlds are full of minds, and it's that… maybe just to leave on one note, it's that recursive ability to think about thinking, to think about our own thinking, to think about other people's thinking and other people's thinking about thinking.
+
+313
+00:58:46,810 --> 00:59:05,129
+Josh Tenenbaum: Which, first of all, is one of the superpowers that we get, not just through natural language, but from these new probabilistic programming languages, like the memo language, which is why it's really unlocked so much interest recently in these sort of approaches, because now you have really good, usable tools for building models of recursive thinking about thinking.
+
+314
+00:59:05,130 --> 00:59:19,480
+Josh Tenenbaum: But also, I think that's what brought all of us here, because we're all interested in thinking about how our thinking works, and so maybe it's a good note to end on. I hope that you've had a little bit of fun thinking about our thinking here, and if you want to engage more on this, I'd love to find ways to engage with you all.
+
+315
+00:59:19,480 --> 00:59:31,706
+Daniela Rus: Thank you very much, Josh. Absolutely, we'll all continue to engage. I'd like to ask everyone to unmute, so we can give Josh a huge round of applause for this wonderful hour he spent with us. So, I see… I still see you guys muted. Please unmute.
+

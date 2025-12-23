@@ -1,0 +1,1164 @@
+1
+00:00:11,920 --> 00:00:17,880
+hello computational music theorists
+
+2
+00:00:14,839 --> 00:00:20,960
+here's a short video on what some of the
+
+3
+00:00:17,880 --> 00:00:23,000
+problems in Mir or music information
+
+4
+00:00:20,960 --> 00:00:26,279
+retrieval are and how they can be
+
+5
+00:00:23,000 --> 00:00:28,279
+connected to music theory and musicology
+
+6
+00:00:26,279 --> 00:00:31,199
+which is the main topic of this class
+
+7
+00:00:28,279 --> 00:00:34,239
+21m 383
+
+8
+00:00:31,199 --> 00:00:37,840
+these slides owe a lot to AI feffer
+
+9
+00:00:34,239 --> 00:00:39,320
+professor at Harvard who inspired them
+
+10
+00:00:37,840 --> 00:00:42,000
+with his
+
+11
+00:00:39,320 --> 00:00:46,760
+lectures the main question that we'll be
+
+12
+00:00:42,000 --> 00:00:50,680
+working on is how do we move from sound
+
+13
+00:00:46,760 --> 00:00:52,840
+that's made in the real world to a score
+
+14
+00:00:50,680 --> 00:00:55,800
+that's printed out or displayed on the
+
+15
+00:00:52,840 --> 00:00:57,600
+screen what kinds of Technologies are
+
+16
+00:00:55,800 --> 00:00:59,719
+needed and what kinds of problems need
+
+17
+00:00:57,600 --> 00:01:00,719
+to be solved in order to do this really
+
+18
+00:00:59,719 --> 00:01:02,800
+well
+
+19
+00:01:00,719 --> 00:01:04,720
+well first when we sing or play an
+
+20
+00:01:02,800 --> 00:01:06,799
+instrument we're making actual sound
+
+21
+00:01:04,720 --> 00:01:09,680
+waves in the real world so we need to
+
+22
+00:01:06,799 --> 00:01:13,240
+solve the problem of how to most
+
+23
+00:01:09,680 --> 00:01:16,040
+accurately transform sound into a signal
+
+24
+00:01:13,240 --> 00:01:18,520
+and this involves microphones and other
+
+25
+00:01:16,040 --> 00:01:20,439
+devices and it's kind of a pure
+
+26
+00:01:18,520 --> 00:01:23,240
+engineering problem that we're not going
+
+27
+00:01:20,439 --> 00:01:25,759
+to be focusing on in this class but it's
+
+28
+00:01:23,240 --> 00:01:27,119
+very complex and very valuable and we
+
+29
+00:01:25,759 --> 00:01:29,479
+offer some courses in the music
+
+30
+00:01:27,119 --> 00:01:30,799
+department that will help you do this
+
+31
+00:01:29,479 --> 00:01:33,920
+better
+
+32
+00:01:30,799 --> 00:01:37,119
+but once we've got the sound from The
+
+33
+00:01:33,920 --> 00:01:40,560
+Real World into an electrical signal
+
+34
+00:01:37,119 --> 00:01:44,680
+we're working in the time domain as we
+
+35
+00:01:40,560 --> 00:01:47,240
+call it and that is the amplitude of
+
+36
+00:01:44,680 --> 00:01:50,119
+sound at a single moment forward
+
+37
+00:01:47,240 --> 00:01:53,680
+backwards positive or negative and we
+
+38
+00:01:50,119 --> 00:01:56,439
+usually record in something close to CD
+
+39
+00:01:53,680 --> 00:01:59,039
+quality or 44,000 times per second we're
+
+40
+00:01:56,439 --> 00:02:01,000
+measuring the amplitude as a 16bit
+
+41
+00:01:59,039 --> 00:02:03,799
+signed integer
+
+42
+00:02:01,000 --> 00:02:07,119
+and so the sound at this point looks
+
+43
+00:02:03,799 --> 00:02:08,640
+something like this if this was a I
+
+44
+00:02:07,119 --> 00:02:11,160
+don't know an attack of an instrument
+
+45
+00:02:08,640 --> 00:02:13,360
+that's decaying maybe a piano or
+
+46
+00:02:11,160 --> 00:02:16,280
+something of that
+
+47
+00:02:13,360 --> 00:02:18,720
+sort the problem here is how do we
+
+48
+00:02:16,280 --> 00:02:22,280
+convert from the time domain to
+
+49
+00:02:18,720 --> 00:02:27,040
+frequency to being able to say okay all
+
+50
+00:02:22,280 --> 00:02:29,319
+these impulses add up to a particular
+
+51
+00:02:27,040 --> 00:02:31,400
+frequency how do we decode it from the
+
+52
+00:02:29,319 --> 00:02:33,800
+signal
+
+53
+00:02:31,400 --> 00:02:36,160
+and understand that hey in this sound
+
+54
+00:02:33,800 --> 00:02:39,640
+there's two principal frequencies that
+
+55
+00:02:36,160 --> 00:02:40,680
+are uh being heard and to do this we use
+
+56
+00:02:39,640 --> 00:02:42,920
+foryear
+
+57
+00:02:40,680 --> 00:02:46,040
+transforms and the fast fouryear
+
+58
+00:02:42,920 --> 00:02:48,280
+transform algorithm is something that
+
+59
+00:02:46,040 --> 00:02:50,519
+it's very good to know in order to work
+
+60
+00:02:48,280 --> 00:02:53,640
+in this field so now we have
+
+61
+00:02:50,519 --> 00:02:57,400
+frequencies and we want to translate
+
+62
+00:02:53,640 --> 00:03:00,319
+them to pitch and Pitch connections and
+
+63
+00:02:57,400 --> 00:03:03,840
+that's not just um thinking about you
+
+64
+00:03:00,319 --> 00:03:06,080
+know what is A4 440 Herz or but which of
+
+65
+00:03:03,840 --> 00:03:08,920
+those frequencies that pop up are
+
+66
+00:03:06,080 --> 00:03:11,159
+prolonged to make a particular pitch
+
+67
+00:03:08,920 --> 00:03:12,680
+because even while I'm speaking there
+
+68
+00:03:11,159 --> 00:03:14,200
+are particular frequencies that are
+
+69
+00:03:12,680 --> 00:03:19,640
+popping up but they don't necessarily
+
+70
+00:03:14,200 --> 00:03:21,959
+make pitches the attack on a flute isn't
+
+71
+00:03:19,640 --> 00:03:24,440
+necessarily the pitch that we want so
+
+72
+00:03:21,959 --> 00:03:26,560
+which ones are connected for this then
+
+73
+00:03:24,440 --> 00:03:29,519
+once we have these particular frequency
+
+74
+00:03:26,560 --> 00:03:33,599
+pitch connections we want to move from
+
+75
+00:03:29,519 --> 00:03:36,599
+there two pitch notes as we saw with the
+
+76
+00:03:33,599 --> 00:03:38,879
+piano example there were two frequencies
+
+77
+00:03:36,599 --> 00:03:41,720
+there does that mean two pitches or is
+
+78
+00:03:38,879 --> 00:03:43,680
+one of them a reverberation in the room
+
+79
+00:03:41,720 --> 00:03:46,400
+or if you're listening to another
+
+80
+00:03:43,680 --> 00:03:49,159
+instrument maybe you hear seven pitches
+
+81
+00:03:46,400 --> 00:03:51,000
+six of them are higher and much quieter
+
+82
+00:03:49,159 --> 00:03:53,560
+and you might think oh that's the
+
+83
+00:03:51,000 --> 00:03:56,079
+overtone series of that instrument and
+
+84
+00:03:53,560 --> 00:04:00,000
+so going from Pitch connections to pitch
+
+85
+00:03:56,079 --> 00:04:01,799
+notes involves the estimation of tomber
+
+86
+00:04:00,000 --> 00:04:04,200
+what is the tomber of the instrument
+
+87
+00:04:01,799 --> 00:04:06,560
+what is the overtone series that one
+
+88
+00:04:04,200 --> 00:04:08,599
+expects and who we remove them and from
+
+89
+00:04:06,560 --> 00:04:11,280
+there do we end up still with multiple
+
+90
+00:04:08,599 --> 00:04:14,560
+pitches in
+
+91
+00:04:11,280 --> 00:04:16,720
+accord now that we know the musical
+
+92
+00:04:14,560 --> 00:04:20,199
+pitches that we're interested in we want
+
+93
+00:04:16,720 --> 00:04:23,000
+to go from there to understanding the
+
+94
+00:04:20,199 --> 00:04:26,280
+duration of these pitches and the tempo
+
+95
+00:04:23,000 --> 00:04:28,960
+of the piece and so there are particular
+
+96
+00:04:26,280 --> 00:04:30,440
+algorithms that we can use to estimate
+
+97
+00:04:28,960 --> 00:04:32,039
+the duration that means
+
+98
+00:04:30,440 --> 00:04:33,639
+one thing is you know you just
+
+99
+00:04:32,039 --> 00:04:35,080
+milliseconds and things and then say
+
+100
+00:04:33,639 --> 00:04:36,880
+okay well that's going to be the most
+
+101
+00:04:35,080 --> 00:04:39,919
+common note we'll call it a quarter note
+
+102
+00:04:36,880 --> 00:04:41,080
+and so on and from there we can estimate
+
+103
+00:04:39,919 --> 00:04:44,520
+the
+
+104
+00:04:41,080 --> 00:04:48,000
+tempo or we can do it in the other way
+
+105
+00:04:44,520 --> 00:04:51,280
+we can take all these pitches and try to
+
+106
+00:04:48,000 --> 00:04:54,520
+estimate a Tempo based on what are the
+
+107
+00:04:51,280 --> 00:04:57,080
+recurring onsets that seem to be beats
+
+108
+00:04:54,520 --> 00:04:59,919
+and from there go and figure out the
+
+109
+00:04:57,080 --> 00:05:02,120
+duration quarter note half note uh three
+
+110
+00:04:59,919 --> 00:05:06,720
+beats long something like that for each
+
+111
+00:05:02,120 --> 00:05:10,400
+of the notes so which direction do Mir
+
+112
+00:05:06,720 --> 00:05:12,280
+people go um it turns out that we
+
+113
+00:05:10,400 --> 00:05:14,440
+usually create a sort of feedback loop
+
+114
+00:05:12,280 --> 00:05:17,960
+so we try to do both at once and
+
+115
+00:05:14,440 --> 00:05:20,000
+estimations of tempo lead to durations
+
+116
+00:05:17,960 --> 00:05:21,960
+uh which then can be rejected or
+
+117
+00:05:20,000 --> 00:05:24,680
+accepted and estimations of duration
+
+118
+00:05:21,960 --> 00:05:27,400
+lead to estimations of
+
+119
+00:05:24,680 --> 00:05:29,360
+tempo and so the Technologies involved
+
+120
+00:05:27,400 --> 00:05:31,600
+are beat tracking and self-similarity
+
+121
+00:05:29,360 --> 00:05:35,240
+Det ction and
+
+122
+00:05:31,600 --> 00:05:39,520
+others from the pitches the duration and
+
+123
+00:05:35,240 --> 00:05:42,639
+the tempo we can create what we call the
+
+124
+00:05:39,520 --> 00:05:47,199
+the full notes or just the notes that is
+
+125
+00:05:42,639 --> 00:05:47,199
+something um Pitch and duration
+
+126
+00:05:47,319 --> 00:05:53,120
+combined from all these full notes we
+
+127
+00:05:50,000 --> 00:05:55,880
+can construct what we call a virtual
+
+128
+00:05:53,120 --> 00:05:58,919
+score and that is the score as
+
+129
+00:05:55,880 --> 00:06:02,600
+represented purely as collections of
+
+130
+00:05:58,919 --> 00:06:04,919
+notes and other events uh we might be
+
+131
+00:06:02,600 --> 00:06:06,599
+estimating at this point crescendos and
+
+132
+00:06:04,919 --> 00:06:08,160
+de crescendos and maybe we're hearing
+
+133
+00:06:06,599 --> 00:06:11,319
+certain notes are slurred and we're
+
+134
+00:06:08,160 --> 00:06:14,080
+keeping these all as objects inside
+
+135
+00:06:11,319 --> 00:06:16,280
+memory and so this involves the
+
+136
+00:06:14,080 --> 00:06:18,039
+technology of Music representation which
+
+137
+00:06:16,280 --> 00:06:20,720
+we will be getting to very soon in this
+
+138
+00:06:18,039 --> 00:06:23,039
+class and so how might we represent a
+
+139
+00:06:20,720 --> 00:06:26,160
+score maybe as a set of parts with
+
+140
+00:06:23,039 --> 00:06:26,160
+measures and notes in
+
+141
+00:06:27,000 --> 00:06:32,919
+between from the virtual score
+
+142
+00:06:30,479 --> 00:06:34,840
+we need to figure out okay how is this
+
+143
+00:06:32,919 --> 00:06:38,440
+going to look on the page or on the
+
+144
+00:06:34,840 --> 00:06:40,759
+screen and so we perform layout
+
+145
+00:06:38,440 --> 00:06:43,840
+estimation and we create a laid out
+
+146
+00:06:40,759 --> 00:06:46,000
+score where it's not just notes inside
+
+147
+00:06:43,840 --> 00:06:50,960
+of a array or a list or something like
+
+148
+00:06:46,000 --> 00:06:52,639
+that but actual positions on a page and
+
+149
+00:06:50,960 --> 00:06:54,280
+this involves some technologies that
+
+150
+00:06:52,639 --> 00:06:57,440
+we'll be getting to in the class here's
+
+151
+00:06:54,280 --> 00:07:00,440
+an example of very poor layout
+
+152
+00:06:57,440 --> 00:07:00,440
+estimation
+
+153
+00:07:02,000 --> 00:07:07,919
+from the laid out score we choose what
+
+154
+00:07:05,319 --> 00:07:10,120
+the glyphs that would be appropriate are
+
+155
+00:07:07,919 --> 00:07:13,160
+and where are they going to be placed on
+
+156
+00:07:10,120 --> 00:07:16,400
+the page example of some of the things
+
+157
+00:07:13,160 --> 00:07:19,039
+that might be involved in doing
+
+158
+00:07:16,400 --> 00:07:21,280
+that and then once we have the laid out
+
+159
+00:07:19,039 --> 00:07:25,000
+score the glyph selection and placement
+
+160
+00:07:21,280 --> 00:07:27,720
+we move to pixel rendering individual
+
+161
+00:07:25,000 --> 00:07:30,919
+dots no longer connected to any semantic
+
+162
+00:07:27,720 --> 00:07:33,160
+meaning but just is this XY coordinate
+
+163
+00:07:30,919 --> 00:07:36,080
+going to be black white or something
+
+164
+00:07:33,160 --> 00:07:39,680
+between or something
+
+165
+00:07:36,080 --> 00:07:41,919
+else and from there we have particular
+
+166
+00:07:39,680 --> 00:07:44,120
+technologies that we're going to need um
+
+167
+00:07:41,919 --> 00:07:47,000
+such as screen drawing you know old
+
+168
+00:07:44,120 --> 00:07:49,280
+school cath array tubes LED display
+
+169
+00:07:47,000 --> 00:07:51,840
+things like that or how to actually make
+
+170
+00:07:49,280 --> 00:07:53,800
+a printer distribute ink on a page and
+
+171
+00:07:51,840 --> 00:07:55,479
+these again are engineering problems
+
+172
+00:07:53,800 --> 00:07:58,879
+that are beyond the scope of this class
+
+173
+00:07:55,479 --> 00:08:01,440
+but still very very important so let's
+
+174
+00:07:58,879 --> 00:08:03,599
+look again a summary of what we have
+
+175
+00:08:01,440 --> 00:08:06,639
+here we move from the time domain to
+
+176
+00:08:03,599 --> 00:08:08,280
+frequency frequency to pitch connections
+
+177
+00:08:06,639 --> 00:08:11,080
+we estimate the duration in the tempo
+
+178
+00:08:08,280 --> 00:08:13,720
+creating full notes create a virtual
+
+179
+00:08:11,080 --> 00:08:16,199
+score or logical score some people
+
+180
+00:08:13,720 --> 00:08:19,039
+separate these two out um then we try to
+
+181
+00:08:16,199 --> 00:08:23,919
+make the layout and to the
+
+182
+00:08:19,039 --> 00:08:27,599
+output at each of these points in the
+
+183
+00:08:23,919 --> 00:08:30,520
+process we can involve music theory or
+
+184
+00:08:27,599 --> 00:08:33,200
+musicology and we can learn
+
+185
+00:08:30,520 --> 00:08:35,440
+aspects about music theory or musicology
+
+186
+00:08:33,200 --> 00:08:39,240
+from the data that we're getting at this
+
+187
+00:08:35,440 --> 00:08:40,880
+point so for instance the duration Tempo
+
+188
+00:08:39,240 --> 00:08:42,440
+uh level we can start to ask well what
+
+189
+00:08:40,880 --> 00:08:45,120
+are the most commonly used rhythms in
+
+190
+00:08:42,440 --> 00:08:47,399
+this piece and from there hey let's
+
+191
+00:08:45,120 --> 00:08:49,959
+create a backing drum track to accompany
+
+192
+00:08:47,399 --> 00:08:51,839
+The Soloist because we we figured out
+
+193
+00:08:49,959 --> 00:08:54,080
+you know what kinds of durations what
+
+194
+00:08:51,839 --> 00:08:56,160
+kinds of rhythms connected this with a
+
+195
+00:08:54,080 --> 00:09:01,160
+database so
+
+196
+00:08:56,160 --> 00:09:03,920
+on or at the frequency to pitch
+
+197
+00:09:01,160 --> 00:09:05,240
+connections level we can we can Now
+
+198
+00:09:03,920 --> 00:09:06,959
+understand based on which overtones were
+
+199
+00:09:05,240 --> 00:09:09,560
+removed what instruments were being used
+
+200
+00:09:06,959 --> 00:09:11,440
+are they playing their natural ranges
+
+201
+00:09:09,560 --> 00:09:14,279
+and from there we can you know might
+
+202
+00:09:11,440 --> 00:09:16,000
+estimate the year of this recording uh
+
+203
+00:09:14,279 --> 00:09:18,440
+based on particular sounds and sound
+
+204
+00:09:16,000 --> 00:09:21,120
+artifacts or the year of the piece based
+
+205
+00:09:18,440 --> 00:09:24,480
+on instruments that are used and so
+
+206
+00:09:21,120 --> 00:09:27,640
+on so these are places where music
+
+207
+00:09:24,480 --> 00:09:30,279
+theory and musicology can get data from
+
+208
+00:09:27,640 --> 00:09:32,519
+this Mir process
+
+209
+00:09:30,279 --> 00:09:34,640
+but there's another side that's uh been
+
+210
+00:09:32,519 --> 00:09:37,079
+much less talked about and it's a place
+
+211
+00:09:34,640 --> 00:09:38,839
+of great potential that I think people
+
+212
+00:09:37,079 --> 00:09:41,440
+in this class will be able to contribute
+
+213
+00:09:38,839 --> 00:09:45,519
+to and that is going from music theory
+
+214
+00:09:41,440 --> 00:09:47,720
+or musicology back and um using things
+
+215
+00:09:45,519 --> 00:09:51,720
+that we know about Theory or history of
+
+216
+00:09:47,720 --> 00:09:53,760
+music or music studies to enhance the
+
+217
+00:09:51,720 --> 00:09:56,320
+quality of the algorithms being used in
+
+218
+00:09:53,760 --> 00:09:59,640
+these places for instance at the pitch
+
+219
+00:09:56,320 --> 00:10:01,000
+connection level um we can say well
+
+220
+00:09:59,640 --> 00:10:02,959
+let's look at the metadata and it
+
+221
+00:10:01,000 --> 00:10:05,279
+suggests that this is a piece by Mozart
+
+222
+00:10:02,959 --> 00:10:09,480
+he died in 1791 so so let's look at
+
+223
+00:10:05,279 --> 00:10:11,880
+those instruments um now the frequency
+
+224
+00:10:09,480 --> 00:10:13,920
+uh overtone estimation was saying okay
+
+225
+00:10:11,880 --> 00:10:16,800
+the most likely instrument is electric
+
+226
+00:10:13,920 --> 00:10:18,760
+guitar uh this is very likely wrong I
+
+227
+00:10:16,800 --> 00:10:21,480
+mean I don't know maybe it's a a modern
+
+228
+00:10:18,760 --> 00:10:23,279
+Arrangement but it's pretty likely wrong
+
+229
+00:10:21,480 --> 00:10:26,680
+why don't you try this overtone profile
+
+230
+00:10:23,279 --> 00:10:28,079
+of a forte piano a early piano said and
+
+231
+00:10:26,680 --> 00:10:31,839
+wow you find out okay that was the
+
+232
+00:10:28,079 --> 00:10:33,360
+second best uh score but probably the
+
+233
+00:10:31,839 --> 00:10:36,399
+best one When taking into account the
+
+234
+00:10:33,360 --> 00:10:36,399
+metadata on the
+
+235
+00:10:36,920 --> 00:10:42,680
+piece or we can um use music theory and
+
+236
+00:10:40,600 --> 00:10:44,639
+musicology at the frequency detection
+
+237
+00:10:42,680 --> 00:10:46,320
+level so we might say hey all of the
+
+238
+00:10:44,639 --> 00:10:48,399
+notes you've been detecting around this
+
+239
+00:10:46,320 --> 00:10:51,959
+note have been an E major and then you
+
+240
+00:10:48,399 --> 00:10:54,399
+hear an a sharp and H that's seems a
+
+241
+00:10:51,959 --> 00:10:56,519
+little frequent a little fishy oh hey
+
+242
+00:10:54,399 --> 00:11:00,560
+there's a runnerup note of a natural
+
+243
+00:10:56,519 --> 00:11:02,279
+that was 95% as like
+
+244
+00:11:00,560 --> 00:11:06,000
+from music theory
+
+245
+00:11:02,279 --> 00:11:07,959
+standpoint I think that more likely um
+
+246
+00:11:06,000 --> 00:11:09,360
+we've detected the wrong note so these
+
+247
+00:11:07,959 --> 00:11:12,920
+are ways that music theory and
+
+248
+00:11:09,360 --> 00:11:16,720
+musicology can enhance this
+
+249
+00:11:12,920 --> 00:11:19,560
+process most exciting at all though is
+
+250
+00:11:16,720 --> 00:11:21,440
+when parts of the process feed into
+
+251
+00:11:19,560 --> 00:11:24,120
+music theory and musicology algorithms
+
+252
+00:11:21,440 --> 00:11:26,600
+and we get and and are enhanced by it so
+
+253
+00:11:24,120 --> 00:11:29,519
+we say oh hey given these frequencies
+
+254
+00:11:26,600 --> 00:11:31,440
+pitches durations and we get a style of
+
+255
+00:11:29,519 --> 00:11:33,399
+the piece and we suggest that it's from
+
+256
+00:11:31,440 --> 00:11:38,079
+the swing
+
+257
+00:11:33,399 --> 00:11:41,639
+era and then we can help later parts of
+
+258
+00:11:38,079 --> 00:11:43,240
+the process by saying you know if the
+
+259
+00:11:41,639 --> 00:11:44,839
+style of the piece is from the swing era
+
+260
+00:11:43,240 --> 00:11:47,240
+when you do your virtual score your
+
+261
+00:11:44,839 --> 00:11:50,920
+logical score probably all those
+
+262
+00:11:47,240 --> 00:11:53,600
+triplets those yum bu bum bum should be
+
+263
+00:11:50,920 --> 00:11:56,760
+written down and represented as a that's
+
+264
+00:11:53,600 --> 00:11:56,760
+what the conceptually they
+
+265
+00:11:56,880 --> 00:12:03,519
+are but we can not just move forward we
+
+266
+00:12:00,600 --> 00:12:05,920
+can at the virtual score level maybe um
+
+267
+00:12:03,519 --> 00:12:07,040
+it's beginning to lay out the score and
+
+268
+00:12:05,920 --> 00:12:10,320
+you know they're putting everything
+
+269
+00:12:07,040 --> 00:12:12,639
+nicely into 34 and the musicology or
+
+270
+00:12:10,320 --> 00:12:16,600
+music theory algorithm says well these
+
+271
+00:12:12,639 --> 00:12:20,279
+rhythms are highly unusual for 34 time
+
+272
+00:12:16,600 --> 00:12:22,600
+um let's go back and rerun some of the
+
+273
+00:12:20,279 --> 00:12:25,199
+previous steps with that notion that
+
+274
+00:12:22,600 --> 00:12:26,720
+that was highly uh improbable and try to
+
+275
+00:12:25,199 --> 00:12:29,560
+make the score again so we can move
+
+276
+00:12:26,720 --> 00:12:34,040
+backwards in time redo a particular part
+
+277
+00:12:29,560 --> 00:12:36,360
+of the process rerun it and then maybe
+
+278
+00:12:34,040 --> 00:12:37,760
+come up with a different result ah we'll
+
+279
+00:12:36,360 --> 00:12:39,959
+put this in
+
+280
+00:12:37,760 --> 00:12:42,199
+68 so here are some of the ways that
+
+281
+00:12:39,959 --> 00:12:46,760
+music theory and musicology can feed
+
+282
+00:12:42,199 --> 00:12:49,519
+back into the Mir sound to score
+
+283
+00:12:46,760 --> 00:12:52,440
+process next time sometime soon I hope
+
+284
+00:12:49,519 --> 00:12:54,920
+to say how we can do go the opposite
+
+285
+00:12:52,440 --> 00:12:57,600
+direction how we can take a score and
+
+286
+00:12:54,920 --> 00:12:58,920
+automatically perform it and even though
+
+287
+00:12:57,600 --> 00:12:59,680
+we're going to be going in the opposite
+
+288
+00:12:58,920 --> 00:13:01,120
+direction
+
+289
+00:12:59,680 --> 00:13:02,560
+turns out that there's a totally
+
+290
+00:13:01,120 --> 00:13:05,760
+different set of problems that we have
+
+291
+00:13:02,560 --> 00:13:05,760
+to solve
+

@@ -1,0 +1,1592 @@
+1
+00:00:05,120 --> 00:00:10,759
+Next we have Michelle Lee from the
+
+2
+00:00:07,040 --> 00:00:13,519
+Zitnik lab at Harvard Medical
+
+3
+00:00:10,759 --> 00:00:15,519
+School. All right. Hello everyone. My
+
+4
+00:00:13,519 --> 00:00:16,800
+name is Michelle Lee and I'm a Burkowitz
+
+5
+00:00:15,519 --> 00:00:19,119
+post-docctoral research fellow at
+
+6
+00:00:16,800 --> 00:00:21,279
+Harvard Medical School. Thank you to the
+
+7
+00:00:19,119 --> 00:00:22,640
+organizers for this exciting opportunity
+
+8
+00:00:21,279 --> 00:00:24,080
+to share my work with you on
+
+9
+00:00:22,640 --> 00:00:26,320
+controllable sequence editing for
+
+10
+00:00:24,080 --> 00:00:28,000
+counterfactual generation. uh the
+
+11
+00:00:26,320 --> 00:00:31,840
+previous uh two professors gave
+
+12
+00:00:28,000 --> 00:00:34,399
+excellent uh primers into why how what
+
+13
+00:00:31,840 --> 00:00:37,200
+the space is that this work fits in. So
+
+14
+00:00:34,399 --> 00:00:39,600
+I will just jump right in. So let's
+
+15
+00:00:37,200 --> 00:00:42,320
+start with an analogy. So finish this
+
+16
+00:00:39,600 --> 00:00:44,079
+melody given only this single note. Now
+
+17
+00:00:42,320 --> 00:00:45,840
+you may say that this is an impossible
+
+18
+00:00:44,079 --> 00:00:47,640
+task because there are many
+
+19
+00:00:45,840 --> 00:00:50,079
+possibilities for what note can come
+
+20
+00:00:47,640 --> 00:00:52,719
+next. So what if I give you a few more
+
+21
+00:00:50,079 --> 00:00:55,039
+notes? Based on these four notes, can
+
+22
+00:00:52,719 --> 00:00:57,280
+you pick which note will come next?
+
+23
+00:00:55,039 --> 00:00:59,680
+Maybe picking the exact note is still
+
+24
+00:00:57,280 --> 00:01:01,920
+hard, but at least we can say based on
+
+25
+00:00:59,680 --> 00:01:04,799
+the pattern, the next note is probably
+
+26
+00:01:01,920 --> 00:01:07,520
+higher. Now, what pattern do we use to
+
+27
+00:01:04,799 --> 00:01:10,479
+deduce this? We looked at the trajectory
+
+28
+00:01:07,520 --> 00:01:12,640
+of the previous notes. First, there's no
+
+29
+00:01:10,479 --> 00:01:14,799
+change in the note. Next, the note goes
+
+30
+00:01:12,640 --> 00:01:16,640
+up. Then, there's no change again. So,
+
+31
+00:01:14,799 --> 00:01:19,920
+the best guess for the next note is
+
+32
+00:01:16,640 --> 00:01:22,479
+probably to go up. Indeed, that is true.
+
+33
+00:01:19,920 --> 00:01:24,320
+And here's the rest of the pattern. Now,
+
+34
+00:01:22,479 --> 00:01:25,759
+if you know how to read sheet music, you
+
+35
+00:01:24,320 --> 00:01:28,159
+may recognize this as the first few
+
+36
+00:01:25,759 --> 00:01:30,080
+notes of Twinkle, Twinkle, Little Star.
+
+37
+00:01:28,159 --> 00:01:31,880
+And continuing this music analogy,
+
+38
+00:01:30,080 --> 00:01:34,720
+what's the difference between these two
+
+39
+00:01:31,880 --> 00:01:36,799
+melodies? These notes look exactly the
+
+40
+00:01:34,720 --> 00:01:39,119
+same, but actually their identity
+
+41
+00:01:36,799 --> 00:01:40,960
+depends on context. As in, it's
+
+42
+00:01:39,119 --> 00:01:42,640
+important to recognize whether we are
+
+43
+00:01:40,960 --> 00:01:45,040
+interpreting the notes in the context of
+
+44
+00:01:42,640 --> 00:01:47,360
+the treble cleft at the top or the bass
+
+45
+00:01:45,040 --> 00:01:49,119
+cleft at the bottom. And not only are
+
+46
+00:01:47,360 --> 00:01:52,159
+the identities of these notes context
+
+47
+00:01:49,119 --> 00:01:54,720
+dependent, but so is the mood. Despite
+
+48
+00:01:52,159 --> 00:01:57,680
+the trajectories of these notes being
+
+49
+00:01:54,720 --> 00:01:59,280
+exactly the same, the top melody is a
+
+50
+00:01:57,680 --> 00:02:01,439
+very happy Twinkle, Twinkle, Little
+
+51
+00:01:59,280 --> 00:02:02,600
+Star, whereas the bottom melody sounds
+
+52
+00:02:01,439 --> 00:02:05,040
+kind of
+
+53
+00:02:02,600 --> 00:02:07,280
+creepy. Now, leveraging the trajectory
+
+54
+00:02:05,040 --> 00:02:09,520
+is not only helpful for inferring the
+
+55
+00:02:07,280 --> 00:02:11,599
+next note in the musical sequence, but
+
+56
+00:02:09,520 --> 00:02:14,879
+also the next state in the sequence of
+
+57
+00:02:11,599 --> 00:02:17,440
+cellular or patient profiles. Moreover,
+
+58
+00:02:14,879 --> 00:02:19,680
+the context such as the medication that
+
+59
+00:02:17,440 --> 00:02:21,760
+is prescribed at a specific time can
+
+60
+00:02:19,680 --> 00:02:22,680
+affect the future trajectory of the cell
+
+61
+00:02:21,760 --> 00:02:25,760
+or
+
+62
+00:02:22,680 --> 00:02:27,599
+patient. And so we introduced KFF, a
+
+63
+00:02:25,760 --> 00:02:29,360
+controllable sequence editing model that
+
+64
+00:02:27,599 --> 00:02:32,160
+can generate trajectories under any
+
+65
+00:02:29,360 --> 00:02:34,720
+given condition or context at any
+
+66
+00:02:32,160 --> 00:02:36,480
+specific time point. An example of a
+
+67
+00:02:34,720 --> 00:02:38,560
+condition is a certain medication that a
+
+68
+00:02:36,480 --> 00:02:40,400
+clinician prescribes.
+
+69
+00:02:38,560 --> 00:02:42,400
+Beyond conditional generation, we
+
+70
+00:02:40,400 --> 00:02:44,959
+hypothesize that cleft can be leveraged
+
+71
+00:02:42,400 --> 00:02:47,519
+for counterfactual reasoning about both
+
+72
+00:02:44,959 --> 00:02:49,280
+immediate and delayed effects. Suppose
+
+73
+00:02:47,519 --> 00:02:51,920
+we want to understand a patient's health
+
+74
+00:02:49,280 --> 00:02:53,599
+journey as a result of certain edits.
+
+75
+00:02:51,920 --> 00:02:55,599
+For example, what would the patients
+
+76
+00:02:53,599 --> 00:02:58,080
+trajectory look like if we gave the
+
+77
+00:02:55,599 --> 00:03:00,080
+purple medication in two hours?
+
+78
+00:02:58,080 --> 00:03:02,640
+Controllable sequence editing in
+
+79
+00:03:00,080 --> 00:03:04,400
+contrast to sequence editing requires
+
+80
+00:03:02,640 --> 00:03:06,720
+that none of the patients historical
+
+81
+00:03:04,400 --> 00:03:08,159
+data should change and that the model
+
+82
+00:03:06,720 --> 00:03:11,920
+should be able to make the edits
+
+83
+00:03:08,159 --> 00:03:14,400
+precisely at 2 hours. So our conditional
+
+84
+00:03:11,920 --> 00:03:17,760
+generation model KFFT learned temporal
+
+85
+00:03:14,400 --> 00:03:20,239
+concepts based on trajectories to encode
+
+86
+00:03:17,760 --> 00:03:23,280
+how and when certain conditions such as
+
+87
+00:03:20,239 --> 00:03:25,120
+medications should influence a sequence.
+
+88
+00:03:23,280 --> 00:03:27,360
+With these temporal concepts that
+
+89
+00:03:25,120 --> 00:03:29,680
+represent trajectories, KFFT is able to
+
+90
+00:03:27,360 --> 00:03:31,680
+selectively edit relevant time steps
+
+91
+00:03:29,680 --> 00:03:32,599
+while preserving unaffected portions of
+
+92
+00:03:31,680 --> 00:03:34,799
+the
+
+93
+00:03:32,599 --> 00:03:37,120
+sequence. So let's dive a little bit
+
+94
+00:03:34,799 --> 00:03:39,599
+deeper into KFFT's model architecture.
+
+95
+00:03:37,120 --> 00:03:41,840
+So KFTF manipulates sequences based on
+
+96
+00:03:39,599 --> 00:03:44,799
+user specified conditions and temporal
+
+97
+00:03:41,840 --> 00:03:46,959
+coordinates. So given a sequence, a
+
+98
+00:03:44,799 --> 00:03:50,080
+forecast time step and a condition
+
+99
+00:03:46,959 --> 00:03:51,920
+token, KFFT modifies only the relevant
+
+100
+00:03:50,080 --> 00:03:54,159
+portions of the sequence while
+
+101
+00:03:51,920 --> 00:03:56,080
+preserving unaffected elements. For
+
+102
+00:03:54,159 --> 00:03:58,879
+example, based on a patient's historical
+
+103
+00:03:56,080 --> 00:04:00,720
+lab test results, KLF generates a future
+
+104
+00:03:58,879 --> 00:04:03,040
+lab test trajectory conditioned on a
+
+105
+00:04:00,720 --> 00:04:06,000
+given treatment. Now there are two
+
+106
+00:04:03,040 --> 00:04:07,920
+possible tasks enabled by KLF. Immediate
+
+107
+00:04:06,000 --> 00:04:10,159
+sequence editing and delayed sequence
+
+108
+00:04:07,920 --> 00:04:12,239
+editing. Immediate sequence editing
+
+109
+00:04:10,159 --> 00:04:13,720
+entails predicting the immediate next
+
+110
+00:04:12,239 --> 00:04:16,639
+time point like
+
+111
+00:04:13,720 --> 00:04:18,720
+t+1. Delayed sequence editing entails
+
+112
+00:04:16,639 --> 00:04:22,160
+predicting a time step far into the
+
+113
+00:04:18,720 --> 00:04:24,720
+future like skipping directly to t+1 uh
+
+114
+00:04:22,160 --> 00:04:27,880
+t + 10 instead of auto reggressively
+
+115
+00:04:24,720 --> 00:04:30,919
+imputing the intermediate nine time
+
+116
+00:04:27,880 --> 00:04:33,680
+steps. Architecturally, KF has four key
+
+117
+00:04:30,919 --> 00:04:35,280
+components. A sequence encoder f that
+
+118
+00:04:33,680 --> 00:04:37,759
+extracts temporal features from
+
+119
+00:04:35,280 --> 00:04:41,160
+historical sequence data. a condition
+
+120
+00:04:37,759 --> 00:04:43,919
+adapter H that maps conditions to latent
+
+121
+00:04:41,160 --> 00:04:45,759
+representations, a concept encoder E
+
+122
+00:04:43,919 --> 00:04:47,600
+that learns temporal concepts
+
+123
+00:04:45,759 --> 00:04:50,720
+representing trajectory patterns over
+
+124
+00:04:47,600 --> 00:04:52,960
+time, and a concept decoder G that
+
+125
+00:04:50,720 --> 00:04:54,040
+applies these concepts to generate the
+
+126
+00:04:52,960 --> 00:04:56,160
+subsequent
+
+127
+00:04:54,040 --> 00:04:58,080
+trajectory. The inputs of the sequence
+
+128
+00:04:56,160 --> 00:05:00,800
+encoder is the historical data of the
+
+129
+00:04:58,080 --> 00:05:02,639
+cell or patient and the forecast time.
+
+130
+00:05:00,800 --> 00:05:04,160
+And the output of the sequence encoder
+
+131
+00:05:02,639 --> 00:05:06,280
+is a hidden representation of the
+
+132
+00:05:04,160 --> 00:05:08,560
+sequence data and a time delta
+
+133
+00:05:06,280 --> 00:05:11,199
+embedding. Note that the sequence
+
+134
+00:05:08,560 --> 00:05:14,400
+encoder can be of any type such as a
+
+135
+00:05:11,199 --> 00:05:16,479
+transformer architecture, XLXTM and uh
+
+136
+00:05:14,400 --> 00:05:19,280
+architecture or even a pre-trained time
+
+137
+00:05:16,479 --> 00:05:21,120
+series foundation model. The input to
+
+138
+00:05:19,280 --> 00:05:22,639
+the condition adapter is the condition
+
+139
+00:05:21,120 --> 00:05:24,720
+token from a frozen pre-trained
+
+140
+00:05:22,639 --> 00:05:26,000
+embedding model. And these embeddings
+
+141
+00:05:24,720 --> 00:05:27,840
+are passed through the adapter to
+
+142
+00:05:26,000 --> 00:05:30,960
+project it into a shared embedding space
+
+143
+00:05:27,840 --> 00:05:33,039
+with the temporal data. To account for
+
+144
+00:05:30,960 --> 00:05:36,560
+changes in a cell or a patient due to
+
+145
+00:05:33,039 --> 00:05:38,560
+both time and condition, the time delta,
+
+146
+00:05:36,560 --> 00:05:41,280
+the time delta and condition embeddings
+
+147
+00:05:38,560 --> 00:05:43,039
+are aggregated via an elementwise
+
+148
+00:05:41,280 --> 00:05:44,680
+summation and this new condition
+
+149
+00:05:43,039 --> 00:05:47,360
+embedding is aggregated with the
+
+150
+00:05:44,680 --> 00:05:49,360
+historical sequence embedding and the
+
+151
+00:05:47,360 --> 00:05:52,320
+result may optionally be projected
+
+152
+00:05:49,360 --> 00:05:53,600
+through a FIFO neuronet network. A gill
+
+153
+00:05:52,320 --> 00:05:55,759
+activation is then applied to
+
+154
+00:05:53,600 --> 00:05:57,520
+approximate rates of change. And these
+
+155
+00:05:55,759 --> 00:05:59,360
+rates of change which take values
+
+156
+00:05:57,520 --> 00:06:01,039
+greater than or equal to zero are the
+
+157
+00:05:59,360 --> 00:06:03,600
+temporal concepts representing the
+
+158
+00:06:01,039 --> 00:06:06,319
+trajectories of a cell or a patient. And
+
+159
+00:06:03,600 --> 00:06:09,120
+finally the sequence at the forecast uh
+
+160
+00:06:06,319 --> 00:06:11,120
+time point is predicted via element wise
+
+161
+00:06:09,120 --> 00:06:13,440
+multiplication with the rates of change
+
+162
+00:06:11,120 --> 00:06:15,520
+or temporal concepts and the latest time
+
+163
+00:06:13,440 --> 00:06:17,360
+point in the input sequence. And the
+
+164
+00:06:15,520 --> 00:06:19,960
+objective function here is hooper loss
+
+165
+00:06:17,360 --> 00:06:22,759
+on the predicted and ground truth
+
+166
+00:06:19,960 --> 00:06:25,280
+trajectories. KFF has two key
+
+167
+00:06:22,759 --> 00:06:27,199
+capabilities. Forecasting sequences at
+
+168
+00:06:25,280 --> 00:06:29,600
+any time in the future and under any
+
+169
+00:06:27,199 --> 00:06:31,759
+condition and generating sequences by
+
+170
+00:06:29,600 --> 00:06:35,039
+intervening on KFTF's learned temporal
+
+171
+00:06:31,759 --> 00:06:36,720
+concepts at any uh specific time point.
+
+172
+00:06:35,039 --> 00:06:38,880
+And we hypothesize that these
+
+173
+00:06:36,720 --> 00:06:40,400
+capabilities allow us to examine the
+
+174
+00:06:38,880 --> 00:06:44,960
+trajectories under alternative
+
+175
+00:06:40,400 --> 00:06:47,120
+conditions and timings of conditions.
+
+176
+00:06:44,960 --> 00:06:48,960
+We evaluate cleft on two real world
+
+177
+00:06:47,120 --> 00:06:51,199
+domains. Cellular development and
+
+178
+00:06:48,960 --> 00:06:53,440
+patient health. To study cellular
+
+179
+00:06:51,199 --> 00:06:54,880
+development, fibroblast cells derived
+
+180
+00:06:53,440 --> 00:06:56,880
+from mice can be artificially
+
+181
+00:06:54,880 --> 00:06:59,840
+reprogrammed into various other cell
+
+182
+00:06:56,880 --> 00:07:02,639
+states in vitro. A cell state is defined
+
+183
+00:06:59,840 --> 00:07:04,880
+by its gene expression. Throughout
+
+184
+00:07:02,639 --> 00:07:07,039
+reprogramming, a cell activates uh
+
+185
+00:07:04,880 --> 00:07:08,400
+transcription factor genes at different
+
+186
+00:07:07,039 --> 00:07:10,400
+time points to change its gene
+
+187
+00:07:08,400 --> 00:07:12,880
+expression, which influences its
+
+188
+00:07:10,400 --> 00:07:14,960
+developmental trajectory. We construct
+
+189
+00:07:12,880 --> 00:07:17,080
+two data sets of cellular reprogramming
+
+190
+00:07:14,960 --> 00:07:21,680
+experiments using the Wington OT
+
+191
+00:07:17,080 --> 00:07:24,000
+algorithm. Note that WOTCF is a data set
+
+192
+00:07:21,680 --> 00:07:26,400
+of paired trajectories of original and
+
+193
+00:07:24,000 --> 00:07:29,280
+counterfactual trajectories. Between
+
+194
+00:07:26,400 --> 00:07:32,960
+these two WOT data sets, there are about
+
+195
+00:07:29,280 --> 00:07:35,919
+a total of 500 uh 5,000 trajectories
+
+196
+00:07:32,960 --> 00:07:39,039
+with 1,480 features of coariantss that
+
+197
+00:07:35,919 --> 00:07:40,560
+represent the expression of 1,400 genes.
+
+198
+00:07:39,039 --> 00:07:43,880
+And these trajectories have an average
+
+199
+00:07:40,560 --> 00:07:46,560
+length of about 27 and a max length of
+
+200
+00:07:43,880 --> 00:07:49,120
+37. The health of a patient is often
+
+201
+00:07:46,560 --> 00:07:51,120
+monitored through lab tests like uh
+
+202
+00:07:49,120 --> 00:07:54,000
+blood sodium level, white blood cell
+
+203
+00:07:51,120 --> 00:07:55,840
+count, etc. The history of lab results
+
+204
+00:07:54,000 --> 00:07:57,759
+across multiple patient visits as well
+
+205
+00:07:55,840 --> 00:08:00,080
+as candidate clinical in clinical
+
+206
+00:07:57,759 --> 00:08:01,919
+interventions like medications can be
+
+207
+00:08:00,080 --> 00:08:04,240
+used to infer the most likely future
+
+208
+00:08:01,919 --> 00:08:06,160
+trajectory of the patient's health. We
+
+209
+00:08:04,240 --> 00:08:08,879
+have two patient trajectories data sets
+
+210
+00:08:06,160 --> 00:08:12,039
+constructed from publicly available EICU
+
+211
+00:08:08,879 --> 00:08:15,039
+and mimic four databases. There are over
+
+212
+00:08:12,039 --> 00:08:17,199
+100,000 trajectories with either 17 or
+
+213
+00:08:15,039 --> 00:08:20,080
+16 features of covariants that represent
+
+214
+00:08:17,199 --> 00:08:21,840
+the values of 17 or 16 lab tests. And
+
+215
+00:08:20,080 --> 00:08:24,879
+these trajectories have average lengths
+
+216
+00:08:21,840 --> 00:08:27,599
+of 20 and 15 and max lengths of 858 and
+
+217
+00:08:24,879 --> 00:08:29,199
+949.
+
+218
+00:08:27,599 --> 00:08:31,360
+In our first set of experiments, we
+
+219
+00:08:29,199 --> 00:08:33,519
+evaluate KF's performance on conditional
+
+220
+00:08:31,360 --> 00:08:35,839
+generation of observed cellular and
+
+221
+00:08:33,519 --> 00:08:37,519
+patient trajectories. We compare against
+
+222
+00:08:35,839 --> 00:08:39,519
+several state-of-the-art approaches
+
+223
+00:08:37,519 --> 00:08:42,000
+including a traditional time series
+
+224
+00:08:39,519 --> 00:08:44,480
+algorithm V and a pre-trained time
+
+225
+00:08:42,000 --> 00:08:47,600
+series foundation model called moment.
+
+226
+00:08:44,480 --> 00:08:50,640
+Here the yaxis is mean absolute error.
+
+227
+00:08:47,600 --> 00:08:53,279
+So the lower error is better. Blue bars
+
+228
+00:08:50,640 --> 00:08:56,320
+represent KFT models and the gray bars
+
+229
+00:08:53,279 --> 00:08:58,080
+are baseline models. Remember that KFFTF
+
+230
+00:08:56,320 --> 00:09:00,240
+can leverage any type of sequence
+
+231
+00:08:58,080 --> 00:09:03,000
+encoder and so here we demonstrate the
+
+232
+00:09:00,240 --> 00:09:05,360
+performance of KFFT with a transformer
+
+233
+00:09:03,000 --> 00:09:07,760
+XLSTM and a pre-trained time series
+
+234
+00:09:05,360 --> 00:09:10,399
+foundation model as a sequence encoder.
+
+235
+00:09:07,760 --> 00:09:12,720
+Notably we find that KFTbased models
+
+236
+00:09:10,399 --> 00:09:15,279
+perform comparably or better than their
+
+237
+00:09:12,720 --> 00:09:16,880
+non-cliff counterparts. This suggests
+
+238
+00:09:15,279 --> 00:09:18,800
+that learning trajectories through
+
+239
+00:09:16,880 --> 00:09:22,160
+temporal concepts can improve
+
+240
+00:09:18,800 --> 00:09:24,320
+conditional generation capabilities.
+
+241
+00:09:22,160 --> 00:09:26,320
+We additionally construct a series of
+
+242
+00:09:24,320 --> 00:09:29,839
+increasingly challenging data splits for
+
+243
+00:09:26,320 --> 00:09:33,120
+the patient data sets EICU and mimic 4.
+
+244
+00:09:29,839 --> 00:09:35,839
+The Xaxis shows the similarity of the
+
+245
+00:09:33,120 --> 00:09:39,600
+train test split. So close to zero is
+
+246
+00:09:35,839 --> 00:09:43,600
+akin to a random split uh where um with
+
+247
+00:09:39,600 --> 00:09:46,320
+very high uh train test split similarity
+
+248
+00:09:43,600 --> 00:09:48,680
+and close to one is the most challenging
+
+249
+00:09:46,320 --> 00:09:51,600
+split with low train test split
+
+250
+00:09:48,680 --> 00:09:54,160
+similarity. And the y-axis again is the
+
+251
+00:09:51,600 --> 00:09:56,720
+mean absolute error. So as you can see
+
+252
+00:09:54,160 --> 00:09:59,120
+the cleft models in blue show much
+
+253
+00:09:56,720 --> 00:10:01,760
+better generalizability than non-cliff
+
+254
+00:09:59,120 --> 00:10:03,720
+models especially when there is low
+
+255
+00:10:01,760 --> 00:10:06,640
+train test split
+
+256
+00:10:03,720 --> 00:10:08,560
+similarity. Now beyond evaluating KFT's
+
+257
+00:10:06,640 --> 00:10:11,200
+performance on conditional generation of
+
+258
+00:10:08,560 --> 00:10:12,959
+observed sequences we interrogate KF's
+
+259
+00:10:11,200 --> 00:10:15,600
+ability to simulate trajectories to
+
+260
+00:10:12,959 --> 00:10:18,000
+answer whatif questions. So imagine if
+
+261
+00:10:15,600 --> 00:10:19,920
+we could test in silicone the effects of
+
+262
+00:10:18,000 --> 00:10:22,240
+a candidate intervention on the cell's
+
+263
+00:10:19,920 --> 00:10:24,160
+gene expression or patients routine
+
+264
+00:10:22,240 --> 00:10:26,560
+laboratory tests at a specific time
+
+265
+00:10:24,160 --> 00:10:28,720
+point. For example, what medication
+
+266
+00:10:26,560 --> 00:10:31,680
+should I prescribe? Should I prescribe
+
+267
+00:10:28,720 --> 00:10:33,839
+the medication now in one year in 10
+
+268
+00:10:31,680 --> 00:10:35,120
+years? In the interest of time, I won't
+
+269
+00:10:33,839 --> 00:10:37,120
+describe the causal inference
+
+270
+00:10:35,120 --> 00:10:38,959
+assumptions that we make. However, I
+
+271
+00:10:37,120 --> 00:10:41,160
+will empirically demonstrate KFF's
+
+272
+00:10:38,959 --> 00:10:43,839
+performance in counterfactual
+
+273
+00:10:41,160 --> 00:10:45,680
+generation. To benchmark KF's ability to
+
+274
+00:10:43,839 --> 00:10:48,079
+generate counterfactual trajectories, we
+
+275
+00:10:45,680 --> 00:10:50,160
+construct a solar trajectories data set
+
+276
+00:10:48,079 --> 00:10:52,640
+using the Wington OT algorithm that
+
+277
+00:10:50,160 --> 00:10:55,560
+consists of paired trajectories in which
+
+278
+00:10:52,640 --> 00:10:57,680
+one is the original and the other is the
+
+279
+00:10:55,560 --> 00:10:59,600
+counterfactual. Specifically, these
+
+280
+00:10:57,680 --> 00:11:02,320
+pairs of trajectories have the exact
+
+281
+00:10:59,600 --> 00:11:04,399
+same historical trajectory until a
+
+282
+00:11:02,320 --> 00:11:07,519
+certain time step when a counterfactual
+
+283
+00:11:04,399 --> 00:11:10,000
+action is done. Given this historical
+
+284
+00:11:07,519 --> 00:11:12,079
+sequence in this counterfactual action,
+
+285
+00:11:10,000 --> 00:11:15,440
+the remaining trajectory is simulated
+
+286
+00:11:12,079 --> 00:11:17,360
+using the Wington OT algorithm. So for
+
+287
+00:11:15,440 --> 00:11:20,079
+this experiment, we train the model only
+
+288
+00:11:17,360 --> 00:11:22,360
+on original trajectories and evaluate on
+
+289
+00:11:20,079 --> 00:11:25,440
+counterfactual trajectories in a zeroot
+
+290
+00:11:22,360 --> 00:11:27,440
+manner. On the x-axis is the number of
+
+291
+00:11:25,440 --> 00:11:30,480
+time steps after performing the
+
+292
+00:11:27,440 --> 00:11:33,279
+counterfactual action. On the y-axis is
+
+293
+00:11:30,480 --> 00:11:35,279
+the mean absolute error. Again, as you
+
+294
+00:11:33,279 --> 00:11:37,120
+can see, cleft models in blue
+
+295
+00:11:35,279 --> 00:11:38,880
+significantly outperforms baseline
+
+296
+00:11:37,120 --> 00:11:40,920
+models and generating the counterfactual
+
+297
+00:11:38,880 --> 00:11:43,440
+trajectories in a zeroot
+
+298
+00:11:40,920 --> 00:11:45,440
+manner. And finally, here's a case study
+
+299
+00:11:43,440 --> 00:11:47,120
+where we can precisely intervene on the
+
+300
+00:11:45,440 --> 00:11:49,360
+predicted trajectories of patients with
+
+301
+00:11:47,120 --> 00:11:52,240
+type 1 diabetes to try to simulate
+
+302
+00:11:49,360 --> 00:11:54,399
+healthier or sicker trajectories. And
+
+303
+00:11:52,240 --> 00:11:56,160
+this is done directly, this is done by
+
+304
+00:11:54,399 --> 00:11:58,240
+directly altering the values of the
+
+305
+00:11:56,160 --> 00:12:00,399
+temporal concepts. If you're familiar
+
+306
+00:11:58,240 --> 00:12:02,160
+with uh concept bottleneck models, this
+
+307
+00:12:00,399 --> 00:12:04,720
+is analogous to intervening on the
+
+308
+00:12:02,160 --> 00:12:07,519
+values of the concept bottleneck layer.
+
+309
+00:12:04,720 --> 00:12:09,200
+So in the center plots, the x-axis shows
+
+310
+00:12:07,519 --> 00:12:11,440
+the types of patients that we compared
+
+311
+00:12:09,200 --> 00:12:14,560
+the intervened type 1 diabetic patients
+
+312
+00:12:11,440 --> 00:12:16,560
+to matched healthy patients, other
+
+313
+00:12:14,560 --> 00:12:20,639
+healthy patients and other type 1
+
+314
+00:12:16,560 --> 00:12:22,480
+diabetes patients. The yaxis is the R
+
+315
+00:12:20,639 --> 00:12:24,720
+squar between the trajectories of a pair
+
+316
+00:12:22,480 --> 00:12:26,279
+of patients. So higher R square means
+
+317
+00:12:24,720 --> 00:12:28,959
+higher pair Y
+
+318
+00:12:26,279 --> 00:12:31,040
+similarity. In the top plot, we generate
+
+319
+00:12:28,959 --> 00:12:33,760
+future trajectories of patients after
+
+320
+00:12:31,040 --> 00:12:36,120
+decreasing their glucose levels by half.
+
+321
+00:12:33,760 --> 00:12:38,800
+In other words, we reverse their
+
+322
+00:12:36,120 --> 00:12:41,120
+symptoms. We find that these intervene
+
+323
+00:12:38,800 --> 00:12:42,800
+trajectories look more similar to
+
+324
+00:12:41,120 --> 00:12:45,200
+healthy patients in the first two
+
+325
+00:12:42,800 --> 00:12:47,040
+columns here than to other type 1
+
+326
+00:12:45,200 --> 00:12:48,600
+diabetes patients in the third column,
+
+327
+00:12:47,040 --> 00:12:51,040
+which is what we would
+
+328
+00:12:48,600 --> 00:12:52,480
+expect. In the bottom plot, we do the
+
+329
+00:12:51,040 --> 00:12:54,399
+opposite. we generate future
+
+330
+00:12:52,480 --> 00:12:56,639
+trajectories of patients after doubling
+
+331
+00:12:54,399 --> 00:12:59,360
+their glucose levels. In other words, we
+
+332
+00:12:56,639 --> 00:13:01,040
+worsen their symptoms and we find that
+
+333
+00:12:59,360 --> 00:13:03,279
+the intervene trajectories look more
+
+334
+00:13:01,040 --> 00:13:05,120
+similar to other type 1 diabetic
+
+335
+00:13:03,279 --> 00:13:06,560
+patients in the third column than
+
+336
+00:13:05,120 --> 00:13:08,560
+healthy patients in the first two
+
+337
+00:13:06,560 --> 00:13:10,160
+columns. Again, these are expected
+
+338
+00:13:08,560 --> 00:13:11,760
+results.
+
+339
+00:13:10,160 --> 00:13:13,440
+Altogether, such findings are
+
+340
+00:13:11,760 --> 00:13:15,200
+particularly exciting because they
+
+341
+00:13:13,440 --> 00:13:17,360
+suggest that we could use Kluff to test
+
+342
+00:13:15,200 --> 00:13:19,839
+different clinical interventions,
+
+343
+00:13:17,360 --> 00:13:22,519
+timings of interventions, dosages of
+
+344
+00:13:19,839 --> 00:13:25,200
+medications, and even treatment
+
+345
+00:13:22,519 --> 00:13:26,560
+regimens. To summarize, KLF is a
+
+346
+00:13:25,200 --> 00:13:28,560
+controllable sequence editing approach
+
+347
+00:13:26,560 --> 00:13:30,639
+that can conditionally generate cellular
+
+348
+00:13:28,560 --> 00:13:32,560
+and patient trajectories. We demonstrate
+
+349
+00:13:30,639 --> 00:13:34,480
+that KFTF can additionally allow us to
+
+350
+00:13:32,560 --> 00:13:36,160
+simulate trajectories to answer what-if
+
+351
+00:13:34,480 --> 00:13:37,839
+questions about the effects of a
+
+352
+00:13:36,160 --> 00:13:39,680
+candidate intervention on the cell's
+
+353
+00:13:37,839 --> 00:13:41,920
+gene expression or a patient's routine
+
+354
+00:13:39,680 --> 00:13:44,560
+laboratory test at a specific time
+
+355
+00:13:41,920 --> 00:13:46,240
+point. On the right is a QR code to a
+
+356
+00:13:44,560 --> 00:13:48,079
+pre-print and please reach out if you
+
+357
+00:13:46,240 --> 00:13:49,520
+have any questions or suggestions. Thank
+
+358
+00:13:48,079 --> 00:13:53,519
+you.
+
+359
+00:13:49,520 --> 00:13:57,320
+[Applause]
+
+360
+00:13:53,519 --> 00:14:00,680
+Thank you so much. We have time for one
+
+361
+00:13:57,320 --> 00:14:02,440
+question. very nice
+
+362
+00:14:00,680 --> 00:14:04,680
+presentation
+
+363
+00:14:02,440 --> 00:14:07,760
+actually a long
+
+364
+00:14:04,680 --> 00:14:11,120
+awaiting you know model that you know in
+
+365
+00:14:07,760 --> 00:14:14,240
+clinics uh across the river you know in
+
+366
+00:14:11,120 --> 00:14:17,639
+the hospital um we need that kind that
+
+367
+00:14:14,240 --> 00:14:20,199
+kind of model because uh you know the
+
+368
+00:14:17,639 --> 00:14:24,720
+trajectory sometime we call the Hamilton
+
+369
+00:14:20,199 --> 00:14:27,680
+curve you know uh at certain time point
+
+370
+00:14:24,720 --> 00:14:28,519
+whichever you intervene you know when it
+
+371
+00:14:27,680 --> 00:14:31,199
+going
+
+372
+00:14:28,519 --> 00:14:35,360
+downhill you know the condition getting
+
+373
+00:14:31,199 --> 00:14:37,519
+worse uh when it going uphill uh you
+
+374
+00:14:35,360 --> 00:14:39,839
+just give it candy you know the patient
+
+375
+00:14:37,519 --> 00:14:43,040
+can get better you know it's surprising
+
+376
+00:14:39,839 --> 00:14:45,920
+because a trajectory is a biological
+
+377
+00:14:43,040 --> 00:14:49,839
+mechanism that govern the underlying
+
+378
+00:14:45,920 --> 00:14:51,760
+disease uh and also uh I hope you could
+
+379
+00:14:49,839 --> 00:14:54,079
+you know including more parameter for
+
+380
+00:14:51,760 --> 00:14:58,079
+instance like in oncology when you do
+
+381
+00:14:54,079 --> 00:15:02,320
+the infusion of the medication the We
+
+382
+00:14:58,079 --> 00:15:06,800
+infusion time uh is it divided into two
+
+383
+00:15:02,320 --> 00:15:10,160
+time or one uh bullet post or you know
+
+384
+00:15:06,800 --> 00:15:13,360
+how long you uh you know infuse it in
+
+385
+00:15:10,160 --> 00:15:15,279
+one hour or two hour does make a big
+
+386
+00:15:13,360 --> 00:15:16,800
+difference. Thank you.
+
+387
+00:15:15,279 --> 00:15:19,279
+Yeah, that's a really great suggestion
+
+388
+00:15:16,800 --> 00:15:21,199
+and I want to emphasize that because uh
+
+389
+00:15:19,279 --> 00:15:24,480
+perhaps clarify and emphasize that this
+
+390
+00:15:21,199 --> 00:15:26,160
+is uh the generation is done in an auto
+
+391
+00:15:24,480 --> 00:15:28,639
+reggressive manner and so we could
+
+392
+00:15:26,160 --> 00:15:30,560
+indeed simulate the length in which we
+
+393
+00:15:28,639 --> 00:15:31,920
+do certain interventions as well as the
+
+394
+00:15:30,560 --> 00:15:33,600
+certain dosage and the type of
+
+395
+00:15:31,920 --> 00:15:35,760
+intervention. Thank you for your
+
+396
+00:15:33,600 --> 00:15:37,600
+comment.
+
+397
+00:15:35,760 --> 00:15:41,000
+Thank you very much to all the speakers
+
+398
+00:15:37,600 --> 00:15:41,000
+in this session.
+

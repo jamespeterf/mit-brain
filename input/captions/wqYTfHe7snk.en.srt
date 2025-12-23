@@ -1,0 +1,764 @@
+1
+00:00:01,520 --> 00:00:05,480
+okay so now you know about the clinical
+
+2
+00:00:03,360 --> 00:00:07,200
+samples and how the data derived from
+
+3
+00:00:05,480 --> 00:00:08,679
+those is structured so now let's get
+
+4
+00:00:07,200 --> 00:00:09,880
+into the really exciting part which is
+
+5
+00:00:08,679 --> 00:00:11,120
+what you're going to be working on what
+
+6
+00:00:09,880 --> 00:00:14,040
+are the three crunches you're going to
+
+7
+00:00:11,120 --> 00:00:16,520
+be kind of tackling here so let's start
+
+8
+00:00:14,040 --> 00:00:18,480
+with the first crunch so here we're
+
+9
+00:00:16,520 --> 00:00:21,439
+going to be asking you to predict gene
+
+10
+00:00:18,480 --> 00:00:24,039
+expression from tissue pathology images
+
+11
+00:00:21,439 --> 00:00:26,760
+so your training data is going to be
+
+12
+00:00:24,039 --> 00:00:29,279
+paired data where we give you the h&
+
+13
+00:00:26,760 --> 00:00:32,399
+image and the spatial transcript omix
+
+14
+00:00:29,279 --> 00:00:34,239
+data and we're going to provide you 460
+
+15
+00:00:32,399 --> 00:00:37,520
+genes that were measured in the spatial
+
+16
+00:00:34,239 --> 00:00:40,719
+transcriptomic data and then in the test
+
+17
+00:00:37,520 --> 00:00:42,760
+we're going to hold out patches of uh
+
+18
+00:00:40,719 --> 00:00:44,840
+tissue that are outlined here in a gray
+
+19
+00:00:42,760 --> 00:00:47,120
+box and in this patch we're going to
+
+20
+00:00:44,840 --> 00:00:48,960
+give you the h& image but we're going to
+
+21
+00:00:47,120 --> 00:00:51,039
+hide from you the spatial transcript
+
+22
+00:00:48,960 --> 00:00:54,120
+omix data and we're going to ask you to
+
+23
+00:00:51,039 --> 00:00:56,480
+take that h& image and predict this uh
+
+24
+00:00:54,120 --> 00:00:58,440
+transcript omic data for the cells that
+
+25
+00:00:56,480 --> 00:01:01,399
+are in that tissue patch so in this
+
+26
+00:00:58,440 --> 00:01:02,920
+cartoon here we have a through F and
+
+27
+00:01:01,399 --> 00:01:05,119
+we're going to ask you to predict the
+
+28
+00:01:02,920 --> 00:01:08,759
+expression of Gene 1 2 3 all the way to
+
+29
+00:01:05,119 --> 00:01:10,439
+Gene 460 and then we're going to see how
+
+30
+00:01:08,759 --> 00:01:12,000
+well you do because we actually know the
+
+31
+00:01:10,439 --> 00:01:13,920
+underlying ground truth because we've
+
+32
+00:01:12,000 --> 00:01:16,360
+carried out the spatial transcriptomics
+
+33
+00:01:13,920 --> 00:01:18,960
+experiment for this entire tissue so
+
+34
+00:01:16,360 --> 00:01:21,360
+again starting with the h& image can you
+
+35
+00:01:18,960 --> 00:01:23,560
+predict spatial transcriptomics data for
+
+36
+00:01:21,360 --> 00:01:25,720
+all the cells in this heldout tissue
+
+37
+00:01:23,560 --> 00:01:28,360
+patch so that's the first
+
+38
+00:01:25,720 --> 00:01:30,439
+crunch the second crunch we make things
+
+39
+00:01:28,360 --> 00:01:33,000
+more difficult for you and that we are
+
+40
+00:01:30,439 --> 00:01:35,079
+going to ask you to predict the gene
+
+41
+00:01:33,000 --> 00:01:37,439
+expression for genes that were never
+
+42
+00:01:35,079 --> 00:01:40,000
+measured by the spatial transcriptomics
+
+43
+00:01:37,439 --> 00:01:41,880
+experiment so we've chosen 20 genes that
+
+44
+00:01:40,000 --> 00:01:43,960
+were not measured by spatial
+
+45
+00:01:41,880 --> 00:01:46,119
+transcriptomics and we are going to ask
+
+46
+00:01:43,960 --> 00:01:47,719
+you to predict their expression so the
+
+47
+00:01:46,119 --> 00:01:49,399
+structure of this is pretty similar to
+
+48
+00:01:47,719 --> 00:01:51,759
+Crunch one and then we're going to
+
+49
+00:01:49,399 --> 00:01:53,640
+provide you with pair data and we're
+
+50
+00:01:51,759 --> 00:01:56,439
+providing you with the h& image and the
+
+51
+00:01:53,640 --> 00:01:59,079
+spatial transcriptomics data for 460
+
+52
+00:01:56,439 --> 00:02:01,920
+genes and we are going to hold out
+
+53
+00:01:59,079 --> 00:02:03,880
+tissue patches and from the h& image
+
+54
+00:02:01,920 --> 00:02:06,200
+we're going to ask you to predict the
+
+55
+00:02:03,880 --> 00:02:09,080
+held out spatial transcriptomics data
+
+56
+00:02:06,200 --> 00:02:10,560
+but in addition 20 genes they were never
+
+57
+00:02:09,080 --> 00:02:12,599
+measured by spatial
+
+58
+00:02:10,560 --> 00:02:15,080
+transcriptomics so you're not going to
+
+59
+00:02:12,599 --> 00:02:18,879
+just be predicting genes 1 through 460
+
+60
+00:02:15,080 --> 00:02:21,519
+but also genes 461 462 all the way to
+
+61
+00:02:18,879 --> 00:02:24,680
+480 and now you're asking well how would
+
+62
+00:02:21,519 --> 00:02:26,640
+I know anything about those 20 genes
+
+63
+00:02:24,680 --> 00:02:29,319
+this is where all our background about
+
+64
+00:02:26,640 --> 00:02:31,280
+single cell transcriptomics comes in we
+
+65
+00:02:29,319 --> 00:02:33,599
+are going to provide you with single
+
+66
+00:02:31,280 --> 00:02:37,360
+cell transcriptomic data from ulcerative
+
+67
+00:02:33,599 --> 00:02:40,640
+colitis patients and that data has all
+
+68
+00:02:37,360 --> 00:02:42,319
+20,000 genes measured so it has the 460
+
+69
+00:02:40,640 --> 00:02:44,720
+genes we provide you in spatial
+
+70
+00:02:42,319 --> 00:02:47,000
+transcriptomics it has the 20 genes that
+
+71
+00:02:44,720 --> 00:02:48,800
+we would like you to predict and it has
+
+72
+00:02:47,000 --> 00:02:52,640
+all other
+
+73
+00:02:48,800 --> 00:02:55,000
+19520 genes uh provided so can you use
+
+74
+00:02:52,640 --> 00:02:57,400
+the single cell transcriptomic data to
+
+75
+00:02:55,000 --> 00:03:00,040
+tell to tell us what are the uh gene
+
+76
+00:02:57,400 --> 00:03:01,720
+expression levels uh for those 20 gen
+
+77
+00:03:00,040 --> 00:03:03,319
+that we're really interested in so
+
+78
+00:03:01,720 --> 00:03:05,360
+that's crunch 2 it's really an out of
+
+79
+00:03:03,319 --> 00:03:07,159
+distribution problem because we're never
+
+80
+00:03:05,360 --> 00:03:09,080
+providing you spatial transcriptomics
+
+81
+00:03:07,159 --> 00:03:11,840
+data for those 20
+
+82
+00:03:09,080 --> 00:03:14,480
+genes okay so that's crunches one and
+
+83
+00:03:11,840 --> 00:03:17,799
+two and the final crunch is focused on
+
+84
+00:03:14,480 --> 00:03:20,040
+detecting cancer earlier so the focus is
+
+85
+00:03:17,799 --> 00:03:21,920
+on this really special uh aler of
+
+86
+00:03:20,040 --> 00:03:23,720
+colitis tissue section where there's
+
+87
+00:03:21,920 --> 00:03:26,599
+both a non-cancerous region and the
+
+88
+00:03:23,720 --> 00:03:28,319
+colon mucosa and this displasia region
+
+89
+00:03:26,599 --> 00:03:30,319
+and remember displasia is this sort of
+
+90
+00:03:28,319 --> 00:03:32,519
+abnormal growth of epithelial cells
+
+91
+00:03:30,319 --> 00:03:35,920
+that's precancerous and what we would
+
+92
+00:03:32,519 --> 00:03:37,920
+like is to find genes that differentiate
+
+93
+00:03:35,920 --> 00:03:39,959
+or that Mark the displasia region from
+
+94
+00:03:37,920 --> 00:03:42,480
+the non-cancerous region so what are
+
+95
+00:03:39,959 --> 00:03:44,239
+genes that are more highly expressed in
+
+96
+00:03:42,480 --> 00:03:46,959
+this displasia region compared to the
+
+97
+00:03:44,239 --> 00:03:49,319
+non-cancerous region and these are genes
+
+98
+00:03:46,959 --> 00:03:52,720
+that can maybe tell us what's going on
+
+99
+00:03:49,319 --> 00:03:55,120
+in these early cancer events so there
+
+100
+00:03:52,720 --> 00:03:57,200
+are many ways to go about doing this but
+
+101
+00:03:55,120 --> 00:03:59,480
+if you've done crunches one and two you
+
+102
+00:03:57,200 --> 00:04:00,319
+will have built models that can take the
+
+103
+00:03:59,480 --> 00:04:03,000
+AG
+
+104
+00:04:00,319 --> 00:04:06,120
+image and predict gene expression and so
+
+105
+00:04:03,000 --> 00:04:08,760
+one very reasonable way to proceed is to
+
+106
+00:04:06,120 --> 00:04:10,640
+take the h& image here and predict the
+
+107
+00:04:08,760 --> 00:04:12,239
+gene expression in the different regions
+
+108
+00:04:10,640 --> 00:04:14,680
+in the displasia region and the
+
+109
+00:04:12,239 --> 00:04:16,280
+non-cancerous region and so we can make
+
+110
+00:04:14,680 --> 00:04:18,600
+those gene expression predictions in the
+
+111
+00:04:16,280 --> 00:04:20,600
+non-cancerous regions here for cells
+
+112
+00:04:18,600 --> 00:04:22,800
+here and in the displasia region for
+
+113
+00:04:20,600 --> 00:04:25,360
+cells here and get all these predicted
+
+114
+00:04:22,800 --> 00:04:27,759
+gene expression vectors and one thing
+
+115
+00:04:25,360 --> 00:04:30,880
+I'll point out is that you actually have
+
+116
+00:04:27,759 --> 00:04:33,360
+zenium spatial transcriptomics data for
+
+117
+00:04:30,880 --> 00:04:35,160
+the non-cancerous region but we never
+
+118
+00:04:33,360 --> 00:04:37,199
+provide you any zenium spatial
+
+119
+00:04:35,160 --> 00:04:39,800
+transcriptomics data for the displasia
+
+120
+00:04:37,199 --> 00:04:42,400
+region so for the left half of this
+
+121
+00:04:39,800 --> 00:04:45,000
+tissue image you're really predicting
+
+122
+00:04:42,400 --> 00:04:46,520
+the genes beyond the 460 that have been
+
+123
+00:04:45,000 --> 00:04:48,680
+measured already by spatial
+
+124
+00:04:46,520 --> 00:04:51,039
+transcriptomics but on the right half
+
+125
+00:04:48,680 --> 00:04:52,639
+you're really predicting all 20,000
+
+126
+00:04:51,039 --> 00:04:55,440
+genes you do not have any spatial
+
+127
+00:04:52,639 --> 00:04:58,800
+transcriptomics data directly from that
+
+128
+00:04:55,440 --> 00:05:00,720
+uh piece of the tissue and again how do
+
+129
+00:04:58,800 --> 00:05:02,880
+you predict you know genes that you were
+
+130
+00:05:00,720 --> 00:05:04,759
+never you know given uh any information
+
+131
+00:05:02,880 --> 00:05:06,400
+about we are going to provide you with
+
+132
+00:05:04,759 --> 00:05:09,880
+single cell transcriptomic single cell
+
+133
+00:05:06,400 --> 00:05:11,840
+RNA sequencing data for uh displasia
+
+134
+00:05:09,880 --> 00:05:14,080
+regions so this is the data set that we
+
+135
+00:05:11,840 --> 00:05:15,680
+had introduced earlier and it's single
+
+136
+00:05:14,080 --> 00:05:18,560
+cell transcriptomics and it's going to
+
+137
+00:05:15,680 --> 00:05:20,199
+tell you what do epithelial cells with
+
+138
+00:05:18,560 --> 00:05:22,280
+dysplasia look like in terms of their
+
+139
+00:05:20,199 --> 00:05:24,720
+gene expression so you can use that
+
+140
+00:05:22,280 --> 00:05:26,520
+single cell transcriptomics data to help
+
+141
+00:05:24,720 --> 00:05:29,000
+with your predictions of what's going on
+
+142
+00:05:26,520 --> 00:05:30,919
+with the displasia regions and now once
+
+143
+00:05:29,000 --> 00:05:31,960
+you've kind of made these predictions of
+
+144
+00:05:30,919 --> 00:05:34,039
+you know gene expression in the
+
+145
+00:05:31,960 --> 00:05:36,160
+non-cancerous region and gene expression
+
+146
+00:05:34,039 --> 00:05:38,199
+in displasia regions it's a relatively
+
+147
+00:05:36,160 --> 00:05:40,639
+simple task to just compare the two and
+
+148
+00:05:38,199 --> 00:05:42,039
+say what genes are you know marking this
+
+149
+00:05:40,639 --> 00:05:43,840
+population of cells that in the
+
+150
+00:05:42,039 --> 00:05:46,199
+displasia region versus genes that are
+
+151
+00:05:43,840 --> 00:05:47,880
+marking the non-cancerous region so can
+
+152
+00:05:46,199 --> 00:05:50,000
+you look at these and say what are the
+
+153
+00:05:47,880 --> 00:05:52,319
+genes that distinguish these two regions
+
+154
+00:05:50,000 --> 00:05:54,960
+once you've made these predictions and
+
+155
+00:05:52,319 --> 00:05:58,919
+so this is a pretty ambitious crunch
+
+156
+00:05:54,960 --> 00:06:00,800
+it's pretty exciting and cool um and the
+
+157
+00:05:58,919 --> 00:06:02,520
+like one really really exciting part of
+
+158
+00:06:00,800 --> 00:06:05,080
+this too is that we're actually going to
+
+159
+00:06:02,520 --> 00:06:06,800
+experimentally test your predictions so
+
+160
+00:06:05,080 --> 00:06:09,639
+when you predict a gene that marks
+
+161
+00:06:06,800 --> 00:06:12,319
+dysplasia we're actually going to go in
+
+162
+00:06:09,639 --> 00:06:15,599
+and use that to design a new panel of
+
+163
+00:06:12,319 --> 00:06:18,319
+460 or 480 genes and we're going to use
+
+164
+00:06:15,599 --> 00:06:20,720
+that panel to measure a new piece of
+
+165
+00:06:18,319 --> 00:06:22,319
+colon tissue that has dysplasia and
+
+166
+00:06:20,720 --> 00:06:24,440
+we're going to see if the genes that you
+
+167
+00:06:22,319 --> 00:06:26,759
+predicted as marking displasia are
+
+168
+00:06:24,440 --> 00:06:28,680
+really being expressed in the dysplasia
+
+169
+00:06:26,759 --> 00:06:30,639
+region compared to the non-cancerous
+
+170
+00:06:28,680 --> 00:06:32,720
+region and so this is really an ultimate
+
+171
+00:06:30,639 --> 00:06:35,240
+test we're taking your predictions and
+
+172
+00:06:32,720 --> 00:06:37,400
+applying them to a piece of tissue that
+
+173
+00:06:35,240 --> 00:06:39,560
+we haven't measured before so this is a
+
+174
+00:06:37,400 --> 00:06:41,880
+really exciting opportunity you know
+
+175
+00:06:39,560 --> 00:06:43,280
+most machine learning competitions uh
+
+176
+00:06:41,880 --> 00:06:44,840
+there's not really an experiment
+
+177
+00:06:43,280 --> 00:06:46,840
+associated with there's not really you
+
+178
+00:06:44,840 --> 00:06:49,000
+know something new that you're really
+
+179
+00:06:46,840 --> 00:06:51,400
+doing and here we actually have a chance
+
+180
+00:06:49,000 --> 00:06:52,880
+to really go into patient specimens and
+
+181
+00:06:51,400 --> 00:06:55,800
+see if we can really get better at
+
+182
+00:06:52,880 --> 00:06:58,199
+predicting uh cancer in these tissue
+
+183
+00:06:55,800 --> 00:06:59,840
+sections okay great so now we've gone
+
+184
+00:06:58,199 --> 00:07:02,120
+through all three lectures in this crash
+
+185
+00:06:59,840 --> 00:07:04,000
+course thanks for listening along if you
+
+186
+00:07:02,120 --> 00:07:06,120
+need more information you can go to our
+
+187
+00:07:04,000 --> 00:07:07,599
+website we're really excited to see what
+
+188
+00:07:06,120 --> 00:07:09,800
+you come up with as you tackle these
+
+189
+00:07:07,599 --> 00:07:13,140
+crunches and to interact with you uh
+
+190
+00:07:09,800 --> 00:07:20,790
+along the way so good luck and have fun
+
+191
+00:07:13,140 --> 00:07:20,790
+[Music]
+

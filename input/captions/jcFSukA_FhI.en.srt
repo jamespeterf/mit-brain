@@ -1,0 +1,5324 @@
+1
+00:00:00,400 --> 00:00:06,160
+Good morning everybody. Welcome to the
+
+2
+00:00:02,399 --> 00:00:08,160
+MPG primer. Today I have the absolute
+
+3
+00:00:06,160 --> 00:00:10,800
+pleasure of introducing Sarah Urbett.
+
+4
+00:00:08,160 --> 00:00:12,880
+She is a cardiology fellow at MGH and a
+
+5
+00:00:10,800 --> 00:00:16,240
+post-doal associate at the Broad in the
+
+6
+00:00:12,880 --> 00:00:18,640
+lab of Purit Natarajin. She previously
+
+7
+00:00:16,240 --> 00:00:20,480
+comp completed her MD PhD at the
+
+8
+00:00:18,640 --> 00:00:22,720
+University of Chicago in statistical
+
+9
+00:00:20,480 --> 00:00:24,720
+genetics. Her research focuses on
+
+10
+00:00:22,720 --> 00:00:27,119
+developing statistical methods to handle
+
+11
+00:00:24,720 --> 00:00:29,640
+genomic and clinical data. In her free
+
+12
+00:00:27,119 --> 00:00:32,480
+time, she enjoys bicycling and Chicago
+
+13
+00:00:29,640 --> 00:00:35,640
+pizza. In today's primer, she's going to
+
+14
+00:00:32,480 --> 00:00:38,719
+present a practical primer on um Beijian
+
+15
+00:00:35,640 --> 00:00:43,239
+statistics. So,
+
+16
+00:00:38,719 --> 00:00:43,239
+thank you. All right. I don't know.
+
+17
+00:00:44,480 --> 00:00:48,480
+Okay. I don't really need a microphone.
+
+18
+00:00:46,239 --> 00:00:50,239
+I'm pretty loud. Um all right. So, hi.
+
+19
+00:00:48,480 --> 00:00:52,000
+Good morning everybody. Um so, this is a
+
+20
+00:00:50,239 --> 00:00:54,719
+hefty title. Beijian statistics is a
+
+21
+00:00:52,000 --> 00:00:56,800
+very large is a very large uh field. And
+
+22
+00:00:54,719 --> 00:00:58,000
+as appropriately I have 84 slides just
+
+23
+00:00:56,800 --> 00:00:59,359
+for the morning which we are not going
+
+24
+00:00:58,000 --> 00:01:02,559
+to get through. So it's kind of a choose
+
+25
+00:00:59,359 --> 00:01:04,239
+your own adventure a little bit. Um and
+
+26
+00:01:02,559 --> 00:01:05,680
+we'll start with the things that I was
+
+27
+00:01:04,239 --> 00:01:07,200
+asked to talk actually everybody when
+
+28
+00:01:05,680 --> 00:01:08,400
+they hear about Beijian statistics they
+
+29
+00:01:07,200 --> 00:01:09,840
+say well what do you have against P
+
+30
+00:01:08,400 --> 00:01:11,280
+values? I have a lot of things against P
+
+31
+00:01:09,840 --> 00:01:13,200
+values but I'm convince all of you to
+
+32
+00:01:11,280 --> 00:01:14,960
+have things against P values also. Not
+
+33
+00:01:13,200 --> 00:01:16,640
+really but um so that's one of the
+
+34
+00:01:14,960 --> 00:01:18,320
+topics that we can discuss. Then
+
+35
+00:01:16,640 --> 00:01:20,400
+conjugate models which are a really neat
+
+36
+00:01:18,320 --> 00:01:23,439
+way of entering into Beijian statistics
+
+37
+00:01:20,400 --> 00:01:25,119
+because they combine sort of the
+
+38
+00:01:23,439 --> 00:01:26,720
+uncomfortable part of Beijian statistics
+
+39
+00:01:25,119 --> 00:01:28,720
+is a lot of the sampling that we know
+
+40
+00:01:26,720 --> 00:01:30,720
+about MCMC and you probably have heard
+
+41
+00:01:28,720 --> 00:01:32,240
+of. It's a sort of painful but useful
+
+42
+00:01:30,720 --> 00:01:33,600
+technique. Um and so we can avoid that
+
+43
+00:01:32,240 --> 00:01:36,159
+with a lot of these conjugate models
+
+44
+00:01:33,600 --> 00:01:37,600
+that are useful in mixer models. It's a
+
+45
+00:01:36,159 --> 00:01:38,960
+later topic and then of course if we
+
+46
+00:01:37,600 --> 00:01:40,799
+have a little time which we won't we can
+
+47
+00:01:38,960 --> 00:01:43,680
+talk a little bit about um Beijing
+
+48
+00:01:40,799 --> 00:01:47,280
+clinical trials anyway. All right. So
+
+49
+00:01:43,680 --> 00:01:50,560
+the p value paradox. So uh what is a p
+
+50
+00:01:47,280 --> 00:01:50,560
+value is the question for the
+
+51
+00:01:50,840 --> 00:01:55,119
+audience. Does anyone want to answer?
+
+52
+00:01:53,439 --> 00:01:58,399
+Okay, we don't have to. That's okay.
+
+53
+00:01:55,119 --> 00:02:00,399
+It's early. Um right. So it's a
+
+54
+00:01:58,399 --> 00:02:02,479
+probability of seeing a statistic as or
+
+55
+00:02:00,399 --> 00:02:04,560
+more extreme given that the null is
+
+56
+00:02:02,479 --> 00:02:06,960
+true. It doesn't say anything about the
+
+57
+00:02:04,560 --> 00:02:10,319
+alternative. And also quite often we're
+
+58
+00:02:06,960 --> 00:02:11,360
+not actually interested in we we we
+
+59
+00:02:10,319 --> 00:02:12,640
+don't want to know the probability of
+
+60
+00:02:11,360 --> 00:02:13,760
+seeing statistic as or more extreme
+
+61
+00:02:12,640 --> 00:02:14,879
+given that the null is true. We want to
+
+62
+00:02:13,760 --> 00:02:15,920
+know that the probability that the null
+
+63
+00:02:14,879 --> 00:02:17,520
+is true or the probability the
+
+64
+00:02:15,920 --> 00:02:18,879
+alternative is true. And so to
+
+65
+00:02:17,520 --> 00:02:21,200
+illustrate this, I kind of came up with
+
+66
+00:02:18,879 --> 00:02:23,360
+this neat diagram. This is um Dennis
+
+67
+00:02:21,200 --> 00:02:25,280
+Lindley talks about how a p value really
+
+68
+00:02:23,360 --> 00:02:26,800
+isn't evidence for the alternative at
+
+69
+00:02:25,280 --> 00:02:28,160
+all. And so this is two different
+
+70
+00:02:26,800 --> 00:02:29,680
+distributions. So the distribution on
+
+71
+00:02:28,160 --> 00:02:31,200
+the red is the null. The distribution on
+
+72
+00:02:29,680 --> 00:02:34,239
+the blue is the alternative. Also, just
+
+73
+00:02:31,200 --> 00:02:37,120
+to note all these slides, um I had a lot
+
+74
+00:02:34,239 --> 00:02:38,800
+of fun and pain. Um this is a this is a
+
+75
+00:02:37,120 --> 00:02:40,239
+software. It's called CTO. You probably
+
+76
+00:02:38,800 --> 00:02:41,920
+heard of. So CTO has a way of making
+
+77
+00:02:40,239 --> 00:02:43,519
+presentations. And the nice thing about
+
+78
+00:02:41,920 --> 00:02:44,959
+this is afterwards you can log on and go
+
+79
+00:02:43,519 --> 00:02:45,840
+through all the code if you want to try
+
+80
+00:02:44,959 --> 00:02:47,599
+to figure out how to make these
+
+81
+00:02:45,840 --> 00:02:49,840
+simulations yourself which I highly
+
+82
+00:02:47,599 --> 00:02:51,440
+recommend not but I just think it's a
+
+83
+00:02:49,840 --> 00:02:53,360
+great way to learn statistics to go
+
+84
+00:02:51,440 --> 00:02:56,560
+through the code. So anyway all right so
+
+85
+00:02:53,360 --> 00:02:58,160
+in this diagram we have uh statistics
+
+86
+00:02:56,560 --> 00:02:59,760
+that arose from a null distribution and
+
+87
+00:02:58,160 --> 00:03:01,200
+we have statistics that arose from an
+
+88
+00:02:59,760 --> 00:03:03,599
+alternative distribution right these are
+
+89
+00:03:01,200 --> 00:03:05,680
+the two truth situations and you can see
+
+90
+00:03:03,599 --> 00:03:08,239
+that if I observe a value which yielded
+
+91
+00:03:05,680 --> 00:03:10,680
+a p value of 0.05 5 this 2.5 under the
+
+92
+00:03:08,239 --> 00:03:12,959
+null distribution the posterior
+
+93
+00:03:10,680 --> 00:03:15,200
+probability which is the probability or
+
+94
+00:03:12,959 --> 00:03:16,640
+the yeah the yeah the sorry the
+
+95
+00:03:15,200 --> 00:03:18,360
+likelihood the probability of seeing
+
+96
+00:03:16,640 --> 00:03:21,280
+that statistic given that the null is
+
+97
+00:03:18,360 --> 00:03:22,560
+true is actually higher than the
+
+98
+00:03:21,280 --> 00:03:24,720
+probability of seeing that statistic
+
+99
+00:03:22,560 --> 00:03:26,239
+given that the alternative is true. So
+
+100
+00:03:24,720 --> 00:03:27,440
+we always need to consider the evidence
+
+101
+00:03:26,239 --> 00:03:29,640
+for the alternative when we're
+
+102
+00:03:27,440 --> 00:03:32,799
+evaluating the the the
+
+103
+00:03:29,640 --> 00:03:35,280
+null, right? And this is what I was
+
+104
+00:03:32,799 --> 00:03:37,040
+describing before is that the statistic
+
+105
+00:03:35,280 --> 00:03:38,480
+that a p value gives us which is the
+
+106
+00:03:37,040 --> 00:03:40,400
+probability of seeing statistic as a or
+
+107
+00:03:38,480 --> 00:03:41,840
+more extreme given that the null is true
+
+108
+00:03:40,400 --> 00:03:43,680
+is not really what we're all trying to
+
+109
+00:03:41,840 --> 00:03:45,760
+get at as scientists which is the
+
+110
+00:03:43,680 --> 00:03:50,239
+probability of a hypothesis given the
+
+111
+00:03:45,760 --> 00:03:52,560
+data. So um and this is not actually
+
+112
+00:03:50,239 --> 00:03:54,400
+restricted this sort of philosophy the
+
+113
+00:03:52,560 --> 00:03:56,560
+idea of this prior that a lot of people
+
+114
+00:03:54,400 --> 00:03:59,439
+think about with Beijians that's it's
+
+115
+00:03:56,560 --> 00:04:01,280
+not completely um you can have sort of
+
+116
+00:03:59,439 --> 00:04:03,760
+an ambivalent prior what we call a fra
+
+117
+00:04:01,280 --> 00:04:05,439
+prior and you can come up with the same
+
+118
+00:04:03,760 --> 00:04:06,799
+sort of drawing that a frequentist would
+
+119
+00:04:05,439 --> 00:04:08,480
+but it gives you an entirely different
+
+120
+00:04:06,799 --> 00:04:11,200
+interpretation interpretation about the
+
+121
+00:04:08,480 --> 00:04:13,120
+probability of hypothesis given the data
+
+122
+00:04:11,200 --> 00:04:16,079
+and I'm going to show you this so these
+
+123
+00:04:13,120 --> 00:04:17,359
+are some pearls uh in the Beijian
+
+124
+00:04:16,079 --> 00:04:19,199
+framework work that parameters are
+
+125
+00:04:17,359 --> 00:04:20,479
+random variables. We can actually get
+
+126
+00:04:19,199 --> 00:04:21,759
+uncertainty because we get this
+
+127
+00:04:20,479 --> 00:04:23,759
+distribution over what we think the
+
+128
+00:04:21,759 --> 00:04:26,080
+hypothesis is the null hypothesis or the
+
+129
+00:04:23,759 --> 00:04:27,759
+alternative hypothesis. We can integrate
+
+130
+00:04:26,080 --> 00:04:30,000
+evidence from outside sources using our
+
+131
+00:04:27,759 --> 00:04:31,600
+prior distributions and also we get this
+
+132
+00:04:30,000 --> 00:04:32,960
+natural quantification of uncertainty
+
+133
+00:04:31,600 --> 00:04:34,560
+through either sampling or through the
+
+134
+00:04:32,960 --> 00:04:37,680
+conjugate distribution because we get a
+
+135
+00:04:34,560 --> 00:04:40,320
+distribution on the hypothesis. Okay, so
+
+136
+00:04:37,680 --> 00:04:41,840
+here this is so here's a a classic a
+
+137
+00:04:40,320 --> 00:04:44,400
+classic this is what our posterior
+
+138
+00:04:41,840 --> 00:04:46,000
+distribution of a hypothesis is. So our
+
+139
+00:04:44,400 --> 00:04:48,080
+probability of the hypothesis given the
+
+140
+00:04:46,000 --> 00:04:50,560
+data and we observe this point estimate.
+
+141
+00:04:48,080 --> 00:04:52,880
+This is how we draw this. So a credible
+
+142
+00:04:50,560 --> 00:04:54,000
+interval and a confidence interval. What
+
+143
+00:04:52,880 --> 00:04:55,199
+I want you to see is that they're
+
+144
+00:04:54,000 --> 00:04:56,639
+actually quite similar, right? They
+
+145
+00:04:55,199 --> 00:04:58,800
+overlap because I used a very flat
+
+146
+00:04:56,639 --> 00:05:01,280
+prior. But the interpretation of them is
+
+147
+00:04:58,800 --> 00:05:02,800
+really different. So what is a credible
+
+148
+00:05:01,280 --> 00:05:03,840
+interval and what is a confidence
+
+149
+00:05:02,800 --> 00:05:04,880
+interval? Probably start with the
+
+150
+00:05:03,840 --> 00:05:06,280
+confidence interval. What is a
+
+151
+00:05:04,880 --> 00:05:09,360
+confidence interval? Does
+
+152
+00:05:06,280 --> 00:05:10,720
+everybody? Okay. So it's the long Yeah.
+
+153
+00:05:09,360 --> 00:05:13,520
+Okay. Who's running? All right. So it's
+
+154
+00:05:10,720 --> 00:05:15,680
+the long run frequency of observing a
+
+155
+00:05:13,520 --> 00:05:17,440
+statistic within this window. So that
+
+156
+00:05:15,680 --> 00:05:18,639
+would say if I ran and I say who's
+
+157
+00:05:17,440 --> 00:05:19,600
+running because it's kind like who's
+
+158
+00:05:18,639 --> 00:05:21,039
+running who's doing this many
+
+159
+00:05:19,600 --> 00:05:25,199
+experiments, right? Time is short. We
+
+160
+00:05:21,039 --> 00:05:27,160
+got to move. Okay. So if I did if I if I
+
+161
+00:05:25,199 --> 00:05:29,919
+did a thousand
+
+162
+00:05:27,160 --> 00:05:31,440
+experiments, 95% of them would contain
+
+163
+00:05:29,919 --> 00:05:32,800
+the true parameter of interest because a
+
+164
+00:05:31,440 --> 00:05:36,560
+parameter is considered as fixed in the
+
+165
+00:05:32,800 --> 00:05:39,440
+frequentist analysis 95% of the time.
+
+166
+00:05:36,560 --> 00:05:40,800
+That's kind of a long winded way of
+
+167
+00:05:39,440 --> 00:05:42,240
+describing it, right? What what does
+
+168
+00:05:40,800 --> 00:05:44,080
+that mean? If I ran this experiment a
+
+169
+00:05:42,240 --> 00:05:45,280
+thousand times, if I created a thousand
+
+170
+00:05:44,080 --> 00:05:46,800
+times that I would actually have the
+
+171
+00:05:45,280 --> 00:05:48,160
+ability to run the experiment, the true
+
+172
+00:05:46,800 --> 00:05:50,479
+parameter of interest would be in this
+
+173
+00:05:48,160 --> 00:05:53,039
+interval 95% of the time. I don't know.
+
+174
+00:05:50,479 --> 00:05:54,880
+That's a lot of words. So, a credible
+
+175
+00:05:53,039 --> 00:05:58,000
+interval, which as you can see considers
+
+176
+00:05:54,880 --> 00:06:00,240
+sort of the same area, is the is the
+
+177
+00:05:58,000 --> 00:06:03,360
+very intuitive explanation. It's just
+
+178
+00:06:00,240 --> 00:06:05,520
+saying I have a there's a 95% certainty
+
+179
+00:06:03,360 --> 00:06:07,199
+that the that the random variable lies
+
+180
+00:06:05,520 --> 00:06:09,319
+within this interval that it actually
+
+181
+00:06:07,199 --> 00:06:12,400
+lies within this interval and that's
+
+182
+00:06:09,319 --> 00:06:15,039
+because the basically the probability
+
+183
+00:06:12,400 --> 00:06:16,960
+mass under this distribution lies in
+
+184
+00:06:15,039 --> 00:06:18,639
+that area. So you construct this new
+
+185
+00:06:16,960 --> 00:06:19,680
+distribution based on the posterior
+
+186
+00:06:18,639 --> 00:06:21,120
+distribution. It has a mean and a
+
+187
+00:06:19,680 --> 00:06:23,759
+standard error in this case or mean and
+
+188
+00:06:21,120 --> 00:06:26,639
+a variance in this case and you say what
+
+189
+00:06:23,759 --> 00:06:29,759
+is the interval that would contain 90
+
+190
+00:06:26,639 --> 00:06:31,840
+95% of the the mass there.
+
+191
+00:06:29,759 --> 00:06:34,720
+much more interpretable. Okay, so now
+
+192
+00:06:31,840 --> 00:06:36,720
+we're getting to B theorem, which is u I
+
+193
+00:06:34,720 --> 00:06:39,520
+think a lot of us have seen this in you
+
+194
+00:06:36,720 --> 00:06:41,120
+know introductory math statistics. It's
+
+195
+00:06:39,520 --> 00:06:43,199
+the probability of the hypothesis given
+
+196
+00:06:41,120 --> 00:06:44,560
+the data times the probability of the
+
+197
+00:06:43,199 --> 00:06:46,080
+data given the hypothesis times the
+
+198
+00:06:44,560 --> 00:06:48,319
+probability of the hypothesis. So you
+
+199
+00:06:46,080 --> 00:06:50,000
+can forget the constant in the bottom
+
+200
+00:06:48,319 --> 00:06:52,080
+and the probability of the data given
+
+201
+00:06:50,000 --> 00:06:53,680
+the hypothesis is called the likelihood
+
+202
+00:06:52,080 --> 00:06:55,520
+and that's what a frequentist deals with
+
+203
+00:06:53,680 --> 00:06:57,520
+and the probability of the hypothesis is
+
+204
+00:06:55,520 --> 00:06:59,360
+called the prior and that's what people
+
+205
+00:06:57,520 --> 00:07:01,039
+think of Beijian statistics is limited
+
+206
+00:06:59,360 --> 00:07:03,520
+to but it's really not. It's this
+
+207
+00:07:01,039 --> 00:07:05,120
+compilation of these three elements
+
+208
+00:07:03,520 --> 00:07:07,599
+actually this normalizing constant is
+
+209
+00:07:05,120 --> 00:07:10,479
+kind of annoying but it's there um that
+
+210
+00:07:07,599 --> 00:07:12,639
+really summarize an entire body of
+
+211
+00:07:10,479 --> 00:07:16,240
+statistics from the Reverend Thomas Baze
+
+212
+00:07:12,639 --> 00:07:18,639
+um and it's quite useful. Okay. Uh, and
+
+213
+00:07:16,240 --> 00:07:21,199
+so this is this is an example. You can
+
+214
+00:07:18,639 --> 00:07:22,479
+go through the code actually, but um, as
+
+215
+00:07:21,199 --> 00:07:24,000
+I'll talk about these con, you'll see
+
+216
+00:07:22,479 --> 00:07:25,440
+that things sort of repeat themselves or
+
+217
+00:07:24,000 --> 00:07:26,639
+also foreshadow themselves. That's kind
+
+218
+00:07:25,440 --> 00:07:29,599
+of intentional. It's good to repeat
+
+219
+00:07:26,639 --> 00:07:32,400
+these things. But um, this is a nice
+
+220
+00:07:29,599 --> 00:07:34,400
+example of a Beijian how how the Beijian
+
+221
+00:07:32,400 --> 00:07:36,000
+framework works, right? So we have some
+
+222
+00:07:34,400 --> 00:07:38,319
+prior belief about what we think the
+
+223
+00:07:36,000 --> 00:07:39,680
+alil frequency is. This distribution is
+
+224
+00:07:38,319 --> 00:07:41,280
+called a beta distribution. That's not
+
+225
+00:07:39,680 --> 00:07:43,039
+important. That's just a word. But
+
+226
+00:07:41,280 --> 00:07:45,360
+basically it's a distribution of how
+
+227
+00:07:43,039 --> 00:07:47,280
+confident we are in the value of the
+
+228
+00:07:45,360 --> 00:07:48,479
+alle frequency. Right? It's a random
+
+229
+00:07:47,280 --> 00:07:49,599
+variable. It's fluctuating somewhere
+
+230
+00:07:48,479 --> 00:07:51,280
+around there. It's not now it's not
+
+231
+00:07:49,599 --> 00:07:53,280
+totally random. Somewhere there's a true
+
+232
+00:07:51,280 --> 00:07:56,879
+universe that suggests what the actual
+
+233
+00:07:53,280 --> 00:07:59,199
+frequency is. But it serves as a as a
+
+234
+00:07:56,879 --> 00:08:01,680
+random variable in this in this sense.
+
+235
+00:07:59,199 --> 00:08:03,520
+So there's um so there's this prior
+
+236
+00:08:01,680 --> 00:08:05,759
+distribution. Then we meet our new
+
+237
+00:08:03,520 --> 00:08:07,680
+observed alo frequencies that has this
+
+238
+00:08:05,759 --> 00:08:09,039
+distribution. Uh that's the green,
+
+239
+00:08:07,680 --> 00:08:10,960
+right? And then so it's some sort of
+
+240
+00:08:09,039 --> 00:08:12,800
+amalgamation of the prior and the
+
+241
+00:08:10,960 --> 00:08:13,840
+likelihood gives us our posterior. And
+
+242
+00:08:12,800 --> 00:08:15,599
+as I'm going to talk about in the
+
+243
+00:08:13,840 --> 00:08:17,199
+conjugate section, there's some really
+
+244
+00:08:15,599 --> 00:08:18,639
+nice properties that I actually don't
+
+245
+00:08:17,199 --> 00:08:20,479
+have to do any sort of sophisticated
+
+246
+00:08:18,639 --> 00:08:22,720
+sampling. The way that when you work out
+
+247
+00:08:20,479 --> 00:08:24,800
+the the algebra, effectively, I'm just
+
+248
+00:08:22,720 --> 00:08:26,160
+taking each of these new observed units,
+
+249
+00:08:24,800 --> 00:08:27,680
+combining them with the prior, and then
+
+250
+00:08:26,160 --> 00:08:29,199
+I get this really nice convenient result
+
+251
+00:08:27,680 --> 00:08:31,159
+that gives me a posterior without having
+
+252
+00:08:29,199 --> 00:08:33,760
+to do any sort of fancy
+
+253
+00:08:31,159 --> 00:08:37,039
+calculus. Not that fancy calculus is
+
+254
+00:08:33,760 --> 00:08:38,719
+wrong, but um okay. So now so let's go
+
+255
+00:08:37,039 --> 00:08:40,080
+back to our p- value friends. So our p-
+
+256
+00:08:38,719 --> 00:08:41,440
+value as we said was more in the
+
+257
+00:08:40,080 --> 00:08:42,959
+likelihood camp. It's not the
+
+258
+00:08:41,440 --> 00:08:44,240
+probability of the hypothesis given the
+
+259
+00:08:42,959 --> 00:08:46,959
+data. It's the probability of the data
+
+260
+00:08:44,240 --> 00:08:48,720
+given the hypothesis. And basian have an
+
+261
+00:08:46,959 --> 00:08:50,000
+answer for this as well. But remember we
+
+262
+00:08:48,720 --> 00:08:52,320
+wanted to talk about the alternative.
+
+263
+00:08:50,000 --> 00:08:54,399
+That's really important. So we can we
+
+264
+00:08:52,320 --> 00:08:56,399
+come up with this idea of a baze factor.
+
+265
+00:08:54,399 --> 00:08:58,160
+And there's to be confusing two kinds of
+
+266
+00:08:56,399 --> 00:08:59,600
+baze factors. One evaluates the
+
+267
+00:08:58,160 --> 00:09:01,279
+probability of the data under the
+
+268
+00:08:59,600 --> 00:09:02,959
+alternative hypothesis divided by the
+
+269
+00:09:01,279 --> 00:09:05,279
+probability of the data under the null.
+
+270
+00:09:02,959 --> 00:09:07,120
+And that's called the beta 1 0 because
+
+271
+00:09:05,279 --> 00:09:09,519
+one is in the nu numerator and zero is
+
+272
+00:09:07,120 --> 00:09:11,519
+in the basement. Or there's the
+
+273
+00:09:09,519 --> 00:09:12,720
+alternative the base factor 01 which is
+
+274
+00:09:11,519 --> 00:09:14,880
+the probability of the data under the
+
+275
+00:09:12,720 --> 00:09:17,200
+null hypothesis divided by the the data
+
+276
+00:09:14,880 --> 00:09:18,640
+under the alternative. Equivalent
+
+277
+00:09:17,200 --> 00:09:20,720
+statements just inverses of one another
+
+278
+00:09:18,640 --> 00:09:22,480
+but they do it to you know keep you like
+
+279
+00:09:20,720 --> 00:09:26,000
+a bar for entering. So you got to have a
+
+280
+00:09:22,480 --> 00:09:27,519
+license to become a patient. Um okay so
+
+281
+00:09:26,000 --> 00:09:29,360
+why is this important? Well I'm going to
+
+282
+00:09:27,519 --> 00:09:32,000
+show you that it's important. So I wear
+
+283
+00:09:29,360 --> 00:09:33,600
+several hats, none well, but um in one
+
+284
+00:09:32,000 --> 00:09:35,680
+of them, you know, I spent some time in
+
+285
+00:09:33,600 --> 00:09:37,440
+in the hospital, right? And uh and and
+
+286
+00:09:35,680 --> 00:09:39,880
+it's very useful because you can quickly
+
+287
+00:09:37,440 --> 00:09:42,240
+take some feeling about your prior
+
+288
+00:09:39,880 --> 00:09:44,000
+belief combined with this nice
+
+289
+00:09:42,240 --> 00:09:45,760
+convenient way of parameterizing our
+
+290
+00:09:44,000 --> 00:09:47,680
+evidence uh under two different
+
+291
+00:09:45,760 --> 00:09:48,640
+hypotheses and generate a posterior
+
+292
+00:09:47,680 --> 00:09:50,560
+distribution really quickly. I'm going
+
+293
+00:09:48,640 --> 00:09:55,120
+to show you that magic so you can use
+
+294
+00:09:50,560 --> 00:09:56,399
+that. Okay, but first um right, so what
+
+295
+00:09:55,120 --> 00:09:58,880
+does it actually mean when we observe
+
+296
+00:09:56,399 --> 00:10:01,440
+these very low p values? So, I made this
+
+297
+00:09:58,880 --> 00:10:02,959
+nice app actually. See if we can
+
+298
+00:10:01,440 --> 00:10:04,399
+actually access this. I'm a little
+
+299
+00:10:02,959 --> 00:10:06,000
+scared because if I access this, we may
+
+300
+00:10:04,399 --> 00:10:09,560
+never get back. I don't know. Do I do
+
+301
+00:10:06,000 --> 00:10:13,600
+it? Do it. Okay, we're going to do
+
+302
+00:10:09,560 --> 00:10:16,680
+it or not. We may not do it. Okay,
+
+303
+00:10:13,600 --> 00:10:19,399
+that's not working. Oh, do I have
+
+304
+00:10:16,680 --> 00:10:23,519
+to?
+
+305
+00:10:19,399 --> 00:10:26,640
+Huh? Great. Well, that worked well.
+
+306
+00:10:23,519 --> 00:10:30,519
+Share. Oh, because I'm only sharing one.
+
+307
+00:10:26,640 --> 00:10:32,200
+Okay, great. All right, sorry guys.
+
+308
+00:10:30,519 --> 00:10:35,120
+Interlude.
+
+309
+00:10:32,200 --> 00:10:37,279
+Okay, so this is really nice. Okay, so
+
+310
+00:10:35,120 --> 00:10:39,040
+this is a shiny app. So we have this we
+
+311
+00:10:37,279 --> 00:10:40,800
+have this prior belief on what we
+
+312
+00:10:39,040 --> 00:10:42,160
+believe about uh the truth of the
+
+313
+00:10:40,800 --> 00:10:43,200
+association, right? So that that falls
+
+314
+00:10:42,160 --> 00:10:45,279
+into our prior that's about the
+
+315
+00:10:43,200 --> 00:10:46,880
+hypothesis being associated or not being
+
+316
+00:10:45,279 --> 00:10:48,800
+associated with the hypothesis. So we
+
+317
+00:10:46,880 --> 00:10:51,120
+have that belief. Now we observe this p
+
+318
+00:10:48,800 --> 00:10:52,640
+value which translates as I was
+
+319
+00:10:51,120 --> 00:10:54,480
+describing this b factor. The p- value
+
+320
+00:10:52,640 --> 00:10:55,760
+is in the likelihood camp. So the p-
+
+321
+00:10:54,480 --> 00:10:57,279
+value itself is not directly a
+
+322
+00:10:55,760 --> 00:10:58,560
+likelihood but it's in that camp. It's
+
+323
+00:10:57,279 --> 00:10:59,920
+the probability of seeing a statistic as
+
+324
+00:10:58,560 --> 00:11:01,760
+a or more extreme given that the null is
+
+325
+00:10:59,920 --> 00:11:02,680
+true. And say that p value suggests that
+
+326
+00:11:01,760 --> 00:11:05,360
+there's a
+
+327
+00:11:02,680 --> 00:11:08,200
+99% probability of seeing the data given
+
+328
+00:11:05,360 --> 00:11:10,720
+that well it's a probability of 90 a
+
+329
+00:11:08,200 --> 00:11:13,279
+0.01% of seeing the data given that the
+
+330
+00:11:10,720 --> 00:11:15,200
+null is true. Uh but it doesn't mean a
+
+331
+00:11:13,279 --> 00:11:17,519
+99% chance of true association. That's
+
+332
+00:11:15,200 --> 00:11:19,279
+the key point in this plot. So but if we
+
+333
+00:11:17,519 --> 00:11:21,279
+combine that so if we convert that p
+
+334
+00:11:19,279 --> 00:11:23,040
+value to a baze factor and combine it
+
+335
+00:11:21,279 --> 00:11:27,120
+with the prior we actually get only an
+
+336
+00:11:23,040 --> 00:11:28,800
+18% probability of the al uh probability
+
+337
+00:11:27,120 --> 00:11:30,480
+of the alternative hypothesis given the
+
+338
+00:11:28,800 --> 00:11:33,040
+data and we can try this with different
+
+339
+00:11:30,480 --> 00:11:35,920
+assumptions right so in this so we can
+
+340
+00:11:33,040 --> 00:11:37,120
+try actually a larger observed p value
+
+341
+00:11:35,920 --> 00:11:39,440
+and of course that's going to make our
+
+342
+00:11:37,120 --> 00:11:41,839
+posterior even lower and we could also
+
+343
+00:11:39,440 --> 00:11:44,079
+try uh the prior probability of
+
+344
+00:11:41,839 --> 00:11:45,200
+association could increase this actually
+
+345
+00:11:44,079 --> 00:11:46,560
+right so that's going to increase our
+
+346
+00:11:45,200 --> 00:11:48,320
+posterior so there's there's definitely
+
+347
+00:11:46,560 --> 00:11:50,000
+fluctuations here. But the key point I
+
+348
+00:11:48,320 --> 00:11:53,320
+want to make here and if you walk away
+
+349
+00:11:50,000 --> 00:11:55,720
+with nothing is a p value of
+
+350
+00:11:53,320 --> 00:11:58,160
+0.01%. Does not mean that there's a
+
+351
+00:11:55,720 --> 00:11:59,040
+99.99 probability percent probability
+
+352
+00:11:58,160 --> 00:12:00,000
+that the alternative is true. It
+
+353
+00:11:59,040 --> 00:12:01,279
+actually tells you nothing about the
+
+354
+00:12:00,000 --> 00:12:02,839
+alternative. It just says that that's
+
+355
+00:12:01,279 --> 00:12:05,680
+quite unlikely under the
+
+356
+00:12:02,839 --> 00:12:07,680
+null. But it depends. I mean I could say
+
+357
+00:12:05,680 --> 00:12:09,360
+uh I see three tusks, so it's probably
+
+358
+00:12:07,680 --> 00:12:10,399
+not an an elephant. That's probably
+
+359
+00:12:09,360 --> 00:12:13,040
+true, but that doesn't mean it's a
+
+360
+00:12:10,399 --> 00:12:14,839
+person, right? Like it's Yeah. So
+
+361
+00:12:13,040 --> 00:12:16,839
+anyway,
+
+362
+00:12:14,839 --> 00:12:19,839
+um, go
+
+363
+00:12:16,839 --> 00:12:21,760
+back. Okay, now it's all going to fall
+
+364
+00:12:19,839 --> 00:12:23,480
+apart. Whoops. That's now we stopped
+
+365
+00:12:21,760 --> 00:12:26,480
+sharing. Sorry about that,
+
+366
+00:12:23,480 --> 00:12:26,480
+guys.
+
+367
+00:12:27,399 --> 00:12:32,720
+Okay, look at that. Okay. All right. So
+
+368
+00:12:30,959 --> 00:12:36,079
+we have this convenient way of
+
+369
+00:12:32,720 --> 00:12:37,440
+converting P values to B factors as I
+
+370
+00:12:36,079 --> 00:12:38,880
+was describing to translate this
+
+371
+00:12:37,440 --> 00:12:41,360
+frequentist quantity and something
+
+372
+00:12:38,880 --> 00:12:44,560
+that's useful as Beijing or useful just
+
+373
+00:12:41,360 --> 00:12:46,240
+period and full stop. Um okay and so
+
+374
+00:12:44,560 --> 00:12:48,480
+there's these three uh brilliant guys
+
+375
+00:12:46,240 --> 00:12:50,320
+who came up with this paper um in the
+
+376
+00:12:48,480 --> 00:12:51,519
+70s actually that translated these p
+
+377
+00:12:50,320 --> 00:12:52,720
+values to a base factor and this
+
+378
+00:12:51,519 --> 00:12:54,240
+remember I said I was going to be very
+
+379
+00:12:52,720 --> 00:12:56,160
+confusing and throw around base factor
+
+380
+00:12:54,240 --> 00:12:57,680
+01 to base factor 1 0. So now we're
+
+381
+00:12:56,160 --> 00:12:59,920
+talking about the 01 just to make it
+
+382
+00:12:57,680 --> 00:13:01,440
+interesting, right? And so what is the
+
+383
+00:12:59,920 --> 00:13:04,240
+base factor minimum is? Well, it
+
+384
+00:13:01,440 --> 00:13:06,480
+basically says this is the minimum
+
+385
+00:13:04,240 --> 00:13:08,800
+amount of evidence for the null
+
+386
+00:13:06,480 --> 00:13:12,240
+hypothesis we would get making the most
+
+387
+00:13:08,800 --> 00:13:13,600
+sort of um uh optimistic assumptions
+
+388
+00:13:12,240 --> 00:13:15,120
+about the alternative hypothesis.
+
+389
+00:13:13,600 --> 00:13:17,120
+Because if this is this base factor is
+
+390
+00:13:15,120 --> 00:13:18,800
+weighing the probability of the data
+
+391
+00:13:17,120 --> 00:13:19,839
+under the null hypothesis over the
+
+392
+00:13:18,800 --> 00:13:21,360
+probability of the data under the
+
+393
+00:13:19,839 --> 00:13:23,279
+alternative hypothesis then if we had
+
+394
+00:13:21,360 --> 00:13:25,680
+really big basement or a really small
+
+395
+00:13:23,279 --> 00:13:27,040
+you know attic then we're effectively
+
+396
+00:13:25,680 --> 00:13:29,279
+going to get a very low base factor
+
+397
+00:13:27,040 --> 00:13:31,040
+minimum and so that's saying a p value
+
+398
+00:13:29,279 --> 00:13:33,519
+of 0.05 5 translates to this minimum
+
+399
+00:13:31,040 --> 00:13:35,519
+base factor. P value of 0.001 translates
+
+400
+00:13:33,519 --> 00:13:39,120
+to that. Well, what does that mean? That
+
+401
+00:13:35,519 --> 00:13:40,959
+basically means roughly that there's 37
+
+402
+00:13:39,120 --> 00:13:42,399
+as much evidence for the null as there
+
+403
+00:13:40,959 --> 00:13:44,480
+is for the alternative, which is
+
+404
+00:13:42,399 --> 00:13:45,600
+actually only 2.7 times as much evidence
+
+405
+00:13:44,480 --> 00:13:46,720
+for the alternative versus the null.
+
+406
+00:13:45,600 --> 00:13:48,079
+That's really not convincing at all.
+
+407
+00:13:46,720 --> 00:13:50,399
+Like I'm not making any decisions with
+
+408
+00:13:48,079 --> 00:13:52,480
+that. And yet we build a lot of our
+
+409
+00:13:50,399 --> 00:13:54,480
+decisions in certainly in medicine or in
+
+410
+00:13:52,480 --> 00:13:55,920
+science based on this p value. So you
+
+411
+00:13:54,480 --> 00:13:58,000
+have to be really thoughtful. Now, there
+
+412
+00:13:55,920 --> 00:14:00,000
+are situations in which observing that p
+
+413
+00:13:58,000 --> 00:14:01,600
+value depending on the the the
+
+414
+00:14:00,000 --> 00:14:02,959
+population of other tests or on our
+
+415
+00:14:01,600 --> 00:14:05,120
+prior belief going in here like I just
+
+416
+00:14:02,959 --> 00:14:06,800
+showed in the app might actually be very
+
+417
+00:14:05,120 --> 00:14:09,040
+convincing and so it's useful to think
+
+418
+00:14:06,800 --> 00:14:10,560
+about and often I would argue you know
+
+419
+00:14:09,040 --> 00:14:12,320
+we actually are all Beijians as
+
+420
+00:14:10,560 --> 00:14:14,000
+scientists or as clinicians because we
+
+421
+00:14:12,320 --> 00:14:15,519
+probably wouldn't run an an experiment
+
+422
+00:14:14,000 --> 00:14:16,480
+unless we had some prior belief that we
+
+423
+00:14:15,519 --> 00:14:18,320
+you know we thought there might be a
+
+424
+00:14:16,480 --> 00:14:21,600
+reasonable chance of it being workable
+
+425
+00:14:18,320 --> 00:14:23,279
+or true. Um but that just denovo without
+
+426
+00:14:21,600 --> 00:14:24,639
+any information with using effectively a
+
+427
+00:14:23,279 --> 00:14:26,240
+flat prior ignoring the prior
+
+428
+00:14:24,639 --> 00:14:27,839
+information and just evaluating the
+
+429
+00:14:26,240 --> 00:14:29,440
+evidence for the alter the null versus
+
+430
+00:14:27,839 --> 00:14:30,880
+the alternative. That's that's the
+
+431
+00:14:29,440 --> 00:14:32,800
+translation. That's pretty powerful
+
+432
+00:14:30,880 --> 00:14:34,600
+actually if you think about it. Like how
+
+433
+00:14:32,800 --> 00:14:38,160
+does that how does that make us all
+
+434
+00:14:34,600 --> 00:14:40,880
+feel? Should we do a checkin? No. Okay.
+
+435
+00:14:38,160 --> 00:14:42,320
+All right. We're moving on. Jokes are
+
+436
+00:14:40,880 --> 00:14:43,760
+not hitting this morning. Okay. All
+
+437
+00:14:42,320 --> 00:14:47,279
+right.
+
+438
+00:14:43,760 --> 00:14:49,199
+Um, so now we can flip that around and
+
+439
+00:14:47,279 --> 00:14:50,959
+take the the denominator over the
+
+440
+00:14:49,199 --> 00:14:52,480
+numerator, right? And the evidence for
+
+441
+00:14:50,959 --> 00:14:55,279
+the alternative versus the evidence for
+
+442
+00:14:52,480 --> 00:14:57,440
+the the null. And effectively, this is a
+
+443
+00:14:55,279 --> 00:14:59,120
+table also from that um sulky a
+
+444
+00:14:57,440 --> 00:15:00,560
+follow-up Selki paper. And they actually
+
+445
+00:14:59,120 --> 00:15:03,279
+said a base factor of 1 to three is
+
+446
+00:15:00,560 --> 00:15:04,800
+barely worth mentioning. So that 005
+
+447
+00:15:03,279 --> 00:15:07,440
+taken in and of itself is between one
+
+448
+00:15:04,800 --> 00:15:09,760
+and three. It's a a base factor of 2.7.
+
+449
+00:15:07,440 --> 00:15:11,839
+We're not even going to talk about it. I
+
+450
+00:15:09,760 --> 00:15:13,880
+mean, that's kind of sad actually. I I
+
+451
+00:15:11,839 --> 00:15:16,399
+don't know. Okay. So,
+
+452
+00:15:13,880 --> 00:15:17,760
+um all right. So, how do we turn this
+
+453
+00:15:16,399 --> 00:15:19,199
+base factor into something that can give
+
+454
+00:15:17,760 --> 00:15:21,199
+us those posterior probabilities that
+
+455
+00:15:19,199 --> 00:15:23,440
+we're interested in? Well, remember that
+
+456
+00:15:21,199 --> 00:15:26,240
+uh the example that the the sort of
+
+457
+00:15:23,440 --> 00:15:28,560
+cardinal um important rule that we
+
+458
+00:15:26,240 --> 00:15:30,720
+learned in uh from the beginning slides
+
+459
+00:15:28,560 --> 00:15:31,920
+that the probability the the posterior
+
+460
+00:15:30,720 --> 00:15:33,680
+probability the probability of the
+
+461
+00:15:31,920 --> 00:15:36,000
+hypothesis given the data can be written
+
+462
+00:15:33,680 --> 00:15:38,000
+in this way. And you can actually
+
+463
+00:15:36,000 --> 00:15:39,519
+rearrange the algebra and take that
+
+464
+00:15:38,000 --> 00:15:41,120
+likelihood the probability of the data
+
+465
+00:15:39,519 --> 00:15:42,800
+given the hypothesis times the
+
+466
+00:15:41,120 --> 00:15:46,639
+probability of the hypothesis is
+
+467
+00:15:42,800 --> 00:15:49,440
+basically a ratio of the B factor uh
+
+468
+00:15:46,639 --> 00:15:52,240
+times the prior odds. Show you this
+
+469
+00:15:49,440 --> 00:15:54,240
+right. So we can take the B factor 10
+
+470
+00:15:52,240 --> 00:15:55,920
+times the prior odds. Now this is in the
+
+471
+00:15:54,240 --> 00:15:57,440
+reverse way. the probability of the data
+
+472
+00:15:55,920 --> 00:16:00,240
+given the alternative over the
+
+473
+00:15:57,440 --> 00:16:01,920
+probability of the uh data given the
+
+474
+00:16:00,240 --> 00:16:03,519
+null and then times the prior
+
+475
+00:16:01,920 --> 00:16:05,279
+probability of the alternative over the
+
+476
+00:16:03,519 --> 00:16:07,040
+prior probability of the null. And you
+
+477
+00:16:05,279 --> 00:16:08,639
+can quickly translate this wherever you
+
+478
+00:16:07,040 --> 00:16:11,199
+are. You just in sort of the back of
+
+479
+00:16:08,639 --> 00:16:12,959
+your mind if you think that denovo the
+
+480
+00:16:11,199 --> 00:16:14,560
+alternative hypothesis is three times as
+
+481
+00:16:12,959 --> 00:16:16,959
+likely as the null and you observe this
+
+482
+00:16:14,560 --> 00:16:18,880
+base factor that perhaps corroborates or
+
+483
+00:16:16,959 --> 00:16:20,600
+goes against that feeling and you can
+
+484
+00:16:18,880 --> 00:16:22,880
+convert that actually into a posterior
+
+485
+00:16:20,600 --> 00:16:25,040
+odds which can be converted into a
+
+486
+00:16:22,880 --> 00:16:27,680
+posterior probability.
+
+487
+00:16:25,040 --> 00:16:30,480
+And so these are the important uh
+
+488
+00:16:27,680 --> 00:16:31,600
+takeaways from this, right? So p values
+
+489
+00:16:30,480 --> 00:16:32,959
+are answering very different questions
+
+490
+00:16:31,600 --> 00:16:36,240
+that I think that we're most thinking
+
+491
+00:16:32,959 --> 00:16:37,839
+about um and that we we maybe denovo
+
+492
+00:16:36,240 --> 00:16:40,320
+think that that they should be
+
+493
+00:16:37,839 --> 00:16:42,079
+answering. Um we a base factor allows us
+
+494
+00:16:40,320 --> 00:16:43,519
+to compare these competing hypothesis in
+
+495
+00:16:42,079 --> 00:16:45,839
+the likelihood space which is still in
+
+496
+00:16:43,519 --> 00:16:47,440
+the Bayian space. And even these
+
+497
+00:16:45,839 --> 00:16:49,120
+significant p values provide weaker
+
+498
+00:16:47,440 --> 00:16:51,120
+evidence than typically assumed. And
+
+499
+00:16:49,120 --> 00:16:52,560
+actually what's nice is um and it's one
+
+500
+00:16:51,120 --> 00:16:54,399
+of the slides I've commented out because
+
+501
+00:16:52,560 --> 00:16:57,199
+I didn't know if I'd have time, but if
+
+502
+00:16:54,399 --> 00:17:00,680
+you um so if you actually draw the log
+
+503
+00:16:57,199 --> 00:17:03,759
+10 p value versus the log 10 base
+
+504
+00:17:00,680 --> 00:17:06,319
+factor, the evidence the the translation
+
+505
+00:17:03,759 --> 00:17:08,640
+is it's actually upshifted effectively
+
+506
+00:17:06,319 --> 00:17:10,959
+meaning that uh the minimum b factor is
+
+507
+00:17:08,640 --> 00:17:13,120
+always actually less evidence uh against
+
+508
+00:17:10,959 --> 00:17:14,559
+the al well it's less evidence against
+
+509
+00:17:13,120 --> 00:17:16,959
+the altern less evidence against the
+
+510
+00:17:14,559 --> 00:17:19,199
+null than the p value would suggest. Um
+
+511
+00:17:16,959 --> 00:17:20,720
+and so right these base vectors have a a
+
+512
+00:17:19,199 --> 00:17:22,319
+natural interpretation and you can
+
+513
+00:17:20,720 --> 00:17:23,760
+conveniently convert uh when you have
+
+514
+00:17:22,319 --> 00:17:25,760
+the base vector when you have the prior
+
+515
+00:17:23,760 --> 00:17:27,199
+probability into posterior probability.
+
+516
+00:17:25,760 --> 00:17:28,319
+All right. So, multiple testing. So,
+
+517
+00:17:27,199 --> 00:17:29,919
+we're moving on. We're making good
+
+518
+00:17:28,319 --> 00:17:31,760
+progress. So, now we've developed these
+
+519
+00:17:29,919 --> 00:17:33,679
+p values and we have not just one or two
+
+520
+00:17:31,760 --> 00:17:35,039
+p values, but we have many p- values.
+
+521
+00:17:33,679 --> 00:17:37,120
+Many people in this building have many
+
+522
+00:17:35,039 --> 00:17:39,679
+p- values, right? That's kind of our
+
+523
+00:17:37,120 --> 00:17:41,679
+idea. Um, and so there are some sort of
+
+524
+00:17:39,679 --> 00:17:43,840
+cardinal feelings about how we deal with
+
+525
+00:17:41,679 --> 00:17:45,520
+all of these hypothesis tests because if
+
+526
+00:17:43,840 --> 00:17:47,200
+we're running a lot of hypothesis tests,
+
+527
+00:17:45,520 --> 00:17:49,840
+even in a frequentist sense, we realize
+
+528
+00:17:47,200 --> 00:17:51,679
+that we need to control the probability
+
+529
+00:17:49,840 --> 00:17:53,440
+of seeing the data uh given that the
+
+530
+00:17:51,679 --> 00:17:55,520
+null is true is very small. the
+
+531
+00:17:53,440 --> 00:17:57,840
+probability of you know the complement
+
+532
+00:17:55,520 --> 00:17:59,440
+of that taken to a large number actually
+
+533
+00:17:57,840 --> 00:18:01,679
+gives you a value that's that's not so
+
+534
+00:17:59,440 --> 00:18:03,919
+small um and so what do we do with this
+
+535
+00:18:01,679 --> 00:18:05,840
+information right uh and so this is
+
+536
+00:18:03,919 --> 00:18:07,520
+where I was going to draw some sort of
+
+537
+00:18:05,840 --> 00:18:09,280
+uh the way that we typically think about
+
+538
+00:18:07,520 --> 00:18:10,880
+this in a frequent setting and this is
+
+539
+00:18:09,280 --> 00:18:13,600
+actually how I sort of started out when
+
+540
+00:18:10,880 --> 00:18:15,520
+I was in undergrad um I was introduced
+
+541
+00:18:13,600 --> 00:18:16,960
+the idea of false discovery rates and I
+
+542
+00:18:15,520 --> 00:18:18,400
+said that's pretty cool it's important
+
+543
+00:18:16,960 --> 00:18:19,760
+to think about but how do you calculate
+
+544
+00:18:18,400 --> 00:18:23,600
+some of the important quantities there
+
+545
+00:18:19,760 --> 00:18:26,200
+so all right so this is our null
+
+546
+00:18:23,600 --> 00:18:28,160
+And this is our
+
+547
+00:18:26,200 --> 00:18:30,880
+alternative. Now you guys may have seen
+
+548
+00:18:28,160 --> 00:18:32,799
+this, but suppose that we observe a
+
+549
+00:18:30,880 --> 00:18:34,280
+statistic that's right here. Okay, this
+
+550
+00:18:32,799 --> 00:18:36,720
+is
+
+551
+00:18:34,280 --> 00:18:38,160
+our and we observe not just that
+
+552
+00:18:36,720 --> 00:18:40,080
+statistic, but we observe a whole list
+
+553
+00:18:38,160 --> 00:18:41,520
+of statistics. We have a whole list of
+
+554
+00:18:40,080 --> 00:18:43,280
+findings that we're calling significant.
+
+555
+00:18:41,520 --> 00:18:44,640
+That often happens in um you know
+
+556
+00:18:43,280 --> 00:18:46,400
+genomic discovery, right? So we have
+
+557
+00:18:44,640 --> 00:18:49,679
+this list that we're calling significant
+
+558
+00:18:46,400 --> 00:18:51,600
+and we want to know instead of the
+
+559
+00:18:49,679 --> 00:18:54,320
+probability of the data given that the
+
+560
+00:18:51,600 --> 00:18:56,720
+null is true what we said the p value
+
+561
+00:18:54,320 --> 00:18:58,720
+was we want to know the probability that
+
+562
+00:18:56,720 --> 00:19:00,400
+the null is true given that we're seeing
+
+563
+00:18:58,720 --> 00:19:03,280
+a statistic as or more extreme we want
+
+564
+00:19:00,400 --> 00:19:04,640
+to invert that and that's called a false
+
+565
+00:19:03,280 --> 00:19:06,400
+discovery rate which is typically
+
+566
+00:19:04,640 --> 00:19:08,240
+thought of as a as a frequent quantity
+
+567
+00:19:06,400 --> 00:19:12,080
+but I'm going to dispel that notion
+
+568
+00:19:08,240 --> 00:19:14,799
+today oh no oh no what did I do
+
+569
+00:19:12,080 --> 00:19:17,000
+okay oh my goodness okay all
+
+570
+00:19:14,799 --> 00:19:19,440
+All right. So this is called
+
+571
+00:19:17,000 --> 00:19:21,280
+FDR. All right. So we observe this
+
+572
+00:19:19,440 --> 00:19:22,880
+statistic and essentially we're say
+
+573
+00:19:21,280 --> 00:19:25,600
+we're looking at the ratio and we're
+
+574
+00:19:22,880 --> 00:19:27,360
+saying that this is the portion of the
+
+575
+00:19:25,600 --> 00:19:28,559
+statistics as or more extreme given that
+
+576
+00:19:27,360 --> 00:19:31,200
+the null is true because this was the
+
+577
+00:19:28,559 --> 00:19:33,880
+null distribution, right? And this is
+
+578
+00:19:31,200 --> 00:19:36,480
+the whole list of
+
+579
+00:19:33,880 --> 00:19:41,200
+discoveries. So the fraction of this
+
+580
+00:19:36,480 --> 00:19:43,360
+we'll call this a over this area b. So a
+
+581
+00:19:41,200 --> 00:19:45,200
+over well we could say that perhaps this
+
+582
+00:19:43,360 --> 00:19:46,720
+is this is b this is the portion that's
+
+583
+00:19:45,200 --> 00:19:52,760
+coming from the uh alternative
+
+584
+00:19:46,720 --> 00:19:55,120
+distribution. So a over a plus b equals
+
+585
+00:19:52,760 --> 00:19:57,360
+fdr. But the interesting thing about
+
+586
+00:19:55,120 --> 00:19:59,280
+this is we actually don't know how close
+
+587
+00:19:57,360 --> 00:20:01,760
+these distributions are and we don't
+
+588
+00:19:59,280 --> 00:20:05,400
+know uh the enrichment of our set of
+
+589
+00:20:01,760 --> 00:20:07,600
+tests in alternative distributions or
+
+590
+00:20:05,400 --> 00:20:10,559
+alternatively enriched in in null
+
+591
+00:20:07,600 --> 00:20:14,240
+distributions. So that's where we have
+
+592
+00:20:10,559 --> 00:20:16,799
+this nice result and if you essentially
+
+593
+00:20:14,240 --> 00:20:18,000
+plotted a histogram of p values that
+
+594
+00:20:16,799 --> 00:20:20,120
+were all generated from a null
+
+595
+00:20:18,000 --> 00:20:23,120
+distribution they would be completely
+
+596
+00:20:20,120 --> 00:20:25,679
+uniform. So you look at where that
+
+597
+00:20:23,120 --> 00:20:27,679
+distribution forms a uniform height
+
+598
+00:20:25,679 --> 00:20:29,919
+divided by one basically normalized when
+
+599
+00:20:27,679 --> 00:20:32,400
+it's density and so in this sense we see
+
+600
+00:20:29,919 --> 00:20:36,240
+the p the pi is 7. So the proportion of
+
+601
+00:20:32,400 --> 00:20:37,760
+null tests is 7. That means it forms it
+
+602
+00:20:36,240 --> 00:20:40,559
+forms it begins to form the null
+
+603
+00:20:37,760 --> 00:20:42,000
+distribution. Uh it 70% of the tests
+
+604
+00:20:40,559 --> 00:20:45,280
+effectively are are are forming that
+
+605
+00:20:42,000 --> 00:20:47,600
+null distribution. And so that value is
+
+606
+00:20:45,280 --> 00:20:49,760
+equivalent to our prior. So now if we're
+
+607
+00:20:47,600 --> 00:20:51,600
+turning this into a basian quantity, the
+
+608
+00:20:49,760 --> 00:20:53,679
+probability of the null hypothesis given
+
+609
+00:20:51,600 --> 00:20:55,520
+the data is proportional to the
+
+610
+00:20:53,679 --> 00:20:57,600
+probability of the data given the null
+
+611
+00:20:55,520 --> 00:21:00,159
+hypothesis times the probability of the
+
+612
+00:20:57,600 --> 00:21:03,120
+null hypothesis. And I can write this as
+
+613
+00:21:00,159 --> 00:21:05,760
+pi 0. And then this probability of the
+
+614
+00:21:03,120 --> 00:21:07,919
+data given the null hypothesis we know
+
+615
+00:21:05,760 --> 00:21:08,919
+is our likelihood, right? So we can
+
+616
+00:21:07,919 --> 00:21:12,080
+calculate
+
+617
+00:21:08,919 --> 00:21:14,559
+that. Okay. So the challenge though is
+
+618
+00:21:12,080 --> 00:21:16,080
+how do we calculate pi zero? And also
+
+619
+00:21:14,559 --> 00:21:17,520
+perhaps we're not interested in entire
+
+620
+00:21:16,080 --> 00:21:19,600
+list of tests because we're only
+
+621
+00:21:17,520 --> 00:21:20,720
+observing one test at a time. And so
+
+622
+00:21:19,600 --> 00:21:22,640
+that's where I'm going to introduce you
+
+623
+00:21:20,720 --> 00:21:25,840
+to this local false discovery rate that
+
+624
+00:21:22,640 --> 00:21:28,880
+was pioneered by well Ma Matthew
+
+625
+00:21:25,840 --> 00:21:31,120
+Stevens, my my my PhD adviser. um and
+
+626
+00:21:28,880 --> 00:21:34,159
+but is uh I mean it's been it probably
+
+627
+00:21:31,120 --> 00:21:36,080
+has been around been around before but
+
+628
+00:21:34,159 --> 00:21:37,840
+um it's it's very useful to think about
+
+629
+00:21:36,080 --> 00:21:40,480
+in this sense and inherently it can be
+
+630
+00:21:37,840 --> 00:21:42,400
+inherently a Beijing quantity. Okay, so
+
+631
+00:21:40,480 --> 00:21:44,000
+this is what I was just describing. So
+
+632
+00:21:42,400 --> 00:21:46,480
+the probability of the null hypothesis
+
+633
+00:21:44,000 --> 00:21:48,159
+given a particular Zstistic is the
+
+634
+00:21:46,480 --> 00:21:50,240
+probability of the Zstistic given that
+
+635
+00:21:48,159 --> 00:21:52,159
+the null is true times the probability
+
+636
+00:21:50,240 --> 00:21:53,679
+of the null is the probability that the
+
+637
+00:21:52,159 --> 00:21:56,320
+null hypothesis right which is just one
+
+638
+00:21:53,679 --> 00:21:59,799
+minus the alternative hypothesis there.
+
+639
+00:21:56,320 --> 00:22:02,640
+Okay. And so in this
+
+640
+00:21:59,799 --> 00:22:05,760
+parameterization we have the density
+
+641
+00:22:02,640 --> 00:22:08,240
+function which is the probability of the
+
+642
+00:22:05,760 --> 00:22:11,360
+zstistic or the data given that the null
+
+643
+00:22:08,240 --> 00:22:14,000
+is true and this is for null statistics
+
+644
+00:22:11,360 --> 00:22:18,320
+right is a normal function. So it's it's
+
+645
+00:22:14,000 --> 00:22:19,840
+a normal density zero sigma squar. Now
+
+646
+00:22:18,320 --> 00:22:21,600
+what if it's from the alternative
+
+647
+00:22:19,840 --> 00:22:24,080
+distribution? What if we meet a zstistic
+
+648
+00:22:21,600 --> 00:22:25,919
+from the alternative distribution? Well,
+
+649
+00:22:24,080 --> 00:22:28,720
+in that sense, we're actually going to
+
+650
+00:22:25,919 --> 00:22:31,039
+have this is where Yeah. So, okay. So,
+
+651
+00:22:28,720 --> 00:22:33,280
+we have an overall distribution that I'd
+
+652
+00:22:31,039 --> 00:22:35,200
+probably put this order in funny, but
+
+653
+00:22:33,280 --> 00:22:38,320
+basically, we have let me let me draw
+
+654
+00:22:35,200 --> 00:22:38,320
+this out a different way. I think
+
+655
+00:22:45,480 --> 00:22:49,440
+I Okay, we're going to have a bit of a
+
+656
+00:22:47,840 --> 00:22:52,799
+tree.
+
+657
+00:22:49,440 --> 00:22:52,799
+And so in our first TR
+
+658
+00:22:54,280 --> 00:22:58,880
+tree in our first tree before we meet
+
+659
+00:22:56,880 --> 00:23:00,559
+any data we just have the probability of
+
+660
+00:22:58,880 --> 00:23:03,000
+the Z statistic where where it lives
+
+661
+00:23:00,559 --> 00:23:05,600
+right and so that's going to be normal
+
+662
+00:23:03,000 --> 00:23:08,159
+zero sigma square this is called or
+
+663
+00:23:05,600 --> 00:23:09,600
+prior mean prior mean prior variance and
+
+664
+00:23:08,159 --> 00:23:11,120
+this is of the true effect. So these are
+
+665
+00:23:09,600 --> 00:23:13,200
+the true effects are centered around
+
+666
+00:23:11,120 --> 00:23:15,200
+some distribution where perhaps the
+
+667
+00:23:13,200 --> 00:23:16,799
+prior mean is zero but some of them are
+
+668
+00:23:15,200 --> 00:23:20,640
+true and so they're out here. These are
+
+669
+00:23:16,799 --> 00:23:20,640
+this is the true effect. Now we observe
+
+670
+00:23:21,120 --> 00:23:25,760
+a new one that's noisy. And that's going
+
+671
+00:23:23,440 --> 00:23:28,760
+to be centered around that true prior
+
+672
+00:23:25,760 --> 00:23:31,679
+effect plus some
+
+673
+00:23:28,760 --> 00:23:33,280
+noise. And then our posterior, which is
+
+674
+00:23:31,679 --> 00:23:37,360
+going to be the probability of the Z
+
+675
+00:23:33,280 --> 00:23:40,640
+given the Z hat, is now going to be have
+
+676
+00:23:37,360 --> 00:23:43,360
+its new posterior mean and this new
+
+677
+00:23:40,640 --> 00:23:46,240
+posterior variance.
+
+678
+00:23:43,360 --> 00:23:49,679
+And that's calculated by effectively
+
+679
+00:23:46,240 --> 00:23:51,840
+integrating over the prior mean and the
+
+680
+00:23:49,679 --> 00:23:54,000
+likelihood the observed data. And now
+
+681
+00:23:51,840 --> 00:23:56,159
+you get this marginal likelihood which
+
+682
+00:23:54,000 --> 00:23:57,760
+is the probability of seeing which yeah
+
+683
+00:23:56,159 --> 00:23:59,440
+so the marginal likelihood is now going
+
+684
+00:23:57,760 --> 00:24:01,679
+to have when you integrate this observed
+
+685
+00:23:59,440 --> 00:24:04,880
+Z over the prior mean it's going to have
+
+686
+00:24:01,679 --> 00:24:06,960
+this noisy mean and the prior variance.
+
+687
+00:24:04,880 --> 00:24:08,480
+Okay. So what did I show here? Right?
+
+688
+00:24:06,960 --> 00:24:10,720
+Yeah, this was the prior likelihood.
+
+689
+00:24:08,480 --> 00:24:12,240
+Okay. So and the overall distribution
+
+690
+00:24:10,720 --> 00:24:13,440
+then when we observe it's a mixture,
+
+691
+00:24:12,240 --> 00:24:14,720
+right? It's a mixture of these null
+
+692
+00:24:13,440 --> 00:24:16,640
+statistics and these alternative
+
+693
+00:24:14,720 --> 00:24:18,799
+statistics. Um and this was sort of the
+
+694
+00:24:16,640 --> 00:24:21,120
+the formula. So the the posterior um on
+
+695
+00:24:18,799 --> 00:24:23,840
+on the the distribution of statistics is
+
+696
+00:24:21,120 --> 00:24:25,600
+basically um uh or the well the the
+
+697
+00:24:23,840 --> 00:24:27,520
+prior is a mixture over these each of
+
+698
+00:24:25,600 --> 00:24:30,400
+the component distributions and this is
+
+699
+00:24:27,520 --> 00:24:33,080
+the um the conditional likelihood. Yeah.
+
+700
+00:24:30,400 --> 00:24:37,440
+So the point I wanted to make here was
+
+701
+00:24:33,080 --> 00:24:37,440
+sorry this too much for this. Oh my
+
+702
+00:24:38,279 --> 00:24:44,360
+gosh. Sorry about this. Okay. So the
+
+703
+00:24:41,919 --> 00:24:47,600
+point I wanted to make here though was
+
+704
+00:24:44,360 --> 00:24:49,279
+that figuring out this balance the
+
+705
+00:24:47,600 --> 00:24:50,559
+distribution the pi one or the pi zero
+
+706
+00:24:49,279 --> 00:24:52,240
+figuring out the balance that sort of
+
+707
+00:24:50,559 --> 00:24:54,480
+optimizes this the likelihood the
+
+708
+00:24:52,240 --> 00:24:56,320
+observed data is is tricky and it
+
+709
+00:24:54,480 --> 00:24:59,120
+requires uh these empirical bays
+
+710
+00:24:56,320 --> 00:25:00,960
+techniques that really um uh determine
+
+711
+00:24:59,120 --> 00:25:02,320
+what sort of optimizes you can in
+
+712
+00:25:00,960 --> 00:25:03,760
+empirical bays you're optimizing the
+
+713
+00:25:02,320 --> 00:25:06,480
+likelihood. So finding the balance of
+
+714
+00:25:03,760 --> 00:25:08,080
+pies that really optimizes seeing u
+
+715
+00:25:06,480 --> 00:25:09,360
+seeing the set of statistics you have.
+
+716
+00:25:08,080 --> 00:25:11,440
+So perhaps you have a lot of really
+
+717
+00:25:09,360 --> 00:25:13,360
+large effects that aren't noisy. So then
+
+718
+00:25:11,440 --> 00:25:15,600
+your pi 0 is very small, your pi 1 is is
+
+719
+00:25:13,360 --> 00:25:17,440
+quite big. Or perhaps you have a lot of
+
+720
+00:25:15,600 --> 00:25:19,760
+small noisy effects and then your pi 0
+
+721
+00:25:17,440 --> 00:25:21,279
+is going to be um very large and your pi
+
+722
+00:25:19,760 --> 00:25:23,120
+1 is going to be very small. And
+
+723
+00:25:21,279 --> 00:25:24,880
+similarly the balance of sigas tells you
+
+724
+00:25:23,120 --> 00:25:26,400
+exactly how large the effects are. And
+
+725
+00:25:24,880 --> 00:25:27,760
+so you can fix one and try to estimate
+
+726
+00:25:26,400 --> 00:25:29,520
+the others or you can try to fix them
+
+727
+00:25:27,760 --> 00:25:32,320
+and estimate them jointly in a in a
+
+728
+00:25:29,520 --> 00:25:34,960
+beijian sense. Um okay so right so this
+
+729
+00:25:32,320 --> 00:25:36,640
+is the population. So what we observe is
+
+730
+00:25:34,960 --> 00:25:37,760
+we observe these effect sizes. We of
+
+731
+00:25:36,640 --> 00:25:40,400
+course don't know which ones are null
+
+732
+00:25:37,760 --> 00:25:43,360
+and which ones are true. Right? So um
+
+733
+00:25:40,400 --> 00:25:45,679
+but uh the the the goal is to try to to
+
+734
+00:25:43,360 --> 00:25:47,279
+try to estimate that and let's see I
+
+735
+00:25:45,679 --> 00:25:49,600
+have this nice right. So after you've
+
+736
+00:25:47,279 --> 00:25:51,840
+done that um you can see that when you
+
+737
+00:25:49,600 --> 00:25:54,159
+apply this this this technique that's
+
+738
+00:25:51,840 --> 00:25:55,919
+effectively shrinking um effects with
+
+739
+00:25:54,159 --> 00:25:58,559
+noisy standard errors that are quite
+
+740
+00:25:55,919 --> 00:26:00,000
+small towards zero you get a a plot like
+
+741
+00:25:58,559 --> 00:26:02,080
+this. And how does it learn how does it
+
+742
+00:26:00,000 --> 00:26:03,840
+learn that nicely? So effectively it's a
+
+743
+00:26:02,080 --> 00:26:06,640
+mixture remember as I was describing
+
+744
+00:26:03,840 --> 00:26:08,960
+it's a mixture over these um these prior
+
+745
+00:26:06,640 --> 00:26:10,880
+variances. And so for each statistic
+
+746
+00:26:08,960 --> 00:26:12,320
+that you observe, you say, well, is it
+
+747
+00:26:10,880 --> 00:26:14,159
+more likely to observe it with a large
+
+748
+00:26:12,320 --> 00:26:15,600
+prior variance, which is a true effect
+
+749
+00:26:14,159 --> 00:26:17,039
+variance, or is it more likely to
+
+750
+00:26:15,600 --> 00:26:19,200
+observe it with a small prior variance
+
+751
+00:26:17,039 --> 00:26:21,200
+because it's so noisy. And so the larger
+
+752
+00:26:19,200 --> 00:26:22,640
+prior variance that you get that really
+
+753
+00:26:21,200 --> 00:26:26,159
+makes sense with the data that you're
+
+754
+00:26:22,640 --> 00:26:29,760
+observing tends to shrink the data less
+
+755
+00:26:26,159 --> 00:26:31,600
+and um sort of shrink the basically the
+
+756
+00:26:29,760 --> 00:26:34,159
+prior, which is a spike prior. It's fit
+
+757
+00:26:31,600 --> 00:26:35,919
+at zero um will matter will matter less
+
+758
+00:26:34,159 --> 00:26:38,360
+and the data data matters more. And so
+
+759
+00:26:35,919 --> 00:26:40,799
+then in that plot that we just
+
+760
+00:26:38,360 --> 00:26:43,039
+had you'll tend to see that that large
+
+761
+00:26:40,799 --> 00:26:44,520
+effects are are are boosted and small
+
+762
+00:26:43,039 --> 00:26:47,840
+effects are
+
+763
+00:26:44,520 --> 00:26:50,000
+shrunk. Um so you can see that yeah okay
+
+764
+00:26:47,840 --> 00:26:52,240
+so so what is mash? So mash is really an
+
+765
+00:26:50,000 --> 00:26:53,919
+extension of this but now instead of
+
+766
+00:26:52,240 --> 00:26:55,679
+looking at only the population within
+
+767
+00:26:53,919 --> 00:26:58,159
+within a univariate population. So in
+
+768
+00:26:55,679 --> 00:26:59,520
+one trait in in one trait we think about
+
+769
+00:26:58,159 --> 00:27:01,039
+uh the abundance of large and small
+
+770
+00:26:59,520 --> 00:27:02,400
+effects. So that's the proportion that's
+
+771
+00:27:01,039 --> 00:27:04,159
+the pi and then we think about the scale
+
+772
+00:27:02,400 --> 00:27:06,720
+of the effects. Now we have multiple
+
+773
+00:27:04,159 --> 00:27:08,400
+effects in multiple traits and we might
+
+774
+00:27:06,720 --> 00:27:11,120
+say that the effects in other traits
+
+775
+00:27:08,400 --> 00:27:13,440
+tend to boost the effects in one trait.
+
+776
+00:27:11,120 --> 00:27:14,960
+And so that u matrix is now actually
+
+777
+00:27:13,440 --> 00:27:17,200
+capturing the shape or the relationship
+
+778
+00:27:14,960 --> 00:27:19,480
+among traits but it's also got the
+
+779
+00:27:17,200 --> 00:27:23,679
+scaling parameter that's just
+
+780
+00:27:19,480 --> 00:27:25,520
+like this uh sorry right just like the
+
+781
+00:27:23,679 --> 00:27:26,799
+prior variance that we observe there. So
+
+782
+00:27:25,520 --> 00:27:28,559
+the take-home point is the prior
+
+783
+00:27:26,799 --> 00:27:30,320
+variance actually helps you helps you
+
+784
+00:27:28,559 --> 00:27:32,080
+boost the data that you're observing.
+
+785
+00:27:30,320 --> 00:27:33,919
+And if we have a large observed effect
+
+786
+00:27:32,080 --> 00:27:35,440
+with a small noisy uh with a small
+
+787
+00:27:33,919 --> 00:27:38,240
+noise, then we're actually going to to
+
+788
+00:27:35,440 --> 00:27:40,880
+to boost the posterior and recognize
+
+789
+00:27:38,240 --> 00:27:42,159
+that um uh recognize that a large prior
+
+790
+00:27:40,880 --> 00:27:44,720
+variance would sort of best best fit
+
+791
+00:27:42,159 --> 00:27:46,080
+that situation. And if we also observe
+
+792
+00:27:44,720 --> 00:27:49,120
+that there are large effects in other
+
+793
+00:27:46,080 --> 00:27:52,320
+conditions, we'll boost it even more. Um
+
+794
+00:27:49,120 --> 00:27:53,919
+right okay so so this is kind of a neat
+
+795
+00:27:52,320 --> 00:27:55,760
+so the way to wrap your head around
+
+796
+00:27:53,919 --> 00:27:57,520
+this. So as I said this sigma 1 and
+
+797
+00:27:55,760 --> 00:27:59,279
+sigma 2 are the prior variances. What
+
+798
+00:27:57,520 --> 00:28:00,880
+are the terms on the off diagonal? So
+
+799
+00:27:59,279 --> 00:28:03,840
+those are the covariance scale by some
+
+800
+00:28:00,880 --> 00:28:05,600
+some correlation and so the correlation
+
+801
+00:28:03,840 --> 00:28:07,600
+really controls so if we have two traits
+
+802
+00:28:05,600 --> 00:28:11,679
+I think I have this plot here somewhere.
+
+803
+00:28:07,600 --> 00:28:13,399
+Um right. Okay. Well, if we have if we
+
+804
+00:28:11,679 --> 00:28:16,039
+have two
+
+805
+00:28:13,399 --> 00:28:18,559
+traits, so trait
+
+806
+00:28:16,039 --> 00:28:19,919
+one, two,
+
+807
+00:28:18,559 --> 00:28:21,039
+um, and they're quite they're they're
+
+808
+00:28:19,919 --> 00:28:22,960
+correlated, but they're it's quite
+
+809
+00:28:21,039 --> 00:28:25,080
+noisy, right? So, we'll see a big cloud
+
+810
+00:28:22,960 --> 00:28:27,840
+of
+
+811
+00:28:25,080 --> 00:28:29,120
+points. But if one increases in the same
+
+812
+00:28:27,840 --> 00:28:31,080
+scale that the other increases, then
+
+813
+00:28:29,120 --> 00:28:33,520
+it'll be this straight
+
+814
+00:28:31,080 --> 00:28:34,640
+line. And so the question is, well, how
+
+815
+00:28:33,520 --> 00:28:36,320
+would you get something that's on the
+
+816
+00:28:34,640 --> 00:28:37,840
+off diagonal, right? So that you would
+
+817
+00:28:36,320 --> 00:28:39,200
+just change the relationship between the
+
+818
+00:28:37,840 --> 00:28:41,039
+prior variance for two and the prior
+
+819
+00:28:39,200 --> 00:28:43,919
+variance for one. So suppose that two is
+
+820
+00:28:41,039 --> 00:28:45,360
+always constituently higher than one to
+
+821
+00:28:43,919 --> 00:28:46,480
+get something like this. And if one is
+
+822
+00:28:45,360 --> 00:28:48,000
+always larger than two, you get
+
+823
+00:28:46,480 --> 00:28:49,520
+something like this. And the row
+
+824
+00:28:48,000 --> 00:28:51,760
+controls how cloudy those are around
+
+825
+00:28:49,520 --> 00:28:53,440
+each other. And that prior assumption if
+
+826
+00:28:51,760 --> 00:28:55,760
+it's if it's uh congruent with what
+
+827
+00:28:53,440 --> 00:28:57,279
+we're observing, right? Then we'll tend
+
+828
+00:28:55,760 --> 00:29:00,159
+to sort of boost that component of the
+
+829
+00:28:57,279 --> 00:29:01,440
+mixture model and the ultimate posterior
+
+830
+00:29:00,159 --> 00:29:02,919
+will be heavily informed by that
+
+831
+00:29:01,440 --> 00:29:05,760
+component of the mixture
+
+832
+00:29:02,919 --> 00:29:07,039
+model. Okay. So how would I get a one-1
+
+833
+00:29:05,760 --> 00:29:08,080
+line? So that's sort of an exercise to
+
+834
+00:29:07,039 --> 00:29:09,120
+go through yourself. But that
+
+835
+00:29:08,080 --> 00:29:10,640
+effectively is saying that the
+
+836
+00:29:09,120 --> 00:29:13,200
+correlation coefficient is one. They're
+
+837
+00:29:10,640 --> 00:29:14,640
+perfectly correlated. And this is not a
+
+838
+00:29:13,200 --> 00:29:16,640
+one-1 because I was trying to show a
+
+839
+00:29:14,640 --> 00:29:18,720
+situation in which the effect in two is
+
+840
+00:29:16,640 --> 00:29:19,919
+greater than one. So that prior variance
+
+841
+00:29:18,720 --> 00:29:21,360
+for two is greater than one. But if you
+
+842
+00:29:19,919 --> 00:29:24,039
+wanted a one- one line, it would just be
+
+843
+00:29:21,360 --> 00:29:26,720
+this whole matrix would be would be once
+
+844
+00:29:24,039 --> 00:29:30,000
+effectively. Okay. So bringing it home,
+
+845
+00:29:26,720 --> 00:29:31,440
+bringing it all together. Um so uh
+
+846
+00:29:30,000 --> 00:29:33,039
+different different different shrinkage
+
+847
+00:29:31,440 --> 00:29:34,320
+approaches that we have. So if we have
+
+848
+00:29:33,039 --> 00:29:36,320
+these observed effects, they're quite
+
+849
+00:29:34,320 --> 00:29:38,399
+noisy. In a univariat shrinkage
+
+850
+00:29:36,320 --> 00:29:40,240
+approach, we treat each group
+
+851
+00:29:38,399 --> 00:29:41,640
+separately. We don't consider how the
+
+852
+00:29:40,240 --> 00:29:44,240
+effect tends to behave in other
+
+853
+00:29:41,640 --> 00:29:46,080
+conditions. And if we have, you know,
+
+854
+00:29:44,240 --> 00:29:47,360
+large effects, they're tend to be
+
+855
+00:29:46,080 --> 00:29:49,520
+captured by components of the mixture
+
+856
+00:29:47,360 --> 00:29:51,760
+that have a large prior effect variance.
+
+857
+00:29:49,520 --> 00:29:53,200
+So we'll shrink the prior shrink the
+
+858
+00:29:51,760 --> 00:29:54,799
+shrink the shrinkage if you will and
+
+859
+00:29:53,200 --> 00:29:56,640
+recognize the data. And if we have a
+
+860
+00:29:54,799 --> 00:29:58,240
+small noisy effect, we'll tend to sort
+
+861
+00:29:56,640 --> 00:30:01,039
+of augment this prior which has a spike
+
+862
+00:29:58,240 --> 00:30:02,320
+at zero uh and exclude the data. And if
+
+863
+00:30:01,039 --> 00:30:04,080
+we have multivaried shrinkage the
+
+864
+00:30:02,320 --> 00:30:06,640
+relationship isn't one to one because we
+
+865
+00:30:04,080 --> 00:30:08,399
+might observe two small effects but in
+
+866
+00:30:06,640 --> 00:30:09,919
+one small effect case the effect in
+
+867
+00:30:08,399 --> 00:30:11,279
+other conditions was quite large and in
+
+868
+00:30:09,919 --> 00:30:13,279
+the other small effect case the effect
+
+869
+00:30:11,279 --> 00:30:14,720
+in other conditions was small. So in the
+
+870
+00:30:13,279 --> 00:30:16,640
+first example we tend to boost it
+
+871
+00:30:14,720 --> 00:30:18,080
+because we recognized it had friends and
+
+872
+00:30:16,640 --> 00:30:19,600
+the friends were all going to the party
+
+873
+00:30:18,080 --> 00:30:21,679
+and so it wanted to sort of increase as
+
+874
+00:30:19,600 --> 00:30:23,120
+well and in the first in the second case
+
+875
+00:30:21,679 --> 00:30:24,559
+you know we'd recognize it seemed to be
+
+876
+00:30:23,120 --> 00:30:26,799
+sort of noisy across the board so we'd
+
+877
+00:30:24,559 --> 00:30:28,880
+shut that down.
+
+878
+00:30:26,799 --> 00:30:30,720
+All right. So, observed effects are
+
+879
+00:30:28,880 --> 00:30:32,720
+noisy. Only considering information in
+
+880
+00:30:30,720 --> 00:30:34,720
+ones. Yes. And sharing is caring. So,
+
+881
+00:30:32,720 --> 00:30:36,760
+I'd like to I can't believe how quickly
+
+882
+00:30:34,720 --> 00:30:40,279
+we're going. Um,
+
+883
+00:30:36,760 --> 00:30:43,399
+so ask questions,
+
+884
+00:30:40,279 --> 00:30:47,799
+please. No question. Okay. All right.
+
+885
+00:30:43,399 --> 00:30:47,799
+Well, yes, please.
+
+886
+00:30:52,399 --> 00:30:55,399
+Yeah.
+
+887
+00:30:56,320 --> 00:31:01,840
+alternative hypothesis.
+
+888
+00:30:58,559 --> 00:31:03,760
+Um how do you do multiple alternative
+
+889
+00:31:01,840 --> 00:31:05,279
+hypothesis? You just compare them,
+
+890
+00:31:03,760 --> 00:31:06,559
+right? Yeah. So you would do I mean so
+
+891
+00:31:05,279 --> 00:31:07,679
+in the first step, good question. So in
+
+892
+00:31:06,559 --> 00:31:08,880
+the first step you would have multiple
+
+893
+00:31:07,679 --> 00:31:10,320
+base factors, right? Because you would
+
+894
+00:31:08,880 --> 00:31:11,600
+be weighing the evidence of the null
+
+895
+00:31:10,320 --> 00:31:13,279
+versus the alternative in multiple
+
+896
+00:31:11,600 --> 00:31:15,520
+situations and then you would develop a
+
+897
+00:31:13,279 --> 00:31:17,919
+posterior probability for each one. But
+
+898
+00:31:15,520 --> 00:31:19,520
+presumably um so you could think about
+
+899
+00:31:17,919 --> 00:31:21,279
+having this is a cool situation. So you
+
+900
+00:31:19,520 --> 00:31:23,760
+could have a matrix basically that
+
+901
+00:31:21,279 --> 00:31:25,360
+quantified the prior effect the prior uh
+
+902
+00:31:23,760 --> 00:31:26,720
+the prior variance how strongly you
+
+903
+00:31:25,360 --> 00:31:28,159
+believed or didn't believe each one of
+
+904
+00:31:26,720 --> 00:31:29,679
+those prior hypotheses. So that would be
+
+905
+00:31:28,159 --> 00:31:31,760
+incorporated in your prior and then your
+
+906
+00:31:29,679 --> 00:31:33,440
+likelihood instead of being a univariate
+
+907
+00:31:31,760 --> 00:31:34,640
+likelihood. So a univariat base factor
+
+908
+00:31:33,440 --> 00:31:37,279
+because a base factor is really this
+
+909
+00:31:34,640 --> 00:31:39,519
+ratio of normal densities right so in a
+
+910
+00:31:37,279 --> 00:31:42,320
+one one situation one hypothesis testing
+
+911
+00:31:39,519 --> 00:31:44,480
+situation you have the probability of
+
+912
+00:31:42,320 --> 00:31:45,919
+the data suppose it's normal under the
+
+913
+00:31:44,480 --> 00:31:47,760
+null hypothesis over the probability of
+
+914
+00:31:45,919 --> 00:31:49,200
+the data under alternative one. Now if
+
+915
+00:31:47,760 --> 00:31:50,799
+you have that in multiple conditions you
+
+916
+00:31:49,200 --> 00:31:52,240
+have a vector which has a multivariant
+
+917
+00:31:50,799 --> 00:31:53,600
+normal distribution. Presumably there's
+
+918
+00:31:52,240 --> 00:31:54,960
+some correlation or coariance between
+
+919
+00:31:53,600 --> 00:31:57,200
+the two. Perhaps there isn't. I don't
+
+920
+00:31:54,960 --> 00:31:59,039
+know. Um so if you had that then you
+
+921
+00:31:57,200 --> 00:32:01,279
+could actually use a mash type situation
+
+922
+00:31:59,039 --> 00:32:03,760
+for that question because now you have
+
+923
+00:32:01,279 --> 00:32:05,440
+your observed likelihood as in across
+
+924
+00:32:03,760 --> 00:32:08,480
+multiple features as well as the
+
+925
+00:32:05,440 --> 00:32:09,760
+coariance matrix for that. Yeah. Yeah.
+
+926
+00:32:08,480 --> 00:32:12,240
+That's a really good question Roman.
+
+927
+00:32:09,760 --> 00:32:14,720
+Yep. Wait, can I so the people online
+
+928
+00:32:12,240 --> 00:32:17,120
+could agree.
+
+929
+00:32:14,720 --> 00:32:20,640
+This is great Sarah. uh question for you
+
+930
+00:32:17,120 --> 00:32:23,840
+around um c does do Beijian statistics
+
+931
+00:32:20,640 --> 00:32:27,120
+ever hold back novel discoveries in that
+
+932
+00:32:23,840 --> 00:32:30,240
+if we are too attached to a prior it's
+
+933
+00:32:27,120 --> 00:32:31,440
+difficult to violate our expectations
+
+934
+00:32:30,240 --> 00:32:33,519
+for instance like what I'm thinking
+
+935
+00:32:31,440 --> 00:32:35,200
+about is like really unexpected
+
+936
+00:32:33,519 --> 00:32:37,440
+discoveries like you know recently
+
+937
+00:32:35,200 --> 00:32:40,320
+there's been implications that MS are
+
+938
+00:32:37,440 --> 00:32:42,880
+maybe due to you know vicella zostustra
+
+939
+00:32:40,320 --> 00:32:44,880
+virus and like we had no idea about that
+
+940
+00:32:42,880 --> 00:32:47,200
+so how do you how do you deal with
+
+941
+00:32:44,880 --> 00:32:49,840
+something like Yeah. So, great question.
+
+942
+00:32:47,200 --> 00:32:52,480
+Okay. So, carefully is the first is the
+
+943
+00:32:49,840 --> 00:32:54,399
+first answer, right? So, um Okay. So,
+
+944
+00:32:52,480 --> 00:32:56,240
+there's I have this plot actually I I
+
+945
+00:32:54,399 --> 00:32:57,919
+quite like because Baze actually has
+
+946
+00:32:56,240 --> 00:33:01,120
+this built-in safety valve. A built-in
+
+947
+00:32:57,919 --> 00:33:03,600
+sort of uh uh what you call steering
+
+948
+00:33:01,120 --> 00:33:05,519
+wheel bag. What am I thinking of? Yeah.
+
+949
+00:33:03,600 --> 00:33:07,200
+Airbag. That's the word I'm looking for.
+
+950
+00:33:05,519 --> 00:33:10,799
+I ride a bike, not a car, as you can
+
+951
+00:33:07,200 --> 00:33:12,799
+see. Um yeah, carefully also. But, okay.
+
+952
+00:33:10,799 --> 00:33:13,840
+So in this situation, I'm giving an I'm
+
+953
+00:33:12,799 --> 00:33:15,360
+cutting to the chase a little bit, but
+
+954
+00:33:13,840 --> 00:33:16,640
+there's um there's these conjugate
+
+955
+00:33:15,360 --> 00:33:18,000
+priors, which are these convenient
+
+956
+00:33:16,640 --> 00:33:20,159
+parameterizations, right? But this is a
+
+957
+00:33:18,000 --> 00:33:21,440
+neat a neat example. So okay, so there's
+
+958
+00:33:20,159 --> 00:33:23,440
+three different prior here. So I have
+
+959
+00:33:21,440 --> 00:33:24,720
+this flat prior, which is completely
+
+960
+00:33:23,440 --> 00:33:26,080
+indifferent. I have no idea. I'm going
+
+961
+00:33:24,720 --> 00:33:29,279
+in and I'm saying I have no idea if it's
+
+962
+00:33:26,080 --> 00:33:30,720
+big or small. I have an informative
+
+963
+00:33:29,279 --> 00:33:32,799
+prior, which is helpful because it's
+
+964
+00:33:30,720 --> 00:33:34,559
+bringing me towards a truth. And I have
+
+965
+00:33:32,799 --> 00:33:36,080
+not only an uninformative prior, but
+
+966
+00:33:34,559 --> 00:33:39,200
+it's actually incorrect. So
+
+967
+00:33:36,080 --> 00:33:41,840
+uninformative would be totally flat.
+
+968
+00:33:39,200 --> 00:33:43,039
+incorrect would be wrong, right? We all
+
+969
+00:33:41,840 --> 00:33:44,960
+know the meaning of that. And what's
+
+970
+00:33:43,039 --> 00:33:47,200
+what's the
+
+971
+00:33:44,960 --> 00:33:50,240
+um Okay. And what the neat thing about
+
+972
+00:33:47,200 --> 00:33:51,760
+this is you're straying from the truth,
+
+973
+00:33:50,240 --> 00:33:53,279
+but you're not straying that far from
+
+974
+00:33:51,760 --> 00:33:55,200
+the truth because we are combining
+
+975
+00:33:53,279 --> 00:33:58,000
+evidence from I mean, we are combining
+
+976
+00:33:55,200 --> 00:33:59,919
+the likelihood. Um but I mean you you
+
+977
+00:33:58,000 --> 00:34:02,000
+you are moving it a little bit away from
+
+978
+00:33:59,919 --> 00:34:03,880
+the truth. That's for sure. But I think
+
+979
+00:34:02,000 --> 00:34:06,559
+my answer to that would
+
+980
+00:34:03,880 --> 00:34:09,520
+be in the long run. So I'm being a
+
+981
+00:34:06,559 --> 00:34:11,760
+frequentist now I guess isn't in the
+
+982
+00:34:09,520 --> 00:34:14,480
+long run we're running um isn't
+
+983
+00:34:11,760 --> 00:34:16,800
+imparting imparting no truth all of the
+
+984
+00:34:14,480 --> 00:34:18,560
+time so having a flat like a flat a flat
+
+985
+00:34:16,800 --> 00:34:19,919
+prior effectively and not incorporating
+
+986
+00:34:18,560 --> 00:34:21,240
+anything that motivated our very
+
+987
+00:34:19,919 --> 00:34:24,159
+expensive
+
+988
+00:34:21,240 --> 00:34:25,839
+experiment isn't that more of a danger
+
+989
+00:34:24,159 --> 00:34:27,200
+than some of the time moving yourself
+
+990
+00:34:25,839 --> 00:34:29,760
+towards the truth and some of the time
+
+991
+00:34:27,200 --> 00:34:32,079
+moving yourselves away that's like a
+
+992
+00:34:29,760 --> 00:34:33,919
+philosophical question we need like a
+
+993
+00:34:32,079 --> 00:34:36,720
+different discussion for that but so
+
+994
+00:34:33,919 --> 00:34:39,200
+there is there there There is a danger
+
+995
+00:34:36,720 --> 00:34:40,960
+certainly of uh if you have too punitive
+
+996
+00:34:39,200 --> 00:34:43,040
+of a prior certainly sobering your
+
+997
+00:34:40,960 --> 00:34:45,119
+expectations too much and there's also a
+
+998
+00:34:43,040 --> 00:34:47,760
+danger in the other way of if you have
+
+999
+00:34:45,119 --> 00:34:49,119
+uh too informative of a prior that moves
+
+1000
+00:34:47,760 --> 00:34:50,800
+you towards an optimistic direction or
+
+1001
+00:34:49,119 --> 00:34:54,159
+the wrong direction that's also that's
+
+1002
+00:34:50,800 --> 00:34:56,079
+also a concern I think in practice um
+
+1003
+00:34:54,159 --> 00:34:58,000
+because people there's like you know a
+
+1004
+00:34:56,079 --> 00:35:00,480
+concern there's an inherent sort of
+
+1005
+00:34:58,000 --> 00:35:02,400
+animosity towards overzealous prior I
+
+1006
+00:35:00,480 --> 00:35:03,680
+think in general we we tend to use flat
+
+1007
+00:35:02,400 --> 00:35:06,079
+flat prior at least in the literature
+
+1008
+00:35:03,680 --> 00:35:07,839
+I've seen certainly in medicine. Um, but
+
+1009
+00:35:06,079 --> 00:35:10,400
+the other and maybe this is kind of from
+
+1010
+00:35:07,839 --> 00:35:11,920
+the clinical trial standpoint is as I
+
+1011
+00:35:10,400 --> 00:35:13,839
+showed in the beginning the beauty of
+
+1012
+00:35:11,920 --> 00:35:15,839
+basian statistics is that even with a
+
+1013
+00:35:13,839 --> 00:35:17,839
+flat prior you get the same shape
+
+1014
+00:35:15,839 --> 00:35:18,800
+distribution as the frequentist analysis
+
+1015
+00:35:17,839 --> 00:35:20,240
+the confidence intervals and the
+
+1016
+00:35:18,800 --> 00:35:22,320
+credible intervals have the same numeric
+
+1017
+00:35:20,240 --> 00:35:23,760
+values but the conclusions that you make
+
+1018
+00:35:22,320 --> 00:35:26,560
+the philosophical conclusion that you
+
+1019
+00:35:23,760 --> 00:35:28,560
+make which is I have a 95% certainty
+
+1020
+00:35:26,560 --> 00:35:30,000
+about the value of the parameter is very
+
+1021
+00:35:28,560 --> 00:35:32,000
+different than this sort of long- winded
+
+1022
+00:35:30,000 --> 00:35:33,200
+handwavy in the long run frequency the
+
+1023
+00:35:32,000 --> 00:35:34,720
+constructed interval will contain the
+
+1024
+00:35:33,200 --> 00:35:35,760
+true parameter of interest 95% % of the
+
+1025
+00:35:34,720 --> 00:35:37,119
+time like what does that mean? How is
+
+1026
+00:35:35,760 --> 00:35:38,800
+that helping me make decisions in the
+
+1027
+00:35:37,119 --> 00:35:40,400
+clinic for 15 minutes? You know, I can't
+
+1028
+00:35:38,800 --> 00:35:43,119
+even say that sentence in well I can't
+
+1029
+00:35:40,400 --> 00:35:47,040
+because I talk too fast but often people
+
+1030
+00:35:43,119 --> 00:35:49,079
+can't you know so um yeah so that's my
+
+1031
+00:35:47,040 --> 00:35:51,599
+soap
+
+1032
+00:35:49,079 --> 00:35:53,119
+box. Okay. All right. We're moving on.
+
+1033
+00:35:51,599 --> 00:35:54,800
+So what do I want to talk about? So I
+
+1034
+00:35:53,119 --> 00:35:56,720
+want to talk about condu prior. I think
+
+1035
+00:35:54,800 --> 00:35:58,079
+that there's a lot of I thought about
+
+1036
+00:35:56,720 --> 00:35:59,599
+I've been thinking about this talk a lot
+
+1037
+00:35:58,079 --> 00:36:01,760
+and you know science is tough right now.
+
+1038
+00:35:59,599 --> 00:36:04,640
+It's it's kind of makes us may ask a lot
+
+1039
+00:36:01,760 --> 00:36:06,320
+of questions but I think at its basis
+
+1040
+00:36:04,640 --> 00:36:07,839
+science math these things are beautiful
+
+1041
+00:36:06,320 --> 00:36:09,760
+and we got into this because they are
+
+1042
+00:36:07,839 --> 00:36:11,440
+beautiful and uh so I think it's
+
+1043
+00:36:09,760 --> 00:36:14,240
+important to recognize that sometimes
+
+1044
+00:36:11,440 --> 00:36:15,760
+kic and prior are beautiful and they're
+
+1045
+00:36:14,240 --> 00:36:19,359
+beautiful because they save you a lot of
+
+1046
+00:36:15,760 --> 00:36:21,119
+work frankly um so all the calculus that
+
+1047
+00:36:19,359 --> 00:36:22,800
+I was showing here basically this
+
+1048
+00:36:21,119 --> 00:36:24,560
+integrating you can imagine that you
+
+1049
+00:36:22,800 --> 00:36:26,079
+know that nice integral that we remember
+
+1050
+00:36:24,560 --> 00:36:28,240
+which is integrating the likelihood over
+
+1051
+00:36:26,079 --> 00:36:29,280
+all the possible values of the prior can
+
+1052
+00:36:28,240 --> 00:36:30,480
+be saved
+
+1053
+00:36:29,280 --> 00:36:33,599
+because we have these convenient
+
+1054
+00:36:30,480 --> 00:36:35,359
+parameterizations. So a very very simple
+
+1055
+00:36:33,599 --> 00:36:37,920
+that we use in genetics a lot is the
+
+1056
+00:36:35,359 --> 00:36:39,760
+beta distribution. So it's a probability
+
+1057
+00:36:37,920 --> 00:36:41,280
+over probabilities. Basically it's a
+
+1058
+00:36:39,760 --> 00:36:43,040
+distribution over we could say alo
+
+1059
+00:36:41,280 --> 00:36:44,720
+frequencies for instance. So we have
+
+1060
+00:36:43,040 --> 00:36:46,000
+some prior belief of what that is and
+
+1061
+00:36:44,720 --> 00:36:47,839
+the relationship here is these are
+
+1062
+00:36:46,000 --> 00:36:50,079
+called hyperparameters or pri parameters
+
+1063
+00:36:47,839 --> 00:36:51,920
+of the prior. So alpha and beta roughly
+
+1064
+00:36:50,079 --> 00:36:53,839
+capture something about you'll learn in
+
+1065
+00:36:51,920 --> 00:36:56,240
+statistics that everything sort of has a
+
+1066
+00:36:53,839 --> 00:36:58,560
+shape and a scale roughly basically. So
+
+1067
+00:36:56,240 --> 00:37:01,359
+the relationship of a over a plus b
+
+1068
+00:36:58,560 --> 00:37:03,040
+gives you the mean basically. And a plus
+
+1069
+00:37:01,359 --> 00:37:04,480
+b the sum tells you how concentrated
+
+1070
+00:37:03,040 --> 00:37:05,920
+that is. It's like the precision or the
+
+1071
+00:37:04,480 --> 00:37:07,680
+inverse variance. So if you have a
+
+1072
+00:37:05,920 --> 00:37:09,359
+really high a plus b, it's going to be
+
+1073
+00:37:07,680 --> 00:37:11,520
+really confident about your mean. And if
+
+1074
+00:37:09,359 --> 00:37:15,200
+you have sort of a a very flat one, it's
+
+1075
+00:37:11,520 --> 00:37:18,240
+like in the in the mash example, you're
+
+1076
+00:37:15,200 --> 00:37:19,680
+really uncertain about that spike. Okay.
+
+1077
+00:37:18,240 --> 00:37:21,200
+All right. So then we observe so many
+
+1078
+00:37:19,680 --> 00:37:23,119
+successes and so many failures. Perhaps
+
+1079
+00:37:21,200 --> 00:37:25,760
+that's a counts. Perhaps it's coin
+
+1080
+00:37:23,119 --> 00:37:27,280
+tosses, etc. And what's beautiful is
+
+1081
+00:37:25,760 --> 00:37:29,359
+instead of having to do that complicated
+
+1082
+00:37:27,280 --> 00:37:31,200
+calculus, we just add the successes to
+
+1083
+00:37:29,359 --> 00:37:32,520
+alpha and we add the failures to beta or
+
+1084
+00:37:31,200 --> 00:37:35,520
+however you want to
+
+1085
+00:37:32,520 --> 00:37:37,359
+perate. Okay. And so this is what I was
+
+1086
+00:37:35,520 --> 00:37:40,400
+uh this is what I was I was trying to
+
+1087
+00:37:37,359 --> 00:37:42,560
+show um earlier is basically under the
+
+1088
+00:37:40,400 --> 00:37:45,760
+flat the informative or the
+
+1089
+00:37:42,560 --> 00:37:47,359
+uninformative wrong prior you actually
+
+1090
+00:37:45,760 --> 00:37:49,680
+approximate a posterior that's kind of
+
+1091
+00:37:47,359 --> 00:37:52,400
+robust to these poor assumptions because
+
+1092
+00:37:49,680 --> 00:37:54,560
+the more data that you observe the less
+
+1093
+00:37:52,400 --> 00:37:56,400
+the prior matters. And that's actually
+
+1094
+00:37:54,560 --> 00:37:58,240
+really evident. I love the beta. I love
+
+1095
+00:37:56,400 --> 00:38:00,240
+the beta distribution for this example
+
+1096
+00:37:58,240 --> 00:38:01,760
+because every time you can see actually
+
+1097
+00:38:00,240 --> 00:38:03,440
+that you update this posterior
+
+1098
+00:38:01,760 --> 00:38:05,280
+distribution, yesterday's posterior
+
+1099
+00:38:03,440 --> 00:38:07,200
+become or yeah, yesterday's posterior
+
+1100
+00:38:05,280 --> 00:38:10,240
+becomes today's prior. You update your
+
+1101
+00:38:07,200 --> 00:38:11,839
+distribution and that alpha which has or
+
+1102
+00:38:10,240 --> 00:38:15,119
+the beta distribution of 28 which is
+
+1103
+00:38:11,839 --> 00:38:16,640
+alpha 2 and beta 08 matters less and
+
+1104
+00:38:15,119 --> 00:38:18,560
+less after we observe the third group.
+
+1105
+00:38:16,640 --> 00:38:20,480
+We've kind of totally moved around. So
+
+1106
+00:38:18,560 --> 00:38:22,400
+that sort of answers your question. I
+
+1107
+00:38:20,480 --> 00:38:24,960
+think that we have this robust safety
+
+1108
+00:38:22,400 --> 00:38:26,280
+valve or airbag that helps us respond to
+
+1109
+00:38:24,960 --> 00:38:29,440
+new data that we
+
+1110
+00:38:26,280 --> 00:38:31,599
+observe. Okay. Anyway, so that's that's
+
+1111
+00:38:29,440 --> 00:38:33,359
+a nice result. Um, okay. And so this is
+
+1112
+00:38:31,599 --> 00:38:34,880
+showing sort of after one observation.
+
+1113
+00:38:33,359 --> 00:38:36,960
+So our prior distribution is all the way
+
+1114
+00:38:34,880 --> 00:38:39,520
+over in the red and after 10
+
+1115
+00:38:36,960 --> 00:38:42,920
+observations, we've essentially moved
+
+1116
+00:38:39,520 --> 00:38:44,720
+away quite a bit. So there's that nice
+
+1117
+00:38:42,920 --> 00:38:46,000
+convenient. All right. So then there's
+
+1118
+00:38:44,720 --> 00:38:48,560
+another example. If we have multiple
+
+1119
+00:38:46,000 --> 00:38:49,839
+alals and a dish is important. I'm only
+
+1120
+00:38:48,560 --> 00:38:52,240
+it's kind of a natural extension. The
+
+1121
+00:38:49,839 --> 00:38:53,599
+beta is like a simple case of dishes. Um
+
+1122
+00:38:52,240 --> 00:38:55,359
+but I'm I'm throwing that out there
+
+1123
+00:38:53,599 --> 00:38:57,760
+because if we get to the mixture models
+
+1124
+00:38:55,359 --> 00:39:00,320
+uh we can discuss that there. Um but
+
+1125
+00:38:57,760 --> 00:39:02,960
+effectively so now I have a vector
+
+1126
+00:39:00,320 --> 00:39:04,359
+instead of uh instead of just having one
+
+1127
+00:39:02,960 --> 00:39:06,640
+probability I have a vector of
+
+1128
+00:39:04,359 --> 00:39:08,240
+probabilities and they have this prior
+
+1129
+00:39:06,640 --> 00:39:10,880
+distribution called a dishlay. I'll show
+
+1130
+00:39:08,240 --> 00:39:13,599
+you the nice plot here. Okay. So
+
+1131
+00:39:10,880 --> 00:39:16,240
+basically uh suppose that I have it
+
+1132
+00:39:13,599 --> 00:39:17,599
+lives in this space right? So um so
+
+1133
+00:39:16,240 --> 00:39:19,680
+suppose there's uh you know the
+
+1134
+00:39:17,599 --> 00:39:20,880
+probability of three groups and they
+
+1135
+00:39:19,680 --> 00:39:23,520
+live somewhere in the space where they
+
+1136
+00:39:20,880 --> 00:39:25,520
+sort of all add to one and what's nice
+
+1137
+00:39:23,520 --> 00:39:28,000
+is as I was describing with the beta if
+
+1138
+00:39:25,520 --> 00:39:30,240
+the value is large the probability mass
+
+1139
+00:39:28,000 --> 00:39:32,400
+is concentrated more in the center even
+
+1140
+00:39:30,240 --> 00:39:33,920
+if it's one one or even if it's even if
+
+1141
+00:39:32,400 --> 00:39:35,680
+they're equivalent even if this triangle
+
+1142
+00:39:33,920 --> 00:39:37,280
+looks more like this if if it's a
+
+1143
+00:39:35,680 --> 00:39:38,480
+triangle it's concentrated in the center
+
+1144
+00:39:37,280 --> 00:39:40,400
+and if we're really uncertain it's quite
+
+1145
+00:39:38,480 --> 00:39:42,720
+a big cloud of points. All right so
+
+1146
+00:39:40,400 --> 00:39:44,480
+let's go back. So now we have this prior
+
+1147
+00:39:42,720 --> 00:39:45,760
+of 222 which means it's it's basically
+
+1148
+00:39:44,480 --> 00:39:47,359
+the triangle. Everything is evenly
+
+1149
+00:39:45,760 --> 00:39:49,599
+distributed but it's a little bit more
+
+1150
+00:39:47,359 --> 00:39:51,040
+concentrated than a 111. And we observe
+
+1151
+00:39:49,599 --> 00:39:54,160
+these 10 A's, these five Bs and these
+
+1152
+00:39:51,040 --> 00:39:56,000
+three C's. So we simply our our our
+
+1153
+00:39:54,160 --> 00:39:57,839
+likelihood is a multinnomial likelihood.
+
+1154
+00:39:56,000 --> 00:40:01,040
+The probability of observing 10 given a
+
+1155
+00:39:57,839 --> 00:40:03,440
+particular value of the the prior the um
+
+1156
+00:40:01,040 --> 00:40:05,200
+parameters and then we just add those
+
+1157
+00:40:03,440 --> 00:40:07,560
+values the likelihood values effectively
+
+1158
+00:40:05,200 --> 00:40:09,520
+the new counts to the prior
+
+1159
+00:40:07,560 --> 00:40:11,040
+distribution and we get this beautiful
+
+1160
+00:40:09,520 --> 00:40:14,200
+plot which is quite simple. there was no
+
+1161
+00:40:11,040 --> 00:40:17,920
+calculus required, no pain, just get new
+
+1162
+00:40:14,200 --> 00:40:19,839
+clouds. Um so um anyway, so that's
+
+1163
+00:40:17,920 --> 00:40:21,440
+that's that's the dish there. Okay. And
+
+1164
+00:40:19,839 --> 00:40:22,960
+then one final the conjugate normal and
+
+1165
+00:40:21,440 --> 00:40:24,320
+this is important because that is
+
+1166
+00:40:22,960 --> 00:40:27,760
+actually we take a lot of advantage of
+
+1167
+00:40:24,320 --> 00:40:30,240
+that in ash and mash. And so we have
+
+1168
+00:40:27,760 --> 00:40:32,800
+this prior distribution. So the prior
+
+1169
+00:40:30,240 --> 00:40:34,560
+true effect mu or beta, right? If you
+
+1170
+00:40:32,800 --> 00:40:36,320
+look at the ash or mash literature, it's
+
+1171
+00:40:34,560 --> 00:40:38,160
+centered around some prior mean and some
+
+1172
+00:40:36,320 --> 00:40:39,520
+prior variance. And I like to think
+
+1173
+00:40:38,160 --> 00:40:41,680
+about this because this is a true effect
+
+1174
+00:40:39,520 --> 00:40:43,599
+variance. This is where the true mu or
+
+1175
+00:40:41,680 --> 00:40:45,920
+the true beta live. There's some
+
+1176
+00:40:43,599 --> 00:40:47,359
+distribution of zero truly zero and some
+
+1177
+00:40:45,920 --> 00:40:48,960
+distribution that's not truly zero.
+
+1178
+00:40:47,359 --> 00:40:51,359
+Right? It lives on that line. Now we
+
+1179
+00:40:48,960 --> 00:40:53,280
+observe a new statistic, a new beta hat.
+
+1180
+00:40:51,359 --> 00:40:56,400
+We will it's noisy and it's centered
+
+1181
+00:40:53,280 --> 00:40:58,240
+around that previous truth plus some
+
+1182
+00:40:56,400 --> 00:40:59,599
+some variance, some noise. And you could
+
+1183
+00:40:58,240 --> 00:41:01,240
+write it out basically as a linear
+
+1184
+00:40:59,599 --> 00:41:06,400
+combination. You could
+
+1185
+00:41:01,240 --> 00:41:07,839
+say that Z hat is equal to Z plus Well,
+
+1186
+00:41:06,400 --> 00:41:10,240
+I shouldn't use that. Okay, let's do it
+
+1187
+00:41:07,839 --> 00:41:12,880
+this way. Sorry, guys. All right. So we
+
+1188
+00:41:10,240 --> 00:41:17,599
+could say that B hat is equal to B plus
+
+1189
+00:41:12,880 --> 00:41:20,400
+Z where Z is normal 01. And this is
+
+1190
+00:41:17,599 --> 00:41:22,480
+considered sort of an error. So in a Z
+
+1191
+00:41:20,400 --> 00:41:24,880
+in a in the exchangeables. Oh my
+
+1192
+00:41:22,480 --> 00:41:26,400
+goodness. What did I do here? Okay. Keep
+
+1193
+00:41:24,880 --> 00:41:28,400
+doing that, don't I? Yeah. All right.
+
+1194
+00:41:26,400 --> 00:41:30,000
+Okay. So we're we we assume it's new. We
+
+1195
+00:41:28,400 --> 00:41:31,319
+assume that the noise is known. So now
+
+1196
+00:41:30,000 --> 00:41:34,000
+the question is what do we get the
+
+1197
+00:41:31,319 --> 00:41:35,680
+posterior? And so we're going to do some
+
+1198
+00:41:34,000 --> 00:41:37,119
+fancy math, some fancy rearrangements of
+
+1199
+00:41:35,680 --> 00:41:38,960
+terms. It's not that complicated, but
+
+1200
+00:41:37,119 --> 00:41:40,400
+there's there's there's symmetry here.
+
+1201
+00:41:38,960 --> 00:41:42,720
+So, if you notice, this is the
+
+1202
+00:41:40,400 --> 00:41:44,640
+likelihood one on I guess on the right,
+
+1203
+00:41:42,720 --> 00:41:47,040
+right? Is x minus mu. You know, the
+
+1204
+00:41:44,640 --> 00:41:48,480
+normal the normal density. And then on
+
+1205
+00:41:47,040 --> 00:41:50,160
+the left, it's the expression for the
+
+1206
+00:41:48,480 --> 00:41:52,079
+prior, which is the prior minus the
+
+1207
+00:41:50,160 --> 00:41:53,920
+observed prior that we're evaluating at
+
+1208
+00:41:52,079 --> 00:41:56,079
+a particular time minus its prior mean.
+
+1209
+00:41:53,920 --> 00:41:57,079
+So, when you rearrange those terms, you
+
+1210
+00:41:56,079 --> 00:41:59,599
+actually
+
+1211
+00:41:57,079 --> 00:42:01,440
+get this beautiful expression for the
+
+1212
+00:41:59,599 --> 00:42:03,280
+posterior, which looks just like the
+
+1213
+00:42:01,440 --> 00:42:04,720
+first one, right? It's a posterior mean.
+
+1214
+00:42:03,280 --> 00:42:06,000
+So, it's got it's a it's a normal
+
+1215
+00:42:04,720 --> 00:42:08,000
+distribution. So it's got instead of
+
+1216
+00:42:06,000 --> 00:42:09,440
+being centered around the prior mean now
+
+1217
+00:42:08,000 --> 00:42:10,480
+that it's seen the data it's centered
+
+1218
+00:42:09,440 --> 00:42:12,880
+around the posterior mean and the
+
+1219
+00:42:10,480 --> 00:42:14,319
+posterior variance. And a neat thing
+
+1220
+00:42:12,880 --> 00:42:15,520
+about this is so this is going to be the
+
+1221
+00:42:14,319 --> 00:42:17,880
+posterior mean and this is going to be
+
+1222
+00:42:15,520 --> 00:42:21,200
+the posterior precision if you
+
+1223
+00:42:17,880 --> 00:42:23,680
+will. So you can actually think of that
+
+1224
+00:42:21,200 --> 00:42:25,599
+this is again phase is beautiful. We can
+
+1225
+00:42:23,680 --> 00:42:27,440
+think of the posterior mean as a
+
+1226
+00:42:25,599 --> 00:42:29,400
+weighted average basically of the prior
+
+1227
+00:42:27,440 --> 00:42:32,720
+mean how how much we believe the prior
+
+1228
+00:42:29,400 --> 00:42:35,520
+distribution and the likelihood. And how
+
+1229
+00:42:32,720 --> 00:42:37,920
+do we get those weights? Well, it's
+
+1230
+00:42:35,520 --> 00:42:40,160
+effectively proportional to the data
+
+1231
+00:42:37,920 --> 00:42:42,800
+precision and the total precision,
+
+1232
+00:42:40,160 --> 00:42:44,960
+right? So, if we actually have strong
+
+1233
+00:42:42,800 --> 00:42:46,560
+confidence in the data and we're very
+
+1234
+00:42:44,960 --> 00:42:49,599
+flat prior like we were talking about in
+
+1235
+00:42:46,560 --> 00:42:51,520
+the ash example where we had a very flat
+
+1236
+00:42:49,599 --> 00:42:53,680
+prior because we had these large sigas,
+
+1237
+00:42:51,520 --> 00:42:54,880
+right? And the data is strong, then we
+
+1238
+00:42:53,680 --> 00:42:57,040
+would actually move more towards the
+
+1239
+00:42:54,880 --> 00:42:58,640
+data. And if we had a very large data
+
+1240
+00:42:57,040 --> 00:43:00,319
+variance, it was very noisy or a very
+
+1241
+00:42:58,640 --> 00:43:02,160
+imprecise data, precision and variance
+
+1242
+00:43:00,319 --> 00:43:03,359
+are inversely proportional, then we
+
+1243
+00:43:02,160 --> 00:43:05,200
+would actually move more towards the
+
+1244
+00:43:03,359 --> 00:43:07,119
+prior. And so smaller values of the
+
+1245
+00:43:05,200 --> 00:43:09,520
+prior variance would support it. And
+
+1246
+00:43:07,119 --> 00:43:12,319
+that's pretty cool. So our posterior
+
+1247
+00:43:09,520 --> 00:43:13,920
+mean is a direct combination of how
+
+1248
+00:43:12,319 --> 00:43:16,319
+strongly we believe the data likelihood
+
+1249
+00:43:13,920 --> 00:43:18,640
+and how strongly we have a prior belief.
+
+1250
+00:43:16,319 --> 00:43:21,280
+And so the more the more evidence we
+
+1251
+00:43:18,640 --> 00:43:24,079
+have from our from our observed data and
+
+1252
+00:43:21,280 --> 00:43:25,599
+perhaps the flatter the prior uh we will
+
+1253
+00:43:24,079 --> 00:43:27,760
+get closer our posterior mean will look
+
+1254
+00:43:25,599 --> 00:43:29,400
+more like our data. And see do I have
+
+1255
+00:43:27,760 --> 00:43:31,520
+any plots there?
+
+1256
+00:43:29,400 --> 00:43:33,760
+Yeah, I guess I don't have any plots,
+
+1257
+00:43:31,520 --> 00:43:35,599
+but that effectively would give you uh a
+
+1258
+00:43:33,760 --> 00:43:37,280
+distribution like like I showed for the
+
+1259
+00:43:35,599 --> 00:43:39,960
+beta plot where you know you'd have your
+
+1260
+00:43:37,280 --> 00:43:41,560
+prior mean centered
+
+1261
+00:43:39,960 --> 00:43:44,480
+around
+
+1262
+00:43:41,560 --> 00:43:45,680
+zero. You observe your data looks
+
+1263
+00:43:44,480 --> 00:43:47,920
+something like this with a very it's
+
+1264
+00:43:45,680 --> 00:43:50,000
+very narrow so it's very precise and
+
+1265
+00:43:47,920 --> 00:43:53,119
+it's large and then your posterior mean
+
+1266
+00:43:50,000 --> 00:43:53,119
+would probably be somewhere around
+
+1267
+00:43:53,640 --> 00:43:58,880
+here. Okay, great. Okay. And then so
+
+1268
+00:43:56,960 --> 00:44:00,480
+this is just showing and this is the we
+
+1269
+00:43:58,880 --> 00:44:02,480
+take advantage of this in these summary
+
+1270
+00:44:00,480 --> 00:44:05,440
+statistics. So instead of having to deal
+
+1271
+00:44:02,480 --> 00:44:06,960
+with uh all of the observed values we
+
+1272
+00:44:05,440 --> 00:44:08,319
+actually in a G-W was we get a summary
+
+1273
+00:44:06,960 --> 00:44:09,839
+statistic right that's often what we
+
+1274
+00:44:08,319 --> 00:44:11,599
+work with we get a summary statistic. So
+
+1275
+00:44:09,839 --> 00:44:14,160
+you have this beta hat in its standard
+
+1276
+00:44:11,599 --> 00:44:16,319
+air and the convenient it turns out you
+
+1277
+00:44:14,160 --> 00:44:19,359
+can conveniently use the the conjugate
+
+1278
+00:44:16,319 --> 00:44:25,040
+formulations for that same
+
+1279
+00:44:19,359 --> 00:44:26,160
+um okay great yeah so see I just want to
+
+1280
+00:44:25,040 --> 00:44:28,640
+make sure there wasn't anything I wanted
+
+1281
+00:44:26,160 --> 00:44:28,640
+to say here
+
+1282
+00:44:29,560 --> 00:44:35,000
+that
+
+1283
+00:44:31,720 --> 00:44:37,200
+see okay I don't think so
+
+1284
+00:44:35,000 --> 00:44:39,680
+yeah four minutes I have four minutes
+
+1285
+00:44:37,200 --> 00:44:41,680
+okay well that's a good yeah so Um right
+
+1286
+00:44:39,680 --> 00:44:43,200
+so uh when we don't have okay this
+
+1287
+00:44:41,680 --> 00:44:46,839
+empirical base so one of the questions
+
+1288
+00:44:43,200 --> 00:44:49,280
+is you know um how do we uh estimate
+
+1289
+00:44:46,839 --> 00:44:51,839
+these right how do we estimate the sigma
+
+1290
+00:44:49,280 --> 00:44:55,119
+and the pi for instance um from from
+
+1291
+00:44:51,839 --> 00:44:57,520
+from the data um and so actually we can
+
+1292
+00:44:55,119 --> 00:44:59,680
+use uh techniques so in the next section
+
+1293
+00:44:57,520 --> 00:45:01,359
+I have this thing called uh the em
+
+1294
+00:44:59,680 --> 00:45:03,599
+algorithm so you sort of fix one and
+
+1295
+00:45:01,359 --> 00:45:08,000
+then estimate some of the other priors
+
+1296
+00:45:03,599 --> 00:45:11,440
+um the pi hat for instance or you can um
+
+1297
+00:45:08,000 --> 00:45:14,079
+sort choose sigma values the scales for
+
+1298
+00:45:11,440 --> 00:45:17,200
+the um that we were using in the variety
+
+1299
+00:45:14,079 --> 00:45:19,599
+of the the grid for ash or mash um from
+
+1300
+00:45:17,200 --> 00:45:20,720
+the data. So a set of a set of sigas
+
+1301
+00:45:19,599 --> 00:45:21,680
+that we think are very small or very
+
+1302
+00:45:20,720 --> 00:45:23,359
+large it would sort of fit it
+
+1303
+00:45:21,680 --> 00:45:24,880
+appropriately or sometimes these
+
+1304
+00:45:23,359 --> 00:45:26,640
+hyperparameters like I was talking about
+
+1305
+00:45:24,880 --> 00:45:28,400
+in the beta distribution we might have
+
+1306
+00:45:26,640 --> 00:45:29,599
+some belief from the data some empirical
+
+1307
+00:45:28,400 --> 00:45:31,599
+data that suggests that we should use
+
+1308
+00:45:29,599 --> 00:45:33,119
+this and actually saves us a lot of time
+
+1309
+00:45:31,599 --> 00:45:35,440
+because when we can't use a conjugate
+
+1310
+00:45:33,119 --> 00:45:38,000
+parameterization and we have to do MCMC
+
+1311
+00:45:35,440 --> 00:45:40,480
+sampling um that you know takes a lot
+
+1312
+00:45:38,000 --> 00:45:42,160
+more time so if we have if we have a a
+
+1313
+00:45:40,480 --> 00:45:44,000
+empirical estimate of what we think the
+
+1314
+00:45:42,160 --> 00:45:45,839
+alpha and beta are from the overall data
+
+1315
+00:45:44,000 --> 00:45:47,280
+we can plug those in and and make our
+
+1316
+00:45:45,839 --> 00:45:51,040
+life a lot easier. that's often done for
+
+1317
+00:45:47,280 --> 00:45:52,720
+the hyperparameters. Um, okay. So,
+
+1318
+00:45:51,040 --> 00:45:56,000
+right. So, the next part of the talk was
+
+1319
+00:45:52,720 --> 00:45:58,240
+on mixture models and I I have some
+
+1320
+00:45:56,000 --> 00:46:00,400
+really nice didactics and things um
+
+1321
+00:45:58,240 --> 00:46:03,359
+inside. So, so I don't want to like rush
+
+1322
+00:46:00,400 --> 00:46:04,800
+through it. Um, so either I can come
+
+1323
+00:46:03,359 --> 00:46:06,960
+back or you guys can go through it on
+
+1324
+00:46:04,800 --> 00:46:08,960
+the slides online or email me. I would
+
+1325
+00:46:06,960 --> 00:46:10,319
+like to I'm happy to set up a time and
+
+1326
+00:46:08,960 --> 00:46:11,280
+all these things. I like I'm really
+
+1327
+00:46:10,319 --> 00:46:12,560
+passionate about this stuff. So, thank
+
+1328
+00:46:11,280 --> 00:46:14,480
+you guys so much for listening for your
+
+1329
+00:46:12,560 --> 00:46:17,119
+great questions. Thanks everybody.
+
+1330
+00:46:14,480 --> 00:46:20,319
+Remember, we have two weeks off. And uh
+
+1331
+00:46:17,119 --> 00:46:20,319
+yeah, have a good day.
+

@@ -1,0 +1,7656 @@
+1
+00:00:12,840 --> 00:00:17,560
+today we're going to uh continue we're
+
+2
+00:00:15,320 --> 00:00:19,119
+going to talk about a new notion a
+
+3
+00:00:17,560 --> 00:00:21,320
+really really interesting notion in my
+
+4
+00:00:19,119 --> 00:00:23,560
+opinion uh called probabilistically
+
+5
+00:00:21,320 --> 00:00:24,920
+checkable proofs I'll explain what it is
+
+6
+00:00:23,560 --> 00:00:27,640
+so we'll we're going to Define this
+
+7
+00:00:24,920 --> 00:00:30,519
+notion and we're going to construct it
+
+8
+00:00:27,640 --> 00:00:33,200
+uh from the GK protocol so you'll kind
+
+9
+00:00:30,519 --> 00:00:35,559
+of see not only the definition but
+
+10
+00:00:33,200 --> 00:00:36,840
+you'll be able after this class the hope
+
+11
+00:00:35,559 --> 00:00:39,680
+is that you'll be able to construct a
+
+12
+00:00:36,840 --> 00:00:41,760
+PCP if you need to construct proof
+
+13
+00:00:39,680 --> 00:00:43,879
+you'll be able to do that so that's
+
+14
+00:00:41,760 --> 00:00:45,960
+going to be the first part of today's
+
+15
+00:00:43,879 --> 00:00:47,280
+lecture and the second part of today's
+
+16
+00:00:45,960 --> 00:00:49,239
+lecture is actually going to be the
+
+17
+00:00:47,280 --> 00:00:52,440
+first time we actually use cryptography
+
+18
+00:00:49,239 --> 00:00:54,719
+so so far this class has not been at all
+
+19
+00:00:52,440 --> 00:00:56,280
+about cryptography it was everything was
+
+20
+00:00:54,719 --> 00:00:58,920
+information it was actually complexity
+
+21
+00:00:56,280 --> 00:01:00,600
+Theory uh but today is going to be the
+
+22
+00:00:58,920 --> 00:01:02,000
+first time we're going to move
+
+23
+00:01:00,600 --> 00:01:05,600
+into uh
+
+24
+00:01:02,000 --> 00:01:07,439
+cryptography and uh as we'll talk we'll
+
+25
+00:01:05,600 --> 00:01:10,159
+see that doing this information
+
+26
+00:01:07,439 --> 00:01:14,200
+theoretic proofs where you say okay no
+
+27
+00:01:10,159 --> 00:01:16,119
+Pro can create a give you a false proof
+
+28
+00:01:14,200 --> 00:01:19,799
+that is limiting okay we can do
+
+29
+00:01:16,119 --> 00:01:21,960
+everything we want using that uh a this
+
+30
+00:01:19,799 --> 00:01:24,640
+notion and therefore we're going to go
+
+31
+00:01:21,960 --> 00:01:27,400
+into a new notion of soundness which is
+
+32
+00:01:24,640 --> 00:01:30,200
+what we call arguments or computational
+
+33
+00:01:27,400 --> 00:01:33,439
+soundness and we're going to relax the
+
+34
+00:01:30,200 --> 00:01:36,759
+prover and say an all Power Pro an all
+
+35
+00:01:33,439 --> 00:01:39,320
+powerful approver may be able to cheat
+
+36
+00:01:36,759 --> 00:01:42,439
+but the guarantee we give hey Tony is
+
+37
+00:01:39,320 --> 00:01:44,040
+that a computationally bounded PR cannot
+
+38
+00:01:42,439 --> 00:01:46,360
+cheat okay that's going to be the
+
+39
+00:01:44,040 --> 00:01:48,920
+guarantee we get and we'll see once we
+
+40
+00:01:46,360 --> 00:01:50,680
+relax the soundness requirement to a
+
+41
+00:01:48,920 --> 00:01:52,680
+requirement that's only computational
+
+42
+00:01:50,680 --> 00:01:55,520
+sound then we'll be able to get a lot
+
+43
+00:01:52,680 --> 00:01:57,280
+more and kind of uh you know the life
+
+44
+00:01:55,520 --> 00:02:00,240
+will kind of open for us and we're going
+
+45
+00:01:57,280 --> 00:02:01,920
+to have a lot a lot of new uh kind of
+
+46
+00:02:00,240 --> 00:02:03,840
+constructions and things that we were
+
+47
+00:02:01,920 --> 00:02:06,280
+unable to do information
+
+48
+00:02:03,840 --> 00:02:09,080
+theoretically so this is uh the plan for
+
+49
+00:02:06,280 --> 00:02:11,080
+today questions before we start I
+
+50
+00:02:09,080 --> 00:02:13,400
+haven't seen you guys in a
+
+51
+00:02:11,080 --> 00:02:15,000
+while so it's good to see you a lot of
+
+52
+00:02:13,400 --> 00:02:16,720
+things changed since the last time I've
+
+53
+00:02:15,000 --> 00:02:20,080
+seen you I'm probably going to be a bit
+
+54
+00:02:16,720 --> 00:02:23,519
+distracted today so I'm sorry
+
+55
+00:02:20,080 --> 00:02:26,519
+okay okay let's start so what are no
+
+56
+00:02:23,519 --> 00:02:30,080
+questions okay so let's start with pcps
+
+57
+00:02:26,519 --> 00:02:32,760
+what are probity checkable proofs
+
+58
+00:02:30,080 --> 00:02:35,000
+so these are the idea of probability
+
+59
+00:02:32,760 --> 00:02:37,560
+checkable proofs is to take a proof like
+
+60
+00:02:35,000 --> 00:02:40,959
+a classical proof think of NP in NP we
+
+61
+00:02:37,560 --> 00:02:43,400
+have a instance X and A Witness this
+
+62
+00:02:40,959 --> 00:02:45,440
+witness is like a proof for X being in
+
+63
+00:02:43,400 --> 00:02:48,800
+the
+
+64
+00:02:45,440 --> 00:02:50,560
+language to verify this proof you need
+
+65
+00:02:48,800 --> 00:02:53,080
+to read the entire thing and do some
+
+66
+00:02:50,560 --> 00:02:55,800
+computation like this verification
+
+67
+00:02:53,080 --> 00:02:58,080
+circuit you know a that checks that X
+
+68
+00:02:55,800 --> 00:03:00,680
+and W is in the relation there's a
+
+69
+00:02:58,080 --> 00:03:02,720
+circuit that checks this
+
+70
+00:03:00,680 --> 00:03:05,200
+okay what is the idea of a probability
+
+71
+00:03:02,720 --> 00:03:08,599
+checkable proof the idea here what we
+
+72
+00:03:05,200 --> 00:03:12,120
+want is to take this proof and convert
+
+73
+00:03:08,599 --> 00:03:13,519
+it into a new proof it may be larger
+
+74
+00:03:12,120 --> 00:03:15,840
+actually than the original proof so
+
+75
+00:03:13,519 --> 00:03:19,120
+maybe you know the original proof was of
+
+76
+00:03:15,840 --> 00:03:21,799
+size M let's say the instance of size n
+
+77
+00:03:19,120 --> 00:03:25,720
+this may be of size much bigger still we
+
+78
+00:03:21,799 --> 00:03:28,959
+want it to be polinomial in n&
+
+79
+00:03:25,720 --> 00:03:31,120
+M but now so we just made it bigger so
+
+80
+00:03:28,959 --> 00:03:33,439
+what's what's good about it so what's
+
+81
+00:03:31,120 --> 00:03:35,280
+nice about this proof is the IDE is you
+
+82
+00:03:33,439 --> 00:03:38,640
+don't actually have to read all of it to
+
+83
+00:03:35,280 --> 00:03:40,239
+check it and that's weird so the idea
+
+84
+00:03:38,640 --> 00:03:44,519
+here yeah the proof may be a little
+
+85
+00:03:40,239 --> 00:03:46,239
+longer polom longer but you only need to
+
+86
+00:03:44,519 --> 00:03:48,400
+read a few
+
+87
+00:03:46,239 --> 00:03:51,519
+locations to and to check that it's
+
+88
+00:03:48,400 --> 00:03:55,799
+valid so to verify often pcps are
+
+89
+00:03:51,519 --> 00:03:59,159
+denoted by pi uh to verify PCP proof
+
+90
+00:03:55,799 --> 00:04:00,799
+given X all the verifier needs to do is
+
+91
+00:03:59,159 --> 00:04:03,239
+query doesn't actually need to read
+
+92
+00:04:00,799 --> 00:04:05,640
+these things he queries a few locations
+
+93
+00:04:03,239 --> 00:04:07,760
+a few bits checks a few bits of the
+
+94
+00:04:05,640 --> 00:04:10,040
+proof and then applies a verification
+
+95
+00:04:07,760 --> 00:04:13,560
+circuit that depends only on these
+
+96
+00:04:10,040 --> 00:04:16,160
+bits okay and importantly the bits he
+
+97
+00:04:13,560 --> 00:04:18,320
+chooses are random the the prover
+
+98
+00:04:16,160 --> 00:04:20,519
+doesn't know otherwise he will it's like
+
+99
+00:04:18,320 --> 00:04:22,000
+shrinking if he knew the prover knew oh
+
+100
+00:04:20,519 --> 00:04:25,960
+the refer is going to only check in bit
+
+101
+00:04:22,000 --> 00:04:27,800
+17 22 and 25 then he would just give you
+
+102
+00:04:25,960 --> 00:04:29,360
+it's like you'll have a succinct witness
+
+103
+00:04:27,800 --> 00:04:31,199
+and of course we can't take arbitrary
+
+104
+00:04:29,360 --> 00:04:32,919
+Witnesses and just make them 16 if you
+
+105
+00:04:31,199 --> 00:04:35,759
+don't believe that's possible yeah so
+
+106
+00:04:32,919 --> 00:04:38,840
+it's a PTP then only used for as m is
+
+107
+00:04:35,759 --> 00:04:42,520
+much greater than M okay so the question
+
+108
+00:04:38,840 --> 00:04:44,919
+was is a PCP used if m is much greater
+
+109
+00:04:42,520 --> 00:04:48,240
+than n and the answer is no actually we
+
+110
+00:04:44,919 --> 00:04:51,840
+can think of it we can even use it where
+
+111
+00:04:48,240 --> 00:04:54,720
+M the length of w is n to the Epsilon
+
+112
+00:04:51,840 --> 00:04:57,280
+okay even less than n to the EPS even n
+
+113
+00:04:54,720 --> 00:05:00,360
+to the little o of n now you this will
+
+114
+00:04:57,280 --> 00:05:02,680
+still be polinomial in N so actually you
+
+115
+00:05:00,360 --> 00:05:04,440
+you took the proof and make it actually
+
+116
+00:05:02,680 --> 00:05:06,880
+more than polom larger because it's
+
+117
+00:05:04,440 --> 00:05:10,120
+polinomial an n and M and if the proof
+
+118
+00:05:06,880 --> 00:05:12,320
+here is smaller is n to the little of
+
+119
+00:05:10,120 --> 00:05:14,639
+one then this is polyn it's actually
+
+120
+00:05:12,320 --> 00:05:16,320
+more than polinomial bigger but so
+
+121
+00:05:14,639 --> 00:05:18,160
+you're saying what did we gain we took
+
+122
+00:05:16,320 --> 00:05:20,199
+us a short proof made it so much bigger
+
+123
+00:05:18,160 --> 00:05:22,400
+what did we gain and what we gained is
+
+124
+00:05:20,199 --> 00:05:25,000
+the Hope is that you can query this the
+
+125
+00:05:22,400 --> 00:05:27,160
+verif can query this in very very few
+
+126
+00:05:25,000 --> 00:05:30,520
+locations read only very very few bits
+
+127
+00:05:27,160 --> 00:05:33,600
+of this proof okay okay verifier also
+
+128
+00:05:30,520 --> 00:05:35,639
+have to Rex that yeah the verifier all
+
+129
+00:05:33,600 --> 00:05:37,120
+of so yes good so the question that's a
+
+130
+00:05:35,639 --> 00:05:39,840
+good question so the question was does
+
+131
+00:05:37,120 --> 00:05:40,960
+the verifier have to read all of X and
+
+132
+00:05:39,840 --> 00:05:42,520
+because I said he only needs to read a
+
+133
+00:05:40,960 --> 00:05:44,919
+few location the proof does he need to
+
+134
+00:05:42,520 --> 00:05:46,560
+read all of X and a prior of course he
+
+135
+00:05:44,919 --> 00:05:48,240
+needs to read all of X because even if
+
+136
+00:05:46,560 --> 00:05:51,639
+there's one bit in X that he doesn't
+
+137
+00:05:48,240 --> 00:05:52,759
+read you know what if that bit is it's
+
+138
+00:05:51,639 --> 00:05:54,280
+actually what the state what the
+
+139
+00:05:52,759 --> 00:05:55,440
+sentence is what the statement is you
+
+140
+00:05:54,280 --> 00:05:57,160
+know the Prov need to know what am I
+
+141
+00:05:55,440 --> 00:05:59,639
+reading what am I what are you proving
+
+142
+00:05:57,160 --> 00:06:01,680
+to me but there are extensions called
+
+143
+00:05:59,639 --> 00:06:03,840
+called PCP of proximity which I'm not
+
+144
+00:06:01,680 --> 00:06:07,280
+going to get into in this class where
+
+145
+00:06:03,840 --> 00:06:09,400
+actually the verify the verifier also
+
+146
+00:06:07,280 --> 00:06:11,080
+doesn't read all of X but the guarantee
+
+147
+00:06:09,400 --> 00:06:14,520
+is not that X is in the language it's
+
+148
+00:06:11,080 --> 00:06:16,479
+the guarantee is that kind of it's a the
+
+149
+00:06:14,520 --> 00:06:18,720
+Oracle that is given to the verifier
+
+150
+00:06:16,479 --> 00:06:20,720
+there is something close to it that's in
+
+151
+00:06:18,720 --> 00:06:23,039
+the linguage so it there is a notion of
+
+152
+00:06:20,720 --> 00:06:24,479
+extension of this notion of the PCP
+
+153
+00:06:23,039 --> 00:06:27,479
+where the verifier doesn't even need to
+
+154
+00:06:24,479 --> 00:06:30,160
+read all of X the guarantees there are
+
+155
+00:06:27,479 --> 00:06:31,720
+not very easy to state but it's a very
+
+156
+00:06:30,160 --> 00:06:34,120
+useful notion actually it's used a lot
+
+157
+00:06:31,720 --> 00:06:37,160
+it's called prob uh pcps of
+
+158
+00:06:34,120 --> 00:06:39,360
+proximity okay
+
+159
+00:06:37,160 --> 00:06:41,840
+so okay so that's what we're going to do
+
+160
+00:06:39,360 --> 00:06:43,120
+today okay and let me just mention
+
+161
+00:06:41,840 --> 00:06:45,039
+before even we start the formal thing
+
+162
+00:06:43,120 --> 00:06:47,599
+let me just say this is really an
+
+163
+00:06:45,039 --> 00:06:51,280
+amazing line of work today we know how
+
+164
+00:06:47,599 --> 00:06:54,280
+to take any witness convert it to a
+
+165
+00:06:51,280 --> 00:06:58,919
+probity checkable one that the verifier
+
+166
+00:06:54,280 --> 00:07:00,520
+only reads three bits three three bits
+
+167
+00:06:58,919 --> 00:07:03,879
+of this
+
+168
+00:07:00,520 --> 00:07:08,240
+uh proof and is convinced with cut and
+
+169
+00:07:03,879 --> 00:07:09,319
+probability 78 is the the parameter but
+
+170
+00:07:08,240 --> 00:07:12,039
+and then if you want more of course you
+
+171
+00:07:09,319 --> 00:07:15,039
+repeat but even with just three bits you
+
+172
+00:07:12,039 --> 00:07:16,919
+get uh some soundness that's really
+
+173
+00:07:15,039 --> 00:07:18,520
+amazing so we're not going to see the
+
+174
+00:07:16,919 --> 00:07:20,599
+three bit proof but we're going to see a
+
+175
+00:07:18,520 --> 00:07:22,400
+poly Logan proof so what we're going to
+
+176
+00:07:20,599 --> 00:07:24,400
+show what what the construction we're
+
+177
+00:07:22,400 --> 00:07:27,160
+going to see today is how to go from a
+
+178
+00:07:24,400 --> 00:07:28,840
+witness to a probability checkable one
+
+179
+00:07:27,160 --> 00:07:30,039
+that the verifier only needs to read
+
+180
+00:07:28,840 --> 00:07:34,759
+polylog
+
+181
+00:07:30,039 --> 00:07:36,960
+n of this of these uh bits and verify
+
+182
+00:07:34,759 --> 00:07:38,680
+and to go to the constant there's an
+
+183
+00:07:36,960 --> 00:07:40,680
+additional tricks of recursion and so on
+
+184
+00:07:38,680 --> 00:07:42,240
+that one needs to do to get there but
+
+185
+00:07:40,680 --> 00:07:46,520
+we're not going to cover that
+
+186
+00:07:42,240 --> 00:07:49,800
+part okay ready to roll
+
+187
+00:07:46,520 --> 00:07:49,800
+sleeves okay
+
+188
+00:07:52,360 --> 00:07:56,800
+let's okay so let me just Define the
+
+189
+00:07:55,120 --> 00:07:58,720
+complexity class people often think of
+
+190
+00:07:56,800 --> 00:08:00,720
+it as a complexity class even though for
+
+191
+00:07:58,720 --> 00:08:02,479
+us because this is more of a proof
+
+192
+00:08:00,720 --> 00:08:04,199
+system cryptography I know class we
+
+193
+00:08:02,479 --> 00:08:05,720
+always want efficiency we want we don't
+
+194
+00:08:04,199 --> 00:08:07,080
+care just about complexity we want to
+
+195
+00:08:05,720 --> 00:08:09,360
+say that actually you can take any
+
+196
+00:08:07,080 --> 00:08:11,360
+witness and efficiently convert it it's
+
+197
+00:08:09,360 --> 00:08:13,879
+not just about existence we want to
+
+198
+00:08:11,360 --> 00:08:15,319
+actually use these things and let me
+
+199
+00:08:13,879 --> 00:08:16,840
+just jump ahead and say that these
+
+200
+00:08:15,319 --> 00:08:18,680
+things are used it's not just a
+
+201
+00:08:16,840 --> 00:08:20,000
+theoretical uh you know even though
+
+202
+00:08:18,680 --> 00:08:22,240
+everything we've seen so far in the
+
+203
+00:08:20,000 --> 00:08:26,159
+class is like very just beautiful
+
+204
+00:08:22,240 --> 00:08:30,039
+mathematically it seems a very um a you
+
+205
+00:08:26,159 --> 00:08:33,919
+know uh a
+
+206
+00:08:30,039 --> 00:08:35,839
+kind of low like a very uh away from
+
+207
+00:08:33,919 --> 00:08:37,360
+very far from practice you know and but
+
+208
+00:08:35,839 --> 00:08:38,680
+actually it's not all these things that
+
+209
+00:08:37,360 --> 00:08:41,719
+I've shown you so far that you've seen
+
+210
+00:08:38,680 --> 00:08:46,120
+so far are things that actually are used
+
+211
+00:08:41,719 --> 00:08:47,800
+and uh so and and the PCP as well uh all
+
+212
+00:08:46,120 --> 00:08:49,440
+this Machinery are things that too so we
+
+213
+00:08:47,800 --> 00:08:51,560
+actually do care about efficiency but
+
+214
+00:08:49,440 --> 00:08:55,720
+let me first kind of Define it as a
+
+215
+00:08:51,560 --> 00:08:59,920
+complexity class so we defined the
+
+216
+00:08:55,720 --> 00:09:02,120
+complex the complexity class PCP C for
+
+217
+00:08:59,920 --> 00:09:05,079
+for completeness parameter s for
+
+218
+00:09:02,120 --> 00:09:08,680
+soundness parameter R for Randomness
+
+219
+00:09:05,079 --> 00:09:12,320
+parameter and Q for query parameter so
+
+220
+00:09:08,680 --> 00:09:16,760
+this is a class this is the
+
+221
+00:09:12,320 --> 00:09:16,760
+class of all
+
+222
+00:09:17,720 --> 00:09:20,720
+languages
+
+223
+00:09:20,760 --> 00:09:24,800
+L A that
+
+224
+00:09:27,200 --> 00:09:33,680
+have a probabilistically able proof but
+
+225
+00:09:30,320 --> 00:09:37,160
+I'll explain exactly what I mean uh okay
+
+226
+00:09:33,680 --> 00:09:39,120
+so actually let me say a okay these are
+
+227
+00:09:37,160 --> 00:09:41,360
+all the let me write it
+
+228
+00:09:39,120 --> 00:09:46,320
+formally for which these are all the
+
+229
+00:09:41,360 --> 00:09:46,320
+languages L such that there
+
+230
+00:09:46,600 --> 00:09:53,160
+exists uh PPT a probabilistic polinomial
+
+231
+00:09:51,040 --> 00:09:54,720
+Time
+
+232
+00:09:53,160 --> 00:09:59,600
+verifier
+
+233
+00:09:54,720 --> 00:10:02,440
+a actually it's a a PPT Oracle machine
+
+234
+00:09:59,600 --> 00:10:04,880
+because it takes the PCP is an oracle
+
+235
+00:10:02,440 --> 00:10:09,040
+Oracle
+
+236
+00:10:04,880 --> 00:10:13,279
+machine v such
+
+237
+00:10:09,040 --> 00:10:13,279
+that okay so the
+
+238
+00:10:13,320 --> 00:10:19,480
+completeness here's the condition the
+
+239
+00:10:15,920 --> 00:10:25,560
+completeness says that for every X in
+
+240
+00:10:19,480 --> 00:10:30,880
+the language there exists a PCP Pi such
+
+241
+00:10:25,560 --> 00:10:33,920
+that the probability that V the verifier
+
+242
+00:10:30,880 --> 00:10:37,360
+given Oracle access to this PCP pi and
+
+243
+00:10:33,920 --> 00:10:40,360
+input the instance so for every instance
+
+244
+00:10:37,360 --> 00:10:42,639
+there exists a PCP so that the verifier
+
+245
+00:10:40,360 --> 00:10:44,440
+will accept it will output one with
+
+246
+00:10:42,639 --> 00:10:46,920
+probability at least C that's the
+
+247
+00:10:44,440 --> 00:10:48,000
+completeness parameter for us the PCP
+
+248
+00:10:46,920 --> 00:10:51,079
+will see we'll have complet this
+
+249
+00:10:48,000 --> 00:10:52,959
+parameter one okay so we'll see so we
+
+250
+00:10:51,079 --> 00:10:57,839
+want to say that a class that a language
+
+251
+00:10:52,959 --> 00:11:00,720
+L has such a PCP if there's a verifier V
+
+252
+00:10:57,839 --> 00:11:02,560
+efficient verifier it takes Oracle axis
+
+253
+00:11:00,720 --> 00:11:05,560
+so if x is in the language there exists
+
+254
+00:11:02,560 --> 00:11:08,760
+in PCP so I to verify with Oracle axis
+
+255
+00:11:05,560 --> 00:11:11,160
+of this PCP given this input outputs one
+
+256
+00:11:08,760 --> 00:11:13,160
+with probity C yes maybe I'm jumping a
+
+257
+00:11:11,160 --> 00:11:15,040
+bit but what does the Oracle look like
+
+258
+00:11:13,160 --> 00:11:17,320
+like what are the inputs okay good good
+
+259
+00:11:15,040 --> 00:11:19,720
+good so this okay oh good no you're not
+
+260
+00:11:17,320 --> 00:11:21,959
+jumping so good good question so this Pi
+
+261
+00:11:19,720 --> 00:11:25,480
+you should think of it as a
+
+262
+00:11:21,959 --> 00:11:29,959
+string it has bits B1 maybe I call it Pi
+
+263
+00:11:25,480 --> 00:11:34,760
+1 Pi 2 up to Pi I don't know
+
+264
+00:11:29,959 --> 00:11:37,279
+n and uh the verifier can ask give me
+
+265
+00:11:34,760 --> 00:11:39,560
+like Pi 1 give me pi 2 give me pi 3 so
+
+266
+00:11:37,279 --> 00:11:41,959
+he just has Oracle queries he can query
+
+267
+00:11:39,560 --> 00:11:43,079
+this string okay that's what Oracle it's
+
+268
+00:11:41,959 --> 00:11:44,680
+not really don't think of it as a
+
+269
+00:11:43,079 --> 00:11:46,680
+function he has Oracle access to the
+
+270
+00:11:44,680 --> 00:11:48,200
+string and he can just ask for specific
+
+271
+00:11:46,680 --> 00:11:49,920
+bits from the string great question
+
+272
+00:11:48,200 --> 00:11:55,399
+thank
+
+273
+00:11:49,920 --> 00:11:55,399
+you okay uh good and the sound is
+
+274
+00:11:57,639 --> 00:12:03,680
+guarantee says that that for every X
+
+275
+00:12:01,200 --> 00:12:06,839
+that's not in the
+
+276
+00:12:03,680 --> 00:12:08,760
+language any any guesses by the way what
+
+277
+00:12:06,839 --> 00:12:11,800
+would you okay so you need to define a
+
+278
+00:12:08,760 --> 00:12:15,880
+PCP here how would you define
+
+279
+00:12:11,800 --> 00:12:15,880
+sonus yeah for
+
+280
+00:12:22,040 --> 00:12:27,199
+all
+
+281
+00:12:23,600 --> 00:12:29,760
+wonderful exactly you want to say that
+
+282
+00:12:27,199 --> 00:12:32,920
+for every Pi star this know how we do
+
+283
+00:12:29,760 --> 00:12:34,880
+note bad things Prime will do too uh for
+
+284
+00:12:32,920 --> 00:12:37,519
+every bad now there's a cheating Pro he
+
+285
+00:12:34,880 --> 00:12:39,720
+tries to fool the verifier he cannot so
+
+286
+00:12:37,519 --> 00:12:42,120
+for no matter what he tries to give him
+
+287
+00:12:39,720 --> 00:12:45,360
+the verifier will reject him with
+
+288
+00:12:42,120 --> 00:12:46,399
+probability or a will accept probability
+
+289
+00:12:45,360 --> 00:12:49,240
+smaller than
+
+290
+00:12:46,399 --> 00:12:50,519
+S that's the soundness guarantee okay
+
+291
+00:12:49,240 --> 00:12:53,120
+and ideally we want to push the
+
+292
+00:12:50,519 --> 00:12:57,360
+completeness to one the soundness to
+
+293
+00:12:53,120 --> 00:12:59,880
+zero great and then the a the
+
+294
+00:12:57,360 --> 00:13:03,720
+complexity uh is now we want to say in
+
+295
+00:12:59,880 --> 00:13:03,720
+terms of complexity now we'll go to
+
+296
+00:13:04,760 --> 00:13:11,360
+the the V
+
+297
+00:13:07,480 --> 00:13:11,360
+uses our bits of
+
+298
+00:13:14,639 --> 00:13:19,839
+Randomness and Q Oracle
+
+299
+00:13:20,920 --> 00:13:25,440
+calls and moreover we'll see this is
+
+300
+00:13:23,440 --> 00:13:27,040
+important for us this is often in the
+
+301
+00:13:25,440 --> 00:13:31,120
+definition though not always but often
+
+302
+00:13:27,040 --> 00:13:31,120
+this is part of the Q
+
+303
+00:13:34,760 --> 00:13:39,040
+nonadaptive what do I mean by
+
+304
+00:13:36,639 --> 00:13:42,959
+nonadaptive what I mean is the way V
+
+305
+00:13:39,040 --> 00:13:46,000
+Works he gets input X he gets input X he
+
+306
+00:13:42,959 --> 00:13:49,480
+then chooses kind of
+
+307
+00:13:46,000 --> 00:13:49,480
+i1 up to
+
+308
+00:13:50,440 --> 00:13:56,240
+IQ locations in the PCP okay so here's
+
+309
+00:13:54,600 --> 00:13:59,880
+the v v he doesn't even look at the
+
+310
+00:13:56,240 --> 00:14:03,199
+Oracle yet he has an input X
+
+311
+00:13:59,880 --> 00:14:05,720
+he first computes Q
+
+312
+00:14:03,199 --> 00:14:10,079
+locations he then goes to the Oracle
+
+313
+00:14:05,720 --> 00:14:13,240
+asks these Q locations and then so V1
+
+314
+00:14:10,079 --> 00:14:16,560
+just just these locations and then V2 so
+
+315
+00:14:13,240 --> 00:14:19,680
+you can think of v as being like V1 and
+
+316
+00:14:16,560 --> 00:14:20,720
+V2 V1 doesn't look at his Oracle he just
+
+317
+00:14:19,680 --> 00:14:24,720
+looks as an
+
+318
+00:14:20,720 --> 00:14:27,519
+input and using Randomness chooses Q
+
+319
+00:14:24,720 --> 00:14:30,680
+locations and then
+
+320
+00:14:27,519 --> 00:14:37,199
+V2 kind of uh just given
+
+321
+00:14:30,680 --> 00:14:43,120
+X i1 up to IQ and Pi i1 up to Pi
+
+322
+00:14:37,199 --> 00:14:45,320
+IQ decides if to like uh accept or
+
+323
+00:14:43,120 --> 00:14:47,399
+reject okay so this is the how you
+
+324
+00:14:45,320 --> 00:14:49,959
+should think of the of the verifier the
+
+325
+00:14:47,399 --> 00:14:52,120
+verifier has access to the proof Pi but
+
+326
+00:14:49,959 --> 00:14:55,279
+what he does he does he because a more
+
+327
+00:14:52,120 --> 00:14:58,199
+General verifier will have X decide on
+
+328
+00:14:55,279 --> 00:15:00,720
+location first location 3 i1 look at Pi
+
+329
+00:14:58,199 --> 00:15:04,079
+1 then hm interesting okay in that case
+
+330
+00:15:00,720 --> 00:15:05,920
+I want to see location I2 h i get Pi I2
+
+331
+00:15:04,079 --> 00:15:07,600
+interesting given Pi I2 I want to see
+
+332
+00:15:05,920 --> 00:15:10,360
+location that would be an Adaptive
+
+333
+00:15:07,600 --> 00:15:12,880
+verifier okay but often in the PCP
+
+334
+00:15:10,360 --> 00:15:14,240
+literature when we Define PCP we require
+
+335
+00:15:12,880 --> 00:15:16,480
+the verifier to be
+
+336
+00:15:14,240 --> 00:15:19,560
+non-adaptive and this non- adaptivity is
+
+337
+00:15:16,480 --> 00:15:21,040
+kind of uh is it's a property that we
+
+338
+00:15:19,560 --> 00:15:23,959
+like for applications and we'll see that
+
+339
+00:15:21,040 --> 00:15:25,920
+today uh why an example for why when
+
+340
+00:15:23,959 --> 00:15:27,959
+we'll construct succinct arguments we'll
+
+341
+00:15:25,920 --> 00:15:30,079
+use the fact that it's non adaptive but
+
+342
+00:15:27,959 --> 00:15:31,959
+let me just say most PCP all pcps I know
+
+343
+00:15:30,079 --> 00:15:34,880
+are nonadaptive maybe there other was
+
+344
+00:15:31,959 --> 00:15:36,920
+that your question yeah so I don't I
+
+345
+00:15:34,880 --> 00:15:39,279
+there may exist I'm not you know I'm not
+
+346
+00:15:36,920 --> 00:15:42,079
+uh I didn't do a full literature search
+
+347
+00:15:39,279 --> 00:15:43,839
+but the pcps that are you know the most
+
+348
+00:15:42,079 --> 00:15:46,319
+common ones that we talk about are all
+
+349
+00:15:43,839 --> 00:15:48,880
+non-adaptive yeah did V get to know what
+
+350
+00:15:46,319 --> 00:15:52,279
+capital N is yeah yeah yeah yeah so V
+
+351
+00:15:48,880 --> 00:15:55,120
+yes V knows yeah so V good very good
+
+352
+00:15:52,279 --> 00:15:57,279
+question let me repeat for the uh video
+
+353
+00:15:55,120 --> 00:16:00,560
+uh so the question was does v know what
+
+354
+00:15:57,279 --> 00:16:04,720
+n what capital N is so the answer is yes
+
+355
+00:16:00,560 --> 00:16:06,959
+and the V knows uh V knows the language
+
+356
+00:16:04,720 --> 00:16:09,199
+so he knows what small n is well he got
+
+357
+00:16:06,959 --> 00:16:13,600
+small n he knows small n the language
+
+358
+00:16:09,199 --> 00:16:15,680
+has like is there's M so he V get small
+
+359
+00:16:13,600 --> 00:16:18,360
+n so he knows what an N is the language
+
+360
+00:16:15,680 --> 00:16:20,839
+is associated with the witness size M of
+
+361
+00:16:18,360 --> 00:16:23,560
+n so he knows that because he knows n so
+
+362
+00:16:20,839 --> 00:16:27,319
+he knows the witness size and the PCP
+
+363
+00:16:23,560 --> 00:16:30,120
+itself is associated with n which
+
+364
+00:16:27,319 --> 00:16:32,199
+is you know you can think of it this way
+
+365
+00:16:30,120 --> 00:16:35,600
+so so the answer is yes these are kind
+
+366
+00:16:32,199 --> 00:16:37,399
+of fixed these uh M and N are fixed
+
+367
+00:16:35,600 --> 00:16:40,000
+parameters that are defined by the PCP
+
+368
+00:16:37,399 --> 00:16:44,199
+and the prover knows them the verifier
+
+369
+00:16:40,000 --> 00:16:46,240
+the pro they yeah yes we gain
+
+370
+00:16:44,199 --> 00:16:48,480
+orose yes good good good so the question
+
+371
+00:16:46,240 --> 00:16:51,560
+is do we lose something and the answer
+
+372
+00:16:48,480 --> 00:16:53,519
+is we do uh okay so what do we lose and
+
+373
+00:16:51,560 --> 00:16:56,000
+what do we gain is your question what we
+
+374
+00:16:53,519 --> 00:16:58,240
+lose is for application so we you when
+
+375
+00:16:56,000 --> 00:16:59,920
+we'll go to in the second part of
+
+376
+00:16:58,240 --> 00:17:01,399
+today's class we're going to construct
+
+377
+00:16:59,920 --> 00:17:03,959
+succinct arguments and we're going to
+
+378
+00:17:01,399 --> 00:17:06,959
+construct them from pcps and you'll see
+
+379
+00:17:03,959 --> 00:17:09,240
+that if our PCP is adaptive this becomes
+
+380
+00:17:06,959 --> 00:17:11,120
+the problem so we do gain now you're
+
+381
+00:17:09,240 --> 00:17:12,520
+saying what do we Lo and so we do lose
+
+382
+00:17:11,120 --> 00:17:13,959
+sorry we do lose if we make it adapted
+
+383
+00:17:12,520 --> 00:17:16,319
+now you're saying but maybe we gain
+
+384
+00:17:13,959 --> 00:17:18,600
+something maybe we construct pcps that
+
+385
+00:17:16,319 --> 00:17:23,039
+are much better if you make them
+
+386
+00:17:18,600 --> 00:17:25,439
+adaptive and I I don't think so but I'm
+
+387
+00:17:23,039 --> 00:17:27,199
+not sure maybe maybe one can actually
+
+388
+00:17:25,439 --> 00:17:29,559
+argue that you don't gain anything but I
+
+389
+00:17:27,199 --> 00:17:31,960
+haven't thought about it um but it's not
+
+390
+00:17:29,559 --> 00:17:35,400
+something that making it nonadaptive
+
+391
+00:17:31,960 --> 00:17:40,160
+that for all we know is not a price it's
+
+392
+00:17:35,400 --> 00:17:40,160
+just our pcps happen to be that way
+
+393
+00:17:42,400 --> 00:17:47,600
+yeah good good good very very good
+
+394
+00:17:44,559 --> 00:17:49,360
+question so uh I think I I think maybe I
+
+395
+00:17:47,600 --> 00:17:52,080
+misunderstood but maybe your question
+
+396
+00:17:49,360 --> 00:17:54,080
+was is it clear that these have to
+
+397
+00:17:52,080 --> 00:17:56,360
+depend on X can they even not depend on
+
+398
+00:17:54,080 --> 00:17:59,799
+X and the answer is yes actually in the
+
+399
+00:17:56,360 --> 00:18:03,000
+pcps will see they don't depend on x
+
+400
+00:17:59,799 --> 00:18:06,640
+okay the pcps we know actually these
+
+401
+00:18:03,000 --> 00:18:10,880
+they only depend on you know n and the
+
+402
+00:18:06,640 --> 00:18:12,880
+instance size or or again it's but they
+
+403
+00:18:10,880 --> 00:18:14,640
+don't actually depend on the instance
+
+404
+00:18:12,880 --> 00:18:16,200
+and the PCP I'll construct today you'll
+
+405
+00:18:14,640 --> 00:18:18,320
+see that so we'll get back to that that
+
+406
+00:18:16,200 --> 00:18:21,320
+really really great questions
+
+407
+00:18:18,320 --> 00:18:23,720
+yeah does that
+
+408
+00:18:21,320 --> 00:18:25,480
+think knows what indes you're going
+
+409
+00:18:23,720 --> 00:18:27,240
+Advance you could construct a of course
+
+410
+00:18:25,480 --> 00:18:29,520
+of course great wow guys you're really
+
+411
+00:18:27,240 --> 00:18:33,480
+Lifting me up this is great thank you uh
+
+412
+00:18:29,520 --> 00:18:35,280
+yeah 100% so you're what you're saying
+
+413
+00:18:33,480 --> 00:18:37,679
+is of course if the ver if the prover
+
+414
+00:18:35,280 --> 00:18:40,480
+knew the locations you're quering he
+
+415
+00:18:37,679 --> 00:18:42,520
+will cheat the thing is these locations
+
+416
+00:18:40,480 --> 00:18:45,280
+are random the prover doesn't know what
+
+417
+00:18:42,520 --> 00:18:46,679
+they are they just don't depend on X
+
+418
+00:18:45,280 --> 00:18:48,000
+okay okay but they they come from a
+
+419
+00:18:46,679 --> 00:18:50,159
+distribution it's very important if
+
+420
+00:18:48,000 --> 00:18:51,559
+these were deterministic there's no way
+
+421
+00:18:50,159 --> 00:18:53,880
+if you can do a PCP where these are
+
+422
+00:18:51,559 --> 00:18:56,200
+deterministic it's like you took NP and
+
+423
+00:18:53,880 --> 00:18:57,919
+you just made it end time much smaller
+
+424
+00:18:56,200 --> 00:19:02,159
+like we don't believe that that can
+
+425
+00:18:57,919 --> 00:19:04,480
+happen in so no it the there's no way we
+
+426
+00:19:02,159 --> 00:19:07,440
+believe you can construct pcps for which
+
+427
+00:19:04,480 --> 00:19:09,600
+the qu the query distribution is
+
+428
+00:19:07,440 --> 00:19:11,480
+deterministic it's like just fixed this
+
+429
+00:19:09,600 --> 00:19:12,720
+has to come from a distribution but the
+
+430
+00:19:11,480 --> 00:19:15,440
+question is does this distribution
+
+431
+00:19:12,720 --> 00:19:17,720
+depend on X or does it only depend on
+
+432
+00:19:15,440 --> 00:19:19,200
+the parameter n and then and what we'll
+
+433
+00:19:17,720 --> 00:19:21,120
+see it actually only depends on N it
+
+434
+00:19:19,200 --> 00:19:24,360
+doesn't depend on X so that's what we'll
+
+435
+00:19:21,120 --> 00:19:24,360
+see a in a
+
+436
+00:19:24,440 --> 00:19:30,720
+minute great question guys any any more
+
+437
+00:19:27,120 --> 00:19:30,720
+questions before we
+
+438
+00:19:37,919 --> 00:19:43,919
+yeah so okay good so actually V1 you can
+
+439
+00:19:41,559 --> 00:19:44,640
+think of usually V1 is randomized and V2
+
+440
+00:19:43,919 --> 00:19:46,679
+is
+
+441
+00:19:44,640 --> 00:19:50,240
+deterministic uh so you can think of it
+
+442
+00:19:46,679 --> 00:19:50,240
+that way that V1 is randomized V2 is
+
+443
+00:19:50,799 --> 00:19:57,760
+deterministic okay
+
+444
+00:19:54,080 --> 00:19:59,280
+uh great so now let me tell you what we
+
+445
+00:19:57,760 --> 00:20:00,720
+know and what we're going to construct
+
+446
+00:19:59,280 --> 00:20:04,240
+so here's what we're going to prove
+
+447
+00:20:00,720 --> 00:20:05,440
+today um here is a theorem that we're
+
+448
+00:20:04,240 --> 00:20:08,240
+going to
+
+449
+00:20:05,440 --> 00:20:12,320
+prove that
+
+450
+00:20:08,240 --> 00:20:14,200
+PCP with a let's say completeness one
+
+451
+00:20:12,320 --> 00:20:15,880
+I'll put S as half we can get smaller
+
+452
+00:20:14,200 --> 00:20:18,120
+any con and smaller but I'll just put
+
+453
+00:20:15,880 --> 00:20:21,039
+half because by repetition uh it doesn't
+
+454
+00:20:18,120 --> 00:20:22,440
+really matter you can get a PCP where
+
+455
+00:20:21,039 --> 00:20:25,760
+the query
+
+456
+00:20:22,440 --> 00:20:31,520
+complexity is so okay we can get a PCP
+
+457
+00:20:25,760 --> 00:20:34,760
+with poly log n query complexity and
+
+458
+00:20:31,520 --> 00:20:34,760
+poly a
+
+459
+00:20:36,440 --> 00:20:41,360
+login H sorry poly log and Randomness
+
+460
+00:20:39,080 --> 00:20:42,440
+complexity and query complexity for all
+
+461
+00:20:41,360 --> 00:20:44,840
+of
+
+462
+00:20:42,440 --> 00:20:48,400
+NP that's what we're going to see today
+
+463
+00:20:44,840 --> 00:20:51,480
+so we're going to see how for any NP
+
+464
+00:20:48,400 --> 00:20:53,480
+language we can construct a PCP where
+
+465
+00:20:51,480 --> 00:20:56,520
+the verifier the amount of Randomness he
+
+466
+00:20:53,480 --> 00:20:58,960
+uses is polog and bits of Randomness and
+
+467
+00:20:56,520 --> 00:21:02,880
+polog and queries and then we get
+
+468
+00:20:58,960 --> 00:21:02,880
+completeness one and sound as half
+
+469
+00:21:06,280 --> 00:21:09,280
+yeaha
+
+470
+00:21:11,400 --> 00:21:17,760
+usually right right right yeah yeah yeah
+
+471
+00:21:13,720 --> 00:21:20,640
+so you're right so often uh okay you're
+
+472
+00:21:17,760 --> 00:21:22,240
+right the way I wrote it here uh so okay
+
+473
+00:21:20,640 --> 00:21:24,360
+why do people care about Randomness
+
+474
+00:21:22,240 --> 00:21:26,720
+complexity one can say who cares about
+
+475
+00:21:24,360 --> 00:21:28,600
+the random complexity and usually the
+
+476
+00:21:26,720 --> 00:21:29,960
+way the way I Define PCP and this is
+
+477
+00:21:28,600 --> 00:21:31,480
+that's why I said it's a complexity
+
+478
+00:21:29,960 --> 00:21:35,000
+Theory this is how it's
+
+479
+00:21:31,480 --> 00:21:37,559
+defined if if the verifier has only log
+
+480
+00:21:35,000 --> 00:21:40,559
+and bits or order lend bits of of
+
+481
+00:21:37,559 --> 00:21:44,400
+Randomness then it means that the PCP is
+
+482
+00:21:40,559 --> 00:21:46,440
+only polyn size because look go over all
+
+483
+00:21:44,400 --> 00:21:48,559
+the PO and all the log and bit random
+
+484
+00:21:46,440 --> 00:21:52,360
+there's only n of them so that's as much
+
+485
+00:21:48,559 --> 00:21:53,880
+as you can uh kind of query so uh so
+
+486
+00:21:52,360 --> 00:21:57,520
+that means the PCV is aized and that's
+
+487
+00:21:53,880 --> 00:21:59,240
+all we care about okay for me I'm going
+
+488
+00:21:57,520 --> 00:22:01,440
+to care about so actually for me I'm
+
+489
+00:21:59,240 --> 00:22:02,360
+going to add a a requirement actually I
+
+490
+00:22:01,440 --> 00:22:04,760
+didn't write it here because it's
+
+491
+00:22:02,360 --> 00:22:08,120
+usually not defined but I can add a
+
+492
+00:22:04,760 --> 00:22:10,240
+requirement that says this a I'll okay
+
+493
+00:22:08,120 --> 00:22:12,279
+I'll add it here in tiny this is a a
+
+494
+00:22:10,240 --> 00:22:14,679
+requirement that we add in in
+
+495
+00:22:12,279 --> 00:22:17,279
+cryptography often what I'm writing now
+
+496
+00:22:14,679 --> 00:22:19,200
+is not added in the in in the
+
+497
+00:22:17,279 --> 00:22:21,960
+definitions but let me write another
+
+498
+00:22:19,200 --> 00:22:23,200
+cryptography another that given for
+
+499
+00:22:21,960 --> 00:22:31,039
+every
+
+500
+00:22:23,200 --> 00:22:31,039
+X in or X for for every X in l and
+
+501
+00:22:31,480 --> 00:22:37,880
+witness if it has a
+
+502
+00:22:34,840 --> 00:22:40,480
+witness W okay so suppose this is a
+
+503
+00:22:37,880 --> 00:22:42,480
+language in N time I don't know NP or n
+
+504
+00:22:40,480 --> 00:22:45,320
+time T so it has some witness I want it
+
+505
+00:22:42,480 --> 00:22:47,080
+to be the case that given X and W you
+
+506
+00:22:45,320 --> 00:22:50,720
+can
+
+507
+00:22:47,080 --> 00:22:54,520
+efficiently compute Pi so not only there
+
+508
+00:22:50,720 --> 00:22:57,080
+exists Pi of of poly and size you can
+
+509
+00:22:54,520 --> 00:22:59,440
+actually efficiently compute it and
+
+510
+00:22:57,080 --> 00:23:00,760
+because I require efficient Computing I
+
+511
+00:22:59,440 --> 00:23:03,320
+actually don't care anymore so much
+
+512
+00:23:00,760 --> 00:23:06,080
+about the randomness the amount the
+
+513
+00:23:03,320 --> 00:23:07,600
+number of Randomness uh bits but yeah
+
+514
+00:23:06,080 --> 00:23:09,880
+that's a very good point Thank you guys
+
+515
+00:23:07,600 --> 00:23:12,960
+thank you for the question this is
+
+516
+00:23:09,880 --> 00:23:14,960
+great H okay so that's what I'm going to
+
+517
+00:23:12,960 --> 00:23:19,000
+prove even though let me just mention
+
+518
+00:23:14,960 --> 00:23:23,240
+what is known is you can make this order
+
+519
+00:23:19,000 --> 00:23:23,240
+login and you can make this
+
+520
+00:23:23,360 --> 00:23:28,840
+three okay so it's really remarkable if
+
+521
+00:23:25,640 --> 00:23:31,120
+you think about it wow you can take any
+
+522
+00:23:28,840 --> 00:23:34,159
+proof so you know how I don't know take
+
+523
+00:23:31,120 --> 00:23:36,480
+a foras last the take the hardest proof
+
+524
+00:23:34,159 --> 00:23:39,520
+that we know in mathematics you know one
+
+525
+00:23:36,480 --> 00:23:42,120
+can write them in a pro propos checkable
+
+526
+00:23:39,520 --> 00:23:43,720
+way they you can just take three bits
+
+527
+00:23:42,120 --> 00:23:46,520
+and verify and if you're not happy with
+
+528
+00:23:43,720 --> 00:23:48,320
+probability half repeat it as many times
+
+529
+00:23:46,520 --> 00:23:49,799
+as you want you want prob you want to be
+
+530
+00:23:48,320 --> 00:23:52,360
+sure that he can cheat with probability
+
+531
+00:23:49,799 --> 00:23:55,279
+only one over two to the 500 repeat it
+
+532
+00:23:52,360 --> 00:23:57,880
+500 times and each one it's like a very
+
+533
+00:23:55,279 --> 00:24:00,440
+simple check it depends on three bits so
+
+534
+00:23:57,880 --> 00:24:00,440
+it's really
+
+535
+00:24:01,159 --> 00:24:04,760
+remarkable no never
+
+536
+00:24:05,440 --> 00:24:11,600
+mindo I guess it doesn't matter
+
+537
+00:24:07,799 --> 00:24:14,240
+to all oh you're saying it's too big
+
+538
+00:24:11,600 --> 00:24:16,760
+because for theory for practice Yeah but
+
+539
+00:24:14,240 --> 00:24:19,600
+we're still in theory land yeah in
+
+540
+00:24:16,760 --> 00:24:21,960
+practice these pcps you want them to be
+
+541
+00:24:19,600 --> 00:24:23,360
+like linear that's the ideal the Quasi
+
+542
+00:24:21,960 --> 00:24:25,200
+linear even if they're quadratic people
+
+543
+00:24:23,360 --> 00:24:27,640
+don't like them you really want linear
+
+544
+00:24:25,200 --> 00:24:30,200
+quasi linear pcps for for practice but
+
+545
+00:24:27,640 --> 00:24:32,919
+for here PA is fantastic we're you know
+
+546
+00:24:30,200 --> 00:24:37,159
+we're not we're not the let us stand the
+
+547
+00:24:32,919 --> 00:24:39,520
+cloud a little bit okay so uh so okay so
+
+548
+00:24:37,159 --> 00:24:43,760
+let's uh let's construct
+
+549
+00:24:39,520 --> 00:24:45,960
+this ready okay so okay so we have the
+
+550
+00:24:43,760 --> 00:24:49,480
+three but we're going to construct for
+
+551
+00:24:45,960 --> 00:24:52,559
+the polog polog and what actually here's
+
+552
+00:24:49,480 --> 00:24:54,600
+what you what's amazing you actually
+
+553
+00:24:52,559 --> 00:24:57,520
+already know how to construct the PCP
+
+554
+00:24:54,600 --> 00:25:00,320
+you just don't know that you know and
+
+555
+00:24:57,520 --> 00:25:04,039
+how do you construct the PCP it's really
+
+556
+00:25:00,320 --> 00:25:06,760
+only the GK protocol that's it so you
+
+557
+00:25:04,039 --> 00:25:08,320
+can unfold gkr and I'm going to show you
+
+558
+00:25:06,760 --> 00:25:11,720
+exactly how to make it a
+
+559
+00:25:08,320 --> 00:25:13,480
+PCP okay so to do that but before and
+
+560
+00:25:11,720 --> 00:25:16,679
+I'll recall the GK in a second on that
+
+561
+00:25:13,480 --> 00:25:18,360
+board but to do that let's first let's
+
+562
+00:25:16,679 --> 00:25:22,600
+first so I want to say any any language
+
+563
+00:25:18,360 --> 00:25:22,600
+has a PCP let's con let's
+
+564
+00:25:23,120 --> 00:25:28,679
+focus on on three set
+
+565
+00:25:30,399 --> 00:25:34,440
+okay so thre set is an NP complete
+
+566
+00:25:32,320 --> 00:25:36,880
+language let's just construct a PTP for
+
+567
+00:25:34,440 --> 00:25:39,480
+three set and what's nice about three
+
+568
+00:25:36,880 --> 00:25:41,039
+set is that I mean any NP language you
+
+569
+00:25:39,480 --> 00:25:44,279
+can convert to three set so it's nice
+
+570
+00:25:41,039 --> 00:25:46,279
+any NP language is that you have a
+
+571
+00:25:44,279 --> 00:25:50,399
+circuit a verification
+
+572
+00:25:46,279 --> 00:25:53,640
+circuit so a circuit verifying so you
+
+573
+00:25:50,399 --> 00:25:56,640
+can think of it uh given W verifying
+
+574
+00:25:53,640 --> 00:25:59,640
+that it's a valid witness of very small
+
+575
+00:25:56,640 --> 00:26:01,640
+depth okay poly and depth and this is
+
+576
+00:25:59,640 --> 00:26:04,279
+important because if you remember the GK
+
+577
+00:26:01,640 --> 00:26:05,520
+protocol which we're going to use to
+
+578
+00:26:04,279 --> 00:26:08,679
+construct this
+
+579
+00:26:05,520 --> 00:26:10,799
+PCP kind of the number the communication
+
+580
+00:26:08,679 --> 00:26:12,720
+complexity grows with the depth so we
+
+581
+00:26:10,799 --> 00:26:15,679
+want the depth of the circuit to be
+
+582
+00:26:12,720 --> 00:26:17,880
+small but any NP language you can
+
+583
+00:26:15,679 --> 00:26:19,600
+convert into a three set and thre set
+
+584
+00:26:17,880 --> 00:26:21,640
+has actually it's like the depth of
+
+585
+00:26:19,600 --> 00:26:24,320
+three set is like actually only two but
+
+586
+00:26:21,640 --> 00:26:26,520
+like you need to do you know uh little
+
+587
+00:26:24,320 --> 00:26:28,840
+ores and then one big end but if
+
+588
+00:26:26,520 --> 00:26:30,120
+remember gkr we wanted fan in two
+
+589
+00:26:28,840 --> 00:26:33,120
+so once you have F in two it's like
+
+590
+00:26:30,120 --> 00:26:36,760
+order log okay so this is depth you can
+
+591
+00:26:33,120 --> 00:26:39,480
+think of it as being uh a like log in or
+
+592
+00:26:36,760 --> 00:26:41,760
+I'm okay with poogan it doesn't
+
+593
+00:26:39,480 --> 00:26:44,880
+matter the point is it's
+
+594
+00:26:41,760 --> 00:26:47,559
+small and uh the reason why I write also
+
+595
+00:26:44,880 --> 00:26:51,799
+polog is because uh it's actually log
+
+596
+00:26:47,559 --> 00:26:53,919
+however uh this circuit is also any kind
+
+597
+00:26:51,799 --> 00:26:56,960
+of the circuit is and this I'm not going
+
+598
+00:26:53,919 --> 00:26:58,960
+to get into but it's log space uniform
+
+599
+00:26:56,960 --> 00:27:00,640
+and now you can consider the circuit
+
+600
+00:26:58,960 --> 00:27:02,440
+change it a little bit the way Rachel
+
+601
+00:27:00,640 --> 00:27:03,880
+taught you two weeks ago if you don't
+
+602
+00:27:02,440 --> 00:27:06,840
+remember it's not it's okay you can take
+
+603
+00:27:03,880 --> 00:27:08,440
+it as a black box uh you can assume that
+
+604
+00:27:06,840 --> 00:27:10,720
+The Circuit by kind of looking at a
+
+605
+00:27:08,440 --> 00:27:16,640
+universal version of it you can assume
+
+606
+00:27:10,720 --> 00:27:20,399
+that it has like the gates add I and
+
+607
+00:27:16,640 --> 00:27:20,399
+multi are efficiently
+
+608
+00:27:21,760 --> 00:27:27,559
+computable and that's what we'll need so
+
+609
+00:27:24,240 --> 00:27:28,919
+we can so if if you don't remember uh
+
+610
+00:27:27,559 --> 00:27:30,919
+things from weeks ago it's okay I'll
+
+611
+00:27:28,919 --> 00:27:33,200
+remind you what add I in multi in a
+
+612
+00:27:30,919 --> 00:27:38,000
+second but you take any three set you
+
+613
+00:27:33,200 --> 00:27:39,960
+can convert it uh or convert to 3 CNF so
+
+614
+00:27:38,000 --> 00:27:44,480
+now given a witness you just check that
+
+615
+00:27:39,960 --> 00:27:47,720
+it verifies hi hello hey wow all my kids
+
+616
+00:27:44,480 --> 00:27:47,720
+come coming
+
+617
+00:27:55,960 --> 00:28:01,480
+in okay so uh
+
+618
+00:27:58,919 --> 00:28:05,240
+a you just uh we talking about how to
+
+619
+00:28:01,480 --> 00:28:10,279
+construct pcps from gkr right
+
+620
+00:28:05,240 --> 00:28:11,919
+now so what we're proving is that we're
+
+621
+00:28:10,279 --> 00:28:13,760
+going to show how you can take any NP
+
+622
+00:28:11,919 --> 00:28:16,880
+language in particular we're focusing on
+
+623
+00:28:13,760 --> 00:28:20,440
+three sat and we're going to show how
+
+624
+00:28:16,880 --> 00:28:23,960
+you can convert three sat into a PCP
+
+625
+00:28:20,440 --> 00:28:25,840
+where the query complexity is poly Logan
+
+626
+00:28:23,960 --> 00:28:29,480
+so converting to PCP the verifier needs
+
+627
+00:28:25,840 --> 00:28:30,919
+to query only poly Logan uh locations we
+
+628
+00:28:29,480 --> 00:28:33,120
+know you can do go all the way down to
+
+629
+00:28:30,919 --> 00:28:35,000
+three but we're not uh today we're going
+
+630
+00:28:33,120 --> 00:28:37,440
+to so polog this is the randomness
+
+631
+00:28:35,000 --> 00:28:39,200
+complexity this is the query complexity
+
+632
+00:28:37,440 --> 00:28:42,360
+we're focusing on completeness one sound
+
+633
+00:28:39,200 --> 00:28:45,559
+is half okay so we're going to now
+
+634
+00:28:42,360 --> 00:28:48,080
+construct the PCP and uh before we conr
+
+635
+00:28:45,559 --> 00:28:50,039
+the P the PCP essentially uses gkr so
+
+636
+00:28:48,080 --> 00:28:51,919
+let me first on this board remind you
+
+637
+00:28:50,039 --> 00:28:53,240
+quickly what gkr looks like because
+
+638
+00:28:51,919 --> 00:28:56,600
+we're going to use it to constuct the
+
+639
+00:28:53,240 --> 00:28:58,880
+PCP okay you're cameraman it's okay to
+
+640
+00:28:56,600 --> 00:29:01,640
+move okay okay
+
+641
+00:28:58,880 --> 00:29:04,559
+um good so let's let's just recall the
+
+642
+00:29:01,640 --> 00:29:07,279
+gkr how does it work we have a
+
+643
+00:29:04,559 --> 00:29:10,840
+circuit there's an input W we're going
+
+644
+00:29:07,279 --> 00:29:13,200
+to think of w here as the the satisfying
+
+645
+00:29:10,840 --> 00:29:14,919
+assignment okay remember in the DK we
+
+646
+00:29:13,200 --> 00:29:16,799
+assume the verifier has W in his hand
+
+647
+00:29:14,919 --> 00:29:18,840
+the W the input in his hand here he
+
+648
+00:29:16,799 --> 00:29:20,960
+doesn't W is going to be the witness for
+
+649
+00:29:18,840 --> 00:29:24,159
+the satisfying assignment but that's
+
+650
+00:29:20,960 --> 00:29:27,399
+okay now here's what so I'm I'm GNA
+
+651
+00:29:24,159 --> 00:29:30,039
+construct the PCP proof okay I have my
+
+652
+00:29:27,399 --> 00:29:32,279
+witness my satisfying
+
+653
+00:29:30,039 --> 00:29:35,320
+assignment I'm going to construct a
+
+654
+00:29:32,279 --> 00:29:37,799
+protic I'm going to convert W into a PCP
+
+655
+00:29:35,320 --> 00:29:41,039
+into a protic checkable proof okay
+
+656
+00:29:37,799 --> 00:29:44,600
+here's how I do it I look at the kind
+
+657
+00:29:41,039 --> 00:29:45,919
+the circuit that checks that uh W
+
+658
+00:29:44,600 --> 00:29:46,880
+actually you can if you want to think of
+
+659
+00:29:45,919 --> 00:29:49,519
+it's completely new form you can think
+
+660
+00:29:46,880 --> 00:29:54,480
+of having X and W so X and W and it
+
+661
+00:29:49,519 --> 00:29:58,519
+checks that uh kind of fe uh sorry that
+
+662
+00:29:54,480 --> 00:30:03,519
+or okay X which is Fe and it checks that
+
+663
+00:29:58,519 --> 00:30:07,840
+F of w is one okay this is a log space
+
+664
+00:30:03,519 --> 00:30:12,200
+uniform uh circuit and uh okay now what
+
+665
+00:30:07,840 --> 00:30:14,679
+do I do so here's me I know W every we
+
+666
+00:30:12,200 --> 00:30:16,559
+both know the three set
+
+667
+00:30:14,679 --> 00:30:19,799
+formula what I
+
+668
+00:30:16,559 --> 00:30:23,000
+do I and and we assume that this circuit
+
+669
+00:30:19,799 --> 00:30:25,120
+is kind of has addition Gates and
+
+670
+00:30:23,000 --> 00:30:28,679
+multiplication
+
+671
+00:30:25,120 --> 00:30:31,440
+Gates what I do for every
+
+672
+00:30:28,679 --> 00:30:32,960
+layer I compute the values of the layer
+
+673
+00:30:31,440 --> 00:30:36,159
+okay so I compute for every layer
+
+674
+00:30:32,960 --> 00:30:38,039
+remember I have VI the I assume every
+
+675
+00:30:36,159 --> 00:30:39,760
+layer let's say has size let's say the
+
+676
+00:30:38,039 --> 00:30:42,320
+same size without L of generality we
+
+677
+00:30:39,760 --> 00:30:43,770
+said size s we called it s so each layer
+
+678
+00:30:42,320 --> 00:30:45,440
+has s
+
+679
+00:30:43,770 --> 00:30:49,799
+[Music]
+
+680
+00:30:45,440 --> 00:30:51,640
+wires and uh and we ass and we write we
+
+681
+00:30:49,799 --> 00:30:54,120
+compute all these wires for every layer
+
+682
+00:30:51,640 --> 00:30:58,080
+I we think of this wire as go as going
+
+683
+00:30:54,120 --> 00:31:02,279
+from H to M to 01 so H is some set and
+
+684
+00:30:58,080 --> 00:31:05,159
+we assume that H to the m is s okay so
+
+685
+00:31:02,279 --> 00:31:09,919
+we just encode these s wires in a kind
+
+686
+00:31:05,159 --> 00:31:12,519
+of cube uh uh M dimensional cube of size
+
+687
+00:31:09,919 --> 00:31:13,360
+H and we just write all the values of
+
+688
+00:31:12,519 --> 00:31:16,080
+the
+
+689
+00:31:13,360 --> 00:31:19,440
+wires okay and then what we do we look
+
+690
+00:31:16,080 --> 00:31:23,600
+at the extension V Tilda which is
+
+691
+00:31:19,440 --> 00:31:26,159
+extends to a field F to the m to F and
+
+692
+00:31:23,600 --> 00:31:29,000
+this is kind of the low degree extension
+
+693
+00:31:26,159 --> 00:31:32,960
+so we take any F that can contains the
+
+694
+00:31:29,000 --> 00:31:35,200
+set H and we extend VI via the low
+
+695
+00:31:32,960 --> 00:31:37,880
+degree extension so these are things we
+
+696
+00:31:35,200 --> 00:31:40,120
+covered okay now now is the first time
+
+697
+00:31:37,880 --> 00:31:42,840
+you remember when I when we taught gkr I
+
+698
+00:31:40,120 --> 00:31:45,080
+told you okay why I do why not do 0o one
+
+699
+00:31:42,840 --> 00:31:46,840
+to the m you know 0o to the log in it's
+
+700
+00:31:45,080 --> 00:31:49,440
+much natural to think of binary
+
+701
+00:31:46,840 --> 00:31:51,880
+representation of s as opposed to this H
+
+702
+00:31:49,440 --> 00:31:53,600
+to the m which is what H and I told you
+
+703
+00:31:51,880 --> 00:31:56,399
+how often we like parameters we like to
+
+704
+00:31:53,600 --> 00:32:03,039
+think of H as
+
+705
+00:31:56,399 --> 00:32:05,440
+login ah sorry log n and M is log n over
+
+706
+00:32:03,039 --> 00:32:05,440
+log log
+
+707
+00:32:07,519 --> 00:32:14,320
+n uh and if you'll see H to the m is
+
+708
+00:32:11,240 --> 00:32:15,580
+just becomes n because uh you can think
+
+709
+00:32:14,320 --> 00:32:16,679
+of a so H to the
+
+710
+00:32:15,580 --> 00:32:19,799
+[Music]
+
+711
+00:32:16,679 --> 00:32:22,720
+m is log n to the N but log n is just
+
+712
+00:32:19,799 --> 00:32:22,720
+like two log log
+
+713
+00:32:23,120 --> 00:32:28,600
+n to the n and the log log n cancels out
+
+714
+00:32:27,120 --> 00:32:33,320
+so you have two to the
+
+715
+00:32:28,600 --> 00:32:36,120
+again so you have uh oh I did everything
+
+716
+00:32:33,320 --> 00:32:43,440
+everything is s sorry
+
+717
+00:32:36,120 --> 00:32:43,440
+s the N here is s s s
+
+718
+00:32:45,000 --> 00:32:51,600
+s so you have S now remember I told I
+
+719
+00:32:49,399 --> 00:32:53,880
+told you oh we'll need the set of
+
+720
+00:32:51,600 --> 00:32:56,200
+parameters as opposed to say 01 it's
+
+721
+00:32:53,880 --> 00:32:58,960
+natural to think of H as 01 and M is log
+
+722
+00:32:56,200 --> 00:33:01,120
+n that's much more natural uh we used as
+
+723
+00:32:58,960 --> 00:33:03,120
+computer science to think in binary now
+
+724
+00:33:01,120 --> 00:33:05,639
+we're thinking of like log ass it's like
+
+725
+00:33:03,120 --> 00:33:08,120
+really how how annoying can you be and
+
+726
+00:33:05,639 --> 00:33:12,320
+the reason is it's for this now now we
+
+727
+00:33:08,120 --> 00:33:14,519
+need it why now we take F that is going
+
+728
+00:33:12,320 --> 00:33:14,519
+to
+
+729
+00:33:16,200 --> 00:33:22,519
+be it's going to be extension of size
+
+730
+00:33:19,519 --> 00:33:22,519
+poly
+
+731
+00:33:23,240 --> 00:33:27,039
+logus okay we'll see the poly will need
+
+732
+00:33:25,720 --> 00:33:29,200
+to be big enough we'll talk about in a
+
+733
+00:33:27,039 --> 00:33:31,120
+second but the field we don't we don't
+
+734
+00:33:29,200 --> 00:33:33,240
+want more than poly log s and the reason
+
+735
+00:33:31,120 --> 00:33:38,080
+is we want
+
+736
+00:33:33,240 --> 00:33:41,320
+F to the m to be
+
+737
+00:33:38,080 --> 00:33:45,480
+polys okay so we know we know that H to
+
+738
+00:33:41,320 --> 00:33:49,480
+the m is s if if uh f is only poly
+
+739
+00:33:45,480 --> 00:33:49,480
+bigger then we have this is poly
+
+740
+00:33:49,679 --> 00:33:55,960
+s okay and that's important for us okay
+
+741
+00:33:52,799 --> 00:33:57,960
+note if H was just 01 so the size of H
+
+742
+00:33:55,960 --> 00:34:00,360
+was two
+
+743
+00:33:57,960 --> 00:34:02,720
+we couldn't keep F poly and to we
+
+744
+00:34:00,360 --> 00:34:04,919
+couldn't keep F constant you'll see F
+
+745
+00:34:02,720 --> 00:34:08,359
+will need to grow with m m f so for
+
+746
+00:34:04,919 --> 00:34:12,440
+soundness m f will need to be
+
+747
+00:34:08,359 --> 00:34:15,040
+bigger than M *
+
+748
+00:34:12,440 --> 00:34:18,960
+H actually there's also D that will come
+
+749
+00:34:15,040 --> 00:34:21,839
+in it's significantly bigger so if we
+
+750
+00:34:18,960 --> 00:34:24,200
+take H to be two we'll need to take F to
+
+751
+00:34:21,839 --> 00:34:26,440
+be at least log n and then we'll have F
+
+752
+00:34:24,200 --> 00:34:28,240
+to them is log to the power of log n
+
+753
+00:34:26,440 --> 00:34:31,200
+that's more that's super
+
+754
+00:34:28,240 --> 00:34:35,200
+poly and I want after them to be
+
+755
+00:34:31,200 --> 00:34:37,399
+poly okay so we do this so now I so what
+
+756
+00:34:35,200 --> 00:34:41,000
+is the PCP the
+
+757
+00:34:37,399 --> 00:34:43,079
+PCP so actually I'll write there the PCP
+
+758
+00:34:41,000 --> 00:34:44,919
+but uh now let's let's just finish
+
+759
+00:34:43,079 --> 00:34:47,240
+recalling the GK so what does the
+
+760
+00:34:44,919 --> 00:34:49,839
+verifier do in the GK the pro do in the
+
+761
+00:34:47,240 --> 00:34:54,000
+GK he computes all these low degree
+
+762
+00:34:49,839 --> 00:34:57,160
+extensions and then the GK consists of D
+
+763
+00:34:54,000 --> 00:34:59,079
+phases going from the output layer to
+
+764
+00:34:57,160 --> 00:35:02,040
+the input layer layer where in each
+
+765
+00:34:59,079 --> 00:35:04,240
+phase we run two Su check protocols in
+
+766
+00:35:02,040 --> 00:35:06,960
+parallel where the verifier uses the
+
+767
+00:35:04,240 --> 00:35:10,480
+same Randomness and what what the
+
+768
+00:35:06,960 --> 00:35:13,280
+subject protocol does is it it reduces
+
+769
+00:35:10,480 --> 00:35:16,320
+from checking two values here to
+
+770
+00:35:13,280 --> 00:35:18,680
+reducing checking two values in the
+
+771
+00:35:16,320 --> 00:35:20,680
+layer below and we kind of go kind of
+
+772
+00:35:18,680 --> 00:35:22,040
+from checking uh until we get to the
+
+773
+00:35:20,680 --> 00:35:23,680
+input and then input the verifier can
+
+774
+00:35:22,040 --> 00:35:25,240
+check on his own that's the
+
+775
+00:35:23,680 --> 00:35:28,119
+idea
+
+776
+00:35:25,240 --> 00:35:30,119
+okay okay now let's just Rec in a
+
+777
+00:35:28,119 --> 00:35:33,480
+subject protocol here each subject
+
+778
+00:35:30,119 --> 00:35:35,119
+protocol if you uh remember maybe you
+
+779
+00:35:33,480 --> 00:35:37,200
+don't it's not the details are not so
+
+780
+00:35:35,119 --> 00:35:41,119
+important right now but it's kind of you
+
+781
+00:35:37,200 --> 00:35:44,560
+go from VI inex tension which is let's
+
+782
+00:35:41,119 --> 00:35:47,720
+say VI Tilda of some
+
+783
+00:35:44,560 --> 00:35:50,000
+Z and you write it as this is kind of
+
+784
+00:35:47,720 --> 00:35:54,280
+sum
+
+785
+00:35:50,000 --> 00:35:55,920
+of uh points in the in h to the m
+
+786
+00:35:54,280 --> 00:36:01,800
+because that's the definition of
+
+787
+00:35:55,920 --> 00:36:04,079
+extension times some k p uh Z this is
+
+788
+00:36:01,800 --> 00:36:05,640
+the function that checks equality again
+
+789
+00:36:04,079 --> 00:36:08,319
+it's not important but what's important
+
+790
+00:36:05,640 --> 00:36:12,880
+to me to show is that and then you do
+
+791
+00:36:08,319 --> 00:36:18,119
+sum over P W1 W2 in h of
+
+792
+00:36:12,880 --> 00:36:21,599
+M and you convert VI to either kind of
+
+793
+00:36:18,119 --> 00:36:25,599
+uh a if if if this is a plus gate you
+
+794
+00:36:21,599 --> 00:36:27,119
+convert it to uh like um the plus of the
+
+795
+00:36:25,599 --> 00:36:29,160
+of the wires below with multiplication
+
+796
+00:36:27,119 --> 00:36:30,839
+you check the multiplication so in other
+
+797
+00:36:29,160 --> 00:36:33,800
+words what this
+
+798
+00:36:30,839 --> 00:36:36,720
+is what this is or I should say what
+
+799
+00:36:33,800 --> 00:36:39,480
+this is let me just open this what is VI
+
+800
+00:36:36,720 --> 00:36:43,119
+P it's if it's an
+
+801
+00:36:39,480 --> 00:36:43,119
+ad if it's an
+
+802
+00:36:43,480 --> 00:36:52,079
+ad P W1 W2 so if Point p is this just
+
+803
+00:36:49,040 --> 00:36:56,520
+the addition of the two wires below then
+
+804
+00:36:52,079 --> 00:36:58,520
+you replace p with W1 with v
+
+805
+00:36:56,520 --> 00:37:03,920
+ius1
+
+806
+00:36:58,520 --> 00:37:03,920
+W1 plus VI -1
+
+807
+00:37:09,200 --> 00:37:16,000
+W2 and plus if it was not an adgate if
+
+808
+00:37:13,680 --> 00:37:16,000
+it's a
+
+809
+00:37:16,960 --> 00:37:26,599
+mgate then you replace it with the
+
+810
+00:37:20,359 --> 00:37:29,839
+multiplication of vi- 1 W1 Time vi- 1 W2
+
+811
+00:37:26,599 --> 00:37:33,160
+so just uh right the idea was and all
+
+812
+00:37:29,839 --> 00:37:35,000
+this is times
+
+813
+00:37:33,160 --> 00:37:37,200
+uh this
+
+814
+00:37:35,000 --> 00:37:42,079
+Kai k
+
+815
+00:37:37,200 --> 00:37:44,839
+p z but again how do we go from layer I
+
+816
+00:37:42,079 --> 00:37:47,040
+toay to one layer below we take that
+
+817
+00:37:44,839 --> 00:37:48,760
+element in the extension we think of it
+
+818
+00:37:47,040 --> 00:37:51,319
+as a sum that's the definition of lree
+
+819
+00:37:48,760 --> 00:37:54,480
+extension it's sum of the elements in
+
+820
+00:37:51,319 --> 00:37:57,800
+the circuit itself with some with some
+
+821
+00:37:54,480 --> 00:37:59,839
+function uh with some weight and now
+
+822
+00:37:57,800 --> 00:38:02,599
+look at the at the value what what is
+
+823
+00:37:59,839 --> 00:38:05,720
+the value of this gate well if it's an
+
+824
+00:38:02,599 --> 00:38:07,920
+and if it's an add gate it's the sum of
+
+825
+00:38:05,720 --> 00:38:09,560
+the two children and if it's a mgate it
+
+826
+00:38:07,920 --> 00:38:13,040
+should be the multiplication of the two
+
+827
+00:38:09,560 --> 00:38:15,640
+children and so add I just outputs one
+
+828
+00:38:13,040 --> 00:38:18,359
+of these if you know W1 W2 are the
+
+829
+00:38:15,640 --> 00:38:21,200
+children of P zero otherwise similarly
+
+830
+00:38:18,359 --> 00:38:23,000
+malt and but we do everything in the
+
+831
+00:38:21,200 --> 00:38:24,720
+extension uh we look at everything in
+
+832
+00:38:23,000 --> 00:38:27,119
+the extension because we want to think
+
+833
+00:38:24,720 --> 00:38:29,359
+of it as a polinomial and once we think
+
+834
+00:38:27,119 --> 00:38:30,680
+once we these are all pols then this is
+
+835
+00:38:29,359 --> 00:38:32,839
+just a sum
+
+836
+00:38:30,680 --> 00:38:35,079
+check okay and we saw a sum check how to
+
+837
+00:38:32,839 --> 00:38:37,880
+do it efficiently so now the point is G
+
+838
+00:38:35,079 --> 00:38:41,079
+consists of only these two D Su checks
+
+839
+00:38:37,880 --> 00:38:41,079
+so now let me go to my
+
+840
+00:38:51,480 --> 00:38:59,440
+PCP a is this so here's uh our PCP
+
+841
+00:39:01,520 --> 00:39:07,400
+essentially my PCP is just gkr but
+
+842
+00:39:04,760 --> 00:39:10,960
+opened up completely completely
+
+843
+00:39:07,400 --> 00:39:15,760
+unraveled so okay so here's my PCP I
+
+844
+00:39:10,960 --> 00:39:18,040
+have my X in W here's what I do I'm
+
+845
+00:39:15,760 --> 00:39:23,359
+going to
+
+846
+00:39:18,040 --> 00:39:26,599
+compute all the V1 V VI Tilda the
+
+847
+00:39:23,359 --> 00:39:30,400
+extension of the values of each of all
+
+848
+00:39:26,599 --> 00:39:33,440
+the gate in each wire for every
+
+849
+00:39:30,400 --> 00:39:35,280
+Z for every Z and F to the
+
+850
+00:39:33,440 --> 00:39:37,200
+m it's
+
+851
+00:39:35,280 --> 00:39:39,240
+important this is going to be all this
+
+852
+00:39:37,200 --> 00:39:41,040
+is going to be part of the PCP so if F
+
+853
+00:39:39,240 --> 00:39:42,079
+to m is more than polinomial my PCP is
+
+854
+00:39:41,040 --> 00:39:44,280
+super
+
+855
+00:39:42,079 --> 00:39:47,280
+polinomial okay so after to them has to
+
+856
+00:39:44,280 --> 00:39:50,280
+be polinomial this is a ready sized
+
+857
+00:39:47,280 --> 00:39:50,280
+polinomial
+
+858
+00:39:54,280 --> 00:39:59,319
+yeah again sorry we have
+
+859
+00:40:02,040 --> 00:40:07,200
+the oh yeah yeah yeah yeah yeah yeah
+
+860
+00:40:04,079 --> 00:40:09,800
+okay good good good yes so for gkr we
+
+861
+00:40:07,200 --> 00:40:13,119
+had a restriction that the
+
+862
+00:40:09,800 --> 00:40:15,760
+circuit to do gkr we said gkr is like is
+
+863
+00:40:13,119 --> 00:40:17,280
+proving that uh bounded depth circuit
+
+864
+00:40:15,760 --> 00:40:21,000
+and put x equals y and we had a
+
+865
+00:40:17,280 --> 00:40:24,240
+restriction that the circuit has to be B
+
+866
+00:40:21,000 --> 00:40:26,760
+bounded uh space uniform or in other
+
+867
+00:40:24,240 --> 00:40:29,440
+words we needed to ensure that add I and
+
+868
+00:40:26,760 --> 00:40:32,920
+mul this ex extended Andi and extended
+
+869
+00:40:29,440 --> 00:40:36,359
+multi are computed computer
+
+870
+00:40:32,920 --> 00:40:38,280
+efficiently threat has that property
+
+871
+00:40:36,359 --> 00:40:41,000
+okay I again I did go into the details
+
+872
+00:40:38,280 --> 00:40:42,800
+but uh the threet is it's a very unifor
+
+873
+00:40:41,000 --> 00:40:44,760
+you know given a FNX it's very uniform
+
+874
+00:40:42,800 --> 00:40:47,440
+to check it's a very it is a loog space
+
+875
+00:40:44,760 --> 00:40:51,040
+uniform and then we can convert it as
+
+876
+00:40:47,440 --> 00:40:55,000
+Rachel uh did two weeks ago uh to kind
+
+877
+00:40:51,040 --> 00:40:58,359
+of one that has uh by increasing the the
+
+878
+00:40:55,000 --> 00:41:02,160
+depth by poly factors uh so keeping it
+
+879
+00:40:58,359 --> 00:41:04,920
+poly log you can make at I at till and
+
+880
+00:41:02,160 --> 00:41:07,720
+multi be efficiently computable so yeah
+
+881
+00:41:04,920 --> 00:41:10,720
+great that's a very good question uh so
+
+882
+00:41:07,720 --> 00:41:14,280
+yes good so this is going to be part of
+
+883
+00:41:10,720 --> 00:41:17,440
+the uh PCP but that's not all uh by the
+
+884
+00:41:14,280 --> 00:41:20,640
+way we should also give uh this we give
+
+885
+00:41:17,440 --> 00:41:25,000
+this for every I from the input layer
+
+886
+00:41:20,640 --> 00:41:25,000
+zero one up to D this is
+
+887
+00:41:25,040 --> 00:41:30,040
+output and this is the input layer
+
+888
+00:41:28,599 --> 00:41:32,319
+we have to give him the input layer
+
+889
+00:41:30,040 --> 00:41:33,960
+because the poor verifi verifier doesn't
+
+890
+00:41:32,319 --> 00:41:36,000
+have W so he doesn't have actually the
+
+891
+00:41:33,960 --> 00:41:37,839
+input before he and do you care he had
+
+892
+00:41:36,000 --> 00:41:39,240
+the input here he doesn't have the input
+
+893
+00:41:37,839 --> 00:41:43,760
+but we're going to give him the Lo
+
+894
+00:41:39,240 --> 00:41:45,480
+extension of this W okay good now but
+
+895
+00:41:43,760 --> 00:41:47,599
+okay so I'm the verifier what do I do I
+
+896
+00:41:45,480 --> 00:41:50,400
+need to verify the sum checks who do I
+
+897
+00:41:47,599 --> 00:41:53,000
+interact with Su checks I'll put all the
+
+898
+00:41:50,400 --> 00:41:56,440
+possible answers in the Oracle so now we
+
+899
+00:41:53,000 --> 00:42:01,640
+do two DM checks okay so okay so for
+
+900
+00:41:56,440 --> 00:42:01,640
+every pass possible for okay for every
+
+901
+00:42:04,480 --> 00:42:07,920
+ey and for every
+
+902
+00:42:06,340 --> 00:42:10,520
+[Applause]
+
+903
+00:42:07,920 --> 00:42:12,280
+Z in the GTR protocol we may need to do
+
+904
+00:42:10,520 --> 00:42:14,560
+a sum check because in the sum Che
+
+905
+00:42:12,280 --> 00:42:16,359
+protocol what is in the GK what does it
+
+906
+00:42:14,560 --> 00:42:19,119
+how does it look like the ver the
+
+907
+00:42:16,359 --> 00:42:20,520
+verifier first decides okay prove the
+
+908
+00:42:19,119 --> 00:42:23,599
+output layer is correct let's say the
+
+909
+00:42:20,520 --> 00:42:25,319
+output the Z is fixed fine then he
+
+910
+00:42:23,599 --> 00:42:27,839
+chooses Randomness Randomness Randomness
+
+911
+00:42:25,319 --> 00:42:32,720
+in a some check it reduces is the
+
+912
+00:42:27,839 --> 00:42:35,640
+checking Z D minus one in a random
+
+913
+00:42:32,720 --> 00:42:36,880
+Z the the Z is determined by the random
+
+914
+00:42:35,640 --> 00:42:39,400
+coins of the
+
+915
+00:42:36,880 --> 00:42:42,240
+verifier so which Z do I put and I want
+
+916
+00:42:39,400 --> 00:42:44,280
+to show something for every possible Z
+
+917
+00:42:42,240 --> 00:42:48,599
+so for every possible I for every
+
+918
+00:42:44,280 --> 00:42:50,680
+possible Z I'm going to put in the PCP a
+
+919
+00:42:48,599 --> 00:42:52,880
+sum check a sum check so I'm going to
+
+920
+00:42:50,680 --> 00:42:56,040
+give a a su check I'm going to add kind
+
+921
+00:42:52,880 --> 00:42:56,040
+of all the possible
+
+922
+00:42:56,119 --> 00:43:00,920
+transcript for some check corresponding
+
+923
+00:42:59,440 --> 00:43:04,480
+to
+
+924
+00:43:00,920 --> 00:43:11,400
+VI which VI
+
+925
+00:43:04,480 --> 00:43:13,440
+Z or maybe to v i equals VI till the Z
+
+926
+00:43:11,400 --> 00:43:14,240
+so for every I and Z I'm going to give a
+
+927
+00:43:13,440 --> 00:43:16,800
+some
+
+928
+00:43:14,240 --> 00:43:20,240
+check with respect
+
+929
+00:43:16,800 --> 00:43:23,000
+to Randomness R from the from the
+
+930
+00:43:20,240 --> 00:43:26,200
+verifier so for every I for every Z and
+
+931
+00:43:23,000 --> 00:43:27,880
+for any Randomness R of the verifier now
+
+932
+00:43:26,200 --> 00:43:30,920
+what is how much Randomness that the
+
+933
+00:43:27,880 --> 00:43:35,000
+verifier use in a sum check protocol so
+
+934
+00:43:30,920 --> 00:43:39,920
+remember the sum check is sum over H to
+
+935
+00:43:35,000 --> 00:43:43,760
+the 3M kind of variables okay sum over p
+
+936
+00:43:39,920 --> 00:43:48,200
+p W1 W2 all of them in h to the m so the
+
+937
+00:43:43,760 --> 00:43:50,599
+r is going to be for every R in F to the
+
+938
+00:43:48,200 --> 00:43:53,680
+3M because in the subject protocol what
+
+939
+00:43:50,599 --> 00:43:55,760
+you do is every single H you every
+
+940
+00:43:53,680 --> 00:43:57,400
+single kind of uh you have three M
+
+941
+00:43:55,760 --> 00:44:00,280
+variables every one you give a random
+
+942
+00:43:57,400 --> 00:44:03,599
+field element to kind of reduce get rid
+
+943
+00:44:00,280 --> 00:44:07,599
+of one of the sums so the verifier will
+
+944
+00:44:03,599 --> 00:44:10,599
+use will choose kind of R1 up to
+
+945
+00:44:07,599 --> 00:44:13,800
+r3m so 3M field
+
+946
+00:44:10,599 --> 00:44:16,119
+elements so for every Poss for for every
+
+947
+00:44:13,800 --> 00:44:18,040
+hour I'm going to actually give you the
+
+948
+00:44:16,119 --> 00:44:20,599
+transcript so now I know I'm going to
+
+949
+00:44:18,040 --> 00:44:20,599
+give you the entire
+
+950
+00:44:21,079 --> 00:44:26,640
+transcript okay but here's the thing I
+
+951
+00:44:25,000 --> 00:44:29,160
+so I'm gonna have a su check for for all
+
+952
+00:44:26,640 --> 00:44:30,960
+of them and now the verifier okay but we
+
+953
+00:44:29,160 --> 00:44:32,839
+need to be careful we don't just give
+
+954
+00:44:30,960 --> 00:44:36,760
+for every R subject if I knew R I would
+
+955
+00:44:32,839 --> 00:44:39,680
+cheat so what I what what I mean here is
+
+956
+00:44:36,760 --> 00:44:44,319
+for every Su check for every Z
+
+957
+00:44:39,680 --> 00:44:47,040
+VI for every our so so uh for every
+
+958
+00:44:44,319 --> 00:44:50,240
+R1 I'm going to give all the outputs for
+
+959
+00:44:47,040 --> 00:44:52,800
+R1 like all the kind of answers of the
+
+960
+00:44:50,240 --> 00:44:55,520
+Su check for R1 then for each one of
+
+961
+00:44:52,800 --> 00:44:57,640
+them for every R2 I have all the
+
+962
+00:44:55,520 --> 00:45:00,119
+possible answers so no competition you
+
+963
+00:44:57,640 --> 00:45:04,000
+can't have two different element you
+
+964
+00:45:00,119 --> 00:45:08,200
+can't have one value if you had R1 R2
+
+965
+00:45:04,000 --> 00:45:10,440
+but later different RS or R1 R2 it for
+
+966
+00:45:08,200 --> 00:45:13,400
+every for every possible partial
+
+967
+00:45:10,440 --> 00:45:18,040
+transcript you give a value that's what
+
+968
+00:45:13,400 --> 00:45:20,720
+the PCP has in it okay so for every so
+
+969
+00:45:18,040 --> 00:45:23,680
+yeah I should say yeah so for every eye
+
+970
+00:45:20,720 --> 00:45:25,280
+for every Z and for every maybe I should
+
+971
+00:45:23,680 --> 00:45:29,359
+write it
+
+972
+00:45:25,280 --> 00:45:32,440
+as R1 up to
+
+973
+00:45:29,359 --> 00:45:36,960
+r3m I have a
+
+974
+00:45:32,440 --> 00:45:40,440
+transcript all the part I I should have
+
+975
+00:45:36,960 --> 00:45:43,440
+all all
+
+976
+00:45:40,440 --> 00:45:43,440
+partial
+
+977
+00:45:45,280 --> 00:45:55,280
+transcripts of sum
+
+978
+00:45:47,920 --> 00:45:58,040
+check with with respect to VI IAL v
+
+979
+00:45:55,280 --> 00:46:02,839
+z and
+
+980
+00:45:58,040 --> 00:46:02,839
+Randomness no R1 up to RJ for every
+
+981
+00:46:07,200 --> 00:46:14,960
+J okay between uh I don't know
+
+982
+00:46:10,960 --> 00:46:14,960
+one and 3
+
+983
+00:46:15,760 --> 00:46:22,520
+m okay so for every for every for every
+
+984
+00:46:19,920 --> 00:46:26,359
+I for every R1 I will say what would be
+
+985
+00:46:22,520 --> 00:46:29,079
+my answer so now I have F to the m
+
+986
+00:46:26,359 --> 00:46:31,480
+answers for every one of these answers
+
+987
+00:46:29,079 --> 00:46:34,040
+for every R2 I'm going to tell you what
+
+988
+00:46:31,480 --> 00:46:37,440
+is the answer for
+
+989
+00:46:34,040 --> 00:46:39,880
+every sorry I I said I said it wrong for
+
+990
+00:46:37,440 --> 00:46:42,640
+every R1 I would give all the answer I
+
+991
+00:46:39,880 --> 00:46:45,079
+have F each one each one is one field so
+
+992
+00:46:42,640 --> 00:46:47,480
+for every R1 I'll tell you the answer
+
+993
+00:46:45,079 --> 00:46:50,240
+that's F options because there are F
+
+994
+00:46:47,480 --> 00:46:53,160
+options for R1 and then out of these f
+
+995
+00:46:50,240 --> 00:46:55,480
+for each of these FS for every R2 I'm
+
+996
+00:46:53,160 --> 00:46:58,400
+going to give you what the prover will
+
+997
+00:46:55,480 --> 00:47:00,440
+send that F that's f squ and then for
+
+998
+00:46:58,400 --> 00:47:03,400
+each of these I'm going to give you R3
+
+999
+00:47:00,440 --> 00:47:08,760
+so really what this PCP for every VI for
+
+1000
+00:47:03,400 --> 00:47:11,960
+every such VI or for every kind of v i
+
+1001
+00:47:08,760 --> 00:47:14,079
+z for every possible R1 I'm going to
+
+1002
+00:47:11,960 --> 00:47:15,800
+give you this is over R1 I'm going to
+
+1003
+00:47:14,079 --> 00:47:18,480
+give you the possible answers in the sum
+
+1004
+00:47:15,800 --> 00:47:19,800
+check protocol like if the pro in the Su
+
+1005
+00:47:18,480 --> 00:47:22,480
+if the verer in the sum check protocol
+
+1006
+00:47:19,800 --> 00:47:23,800
+the first Randomness was this R1 this R1
+
+1007
+00:47:22,480 --> 00:47:27,000
+this R1 I'm going to write all of these
+
+1008
+00:47:23,800 --> 00:47:30,280
+in the PCP and then for each R1 and
+
+1009
+00:47:27,000 --> 00:47:33,760
+every possible R2 I'm going to write my
+
+1010
+00:47:30,280 --> 00:47:35,880
+answers and then for each R1 R2 for
+
+1011
+00:47:33,760 --> 00:47:37,839
+every possible R3 I'm going to write my
+
+1012
+00:47:35,880 --> 00:47:40,680
+answers it seems like an exponential
+
+1013
+00:47:37,839 --> 00:47:43,280
+tree and it is an exponential tree but
+
+1014
+00:47:40,680 --> 00:47:45,800
+that the depth is so small so this is a
+
+1015
+00:47:43,280 --> 00:47:49,280
+huge tree but this tree is only of size
+
+1016
+00:47:45,800 --> 00:47:53,000
+F to the m or to the 3M
+
+1017
+00:47:49,280 --> 00:47:55,079
+sorry which is polinomial it's it's uh s
+
+1018
+00:47:53,000 --> 00:47:56,720
+to the 3 and you're right that you know
+
+1019
+00:47:55,079 --> 00:47:57,520
+this is not good enough for practice but
+
+1020
+00:47:56,720 --> 00:47:59,480
+uh
+
+1021
+00:47:57,520 --> 00:48:01,760
+then there's a lot of optimizations on
+
+1022
+00:47:59,480 --> 00:48:03,760
+the gkr that make it quasi linear and
+
+1023
+00:48:01,760 --> 00:48:06,359
+today even linear so you can actually
+
+1024
+00:48:03,760 --> 00:48:09,400
+optimize this to get uh you know uh
+
+1025
+00:48:06,359 --> 00:48:11,760
+linear time but uh but or uh but or
+
+1026
+00:48:09,400 --> 00:48:13,720
+quasi linear as a PCP but but for now we
+
+1027
+00:48:11,760 --> 00:48:14,760
+don't care about these a polinomial is
+
+1028
+00:48:13,720 --> 00:48:18,319
+good enough for
+
+1029
+00:48:14,760 --> 00:48:20,480
+us okay so for every I and for every Z
+
+1030
+00:48:18,319 --> 00:48:23,800
+we give this
+
+1031
+00:48:20,480 --> 00:48:23,800
+tree that's the
+
+1032
+00:48:24,480 --> 00:48:28,720
+PTP that's it
+
+1033
+00:48:30,040 --> 00:48:32,920
+okay so again
+
+1034
+00:48:35,920 --> 00:48:41,559
+yeah good good good good good fantastic
+
+1035
+00:48:39,040 --> 00:48:44,400
+you're like wait that's a problem do we
+
+1036
+00:48:41,559 --> 00:48:48,000
+if I require F to be small do we even
+
+1037
+00:48:44,400 --> 00:48:52,040
+get soundness that's a great question so
+
+1038
+00:48:48,000 --> 00:48:54,680
+the answer is barely but yes so let's
+
+1039
+00:48:52,040 --> 00:48:58,000
+see what's the okay what is the
+
+1040
+00:48:54,680 --> 00:49:00,559
+soundness that we get for to be sound
+
+1041
+00:48:58,000 --> 00:49:01,480
+each Su check so the the okay so let's
+
+1042
+00:49:00,559 --> 00:49:05,319
+talk about
+
+1043
+00:49:01,480 --> 00:49:05,319
+soundness maybe I'll put it
+
+1044
+00:49:06,440 --> 00:49:11,640
+here let's talk about soundness here for
+
+1045
+00:49:08,920 --> 00:49:13,640
+a second because you rais a very but you
+
+1046
+00:49:11,640 --> 00:49:15,119
+know what actually before we talk about
+
+1047
+00:49:13,640 --> 00:49:16,720
+soundness I I'll jump to soundness you
+
+1048
+00:49:15,119 --> 00:49:18,799
+have a very good point I'll we'll talk
+
+1049
+00:49:16,720 --> 00:49:21,160
+about soundness but just to make sure
+
+1050
+00:49:18,799 --> 00:49:25,319
+the construction is clear okay so let me
+
+1051
+00:49:21,160 --> 00:49:28,079
+just reiterate one last time I'm a PCP
+
+1052
+00:49:25,319 --> 00:49:30,079
+prover I want to convince you guys that
+
+1053
+00:49:28,079 --> 00:49:34,680
+I have a satisfying assignment to a
+
+1054
+00:49:30,079 --> 00:49:37,079
+threat formula I have my w what I do I
+
+1055
+00:49:34,680 --> 00:49:40,280
+construct low deegree extension of my w
+
+1056
+00:49:37,079 --> 00:49:42,440
+my witness but also I have this entire
+
+1057
+00:49:40,280 --> 00:49:43,839
+circuit that verifies this witness and
+
+1058
+00:49:42,440 --> 00:49:46,520
+I'm going to construct a low degree
+
+1059
+00:49:43,839 --> 00:49:48,559
+extension of each and every layer in
+
+1060
+00:49:46,520 --> 00:49:49,599
+this circuit now the way I wrote it
+
+1061
+00:49:48,559 --> 00:49:51,720
+actually I will construct a low degree
+
+1062
+00:49:49,599 --> 00:49:53,680
+extension of X and W that's kind of if I
+
+1063
+00:49:51,720 --> 00:49:55,960
+think of the input as X and W I need the
+
+1064
+00:49:53,680 --> 00:49:58,040
+constru L degree extension of both but
+
+1065
+00:49:55,960 --> 00:50:00,000
+you the verifying Knows X so if I
+
+1066
+00:49:58,040 --> 00:50:02,000
+construct a low degree extension of w he
+
+1067
+00:50:00,000 --> 00:50:06,200
+himself can construct a low extension of
+
+1068
+00:50:02,000 --> 00:50:08,480
+X and W together so in the PCP because I
+
+1069
+00:50:06,200 --> 00:50:11,599
+don't want to in the PCP I don't want to
+
+1070
+00:50:08,480 --> 00:50:13,200
+put X in there the verifier has X and if
+
+1071
+00:50:11,599 --> 00:50:14,520
+I have the freedom to put X in there and
+
+1072
+00:50:13,200 --> 00:50:18,160
+you don't read it then I can put the
+
+1073
+00:50:14,520 --> 00:50:20,760
+wrong X so I'm just going to put
+
+1074
+00:50:18,160 --> 00:50:23,119
+v0 is just going to
+
+1075
+00:50:20,760 --> 00:50:25,319
+be of the witness I'm going to think of
+
+1076
+00:50:23,119 --> 00:50:27,720
+X as fixed so I'm just going to
+
+1077
+00:50:25,319 --> 00:50:28,680
+construct the loading extension of W and
+
+1078
+00:50:27,720 --> 00:50:31,599
+then I'm going to construct the low
+
+1079
+00:50:28,680 --> 00:50:33,599
+degree extension of each and every layer
+
+1080
+00:50:31,599 --> 00:50:36,480
+of the of the
+
+1081
+00:50:33,599 --> 00:50:38,960
+circuit and I'm going to go for every
+
+1082
+00:50:36,480 --> 00:50:40,920
+layer and for every Z I'm going to
+
+1083
+00:50:38,960 --> 00:50:44,559
+construct all the
+
+1084
+00:50:40,920 --> 00:50:47,079
+possible Pro messages in the Su protocol
+
+1085
+00:50:44,559 --> 00:50:50,880
+now because the randomness the options
+
+1086
+00:50:47,079 --> 00:50:53,200
+for the for the uh the number of
+
+1087
+00:50:50,880 --> 00:50:55,960
+possible random bits for the from the
+
+1088
+00:50:53,200 --> 00:50:57,440
+verifier is only F to the 3M because
+
+1089
+00:50:55,960 --> 00:50:58,799
+there's 3M
+
+1090
+00:50:57,440 --> 00:51:01,960
+uh
+
+1091
+00:50:58,799 --> 00:51:03,160
+a variables and F is the field so it's
+
+1092
+00:51:01,960 --> 00:51:06,400
+only F to the
+
+1093
+00:51:03,160 --> 00:51:08,880
+3M then this tree is only going to be of
+
+1094
+00:51:06,400 --> 00:51:11,760
+size after the 3M so it's not too
+
+1095
+00:51:08,880 --> 00:51:15,559
+bad and I put all of them I put all the
+
+1096
+00:51:11,760 --> 00:51:18,079
+possible Su checks in there so sorry
+
+1097
+00:51:15,559 --> 00:51:20,839
+it's F to the 3M for every I have this
+
+1098
+00:51:18,079 --> 00:51:23,559
+size for every I and for every Z okay so
+
+1099
+00:51:20,839 --> 00:51:26,960
+for every I I is only D this is small
+
+1100
+00:51:23,559 --> 00:51:28,079
+and Z is another F to them I pay fine so
+
+1101
+00:51:26,960 --> 00:51:32,319
+after to the
+
+1102
+00:51:28,079 --> 00:51:33,680
+4M okay so for every Z and for every I I
+
+1103
+00:51:32,319 --> 00:51:36,400
+have the sum
+
+1104
+00:51:33,680 --> 00:51:38,520
+check now what the what is so that's
+
+1105
+00:51:36,400 --> 00:51:40,040
+that's the PCP but now what's what does
+
+1106
+00:51:38,520 --> 00:51:42,359
+the verifier do what does v I need to
+
+1107
+00:51:40,040 --> 00:51:46,160
+Define I told you how to construct this
+
+1108
+00:51:42,359 --> 00:51:49,079
+Pi efficiently and it's uh but what does
+
+1109
+00:51:46,160 --> 00:51:52,000
+v do so what does what V
+
+1110
+00:51:49,079 --> 00:51:54,839
+does he says I'm going to pretend that
+
+1111
+00:51:52,000 --> 00:51:56,880
+I'm I'm interacting with the gkr prover
+
+1112
+00:51:54,839 --> 00:51:58,680
+so he says look what is out he's going
+
+1113
+00:51:56,880 --> 00:52:00,839
+to read the output
+
+1114
+00:51:58,680 --> 00:52:02,520
+VD and he's going to expect a one if he
+
+1115
+00:52:00,839 --> 00:52:03,799
+sees a zero so that's one query I'm
+
+1116
+00:52:02,520 --> 00:52:07,960
+going to read the output is it's one
+
+1117
+00:52:03,799 --> 00:52:10,520
+good I'm happy okay now he's going to go
+
+1118
+00:52:07,960 --> 00:52:13,079
+from verifying D to verifying D minus
+
+1119
+00:52:10,520 --> 00:52:14,480
+one D minus 2 D minus 3 now he he wants
+
+1120
+00:52:13,079 --> 00:52:16,599
+to talk to aover he said okay here's my
+
+1121
+00:52:14,480 --> 00:52:19,319
+Randomness my first message in the sum
+
+1122
+00:52:16,599 --> 00:52:21,200
+check give me back something okay he
+
+1123
+00:52:19,319 --> 00:52:24,400
+this is the approver the Prov is fixed
+
+1124
+00:52:21,200 --> 00:52:28,839
+in the PCP okay so he gets back an
+
+1125
+00:52:24,400 --> 00:52:35,200
+answer good now here these at the end
+
+1126
+00:52:28,839 --> 00:52:37,640
+this defines V IUS one Z this this
+
+1127
+00:52:35,200 --> 00:52:40,000
+should be all kind of uh elements in V
+
+1128
+00:52:37,640 --> 00:52:42,520
+minus one Z now actually here what you
+
+1129
+00:52:40,000 --> 00:52:45,760
+have here is at the end of the gkr
+
+1130
+00:52:42,520 --> 00:52:47,119
+protocol you're left with two two two V
+
+1131
+00:52:45,760 --> 00:52:49,720
+two v's right so if you verify here
+
+1132
+00:52:47,119 --> 00:52:52,799
+you'll have like at the end you'll have
+
+1133
+00:52:49,720 --> 00:52:54,680
+like V I don't know zero and v z z0 and
+
+1134
+00:52:52,799 --> 00:52:55,960
+Z1 you know you'll verify you need to
+
+1135
+00:52:54,680 --> 00:52:58,960
+verify two points because we did two
+
+1136
+00:52:55,960 --> 00:53:01,280
+something called ways so fine he sees
+
+1137
+00:52:58,960 --> 00:53:03,680
+these two he checks there's these he
+
+1138
+00:53:01,280 --> 00:53:06,440
+checks that they're equal this is only
+
+1139
+00:53:03,680 --> 00:53:08,960
+one okay so we're giving him all the low
+
+1140
+00:53:06,440 --> 00:53:11,599
+degree extension of VI minus one he
+
+1141
+00:53:08,960 --> 00:53:13,559
+checks oh yeah this is corresponds this
+
+1142
+00:53:11,599 --> 00:53:15,280
+corresponds this is just to ensure that
+
+1143
+00:53:13,559 --> 00:53:18,280
+he doesn't put different ones in
+
+1144
+00:53:15,280 --> 00:53:21,040
+different you know here he may uh you
+
+1145
+00:53:18,280 --> 00:53:23,160
+know and in this Branch he may put the
+
+1146
+00:53:21,040 --> 00:53:25,079
+value of z0 to be something and in this
+
+1147
+00:53:23,160 --> 00:53:27,319
+Branch you may put the value of z0 to be
+
+1148
+00:53:25,079 --> 00:53:29,280
+something else that's
+
+1149
+00:53:27,319 --> 00:53:31,440
+that's not not good for us so we just
+
+1150
+00:53:29,280 --> 00:53:33,680
+check because he put aside all the low
+
+1151
+00:53:31,440 --> 00:53:36,319
+degree extensions so we check that it's
+
+1152
+00:53:33,680 --> 00:53:37,119
+equal to what he gave us and we continue
+
+1153
+00:53:36,319 --> 00:53:41,400
+with
+
+1154
+00:53:37,119 --> 00:53:41,400
+that okay
+
+1155
+00:53:49,599 --> 00:53:53,799
+um one second actually I'm not sure
+
+1156
+00:53:52,280 --> 00:53:56,559
+maybe what I said is incorrect I'm not
+
+1157
+00:53:53,799 --> 00:53:58,599
+actually sure that this is a problem
+
+1158
+00:53:56,559 --> 00:54:01,079
+even if he gives us different let me
+
+1159
+00:53:58,599 --> 00:54:04,079
+think about it for a
+
+1160
+00:54:01,079 --> 00:54:04,079
+second
+
+1161
+00:54:07,359 --> 00:54:13,839
+a yeah actually I'm not even sure that
+
+1162
+00:54:10,880 --> 00:54:18,559
+we need we can just put the Su checks
+
+1163
+00:54:13,839 --> 00:54:22,559
+even if he gives us even if he gives
+
+1164
+00:54:18,559 --> 00:54:22,559
+us a
+
+1165
+00:54:28,520 --> 00:54:32,760
+no okay yeah I want to say even if he
+
+1166
+00:54:30,680 --> 00:54:35,760
+gives us in this branch and this Branch
+
+1167
+00:54:32,760 --> 00:54:37,119
+different things uh why do we care it's
+
+1168
+00:54:35,760 --> 00:54:39,240
+like we run the sum check the sum check
+
+1169
+00:54:37,119 --> 00:54:41,240
+is sound but we we do care a little bit
+
+1170
+00:54:39,240 --> 00:54:44,119
+because then in the next
+
+1171
+00:54:41,240 --> 00:54:47,480
+round
+
+1172
+00:54:44,119 --> 00:54:49,559
+which let me think you know what I'm not
+
+1173
+00:54:47,480 --> 00:54:52,920
+actually
+
+1174
+00:54:49,559 --> 00:54:52,920
+what lay
+
+1175
+00:54:54,920 --> 00:55:00,240
+theand exactly you you let all the verif
+
+1176
+00:54:57,640 --> 00:55:03,000
+so yeah so I don't think actually you
+
+1177
+00:55:00,240 --> 00:55:06,839
+need to give these specific you can just
+
+1178
+00:55:03,000 --> 00:55:08,040
+give give for every VI Tilda you give
+
+1179
+00:55:06,839 --> 00:55:11,400
+but it's the same because you give for
+
+1180
+00:55:08,040 --> 00:55:13,359
+every VI Tilda so actually I think these
+
+1181
+00:55:11,400 --> 00:55:15,960
+two are the same so I okay what I I
+
+1182
+00:55:13,359 --> 00:55:19,359
+guess what I said is uh you know these
+
+1183
+00:55:15,960 --> 00:55:20,599
+can be maybe V uh VI minus one of z0
+
+1184
+00:55:19,359 --> 00:55:21,480
+appears here and it appears here and
+
+1185
+00:55:20,599 --> 00:55:24,039
+they're
+
+1186
+00:55:21,480 --> 00:55:25,960
+different are we worried we're not
+
+1187
+00:55:24,039 --> 00:55:27,319
+really worried because it's like you
+
+1188
+00:55:25,960 --> 00:55:29,200
+think of it it interacts with the prover
+
+1189
+00:55:27,319 --> 00:55:30,880
+the prover the cheating prover may give
+
+1190
+00:55:29,200 --> 00:55:33,240
+him different Z here and different Z
+
+1191
+00:55:30,880 --> 00:55:35,240
+here but later the point is later you'll
+
+1192
+00:55:33,240 --> 00:55:37,240
+have in VI minus one you'll just
+
+1193
+00:55:35,240 --> 00:55:39,520
+continue so actually you just need to
+
+1194
+00:55:37,240 --> 00:55:40,720
+give but but but really I think the two
+
+1195
+00:55:39,520 --> 00:55:43,039
+are equivalent so it doesn't really
+
+1196
+00:55:40,720 --> 00:55:44,720
+matter a okay so this is the pp and
+
+1197
+00:55:43,039 --> 00:55:46,839
+that's how you verify and at the end at
+
+1198
+00:55:44,720 --> 00:55:48,760
+the end of the end of the gkr the
+
+1199
+00:55:46,839 --> 00:55:50,319
+verifier needs to read the input he
+
+1200
+00:55:48,760 --> 00:55:52,480
+needs to check the input and some load
+
+1201
+00:55:50,319 --> 00:55:56,799
+in some locations he doesn't have the
+
+1202
+00:55:52,480 --> 00:55:59,720
+input but he does because we gave him
+
+1203
+00:55:56,799 --> 00:56:01,960
+the low degree extension of w so once he
+
+1204
+00:55:59,720 --> 00:56:05,319
+has the low degree extension of w he can
+
+1205
+00:56:01,960 --> 00:56:07,319
+compute anything uh he so the verifier
+
+1206
+00:56:05,319 --> 00:56:11,119
+needs to
+
+1207
+00:56:07,319 --> 00:56:13,319
+compute a low degree extension of X in W
+
+1208
+00:56:11,119 --> 00:56:17,200
+but any point in the low degree
+
+1209
+00:56:13,319 --> 00:56:19,680
+extension of X and W is a point in the
+
+1210
+00:56:17,200 --> 00:56:21,880
+low degree EXT is a sum of points in the
+
+1211
+00:56:19,680 --> 00:56:25,039
+low degree extension of X and point in
+
+1212
+00:56:21,880 --> 00:56:28,119
+the Lo extension of w so every every
+
+1213
+00:56:25,039 --> 00:56:31,880
+point in the low degree extension of X
+
+1214
+00:56:28,119 --> 00:56:33,680
+and W you can write as a weighted sum of
+
+1215
+00:56:31,880 --> 00:56:35,160
+a point in the lowre low degree
+
+1216
+00:56:33,680 --> 00:56:38,000
+extension of X and a point in the Lo
+
+1217
+00:56:35,160 --> 00:56:39,920
+extension of w so you know once he needs
+
+1218
+00:56:38,000 --> 00:56:42,799
+to read the point in the Lo extension of
+
+1219
+00:56:39,920 --> 00:56:46,119
+w he has it here so that's all that's
+
+1220
+00:56:42,799 --> 00:56:48,440
+all the verifier does so he really he's
+
+1221
+00:56:46,119 --> 00:56:49,960
+it's interesting this PCP he as if he's
+
+1222
+00:56:48,440 --> 00:56:52,160
+talking to the prover but the prover is
+
+1223
+00:56:49,960 --> 00:56:55,240
+sitting in the sky in the
+
+1224
+00:56:52,160 --> 00:56:57,599
+PCP the pro strategy just kind of opened
+
+1225
+00:56:55,240 --> 00:57:01,160
+up in in the
+
+1226
+00:56:57,599 --> 00:57:03,039
+Oracle okay okay great so now any
+
+1227
+00:57:01,160 --> 00:57:06,039
+questions before we talk about
+
+1228
+00:57:03,039 --> 00:57:06,039
+soundness
+
+1229
+00:57:10,720 --> 00:57:16,520
+yeah so right so uh okay good good good
+
+1230
+00:57:14,200 --> 00:57:18,599
+good good question the verify great
+
+1231
+00:57:16,520 --> 00:57:20,960
+question the verifier needs to check
+
+1232
+00:57:18,599 --> 00:57:24,200
+also that all these things are actually
+
+1233
+00:57:20,960 --> 00:57:27,680
+low deegree extension okay so what if I
+
+1234
+00:57:24,200 --> 00:57:29,480
+I I said here oh put um you put VI Tilda
+
+1235
+00:57:27,680 --> 00:57:31,200
+Z how do I know that you actually put a
+
+1236
+00:57:29,480 --> 00:57:34,359
+low degree extension maybe you put a
+
+1237
+00:57:31,200 --> 00:57:36,960
+very high degree polinomial there maybe
+
+1238
+00:57:34,359 --> 00:57:38,520
+you just put an arbitrary truth table of
+
+1239
+00:57:36,960 --> 00:57:40,680
+size after
+
+1240
+00:57:38,520 --> 00:57:43,400
+them that would be
+
+1241
+00:57:40,680 --> 00:57:44,960
+problematic so you're totally right the
+
+1242
+00:57:43,400 --> 00:57:47,359
+verifier so let let me write what the
+
+1243
+00:57:44,960 --> 00:57:50,520
+verifier does uh maybe before the sound
+
+1244
+00:57:47,359 --> 00:57:50,520
+is yeah
+
+1245
+00:57:51,760 --> 00:57:58,119
+so let me actually write it okay so the
+
+1246
+00:57:55,480 --> 00:57:58,119
+verifier
+
+1247
+00:58:00,119 --> 00:58:07,799
+okay he
+
+1248
+00:58:02,039 --> 00:58:07,799
+runs first thing he does he runs V of
+
+1249
+00:58:08,240 --> 00:58:12,480
+gkr with its
+
+1250
+00:58:14,960 --> 00:58:21,319
+Oracle okay so he runs the just the gkr
+
+1251
+00:58:18,599 --> 00:58:24,119
+but he thinks of kind of the Oracle part
+
+1252
+00:58:21,319 --> 00:58:26,359
+as kind of the the prover he's talking
+
+1253
+00:58:24,119 --> 00:58:29,920
+with and the other thing he needs needs
+
+1254
+00:58:26,359 --> 00:58:29,920
+to do is he needs to
+
+1255
+00:58:30,839 --> 00:58:37,680
+check that for every
+
+1256
+00:58:34,920 --> 00:58:43,880
+I VI
+
+1257
+00:58:37,680 --> 00:58:43,880
+Tilda is of low degree is
+
+1258
+00:59:00,160 --> 00:59:03,160
+doesn't
+
+1259
+00:59:18,760 --> 00:59:28,039
+um yeah what you're saying is that if
+
+1260
+00:59:23,200 --> 00:59:28,039
+you're right so what you're saying is a
+
+1261
+00:59:31,440 --> 00:59:38,319
+okay what you're saying is if he comp If
+
+1262
+00:59:33,400 --> 00:59:38,319
+he if he gave VI Tilda that was high
+
+1263
+00:59:38,880 --> 00:59:45,000
+degree then you're saying that GK would
+
+1264
+00:59:42,160 --> 00:59:46,480
+fail you you would be rejected by the GK
+
+1265
+00:59:45,000 --> 00:59:52,319
+should
+
+1266
+00:59:46,480 --> 00:59:52,319
+bewi it should be rejected by the GK a
+
+1267
+00:59:59,680 --> 01:00:04,200
+I think you may be right but actually
+
+1268
+01:00:01,160 --> 01:00:09,520
+I'm not 100% sure now
+
+1269
+01:00:04,200 --> 01:00:09,520
+uh yeah that
+
+1270
+01:00:10,119 --> 01:00:14,760
+ISE yeah so here's here's the concern
+
+1271
+01:00:12,559 --> 01:00:16,440
+here's the concern the concern is we
+
+1272
+01:00:14,760 --> 01:00:19,520
+want to make sure that the
+
+1273
+01:00:16,440 --> 01:00:22,520
+verifier is uh
+
+1274
+01:00:19,520 --> 01:00:27,599
+behaving like that we want to okay we
+
+1275
+01:00:22,520 --> 01:00:27,599
+want to make sure that this VI Tilda
+
+1276
+01:00:27,920 --> 01:00:32,960
+is of low
+
+1277
+01:00:29,960 --> 01:00:32,960
+degree
+
+1278
+01:00:36,720 --> 01:00:41,359
+why sorry one second
+
+1279
+01:00:46,319 --> 01:00:51,480
+um yeah actually I I
+
+1280
+01:00:58,160 --> 01:01:02,480
+I don't think we need to check that via
+
+1281
+01:00:59,880 --> 01:01:04,359
+is a low degree because I I agree that
+
+1282
+01:01:02,480 --> 01:01:06,200
+we need to check that VI is a low degree
+
+1283
+01:01:04,359 --> 01:01:08,400
+but I think gkr checks that the vi till
+
+1284
+01:01:06,200 --> 01:01:11,079
+there's a low degree so I actually don't
+
+1285
+01:01:08,400 --> 01:01:15,520
+want to recheck it so all I want to do
+
+1286
+01:01:11,079 --> 01:01:17,599
+here I think GK test tests it for you so
+
+1287
+01:01:15,520 --> 01:01:20,680
+we're convinced that the gkr is sound
+
+1288
+01:01:17,599 --> 01:01:23,400
+let's not recall why it sound but let's
+
+1289
+01:01:20,680 --> 01:01:25,920
+remember we we learned that it sound so
+
+1290
+01:01:23,400 --> 01:01:27,520
+GK is good now what are we doing I
+
+1291
+01:01:25,920 --> 01:01:30,799
+essentially what we're saying is
+
+1292
+01:01:27,520 --> 01:01:32,960
+verifier I'm giving you all the possible
+
+1293
+01:01:30,799 --> 01:01:34,720
+answers of I'm what is the prover the
+
+1294
+01:01:32,960 --> 01:01:36,440
+prover is a tree you can think what is a
+
+1295
+01:01:34,720 --> 01:01:39,280
+cheating prover a cheating prover for
+
+1296
+01:01:36,440 --> 01:01:41,319
+every possible you know for every
+
+1297
+01:01:39,280 --> 01:01:42,599
+possible question he gives you an answer
+
+1298
+01:01:41,319 --> 01:01:45,839
+for every question he gives you an
+
+1299
+01:01:42,599 --> 01:01:47,599
+answer that's what it does so now you're
+
+1300
+01:01:45,839 --> 01:01:50,240
+saying look I'm going to give you the
+
+1301
+01:01:47,599 --> 01:01:54,160
+tree now in general this tree is really
+
+1302
+01:01:50,240 --> 01:01:58,160
+really big and even in gkr if you give
+
+1303
+01:01:54,160 --> 01:02:02,440
+the entire if you just open like GK has
+
+1304
+01:01:58,160 --> 01:02:05,880
+D rounds D rounds of su Che if you just
+
+1305
+01:02:02,440 --> 01:02:07,520
+open the S Che it will be terrible
+
+1306
+01:02:05,880 --> 01:02:10,960
+however
+
+1307
+01:02:07,520 --> 01:02:13,480
+a gkr has this property that it's kind
+
+1308
+01:02:10,960 --> 01:02:17,039
+of memory lless what do I mean by memory
+
+1309
+01:02:13,480 --> 01:02:19,799
+list you can compute the first Su check
+
+1310
+01:02:17,039 --> 01:02:21,760
+then you don't care what happened before
+
+1311
+01:02:19,799 --> 01:02:24,400
+all you care is what is VI minus one
+
+1312
+01:02:21,760 --> 01:02:27,440
+that you cut and you check
+
+1313
+01:02:24,400 --> 01:02:29,559
+those so now I'm saying so you know
+
+1314
+01:02:27,440 --> 01:02:32,359
+actually for let's think about this
+
+1315
+01:02:29,559 --> 01:02:35,640
+first of all we can say open gkr to a
+
+1316
+01:02:32,359 --> 01:02:37,240
+huge tree okay any pro this is true in
+
+1317
+01:02:35,640 --> 01:02:39,359
+in general if you had any interactive
+
+1318
+01:02:37,240 --> 01:02:41,079
+proof you can think of a pro write all
+
+1319
+01:02:39,359 --> 01:02:43,480
+the possible answers like think of its
+
+1320
+01:02:41,079 --> 01:02:45,440
+kind of H strategy as a huge huge tree
+
+1321
+01:02:43,480 --> 01:02:46,599
+right the tree now of course you get
+
+1322
+01:02:45,440 --> 01:02:48,839
+sound this you interact with the
+
+1323
+01:02:46,599 --> 01:02:51,680
+approver what's the difference okay you
+
+1324
+01:02:48,839 --> 01:02:53,720
+can do that with G but of course if you
+
+1325
+01:02:51,680 --> 01:02:56,440
+do this huge tree it's going to be
+
+1326
+01:02:53,720 --> 01:02:58,640
+gigantic because GK consists of d kind
+
+1327
+01:02:56,440 --> 01:03:02,240
+of um
+
+1328
+01:02:58,640 --> 01:03:04,599
+a uh subprotocols each one is a su check
+
+1329
+01:03:02,240 --> 01:03:07,039
+so now if you think of like a D Cab then
+
+1330
+01:03:04,599 --> 01:03:10,400
+you'll be too big but I'm saying we
+
+1331
+01:03:07,039 --> 01:03:12,640
+don't need to because gkr has a property
+
+1332
+01:03:10,400 --> 01:03:14,920
+that actually it consist of this
+
+1333
+01:03:12,640 --> 01:03:17,160
+subprotocol and then all you need to
+
+1334
+01:03:14,920 --> 01:03:19,640
+remember you don't need to remember
+
+1335
+01:03:17,160 --> 01:03:22,920
+which branch you're on here all you need
+
+1336
+01:03:19,640 --> 01:03:24,279
+to remember is what are the values here
+
+1337
+01:03:22,920 --> 01:03:26,760
+that's all you need to
+
+1338
+01:03:24,279 --> 01:03:28,799
+remember so there's no point in
+
+1339
+01:03:26,760 --> 01:03:31,359
+repeating it's like you're repeating the
+
+1340
+01:03:28,799 --> 01:03:34,319
+tree for no reason so all you need
+
+1341
+01:03:31,359 --> 01:03:36,200
+there's a way to open kind of this Pro
+
+1342
+01:03:34,319 --> 01:03:38,920
+in a more efficient
+
+1343
+01:03:36,200 --> 01:03:40,920
+way so by not giving the entire tree and
+
+1344
+01:03:38,920 --> 01:03:44,039
+giving kind of a more efficient kind of
+
+1345
+01:03:40,920 --> 01:03:47,079
+opening where all the vi Z all the vi
+
+1346
+01:03:44,039 --> 01:03:48,680
+IUS one Z I'm going to say okay forget
+
+1347
+01:03:47,079 --> 01:03:51,359
+about it let's just go from VI minus one
+
+1348
+01:03:48,680 --> 01:03:54,680
+Z and continue why do you need to repeat
+
+1349
+01:03:51,359 --> 01:03:56,640
+this kind of tree a 100 times it's it's
+
+1350
+01:03:54,680 --> 01:04:00,480
+but it's you can go go from here to kind
+
+1351
+01:03:56,640 --> 01:04:00,480
+of simulating an entire GK
+
+1352
+01:04:00,559 --> 01:04:04,720
+approver yeah if I understand correctly
+
+1353
+01:04:02,960 --> 01:04:08,160
+you're saying like actually the tree of
+
+1354
+01:04:04,720 --> 01:04:09,520
+gkr is such that most of the parts cof
+
+1355
+01:04:08,160 --> 01:04:11,000
+right and so you don't need to repeat
+
+1356
+01:04:09,520 --> 01:04:13,240
+the copies you can just look it up
+
+1357
+01:04:11,000 --> 01:04:16,240
+exactly exactly
+
+1358
+01:04:13,240 --> 01:04:16,240
+exactly
+
+1359
+01:04:16,920 --> 01:04:21,000
+exactly actually in some sense we're
+
+1360
+01:04:19,000 --> 01:04:22,640
+restricting the prover here more than
+
+1361
+01:04:21,000 --> 01:04:25,920
+he's restricted in
+
+1362
+01:04:22,640 --> 01:04:28,839
+gkr exactly because in gkr he can be you
+
+1363
+01:04:25,920 --> 01:04:31,119
+know what I'm going to remember the RS
+
+1364
+01:04:28,839 --> 01:04:33,079
+if he's cheating and based on the RS I'm
+
+1365
+01:04:31,119 --> 01:04:34,760
+going to give you a different strategy
+
+1366
+01:04:33,079 --> 01:04:36,799
+whatever here we're not even letting him
+
+1367
+01:04:34,760 --> 01:04:38,119
+do that we're telling look you tell me
+
+1368
+01:04:36,799 --> 01:04:40,880
+what you are here from here now you
+
+1369
+01:04:38,119 --> 01:04:43,200
+forget Ours from VI minus one what's
+
+1370
+01:04:40,880 --> 01:04:44,559
+your strategy and now you forget from
+
+1371
+01:04:43,200 --> 01:04:48,000
+here what is your
+
+1372
+01:04:44,559 --> 01:04:50,599
+strategy so we're really just doing gkr
+
+1373
+01:04:48,000 --> 01:04:53,920
+now you're right at the vi minus one do
+
+1374
+01:04:50,599 --> 01:04:56,039
+till they do need to be of low degree
+
+1375
+01:04:53,920 --> 01:04:58,279
+but do the Gare test this for you so you
+
+1376
+01:04:56,039 --> 01:05:00,599
+don't need to do it on your
+
+1377
+01:04:58,279 --> 01:05:02,039
+own but you're right it's confusing a
+
+1378
+01:05:00,599 --> 01:05:03,520
+little bit because if you if any if
+
+1379
+01:05:02,039 --> 01:05:04,880
+anyone is familiar with the PCP
+
+1380
+01:05:03,520 --> 01:05:07,799
+literature there's always a low deegree
+
+1381
+01:05:04,880 --> 01:05:09,440
+test in it so it's kind of interesting
+
+1382
+01:05:07,799 --> 01:05:10,599
+this this kind of is hidden with within
+
+1383
+01:05:09,440 --> 01:05:13,839
+the Gare
+
+1384
+01:05:10,599 --> 01:05:17,119
+protocol this kind of transformation not
+
+1385
+01:05:13,839 --> 01:05:21,000
+only as as there is efficient way to
+
+1386
+01:05:17,119 --> 01:05:22,319
+change the into a sequence that the know
+
+1387
+01:05:21,000 --> 01:05:25,799
+where
+
+1388
+01:05:22,319 --> 01:05:28,559
+to exactly exactly so yeah this this
+
+1389
+01:05:25,799 --> 01:05:30,960
+proof holds it's not specific to gkr
+
+1390
+01:05:28,559 --> 01:05:33,559
+it's kind of you can take any sixing
+
+1391
+01:05:30,960 --> 01:05:35,720
+protocol and and interactive protocol
+
+1392
+01:05:33,559 --> 01:05:39,680
+and lay it open however let me just
+
+1393
+01:05:35,720 --> 01:05:43,400
+mention we have very few actually kind
+
+1394
+01:05:39,680 --> 01:05:45,119
+of two examples of suing protocols so it
+
+1395
+01:05:43,400 --> 01:05:46,920
+sound like you can take any of your
+
+1396
+01:05:45,119 --> 01:05:50,520
+choice yeah any but we don't have much
+
+1397
+01:05:46,920 --> 01:05:52,680
+choice so uh you know a coming up with
+
+1398
+01:05:50,520 --> 01:05:55,279
+these succinct interactive proofs is a
+
+1399
+01:05:52,680 --> 01:05:57,039
+super interesting question I'll I'll
+
+1400
+01:05:55,279 --> 01:05:59,559
+talk a little bit more about this after
+
+1401
+01:05:57,039 --> 01:06:03,200
+we do the analysis of the
+
+1402
+01:05:59,559 --> 01:06:07,520
+PCB okay so great
+
+1403
+01:06:03,200 --> 01:06:09,240
+uh any questions before we move to
+
+1404
+01:06:07,520 --> 01:06:11,720
+soundness okay so let's talk about
+
+1405
+01:06:09,240 --> 01:06:14,520
+soundness and the question that was
+
+1406
+01:06:11,720 --> 01:06:16,559
+raised which was a great question is
+
+1407
+01:06:14,520 --> 01:06:18,440
+Wait f needs to be big to get soundness
+
+1408
+01:06:16,559 --> 01:06:20,880
+so let's really understand what the size
+
+1409
+01:06:18,440 --> 01:06:23,279
+of f needs to be so to get soundness we
+
+1410
+01:06:20,880 --> 01:06:25,400
+do 2D Su check
+
+1411
+01:06:23,279 --> 01:06:27,079
+protocols each Su check protocol needs
+
+1412
+01:06:25,400 --> 01:06:28,359
+to be pretty sound because it's enough
+
+1413
+01:06:27,079 --> 01:06:29,960
+that you cheat on one of them and we're
+
+1414
+01:06:28,359 --> 01:06:33,200
+dead right
+
+1415
+01:06:29,960 --> 01:06:35,400
+so now each Su Che protocol this is this
+
+1416
+01:06:33,200 --> 01:06:37,559
+is just
+
+1417
+01:06:35,400 --> 01:06:41,440
+recall that
+
+1418
+01:06:37,559 --> 01:06:45,039
+each Su check
+
+1419
+01:06:41,440 --> 01:06:45,039
+protocol has sound
+
+1420
+01:06:46,400 --> 01:06:54,680
+is which is
+
+1421
+01:06:48,839 --> 01:06:57,920
+H over F times M the number of variables
+
+1422
+01:06:54,680 --> 01:07:00,559
+but for us it's 3M because we have 3M
+
+1423
+01:06:57,920 --> 01:07:03,880
+variables okay this is just the the each
+
+1424
+01:07:00,559 --> 01:07:05,440
+subject protocol now for us so you can
+
+1425
+01:07:03,880 --> 01:07:08,240
+cheat but with this
+
+1426
+01:07:05,440 --> 01:07:10,720
+probability now for us we have 2D D is
+
+1427
+01:07:08,240 --> 01:07:14,200
+poly Logan like the depth of the circuit
+
+1428
+01:07:10,720 --> 01:07:14,200
+so for us our sound
+
+1429
+01:07:17,039 --> 01:07:23,520
+is is I'm just doing a union bound so to
+
+1430
+01:07:20,200 --> 01:07:26,000
+cheat there exist needs to be at least
+
+1431
+01:07:23,520 --> 01:07:29,760
+kind of uh one subject protoc for which
+
+1432
+01:07:26,000 --> 01:07:33,799
+you cheated on so you get by Union bound
+
+1433
+01:07:29,760 --> 01:07:36,359
+so we have 2D sum checks and then
+
+1434
+01:07:33,799 --> 01:07:36,359
+therefore the
+
+1435
+01:07:36,799 --> 01:07:45,520
+soundness is 2D * 3 m h divided by
+
+1436
+01:07:46,920 --> 01:07:51,240
+F so now if we want sound this half
+
+1437
+01:07:50,000 --> 01:07:52,960
+let's say which is what we want after
+
+1438
+01:07:51,240 --> 01:07:56,839
+that you can repeat to increase the
+
+1439
+01:07:52,960 --> 01:07:58,839
+soundness all we need is that F so if we
+
+1440
+01:07:56,839 --> 01:08:03,880
+want this to be smaller than
+
+1441
+01:07:58,839 --> 01:08:06,319
+half then we need F to be bigger than uh
+
+1442
+01:08:03,880 --> 01:08:10,000
+12 D
+
+1443
+01:08:06,319 --> 01:08:12,920
+MH but that's good this is log N I don't
+
+1444
+01:08:10,000 --> 01:08:14,640
+know if you guys can see H log s sorry
+
+1445
+01:08:12,920 --> 01:08:18,480
+this is smaller than log
+
+1446
+01:08:14,640 --> 01:08:21,199
+s this is some poly log s okay so just
+
+1447
+01:08:18,480 --> 01:08:23,000
+make it bigger than all of them it's
+
+1448
+01:08:21,199 --> 01:08:25,600
+still
+
+1449
+01:08:23,000 --> 01:08:29,480
+polylog and polylog S is good enough
+
+1450
+01:08:25,600 --> 01:08:29,480
+because then after them is
+
+1451
+01:08:40,719 --> 01:08:44,719
+polys okay so this was sound
+
+1452
+01:08:48,960 --> 01:08:54,159
+is oh oh good why do we need you're
+
+1453
+01:08:51,640 --> 01:08:56,799
+saying why can't it be bigger because
+
+1454
+01:08:54,159 --> 01:08:59,319
+good because we want our PCP to be of so
+
+1455
+01:08:56,799 --> 01:09:01,120
+the question is just to recap why do we
+
+1456
+01:08:59,319 --> 01:09:03,080
+need why do we insist that f is not
+
+1457
+01:09:01,120 --> 01:09:05,640
+bigger why does it have to be poom
+
+1458
+01:09:03,080 --> 01:09:08,719
+related to F and the reason is we want
+
+1459
+01:09:05,640 --> 01:09:12,080
+the PCP to beide polys we want the ver
+
+1460
+01:09:08,719 --> 01:09:13,640
+we want the PCP a to be not we want it
+
+1461
+01:09:12,080 --> 01:09:17,279
+to be efficient we want to efficiently
+
+1462
+01:09:13,640 --> 01:09:20,640
+convert a witness to a PCP and the PCP
+
+1463
+01:09:17,279 --> 01:09:22,679
+grows with f to the m much more it's
+
+1464
+01:09:20,640 --> 01:09:28,000
+like f to the 3M and it needs to be
+
+1465
+01:09:22,679 --> 01:09:32,000
+repeated and F to the m is poly so okay
+
+1466
+01:09:28,000 --> 01:09:35,400
+it's if this is bigger than poly if f is
+
+1467
+01:09:32,000 --> 01:09:38,400
+more than poly H then F to the m will be
+
+1468
+01:09:35,400 --> 01:09:40,239
+more than poly H to the m so that's why
+
+1469
+01:09:38,400 --> 01:09:42,960
+we want we want it to be it's for the
+
+1470
+01:09:40,239 --> 01:09:47,040
+sake of efficiency for the for the PCP
+
+1471
+01:09:42,960 --> 01:09:50,000
+to be small or palomi related to the
+
+1472
+01:09:47,040 --> 01:09:52,040
+Circuit um so here you saying that the
+
+1473
+01:09:50,000 --> 01:09:54,040
+randomness complexity is poly now
+
+1474
+01:09:52,040 --> 01:09:56,360
+normally you'd be like okay the pro size
+
+1475
+01:09:54,040 --> 01:09:59,880
+is just two to the random but You' like
+
+1476
+01:09:56,360 --> 01:10:02,400
+more right you found a way to make than
+
+1477
+01:09:59,880 --> 01:10:04,159
+it would be okay good good good so now
+
+1478
+01:10:02,400 --> 01:10:06,280
+let's go to the we didn't do the
+
+1479
+01:10:04,159 --> 01:10:07,440
+complexity yet but yeah you're a bit a
+
+1480
+01:10:06,280 --> 01:10:09,880
+bit ahead of me but you're you're
+
+1481
+01:10:07,440 --> 01:10:11,880
+totally right so now so so far we talked
+
+1482
+01:10:09,880 --> 01:10:13,719
+about soundness completeness is one
+
+1483
+01:10:11,880 --> 01:10:15,760
+because the G is complete has
+
+1484
+01:10:13,719 --> 01:10:17,600
+completeness one so we the Su check has
+
+1485
+01:10:15,760 --> 01:10:19,360
+completeness one so we're good we talked
+
+1486
+01:10:17,600 --> 01:10:22,320
+about Su checks any question about
+
+1487
+01:10:19,360 --> 01:10:22,320
+soundness any question about the
+
+1488
+01:10:22,480 --> 01:10:28,480
+soundness okay uh let's talk about the
+
+1489
+01:10:25,400 --> 01:10:31,080
+complexity the so uh the randomness
+
+1490
+01:10:28,480 --> 01:10:33,800
+complexity in the communic in the query
+
+1491
+01:10:31,080 --> 01:10:38,280
+complexity so how much query and
+
+1492
+01:10:33,800 --> 01:10:42,920
+Randomness do we need so the randomness
+
+1493
+01:10:38,280 --> 01:10:46,199
+complexity is well there's 2D a so let's
+
+1494
+01:10:42,920 --> 01:10:46,199
+put here
+
+1495
+01:10:51,040 --> 01:10:57,719
+Randomness so there's 2D sum check so
+
+1496
+01:10:54,640 --> 01:11:00,679
+the verifier kind of he interacts with
+
+1497
+01:10:57,719 --> 01:11:04,400
+his Oracle on 2D sum checks so for each
+
+1498
+01:11:00,679 --> 01:11:06,600
+2D sum checks he needs to toss coins now
+
+1499
+01:11:04,400 --> 01:11:11,080
+how much coins does he toss well he
+
+1500
+01:11:06,600 --> 01:11:14,480
+needs to generate our random in F to the
+
+1501
+01:11:11,080 --> 01:11:19,560
+3M that's a su each Su check you need so
+
+1502
+01:11:14,480 --> 01:11:22,560
+it's F to the it's like 3M log F bits of
+
+1503
+01:11:19,560 --> 01:11:26,320
+Randomness now this is really poly log F
+
+1504
+01:11:22,560 --> 01:11:31,600
+it's it's it's uh it's like poly s it's
+
+1505
+01:11:26,320 --> 01:11:37,280
+not log s okay this is really poly not
+
+1506
+01:11:31,600 --> 01:11:39,920
+not poly log s not just logs so one can
+
+1507
+01:11:37,280 --> 01:11:41,520
+be wait we need to be careful because uh
+
+1508
+01:11:39,920 --> 01:11:43,760
+are we sure we're getting an efficient
+
+1509
+01:11:41,520 --> 01:11:46,239
+PCP here it's a lot of Randomness are we
+
+1510
+01:11:43,760 --> 01:11:48,360
+sure there's no blow up in PCP and the
+
+1511
+01:11:46,239 --> 01:11:52,520
+reason there's no blow up the reason we
+
+1512
+01:11:48,360 --> 01:11:56,080
+have large Randomness yet the the PCP is
+
+1513
+01:11:52,520 --> 01:11:59,360
+small is exactly because GK has this
+
+1514
+01:11:56,080 --> 01:12:00,880
+property of forgetting this uh the fact
+
+1515
+01:11:59,360 --> 01:12:03,760
+we actually don't need to open the
+
+1516
+01:12:00,880 --> 01:12:06,800
+entire tree because of that we use kind
+
+1517
+01:12:03,760 --> 01:12:09,520
+of an additional property if the point
+
+1518
+01:12:06,800 --> 01:12:11,800
+is if you know nothing about the
+
+1519
+01:12:09,520 --> 01:12:13,280
+PCP then of course as I said if it's
+
+1520
+01:12:11,800 --> 01:12:15,920
+order log as bits of Randomness it's
+
+1521
+01:12:13,280 --> 01:12:17,520
+always the size PS but the fact that
+
+1522
+01:12:15,920 --> 01:12:20,040
+there more bits of Randomness does not
+
+1523
+01:12:17,520 --> 01:12:21,600
+necessarily Force our PCP to be bigger
+
+1524
+01:12:20,040 --> 01:12:24,360
+we're just not going to open it like
+
+1525
+01:12:21,600 --> 01:12:26,600
+trivially like oh if if we did open it
+
+1526
+01:12:24,360 --> 01:12:28,080
+trivially then we would look at all the
+
+1527
+01:12:26,600 --> 01:12:30,000
+around it would be a huge tree like the
+
+1528
+01:12:28,080 --> 01:12:32,400
+depth but because we do it kind of we
+
+1529
+01:12:30,000 --> 01:12:35,199
+pack it efficiently we're able to get a
+
+1530
+01:12:32,400 --> 01:12:37,120
+small PCP even though we have a lot of
+
+1531
+01:12:35,199 --> 01:12:40,239
+Randomness is it because you're saying
+
+1532
+01:12:37,120 --> 01:12:42,880
+each tree is size poly and po exactly
+
+1533
+01:12:40,239 --> 01:12:46,000
+each tree is size poly and they're poly
+
+1534
+01:12:42,880 --> 01:12:47,520
+trees and we're not like there's a more
+
+1535
+01:12:46,000 --> 01:12:50,639
+kind of straightforward way to do it is
+
+1536
+01:12:47,520 --> 01:12:53,600
+for each tree a pen a p like in no we're
+
+1537
+01:12:50,639 --> 01:12:57,600
+we're kind of doing them in chunks uh
+
+1538
+01:12:53,600 --> 01:13:00,520
+and so we get the the
+
+1539
+01:12:57,600 --> 01:13:03,440
+efficiency okay uh let's go let's go for
+
+1540
+01:13:00,520 --> 01:13:03,440
+the uh query
+
+1541
+01:13:05,360 --> 01:13:09,239
+complexity okay I'll just put it
+
+1542
+01:13:09,639 --> 01:13:16,080
+here so let's see so for again what's
+
+1543
+01:13:13,520 --> 01:13:20,040
+the query he does gkr so he does
+
+1544
+01:13:16,080 --> 01:13:22,600
+2D sum checks for each sum check he
+
+1545
+01:13:20,040 --> 01:13:26,360
+needs to read kind of what's what what
+
+1546
+01:13:22,600 --> 01:13:29,800
+the answer is each answer so there's
+
+1547
+01:13:26,360 --> 01:13:32,679
+three M rounds that he needs to read in
+
+1548
+01:13:29,800 --> 01:13:36,120
+each answer he gets kind of a univariate
+
+1549
+01:13:32,679 --> 01:13:37,600
+polinomial of small degree so he that
+
+1550
+01:13:36,120 --> 01:13:39,280
+each answer is not just one field
+
+1551
+01:13:37,600 --> 01:13:41,560
+element it's actually a few field
+
+1552
+01:13:39,280 --> 01:13:45,320
+elements
+
+1553
+01:13:41,560 --> 01:13:45,320
+um a
+
+1554
+01:13:46,880 --> 01:13:57,040
+so it's so he gets log F
+
+1555
+01:13:52,719 --> 01:13:57,040
+elements times a
+
+1556
+01:13:59,239 --> 01:14:04,320
+um the degree which will be in each Su
+
+1557
+01:14:01,840 --> 01:14:08,080
+check like poly
+
+1558
+01:14:04,320 --> 01:14:10,480
+H and most and this again goes back to
+
+1559
+01:14:08,080 --> 01:14:13,080
+the gold what's exactly the degree of
+
+1560
+01:14:10,480 --> 01:14:15,719
+the a multi it's polinomial so I'm not
+
+1561
+01:14:13,080 --> 01:14:18,560
+it's polinomial in h it's poly log H I
+
+1562
+01:14:15,719 --> 01:14:23,679
+don't want this is kind of the
+
+1563
+01:14:18,560 --> 01:14:26,679
+degree of uh each of the Su check
+
+1564
+01:14:23,679 --> 01:14:26,679
+polinomial
+
+1565
+01:14:27,040 --> 01:14:31,560
+and the degrees affected by the ADI and
+
+1566
+01:14:29,000 --> 01:14:32,400
+multi which we assumed are the degree is
+
+1567
+01:14:31,560 --> 01:14:37,080
+like
+
+1568
+01:14:32,400 --> 01:14:40,000
+poly uh but it's still again polylog so
+
+1569
+01:14:37,080 --> 01:14:43,520
+this gives so okay so before we take a
+
+1570
+01:14:40,000 --> 01:14:47,480
+break H let
+
+1571
+01:14:43,520 --> 01:14:50,239
+me where where where are we now uh so
+
+1572
+01:14:47,480 --> 01:14:52,679
+you know we studied the we started
+
+1573
+01:14:50,239 --> 01:14:55,199
+actually this this class by looking at
+
+1574
+01:14:52,679 --> 01:14:57,280
+some check so I started this class by
+
+1575
+01:14:55,199 --> 01:14:58,880
+telling you look some Che is a miracle
+
+1576
+01:14:57,280 --> 01:15:01,920
+like giving some Che it gives you
+
+1577
+01:14:58,880 --> 01:15:04,600
+everything everything and I hope that
+
+1578
+01:15:01,920 --> 01:15:07,920
+now you see why so we surve some Che and
+
+1579
+01:15:04,600 --> 01:15:10,880
+we looked at some like who cares okay
+
+1580
+01:15:07,920 --> 01:15:13,840
+this it seemed like why would we need to
+
+1581
+01:15:10,880 --> 01:15:16,320
+some over so many very multivariate
+
+1582
+01:15:13,840 --> 01:15:18,159
+polinomial where does that come up I
+
+1583
+01:15:16,320 --> 01:15:21,199
+don't know it was like okay why am I
+
+1584
+01:15:18,159 --> 01:15:23,679
+learning this but you know so now where
+
+1585
+01:15:21,199 --> 01:15:25,560
+what did we do with it we start with
+
+1586
+01:15:23,679 --> 01:15:28,080
+with Su we saw
+
+1587
+01:15:25,560 --> 01:15:32,040
+oh just by doing something
+
+1588
+01:15:28,080 --> 01:15:34,679
+repeatedly you can verify any low depth
+
+1589
+01:15:32,040 --> 01:15:36,880
+computation that's pretty amazing and
+
+1590
+01:15:34,679 --> 01:15:39,880
+then we saw that actually you can
+
+1591
+01:15:36,880 --> 01:15:41,880
+recover the IP equals P space theorem
+
+1592
+01:15:39,880 --> 01:15:44,880
+that GK actually gives his IP equals P
+
+1593
+01:15:41,880 --> 01:15:46,960
+space theorem and now we see gkr
+
+1594
+01:15:44,880 --> 01:15:50,360
+actually gives you
+
+1595
+01:15:46,960 --> 01:15:54,080
+PCP and what is GK is just Su
+
+1596
+01:15:50,360 --> 01:15:56,360
+checks okay so just these Su checks you
+
+1597
+01:15:54,080 --> 01:15:59,120
+kind of unroll them unravel them and you
+
+1598
+01:15:56,360 --> 01:16:01,440
+get a PCP with polog and
+
+1599
+01:15:59,120 --> 01:16:04,199
+queries and not and it's like efficient
+
+1600
+01:16:01,440 --> 01:16:06,639
+you can take your input effic your
+
+1601
+01:16:04,199 --> 01:16:10,320
+witness and efficiently generate this
+
+1602
+01:16:06,639 --> 01:16:13,960
+PCP and in a very
+
+1603
+01:16:10,320 --> 01:16:15,800
+a like a straightforward way in a sense
+
+1604
+01:16:13,960 --> 01:16:17,960
+you do your computation you have your
+
+1605
+01:16:15,800 --> 01:16:20,800
+witness you do the computation you do
+
+1606
+01:16:17,960 --> 01:16:24,040
+all the lree extensions and you convince
+
+1607
+01:16:20,800 --> 01:16:26,920
+round by round you just lay it out
+
+1608
+01:16:24,040 --> 01:16:26,920
+that's it and you have a
+
+1609
+01:16:27,840 --> 01:16:32,760
+PCP okay any any questions about
+
+1610
+01:16:34,040 --> 01:16:38,520
+yeah that relies on just the fact that
+
+1611
+01:16:37,320 --> 01:16:40,760
+it consists of these kind of like
+
+1612
+01:16:38,520 --> 01:16:44,159
+independent subs or also the fact that
+
+1613
+01:16:40,760 --> 01:16:46,280
+some itself that each is just random
+
+1614
+01:16:44,159 --> 01:16:49,239
+good good good so the question is again
+
+1615
+01:16:46,280 --> 01:16:51,639
+let's understand why do we get this PCP
+
+1616
+01:16:49,239 --> 01:16:54,400
+that's efficient okay why do we get only
+
+1617
+01:16:51,639 --> 01:16:57,000
+poly siiz PCP and the reason we get is
+
+1618
+01:16:54,400 --> 01:17:00,120
+to both twofolds you you said both
+
+1619
+01:16:57,000 --> 01:17:02,760
+reasons reason number one that when we
+
+1620
+01:17:00,120 --> 01:17:05,040
+do each sum check after that we can
+
+1621
+01:17:02,760 --> 01:17:07,679
+forget about this Randomness and for
+
+1622
+01:17:05,040 --> 01:17:12,360
+each VI consider so we really need to
+
+1623
+01:17:07,679 --> 01:17:15,719
+write down only kind of D times F to the
+
+1624
+01:17:12,360 --> 01:17:18,239
+m sub checks okay that's D the depth of
+
+1625
+01:17:15,719 --> 01:17:20,320
+the circuit time F to the M Subs that's
+
+1626
+01:17:18,239 --> 01:17:22,400
+number one but number two why is the sum
+
+1627
+01:17:20,320 --> 01:17:23,320
+check can we write out all the sum check
+
+1628
+01:17:22,400 --> 01:17:26,199
+I mean the sum check is also an
+
+1629
+01:17:23,320 --> 01:17:28,960
+interactive protocol can we actually
+
+1630
+01:17:26,199 --> 01:17:31,880
+open it up and write the entire thing
+
+1631
+01:17:28,960 --> 01:17:35,639
+and the answer is well yeah but at a
+
+1632
+01:17:31,880 --> 01:17:38,520
+exponential cost and but an exponential
+
+1633
+01:17:35,639 --> 01:17:40,480
+cost in M the number of variables but
+
+1634
+01:17:38,520 --> 01:17:43,560
+here the number of variables is
+
+1635
+01:17:40,480 --> 01:17:44,920
+log that's important we if M was polog
+
+1636
+01:17:43,560 --> 01:17:50,120
+we would have been
+
+1637
+01:17:44,920 --> 01:17:53,679
+doomed but M or I mean okay uh it's not
+
+1638
+01:17:50,120 --> 01:17:55,679
+just log it's it's we set the parameter
+
+1639
+01:17:53,679 --> 01:17:57,440
+so that it's okay that's what we needed
+
+1640
+01:17:55,679 --> 01:17:59,560
+that's exactly so why can we open up
+
+1641
+01:17:57,440 --> 01:18:04,120
+this entire sum check it's because we
+
+1642
+01:17:59,560 --> 01:18:06,560
+set F to be poly H and H to the m is s
+
+1643
+01:18:04,120 --> 01:18:08,800
+so we we set it up so that you know
+
+1644
+01:18:06,560 --> 01:18:15,440
+opening the sum check
+
+1645
+01:18:08,800 --> 01:18:17,520
+requires F to the m kind of answers uh F
+
+1646
+01:18:15,440 --> 01:18:19,159
+to the m answers each one is kind of a
+
+1647
+01:18:17,520 --> 01:18:21,520
+low degree polinomial but that's that's
+
+1648
+01:18:19,159 --> 01:18:23,440
+fine but F to the m of them or F to the
+
+1649
+01:18:21,520 --> 01:18:25,760
+3M here because we have the number of
+
+1650
+01:18:23,440 --> 01:18:27,159
+variables is 3M
+
+1651
+01:18:25,760 --> 01:18:29,639
+uh and we just need to make sure that
+
+1652
+01:18:27,159 --> 01:18:31,400
+after the 3M is polinomial and to ensure
+
+1653
+01:18:29,639 --> 01:18:34,239
+that we did do some parameter
+
+1654
+01:18:31,400 --> 01:18:36,760
+engineering that's why we didn't go the
+
+1655
+01:18:34,239 --> 01:18:39,159
+natural route of taking H to be two and
+
+1656
+01:18:36,760 --> 01:18:41,239
+M to be log s that would be natural but
+
+1657
+01:18:39,159 --> 01:18:43,679
+then we would not get so we actually did
+
+1658
+01:18:41,239 --> 01:18:45,920
+need to do some kind of Engineering in
+
+1659
+01:18:43,679 --> 01:18:49,719
+parameters uh like an annoying fiddling
+
+1660
+01:18:45,920 --> 01:18:51,360
+of parameters uh you know this uh this
+
+1661
+01:18:49,719 --> 01:18:53,679
+setting of parameters that you see over
+
+1662
+01:18:51,360 --> 01:18:55,080
+and over in any PCP construction this is
+
+1663
+01:18:53,679 --> 01:18:57,520
+you know we're not the first so we're
+
+1664
+01:18:55,080 --> 01:18:59,159
+actually the last if anything to come to
+
+1665
+01:18:57,520 --> 01:19:03,920
+use this this was used in the '90s in
+
+1666
+01:18:59,159 --> 01:19:05,679
+the early PCP constructions and um and
+
+1667
+01:19:03,920 --> 01:19:08,320
+it's when you look at it first like oh
+
+1668
+01:19:05,679 --> 01:19:09,360
+really like log n over log log n are you
+
+1669
+01:19:08,320 --> 01:19:11,520
+kidding me like couldn't you find
+
+1670
+01:19:09,360 --> 01:19:14,440
+something nicer but this is this is why
+
+1671
+01:19:11,520 --> 01:19:18,040
+because we want these parameters to be
+
+1672
+01:19:14,440 --> 01:19:21,760
+poly yeah so since you're essentially
+
+1673
+01:19:18,040 --> 01:19:24,159
+asking for this for this to be like a
+
+1674
+01:19:21,760 --> 01:19:26,880
+nonadaptive can you just like use the
+
+1675
+01:19:24,159 --> 01:19:29,679
+same for and get
+
+1676
+01:19:26,880 --> 01:19:32,840
+the so sorry so you're saying sorry your
+
+1677
+01:19:29,679 --> 01:19:35,600
+question is you're saying you are you
+
+1678
+01:19:32,840 --> 01:19:37,639
+talking about the non the fact that this
+
+1679
+01:19:35,600 --> 01:19:40,440
+verifier is nonadaptive or or that
+
+1680
+01:19:37,639 --> 01:19:43,199
+theover is nonadaptive right the prover
+
+1681
+01:19:40,440 --> 01:19:45,840
+in the yes M like it's not adaptive in
+
+1682
+01:19:43,199 --> 01:19:48,520
+the previous in the previous uh Su
+
+1683
+01:19:45,840 --> 01:19:51,120
+checks previous Su checks yeah so then
+
+1684
+01:19:48,520 --> 01:19:52,639
+what can you use the same Randomness for
+
+1685
+01:19:51,120 --> 01:19:55,159
+each round like what would happen if you
+
+1686
+01:19:52,639 --> 01:19:56,920
+theand no okay okay okay that's a good
+
+1687
+01:19:55,159 --> 01:19:59,960
+question so you're asking you're saying
+
+1688
+01:19:56,920 --> 01:20:02,159
+look we're doing the sum check D times
+
+1689
+01:19:59,960 --> 01:20:04,920
+can't we use the same Randomness and the
+
+1690
+01:20:02,159 --> 01:20:06,239
+answer is we cannot why because you
+
+1691
+01:20:04,920 --> 01:20:09,280
+should think if you use the same
+
+1692
+01:20:06,239 --> 01:20:14,320
+Randomness for different rounds then you
+
+1693
+01:20:09,280 --> 01:20:16,679
+should think of I'm aover I'm like oh I
+
+1694
+01:20:14,320 --> 01:20:18,239
+I'm you're going to use the same
+
+1695
+01:20:16,679 --> 01:20:20,280
+Randomness for all your rounds I know
+
+1696
+01:20:18,239 --> 01:20:21,040
+that because you're telling me already
+
+1697
+01:20:20,280 --> 01:20:23,800
+that you're going to use the same
+
+1698
+01:20:21,040 --> 01:20:25,520
+Randomness so now in the first round I'm
+
+1699
+01:20:23,800 --> 01:20:28,440
+I'm going to behave honestly just learn
+
+1700
+01:20:25,520 --> 01:20:30,040
+your Randomness give you so I'm sorry
+
+1701
+01:20:28,440 --> 01:20:31,800
+I'm not going to be I'm going to cheat
+
+1702
+01:20:30,040 --> 01:20:33,679
+in the first round okay so of course I'm
+
+1703
+01:20:31,800 --> 01:20:36,040
+going to I'm the output is one even
+
+1704
+01:20:33,679 --> 01:20:39,000
+though it's zero I'm going to manage to
+
+1705
+01:20:36,040 --> 01:20:42,040
+convince you in the first kind of in the
+
+1706
+01:20:39,000 --> 01:20:43,840
+first Su check I do yeah because I'm
+
+1707
+01:20:42,040 --> 01:20:46,719
+just going to lie consistently with
+
+1708
+01:20:43,840 --> 01:20:49,239
+myself arrive to VI to the next layer
+
+1709
+01:20:46,719 --> 01:20:51,400
+and the wrong still inconsistent but now
+
+1710
+01:20:49,239 --> 01:20:54,520
+I know the randomness that cuz you're
+
+1711
+01:20:51,400 --> 01:20:58,560
+going to reuse you see here the point is
+
+1712
+01:20:54,520 --> 01:21:02,080
+that the following the verifier here
+
+1713
+01:20:58,560 --> 01:21:06,239
+should behave like a like an honest
+
+1714
+01:21:02,080 --> 01:21:09,120
+verifier in the gkr if the verifier here
+
+1715
+01:21:06,239 --> 01:21:10,040
+you cannot if when you use this verifier
+
+1716
+01:21:09,120 --> 01:21:13,120
+he
+
+1717
+01:21:10,040 --> 01:21:14,960
+essentially behaves like a GK verifier
+
+1718
+01:21:13,120 --> 01:21:17,440
+so now you're telling you're saying look
+
+1719
+01:21:14,960 --> 01:21:20,960
+why doesn't he use the same Randomness
+
+1720
+01:21:17,440 --> 01:21:23,159
+for the different uh subprotocols
+
+1721
+01:21:20,960 --> 01:21:26,120
+because if he didn't gkr then he would
+
+1722
+01:21:23,159 --> 01:21:28,120
+fail then you the a cheating prover can
+
+1723
+01:21:26,120 --> 01:21:30,040
+can take advantage of him is isn't there
+
+1724
+01:21:28,120 --> 01:21:31,639
+the difference here that this is
+
+1725
+01:21:30,040 --> 01:21:35,639
+nonadaptive like it doesn't remember the
+
+1726
+01:21:31,639 --> 01:21:35,639
+randomness all it depends on
+
+1727
+01:21:36,520 --> 01:21:41,920
+is right so you can't just be like oh
+
+1728
+01:21:39,920 --> 01:21:43,840
+this is the random oh I see you're
+
+1729
+01:21:41,920 --> 01:21:45,159
+saying I see I see okay okay now I
+
+1730
+01:21:43,840 --> 01:21:50,600
+understand your question you're saying
+
+1731
+01:21:45,159 --> 01:21:51,960
+this guy this uh prover is stuck okay
+
+1732
+01:21:50,600 --> 01:21:53,679
+okay sorry now I'm I understand what
+
+1733
+01:21:51,960 --> 01:21:56,320
+you're saying you're saying look you're
+
+1734
+01:21:53,679 --> 01:21:57,000
+tying the hand of the prover the prover
+
+1735
+01:21:56,320 --> 01:22:00,840
+in
+
+1736
+01:21:57,000 --> 01:22:02,639
+gkr he has power he sees your Randomness
+
+1737
+01:22:00,840 --> 01:22:04,360
+and based on that he can continue the
+
+1738
+01:22:02,639 --> 01:22:06,440
+honest Pro of course won't do that but
+
+1739
+01:22:04,360 --> 01:22:07,719
+the cheating prover May here you're
+
+1740
+01:22:06,440 --> 01:22:10,000
+saying I'm not going to let the prover
+
+1741
+01:22:07,719 --> 01:22:13,679
+do that to me I'm G to force him to
+
+1742
+01:22:10,000 --> 01:22:15,520
+forget because I force him to forget can
+
+1743
+01:22:13,679 --> 01:22:17,080
+I think of using the same Randomness
+
+1744
+01:22:15,520 --> 01:22:19,639
+that's a good question
+
+1745
+01:22:17,080 --> 01:22:20,719
+actually a great very good question I it
+
+1746
+01:22:19,639 --> 01:22:24,520
+took me time to understand what you're
+
+1747
+01:22:20,719 --> 01:22:24,520
+asking a
+
+1748
+01:22:25,120 --> 01:22:31,520
+can you use the same it's great qu great
+
+1749
+01:22:27,360 --> 01:22:34,520
+point verif just said to break that well
+
+1750
+01:22:31,520 --> 01:22:36,800
+no because what okay so I'm so okay so
+
+1751
+01:22:34,520 --> 01:22:38,440
+we are pointed the F said you know what
+
+1752
+01:22:36,800 --> 01:22:40,920
+use the same Randomness in all the
+
+1753
+01:22:38,440 --> 01:22:43,280
+subprotocols now in the gkr it's a big
+
+1754
+01:22:40,920 --> 01:22:45,159
+problem because the prover he knows what
+
+1755
+01:22:43,280 --> 01:22:49,639
+you saw and he'll use that like he know
+
+1756
+01:22:45,159 --> 01:22:53,520
+the but in in the PCP the
+
+1757
+01:22:49,639 --> 01:22:56,320
+PCP gkr prover his hands are tied yeah
+
+1758
+01:22:53,520 --> 01:22:57,679
+but the fact like if the Prov knows that
+
+1759
+01:22:56,320 --> 01:22:59,600
+you're going to do this then he might be
+
+1760
+01:22:57,679 --> 01:23:01,480
+able to engineer all of his responses in
+
+1761
+01:22:59,600 --> 01:23:03,360
+a way that like takes advantage of the
+
+1762
+01:23:01,480 --> 01:23:05,159
+correlation of right like by exactly
+
+1763
+01:23:03,360 --> 01:23:07,360
+using the same verifier you said like
+
+1764
+01:23:05,159 --> 01:23:09,880
+you pretend you have that verifier that
+
+1765
+01:23:07,360 --> 01:23:12,760
+cheats you use the same Randomness now
+
+1766
+01:23:09,880 --> 01:23:15,760
+this tree follows that verifier
+
+1767
+01:23:12,760 --> 01:23:15,760
+strategy
+
+1768
+01:23:16,880 --> 01:23:23,000
+shouldn't yeah I mean it is it could be
+
+1769
+01:23:20,120 --> 01:23:25,520
+some but like there's this correlation
+
+1770
+01:23:23,000 --> 01:23:27,199
+between the randomness the would know
+
+1771
+01:23:25,520 --> 01:23:28,679
+about it in advance right so even though
+
+1772
+01:23:27,199 --> 01:23:30,199
+he can't remember the random he can
+
+1773
+01:23:28,679 --> 01:23:31,360
+engineer the strategy to take advantage
+
+1774
+01:23:30,199 --> 01:23:35,000
+of the fact the
+
+1775
+01:23:31,360 --> 01:23:37,040
+Rand okay let me say the following um to
+
+1776
+01:23:35,000 --> 01:23:39,239
+close this discussion a the discussion
+
+1777
+01:23:37,040 --> 01:23:41,040
+is super interesting the question you
+
+1778
+01:23:39,239 --> 01:23:43,880
+raised is super
+
+1779
+01:23:41,040 --> 01:23:45,520
+interesting you know we have one pet in
+
+1780
+01:23:43,880 --> 01:23:48,920
+this
+
+1781
+01:23:45,520 --> 01:23:53,960
+class you gave me a great uh idea for a
+
+1782
+01:23:48,920 --> 01:23:55,280
+question a a by the way um before we
+
+1783
+01:23:53,960 --> 01:23:58,760
+break I just want to make a quick
+
+1784
+01:23:55,280 --> 01:24:01,159
+announcement so I wrote in the in the
+
+1785
+01:23:58,760 --> 01:24:02,440
+website that the pet will come later in
+
+1786
+01:24:01,159 --> 01:24:04,800
+during this class because I thought it
+
+1787
+01:24:02,440 --> 01:24:07,600
+would be good to cover more
+
+1788
+01:24:04,800 --> 01:24:09,960
+material but uh I know that I wrote it
+
+1789
+01:24:07,600 --> 01:24:14,560
+pretty close like to the break and maybe
+
+1790
+01:24:09,960 --> 01:24:18,560
+that's so okay so maybe I'll I'll put it
+
+1791
+01:24:14,560 --> 01:24:19,679
+out earlier give you two weeks and just
+
+1792
+01:24:18,560 --> 01:24:21,159
+because I don't want to sit with it too
+
+1793
+01:24:19,679 --> 01:24:22,760
+long it's just annoying but if you feel
+
+1794
+01:24:21,159 --> 01:24:25,040
+like the time is doesn't work and you
+
+1795
+01:24:22,760 --> 01:24:26,159
+want an extension just let me know
+
+1796
+01:24:25,040 --> 01:24:28,320
+I don't really
+
+1797
+01:24:26,159 --> 01:24:29,880
+care I just want you to think about it
+
+1798
+01:24:28,320 --> 01:24:32,280
+and have fun with the you know with the
+
+1799
+01:24:29,880 --> 01:24:35,320
+material yeah the way we all do sound is
+
+1800
+01:24:32,280 --> 01:24:36,920
+are we using un bound like yeah exactly
+
+1801
+01:24:35,320 --> 01:24:39,440
+we're doing a union bound yeah yes
+
+1802
+01:24:36,920 --> 01:24:42,719
+exactly because the in the soundness we
+
+1803
+01:24:39,440 --> 01:24:46,239
+say the following we say that
+
+1804
+01:24:42,719 --> 01:24:48,719
+uh uh in the so essentially we're we're
+
+1805
+01:24:46,239 --> 01:24:51,280
+talking with a prover and GK prover and
+
+1806
+01:24:48,719 --> 01:24:54,080
+we're saying for the GK even like a tied
+
+1807
+01:24:51,280 --> 01:24:57,400
+GK Pro as you as you mentioned even it's
+
+1808
+01:24:54,080 --> 01:25:00,639
+a gar prover with tied hands so for this
+
+1809
+01:24:57,400 --> 01:25:02,480
+for this prover to cheat he need so the
+
+1810
+01:25:00,639 --> 01:25:04,320
+output is false that's kind of he
+
+1811
+01:25:02,480 --> 01:25:06,840
+cheated so somewhere he needs to cheat
+
+1812
+01:25:04,320 --> 01:25:09,040
+in one of the gkrs one of the one of the
+
+1813
+01:25:06,840 --> 01:25:12,000
+sum checks he needs to go from false to
+
+1814
+01:25:09,040 --> 01:25:14,040
+True somewhere because at the end you're
+
+1815
+01:25:12,000 --> 01:25:16,320
+verifying you verifying that you know he
+
+1816
+01:25:14,040 --> 01:25:18,239
+put here a witness so he put in the sky
+
+1817
+01:25:16,320 --> 01:25:20,000
+a witness that witness is false because
+
+1818
+01:25:18,239 --> 01:25:22,119
+there's no satisfying assignment so he
+
+1819
+01:25:20,000 --> 01:25:24,840
+put something that's actually
+
+1820
+01:25:22,119 --> 01:25:26,440
+false oh one second there is something
+
+1821
+01:25:24,840 --> 01:25:28,080
+okay sorry now I remember there is
+
+1822
+01:25:26,440 --> 01:25:32,159
+something there is a low deegree test to
+
+1823
+01:25:28,080 --> 01:25:34,639
+do we'll get back to that sorry uh we'll
+
+1824
+01:25:32,159 --> 01:25:38,639
+get back to the low degree test but uh
+
+1825
+01:25:34,639 --> 01:25:41,159
+there so you're talking with a um a
+
+1826
+01:25:38,639 --> 01:25:43,639
+you're talking with a GK prover and this
+
+1827
+01:25:41,159 --> 01:25:45,800
+prover the only way he can convince you
+
+1828
+01:25:43,639 --> 01:25:47,480
+is to go from like a false statement to
+
+1829
+01:25:45,800 --> 01:25:50,159
+a true statement because at the end you
+
+1830
+01:25:47,480 --> 01:25:53,000
+ver you and to do that you need to break
+
+1831
+01:25:50,159 --> 01:25:55,119
+one of the sum checks so to break one of
+
+1832
+01:25:53,000 --> 01:25:57,320
+the Su checks you have two Su checks and
+
+1833
+01:25:55,119 --> 01:26:00,400
+now I'm using a union bound to say that
+
+1834
+01:25:57,320 --> 01:26:02,800
+the probability that you kind of manag
+
+1835
+01:26:00,400 --> 01:26:04,360
+to break one of them is two to the D
+
+1836
+01:26:02,800 --> 01:26:05,719
+times the probability that you manage to
+
+1837
+01:26:04,360 --> 01:26:08,960
+break one of
+
+1838
+01:26:05,719 --> 01:26:11,360
+them okay but then back to discussion
+
+1839
+01:26:08,960 --> 01:26:13,360
+where like like sharing Randomness so
+
+1840
+01:26:11,360 --> 01:26:16,960
+does un help
+
+1841
+01:26:13,360 --> 01:26:18,440
+here you you're saying oh you're because
+
+1842
+01:26:16,960 --> 01:26:22,360
+of
+
+1843
+01:26:18,440 --> 01:26:25,199
+theend okay so this is is this related
+
+1844
+01:26:22,360 --> 01:26:28,360
+to this qu okay okay actually I don't
+
+1845
+01:26:25,199 --> 01:26:30,560
+think so because Union Bound in general
+
+1846
+01:26:28,360 --> 01:26:33,119
+it it can be correlated a union Bound in
+
+1847
+01:26:30,560 --> 01:26:34,440
+general says that the probability that
+
+1848
+01:26:33,119 --> 01:26:36,639
+this or this I don't care how they're
+
+1849
+01:26:34,440 --> 01:26:38,280
+correlated it's smaller or equal the
+
+1850
+01:26:36,639 --> 01:26:41,920
+probability of this plus the probability
+
+1851
+01:26:38,280 --> 01:26:43,920
+of this so the correlation here the
+
+1852
+01:26:41,920 --> 01:26:47,719
+union bound is
+
+1853
+01:26:43,920 --> 01:26:50,280
+very uh easily used in any situation you
+
+1854
+01:26:47,719 --> 01:26:52,639
+know just at the probability that you
+
+1855
+01:26:50,280 --> 01:26:54,000
+have an event you CH you cheated on test
+
+1856
+01:26:52,639 --> 01:26:56,040
+one you cheated on test two you cheated
+
+1857
+01:26:54,000 --> 01:26:58,080
+on test three I don't care how they're
+
+1858
+01:26:56,040 --> 01:27:00,920
+correlated the probability that you Che
+
+1859
+01:26:58,080 --> 01:27:03,920
+on one of them is small or equal
+
+1860
+01:27:00,920 --> 01:27:06,639
+then yeah but actually before we break
+
+1861
+01:27:03,920 --> 01:27:08,639
+sorry there is a some there is a low
+
+1862
+01:27:06,639 --> 01:27:10,159
+degree extension
+
+1863
+01:27:08,639 --> 01:27:12,199
+what
+
+1864
+01:27:10,159 --> 01:27:16,639
+exactly you can just
+
+1865
+01:27:12,199 --> 01:27:21,040
+use good okay okay okay
+
+1866
+01:27:16,639 --> 01:27:22,560
+sorry good uh I love you guys uh so uh
+
+1867
+01:27:21,040 --> 01:27:26,119
+yeah
+
+1868
+01:27:22,560 --> 01:27:26,119
+V uh okay
+
+1869
+01:27:26,400 --> 01:27:32,600
+check v0 Tilda is low
+
+1870
+01:27:32,960 --> 01:27:41,719
+degree because in
+
+1871
+01:27:37,000 --> 01:27:44,560
+gkr the verifier has the W the the input
+
+1872
+01:27:41,719 --> 01:27:46,080
+which is the witness he computes the Lo
+
+1873
+01:27:44,560 --> 01:27:49,520
+extension by
+
+1874
+01:27:46,080 --> 01:27:54,400
+himself here the poer is giving it to
+
+1875
+01:27:49,520 --> 01:27:54,400
+him what if you didn't give a low degree
+
+1876
+01:27:55,280 --> 01:28:01,920
+so we do need one low degree test in the
+
+1877
+01:27:58,080 --> 01:28:05,400
+input other than that it's GK black box
+
+1878
+01:28:01,920 --> 01:28:08,360
+but we do need this and by the way note
+
+1879
+01:28:05,400 --> 01:28:11,679
+that we're using the gkr the gkr has
+
+1880
+01:28:08,360 --> 01:28:12,920
+actually um properties and now I want to
+
+1881
+01:28:11,679 --> 01:28:14,920
+go back to the succinctness because
+
+1882
+01:28:12,920 --> 01:28:17,239
+actually you're saying can't you do it
+
+1883
+01:28:14,920 --> 01:28:20,560
+with any succinct protocol and the
+
+1884
+01:28:17,239 --> 01:28:23,040
+answer is maybe but there's also this
+
+1885
+01:28:20,560 --> 01:28:25,679
+point which is problematic that in gkr
+
+1886
+01:28:23,040 --> 01:28:28,280
+it's nice because you just check one
+
+1887
+01:28:25,679 --> 01:28:31,560
+point in the low degree
+
+1888
+01:28:28,280 --> 01:28:32,960
+extension and we can verify that you do
+
+1889
+01:28:31,560 --> 01:28:34,719
+the low degree
+
+1890
+01:28:32,960 --> 01:28:36,159
+extension there there's a low deegree
+
+1891
+01:28:34,719 --> 01:28:38,520
+test that I didn't talk to you about but
+
+1892
+01:28:36,159 --> 01:28:42,880
+we'll mention that after the break so
+
+1893
+01:28:38,520 --> 01:28:45,360
+there's a uh gkr you can verify the
+
+1894
+01:28:42,880 --> 01:28:47,679
+verifier to verify all he needs to do is
+
+1895
+01:28:45,360 --> 01:28:49,520
+take his input and compute only one
+
+1896
+01:28:47,679 --> 01:28:51,520
+point two points in the low degree
+
+1897
+01:28:49,520 --> 01:28:54,880
+extension of that
+
+1898
+01:28:51,520 --> 01:28:57,159
+input this is actually used here
+
+1899
+01:28:54,880 --> 01:28:58,960
+because now the ver the prover the
+
+1900
+01:28:57,159 --> 01:29:02,199
+verifier doesn't have the input the
+
+1901
+01:28:58,960 --> 01:29:05,320
+witness the prover has it he's going to
+
+1902
+01:29:02,199 --> 01:29:07,000
+put it in the in the sky and now you
+
+1903
+01:29:05,320 --> 01:29:10,880
+can't read the entire input that's a
+
+1904
+01:29:07,000 --> 01:29:15,679
+witness but you can read like you know
+
+1905
+01:29:10,880 --> 01:29:19,480
+what the what what the kind of succinct
+
+1906
+01:29:15,679 --> 01:29:21,840
+protocol tells you to read you know and
+
+1907
+01:29:19,480 --> 01:29:24,840
+so this this part is is important in the
+
+1908
+01:29:21,840 --> 01:29:24,840
+G
+
+1909
+01:29:27,119 --> 01:29:33,119
+okay a questions before we break okay so
+
+1910
+01:29:31,639 --> 01:29:34,760
+after the we'll take a five minutes
+
+1911
+01:29:33,119 --> 01:29:38,280
+break and then we'll talk quickly about
+
+1912
+01:29:34,760 --> 01:29:39,960
+the low degree test wrap up the
+
+1913
+01:29:38,280 --> 01:29:43,840
+information Theory and go to
+
+1914
+01:29:39,960 --> 01:29:43,840
+cryptography okay
+

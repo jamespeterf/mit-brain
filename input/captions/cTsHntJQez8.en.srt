@@ -1,0 +1,4148 @@
+1
+00:00:05,759 --> 00:00:13,519
+My pleasure to introduce Calen very much
+
+2
+00:00:09,920 --> 00:00:15,360
+who is a principal research scientist at
+
+3
+00:00:13,519 --> 00:00:18,560
+the Schwarzman College of Computing here
+
+4
+00:00:15,360 --> 00:00:23,119
+at MIT. He's also the founder and the
+
+5
+00:00:18,560 --> 00:00:26,240
+head of the data to AI lab. Um and uh he
+
+6
+00:00:23,119 --> 00:00:28,640
+is going to speak to you about using AI
+
+7
+00:00:26,240 --> 00:00:32,320
+to generate synthetic data for software
+
+8
+00:00:28,640 --> 00:00:35,520
+testing. So let's hear it for Kyan.
+
+9
+00:00:32,320 --> 00:00:39,040
+Thank you. Um thanks a lot. My name is
+
+10
+00:00:35,520 --> 00:00:41,040
+as Kawan Virini. I'm uh founder and
+
+11
+00:00:39,040 --> 00:00:43,520
+director of data to AAI lab at MIT. But
+
+12
+00:00:41,040 --> 00:00:45,280
+I'm also representing data SIBO for
+
+13
+00:00:43,520 --> 00:00:48,559
+which I'm co-founder. I just spun that
+
+14
+00:00:45,280 --> 00:00:50,399
+out from my lab. um we focus a lot on
+
+15
+00:00:48,559 --> 00:00:52,239
+creating synthetic data and I'll go into
+
+16
+00:00:50,399 --> 00:00:54,559
+a little bit detail a little bit just a
+
+17
+00:00:52,239 --> 00:00:56,399
+little bit detail about what that is uh
+
+18
+00:00:54,559 --> 00:00:58,239
+in this presentation but also present
+
+19
+00:00:56,399 --> 00:01:00,239
+talk about how we use that to test
+
+20
+00:00:58,239 --> 00:01:01,600
+software applications as you know our
+
+21
+00:01:00,239 --> 00:01:03,039
+world kind of runs on software
+
+22
+00:01:01,600 --> 00:01:04,400
+applications as you wake up in the
+
+23
+00:01:03,039 --> 00:01:06,000
+morning you you're using software
+
+24
+00:01:04,400 --> 00:01:07,840
+applications throughout your day whether
+
+25
+00:01:06,000 --> 00:01:09,760
+it's you're interacting with your TV
+
+26
+00:01:07,840 --> 00:01:11,760
+coffee machine zoom whatever you're
+
+27
+00:01:09,760 --> 00:01:14,000
+using you're using software applications
+
+28
+00:01:11,760 --> 00:01:16,479
+and they are being fine-tuned in real
+
+29
+00:01:14,000 --> 00:01:18,479
+time based on the data they see or the
+
+30
+00:01:16,479 --> 00:01:20,320
+interactions you have with them. So
+
+31
+00:01:18,479 --> 00:01:22,320
+testing those applications and supplying
+
+32
+00:01:20,320 --> 00:01:24,479
+that data for those applications to test
+
+33
+00:01:22,320 --> 00:01:27,439
+them has become very critical over the
+
+34
+00:01:24,479 --> 00:01:29,520
+past uh decade or so. And one of my main
+
+35
+00:01:27,439 --> 00:01:31,439
+research topics focused on that not just
+
+36
+00:01:29,520 --> 00:01:33,200
+necessarily testing but how do we
+
+37
+00:01:31,439 --> 00:01:35,280
+increase the data supply for software
+
+38
+00:01:33,200 --> 00:01:37,479
+applications? How many of you have heard
+
+39
+00:01:35,280 --> 00:01:40,640
+of synthetic
+
+40
+00:01:37,479 --> 00:01:42,360
+data? All right. How many of you use
+
+41
+00:01:40,640 --> 00:01:46,079
+synthetic
+
+42
+00:01:42,360 --> 00:01:47,759
+data? All right. How many of you already
+
+43
+00:01:46,079 --> 00:01:51,439
+know all about it? So maybe you should
+
+44
+00:01:47,759 --> 00:01:52,720
+go for lunch, right? Um but it's good to
+
+45
+00:01:51,439 --> 00:01:54,720
+it's good to know that a lot of people
+
+46
+00:01:52,720 --> 00:01:56,399
+know about synthetic data. So what is
+
+47
+00:01:54,720 --> 00:01:57,759
+synthetic AI generated synthetic data?
+
+48
+00:01:56,399 --> 00:01:59,439
+There used to be versions of synthetic
+
+49
+00:01:57,759 --> 00:02:01,360
+data. So you can use simulation engines
+
+50
+00:01:59,439 --> 00:02:04,560
+to generate synthetic data. But what is
+
+51
+00:02:01,360 --> 00:02:09,039
+AI generated synthetic data? It is data
+
+52
+00:02:04,560 --> 00:02:10,959
+that's created by AI models and you get
+
+53
+00:02:09,039 --> 00:02:13,200
+data that looks very much like the real
+
+54
+00:02:10,959 --> 00:02:15,120
+data in statistical properties however
+
+55
+00:02:13,200 --> 00:02:17,040
+you want to measure them or sometimes
+
+56
+00:02:15,120 --> 00:02:18,560
+you use humans to detect whether they
+
+57
+00:02:17,040 --> 00:02:22,319
+look like the real data if it's images
+
+58
+00:02:18,560 --> 00:02:24,400
+or otherwise um and and you can use it
+
+59
+00:02:22,319 --> 00:02:26,480
+for various purposes but the key element
+
+60
+00:02:24,400 --> 00:02:29,040
+here is that it is actually generated
+
+61
+00:02:26,480 --> 00:02:30,879
+from a model so when it's AI you're act
+
+62
+00:02:29,040 --> 00:02:33,120
+you actually have a model file and
+
+63
+00:02:30,879 --> 00:02:35,519
+you're actually generating from that
+
+64
+00:02:33,120 --> 00:02:38,720
+model synthetic data set that resembles
+
+65
+00:02:35,519 --> 00:02:41,280
+real data. So you all are familiar with
+
+66
+00:02:38,720 --> 00:02:43,920
+language and we would call what chat GBD
+
+67
+00:02:41,280 --> 00:02:46,239
+generates the synthetic language. Um it
+
+68
+00:02:43,920 --> 00:02:48,480
+is not generated by humans. There's
+
+69
+00:02:46,239 --> 00:02:51,040
+nobody answering as as a human from the
+
+70
+00:02:48,480 --> 00:02:53,040
+other side. It's generated by a a model
+
+71
+00:02:51,040 --> 00:02:55,239
+underneath it. It's called GPT. Everyone
+
+72
+00:02:53,040 --> 00:02:58,080
+may have and that's why it's called chat
+
+73
+00:02:55,239 --> 00:03:00,160
+GPT. Similarly, there's been tremendous
+
+74
+00:02:58,080 --> 00:03:02,319
+amount of progress in images. How do you
+
+75
+00:03:00,160 --> 00:03:04,879
+generate images that look realistic? uh
+
+76
+00:03:02,319 --> 00:03:06,879
+these are a set of images that are that
+
+77
+00:03:04,879 --> 00:03:08,319
+are generated by AI model but they are
+
+78
+00:03:06,879 --> 00:03:10,640
+not actually they don't they're not they
+
+79
+00:03:08,319 --> 00:03:12,879
+don't exist they're not real people here
+
+80
+00:03:10,640 --> 00:03:15,360
+um so that's another example of uh
+
+81
+00:03:12,879 --> 00:03:17,360
+synthetic data that's been created so a
+
+82
+00:03:15,360 --> 00:03:20,720
+lot of that you know innovation started
+
+83
+00:03:17,360 --> 00:03:22,560
+way back in 2014 where they created this
+
+84
+00:03:20,720 --> 00:03:24,319
+technology called generative adversarial
+
+85
+00:03:22,560 --> 00:03:26,239
+networks in machine learning community
+
+86
+00:03:24,319 --> 00:03:28,640
+where they use two neural networks to
+
+87
+00:03:26,239 --> 00:03:31,920
+compete with each other so one tried to
+
+88
+00:03:28,640 --> 00:03:34,000
+create realistic looking data um using
+
+89
+00:03:31,920 --> 00:03:35,680
+just random data as input. So noise as
+
+90
+00:03:34,000 --> 00:03:37,519
+input. It takes noise as input and
+
+91
+00:03:35,680 --> 00:03:40,080
+generate realistic looking data. The
+
+92
+00:03:37,519 --> 00:03:42,000
+other one tries to distinguish whether
+
+93
+00:03:40,080 --> 00:03:44,080
+the data generated by the first one is
+
+94
+00:03:42,000 --> 00:03:45,599
+real or not. So both of them are
+
+95
+00:03:44,080 --> 00:03:47,840
+competing with each other and as a
+
+96
+00:03:45,599 --> 00:03:49,840
+result they eventually lead to a model
+
+97
+00:03:47,840 --> 00:03:51,840
+that actually produces realistic looking
+
+98
+00:03:49,840 --> 00:03:55,040
+images or realistic looking language and
+
+99
+00:03:51,840 --> 00:03:57,680
+so on. Um you know one of one of the
+
+100
+00:03:55,040 --> 00:03:59,920
+things that my group focuses on is that
+
+101
+00:03:57,680 --> 00:04:02,480
+tabular data. So tabular and structured
+
+102
+00:03:59,920 --> 00:04:04,159
+data. So images and language you know
+
+103
+00:04:02,480 --> 00:04:07,280
+there's a lot of work around it there's
+
+104
+00:04:04,159 --> 00:04:08,879
+a lot of um material available a lot of
+
+105
+00:04:07,280 --> 00:04:11,840
+models available a lot of technology
+
+106
+00:04:08,879 --> 00:04:14,799
+available but 80% of the enterprise data
+
+107
+00:04:11,840 --> 00:04:16,239
+from by some measures is tabular data it
+
+108
+00:04:14,799 --> 00:04:18,479
+is structured data whether it's stored
+
+109
+00:04:16,239 --> 00:04:20,560
+in your databases or JSON files or XML
+
+110
+00:04:18,479 --> 00:04:22,320
+files and so on and so forth it is what
+
+111
+00:04:20,560 --> 00:04:24,240
+you store when when your customers are
+
+112
+00:04:22,320 --> 00:04:26,479
+interacting with your systems and
+
+113
+00:04:24,240 --> 00:04:29,120
+products and services and that is the
+
+114
+00:04:26,479 --> 00:04:31,360
+data that we focus on and when we try to
+
+115
+00:04:29,120 --> 00:04:33,600
+create synthetic data So for that my
+
+116
+00:04:31,360 --> 00:04:36,479
+group created the first sort of one of
+
+117
+00:04:33,600 --> 00:04:38,479
+the first I believe uh GAN for tabular
+
+118
+00:04:36,479 --> 00:04:40,320
+data. Same principle use the same
+
+119
+00:04:38,479 --> 00:04:42,400
+principle but instead of images we tried
+
+120
+00:04:40,320 --> 00:04:45,919
+to create realistic looking tabular
+
+121
+00:04:42,400 --> 00:04:49,199
+data. So can you tell which one is real
+
+122
+00:04:45,919 --> 00:04:49,199
+and one of them is not
+
+123
+00:04:50,759 --> 00:04:57,280
+real? I I actually don't know exact it
+
+124
+00:04:54,880 --> 00:04:59,600
+is. It is created by one of one of the
+
+125
+00:04:57,280 --> 00:05:00,960
+folks that use our software and they
+
+126
+00:04:59,600 --> 00:05:02,320
+always tell me it's on the left and I
+
+127
+00:05:00,960 --> 00:05:04,320
+don't know when which way I have to turn
+
+128
+00:05:02,320 --> 00:05:07,120
+to tell which one. I think it's that one
+
+129
+00:05:04,320 --> 00:05:09,840
+is not real. So, but you know it's it's
+
+130
+00:05:07,120 --> 00:05:12,000
+very hard to tell. Um now obviously this
+
+131
+00:05:09,840 --> 00:05:14,160
+is not how you how you evaluate tabular
+
+132
+00:05:12,000 --> 00:05:17,120
+data similarity. We actually have
+
+133
+00:05:14,160 --> 00:05:18,720
+metrics to evaluate whether this is both
+
+134
+00:05:17,120 --> 00:05:21,520
+of those data sets are similar or not.
+
+135
+00:05:18,720 --> 00:05:23,919
+So we are not looking for a human visual
+
+136
+00:05:21,520 --> 00:05:26,320
+um recognition like unlike images and
+
+137
+00:05:23,919 --> 00:05:28,000
+language. So as a result we created
+
+138
+00:05:26,320 --> 00:05:30,800
+something at MIT called synthetic data
+
+139
+00:05:28,000 --> 00:05:32,800
+walt. This was way back in 2015. We
+
+140
+00:05:30,800 --> 00:05:34,720
+created the first software system a
+
+141
+00:05:32,800 --> 00:05:37,280
+generative modeling system for tabular
+
+142
+00:05:34,720 --> 00:05:39,280
+data as actually multiple tables as
+
+143
+00:05:37,280 --> 00:05:42,080
+well. Uh and a subsequent paper was in
+
+144
+00:05:39,280 --> 00:05:43,759
+2019 but the first one was in 2015 and
+
+145
+00:05:42,080 --> 00:05:46,160
+we released a software library at that
+
+146
+00:05:43,759 --> 00:05:48,560
+time called SDV. Has anyone heard of
+
+147
+00:05:46,160 --> 00:05:51,280
+SDV?
+
+148
+00:05:48,560 --> 00:05:54,560
+Nina has heard of SDV. All right. So now
+
+149
+00:05:51,280 --> 00:05:56,639
+we have heard of it. Um so what does SDV
+
+150
+00:05:54,560 --> 00:05:58,000
+do? So you feed it real data. You still
+
+151
+00:05:56,639 --> 00:06:02,000
+have to give it a little bit of real
+
+152
+00:05:58,000 --> 00:06:04,000
+data. You use SDV to model and it does
+
+153
+00:06:02,000 --> 00:06:06,000
+build a generative model for you. And
+
+154
+00:06:04,000 --> 00:06:07,600
+once you have the model, you can sample
+
+155
+00:06:06,000 --> 00:06:10,080
+synthetic data from it. So you can
+
+156
+00:06:07,600 --> 00:06:11,600
+sample as much as you want. You can
+
+157
+00:06:10,080 --> 00:06:13,680
+sample based on certain conditions. So
+
+158
+00:06:11,600 --> 00:06:16,319
+you can also specify saying that fix the
+
+159
+00:06:13,680 --> 00:06:18,960
+gender to male and then you know state
+
+160
+00:06:16,319 --> 00:06:21,039
+to Ohio and give me interactions for
+
+161
+00:06:18,960 --> 00:06:23,120
+thousand customers that have that those
+
+162
+00:06:21,039 --> 00:06:24,720
+two attributes fixed. So you can also
+
+163
+00:06:23,120 --> 00:06:26,000
+conditionally sample which in language
+
+164
+00:06:24,720 --> 00:06:27,840
+we call them prompts. So you're
+
+165
+00:06:26,000 --> 00:06:30,319
+prompting to sample the data from
+
+166
+00:06:27,840 --> 00:06:32,639
+language. Um the other interesting
+
+167
+00:06:30,319 --> 00:06:35,759
+aspect is that if you have terabytes of
+
+168
+00:06:32,639 --> 00:06:37,520
+data this model is still you know a
+
+169
+00:06:35,759 --> 00:06:39,120
+gigabytes less than gigabytes. So you're
+
+170
+00:06:37,520 --> 00:06:41,520
+you're essentially getting a compressed
+
+171
+00:06:39,120 --> 00:06:43,919
+version of your data. uh if you have
+
+172
+00:06:41,520 --> 00:06:46,160
+only you know thousands of customers of
+
+173
+00:06:43,919 --> 00:06:47,680
+data but you know you build you build
+
+174
+00:06:46,160 --> 00:06:50,000
+this model you can actually sample
+
+175
+00:06:47,680 --> 00:06:52,800
+millions of uh customers data if you
+
+176
+00:06:50,000 --> 00:06:54,960
+wanted to. So it's it it just provides
+
+177
+00:06:52,800 --> 00:06:56,639
+you enormous amount of flexibility in
+
+178
+00:06:54,960 --> 00:06:58,400
+terms of how you can use this model and
+
+179
+00:06:56,639 --> 00:07:00,280
+how you can deploy this and there's a
+
+180
+00:06:58,400 --> 00:07:04,319
+lot of use cases which I'll go into very
+
+181
+00:07:00,280 --> 00:07:06,960
+briefly. So uh I'll just go very briefly
+
+182
+00:07:04,319 --> 00:07:09,520
+into it. It's actually uh it does build
+
+183
+00:07:06,960 --> 00:07:12,240
+a model for across the table. One big
+
+184
+00:07:09,520 --> 00:07:14,400
+difference between academic um work,
+
+185
+00:07:12,240 --> 00:07:16,880
+research work and practical enterprise
+
+186
+00:07:14,400 --> 00:07:19,039
+work is that in academia we have really
+
+187
+00:07:16,880 --> 00:07:21,599
+nice under like you know table one table
+
+188
+00:07:19,039 --> 00:07:23,120
+worth of data clean no messiness to it.
+
+189
+00:07:21,599 --> 00:07:25,440
+But when you go into enterprises you
+
+190
+00:07:23,120 --> 00:07:27,520
+start getting like many tables. Um you
+
+191
+00:07:25,440 --> 00:07:29,840
+have 20 30 50 100 tables in your
+
+192
+00:07:27,520 --> 00:07:31,599
+databases and there's a lot of mess
+
+193
+00:07:29,840 --> 00:07:33,680
+messiness in the data. There's missing
+
+194
+00:07:31,599 --> 00:07:35,440
+data. There's all kinds of weird
+
+195
+00:07:33,680 --> 00:07:37,199
+artifacts in the data which we have to
+
+196
+00:07:35,440 --> 00:07:38,720
+replicate when we when we generate
+
+197
+00:07:37,199 --> 00:07:40,720
+synthetic data. But we replicate that
+
+198
+00:07:38,720 --> 00:07:42,720
+messiness as well. We emulate that
+
+199
+00:07:40,720 --> 00:07:44,479
+messiness in the synthetic data as well.
+
+200
+00:07:42,720 --> 00:07:47,039
+So there is a whole process to it that
+
+201
+00:07:44,479 --> 00:07:48,720
+we invented of how to systematically
+
+202
+00:07:47,039 --> 00:07:51,039
+learn those relationships, learn the
+
+203
+00:07:48,720 --> 00:07:52,880
+messiness as well and create uh create
+
+204
+00:07:51,039 --> 00:07:54,639
+realistic looking data and then
+
+205
+00:07:52,880 --> 00:07:58,960
+ultimately once it once you create the
+
+206
+00:07:54,639 --> 00:08:01,360
+data the model it's just one file. Um
+
+207
+00:07:58,960 --> 00:08:03,440
+just like how you know language models
+
+208
+00:08:01,360 --> 00:08:06,080
+have gone through evolution this area
+
+209
+00:08:03,440 --> 00:08:09,599
+has also gone through evolution. Um so
+
+210
+00:08:06,080 --> 00:08:11,919
+way back in 20145 time frame we actually
+
+211
+00:08:09,599 --> 00:08:14,479
+started building just model for a very
+
+212
+00:08:11,919 --> 00:08:16,639
+specific application a student online
+
+213
+00:08:14,479 --> 00:08:18,000
+learning platform data edex here and we
+
+214
+00:08:16,639 --> 00:08:20,240
+took that data and we built a very
+
+215
+00:08:18,000 --> 00:08:22,240
+custom model just for it a generative
+
+216
+00:08:20,240 --> 00:08:23,680
+model just for it that worked so well
+
+217
+00:08:22,240 --> 00:08:25,840
+then we decided why don't we generalize
+
+218
+00:08:23,680 --> 00:08:27,360
+it to relational databases or single
+
+219
+00:08:25,840 --> 00:08:29,280
+table or three to five tables and that
+
+220
+00:08:27,360 --> 00:08:30,960
+took us a couple of years to do it and
+
+221
+00:08:29,280 --> 00:08:33,039
+very soon we realized that all the
+
+222
+00:08:30,960 --> 00:08:34,640
+algorithms we invented don't scale to
+
+223
+00:08:33,039 --> 00:08:36,240
+enterprises so we actually had to invent
+
+224
+00:08:34,640 --> 00:08:38,000
+invent a new set of algorithms to do
+
+225
+00:08:36,240 --> 00:08:39,919
+that because enterprises had 20 to 30
+
+226
+00:08:38,000 --> 00:08:42,240
+tables and so on and so forth. As we
+
+227
+00:08:39,919 --> 00:08:44,080
+went went ahead we found more and more
+
+228
+00:08:42,240 --> 00:08:45,279
+and more complexity in enterprise data.
+
+229
+00:08:44,080 --> 00:08:47,279
+Then I'll go through a little bit of
+
+230
+00:08:45,279 --> 00:08:49,519
+that that alludes to what the maturity
+
+231
+00:08:47,279 --> 00:08:52,480
+of a synthetic data software system is
+
+232
+00:08:49,519 --> 00:08:54,800
+right now in the market. Uh we open
+
+233
+00:08:52,480 --> 00:08:57,040
+source SDV for everyone to create and
+
+234
+00:08:54,800 --> 00:09:01,920
+use synthetic data. Lots of enterprises
+
+235
+00:08:57,040 --> 00:09:04,640
+use it. Uh more than you know 50% of the
+
+236
+00:09:01,920 --> 00:09:07,519
+you know top 20 to 30 banks use it. Um
+
+237
+00:09:04,640 --> 00:09:10,000
+and many many of the I would say 70 or
+
+238
+00:09:07,519 --> 00:09:12,279
+so fortune 500 use this SDV software
+
+239
+00:09:10,000 --> 00:09:15,440
+system internally.
+
+240
+00:09:12,279 --> 00:09:17,279
+Um as a result we we keep seeing a lot
+
+241
+00:09:15,440 --> 00:09:19,040
+of downloads a lot of people giving us
+
+242
+00:09:17,279 --> 00:09:21,200
+feedback on what is working what is not
+
+243
+00:09:19,040 --> 00:09:22,959
+working. So it has become over several
+
+244
+00:09:21,200 --> 00:09:25,120
+years over the last 5 years we've become
+
+245
+00:09:22,959 --> 00:09:26,880
+one of the most mature software system
+
+246
+00:09:25,120 --> 00:09:29,519
+for being able to generate synthetic
+
+247
+00:09:26,880 --> 00:09:30,880
+build models and generate synthetic data
+
+248
+00:09:29,519 --> 00:09:32,480
+for the kind of data that you would
+
+249
+00:09:30,880 --> 00:09:34,560
+encounter in your in in your
+
+250
+00:09:32,480 --> 00:09:36,560
+enterprises. We also built an entire
+
+251
+00:09:34,560 --> 00:09:38,959
+ecosystem around it. So we had to build
+
+252
+00:09:36,560 --> 00:09:40,800
+our own metrics and evaluation system.
+
+253
+00:09:38,959 --> 00:09:42,480
+So we open sourced it. It's called SD
+
+254
+00:09:40,800 --> 00:09:44,480
+metrics. So how do you evaluate is it
+
+255
+00:09:42,480 --> 00:09:46,640
+does it resemble the real data or not?
+
+256
+00:09:44,480 --> 00:09:48,000
+Um we created a benchmarking system. If
+
+257
+00:09:46,640 --> 00:09:50,720
+there are multiple models, how do you
+
+258
+00:09:48,000 --> 00:09:52,240
+assess? So just like any like OpenAI
+
+259
+00:09:50,720 --> 00:09:54,880
+would do it. We had to do all of this
+
+260
+00:09:52,240 --> 00:09:57,200
+for this area uh by ourselves which we
+
+261
+00:09:54,880 --> 00:09:58,959
+have been doing for uh for a while now
+
+262
+00:09:57,200 --> 00:10:01,200
+for a couple of year for five to six
+
+263
+00:09:58,959 --> 00:10:02,800
+years now. U you can access all of them.
+
+264
+00:10:01,200 --> 00:10:05,680
+they're they're publicly available and
+
+265
+00:10:02,800 --> 00:10:08,000
+you can use them. You can give it a try.
+
+266
+00:10:05,680 --> 00:10:09,839
+There are three primary use cases three
+
+267
+00:10:08,000 --> 00:10:12,959
+or four primary use cases that have that
+
+268
+00:10:09,839 --> 00:10:15,279
+have uh emerged so far. Uh one of them
+
+269
+00:10:12,959 --> 00:10:18,240
+is about training robust ML models. So
+
+270
+00:10:15,279 --> 00:10:20,640
+this is where you have very little data
+
+271
+00:10:18,240 --> 00:10:23,519
+for particular event that you want to
+
+272
+00:10:20,640 --> 00:10:24,880
+predict. So most likely if you have a
+
+273
+00:10:23,519 --> 00:10:26,399
+you know we work with wind turbine
+
+274
+00:10:24,880 --> 00:10:28,880
+companies and they have wind turbine
+
+275
+00:10:26,399 --> 00:10:31,040
+failures and you have very few failures.
+
+276
+00:10:28,880 --> 00:10:33,519
+only 1% of your data is failures but you
+
+277
+00:10:31,040 --> 00:10:35,200
+have 99% that's just normal functioning
+
+278
+00:10:33,519 --> 00:10:37,200
+of the turbine and data that pertains to
+
+279
+00:10:35,200 --> 00:10:40,160
+no failures in that case machine
+
+280
+00:10:37,200 --> 00:10:42,160
+learning models overfit the failure data
+
+281
+00:10:40,160 --> 00:10:43,839
+and you will get good accuracy on
+
+282
+00:10:42,160 --> 00:10:45,360
+training but when you deploy it it
+
+283
+00:10:43,839 --> 00:10:47,279
+doesn't give you that that much of a
+
+284
+00:10:45,360 --> 00:10:49,120
+good accuracy so to control that
+
+285
+00:10:47,279 --> 00:10:50,640
+overfitting you can use synthetic data
+
+286
+00:10:49,120 --> 00:10:52,959
+you can augment so you can create
+
+287
+00:10:50,640 --> 00:10:55,920
+synthetic data and you can augment um
+
+288
+00:10:52,959 --> 00:10:57,839
+that's one one very popular use case
+
+289
+00:10:55,920 --> 00:11:00,000
+there's ways to debias the data using
+
+290
+00:10:57,839 --> 00:11:02,560
+synthetic data So as I mentioned you can
+
+291
+00:11:00,000 --> 00:11:04,720
+conditionally sample from it. Um you can
+
+292
+00:11:02,560 --> 00:11:07,120
+simulate novel scenarios. So there are
+
+293
+00:11:04,720 --> 00:11:09,920
+people who are using it to say well I
+
+294
+00:11:07,120 --> 00:11:11,600
+have all this data about how I we
+
+295
+00:11:09,920 --> 00:11:13,760
+discover products and can I build a
+
+296
+00:11:11,600 --> 00:11:15,600
+model and then try to say if I change
+
+297
+00:11:13,760 --> 00:11:18,160
+certain attributes of my product what
+
+298
+00:11:15,600 --> 00:11:20,160
+will happen to the consumer reaction in
+
+299
+00:11:18,160 --> 00:11:22,240
+a consumer panel. So there's a lot of
+
+300
+00:11:20,160 --> 00:11:24,560
+various ways you can use this model in
+
+301
+00:11:22,240 --> 00:11:25,920
+addition to just sampling synthetic
+
+302
+00:11:24,560 --> 00:11:28,480
+data.
+
+303
+00:11:25,920 --> 00:11:29,760
+The last one is sharing data with
+
+304
+00:11:28,480 --> 00:11:31,200
+developers to test software
+
+305
+00:11:29,760 --> 00:11:33,760
+applications. So I'll focus a little bit
+
+306
+00:11:31,200 --> 00:11:35,360
+on that this uh considering the the
+
+307
+00:11:33,760 --> 00:11:36,880
+theme of the forum I decided maybe
+
+308
+00:11:35,360 --> 00:11:38,959
+that's the application that we'll focus
+
+309
+00:11:36,880 --> 00:11:41,519
+on. So I'll I'll just give you a quick
+
+310
+00:11:38,959 --> 00:11:44,800
+example walk through of uh this is an
+
+311
+00:11:41,519 --> 00:11:46,240
+actual deployment in at ING bank uh in
+
+312
+00:11:44,800 --> 00:11:48,560
+Europe. It's one of the biggest banks in
+
+313
+00:11:46,240 --> 00:11:51,120
+Europe um and top 20 in the world by
+
+314
+00:11:48,560 --> 00:11:53,279
+some some measures as well. uh they use
+
+315
+00:11:51,120 --> 00:11:56,000
+this application called single euro
+
+316
+00:11:53,279 --> 00:11:58,480
+payments application SEPA uh everybody
+
+317
+00:11:56,000 --> 00:12:00,959
+maybe Europe familiar with it they use
+
+318
+00:11:58,480 --> 00:12:03,519
+this to exchange uh money or transfer
+
+319
+00:12:00,959 --> 00:12:06,480
+money I guess uh and it has a very
+
+320
+00:12:03,519 --> 00:12:08,079
+structured format an XML format uh there
+
+321
+00:12:06,480 --> 00:12:10,000
+is the debittor there's a creditor
+
+322
+00:12:08,079 --> 00:12:12,240
+there's all kinds of information about
+
+323
+00:12:10,000 --> 00:12:14,240
+the transaction essentially it's having
+
+324
+00:12:12,240 --> 00:12:16,000
+two it's enabling this application it's
+
+325
+00:12:14,240 --> 00:12:19,760
+enabling two entities to talk to each
+
+326
+00:12:16,000 --> 00:12:21,519
+other and do a transfer of money so for
+
+327
+00:12:19,760 --> 00:12:23,120
+this you know one of the challenges in
+
+328
+00:12:21,519 --> 00:12:24,720
+software testing is you have these
+
+329
+00:12:23,120 --> 00:12:26,399
+different environments all the way up to
+
+330
+00:12:24,720 --> 00:12:27,839
+the production environment. So if you go
+
+331
+00:12:26,399 --> 00:12:30,480
+to the production environment you do
+
+332
+00:12:27,839 --> 00:12:32,639
+have real data but nobody has access to
+
+333
+00:12:30,480 --> 00:12:34,240
+it. It's not because it's customer data
+
+334
+00:12:32,639 --> 00:12:35,680
+or in this case it's consumer data so
+
+335
+00:12:34,240 --> 00:12:38,000
+nobody's getting access to that
+
+336
+00:12:35,680 --> 00:12:39,920
+environment. uh then you sometimes
+
+337
+00:12:38,000 --> 00:12:41,680
+create masked and anonymized data in
+
+338
+00:12:39,920 --> 00:12:43,600
+which case you change the account or
+
+339
+00:12:41,680 --> 00:12:45,600
+mass the ids account ids you may have
+
+340
+00:12:43,600 --> 00:12:48,320
+seen that in your own data as well when
+
+341
+00:12:45,600 --> 00:12:50,480
+you have the first 12 digits are masked
+
+342
+00:12:48,320 --> 00:12:51,920
+out in a in a credit card number so you
+
+343
+00:12:50,480 --> 00:12:53,920
+create that data for acceptance
+
+344
+00:12:51,920 --> 00:12:56,320
+environment where in which people test
+
+345
+00:12:53,920 --> 00:12:58,399
+software applications before they get
+
+346
+00:12:56,320 --> 00:13:00,160
+deployed into production. Um you have
+
+347
+00:12:58,399 --> 00:13:03,279
+the testing environment and in that case
+
+348
+00:13:00,160 --> 00:13:05,680
+you create a very small test fake data
+
+349
+00:13:03,279 --> 00:13:08,079
+which is just random data generated from
+
+350
+00:13:05,680 --> 00:13:09,600
+by using some tool. Uh it has nothing to
+
+351
+00:13:08,079 --> 00:13:11,920
+do with the real data you generate just
+
+352
+00:13:09,600 --> 00:13:15,360
+random data to test applications. It has
+
+353
+00:13:11,920 --> 00:13:17,600
+a structure in the format and then that
+
+354
+00:13:15,360 --> 00:13:19,279
+fake data is now propagated to different
+
+355
+00:13:17,600 --> 00:13:21,360
+developers developing on those local
+
+356
+00:13:19,279 --> 00:13:22,880
+machines. So as you can see from the top
+
+357
+00:13:21,360 --> 00:13:25,279
+to bottom the number of people who have
+
+358
+00:13:22,880 --> 00:13:27,279
+access to real data has reduced and the
+
+359
+00:13:25,279 --> 00:13:29,360
+second thing is that the real data has
+
+360
+00:13:27,279 --> 00:13:30,800
+completely gone away like at at in in
+
+361
+00:13:29,360 --> 00:13:32,800
+testing and development environment
+
+362
+00:13:30,800 --> 00:13:35,360
+you're really creating fake data and by
+
+363
+00:13:32,800 --> 00:13:38,000
+fake data we mean just random data. So
+
+364
+00:13:35,360 --> 00:13:41,560
+you just randomly create data by using
+
+365
+00:13:38,000 --> 00:13:45,040
+some noise and things like that.
+
+366
+00:13:41,560 --> 00:13:47,839
+So what and these applications one of
+
+367
+00:13:45,040 --> 00:13:49,839
+the challenges is that the the the
+
+368
+00:13:47,839 --> 00:13:52,480
+requirements that the applications have
+
+369
+00:13:49,839 --> 00:13:54,399
+to satisfy or the or the need the
+
+370
+00:13:52,480 --> 00:13:56,079
+definition of the application keeps
+
+371
+00:13:54,399 --> 00:13:58,079
+changing. So here we are just showing
+
+372
+00:13:56,079 --> 00:14:00,000
+two requirements that just happened
+
+373
+00:13:58,079 --> 00:14:02,480
+within a span of 3 months as they
+
+374
+00:14:00,000 --> 00:14:04,399
+started using our software to build
+
+375
+00:14:02,480 --> 00:14:05,839
+synthetic data to test this application
+
+376
+00:14:04,399 --> 00:14:07,760
+and this is one of the reasons why they
+
+377
+00:14:05,839 --> 00:14:09,519
+have to keep building the the model
+
+378
+00:14:07,760 --> 00:14:12,880
+again and sampling from it again and
+
+379
+00:14:09,519 --> 00:14:15,120
+again. Um one of the thing is that in EU
+
+380
+00:14:12,880 --> 00:14:16,800
+sanctioned and enacted sanctions which
+
+381
+00:14:15,120 --> 00:14:19,279
+means the developers went ahead and
+
+382
+00:14:16,800 --> 00:14:20,800
+implemented a way to block transactions
+
+383
+00:14:19,279 --> 00:14:22,880
+of certain type based on those
+
+384
+00:14:20,800 --> 00:14:25,199
+sanctions. The second was that instead
+
+385
+00:14:22,880 --> 00:14:27,519
+of address being in one column um they
+
+386
+00:14:25,199 --> 00:14:29,839
+now required the address to be split
+
+387
+00:14:27,519 --> 00:14:31,680
+across three columns. So you know simple
+
+388
+00:14:29,839 --> 00:14:34,079
+changes like this require you to change
+
+389
+00:14:31,680 --> 00:14:36,800
+the software application build test for
+
+390
+00:14:34,079 --> 00:14:39,600
+it have the data to be able to test such
+
+391
+00:14:36,800 --> 00:14:41,440
+uh logic and that data is now either
+
+392
+00:14:39,600 --> 00:14:42,880
+you're creating fake data in which case
+
+393
+00:14:41,440 --> 00:14:44,800
+you don't get those edge cases and you
+
+394
+00:14:42,880 --> 00:14:46,639
+would have to manually write it. So
+
+395
+00:14:44,800 --> 00:14:48,720
+there's a whole process to this which is
+
+396
+00:14:46,639 --> 00:14:50,880
+time consuming but these are just two
+
+397
+00:14:48,720 --> 00:14:53,040
+requirement changes that required
+
+398
+00:14:50,880 --> 00:14:54,800
+significant change in the logic but then
+
+399
+00:14:53,040 --> 00:14:56,800
+you also have tons of requirements
+
+400
+00:14:54,800 --> 00:14:59,760
+coming through on almost on a weekly
+
+401
+00:14:56,800 --> 00:15:01,920
+basis or or or a monthly basis right um
+
+402
+00:14:59,760 --> 00:15:04,079
+so two things that people do is either
+
+403
+00:15:01,920 --> 00:15:06,079
+they copy and mass the data but it's not
+
+404
+00:15:04,079 --> 00:15:07,519
+available in develop to the developers
+
+405
+00:15:06,079 --> 00:15:09,519
+it's only available in the acceptance
+
+406
+00:15:07,519 --> 00:15:11,440
+environment or the other thing that
+
+407
+00:15:09,519 --> 00:15:14,560
+people do which is to our surprise it's
+
+408
+00:15:11,440 --> 00:15:16,160
+a actually very well known thing that a
+
+409
+00:15:14,560 --> 00:15:18,959
+lot of people do is to just manually
+
+410
+00:15:16,160 --> 00:15:21,760
+enter the data. So you saw the XML sheet
+
+411
+00:15:18,959 --> 00:15:23,440
+you just create the XML file you you
+
+412
+00:15:21,760 --> 00:15:25,600
+know put the transaction amount put the
+
+413
+00:15:23,440 --> 00:15:29,680
+creditor debittor create if you want to
+
+414
+00:15:25,600 --> 00:15:32,399
+test the logic of uh whether you know we
+
+415
+00:15:29,680 --> 00:15:34,639
+are correctly blocking the transactions
+
+416
+00:15:32,399 --> 00:15:36,320
+you would create the data of the
+
+417
+00:15:34,639 --> 00:15:38,320
+transaction that you would like to block
+
+418
+00:15:36,320 --> 00:15:40,160
+right um so as you can imagine it's a
+
+419
+00:15:38,320 --> 00:15:41,920
+very manual process and tedious process
+
+420
+00:15:40,160 --> 00:15:44,160
+and you would have to keep creating this
+
+421
+00:15:41,920 --> 00:15:46,240
+data keep storing it someplace and
+
+422
+00:15:44,160 --> 00:15:49,120
+managing it and more importantly I think
+
+423
+00:15:46,240 --> 00:15:51,040
+you would have to know the entire like
+
+424
+00:15:49,120 --> 00:15:52,480
+XML format and everything and you have
+
+425
+00:15:51,040 --> 00:15:54,320
+to, you know, make sure that you're
+
+426
+00:15:52,480 --> 00:15:55,880
+creating the right data, test the logic
+
+427
+00:15:54,320 --> 00:15:58,480
+or and so
+
+428
+00:15:55,880 --> 00:16:00,639
+on. So these are just examples. They
+
+429
+00:15:58,480 --> 00:16:02,240
+wanted to test a lot of payments back
+
+430
+00:16:00,639 --> 00:16:04,079
+and forth. So they wanted to generate
+
+431
+00:16:02,240 --> 00:16:05,920
+thousands of transactions. Ideally, they
+
+432
+00:16:04,079 --> 00:16:07,600
+would generate thousands of transactions
+
+433
+00:16:05,920 --> 00:16:09,040
+in manual data generation. They were
+
+434
+00:16:07,600 --> 00:16:10,959
+able to generate like five to 10
+
+435
+00:16:09,040 --> 00:16:12,639
+transactions by manually writing it and
+
+436
+00:16:10,959 --> 00:16:15,040
+specific to a particular logic. That's
+
+437
+00:16:12,639 --> 00:16:18,000
+what they would do. um and they wanted
+
+438
+00:16:15,040 --> 00:16:20,240
+to see if the time performance and
+
+439
+00:16:18,000 --> 00:16:22,240
+everything is being met or not. So
+
+440
+00:16:20,240 --> 00:16:24,480
+ideally they would like to do is to
+
+441
+00:16:22,240 --> 00:16:26,560
+create thousands of transactions using
+
+442
+00:16:24,480 --> 00:16:28,320
+the synthetic data generator and use
+
+443
+00:16:26,560 --> 00:16:30,160
+those transactions and pretend they are
+
+444
+00:16:28,320 --> 00:16:32,320
+real transactions and simulate the whole
+
+445
+00:16:30,160 --> 00:16:34,560
+system and see where it falls apart,
+
+446
+00:16:32,320 --> 00:16:36,720
+right? Either the logic is not uh
+
+447
+00:16:34,560 --> 00:16:38,800
+happening or performance is too slow and
+
+448
+00:16:36,720 --> 00:16:40,959
+so on and so forth. So one day morning I
+
+449
+00:16:38,800 --> 00:16:44,160
+think we got a we got a message saying
+
+450
+00:16:40,959 --> 00:16:46,079
+that hey your your your data emptied an
+
+451
+00:16:44,160 --> 00:16:48,160
+account completely and that's a good
+
+452
+00:16:46,079 --> 00:16:49,759
+thing um because they wanted to test
+
+453
+00:16:48,160 --> 00:16:53,120
+that situation when an account gets
+
+454
+00:16:49,759 --> 00:16:54,560
+completely emptied by a set of transfers
+
+455
+00:16:53,120 --> 00:16:56,079
+what happens does the transfer get
+
+456
+00:16:54,560 --> 00:16:58,320
+blocked and what happens what kind of
+
+457
+00:16:56,079 --> 00:16:59,519
+messaging does go back to the goes back
+
+458
+00:16:58,320 --> 00:17:00,880
+to the person who's doing the
+
+459
+00:16:59,519 --> 00:17:03,920
+transaction so there's a lot of edge
+
+460
+00:17:00,880 --> 00:17:06,480
+cases they they would like to test um
+
+461
+00:17:03,920 --> 00:17:08,319
+again for this you still need a very
+
+462
+00:17:06,480 --> 00:17:09,520
+little bit of data not that much but a
+
+463
+00:17:08,319 --> 00:17:12,079
+little bit of data from the production
+
+464
+00:17:09,520 --> 00:17:13,679
+environment. You build the model on prem
+
+465
+00:17:12,079 --> 00:17:15,679
+and once you build that model now you
+
+466
+00:17:13,679 --> 00:17:19,679
+can generate as many transactions as you
+
+467
+00:17:15,679 --> 00:17:22,319
+want. So in this case they generated um
+
+468
+00:17:19,679 --> 00:17:23,679
+without SDV they were generating 10 as I
+
+469
+00:17:22,319 --> 00:17:25,919
+mentioned transactions because you have
+
+470
+00:17:23,679 --> 00:17:27,600
+to manually create them. Uh with SDV
+
+471
+00:17:25,919 --> 00:17:30,160
+they were able to generate around 10,000
+
+472
+00:17:27,600 --> 00:17:32,000
+transactions within 2 minutes. Um they
+
+473
+00:17:30,160 --> 00:17:33,600
+would model the data and then from that
+
+474
+00:17:32,000 --> 00:17:35,840
+model they would sample and that just
+
+475
+00:17:33,600 --> 00:17:38,160
+takes 2 minutes to sample. And because
+
+476
+00:17:35,840 --> 00:17:40,240
+we made sure that all our software works
+
+477
+00:17:38,160 --> 00:17:41,919
+with enterprise level data, you know,
+
+478
+00:17:40,240 --> 00:17:43,760
+most of the data was accurate and we
+
+479
+00:17:41,919 --> 00:17:46,240
+also give data validation techniques to
+
+480
+00:17:43,760 --> 00:17:49,039
+tech before you uh before you use that
+
+481
+00:17:46,240 --> 00:17:50,799
+data downstream. So one of the
+
+482
+00:17:49,039 --> 00:17:53,200
+interesting thing is that you if you
+
+483
+00:17:50,799 --> 00:17:55,520
+have masking and anonymizing it gives
+
+484
+00:17:53,200 --> 00:17:57,200
+you high coverage because you're
+
+485
+00:17:55,520 --> 00:17:59,679
+essentially subsetting or subsampling
+
+486
+00:17:57,200 --> 00:18:01,760
+from the real data and you're masking um
+
+487
+00:17:59,679 --> 00:18:04,000
+you know some of the fields but it is
+
+488
+00:18:01,760 --> 00:18:05,600
+very expensive because it has to go
+
+489
+00:18:04,000 --> 00:18:07,600
+through privacy review. It has to go
+
+490
+00:18:05,600 --> 00:18:09,600
+through a lot of reviews before it's
+
+491
+00:18:07,600 --> 00:18:11,919
+available and it's not available in the
+
+492
+00:18:09,600 --> 00:18:14,000
+lower environment. And if you go through
+
+493
+00:18:11,919 --> 00:18:15,520
+manual data entry, it has very low
+
+494
+00:18:14,000 --> 00:18:18,880
+coverage because you're just creating
+
+495
+00:18:15,520 --> 00:18:22,160
+specific uh examples for testing your
+
+496
+00:18:18,880 --> 00:18:24,480
+logic. And it is cheap in terms of
+
+497
+00:18:22,160 --> 00:18:26,000
+expense of uh of the privacy teams and
+
+498
+00:18:24,480 --> 00:18:28,480
+so on and so forth. Definitely not cheap
+
+499
+00:18:26,000 --> 00:18:30,720
+in terms of the manual data entry work
+
+500
+00:18:28,480 --> 00:18:32,160
+that you have to put in. And on the
+
+501
+00:18:30,720 --> 00:18:34,480
+other hand, synthetic data gives you
+
+502
+00:18:32,160 --> 00:18:36,960
+high coverage and it's extremely cheap
+
+503
+00:18:34,480 --> 00:18:38,960
+to generate. So that's one of the big
+
+504
+00:18:36,960 --> 00:18:40,840
+things that that shows up with synthetic
+
+505
+00:18:38,960 --> 00:18:44,799
+data as you use it for software
+
+506
+00:18:40,840 --> 00:18:46,080
+applications. Um you know just as a as a
+
+507
+00:18:44,799 --> 00:18:50,360
+reference I don't know how many of you
+
+508
+00:18:46,080 --> 00:18:53,720
+have used test data creation tools
+
+509
+00:18:50,360 --> 00:18:56,480
+or anyone. All right.
+
+510
+00:18:53,720 --> 00:18:58,960
+Um you know as I mentioned there's a lot
+
+511
+00:18:56,480 --> 00:19:00,799
+of methods to do this but all of them
+
+512
+00:18:58,960 --> 00:19:03,120
+rely on either copying masking and
+
+513
+00:19:00,799 --> 00:19:05,440
+anonymizing or they rely on humans
+
+514
+00:19:03,120 --> 00:19:07,520
+writing writing rules. There are some
+
+515
+00:19:05,440 --> 00:19:10,080
+explicit ways of writing rules. So here
+
+516
+00:19:07,520 --> 00:19:12,559
+I'm just showing how people write rules
+
+517
+00:19:10,080 --> 00:19:14,960
+on the left where people just say if the
+
+518
+00:19:12,559 --> 00:19:18,240
+account type is premium then 10% of the
+
+519
+00:19:14,960 --> 00:19:20,080
+time nor you know give me data 10% of
+
+520
+00:19:18,240 --> 00:19:21,679
+the time and normal data 90% of the
+
+521
+00:19:20,080 --> 00:19:23,840
+time. So you actually specify certain
+
+522
+00:19:21,679 --> 00:19:25,360
+rules. So in in addition to your
+
+523
+00:19:23,840 --> 00:19:26,880
+application that your software
+
+524
+00:19:25,360 --> 00:19:29,520
+application you're also maintaining an
+
+525
+00:19:26,880 --> 00:19:32,559
+entire software system that generates
+
+526
+00:19:29,520 --> 00:19:34,240
+the data for you. And from one
+
+527
+00:19:32,559 --> 00:19:36,160
+particular enterprise, we heard that
+
+528
+00:19:34,240 --> 00:19:38,000
+there's like 10,000 lines of code. It's
+
+529
+00:19:36,160 --> 00:19:40,480
+actually that code to generate the data
+
+530
+00:19:38,000 --> 00:19:42,880
+with those rules is more than the actual
+
+531
+00:19:40,480 --> 00:19:44,559
+application sometimes. Um, so and you
+
+532
+00:19:42,880 --> 00:19:46,480
+have to maintain all of that. But with
+
+533
+00:19:44,559 --> 00:19:48,559
+with generative AI, you don't have to do
+
+534
+00:19:46,480 --> 00:19:50,880
+that. You your generative AI essentially
+
+535
+00:19:48,559 --> 00:19:53,120
+is learning those rules under the hood.
+
+536
+00:19:50,880 --> 00:19:54,559
+Um, you're not asking it to specifically
+
+537
+00:19:53,120 --> 00:19:56,640
+learn a particular rule, but it's under
+
+538
+00:19:54,559 --> 00:19:58,160
+the hood. It's learning all those rules,
+
+539
+00:19:56,640 --> 00:20:01,120
+all those distributions and conditional
+
+540
+00:19:58,160 --> 00:20:03,880
+distributions and so on and so forth.
+
+541
+00:20:01,120 --> 00:20:07,200
+So I'll just try to
+
+542
+00:20:03,880 --> 00:20:09,120
+um give the comparison between the copy
+
+543
+00:20:07,200 --> 00:20:11,200
+mask anonymize and manual rulebased
+
+544
+00:20:09,120 --> 00:20:13,919
+generation versus SDV or generative
+
+545
+00:20:11,200 --> 00:20:16,960
+models in this case where in terms of
+
+546
+00:20:13,919 --> 00:20:18,640
+relationships captured you know copy and
+
+547
+00:20:16,960 --> 00:20:20,720
+mask anonymize are dependent on the
+
+548
+00:20:18,640 --> 00:20:22,320
+amount of data you copied. So it will
+
+549
+00:20:20,720 --> 00:20:25,200
+capture all the relationships as long as
+
+550
+00:20:22,320 --> 00:20:26,480
+you copy a lot of data. Um in manual
+
+551
+00:20:25,200 --> 00:20:27,840
+rules based generation depending upon
+
+552
+00:20:26,480 --> 00:20:30,559
+how many you wrote you would have
+
+553
+00:20:27,840 --> 00:20:32,960
+thousands of rules but in in sort of
+
+554
+00:20:30,559 --> 00:20:34,960
+generative models there are billions of
+
+555
+00:20:32,960 --> 00:20:36,640
+rules that have been learned. You can
+
+556
+00:20:34,960 --> 00:20:38,799
+actually poke it and try to find out
+
+557
+00:20:36,640 --> 00:20:41,120
+what kind of rules it learn but it does
+
+558
+00:20:38,799 --> 00:20:44,799
+run learn billions of rules conditional
+
+559
+00:20:41,120 --> 00:20:47,520
+rules across the data that you have. Um
+
+560
+00:20:44,799 --> 00:20:50,000
+it takes weeks or months to do the first
+
+561
+00:20:47,520 --> 00:20:52,880
+two. Um first one primarily because of
+
+562
+00:20:50,000 --> 00:20:55,120
+the approval and and access control
+
+563
+00:20:52,880 --> 00:20:56,799
+overcoming the access control policies.
+
+564
+00:20:55,120 --> 00:20:58,559
+The second one is simply just writing
+
+565
+00:20:56,799 --> 00:21:00,400
+the rules writing the rules and
+
+566
+00:20:58,559 --> 00:21:02,559
+maintaining them. And if you add up it
+
+567
+00:21:00,400 --> 00:21:05,039
+takes a lot of time for that. The third
+
+568
+00:21:02,559 --> 00:21:06,720
+one is just hours. Um you are able to
+
+569
+00:21:05,039 --> 00:21:08,960
+build the model. You'll still need some
+
+570
+00:21:06,720 --> 00:21:10,559
+real data. So you can ask that well we
+
+571
+00:21:08,960 --> 00:21:12,559
+need access for that. But most people
+
+572
+00:21:10,559 --> 00:21:14,640
+are okay giving access to real data as
+
+573
+00:21:12,559 --> 00:21:16,960
+long as what comes out is a model and
+
+574
+00:21:14,640 --> 00:21:18,600
+not the real data. a model that you can
+
+575
+00:21:16,960 --> 00:21:25,320
+transport to different different
+
+576
+00:21:18,600 --> 00:21:28,559
+locations. Um he's saying no he's
+
+577
+00:21:25,320 --> 00:21:31,120
+um since then that one application that
+
+578
+00:21:28,559 --> 00:21:34,320
+example I I walked through um there have
+
+579
+00:21:31,120 --> 00:21:37,080
+been several um applications of this
+
+580
+00:21:34,320 --> 00:21:39,360
+technology across ING and across other
+
+581
+00:21:37,080 --> 00:21:41,039
+enterprises. I talked a little bit about
+
+582
+00:21:39,360 --> 00:21:42,880
+functional testing. My example was about
+
+583
+00:21:41,039 --> 00:21:44,480
+functional testing but there's been
+
+584
+00:21:42,880 --> 00:21:46,240
+applications where people do performance
+
+585
+00:21:44,480 --> 00:21:48,240
+testing. So you just build a model and
+
+586
+00:21:46,240 --> 00:21:49,840
+generate a lot of data and from that
+
+587
+00:21:48,240 --> 00:21:51,280
+data you're just testing whether your
+
+588
+00:21:49,840 --> 00:21:54,480
+application meets the SLAs's and
+
+589
+00:21:51,280 --> 00:21:56,320
+performance requirements. Um there is
+
+590
+00:21:54,480 --> 00:21:59,200
+testing thirdparty integration. So this
+
+591
+00:21:56,320 --> 00:22:01,840
+was another case where there is a third
+
+592
+00:21:59,200 --> 00:22:03,919
+party software application that you
+
+593
+00:22:01,840 --> 00:22:05,679
+integrate with. Um but the thing was
+
+594
+00:22:03,919 --> 00:22:08,960
+that when you give it the data it does
+
+595
+00:22:05,679 --> 00:22:10,480
+work very slowly. It slows down on on
+
+596
+00:22:08,960 --> 00:22:13,200
+their test data. they're reporting an
+
+597
+00:22:10,480 --> 00:22:15,440
+SLA of like you know 100,000
+
+598
+00:22:13,200 --> 00:22:17,280
+transactions per second or whatnot but
+
+599
+00:22:15,440 --> 00:22:19,200
+when you try to like put your real data
+
+600
+00:22:17,280 --> 00:22:21,039
+this is a banking banking institution
+
+601
+00:22:19,200 --> 00:22:23,679
+trying to put the real data it takes
+
+602
+00:22:21,039 --> 00:22:25,360
+like 2 three hours and so that that has
+
+603
+00:22:23,679 --> 00:22:28,080
+been going on for months between the two
+
+604
+00:22:25,360 --> 00:22:30,080
+parties and eventually I think the best
+
+605
+00:22:28,080 --> 00:22:31,760
+way for them to mitigate that was to
+
+606
+00:22:30,080 --> 00:22:34,400
+give some synthetic data that
+
+607
+00:22:31,760 --> 00:22:36,480
+representative of their the bank's real
+
+608
+00:22:34,400 --> 00:22:38,080
+data and give it to them and they said
+
+609
+00:22:36,480 --> 00:22:40,240
+every time you release a new version of
+
+610
+00:22:38,080 --> 00:22:42,080
+your software test with this data please
+
+611
+00:22:40,240 --> 00:22:44,640
+and that actually mitigated a lot of
+
+612
+00:22:42,080 --> 00:22:46,400
+these bottlenecks uh and the performance
+
+613
+00:22:44,640 --> 00:22:48,400
+issues that they were seeing. There's
+
+614
+00:22:46,400 --> 00:22:52,559
+also API testing. So there's a lot of
+
+615
+00:22:48,400 --> 00:22:53,840
+API based microservices that now are per
+
+616
+00:22:52,559 --> 00:22:55,760
+have to be performant when they're
+
+617
+00:22:53,840 --> 00:22:58,240
+interacting with each other and you can
+
+618
+00:22:55,760 --> 00:23:00,559
+generate synthetic API data as well just
+
+619
+00:22:58,240 --> 00:23:03,280
+like how we generated JSONs to use use
+
+620
+00:23:00,559 --> 00:23:05,799
+for that testing as well. I will just go
+
+621
+00:23:03,280 --> 00:23:09,600
+through a few items on
+
+622
+00:23:05,799 --> 00:23:13,080
+um I think I mean how much time do you
+
+623
+00:23:09,600 --> 00:23:13,080
+have do I have?
+
+624
+00:23:13,320 --> 00:23:18,240
+Okay, got it. So I'll just go through a
+
+625
+00:23:16,159 --> 00:23:21,120
+few more additional complexities when we
+
+626
+00:23:18,240 --> 00:23:24,000
+go to enterpriseg grade data um beyond
+
+627
+00:23:21,120 --> 00:23:26,480
+the multi-table aspect of it which is a
+
+628
+00:23:24,000 --> 00:23:28,240
+big as which is a big sort of uh
+
+629
+00:23:26,480 --> 00:23:30,159
+requirement for enterprise data. I mean
+
+630
+00:23:28,240 --> 00:23:31,840
+if you don't have a multi-table solution
+
+631
+00:23:30,159 --> 00:23:33,679
+to generate synthetic data you really
+
+632
+00:23:31,840 --> 00:23:36,080
+don't have anything for enterprises
+
+633
+00:23:33,679 --> 00:23:39,600
+because most enterprises do not have
+
+634
+00:23:36,080 --> 00:23:41,600
+just data in one table they have 30 40
+
+635
+00:23:39,600 --> 00:23:42,720
+50 tables and most applications even if
+
+636
+00:23:41,600 --> 00:23:44,880
+you go down all the way to the
+
+637
+00:23:42,720 --> 00:23:48,320
+application level most applications at
+
+638
+00:23:44,880 --> 00:23:51,360
+least consume three to five tables uh at
+
+639
+00:23:48,320 --> 00:23:55,360
+at the very least. So you need to have a
+
+640
+00:23:51,360 --> 00:23:56,799
+model that actually is built uh to on on
+
+641
+00:23:55,360 --> 00:23:58,320
+multiple that can account for those
+
+642
+00:23:56,799 --> 00:24:00,240
+multiple tables and build a model for
+
+643
+00:23:58,320 --> 00:24:03,120
+that and sample likewise. But there's
+
+644
+00:24:00,240 --> 00:24:05,039
+more to it and we as we as our SDV
+
+645
+00:24:03,120 --> 00:24:07,120
+proliferated across enterprises and
+
+646
+00:24:05,039 --> 00:24:09,520
+across applications and data sets we
+
+647
+00:24:07,120 --> 00:24:11,600
+started to realize there's more um as
+
+648
+00:24:09,520 --> 00:24:13,600
+more challenges to that and I'll go
+
+649
+00:24:11,600 --> 00:24:16,799
+through a few of them and how we now
+
+650
+00:24:13,600 --> 00:24:19,200
+address um one of the challenges is
+
+651
+00:24:16,799 --> 00:24:21,039
+there is business logic there is a lot
+
+652
+00:24:19,200 --> 00:24:24,400
+of business logic in here so in other
+
+653
+00:24:21,039 --> 00:24:25,960
+words if you have real data on on on the
+
+654
+00:24:24,400 --> 00:24:30,559
+on the
+
+655
+00:24:25,960 --> 00:24:33,440
+left my right all right if you the blue
+
+656
+00:24:30,559 --> 00:24:35,520
+that's why we have the colors the blue
+
+657
+00:24:33,440 --> 00:24:38,760
+you realize that based on the currency
+
+658
+00:24:35,520 --> 00:24:41,120
+the the the range of the amount will
+
+659
+00:24:38,760 --> 00:24:43,520
+change and that is something that's a
+
+660
+00:24:41,120 --> 00:24:44,960
+very you know we all can see it and
+
+661
+00:24:43,520 --> 00:24:46,640
+realize it but algorithms have to
+
+662
+00:24:44,960 --> 00:24:48,799
+automatically recognize it and model
+
+663
+00:24:46,640 --> 00:24:51,279
+that. So that is buried inside the data
+
+664
+00:24:48,799 --> 00:24:53,120
+and your your synthetic data also have
+
+665
+00:24:51,279 --> 00:24:55,279
+to emulate that. It has to understand
+
+666
+00:24:53,120 --> 00:24:57,919
+based on that column there is actually
+
+667
+00:24:55,279 --> 00:25:00,320
+changes in the currency ranges and so
+
+668
+00:24:57,919 --> 00:25:02,240
+forth. So that's the second thing that I
+
+669
+00:25:00,320 --> 00:25:03,919
+would say is like there's a sprawl of
+
+670
+00:25:02,240 --> 00:25:05,240
+data types. So you have phone numbers,
+
+671
+00:25:03,919 --> 00:25:09,039
+addresses,
+
+672
+00:25:05,240 --> 00:25:12,320
+geolocations, URLs, name it you have it
+
+673
+00:25:09,039 --> 00:25:13,840
+is perhaps 200 IBAN credit card numbers
+
+674
+00:25:12,320 --> 00:25:14,960
+and so on and so forth. So what is the
+
+675
+00:25:13,840 --> 00:25:16,799
+challenge with it? The simplest thing
+
+676
+00:25:14,960 --> 00:25:18,320
+you could do is you could take the data
+
+677
+00:25:16,799 --> 00:25:20,400
+and then you could just create fake
+
+678
+00:25:18,320 --> 00:25:21,760
+data. There's a library called faker. So
+
+679
+00:25:20,400 --> 00:25:24,159
+you can just create fake credit card
+
+680
+00:25:21,760 --> 00:25:26,080
+numbers, fake uh phone numbers and so on
+
+681
+00:25:24,159 --> 00:25:27,919
+and so forth. But the problem with that
+
+682
+00:25:26,080 --> 00:25:30,159
+is that the synthetic data then doesn't
+
+683
+00:25:27,919 --> 00:25:32,000
+look real. So in your real data, if you
+
+684
+00:25:30,159 --> 00:25:34,640
+had a distribution where phone number
+
+685
+00:25:32,000 --> 00:25:37,440
+they were 40% from New York, 20% person
+
+686
+00:25:34,640 --> 00:25:38,559
+from Massachusetts and 40% from Ohio,
+
+687
+00:25:37,440 --> 00:25:40,640
+you would like to have that
+
+688
+00:25:38,559 --> 00:25:42,640
+representation in the in the synthetic
+
+689
+00:25:40,640 --> 00:25:44,320
+data as well. So ideally what you would
+
+690
+00:25:42,640 --> 00:25:46,080
+do is you would take the phone number,
+
+691
+00:25:44,320 --> 00:25:47,520
+you extract a whole bunch of context
+
+692
+00:25:46,080 --> 00:25:50,720
+from that phone number. So where is
+
+693
+00:25:47,520 --> 00:25:52,400
+which state it is from? Uh what is the
+
+694
+00:25:50,720 --> 00:25:53,919
+other attributes of it? If it's a
+
+695
+00:25:52,400 --> 00:25:56,720
+different country, you extract that as
+
+696
+00:25:53,919 --> 00:25:59,279
+well. And then you model that and when
+
+697
+00:25:56,720 --> 00:26:02,240
+you sample it, you sample a number with
+
+698
+00:25:59,279 --> 00:26:04,000
+that context in in in place and but not
+
+699
+00:26:02,240 --> 00:26:05,840
+the original number. There's another
+
+700
+00:26:04,000 --> 00:26:08,000
+challenge. You have to make sure that
+
+701
+00:26:05,840 --> 00:26:09,679
+number doesn't belong to someone else.
+
+702
+00:26:08,000 --> 00:26:11,840
+It's very hard to do that. But there is
+
+703
+00:26:09,679 --> 00:26:14,480
+an API you can actually check. So the
+
+704
+00:26:11,840 --> 00:26:16,320
+end toend journey of how you create
+
+705
+00:26:14,480 --> 00:26:18,480
+phone numbers, synthetic phone numbers
+
+706
+00:26:16,320 --> 00:26:21,200
+that will represent in distribution and
+
+707
+00:26:18,480 --> 00:26:23,520
+frequency as if as if your real data is
+
+708
+00:26:21,200 --> 00:26:26,000
+a lot is a lot of work goes behind the
+
+709
+00:26:23,520 --> 00:26:28,400
+scenes and we have to address it. We had
+
+710
+00:26:26,000 --> 00:26:30,400
+to address at least like there's 100 to
+
+711
+00:26:28,400 --> 00:26:33,039
+200 different data types like this
+
+712
+00:26:30,400 --> 00:26:35,360
+different things latl long for example
+
+713
+00:26:33,039 --> 00:26:37,840
+um and sometimes you have to generate
+
+714
+00:26:35,360 --> 00:26:39,360
+them together. So latl long you can't
+
+715
+00:26:37,840 --> 00:26:41,600
+generate them independently as you can
+
+716
+00:26:39,360 --> 00:26:42,880
+imagine they they are correlated. If you
+
+717
+00:26:41,600 --> 00:26:44,799
+generate them independently you'll end
+
+718
+00:26:42,880 --> 00:26:46,480
+up like with one data point somewhere in
+
+719
+00:26:44,799 --> 00:26:48,400
+the middle of the ocean where you would
+
+720
+00:26:46,480 --> 00:26:50,679
+like to actually generate it right next
+
+721
+00:26:48,400 --> 00:26:53,200
+to where it was.
+
+722
+00:26:50,679 --> 00:26:54,480
+Um biggest thing that we found and we
+
+723
+00:26:53,200 --> 00:26:56,520
+have collected we call them data
+
+724
+00:26:54,480 --> 00:26:59,279
+patterns. They are a result of hidden
+
+725
+00:26:56,520 --> 00:27:00,960
+context. This is this is massive in
+
+726
+00:26:59,279 --> 00:27:02,640
+enterprises right now because what
+
+727
+00:27:00,960 --> 00:27:04,880
+people have done is that if you look at
+
+728
+00:27:02,640 --> 00:27:06,080
+the schema the schema is still fine. You
+
+729
+00:27:04,880 --> 00:27:07,559
+have a primary key and you have a
+
+730
+00:27:06,080 --> 00:27:09,760
+foreign key and you have one to many
+
+731
+00:27:07,559 --> 00:27:12,960
+relationship. But the challenge what you
+
+732
+00:27:09,760 --> 00:27:14,840
+have here is that only people with the
+
+733
+00:27:12,960 --> 00:27:18,720
+premium membership this is just an
+
+734
+00:27:14,840 --> 00:27:21,520
+example have entries in the second table
+
+735
+00:27:18,720 --> 00:27:24,000
+right and application developers know
+
+736
+00:27:21,520 --> 00:27:25,440
+how to process this data because they
+
+737
+00:27:24,000 --> 00:27:27,440
+are looking in their application they
+
+738
+00:27:25,440 --> 00:27:29,039
+have code they're looking for you know
+
+739
+00:27:27,440 --> 00:27:31,760
+premium membership and then only they'll
+
+740
+00:27:29,039 --> 00:27:34,720
+go to this table. So they know how to
+
+741
+00:27:31,760 --> 00:27:36,880
+process this context but nowhere in the
+
+742
+00:27:34,720 --> 00:27:39,039
+database schema there is a there is
+
+743
+00:27:36,880 --> 00:27:42,080
+affordances to save this context. So we
+
+744
+00:27:39,039 --> 00:27:44,240
+call this hidden context and as you can
+
+745
+00:27:42,080 --> 00:27:46,559
+imagine when we generate synthetic data
+
+746
+00:27:44,240 --> 00:27:48,720
+it has to have the same thing replicated
+
+747
+00:27:46,559 --> 00:27:50,240
+as well. So only people with the premium
+
+748
+00:27:48,720 --> 00:27:51,919
+membership should have entries in the
+
+749
+00:27:50,240 --> 00:27:54,080
+second table in the benefits table as
+
+750
+00:27:51,919 --> 00:27:56,399
+well. So there is that sort of challenge
+
+751
+00:27:54,080 --> 00:27:58,840
+as well. we identified 30 or so
+
+752
+00:27:56,399 --> 00:28:01,360
+different data patterns that are uh sort
+
+753
+00:27:58,840 --> 00:28:03,360
+of appearing in many enterprise data
+
+754
+00:28:01,360 --> 00:28:04,960
+sets and now we address them natively.
+
+755
+00:28:03,360 --> 00:28:06,559
+So just like language, language went
+
+756
+00:28:04,960 --> 00:28:08,960
+through a lot of evolution. What you see
+
+757
+00:28:06,559 --> 00:28:10,799
+today is 10 years worth of work and how
+
+758
+00:28:08,960 --> 00:28:13,279
+they made sure that there is coherent
+
+759
+00:28:10,799 --> 00:28:14,799
+language. There is a need for you know
+
+760
+00:28:13,279 --> 00:28:17,120
+there is a lot of work that goes behind
+
+761
+00:28:14,799 --> 00:28:18,799
+in generating structured data that has
+
+762
+00:28:17,120 --> 00:28:20,480
+coherence and that follows all these
+
+763
+00:28:18,799 --> 00:28:22,320
+simple things that you have. Generative
+
+764
+00:28:20,480 --> 00:28:25,600
+models by definition don't capture all
+
+765
+00:28:22,320 --> 00:28:28,159
+of this by by themselves. Um so I just
+
+766
+00:28:25,600 --> 00:28:29,760
+wanted to sort of talk about different
+
+767
+00:28:28,159 --> 00:28:32,480
+levels. Ignore the last one. I think
+
+768
+00:28:29,760 --> 00:28:34,960
+it's level four. But you know we started
+
+769
+00:28:32,480 --> 00:28:37,279
+very with very simple assumption that
+
+770
+00:28:34,960 --> 00:28:40,320
+enterprises have single table data sets.
+
+771
+00:28:37,279 --> 00:28:42,799
+That's not like 90% of them is not the
+
+772
+00:28:40,320 --> 00:28:44,880
+case. Uh there's still 10%. It's still a
+
+773
+00:28:42,799 --> 00:28:47,520
+valid uh synthetic data generation
+
+774
+00:28:44,880 --> 00:28:49,600
+scheme. Um but we you know made sure
+
+775
+00:28:47,520 --> 00:28:51,279
+that single table models work well. they
+
+776
+00:28:49,600 --> 00:28:53,360
+respect all the formatting properties
+
+777
+00:28:51,279 --> 00:28:55,120
+and the minmax ranges and you'd be
+
+778
+00:28:53,360 --> 00:28:57,039
+surprised how challenging it is for them
+
+779
+00:28:55,120 --> 00:28:58,880
+to behave the generative models to
+
+780
+00:28:57,039 --> 00:29:01,440
+behave. So we made sure and that just
+
+781
+00:28:58,880 --> 00:29:03,600
+got us to level zero. Level one we made
+
+782
+00:29:01,440 --> 00:29:06,399
+sure that we can address in a scalable
+
+783
+00:29:03,600 --> 00:29:07,840
+way for 30 to 50 tables or even 100
+
+784
+00:29:06,399 --> 00:29:10,320
+tables. We have been our software has
+
+785
+00:29:07,840 --> 00:29:12,640
+been tested up to 50 tables but there
+
+786
+00:29:10,320 --> 00:29:15,039
+are 100 tables in databases. There have
+
+787
+00:29:12,640 --> 00:29:17,760
+been people have you know asked us could
+
+788
+00:29:15,039 --> 00:29:20,360
+we generate 100 tables worth of model
+
+789
+00:29:17,760 --> 00:29:23,440
+and generate 100 tables worth of data.
+
+790
+00:29:20,360 --> 00:29:25,919
+And the third thing is what I talked
+
+791
+00:29:23,440 --> 00:29:28,080
+about just now hidden context. How do
+
+792
+00:29:25,919 --> 00:29:30,640
+you model the business logic and hidden
+
+793
+00:29:28,080 --> 00:29:32,399
+context we call them constraints and try
+
+794
+00:29:30,640 --> 00:29:33,840
+to generate constraint you know try to
+
+795
+00:29:32,399 --> 00:29:35,360
+make sure that data follows those
+
+796
+00:29:33,840 --> 00:29:36,480
+constraints and how do you generate
+
+797
+00:29:35,360 --> 00:29:38,000
+that? So we call them constraint
+
+798
+00:29:36,480 --> 00:29:39,520
+augmented generation just like how you
+
+799
+00:29:38,000 --> 00:29:41,120
+call retrieval augmented generation. And
+
+800
+00:29:39,520 --> 00:29:43,440
+there's a constraint augmented
+
+801
+00:29:41,120 --> 00:29:45,840
+generation uh in here where you supply
+
+802
+00:29:43,440 --> 00:29:47,120
+some of those rules or or specify that
+
+803
+00:29:45,840 --> 00:29:50,640
+these columns may have a relationship
+
+804
+00:29:47,120 --> 00:29:54,080
+and we take care of it. Um there is a
+
+805
+00:29:50,640 --> 00:29:56,320
+lot of uh interesting situations where
+
+806
+00:29:54,080 --> 00:29:58,799
+people would like to generate data
+
+807
+00:29:56,320 --> 00:30:01,200
+outside the real what the real data has
+
+808
+00:29:58,799 --> 00:30:05,080
+or the training data has. So a classic
+
+809
+00:30:01,200 --> 00:30:09,200
+example is that an insurance application
+
+810
+00:30:05,080 --> 00:30:11,360
+um is only 18 and above are allowed to
+
+811
+00:30:09,200 --> 00:30:13,120
+sign up for the insurance application.
+
+812
+00:30:11,360 --> 00:30:14,399
+So only you know so when you go to the
+
+813
+00:30:13,120 --> 00:30:16,159
+insurance application and if you enter
+
+814
+00:30:14,399 --> 00:30:18,159
+your date of birth it will reject and
+
+815
+00:30:16,159 --> 00:30:20,840
+saying that you are not eligible to sign
+
+816
+00:30:18,159 --> 00:30:23,919
+up for this uh insurance policy or
+
+817
+00:30:20,840 --> 00:30:27,279
+whatnot. As a result the database only
+
+818
+00:30:23,919 --> 00:30:29,760
+has people whose age is 18 and above. So
+
+819
+00:30:27,279 --> 00:30:32,159
+if you get the real data you will only
+
+820
+00:30:29,760 --> 00:30:35,120
+see people who are 18 and above but they
+
+821
+00:30:32,159 --> 00:30:36,720
+also want to generate data that is below
+
+822
+00:30:35,120 --> 00:30:38,720
+18 because they want to test all the
+
+823
+00:30:36,720 --> 00:30:41,279
+logic that they have designed for people
+
+824
+00:30:38,720 --> 00:30:42,880
+below 18. So there's a big we call that
+
+825
+00:30:41,279 --> 00:30:44,480
+out of range sampling. So there's a huge
+
+826
+00:30:42,880 --> 00:30:47,679
+requirement of how to generate data
+
+827
+00:30:44,480 --> 00:30:49,679
+outside um the range that has been seen
+
+828
+00:30:47,679 --> 00:30:51,200
+in the training data. So there's a whole
+
+829
+00:30:49,679 --> 00:30:53,520
+this is just one example. There's like
+
+830
+00:30:51,200 --> 00:30:55,200
+hundreds of examples like this where we
+
+831
+00:30:53,520 --> 00:30:57,279
+categorize into like how do you generate
+
+832
+00:30:55,200 --> 00:31:00,960
+data that you haven't seen before yet be
+
+833
+00:30:57,279 --> 00:31:03,440
+very realistic about it. Um the last but
+
+834
+00:31:00,960 --> 00:31:05,840
+not the least is like this whole process
+
+835
+00:31:03,440 --> 00:31:08,000
+we want to be as automated as possible.
+
+836
+00:31:05,840 --> 00:31:09,919
+Um so that people don't have to worry
+
+837
+00:31:08,000 --> 00:31:11,440
+about all these things when they just
+
+838
+00:31:09,919 --> 00:31:12,880
+like how you're in your language model
+
+839
+00:31:11,440 --> 00:31:14,960
+they have gone all the way that it's
+
+840
+00:31:12,880 --> 00:31:16,880
+very automated. Trust me, 10 years ago,
+
+841
+00:31:14,960 --> 00:31:19,120
+the language models that we were working
+
+842
+00:31:16,880 --> 00:31:21,360
+with as research were were not as good
+
+843
+00:31:19,120 --> 00:31:23,120
+as as as they are today. We would have
+
+844
+00:31:21,360 --> 00:31:24,640
+to curate them. We would have to get the
+
+845
+00:31:23,120 --> 00:31:26,480
+next word and the next word. It was not
+
+846
+00:31:24,640 --> 00:31:29,600
+that automated that you just ask and it
+
+847
+00:31:26,480 --> 00:31:31,279
+get gives you the whole thing. Um and
+
+848
+00:31:29,600 --> 00:31:33,120
+much less, you know, it was not even
+
+849
+00:31:31,279 --> 00:31:35,279
+interactive. So I think even for this
+
+850
+00:31:33,120 --> 00:31:38,000
+area, we've been trying to incrementally
+
+851
+00:31:35,279 --> 00:31:40,720
+build up so that you have models that
+
+852
+00:31:38,000 --> 00:31:42,399
+are um that can capture all the
+
+853
+00:31:40,720 --> 00:31:45,279
+complexity of the data and regenerate
+
+854
+00:31:42,399 --> 00:31:48,240
+it. So hopefully you have you from this
+
+855
+00:31:45,279 --> 00:31:51,360
+talk you saw just the journey of how we
+
+856
+00:31:48,240 --> 00:31:54,960
+went from a lab research project at MIT
+
+857
+00:31:51,360 --> 00:31:56,720
+to you know beginnings of a use case at
+
+858
+00:31:54,960 --> 00:31:58,399
+an enterprise and as a result started to
+
+859
+00:31:56,720 --> 00:32:01,440
+understand the complexity of enterprise
+
+860
+00:31:58,399 --> 00:32:03,440
+data and sort of enhance it um our
+
+861
+00:32:01,440 --> 00:32:06,000
+technology over time with enterprise
+
+862
+00:32:03,440 --> 00:32:07,760
+feedback. I I I do think without that
+
+863
+00:32:06,000 --> 00:32:09,440
+feedback we wouldn't have I mean there's
+
+864
+00:32:07,760 --> 00:32:11,919
+still a lot of academic work that is
+
+865
+00:32:09,440 --> 00:32:14,399
+completely devoid of um understanding
+
+866
+00:32:11,919 --> 00:32:16,000
+the enterprise data and without that I
+
+867
+00:32:14,399 --> 00:32:18,240
+don't think you can actually build
+
+868
+00:32:16,000 --> 00:32:21,039
+anything that is mature and usable uh
+
+869
+00:32:18,240 --> 00:32:24,279
+within an enterprise. So with that I'll
+
+870
+00:32:21,039 --> 00:32:24,279
+take questions.
+
+871
+00:32:25,279 --> 00:32:31,840
+You had your hand up first.
+
+872
+00:32:28,559 --> 00:32:36,000
+Yeah. A real quick question. Does the
+
+873
+00:32:31,840 --> 00:32:37,919
+tool have an UI for users? And also my
+
+874
+00:32:36,000 --> 00:32:40,880
+second question is what is the way to
+
+875
+00:32:37,919 --> 00:32:42,480
+test all the model generated data to
+
+876
+00:32:40,880 --> 00:32:44,559
+make sure the hidden context the
+
+877
+00:32:42,480 --> 00:32:47,360
+constraints etc. you know it really
+
+878
+00:32:44,559 --> 00:32:50,240
+happened. Good. Um the first question is
+
+879
+00:32:47,360 --> 00:32:53,039
+UI for specific parts of the uh tool
+
+880
+00:32:50,240 --> 00:32:54,880
+there is UI. Um we haven't endeavored
+
+881
+00:32:53,039 --> 00:32:57,279
+into doing UI. It just took us a lot of
+
+882
+00:32:54,880 --> 00:32:59,679
+time to build the whole system. Uh the
+
+883
+00:32:57,279 --> 00:33:01,919
+second part of the question we have a we
+
+884
+00:32:59,679 --> 00:33:04,240
+have a whole validation system to check
+
+885
+00:33:01,919 --> 00:33:05,760
+for data integrity. So you to that
+
+886
+00:33:04,240 --> 00:33:07,880
+system you supply the real data and
+
+887
+00:33:05,760 --> 00:33:10,559
+synthetic data and it gives you
+
+888
+00:33:07,880 --> 00:33:12,880
+diagnostics, quality metrics, privacy
+
+889
+00:33:10,559 --> 00:33:14,320
+metrics and efficacy metrics. So there's
+
+890
+00:33:12,880 --> 00:33:18,240
+a whole bunch of metrics that you can
+
+891
+00:33:14,320 --> 00:33:20,000
+get that test for uh all the properties
+
+892
+00:33:18,240 --> 00:33:21,840
+whether the synthetic data is matching
+
+893
+00:33:20,000 --> 00:33:23,519
+all the properties in the real data or
+
+894
+00:33:21,840 --> 00:33:25,200
+not.
+
+895
+00:33:23,519 --> 00:33:27,279
+Well, this was super interesting. So
+
+896
+00:33:25,200 --> 00:33:29,679
+thanks for sharing. Um just trying to
+
+897
+00:33:27,279 --> 00:33:30,960
+tie what you just shared with yesterday.
+
+898
+00:33:29,679 --> 00:33:33,279
+Yesterday there was a talk about
+
+899
+00:33:30,960 --> 00:33:35,279
+healthcare. Mhm. And there's some models
+
+900
+00:33:33,279 --> 00:33:37,960
+where you know they really struggle with
+
+901
+00:33:35,279 --> 00:33:41,200
+certain gender race factors right to
+
+902
+00:33:37,960 --> 00:33:43,279
+predict. Do you see synthetic data being
+
+903
+00:33:41,200 --> 00:33:44,480
+used in the health care space and then
+
+904
+00:33:43,279 --> 00:33:46,240
+just also just curious about the
+
+905
+00:33:44,480 --> 00:33:47,840
+trade-offs of improving the model
+
+906
+00:33:46,240 --> 00:33:51,440
+quality but then maybe potential like
+
+907
+00:33:47,840 --> 00:33:55,360
+ethic you know ethical concerns. So
+
+908
+00:33:51,440 --> 00:33:57,120
+cool. Um so synthetic data is can be
+
+909
+00:33:55,360 --> 00:33:59,840
+used for that that's called debiasing
+
+910
+00:33:57,120 --> 00:34:02,159
+the data. So you can take the data and
+
+911
+00:33:59,840 --> 00:34:04,240
+build the model generative model and
+
+912
+00:34:02,159 --> 00:34:06,320
+then you can specifically ask that give
+
+913
+00:34:04,240 --> 00:34:08,800
+me data for a particular race and
+
+914
+00:34:06,320 --> 00:34:10,960
+particular gender and give me more
+
+915
+00:34:08,800 --> 00:34:13,440
+samples. So what it will do is it will
+
+916
+00:34:10,960 --> 00:34:15,359
+go on it will go I mean behind the
+
+917
+00:34:13,440 --> 00:34:16,879
+scenes what it's doing is it's it has
+
+918
+00:34:15,359 --> 00:34:18,879
+learned enough in the neighborhood of
+
+919
+00:34:16,879 --> 00:34:20,639
+where that data is for that race and
+
+920
+00:34:18,879 --> 00:34:22,960
+gender and it will create data points a
+
+921
+00:34:20,639 --> 00:34:24,320
+little bit around it as well as well as
+
+922
+00:34:22,960 --> 00:34:26,000
+because of of the tales of the
+
+923
+00:34:24,320 --> 00:34:28,320
+distributions a little farther out as
+
+924
+00:34:26,000 --> 00:34:30,879
+well. So a lot of people use that
+
+925
+00:34:28,320 --> 00:34:32,560
+technique to you know you you know when
+
+926
+00:34:30,879 --> 00:34:33,599
+they're building a subsequent model a
+
+927
+00:34:32,560 --> 00:34:37,359
+machine learning model a predictive
+
+928
+00:34:33,599 --> 00:34:39,119
+model to debias that model and the way
+
+929
+00:34:37,359 --> 00:34:40,720
+you know I I I think the machine
+
+930
+00:34:39,119 --> 00:34:42,520
+learning model is able to use that
+
+931
+00:34:40,720 --> 00:34:46,359
+synthetic data is that it doesn't
+
+932
+00:34:42,520 --> 00:34:49,440
+overfit if you have less of a particular
+
+933
+00:34:46,359 --> 00:34:51,359
+demographic it tries to overfit that uh
+
+934
+00:34:49,440 --> 00:34:54,440
+so it just generalizes it a little bit
+
+935
+00:34:51,359 --> 00:34:57,680
+better and there is metrics directly to
+
+936
+00:34:54,440 --> 00:35:02,480
+measure the fairness and the quality of
+
+937
+00:34:57,680 --> 00:35:04,480
+your um model trained on data. Um so I
+
+938
+00:35:02,480 --> 00:35:06,240
+think that those metrics are helpful to
+
+939
+00:35:04,480 --> 00:35:08,720
+fine-tune the synthetic data generation
+
+940
+00:35:06,240 --> 00:35:12,800
+as well.
+
+941
+00:35:08,720 --> 00:35:14,400
+So um on the human aspect people the bis
+
+942
+00:35:12,800 --> 00:35:16,000
+bankers was using humans and I think
+
+943
+00:35:14,400 --> 00:35:17,920
+because the humans can identify that
+
+944
+00:35:16,000 --> 00:35:20,079
+frontier case where outside the real
+
+945
+00:35:17,920 --> 00:35:22,079
+data what are possible go wrong so kind
+
+946
+00:35:20,079 --> 00:35:24,640
+of the the where the limit of of of
+
+947
+00:35:22,079 --> 00:35:27,359
+logic is for the system. So I'm curious
+
+948
+00:35:24,640 --> 00:35:29,119
+in the synthetic data and the data that
+
+949
+00:35:27,359 --> 00:35:30,640
+goes outside the real data, how does
+
+950
+00:35:29,119 --> 00:35:32,800
+that compare to what the edge case that
+
+951
+00:35:30,640 --> 00:35:34,240
+a human can come up with versus the edge
+
+952
+00:35:32,800 --> 00:35:36,560
+case that actually the data the
+
+953
+00:35:34,240 --> 00:35:38,160
+synthetic data gives you?
+
+954
+00:35:36,560 --> 00:35:40,880
+It's a it's a very hard question to
+
+955
+00:35:38,160 --> 00:35:43,040
+assess whether the the what human came
+
+956
+00:35:40,880 --> 00:35:45,520
+up with is is it better that the
+
+957
+00:35:43,040 --> 00:35:47,200
+generative model did better than human
+
+958
+00:35:45,520 --> 00:35:48,960
+because then we would outside the real
+
+959
+00:35:47,200 --> 00:35:51,440
+data outside the real data because we
+
+960
+00:35:48,960 --> 00:35:54,800
+would have to you know ask humans to
+
+961
+00:35:51,440 --> 00:35:57,440
+create that um to test it really you
+
+962
+00:35:54,800 --> 00:35:59,760
+know one-on-one testing but from our
+
+963
+00:35:57,440 --> 00:36:01,680
+experience what we have seen is that
+
+964
+00:35:59,760 --> 00:36:04,000
+when it does generate outside the real
+
+965
+00:36:01,680 --> 00:36:06,000
+data it is useful depends on the
+
+966
+00:36:04,000 --> 00:36:07,599
+downstream application it is useful for
+
+967
+00:36:06,000 --> 00:36:09,599
+whether it's useful or not for the
+
+968
+00:36:07,599 --> 00:36:11,599
+downstream application is something that
+
+969
+00:36:09,599 --> 00:36:15,599
+we can test because most of the times
+
+970
+00:36:11,599 --> 00:36:18,240
+downstream applications do have um a way
+
+971
+00:36:15,599 --> 00:36:21,280
+to measure you know you know something
+
+972
+00:36:18,240 --> 00:36:23,200
+to measure right so a classic example is
+
+973
+00:36:21,280 --> 00:36:26,640
+that you know one of the companies that
+
+974
+00:36:23,200 --> 00:36:28,400
+we work with they develop new products
+
+975
+00:36:26,640 --> 00:36:30,640
+and they have attributes and they do
+
+976
+00:36:28,400 --> 00:36:32,800
+panels where the consumers give the
+
+977
+00:36:30,640 --> 00:36:34,560
+liking and they tweak the attributes and
+
+978
+00:36:32,800 --> 00:36:36,160
+so on and so forth and they projected
+
+979
+00:36:34,560 --> 00:36:38,079
+that. So that's a whole human-driven
+
+980
+00:36:36,160 --> 00:36:39,920
+process. Somebody's actually building
+
+981
+00:36:38,079 --> 00:36:41,599
+those products and and and designing
+
+982
+00:36:39,920 --> 00:36:43,359
+those by changing the attributes react
+
+983
+00:36:41,599 --> 00:36:45,359
+building looking at the reaction of the
+
+984
+00:36:43,359 --> 00:36:47,440
+consumers and so on so forth. So they
+
+985
+00:36:45,359 --> 00:36:49,280
+used they created synthetic products and
+
+986
+00:36:47,440 --> 00:36:52,240
+their estimate of the what the humans
+
+987
+00:36:49,280 --> 00:36:54,400
+would be uh whether you know like or not
+
+988
+00:36:52,240 --> 00:36:55,599
+do not like and it turned out a lot of
+
+989
+00:36:54,400 --> 00:36:57,119
+products that were created by the
+
+990
+00:36:55,599 --> 00:36:59,200
+synthetic data generator. So these are
+
+991
+00:36:57,119 --> 00:37:01,599
+not the one that are seen were very
+
+992
+00:36:59,200 --> 00:37:04,240
+similar to the ones that they had
+
+993
+00:37:01,599 --> 00:37:06,880
+created. Um so that actually gave some
+
+994
+00:37:04,240 --> 00:37:06,880
+validation to
+
+995
+00:37:12,280 --> 00:37:21,440
+them only for data or does it
+
+996
+00:37:16,680 --> 00:37:23,520
+work non relational database? Um it does
+
+997
+00:37:21,440 --> 00:37:26,800
+work on non- relational databases as
+
+998
+00:37:23,520 --> 00:37:29,839
+well. Um you just have to specify the
+
+999
+00:37:26,800 --> 00:37:31,839
+connections if they are connections. Um
+
+1000
+00:37:29,839 --> 00:37:36,280
+but it does work. it doesn't necessarily
+
+1001
+00:37:31,839 --> 00:37:36,280
+only need the relational databases.
+
+1002
+00:37:37,200 --> 00:37:42,640
+What is your take on time series and
+
+1003
+00:37:39,920 --> 00:37:46,079
+especially multivariate
+
+1004
+00:37:42,640 --> 00:37:48,240
+multivariate time series? So we do have
+
+1005
+00:37:46,079 --> 00:37:50,160
+models that are able to create time
+
+1006
+00:37:48,240 --> 00:37:52,720
+series as well multivariate time series
+
+1007
+00:37:50,160 --> 00:37:55,520
+as well. The challenges in time series
+
+1008
+00:37:52,720 --> 00:37:58,160
+are um not just the multivaried I think
+
+1009
+00:37:55,520 --> 00:38:00,560
+there's a lot of again hidden context.
+
+1010
+00:37:58,160 --> 00:38:02,240
+So there are control signals that
+
+1011
+00:38:00,560 --> 00:38:03,520
+specify what the distribution of the
+
+1012
+00:38:02,240 --> 00:38:05,119
+other time series are. So there are
+
+1013
+00:38:03,520 --> 00:38:07,920
+signals that you there variables that
+
+1014
+00:38:05,119 --> 00:38:10,480
+you can control. Um so for example in in
+
+1015
+00:38:07,920 --> 00:38:12,800
+win turbine case there is actually you
+
+1016
+00:38:10,480 --> 00:38:14,560
+know how much speed you're not
+
+1017
+00:38:12,800 --> 00:38:16,000
+necessarily speed but there's variables
+
+1018
+00:38:14,560 --> 00:38:17,599
+that you can say like I'm going to
+
+1019
+00:38:16,000 --> 00:38:19,359
+operate in this regime versus this
+
+1020
+00:38:17,599 --> 00:38:21,200
+regime versus this regime. So now that's
+
+1021
+00:38:19,359 --> 00:38:23,200
+a control variable. It has values 1 2
+
+1022
+00:38:21,200 --> 00:38:26,079
+and three but the users control it. It's
+
+1023
+00:38:23,200 --> 00:38:27,560
+not observational data. based on that
+
+1024
+00:38:26,079 --> 00:38:29,440
+your other time series change
+
+1025
+00:38:27,560 --> 00:38:31,200
+distributions. There's correlations
+
+1026
+00:38:29,440 --> 00:38:33,040
+between different time series. There is
+
+1027
+00:38:31,200 --> 00:38:35,760
+causality between time series. So it's
+
+1028
+00:38:33,040 --> 00:38:37,599
+actually it itself has a lot of issues
+
+1029
+00:38:35,760 --> 00:38:39,760
+in terms of being able to model and
+
+1030
+00:38:37,599 --> 00:38:42,560
+regenerate it. Does that answer your
+
+1031
+00:38:39,760 --> 00:38:46,160
+question? I was curious if your tool is
+
+1032
+00:38:42,560 --> 00:38:48,920
+sort of could be an option or not. And
+
+1033
+00:38:46,160 --> 00:38:51,280
+it is. It is an
+
+1034
+00:38:48,920 --> 00:38:53,920
+option. Right. I think we'll wrap up
+
+1035
+00:38:51,280 --> 00:38:55,359
+now. Let's uh give it up for Calan.
+
+1036
+00:38:53,920 --> 00:38:58,680
+Thank you.
+
+1037
+00:38:55,359 --> 00:38:58,680
+Great job.
+

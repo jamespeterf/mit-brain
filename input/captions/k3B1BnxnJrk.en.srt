@@ -1,0 +1,700 @@
+1
+00:00:01,520 --> 00:00:06,360
+Up next, please welcome Bevel Software.
+
+2
+00:00:06,799 --> 00:00:10,559
+Bevel Software, which is uses NAI
+
+3
+00:00:08,960 --> 00:00:12,639
+enhanced step-by-step reverse
+
+4
+00:00:10,559 --> 00:00:14,799
+engineering approach to help companies
+
+5
+00:00:12,639 --> 00:00:17,799
+quickly adapt to change with minimal
+
+6
+00:00:14,799 --> 00:00:17,799
+risk.
+
+7
+00:00:18,560 --> 00:00:25,640
+>> Okay. Hello everyone. Um, let me try the
+
+8
+00:00:22,240 --> 00:00:25,640
+pager here.
+
+9
+00:00:27,760 --> 00:00:30,760
+Oh.
+
+10
+00:00:30,960 --> 00:00:33,840
+Spoilers.
+
+11
+00:00:32,750 --> 00:00:35,840
+[laughter]
+
+12
+00:00:33,840 --> 00:00:37,680
+All right. Hello everyone. So I'm the
+
+13
+00:00:35,840 --> 00:00:39,840
+founder of Bevel. I was a previous
+
+14
+00:00:37,680 --> 00:00:41,360
+researcher at CCI under Thomas Malone
+
+15
+00:00:39,840 --> 00:00:43,040
+where I started to see a little bit of
+
+16
+00:00:41,360 --> 00:00:44,879
+the challenges of deploying agents in
+
+17
+00:00:43,040 --> 00:00:47,440
+industrial settings. I'll talk to you
+
+18
+00:00:44,879 --> 00:00:50,239
+today about UTCP and how to integrate
+
+19
+00:00:47,440 --> 00:00:53,520
+LLMs and agents securely in your
+
+20
+00:00:50,239 --> 00:00:55,360
+organization. So before we get too much
+
+21
+00:00:53,520 --> 00:00:57,600
+in the crux of it um why is this
+
+22
+00:00:55,360 --> 00:00:59,039
+important especially at coms the next
+
+23
+00:00:57,600 --> 00:01:01,760
+phase of the engine is being defined and
+
+24
+00:00:59,039 --> 00:01:03,440
+it's going to be agentic in some way and
+
+25
+00:01:01,760 --> 00:01:06,479
+it's going to be a lot of connecting
+
+26
+00:01:03,440 --> 00:01:08,320
+capabilities and APIs to agents. The
+
+27
+00:01:06,479 --> 00:01:11,840
+question is what are agents? What is
+
+28
+00:01:08,320 --> 00:01:14,320
+tool calling? Well, LM agents are
+
+29
+00:01:11,840 --> 00:01:16,400
+autonomous LMS that make decisions under
+
+30
+00:01:14,320 --> 00:01:18,159
+complex environments and tool calling is
+
+31
+00:01:16,400 --> 00:01:20,479
+giving them these superpowers, these
+
+32
+00:01:18,159 --> 00:01:22,479
+capabilities, connecting them to the web
+
+33
+00:01:20,479 --> 00:01:24,080
+browser, connecting them to Gmail,
+
+34
+00:01:22,479 --> 00:01:27,200
+letting them be able to take decisions
+
+35
+00:01:24,080 --> 00:01:29,520
+and kind of act in those environments.
+
+36
+00:01:27,200 --> 00:01:30,960
+Now, what is the problem? Well, actually
+
+37
+00:01:29,520 --> 00:01:32,159
+deploying this, I don't know if anyone
+
+38
+00:01:30,960 --> 00:01:34,640
+has ever tried, but deploying the
+
+39
+00:01:32,159 --> 00:01:36,400
+deploying this securely in industry is
+
+40
+00:01:34,640 --> 00:01:37,680
+actually very very challenging. The
+
+41
+00:01:36,400 --> 00:01:40,000
+reason is because you have three
+
+42
+00:01:37,680 --> 00:01:41,439
+options. The first one is to do nothing
+
+43
+00:01:40,000 --> 00:01:43,600
+and wait for the technology to get
+
+44
+00:01:41,439 --> 00:01:45,280
+better, which happens. But if you don't
+
+45
+00:01:43,600 --> 00:01:48,560
+want to be left behind, what you can do
+
+46
+00:01:45,280 --> 00:01:51,680
+is also build custom API integrations to
+
+47
+00:01:48,560 --> 00:01:53,439
+every agent. And once you're dealing
+
+48
+00:01:51,680 --> 00:01:55,200
+with tens or dozens or hundreds of
+
+49
+00:01:53,439 --> 00:01:58,640
+agents and dealing with hundreds of
+
+50
+00:01:55,200 --> 00:02:00,799
+APIs, this becomes a very technic like a
+
+51
+00:01:58,640 --> 00:02:02,399
+very large engineering effort. The other
+
+52
+00:02:00,799 --> 00:02:05,439
+option is to use existing protocols such
+
+53
+00:02:02,399 --> 00:02:08,080
+as MCP that um Dr. Clark talked about
+
+54
+00:02:05,439 --> 00:02:10,080
+earlier um to connect your internal APIs
+
+55
+00:02:08,080 --> 00:02:12,080
+and your internal capabilities to your
+
+56
+00:02:10,080 --> 00:02:13,440
+LM agents. But the problem with that is
+
+57
+00:02:12,080 --> 00:02:15,520
+actually it's not secure. You're adding
+
+58
+00:02:13,440 --> 00:02:17,760
+a new calling layer that is not battle
+
+59
+00:02:15,520 --> 00:02:20,319
+tested, that is not used before and
+
+60
+00:02:17,760 --> 00:02:22,000
+increasing the attack surface. So kind
+
+61
+00:02:20,319 --> 00:02:23,599
+of to summarize this, you could rebuild
+
+62
+00:02:22,000 --> 00:02:25,680
+all the tool integrations to your
+
+63
+00:02:23,599 --> 00:02:28,480
+agents. You could use existing protocols
+
+64
+00:02:25,680 --> 00:02:32,400
+and and improve the increase the attack
+
+65
+00:02:28,480 --> 00:02:34,239
+surfaces and and the security risk. But
+
+66
+00:02:32,400 --> 00:02:36,480
+what if there was a fourth option? What
+
+67
+00:02:34,239 --> 00:02:39,200
+if you could use UTCP that is both
+
+68
+00:02:36,480 --> 00:02:41,519
+scalable and secure?
+
+69
+00:02:39,200 --> 00:02:43,280
+What is UTCP? Well, UTCP is a protocol
+
+70
+00:02:41,519 --> 00:02:45,360
+that actually uses your battle tested
+
+71
+00:02:43,280 --> 00:02:47,519
+infrastructure to connect it to the API.
+
+72
+00:02:45,360 --> 00:02:50,160
+It's secure, it's scalable, and it's
+
+73
+00:02:47,519 --> 00:02:52,239
+neutral by definition. It's secure
+
+74
+00:02:50,160 --> 00:02:53,760
+because it connects it makes the
+
+75
+00:02:52,239 --> 00:02:57,360
+connection directly without having to
+
+76
+00:02:53,760 --> 00:02:58,959
+add a new layer. Um, that could be a
+
+77
+00:02:57,360 --> 00:03:00,879
+security challenge. It's scalable
+
+78
+00:02:58,959 --> 00:03:04,000
+because it's lightweight and very easy
+
+79
+00:03:00,879 --> 00:03:05,840
+to implement for the agents and it's
+
+80
+00:03:04,000 --> 00:03:07,280
+completely open source and neutral.
+
+81
+00:03:05,840 --> 00:03:09,599
+We're actually even talking to the Linux
+
+82
+00:03:07,280 --> 00:03:12,239
+Foundation so to make sure that UTCP is
+
+83
+00:03:09,599 --> 00:03:14,560
+as vendor neutral as possible.
+
+84
+00:03:12,239 --> 00:03:16,400
+Now what is the secret sauce? Why does
+
+85
+00:03:14,560 --> 00:03:18,560
+this work? Well, let me compare a very
+
+86
+00:03:16,400 --> 00:03:20,800
+quick comparison to MCP maybe to get a
+
+87
+00:03:18,560 --> 00:03:22,640
+hands-on who knows about MCP in this
+
+88
+00:03:20,800 --> 00:03:26,159
+room.
+
+89
+00:03:22,640 --> 00:03:28,239
+All right. Um, so MCP, what MCP does is
+
+90
+00:03:26,159 --> 00:03:29,920
+it adds a new server between your API
+
+91
+00:03:28,239 --> 00:03:32,239
+and your agent. That creates a huge
+
+92
+00:03:29,920 --> 00:03:34,000
+security risk because it could either be
+
+93
+00:03:32,239 --> 00:03:35,680
+an MCP server that you don't know or
+
+94
+00:03:34,000 --> 00:03:37,120
+even if you build it yourself, it could
+
+95
+00:03:35,680 --> 00:03:39,920
+be a new attack surface for people to
+
+96
+00:03:37,120 --> 00:03:42,319
+jam. However, with UTCP, what we do is
+
+97
+00:03:39,920 --> 00:03:44,400
+we actually do these instruction set,
+
+98
+00:03:42,319 --> 00:03:46,159
+these descriptions, what we call
+
+99
+00:03:44,400 --> 00:03:48,640
+templates that just describe to the
+
+100
+00:03:46,159 --> 00:03:50,319
+agent how to call the API, what par
+
+101
+00:03:48,640 --> 00:03:52,799
+parameters are used, and what data does
+
+102
+00:03:50,319 --> 00:03:54,400
+it need, etc., etc., etc. But that way
+
+103
+00:03:52,799 --> 00:03:56,959
+keeps the security in check and the
+
+104
+00:03:54,400 --> 00:03:58,640
+scalability also
+
+105
+00:03:56,959 --> 00:04:00,480
+implemented.
+
+106
+00:03:58,640 --> 00:04:01,760
+So we have already been working with
+
+107
+00:04:00,480 --> 00:04:04,000
+companies to actually implement this and
+
+108
+00:04:01,760 --> 00:04:05,680
+we see the engineering effort is so much
+
+109
+00:04:04,000 --> 00:04:07,599
+less. You don't need a new MCP server
+
+110
+00:04:05,680 --> 00:04:09,120
+for every API. You don't need to buy to
+
+111
+00:04:07,599 --> 00:04:12,239
+build custom integrations for every
+
+112
+00:04:09,120 --> 00:04:14,480
+agent. Um the workload is much much more
+
+113
+00:04:12,239 --> 00:04:17,280
+lightweight meaning faster innovation
+
+114
+00:04:14,480 --> 00:04:19,600
+for you, less engineers and stronger
+
+115
+00:04:17,280 --> 00:04:21,680
+capabilities faster. For example, we're
+
+116
+00:04:19,600 --> 00:04:23,360
+working with senior architects at AWS
+
+117
+00:04:21,680 --> 00:04:25,840
+that have a lot of independent server
+
+118
+00:04:23,360 --> 00:04:28,479
+providers. And these ISPs have just a
+
+119
+00:04:25,840 --> 00:04:30,400
+lot a lot a lot of internal APIs. And
+
+120
+00:04:28,479 --> 00:04:32,479
+what Luca Prosi said, for example, a
+
+121
+00:04:30,400 --> 00:04:33,680
+senior architect at AWS was that they
+
+122
+00:04:32,479 --> 00:04:35,600
+could reimplement everything
+
+123
+00:04:33,680 --> 00:04:37,600
+theoretically for their clients, but it
+
+124
+00:04:35,600 --> 00:04:39,280
+was just too much work to do with MCP.
+
+125
+00:04:37,600 --> 00:04:41,120
+And with UTCP, they get the security
+
+126
+00:04:39,280 --> 00:04:43,919
+they need, the scalability at a fraction
+
+127
+00:04:41,120 --> 00:04:45,919
+of the engineering effort. So if you
+
+128
+00:04:43,919 --> 00:04:47,840
+want to deploy LLM agents and you want
+
+129
+00:04:45,919 --> 00:04:49,440
+to do it faster and securely, we'd love
+
+130
+00:04:47,840 --> 00:04:51,680
+to talk to you. We'll be at the exhibit
+
+131
+00:04:49,440 --> 00:04:53,280
+right there. Um I would love to speak
+
+132
+00:04:51,680 --> 00:04:55,280
+about how you can make autonomous
+
+133
+00:04:53,280 --> 00:04:56,880
+agentic first organizations. Thank you
+
+134
+00:04:55,280 --> 00:04:58,683
+very much and it was a pleasure talking
+
+135
+00:04:56,880 --> 00:05:00,080
+to you.
+
+136
+00:04:58,683 --> 00:05:02,240
+[applause]
+
+137
+00:05:00,080 --> 00:05:05,240
+>> Thanks Juan. Any questions from the
+
+138
+00:05:02,240 --> 00:05:05,240
+audience?
+
+139
+00:05:06,320 --> 00:05:10,160
+>> Well, can you tell me why do other
+
+140
+00:05:07,759 --> 00:05:13,520
+protocols fall short fall short in the
+
+141
+00:05:10,160 --> 00:05:15,759
+security? Yeah. So actually the only
+
+142
+00:05:13,520 --> 00:05:17,680
+other protocol is MCP. Um the other
+
+143
+00:05:15,759 --> 00:05:19,440
+protocols I don't know how this works.
+
+144
+00:05:17,680 --> 00:05:22,400
+The other protocols are usually agent to
+
+145
+00:05:19,440 --> 00:05:24,160
+agent or even agent commerce but MCP
+
+146
+00:05:22,400 --> 00:05:25,360
+specifically just improves the attack
+
+147
+00:05:24,160 --> 00:05:27,600
+surface whenever you're building it
+
+148
+00:05:25,360 --> 00:05:29,280
+yourself. And what happens a lot is
+
+149
+00:05:27,600 --> 00:05:30,880
+there are existing MCP servers you
+
+150
+00:05:29,280 --> 00:05:33,120
+connect can connect your agents to but
+
+151
+00:05:30,880 --> 00:05:35,120
+they are unverified and they could be
+
+152
+00:05:33,120 --> 00:05:37,360
+they could inject malware or inject a
+
+153
+00:05:35,120 --> 00:05:40,000
+lot of bad context to your LM agents. So
+
+154
+00:05:37,360 --> 00:05:43,360
+UTCP kind of uses existing
+
+155
+00:05:40,000 --> 00:05:44,720
+infrastructure instead.
+
+156
+00:05:43,360 --> 00:05:47,280
+>> Any more audience?
+
+157
+00:05:44,720 --> 00:05:49,759
+>> Okay, one more question. Why does UTCP
+
+158
+00:05:47,280 --> 00:05:53,680
+require less engineering effort?
+
+159
+00:05:49,759 --> 00:05:56,320
+>> Yeah, so once you have like hundreds or
+
+160
+00:05:53,680 --> 00:05:58,240
+more of potential APIs or data sources,
+
+161
+00:05:56,320 --> 00:06:00,639
+it just requires a lot of effort to
+
+162
+00:05:58,240 --> 00:06:02,560
+rebuild your infrastructure.
+
+163
+00:06:00,639 --> 00:06:04,800
+Essentially, the internet is being
+
+164
+00:06:02,560 --> 00:06:06,400
+rebuilt for the AI agents, right? We're
+
+165
+00:06:04,800 --> 00:06:09,440
+talking about all of the internet being
+
+166
+00:06:06,400 --> 00:06:11,360
+accessible and you can rebuild all of it
+
+167
+00:06:09,440 --> 00:06:13,600
+and have to rebuild all the security for
+
+168
+00:06:11,360 --> 00:06:15,840
+AI agents or you can leverage it and
+
+169
+00:06:13,600 --> 00:06:18,800
+connected directly to LLMs even as they
+
+170
+00:06:15,840 --> 00:06:21,199
+get more capable. So that way it's just
+
+171
+00:06:18,800 --> 00:06:25,440
+much more straightforward.
+
+172
+00:06:21,199 --> 00:06:27,440
+>> Thank you so much Juan. All right,
+
+173
+00:06:25,440 --> 00:06:27,759
+any other questions? All right. Okay.
+
+174
+00:06:27,440 --> 00:06:31,160
+Thank you.
+
+175
+00:06:27,759 --> 00:06:31,160
+>> Thank you very much.
+

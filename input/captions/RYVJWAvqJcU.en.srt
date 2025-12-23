@@ -1,0 +1,544 @@
+1
+00:00:05,440 --> 00:00:09,800
+Good afternoon. Really nice being here.
+
+2
+00:00:07,520 --> 00:00:13,280
+So my name is Pong. I'm CEO of Movie
+
+3
+00:00:09,800 --> 00:00:15,440
+Systems. So at MOI we solve probably a
+
+4
+00:00:13,280 --> 00:00:16,880
+very different type of AI problem. It's
+
+5
+00:00:15,440 --> 00:00:18,800
+about large scale planning and
+
+6
+00:00:16,880 --> 00:00:20,400
+optimization out there in the real
+
+7
+00:00:18,800 --> 00:00:24,160
+world.
+
+8
+00:00:20,400 --> 00:00:26,400
+Um yeah. So really the problem core
+
+9
+00:00:24,160 --> 00:00:28,160
+problem we address is um people have
+
+10
+00:00:26,400 --> 00:00:30,800
+been using constraint solvers
+
+11
+00:00:28,160 --> 00:00:33,120
+optimization system to solve problems at
+
+12
+00:00:30,800 --> 00:00:36,000
+a local scale for transportation for
+
+13
+00:00:33,120 --> 00:00:38,000
+logistic for a very very long time. But
+
+14
+00:00:36,000 --> 00:00:40,079
+when you try to expand it as a world
+
+15
+00:00:38,000 --> 00:00:43,040
+scale and then you try to compress the
+
+16
+00:00:40,079 --> 00:00:44,640
+solution time down from hours to minutes
+
+17
+00:00:43,040 --> 00:00:46,800
+to sometimes second in order to
+
+18
+00:00:44,640 --> 00:00:49,840
+accommodate for this dynamic changing
+
+19
+00:00:46,800 --> 00:00:51,680
+disruptive world things will fall apart.
+
+20
+00:00:49,840 --> 00:00:55,360
+But really that's what uh where our
+
+21
+00:00:51,680 --> 00:00:57,840
+software address. So really what we end
+
+22
+00:00:55,360 --> 00:01:00,719
+up doing is developing a large scale
+
+23
+00:00:57,840 --> 00:01:04,159
+planning system that can ingest all type
+
+24
+00:01:00,719 --> 00:01:06,799
+of data from inventory for resources for
+
+25
+00:01:04,159 --> 00:01:08,880
+mapping for traffic. Anything end up
+
+26
+00:01:06,799 --> 00:01:11,119
+being described in either temporal
+
+27
+00:01:08,880 --> 00:01:13,520
+spatial or preferential constraints or
+
+28
+00:01:11,119 --> 00:01:15,280
+objective functions. Then we solve that.
+
+29
+00:01:13,520 --> 00:01:18,159
+We spend time to solve for the initial
+
+30
+00:01:15,280 --> 00:01:20,640
+solution but then continues to receive
+
+31
+00:01:18,159 --> 00:01:23,280
+updates in a streaming way. There is a
+
+32
+00:01:20,640 --> 00:01:25,520
+flight being delayed. Suddenly 200
+
+33
+00:01:23,280 --> 00:01:27,759
+passengers on board that flights their
+
+34
+00:01:25,520 --> 00:01:30,159
+bus route to different hotels in Morca
+
+35
+00:01:27,759 --> 00:01:31,920
+needs to be rerouted. We'll subscribe to
+
+36
+00:01:30,159 --> 00:01:34,400
+that and then start to identify the
+
+37
+00:01:31,920 --> 00:01:36,479
+impact automatically and then replan
+
+38
+00:01:34,400 --> 00:01:38,400
+either the route the pick up the drop
+
+39
+00:01:36,479 --> 00:01:41,119
+off the bus with who is going to get
+
+40
+00:01:38,400 --> 00:01:43,920
+seed all automatically.
+
+41
+00:01:41,119 --> 00:01:46,320
+So I want to talk through a um kind of
+
+42
+00:01:43,920 --> 00:01:49,600
+workflow we end up deployed our solution
+
+43
+00:01:46,320 --> 00:01:52,960
+with TUI the tourism company based in
+
+44
+00:01:49,600 --> 00:01:56,000
+Hanover Germany. So they operate about
+
+45
+00:01:52,960 --> 00:01:58,560
+12,000 buses of different sizes just
+
+46
+00:01:56,000 --> 00:02:01,759
+like the one in the vehicle serving over
+
+47
+00:01:58,560 --> 00:02:04,320
+25 million travelers on an annual basis.
+
+48
+00:02:01,759 --> 00:02:07,360
+You can imagine traditionally they have
+
+49
+00:02:04,320 --> 00:02:09,759
+a fixed solver that operates overnight
+
+50
+00:02:07,360 --> 00:02:12,160
+for about four to eight hours. Their
+
+51
+00:02:09,759 --> 00:02:13,920
+operation team defines a problem kind of
+
+52
+00:02:12,160 --> 00:02:16,000
+plug in all the bookings they receive
+
+53
+00:02:13,920 --> 00:02:18,879
+for the next day. The solver get a
+
+54
+00:02:16,000 --> 00:02:20,800
+solution. The operator team then push
+
+55
+00:02:18,879 --> 00:02:22,959
+that to a different place where they can
+
+56
+00:02:20,800 --> 00:02:24,879
+dispatch it to all the bus drivers. When
+
+57
+00:02:22,959 --> 00:02:27,760
+things fall apart, the operation team
+
+58
+00:02:24,879 --> 00:02:30,239
+has to go in manually reassign all the
+
+59
+00:02:27,760 --> 00:02:32,000
+passengers to all the vehicles and then
+
+60
+00:02:30,239 --> 00:02:34,319
+based on the flight, based on weather,
+
+61
+00:02:32,000 --> 00:02:36,480
+based on equipment failures. That's have
+
+62
+00:02:34,319 --> 00:02:39,040
+been changed completely now because we
+
+63
+00:02:36,480 --> 00:02:41,360
+are now our system is at center dealing
+
+64
+00:02:39,040 --> 00:02:43,040
+with all those hard planning routing
+
+65
+00:02:41,360 --> 00:02:45,440
+scheduling problems and then the
+
+66
+00:02:43,040 --> 00:02:47,280
+operation team suddenly become the team
+
+67
+00:02:45,440 --> 00:02:49,680
+that's just monitoring the results and
+
+68
+00:02:47,280 --> 00:02:51,200
+then providing guidance on how we want
+
+69
+00:02:49,680 --> 00:02:53,440
+to shift the different ways in the
+
+70
+00:02:51,200 --> 00:02:56,080
+objective function what type of digital
+
+71
+00:02:53,440 --> 00:02:58,319
+business logic we want to support. So
+
+72
+00:02:56,080 --> 00:03:00,319
+you can imagine from there the business
+
+73
+00:02:58,319 --> 00:03:01,680
+impact is very very significant. First
+
+74
+00:03:00,319 --> 00:03:03,200
+of all they are the largest travel
+
+75
+00:03:01,680 --> 00:03:06,080
+company in the world. So basically
+
+76
+00:03:03,200 --> 00:03:07,760
+everything has a huge multiplier but
+
+77
+00:03:06,080 --> 00:03:09,760
+also on that even if when you're just
+
+78
+00:03:07,760 --> 00:03:11,200
+looking at the operation metrics we're
+
+79
+00:03:09,760 --> 00:03:13,280
+definitely providing better plans
+
+80
+00:03:11,200 --> 00:03:15,360
+because we no longer need humans to
+
+81
+00:03:13,280 --> 00:03:18,159
+solve constraint optimization problems
+
+82
+00:03:15,360 --> 00:03:21,200
+on the spot. We also significantly
+
+83
+00:03:18,159 --> 00:03:23,360
+reduce really the solution time for the
+
+84
+00:03:21,200 --> 00:03:26,239
+teams to basically respond to any type
+
+85
+00:03:23,360 --> 00:03:28,319
+of issues. Maybe previously need 30
+
+86
+00:03:26,239 --> 00:03:30,959
+minutes for all the travelers impacted
+
+87
+00:03:28,319 --> 00:03:32,799
+by a flight delay to get any plan. Not
+
+88
+00:03:30,959 --> 00:03:35,280
+anymore. those things are really being
+
+89
+00:03:32,799 --> 00:03:37,280
+pushed out in near real time computed
+
+90
+00:03:35,280 --> 00:03:39,239
+automatically by our system subject to
+
+91
+00:03:37,280 --> 00:03:42,560
+all those different business
+
+92
+00:03:39,239 --> 00:03:45,040
+constraints. So coming here we mostly
+
+93
+00:03:42,560 --> 00:03:47,760
+want to look for opportunities to
+
+94
+00:03:45,040 --> 00:03:50,000
+basically expand our software's frontput
+
+95
+00:03:47,760 --> 00:03:52,319
+in the transportation logistic base but
+
+96
+00:03:50,000 --> 00:03:54,319
+also potentially go forward because we
+
+97
+00:03:52,319 --> 00:03:56,400
+know our software works really with any
+
+98
+00:03:54,319 --> 00:03:59,360
+type of temporal spatial preferential
+
+99
+00:03:56,400 --> 00:04:01,680
+constraints. So for us, every new
+
+100
+00:03:59,360 --> 00:04:04,080
+partners we on board to our platform, we
+
+101
+00:04:01,680 --> 00:04:06,319
+go through this three-step process to
+
+102
+00:04:04,080 --> 00:04:08,799
+make sure that we can truly get the
+
+103
+00:04:06,319 --> 00:04:10,799
+software and the model customized to
+
+104
+00:04:08,799 --> 00:04:13,120
+your problem. Making sure we capture
+
+105
+00:04:10,799 --> 00:04:15,519
+every single constraint that we need to
+
+106
+00:04:13,120 --> 00:04:17,680
+consider so that we auto solutions that
+
+107
+00:04:15,519 --> 00:04:21,280
+can be put into the field and execute
+
+108
+00:04:17,680 --> 00:04:23,040
+directly. So for us really going beyond
+
+109
+00:04:21,280 --> 00:04:24,639
+travel, transportation, we definitely
+
+110
+00:04:23,040 --> 00:04:27,440
+see opportunity in maintenance and
+
+111
+00:04:24,639 --> 00:04:29,440
+repair, disaster response, um shipping
+
+112
+00:04:27,440 --> 00:04:32,880
+as well as supply chain field, but
+
+113
+00:04:29,440 --> 00:04:34,720
+really any other verticals that may
+
+114
+00:04:32,880 --> 00:04:36,560
+utilize the type of large scale planning
+
+115
+00:04:34,720 --> 00:04:39,919
+solutions we have. We would like to talk
+
+116
+00:04:36,560 --> 00:04:41,800
+to all of you. Thank you.
+
+117
+00:04:39,919 --> 00:04:44,120
+Thank you,
+
+118
+00:04:41,800 --> 00:04:47,120
+Pang. Any
+
+119
+00:04:44,120 --> 00:04:49,360
+questions? Okay, I'll start. Um tell us
+
+120
+00:04:47,120 --> 00:04:51,440
+a little more about do you support cloud
+
+121
+00:04:49,360 --> 00:04:54,880
+uh native on premises and hybrid
+
+122
+00:04:51,440 --> 00:04:56,960
+implementations? Um yeah definitely so
+
+123
+00:04:54,880 --> 00:04:58,720
+the software itself is cloud native
+
+124
+00:04:56,960 --> 00:05:00,639
+because we actually need to utilize
+
+125
+00:04:58,720 --> 00:05:02,880
+right now it's in AWS the autoscaling
+
+126
+00:05:00,639 --> 00:05:05,759
+capabilities to solve for different
+
+127
+00:05:02,880 --> 00:05:07,840
+problem sizes very very quickly but you
+
+128
+00:05:05,759 --> 00:05:10,080
+can imagine everything ultimately got
+
+129
+00:05:07,840 --> 00:05:12,560
+packaged into either a data streaming
+
+130
+00:05:10,080 --> 00:05:14,800
+layer or a solver layer that we can just
+
+131
+00:05:12,560 --> 00:05:18,800
+deploy as docker images or containers
+
+132
+00:05:14,800 --> 00:05:18,800
+into any public or private cloud
+
+133
+00:05:19,639 --> 00:05:25,520
+environments. Any questions?
+
+134
+00:05:23,600 --> 00:05:26,960
+Cool. So, we'll have a booth outside.
+
+135
+00:05:25,520 --> 00:05:30,840
+Looking forward to talk with all of you
+
+136
+00:05:26,960 --> 00:05:30,840
+later. Perfect. Thank you.
+

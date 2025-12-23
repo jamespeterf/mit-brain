@@ -1,0 +1,9996 @@
+1
+00:00:07,200 --> 00:00:11,519
+Okay, great. Uh, so thanks everyone for
+
+2
+00:00:09,040 --> 00:00:13,440
+coming to MIA seminar today. Uh, I guess
+
+3
+00:00:11,519 --> 00:00:16,560
+now after daylight saving so it should
+
+4
+00:00:13,440 --> 00:00:18,720
+feel a little bit more awake. Um but
+
+5
+00:00:16,560 --> 00:00:22,080
+yeah uh so today we're very lucky to
+
+6
+00:00:18,720 --> 00:00:24,560
+have uh Jingi Jessica Lee here uh and
+
+7
+00:00:22,080 --> 00:00:26,880
+postto pan uh recently moved to the Fred
+
+8
+00:00:24,560 --> 00:00:27,920
+Hutch Cancer Institute and today they're
+
+9
+00:00:26,880 --> 00:00:29,920
+going to be talking about some exciting
+
+10
+00:00:27,920 --> 00:00:32,320
+new statistical work they've been doing
+
+11
+00:00:29,920 --> 00:00:34,000
+and so Jessica is going to lead off on
+
+12
+00:00:32,320 --> 00:00:35,920
+permutation enhances the rigor in
+
+13
+00:00:34,000 --> 00:00:37,840
+genomics data analysis. Thanks so much
+
+14
+00:00:35,920 --> 00:00:39,920
+for coming. Thank you Tabber for the
+
+15
+00:00:37,840 --> 00:00:42,559
+invitation and it's it's our great
+
+16
+00:00:39,920 --> 00:00:46,719
+pleasure to give our talk of our
+
+17
+00:00:42,559 --> 00:00:48,640
+research at the MIA seminar and so my
+
+18
+00:00:46,719 --> 00:00:50,960
+talk will be the primer and then Pang
+
+19
+00:00:48,640 --> 00:00:53,920
+will give a specific talk on her
+
+20
+00:00:50,960 --> 00:00:56,239
+research. So my primer hopefully can
+
+21
+00:00:53,920 --> 00:00:58,640
+open the door for her talk and I'll
+
+22
+00:00:56,239 --> 00:01:01,440
+introduce some basics and our thinking
+
+23
+00:00:58,640 --> 00:01:04,080
+in particular in this research. So the
+
+24
+00:01:01,440 --> 00:01:06,640
+theme of the talk today is permutation
+
+25
+00:01:04,080 --> 00:01:09,360
+but later I will go broader to talk
+
+26
+00:01:06,640 --> 00:01:11,840
+about how we think using some thing we
+
+27
+00:01:09,360 --> 00:01:14,159
+call as a synthetic null data can help
+
+28
+00:01:11,840 --> 00:01:16,080
+with our data analysis. I think we hope
+
+29
+00:01:14,159 --> 00:01:18,799
+this to be broad enough to be relevant
+
+30
+00:01:16,080 --> 00:01:21,119
+to your research. So I'll begin by this
+
+31
+00:01:18,799 --> 00:01:23,360
+interesting figure which was actually
+
+32
+00:01:21,119 --> 00:01:26,159
+something we found on social media after
+
+33
+00:01:23,360 --> 00:01:28,320
+the Nobel Prize in physics was announced
+
+34
+00:01:26,159 --> 00:01:29,759
+last year and Pan actually helped me do
+
+35
+00:01:28,320 --> 00:01:31,920
+the translation because it was
+
+36
+00:01:29,759 --> 00:01:33,680
+originally in Chinese. But I found this
+
+37
+00:01:31,920 --> 00:01:35,520
+very interesting because the question is
+
+38
+00:01:33,680 --> 00:01:37,840
+what is physics and it can be
+
+39
+00:01:35,520 --> 00:01:40,960
+characterized in two dimensions. The
+
+40
+00:01:37,840 --> 00:01:42,960
+objects we study and the methods we use.
+
+41
+00:01:40,960 --> 00:01:45,680
+So you can see that for either dimension
+
+42
+00:01:42,960 --> 00:01:48,479
+we can go from being very fundamentalism
+
+43
+00:01:45,680 --> 00:01:51,360
+to very liberal. So it means that we can
+
+44
+00:01:48,479 --> 00:01:53,040
+be very restrictive on what we study the
+
+45
+00:01:51,360 --> 00:01:56,000
+objects where there's something very
+
+46
+00:01:53,040 --> 00:01:58,560
+general or the methods we use like laws
+
+47
+00:01:56,000 --> 00:02:00,880
+or we can be very liberal and the
+
+48
+00:01:58,560 --> 00:02:03,280
+neuronet network is actually on the
+
+49
+00:02:00,880 --> 00:02:05,600
+liberal side for both dimensions. We
+
+50
+00:02:03,280 --> 00:02:08,000
+don't use physical laws and the object
+
+51
+00:02:05,600 --> 00:02:10,640
+study is not something we see as
+
+52
+00:02:08,000 --> 00:02:13,360
+concrete in real life. So this kind of
+
+53
+00:02:10,640 --> 00:02:16,319
+characterization made me wonder how
+
+54
+00:02:13,360 --> 00:02:18,400
+about genomics. So for many reasons
+
+55
+00:02:16,319 --> 00:02:20,720
+genomics can be seen as a liberal
+
+56
+00:02:18,400 --> 00:02:22,720
+discipline as many of you may be aware
+
+57
+00:02:20,720 --> 00:02:24,239
+of from because of research you can
+
+58
+00:02:22,720 --> 00:02:26,480
+judge because it's very
+
+59
+00:02:24,239 --> 00:02:29,680
+interdisciplinary. You may be trained in
+
+60
+00:02:26,480 --> 00:02:31,680
+in a very wide range of disciplines and
+
+61
+00:02:29,680 --> 00:02:33,599
+it's very datadriven. So we start from
+
+62
+00:02:31,680 --> 00:02:36,800
+data and there can be all sorts of
+
+63
+00:02:33,599 --> 00:02:39,120
+hypothesis we can ask and there's a
+
+64
+00:02:36,800 --> 00:02:42,080
+rapid revolution of methods just using
+
+65
+00:02:39,120 --> 00:02:44,400
+the single cell RNA seek as one example
+
+66
+00:02:42,080 --> 00:02:47,040
+you can see this rapid evolution of
+
+67
+00:02:44,400 --> 00:02:49,200
+methods thousands of methods and as a
+
+68
+00:02:47,040 --> 00:02:51,440
+result you can have f flexible
+
+69
+00:02:49,200 --> 00:02:53,680
+analytical approaches how do you design
+
+70
+00:02:51,440 --> 00:02:56,959
+the pipeline for data analysis there can
+
+71
+00:02:53,680 --> 00:02:59,120
+be many options since my research is at
+
+72
+00:02:56,959 --> 00:03:01,840
+the intersection of statistics and
+
+73
+00:02:59,120 --> 00:03:04,080
+genomics so I was a statistics professor
+
+74
+00:03:01,840 --> 00:03:06,400
+at UCLA for 12 years. So if I think
+
+75
+00:03:04,080 --> 00:03:08,720
+about statistics is very different from
+
+76
+00:03:06,400 --> 00:03:10,800
+genomics because people there really
+
+77
+00:03:08,720 --> 00:03:13,599
+talks about rigor. How can we have a
+
+78
+00:03:10,800 --> 00:03:16,239
+better method in terms of how to say
+
+79
+00:03:13,599 --> 00:03:19,040
+people have set up a set of criteria to
+
+80
+00:03:16,239 --> 00:03:22,080
+evaluate how good a method is or what
+
+81
+00:03:19,040 --> 00:03:23,840
+these methods should guarantee. So if we
+
+82
+00:03:22,080 --> 00:03:25,840
+trace it back to the history right the
+
+83
+00:03:23,840 --> 00:03:28,239
+most popular one of the most well-known
+
+84
+00:03:25,840 --> 00:03:31,440
+methods is called two sample datas from
+
+85
+00:03:28,239 --> 00:03:34,000
+introductory courses. So this method was
+
+86
+00:03:31,440 --> 00:03:37,599
+developed for a very simple reason to
+
+87
+00:03:34,000 --> 00:03:39,920
+comp compare a new way of um beer
+
+88
+00:03:37,599 --> 00:03:43,120
+brewing to a traditional way. So
+
+89
+00:03:39,920 --> 00:03:45,040
+essentially it's for quality assessment.
+
+90
+00:03:43,120 --> 00:03:47,120
+You want to know whether this new way is
+
+91
+00:03:45,040 --> 00:03:49,200
+actually different or better than a
+
+92
+00:03:47,120 --> 00:03:52,480
+traditional way or if the difference we
+
+93
+00:03:49,200 --> 00:03:54,400
+see in the two ways of beer brewing is
+
+94
+00:03:52,480 --> 00:03:56,959
+something meaningful not just due to
+
+95
+00:03:54,400 --> 00:03:59,760
+some measurement randomness. So because
+
+96
+00:03:56,959 --> 00:04:02,159
+of this origin I think about how these
+
+97
+00:03:59,760 --> 00:04:05,040
+two things could be bridged in some
+
+98
+00:04:02,159 --> 00:04:07,280
+meaningful way because rigor was
+
+99
+00:04:05,040 --> 00:04:09,280
+considered as important statistics but
+
+100
+00:04:07,280 --> 00:04:13,200
+on the other hand in genomics we have so
+
+101
+00:04:09,280 --> 00:04:15,840
+many options to do our data analysis. So
+
+102
+00:04:13,200 --> 00:04:18,160
+one article I hope to introduce to our
+
+103
+00:04:15,840 --> 00:04:20,720
+general audience is this very
+
+104
+00:04:18,160 --> 00:04:24,000
+interesting review or perspective piece
+
+105
+00:04:20,720 --> 00:04:27,199
+about eight most important statistical
+
+106
+00:04:24,000 --> 00:04:30,080
+ideas in the past five decades and one
+
+107
+00:04:27,199 --> 00:04:32,240
+of the ideas is related to what I will
+
+108
+00:04:30,080 --> 00:04:34,400
+talk about today bootstrapping and
+
+109
+00:04:32,240 --> 00:04:36,639
+simulationbased inference. So
+
+110
+00:04:34,400 --> 00:04:39,440
+permutation can be considered as a
+
+111
+00:04:36,639 --> 00:04:43,199
+special case for this idea. So the idea
+
+112
+00:04:39,440 --> 00:04:46,880
+is to do some resampling of your data to
+
+113
+00:04:43,199 --> 00:04:49,520
+break some dependency that potentially
+
+114
+00:04:46,880 --> 00:04:51,440
+exist between your variables and after
+
+115
+00:04:49,520 --> 00:04:54,400
+permutation by disrupting such
+
+116
+00:04:51,440 --> 00:04:56,479
+dependency you can actually obtain a
+
+117
+00:04:54,400 --> 00:04:59,280
+negative data set where the dep
+
+118
+00:04:56,479 --> 00:05:02,320
+dependency is removed. So I think this
+
+119
+00:04:59,280 --> 00:05:04,479
+can serve as a baseline for data
+
+120
+00:05:02,320 --> 00:05:07,199
+analysis because then you can say
+
+121
+00:05:04,479 --> 00:05:09,039
+whether the discoveries you observe in
+
+122
+00:05:07,199 --> 00:05:11,039
+your data analysis is something
+
+123
+00:05:09,039 --> 00:05:13,759
+meaningful is something that you cannot
+
+124
+00:05:11,039 --> 00:05:15,919
+observe from permitted data and how to
+
+125
+00:05:13,759 --> 00:05:18,720
+permute the data. I'll give several
+
+126
+00:05:15,919 --> 00:05:21,120
+examples in my talk today and P will
+
+127
+00:05:18,720 --> 00:05:22,880
+talk about one specific example which I
+
+128
+00:05:21,120 --> 00:05:25,919
+will briefly mention and she will go
+
+129
+00:05:22,880 --> 00:05:27,759
+into detail. So it depends on the set of
+
+130
+00:05:25,919 --> 00:05:30,000
+variables you have whether it's a
+
+131
+00:05:27,759 --> 00:05:34,320
+supervised learning setting in which you
+
+132
+00:05:30,000 --> 00:05:37,199
+have those features as predictors and a
+
+133
+00:05:34,320 --> 00:05:39,199
+response you want to predict for or it's
+
+134
+00:05:37,199 --> 00:05:41,039
+unsupervised learning setting which you
+
+135
+00:05:39,199 --> 00:05:45,039
+don't have the response or outcome but
+
+136
+00:05:41,039 --> 00:05:47,840
+just the features. So for bulk RNA data
+
+137
+00:05:45,039 --> 00:05:49,600
+I will consider it in this supervised
+
+138
+00:05:47,840 --> 00:05:52,720
+learning case because here I can
+
+139
+00:05:49,600 --> 00:05:55,759
+consider the samples belonging to more
+
+140
+00:05:52,720 --> 00:05:58,400
+than one condition and here the features
+
+141
+00:05:55,759 --> 00:06:00,240
+for RNA seek are genes for the
+
+142
+00:05:58,400 --> 00:06:02,639
+unsupervised learning I'll use single
+
+143
+00:06:00,240 --> 00:06:05,280
+cell RNA seek as example here the
+
+144
+00:06:02,639 --> 00:06:08,240
+samples are cells and the features are
+
+145
+00:06:05,280 --> 00:06:10,960
+genes so the bulk example is more like a
+
+146
+00:06:08,240 --> 00:06:13,440
+teaser to open up my talk to show you
+
+147
+00:06:10,960 --> 00:06:16,080
+that if you use primitive you may see
+
+148
+00:06:13,440 --> 00:06:18,960
+something quite interesting. So this is
+
+149
+00:06:16,080 --> 00:06:21,440
+a paper we published um three years ago
+
+150
+00:06:18,960 --> 00:06:24,319
+now. So which in which we pointed out
+
+151
+00:06:21,440 --> 00:06:26,479
+that by popularity you would choose
+
+152
+00:06:24,319 --> 00:06:29,360
+certain method by following tutorials to
+
+153
+00:06:26,479 --> 00:06:32,400
+do the the differential expression or de
+
+154
+00:06:29,360 --> 00:06:35,039
+analysis. However, if your sample size
+
+155
+00:06:32,400 --> 00:06:37,360
+is large enough, you may actually see
+
+156
+00:06:35,039 --> 00:06:39,759
+that some of the assumptions you assume
+
+157
+00:06:37,360 --> 00:06:42,160
+in the methods may not hold well in your
+
+158
+00:06:39,759 --> 00:06:44,720
+data sets and there as a result you may
+
+159
+00:06:42,160 --> 00:06:46,960
+have more than what you expected in
+
+160
+00:06:44,720 --> 00:06:49,039
+terms of false discoveries. And the
+
+161
+00:06:46,960 --> 00:06:51,199
+interesting thing is that this was a
+
+162
+00:06:49,039 --> 00:06:53,600
+coincidence finding and it was a
+
+163
+00:06:51,199 --> 00:06:56,080
+collaboration with Dr. way's lab who is
+
+164
+00:06:53,600 --> 00:06:58,400
+a computational biology lab his postto
+
+165
+00:06:56,080 --> 00:07:01,759
+who did analysis and my former student
+
+166
+00:06:58,400 --> 00:07:04,400
+who was trained in statistics. So this
+
+167
+00:07:01,759 --> 00:07:06,960
+is the major surprising result which
+
+168
+00:07:04,400 --> 00:07:09,919
+motivated us to look f look further into
+
+169
+00:07:06,960 --> 00:07:12,160
+the issue. So this is the data set from
+
+170
+00:07:09,919 --> 00:07:13,680
+patients. So we have 51 patients
+
+171
+00:07:12,160 --> 00:07:17,520
+pre-imunotherapy
+
+172
+00:07:13,680 --> 00:07:21,199
+and 58 patients on imunotherapy and oak
+
+173
+00:07:17,520 --> 00:07:24,080
+RNA data of their blood samples and DSC2
+
+174
+00:07:21,199 --> 00:07:27,120
+and HR are two of the most popular or
+
+175
+00:07:24,080 --> 00:07:30,240
+widely used EIC methods. They have very
+
+176
+00:07:27,120 --> 00:07:33,039
+good software implementations and very
+
+177
+00:07:30,240 --> 00:07:35,680
+detailed tutorials you can follow. So
+
+178
+00:07:33,039 --> 00:07:37,680
+the first finding that surprised us or
+
+179
+00:07:35,680 --> 00:07:39,440
+that actually it's not a surprise
+
+180
+00:07:37,680 --> 00:07:41,039
+because many people reported the same
+
+181
+00:07:39,440 --> 00:07:43,280
+thing but it's just that they didn't
+
+182
+00:07:41,039 --> 00:07:45,520
+look into the issue as detail. So
+
+183
+00:07:43,280 --> 00:07:48,319
+basically the two methods may not give
+
+184
+00:07:45,520 --> 00:07:50,560
+you similar findings. So in this case
+
+185
+00:07:48,319 --> 00:07:52,240
+for this particular data set the two
+
+186
+00:07:50,560 --> 00:07:54,879
+popular methods give you different
+
+187
+00:07:52,240 --> 00:07:57,599
+numbers of D genes edge are twice as
+
+188
+00:07:54,879 --> 00:07:59,280
+many as DC2s. And the first question we
+
+189
+00:07:57,599 --> 00:08:01,120
+want to ask is which set of results
+
+190
+00:07:59,280 --> 00:08:03,599
+should we trust more? Right? And if you
+
+191
+00:08:01,120 --> 00:08:07,680
+look at the overlap, it's not like the
+
+192
+00:08:03,599 --> 00:08:10,240
+C2 results are a subset of HRS. So here
+
+193
+00:08:07,680 --> 00:08:12,560
+the sample sizes are big enough for us
+
+194
+00:08:10,240 --> 00:08:14,879
+to do permutation because if we think
+
+195
+00:08:12,560 --> 00:08:16,879
+about the origin of these two methods
+
+196
+00:08:14,879 --> 00:08:20,160
+when they were developed more than 10
+
+197
+00:08:16,879 --> 00:08:23,360
+years ago when RNA seat bulk was still
+
+198
+00:08:20,160 --> 00:08:25,360
+considered a new technology the sample
+
+199
+00:08:23,360 --> 00:08:27,919
+sizes are quite small were quite small
+
+200
+00:08:25,360 --> 00:08:30,080
+because they're they're expensive so
+
+201
+00:08:27,919 --> 00:08:32,800
+typically if you're you run a wab you
+
+202
+00:08:30,080 --> 00:08:35,440
+may only be willing to just generate
+
+203
+00:08:32,800 --> 00:08:37,919
+three barnas replicates per condition
+
+204
+00:08:35,440 --> 00:08:40,320
+then it's three versus three comparison
+
+205
+00:08:37,919 --> 00:08:42,959
+and how can you get enough statistical
+
+206
+00:08:40,320 --> 00:08:46,240
+power out of it? Then both methods have
+
+207
+00:08:42,959 --> 00:08:48,560
+to assume a gene every gene follows a
+
+208
+00:08:46,240 --> 00:08:51,279
+parametric distribution under each
+
+209
+00:08:48,560 --> 00:08:54,240
+condition. So specifically both assumes
+
+210
+00:08:51,279 --> 00:08:57,200
+that for count data like RNA seek every
+
+211
+00:08:54,240 --> 00:08:59,600
+genes counts follow a negative binomial
+
+212
+00:08:57,200 --> 00:09:01,600
+distribution under each condition. So
+
+213
+00:08:59,600 --> 00:09:05,360
+with this parametric assumption they can
+
+214
+00:09:01,600 --> 00:09:08,320
+have more power for finding the genes.
+
+215
+00:09:05,360 --> 00:09:11,839
+So with just three data points as in
+
+216
+00:09:08,320 --> 00:09:14,080
+their design, it's not possible to check
+
+217
+00:09:11,839 --> 00:09:15,519
+how reliable negative binomial
+
+218
+00:09:14,080 --> 00:09:18,160
+assumption holds because you just have
+
+219
+00:09:15,519 --> 00:09:19,760
+to assume it. But with such large sample
+
+220
+00:09:18,160 --> 00:09:21,760
+sizes, then we can check the
+
+221
+00:09:19,760 --> 00:09:23,440
+distribution. But before I show that
+
+222
+00:09:21,760 --> 00:09:25,040
+result, let's just first show the
+
+223
+00:09:23,440 --> 00:09:27,920
+surprising result that is by
+
+224
+00:09:25,040 --> 00:09:31,519
+permutation. simple permutation in which
+
+225
+00:09:27,920 --> 00:09:34,240
+we randomly assign those 109 samples
+
+226
+00:09:31,519 --> 00:09:37,360
+into two into two groups with the sizes
+
+227
+00:09:34,240 --> 00:09:40,320
+kept as 51 and 58. But now because of
+
+228
+00:09:37,360 --> 00:09:42,800
+random assignments, these two groups no
+
+229
+00:09:40,320 --> 00:09:45,279
+longer make any sense. We just run each
+
+230
+00:09:42,800 --> 00:09:48,000
+method again on the period data and we
+
+231
+00:09:45,279 --> 00:09:50,160
+can get a DEG number. And we can repeat
+
+232
+00:09:48,000 --> 00:09:52,880
+this for a thousand times. We can have
+
+233
+00:09:50,160 --> 00:09:54,959
+1,000 DEG numbers from permitted data.
+
+234
+00:09:52,880 --> 00:09:57,360
+That will give us a distribution. And
+
+235
+00:09:54,959 --> 00:09:59,680
+here the height of the bar is the
+
+236
+00:09:57,360 --> 00:10:01,600
+average number and the standard error
+
+237
+00:09:59,680 --> 00:10:04,399
+bar is just the standard error standard
+
+238
+00:10:01,600 --> 00:10:07,120
+deviation. And we can see that compared
+
+239
+00:10:04,399 --> 00:10:10,320
+to the permuted data from the original
+
+240
+00:10:07,120 --> 00:10:12,640
+data actually the methods found even
+
+241
+00:10:10,320 --> 00:10:14,640
+fewer genes this doesn't doesn't make
+
+242
+00:10:12,640 --> 00:10:17,839
+any sense because we would expect fewer
+
+243
+00:10:14,640 --> 00:10:19,440
+D genes from permuted data. So why is
+
+244
+00:10:17,839 --> 00:10:21,519
+this happening? Right? That's our first
+
+245
+00:10:19,440 --> 00:10:25,040
+question. Why are so many genes found as
+
+246
+00:10:21,519 --> 00:10:27,040
+DE from permitted data? and we check the
+
+247
+00:10:25,040 --> 00:10:30,240
+negative binomial assumption. As I said
+
+248
+00:10:27,040 --> 00:10:32,720
+earlier, the interesting thing is that
+
+249
+00:10:30,240 --> 00:10:34,480
+for this data set, negative binomial
+
+250
+00:10:32,720 --> 00:10:37,120
+does not seem to be a reasonable
+
+251
+00:10:34,480 --> 00:10:39,360
+distribution. The reason is twofold.
+
+252
+00:10:37,120 --> 00:10:42,240
+First of all, negative binomial can be
+
+253
+00:10:39,360 --> 00:10:44,480
+theoretically justified if your B cores
+
+254
+00:10:42,240 --> 00:10:46,800
+data are technical replicates, meaning
+
+255
+00:10:44,480 --> 00:10:50,399
+that they are biologically identical.
+
+256
+00:10:46,800 --> 00:10:53,360
+But because of sampling um uncertainty,
+
+257
+00:10:50,399 --> 00:10:55,120
+you don't have exactly the same number
+
+258
+00:10:53,360 --> 00:10:57,760
+in each sample. So you have some
+
+259
+00:10:55,120 --> 00:11:00,079
+differences and that can be described by
+
+260
+00:10:57,760 --> 00:11:02,079
+like passon distribution for sampling
+
+261
+00:11:00,079 --> 00:11:03,680
+and before passon you can have a gamma
+
+262
+00:11:02,079 --> 00:11:06,800
+distribution for the biological
+
+263
+00:11:03,680 --> 00:11:09,200
+heterogeneity. However, here we are not
+
+264
+00:11:06,800 --> 00:11:11,519
+having replicates. Here the 51 are
+
+265
+00:11:09,200 --> 00:11:13,680
+patients and 58 are patients. And we
+
+266
+00:11:11,519 --> 00:11:15,680
+know that there could be greater
+
+267
+00:11:13,680 --> 00:11:17,680
+heterogeneity than replicates. That's
+
+268
+00:11:15,680 --> 00:11:21,440
+one reason. And the second reason here
+
+269
+00:11:17,680 --> 00:11:23,440
+is because we have enough data points to
+
+270
+00:11:21,440 --> 00:11:25,120
+check how the distribution fits. And
+
+271
+00:11:23,440 --> 00:11:27,440
+this is the commonly used quantile
+
+272
+00:11:25,120 --> 00:11:29,120
+quantile or QQ plot which can allow you
+
+273
+00:11:27,440 --> 00:11:31,279
+to check whether a theoretical
+
+274
+00:11:29,120 --> 00:11:33,839
+distribution fits data well. And because
+
+275
+00:11:31,279 --> 00:11:36,480
+we see this points that do not lie on a
+
+276
+00:11:33,839 --> 00:11:38,640
+straight line, we can conclude that here
+
+277
+00:11:36,480 --> 00:11:41,440
+negative binomial distribution does not
+
+278
+00:11:38,640 --> 00:11:43,920
+seem to hold well. And this is for that
+
+279
+00:11:41,440 --> 00:11:46,560
+was for HR and this is for DCQ. So we
+
+280
+00:11:43,920 --> 00:11:48,880
+see the similar train. So you may wonder
+
+281
+00:11:46,560 --> 00:11:51,680
+what will be the consequence if I didn't
+
+282
+00:11:48,880 --> 00:11:54,720
+know this but I just did the analysis. I
+
+283
+00:11:51,680 --> 00:11:57,279
+use DCQ or HR to report my results.
+
+284
+00:11:54,720 --> 00:11:59,920
+Here's what you will get from your um
+
+285
+00:11:57,279 --> 00:12:02,160
+gene ontology enrichment analysis. So
+
+286
+00:11:59,920 --> 00:12:05,600
+you'll actually see these terms enriched
+
+287
+00:12:02,160 --> 00:12:08,079
+in the genes you find with D62 or HR and
+
+288
+00:12:05,600 --> 00:12:10,560
+many of those are actually related to
+
+289
+00:12:08,079 --> 00:12:12,720
+immune response or immune process
+
+290
+00:12:10,560 --> 00:12:15,519
+process. So you may actually conclude
+
+291
+00:12:12,720 --> 00:12:17,600
+that yes I can see the differences in
+
+292
+00:12:15,519 --> 00:12:20,880
+immune responses between the two groups
+
+293
+00:12:17,600 --> 00:12:23,040
+patients because they are pre pre or
+
+294
+00:12:20,880 --> 00:12:25,200
+after imunotherapy. So you may be very
+
+295
+00:12:23,040 --> 00:12:27,600
+happy with your results but if you
+
+296
+00:12:25,200 --> 00:12:30,399
+actually know that okay these genes can
+
+297
+00:12:27,600 --> 00:12:32,880
+also be frequently identified from
+
+298
+00:12:30,399 --> 00:12:34,720
+permuted data then you may step back and
+
+299
+00:12:32,880 --> 00:12:36,560
+double think about the results probably
+
+300
+00:12:34,720 --> 00:12:38,639
+it's just that immune genes are so
+
+301
+00:12:36,560 --> 00:12:41,279
+dynamic that they can be easily found
+
+302
+00:12:38,639 --> 00:12:43,360
+from the analysis anyway so that could
+
+303
+00:12:41,279 --> 00:12:46,079
+be one possibility but that just open
+
+304
+00:12:43,360 --> 00:12:48,240
+door for more questions or critiques so
+
+305
+00:12:46,079 --> 00:12:50,639
+I'll just say that this teaser even
+
+306
+00:12:48,240 --> 00:12:52,959
+though we found this by coincidence and
+
+307
+00:12:50,639 --> 00:12:54,880
+it was not a method the paper but
+
+308
+00:12:52,959 --> 00:12:57,120
+somehow it received a lot of attention
+
+309
+00:12:54,880 --> 00:13:00,160
+and discussion in the field because many
+
+310
+00:12:57,120 --> 00:13:02,959
+people would think of bulk RNC analysis
+
+311
+00:13:00,160 --> 00:13:04,959
+as a done task you have popular methods
+
+312
+00:13:02,959 --> 00:13:07,600
+that have been used by many people then
+
+313
+00:13:04,959 --> 00:13:09,760
+there's no issue about considering using
+
+314
+00:13:07,600 --> 00:13:11,440
+or how to change my analysis or use
+
+315
+00:13:09,760 --> 00:13:14,639
+different methods but we are just
+
+316
+00:13:11,440 --> 00:13:17,120
+arguing that the data characteristics do
+
+317
+00:13:14,639 --> 00:13:19,519
+matter so essentially which method to
+
+318
+00:13:17,120 --> 00:13:22,079
+choose depend on your sample size and
+
+319
+00:13:19,519 --> 00:13:24,320
+also depend on whether you can check the
+
+320
+00:13:22,079 --> 00:13:26,560
+assumption of the methods no matter how
+
+321
+00:13:24,320 --> 00:13:28,959
+popular they are on your data. So for
+
+322
+00:13:26,560 --> 00:13:31,040
+this data set if we use this very
+
+323
+00:13:28,959 --> 00:13:33,279
+standard will coxin rank some test
+
+324
+00:13:31,040 --> 00:13:35,279
+because this is okay for two sample
+
+325
+00:13:33,279 --> 00:13:37,440
+comparison if you don't want to adjust
+
+326
+00:13:35,279 --> 00:13:40,000
+for other sample characteristics like
+
+327
+00:13:37,440 --> 00:13:42,000
+coariantss you can use that and at least
+
+328
+00:13:40,000 --> 00:13:44,240
+on this data set even though the results
+
+329
+00:13:42,000 --> 00:13:46,720
+are disappointing because will coxin
+
+330
+00:13:44,240 --> 00:13:49,200
+does not give you any findings but it's
+
+331
+00:13:46,720 --> 00:13:51,760
+not self-conlicting so you also don't
+
+332
+00:13:49,200 --> 00:13:53,760
+see any discoveries from permit data so
+
+333
+00:13:51,760 --> 00:13:56,079
+you don't have this conflicting results
+
+334
+00:13:53,760 --> 00:13:57,600
+that bother us all right so That's the
+
+335
+00:13:56,079 --> 00:14:00,160
+teaser part to show that popular
+
+336
+00:13:57,600 --> 00:14:02,399
+permutation as a very simple task can
+
+337
+00:14:00,160 --> 00:14:04,320
+review a lot of things but we just need
+
+338
+00:14:02,399 --> 00:14:06,240
+to just add it to our data analysis
+
+339
+00:14:04,320 --> 00:14:07,360
+without too much trouble.
+
+340
+00:14:06,240 --> 00:14:07,760
+>> Um
+
+341
+00:14:07,360 --> 00:14:09,440
+>> yes
+
+342
+00:14:07,760 --> 00:14:10,639
+>> so just quick question. So looking back
+
+343
+00:14:09,440 --> 00:14:13,120
+at the initial plot, it seemed like
+
+344
+00:14:10,639 --> 00:14:15,839
+there were two things that were um there
+
+345
+00:14:13,120 --> 00:14:18,240
+that one was that the kind of confidence
+
+346
+00:14:15,839 --> 00:14:20,399
+interval on the permutation was very
+
+347
+00:14:18,240 --> 00:14:22,800
+large. But then the other was that in
+
+348
+00:14:20,399 --> 00:14:25,760
+all of the examples shown the
+
+349
+00:14:22,800 --> 00:14:28,480
+>> kind of actual red box is far below the
+
+350
+00:14:25,760 --> 00:14:30,720
+mean of so
+
+351
+00:14:28,480 --> 00:14:32,560
+>> is that in a statistically significant
+
+352
+00:14:30,720 --> 00:14:33,279
+manner that the the red box is far
+
+353
+00:14:32,560 --> 00:14:36,079
+below.
+
+354
+00:14:33,279 --> 00:14:37,920
+>> Okay. Yeah, actually it's actually okay
+
+355
+00:14:36,079 --> 00:14:39,920
+because this is just one standard
+
+356
+00:14:37,920 --> 00:14:42,240
+deviation. So it's actually within one
+
+357
+00:14:39,920 --> 00:14:45,199
+standard deviation. Yeah, I think the
+
+358
+00:14:42,240 --> 00:14:47,279
+reason is that in this case because you
+
+359
+00:14:45,199 --> 00:14:49,519
+can see the two sample, right? So
+
+360
+00:14:47,279 --> 00:14:52,160
+essentially because of these outliers,
+
+361
+00:14:49,519 --> 00:14:54,240
+you can see that if you move one outlier
+
+362
+00:14:52,160 --> 00:14:56,079
+to another group, then the results will
+
+363
+00:14:54,240 --> 00:14:58,399
+be very different. So that can explain
+
+364
+00:14:56,079 --> 00:15:00,480
+why the numbers can change so large.
+
+365
+00:14:58,399 --> 00:15:03,440
+Yeah. Yeah. Thank you for the question.
+
+366
+00:15:00,480 --> 00:15:05,120
+>> Thanks. Um could you hi could you
+
+367
+00:15:03,440 --> 00:15:07,040
+explain like so what does the
+
+368
+00:15:05,120 --> 00:15:09,199
+distribution of gene expression look
+
+369
+00:15:07,040 --> 00:15:12,399
+like in that human data like is it just
+
+370
+00:15:09,199 --> 00:15:14,240
+that there's a lot of like outliers or
+
+371
+00:15:12,399 --> 00:15:15,760
+is there a lot of technical
+
+372
+00:15:14,240 --> 00:15:17,600
+>> I think that that's a very important
+
+373
+00:15:15,760 --> 00:15:20,399
+question yeah so when you see those
+
+374
+00:15:17,600 --> 00:15:23,040
+outliers which are actually very large
+
+375
+00:15:20,399 --> 00:15:26,480
+counts so essentially looking at one
+
+376
+00:15:23,040 --> 00:15:28,480
+gene you will see larger counts than
+
+377
+00:15:26,480 --> 00:15:31,120
+what you can explain using a negative
+
+378
+00:15:28,480 --> 00:15:32,959
+binomial and then the question is and
+
+379
+00:15:31,120 --> 00:15:35,199
+these are from patients. How do you look
+
+380
+00:15:32,959 --> 00:15:37,680
+at those data? Do you think they are
+
+381
+00:15:35,199 --> 00:15:40,240
+error measurements or do you think they
+
+382
+00:15:37,680 --> 00:15:42,480
+are potentially something meaningful? I
+
+383
+00:15:40,240 --> 00:15:45,120
+think that's the question or maybe in
+
+384
+00:15:42,480 --> 00:15:47,360
+this case looking at just the mean may
+
+385
+00:15:45,120 --> 00:15:49,680
+not be so meaningful, right? Probably
+
+386
+00:15:47,360 --> 00:15:51,920
+you should go with like looking at the
+
+387
+00:15:49,680 --> 00:15:53,759
+variance or you should specifically
+
+388
+00:15:51,920 --> 00:15:55,839
+focus on outliers. I think these are
+
+389
+00:15:53,759 --> 00:15:58,720
+very important questions. But if we just
+
+390
+00:15:55,839 --> 00:16:04,040
+run the DE analysis blindly, we'll miss
+
+391
+00:15:58,720 --> 00:16:04,040
+those opportunities. Yeah, thank you.
+
+392
+00:16:05,040 --> 00:16:10,720
+>> Thank you.
+
+393
+00:16:08,240 --> 00:16:13,519
+>> Um, did you check more data set because
+
+394
+00:16:10,720 --> 00:16:15,040
+this is maybe this is only true for this
+
+395
+00:16:13,519 --> 00:16:17,440
+data set.
+
+396
+00:16:15,040 --> 00:16:19,440
+>> Of course, if you look at our paper, we
+
+397
+00:16:17,440 --> 00:16:21,600
+have multiple data sets. It's just that
+
+398
+00:16:19,440 --> 00:16:23,680
+this one is the most striking one and we
+
+399
+00:16:21,600 --> 00:16:27,759
+just report and we actually also tried
+
+400
+00:16:23,680 --> 00:16:30,480
+this on TCGA data sets and GTEC data
+
+401
+00:16:27,759 --> 00:16:32,880
+sets because both are from human
+
+402
+00:16:30,480 --> 00:16:35,279
+populations. So they are patient data
+
+403
+00:16:32,880 --> 00:16:37,600
+not replicate data. So in short I think
+
+404
+00:16:35,279 --> 00:16:40,240
+the conclusion we want to draw people's
+
+405
+00:16:37,600 --> 00:16:42,720
+attention to is that population if you
+
+406
+00:16:40,240 --> 00:16:45,759
+have data from human patients you cannot
+
+407
+00:16:42,720 --> 00:16:48,000
+treat them as replicates. And while the
+
+408
+00:16:45,759 --> 00:16:50,000
+negative binomial assumption was
+
+409
+00:16:48,000 --> 00:16:51,920
+justified only for replicates.
+
+410
+00:16:50,000 --> 00:16:54,560
+>> So this is more likely because the
+
+411
+00:16:51,920 --> 00:16:56,800
+heterogeneity of the exact people.
+
+412
+00:16:54,560 --> 00:16:59,600
+>> Exactly. Yeah. And these people may even
+
+413
+00:16:56,800 --> 00:17:00,959
+have subops, right? But you didn't
+
+414
+00:16:59,600 --> 00:17:02,560
+divide them.
+
+415
+00:17:00,959 --> 00:17:07,360
+>> Yeah. Another question is that do you
+
+416
+00:17:02,560 --> 00:17:09,839
+have any idea idea about if we can use a
+
+417
+00:17:07,360 --> 00:17:12,480
+better distribution to model the count
+
+418
+00:17:09,839 --> 00:17:15,760
+data rather than only using the negative
+
+419
+00:17:12,480 --> 00:17:18,400
+binomial distribution? in this case. So
+
+420
+00:17:15,760 --> 00:17:21,760
+there are if you look at the literature
+
+421
+00:17:18,400 --> 00:17:24,160
+there are more than a hundred DE methods
+
+422
+00:17:21,760 --> 00:17:26,559
+many of them didn't become popular
+
+423
+00:17:24,160 --> 00:17:28,559
+because every method but as long as they
+
+424
+00:17:26,559 --> 00:17:30,559
+were published right so they have their
+
+425
+00:17:28,559 --> 00:17:32,320
+reason they have their underlying model
+
+426
+00:17:30,559 --> 00:17:34,000
+assumptions some of them as you
+
+427
+00:17:32,320 --> 00:17:36,160
+mentioned they would go with some
+
+428
+00:17:34,000 --> 00:17:39,440
+non-parametric modeling for a change
+
+429
+00:17:36,160 --> 00:17:41,200
+distribution but the question is if the
+
+430
+00:17:39,440 --> 00:17:42,880
+distribution is something not like
+
+431
+00:17:41,200 --> 00:17:44,720
+negative binomial or not something you
+
+432
+00:17:42,880 --> 00:17:47,679
+can easily describe by a parametric
+
+433
+00:17:44,720 --> 00:17:50,000
+model whether the mean parameter is
+
+434
+00:17:47,679 --> 00:17:52,799
+still your primary interest. I think
+
+435
+00:17:50,000 --> 00:17:54,880
+that's the question. Yeah. So I think we
+
+436
+00:17:52,799 --> 00:17:56,640
+need to think about what we are really
+
+437
+00:17:54,880 --> 00:17:59,280
+looking for because for negative
+
+438
+00:17:56,640 --> 00:18:01,600
+binomial people think okay the mean
+
+439
+00:17:59,280 --> 00:18:03,840
+parameter means the biological
+
+440
+00:18:01,600 --> 00:18:06,720
+expression or the true expression we are
+
+441
+00:18:03,840 --> 00:18:08,720
+hoping to infer that's why they go with
+
+442
+00:18:06,720 --> 00:18:10,559
+the differential expression right but as
+
+443
+00:18:08,720 --> 00:18:13,120
+I said earlier I think it really depends
+
+444
+00:18:10,559 --> 00:18:15,039
+on the the data and also I think during
+
+445
+00:18:13,120 --> 00:18:18,160
+the discussion online discussion some
+
+446
+00:18:15,039 --> 00:18:20,880
+people did show that if you remove those
+
+447
+00:18:18,160 --> 00:18:22,799
+outliers you can make negative binomial
+
+448
+00:18:20,880 --> 00:18:24,960
+fit Well, and then you can pursue
+
+449
+00:18:22,799 --> 00:18:26,960
+proceed with your normal analysis. But
+
+450
+00:18:24,960 --> 00:18:29,440
+here I think we need to think about the
+
+451
+00:18:26,960 --> 00:18:32,080
+data as patients, right? So every data
+
+452
+00:18:29,440 --> 00:18:33,679
+point should be valuable in some way
+
+453
+00:18:32,080 --> 00:18:35,840
+unless we made a mistake in the
+
+454
+00:18:33,679 --> 00:18:37,919
+measurement. So how do we consider the
+
+455
+00:18:35,840 --> 00:18:40,400
+outliers? Yeah, but that's a very good
+
+456
+00:18:37,919 --> 00:18:42,400
+point. Yeah, thank you. So that's why
+
+457
+00:18:40,400 --> 00:18:45,200
+when we use the will coxin rank some
+
+458
+00:18:42,400 --> 00:18:47,039
+test, essentially we drop the parametric
+
+459
+00:18:45,200 --> 00:18:51,480
+assumption. We're just comparing the two
+
+460
+00:18:47,039 --> 00:18:51,480
+sets of numbers in terms of ranks.
+
+461
+00:18:52,720 --> 00:18:58,160
+All right. So now I will move on to the
+
+462
+00:18:55,760 --> 00:19:02,000
+unsupervised learning case with single
+
+463
+00:18:58,160 --> 00:19:04,559
+cellic data. Samples are cells, features
+
+464
+00:19:02,000 --> 00:19:07,120
+are genes. And I will talk about two
+
+465
+00:19:04,559 --> 00:19:09,600
+examples and first one about
+
+466
+00:19:07,120 --> 00:19:13,039
+visualization. Second one about this
+
+467
+00:19:09,600 --> 00:19:15,360
+meta cell practice and pan will because
+
+468
+00:19:13,039 --> 00:19:17,840
+pan is the first author for the metasel
+
+469
+00:19:15,360 --> 00:19:19,840
+MC rigger standing for metasell rigger
+
+470
+00:19:17,840 --> 00:19:21,840
+and she will give detailed discussion on
+
+471
+00:19:19,840 --> 00:19:23,919
+this so I'll be brief on this but I'll
+
+472
+00:19:21,840 --> 00:19:28,559
+talk about how we use permutation to
+
+473
+00:19:23,919 --> 00:19:31,039
+help us tune the hyperparameters of t or
+
+474
+00:19:28,559 --> 00:19:33,120
+um for better visualization.
+
+475
+00:19:31,039 --> 00:19:35,919
+So single cell visualization is a
+
+476
+00:19:33,120 --> 00:19:38,720
+commonly used way to to show the data
+
+477
+00:19:35,919 --> 00:19:40,480
+right because we know biological papers
+
+478
+00:19:38,720 --> 00:19:42,559
+have figures and they want to look at
+
+479
+00:19:40,480 --> 00:19:44,799
+the data people want to look at the data
+
+480
+00:19:42,559 --> 00:19:48,320
+but for single cell data challenge is
+
+481
+00:19:44,799 --> 00:19:51,200
+that every cell is represented as a
+
+482
+00:19:48,320 --> 00:19:52,720
+highdimensional gene expression vector
+
+483
+00:19:51,200 --> 00:19:55,039
+like depending on how many genes you
+
+484
+00:19:52,720 --> 00:19:57,600
+measure if it's 1,000 then every cell is
+
+485
+00:19:55,039 --> 00:19:59,919
+1,00 dimensional how can you see that
+
+486
+00:19:57,600 --> 00:20:02,000
+highdimensional space we don't know so
+
+487
+00:19:59,919 --> 00:20:04,400
+two dimensional space is what our human
+
+488
+00:20:02,000 --> 00:20:07,840
+eyes are most comfortable with or the
+
+489
+00:20:04,400 --> 00:20:10,160
+papers are printed as 2D. So that's why
+
+490
+00:20:07,840 --> 00:20:12,960
+the very how to say hopeful thing is
+
+491
+00:20:10,160 --> 00:20:15,520
+that we can see the cells in a 2D plot
+
+492
+00:20:12,960 --> 00:20:17,200
+and use the plot to have some idea about
+
+493
+00:20:15,520 --> 00:20:19,840
+their relationships. For example, people
+
+494
+00:20:17,200 --> 00:20:22,160
+want to see clusters representing cell
+
+495
+00:20:19,840 --> 00:20:24,960
+types. They want to see trajectories
+
+496
+00:20:22,160 --> 00:20:28,000
+representing cells continuous changing
+
+497
+00:20:24,960 --> 00:20:30,880
+process. But TNE which was actually
+
+498
+00:20:28,000 --> 00:20:32,960
+introduced in 2008 at that time there
+
+499
+00:20:30,880 --> 00:20:35,360
+was no single cell data but it was
+
+500
+00:20:32,960 --> 00:20:38,080
+introduced as a general visualization
+
+501
+00:20:35,360 --> 00:20:40,880
+technology of highdimensional data. It
+
+502
+00:20:38,080 --> 00:20:43,360
+was designed to encourage and similar
+
+503
+00:20:40,880 --> 00:20:45,679
+data points to be clustered together so
+
+504
+00:20:43,360 --> 00:20:48,240
+you can see clearer clusters. But there
+
+505
+00:20:45,679 --> 00:20:51,120
+is a key hyperparameter called
+
+506
+00:20:48,240 --> 00:20:53,600
+perplexity. Perplexity essentially
+
+507
+00:20:51,120 --> 00:20:55,760
+defines the size of a neighborhood. If
+
+508
+00:20:53,600 --> 00:20:58,960
+it's very small then you will have
+
+509
+00:20:55,760 --> 00:21:01,360
+smaller but many many smaller clusters.
+
+510
+00:20:58,960 --> 00:21:04,559
+If it's big then you will have a big
+
+511
+00:21:01,360 --> 00:21:08,240
+cluster. So looking at this toy example
+
+512
+00:21:04,559 --> 00:21:10,320
+in which the original data is just
+
+513
+00:21:08,240 --> 00:21:14,240
+two-dimensional. So this is considered
+
+514
+00:21:10,320 --> 00:21:16,720
+the true visualization. If you run TS
+
+515
+00:21:14,240 --> 00:21:19,280
+from a small perplexity to a large
+
+516
+00:21:16,720 --> 00:21:21,440
+perplexity you can see very different
+
+517
+00:21:19,280 --> 00:21:23,679
+visualizations. Sometimes you will see
+
+518
+00:21:21,440 --> 00:21:25,760
+the two clusters, sometimes you don't.
+
+519
+00:21:23,679 --> 00:21:27,919
+And also if you want to use the
+
+520
+00:21:25,760 --> 00:21:29,919
+visualization to say anything about
+
+521
+00:21:27,919 --> 00:21:31,840
+whether two clusters are close to each
+
+522
+00:21:29,919 --> 00:21:34,799
+other or very different, then the
+
+523
+00:21:31,840 --> 00:21:38,559
+distance may not mean anything. And this
+
+524
+00:21:34,799 --> 00:21:41,039
+critique has been also reported by this
+
+525
+00:21:38,559 --> 00:21:44,640
+commentary article on nature methods
+
+526
+00:21:41,039 --> 00:21:46,799
+about using tarap to see the data. And
+
+527
+00:21:44,640 --> 00:21:49,120
+the last sentence here is that the
+
+528
+00:21:46,799 --> 00:21:52,640
+abstra is sometimes these these methods
+
+529
+00:21:49,120 --> 00:21:54,720
+take a second thought. So our method the
+
+530
+00:21:52,640 --> 00:21:56,799
+one we propose kind of like a
+
+531
+00:21:54,720 --> 00:21:58,880
+compromise. So we know that there are
+
+532
+00:21:56,799 --> 00:22:01,039
+voices against using them for
+
+533
+00:21:58,880 --> 00:22:04,240
+visualizing our data. However, we think
+
+534
+00:22:01,039 --> 00:22:05,840
+it's very hard to discourage or let
+
+535
+00:22:04,240 --> 00:22:07,440
+people say okay don't use anymore
+
+536
+00:22:05,840 --> 00:22:10,240
+because they have been in every paper
+
+537
+00:22:07,440 --> 00:22:13,280
+right. So if we want to use them anyway
+
+538
+00:22:10,240 --> 00:22:15,600
+is there a way to use them better? So to
+
+539
+00:22:13,280 --> 00:22:18,559
+answer this question, we actually
+
+540
+00:22:15,600 --> 00:22:20,960
+formulated the problem as a question as
+
+541
+00:22:18,559 --> 00:22:23,520
+okay, is a sales embedding dubious or
+
+542
+00:22:20,960 --> 00:22:26,320
+trustworthy? How can we define this? How
+
+543
+00:22:23,520 --> 00:22:28,720
+can we know if we can trust a cell's
+
+544
+00:22:26,320 --> 00:22:31,679
+relative location in the figure in the
+
+545
+00:22:28,720 --> 00:22:34,880
+2D figure? And our idea is to compare
+
+546
+00:22:31,679 --> 00:22:37,120
+the cells neighbors before we do the
+
+547
+00:22:34,880 --> 00:22:40,080
+embedding which means that in the input
+
+548
+00:22:37,120 --> 00:22:42,400
+data before t near um mapap and after
+
+549
+00:22:40,080 --> 00:22:45,200
+the embedding which means the v the 2D
+
+550
+00:22:42,400 --> 00:22:47,600
+figure we see and we title our method
+
+551
+00:22:45,200 --> 00:22:49,520
+called we call our method sed for
+
+552
+00:22:47,600 --> 00:22:53,200
+answering this question. And our
+
+553
+00:22:49,520 --> 00:22:57,120
+intuition is to look at the what we call
+
+554
+00:22:53,200 --> 00:22:59,440
+mid range neighbors of a cell of a. So
+
+555
+00:22:57,120 --> 00:23:02,159
+this one the purple one cell one is of
+
+556
+00:22:59,440 --> 00:23:04,720
+our interest our target and we look at
+
+557
+00:23:02,159 --> 00:23:06,960
+the mid-range neighbors and we define
+
+558
+00:23:04,720 --> 00:23:08,640
+that as half of our cells in our
+
+559
+00:23:06,960 --> 00:23:10,480
+definition but this is something we can
+
+560
+00:23:08,640 --> 00:23:13,200
+change however we think this is a
+
+561
+00:23:10,480 --> 00:23:16,000
+reasonable proportion so if the
+
+562
+00:23:13,200 --> 00:23:18,320
+neighborhood is so small we know both
+
+563
+00:23:16,000 --> 00:23:20,320
+tney and um can do very well in
+
+564
+00:23:18,320 --> 00:23:22,799
+preserving the neighbors because that's
+
+565
+00:23:20,320 --> 00:23:25,360
+in their algorithm for encouraging the
+
+566
+00:23:22,799 --> 00:23:26,480
+close neighbors to be preserved but we
+
+567
+00:23:25,360 --> 00:23:29,039
+are looking at a mid-range neighbor
+
+568
+00:23:26,480 --> 00:23:31,360
+neighbors since we are interested in
+
+569
+00:23:29,039 --> 00:23:33,360
+between cluster relationships. So not
+
+570
+00:23:31,360 --> 00:23:36,400
+just the local neighborhoods. So in this
+
+571
+00:23:33,360 --> 00:23:39,039
+case we need to look at a bigger range
+
+572
+00:23:36,400 --> 00:23:42,240
+and also how do we define pre-mbbedding
+
+573
+00:23:39,039 --> 00:23:45,679
+neighbors. So in in practice when people
+
+574
+00:23:42,240 --> 00:23:47,280
+do um single cell data visualization the
+
+575
+00:23:45,679 --> 00:23:50,000
+pre-mbbedding neighbors or the
+
+576
+00:23:47,280 --> 00:23:52,880
+pre-mbbedding space is not the original
+
+577
+00:23:50,000 --> 00:23:56,320
+highdimensional space but what people
+
+578
+00:23:52,880 --> 00:23:59,120
+did after PCA. So essentially PCA is
+
+579
+00:23:56,320 --> 00:24:01,520
+commonly performed as a pre-processing
+
+580
+00:23:59,120 --> 00:24:05,600
+step to reduce the dimensions from a
+
+581
+00:24:01,520 --> 00:24:08,880
+thousand or thousands to 20 to 50 PCs.
+
+582
+00:24:05,600 --> 00:24:11,520
+The hope is that PCA removes noise but
+
+583
+00:24:08,880 --> 00:24:14,000
+preserves the major important signals
+
+584
+00:24:11,520 --> 00:24:16,799
+but still 20 to 50 PCs are not enough
+
+585
+00:24:14,000 --> 00:24:18,960
+for visualization. That's why we are not
+
+586
+00:24:16,799 --> 00:24:22,080
+good for visualization. That's why we
+
+587
+00:24:18,960 --> 00:24:25,120
+are using the tney UMAP to project them
+
+588
+00:24:22,080 --> 00:24:29,039
+from the PC space to the 2D space. So in
+
+589
+00:24:25,120 --> 00:24:31,840
+this case in the PC space cell distances
+
+590
+00:24:29,039 --> 00:24:34,400
+are measured by ukidian distance and
+
+591
+00:24:31,840 --> 00:24:36,400
+that's how we define the pre-mbed
+
+592
+00:24:34,400 --> 00:24:39,520
+neighbors and this is exactly what was
+
+593
+00:24:36,400 --> 00:24:42,000
+used in the TER um algorithm the ukidian
+
+594
+00:24:39,520 --> 00:24:44,960
+distance in the input space. While in
+
+595
+00:24:42,000 --> 00:24:47,520
+the 2D space, we are also using the
+
+596
+00:24:44,960 --> 00:24:50,159
+Ukrainian distance we see in this figure
+
+597
+00:24:47,520 --> 00:24:52,960
+because that's how our human mind or
+
+598
+00:24:50,159 --> 00:24:55,360
+eyes interpret this figure. So we want
+
+599
+00:24:52,960 --> 00:24:58,720
+to compare these two sets of neighbors
+
+600
+00:24:55,360 --> 00:25:02,400
+each chosen from each space and we want
+
+601
+00:24:58,720 --> 00:25:04,799
+to compare their ordered distances. So
+
+602
+00:25:02,400 --> 00:25:08,240
+essentially what we are doing here is
+
+603
+00:25:04,799 --> 00:25:10,799
+that we are taking each set preserve
+
+604
+00:25:08,240 --> 00:25:13,120
+their order in their previous in their
+
+605
+00:25:10,799 --> 00:25:15,279
+original space. So this one mean that
+
+606
+00:25:13,120 --> 00:25:17,440
+the neighbors are ordered by ukidian
+
+607
+00:25:15,279 --> 00:25:22,000
+distances from the closest to the
+
+608
+00:25:17,440 --> 00:25:24,880
+farthest in this half range and uh in
+
+609
+00:25:22,000 --> 00:25:27,360
+this PC space and we have another order
+
+610
+00:25:24,880 --> 00:25:29,919
+set of neighbors in the 2D space and for
+
+611
+00:25:27,360 --> 00:25:34,000
+each set given the order we actually
+
+612
+00:25:29,919 --> 00:25:35,760
+record the u the 2D ukia distance of
+
+613
+00:25:34,000 --> 00:25:39,039
+each neighboring cell to the target
+
+614
+00:25:35,760 --> 00:25:42,240
+cell. So in this case the two vectors we
+
+615
+00:25:39,039 --> 00:25:45,440
+construct are taken from the same 2D
+
+616
+00:25:42,240 --> 00:25:47,679
+space because that's how we interpret
+
+617
+00:25:45,440 --> 00:25:49,840
+the figure right so that's what we're
+
+618
+00:25:47,679 --> 00:25:52,640
+looking at and then we compare the
+
+619
+00:25:49,840 --> 00:25:56,000
+consistency of these two sets of order
+
+620
+00:25:52,640 --> 00:25:58,320
+distances and we use the the Pearson
+
+621
+00:25:56,000 --> 00:26:00,880
+correlation as the measure for
+
+622
+00:25:58,320 --> 00:26:03,600
+consistency and define that as a
+
+623
+00:26:00,880 --> 00:26:06,320
+reliability score. The reason we choose
+
+624
+00:26:03,600 --> 00:26:09,840
+Pearson correlations because it actually
+
+625
+00:26:06,320 --> 00:26:11,600
+considers the actual distance values not
+
+626
+00:26:09,840 --> 00:26:14,400
+just the ranking because for example
+
+627
+00:26:11,600 --> 00:26:16,400
+here this one is very far away but these
+
+628
+00:26:14,400 --> 00:26:18,640
+are not so far away. So when we look at
+
+629
+00:26:16,400 --> 00:26:20,960
+the figure we're not just interpreting
+
+630
+00:26:18,640 --> 00:26:23,600
+the relative ranking but actually the
+
+631
+00:26:20,960 --> 00:26:26,240
+actual distance. So that's how we define
+
+632
+00:26:23,600 --> 00:26:28,400
+the reliability score. And this cell
+
+633
+00:26:26,240 --> 00:26:32,159
+cell one is considered by us to have a
+
+634
+00:26:28,400 --> 00:26:33,840
+good reliability score while cell two is
+
+635
+00:26:32,159 --> 00:26:36,159
+something we consider to be bad or
+
+636
+00:26:33,840 --> 00:26:38,880
+dubious. So in this case if you see the
+
+637
+00:26:36,159 --> 00:26:41,600
+figure the pre-mbedded neighbors looking
+
+638
+00:26:38,880 --> 00:26:43,840
+at them on the 2D space you can see that
+
+639
+00:26:41,600 --> 00:26:46,559
+they are very scattered right so they're
+
+640
+00:26:43,840 --> 00:26:49,360
+not concentrated or they don't look like
+
+641
+00:26:46,559 --> 00:26:53,200
+the neighbors to cell two. So this means
+
+642
+00:26:49,360 --> 00:26:56,159
+that TC or UMAP embedding changed the
+
+643
+00:26:53,200 --> 00:26:58,720
+half range neighbors a lot after we do
+
+644
+00:26:56,159 --> 00:27:01,039
+the projection. So in this case the
+
+645
+00:26:58,720 --> 00:27:03,279
+reliability score is considered low. So
+
+646
+00:27:01,039 --> 00:27:06,799
+that's the intuition and our intuition
+
+647
+00:27:03,279 --> 00:27:08,960
+turned into this score definition but we
+
+648
+00:27:06,799 --> 00:27:11,919
+still need some calibration or we need
+
+649
+00:27:08,960 --> 00:27:14,000
+some baseline and here the no hypothesis
+
+650
+00:27:11,919 --> 00:27:15,919
+using the statistical language or the
+
+651
+00:27:14,000 --> 00:27:18,880
+baseline in the scientific language is
+
+652
+00:27:15,919 --> 00:27:21,520
+that here what will happen if the sales
+
+653
+00:27:18,880 --> 00:27:23,760
+neighbors are not meaningful. How can we
+
+654
+00:27:21,520 --> 00:27:26,080
+create such a scenario in which the
+
+655
+00:27:23,760 --> 00:27:28,159
+mid-range neighbors are just random
+
+656
+00:27:26,080 --> 00:27:31,200
+right? How can we do that? And in this
+
+657
+00:27:28,159 --> 00:27:34,000
+case we think about permutation. So if
+
+658
+00:27:31,200 --> 00:27:37,840
+we think about permuting
+
+659
+00:27:34,000 --> 00:27:40,559
+each gene randomly across all cells we
+
+660
+00:27:37,840 --> 00:27:43,200
+do that independently for all genes.
+
+661
+00:27:40,559 --> 00:27:46,159
+What will happen? So you'll see that by
+
+662
+00:27:43,200 --> 00:27:49,279
+such a permutation you did preserve
+
+663
+00:27:46,159 --> 00:27:50,720
+every genes marginal distribution
+
+664
+00:27:49,279 --> 00:27:53,600
+dimensional distribution because there
+
+665
+00:27:50,720 --> 00:27:57,440
+are same values just differently
+
+666
+00:27:53,600 --> 00:28:00,080
+ordered. But what should disrupt is ging
+
+667
+00:27:57,440 --> 00:28:02,480
+correlations and also cell cell
+
+668
+00:28:00,080 --> 00:28:04,799
+relationships because in this case your
+
+669
+00:28:02,480 --> 00:28:07,600
+period cells do not correspond to the
+
+670
+00:28:04,799 --> 00:28:09,679
+original cells they are a new sample and
+
+671
+00:28:07,600 --> 00:28:12,159
+this new sample come from this new
+
+672
+00:28:09,679 --> 00:28:13,520
+distribution but since these period
+
+673
+00:28:12,159 --> 00:28:15,520
+cells if you think about them
+
+674
+00:28:13,520 --> 00:28:17,440
+mathematically they're actually
+
+675
+00:28:15,520 --> 00:28:19,760
+exchangeable with each other. So
+
+676
+00:28:17,440 --> 00:28:22,320
+therefore each period cells can be
+
+677
+00:28:19,760 --> 00:28:24,080
+considered neighbors to any other
+
+678
+00:28:22,320 --> 00:28:25,760
+permeated cells right? So there you
+
+679
+00:28:24,080 --> 00:28:29,840
+don't have any meaningful biological
+
+680
+00:28:25,760 --> 00:28:33,360
+relationships and with such data if we
+
+681
+00:28:29,840 --> 00:28:36,159
+apply our score calculation to each per
+
+682
+00:28:33,360 --> 00:28:38,320
+media cell we can get a score but this
+
+683
+00:28:36,159 --> 00:28:40,399
+score comes from the null case in which
+
+684
+00:28:38,320 --> 00:28:42,960
+that you don't have meaningful
+
+685
+00:28:40,399 --> 00:28:45,600
+neighborhood preservation and we can get
+
+686
+00:28:42,960 --> 00:28:48,159
+one null score from each permitted cell
+
+687
+00:28:45,600 --> 00:28:50,640
+and that will give us a distribution and
+
+688
+00:28:48,159 --> 00:28:53,440
+this distribution can let us calibrate
+
+689
+00:28:50,640 --> 00:28:55,520
+the scores we calculate from our real
+
+690
+00:28:53,440 --> 00:28:58,159
+data from our original cells whether
+
+691
+00:28:55,520 --> 00:29:00,159
+they're high enough they must be high
+
+692
+00:28:58,159 --> 00:29:02,240
+enough to be called trustworthy right
+
+693
+00:29:00,159 --> 00:29:05,039
+they should be much higher than most of
+
+694
+00:29:02,240 --> 00:29:07,440
+the null scores but regarding the
+
+695
+00:29:05,039 --> 00:29:11,200
+dubious definition how do we set a
+
+696
+00:29:07,440 --> 00:29:13,200
+threshold so here in our paper we set a
+
+697
+00:29:11,200 --> 00:29:15,919
+threshold to be very very conservative
+
+698
+00:29:13,200 --> 00:29:18,480
+in the sense that if you are worse than
+
+699
+00:29:15,919 --> 00:29:20,799
+the majority of the no scores then they
+
+700
+00:29:18,480 --> 00:29:23,760
+you are really really bad and then we
+
+701
+00:29:20,799 --> 00:29:25,279
+flag that score as dubious is that you
+
+702
+00:29:23,760 --> 00:29:26,559
+may actually change this. You may
+
+703
+00:29:25,279 --> 00:29:28,880
+actually say, "Okay, I don't want to be
+
+704
+00:29:26,559 --> 00:29:31,360
+too conservative and this threshold is
+
+705
+00:29:28,880 --> 00:29:33,360
+adjustable." But regardless here, this
+
+706
+00:29:31,360 --> 00:29:35,840
+distribution just give you a way to
+
+707
+00:29:33,360 --> 00:29:38,240
+calibrate the scores for your real cells
+
+708
+00:29:35,840 --> 00:29:40,000
+to see whether they are good enough. And
+
+709
+00:29:38,240 --> 00:29:43,039
+also I want to clarify that here the
+
+710
+00:29:40,000 --> 00:29:45,200
+permutation only needs to be done once
+
+711
+00:29:43,039 --> 00:29:48,159
+because once we do this permutation once
+
+712
+00:29:45,200 --> 00:29:51,520
+for the whole matrix we can get a score
+
+713
+00:29:48,159 --> 00:29:53,600
+for each permitted cell and that pulling
+
+714
+00:29:51,520 --> 00:29:55,360
+them together we can get a distribution.
+
+715
+00:29:53,600 --> 00:29:57,520
+So we don't have to worry about the
+
+716
+00:29:55,360 --> 00:29:59,760
+computational cost for many rounds of
+
+717
+00:29:57,520 --> 00:30:02,640
+permutation. So let me just show you how
+
+718
+00:29:59,760 --> 00:30:06,960
+we can what we find. So this is one
+
+719
+00:30:02,640 --> 00:30:09,840
+figure from a 2019 science paper about a
+
+720
+00:30:06,960 --> 00:30:12,399
+species called hydra in the ocean for
+
+721
+00:30:09,840 --> 00:30:14,480
+their single cell RNA data measured for
+
+722
+00:30:12,399 --> 00:30:16,799
+the first time in history. So you can
+
+723
+00:30:14,480 --> 00:30:19,919
+see that this is the original tney plot
+
+724
+00:30:16,799 --> 00:30:23,039
+using the default perplexity 40 in
+
+725
+00:30:19,919 --> 00:30:25,360
+Surret. And if we run our dubious
+
+726
+00:30:23,039 --> 00:30:27,440
+detector to detecting dubious
+
+727
+00:30:25,360 --> 00:30:29,600
+embeddings, you can see that to our
+
+728
+00:30:27,440 --> 00:30:31,360
+interest like very interestingly a lot
+
+729
+00:30:29,600 --> 00:30:33,840
+of the dubious embeddings are in those
+
+730
+00:30:31,360 --> 00:30:37,039
+small clusters here. And so we just
+
+731
+00:30:33,840 --> 00:30:40,159
+wonder whether because of this how to
+
+732
+00:30:37,039 --> 00:30:42,960
+say distortion by the 2D embedding we
+
+733
+00:30:40,159 --> 00:30:46,159
+see those three these small clusters but
+
+734
+00:30:42,960 --> 00:30:48,320
+they shouldn't be as so isolated or
+
+735
+00:30:46,159 --> 00:30:50,080
+stand alone as we see in the figure and
+
+736
+00:30:48,320 --> 00:30:52,559
+in fact that's the case because if you
+
+737
+00:30:50,080 --> 00:30:55,360
+go back to the labels you see that a lot
+
+738
+00:30:52,559 --> 00:30:58,000
+of the labels of the clusters on tney
+
+739
+00:30:55,360 --> 00:31:01,279
+were given a number and the number
+
+740
+00:30:58,000 --> 00:31:04,000
+meaning that they share with the same
+
+741
+00:31:01,279 --> 00:31:06,159
+cell type label with some other clusters
+
+742
+00:31:04,000 --> 00:31:08,000
+but because they look like separate
+
+743
+00:31:06,159 --> 00:31:10,640
+clusters they were given different
+
+744
+00:31:08,000 --> 00:31:13,200
+numbers but that may not be biological.
+
+745
+00:31:10,640 --> 00:31:15,440
+So one example you can see here is in
+
+746
+00:31:13,200 --> 00:31:17,760
+the original figure you will have the
+
+747
+00:31:15,440 --> 00:31:20,559
+three small clusters surrounding the big
+
+748
+00:31:17,760 --> 00:31:23,600
+orange cluster and the orange cluster
+
+749
+00:31:20,559 --> 00:31:25,679
+represents stem cells but the three
+
+750
+00:31:23,600 --> 00:31:28,799
+small clusters have the same label
+
+751
+00:31:25,679 --> 00:31:31,039
+neuron ectoorm cells and with our
+
+752
+00:31:28,799 --> 00:31:34,559
+optimized visualization. So how we do
+
+753
+00:31:31,039 --> 00:31:36,240
+that? We can actually change perplexity
+
+754
+00:31:34,559 --> 00:31:38,960
+calculate the number of dubious
+
+755
+00:31:36,240 --> 00:31:42,000
+embeddings and find the perplexity value
+
+756
+00:31:38,960 --> 00:31:44,399
+in which at which the dubious embeddings
+
+757
+00:31:42,000 --> 00:31:46,480
+are minimized. So at this perplexity
+
+758
+00:31:44,399 --> 00:31:48,880
+which is larger we can see that the
+
+759
+00:31:46,480 --> 00:31:51,919
+three small clusters are now unified
+
+760
+00:31:48,880 --> 00:31:54,640
+down here and they become far away from
+
+761
+00:31:51,919 --> 00:31:57,360
+the big cluster representing stem cells.
+
+762
+00:31:54,640 --> 00:31:59,679
+And this representation has better
+
+763
+00:31:57,360 --> 00:32:01,840
+agreement with what we see from the gene
+
+764
+00:31:59,679 --> 00:32:03,519
+expression data in the heat map. So I
+
+765
+00:32:01,840 --> 00:32:06,559
+think this is just one example to show
+
+766
+00:32:03,519 --> 00:32:08,320
+that the way visualization is plotted
+
+767
+00:32:06,559 --> 00:32:10,480
+matters right it will change our
+
+768
+00:32:08,320 --> 00:32:13,840
+perception of the relationship of cell
+
+769
+00:32:10,480 --> 00:32:16,480
+types if we look at the figure closely.
+
+770
+00:32:13,840 --> 00:32:18,320
+Another application I'll just show
+
+771
+00:32:16,480 --> 00:32:19,919
+result in our paper. There are many but
+
+772
+00:32:18,320 --> 00:32:23,440
+I'm just showing a very small set of
+
+773
+00:32:19,919 --> 00:32:27,679
+that is this consistency between TC and
+
+774
+00:32:23,440 --> 00:32:30,640
+um so since um was popular the belief is
+
+775
+00:32:27,679 --> 00:32:32,720
+that it better preserves the global
+
+776
+00:32:30,640 --> 00:32:35,919
+topology or relationship of cells
+
+777
+00:32:32,720 --> 00:32:39,440
+compared to tene and indeed as we found
+
+778
+00:32:35,919 --> 00:32:41,760
+in our result um has two hyperparameters
+
+779
+00:32:39,440 --> 00:32:43,519
+the minimum distance and the number of
+
+780
+00:32:41,760 --> 00:32:45,840
+neighbors. So with the two
+
+781
+00:32:43,519 --> 00:32:49,039
+hyperparameters together we can see that
+
+782
+00:32:45,840 --> 00:32:51,279
+the UMAP results are more stable than TS
+
+783
+00:32:49,039 --> 00:32:53,760
+results. So TS results can change more
+
+784
+00:32:51,279 --> 00:32:55,919
+dramatically as you change perplexity.
+
+785
+00:32:53,760 --> 00:32:58,159
+The UMAP turns to be more stable.
+
+786
+00:32:55,919 --> 00:33:00,799
+However, the the other thing we have to
+
+787
+00:32:58,159 --> 00:33:03,279
+note we note is that if we use our
+
+788
+00:33:00,799 --> 00:33:04,960
+approach to minimize number of dubious
+
+789
+00:33:03,279 --> 00:33:07,760
+embeddings by changing the
+
+790
+00:33:04,960 --> 00:33:10,320
+hyperparameters of either method then we
+
+791
+00:33:07,760 --> 00:33:13,200
+can see that with the optimizing um
+
+792
+00:33:10,320 --> 00:33:15,600
+visualization their consistency becomes
+
+793
+00:33:13,200 --> 00:33:18,320
+better better than if we go with the
+
+794
+00:33:15,600 --> 00:33:20,399
+original or default. So that's another
+
+795
+00:33:18,320 --> 00:33:23,519
+indirect evidence to show that the
+
+796
+00:33:20,399 --> 00:33:25,760
+optimization is meaningful. So with the
+
+797
+00:33:23,519 --> 00:33:28,000
+time constraint I would just say that
+
+798
+00:33:25,760 --> 00:33:30,159
+conclude this part for visualization and
+
+799
+00:33:28,000 --> 00:33:31,919
+for the meta cell part I'll just briefly
+
+800
+00:33:30,159 --> 00:33:34,559
+mention the problem and I'll give the
+
+801
+00:33:31,919 --> 00:33:36,960
+time to pan for her talk. So what is a
+
+802
+00:33:34,559 --> 00:33:40,559
+meta cell? It is a common practice used
+
+803
+00:33:36,960 --> 00:33:42,640
+in the single cell analysis field or
+
+804
+00:33:40,559 --> 00:33:44,480
+>> go on quick question about your previous
+
+805
+00:33:42,640 --> 00:33:47,200
+thing. So are are you actually making
+
+806
+00:33:44,480 --> 00:33:47,840
+the case to use PCA instead of PNE or
+
+807
+00:33:47,200 --> 00:33:49,919
+UMAP?
+
+808
+00:33:47,840 --> 00:33:52,480
+>> No not at all. So PSCA here is just
+
+809
+00:33:49,919 --> 00:33:56,000
+using as a pre-processing step for
+
+810
+00:33:52,480 --> 00:33:58,320
+reducing dimensions from say thousand to
+
+811
+00:33:56,000 --> 00:34:00,159
+20 to 50 but it's not used as a
+
+812
+00:33:58,320 --> 00:34:03,760
+visualization tool because it can if you
+
+813
+00:34:00,159 --> 00:34:06,240
+just look at PC1 or PC2 in most in most
+
+814
+00:34:03,760 --> 00:34:09,200
+cases you cannot see clusters.
+
+815
+00:34:06,240 --> 00:34:09,839
+>> Okay. So so you still recommend using TE
+
+816
+00:34:09,200 --> 00:34:12,079
+or UMass?
+
+817
+00:34:09,839 --> 00:34:14,879
+>> I I wouldn't make a point for that. I
+
+818
+00:34:12,079 --> 00:34:18,079
+would say is what we propose for SE the
+
+819
+00:34:14,879 --> 00:34:21,040
+method we call SED is only when you want
+
+820
+00:34:18,079 --> 00:34:22,960
+to use um or TS anyway and we think that
+
+821
+00:34:21,040 --> 00:34:25,359
+using that's better than not using it
+
+822
+00:34:22,960 --> 00:34:27,599
+that's our point but whether you should
+
+823
+00:34:25,359 --> 00:34:29,040
+completely remove TER um from single
+
+824
+00:34:27,599 --> 00:34:29,679
+cell papers I think that's a separate
+
+825
+00:34:29,040 --> 00:34:30,159
+point
+
+826
+00:34:29,679 --> 00:34:33,800
+>> okay
+
+827
+00:34:30,159 --> 00:34:33,800
+>> yeah thank you yeah
+
+828
+00:34:34,240 --> 00:34:40,480
+>> I thank you for the uh wonderful method
+
+829
+00:34:36,720 --> 00:34:41,919
+so I wonder uh in the case that if I
+
+830
+00:34:40,480 --> 00:34:44,800
+want to visualize
+
+831
+00:34:41,919 --> 00:34:46,639
+uh cell from different uh tissue for
+
+832
+00:34:44,800 --> 00:34:48,800
+example and different batch
+
+833
+00:34:46,639 --> 00:34:52,240
+>> would you suggest to do the permutation
+
+834
+00:34:48,800 --> 00:34:54,480
+within each cell or each uh batch or
+
+835
+00:34:52,240 --> 00:34:56,240
+would you consider doing them jointly as
+
+836
+00:34:54,480 --> 00:34:58,320
+a wholeation
+
+837
+00:34:56,240 --> 00:35:01,119
+>> that's a very good question but I think
+
+838
+00:34:58,320 --> 00:35:03,040
+also I I also I always want to ask your
+
+839
+00:35:01,119 --> 00:35:04,800
+goal what is your goal of doing this
+
+840
+00:35:03,040 --> 00:35:06,480
+visualization what do you want to see in
+
+841
+00:35:04,800 --> 00:35:09,599
+your data right
+
+842
+00:35:06,480 --> 00:35:12,000
+>> yes yes I honestly so yeah maybe I I I
+
+843
+00:35:09,599 --> 00:35:14,240
+just a data in a data driven approach.
+
+844
+00:35:12,000 --> 00:35:15,680
+So maybe yeah, I pre previously do not
+
+845
+00:35:14,240 --> 00:35:15,839
+have a very clear goal about what I
+
+846
+00:35:15,680 --> 00:35:17,040
+want.
+
+847
+00:35:15,839 --> 00:35:19,119
+>> You just learn to look at the data,
+
+848
+00:35:17,040 --> 00:35:22,240
+right? Yes. So in this case, I would say
+
+849
+00:35:19,119 --> 00:35:24,400
+if I were you, I would do both ways.
+
+850
+00:35:22,240 --> 00:35:26,320
+>> Yeah. Because I will say if you look at
+
+851
+00:35:24,400 --> 00:35:30,920
+all the batches together, then you can
+
+852
+00:35:26,320 --> 00:35:30,920
+see where they are right underne
+
+853
+00:35:34,400 --> 00:35:39,680
+the together plot or the joint plot was
+
+854
+00:35:37,520 --> 00:35:41,920
+distorted in some way. I think I'll just
+
+855
+00:35:39,680 --> 00:35:44,480
+try multiple ways to visualize the data
+
+856
+00:35:41,920 --> 00:35:46,320
+including PCA, right? So and and try to
+
+857
+00:35:44,480 --> 00:35:47,920
+do exploration. Yeah, that's what I
+
+858
+00:35:46,320 --> 00:35:49,599
+would suggest. But but on the other
+
+859
+00:35:47,920 --> 00:35:51,760
+hand, it's very important to know
+
+860
+00:35:49,599 --> 00:35:54,720
+whether you want to preserve the cell
+
+861
+00:35:51,760 --> 00:35:56,560
+types or you want to how do you
+
+862
+00:35:54,720 --> 00:35:59,280
+interpret the batch effects? Are they
+
+863
+00:35:56,560 --> 00:36:02,160
+technical effects you want to remove or
+
+864
+00:35:59,280 --> 00:36:03,760
+do they also contain possibly biological
+
+865
+00:36:02,160 --> 00:36:08,560
+effects you want to preserve? Right.
+
+866
+00:36:03,760 --> 00:36:10,880
+That's also a question. Yeah. Yeah.
+
+867
+00:36:08,560 --> 00:36:12,400
+Hi, this is really interesting. Um, I
+
+868
+00:36:10,880 --> 00:36:14,240
+wanted to clarify. It sounds like you're
+
+869
+00:36:12,400 --> 00:36:16,079
+trying to perceive if the visualization
+
+870
+00:36:14,240 --> 00:36:17,839
+preserves uklidian distances based on
+
+871
+00:36:16,079 --> 00:36:19,280
+gene expression. I wonder if you thought
+
+872
+00:36:17,839 --> 00:36:21,440
+about maybe considering manifold
+
+873
+00:36:19,280 --> 00:36:22,560
+distances or geodzic distances since a
+
+874
+00:36:21,440 --> 00:36:23,440
+lot of people in the community think
+
+875
+00:36:22,560 --> 00:36:24,720
+that that's what we're trying to
+
+876
+00:36:23,440 --> 00:36:27,119
+preserve in the visualization.
+
+877
+00:36:24,720 --> 00:36:29,839
+>> Yeah, thank you. So, actually this is
+
+878
+00:36:27,119 --> 00:36:32,480
+another thing. So, the ukidian distances
+
+879
+00:36:29,839 --> 00:36:35,200
+we are considering them in two spaces. I
+
+880
+00:36:32,480 --> 00:36:37,839
+want to clarify further. The first one
+
+881
+00:36:35,200 --> 00:36:40,880
+going back here is the ukidian distance
+
+882
+00:36:37,839 --> 00:36:43,040
+in the PC space. So that is not so
+
+883
+00:36:40,880 --> 00:36:45,520
+basically you are you're there's a
+
+884
+00:36:43,040 --> 00:36:48,320
+belief underlying that is once you
+
+885
+00:36:45,520 --> 00:36:50,880
+project your data from say log transform
+
+886
+00:36:48,320 --> 00:36:52,800
+or log normalized gene expression in the
+
+887
+00:36:50,880 --> 00:36:56,240
+original space gene expression space to
+
+888
+00:36:52,800 --> 00:36:58,720
+the PC space the PC space preserves the
+
+889
+00:36:56,240 --> 00:37:01,760
+biological signal removes the technical
+
+890
+00:36:58,720 --> 00:37:04,000
+noise that's your belief so in this case
+
+891
+00:37:01,760 --> 00:37:06,240
+ukidian distance in the PC space is
+
+892
+00:37:04,000 --> 00:37:08,400
+considered to be okay but when people
+
+893
+00:37:06,240 --> 00:37:11,040
+say manifold distance they are thinking
+
+894
+00:37:08,400 --> 00:37:13,280
+that there is an even lower dimension
+
+895
+00:37:11,040 --> 00:37:16,079
+than the PC dimension and they want to
+
+896
+00:37:13,280 --> 00:37:18,800
+use the manifold to describe that and
+
+897
+00:37:16,079 --> 00:37:21,040
+that is why when they use that idea or
+
+898
+00:37:18,800 --> 00:37:22,720
+assumption to get a visualization you
+
+899
+00:37:21,040 --> 00:37:25,119
+will get a different visualization from
+
+900
+00:37:22,720 --> 00:37:27,920
+T near map but since here we're just
+
+901
+00:37:25,119 --> 00:37:30,160
+looking at T near map and in that in
+
+902
+00:37:27,920 --> 00:37:32,640
+their 2D space people are still
+
+903
+00:37:30,160 --> 00:37:35,599
+interpreting or at least our eyes are
+
+904
+00:37:32,640 --> 00:37:37,119
+reading 2D ukidian distance because
+
+905
+00:37:35,599 --> 00:37:38,960
+we're thinking about clustering
+
+906
+00:37:37,119 --> 00:37:41,760
+structure right the round cluster ers
+
+907
+00:37:38,960 --> 00:37:43,760
+and that is a ukian distancebased idea.
+
+908
+00:37:41,760 --> 00:37:46,560
+So that's why in this case we're
+
+909
+00:37:43,760 --> 00:37:49,119
+considering ukitian distance in 2D
+
+910
+00:37:46,560 --> 00:37:50,880
+versus uklidian distance in the PC space
+
+911
+00:37:49,119 --> 00:37:53,040
+and manifold is not part of the
+
+912
+00:37:50,880 --> 00:37:54,160
+discussion. Yeah, that is the
+
+913
+00:37:53,040 --> 00:37:56,720
+clarification.
+
+914
+00:37:54,160 --> 00:37:58,880
+>> Yeah, just a follow-up question. So
+
+915
+00:37:56,720 --> 00:38:00,880
+>> I I just heard you mention like doing
+
+916
+00:37:58,880 --> 00:38:02,480
+PCH just for removing the noise
+
+917
+00:38:00,880 --> 00:38:04,640
+beforehand. But has your group just look
+
+918
+00:38:02,480 --> 00:38:07,040
+at the original data and kind of
+
+919
+00:38:04,640 --> 00:38:09,520
+>> either you clean the distance or coign
+
+920
+00:38:07,040 --> 00:38:10,240
+or like how does it compare with this
+
+921
+00:38:09,520 --> 00:38:12,000
+like?
+
+922
+00:38:10,240 --> 00:38:14,000
+>> So could you say your question again?
+
+923
+00:38:12,000 --> 00:38:16,079
+>> So has your group look into the just
+
+924
+00:38:14,000 --> 00:38:18,160
+distance between the I mean within the
+
+925
+00:38:16,079 --> 00:38:20,560
+original data before even PCA. Oh
+
+926
+00:38:18,160 --> 00:38:22,720
+actually that is another mathematical
+
+927
+00:38:20,560 --> 00:38:24,880
+fact is that if you have such a high
+
+928
+00:38:22,720 --> 00:38:28,320
+dimensional space like 1,00 dimensional
+
+929
+00:38:24,880 --> 00:38:29,839
+space ukense is no longer meaningful.
+
+930
+00:38:28,320 --> 00:38:31,440
+>> Yeah that's the reason why we didn't
+
+931
+00:38:29,839 --> 00:38:32,640
+look at uklidian this is within the
+
+932
+00:38:31,440 --> 00:38:33,200
+original space.
+
+933
+00:38:32,640 --> 00:38:34,079
+>> I see.
+
+934
+00:38:33,200 --> 00:38:34,800
+>> Yeah. Yeah.
+
+935
+00:38:34,079 --> 00:38:37,200
+>> Okay. Thanks.
+
+936
+00:38:34,800 --> 00:38:39,200
+>> Thank you. Yeah.
+
+937
+00:38:37,200 --> 00:38:41,520
+All right. Thank you so much. That's a
+
+938
+00:38:39,200 --> 00:38:43,760
+very good discussion. And then I'll just
+
+939
+00:38:41,520 --> 00:38:45,280
+be quick for the second part. I'll just
+
+940
+00:38:43,760 --> 00:38:47,440
+say because time will introduce that in
+
+941
+00:38:45,280 --> 00:38:50,000
+detail. I'll just say that meta cell is
+
+942
+00:38:47,440 --> 00:38:52,400
+a common practice in the field because
+
+943
+00:38:50,000 --> 00:38:53,920
+of sparity. So people say that okay
+
+944
+00:38:52,400 --> 00:38:56,480
+given if especially if you look at
+
+945
+00:38:53,920 --> 00:38:59,359
+single cell multiom data for example RNA
+
+946
+00:38:56,480 --> 00:39:01,680
+seek versus a taxi we it is known that
+
+947
+00:38:59,359 --> 00:39:04,880
+the data is very sparse right many of
+
+948
+00:39:01,680 --> 00:39:07,359
+the genes or enhancers were zero in the
+
+949
+00:39:04,880 --> 00:39:08,480
+in the data. So how do you make sure
+
+950
+00:39:07,359 --> 00:39:10,000
+that you can still do something
+
+951
+00:39:08,480 --> 00:39:12,560
+meaningful to find something your
+
+952
+00:39:10,000 --> 00:39:14,640
+analysis man is a heristic solution in
+
+953
+00:39:12,560 --> 00:39:16,960
+which people just try to group cells
+
+954
+00:39:14,640 --> 00:39:19,280
+into very small clusters right and
+
+955
+00:39:16,960 --> 00:39:22,880
+hopefully each cluster represents the
+
+956
+00:39:19,280 --> 00:39:24,880
+same biological entity as the original
+
+957
+00:39:22,880 --> 00:39:27,440
+cells. Then you look at those small
+
+958
+00:39:24,880 --> 00:39:29,599
+clusters you take the average of each
+
+959
+00:39:27,440 --> 00:39:32,160
+feature in the cluster and you call
+
+960
+00:39:29,599 --> 00:39:34,160
+those meta cell profiles and then you
+
+961
+00:39:32,160 --> 00:39:37,440
+analyze those data instead of the
+
+962
+00:39:34,160 --> 00:39:39,440
+original data. And here the goal is that
+
+963
+00:39:37,440 --> 00:39:41,760
+you can be faster because there are
+
+964
+00:39:39,440 --> 00:39:44,160
+fewer meta cells than original cells and
+
+965
+00:39:41,760 --> 00:39:46,480
+also meta cells are less sparse. But the
+
+966
+00:39:44,160 --> 00:39:48,400
+question we want to address here is what
+
+967
+00:39:46,480 --> 00:39:50,640
+is a reasonable definition for meta
+
+968
+00:39:48,400 --> 00:39:53,040
+cells because you can have them very
+
+969
+00:39:50,640 --> 00:39:54,960
+very small or you can have them bigger.
+
+970
+00:39:53,040 --> 00:39:57,280
+But of course there must be some
+
+971
+00:39:54,960 --> 00:39:59,440
+underlying how to say sweet spot or
+
+972
+00:39:57,280 --> 00:40:01,520
+tradeoff in the middle you want to find
+
+973
+00:39:59,440 --> 00:40:04,079
+because you can think about two extremes
+
+974
+00:40:01,520 --> 00:40:05,599
+aggregating all cells into one meta cell
+
+975
+00:40:04,079 --> 00:40:07,599
+and that is what people call pseudo
+
+976
+00:40:05,599 --> 00:40:10,079
+bulk. So you're not having single cell
+
+977
+00:40:07,599 --> 00:40:11,920
+resolution or the other extreme is that
+
+978
+00:40:10,079 --> 00:40:13,760
+you don't do meta cell at all you just
+
+979
+00:40:11,920 --> 00:40:15,760
+keep single cells. So where should we
+
+980
+00:40:13,760 --> 00:40:18,800
+stop? So I'll just say that the
+
+981
+00:40:15,760 --> 00:40:21,599
+motivation for we want to come up with
+
+982
+00:40:18,800 --> 00:40:24,480
+the statistical definition again. So our
+
+983
+00:40:21,599 --> 00:40:26,960
+definition actually is based on this two
+
+984
+00:40:24,480 --> 00:40:29,839
+layer model from the literature pan will
+
+985
+00:40:26,960 --> 00:40:32,240
+talk about in which we believe that the
+
+986
+00:40:29,839 --> 00:40:34,480
+biological variability can be described
+
+987
+00:40:32,240 --> 00:40:36,800
+by what we call an expression model and
+
+988
+00:40:34,480 --> 00:40:38,880
+given the biological expression there is
+
+989
+00:40:36,800 --> 00:40:41,359
+a measurement model that performs the
+
+990
+00:40:38,880 --> 00:40:44,320
+sampling which is usually captured by
+
+991
+00:40:41,359 --> 00:40:46,240
+passon sampling to give us the count. So
+
+992
+00:40:44,320 --> 00:40:48,640
+if we believe that the cells should be
+
+993
+00:40:46,240 --> 00:40:50,640
+merged into a meta cell then their
+
+994
+00:40:48,640 --> 00:40:52,560
+differences should be only due to the
+
+995
+00:40:50,640 --> 00:40:55,920
+measurement model and they should be
+
+996
+00:40:52,560 --> 00:40:58,640
+largely identical in terms of biolog
+
+997
+00:40:55,920 --> 00:41:02,240
+biological expression and because of
+
+998
+00:40:58,640 --> 00:41:04,720
+this two layer assumption we can define
+
+999
+00:41:02,240 --> 00:41:07,200
+a meta cell and giving it a statistical
+
+1000
+00:41:04,720 --> 00:41:09,599
+concept and one notable thing about the
+
+1001
+00:41:07,200 --> 00:41:11,680
+measurement model is because it's only a
+
+1002
+00:41:09,599 --> 00:41:14,640
+sampling process and you already have
+
+1003
+00:41:11,680 --> 00:41:16,480
+the biological counts of RNAs you're
+
+1004
+00:41:14,640 --> 00:41:19,040
+just sampling using the during the
+
+1005
+00:41:16,480 --> 00:41:21,520
+sequencing experiment then we can assume
+
+1006
+00:41:19,040 --> 00:41:24,000
+that reasonable assume that gene gene
+
+1007
+00:41:21,520 --> 00:41:26,160
+correlations are not induced by
+
+1008
+00:41:24,000 --> 00:41:28,560
+measurement model but only comes from
+
+1009
+00:41:26,160 --> 00:41:31,359
+expression model. So this can give us an
+
+1010
+00:41:28,560 --> 00:41:35,280
+idea to construct a statistic in which
+
+1011
+00:41:31,359 --> 00:41:37,599
+we can measure how dubious the meta cell
+
+1012
+00:41:35,280 --> 00:41:40,319
+each meta cell is based on gene gene
+
+1013
+00:41:37,599 --> 00:41:42,480
+correlation. So the idea is if the meta
+
+1014
+00:41:40,319 --> 00:41:44,960
+cell only contains single cells that
+
+1015
+00:41:42,480 --> 00:41:47,119
+differ based on the measurement model
+
+1016
+00:41:44,960 --> 00:41:49,680
+then gene gene correlations within the
+
+1017
+00:41:47,119 --> 00:41:52,000
+meta cell should be minimal. So that is
+
+1018
+00:41:49,680 --> 00:41:55,200
+how we design a statistic and we call
+
+1019
+00:41:52,000 --> 00:41:57,520
+that mcdivid. So pal will give more
+
+1020
+00:41:55,200 --> 00:42:00,240
+specifics about this. I will just go
+
+1021
+00:41:57,520 --> 00:42:03,359
+back to my thing to say how permutation
+
+1022
+00:42:00,240 --> 00:42:05,920
+can be helpful for calibrating the
+
+1023
+00:42:03,359 --> 00:42:08,480
+values of the statistics. So we can use
+
+1024
+00:42:05,920 --> 00:42:11,440
+that node distribution to define a
+
+1025
+00:42:08,480 --> 00:42:14,160
+threshold. So we can call a meta cell as
+
+1026
+00:42:11,440 --> 00:42:18,319
+dubious or trustworthy. So coming back
+
+1027
+00:42:14,160 --> 00:42:21,119
+to permutation in sad we did within gene
+
+1028
+00:42:18,319 --> 00:42:23,680
+permutation and what we preserved our
+
+1029
+00:42:21,119 --> 00:42:25,760
+marginal distributions of each gene but
+
+1030
+00:42:23,680 --> 00:42:27,760
+we made genes uncorrelated and
+
+1031
+00:42:25,760 --> 00:42:30,000
+furthermore if you look at the permuted
+
+1032
+00:42:27,760 --> 00:42:32,160
+cells they do not correspond to the
+
+1033
+00:42:30,000 --> 00:42:34,640
+original cells. The cell cell library
+
+1034
+00:42:32,160 --> 00:42:37,200
+sizes in the original cells are gone.
+
+1035
+00:42:34,640 --> 00:42:39,520
+But if we go back to the two layer model
+
+1036
+00:42:37,200 --> 00:42:42,000
+which pan again she will detail here is
+
+1037
+00:42:39,520 --> 00:42:44,400
+that the cell cell library sizes perform
+
+1038
+00:42:42,000 --> 00:42:47,040
+is very important because depends on how
+
+1039
+00:42:44,400 --> 00:42:49,920
+many counts you receive each cell and
+
+1040
+00:42:47,040 --> 00:42:52,560
+that total count is divided into genes
+
+1041
+00:42:49,920 --> 00:42:54,960
+and because the total is the same then
+
+1042
+00:42:52,560 --> 00:42:57,599
+the gene genes will within the cell will
+
+1043
+00:42:54,960 --> 00:43:00,480
+have some small correlations just due to
+
+1044
+00:42:57,599 --> 00:43:03,839
+this multinnomial sampling right to have
+
+1045
+00:43:00,480 --> 00:43:05,680
+some dependence among the genes but we
+
+1046
+00:43:03,839 --> 00:43:08,319
+need to model that and we need to
+
+1047
+00:43:05,680 --> 00:43:10,560
+capture that in the cell library size.
+
+1048
+00:43:08,319 --> 00:43:12,480
+So how can we do that? So we know that
+
+1049
+00:43:10,560 --> 00:43:15,680
+just doing the within gene permutation
+
+1050
+00:43:12,480 --> 00:43:17,680
+yes we can make genes uncorrelated as we
+
+1051
+00:43:15,680 --> 00:43:20,560
+believe that should happen within a
+
+1052
+00:43:17,680 --> 00:43:23,359
+trustworthy meta cell but removing cell
+
+1053
+00:43:20,560 --> 00:43:26,319
+library sizes will make this not a valid
+
+1054
+00:43:23,359 --> 00:43:29,200
+no for our statistic. So to account for
+
+1055
+00:43:26,319 --> 00:43:32,000
+that pan came up with this smart idea of
+
+1056
+00:43:29,200 --> 00:43:34,560
+permuting within each cell. So in this
+
+1057
+00:43:32,000 --> 00:43:36,720
+case we can actually preserve the cell
+
+1058
+00:43:34,560 --> 00:43:38,640
+every row sum or the total of the cell
+
+1059
+00:43:36,720 --> 00:43:40,640
+library size for each cell. So you can
+
+1060
+00:43:38,640 --> 00:43:42,880
+see that here we preserve the cell
+
+1061
+00:43:40,640 --> 00:43:44,720
+library sizes but we change the genes
+
+1062
+00:43:42,880 --> 00:43:46,960
+since you're randomly permuting the
+
+1063
+00:43:44,720 --> 00:43:48,960
+genes within the cell. We call those
+
+1064
+00:43:46,960 --> 00:43:51,040
+permuted genes and they do not
+
+1065
+00:43:48,960 --> 00:43:53,040
+correspond to the original genes. So
+
+1066
+00:43:51,040 --> 00:43:54,960
+even though this can give us a no case
+
+1067
+00:43:53,040 --> 00:43:56,800
+in which the cell library sizes are
+
+1068
+00:43:54,960 --> 00:43:59,280
+preserved but because the genes are
+
+1069
+00:43:56,800 --> 00:44:02,400
+different we still miss something. So
+
+1070
+00:43:59,280 --> 00:44:04,880
+then we did a normalization. So the
+
+1071
+00:44:02,400 --> 00:44:07,200
+normalization is by removing the
+
+1072
+00:44:04,880 --> 00:44:10,400
+differences of genes. So we would have a
+
+1073
+00:44:07,200 --> 00:44:13,200
+normalization factor for the original
+
+1074
+00:44:10,400 --> 00:44:17,280
+data by doing within gene permutation.
+
+1075
+00:44:13,200 --> 00:44:19,440
+So this creates a uncorrelated case in
+
+1076
+00:44:17,280 --> 00:44:21,680
+which the genes are the same original
+
+1077
+00:44:19,440 --> 00:44:24,640
+genes and we do the same thing for the
+
+1078
+00:44:21,680 --> 00:44:27,680
+permuted matrix. So here we after we do
+
+1079
+00:44:24,640 --> 00:44:29,920
+the permutation within a cell we further
+
+1080
+00:44:27,680 --> 00:44:31,760
+do the permutation within each permuted
+
+1081
+00:44:29,920 --> 00:44:34,400
+gene and we call this double
+
+1082
+00:44:31,760 --> 00:44:36,960
+permutation. So this can give us a
+
+1083
+00:44:34,400 --> 00:44:38,960
+normalization factor to account for the
+
+1084
+00:44:36,960 --> 00:44:41,119
+fact that here the permuted genes are
+
+1085
+00:44:38,960 --> 00:44:42,319
+not the original genes. So each set of
+
+1086
+00:44:41,119 --> 00:44:44,800
+genes have their corresponding
+
+1087
+00:44:42,319 --> 00:44:47,839
+normalization factor and together we get
+
+1088
+00:44:44,800 --> 00:44:49,839
+a test statistic no case. So this some
+
+1089
+00:44:47,839 --> 00:44:51,839
+this is an idea which we think is very
+
+1090
+00:44:49,839 --> 00:44:54,240
+interesting and it turns out to work
+
+1091
+00:44:51,839 --> 00:44:56,240
+pretty well. So without specifying the
+
+1092
+00:44:54,240 --> 00:44:58,880
+detail of the statistic definition, I'll
+
+1093
+00:44:56,240 --> 00:45:02,400
+just say that what we did procedure-
+
+1094
+00:44:58,880 --> 00:45:05,440
+wise is to perform double permutations
+
+1095
+00:45:02,400 --> 00:45:07,599
+for each meta cell. So we just need to
+
+1096
+00:45:05,440 --> 00:45:10,160
+do this double permutation again for
+
+1097
+00:45:07,599 --> 00:45:12,319
+once. We get a no value for each meta
+
+1098
+00:45:10,160 --> 00:45:14,800
+cell. So you can see that as a result we
+
+1099
+00:45:12,319 --> 00:45:17,359
+will have a statistic for each meta cell
+
+1100
+00:45:14,800 --> 00:45:19,680
+and the corresponding no statistic value
+
+1101
+00:45:17,359 --> 00:45:23,200
+for each meta cell. and pulling
+
+1102
+00:45:19,680 --> 00:45:26,720
+together. We want to use the null values
+
+1103
+00:45:23,200 --> 00:45:28,880
+to calibrate a threshold for our actual
+
+1104
+00:45:26,720 --> 00:45:31,280
+statistical values. And what we are
+
+1105
+00:45:28,880 --> 00:45:34,000
+doing here is that we observe the null
+
+1106
+00:45:31,280 --> 00:45:36,560
+values have some relationship with the
+
+1107
+00:45:34,000 --> 00:45:39,359
+meta cell size. And here the size means
+
+1108
+00:45:36,560 --> 00:45:42,160
+the number of single cells contained in
+
+1109
+00:45:39,359 --> 00:45:44,560
+each meta cell. And this can give us a
+
+1110
+00:45:42,160 --> 00:45:46,880
+size specific threshold based on the
+
+1111
+00:45:44,560 --> 00:45:50,560
+null values. And given the null values,
+
+1112
+00:45:46,880 --> 00:45:53,040
+we can consider each original meta cells
+
+1113
+00:45:50,560 --> 00:45:56,000
+statistic. Whether it's too high above
+
+1114
+00:45:53,040 --> 00:45:57,839
+the threshold, we call that dudas or if
+
+1115
+00:45:56,000 --> 00:45:59,280
+they're too low or they're low enough
+
+1116
+00:45:57,839 --> 00:46:01,280
+below the threshold, we call them
+
+1117
+00:45:59,280 --> 00:46:03,520
+trustworthy. So again, we try to use
+
+1118
+00:46:01,280 --> 00:46:06,160
+permutation to derive a threshold. Well,
+
+1119
+00:46:03,520 --> 00:46:09,119
+and again like did we only did
+
+1120
+00:46:06,160 --> 00:46:12,800
+permutation once. So I will just say
+
+1121
+00:46:09,119 --> 00:46:15,920
+that for the permutation part I will
+
+1122
+00:46:12,800 --> 00:46:18,079
+talk about here. So basically bulk de as
+
+1123
+00:46:15,920 --> 00:46:20,000
+a teaser right here it's a simple thing
+
+1124
+00:46:18,079 --> 00:46:22,160
+you just permute the condition labels
+
+1125
+00:46:20,000 --> 00:46:25,119
+and for single cell we consider within
+
+1126
+00:46:22,160 --> 00:46:27,520
+gym permutation or double permutation
+
+1127
+00:46:25,119 --> 00:46:29,599
+because for the former we just want to
+
+1128
+00:46:27,520 --> 00:46:31,599
+make sure that the permedia cells are
+
+1129
+00:46:29,599 --> 00:46:34,000
+like exchangeable a random sample
+
+1130
+00:46:31,599 --> 00:46:35,839
+without any biological relationships
+
+1131
+00:46:34,000 --> 00:46:37,920
+among the cells and for the double
+
+1132
+00:46:35,839 --> 00:46:40,400
+permutation we did it because we want to
+
+1133
+00:46:37,920 --> 00:46:42,880
+preserve the cell library sizes first.
+
+1134
+00:46:40,400 --> 00:46:45,680
+So for this part I want to acknowledge
+
+1135
+00:46:42,880 --> 00:46:47,520
+my collaborators both from the
+
+1136
+00:46:45,680 --> 00:46:49,280
+computational biology side and from
+
+1137
+00:46:47,520 --> 00:46:51,520
+statistics side. Lucy she's a
+
+1138
+00:46:49,280 --> 00:46:54,480
+statistician and also of course pan for
+
+1139
+00:46:51,520 --> 00:46:56,960
+MC rigger. But before I end my talk I
+
+1140
+00:46:54,480 --> 00:46:59,760
+just want to briefly say that this idea
+
+1141
+00:46:56,960 --> 00:47:01,440
+of generating some null data is beyond
+
+1142
+00:46:59,760 --> 00:47:03,839
+permutation. Permutation can be
+
+1143
+00:47:01,440 --> 00:47:06,240
+considered as a special case for this
+
+1144
+00:47:03,839 --> 00:47:08,480
+concept we hope to promote. We call that
+
+1145
+00:47:06,240 --> 00:47:10,960
+synthetic null data. It means that we
+
+1146
+00:47:08,480 --> 00:47:13,119
+generate data from the null hypothesis
+
+1147
+00:47:10,960 --> 00:47:15,760
+and we can use that as a calibration
+
+1148
+00:47:13,119 --> 00:47:18,560
+device for our original data. So one
+
+1149
+00:47:15,760 --> 00:47:20,880
+example I want to point to is that we
+
+1150
+00:47:18,560 --> 00:47:23,119
+propose this method called cluster DE
+
+1151
+00:47:20,880 --> 00:47:24,880
+which is still a preprint but we are
+
+1152
+00:47:23,119 --> 00:47:27,440
+making it more and more comprehensive as
+
+1153
+00:47:24,880 --> 00:47:29,520
+time goes is a postclustering
+
+1154
+00:47:27,440 --> 00:47:31,920
+differential expression method. we
+
+1155
+00:47:29,520 --> 00:47:34,160
+showed this it's working for both single
+
+1156
+00:47:31,920 --> 00:47:35,680
+cell and spatial transcripttoics data
+
+1157
+00:47:34,160 --> 00:47:37,920
+and furthermore we're are planning to
+
+1158
+00:47:35,680 --> 00:47:41,040
+add more to it to other omics to show
+
+1159
+00:47:37,920 --> 00:47:44,400
+it's more general. So the idea briefly
+
+1160
+00:47:41,040 --> 00:47:47,200
+is that we propose to generate synthetic
+
+1161
+00:47:44,400 --> 00:47:50,720
+node data that represents a homogeneous
+
+1162
+00:47:47,200 --> 00:47:53,040
+cluster but in other aspects it we try
+
+1163
+00:47:50,720 --> 00:47:55,680
+to mimic the real data the original
+
+1164
+00:47:53,040 --> 00:47:58,240
+data. So the hope is that if you perform
+
+1165
+00:47:55,680 --> 00:48:01,119
+clustering, you identify clusters as
+
+1166
+00:47:58,240 --> 00:48:03,440
+potential subopuls and then you compare
+
+1167
+00:48:01,119 --> 00:48:05,520
+the two clusters to find DE genes as
+
+1168
+00:48:03,440 --> 00:48:08,079
+markers, we help to avoid this
+
+1169
+00:48:05,520 --> 00:48:09,599
+overclustering bias. In other words,
+
+1170
+00:48:08,079 --> 00:48:11,839
+even though your original data is just
+
+1171
+00:48:09,599 --> 00:48:14,240
+one homogeneous cluster, you may still
+
+1172
+00:48:11,839 --> 00:48:16,640
+divide it and then even to have two
+
+1173
+00:48:14,240 --> 00:48:18,720
+clusters and your DE results can still
+
+1174
+00:48:16,640 --> 00:48:21,520
+show many many marker genes. This is
+
+1175
+00:48:18,720 --> 00:48:23,920
+something we observe in Surat applied to
+
+1176
+00:48:21,520 --> 00:48:26,960
+single cell line data. You can see that.
+
+1177
+00:48:23,920 --> 00:48:30,079
+So we try to remove those biases and
+
+1178
+00:48:26,960 --> 00:48:32,559
+also to prioritize the true markers. If
+
+1179
+00:48:30,079 --> 00:48:35,520
+the two cell clusters are indeed
+
+1180
+00:48:32,559 --> 00:48:37,599
+distinct, we use this negative control.
+
+1181
+00:48:35,520 --> 00:48:40,640
+And I'll just be brief by showing that
+
+1182
+00:48:37,599 --> 00:48:43,839
+it's working by prioritizing like true
+
+1183
+00:48:40,640 --> 00:48:47,040
+marker genes in like the CD16 in a
+
+1184
+00:48:43,839 --> 00:48:50,160
+comparison of two monocy subtypes CD16
+
+1185
+00:48:47,040 --> 00:48:53,200
+versus CD4 and pushing down housekeeping
+
+1186
+00:48:50,160 --> 00:48:55,359
+genes down the rank list in DE because
+
+1187
+00:48:53,200 --> 00:48:57,920
+housekeeping genes are typically highly
+
+1188
+00:48:55,359 --> 00:49:00,160
+variable with large variances and they
+
+1189
+00:48:57,920 --> 00:49:02,000
+can actually drive the clustering or be
+
+1190
+00:49:00,160 --> 00:49:04,480
+involved in the clustering and as a
+
+1191
+00:49:02,000 --> 00:49:05,839
+result be identified by the D step
+
+1192
+00:49:04,480 --> 00:49:08,480
+between two clusters.
+
+1193
+00:49:05,839 --> 00:49:12,079
+But by setting up a negative control as
+
+1194
+00:49:08,480 --> 00:49:13,760
+in our synthetic no data concept, we can
+
+1195
+00:49:12,079 --> 00:49:16,000
+push down the ranking of the
+
+1196
+00:49:13,760 --> 00:49:18,160
+housekeeping genes but preserving the
+
+1197
+00:49:16,000 --> 00:49:20,000
+high ranking top ranking of the true
+
+1198
+00:49:18,160 --> 00:49:22,480
+marker genes. And this gene set
+
+1199
+00:49:20,000 --> 00:49:25,440
+enrichment analysis showing that yes the
+
+1200
+00:49:22,480 --> 00:49:27,680
+non markers are ranked highly in our D
+
+1201
+00:49:25,440 --> 00:49:30,240
+list but housekeeping genes are ranked
+
+1202
+00:49:27,680 --> 00:49:32,640
+much lowly compared to what Surak give
+
+1203
+00:49:30,240 --> 00:49:35,200
+us. And the result the reason for that
+
+1204
+00:49:32,640 --> 00:49:38,319
+is because we have this contrast. So we
+
+1205
+00:49:35,200 --> 00:49:40,480
+can have a target D set of D scores and
+
+1206
+00:49:38,319 --> 00:49:43,200
+a no set of D scores. We do the
+
+1207
+00:49:40,480 --> 00:49:46,319
+comparison and only the things the genes
+
+1208
+00:49:43,200 --> 00:49:48,559
+with a large contrast will be high in
+
+1209
+00:49:46,319 --> 00:49:50,480
+contrast score and we show that the
+
+1210
+00:49:48,559 --> 00:49:54,400
+marker genes are higher than the
+
+1211
+00:49:50,480 --> 00:49:57,200
+housekeeping genes and also applied to
+
+1212
+00:49:54,400 --> 00:50:00,640
+the clustering result. This approach can
+
+1213
+00:49:57,200 --> 00:50:03,839
+help us merge sperious clusters that are
+
+1214
+00:50:00,640 --> 00:50:06,319
+not so well separated. we can decide to
+
+1215
+00:50:03,839 --> 00:50:08,880
+merge them. And this can also show us
+
+1216
+00:50:06,319 --> 00:50:10,400
+that if we use the idea then if you run
+
+1217
+00:50:08,880 --> 00:50:12,240
+stack clustering with different
+
+1218
+00:50:10,400 --> 00:50:14,559
+resolutions like the high resolution
+
+1219
+00:50:12,240 --> 00:50:16,480
+will give you smaller more clusters
+
+1220
+00:50:14,559 --> 00:50:19,280
+while lower resolution give you fewer
+
+1221
+00:50:16,480 --> 00:50:21,839
+coarser clusters. We can apply this idea
+
+1222
+00:50:19,280 --> 00:50:24,000
+to each branch to decide whether they
+
+1223
+00:50:21,839 --> 00:50:25,839
+should be merged before we call the
+
+1224
+00:50:24,000 --> 00:50:28,319
+genes. And we can see that we can make
+
+1225
+00:50:25,839 --> 00:50:30,800
+the two sets of clustering results more
+
+1226
+00:50:28,319 --> 00:50:32,880
+consistent by finding the same cell
+
+1227
+00:50:30,800 --> 00:50:35,760
+types from the PBMC data where people
+
+1228
+00:50:32,880 --> 00:50:38,000
+know the best and applied to spatial
+
+1229
+00:50:35,760 --> 00:50:41,359
+data. I'll be quick by saying it's the
+
+1230
+00:50:38,000 --> 00:50:43,440
+similar postclustering D issue. You use
+
+1231
+00:50:41,359 --> 00:50:46,000
+spatial cluster to find regions and you
+
+1232
+00:50:43,440 --> 00:50:48,720
+want to find markers. So our idea is
+
+1233
+00:50:46,000 --> 00:50:50,559
+that if you really believe a spatial
+
+1234
+00:50:48,720 --> 00:50:53,280
+cluster is something meaningful or
+
+1235
+00:50:50,559 --> 00:50:55,839
+distinct, you should have a very clear
+
+1236
+00:50:53,280 --> 00:50:58,240
+boundary between the the adjacent
+
+1237
+00:50:55,839 --> 00:51:00,960
+cluster. But we can design negative
+
+1238
+00:50:58,240 --> 00:51:03,440
+control or synthetic null data by making
+
+1239
+00:51:00,960 --> 00:51:06,079
+the boundary smoothened. Then you don't
+
+1240
+00:51:03,440 --> 00:51:09,040
+have the sharp changes in G expression.
+
+1241
+00:51:06,079 --> 00:51:11,280
+But otherwise you have the same overall
+
+1242
+00:51:09,040 --> 00:51:13,599
+trend from high to low or low to high
+
+1243
+00:51:11,280 --> 00:51:16,240
+but just no sharp boundary. And with
+
+1244
+00:51:13,599 --> 00:51:17,920
+this negative control then you can see
+
+1245
+00:51:16,240 --> 00:51:19,760
+that
+
+1246
+00:51:17,920 --> 00:51:22,160
+this is what we can find. So for your
+
+1247
+00:51:19,760 --> 00:51:25,680
+spatial clusters the marker genes we
+
+1248
+00:51:22,160 --> 00:51:28,400
+find we we nominate will be much sharper
+
+1249
+00:51:25,680 --> 00:51:30,640
+markers compared to what you find from
+
+1250
+00:51:28,400 --> 00:51:32,800
+because we set up negative control. So
+
+1251
+00:51:30,640 --> 00:51:35,119
+in short I'll just say that this is a
+
+1252
+00:51:32,800 --> 00:51:37,599
+general approach to set up synthetic
+
+1253
+00:51:35,119 --> 00:51:40,240
+control for removing cluster induced
+
+1254
+00:51:37,599 --> 00:51:42,720
+bias and beyond these two single cell
+
+1255
+00:51:40,240 --> 00:51:44,240
+spatial omics we actually showed that it
+
+1256
+00:51:42,720 --> 00:51:46,240
+works for other things right for other
+
+1257
+00:51:44,240 --> 00:51:49,040
+types of omics like including population
+
+1258
+00:51:46,240 --> 00:51:51,760
+based bulk RNA seek and also microbomb
+
+1259
+00:51:49,040 --> 00:51:54,240
+data. So these new results will be added
+
+1260
+00:51:51,760 --> 00:51:56,000
+and finally I'll say that cluster D can
+
+1261
+00:51:54,240 --> 00:51:58,160
+further be generalized into this
+
+1262
+00:51:56,000 --> 00:52:00,640
+approach called nostrap. It's led by my
+
+1263
+00:51:58,160 --> 00:52:03,520
+postto choo who actually generalized
+
+1264
+00:52:00,640 --> 00:52:05,520
+this to the variable selection problem
+
+1265
+00:52:03,520 --> 00:52:07,359
+in a highdimensional prediction model.
+
+1266
+00:52:05,520 --> 00:52:08,880
+So this is a very very general question
+
+1267
+00:52:07,359 --> 00:52:10,960
+which okay if you have many many
+
+1268
+00:52:08,880 --> 00:52:13,040
+predictors or features which are the
+
+1269
+00:52:10,960 --> 00:52:15,760
+ones that are most predictable of your
+
+1270
+00:52:13,040 --> 00:52:17,760
+response. So and our hope is to also
+
+1271
+00:52:15,760 --> 00:52:19,280
+achieve the fast discovery control. So
+
+1272
+00:52:17,760 --> 00:52:21,920
+not just variable selection but some
+
+1273
+00:52:19,280 --> 00:52:24,079
+guarantee. Before our work in the
+
+1274
+00:52:21,920 --> 00:52:26,720
+statistical literature there are methods
+
+1275
+00:52:24,079 --> 00:52:29,839
+called model X knockoff or multiple data
+
+1276
+00:52:26,720 --> 00:52:31,760
+splitting for FDR control and there was
+
+1277
+00:52:29,839 --> 00:52:33,920
+a nature B tech paper if you are
+
+1278
+00:52:31,760 --> 00:52:36,720
+interested it's called stable it was
+
+1279
+00:52:33,920 --> 00:52:39,839
+published actually last year and it uses
+
+1280
+00:52:36,720 --> 00:52:41,680
+the model X knockoff with multiple runs
+
+1281
+00:52:39,839 --> 00:52:44,559
+and aggregation so it's like a stable
+
+1282
+00:52:41,680 --> 00:52:46,880
+version of knockoff and we can see that
+
+1283
+00:52:44,559 --> 00:52:49,119
+the issue with existing approaches is
+
+1284
+00:52:46,880 --> 00:52:51,440
+that they often have low power. So both
+
+1285
+00:52:49,119 --> 00:52:53,520
+of all these approaches depend on random
+
+1286
+00:52:51,440 --> 00:52:55,359
+seeds and we can see that across many
+
+1287
+00:52:53,520 --> 00:52:57,839
+random seeds you will have zero
+
+1288
+00:52:55,359 --> 00:53:00,960
+discoveries no features found and that
+
+1289
+00:52:57,839 --> 00:53:03,280
+could be an issue but using nodes we can
+
+1290
+00:53:00,960 --> 00:53:05,359
+have a much higher power because we
+
+1291
+00:53:03,280 --> 00:53:07,680
+preserve the original data we didn't
+
+1292
+00:53:05,359 --> 00:53:10,000
+change the data we just have a parallel
+
+1293
+00:53:07,680 --> 00:53:11,920
+synthetic negative control and we can
+
+1294
+00:53:10,000 --> 00:53:15,599
+have feature selected with good
+
+1295
+00:53:11,920 --> 00:53:17,680
+prediction power and to our surprise and
+
+1296
+00:53:15,599 --> 00:53:18,880
+pleasure there was an independent
+
+1297
+00:53:17,680 --> 00:53:21,040
+benchmark
+
+1298
+00:53:18,880 --> 00:53:23,200
+uh just posted a few weeks ago which
+
+1299
+00:53:21,040 --> 00:53:25,839
+compared our notrap which is still
+
+1300
+00:53:23,200 --> 00:53:27,920
+unpublished to this published stable
+
+1301
+00:53:25,839 --> 00:53:30,559
+method. And in this independent
+
+1302
+00:53:27,920 --> 00:53:33,119
+benchmark we can see that they found in
+
+1303
+00:53:30,559 --> 00:53:34,960
+terms of performance like AUPRC
+
+1304
+00:53:33,119 --> 00:53:36,960
+precision recall curve and the
+
+1305
+00:53:34,960 --> 00:53:39,359
+classification F1 score for true
+
+1306
+00:53:36,960 --> 00:53:41,520
+features versus no features we are the
+
+1307
+00:53:39,359 --> 00:53:43,920
+best even compared with the common
+
+1308
+00:53:41,520 --> 00:53:46,160
+approaches like neutral information and
+
+1309
+00:53:43,920 --> 00:53:49,200
+random forests for variable selection we
+
+1310
+00:53:46,160 --> 00:53:51,760
+are better and notably we are very fast.
+
+1311
+00:53:49,200 --> 00:53:53,520
+So we are even faster than the neutral
+
+1312
+00:53:51,760 --> 00:53:55,440
+information in terms of computational
+
+1313
+00:53:53,520 --> 00:53:57,760
+time. So which give us a lot of
+
+1314
+00:53:55,440 --> 00:54:01,200
+confidence. So I'll stop here by saying
+
+1315
+00:53:57,760 --> 00:54:03,760
+that my overall goal the overall goal in
+
+1316
+00:54:01,200 --> 00:54:06,160
+my goal in my research group is toward
+
+1317
+00:54:03,760 --> 00:54:07,839
+principled inference and in particular I
+
+1318
+00:54:06,160 --> 00:54:09,599
+think this is very very challenging for
+
+1319
+00:54:07,839 --> 00:54:12,000
+unsupervised learning because you don't
+
+1320
+00:54:09,599 --> 00:54:13,680
+have a very clear prediction goal and
+
+1321
+00:54:12,000 --> 00:54:15,839
+there are many many issues I can touch
+
+1322
+00:54:13,680 --> 00:54:18,000
+about including what is considered
+
+1323
+00:54:15,839 --> 00:54:21,520
+reasonable inference conditional or
+
+1324
+00:54:18,000 --> 00:54:23,359
+unconditional but this synthetic control
+
+1325
+00:54:21,520 --> 00:54:25,520
+setup from the beginning is for
+
+1326
+00:54:23,359 --> 00:54:27,680
+unconditional so we want to consider
+
+1327
+00:54:25,520 --> 00:54:30,240
+what is the bias introduced by the whole
+
+1328
+00:54:27,680 --> 00:54:33,440
+procedure including clustering and also
+
+1329
+00:54:30,240 --> 00:54:35,839
+D test and nstrap is something we really
+
+1330
+00:54:33,440 --> 00:54:38,400
+draw the inspiration from bootstrap. So
+
+1331
+00:54:35,839 --> 00:54:40,960
+we're thinking about using reampled or
+
+1332
+00:54:38,400 --> 00:54:44,240
+synthetic data but we are sampling from
+
+1333
+00:54:40,960 --> 00:54:47,359
+a no hypothesis or no model instead of
+
+1334
+00:54:44,240 --> 00:54:48,960
+just the original data. So our outlook
+
+1335
+00:54:47,359 --> 00:54:51,119
+is that we think there could be more
+
+1336
+00:54:48,960 --> 00:54:53,280
+potential applications. So that's why I
+
+1337
+00:54:51,119 --> 00:54:56,000
+squeeze some time at the end of my talk
+
+1338
+00:54:53,280 --> 00:54:57,520
+to to introduce it. So and this is the
+
+1339
+00:54:56,000 --> 00:55:00,480
+slide for the second part. Yeah, thank
+
+1340
+00:54:57,520 --> 00:55:02,240
+you very much for the primer
+
+1341
+00:55:00,480 --> 00:55:04,400
+for listening to my prime I should say.
+
+1342
+00:55:02,240 --> 00:55:06,720
+Yeah, but I understand for the second
+
+1343
+00:55:04,400 --> 00:55:08,720
+part was very fast. So I didn't I didn't
+
+1344
+00:55:06,720 --> 00:55:10,319
+have time to go go into details but but
+
+1345
+00:55:08,720 --> 00:55:13,319
+the permutation is the primary part.
+
+1346
+00:55:10,319 --> 00:55:13,319
+Yeah,
+
+1347
+00:55:13,920 --> 00:55:16,720
+>> I think that there were a lot of
+
+1348
+00:55:14,880 --> 00:55:20,760
+questions during but if anyone has any
+
+1349
+00:55:16,720 --> 00:55:20,760
+questions after talk.
+
+1350
+00:55:23,280 --> 00:55:25,839
+All right,
+
+1351
+00:55:24,160 --> 00:55:27,599
+>> I think let's break for like five
+
+1352
+00:55:25,839 --> 00:55:27,920
+minutes or so and then we'll be back for
+
+1353
+00:55:27,599 --> 00:55:29,920
+the
+
+1354
+00:55:27,920 --> 00:55:32,480
+>> Thank you. Yeah talk. Thanks.
+
+1355
+00:55:29,920 --> 00:55:34,640
+>> Thank you.
+
+1356
+00:55:32,480 --> 00:55:36,319
+>> Great. Okay. So, thanks everyone for
+
+1357
+00:55:34,640 --> 00:55:40,800
+sticking around. So, now we're going to
+
+1358
+00:55:36,319 --> 00:55:42,559
+have uh an give her talk on uh MC
+
+1359
+00:55:40,800 --> 00:55:43,839
+Rigger, which I mistakenly read as MC
+
+1360
+00:55:42,559 --> 00:55:45,680
+Rigger the first time I was reading
+
+1361
+00:55:43,839 --> 00:55:47,280
+this. So, statistical method to enhance
+
+1362
+00:55:45,680 --> 00:55:49,119
+the rigor of metaell partitioning and
+
+1363
+00:55:47,280 --> 00:55:51,119
+single cell data analysis. So, thanks
+
+1364
+00:55:49,119 --> 00:55:54,559
+everyone.
+
+1365
+00:55:51,119 --> 00:55:56,880
+Um, so thank you for the introduction.
+
+1366
+00:55:54,559 --> 00:55:58,480
+Um, so my name is Pan and I'm now a
+
+1367
+00:55:56,880 --> 00:56:00,160
+post-docctoral researcher working with
+
+1368
+00:55:58,480 --> 00:56:01,920
+professor Jessica Lee at the Fred
+
+1369
+00:56:00,160 --> 00:56:04,319
+Hudinson Cancer Center. Um, but
+
+1370
+00:56:01,920 --> 00:56:07,599
+previously I work at UCLA and this work
+
+1371
+00:56:04,319 --> 00:56:10,000
+was mostly performed when I was at UCLA.
+
+1372
+00:56:07,599 --> 00:56:12,880
+Um so uh in today's talk I want to
+
+1373
+00:56:10,000 --> 00:56:15,680
+further elaborate on this work um called
+
+1374
+00:56:12,880 --> 00:56:19,040
+MC rigger which is exactly an example of
+
+1375
+00:56:15,680 --> 00:56:21,359
+how to use um how to use permutation to
+
+1376
+00:56:19,040 --> 00:56:23,760
+serve as a negative control to make the
+
+1377
+00:56:21,359 --> 00:56:26,319
+our analysis more rigorous and as
+
+1378
+00:56:23,760 --> 00:56:28,400
+introduced by Jessica previously and
+
+1379
+00:56:26,319 --> 00:56:30,720
+this work aims at enhancing the rigor of
+
+1380
+00:56:28,400 --> 00:56:33,599
+meta cell partitioning um in single cell
+
+1381
+00:56:30,720 --> 00:56:36,240
+data analysis and here we do call this
+
+1382
+00:56:33,599 --> 00:56:39,920
+method MC rigger instead of macar rigger
+
+1383
+00:56:36,240 --> 00:56:42,319
+here MC stands for meta cell
+
+1384
+00:56:39,920 --> 00:56:45,359
+and um let's just start with a quick
+
+1385
+00:56:42,319 --> 00:56:47,359
+recap of what is uh what is a meta cell
+
+1386
+00:56:45,359 --> 00:56:50,960
+in case that some people still don't
+
+1387
+00:56:47,359 --> 00:56:53,119
+don't get it. So um here this figure is
+
+1388
+00:56:50,960 --> 00:56:55,359
+from a very nicely written review paper
+
+1389
+00:56:53,119 --> 00:56:59,520
+published in molecular system biology
+
+1390
+00:56:55,359 --> 00:57:01,520
+last year right. So um so this figure is
+
+1391
+00:56:59,520 --> 00:57:04,960
+from a very nicely written review paper
+
+1392
+00:57:01,520 --> 00:57:08,400
+about the meta cell method and um so on
+
+1393
+00:57:04,960 --> 00:57:10,400
+this top left panel here um this is a t
+
+1394
+00:57:08,400 --> 00:57:13,280
+typical for format of the single cell
+
+1395
+00:57:10,400 --> 00:57:16,400
+RNA sequencing data um where we which is
+
+1396
+00:57:13,280 --> 00:57:18,799
+normally just a matrix with um cells for
+
+1397
+00:57:16,400 --> 00:57:21,119
+columns and genes for rows and we know
+
+1398
+00:57:18,799 --> 00:57:23,200
+that in this kind of data matrix there
+
+1399
+00:57:21,119 --> 00:57:26,480
+could be many zeros maybe like as high
+
+1400
+00:57:23,200 --> 00:57:29,119
+as 90% and many of them are due to the
+
+1401
+00:57:26,480 --> 00:57:31,440
+imperfection of single cell sequencing
+
+1402
+00:57:29,119 --> 00:57:33,040
+technology because this kind of
+
+1403
+00:57:31,440 --> 00:57:36,319
+technology is very high throughput and
+
+1404
+00:57:33,040 --> 00:57:38,559
+we can have very low per per single per
+
+1405
+00:57:36,319 --> 00:57:40,559
+single cell sensitivity which means that
+
+1406
+00:57:38,559 --> 00:57:42,480
+for many genes these genes may be
+
+1407
+00:57:40,559 --> 00:57:45,680
+expressed in the cell but their
+
+1408
+00:57:42,480 --> 00:57:48,400
+expression can be just not captured. So
+
+1409
+00:57:45,680 --> 00:57:50,720
+intuitively we do not want like all
+
+1410
+00:57:48,400 --> 00:57:52,880
+these zeros in our downstream analysis
+
+1411
+00:57:50,720 --> 00:57:54,720
+that would cause a huge problem or to
+
+1412
+00:57:52,880 --> 00:57:57,440
+say we want to solve this this kind of
+
+1413
+00:57:54,720 --> 00:58:00,880
+sparcity issue and the meta cell method
+
+1414
+00:57:57,440 --> 00:58:03,359
+is is exactly a pre-processing step in
+
+1415
+00:58:00,880 --> 00:58:05,359
+single cell data analysis developed
+
+1416
+00:58:03,359 --> 00:58:07,119
+mainly to solve this kind of sparity
+
+1417
+00:58:05,359 --> 00:58:09,920
+issue.
+
+1418
+00:58:07,119 --> 00:58:12,880
+So um what a ma what matterell method
+
+1419
+00:58:09,920 --> 00:58:15,280
+does is that um you first try to
+
+1420
+00:58:12,880 --> 00:58:18,640
+identify similar single cells shown as
+
+1421
+00:58:15,280 --> 00:58:21,599
+the colored dots here within one black
+
+1422
+00:58:18,640 --> 00:58:25,839
+circle um and then we just aggregate all
+
+1423
+00:58:21,599 --> 00:58:29,119
+these similar single cells um like by
+
+1424
+00:58:25,839 --> 00:58:31,280
+averaging. So here each black circle or
+
+1425
+00:58:29,119 --> 00:58:33,839
+you can also think of it as a small
+
+1426
+00:58:31,280 --> 00:58:35,599
+cluster represent one meta cell. Then we
+
+1427
+00:58:33,839 --> 00:58:38,640
+just need to define like an average
+
+1428
+00:58:35,599 --> 00:58:41,359
+profile for each circle. Um and then we
+
+1429
+00:58:38,640 --> 00:58:44,319
+can end up with this um team by meta
+
+1430
+00:58:41,359 --> 00:58:46,720
+cell matrix and we will proceed um we'll
+
+1431
+00:58:44,319 --> 00:58:49,200
+proceed from from from here with all
+
+1432
+00:58:46,720 --> 00:58:52,000
+other downstream analysis tasks. And by
+
+1433
+00:58:49,200 --> 00:58:55,280
+doing so um by doing so we can reduce
+
+1434
+00:58:52,000 --> 00:58:57,200
+the sparity level to approximately like
+
+1435
+00:58:55,280 --> 00:58:58,960
+50%.
+
+1436
+00:58:57,200 --> 00:59:02,880
+But at the same time we are also paying
+
+1437
+00:58:58,960 --> 00:59:05,359
+some prices. Um the uh the main price is
+
+1438
+00:59:02,880 --> 00:59:09,040
+that now we have a much smaller number
+
+1439
+00:59:05,359 --> 00:59:11,200
+of analysis units or observations. Um we
+
+1440
+00:59:09,040 --> 00:59:13,760
+have meta cells instead of single cells.
+
+1441
+00:59:11,200 --> 00:59:16,480
+So that means we have lower resolution.
+
+1442
+00:59:13,760 --> 00:59:18,559
+Um but there were also some cases where
+
+1443
+00:59:16,480 --> 00:59:20,799
+people think that having a smaller
+
+1444
+00:59:18,559 --> 00:59:22,960
+number of analysis units is not always
+
+1445
+00:59:20,799 --> 00:59:26,799
+the bad thing because that also means we
+
+1446
+00:59:22,960 --> 00:59:30,160
+have like better scalability right. So
+
+1447
+00:59:26,799 --> 00:59:32,480
+um so due to all these reasons
+
+1448
+00:59:30,160 --> 00:59:35,040
+um this meta idea has been pretty
+
+1449
+00:59:32,480 --> 00:59:37,520
+popular in single cell data analysis and
+
+1450
+00:59:35,040 --> 00:59:39,520
+it have been it has been adopted in many
+
+1451
+00:59:37,520 --> 00:59:41,760
+high impact studies as I will show in
+
+1452
+00:59:39,520 --> 00:59:44,240
+short. Um but the question that
+
+1453
+00:59:41,760 --> 00:59:46,799
+motivated our research is what is a
+
+1454
+00:59:44,240 --> 00:59:49,200
+reasonable definition for a meta cell
+
+1455
+00:59:46,799 --> 00:59:51,440
+like um because if you think of two
+
+1456
+00:59:49,200 --> 00:59:53,839
+extremes like mentioned by Jessica um
+
+1457
+00:59:51,440 --> 00:59:55,440
+the two extreme is like um for one
+
+1458
+00:59:53,839 --> 00:59:57,760
+extreme we can just aggregate all the
+
+1459
+00:59:55,440 --> 01:00:00,400
+single cells into one meta cell then you
+
+1460
+00:59:57,760 --> 01:00:02,319
+we just totally lose the information and
+
+1461
+01:00:00,400 --> 01:00:04,160
+or on the other extreme if we just leave
+
+1462
+01:00:02,319 --> 01:00:06,240
+the single cells as they are then we are
+
+1463
+01:00:04,160 --> 01:00:08,480
+not doing any aggregations. So we think
+
+1464
+01:00:06,240 --> 01:00:11,119
+there must be some sweet spot in the
+
+1465
+01:00:08,480 --> 01:00:13,440
+middle um that could balance these two
+
+1466
+01:00:11,119 --> 01:00:16,000
+extremes and we cannot just do it arbit
+
+1467
+01:00:13,440 --> 01:00:18,240
+arbitrarily. So we wish to answer this
+
+1468
+01:00:16,000 --> 01:00:20,240
+question like how can we find this this
+
+1469
+01:00:18,240 --> 01:00:23,520
+sweet spot
+
+1470
+01:00:20,240 --> 01:00:26,079
+and then this slide lists the existing
+
+1471
+01:00:23,520 --> 01:00:29,280
+use of metael idea. There are five
+
+1472
+01:00:26,079 --> 01:00:31,200
+general methods um starting from and
+
+1473
+01:00:29,280 --> 01:00:32,720
+these general method by general method I
+
+1474
+01:00:31,200 --> 01:00:34,799
+mean that these methods have been
+
+1475
+01:00:32,720 --> 01:00:37,119
+developed into software packages where
+
+1476
+01:00:34,799 --> 01:00:39,359
+people can just directly use them. So
+
+1477
+01:00:37,119 --> 01:00:41,760
+start uh so start from the very first
+
+1478
+01:00:39,359 --> 01:00:44,720
+version the meta cell method which
+
+1479
+01:00:41,760 --> 01:00:46,480
+proposed the meta idea and um the the
+
+1480
+01:00:44,720 --> 01:00:48,480
+second version metael 2 by the same
+
+1481
+01:00:46,480 --> 01:00:50,720
+research group group and we also have
+
+1482
+01:00:48,480 --> 01:00:54,480
+supercell seells and also the most
+
+1483
+01:00:50,720 --> 01:00:56,880
+recent metaq which was published uh just
+
+1484
+01:00:54,480 --> 01:00:59,280
+this year
+
+1485
+01:00:56,880 --> 01:01:01,520
+and besides these five general methods
+
+1486
+01:00:59,280 --> 01:01:04,000
+we also have and we also found that this
+
+1487
+01:01:01,520 --> 01:01:06,240
+meta cell idea has been used by many
+
+1488
+01:01:04,000 --> 01:01:08,480
+in-house data analysis published in very
+
+1489
+01:01:06,240 --> 01:01:10,079
+high impact journals like nature, they
+
+1490
+01:01:08,480 --> 01:01:12,720
+have either come up with a more
+
+1491
+01:01:10,079 --> 01:01:15,119
+straightforward way like just um maybe
+
+1492
+01:01:12,720 --> 01:01:18,079
+10 years neighbors um to define meta
+
+1493
+01:01:15,119 --> 01:01:20,640
+cells or they just use one of the five
+
+1494
+01:01:18,079 --> 01:01:22,720
+general methods.
+
+1495
+01:01:20,640 --> 01:01:24,960
+But looking at all these papers, we do
+
+1496
+01:01:22,720 --> 01:01:27,520
+not really see a consensus on metael
+
+1497
+01:01:24,960 --> 01:01:32,880
+definition. People can just do it in
+
+1498
+01:01:27,520 --> 01:01:36,880
+their own way. So um so motivated by
+
+1499
+01:01:32,880 --> 01:01:39,520
+this by this problem we um we present we
+
+1500
+01:01:36,880 --> 01:01:41,760
+develop our own method MC rigger because
+
+1501
+01:01:39,520 --> 01:01:44,079
+we wish to improve the rigor of meta
+
+1502
+01:01:41,760 --> 01:01:46,640
+definition and generally we wish to
+
+1503
+01:01:44,079 --> 01:01:49,440
+answer answer three questions. The first
+
+1504
+01:01:46,640 --> 01:01:52,240
+question is how to define a meta cell
+
+1505
+01:01:49,440 --> 01:01:54,960
+and uh the second is how to find the
+
+1506
+01:01:52,240 --> 01:01:57,440
+dubious meta cells generated by existing
+
+1507
+01:01:54,960 --> 01:01:59,599
+metael methods that do not follow the
+
+1508
+01:01:57,440 --> 01:02:02,319
+appropriate definition and the third
+
+1509
+01:01:59,599 --> 01:02:05,359
+question is how do we optimize metael
+
+1510
+01:02:02,319 --> 01:02:07,440
+partitioning for a given data set. Um
+
+1511
+01:02:05,359 --> 01:02:10,799
+and just in short, our method is
+
+1512
+01:02:07,440 --> 01:02:12,799
+designed as um as a way to help with
+
+1513
+01:02:10,799 --> 01:02:15,680
+existing method to make them more
+
+1514
+01:02:12,799 --> 01:02:18,559
+rigorous and obtain better meta cell
+
+1515
+01:02:15,680 --> 01:02:20,960
+partitional result but it is not like a
+
+1516
+01:02:18,559 --> 01:02:23,280
+completely new method to build meta
+
+1517
+01:02:20,960 --> 01:02:25,520
+cells from scratch. So it is like it is
+
+1518
+01:02:23,280 --> 01:02:28,720
+more like an add-on concept to make
+
+1519
+01:02:25,520 --> 01:02:31,280
+existing methods more rigorous.
+
+1520
+01:02:28,720 --> 01:02:34,400
+Okay. So the first question like how to
+
+1521
+01:02:31,280 --> 01:02:36,960
+define a meta cell. So um to answer this
+
+1522
+01:02:34,400 --> 01:02:39,280
+question we go back to the very first
+
+1523
+01:02:36,960 --> 01:02:42,720
+publication the meta the one for metael
+
+1524
+01:02:39,280 --> 01:02:45,200
+method that proposed this meta concept.
+
+1525
+01:02:42,720 --> 01:02:47,920
+Um so in that paper a meta cell was
+
+1526
+01:02:45,200 --> 01:02:50,000
+defined as a homogeneous collection of
+
+1527
+01:02:47,920 --> 01:02:52,240
+single cell profiles that could have
+
+1528
+01:02:50,000 --> 01:02:55,040
+been resampled from the same original
+
+1529
+01:02:52,240 --> 01:02:57,359
+cell. Well this is a biological uh
+
+1530
+01:02:55,040 --> 01:02:58,960
+interpretation or definition and we want
+
+1531
+01:02:57,359 --> 01:03:02,240
+to translate it into something
+
+1532
+01:02:58,960 --> 01:03:05,920
+statistical to work to work with it. So
+
+1533
+01:03:02,240 --> 01:03:08,799
+our translation is that um within is is
+
+1534
+01:03:05,920 --> 01:03:12,240
+like is that given this concept if we
+
+1535
+01:03:08,799 --> 01:03:14,400
+find if we see obser variations within a
+
+1536
+01:03:12,240 --> 01:03:16,960
+meta cell then we believe these
+
+1537
+01:03:14,400 --> 01:03:19,599
+variations within a meta cell should be
+
+1538
+01:03:16,960 --> 01:03:22,000
+attributed exclusively to measurements
+
+1539
+01:03:19,599 --> 01:03:25,280
+or technical error instead of true
+
+1540
+01:03:22,000 --> 01:03:28,000
+biological differences. So given this
+
+1541
+01:03:25,280 --> 01:03:31,039
+translation how like how do we actually
+
+1542
+01:03:28,000 --> 01:03:33,039
+address the problem?
+
+1543
+01:03:31,039 --> 01:03:36,079
+Well, I think now the question becomes
+
+1544
+01:03:33,039 --> 01:03:37,839
+how do we define this measurement error
+
+1545
+01:03:36,079 --> 01:03:40,880
+in single cell sequencing data because
+
+1546
+01:03:37,839 --> 01:03:42,559
+we believe a meta cell should um single
+
+1547
+01:03:40,880 --> 01:03:45,760
+cells within meta cells should be varied
+
+1548
+01:03:42,559 --> 01:03:48,000
+only by these um measurement errors.
+
+1549
+01:03:45,760 --> 01:03:50,880
+Well, we actually used this paper's
+
+1550
+01:03:48,000 --> 01:03:53,359
+formulation to answer this question. Um
+
+1551
+01:03:50,880 --> 01:03:56,160
+this paper is a very nicely written um
+
+1552
+01:03:53,359 --> 01:03:59,119
+paper about single cell um statistical
+
+1553
+01:03:56,160 --> 01:04:01,200
+modeling. Um the p the authors of this
+
+1554
+01:03:59,119 --> 01:04:04,000
+paper separated the single cell model
+
+1555
+01:04:01,200 --> 01:04:06,319
+into two layers an expression model
+
+1556
+01:04:04,000 --> 01:04:08,799
+layer and a measurement model layer. And
+
+1557
+01:04:06,319 --> 01:04:10,720
+these two layers stay together give us
+
+1558
+01:04:08,799 --> 01:04:13,440
+the model that we can obtain our
+
+1559
+01:04:10,720 --> 01:04:16,400
+observed count eventually. So more
+
+1560
+01:04:13,440 --> 01:04:18,880
+specifically, an expression model
+
+1561
+01:04:16,400 --> 01:04:21,760
+describes the features true gene
+
+1562
+01:04:18,880 --> 01:04:24,160
+expression in the cell. Um and the
+
+1563
+01:04:21,760 --> 01:04:26,400
+measurement model is literally like a
+
+1564
+01:04:24,160 --> 01:04:29,440
+conditional distribution. That is like
+
+1565
+01:04:26,400 --> 01:04:32,160
+given the genes um true expression, what
+
+1566
+01:04:29,440 --> 01:04:33,920
+are the observed count we can get in our
+
+1567
+01:04:32,160 --> 01:04:36,240
+data?
+
+1568
+01:04:33,920 --> 01:04:38,880
+And we formulate this two-layer model
+
+1569
+01:04:36,240 --> 01:04:41,599
+into statistical language. Here we
+
+1570
+01:04:38,880 --> 01:04:45,680
+consider the N cells as an observations
+
+1571
+01:04:41,599 --> 01:04:47,680
+and the P genes as P features. Um and
+
+1572
+01:04:45,680 --> 01:04:50,319
+just to briefly mention that our method
+
+1573
+01:04:47,680 --> 01:04:53,760
+can only can also deal with other other
+
+1574
+01:04:50,319 --> 01:04:56,400
+data type like SD attack data. So in
+
+1575
+01:04:53,760 --> 01:04:57,760
+that kind of data the features are the
+
+1576
+01:04:56,400 --> 01:05:00,240
+other peaks or the chromatin
+
+1577
+01:04:57,760 --> 01:05:02,319
+accessibility. So that is why we call we
+
+1578
+01:05:00,240 --> 01:05:05,039
+call we generally call it features
+
+1579
+01:05:02,319 --> 01:05:07,599
+instead of just genes.
+
+1580
+01:05:05,039 --> 01:05:09,599
+Okay. So um the first layer is the
+
+1581
+01:05:07,599 --> 01:05:11,680
+expression model. The expression model
+
+1582
+01:05:09,599 --> 01:05:15,039
+is about the true gene expression in
+
+1583
+01:05:11,680 --> 01:05:17,839
+cell I represented by lambda i here. And
+
+1584
+01:05:15,039 --> 01:05:21,119
+this lambda i is a pdimensional
+
+1585
+01:05:17,839 --> 01:05:23,760
+statistics. is a p-dimensional vector
+
+1586
+01:05:21,119 --> 01:05:26,240
+where each dimension represents one
+
+1587
+01:05:23,760 --> 01:05:28,880
+feature or one gene because we usually
+
+1588
+01:05:26,240 --> 01:05:32,079
+look at these features these p features
+
+1589
+01:05:28,880 --> 01:05:35,280
+jointly and um the expression of these
+
+1590
+01:05:32,079 --> 01:05:38,480
+pe these p features are assumed to
+
+1591
+01:05:35,280 --> 01:05:40,880
+follow this f distribution about the
+
+1592
+01:05:38,480 --> 01:05:44,240
+biological state of the cell I which is
+
+1593
+01:05:40,880 --> 01:05:46,480
+represented by x i. So um examples of
+
+1594
+01:05:44,240 --> 01:05:48,480
+this biological state information could
+
+1595
+01:05:46,480 --> 01:05:52,160
+come from things like cell types or
+
+1596
+01:05:48,480 --> 01:05:54,079
+pseudo times in a lineage trajectory.
+
+1597
+01:05:52,160 --> 01:05:57,200
+And I also want to point out that this
+
+1598
+01:05:54,079 --> 01:06:00,000
+lambda here um it represent the relative
+
+1599
+01:05:57,200 --> 01:06:03,119
+expression level um with its components
+
+1600
+01:06:00,000 --> 01:06:05,039
+summing up to one. The um the reason why
+
+1601
+01:06:03,119 --> 01:06:07,599
+we focus on this relative expression
+
+1602
+01:06:05,039 --> 01:06:09,839
+instead of um the the absolute
+
+1603
+01:06:07,599 --> 01:06:11,920
+expression is because we believe the
+
+1604
+01:06:09,839 --> 01:06:14,640
+single cell sequencing technology can
+
+1605
+01:06:11,920 --> 01:06:16,400
+only provide or like reliable relative
+
+1606
+01:06:14,640 --> 01:06:18,559
+expression information but not the
+
+1607
+01:06:16,400 --> 01:06:20,559
+absolute abundance. We believe we
+
+1608
+01:06:18,559 --> 01:06:22,240
+believe those absolute abundance
+
+1609
+01:06:20,559 --> 01:06:24,640
+information are kind of lost in the
+
+1610
+01:06:22,240 --> 01:06:26,559
+sequencing procedure.
+
+1611
+01:06:24,640 --> 01:06:29,520
+And then for the second layer is that
+
+1612
+01:06:26,559 --> 01:06:33,200
+given this lambda I the measurement
+
+1613
+01:06:29,520 --> 01:06:35,280
+model depicts um the variations or the
+
+1614
+01:06:33,200 --> 01:06:37,920
+errors introduced in the sequencing
+
+1615
+01:06:35,280 --> 01:06:40,400
+procedure. Like um given the true
+
+1616
+01:06:37,920 --> 01:06:44,319
+expression lambda, how do we end up
+
+1617
+01:06:40,400 --> 01:06:46,960
+getting the observed count y and um this
+
+1618
+01:06:44,319 --> 01:06:48,960
+kind of procedure is usually assumed to
+
+1619
+01:06:46,960 --> 01:06:51,520
+be somehow similar to the sampling pro
+
+1620
+01:06:48,960 --> 01:06:55,119
+procedure. So that is why we usually
+
+1621
+01:06:51,520 --> 01:06:58,400
+just use the person distribution. um to
+
+1622
+01:06:55,119 --> 01:07:01,920
+uh to model this layer and on this right
+
+1623
+01:06:58,400 --> 01:07:04,880
+hand side the CI is the expectation of
+
+1624
+01:07:01,920 --> 01:07:07,760
+um of the cell library size which is Yi
+
+1625
+01:07:04,880 --> 01:07:09,839
+plus um and it is also called the cell
+
+1626
+01:07:07,760 --> 01:07:12,400
+the pre-ell sequencing depth some
+
+1627
+01:07:09,839 --> 01:07:15,280
+sometimes
+
+1628
+01:07:12,400 --> 01:07:18,319
+so based on this two-layer model our
+
+1629
+01:07:15,280 --> 01:07:20,400
+statistical definition of the meta cell
+
+1630
+01:07:18,319 --> 01:07:23,200
+is a group of single cells that share
+
+1631
+01:07:20,400 --> 01:07:25,280
+the same lambda so the cells in the same
+
+1632
+01:07:23,200 --> 01:07:26,880
+meta out must have the same lambda, but
+
+1633
+01:07:25,280 --> 01:07:29,599
+they can have like different different
+
+1634
+01:07:26,880 --> 01:07:32,319
+ys.
+
+1635
+01:07:29,599 --> 01:07:34,799
+And then we can formulate this into a
+
+1636
+01:07:32,319 --> 01:07:37,440
+statistical question. Um like can we
+
+1637
+01:07:34,799 --> 01:07:40,079
+check if an existing meta cell satisfy
+
+1638
+01:07:37,440 --> 01:07:41,920
+this definition? If yes, we can just
+
+1639
+01:07:40,079 --> 01:07:44,079
+call this meta cell a trustworthy meta
+
+1640
+01:07:41,920 --> 01:07:47,039
+cell and otherwise we call it a dubious
+
+1641
+01:07:44,079 --> 01:07:50,079
+meta cell.
+
+1642
+01:07:47,039 --> 01:07:53,119
+So before we dive into our own method uh
+
+1643
+01:07:50,079 --> 01:07:55,520
+just some more motivation of why we want
+
+1644
+01:07:53,119 --> 01:07:58,400
+to identify dubious meta cells and why
+
+1645
+01:07:55,520 --> 01:08:01,200
+is it so important. So this is again a
+
+1646
+01:07:58,400 --> 01:08:03,760
+figure from the meta cell method review
+
+1647
+01:08:01,200 --> 01:08:07,359
+paper. Here these single cells are
+
+1648
+01:08:03,760 --> 01:08:10,640
+colored by their cell state. So each and
+
+1649
+01:08:07,359 --> 01:08:14,160
+uh in this bottom left panel each black
+
+1650
+01:08:10,640 --> 01:08:16,960
+circle represent a meta cell. And uh so
+
+1651
+01:08:14,160 --> 01:08:19,839
+pretty so pretty obvious is that this
+
+1652
+01:08:16,960 --> 01:08:22,080
+middle meta cell is dubious because it
+
+1653
+01:08:19,839 --> 01:08:24,640
+is a mixture of cells from two different
+
+1654
+01:08:22,080 --> 01:08:28,159
+cell states.
+
+1655
+01:08:24,640 --> 01:08:30,239
+And if we are interested in um in
+
+1656
+01:08:28,159 --> 01:08:32,400
+studying the association between two
+
+1657
+01:08:30,239 --> 01:08:35,040
+genes like gene A and gene B here for
+
+1658
+01:08:32,400 --> 01:08:36,799
+example which is a very common and
+
+1659
+01:08:35,040 --> 01:08:39,040
+important analysis task for single cell
+
+1660
+01:08:36,799 --> 01:08:42,080
+data analysis. If we if we want to study
+
+1661
+01:08:39,040 --> 01:08:44,640
+this kind of association, we can first
+
+1662
+01:08:42,080 --> 01:08:46,640
+um look at their association at the
+
+1663
+01:08:44,640 --> 01:08:47,920
+single cell level. And at the single
+
+1664
+01:08:46,640 --> 01:08:50,880
+cell level, you can see that actually
+
+1665
+01:08:47,920 --> 01:08:54,000
+these two genes, they do not have much
+
+1666
+01:08:50,880 --> 01:08:57,440
+association at least like no positive
+
+1667
+01:08:54,000 --> 01:09:00,000
+association for sure. But if we compute
+
+1668
+01:08:57,440 --> 01:09:03,279
+their association or correlation at a
+
+1669
+01:09:00,000 --> 01:09:06,159
+meta cell level with one dubious meta
+
+1670
+01:09:03,279 --> 01:09:08,799
+cell then this dubious one will lie here
+
+1671
+01:09:06,159 --> 01:09:12,080
+in the middle and we will u and we may
+
+1672
+01:09:08,799 --> 01:09:14,560
+get a false positive association because
+
+1673
+01:09:12,080 --> 01:09:18,480
+of this um this single dubious meta
+
+1674
+01:09:14,560 --> 01:09:20,640
+cell. So this is an example of um how
+
+1675
+01:09:18,480 --> 01:09:22,960
+bias can be introduced by the dubious
+
+1676
+01:09:20,640 --> 01:09:25,199
+meta cell and that is exactly why we are
+
+1677
+01:09:22,960 --> 01:09:28,799
+we care about those so much and we want
+
+1678
+01:09:25,199 --> 01:09:31,199
+to um we want to avoid that. So to avoid
+
+1679
+01:09:28,799 --> 01:09:33,600
+these biases being carried down to
+
+1680
+01:09:31,199 --> 01:09:35,920
+downstream analysis, we propose our
+
+1681
+01:09:33,600 --> 01:09:37,839
+method MC rigger
+
+1682
+01:09:35,920 --> 01:09:40,799
+which generally gives a statistical
+
+1683
+01:09:37,839 --> 01:09:43,120
+criterion to first identify the dubious
+
+1684
+01:09:40,799 --> 01:09:46,319
+meta cells consisting of cells from
+
+1685
+01:09:43,120 --> 01:09:48,799
+different cell states and also after
+
+1686
+01:09:46,319 --> 01:09:51,120
+identifying the dubious meta cells, the
+
+1687
+01:09:48,799 --> 01:09:54,239
+next step could be to nominate the top
+
+1688
+01:09:51,120 --> 01:09:57,440
+performing um metael methods and also
+
+1689
+01:09:54,239 --> 01:09:59,600
+optimize it hyperparameter. Um and here
+
+1690
+01:09:57,440 --> 01:10:03,360
+we mainly focus on the granularity level
+
+1691
+01:09:59,600 --> 01:10:05,440
+hypoparameter gamma which is uh which is
+
+1692
+01:10:03,360 --> 01:10:09,600
+essentially like the average number of
+
+1693
+01:10:05,440 --> 01:10:12,080
+single cells within one meta cell or you
+
+1694
+01:10:09,600 --> 01:10:14,880
+can think of it as the a as the meta
+
+1695
+01:10:12,080 --> 01:10:16,800
+cell sizes on average.
+
+1696
+01:10:14,880 --> 01:10:20,080
+And we hope to choose this gamma in a
+
+1697
+01:10:16,800 --> 01:10:22,960
+data specific way.
+
+1698
+01:10:20,080 --> 01:10:25,199
+And uh so at the most basic level we use
+
+1699
+01:10:22,960 --> 01:10:27,920
+a feature feature correlation metric as
+
+1700
+01:10:25,199 --> 01:10:30,560
+a way to help us build this criterion.
+
+1701
+01:10:27,920 --> 01:10:32,320
+And in the intu and intuition has
+
+1702
+01:10:30,560 --> 01:10:34,640
+already been mentioned by Jessica I
+
+1703
+01:10:32,320 --> 01:10:37,440
+think which is that since we can
+
+1704
+01:10:34,640 --> 01:10:39,600
+consider the the measurement process as
+
+1705
+01:10:37,440 --> 01:10:41,679
+somehow similar to the sampling process
+
+1706
+01:10:39,600 --> 01:10:44,400
+we can think that um we can think of it
+
+1707
+01:10:41,679 --> 01:10:47,040
+as like the sampling for each genes are
+
+1708
+01:10:44,400 --> 01:10:49,679
+somehow independent. So for a
+
+1709
+01:10:47,040 --> 01:10:51,840
+trustworthy meta cell
+
+1710
+01:10:49,679 --> 01:10:53,600
+um it's correlation it feature feature
+
+1711
+01:10:51,840 --> 01:10:56,320
+correlation matrix should be something
+
+1712
+01:10:53,600 --> 01:10:59,199
+similar to the bottom left matrix
+
+1713
+01:10:56,320 --> 01:11:02,719
+something similar to an identity matrix
+
+1714
+01:10:59,199 --> 01:11:04,640
+and um on contrast for a dubious manel
+
+1715
+01:11:02,719 --> 01:11:07,679
+its feature feature correlation matrix
+
+1716
+01:11:04,640 --> 01:11:11,120
+can usually um demonstrate this kind of
+
+1717
+01:11:07,679 --> 01:11:15,280
+clear block structure.
+
+1718
+01:11:11,120 --> 01:11:18,480
+So um so in order to make use of this uh
+
+1719
+01:11:15,280 --> 01:11:21,280
+intuition what we do specifically is
+
+1720
+01:11:18,480 --> 01:11:23,840
+that first we need to build a per meta
+
+1721
+01:11:21,280 --> 01:11:26,800
+cell statistics that can that can
+
+1722
+01:11:23,840 --> 01:11:31,920
+describe how much likely is this metael
+
+1723
+01:11:26,800 --> 01:11:34,239
+dubious um and and well this uh preetell
+
+1724
+01:11:31,920 --> 01:11:36,560
+statistics is called metael divergence
+
+1725
+01:11:34,239 --> 01:11:38,239
+or mcdiv. It is built based on the
+
+1726
+01:11:36,560 --> 01:11:41,520
+future feature correlation as I just
+
+1727
+01:11:38,239 --> 01:11:43,840
+mentioned and and also we will need to
+
+1728
+01:11:41,520 --> 01:11:46,880
+build a null construct a null for this
+
+1729
+01:11:43,840 --> 01:11:49,440
+statistics because we will we will need
+
+1730
+01:11:46,880 --> 01:11:52,560
+this null um to evaluate the
+
+1731
+01:11:49,440 --> 01:11:55,360
+significance of the statistics
+
+1732
+01:11:52,560 --> 01:11:57,520
+and uh as Jessica previously mentioned
+
+1733
+01:11:55,360 --> 01:12:00,960
+we use a permutationbased strategy to
+
+1734
+01:11:57,520 --> 01:12:03,840
+construct the null um and an important
+
+1735
+01:12:00,960 --> 01:12:05,840
+fact an important point that we need to
+
+1736
+01:12:03,840 --> 01:12:07,440
+consider is that In this null
+
+1737
+01:12:05,840 --> 01:12:10,640
+construction, we want to preserve the
+
+1738
+01:12:07,440 --> 01:12:14,080
+cell library sizes. Um, and the reason
+
+1739
+01:12:10,640 --> 01:12:15,920
+for this is that um this pone
+
+1740
+01:12:14,080 --> 01:12:18,640
+distribution
+
+1741
+01:12:15,920 --> 01:12:22,080
+or this measurement model is equivalent
+
+1742
+01:12:18,640 --> 01:12:27,040
+to the joint multinnomial distribution
+
+1743
+01:12:22,080 --> 01:12:30,320
+and um and this cell library sizes CI
+
+1744
+01:12:27,040 --> 01:12:32,400
+uh and and Yi plus is involved in in
+
+1745
+01:12:30,320 --> 01:12:34,640
+this multinnormal distribution. And we
+
+1746
+01:12:32,400 --> 01:12:38,239
+know that this uh this sum total this
+
+1747
+01:12:34,640 --> 01:12:40,239
+salary sizes can introduce a small
+
+1748
+01:12:38,239 --> 01:12:43,360
+amount of future feature correlation
+
+1749
+01:12:40,239 --> 01:12:45,360
+into into this data and we need to
+
+1750
+01:12:43,360 --> 01:12:48,960
+account for that.
+
+1751
+01:12:45,360 --> 01:12:52,239
+So that is why we um we need to design
+
+1752
+01:12:48,960 --> 01:12:54,159
+this uh very unique double permutation
+
+1753
+01:12:52,239 --> 01:12:55,520
+strategy to make sure that we
+
+1754
+01:12:54,159 --> 01:12:56,320
+>> can I ask a question can I ask a
+
+1755
+01:12:55,520 --> 01:12:58,159
+question?
+
+1756
+01:12:56,320 --> 01:13:00,640
+>> Yeah. um on the previous slide. So like
+
+1757
+01:12:58,159 --> 01:13:02,480
+how do you calculate the correlations
+
+1758
+01:13:00,640 --> 01:13:05,199
+first of all because there's like mostly
+
+1759
+01:13:02,480 --> 01:13:05,520
+zeros and then
+
+1760
+01:13:05,199 --> 01:13:07,360
+>> yes
+
+1761
+01:13:05,520 --> 01:13:09,840
+>> like which type of correlation metric do
+
+1762
+01:13:07,360 --> 01:13:12,000
+you use and then um
+
+1763
+01:13:09,840 --> 01:13:14,320
+>> I think can you just go to the previous
+
+1764
+01:13:12,000 --> 01:13:16,560
+slide sorry and then what what prevents
+
+1765
+01:13:14,320 --> 01:13:19,520
+like this sort of
+
+1766
+01:13:16,560 --> 01:13:22,159
+>> um I guess criteria about the
+
+1767
+01:13:19,520 --> 01:13:26,159
+correlation like seems like the simplest
+
+1768
+01:13:22,159 --> 01:13:27,840
+way then to solve like to get you know
+
+1769
+01:13:26,159 --> 01:13:29,600
+not these sort of off diagonal things
+
+1770
+01:13:27,840 --> 01:13:32,560
+would just to be would be to have like
+
+1771
+01:13:29,600 --> 01:13:34,880
+very small meta cells like two or three
+
+1772
+01:13:32,560 --> 01:13:37,199
+because then you don't have these off
+
+1773
+01:13:34,880 --> 01:13:39,679
+diagonal sort of double meta cells
+
+1774
+01:13:37,199 --> 01:13:41,600
+showing up like what what what is the
+
+1775
+01:13:39,679 --> 01:13:44,640
+counterbalance to like actually make
+
+1776
+01:13:41,600 --> 01:13:46,800
+meta cells that have lots of cells in
+
+1777
+01:13:44,640 --> 01:13:48,480
+them because it feels like just the
+
+1778
+01:13:46,800 --> 01:13:50,159
+simplest way to get a trustworthy one
+
+1779
+01:13:48,480 --> 01:13:51,920
+would be to have like very few cells in
+
+1780
+01:13:50,159 --> 01:13:54,320
+the meta cell because then you're not
+
+1781
+01:13:51,920 --> 01:13:57,360
+going to have these correlations between
+
+1782
+01:13:54,320 --> 01:13:59,920
+cells that don't belong together. Uh yes
+
+1783
+01:13:57,360 --> 01:14:02,239
+exactly that is a very good question and
+
+1784
+01:13:59,920 --> 01:14:05,280
+uh to answer your first part of the
+
+1785
+01:14:02,239 --> 01:14:07,120
+question we actually simply use the um
+
+1786
+01:14:05,280 --> 01:14:08,880
+Pearson correlation to calculate this
+
+1787
+01:14:07,120 --> 01:14:10,800
+future feature correlation and the
+
+1788
+01:14:08,880 --> 01:14:12,960
+reason for that is because we have this
+
+1789
+01:14:10,800 --> 01:14:14,960
+null construction and in the null we
+
+1790
+01:14:12,960 --> 01:14:16,960
+also use this P pearson correlation. So
+
+1791
+01:14:14,960 --> 01:14:18,800
+although there are many zeros there in
+
+1792
+01:14:16,960 --> 01:14:20,400
+the null since we use the same kind of
+
+1793
+01:14:18,800 --> 01:14:22,880
+correlation you can still control for
+
+1794
+01:14:20,400 --> 01:14:26,400
+that and actually uh I have also tried
+
+1795
+01:14:22,880 --> 01:14:29,280
+the the spearmman correlation which may
+
+1796
+01:14:26,400 --> 01:14:31,600
+um handle the ties better and it turns
+
+1797
+01:14:29,280 --> 01:14:34,000
+out that that correlation gives similar
+
+1798
+01:14:31,600 --> 01:14:37,840
+results. So we eventually still use this
+
+1799
+01:14:34,000 --> 01:14:39,920
+those this pearson correlation and um it
+
+1800
+01:14:37,840 --> 01:14:41,920
+is a very good point that you mentioned
+
+1801
+01:14:39,920 --> 01:14:44,960
+for those meta cells with very few
+
+1802
+01:14:41,920 --> 01:14:48,080
+single cells like two to three for those
+
+1803
+01:14:44,960 --> 01:14:50,080
+um uh I mean like for if the meta cell
+
+1804
+01:14:48,080 --> 01:14:53,760
+is that small then we then they are
+
+1805
+01:14:50,080 --> 01:14:55,760
+usually trustworthy. So that is why um I
+
+1806
+01:14:53,760 --> 01:14:58,080
+think in our correlation it doesn't
+
+1807
+01:14:55,760 --> 01:15:00,960
+really matter if that two that meta cell
+
+1808
+01:14:58,080 --> 01:15:04,000
+with two or three cells can re you can
+
+1809
+01:15:00,960 --> 01:15:06,480
+get a very uh can get a very reliable
+
+1810
+01:15:04,000 --> 01:15:08,080
+correlation estimates because those mana
+
+1811
+01:15:06,480 --> 01:15:10,640
+cells are already small and we believe
+
+1812
+01:15:08,080 --> 01:15:12,719
+they are very trustworthy and usually I
+
+1813
+01:15:10,640 --> 01:15:15,040
+think usually for a dubious manel they
+
+1814
+01:15:12,719 --> 01:15:18,320
+usually the size of them usually starts
+
+1815
+01:15:15,040 --> 01:15:20,000
+from at least like seven eight or 10
+
+1816
+01:15:18,320 --> 01:15:22,560
+something like this and for those we can
+
+1817
+01:15:20,000 --> 01:15:24,480
+get a pretty um good correlation
+
+1818
+01:15:22,560 --> 01:15:27,040
+estimate.
+
+1819
+01:15:24,480 --> 01:15:29,600
+>> The meta cells are all the same size or
+
+1820
+01:15:27,040 --> 01:15:33,280
+is it like kind of somewhat cluster
+
+1821
+01:15:29,600 --> 01:15:35,600
+specific? It's not um tuned for the
+
+1822
+01:15:33,280 --> 01:15:37,120
+cluster that they end up falling in.
+
+1823
+01:15:35,600 --> 01:15:40,800
+They're all the same size.
+
+1824
+01:15:37,120 --> 01:15:43,040
+>> Uh right. So this granularity level
+
+1825
+01:15:40,800 --> 01:15:45,520
+parameter is actually like the average
+
+1826
+01:15:43,040 --> 01:15:47,199
+size of all the meta cells. And uh this
+
+1827
+01:15:45,520 --> 01:15:49,199
+is only the average size. And actually
+
+1828
+01:15:47,199 --> 01:15:51,920
+those meta the size of those meta cells
+
+1829
+01:15:49,199 --> 01:15:56,000
+could vary. they can vary like maybe
+
+1830
+01:15:51,920 --> 01:15:59,600
+from two to three to even 50 or 100 and
+
+1831
+01:15:56,000 --> 01:16:01,440
+um and how the size distributes across
+
+1832
+01:15:59,600 --> 01:16:04,719
+all the meta cells they kind that that
+
+1833
+01:16:01,440 --> 01:16:06,880
+thing kind of depends on the meta method
+
+1834
+01:16:04,719 --> 01:16:09,600
+the the general meta method that has
+
+1835
+01:16:06,880 --> 01:16:12,000
+been previously designed.
+
+1836
+01:16:09,600 --> 01:16:14,480
+So, and we are actually also working on
+
+1837
+01:16:12,000 --> 01:16:15,920
+um like developing a new medicine method
+
+1838
+01:16:14,480 --> 01:16:18,000
+that could incorporate our
+
+1839
+01:16:15,920 --> 01:16:20,239
+considerations but that that work is
+
+1840
+01:16:18,000 --> 01:16:23,440
+still ongoing.
+
+1841
+01:16:20,239 --> 01:16:28,320
+>> Hello. Uh I have a question. Why do you
+
+1842
+01:16:23,440 --> 01:16:31,360
+think a good meta cell should have like
+
+1843
+01:16:28,320 --> 01:16:33,600
+non-correlated features with within this
+
+1844
+01:16:31,360 --> 01:16:35,840
+mentor cell? I don't quite understand
+
+1845
+01:16:33,600 --> 01:16:38,640
+this uh conclusion.
+
+1846
+01:16:35,840 --> 01:16:42,800
+>> Um okay. So right that that is like the
+
+1847
+01:16:38,640 --> 01:16:45,199
+key um the key claim in our in our paper
+
+1848
+01:16:42,800 --> 01:16:47,040
+and uh the reason for that is because we
+
+1849
+01:16:45,199 --> 01:16:49,120
+believe the single cells within a
+
+1850
+01:16:47,040 --> 01:16:50,880
+trustworthy meta cell or with a within a
+
+1851
+01:16:49,120 --> 01:16:53,440
+good meta cell should be at the same
+
+1852
+01:16:50,880 --> 01:16:57,360
+biological state. So there the
+
+1853
+01:16:53,440 --> 01:16:59,120
+variations in um in those in the
+
+1854
+01:16:57,360 --> 01:17:01,120
+expression of those genes should be
+
+1855
+01:16:59,120 --> 01:17:03,199
+exclusively due to the measurement
+
+1856
+01:17:01,120 --> 01:17:05,840
+error. And by measurement error we
+
+1857
+01:17:03,199 --> 01:17:08,640
+usually mean the sampling error. And uh
+
+1858
+01:17:05,840 --> 01:17:12,400
+in the sequencing procedure we usually
+
+1859
+01:17:08,640 --> 01:17:15,280
+just sample those transcripts from um
+
+1860
+01:17:12,400 --> 01:17:17,280
+from the the like the whole library pool
+
+1861
+01:17:15,280 --> 01:17:19,520
+of the transcripts and we think that
+
+1862
+01:17:17,280 --> 01:17:22,320
+procedure happens independently for each
+
+1863
+01:17:19,520 --> 01:17:23,679
+gene assembling procedure. So within for
+
+1864
+01:17:22,320 --> 01:17:27,520
+measurement error the gene gene
+
+1865
+01:17:23,679 --> 01:17:28,960
+correlation um should generation should
+
+1866
+01:17:27,520 --> 01:17:30,960
+not exist.
+
+1867
+01:17:28,960 --> 01:17:33,840
+>> Okay. The second the second question is
+
+1868
+01:17:30,960 --> 01:17:36,480
+about single cell attackic
+
+1869
+01:17:33,840 --> 01:17:42,239
+as we know the single cell attackic is
+
+1870
+01:17:36,480 --> 01:17:46,320
+even sparer than the iron sake and many
+
+1871
+01:17:42,239 --> 01:17:49,600
+um elements are even zero or one. In
+
+1872
+01:17:46,320 --> 01:17:52,880
+this cases, how do you um are you still
+
+1873
+01:17:49,600 --> 01:17:55,040
+using on the p the pearson correlation?
+
+1874
+01:17:52,880 --> 01:17:56,400
+>> Uh yes, we still use the cure pearson
+
+1875
+01:17:55,040 --> 01:17:58,239
+correlation.
+
+1876
+01:17:56,400 --> 01:18:01,960
+>> Um okay.
+
+1877
+01:17:58,239 --> 01:18:01,960
+>> Okay. Thank you.
+
+1878
+01:18:05,760 --> 01:18:08,760
+>> Um
+
+1879
+01:18:11,600 --> 01:18:18,880
+I have two questions. uh one is what is
+
+1880
+01:18:14,800 --> 01:18:21,120
+the optimal size of the DR uh like this
+
+1881
+01:18:18,880 --> 01:18:23,280
+gamma what do you think is optimal
+
+1882
+01:18:21,120 --> 01:18:27,280
+because if you think it's somewhere
+
+1883
+01:18:23,280 --> 01:18:32,159
+between three to five cells in one meta
+
+1884
+01:18:27,280 --> 01:18:34,560
+cell then we would have a lot of these
+
+1885
+01:18:32,159 --> 01:18:38,239
+meta cells because we generally have
+
+1886
+01:18:34,560 --> 01:18:41,520
+data sets that are around that are in
+
+1887
+01:18:38,239 --> 01:18:43,920
+around 100k cells. So do we deal with
+
+1888
+01:18:41,520 --> 01:18:47,440
+like 20k
+
+1889
+01:18:43,920 --> 01:18:52,000
+groups of meta cells? That's first
+
+1890
+01:18:47,440 --> 01:18:55,520
+question. And second question is
+
+1891
+01:18:52,000 --> 01:18:59,040
+uh second question is
+
+1892
+01:18:55,520 --> 01:19:02,239
+um second question is similar to what he
+
+1893
+01:18:59,040 --> 01:19:04,400
+has. How do you claim that genes need to
+
+1894
+01:19:02,239 --> 01:19:07,280
+be non-correlated? Because we have a lot
+
+1895
+01:19:04,400 --> 01:19:09,679
+of GRNs and we do know that some genes
+
+1896
+01:19:07,280 --> 01:19:12,239
+do control some other genes. So how will
+
+1897
+01:19:09,679 --> 01:19:14,320
+you account for those cases wherein the
+
+1898
+01:19:12,239 --> 01:19:16,480
+genes are actually being controlled by
+
+1899
+01:19:14,320 --> 01:19:18,000
+some other genes
+
+1900
+01:19:16,480 --> 01:19:22,400
+if you think that the genes are
+
+1901
+01:19:18,000 --> 01:19:25,280
+completely non-correlated in nature
+
+1902
+01:19:22,400 --> 01:19:28,159
+>> right uh so for your second question I
+
+1903
+01:19:25,280 --> 01:19:30,480
+think um the the thing you're talking
+
+1904
+01:19:28,159 --> 01:19:32,320
+about in uh the genes regulation
+
+1905
+01:19:30,480 --> 01:19:35,360
+relationship where one gene regulate
+
+1906
+01:19:32,320 --> 01:19:39,120
+another gene so those correlations are
+
+1907
+01:19:35,360 --> 01:19:41,679
+are they those are all I I think those
+
+1908
+01:19:39,120 --> 01:19:45,120
+things are already measured in our first
+
+1909
+01:19:41,679 --> 01:19:47,760
+layer of the model which is the which is
+
+1910
+01:19:45,120 --> 01:19:49,360
+this expression model. So we believe all
+
+1911
+01:19:47,760 --> 01:19:52,320
+those biologically meaningful
+
+1912
+01:19:49,360 --> 01:19:54,480
+correlations or variations are are
+
+1913
+01:19:52,320 --> 01:19:56,560
+already measured are already described
+
+1914
+01:19:54,480 --> 01:19:58,880
+in this first layer of model. You see
+
+1915
+01:19:56,560 --> 01:20:02,400
+here we um here lambda is a p-
+
+1916
+01:19:58,880 --> 01:20:05,040
+dimensional vector. We um we model these
+
+1917
+01:20:02,400 --> 01:20:08,960
+p features jointly. So we already
+
+1918
+01:20:05,040 --> 01:20:10,800
+incorporated those correlations there.
+
+1919
+01:20:08,960 --> 01:20:14,320
+Um and could you repeat your first
+
+1920
+01:20:10,800 --> 01:20:16,400
+question? I'm sorry.
+
+1921
+01:20:14,320 --> 01:20:19,600
+>> We have a lot of cells generally like
+
+1922
+01:20:16,400 --> 01:20:21,600
+around 100k cells. So if the meta cell
+
+1923
+01:20:19,600 --> 01:20:24,159
+size is around five then we would have a
+
+1924
+01:20:21,600 --> 01:20:26,640
+lot of groups right. So do we deal with
+
+1925
+01:20:24,159 --> 01:20:30,239
+like 20k groups or something like that
+
+1926
+01:20:26,640 --> 01:20:34,640
+or what would be a general size estimate
+
+1927
+01:20:30,239 --> 01:20:38,560
+that you would say for large scale
+
+1928
+01:20:34,640 --> 01:20:42,159
+data sets having having say 100k cells
+
+1929
+01:20:38,560 --> 01:20:46,080
+200k cells like how would you
+
+1930
+01:20:42,159 --> 01:20:48,480
+say the size of the group should be
+
+1931
+01:20:46,080 --> 01:20:51,199
+>> I see so I think for that question that
+
+1932
+01:20:48,480 --> 01:20:53,600
+would um the answer would depends on
+
+1933
+01:20:51,199 --> 01:20:56,640
+what's what what is the aim for you
+
+1934
+01:20:53,600 --> 01:20:58,880
+using this meta cell idea. Um if your
+
+1935
+01:20:56,640 --> 01:21:01,040
+data set is very large and your aim of
+
+1936
+01:20:58,880 --> 01:21:03,360
+using metael is to increase the
+
+1937
+01:21:01,040 --> 01:21:06,560
+scalability then I believe you can just
+
+1938
+01:21:03,360 --> 01:21:09,679
+choose a a higher granularity level. But
+
+1939
+01:21:06,560 --> 01:21:12,000
+if your um if your goal is mainly to
+
+1940
+01:21:09,679 --> 01:21:14,159
+solve the sparity issue like to find a
+
+1941
+01:21:12,000 --> 01:21:16,719
+balance between sparity or trade-off
+
+1942
+01:21:14,159 --> 01:21:18,640
+between sparity and and the like the
+
+1943
+01:21:16,719 --> 01:21:20,400
+signal distortion then I think you can
+
+1944
+01:21:18,640 --> 01:21:22,320
+still use our method to choose the
+
+1945
+01:21:20,400 --> 01:21:24,480
+optimal one
+
+1946
+01:21:22,320 --> 01:21:26,239
+>> to ensure that we solve sparity and at
+
+1947
+01:21:24,480 --> 01:21:27,760
+the same time we ensure there's not too
+
+1948
+01:21:26,239 --> 01:21:31,080
+much signal distortion.
+
+1949
+01:21:27,760 --> 01:21:31,080
+>> Okay. Thanks.
+
+1950
+01:21:34,159 --> 01:21:38,080
+So the primary reason of not primary but
+
+1951
+01:21:36,400 --> 01:21:40,800
+like one of the reason of sparity is
+
+1952
+01:21:38,080 --> 01:21:44,159
+also the the the nature of gene
+
+1953
+01:21:40,800 --> 01:21:45,840
+expression in single cell right. Uh
+
+1954
+01:21:44,159 --> 01:21:49,120
+there is like lot of genes which are
+
+1955
+01:21:45,840 --> 01:21:50,880
+like have zero and some of them have
+
+1956
+01:21:49,120 --> 01:21:55,120
+some gene expression binomial. So like
+
+1957
+01:21:50,880 --> 01:21:57,840
+zim zen type of uh distribution. So this
+
+1958
+01:21:55,120 --> 01:22:01,280
+only take cares of the sparity in the
+
+1959
+01:21:57,840 --> 01:22:04,880
+cellular uh region right in this in the
+
+1960
+01:22:01,280 --> 01:22:08,400
+cell cell column. But what about the
+
+1961
+01:22:04,880 --> 01:22:10,320
+gene column right?
+
+1962
+01:22:08,400 --> 01:22:11,840
+>> The gene columns
+
+1963
+01:22:10,320 --> 01:22:13,120
+>> like
+
+1964
+01:22:11,840 --> 01:22:15,440
+>> uh
+
+1965
+01:22:13,120 --> 01:22:17,040
+>> yeah here
+
+1966
+01:22:15,440 --> 01:22:20,239
+so we still have the same number of
+
+1967
+01:22:17,040 --> 01:22:22,560
+genes. So is it possible that uh is
+
+1968
+01:22:20,239 --> 01:22:26,000
+possible to sort of reduce the dimension
+
+1969
+01:22:22,560 --> 01:22:28,080
+in the the gene column because you are
+
+1970
+01:22:26,000 --> 01:22:30,080
+sort of taking care of that experimental
+
+1971
+01:22:28,080 --> 01:22:34,080
+uh effects of correlation between the
+
+1972
+01:22:30,080 --> 01:22:37,520
+genes right or is it just a cell like
+
+1973
+01:22:34,080 --> 01:22:41,840
+you just club the cells together.
+
+1974
+01:22:37,520 --> 01:22:45,120
+>> Um yes we just do aggregation on the
+
+1975
+01:22:41,840 --> 01:22:47,440
+cells dimension because here we we treat
+
+1976
+01:22:45,120 --> 01:22:51,760
+cells as observations. So we believe
+
+1977
+01:22:47,440 --> 01:22:53,440
+there are only IDs um in AC uh over the
+
+1978
+01:22:51,760 --> 01:22:56,639
+cells dimension. So we can only do
+
+1979
+01:22:53,440 --> 01:22:58,960
+averaging along this dimension. But I I
+
+1980
+01:22:56,639 --> 01:23:02,639
+think um the concept you're mentioning
+
+1981
+01:22:58,960 --> 01:23:04,960
+is something similar to the meta gene
+
+1982
+01:23:02,639 --> 01:23:07,920
+definition maybe. So there are also
+
+1983
+01:23:04,960 --> 01:23:11,840
+people who try to find like a gene
+
+1984
+01:23:07,920 --> 01:23:14,239
+program or um for to like to reduce the
+
+1985
+01:23:11,840 --> 01:23:15,920
+dimensionality of this genes so that
+
+1986
+01:23:14,239 --> 01:23:18,239
+they can aggregate multiple genes into
+
+1987
+01:23:15,920 --> 01:23:19,679
+one man. I think that's similar to that
+
+1988
+01:23:18,239 --> 01:23:23,639
+concept, right?
+
+1989
+01:23:19,679 --> 01:23:23,639
+>> I see. Okay. Thanks.
+
+1990
+01:23:26,639 --> 01:23:31,440
+>> Um hi, thank you. Uh and uh I'm
+
+1991
+01:23:29,360 --> 01:23:34,159
+wondering like have you test maybe your
+
+1992
+01:23:31,440 --> 01:23:36,480
+method on like the clonal for example so
+
+1993
+01:23:34,159 --> 01:23:39,280
+you know the ground truth that like a
+
+1994
+01:23:36,480 --> 01:23:42,400
+couple of cells they're actually have
+
+1995
+01:23:39,280 --> 01:23:44,639
+like the similar uh single cell
+
+1996
+01:23:42,400 --> 01:23:47,760
+expression. So for example like within a
+
+1997
+01:23:44,639 --> 01:23:50,800
+cell line or like a conal of the cells
+
+1998
+01:23:47,760 --> 01:23:54,320
+then like and that your method can also
+
+1999
+01:23:50,800 --> 01:23:57,280
+like um like well capture the matter
+
+2000
+01:23:54,320 --> 01:24:00,960
+cell and like not maybe clustering them
+
+2001
+01:23:57,280 --> 01:24:04,000
+into like dubious like subcluster things
+
+2002
+01:24:00,960 --> 01:24:07,520
+like that. Yes, actually in our paper we
+
+2003
+01:24:04,000 --> 01:24:10,880
+have an an anal an case which we analyze
+
+2004
+01:24:07,520 --> 01:24:15,120
+the cell line data set and we prove that
+
+2005
+01:24:10,880 --> 01:24:17,199
+um we were able to um better we were
+
+2006
+01:24:15,120 --> 01:24:20,400
+able to identify trustworthy meta cells
+
+2007
+01:24:17,199 --> 01:24:22,239
+that which cons which is made up of
+
+2008
+01:24:20,400 --> 01:24:26,159
+single cells mostly from one cell
+
+2009
+01:24:22,239 --> 01:24:28,639
+cycles. So we can um I'm trying to say
+
+2010
+01:24:26,159 --> 01:24:30,960
+we we we are able to handle multiple
+
+2011
+01:24:28,639 --> 01:24:33,440
+layers of heterogeneity. So in the cell
+
+2012
+01:24:30,960 --> 01:24:36,679
+we have also tried to sell.
+
+2013
+01:24:33,440 --> 01:24:36,679
+>> Thank you.
+
+2014
+01:24:41,040 --> 01:24:48,480
+Um okay so I believe I stopped here. So
+
+2015
+01:24:46,159 --> 01:24:50,639
+um so this double permutation strategy
+
+2016
+01:24:48,480 --> 01:24:53,440
+is mainly designed for null construction
+
+2017
+01:24:50,639 --> 01:24:55,440
+and our goal is to disturb the those
+
+2018
+01:24:53,440 --> 01:24:57,280
+changing correlation or feature feature
+
+2019
+01:24:55,440 --> 01:25:00,080
+correlation and at the same time
+
+2020
+01:24:57,280 --> 01:25:03,440
+preserve this uh the cell library sizes.
+
+2021
+01:25:00,080 --> 01:25:06,000
+So as Jessica has have uh discussed um
+
+2022
+01:25:03,440 --> 01:25:09,120
+what we did is we first permute these
+
+2023
+01:25:06,000 --> 01:25:12,239
+genes um independently within each cell
+
+2024
+01:25:09,120 --> 01:25:14,880
+and but that would turn each columns to
+
+2025
+01:25:12,239 --> 01:25:18,080
+be one perturbed permuted genes which
+
+2026
+01:25:14,880 --> 01:25:20,400
+means that these two um these two matrix
+
+2027
+01:25:18,080 --> 01:25:22,239
+they're not uh they're not so comparable
+
+2028
+01:25:20,400 --> 01:25:24,080
+because they have different features. So
+
+2029
+01:25:22,239 --> 01:25:26,800
+that is why we need to do another layer
+
+2030
+01:25:24,080 --> 01:25:29,760
+of permutation which is this within gene
+
+2031
+01:25:26,800 --> 01:25:33,040
+permutation on the right to serve as a
+
+2032
+01:25:29,760 --> 01:25:36,480
+normalization factor or for for the left
+
+2033
+01:25:33,040 --> 01:25:38,800
+ones and this top row will form a pair
+
+2034
+01:25:36,480 --> 01:25:40,719
+and this bottom row would form a pair
+
+2035
+01:25:38,800 --> 01:25:43,520
+from the top row we will get our
+
+2036
+01:25:40,719 --> 01:25:46,560
+statistics MCDIV and from the bottom row
+
+2037
+01:25:43,520 --> 01:25:48,320
+we will get our null statistics MCDIV
+
+2038
+01:25:46,560 --> 01:25:53,040
+null.
+
+2039
+01:25:48,320 --> 01:25:55,280
+So uh this figure is um is uh is about
+
+2040
+01:25:53,040 --> 01:26:00,000
+uh more details of how we compute our
+
+2041
+01:25:55,280 --> 01:26:02,320
+MCDIV and MCDIV null. So um we so we com
+
+2042
+01:26:00,000 --> 01:26:05,600
+we actually compute a pair of MCDIV
+
+2043
+01:26:02,320 --> 01:26:07,120
+MCDIV null for each manel and uh here we
+
+2044
+01:26:05,600 --> 01:26:09,760
+just use two meta cells for
+
+2045
+01:26:07,120 --> 01:26:12,400
+illustration. one uh trustworthy meta
+
+2046
+01:26:09,760 --> 01:26:14,320
+cell and one dubious meta cell and this
+
+2047
+01:26:12,400 --> 01:26:16,880
+rectangle
+
+2048
+01:26:14,320 --> 01:26:20,639
+matrix represent the original data
+
+2049
+01:26:16,880 --> 01:26:23,199
+matrix with um cells for rows and genes
+
+2050
+01:26:20,639 --> 01:26:25,840
+for columns and this square matrix is
+
+2051
+01:26:23,199 --> 01:26:29,280
+the gene correlation matrix from uh
+
+2052
+01:26:25,840 --> 01:26:32,159
+calculated from this data matrix. So to
+
+2053
+01:26:29,280 --> 01:26:34,480
+calculate MCDIVV we use this uh we
+
+2054
+01:26:32,159 --> 01:26:36,800
+calculate the forbinius norm of the
+
+2055
+01:26:34,480 --> 01:26:39,520
+differences between this uh correlation
+
+2056
+01:26:36,800 --> 01:26:42,880
+matrix and the identity matrix and we
+
+2057
+01:26:39,520 --> 01:26:46,880
+divide it by the forbinous norm obtained
+
+2058
+01:26:42,880 --> 01:26:48,800
+um obtained from um from a data matrix
+
+2059
+01:26:46,880 --> 01:26:51,600
+after within gene permutation to serve
+
+2060
+01:26:48,800 --> 01:26:54,320
+as a normalization factor. And for this
+
+2061
+01:26:51,600 --> 01:26:57,120
+MCDIV null, we do the same thing but
+
+2062
+01:26:54,320 --> 01:27:02,040
+this time just at this time we do it on
+
+2063
+01:26:57,120 --> 01:27:02,040
+the within cell permuted data matrix.
+
+2064
+01:27:02,239 --> 01:27:08,880
+And after we compute these um MCDIV and
+
+2065
+01:27:06,560 --> 01:27:11,920
+MCDIV null for each of these meta cells
+
+2066
+01:27:08,880 --> 01:27:14,800
+from meta cell one to meta cell M um we
+
+2067
+01:27:11,920 --> 01:27:17,280
+just pull all these MCDIV null values
+
+2068
+01:27:14,800 --> 01:27:19,199
+together to obtain a distri a null
+
+2069
+01:27:17,280 --> 01:27:21,520
+distribution and we will be able to
+
+2070
+01:27:19,199 --> 01:27:24,639
+derive a threshold from this null
+
+2071
+01:27:21,520 --> 01:27:27,679
+distribution so that we can say if um if
+
+2072
+01:27:24,639 --> 01:27:30,719
+if a meta cell's MCDIV value goes above
+
+2073
+01:27:27,679 --> 01:27:32,480
+this threshold then it is considered as
+
+2074
+01:27:30,719 --> 01:27:35,679
+dubious.
+
+2075
+01:27:32,480 --> 01:27:37,679
+But we also notice that this uh MCDIVV
+
+2076
+01:27:35,679 --> 01:27:41,679
+nulls distribution is kind of dependent
+
+2077
+01:27:37,679 --> 01:27:44,800
+on the meta cell size. That is why um
+
+2078
+01:27:41,679 --> 01:27:46,639
+the threshold is determined as the um
+
+2079
+01:27:44,800 --> 01:27:49,520
+95th
+
+2080
+01:27:46,639 --> 01:27:52,639
+uh fontile depend conditioning on the
+
+2081
+01:27:49,520 --> 01:27:55,440
+mass cell size and by overlaying this
+
+2082
+01:27:52,639 --> 01:27:59,520
+threshold on this original uh statistics
+
+2083
+01:27:55,440 --> 01:28:01,360
+MCDF values we can um we can identify
+
+2084
+01:27:59,520 --> 01:28:03,440
+whether each meta cell is dubious or
+
+2085
+01:28:01,360 --> 01:28:05,679
+trust.
+
+2086
+01:28:03,440 --> 01:28:07,760
+So this is our method for the first go
+
+2087
+01:28:05,679 --> 01:28:10,159
+or say the first functionality of MC
+
+2088
+01:28:07,760 --> 01:28:12,719
+rigger to identify those dubious amount
+
+2089
+01:28:10,159 --> 01:28:15,920
+of cells and we first did a simulation
+
+2090
+01:28:12,719 --> 01:28:19,280
+using a modified version of a simulator
+
+2091
+01:28:15,920 --> 01:28:22,000
+called SC design 3. This IC design 3 was
+
+2092
+01:28:19,280 --> 01:28:24,560
+uh was also developed by our group
+
+2093
+01:28:22,000 --> 01:28:27,360
+Ashley which was published on nature
+
+2094
+01:28:24,560 --> 01:28:29,600
+biotechnology last year and we modify
+
+2095
+01:28:27,360 --> 01:28:32,639
+this uh this simulator a bit based on
+
+2096
+01:28:29,600 --> 01:28:35,520
+our two-layer model um to in order to
+
+2097
+01:28:32,639 --> 01:28:38,159
+generate a synthetic data set uh where
+
+2098
+01:28:35,520 --> 01:28:41,040
+each single cell had has a ground truth
+
+2099
+01:28:38,159 --> 01:28:43,920
+meta cell label
+
+2100
+01:28:41,040 --> 01:28:46,719
+and we first noticed that um our
+
+2101
+01:28:43,920 --> 01:28:49,600
+synthetic data set actually mimic this
+
+2102
+01:28:46,719 --> 01:28:52,560
+reference data set pretty well and this
+
+2103
+01:28:49,600 --> 01:28:54,719
+somehow already shows that um our
+
+2104
+01:28:52,560 --> 01:28:57,360
+two-layer model and meta cell definition
+
+2105
+01:28:54,719 --> 01:28:59,600
+is somehow reasonable because um they
+
+2106
+01:28:57,360 --> 01:29:01,840
+align well with the real data and then
+
+2107
+01:28:59,600 --> 01:29:04,239
+on this synthetic data set we first
+
+2108
+01:29:01,840 --> 01:29:07,120
+apply the generate the general metael
+
+2109
+01:29:04,239 --> 01:29:09,600
+methods um to partition the cells into
+
+2110
+01:29:07,120 --> 01:29:12,080
+meta cells and then we apply our MC
+
+2111
+01:29:09,600 --> 01:29:15,920
+rigger to check whether each generated
+
+2112
+01:29:12,080 --> 01:29:20,239
+meta cell is dubious or trustworthy.
+
+2113
+01:29:15,920 --> 01:29:22,639
+So here we first um compare our MCDIV
+
+2114
+01:29:20,239 --> 01:29:25,280
+value statistics values with this meta
+
+2115
+01:29:22,639 --> 01:29:27,840
+cell purity which is the highest fra
+
+2116
+01:29:25,280 --> 01:29:31,040
+fraction of cells in a meta cell that
+
+2117
+01:29:27,840 --> 01:29:32,800
+originate from the same original of
+
+2118
+01:29:31,040 --> 01:29:35,440
+originate from the same ground truth
+
+2119
+01:29:32,800 --> 01:29:37,600
+meta cell. Um or to say this purity is
+
+2120
+01:29:35,440 --> 01:29:39,920
+like um this purity kind of like
+
+2121
+01:29:37,600 --> 01:29:43,840
+represents the trustworthy the ground
+
+2122
+01:29:39,920 --> 01:29:46,480
+truth trustworthiness of a mana cell.
+
+2123
+01:29:43,840 --> 01:29:48,639
+And we can see that the these two values
+
+2124
+01:29:46,480 --> 01:29:53,040
+share pretty similar patterns and they
+
+2125
+01:29:48,639 --> 01:29:55,520
+have a very high correlation of 0.948.
+
+2126
+01:29:53,040 --> 01:29:57,920
+So this means our MCDIV is a very good
+
+2127
+01:29:55,520 --> 01:30:00,800
+indicator for the trustworthiness of a
+
+2128
+01:29:57,920 --> 01:30:02,719
+manel. And then using our MC rigger we
+
+2129
+01:30:00,800 --> 01:30:05,760
+were able to classify the meta cells
+
+2130
+01:30:02,719 --> 01:30:08,400
+into dubious and trustworthy with a very
+
+2131
+01:30:05,760 --> 01:30:10,560
+high F score like 0.921.
+
+2132
+01:30:08,400 --> 01:30:13,840
+And these gave us confidence that our
+
+2133
+01:30:10,560 --> 01:30:16,159
+method can work pretty well.
+
+2134
+01:30:13,840 --> 01:30:18,239
+And uh and that is the simulation. We
+
+2135
+01:30:16,159 --> 01:30:21,360
+have also performed some real data
+
+2136
+01:30:18,239 --> 01:30:25,360
+validation. Thank well this one is uh is
+
+2137
+01:30:21,360 --> 01:30:28,159
+thanks to uh thanks to one of our group
+
+2138
+01:30:25,360 --> 01:30:30,480
+our lab member Manx who is from a bi
+
+2139
+01:30:28,159 --> 01:30:33,440
+biology background. He pointed us to
+
+2140
+01:30:30,480 --> 01:30:36,080
+this data set with barcode multiplat.
+
+2141
+01:30:33,440 --> 01:30:39,040
+Well, um what barcode multiply means is
+
+2142
+01:30:36,080 --> 01:30:41,040
+that um in a single cell in a single
+
+2143
+01:30:39,040 --> 01:30:43,920
+cell sequencing procedure, it is
+
+2144
+01:30:41,040 --> 01:30:46,639
+possible that multiple barcodes like um
+
+2145
+01:30:43,920 --> 01:30:50,000
+for example three barcodes here could be
+
+2146
+01:30:46,639 --> 01:30:53,120
+encapsulated into the same droplet with
+
+2147
+01:30:50,000 --> 01:30:56,320
+um with just one cell.
+
+2148
+01:30:53,120 --> 01:30:59,760
+So um and we know that in the sequencing
+
+2149
+01:30:56,320 --> 01:31:02,960
+procedure um when we later try when we
+
+2150
+01:30:59,760 --> 01:31:05,920
+later want to obtain the data matrix we
+
+2151
+01:31:02,960 --> 01:31:08,400
+actually consider one uh one barcode as
+
+2152
+01:31:05,920 --> 01:31:10,960
+one observation. So if this kind of
+
+2153
+01:31:08,400 --> 01:31:13,920
+technical issues happens then we may
+
+2154
+01:31:10,960 --> 01:31:16,400
+consider these three barcodes
+
+2155
+01:31:13,920 --> 01:31:19,040
+as representing three different cells
+
+2156
+01:31:16,400 --> 01:31:23,360
+but uh in fact they just all originate
+
+2157
+01:31:19,040 --> 01:31:26,159
+from the same same cell. So uh so this
+
+2158
+01:31:23,360 --> 01:31:29,280
+is an issue but this is good for us in
+
+2159
+01:31:26,159 --> 01:31:31,760
+the in the sense that um since these
+
+2160
+01:31:29,280 --> 01:31:34,239
+three barcodes they carry the gene
+
+2161
+01:31:31,760 --> 01:31:36,000
+expression profile from the same cell
+
+2162
+01:31:34,239 --> 01:31:38,719
+they have the same true expression
+
+2163
+01:31:36,000 --> 01:31:41,440
+level. So these three barcodes could
+
+2164
+01:31:38,719 --> 01:31:44,400
+naturally be considered as be able to
+
+2165
+01:31:41,440 --> 01:31:46,800
+form like a trustworthy manel. And this
+
+2166
+01:31:44,400 --> 01:31:48,639
+gave us a natural chance for validating
+
+2167
+01:31:46,800 --> 01:31:50,719
+our methods
+
+2168
+01:31:48,639 --> 01:31:52,880
+and
+
+2169
+01:31:50,719 --> 01:31:55,679
+and uh and it turns out that when we
+
+2170
+01:31:52,880 --> 01:31:59,120
+apply our MC rigger um it was able to
+
+2171
+01:31:55,679 --> 01:32:01,920
+flag all these nine uh nine meta cells
+
+2172
+01:31:59,120 --> 01:32:04,719
+that formed that was formed by barco
+
+2173
+01:32:01,920 --> 01:32:06,960
+multipl as trustworthy mana cells. So
+
+2174
+01:32:04,719 --> 01:32:08,639
+this somehow justifies that our MC
+
+2175
+01:32:06,960 --> 01:32:12,520
+rigger can reliably identify the
+
+2176
+01:32:08,639 --> 01:32:12,520
+trustworthy man cells.
+
+2177
+01:32:13,040 --> 01:32:18,159
+Uh and another interesting application
+
+2178
+01:32:15,600 --> 01:32:22,239
+of our MC rigger is on this data set of
+
+2179
+01:32:18,159 --> 01:32:24,719
+blood cell gene expression. Um
+
+2180
+01:32:22,239 --> 01:32:27,920
+and these data are from both healthy and
+
+2181
+01:32:24,719 --> 01:32:30,400
+co 19 patients. This data was originally
+
+2182
+01:32:27,920 --> 01:32:32,960
+used to study the gene gene
+
+2183
+01:32:30,400 --> 01:32:36,480
+co-expression differences between the
+
+2184
+01:32:32,960 --> 01:32:38,480
+two co cohorts. Since the meta cell was
+
+2185
+01:32:36,480 --> 01:32:40,560
+um was believed to be able to somehow
+
+2186
+01:32:38,480 --> 01:32:43,360
+strengthen the co-expression signal here
+
+2187
+01:32:40,560 --> 01:32:45,520
+we apply the supercell method one of the
+
+2188
+01:32:43,360 --> 01:32:47,520
+general meta cell method to this data
+
+2189
+01:32:45,520 --> 01:32:49,520
+and we compute the gene expression over
+
+2190
+01:32:47,520 --> 01:32:51,120
+those meta cells. And something in this
+
+2191
+01:32:49,520 --> 01:32:54,400
+analysis that we need to pay attention
+
+2192
+01:32:51,120 --> 01:32:56,400
+to is uh this gene module marked by this
+
+2193
+01:32:54,400 --> 01:32:58,800
+yellow box.
+
+2194
+01:32:56,400 --> 01:33:01,840
+So uh this is defined as the adaptive
+
+2195
+01:32:58,800 --> 01:33:04,880
+immune response module. Uh so we first
+
+2196
+01:33:01,840 --> 01:33:06,719
+compare the gene expression um on
+
+2197
+01:33:04,880 --> 01:33:09,520
+calculated on the single cell level on
+
+2198
+01:33:06,719 --> 01:33:11,600
+the left to the gen to the gene coexp
+
+2199
+01:33:09,520 --> 01:33:14,159
+expression computed at the meta cell
+
+2200
+01:33:11,600 --> 01:33:16,239
+level on the right. By doing this
+
+2201
+01:33:14,159 --> 01:33:19,280
+comparison we can see that this meta
+
+2202
+01:33:16,239 --> 01:33:21,840
+cell indeed was able to strengthen the
+
+2203
+01:33:19,280 --> 01:33:24,320
+signal in both the healthy and covid-19
+
+2204
+01:33:21,840 --> 01:33:26,000
+groups. Um but the problem is that we do
+
+2205
+01:33:24,320 --> 01:33:28,800
+not really see a difference between
+
+2206
+01:33:26,000 --> 01:33:32,000
+these two groups in this module. So this
+
+2207
+01:33:28,800 --> 01:33:35,280
+so we say not enriched here.
+
+2208
+01:33:32,000 --> 01:33:38,159
+But if we apply our MC rigger method to
+
+2209
+01:33:35,280 --> 01:33:40,400
+remove those dubious M cells we can
+
+2210
+01:33:38,159 --> 01:33:42,719
+observe like uh then we obtain this
+
+2211
+01:33:40,400 --> 01:33:44,719
+changing cor coexp expression in the
+
+2212
+01:33:42,719 --> 01:33:48,320
+middle. Here we can see a clear
+
+2213
+01:33:44,719 --> 01:33:49,840
+enrichment um in the co 19 group
+
+2214
+01:33:48,320 --> 01:33:52,880
+compared to the healthy group which
+
+2215
+01:33:49,840 --> 01:33:55,199
+implies that the genes tend to coexpress
+
+2216
+01:33:52,880 --> 01:33:57,120
+more strongly in this module and this is
+
+2217
+01:33:55,199 --> 01:33:59,600
+consistent with the fact that these
+
+2218
+01:33:57,120 --> 01:34:02,320
+genes are adaptive immune response
+
+2219
+01:33:59,600 --> 01:34:05,360
+genes. So we went back to our data to
+
+2220
+01:34:02,320 --> 01:34:08,800
+see why this is the case and we found
+
+2221
+01:34:05,360 --> 01:34:12,159
+that the reason was that um these
+
+2222
+01:34:08,800 --> 01:34:14,159
+dubious meta cells in um in uh within
+
+2223
+01:34:12,159 --> 01:34:16,320
+all the meta cells like these these pink
+
+2224
+01:34:14,159 --> 01:34:19,600
+one represent the dubious meta cells
+
+2225
+01:34:16,320 --> 01:34:21,920
+they falsely drove the correlations uh
+
+2226
+01:34:19,600 --> 01:34:25,280
+or the coexpression of genes within this
+
+2227
+01:34:21,920 --> 01:34:28,239
+healthy cohort to be very high. So these
+
+2228
+01:34:25,280 --> 01:34:30,239
+are just fake signals and uh or we say
+
+2229
+01:34:28,239 --> 01:34:32,800
+there are bias in the data and our MC
+
+2230
+01:34:30,239 --> 01:34:34,960
+rigger was able to re to remove them and
+
+2231
+01:34:32,800 --> 01:34:38,400
+eventually being able to identify this
+
+2232
+01:34:34,960 --> 01:34:41,040
+enrichment in the stream module.
+
+2233
+01:34:38,400 --> 01:34:43,920
+Uh so this is like another example but
+
+2234
+01:34:41,040 --> 01:34:46,639
+due to the time limit I would just uh
+
+2235
+01:34:43,920 --> 01:34:48,480
+jump to the second functionality of our
+
+2236
+01:34:46,639 --> 01:34:50,560
+MC rigger. So far I've been talking
+
+2237
+01:34:48,480 --> 01:34:52,639
+about the first functionality of MC
+
+2238
+01:34:50,560 --> 01:34:55,679
+rigger which is to identify dubious mana
+
+2239
+01:34:52,639 --> 01:34:59,360
+cells and we also mentioned that our MC
+
+2240
+01:34:55,679 --> 01:35:02,800
+rigger's second goal is to
+
+2241
+01:34:59,360 --> 01:35:06,239
+optimize is to first nominate the best
+
+2242
+01:35:02,800 --> 01:35:09,120
+the top performing meta method and also
+
+2243
+01:35:06,239 --> 01:35:11,760
+at the same time we want to optimize the
+
+2244
+01:35:09,120 --> 01:35:16,800
+hyperparameter um the granularity level
+
+2245
+01:35:11,760 --> 01:35:16,800
+for uh for each um medicine method.
+
+2246
+01:35:17,199 --> 01:35:23,199
+So uh the main idea here is that um we
+
+2247
+01:35:20,480 --> 01:35:25,679
+will calculate an evaluation score for
+
+2248
+01:35:23,199 --> 01:35:28,480
+each meta cell partition that results
+
+2249
+01:35:25,679 --> 01:35:31,440
+from a specific meta cell method under a
+
+2250
+01:35:28,480 --> 01:35:33,199
+specific granularity level.
+
+2251
+01:35:31,440 --> 01:35:35,280
+And then um the method and
+
+2252
+01:35:33,199 --> 01:35:37,120
+hyperparameter setting that receives the
+
+2253
+01:35:35,280 --> 01:35:40,000
+highest score we would be considered the
+
+2254
+01:35:37,120 --> 01:35:42,639
+optimal setting. And now so now the
+
+2255
+01:35:40,000 --> 01:35:45,840
+problem becomes how do we define this
+
+2256
+01:35:42,639 --> 01:35:50,080
+evaluation score?
+
+2257
+01:35:45,840 --> 01:35:54,239
+Um well um if you remember we uh when we
+
+2258
+01:35:50,080 --> 01:35:56,719
+mentioned granularity level we said that
+
+2259
+01:35:54,239 --> 01:36:00,080
+we mentioned that a a higher granularity
+
+2260
+01:35:56,719 --> 01:36:02,880
+level would result in a bigger mana
+
+2261
+01:36:00,080 --> 01:36:04,800
+cells. Um so which means we can better
+
+2262
+01:36:02,880 --> 01:36:06,800
+resolve the sparsity issue but at the
+
+2263
+01:36:04,800 --> 01:36:09,360
+same time the bigger manels usually
+
+2264
+01:36:06,800 --> 01:36:11,840
+comes with more dubious mana cells. So
+
+2265
+01:36:09,360 --> 01:36:15,440
+that is like more signal distortion and
+
+2266
+01:36:11,840 --> 01:36:18,800
+on the opposite side um this the small
+
+2267
+01:36:15,440 --> 01:36:22,080
+granularity level usually gives um still
+
+2268
+01:36:18,800 --> 01:36:24,159
+gives more zeros. So it may leave the um
+
+2269
+01:36:22,080 --> 01:36:26,320
+sparity issue unsolved but at the same
+
+2270
+01:36:24,159 --> 01:36:28,239
+time small meta cells may come with less
+
+2271
+01:36:26,320 --> 01:36:31,280
+dubious meta cells. So less signal
+
+2272
+01:36:28,239 --> 01:36:33,520
+distortion. So, so that is saying like
+
+2273
+01:36:31,280 --> 01:36:36,159
+choosing an optimal hyperparameter or
+
+2274
+01:36:33,520 --> 01:36:38,159
+choosing an optimal meta partition is
+
+2275
+01:36:36,159 --> 01:36:40,400
+more like considering a trade-off
+
+2276
+01:36:38,159 --> 01:36:42,560
+between the s sparity issue and the
+
+2277
+01:36:40,400 --> 01:36:46,239
+signal distortion.
+
+2278
+01:36:42,560 --> 01:36:50,159
+So that is why we um proposed two
+
+2279
+01:36:46,239 --> 01:36:51,840
+metrics one to assess the sparity issue
+
+2280
+01:36:50,159 --> 01:36:54,800
+when to assess the sparity level which
+
+2281
+01:36:51,840 --> 01:36:56,639
+is this zero rate um that is defined as
+
+2282
+01:36:54,800 --> 01:36:58,560
+the proportion of zeros left in this
+
+2283
+01:36:56,639 --> 01:37:00,639
+meta cell profile. And then we also
+
+2284
+01:36:58,560 --> 01:37:02,320
+define another metric this dup rate
+
+2285
+01:37:00,639 --> 01:37:05,920
+metric
+
+2286
+01:37:02,320 --> 01:37:08,639
+which is um essentially the proportion
+
+2287
+01:37:05,920 --> 01:37:10,639
+of single cells that constitute a
+
+2288
+01:37:08,639 --> 01:37:14,480
+dubious that constitute dubious mana
+
+2289
+01:37:10,639 --> 01:37:17,280
+cells. So we our eventual evaluation
+
+2290
+01:37:14,480 --> 01:37:20,880
+score is uh is one minus the sum of
+
+2291
+01:37:17,280 --> 01:37:22,960
+these two uh of these two matrix to
+
+2292
+01:37:20,880 --> 01:37:24,800
+consider a trade-off between these two
+
+2293
+01:37:22,960 --> 01:37:26,719
+matrix
+
+2294
+01:37:24,800 --> 01:37:28,000
+and uh the medicine partition that
+
+2295
+01:37:26,719 --> 01:37:30,800
+receives the highest score would be
+
+2296
+01:37:28,000 --> 01:37:33,040
+considered the optimal one. And we have
+
+2297
+01:37:30,800 --> 01:37:36,960
+um we have proved through simulation
+
+2298
+01:37:33,040 --> 01:37:40,000
+that um our method is able to nominate
+
+2299
+01:37:36,960 --> 01:37:42,080
+the best meta cell partition that aligns
+
+2300
+01:37:40,000 --> 01:37:45,280
+the best with the ground truth. For
+
+2301
+01:37:42,080 --> 01:37:48,560
+example, here this ground truth gamma um
+
+2302
+01:37:45,280 --> 01:37:52,440
+50 was exactly selected as the optimal
+
+2303
+01:37:48,560 --> 01:37:52,440
+gamma by our method.
+
+2304
+01:37:52,560 --> 01:37:56,880
+Right? So and to show our MC rigorous
+
+2305
+01:37:55,520 --> 01:37:59,360
+ability in optimizing the
+
+2306
+01:37:56,880 --> 01:38:02,639
+hyperparameter, let us look at an
+
+2307
+01:37:59,360 --> 01:38:05,840
+example of um of an of an important use
+
+2308
+01:38:02,639 --> 01:38:08,320
+of of MC rigger, which is that we hope
+
+2309
+01:38:05,840 --> 01:38:11,119
+MC rigger could help us distinguish
+
+2310
+01:38:08,320 --> 01:38:13,520
+biological zeros from technical zeros.
+
+2311
+01:38:11,119 --> 01:38:16,480
+Here biological zeros means that those
+
+2312
+01:38:13,520 --> 01:38:18,560
+genes are indeed not expressed at all in
+
+2313
+01:38:16,480 --> 01:38:21,520
+in the cells. So that these are true
+
+2314
+01:38:18,560 --> 01:38:23,840
+zeros. And for technical zeros we mean
+
+2315
+01:38:21,520 --> 01:38:25,920
+that these genes they are actually
+
+2316
+01:38:23,840 --> 01:38:28,400
+expressed but just that due to the
+
+2317
+01:38:25,920 --> 01:38:30,239
+technical imperfection th those
+
+2318
+01:38:28,400 --> 01:38:32,080
+expressions are not captured and
+
+2319
+01:38:30,239 --> 01:38:34,560
+eventually shown as zeros in the
+
+2320
+01:38:32,080 --> 01:38:38,400
+observed data.
+
+2321
+01:38:34,560 --> 01:38:42,560
+So, so the reason why we expect MC river
+
+2322
+01:38:38,400 --> 01:38:44,560
+to distinguish them is that um uh if we
+
+2323
+01:38:42,560 --> 01:38:48,159
+have like a good meta cell partition
+
+2324
+01:38:44,560 --> 01:38:50,960
+where um where only cells of the same
+
+2325
+01:38:48,159 --> 01:38:53,600
+biological states um are aggregated into
+
+2326
+01:38:50,960 --> 01:38:57,440
+one meta cell then the technical zeros
+
+2327
+01:38:53,600 --> 01:39:00,239
+will naturally go away because if you um
+
+2328
+01:38:57,440 --> 01:39:02,480
+like if a gene is expressed in the cells
+
+2329
+01:39:00,239 --> 01:39:04,800
+in the physical cells then just by
+
+2330
+01:39:02,480 --> 01:39:07,280
+chance some of the cells of this state
+
+2331
+01:39:04,800 --> 01:39:09,440
+would have nonzero observed count then
+
+2332
+01:39:07,280 --> 01:39:11,760
+by averaging them these zero just
+
+2333
+01:39:09,440 --> 01:39:14,880
+naturally go away.
+
+2334
+01:39:11,760 --> 01:39:17,520
+But if it's like a biological zero then
+
+2335
+01:39:14,880 --> 01:39:20,000
+uh then for sure no cells of this state
+
+2336
+01:39:17,520 --> 01:39:21,840
+would have a nonzero would have a
+
+2337
+01:39:20,000 --> 01:39:23,840
+non-zero count. So all of them should be
+
+2338
+01:39:21,840 --> 01:39:26,400
+zero and averaging them would still give
+
+2339
+01:39:23,840 --> 01:39:28,239
+you a zero. So that is why we believe a
+
+2340
+01:39:26,400 --> 01:39:30,800
+ma a good meta cell partition should be
+
+2341
+01:39:28,239 --> 01:39:33,600
+able to preserve the biological zeros
+
+2342
+01:39:30,800 --> 01:39:36,080
+while u eliminating the technological
+
+2343
+01:39:33,600 --> 01:39:38,239
+zeros and we hope the meta cells
+
+2344
+01:39:36,080 --> 01:39:41,440
+optimized by our MC rigger would be able
+
+2345
+01:39:38,239 --> 01:39:44,719
+to achieve this. So we applied our MC
+
+2346
+01:39:41,440 --> 01:39:46,320
+rigger to this data set where the SCA
+
+2347
+01:39:44,719 --> 01:39:48,639
+where the single cell RNA sequencing
+
+2348
+01:39:46,320 --> 01:39:52,080
+data was paired with the single cell
+
+2349
+01:39:48,639 --> 01:39:54,800
+molecule fish data. The SM fish data use
+
+2350
+01:39:52,080 --> 01:39:56,800
+fluoresence hybridization to measure the
+
+2351
+01:39:54,800 --> 01:39:59,760
+gene expression. So we usually believe
+
+2352
+01:39:56,800 --> 01:40:02,480
+that these are more accurate.
+
+2353
+01:39:59,760 --> 01:40:05,199
+Usually we believe they have less uh
+
+2354
+01:40:02,480 --> 01:40:07,760
+have not so many technical zeros. So
+
+2355
+01:40:05,199 --> 01:40:10,159
+here so here we use as the SM fish data
+
+2356
+01:40:07,760 --> 01:40:11,679
+as a go standards quantify those zeros
+
+2357
+01:40:10,159 --> 01:40:14,880
+whether they are biological or
+
+2358
+01:40:11,679 --> 01:40:17,679
+technical. So in our line plots here,
+
+2359
+01:40:14,880 --> 01:40:20,400
+this uh this red horizontal line
+
+2360
+01:40:17,679 --> 01:40:24,719
+represent the proportion of zeros in
+
+2361
+01:40:20,400 --> 01:40:26,639
+this sm fish data which is around around
+
+2362
+01:40:24,719 --> 01:40:28,639
+20%.
+
+2363
+01:40:26,639 --> 01:40:31,440
+So that means we believe the true
+
+2364
+01:40:28,639 --> 01:40:35,679
+proportion of biological zeros um in
+
+2365
+01:40:31,440 --> 01:40:38,960
+this data should be around 20%.
+
+2366
+01:40:35,679 --> 01:40:41,280
+And then we just apply our um uh the
+
+2367
+01:40:38,960 --> 01:40:44,000
+general medicine methods along with MC
+
+2368
+01:40:41,280 --> 01:40:47,679
+radar. We tried these three methods meta
+
+2369
+01:40:44,000 --> 01:40:49,840
+cell cells and supercell
+
+2370
+01:40:47,679 --> 01:40:53,119
+and you can see that for each method as
+
+2371
+01:40:49,840 --> 01:40:56,239
+the uh gamma value increases the zero
+
+2372
+01:40:53,119 --> 01:40:58,639
+proportion decreases as expected.
+
+2373
+01:40:56,239 --> 01:41:00,320
+So since we mentioned that a good metal
+
+2374
+01:40:58,639 --> 01:41:03,040
+partition should be able to preserve
+
+2375
+01:41:00,320 --> 01:41:06,080
+biological zeros while removing the
+
+2376
+01:41:03,040 --> 01:41:08,480
+technical zeros. We believe that the the
+
+2377
+01:41:06,080 --> 01:41:11,199
+optimal metazal partition should be able
+
+2378
+01:41:08,480 --> 01:41:14,639
+to give a zero proportion quite similar
+
+2379
+01:41:11,199 --> 01:41:18,400
+to this um to this go standard from the
+
+2380
+01:41:14,639 --> 01:41:21,760
+SM fish data and that is exactly what MC
+
+2381
+01:41:18,400 --> 01:41:25,040
+rigger told us here. This u triangle for
+
+2382
+01:41:21,760 --> 01:41:28,000
+example this blue triangle represent the
+
+2383
+01:41:25,040 --> 01:41:32,639
+optimal uh granularity level selected
+
+2384
+01:41:28,000 --> 01:41:35,440
+for meta cell and this uh this uh purple
+
+2385
+01:41:32,639 --> 01:41:37,360
+one is the optimal gamma selected for
+
+2386
+01:41:35,440 --> 01:41:40,159
+super C cells and this is the one
+
+2387
+01:41:37,360 --> 01:41:42,560
+selected for supercell. You can see that
+
+2388
+01:41:40,159 --> 01:41:45,520
+the zero proportion corresponding to
+
+2389
+01:41:42,560 --> 01:41:48,880
+these gamma values align pretty well
+
+2390
+01:41:45,520 --> 01:41:52,000
+with the uh with our gold standard this
+
+2391
+01:41:48,880 --> 01:41:55,280
+horizontal red line.
+
+2392
+01:41:52,000 --> 01:41:57,360
+So so this uh kind of help us justify
+
+2393
+01:41:55,280 --> 01:42:00,159
+that our chosen gamma is indeed the
+
+2394
+01:41:57,360 --> 01:42:02,080
+optimal one.
+
+2395
+01:42:00,159 --> 01:42:05,040
+Well, I will I will also skip this
+
+2396
+01:42:02,080 --> 01:42:07,440
+example because of time limit.
+
+2397
+01:42:05,040 --> 01:42:09,360
+And uh so so far we have been talking
+
+2398
+01:42:07,440 --> 01:42:12,239
+about the two main functionalities of
+
+2399
+01:42:09,360 --> 01:42:15,760
+single uh of our MC rigger to detect the
+
+2400
+01:42:12,239 --> 01:42:18,159
+dubious meta cells and also to to
+
+2401
+01:42:15,760 --> 01:42:19,679
+nominate the top performing methods and
+
+2402
+01:42:18,159 --> 01:42:22,080
+hyperparameter.
+
+2403
+01:42:19,679 --> 01:42:24,000
+And a and beyond these two
+
+2404
+01:42:22,080 --> 01:42:26,400
+functionalities, a frequently asked
+
+2405
+01:42:24,000 --> 01:42:29,040
+question for our MC rigger is that how
+
+2406
+01:42:26,400 --> 01:42:31,360
+shall we deal with these dubious dubious
+
+2407
+01:42:29,040 --> 01:42:33,920
+amount of cells because if we just
+
+2408
+01:42:31,360 --> 01:42:35,840
+naively throw them all away, then there
+
+2409
+01:42:33,920 --> 01:42:38,000
+is a big chance that we may lose some
+
+2410
+01:42:35,840 --> 01:42:40,000
+important information. Especially when
+
+2411
+01:42:38,000 --> 01:42:41,920
+we have some cells of the rare cell
+
+2412
+01:42:40,000 --> 01:42:44,320
+type, there's a high pro possibility
+
+2413
+01:42:41,920 --> 01:42:46,480
+that the the cells of these rare cell
+
+2414
+01:42:44,320 --> 01:42:49,280
+types could be aggregated with cells of
+
+2415
+01:42:46,480 --> 01:42:51,360
+other types to form a dubious manel.
+
+2416
+01:42:49,280 --> 01:42:54,400
+Then if we just throw it away then there
+
+2417
+01:42:51,360 --> 01:42:56,960
+will be no information about this varile
+
+2418
+01:42:54,400 --> 01:42:59,600
+type left in the data at all.
+
+2419
+01:42:56,960 --> 01:43:02,800
+So, so that is why we propose also an
+
+2420
+01:42:59,600 --> 01:43:04,880
+extension of the MC rigger um to handle
+
+2421
+01:43:02,800 --> 01:43:08,560
+these dubious meta cells. And the main
+
+2422
+01:43:04,880 --> 01:43:11,840
+idea is that we try to dist we try to
+
+2423
+01:43:08,560 --> 01:43:14,400
+like decompose the single the uh the
+
+2424
+01:43:11,840 --> 01:43:17,199
+dubious meta cells again into into
+
+2425
+01:43:14,400 --> 01:43:19,040
+single cells and then uh and then for
+
+2426
+01:43:17,199 --> 01:43:21,920
+this subset of single cells we try to
+
+2427
+01:43:19,040 --> 01:43:24,480
+find a new manel partitioning for them.
+
+2428
+01:43:21,920 --> 01:43:27,119
+Um and this partition usually consists
+
+2429
+01:43:24,480 --> 01:43:30,159
+of more trustworthy and smaller meta
+
+2430
+01:43:27,119 --> 01:43:32,560
+cells. So this is like the two step. In
+
+2431
+01:43:30,159 --> 01:43:34,719
+the first step we first identify dubious
+
+2432
+01:43:32,560 --> 01:43:38,880
+meta cells in a more conservative way by
+
+2433
+01:43:34,719 --> 01:43:41,360
+using the 85 a quantile instead of 95th
+
+2434
+01:43:38,880 --> 01:43:43,280
+quantile and then we decompose those
+
+2435
+01:43:41,360 --> 01:43:46,719
+dubious meta cells into single cells
+
+2436
+01:43:43,280 --> 01:43:48,639
+again. And in step two, we apply our
+
+2437
+01:43:46,719 --> 01:43:51,840
+selected meta cell partition method
+
+2438
+01:43:48,639 --> 01:43:54,159
+again to the subset of single cells and
+
+2439
+01:43:51,840 --> 01:43:56,480
+to identify new meta cells. And we also
+
+2440
+01:43:54,159 --> 01:43:59,280
+use our MC rigger to identify the
+
+2441
+01:43:56,480 --> 01:44:01,840
+optimal granularity level.
+
+2442
+01:43:59,280 --> 01:44:04,719
+And actually these two steps can be
+
+2443
+01:44:01,840 --> 01:44:08,239
+repeated for many times until we have
+
+2444
+01:44:04,719 --> 01:44:11,360
+zero dubious amount of cells. So uh that
+
+2445
+01:44:08,239 --> 01:44:14,159
+is a way to handle the dubious ones. And
+
+2446
+01:44:11,360 --> 01:44:16,719
+here we apply our MC rigger two step on
+
+2447
+01:44:14,159 --> 01:44:20,320
+this um bone marrow single cell data
+
+2448
+01:44:16,719 --> 01:44:23,600
+which has which has two uh rare cell
+
+2449
+01:44:20,320 --> 01:44:26,719
+types. One is plasma blood cells and the
+
+2450
+01:44:23,600 --> 01:44:29,520
+other is HSC and we want to see whether
+
+2451
+01:44:26,719 --> 01:44:33,119
+our MC rigger two step would be able to
+
+2452
+01:44:29,520 --> 01:44:35,679
+resolve these two rare cell types.
+
+2453
+01:44:33,119 --> 01:44:37,679
+So here in this bar plot each bar
+
+2454
+01:44:35,679 --> 01:44:39,760
+represent one trustworthy mana cell and
+
+2455
+01:44:37,679 --> 01:44:42,239
+the height of the bar represent the size
+
+2456
+01:44:39,760 --> 01:44:44,719
+of a trustworthy manel. So you can see
+
+2457
+01:44:42,239 --> 01:44:48,080
+that compared with the uh compared with
+
+2458
+01:44:44,719 --> 01:44:50,960
+the original partitioning our MC rigger
+
+2459
+01:44:48,080 --> 01:44:52,960
+2 step would be able to provide a much a
+
+2460
+01:44:50,960 --> 01:44:55,280
+large a much larger number of
+
+2461
+01:44:52,960 --> 01:44:57,679
+trustworthy meta cells to work with for
+
+2462
+01:44:55,280 --> 01:44:59,600
+each of these rare cell types. So that
+
+2463
+01:44:57,679 --> 01:45:02,000
+means we have better representation for
+
+2464
+01:44:59,600 --> 01:45:05,760
+these red cell types and this kind of
+
+2465
+01:45:02,000 --> 01:45:07,520
+improvement is even more obvious uh if
+
+2466
+01:45:05,760 --> 01:45:10,320
+we look at the supercell and mana cell
+
+2467
+01:45:07,520 --> 01:45:12,320
+methods. So sometimes originally we have
+
+2468
+01:45:10,320 --> 01:45:14,480
+zero trustworthy meta cells but if we
+
+2469
+01:45:12,320 --> 01:45:16,800
+apply our two-step extension we have a
+
+2470
+01:45:14,480 --> 01:45:18,960
+lot more.
+
+2471
+01:45:16,800 --> 01:45:21,360
+So uh this comes to the here comes the
+
+2472
+01:45:18,960 --> 01:45:23,360
+conclusion of our method. So so far we
+
+2473
+01:45:21,360 --> 01:45:25,520
+have uh been able to answer our three
+
+2474
+01:45:23,360 --> 01:45:27,360
+questions. We have been able to give a
+
+2475
+01:45:25,520 --> 01:45:29,440
+statistical definition of manazel based
+
+2476
+01:45:27,360 --> 01:45:31,360
+on the two-layer model and we have
+
+2477
+01:45:29,440 --> 01:45:35,360
+detected dubious mana cells using the
+
+2478
+01:45:31,360 --> 01:45:38,400
+permanel mcdi statistics and we have uh
+
+2479
+01:45:35,360 --> 01:45:40,800
+through through building
+
+2480
+01:45:38,400 --> 01:45:42,719
+uh the null through double permutation
+
+2481
+01:45:40,800 --> 01:45:44,639
+and we have also been able to optimize
+
+2482
+01:45:42,719 --> 01:45:48,159
+our mass partitioning by balancing the
+
+2483
+01:45:44,639 --> 01:45:50,560
+sparsity and dubious dubiousness
+
+2484
+01:45:48,159 --> 01:45:52,400
+and our paper have been have recently
+
+2485
+01:45:50,560 --> 01:45:54,880
+been published on this nature
+
+2486
+01:45:52,400 --> 01:45:57,840
+communication journal.
+
+2487
+01:45:54,880 --> 01:46:00,800
+So, and we also have um quite user
+
+2488
+01:45:57,840 --> 01:46:03,199
+friendly um online R packages and
+
+2489
+01:46:00,800 --> 01:46:04,800
+tutorials on GitHub and please feel free
+
+2490
+01:46:03,199 --> 01:46:07,280
+to check them out through these two
+
+2491
+01:46:04,800 --> 01:46:10,400
+links.
+
+2492
+01:46:07,280 --> 01:46:12,960
+Right. Uh so, and with these I would
+
+2493
+01:46:10,400 --> 01:46:15,040
+like to thank our great great our great
+
+2494
+01:46:12,960 --> 01:46:17,119
+grand sponsors and also mo most
+
+2495
+01:46:15,040 --> 01:46:19,520
+importantly thank professor Jessica and
+
+2496
+01:46:17,119 --> 01:46:22,000
+our all of our lab members from the JS
+
+2497
+01:46:19,520 --> 01:46:23,280
+lab for supporting our work. And and I
+
+2498
+01:46:22,000 --> 01:46:26,440
+would also like to thank you all for
+
+2499
+01:46:23,280 --> 01:46:26,440
+your attention.
+

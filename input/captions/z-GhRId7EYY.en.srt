@@ -1,0 +1,4828 @@
+1
+00:00:00,160 --> 00:00:04,400
+Good morning everybody. Welcome to the
+
+2
+00:00:01,839 --> 00:00:07,359
+MPG primer. Today we're really excited
+
+3
+00:00:04,400 --> 00:00:09,679
+today to have Haong Tian. He's a
+
+4
+00:00:07,359 --> 00:00:13,360
+posttock researcher at MGH and the Broad
+
+5
+00:00:09,679 --> 00:00:15,679
+Institute in the lab of Perip Natarajin.
+
+6
+00:00:13,360 --> 00:00:17,359
+He's previously completed his PhD in
+
+7
+00:00:15,679 --> 00:00:18,960
+bioatistics at the University of
+
+8
+00:00:17,359 --> 00:00:21,600
+Cambridge under the supervision of
+
+9
+00:00:18,960 --> 00:00:23,680
+Steven Burgess. His research focuses on
+
+10
+00:00:21,600 --> 00:00:25,680
+developing innovation I'm sorry
+
+11
+00:00:23,680 --> 00:00:28,720
+innovative causal inference methods
+
+12
+00:00:25,680 --> 00:00:30,800
+particularly for mandelian randomization
+
+13
+00:00:28,720 --> 00:00:32,880
+and applying them to address real world
+
+14
+00:00:30,800 --> 00:00:36,320
+biomedical questions. He has broad
+
+15
+00:00:32,880 --> 00:00:39,120
+interest broad interest in the interface
+
+16
+00:00:36,320 --> 00:00:40,640
+of statistics epidemiology and genetics.
+
+17
+00:00:39,120 --> 00:00:41,840
+Um and we're happy to have him here
+
+18
+00:00:40,640 --> 00:00:43,840
+today and again ask questions
+
+19
+00:00:41,840 --> 00:00:47,120
+throughout. Thank you. Take it away.
+
+20
+00:00:43,840 --> 00:00:48,800
+>> Thank you. Okay. Thank you everyone. Um
+
+21
+00:00:47,120 --> 00:00:51,039
+so today let's talk about mundane
+
+22
+00:00:48,800 --> 00:00:53,280
+randomization. So our story starts with
+
+23
+00:00:51,039 --> 00:00:55,600
+the a very important question that is
+
+24
+00:00:53,280 --> 00:00:57,840
+the causal inference question. So we are
+
+25
+00:00:55,600 --> 00:01:00,160
+not familiar with the general inference
+
+26
+00:00:57,840 --> 00:01:02,480
+that is about the association between X
+
+27
+00:01:00,160 --> 00:01:04,640
+and uh sorry the exposure X and the
+
+28
+00:01:02,480 --> 00:01:07,840
+outcome Y. So in other words, this is
+
+29
+00:01:04,640 --> 00:01:10,560
+the probability of the Y given the
+
+30
+00:01:07,840 --> 00:01:12,560
+observed exposure X value. But the cause
+
+31
+00:01:10,560 --> 00:01:14,960
+of influence is kind of different or
+
+32
+00:01:12,560 --> 00:01:18,640
+essentially we can say totally different
+
+33
+00:01:14,960 --> 00:01:22,560
+that is about the probability of Y after
+
+34
+00:01:18,640 --> 00:01:24,159
+we change the exposure. So that is about
+
+35
+00:01:22,560 --> 00:01:26,240
+uh the change of exposure not the
+
+36
+00:01:24,159 --> 00:01:29,280
+observed exposure. In other words, when
+
+37
+00:01:26,240 --> 00:01:31,920
+we say there exist the cause effect of
+
+38
+00:01:29,280 --> 00:01:34,400
+exposure on the outcome, it means that
+
+39
+00:01:31,920 --> 00:01:37,680
+if we change the exposure, we outcome
+
+40
+00:01:34,400 --> 00:01:40,000
+will be changed accordingly.
+
+41
+00:01:37,680 --> 00:01:42,720
+So causal influence is very important
+
+42
+00:01:40,000 --> 00:01:45,280
+and very natural questions in many
+
+43
+00:01:42,720 --> 00:01:47,119
+scenarios. So the the essential idea is
+
+44
+00:01:45,280 --> 00:01:50,240
+that the cause of influence will give
+
+45
+00:01:47,119 --> 00:01:52,560
+you the motivation to give interventions
+
+46
+00:01:50,240 --> 00:01:56,240
+on the exposure in order to improve your
+
+47
+00:01:52,560 --> 00:01:59,759
+outcome. So that's the essential ideas
+
+48
+00:01:56,240 --> 00:02:01,920
+but this is difficult. I remember when I
+
+49
+00:01:59,759 --> 00:02:04,079
+first took the course of simple linear
+
+50
+00:02:01,920 --> 00:02:06,320
+regression at that time I really wish
+
+51
+00:02:04,079 --> 00:02:07,280
+that the fitted parameter of the
+
+52
+00:02:06,320 --> 00:02:09,360
+regression have the cause of
+
+53
+00:02:07,280 --> 00:02:12,400
+interpretation but obviously I was
+
+54
+00:02:09,360 --> 00:02:14,160
+wrong. The reason is that the regression
+
+55
+00:02:12,400 --> 00:02:16,239
+or the simple linear regression
+
+56
+00:02:14,160 --> 00:02:18,959
+essentially is about the association but
+
+57
+00:02:16,239 --> 00:02:21,680
+association between the X and Y doesn't
+
+58
+00:02:18,959 --> 00:02:24,319
+mean that there exist cause effect of X
+
+59
+00:02:21,680 --> 00:02:26,959
+on Y in the sense that you change X your
+
+60
+00:02:24,319 --> 00:02:28,800
+outcome will not changed. So in other
+
+61
+00:02:26,959 --> 00:02:31,599
+words if you use the graphical language
+
+62
+00:02:28,800 --> 00:02:35,120
+it means that there's no arrows from X
+
+63
+00:02:31,599 --> 00:02:38,239
+to Y. So there are many examples that
+
+64
+00:02:35,120 --> 00:02:40,000
+can illustrate that XY are associated
+
+65
+00:02:38,239 --> 00:02:43,599
+but doesn't mean that it's causal
+
+66
+00:02:40,000 --> 00:02:46,239
+relationship. So the most famous example
+
+67
+00:02:43,599 --> 00:02:49,040
+is the confounding structure. So the
+
+68
+00:02:46,239 --> 00:02:51,440
+confounders here refers to the variable
+
+69
+00:02:49,040 --> 00:02:54,560
+that can affect your exposure and
+
+70
+00:02:51,440 --> 00:02:57,120
+outcome jointly. So that you can observe
+
+71
+00:02:54,560 --> 00:03:00,319
+that X and Y associated but it doesn't
+
+72
+00:02:57,120 --> 00:03:02,800
+mean that is causal effect.
+
+73
+00:03:00,319 --> 00:03:04,720
+So that's why we need the causal
+
+74
+00:03:02,800 --> 00:03:07,440
+influence methods beyond the general
+
+75
+00:03:04,720 --> 00:03:09,360
+influence methods.
+
+76
+00:03:07,440 --> 00:03:11,440
+So there are many important cause
+
+77
+00:03:09,360 --> 00:03:15,200
+influence methods and I think the most
+
+78
+00:03:11,440 --> 00:03:17,280
+reliable and convincing examples is the
+
+79
+00:03:15,200 --> 00:03:19,599
+uh based on the experimental data. So
+
+80
+00:03:17,280 --> 00:03:21,920
+we're no familiar with this because RCD
+
+81
+00:03:19,599 --> 00:03:24,080
+is very good and we like RCD because it
+
+82
+00:03:21,920 --> 00:03:25,760
+do a perfect randomization. It can have
+
+83
+00:03:24,080 --> 00:03:29,200
+the very good cause interpolation is
+
+84
+00:03:25,760 --> 00:03:31,599
+very intuitive but it is expensive and
+
+85
+00:03:29,200 --> 00:03:33,280
+sometimes is not plausible. That's why
+
+86
+00:03:31,599 --> 00:03:35,360
+in the past 20 years the main
+
+87
+00:03:33,280 --> 00:03:38,159
+development of coal influence methods is
+
+88
+00:03:35,360 --> 00:03:40,319
+based on the observational data only. We
+
+89
+00:03:38,159 --> 00:03:43,840
+have lots of causal impulence methods
+
+90
+00:03:40,319 --> 00:03:45,440
+now and uh they are using different
+
+91
+00:03:43,840 --> 00:03:47,440
+models different strategies with
+
+92
+00:03:45,440 --> 00:03:50,640
+different assumptions to identify the
+
+93
+00:03:47,440 --> 00:03:52,799
+causal effect of interest and among them
+
+94
+00:03:50,640 --> 00:03:55,599
+there is one methods called instrumental
+
+95
+00:03:52,799 --> 00:03:58,080
+variable analysis methods. So what is
+
+96
+00:03:55,599 --> 00:04:01,920
+instrumental analysis? It's just a
+
+97
+00:03:58,080 --> 00:04:04,239
+simple method but that can help you to
+
+98
+00:04:01,920 --> 00:04:07,920
+answer the causal questions using
+
+99
+00:04:04,239 --> 00:04:09,680
+observational data only. And uh the main
+
+100
+00:04:07,920 --> 00:04:12,799
+features of the instrumental valve
+
+101
+00:04:09,680 --> 00:04:15,840
+analysis that it does not requires any
+
+102
+00:04:12,799 --> 00:04:18,799
+model assumptions about the confounders.
+
+103
+00:04:15,840 --> 00:04:21,759
+In other words, even you don't know or
+
+104
+00:04:18,799 --> 00:04:23,360
+doesn't realize that the existence of
+
+105
+00:04:21,759 --> 00:04:26,000
+the combounders, you can still use the
+
+106
+00:04:23,360 --> 00:04:27,919
+instrumental web analysis.
+
+107
+00:04:26,000 --> 00:04:30,720
+So this is the main reason that why it
+
+108
+00:04:27,919 --> 00:04:33,040
+becomes so popular in many fields and
+
+109
+00:04:30,720 --> 00:04:35,440
+particularly if you do uh many
+
+110
+00:04:33,040 --> 00:04:37,759
+statistics work in epidemiology and
+
+111
+00:04:35,440 --> 00:04:40,479
+genetics analysis. You will encounter
+
+112
+00:04:37,759 --> 00:04:43,680
+the instrumental web analysis very often
+
+113
+00:04:40,479 --> 00:04:46,960
+and the main advantage is not only that
+
+114
+00:04:43,680 --> 00:04:48,960
+it does not require the existence of the
+
+115
+00:04:46,960 --> 00:04:51,680
+sorry the measure of the compounders it
+
+116
+00:04:48,960 --> 00:04:54,639
+also gives you very flexible models. So
+
+117
+00:04:51,680 --> 00:04:56,479
+in other words you can have more choices
+
+118
+00:04:54,639 --> 00:04:58,479
+than the model not only modeling the
+
+119
+00:04:56,479 --> 00:05:00,560
+phenotype distribution but also the
+
+120
+00:04:58,479 --> 00:05:02,080
+distribution of genetic association.
+
+121
+00:05:00,560 --> 00:05:04,080
+This is particularly important point I
+
+122
+00:05:02,080 --> 00:05:06,560
+want to highlight today because we are
+
+123
+00:05:04,080 --> 00:05:09,840
+do many analysis in epidemiology and
+
+124
+00:05:06,560 --> 00:05:12,880
+genetics and usually in many cases you
+
+125
+00:05:09,840 --> 00:05:15,039
+will find that the epidemiology analysis
+
+126
+00:05:12,880 --> 00:05:18,080
+is more sensitive than the genetics
+
+127
+00:05:15,039 --> 00:05:19,919
+analysis. So the reason is because that
+
+128
+00:05:18,080 --> 00:05:22,000
+epidemology analysis based on
+
+129
+00:05:19,919 --> 00:05:24,000
+distribution of the phenotype but the
+
+130
+00:05:22,000 --> 00:05:25,919
+genetics analysis sometimes are based on
+
+131
+00:05:24,000 --> 00:05:28,960
+the distribution of genetic association
+
+132
+00:05:25,919 --> 00:05:31,120
+which is more reliable and stable. So
+
+133
+00:05:28,960 --> 00:05:32,800
+instrumental variable can be based on
+
+134
+00:05:31,120 --> 00:05:37,680
+the distribution of genetic association
+
+135
+00:05:32,800 --> 00:05:39,759
+that is very popular in genetics.
+
+136
+00:05:37,680 --> 00:05:41,360
+So right what is MR? So technically
+
+137
+00:05:39,759 --> 00:05:44,960
+speaking MR is nothing but just
+
+138
+00:05:41,360 --> 00:05:47,840
+instrumental web analysis. So if you are
+
+139
+00:05:44,960 --> 00:05:49,600
+interested in the MR you can start to
+
+140
+00:05:47,840 --> 00:05:51,120
+learn the MR and also you can start to
+
+141
+00:05:49,600 --> 00:05:53,120
+learn the instrumental variable because
+
+142
+00:05:51,120 --> 00:05:55,520
+every concepts and every problems and
+
+143
+00:05:53,120 --> 00:05:58,000
+every points in instrumental analysis is
+
+144
+00:05:55,520 --> 00:05:59,919
+also the points in mandization but the
+
+145
+00:05:58,000 --> 00:06:02,000
+key difference that mundane
+
+146
+00:05:59,919 --> 00:06:04,479
+randomization use the genetic variance
+
+147
+00:06:02,000 --> 00:06:08,240
+as the instrument which is quite
+
+148
+00:06:04,479 --> 00:06:10,880
+different uh to another uh other
+
+149
+00:06:08,240 --> 00:06:13,520
+instrumental variable methods. So we
+
+150
+00:06:10,880 --> 00:06:15,759
+will immediately realize that why MI is
+
+151
+00:06:13,520 --> 00:06:17,600
+so different because it use the
+
+152
+00:06:15,759 --> 00:06:18,160
+properties of genetic variance and it
+
+153
+00:06:17,600 --> 00:06:19,680
+will make
+
+154
+00:06:18,160 --> 00:06:22,000
+>> sorry I have a question.
+
+155
+00:06:19,680 --> 00:06:25,520
+>> What do you mean by the four four
+
+156
+00:06:22,000 --> 00:06:28,880
+analysis? MR is a four. What is the
+
+157
+00:06:25,520 --> 00:06:32,960
+analysis method mean?
+
+158
+00:06:28,880 --> 00:06:35,039
+>> M it says MR is a four analysis method.
+
+159
+00:06:32,960 --> 00:06:36,800
+Oh Ivy sorry is
+
+160
+00:06:35,039 --> 00:06:41,919
+>> this is in short uh stands for the
+
+161
+00:06:36,800 --> 00:06:44,639
+instrumental analysis. Um
+
+162
+00:06:41,919 --> 00:06:46,400
+all right so so technically speaking MI
+
+163
+00:06:44,639 --> 00:06:48,400
+is just instrumental web analysis
+
+164
+00:06:46,400 --> 00:06:50,080
+methods and we'll start to first
+
+165
+00:06:48,400 --> 00:06:52,240
+introduce the instrumental web analysis
+
+166
+00:06:50,080 --> 00:06:54,720
+and then move to the why genetic
+
+167
+00:06:52,240 --> 00:06:56,160
+variance can be used as the instrument.
+
+168
+00:06:54,720 --> 00:06:57,840
+So when we talk about the causal
+
+169
+00:06:56,160 --> 00:06:59,919
+influence methods including instrumental
+
+170
+00:06:57,840 --> 00:07:01,520
+verb analysis assumptions are very
+
+171
+00:06:59,919 --> 00:07:03,680
+important concept because this because
+
+172
+00:07:01,520 --> 00:07:05,840
+in causal influence no assumptions no
+
+173
+00:07:03,680 --> 00:07:07,440
+causal influence that's why we really
+
+174
+00:07:05,840 --> 00:07:09,599
+highlight the importance of the
+
+175
+00:07:07,440 --> 00:07:11,440
+assumptions and uh so in for
+
+176
+00:07:09,599 --> 00:07:13,599
+instrumental variable analysis there are
+
+177
+00:07:11,440 --> 00:07:17,520
+three important assumptions
+
+178
+00:07:13,599 --> 00:07:19,680
+and uh this my perhaps my personal step
+
+179
+00:07:17,520 --> 00:07:21,919
+before I introduce the assumptions I
+
+180
+00:07:19,680 --> 00:07:23,599
+prefer to introduce the purpose of the
+
+181
+00:07:21,919 --> 00:07:25,280
+assumptions because based on different
+
+182
+00:07:23,599 --> 00:07:29,440
+assumptions you achieve different
+
+183
+00:07:25,280 --> 00:07:32,720
+purpose. So today our purpose is just
+
+184
+00:07:29,440 --> 00:07:35,120
+only one that is we just want to test a
+
+185
+00:07:32,720 --> 00:07:37,360
+test a n hypothesis. This n hypothesis
+
+186
+00:07:35,120 --> 00:07:39,759
+called sharp nypsis which means that
+
+187
+00:07:37,360 --> 00:07:41,440
+there's no unosal effect in any way over
+
+188
+00:07:39,759 --> 00:07:43,360
+any time. So this is very strong
+
+189
+00:07:41,440 --> 00:07:46,479
+statement but you will quickly
+
+190
+00:07:43,360 --> 00:07:50,479
+understand why I can only test this n
+
+191
+00:07:46,479 --> 00:07:52,639
+because I only made three assumptions.
+
+192
+00:07:50,479 --> 00:07:56,479
+So
+
+193
+00:07:52,639 --> 00:07:58,479
+how do we um introduce the assumptions
+
+194
+00:07:56,479 --> 00:08:00,720
+in co of inference? There are many
+
+195
+00:07:58,479 --> 00:08:02,400
+different languages to describe
+
+196
+00:08:00,720 --> 00:08:04,639
+assumptions. Usually there are three
+
+197
+00:08:02,400 --> 00:08:08,800
+languages
+
+198
+00:08:04,639 --> 00:08:10,720
+and uh at least all of them. So
+
+199
+00:08:08,800 --> 00:08:12,720
+in the very beginning let's assume that
+
+200
+00:08:10,720 --> 00:08:14,400
+there's no I didn't make assumption. I
+
+201
+00:08:12,720 --> 00:08:17,280
+just want to emphasize that we can write
+
+202
+00:08:14,400 --> 00:08:19,599
+down the outcomes expressed by the
+
+203
+00:08:17,280 --> 00:08:22,160
+explosion and other variables. So this
+
+204
+00:08:19,599 --> 00:08:24,240
+is the first uh equation I want to start
+
+205
+00:08:22,160 --> 00:08:26,400
+in at this stage I didn't make any
+
+206
+00:08:24,240 --> 00:08:27,840
+assumption I just uh write down the
+
+207
+00:08:26,400 --> 00:08:30,000
+equation. This equation refers to
+
+208
+00:08:27,840 --> 00:08:33,519
+structure equation which represents the
+
+209
+00:08:30,000 --> 00:08:37,279
+belief of how the data are generated.
+
+210
+00:08:33,519 --> 00:08:39,760
+So here the the kept U refers to the any
+
+211
+00:08:37,279 --> 00:08:43,200
+variables that it will be related to the
+
+212
+00:08:39,760 --> 00:08:45,680
+outcome but we just cannot observe that
+
+213
+00:08:43,200 --> 00:08:47,760
+we cannot realize that
+
+214
+00:08:45,680 --> 00:08:49,839
+and the parameter beta refers to the
+
+215
+00:08:47,760 --> 00:08:52,320
+causive value we really want to test
+
+216
+00:08:49,839 --> 00:08:56,240
+because under the N hypothes really want
+
+217
+00:08:52,320 --> 00:08:59,680
+to test if not the beta equals to zero.
+
+218
+00:08:56,240 --> 00:09:02,959
+So we write down the expressions and now
+
+219
+00:08:59,680 --> 00:09:05,760
+interesting if we assume
+
+220
+00:09:02,959 --> 00:09:08,480
+there exist an additional variable. So
+
+221
+00:09:05,760 --> 00:09:13,240
+this variable is actually uh like the
+
+222
+00:09:08,480 --> 00:09:13,240
+genetic variant and this variable
+
+223
+00:09:13,279 --> 00:09:16,959
+once we have this variable we can
+
+224
+00:09:14,880 --> 00:09:19,600
+updated the graph and the equation like
+
+225
+00:09:16,959 --> 00:09:21,600
+in this way again at this stage I didn't
+
+226
+00:09:19,600 --> 00:09:23,519
+make any assumption because I can always
+
+227
+00:09:21,600 --> 00:09:26,399
+write equation like this way using the
+
+228
+00:09:23,519 --> 00:09:28,959
+algebra language. So now we will start
+
+229
+00:09:26,399 --> 00:09:30,480
+to make assumptions. So the capital G is
+
+230
+00:09:28,959 --> 00:09:34,399
+the instrument and the first assumption
+
+231
+00:09:30,480 --> 00:09:36,000
+is that I assume that the G that is the
+
+232
+00:09:34,399 --> 00:09:39,200
+instrument is correlated with the
+
+233
+00:09:36,000 --> 00:09:42,160
+exposure. And then if I additionally
+
+234
+00:09:39,200 --> 00:09:45,200
+assumes that the instrument is
+
+235
+00:09:42,160 --> 00:09:46,560
+independent of the confounders
+
+236
+00:09:45,200 --> 00:09:50,080
+and the third assumption is that I
+
+237
+00:09:46,560 --> 00:09:52,480
+assume that the instrument cannot affect
+
+238
+00:09:50,080 --> 00:09:55,920
+outcome directly. Once we make these
+
+239
+00:09:52,480 --> 00:09:58,560
+three assumptions, we say that the
+
+240
+00:09:55,920 --> 00:10:00,720
+instrument G here is the valid
+
+241
+00:09:58,560 --> 00:10:03,120
+instrument. So this is typically the
+
+242
+00:10:00,720 --> 00:10:05,360
+three assumptions for the instrumental
+
+243
+00:10:03,120 --> 00:10:08,240
+web analysis.
+
+244
+00:10:05,360 --> 00:10:10,080
+Once we have this valid instrument,
+
+245
+00:10:08,240 --> 00:10:12,240
+we can immediately write down a very
+
+246
+00:10:10,080 --> 00:10:14,079
+famous equation instrument analysis.
+
+247
+00:10:12,240 --> 00:10:16,160
+That is to say the genetic association
+
+248
+00:10:14,079 --> 00:10:18,240
+with outcome is just proportional to the
+
+249
+00:10:16,160 --> 00:10:20,160
+genetic association with exposure in the
+
+250
+00:10:18,240 --> 00:10:24,120
+size of beta. So the beta is the
+
+251
+00:10:20,160 --> 00:10:24,120
+parameter we want to test.
+
+252
+00:10:24,959 --> 00:10:28,160
+So
+
+253
+00:10:26,880 --> 00:10:30,000
+the left hand side is genetic
+
+254
+00:10:28,160 --> 00:10:32,720
+association exposure. The right hand
+
+255
+00:10:30,000 --> 00:10:36,160
+side is genetic association with the
+
+256
+00:10:32,720 --> 00:10:38,000
+outcome. So we can use the any statistic
+
+257
+00:10:36,160 --> 00:10:40,079
+methods to make inference because they
+
+258
+00:10:38,000 --> 00:10:41,920
+are identifiable in statistics. So we
+
+259
+00:10:40,079 --> 00:10:44,399
+can immediately know what the beta looks
+
+260
+00:10:41,920 --> 00:10:47,760
+like. So remember that we are testing
+
+261
+00:10:44,399 --> 00:10:50,720
+the sharp hypothesis. So we wish to find
+
+262
+00:10:47,760 --> 00:10:54,160
+the evidence to
+
+263
+00:10:50,720 --> 00:10:57,600
+distinguish the betas from zero. So once
+
+264
+00:10:54,160 --> 00:11:00,000
+we found such evidence we can say that
+
+265
+00:10:57,600 --> 00:11:03,680
+uh there exist a causal effect which
+
+266
+00:11:00,000 --> 00:11:07,120
+means that the beta not equals zero.
+
+267
+00:11:03,680 --> 00:11:09,440
+So this is typical idea. So as you may
+
+268
+00:11:07,120 --> 00:11:11,440
+know that we here made a very strong
+
+269
+00:11:09,440 --> 00:11:13,279
+statement. So when we reject the sharp
+
+270
+00:11:11,440 --> 00:11:15,760
+non hypothesis which means that we can
+
+271
+00:11:13,279 --> 00:11:18,720
+say that there exist cause bad but we
+
+272
+00:11:15,760 --> 00:11:21,360
+have no idea what this effect looks like
+
+273
+00:11:18,720 --> 00:11:24,399
+we don't know if or not the so-called
+
+274
+00:11:21,360 --> 00:11:27,200
+causal effects only
+
+275
+00:11:24,399 --> 00:11:29,920
+to certain subgroup or certain exposure
+
+276
+00:11:27,200 --> 00:11:31,519
+level and this is a trade-off this is
+
+277
+00:11:29,920 --> 00:11:33,440
+because
+
+278
+00:11:31,519 --> 00:11:35,200
+we only made three assumption because I
+
+279
+00:11:33,440 --> 00:11:37,519
+don't want my today's presentation too
+
+280
+00:11:35,200 --> 00:11:39,839
+complicated so in cost of influence if
+
+281
+00:11:37,519 --> 00:11:43,120
+you make less
+
+282
+00:11:39,839 --> 00:11:46,079
+assumptions you will only be able to
+
+283
+00:11:43,120 --> 00:11:49,040
+test very strong non hypothesis. So this
+
+284
+00:11:46,079 --> 00:11:51,120
+is trade off. If we want to answers more
+
+285
+00:11:49,040 --> 00:11:53,120
+precise cause of effect for example the
+
+286
+00:11:51,120 --> 00:11:55,920
+cause of effect for a certain subgroup
+
+287
+00:11:53,120 --> 00:11:58,560
+we must made more assumptions but once
+
+288
+00:11:55,920 --> 00:12:01,040
+we made more assumptions sometimes these
+
+289
+00:11:58,560 --> 00:12:02,720
+assumptions are unverifiable. So which
+
+290
+00:12:01,040 --> 00:12:05,760
+means that they may be unreliable they
+
+291
+00:12:02,720 --> 00:12:08,399
+may be related in realistic so we will
+
+292
+00:12:05,760 --> 00:12:10,800
+end up with unreliable results. So this
+
+293
+00:12:08,399 --> 00:12:12,480
+is a trade-off and uh so this is the
+
+294
+00:12:10,800 --> 00:12:15,200
+first point I want to highlight today is
+
+295
+00:12:12,480 --> 00:12:18,000
+that today we are only care about sharp
+
+296
+00:12:15,200 --> 00:12:20,160
+hypothesis. We do not want to do the
+
+297
+00:12:18,000 --> 00:12:22,000
+other things beyond the sharp null
+
+298
+00:12:20,160 --> 00:12:25,760
+hypothesis because we only made three
+
+299
+00:12:22,000 --> 00:12:27,760
+assumptions and uh in most I think in
+
+300
+00:12:25,760 --> 00:12:31,279
+all causal influence methods assumptions
+
+301
+00:12:27,760 --> 00:12:33,200
+are very important. Um if you want to
+
+302
+00:12:31,279 --> 00:12:35,600
+test the weak hypothesis or you want to
+
+303
+00:12:33,200 --> 00:12:38,560
+do estimation you must assume additional
+
+304
+00:12:35,600 --> 00:12:41,920
+assumptions. So there is a very famous
+
+305
+00:12:38,560 --> 00:12:45,040
+paper uh published in nearly 20 years
+
+306
+00:12:41,920 --> 00:12:48,320
+ago in chronometric. So that paper made
+
+307
+00:12:45,040 --> 00:12:51,360
+additional assumption which is quite
+
+308
+00:12:48,320 --> 00:12:53,040
+reliable and using that additional
+
+309
+00:12:51,360 --> 00:12:54,880
+assumption they can identify very
+
+310
+00:12:53,040 --> 00:12:58,240
+interesting cause of effect which is
+
+311
+00:12:54,880 --> 00:13:00,880
+deformed to a subgroup of the
+
+312
+00:12:58,240 --> 00:13:02,160
+population. So that's is the if you are
+
+313
+00:13:00,880 --> 00:13:05,200
+interested you can look at this paper
+
+314
+00:13:02,160 --> 00:13:07,920
+and uh that paper is actually ill this
+
+315
+00:13:05,200 --> 00:13:10,800
+idea in a very good way and this idea is
+
+316
+00:13:07,920 --> 00:13:14,399
+also the key uh contribution behind the
+
+317
+00:13:10,800 --> 00:13:17,760
+2021 no price economics so overall this
+
+318
+00:13:14,399 --> 00:13:20,480
+is about my today's work we wish to use
+
+319
+00:13:17,760 --> 00:13:23,120
+the IB3 assumptions to test the sharpen
+
+320
+00:13:20,480 --> 00:13:26,480
+hypothesis
+
+321
+00:13:23,120 --> 00:13:28,320
+so here uh I just give some examples of
+
+322
+00:13:26,480 --> 00:13:30,480
+instrumental variable analysis so the
+
+323
+00:13:28,320 --> 00:13:33,200
+key idea of instrumental relevance just
+
+324
+00:13:30,480 --> 00:13:35,600
+to form the validate
+
+325
+00:13:33,200 --> 00:13:38,720
+um instrument that satisfied all the
+
+326
+00:13:35,600 --> 00:13:41,040
+three IV assumptions
+
+327
+00:13:38,720 --> 00:13:42,880
+and typically all the scenarios you can
+
+328
+00:13:41,040 --> 00:13:45,600
+see that the instrumental variable is
+
+329
+00:13:42,880 --> 00:13:48,480
+kind of good which means that we believe
+
+330
+00:13:45,600 --> 00:13:51,360
+that they indeed somehow are well
+
+331
+00:13:48,480 --> 00:13:53,120
+randomized. So randomization
+
+332
+00:13:51,360 --> 00:13:55,120
+uh is very beautiful word in causal
+
+333
+00:13:53,120 --> 00:13:58,959
+influence because like the RCT it give
+
+334
+00:13:55,120 --> 00:14:02,240
+us the chance to do the causal influence
+
+335
+00:13:58,959 --> 00:14:04,320
+and uh in recent years they are someone
+
+336
+00:14:02,240 --> 00:14:06,240
+proposing to use the genetic
+
+337
+00:14:04,320 --> 00:14:08,480
+informations as the instrumental
+
+338
+00:14:06,240 --> 00:14:11,600
+variable to do the causal inference. So
+
+339
+00:14:08,480 --> 00:14:14,480
+because they think the genetic
+
+340
+00:14:11,600 --> 00:14:16,000
+information are well randomized. So in
+
+341
+00:14:14,480 --> 00:14:18,079
+other words they believe there exist
+
+342
+00:14:16,000 --> 00:14:20,639
+some randomization in a mandelian way.
+
+343
+00:14:18,079 --> 00:14:24,320
+So they call it mundane randomization.
+
+344
+00:14:20,639 --> 00:14:25,839
+So we're back to mundane randomization.
+
+345
+00:14:24,320 --> 00:14:27,884
+We already know the instrumental
+
+346
+00:14:25,839 --> 00:14:29,440
+variable analysis and with the three
+
+347
+00:14:27,884 --> 00:14:33,120
+[clears throat] assumptions to test the
+
+348
+00:14:29,440 --> 00:14:34,880
+sharp non hypothesis and now we have the
+
+349
+00:14:33,120 --> 00:14:36,639
+genetic information. So we are really
+
+350
+00:14:34,880 --> 00:14:39,760
+interesting to know if not we can use
+
+351
+00:14:36,639 --> 00:14:41,920
+the genetic variance to do the uh cause
+
+352
+00:14:39,760 --> 00:14:43,760
+inference under the instrumental verb
+
+353
+00:14:41,920 --> 00:14:46,720
+framework.
+
+354
+00:14:43,760 --> 00:14:50,000
+So can we do that? Um actually I don't
+
+355
+00:14:46,720 --> 00:14:53,199
+know nobody can tell you the answer but
+
+356
+00:14:50,000 --> 00:14:56,800
+this is our belief that many people
+
+357
+00:14:53,199 --> 00:15:00,240
+think genetic varants are kind of good
+
+358
+00:14:56,800 --> 00:15:03,040
+randomized. Uh so I want to highlight
+
+359
+00:15:00,240 --> 00:15:05,360
+that this sentence is the belief not the
+
+360
+00:15:03,040 --> 00:15:07,279
+conclusion and and indeed there are many
+
+361
+00:15:05,360 --> 00:15:09,519
+people disagree with the amount
+
+362
+00:15:07,279 --> 00:15:12,399
+randomization but today I want to
+
+363
+00:15:09,519 --> 00:15:16,320
+illustrate this point. Um it really
+
+364
+00:15:12,399 --> 00:15:18,720
+depends on the if or not you really
+
+365
+00:15:16,320 --> 00:15:21,040
+really believe the genetic variants are
+
+366
+00:15:18,720 --> 00:15:23,600
+indeed randomized because if genetic
+
+367
+00:15:21,040 --> 00:15:26,000
+variants are indeed randomized we indeed
+
+368
+00:15:23,600 --> 00:15:29,120
+can use the instrumental verb analysis
+
+369
+00:15:26,000 --> 00:15:32,079
+logic to do the causal inference.
+
+370
+00:15:29,120 --> 00:15:34,399
+So I think there are many good logic
+
+371
+00:15:32,079 --> 00:15:38,480
+behind the MR. So the key philosophy is
+
+372
+00:15:34,399 --> 00:15:41,519
+that if if we look at the family level
+
+373
+00:15:38,480 --> 00:15:43,920
+so the mandala loss I think ensures that
+
+374
+00:15:41,519 --> 00:15:47,040
+the distribution of the next
+
+375
+00:15:43,920 --> 00:15:49,279
+generation's genetic factors are indeed
+
+376
+00:15:47,040 --> 00:15:52,000
+kind of independent so which means that
+
+377
+00:15:49,279 --> 00:15:54,399
+they are well randomized but most times
+
+378
+00:15:52,000 --> 00:15:57,759
+MR was contacted in the population
+
+379
+00:15:54,399 --> 00:16:00,240
+level. So in the population level there
+
+380
+00:15:57,759 --> 00:16:03,040
+are many ways to think about mundane
+
+381
+00:16:00,240 --> 00:16:06,079
+randomization assumptions and I think
+
+382
+00:16:03,040 --> 00:16:08,560
+random mating is the one logic to help
+
+383
+00:16:06,079 --> 00:16:12,639
+you to invalidate if not the genetic
+
+384
+00:16:08,560 --> 00:16:14,480
+varian are indeed randomized or not. Um
+
+385
+00:16:12,639 --> 00:16:16,720
+but again I want to highlight that this
+
+386
+00:16:14,480 --> 00:16:18,800
+is just one way to illustrate that
+
+387
+00:16:16,720 --> 00:16:20,560
+because nobody can really illustrate if
+
+388
+00:16:18,800 --> 00:16:22,480
+not the genative varants are indeed
+
+389
+00:16:20,560 --> 00:16:25,199
+randomized and the strict speaking also
+
+390
+00:16:22,480 --> 00:16:27,920
+the random man is not always correct in
+
+391
+00:16:25,199 --> 00:16:29,839
+practice but again I just say that
+
+392
+00:16:27,920 --> 00:16:32,000
+usually we're happy to believe that
+
+393
+00:16:29,839 --> 00:16:35,120
+genetic varants are randomized in the
+
+394
+00:16:32,000 --> 00:16:36,880
+sense that is typically independent of
+
+395
+00:16:35,120 --> 00:16:38,800
+the environmental factors because the
+
+396
+00:16:36,880 --> 00:16:40,560
+environmental factors will serve as the
+
+397
+00:16:38,800 --> 00:16:43,199
+confounders in our instrumental web
+
+398
+00:16:40,560 --> 00:16:44,800
+analysis framework.
+
+399
+00:16:43,199 --> 00:16:48,720
+this first point. The second point is
+
+400
+00:16:44,800 --> 00:16:50,800
+that um we already used the G was to
+
+401
+00:16:48,720 --> 00:16:52,560
+identify the money genetic variant that
+
+402
+00:16:50,800 --> 00:16:54,320
+associated with the exposure of
+
+403
+00:16:52,560 --> 00:16:57,199
+interest. So which is good because
+
+404
+00:16:54,320 --> 00:16:59,759
+remember that the first I assumption u
+
+405
+00:16:57,199 --> 00:17:01,600
+indicated that the the instrument should
+
+406
+00:16:59,759 --> 00:17:03,839
+be correlated with the exposure and this
+
+407
+00:17:01,600 --> 00:17:06,319
+is the truth because we already used G
+
+408
+00:17:03,839 --> 00:17:08,160
+was to form that there's indeed mining
+
+409
+00:17:06,319 --> 00:17:09,839
+genetic variance associated with the
+
+410
+00:17:08,160 --> 00:17:12,640
+exposures
+
+411
+00:17:09,839 --> 00:17:14,880
+so which is good and uh also from the
+
+412
+00:17:12,640 --> 00:17:18,720
+statistical perspective
+
+413
+00:17:14,880 --> 00:17:21,520
+um since we have found money independent
+
+414
+00:17:18,720 --> 00:17:23,120
+snips we can do lots of status works
+
+415
+00:17:21,520 --> 00:17:25,039
+like the meta analysis to borrow
+
+416
+00:17:23,120 --> 00:17:27,520
+information. That is to say, for
+
+417
+00:17:25,039 --> 00:17:29,679
+example, we have 10 genetic variants.
+
+418
+00:17:27,520 --> 00:17:33,280
+For each one of them, we can do the M
+
+419
+00:17:29,679 --> 00:17:35,600
+estimation and get the so-called uh
+
+420
+00:17:33,280 --> 00:17:38,799
+causal effect estimates and we can
+
+421
+00:17:35,600 --> 00:17:43,200
+easily combine them together to have the
+
+422
+00:17:38,799 --> 00:17:46,960
+more um narrow confidence intervals or
+
+423
+00:17:43,200 --> 00:17:50,640
+more confident uh causal conclusions.
+
+424
+00:17:46,960 --> 00:17:53,360
+This is the very flexible idea um in
+
+425
+00:17:50,640 --> 00:17:55,039
+terms of the meta analysis for I uh for
+
+426
+00:17:53,360 --> 00:17:56,960
+instrumental variable analysis
+
+427
+00:17:55,039 --> 00:17:59,280
+estimation and also since we have the
+
+428
+00:17:56,960 --> 00:18:02,559
+mutable instrumental variables we can
+
+429
+00:17:59,280 --> 00:18:04,640
+also have the chance to do many robust
+
+430
+00:18:02,559 --> 00:18:07,440
+amas and we will return to this point
+
+431
+00:18:04,640 --> 00:18:10,880
+later. So which is good because if you
+
+432
+00:18:07,440 --> 00:18:13,120
+really look at the other instrumental we
+
+433
+00:18:10,880 --> 00:18:15,760
+analysis examples they only have one
+
+434
+00:18:13,120 --> 00:18:17,360
+instrument but in genetics in MR
+
+435
+00:18:15,760 --> 00:18:19,919
+scenarios we can have mutable
+
+436
+00:18:17,360 --> 00:18:23,039
+instrumental variable. So we can have
+
+437
+00:18:19,919 --> 00:18:25,919
+much space to take advantage of such
+
+438
+00:18:23,039 --> 00:18:29,039
+mutable instrument
+
+439
+00:18:25,919 --> 00:18:30,799
+available to us. So this is about second
+
+440
+00:18:29,039 --> 00:18:32,720
+point and the third point is also very
+
+441
+00:18:30,799 --> 00:18:35,440
+important. This is also the truth not
+
+442
+00:18:32,720 --> 00:18:37,760
+the belief is that genetic variants are
+
+443
+00:18:35,440 --> 00:18:40,880
+usually fixed at birth which means that
+
+444
+00:18:37,760 --> 00:18:42,559
+if we happy to believe that genetic
+
+445
+00:18:40,880 --> 00:18:45,039
+variance as the instrument. So the
+
+446
+00:18:42,559 --> 00:18:46,960
+instrument is very fixed at the very
+
+447
+00:18:45,039 --> 00:18:49,919
+beginning. It was not influenced by the
+
+448
+00:18:46,960 --> 00:18:54,080
+later age phenotypes.
+
+449
+00:18:49,919 --> 00:18:56,960
+So it will give you a quite stable
+
+450
+00:18:54,080 --> 00:18:59,520
+belief about that your instrument is
+
+451
+00:18:56,960 --> 00:19:02,400
+very good is very fixed. So if you are
+
+452
+00:18:59,520 --> 00:19:05,840
+happy with the first point here and the
+
+453
+00:19:02,400 --> 00:19:07,440
+plus the third point here I think you
+
+454
+00:19:05,840 --> 00:19:09,919
+should be very excited about the
+
+455
+00:19:07,440 --> 00:19:13,440
+maintenization as the instrumental web
+
+456
+00:19:09,919 --> 00:19:16,480
+analysis because it gives a very good
+
+457
+00:19:13,440 --> 00:19:18,880
+belief to see to believe that the
+
+458
+00:19:16,480 --> 00:19:21,039
+instrumental web assumptions are well
+
+459
+00:19:18,880 --> 00:19:24,000
+satisfied.
+
+460
+00:19:21,039 --> 00:19:25,760
+So this is about the aological point and
+
+461
+00:19:24,000 --> 00:19:29,520
+also I want to highlight some important
+
+462
+00:19:25,760 --> 00:19:31,919
+things from statistics. So I I really
+
+463
+00:19:29,520 --> 00:19:33,919
+show that the really important equation
+
+464
+00:19:31,919 --> 00:19:35,679
+of instrumental variable is like this.
+
+465
+00:19:33,919 --> 00:19:37,440
+So the genetic association with outcome
+
+466
+00:19:35,679 --> 00:19:41,039
+is proportional to the genetic
+
+467
+00:19:37,440 --> 00:19:44,640
+association with the exposure. So if we
+
+468
+00:19:41,039 --> 00:19:47,440
+look into this equation you can see that
+
+469
+00:19:44,640 --> 00:19:50,400
+we actually no need to calculate it the
+
+470
+00:19:47,440 --> 00:19:52,559
+genetic associations with the phenotypes
+
+471
+00:19:50,400 --> 00:19:56,320
+by uh using the individual level data
+
+472
+00:19:52,559 --> 00:19:58,799
+because J was really done this for us
+
+473
+00:19:56,320 --> 00:20:00,799
+and also you can see that these two
+
+474
+00:19:58,799 --> 00:20:03,520
+genetic association are separated in the
+
+475
+00:20:00,799 --> 00:20:06,000
+equation which means that we even don't
+
+476
+00:20:03,520 --> 00:20:07,919
+need to do the estimation using the one
+
+477
+00:20:06,000 --> 00:20:10,000
+symbol we actually can finish it the
+
+478
+00:20:07,919 --> 00:20:12,160
+estimation using the two different
+
+479
+00:20:10,000 --> 00:20:14,400
+datas. So which means that we can use in
+
+480
+00:20:12,160 --> 00:20:17,360
+the two sample analysis.
+
+481
+00:20:14,400 --> 00:20:19,120
+So this give the m quite flexible than
+
+482
+00:20:17,360 --> 00:20:21,200
+other instrumental variable analysis
+
+483
+00:20:19,120 --> 00:20:23,200
+methods.
+
+484
+00:20:21,200 --> 00:20:26,320
+So here this number is that so-called
+
+485
+00:20:23,200 --> 00:20:30,480
+the two sample summary data mundization
+
+486
+00:20:26,320 --> 00:20:33,360
+methods which I think the majority MR
+
+487
+00:20:30,480 --> 00:20:35,600
+methods for the published work in the
+
+488
+00:20:33,360 --> 00:20:38,960
+recent years and uh I want to
+
+489
+00:20:35,600 --> 00:20:43,360
+highlighted one point here is that
+
+490
+00:20:38,960 --> 00:20:46,159
+the two sample summary data MI is very
+
+491
+00:20:43,360 --> 00:20:48,640
+uh popularized because the convenience
+
+492
+00:20:46,159 --> 00:20:50,799
+of data but not because this methods
+
+493
+00:20:48,640 --> 00:20:52,559
+itself is more reliable because this
+
+494
+00:20:50,799 --> 00:20:55,360
+just because it's more convenient that
+
+495
+00:20:52,559 --> 00:20:58,559
+everyone can use the uh publish some
+
+496
+00:20:55,360 --> 00:21:00,799
+data and quickly to do the M estimation.
+
+497
+00:20:58,559 --> 00:21:02,880
+So that's why you can see if you look
+
+498
+00:21:00,799 --> 00:21:07,039
+the many published Emma papers typically
+
+499
+00:21:02,880 --> 00:21:09,200
+they are about to s some related MR
+
+500
+00:21:07,039 --> 00:21:11,039
+right and another in the end point I
+
+501
+00:21:09,200 --> 00:21:13,200
+want to highlight is that because we are
+
+502
+00:21:11,039 --> 00:21:16,080
+the community of genetics when we do the
+
+503
+00:21:13,200 --> 00:21:17,679
+Emma uh we can do lots of things beyond
+
+504
+00:21:16,080 --> 00:21:19,600
+the traditional instrumental web
+
+505
+00:21:17,679 --> 00:21:21,919
+analysis this is because that we use
+
+506
+00:21:19,600 --> 00:21:24,080
+genetic variant as the instrument so if
+
+507
+00:21:21,919 --> 00:21:26,720
+we look at the genetic variance we can
+
+508
+00:21:24,080 --> 00:21:28,240
+do a lot of things using the different
+
+509
+00:21:26,720 --> 00:21:31,760
+genetic techniques
+
+510
+00:21:28,240 --> 00:21:34,240
+And uh uh for example we have very good
+
+511
+00:21:31,760 --> 00:21:37,200
+data sources from GW was and chos and if
+
+512
+00:21:34,240 --> 00:21:39,440
+you wish to take the U exposure as the
+
+513
+00:21:37,200 --> 00:21:42,480
+protein or expression level you can also
+
+514
+00:21:39,440 --> 00:21:45,440
+use many QTL and PQTL and also we can do
+
+515
+00:21:42,480 --> 00:21:47,679
+lots of works like FS like variance
+
+516
+00:21:45,440 --> 00:21:50,159
+clustering there school genetic
+
+517
+00:21:47,679 --> 00:21:52,320
+correlations. So all these methods can
+
+518
+00:21:50,159 --> 00:21:54,960
+help you to improve the reliability of
+
+519
+00:21:52,320 --> 00:21:57,360
+your MR analysis. So that is today if
+
+520
+00:21:54,960 --> 00:22:01,200
+you do Emma you can of course do lots of
+
+521
+00:21:57,360 --> 00:22:04,000
+instrumental web analysis uh methods uh
+
+522
+00:22:01,200 --> 00:22:06,799
+and also you can do lots of another
+
+523
+00:22:04,000 --> 00:22:08,640
+genetics techniques analysis
+
+524
+00:22:06,799 --> 00:22:12,720
+right this is all about about all the
+
+525
+00:22:08,640 --> 00:22:16,480
+things and more motivations for the MR
+
+526
+00:22:12,720 --> 00:22:18,720
+but do we really think the MI is good
+
+527
+00:22:16,480 --> 00:22:21,760
+instrument web analysis methods and my
+
+528
+00:22:18,720 --> 00:22:25,600
+answer is perhaps yes or no remember
+
+529
+00:22:21,760 --> 00:22:27,760
+that if We treat the MR as the
+
+530
+00:22:25,600 --> 00:22:29,919
+instrumental verb analysis methods and
+
+531
+00:22:27,760 --> 00:22:32,720
+everything is about three assumptions of
+
+532
+00:22:29,919 --> 00:22:35,440
+instrumental web analysis.
+
+533
+00:22:32,720 --> 00:22:37,280
+But even we already know that there are
+
+534
+00:22:35,440 --> 00:22:39,919
+many good properties of genetic
+
+535
+00:22:37,280 --> 00:22:42,960
+variance. We still face many challenges
+
+536
+00:22:39,919 --> 00:22:47,080
+in terms of the violation of the IV
+
+537
+00:22:42,960 --> 00:22:47,080
+analysis method.
+
+538
+00:22:47,600 --> 00:22:53,440
+So the first point is that the genetic
+
+539
+00:22:50,960 --> 00:22:55,600
+association with the exposure is
+
+540
+00:22:53,440 --> 00:22:58,559
+actually not quite strong as you
+
+541
+00:22:55,600 --> 00:23:01,200
+expected. So which means that even we
+
+542
+00:22:58,559 --> 00:23:03,280
+formed that there is some evidence from
+
+543
+00:23:01,200 --> 00:23:06,159
+the statistics that the genetic
+
+544
+00:23:03,280 --> 00:23:08,080
+instrument is correlated with your
+
+545
+00:23:06,159 --> 00:23:12,080
+exposure. It doesn't mean that your
+
+546
+00:23:08,080 --> 00:23:13,919
+first IV assumption is really satisfied.
+
+547
+00:23:12,080 --> 00:23:15,440
+So this is this is not a logical
+
+548
+00:23:13,919 --> 00:23:18,320
+problem. This is about statistic
+
+549
+00:23:15,440 --> 00:23:20,720
+problem. So,
+
+550
+00:23:18,320 --> 00:23:22,799
+so because you estimated genetic
+
+551
+00:23:20,720 --> 00:23:25,360
+association with the exposure is the
+
+552
+00:23:22,799 --> 00:23:27,280
+estimate. So, you must take into account
+
+553
+00:23:25,360 --> 00:23:30,480
+the uncertainties
+
+554
+00:23:27,280 --> 00:23:33,280
+for you in violation of IV strength. So,
+
+555
+00:23:30,480 --> 00:23:38,159
+there is very there's very famous and
+
+556
+00:23:33,280 --> 00:23:40,640
+well established metric to measure the
+
+557
+00:23:38,159 --> 00:23:42,480
+uh I strength that is called F
+
+558
+00:23:40,640 --> 00:23:44,880
+statistic. So that is to say once you
+
+559
+00:23:42,480 --> 00:23:47,520
+have determined sorry once you have
+
+560
+00:23:44,880 --> 00:23:49,600
+decided you instrument exposure you can
+
+561
+00:23:47,520 --> 00:23:51,679
+quickly calculate the F statistic if the
+
+562
+00:23:49,600 --> 00:23:53,039
+F statistics is less than 10 which means
+
+563
+00:23:51,679 --> 00:23:56,000
+that you will suffer from the weak
+
+564
+00:23:53,039 --> 00:23:59,200
+instrument bas so what's the consequence
+
+565
+00:23:56,000 --> 00:24:02,159
+of the weak instrument I uh issues is
+
+566
+00:23:59,200 --> 00:24:04,080
+that if you are using the one sle MR you
+
+567
+00:24:02,159 --> 00:24:06,240
+typically have inflated type one error
+
+568
+00:24:04,080 --> 00:24:08,480
+this is very horrible because remember
+
+569
+00:24:06,240 --> 00:24:11,200
+that what's the purpose of Emma and I
+
+570
+00:24:08,480 --> 00:24:13,360
+analysis the purpose is just to testing
+
+571
+00:24:11,200 --> 00:24:16,400
+So you will when you get a meaningful
+
+572
+00:24:13,360 --> 00:24:18,720
+conclusion you typically want to reject
+
+573
+00:24:16,400 --> 00:24:21,520
+your null hypothesis but if if you
+
+574
+00:24:18,720 --> 00:24:24,080
+cannot control your type one error you
+
+575
+00:24:21,520 --> 00:24:26,799
+conclusion that rejects no hypothesis
+
+576
+00:24:24,080 --> 00:24:31,440
+will not be reliable that's why we
+
+577
+00:24:26,799 --> 00:24:34,720
+really care about the f status value
+
+578
+00:24:31,440 --> 00:24:37,600
+because it determines if not we suffer
+
+579
+00:24:34,720 --> 00:24:40,960
+from the weak IV issues particularly if
+
+580
+00:24:37,600 --> 00:24:43,919
+we are doing the one sample MR
+
+581
+00:24:40,960 --> 00:24:46,480
+If the f star value is slower than 10
+
+582
+00:24:43,919 --> 00:24:49,120
+this is very dangerous which means that
+
+583
+00:24:46,480 --> 00:24:51,520
+you any conclusion you get will be
+
+584
+00:24:49,120 --> 00:24:54,080
+unreliable. So that's why we need to
+
+585
+00:24:51,520 --> 00:24:55,520
+check f statistics in i analysis
+
+586
+00:24:54,080 --> 00:24:58,240
+including mundane randomization
+
+587
+00:24:55,520 --> 00:25:01,360
+analysis. So this about the first
+
+588
+00:24:58,240 --> 00:25:03,679
+assumption and uh
+
+589
+00:25:01,360 --> 00:25:05,679
+about the second and the third I
+
+590
+00:25:03,679 --> 00:25:10,640
+assumption unfortunately I would say
+
+591
+00:25:05,679 --> 00:25:14,880
+that is typically are not quite um
+
+592
+00:25:10,640 --> 00:25:17,840
+satisfied in realistic. So here I just
+
+593
+00:25:14,880 --> 00:25:21,440
+uh pick the eight examples to illustrate
+
+594
+00:25:17,840 --> 00:25:25,039
+that the genetic variance can still
+
+595
+00:25:21,440 --> 00:25:27,200
+violate the IV assumptions uh in many
+
+596
+00:25:25,039 --> 00:25:29,360
+different scenarios which means that
+
+597
+00:25:27,200 --> 00:25:32,799
+even the truth is that there's no causal
+
+598
+00:25:29,360 --> 00:25:36,240
+effect of X on Y you can still find that
+
+599
+00:25:32,799 --> 00:25:39,120
+your genetic variance to be correlated
+
+600
+00:25:36,240 --> 00:25:42,640
+with your outcome. So that is to the you
+
+601
+00:25:39,120 --> 00:25:46,279
+will you could end up with the false
+
+602
+00:25:42,640 --> 00:25:46,279
+positive conclusion.
+
+603
+00:25:47,760 --> 00:25:54,960
+So here so this is very dangerous but we
+
+604
+00:25:50,320 --> 00:25:57,120
+cannot solve all the scenarios and um
+
+605
+00:25:54,960 --> 00:26:00,400
+so the only things we can do is that we
+
+606
+00:25:57,120 --> 00:26:03,760
+try different strategies to invalidate
+
+607
+00:26:00,400 --> 00:26:07,200
+these assumptions and we try our best to
+
+608
+00:26:03,760 --> 00:26:10,000
+improve the quality of the MR analysis.
+
+609
+00:26:07,200 --> 00:26:12,320
+So here I just give the some my
+
+610
+00:26:10,000 --> 00:26:15,360
+suggestions to improve the MR analysis
+
+611
+00:26:12,320 --> 00:26:17,840
+because we we cannot assume that genetic
+
+612
+00:26:15,360 --> 00:26:19,679
+variance are very perfect instrument in
+
+613
+00:26:17,840 --> 00:26:21,760
+the sense that typically in many
+
+614
+00:26:19,679 --> 00:26:24,159
+scenarios the I assumption will be
+
+615
+00:26:21,760 --> 00:26:26,400
+wellated for the instrument we used for
+
+616
+00:26:24,159 --> 00:26:28,880
+the cause of influence.
+
+617
+00:26:26,400 --> 00:26:31,200
+So I randomly pick some suggestion here.
+
+618
+00:26:28,880 --> 00:26:33,600
+So I think maybe we should be really
+
+619
+00:26:31,200 --> 00:26:36,400
+clear about explosion definition. So
+
+620
+00:26:33,600 --> 00:26:39,360
+this this suggestion can doesn't
+
+621
+00:26:36,400 --> 00:26:42,400
+actually change the MR calculation but
+
+622
+00:26:39,360 --> 00:26:44,480
+instead is a good habit at least to me
+
+623
+00:26:42,400 --> 00:26:46,720
+is a very good habit to be first very
+
+624
+00:26:44,480 --> 00:26:48,799
+clear about exposure definition because
+
+625
+00:26:46,720 --> 00:26:53,360
+in many scenarios
+
+626
+00:26:48,799 --> 00:26:56,320
+um the MRI exposure is not the true
+
+627
+00:26:53,360 --> 00:26:57,919
+exposure but actually the biomarker of
+
+628
+00:26:56,320 --> 00:27:01,919
+the exposure.
+
+629
+00:26:57,919 --> 00:27:04,400
+That is to say you many times we are in
+
+630
+00:27:01,919 --> 00:27:06,880
+we do the MR analysis based on the
+
+631
+00:27:04,400 --> 00:27:10,400
+biomarkers or the downstream variables
+
+632
+00:27:06,880 --> 00:27:12,960
+of the lengthened exposure. So in this
+
+633
+00:27:10,400 --> 00:27:14,240
+case you can still do the M analysis but
+
+634
+00:27:12,960 --> 00:27:17,039
+you should be really care about the
+
+635
+00:27:14,240 --> 00:27:19,360
+interpretation.
+
+636
+00:27:17,039 --> 00:27:22,159
+So that is why when we get the
+
+637
+00:27:19,360 --> 00:27:24,799
+conclusion using Emma, I suggest to use
+
+638
+00:27:22,159 --> 00:27:28,320
+the sentence like the genetically
+
+639
+00:27:24,799 --> 00:27:31,120
+predicted exposure is associated with
+
+640
+00:27:28,320 --> 00:27:32,720
+outcome instead of to say there exist
+
+641
+00:27:31,120 --> 00:27:34,640
+cause effect of the exposure on the
+
+642
+00:27:32,720 --> 00:27:37,440
+outcome because sometimes the exposure
+
+643
+00:27:34,640 --> 00:27:39,840
+is not the true exposure you can image.
+
+644
+00:27:37,440 --> 00:27:42,320
+So the exposure sometimes are only the
+
+645
+00:27:39,840 --> 00:27:45,200
+biomeac of the lengthened exposure of
+
+646
+00:27:42,320 --> 00:27:47,039
+interest. So this is example about why I
+
+647
+00:27:45,200 --> 00:27:48,960
+encourage should be very clear about
+
+648
+00:27:47,039 --> 00:27:52,559
+exposure to vision and there are also
+
+649
+00:27:48,960 --> 00:27:55,279
+some suggestions. So for example if you
+
+650
+00:27:52,559 --> 00:27:58,480
+u for example if you exposure of
+
+651
+00:27:55,279 --> 00:28:01,200
+interest is the LDL.
+
+652
+00:27:58,480 --> 00:28:04,720
+So for the LDL we know that there are
+
+653
+00:28:01,200 --> 00:28:06,559
+many biological confirmed
+
+654
+00:28:04,720 --> 00:28:10,559
+pathway
+
+655
+00:28:06,559 --> 00:28:14,799
+for the uh generation of LDL. So you can
+
+656
+00:28:10,559 --> 00:28:17,679
+use the specific power knowledge to
+
+657
+00:28:14,799 --> 00:28:19,919
+choose the genetic variance that is you
+
+658
+00:28:17,679 --> 00:28:22,880
+don't need to use that way to choose
+
+659
+00:28:19,919 --> 00:28:25,120
+genetic variance. You can just pick the
+
+660
+00:28:22,880 --> 00:28:27,440
+gene regions that most associated with
+
+661
+00:28:25,120 --> 00:28:29,440
+the LDLC. So this will increase the
+
+662
+00:28:27,440 --> 00:28:31,919
+reliability of your genetic variant
+
+663
+00:28:29,440 --> 00:28:33,760
+because in the sense you will truly
+
+664
+00:28:31,919 --> 00:28:36,240
+believe that genetic varants are
+
+665
+00:28:33,760 --> 00:28:38,799
+associated with the exposure of interest
+
+666
+00:28:36,240 --> 00:28:43,600
+and there is a low risk of the wellating
+
+667
+00:28:38,799 --> 00:28:47,360
+the third and the second IV assumptions
+
+668
+00:28:43,600 --> 00:28:49,679
+and also you can do uh another check. So
+
+669
+00:28:47,360 --> 00:28:52,240
+for example most scenarios we do Emma
+
+670
+00:28:49,679 --> 00:28:55,120
+based on the publish summary data. So
+
+671
+00:28:52,240 --> 00:28:58,159
+one suggestion could be that uh think
+
+672
+00:28:55,120 --> 00:29:00,559
+about how the sum data were generated
+
+673
+00:28:58,159 --> 00:29:02,640
+because there are some scenarios that
+
+674
+00:29:00,559 --> 00:29:05,840
+the G was
+
+675
+00:29:02,640 --> 00:29:08,399
+used in um different way than you
+
+676
+00:29:05,840 --> 00:29:11,279
+expect. For example, they use the PMI
+
+677
+00:29:08,399 --> 00:29:14,960
+adjusted exposure. In this case we know
+
+678
+00:29:11,279 --> 00:29:17,679
+that from the GS if we adjust the BMI so
+
+679
+00:29:14,960 --> 00:29:20,399
+you uh some data could be not quite
+
+680
+00:29:17,679 --> 00:29:23,120
+reliable. So it will make you some
+
+681
+00:29:20,399 --> 00:29:25,679
+genetic variance to be well related
+
+682
+00:29:23,120 --> 00:29:28,399
+sorry will be unreliable and invalid in
+
+683
+00:29:25,679 --> 00:29:30,320
+the sense that it will violated some IV
+
+684
+00:29:28,399 --> 00:29:32,720
+assumptions. So that is also the good
+
+685
+00:29:30,320 --> 00:29:36,640
+habit and we also have some suggestions
+
+686
+00:29:32,720 --> 00:29:39,919
+is to do uh the robust MR methods. So
+
+687
+00:29:36,640 --> 00:29:41,679
+robust MR methods were typically
+
+688
+00:29:39,919 --> 00:29:44,240
+uh
+
+689
+00:29:41,679 --> 00:29:46,240
+options that everyone can use in
+
+690
+00:29:44,240 --> 00:29:48,240
+practice because everyone typically can
+
+691
+00:29:46,240 --> 00:29:50,159
+use robust MIR method. So my next slide
+
+692
+00:29:48,240 --> 00:29:52,480
+is where I'll be introduce some robust
+
+693
+00:29:50,159 --> 00:29:55,440
+MR methods. But before I move to the
+
+694
+00:29:52,480 --> 00:29:58,640
+next I want to emphasize one things is
+
+695
+00:29:55,440 --> 00:30:02,320
+that uh robust MR method is just one way
+
+696
+00:29:58,640 --> 00:30:04,159
+to improve the quality of our MES. So
+
+697
+00:30:02,320 --> 00:30:06,559
+because I don't want to give you the
+
+698
+00:30:04,159 --> 00:30:09,440
+impression that robust MI is the major
+
+699
+00:30:06,559 --> 00:30:12,000
+things and sometimes uh robos MRI
+
+700
+00:30:09,440 --> 00:30:14,880
+methods cannot help you but it's just
+
+701
+00:30:12,000 --> 00:30:17,120
+because that we can do the robos nearly
+
+702
+00:30:14,880 --> 00:30:19,360
+all scenarios. That's why I have to
+
+703
+00:30:17,120 --> 00:30:21,200
+introduce them.
+
+704
+00:30:19,360 --> 00:30:23,200
+But you can say there are many another
+
+705
+00:30:21,200 --> 00:30:26,720
+strategies you can consider but not only
+
+706
+00:30:23,200 --> 00:30:29,520
+limited to robust MR methods.
+
+707
+00:30:26,720 --> 00:30:31,120
+Right?
+
+708
+00:30:29,520 --> 00:30:32,720
+So what is the robust MR methods?
+
+709
+00:30:31,120 --> 00:30:35,039
+Robbert
+
+710
+00:30:32,720 --> 00:30:37,679
+methods refers to all the methods that
+
+711
+00:30:35,039 --> 00:30:40,640
+can help you get reliable causal
+
+712
+00:30:37,679 --> 00:30:43,520
+convolution even some or all I sum are
+
+713
+00:30:40,640 --> 00:30:46,399
+violated because we know that the in the
+
+714
+00:30:43,520 --> 00:30:49,120
+MR the I assumption can be easily viated
+
+715
+00:30:46,399 --> 00:30:52,480
+so that's why we need sometimes we need
+
+716
+00:30:49,120 --> 00:30:54,000
+the robust MR methods so the robust MR
+
+717
+00:30:52,480 --> 00:30:56,480
+method is based on the assumption
+
+718
+00:30:54,000 --> 00:30:58,640
+exchangeability which means that they
+
+719
+00:30:56,480 --> 00:31:02,080
+proposed the new additional assumption
+
+720
+00:30:58,640 --> 00:31:04,399
+to exchange the original IV assumption.
+
+721
+00:31:02,080 --> 00:31:08,159
+So even your original I assumption is
+
+722
+00:31:04,399 --> 00:31:10,960
+vated but you use the robust methods you
+
+723
+00:31:08,159 --> 00:31:13,360
+can still get validate conclusion.
+
+724
+00:31:10,960 --> 00:31:16,720
+That's the key idea. So it use different
+
+725
+00:31:13,360 --> 00:31:20,000
+strategies. Usually uh I think they can
+
+726
+00:31:16,720 --> 00:31:23,440
+be uh divided to two groups. One group
+
+727
+00:31:20,000 --> 00:31:25,360
+is based on the uh snips removal
+
+728
+00:31:23,440 --> 00:31:27,760
+strategies. Another group is based on
+
+729
+00:31:25,360 --> 00:31:30,640
+the model based group.
+
+730
+00:31:27,760 --> 00:31:32,480
+So I give you quick examples. So the MR
+
+731
+00:31:30,640 --> 00:31:34,799
+model is a very simple method which
+
+732
+00:31:32,480 --> 00:31:36,960
+means that when you made additional
+
+733
+00:31:34,799 --> 00:31:40,720
+assumption that you believe the majority
+
+734
+00:31:36,960 --> 00:31:44,480
+of the genetic variance that generate
+
+735
+00:31:40,720 --> 00:31:47,200
+the consistent or similar IV estimates
+
+736
+00:31:44,480 --> 00:31:48,799
+they are the valid instruments. So this
+
+737
+00:31:47,200 --> 00:31:51,279
+is the assumption under this assumption
+
+738
+00:31:48,799 --> 00:31:54,159
+you can quickly immediately identify the
+
+739
+00:31:51,279 --> 00:31:57,360
+true cause effect uh according to the
+
+740
+00:31:54,159 --> 00:32:01,360
+cluster of the genetic variance.
+
+741
+00:31:57,360 --> 00:32:04,000
+uh another methods is called the MAPSS.
+
+742
+00:32:01,360 --> 00:32:07,200
+So this is the compilatively statistical
+
+743
+00:32:04,000 --> 00:32:10,080
+based uh and the model based methods. So
+
+744
+00:32:07,200 --> 00:32:12,159
+instead they directly use the algebra
+
+745
+00:32:10,080 --> 00:32:14,159
+language to describe
+
+746
+00:32:12,159 --> 00:32:16,159
+uh the distribution of the genetic
+
+747
+00:32:14,159 --> 00:32:20,240
+association with the exposure and the
+
+748
+00:32:16,159 --> 00:32:23,440
+outcome and then here they they use the
+
+749
+00:32:20,240 --> 00:32:25,840
+different assumptions based on the
+
+750
+00:32:23,440 --> 00:32:29,279
+statistic model and then make influence
+
+751
+00:32:25,840 --> 00:32:31,840
+to get the true causal parameters. So
+
+752
+00:32:29,279 --> 00:32:34,240
+this is a very model based methods. Here
+
+753
+00:32:31,840 --> 00:32:36,399
+I introduce this methods is not because
+
+754
+00:32:34,240 --> 00:32:38,880
+this is good method but actually it take
+
+755
+00:32:36,399 --> 00:32:41,840
+the advantage of the ALD score. So AD
+
+756
+00:32:38,880 --> 00:32:44,000
+school is method to describe the genetic
+
+757
+00:32:41,840 --> 00:32:46,399
+correlation of your exposure and
+
+758
+00:32:44,000 --> 00:32:49,360
+outcome. So it also score is also based
+
+759
+00:32:46,399 --> 00:32:51,679
+on assumptions. So MIAPS is just use
+
+760
+00:32:49,360 --> 00:32:56,320
+very similar assumptions behind the AD
+
+761
+00:32:51,679 --> 00:32:58,399
+score to conduct robust uh I analysis
+
+762
+00:32:56,320 --> 00:33:02,080
+estimation.
+
+763
+00:32:58,399 --> 00:33:05,840
+So we have so many robust MIR methods.
+
+764
+00:33:02,080 --> 00:33:09,919
+So can we choose the best methods out of
+
+765
+00:33:05,840 --> 00:33:12,880
+these candidates and my answer is no. Uh
+
+766
+00:33:09,919 --> 00:33:16,320
+uh never never never do the selections
+
+767
+00:33:12,880 --> 00:33:18,960
+on the robust MR methods. Um so the the
+
+768
+00:33:16,320 --> 00:33:21,919
+idea is that as a side the robust MR
+
+769
+00:33:18,960 --> 00:33:24,240
+methods is to propose the new additional
+
+770
+00:33:21,919 --> 00:33:26,640
+assumption to exchange the original I
+
+771
+00:33:24,240 --> 00:33:29,039
+assumption. Different methods will use
+
+772
+00:33:26,640 --> 00:33:30,799
+different ways to propose the additional
+
+773
+00:33:29,039 --> 00:33:32,640
+assumption. You never know which
+
+774
+00:33:30,799 --> 00:33:35,039
+additional assumption are more reliable
+
+775
+00:33:32,640 --> 00:33:36,399
+in your scenarios because most times the
+
+776
+00:33:35,039 --> 00:33:39,120
+coal inference assumptions are
+
+777
+00:33:36,399 --> 00:33:41,360
+unverifiable which means that nobody can
+
+778
+00:33:39,120 --> 00:33:43,519
+tell you they are really true. So in
+
+779
+00:33:41,360 --> 00:33:46,080
+practice the general way is used more
+
+780
+00:33:43,519 --> 00:33:49,039
+like the triangulation strategies that
+
+781
+00:33:46,080 --> 00:33:51,760
+is to say you should try multiple
+
+782
+00:33:49,039 --> 00:33:53,760
+different robust MR methods and you can
+
+783
+00:33:51,760 --> 00:33:56,320
+say if or not they are really
+
+784
+00:33:53,760 --> 00:34:00,080
+consistent.
+
+785
+00:33:56,320 --> 00:34:02,880
+So if we if you we use many different
+
+786
+00:34:00,080 --> 00:34:05,120
+robust MR methods based on different
+
+787
+00:34:02,880 --> 00:34:07,600
+additional assumptions
+
+788
+00:34:05,120 --> 00:34:09,200
+if we don't get the your conclusion is
+
+789
+00:34:07,600 --> 00:34:11,119
+quite consistent which is good because
+
+790
+00:34:09,200 --> 00:34:13,679
+they will increase the reliability of
+
+791
+00:34:11,119 --> 00:34:18,079
+your conclusion but sometimes we may end
+
+792
+00:34:13,679 --> 00:34:21,119
+up with quite different uh
+
+793
+00:34:18,079 --> 00:34:24,399
+results using different robos MR method
+
+794
+00:34:21,119 --> 00:34:27,839
+but it's okay in this case don't be uh
+
+795
+00:34:24,399 --> 00:34:30,399
+frustrated just report results and this
+
+796
+00:34:27,839 --> 00:34:33,119
+will mot the future studies to think
+
+797
+00:34:30,399 --> 00:34:34,879
+about why in some scenarios that you
+
+798
+00:34:33,119 --> 00:34:38,639
+results are quite different using
+
+799
+00:34:34,879 --> 00:34:43,359
+certain robust amma methods and it will
+
+800
+00:34:38,639 --> 00:34:46,159
+improve our understanding on the on new
+
+801
+00:34:43,359 --> 00:34:49,200
+real uh application scenario. So this is
+
+802
+00:34:46,159 --> 00:34:53,440
+the key ideas I want to say that
+
+803
+00:34:49,200 --> 00:34:55,919
+right. So this is about robos and um
+
+804
+00:34:53,440 --> 00:34:57,839
+here I just give the pipeline um so
+
+805
+00:34:55,919 --> 00:35:01,040
+actually I'm the really anti pipeline
+
+806
+00:34:57,839 --> 00:35:03,040
+presence um I have really mixed feelings
+
+807
+00:35:01,040 --> 00:35:05,680
+about the proposed pipeline for the
+
+808
+00:35:03,040 --> 00:35:07,839
+comments. The reason is that on the one
+
+809
+00:35:05,680 --> 00:35:09,760
+hand pipeline auto procedure is good
+
+810
+00:35:07,839 --> 00:35:12,160
+because it can help us to get rid of
+
+811
+00:35:09,760 --> 00:35:14,240
+some uh big mistakes but on the other
+
+812
+00:35:12,160 --> 00:35:18,320
+hand it will give you the false
+
+813
+00:35:14,240 --> 00:35:22,160
+impression that your M is good because
+
+814
+00:35:18,320 --> 00:35:24,240
+when we do do the M when when we finish
+
+815
+00:35:22,160 --> 00:35:26,640
+all the checklist and we do all the
+
+816
+00:35:24,240 --> 00:35:28,640
+correct things uh we will tend to
+
+817
+00:35:26,640 --> 00:35:32,880
+believe that our MR conclusion is
+
+818
+00:35:28,640 --> 00:35:35,520
+relable but actually not um the MR
+
+819
+00:35:32,880 --> 00:35:37,440
+conclusion really based bas on the uh
+
+820
+00:35:35,520 --> 00:35:39,040
+designs but not from the calculations.
+
+821
+00:35:37,440 --> 00:35:41,680
+So even you do all the calculation that
+
+822
+00:35:39,040 --> 00:35:44,079
+mean that your MR results are reliable
+
+823
+00:35:41,680 --> 00:35:46,640
+in the end. But here but generally
+
+824
+00:35:44,079 --> 00:35:48,640
+speaking when we do MR analysis
+
+825
+00:35:46,640 --> 00:35:51,280
+everything is just based on the question
+
+826
+00:35:48,640 --> 00:35:52,640
+and your data. So you can have data and
+
+827
+00:35:51,280 --> 00:35:53,839
+then have question you can also have
+
+828
+00:35:52,640 --> 00:35:56,800
+first have the question and data.
+
+829
+00:35:53,839 --> 00:35:59,200
+Usually I would suggest to first have
+
+830
+00:35:56,800 --> 00:36:01,760
+the question because the question will
+
+831
+00:35:59,200 --> 00:36:04,000
+make you think about if not you are
+
+832
+00:36:01,760 --> 00:36:05,680
+doing the right design you are really
+
+833
+00:36:04,000 --> 00:36:07,599
+answer the question instead of just do
+
+834
+00:36:05,680 --> 00:36:09,760
+the calculation based on the data. So
+
+835
+00:36:07,599 --> 00:36:11,760
+there are many ways to start the
+
+836
+00:36:09,760 --> 00:36:14,480
+analysis. So if you are doing the
+
+837
+00:36:11,760 --> 00:36:16,640
+epidemology analysis is it's very okay
+
+838
+00:36:14,480 --> 00:36:18,640
+to directly say that okay we are
+
+839
+00:36:16,640 --> 00:36:20,560
+interested to the cause effect of your
+
+840
+00:36:18,640 --> 00:36:22,640
+exposure and your outcome. This is very
+
+841
+00:36:20,560 --> 00:36:24,560
+good motivation. And if you do genetic
+
+842
+00:36:22,640 --> 00:36:28,160
+variance for example you have you would
+
+843
+00:36:24,560 --> 00:36:30,240
+think about the mining mutual protein
+
+844
+00:36:28,160 --> 00:36:34,640
+candidate you are interesting to know
+
+845
+00:36:30,240 --> 00:36:36,800
+which or how many proteins are
+
+846
+00:36:34,640 --> 00:36:38,720
+correlated or have the cause of
+
+847
+00:36:36,800 --> 00:36:41,760
+connection to exposure. You can also
+
+848
+00:36:38,720 --> 00:36:43,280
+package it as the mundaneization
+
+849
+00:36:41,760 --> 00:36:45,280
+question that is so that you can focus
+
+850
+00:36:43,280 --> 00:36:47,440
+on each single protein and think about
+
+851
+00:36:45,280 --> 00:36:48,960
+and do the MR for the each single
+
+852
+00:36:47,440 --> 00:36:50,960
+protein because single protein can be
+
+853
+00:36:48,960 --> 00:36:52,400
+served as the exposure and your outcome
+
+854
+00:36:50,960 --> 00:36:55,599
+will be served as outcome in the
+
+855
+00:36:52,400 --> 00:36:58,000
+instrument framework and also sometimes
+
+856
+00:36:55,599 --> 00:37:00,800
+you may have two phenotypes
+
+857
+00:36:58,000 --> 00:37:02,640
+and you cannot distinguish the cause of
+
+858
+00:37:00,800 --> 00:37:05,520
+direction of the phenotypes. So you can
+
+859
+00:37:02,640 --> 00:37:08,079
+also do the MR. So in the way that you
+
+860
+00:37:05,520 --> 00:37:10,400
+do the first Emma using the first
+
+861
+00:37:08,079 --> 00:37:12,560
+phenotype exposure and then do the
+
+862
+00:37:10,400 --> 00:37:14,960
+second Emma using the second phenotype
+
+863
+00:37:12,560 --> 00:37:17,440
+as exposure. So I just do two Emma
+
+864
+00:37:14,960 --> 00:37:19,920
+separately. So this is all thing is very
+
+865
+00:37:17,440 --> 00:37:22,960
+flexible. You can you can very flexible
+
+866
+00:37:19,920 --> 00:37:24,560
+to the MR analysis in any way you wish
+
+867
+00:37:22,960 --> 00:37:28,079
+as long as you can describe the question
+
+868
+00:37:24,560 --> 00:37:29,760
+as the uh co investigate the cause of X
+
+869
+00:37:28,079 --> 00:37:31,839
+or Y.
+
+870
+00:37:29,760 --> 00:37:33,359
+So the most important things later is
+
+871
+00:37:31,839 --> 00:37:34,640
+about the snip selection. Snip
+
+872
+00:37:33,359 --> 00:37:37,760
+establishment is typically the most
+
+873
+00:37:34,640 --> 00:37:41,440
+important part in MR analysis. Uh there
+
+874
+00:37:37,760 --> 00:37:45,040
+are many uh strategies I proposed here.
+
+875
+00:37:41,440 --> 00:37:48,000
+Um again once you have selective snips
+
+876
+00:37:45,040 --> 00:37:50,000
+you can do the MR uh calculation which
+
+877
+00:37:48,000 --> 00:37:52,800
+is very simple and straightforward and
+
+878
+00:37:50,000 --> 00:37:54,640
+packages can do it very quickly
+
+879
+00:37:52,800 --> 00:37:56,880
+and then I think more important thing is
+
+880
+00:37:54,640 --> 00:37:59,280
+to the sensitivity analysis. So you can
+
+881
+00:37:56,880 --> 00:38:02,320
+do a lots of sensitive analysis for
+
+882
+00:37:59,280 --> 00:38:06,160
+example uh using different robos methods
+
+883
+00:38:02,320 --> 00:38:10,400
+and based on different data cohort and
+
+884
+00:38:06,160 --> 00:38:12,640
+uh using different uh genetic variance
+
+885
+00:38:10,400 --> 00:38:15,200
+because in ML you typically have many
+
+886
+00:38:12,640 --> 00:38:17,280
+genetic variants can be used for the IV
+
+887
+00:38:15,200 --> 00:38:19,280
+estimation and then you can also do
+
+888
+00:38:17,280 --> 00:38:21,359
+positive contra negative control. So
+
+889
+00:38:19,280 --> 00:38:24,960
+these things will help you make your
+
+890
+00:38:21,359 --> 00:38:27,200
+Emma results is more informative and in
+
+891
+00:38:24,960 --> 00:38:29,760
+the end more reliable.
+
+892
+00:38:27,200 --> 00:38:31,760
+So that is about the conventional assa
+
+893
+00:38:29,760 --> 00:38:35,359
+pipeline.
+
+894
+00:38:31,760 --> 00:38:37,440
+So let's um give a quick summary. So
+
+895
+00:38:35,359 --> 00:38:39,760
+original MR essentially just
+
+896
+00:38:37,440 --> 00:38:42,240
+instrumental web analysis methods. So
+
+897
+00:38:39,760 --> 00:38:45,440
+technically speaking uh everything in
+
+898
+00:38:42,240 --> 00:38:48,000
+every analysis also uh applicable to the
+
+899
+00:38:45,440 --> 00:38:51,680
+MR but the key feature is that MR using
+
+900
+00:38:48,000 --> 00:38:53,520
+genetic variance as the instrument. So
+
+901
+00:38:51,680 --> 00:38:55,440
+this good thing or sometimes a bad thing
+
+902
+00:38:53,520 --> 00:38:57,599
+because sometimes we are very happy or
+
+903
+00:38:55,440 --> 00:38:59,520
+excited because of the property of the
+
+904
+00:38:57,599 --> 00:39:01,440
+genetic variance but sometimes we also
+
+905
+00:38:59,520 --> 00:39:04,560
+very frustrated because we know that
+
+906
+00:39:01,440 --> 00:39:06,960
+genetic variance can violated money I
+
+907
+00:39:04,560 --> 00:39:09,680
+assumptions in ministrals.
+
+908
+00:39:06,960 --> 00:39:14,320
+So we still wish to the do the causal
+
+909
+00:39:09,680 --> 00:39:16,960
+influence using the MR but MR here I
+
+910
+00:39:14,320 --> 00:39:19,680
+think is more kind of explorative
+
+911
+00:39:16,960 --> 00:39:22,400
+methods if not the very final cause of
+
+912
+00:39:19,680 --> 00:39:23,920
+influence methods. I understand everyone
+
+913
+00:39:22,400 --> 00:39:25,760
+is very excited about the causal
+
+914
+00:39:23,920 --> 00:39:28,880
+influence conclusion but MR can only
+
+915
+00:39:25,760 --> 00:39:31,200
+give you very initial. So usually the
+
+916
+00:39:28,880 --> 00:39:33,280
+typical application of MI is to first
+
+917
+00:39:31,200 --> 00:39:35,599
+highlight the variables you think have
+
+918
+00:39:33,280 --> 00:39:38,160
+the causal relationship and then later
+
+919
+00:39:35,599 --> 00:39:41,440
+you do a more another coal influence
+
+920
+00:39:38,160 --> 00:39:43,200
+methods focusing on those highlighted
+
+921
+00:39:41,440 --> 00:39:48,240
+exposures. So this is typically
+
+922
+00:39:43,200 --> 00:39:51,280
+pipeline. Um again the very important
+
+923
+00:39:48,240 --> 00:39:54,560
+features on my today's present is that
+
+924
+00:39:51,280 --> 00:39:56,400
+we only introduced three I assumptions.
+
+925
+00:39:54,560 --> 00:39:58,320
+Remember that in coal inference
+
+926
+00:39:56,400 --> 00:40:00,400
+assumption is very important. How many
+
+927
+00:39:58,320 --> 00:40:02,560
+assumption we have determined how
+
+928
+00:40:00,400 --> 00:40:04,720
+precise conclusion you can get because
+
+929
+00:40:02,560 --> 00:40:08,720
+we only use three I assumption. You
+
+930
+00:40:04,720 --> 00:40:11,359
+typically actually doing the uh sharp
+
+931
+00:40:08,720 --> 00:40:14,320
+non hypothesis test. So that is this is
+
+932
+00:40:11,359 --> 00:40:17,440
+very uh important concludes that in most
+
+933
+00:40:14,320 --> 00:40:20,240
+scenarios the purpose of MI is just to
+
+934
+00:40:17,440 --> 00:40:23,920
+do testing. We do not do estimation. We
+
+935
+00:40:20,240 --> 00:40:26,640
+just want to test hypothesal effect. So
+
+936
+00:40:23,920 --> 00:40:28,560
+the main conclusion of MI is typically
+
+937
+00:40:26,640 --> 00:40:30,720
+that we believe there exist some cause
+
+938
+00:40:28,560 --> 00:40:32,880
+effect but we have no idea what they
+
+939
+00:40:30,720 --> 00:40:35,040
+cause effect really look like. So
+
+940
+00:40:32,880 --> 00:40:37,040
+usually we will use another methods to
+
+941
+00:40:35,040 --> 00:40:38,960
+solve this problem or use advanced MR
+
+942
+00:40:37,040 --> 00:40:41,119
+methods.
+
+943
+00:40:38,960 --> 00:40:43,920
+And again uh the really important
+
+944
+00:40:41,119 --> 00:40:46,560
+feature is that the difficulty and not
+
+945
+00:40:43,920 --> 00:40:49,520
+to mow from the computation. I want to
+
+946
+00:40:46,560 --> 00:40:52,720
+say again is that the MI is very easy
+
+947
+00:40:49,520 --> 00:40:55,200
+methods on my eyes and it also use very
+
+948
+00:40:52,720 --> 00:40:59,359
+tiny data particularly if you combine
+
+949
+00:40:55,200 --> 00:41:02,480
+Emma with other postg methods. Emma is
+
+950
+00:40:59,359 --> 00:41:04,560
+very simple but I spend much time to
+
+951
+00:41:02,480 --> 00:41:07,119
+emphasize the design because design is
+
+952
+00:41:04,560 --> 00:41:10,160
+actually much much more important than
+
+953
+00:41:07,119 --> 00:41:12,560
+the calculations in Emma.
+
+954
+00:41:10,160 --> 00:41:13,920
+If you have very good design maybe I
+
+955
+00:41:12,560 --> 00:41:16,960
+know I understand this is very difficult
+
+956
+00:41:13,920 --> 00:41:20,640
+because this is case by case but if you
+
+957
+00:41:16,960 --> 00:41:22,319
+can find a scenario that
+
+958
+00:41:20,640 --> 00:41:24,240
+everyone are really happy nearly
+
+959
+00:41:22,319 --> 00:41:27,280
+everyone happy with the IV assumptions
+
+960
+00:41:24,240 --> 00:41:29,760
+that they are really happy about you
+
+961
+00:41:27,280 --> 00:41:32,240
+using that genetic variant to do the MRA
+
+962
+00:41:29,760 --> 00:41:34,079
+or IV analysis
+
+963
+00:41:32,240 --> 00:41:37,119
+you conclusion will be much much
+
+964
+00:41:34,079 --> 00:41:39,520
+valuable that's very important because
+
+965
+00:41:37,119 --> 00:41:41,920
+coal conclusion is very exciting but
+
+966
+00:41:39,520 --> 00:41:44,319
+they are so many cost convolutions
+
+967
+00:41:41,920 --> 00:41:46,319
+published by Emma papers in low quality
+
+968
+00:41:44,319 --> 00:41:49,760
+that is very frustrating.
+
+969
+00:41:46,319 --> 00:41:52,319
+So we really um happy with the good
+
+970
+00:41:49,760 --> 00:41:53,920
+design even your final conclusion is not
+
+971
+00:41:52,319 --> 00:41:56,000
+significant because I understand because
+
+972
+00:41:53,920 --> 00:41:58,079
+we sometimes we have the pressures to
+
+973
+00:41:56,000 --> 00:41:59,920
+publishing some papers we really have to
+
+974
+00:41:58,079 --> 00:42:02,400
+end up with significant results but in
+
+975
+00:41:59,920 --> 00:42:04,960
+coal influence there is the so-called
+
+976
+00:42:02,400 --> 00:42:08,000
+publication bs so that's why in coal
+
+977
+00:42:04,960 --> 00:42:10,240
+influence we really happy to see a coal
+
+978
+00:42:08,000 --> 00:42:12,240
+influence methods like m analysis with
+
+979
+00:42:10,240 --> 00:42:14,560
+good design even you find a conclusion
+
+980
+00:42:12,240 --> 00:42:17,280
+is not significant that is still very
+
+981
+00:42:14,560 --> 00:42:20,319
+good papers So that is typically all the
+
+982
+00:42:17,280 --> 00:42:22,000
+summary of the MR for the conditional uh
+
+983
+00:42:20,319 --> 00:42:24,880
+sorry for the traditional and
+
+984
+00:42:22,000 --> 00:42:27,200
+conventional MR analysis. But of course
+
+985
+00:42:24,880 --> 00:42:31,359
+there are also some actually many
+
+986
+00:42:27,200 --> 00:42:36,480
+advanced MR topics because I cannot uh
+
+987
+00:42:31,359 --> 00:42:38,640
+look into uh each of them but
+
+988
+00:42:36,480 --> 00:42:41,680
+there are many advanced topics. I think
+
+989
+00:42:38,640 --> 00:42:43,200
+they can be again divided to two groups.
+
+990
+00:42:41,680 --> 00:42:45,680
+So the first group is more from the
+
+991
+00:42:43,200 --> 00:42:47,839
+methology perspective or say the
+
+992
+00:42:45,680 --> 00:42:50,240
+statistical perspective. So we can
+
+993
+00:42:47,839 --> 00:42:54,640
+consider more complicated
+
+994
+00:42:50,240 --> 00:42:57,920
+uh models. We can answers more precise
+
+995
+00:42:54,640 --> 00:43:00,319
+causal effect because remember that if
+
+996
+00:42:57,920 --> 00:43:02,640
+you only do the
+
+997
+00:43:00,319 --> 00:43:04,880
+traditional MMR we only to do testing.
+
+998
+00:43:02,640 --> 00:43:06,560
+So the n hypothesis means that you
+
+999
+00:43:04,880 --> 00:43:08,880
+believe that that there's no cause
+
+1000
+00:43:06,560 --> 00:43:11,040
+effect which this statement is too
+
+1001
+00:43:08,880 --> 00:43:13,680
+strong. Sometimes we are interested in a
+
+1002
+00:43:11,040 --> 00:43:15,920
+more precise causal effect. So that's
+
+1003
+00:43:13,680 --> 00:43:18,560
+why we need more advanced amattopics for
+
+1004
+00:43:15,920 --> 00:43:21,359
+the nonlinear time wirings and the
+
+1005
+00:43:18,560 --> 00:43:23,200
+individual level causal effect. But
+
+1006
+00:43:21,359 --> 00:43:25,599
+again this will require additional
+
+1007
+00:43:23,200 --> 00:43:27,280
+assumptions. When we do coal inference
+
+1008
+00:43:25,599 --> 00:43:29,359
+when we make additional assumptions we
+
+1009
+00:43:27,280 --> 00:43:31,200
+should be very careful about this
+
+1010
+00:43:29,359 --> 00:43:33,760
+because many assumptions could be
+
+1011
+00:43:31,200 --> 00:43:36,240
+violated in your application.
+
+1012
+00:43:33,760 --> 00:43:39,920
+So this is a trade-off and another
+
+1013
+00:43:36,240 --> 00:43:44,000
+direction of advanced MI is based on the
+
+1014
+00:43:39,920 --> 00:43:46,800
+um application considerations because MI
+
+1015
+00:43:44,000 --> 00:43:51,040
+is the genetic epidemiology methods.
+
+1016
+00:43:46,800 --> 00:43:53,040
+Sometimes we used Emma in epidemi and
+
+1017
+00:43:51,040 --> 00:43:55,599
+genetic scenarios. We need to think
+
+1018
+00:43:53,040 --> 00:43:57,200
+about some specific problems. For
+
+1019
+00:43:55,599 --> 00:43:59,280
+example, we need to think about
+
+1020
+00:43:57,200 --> 00:44:01,359
+selection bi. We need to think about the
+
+1021
+00:43:59,280 --> 00:44:03,760
+sample brows. We also need to deal with
+
+1022
+00:44:01,359 --> 00:44:05,599
+missing data. So how can we use the MI
+
+1023
+00:44:03,760 --> 00:44:09,920
+in such scenarios? There are many
+
+1024
+00:44:05,599 --> 00:44:12,640
+methods proposed so that if this problem
+
+1025
+00:44:09,920 --> 00:44:14,560
+is applicable to your application you
+
+1026
+00:44:12,640 --> 00:44:17,520
+can consider this advanced topics. I
+
+1027
+00:44:14,560 --> 00:44:21,200
+highlighted some very good papers for
+
+1028
+00:44:17,520 --> 00:44:25,040
+each one of them. And also if you do the
+
+1029
+00:44:21,200 --> 00:44:27,440
+genetics data usually we do uh mutomics
+
+1030
+00:44:25,040 --> 00:44:30,400
+data and we have the protein or
+
+1031
+00:44:27,440 --> 00:44:32,480
+expression level and uh which means that
+
+1032
+00:44:30,400 --> 00:44:35,520
+if we do the M with them we typically
+
+1033
+00:44:32,480 --> 00:44:39,280
+use CQL or PQDL and it will also
+
+1034
+00:44:35,520 --> 00:44:41,440
+involves many uh start problems and
+
+1035
+00:44:39,280 --> 00:44:45,280
+based on this there are many novel
+
+1036
+00:44:41,440 --> 00:44:48,160
+methods proposed to help you get
+
+1037
+00:44:45,280 --> 00:44:51,599
+to do the better MR analysis with this
+
+1038
+00:44:48,160 --> 00:44:53,760
+PQ and PQR this side and of course we
+
+1039
+00:44:51,599 --> 00:44:55,920
+can also use Emma with few this is quite
+
+1040
+00:44:53,760 --> 00:45:00,079
+flexible. So M essentially is just a
+
+1041
+00:44:55,920 --> 00:45:03,280
+simple method but this is this is
+
+1042
+00:45:00,079 --> 00:45:05,200
+actually the kind of conclusion that if
+
+1043
+00:45:03,280 --> 00:45:07,200
+you find some causal influence method
+
+1044
+00:45:05,200 --> 00:45:09,040
+simple which means that this is better.
+
+1045
+00:45:07,200 --> 00:45:11,520
+So the simple method sometimes is better
+
+1046
+00:45:09,040 --> 00:45:13,520
+than complicated and fancy methods but
+
+1047
+00:45:11,520 --> 00:45:15,680
+the design becomes more important. So
+
+1048
+00:45:13,520 --> 00:45:18,560
+you want to ensure that you do a lot of
+
+1049
+00:45:15,680 --> 00:45:21,040
+MR analysis and you want to convince
+
+1050
+00:45:18,560 --> 00:45:22,960
+others believe that your MR contribution
+
+1051
+00:45:21,040 --> 00:45:24,240
+are reliable.
+
+1052
+00:45:22,960 --> 00:45:26,319
+So you need to think about many
+
+1053
+00:45:24,240 --> 00:45:29,440
+scenarios in your specified application.
+
+1054
+00:45:26,319 --> 00:45:32,079
+So not only just doing MI in a in a
+
+1055
+00:45:29,440 --> 00:45:34,160
+mechanical or in a mechanical way. You
+
+1056
+00:45:32,079 --> 00:45:37,280
+need to think about it like the more
+
+1057
+00:45:34,160 --> 00:45:39,440
+like a more flexible ways to deal with
+
+1058
+00:45:37,280 --> 00:45:43,800
+all the potential problems you think
+
+1059
+00:45:39,440 --> 00:45:43,800
+there could be in your analysis.
+
+1060
+00:45:44,160 --> 00:45:47,920
+and the right I give you a quick
+
+1061
+00:45:45,680 --> 00:45:51,760
+introduction to the one topic of the
+
+1062
+00:45:47,920 --> 00:45:54,000
+advanced methods. So Mway Mi is just um
+
+1063
+00:45:51,760 --> 00:45:55,839
+more generalized version of Emma. So
+
+1064
+00:45:54,000 --> 00:45:59,680
+this is good because once you understand
+
+1065
+00:45:55,839 --> 00:46:01,440
+the MUT if you this is good I mean if
+
+1066
+00:45:59,680 --> 00:46:03,760
+you understand the general version you
+
+1067
+00:46:01,440 --> 00:46:06,800
+can of course understand more special
+
+1068
+00:46:03,760 --> 00:46:09,440
+version. So the M is good. So M is good.
+
+1069
+00:46:06,800 --> 00:46:12,079
+The main reason I think is it can be
+
+1070
+00:46:09,440 --> 00:46:14,160
+indeed used in many scenarios. So in
+
+1071
+00:46:12,079 --> 00:46:17,920
+your application sometimes if you using
+
+1072
+00:46:14,160 --> 00:46:20,640
+the uh cause of mediation analysis you
+
+1073
+00:46:17,920 --> 00:46:22,880
+can use the MMR if you are interested in
+
+1074
+00:46:20,640 --> 00:46:25,839
+some key risk factor selection problems
+
+1075
+00:46:22,880 --> 00:46:29,280
+you can also transform it to MMR.
+
+1076
+00:46:25,839 --> 00:46:32,240
+So here M is very flexible method so
+
+1077
+00:46:29,280 --> 00:46:34,000
+that's why I highly recommend it to you
+
+1078
+00:46:32,240 --> 00:46:38,800
+but again this is about advanced MR
+
+1079
+00:46:34,000 --> 00:46:41,040
+topics. So um if you are uh if your
+
+1080
+00:46:38,800 --> 00:46:45,040
+application really consider very narrow
+
+1081
+00:46:41,040 --> 00:46:47,280
+questions you can use the MMA
+
+1082
+00:46:45,040 --> 00:46:49,040
+right so this is about the Emma part and
+
+1083
+00:46:47,280 --> 00:46:52,000
+I want to extend a little bit to
+
+1084
+00:46:49,040 --> 00:46:53,839
+connecting Emma to other topics um
+
+1085
+00:46:52,000 --> 00:46:56,000
+>> hold on we have like one minute
+
+1086
+00:46:53,839 --> 00:46:59,200
+>> okay yeah I just randomly pick one
+
+1087
+00:46:56,000 --> 00:47:02,880
+topics for example if you um
+
+1088
+00:46:59,200 --> 00:47:04,960
+>> so if you think PRS so PRS is typically
+
+1089
+00:47:02,880 --> 00:47:07,359
+um you can use the PRS with individual
+
+1090
+00:47:04,960 --> 00:47:09,680
+level data and it will have the
+
+1091
+00:47:07,359 --> 00:47:12,079
+individual level MR. Individual MR
+
+1092
+00:47:09,680 --> 00:47:14,319
+analysis is quite good because it can
+
+1093
+00:47:12,079 --> 00:47:16,319
+you can combine with many advanced IV
+
+1094
+00:47:14,319 --> 00:47:18,960
+and machine learning methods because IV
+
+1095
+00:47:16,319 --> 00:47:20,400
+and machine learning methods are many
+
+1096
+00:47:18,960 --> 00:47:23,520
+cases are based on individual level
+
+1097
+00:47:20,400 --> 00:47:26,000
+data. So do not limited your MR to the
+
+1098
+00:47:23,520 --> 00:47:28,000
+summary data level. You can do lot of
+
+1099
+00:47:26,000 --> 00:47:30,480
+fancy things using the individual level
+
+1100
+00:47:28,000 --> 00:47:33,200
+data. So particularly if you have PIS if
+
+1101
+00:47:30,480 --> 00:47:35,599
+you have individual level data and you
+
+1102
+00:47:33,200 --> 00:47:37,680
+will get many interesting conclusions.
+
+1103
+00:47:35,599 --> 00:47:39,280
+So of course we connect Emma to any
+
+1104
+00:47:37,680 --> 00:47:42,240
+other topics like genetic correlation
+
+1105
+00:47:39,280 --> 00:47:44,400
+for collocizations
+
+1106
+00:47:42,240 --> 00:47:46,960
+right this is about all the things I
+
+1107
+00:47:44,400 --> 00:47:48,800
+here I also provide some MR learning
+
+1108
+00:47:46,960 --> 00:47:52,319
+resources and I would say thanks to all
+
+1109
+00:47:48,800 --> 00:47:55,480
+my friends um for this slides. Thank you
+
+1110
+00:47:52,319 --> 00:47:55,480
+so much.
+
+1111
+00:47:56,079 --> 00:47:59,520
+>> So any other questions then be free to
+
+1112
+00:47:58,480 --> 00:48:01,440
+ask.
+
+1113
+00:47:59,520 --> 00:48:04,240
+>> Thank you so much. And if you wanted to
+
+1114
+00:48:01,440 --> 00:48:07,119
+ask yours in person, you're here.
+
+1115
+00:48:04,240 --> 00:48:09,359
+>> Actually question.
+
+1116
+00:48:07,119 --> 00:48:11,359
+>> Well, I get I I put in in the chat
+
+1117
+00:48:09,359 --> 00:48:13,760
+earlier a question that what does it
+
+1118
+00:48:11,359 --> 00:48:17,200
+mean to say that the you know the
+
+1119
+00:48:13,760 --> 00:48:19,280
+genetics is randomized? like obviously I
+
+1120
+00:48:17,200 --> 00:48:22,079
+can get behind that being the case
+
+1121
+00:48:19,280 --> 00:48:23,920
+between the parents but across everybody
+
+1122
+00:48:22,079 --> 00:48:26,720
+else that's obviously false. So
+
+1123
+00:48:23,920 --> 00:48:30,400
+>> yeah. So yeah, this is a good question
+
+1124
+00:48:26,720 --> 00:48:32,240
+and also hard to answer because uh if we
+
+1125
+00:48:30,400 --> 00:48:36,559
+look at the population level the
+
+1126
+00:48:32,240 --> 00:48:39,839
+randomized actually uh means that the
+
+1127
+00:48:36,559 --> 00:48:41,839
+genetic factor of individuals
+
+1128
+00:48:39,839 --> 00:48:43,920
+sorry the individual's genetic factors
+
+1129
+00:48:41,839 --> 00:48:46,240
+are kind of independent of the
+
+1130
+00:48:43,920 --> 00:48:48,160
+environmental factors.
+
+1131
+00:48:46,240 --> 00:48:50,960
+So,
+
+1132
+00:48:48,160 --> 00:48:53,839
+so the environmental factors because we
+
+1133
+00:48:50,960 --> 00:48:56,640
+are typically the confounders and in
+
+1134
+00:48:53,839 --> 00:48:59,200
+every analysis framework we wish to say
+
+1135
+00:48:56,640 --> 00:49:02,400
+that the instrument is independent of
+
+1136
+00:48:59,200 --> 00:49:04,720
+the confounders. That's why we wish to
+
+1137
+00:49:02,400 --> 00:49:06,720
+say that the instrumental variables is
+
+1138
+00:49:04,720 --> 00:49:08,559
+independent of the confounders. So in
+
+1139
+00:49:06,720 --> 00:49:10,079
+other words, it's kind of randomized
+
+1140
+00:49:08,559 --> 00:49:12,160
+because when we say something is
+
+1141
+00:49:10,079 --> 00:49:14,400
+randomized, we would typically believe
+
+1142
+00:49:12,160 --> 00:49:17,599
+that that thing is independent of other
+
+1143
+00:49:14,400 --> 00:49:19,839
+variables. So,
+
+1144
+00:49:17,599 --> 00:49:22,240
+>> yeah, it just seems to not obviously
+
+1145
+00:49:19,839 --> 00:49:24,240
+hold true for humans, right? Just
+
+1146
+00:49:22,240 --> 00:49:25,760
+straightforwardly be false.
+
+1147
+00:49:24,240 --> 00:49:27,280
+>> I mean, yeah, for all of the reasons
+
+1148
+00:49:25,760 --> 00:49:29,520
+that we're familiar with in genetics,
+
+1149
+00:49:27,280 --> 00:49:30,319
+like genetic variation is not random
+
+1150
+00:49:29,520 --> 00:49:32,079
+compared to
+
+1151
+00:49:30,319 --> 00:49:34,480
+>> that's good point because as I said,
+
+1152
+00:49:32,079 --> 00:49:37,200
+this is the belief and there are some
+
+1153
+00:49:34,480 --> 00:49:39,280
+people disagree with mandization because
+
+1154
+00:49:37,200 --> 00:49:42,400
+they don't believe that the genetic
+
+1155
+00:49:39,280 --> 00:49:45,119
+virus are indeed randomized. So this
+
+1156
+00:49:42,400 --> 00:49:47,040
+kind of debate but uh if you are happy
+
+1157
+00:49:45,119 --> 00:49:49,119
+with the random meeting the random
+
+1158
+00:49:47,040 --> 00:49:51,520
+meeting will give you the one motivation
+
+1159
+00:49:49,119 --> 00:49:54,160
+to believe that gener factors are
+
+1160
+00:49:51,520 --> 00:49:55,839
+randomized but that's not granted. Um,
+
+1161
+00:49:54,160 --> 00:49:57,280
+thanks so much. And also just like for a
+
+1162
+00:49:55,839 --> 00:50:00,480
+beautiful talk, I love all your emphasis
+
+1163
+00:49:57,280 --> 00:50:01,599
+on um, all of the assumptions. Um, and I
+
+1164
+00:50:00,480 --> 00:50:04,559
+was wondering for somebody who was new
+
+1165
+00:50:01,599 --> 00:50:06,720
+to this field and you had a, you know,
+
+1166
+00:50:04,559 --> 00:50:07,920
+well formulated research question and it
+
+1167
+00:50:06,720 --> 00:50:09,200
+sort of seems like you were saying that
+
+1168
+00:50:07,920 --> 00:50:10,640
+sometimes people don't have well
+
+1169
+00:50:09,200 --> 00:50:12,960
+formulated research questions when they
+
+1170
+00:50:10,640 --> 00:50:15,119
+come in, but let's say they did. Um, how
+
+1171
+00:50:12,960 --> 00:50:17,440
+would they go about really doing that
+
+1172
+00:50:15,119 --> 00:50:18,960
+work of working out what is the right
+
+1173
+00:50:17,440 --> 00:50:21,760
+method? What are the right sorts of
+
+1174
+00:50:18,960 --> 00:50:24,319
+assumptions? Are there like resources to
+
+1175
+00:50:21,760 --> 00:50:26,319
+uh yeah to get up to mastery of that?
+
+1176
+00:50:24,319 --> 00:50:28,960
+>> Yeah, thanks for the question. So I
+
+1177
+00:50:26,319 --> 00:50:31,119
+think the main development of Emma is
+
+1178
+00:50:28,960 --> 00:50:33,440
+actually all about assumptions. If you
+
+1179
+00:50:31,119 --> 00:50:34,960
+look at the slides, so assumptions is
+
+1180
+00:50:33,440 --> 00:50:37,520
+most important concept in causal
+
+1181
+00:50:34,960 --> 00:50:39,760
+influence. Why we propose new methods is
+
+1182
+00:50:37,520 --> 00:50:41,680
+because that we believe some assumptions
+
+1183
+00:50:39,760 --> 00:50:44,400
+are violated. That's why we propose new
+
+1184
+00:50:41,680 --> 00:50:47,119
+methods. But new methods comes with new
+
+1185
+00:50:44,400 --> 00:50:49,119
+assumptions. So in to some extent you
+
+1186
+00:50:47,119 --> 00:50:51,040
+can say that everything is about
+
+1187
+00:50:49,119 --> 00:50:53,119
+assumptions. Sometimes we don't believe
+
+1188
+00:50:51,040 --> 00:50:55,359
+the assumptions are satisfied. That's
+
+1189
+00:50:53,119 --> 00:50:58,400
+why we do lots of sensitivity analysis.
+
+1190
+00:50:55,359 --> 00:51:00,319
+We want to tell the audience that okay I
+
+1191
+00:50:58,400 --> 00:51:02,160
+do lots of sensitivity analysis and
+
+1192
+00:51:00,319 --> 00:51:03,680
+triangulation strategies based on
+
+1193
+00:51:02,160 --> 00:51:06,000
+different assumptions. My results are
+
+1194
+00:51:03,680 --> 00:51:08,240
+still stable. So in other words they
+
+1195
+00:51:06,000 --> 00:51:10,480
+want to show that okay I don't know
+
+1196
+00:51:08,240 --> 00:51:12,240
+which assumptions are correct but I do
+
+1197
+00:51:10,480 --> 00:51:14,079
+many analysis use different assumptions
+
+1198
+00:51:12,240 --> 00:51:17,599
+my results are still stable which means
+
+1199
+00:51:14,079 --> 00:51:20,000
+that I think they satisfied all the
+
+1200
+00:51:17,599 --> 00:51:22,559
+assumptions or this they this satis one
+
+1201
+00:51:20,000 --> 00:51:26,319
+of the assumptions and I concl ation is
+
+1202
+00:51:22,559 --> 00:51:27,839
+reliable. So that is the key idea. Um
+
+1203
+00:51:26,319 --> 00:51:28,160
+yeah, I hope this answer the question.
+
+1204
+00:51:27,839 --> 00:51:29,760
+Yeah,
+
+1205
+00:51:28,160 --> 00:51:31,200
+>> great. And I think for time we'll end
+
+1206
+00:51:29,760 --> 00:51:34,200
+there. Let's thank our speaker one more
+
+1207
+00:51:31,200 --> 00:51:34,200
+time.
+

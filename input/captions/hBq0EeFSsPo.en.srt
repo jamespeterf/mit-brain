@@ -1,0 +1,329 @@
+1
+00:00:00,366 --> 00:00:03,116
+(logo whooshing)
+
+2
+00:00:04,027 --> 00:00:06,610
+(gentle music)
+
+3
+00:00:14,490 --> 00:00:16,001
+- Recently, there's
+been a lot of excitement
+
+4
+00:00:16,001 --> 00:00:18,428
+on using large language models
+
+5
+00:00:18,428 --> 00:00:20,310
+and vision language models,
+
+6
+00:00:20,310 --> 00:00:22,440
+these large scale machine learning models
+
+7
+00:00:22,440 --> 00:00:24,474
+that have been trained
+on the entire internet
+
+8
+00:00:24,474 --> 00:00:26,850
+for robotics tasks.
+
+9
+00:00:26,850 --> 00:00:28,200
+So there are all these constraints
+
+10
+00:00:28,200 --> 00:00:32,220
+from kinematics to
+reachability to collision.
+
+11
+00:00:32,220 --> 00:00:34,680
+If we don't properly
+consider these constraints,
+
+12
+00:00:34,680 --> 00:00:37,260
+the robot is gonna fail at its task.
+
+13
+00:00:37,260 --> 00:00:38,897
+The research challenge we're interested in
+
+14
+00:00:38,897 --> 00:00:41,850
+is doing decision making
+with these models,
+
+15
+00:00:41,850 --> 00:00:44,520
+but still considering
+these important constraints
+
+16
+00:00:44,520 --> 00:00:46,050
+that occur on the robot.
+
+17
+00:00:46,050 --> 00:00:48,630
+- In this work, we developed
+a system called process.
+
+18
+00:00:48,630 --> 00:00:51,239
+It uses a language model to
+establish a block of code.
+
+19
+00:00:51,239 --> 00:00:52,800
+In this block of code,
+
+20
+00:00:52,800 --> 00:00:55,738
+it tells the robot what to
+do in a procedural manner.
+
+21
+00:00:55,738 --> 00:00:58,039
+So once we have a goal that
+we want the robot to satisfy,
+
+22
+00:00:58,039 --> 00:01:01,050
+we query the language
+model for a block of code
+
+23
+00:01:01,050 --> 00:01:03,161
+that defines an infinite
+family of solutions.
+
+24
+00:01:03,161 --> 00:01:05,070
+This infinite family of solutions
+
+25
+00:01:05,070 --> 00:01:07,800
+is then searched through
+using a constraint satisfier.
+
+26
+00:01:07,800 --> 00:01:08,957
+And what this constraint satisfier does
+
+27
+00:01:08,957 --> 00:01:11,463
+is it basically can test out in simulation
+
+28
+00:01:11,463 --> 00:01:14,070
+different possible sequences of actions
+
+29
+00:01:14,070 --> 00:01:15,900
+and validate their correctness
+
+30
+00:01:15,900 --> 00:01:17,053
+under the set of constraints.
+
+31
+00:01:17,053 --> 00:01:18,690
+- So for experiments,
+
+32
+00:01:18,690 --> 00:01:20,596
+our goal was to test the range of tasks
+
+33
+00:01:20,596 --> 00:01:23,600
+that we could get our method
+to solve on a real robot.
+
+34
+00:01:23,600 --> 00:01:25,818
+Importantly, we were interested in drawing
+
+35
+00:01:25,818 --> 00:01:30,078
+and general manipulation
+tasks that the robot
+
+36
+00:01:30,078 --> 00:01:32,940
+should be able to solve
+in a zero shot fashion.
+
+37
+00:01:32,940 --> 00:01:35,190
+So it hasn't seen these
+tasks ahead of time.
+
+38
+00:01:35,190 --> 00:01:36,495
+And the kinds of tasks we tested
+
+39
+00:01:36,495 --> 00:01:39,576
+were things like draw a
+star or some other shape
+
+40
+00:01:39,576 --> 00:01:43,020
+and take a bunch of objects
+like fruits, blocks,
+
+41
+00:01:43,020 --> 00:01:44,640
+bowls, everyday objects,
+
+42
+00:01:44,640 --> 00:01:47,970
+and pack them into configurations
+like lines, et cetera.
+
+43
+00:01:47,970 --> 00:01:49,500
+We noticed that a lot of the baselines
+
+44
+00:01:49,500 --> 00:01:51,390
+would violate constraints.
+
+45
+00:01:51,390 --> 00:01:53,378
+They would knock into other objects,
+
+46
+00:01:53,378 --> 00:01:55,500
+they wouldn't understand the goal
+
+47
+00:01:55,500 --> 00:01:57,330
+and wouldn't actually accomplish it,
+
+48
+00:01:57,330 --> 00:01:58,817
+or they would fail to reach objects,
+
+49
+00:01:58,817 --> 00:02:00,420
+whereas because our approach
+
+50
+00:02:00,420 --> 00:02:02,176
+explicitly reasons
+about these constraints,
+
+51
+00:02:02,176 --> 00:02:04,290
+we're able to solve these tasks
+
+52
+00:02:04,290 --> 00:02:06,180
+at a much higher success rate.
+
+53
+00:02:06,180 --> 00:02:08,356
+So here, we're gonna see the
+robot try to solve a task
+
+54
+00:02:08,356 --> 00:02:11,019
+where we've told it stack all the blocks
+
+55
+00:02:11,019 --> 00:02:13,323
+into a bowl of the same color.
+
+56
+00:02:14,166 --> 00:02:15,960
+- One implication of this work
+
+57
+00:02:15,960 --> 00:02:17,528
+is that we can now trust the process,
+
+58
+00:02:17,528 --> 00:02:21,077
+so we can put robots in
+a arbitrary environment
+
+59
+00:02:21,077 --> 00:02:22,737
+and give them an arbitrary goal,
+
+60
+00:02:22,737 --> 00:02:25,680
+and have them operate in that
+environment in a safe manner,
+
+61
+00:02:25,680 --> 00:02:27,010
+satisfying all of the constraints
+
+62
+00:02:27,010 --> 00:02:29,790
+that the human set forth beforehand.
+
+63
+00:02:29,790 --> 00:02:31,887
+So in future work, we
+hope to extend our method
+
+64
+00:02:31,887 --> 00:02:36,128
+to more partially observable
+and mobile-based situations.
+
+65
+00:02:36,128 --> 00:02:38,637
+- This recipe of combining
+large language models
+
+66
+00:02:38,637 --> 00:02:41,100
+with classical techniques from robotics
+
+67
+00:02:41,100 --> 00:02:42,540
+like constraint satisfaction,
+
+68
+00:02:42,540 --> 00:02:44,850
+and putting them together
+in an integrated system
+
+69
+00:02:44,850 --> 00:02:46,140
+is really powerful.
+
+70
+00:02:46,140 --> 00:02:48,350
+It lets us solve tasks
+that are open ended,
+
+71
+00:02:48,350 --> 00:02:51,900
+but also maintain trust and safety.
+
+72
+00:02:51,900 --> 00:02:53,735
+In the long term, this could enable us
+
+73
+00:02:53,735 --> 00:02:56,730
+to solve tasks in household environments,
+
+74
+00:02:56,730 --> 00:02:58,350
+like cooking and cleaning,
+
+75
+00:02:58,350 --> 00:03:00,723
+and assist users in their everyday lives.
+

@@ -1,0 +1,3593 @@
+1
+00:00:00,240 --> 00:00:05,600
+Hello everyone, I am Daniela Rus, I'm the 
+Director of the Computer Science and Artificial  
+
+2
+00:00:05,600 --> 00:00:12,320
+Intelligence Laboratory at MIT and I'm delighted 
+to welcome all of you to this week's edition of  
+
+3
+00:00:12,320 --> 00:00:21,840
+the CSAIL Forum. And so this week I am especially 
+delighted to welcome Professor Manish Raghavan,  
+
+4
+00:00:21,840 --> 00:00:28,720
+who is a professor at the MIT Sloan School of 
+Management and also in the MIT Schwarzman College  
+
+5
+00:00:28,720 --> 00:00:37,120
+of Computing. His research focuses on the social 
+and ethical dimensions of algorithmic decision  
+
+6
+00:00:37,120 --> 00:00:41,920
+making and he is very interested 
+in a wide range of applications  
+
+7
+00:00:41,920 --> 00:00:49,920
+with social implications like hiring, 
+admissions, consumer lending and more.
+
+8
+00:00:49,920 --> 00:00:56,720
+And in order to enable these applications, 
+he studies how automated systems influence  
+
+9
+00:00:56,720 --> 00:01:01,680
+human decision making and how to 
+design algorithms that are fair,  
+
+10
+00:01:01,680 --> 00:01:08,080
+transparent and aligned with human 
+values. And so with this, I would like to  
+
+11
+00:01:09,360 --> 00:01:18,480
+turn the spotlight on to Manish, but before 
+I do so, I would like to ask you to please  
+
+12
+00:01:18,480 --> 00:01:24,320
+be an engaged audience. Please put 
+your name and location in the chat.
+
+13
+00:01:24,320 --> 00:01:30,880
+Please add comments and questions to the 
+chat and we will have time for Q&A at the  
+
+14
+00:01:30,880 --> 00:01:35,920
+end of the talk. And so I would love 
+for everyone to contribute at least  
+
+15
+00:01:35,920 --> 00:01:42,880
+one question or one comment during the 
+talk. And so with that, let's get going.
+
+16
+00:01:42,880 --> 00:01:45,840
+Manish, please take it away. Great,  
+
+17
+00:01:45,840 --> 00:01:49,280
+thanks so much for having me. It's 
+great to be able to participate here.
+
+18
+00:01:49,280 --> 00:01:53,680
+Can everyone see my screen 
+okay? Yes? Okay, good. So yeah,  
+
+19
+00:01:53,680 --> 00:01:57,360
+I'm super excited to be talking to all of 
+you. Today I'm going to talk about some  
+
+20
+00:01:57,360 --> 00:02:03,600
+work we've been doing on measuring the 
+diversity of information present in AI  
+
+21
+00:02:03,600 --> 00:02:08,160
+systems and how to think about how to combine 
+information effectively from different sources.
+
+22
+00:02:08,160 --> 00:02:13,280
+So the main question I want to be trying 
+to answer today is what is the role that  
+
+23
+00:02:13,280 --> 00:02:18,160
+heterogeneous information plays in AI 
+systems? And I'll give you a couple  
+
+24
+00:02:18,160 --> 00:02:24,800
+illustrations of what this might look like or 
+what I mean by heterogeneous information. So one  
+
+25
+00:02:24,800 --> 00:02:29,440
+type of application that we like to think about, 
+especially for those of us who like to think about  
+
+26
+00:02:30,000 --> 00:02:35,840
+societal implications of AI systems, is what 
+happens when you put AI and humans together,  
+
+27
+00:02:35,840 --> 00:02:39,280
+right? What does the combination of humans 
+and AI look like and how should you think  
+
+28
+00:02:39,280 --> 00:02:44,560
+about structuring their collaboration to be 
+effective? And a very simplified view of this  
+
+29
+00:02:44,560 --> 00:02:49,680
+takes the following approach. Your AI systems 
+know something, right? They have some set of  
+
+30
+00:02:49,680 --> 00:02:53,280
+information that they have access to and they have 
+some set of things that they're good at doing.
+
+31
+00:02:53,280 --> 00:02:56,720
+Human agents in your system also have 
+some information. They have some set  
+
+32
+00:02:56,720 --> 00:02:59,280
+of things that they're good at, they 
+have a set of things that they know,  
+
+33
+00:02:59,280 --> 00:03:03,200
+and there's some overlap between what a human 
+knows and what an AI knows or what a human  
+
+34
+00:03:03,200 --> 00:03:07,520
+is good at and what an AI system is good at. 
+But there's also some disjoint part of that.
+
+35
+00:03:07,520 --> 00:03:12,000
+And so the question is when we bring these 
+two different actors with different properties  
+
+36
+00:03:12,000 --> 00:03:16,720
+together, can we create a combined system that 
+takes advantage of both of their strengths  
+
+37
+00:03:16,720 --> 00:03:21,040
+and use that to complement each other's 
+weaknesses? A name that you often hear  
+
+38
+00:03:21,040 --> 00:03:26,720
+for this type of interaction is complementarity, 
+which is when a joint system between an AI model  
+
+39
+00:03:26,720 --> 00:03:30,960
+and a human agent does better than either in 
+isolation. So that's the the end goal of what  
+
+40
+00:03:30,960 --> 00:03:34,720
+we might be trying to achieve. And you can 
+see how reasoning about the different sets  
+
+41
+00:03:34,720 --> 00:03:41,920
+of information available to these agents might 
+allow us to build more complementary systems.
+
+42
+00:03:41,920 --> 00:03:45,440
+The second thing I'll be talking about a 
+little bit today is what is the role of  
+
+43
+00:03:45,440 --> 00:03:51,600
+systems that have lots of different AI models 
+in them? In particular, if we have a system or  
+
+44
+00:03:51,600 --> 00:03:56,880
+an ecosystem where we have lots of AI models 
+or lots of different AI agents, to what extent  
+
+45
+00:03:56,880 --> 00:04:01,840
+are they actually acting independently from each 
+other? And if they're all operating on some shared  
+
+46
+00:04:01,840 --> 00:04:07,120
+underlying information set, does that create some 
+sort of risk or vulnerability or potential for  
+
+47
+00:04:07,120 --> 00:04:12,640
+mistakes that we would want to try to mitigate 
+somehow? And so an example of this is to say,  
+
+48
+00:04:12,640 --> 00:04:16,080
+yes, you know, we have a bunch of different AI 
+models, but it actually turns out that they all  
+
+49
+00:04:16,080 --> 00:04:18,720
+know the same thing, or they're all going to 
+make the same mistakes, they're all going to  
+
+50
+00:04:18,720 --> 00:04:24,080
+behave in the same way. Would it be better if we 
+swapped out one of those models or some of those  
+
+51
+00:04:24,080 --> 00:04:29,520
+models for a different AI agent or a different 
+model which maybe knows something slightly  
+
+52
+00:04:29,520 --> 00:04:32,640
+different? And maybe it knows a little bit 
+less, maybe it's a little bit worse of a model,  
+
+53
+00:04:32,640 --> 00:04:36,960
+but it has non-overlapping information with 
+the rest of our models, and somehow we might  
+
+54
+00:04:36,960 --> 00:04:42,000
+be able to combine all these things to build 
+a more robust overall system. So these are the  
+
+55
+00:04:42,000 --> 00:04:46,800
+two different perspectives we're going to try to 
+take on information diversity in AI systems today.
+
+56
+00:04:46,800 --> 00:04:49,920
+We're going to talk a little bit about 
+human-AI collaboration and how to leverage  
+
+57
+00:04:49,920 --> 00:04:53,120
+these complementary information 
+sets to make better decisions,  
+
+58
+00:04:53,120 --> 00:04:59,520
+and then we'll broaden a little bit to systems 
+of AI models or ecosystems of AI models and  
+
+59
+00:04:59,520 --> 00:05:04,000
+try to understand what sort of properties do 
+they have when they interact with each other.  
+
+60
+00:05:05,040 --> 00:05:11,040
+So on this first topic of human-AI collaboration, 
+I'm going to talk about some of our work that's  
+
+61
+00:05:11,760 --> 00:05:16,000
+partly theoretical, and then I'll talk about a 
+case study we did in a medical decision-making  
+
+62
+00:05:16,000 --> 00:05:20,480
+context. And this is joint work with Rohan, 
+who's a student here, Lauren, Derek, and Dennis,  
+
+63
+00:05:20,480 --> 00:05:26,720
+who are doctors at the Yale School of Medicine, 
+and David Rudd, who is also a PI here at MIT.
+
+64
+00:05:26,720 --> 00:05:34,160
+And the starting point for this discussion 
+on human-AI collaboration is a long-standing  
+
+65
+00:05:34,160 --> 00:05:38,400
+paradox that I've been fascinated 
+with for for quite a while now,  
+
+66
+00:05:38,400 --> 00:05:44,800
+which is this resolution of how we think about 
+clinical versus statistical prediction. And  
+
+67
+00:05:44,800 --> 00:05:49,360
+so we've known for a very long time, for 
+decades, that even very simple algorithmic  
+
+68
+00:05:49,360 --> 00:05:54,240
+predictions often outperform humans. If you just 
+measure the accuracy of a logistic regression,  
+
+69
+00:05:54,240 --> 00:06:00,000
+it tends to be about as good or competitive with 
+human experts in any decision-making domain.
+
+70
+00:06:00,000 --> 00:06:04,000
+There's a bunch of recent evidence on this, but 
+again, it goes back for many decades. And so I'm  
+
+71
+00:06:04,000 --> 00:06:08,560
+thinking about tasks like predicting risk 
+in a medical context. So given a patient,  
+
+72
+00:06:08,560 --> 00:06:15,280
+how likely is this person to have an adverse 
+event or to need some sort of intervention?  
+
+73
+00:06:16,080 --> 00:06:22,400
+And yet, despite the fact that our even simple 
+risk prediction algorithms tend to be quite good,  
+
+74
+00:06:22,400 --> 00:06:27,280
+in many of these contexts, we still 
+maintain discretion with humans.
+
+75
+00:06:27,280 --> 00:06:31,680
+And there's a lot of good reasons why we might 
+want to do this, why we might want humans to  
+
+76
+00:06:31,680 --> 00:06:35,680
+make final decisions. There might be legal 
+requirements or some liability reasons that  
+
+77
+00:06:35,680 --> 00:06:39,680
+we actually need to have a person accountable 
+for these decisions. It might be the case that  
+
+78
+00:06:39,680 --> 00:06:43,360
+it's really hard to measure exactly what 
+is the thing that we're optimizing for.
+
+79
+00:06:43,360 --> 00:06:48,960
+So when I say algorithms have at least as 
+good accuracy, that is with respect to one  
+
+80
+00:06:48,960 --> 00:06:53,760
+particular measure that we might care about. 
+One metric of, let's say, adverse events. But  
+
+81
+00:06:53,760 --> 00:06:58,000
+there might be objectives that we have that go 
+beyond purely predicting these adverse events.
+
+82
+00:06:58,000 --> 00:07:02,000
+So perhaps there are other reasons 
+why we don't want algorithms to have  
+
+83
+00:07:02,000 --> 00:07:06,880
+complete control or autonomy. A different 
+reason though, and one that's been pointed  
+
+84
+00:07:06,880 --> 00:07:10,560
+out a lot in the literature, is that 
+algorithms are simply not sufficiently  
+
+85
+00:07:10,560 --> 00:07:15,680
+individualized. That even though they do a 
+good job of making aggregate predictions,  
+
+86
+00:07:15,680 --> 00:07:19,520
+on any individual case, human experts 
+might have some subjective information  
+
+87
+00:07:19,520 --> 00:07:25,120
+or contextual information about that case 
+that allows them to make better predictions.
+
+88
+00:07:25,120 --> 00:07:29,280
+So maybe they get to observe a patient, they 
+can talk to them, they can see if they're  
+
+89
+00:07:29,280 --> 00:07:33,360
+acting any differently, the patient can point 
+to exactly where they're experiencing pain,  
+
+90
+00:07:33,360 --> 00:07:37,520
+anything like that. These are pieces of 
+information that are just generally quite  
+
+91
+00:07:37,520 --> 00:07:41,840
+hard to encode into algorithms, and as a result 
+we don't include them typically in the information  
+
+92
+00:07:41,840 --> 00:07:46,880
+set available to an algorithm. And so this is 
+going to be the reason that we focus on today.
+
+93
+00:07:46,880 --> 00:07:51,360
+To what extent are algorithms not sufficiently 
+individualized, and when they're not, how do  
+
+94
+00:07:51,360 --> 00:07:58,880
+we build joint systems that incorporate both 
+algorithmic and human expertise? So I mentioned  
+
+95
+00:07:58,880 --> 00:08:05,040
+that we're going to talk about differing sources 
+of information. A simple explanation of why we  
+
+96
+00:08:05,040 --> 00:08:09,280
+have different sources of information is that 
+typically when we build machine learning models  
+
+97
+00:08:09,280 --> 00:08:14,960
+and AI systems on top of them, the information 
+that gets fed into these systems come from tabular  
+
+98
+00:08:14,960 --> 00:08:20,640
+data sets for the most part, or standardized data. 
+And so these are often maybe fairly comprehensive.
+
+99
+00:08:20,640 --> 00:08:24,240
+We have lots of individual attributes that 
+get measured, but they're standardized,  
+
+100
+00:08:24,240 --> 00:08:28,240
+which means we have effectively a spreadsheet 
+with a row for every patient and a column for  
+
+101
+00:08:28,240 --> 00:08:33,120
+every attribute that we're measuring, call it 
+blood pressure, whatever other sort of standard  
+
+102
+00:08:33,120 --> 00:08:38,320
+markers are relevant for your particular case 
+in EHR. These are standard columns that we just  
+
+103
+00:08:38,320 --> 00:08:42,960
+measure for every patient, and what that means 
+is it's necessarily narrow. So even though we've  
+
+104
+00:08:42,960 --> 00:08:47,600
+seen a lot of patients, we don't observe that 
+many different things about them all the time.
+
+105
+00:08:47,600 --> 00:08:52,800
+And I'll show you an example in a little bit where 
+the standard models that we use only use roughly  
+
+106
+00:08:52,800 --> 00:08:58,400
+nine predictors, if I recall, from somebody's 
+EHR. And so those nine things don't fully  
+
+107
+00:08:58,400 --> 00:09:03,440
+summarize the entire patient. You can't compress 
+a patient down into nine attributes about them.
+
+108
+00:09:03,440 --> 00:09:08,240
+In contrast, when a doctor looks at a case, their 
+information is going to come from the real world,  
+
+109
+00:09:08,240 --> 00:09:10,560
+not just from data that's been 
+provided. So they can talk to  
+
+110
+00:09:10,560 --> 00:09:14,080
+the patient, they can ask them for more 
+information. It's often idiosyncratic.
+
+111
+00:09:14,080 --> 00:09:19,520
+So if the patient points and says it hurts exactly 
+here, I don't really know how to turn that into a  
+
+112
+00:09:19,520 --> 00:09:23,840
+column in a data set, and not every doctor is 
+going to get that piece of information. If we  
+
+113
+00:09:23,840 --> 00:09:28,160
+tried to encode all this into a tabular data set, 
+we would just end up with a lot of missing values,  
+
+114
+00:09:28,160 --> 00:09:32,160
+and it would be really hard to do any machine 
+learning. And so what you end up with is these  
+
+115
+00:09:32,160 --> 00:09:37,840
+really wide data sets, in a sense, or wide 
+ranges of observations, but it's heterogeneous.
+
+116
+00:09:37,840 --> 00:09:40,880
+It's going to be different across patients, 
+and they're somewhat subjective as to how  
+
+117
+00:09:40,880 --> 00:09:44,960
+these things are being measured anyways. 
+Okay, as you can see why it might be hard  
+
+118
+00:09:44,960 --> 00:09:49,760
+to combine these sources of information 
+together. Now a canonical scenario,  
+
+119
+00:09:49,760 --> 00:09:54,240
+and in fact the scenario that we're going 
+to be describing later, is the following.
+
+120
+00:09:54,240 --> 00:09:59,280
+A patient shows up at a hospital and talks 
+to a doctor. This patient has some sort of  
+
+121
+00:09:59,280 --> 00:10:03,120
+problem, and let's say we're talking about 
+a triage case where they're going into  
+
+122
+00:10:03,120 --> 00:10:06,960
+urgent care. So this person 
+has some sort of problem.
+
+123
+00:10:06,960 --> 00:10:11,280
+The doctor gets to look at them and decide, does 
+this person, is this person healthy enough to be  
+
+124
+00:10:11,280 --> 00:10:15,440
+sent home and just say, you know, wait it out, 
+it's going to be okay? Or should they be admitted  
+
+125
+00:10:15,440 --> 00:10:20,160
+to the hospital? Okay, so this is an ER triage 
+decision that gets made at every hospital all  
+
+126
+00:10:20,160 --> 00:10:26,960
+the time. And in the past, this would have been 
+a purely subjective decision from this expert,  
+
+127
+00:10:26,960 --> 00:10:30,000
+right, from this physician who looks 
+at the patient, uses their expertise,  
+
+128
+00:10:30,000 --> 00:10:34,560
+uses standards of care to decide what 
+should we do in this case. Increasingly,  
+
+129
+00:10:34,560 --> 00:10:40,560
+you now have cases where we build risk models 
+that say, not only does this doctor get to take  
+
+130
+00:10:40,560 --> 00:10:44,880
+a look at this patient, but we can feed their 
+vital statistics and other information from  
+
+131
+00:10:44,880 --> 00:10:50,160
+their electronic health record into an algorithm, 
+and that is going to offer us a risk prediction.
+
+132
+00:10:50,160 --> 00:10:53,760
+But I don't immediately know what to do with 
+these two pieces of information now, because  
+
+133
+00:10:53,760 --> 00:10:57,440
+the doctor is going to have some subjective 
+intuition or some belief that gets formed by  
+
+134
+00:10:57,440 --> 00:11:02,400
+interacting with this patient. This algorithm is 
+going to output some number, and that's going to  
+
+135
+00:11:02,400 --> 00:11:07,920
+represent the algorithm's so-called belief about 
+this patient's risk, but these are not really  
+
+136
+00:11:07,920 --> 00:11:12,320
+speaking the same language. It's hard to integrate 
+these these pieces of information together.
+
+137
+00:11:12,320 --> 00:11:17,520
+And so again, we have this situation where 
+the doctor has some information, right,  
+
+138
+00:11:17,520 --> 00:11:20,800
+something that they're good at, they know some 
+stuff about the patient from that interaction,  
+
+139
+00:11:20,800 --> 00:11:26,800
+and our algorithm has some information, right, 
+whatever we fed it and whatever information comes  
+
+140
+00:11:26,800 --> 00:11:31,360
+from the historical data set on which it's been 
+trained. And what we want to do is ask, how do we  
+
+141
+00:11:31,360 --> 00:11:35,680
+achieve complementarity between these information 
+sets and the predictions that are being made on  
+
+142
+00:11:35,680 --> 00:11:41,600
+top of them? Okay, how do we do better than either 
+of them combined in some sort of joint system?  
+
+143
+00:11:41,600 --> 00:11:46,560
+Now there's some important considerations that we 
+have to keep in mind here. One is that, you know,  
+
+144
+00:11:46,560 --> 00:11:51,680
+ideally what we would, in a sort of idealized 
+computer scientist's mind, what you would say is,  
+
+145
+00:11:51,680 --> 00:11:56,080
+well, get the doctor to tell you an estimate 
+for how risky they think this patient is,  
+
+146
+00:11:56,080 --> 00:12:00,240
+get the algorithm to tell you an estimate 
+for how risky this patient is, and do some  
+
+147
+00:12:00,240 --> 00:12:04,560
+sophisticated averaging where you say, well, the 
+true risk is probably somewhere in between those.
+
+148
+00:12:04,560 --> 00:12:09,040
+The problem with doing this is it's really hard 
+to get humans to have well-calibrated probability  
+
+149
+00:12:09,040 --> 00:12:13,360
+estimates. Some doctors might overestimate 
+risk, some doctors might underestimate risk,  
+
+150
+00:12:13,360 --> 00:12:16,800
+people are in general bad about telling 
+you probabilities that reflect their  
+
+151
+00:12:16,800 --> 00:12:21,200
+actual beliefs. So you can't really rely 
+on doctors to be able to say, here is a,  
+
+152
+00:12:21,200 --> 00:12:26,560
+you know, 0.5 risk means 50% chance that 
+this adverse outcome is going to occur.
+
+153
+00:12:26,560 --> 00:12:30,000
+It's also hard for now to go in the 
+other direction, to ask this algorithm  
+
+154
+00:12:30,000 --> 00:12:35,360
+to meaningfully explain why it thinks 
+someone is high risk, and even if you can,  
+
+155
+00:12:35,360 --> 00:12:38,720
+it's really hard to use that information 
+or expect a doctor to use that information  
+
+156
+00:12:38,720 --> 00:12:43,680
+to reconcile their beliefs with the information 
+coming out of an algorithm. We also have to worry  
+
+157
+00:12:43,680 --> 00:12:48,160
+about the limitations that we'd have different 
+objectives. A doctor is balancing lots of things  
+
+158
+00:12:48,160 --> 00:12:52,800
+like availability of ER beds and all sorts 
+of other considerations with the hospital,  
+
+159
+00:12:52,800 --> 00:12:57,440
+whereas an algorithm is purely designed 
+to predict one objective or one thing.
+
+160
+00:12:57,440 --> 00:13:02,080
+And of course, this problem that information 
+from humans from doctors may not be standardized,  
+
+161
+00:13:02,080 --> 00:13:05,760
+right? Again, one doctor might tell you one 
+thing, one might tell you another thing,  
+
+162
+00:13:05,760 --> 00:13:09,520
+maybe they don't even really have a good 
+estimate of risk, but they just say, you know,  
+
+163
+00:13:09,520 --> 00:13:13,920
+the fact that it hurts in this particular spot 
+seems kind of bad to me, and because it seems  
+
+164
+00:13:13,920 --> 00:13:18,000
+like that could be something that's going to 
+require surgery or something like that. Okay,  
+
+165
+00:13:18,000 --> 00:13:23,440
+so there's all sorts of things that make this 
+a hard problem. I'll summarize for you what our  
+
+166
+00:13:23,440 --> 00:13:29,120
+approach has been in this type of setting and then 
+talk to you a little bit about where that's going.
+
+167
+00:13:29,120 --> 00:13:33,120
+And so this is on work that Rohan has 
+really led. Our approach is something  
+
+168
+00:13:33,120 --> 00:13:37,200
+like the following. We're going to 
+try to extract all the information  
+
+169
+00:13:37,200 --> 00:13:41,600
+that we can using some sophisticated 
+algorithms from the data that we get.
+
+170
+00:13:41,600 --> 00:13:47,200
+So we're going to train our own machine learning 
+model using a pretty large data set and pull out  
+
+171
+00:13:47,200 --> 00:13:50,880
+all the information that we can from that. And 
+if you're interested in the specific techniques,  
+
+172
+00:13:50,880 --> 00:13:54,960
+we're using ideas from the computer science 
+theory literature on multi-calibration,  
+
+173
+00:13:54,960 --> 00:14:00,240
+which basically say capture all of the predictive 
+information available to some class of functions,  
+
+174
+00:14:00,240 --> 00:14:02,640
+some researcher-defined class 
+of functions. So you could say,  
+
+175
+00:14:02,640 --> 00:14:06,240
+for instance, I am going to train 
+a model that squeezes out all the  
+
+176
+00:14:06,240 --> 00:14:10,560
+information available to any depth three 
+decision tree or something like that.
+
+177
+00:14:10,560 --> 00:14:14,000
+So you specify some family of functions 
+and say using that family of functions,  
+
+178
+00:14:14,000 --> 00:14:19,520
+I get to pull out all the information that I 
+can. Now, this still leaves you with a bunch  
+
+179
+00:14:19,520 --> 00:14:23,920
+of residual uncertainty because the data that 
+you have don't fully explain all the variance in  
+
+180
+00:14:23,920 --> 00:14:30,640
+the outcomes that you see. And so the question 
+is, can doctors actually explain more of that  
+
+181
+00:14:30,640 --> 00:14:34,640
+variance for you? And in particular, are there 
+specific groups of patients where they're really  
+
+182
+00:14:34,640 --> 00:14:39,440
+good at telling you, telling apart patients 
+who are otherwise indistinguishable to us? And  
+
+183
+00:14:39,440 --> 00:14:42,720
+are there groups of patients where they don't 
+really have a lot of predictive signal? Now,  
+
+184
+00:14:42,720 --> 00:14:47,200
+if we knew the answer to that, we could allocate 
+physician time more effectively and decide here  
+
+185
+00:14:47,200 --> 00:14:50,720
+are the cases where it's useful to actually 
+get a doctor to tell you what they think,  
+
+186
+00:14:50,720 --> 00:14:54,080
+and here are the cases for which that's 
+not going to add a lot of information.
+
+187
+00:14:54,080 --> 00:14:58,080
+And so then what we can do is selectively 
+incorporate and selectively elicit that  
+
+188
+00:14:58,080 --> 00:15:01,440
+information. So here are the patients for 
+which we need a doctor to give an opinion,  
+
+189
+00:15:01,440 --> 00:15:04,400
+here are the patients for which we already kind of 
+know what's going to happen, and the doctor isn't  
+
+190
+00:15:04,400 --> 00:15:11,040
+going to be able to explain any of that residual 
+uncertainty. And so effectively what we're doing  
+
+191
+00:15:11,040 --> 00:15:15,760
+is say, what is all the information available 
+to the algorithm? Let's condition on that,  
+
+192
+00:15:15,760 --> 00:15:20,160
+and then selectively incorporate the 
+information available to the physician.
+
+193
+00:15:20,160 --> 00:15:24,880
+And so visually, in this part of the space where 
+there's overlap between what the doctor knows and  
+
+194
+00:15:24,880 --> 00:15:30,480
+what the algorithm knows, our algorithms already 
+know enough. There's not a lot of additional  
+
+195
+00:15:30,480 --> 00:15:35,680
+information that we're getting out of physicians. 
+But in this part of the space, the doctors know  
+
+196
+00:15:35,680 --> 00:15:40,160
+something that the AI doesn't know, and we should 
+be careful about when we choose to automate.
+
+197
+00:15:40,160 --> 00:15:45,120
+And if we, and instead we might solicit that 
+information from doctors and defer to their  
+
+198
+00:15:45,120 --> 00:15:51,600
+expertise. Okay, I'll put to you that this is a 
+fairly flexible framework, and I'm going to give  
+
+199
+00:15:51,600 --> 00:15:57,040
+you an illustration of how it works in a second. 
+In the following sense, we don't know a priori how  
+
+200
+00:15:57,040 --> 00:16:02,240
+much overlap there is between what doctors know 
+and what robots know or what AI systems know.
+
+201
+00:16:02,240 --> 00:16:06,800
+And so it could be the case that we live in this 
+world, where eventually we want to automate more  
+
+202
+00:16:06,800 --> 00:16:10,800
+and more of these decisions because the doctor 
+doesn't really know anything beyond what our  
+
+203
+00:16:10,800 --> 00:16:15,920
+AI systems can do. Or alternatively, most 
+of the signal that the doctors are using  
+
+204
+00:16:15,920 --> 00:16:20,480
+is already captured by the data observable 
+to these AI systems. In this type of world,  
+
+205
+00:16:20,480 --> 00:16:24,880
+we would automate more decisions and 
+there would be less physician discretion.
+
+206
+00:16:24,880 --> 00:16:28,880
+But we could also live in a world that looks like 
+this, right, where there actually isn't a lot of  
+
+207
+00:16:28,880 --> 00:16:33,600
+overlap between what doctors know and what our 
+AI systems know. And maybe our AI systems don't  
+
+208
+00:16:33,600 --> 00:16:37,200
+actually know that much because they simply 
+don't have enough contextual information.  
+
+209
+00:16:37,200 --> 00:16:40,560
+If this is what the world looks like, we 
+should be automating fewer decisions and  
+
+210
+00:16:40,560 --> 00:16:45,360
+we should exercise more physician discretion, 
+okay? And so this is the type of thing that  
+
+211
+00:16:45,360 --> 00:16:50,160
+we're trying to do here, is distinguish 
+between what sort of world we live in.
+
+212
+00:16:50,160 --> 00:16:55,360
+Now I promised you I'd give you an application 
+of this, and so the concrete setting that we're  
+
+213
+00:16:55,360 --> 00:17:00,720
+going to be looking at is GI bleeding 
+and emergency triage for GI bleeding.  
+
+214
+00:17:00,720 --> 00:17:05,040
+There's a standard risk predictor in this setting 
+called the Glasgow Blatchford bleeding score,  
+
+215
+00:17:05,040 --> 00:17:09,520
+and these are all of the covariates that go into 
+it, or all of the information that our algorithm  
+
+216
+00:17:09,520 --> 00:17:14,640
+knows. So it knows one, two, three, four, five, 
+six, seven, eight, nine things about this patient,  
+
+217
+00:17:14,640 --> 00:17:17,520
+okay? It's not a lot of information, 
+but it turns out it's still, you know,  
+
+218
+00:17:17,520 --> 00:17:21,680
+enough to make reasonably accurate predictions, 
+at least on aggregate, right? And actually if  
+
+219
+00:17:21,680 --> 00:17:27,840
+you benchmark this particular algorithm, it does 
+roughly as well at predicting high risk as your  
+
+220
+00:17:27,840 --> 00:17:33,680
+average doctor, okay? So it's hard to tell whether 
+your algorithm is better on average than a doctor.
+
+221
+00:17:33,680 --> 00:17:38,560
+But despite this, what we're going to be looking 
+for is, are there particular groups of patients  
+
+222
+00:17:38,560 --> 00:17:44,320
+where the doctors know more than the algorithms 
+do, okay? And so that's what our meta framework  
+
+223
+00:17:44,320 --> 00:17:48,560
+is heading towards here. Instead of using this 
+off-the-shelf algorithm, we're going to build  
+
+224
+00:17:48,560 --> 00:17:52,400
+our own that's really going to squeeze out 
+all the predictive performance we can get,  
+
+225
+00:17:52,400 --> 00:17:57,120
+and leave us with these groups of patients 
+for whom we can't actually tell the difference  
+
+226
+00:17:57,120 --> 00:18:01,360
+based on the data available, right? They 
+look so similar that no algorithm that we  
+
+227
+00:18:01,360 --> 00:18:05,600
+train is sufficiently good at distinguishing 
+between their risks, okay? So we're going to  
+
+228
+00:18:05,600 --> 00:18:09,360
+end up with these groups of patients. Now 
+for each group of patient, we don't really  
+
+229
+00:18:09,360 --> 00:18:13,120
+know how to distinguish between them, and 
+so we're just going to ask a doctor, right?  
+
+230
+00:18:13,120 --> 00:18:17,920
+Are doctors actually better than random at telling 
+you which patients are high risk or not? If so,  
+
+231
+00:18:17,920 --> 00:18:23,440
+this is a clear signal that the doctors have 
+information that our algorithm simply does not.
+
+232
+00:18:23,440 --> 00:18:27,520
+So I'm going to show you the results of 
+what happens when you do this. Here I have,  
+
+233
+00:18:27,520 --> 00:18:32,080
+there's this, our algorithm, the way that we've 
+designed it ended with seven groups of patients,  
+
+234
+00:18:32,080 --> 00:18:35,200
+okay? So it's for every patient it 
+puts into one of these seven buckets,  
+
+235
+00:18:35,200 --> 00:18:39,600
+and what I'm plotting here is how much 
+correlation there is between what the  
+
+236
+00:18:39,600 --> 00:18:44,240
+physicians tell us versus the actual outcomes 
+in each of these buckets, okay? And I'll give  
+
+237
+00:18:44,240 --> 00:18:49,760
+you a second to look at this. What you should take 
+away from this is in almost all of these buckets,  
+
+238
+00:18:49,760 --> 00:18:54,800
+there's meaningful variation being explained 
+by the doctors that is otherwise unexplainable  
+
+239
+00:18:54,800 --> 00:18:59,440
+to our algorithms, because remember, everybody 
+within a bucket looks roughly the same from our  
+
+240
+00:18:59,440 --> 00:19:03,600
+algorithms perspective, but they actually look 
+quite different from a doctor's perspective.
+
+241
+00:19:03,600 --> 00:19:10,080
+Now there is one exception to this, which is the 
+highest risk subset, so subset number seven over  
+
+242
+00:19:10,080 --> 00:19:16,800
+here. You notice that there's actually no 
+variation that's by physician performance,  
+
+243
+00:19:16,800 --> 00:19:21,840
+and what this means is those are the patients 
+who are so high risk that physicians consistently  
+
+244
+00:19:21,840 --> 00:19:25,440
+predict that yes, these people need to be 
+hospitalized, these people are going to have  
+
+245
+00:19:25,440 --> 00:19:29,840
+adverse events. There's actually no point, none 
+of them in our data set end up getting sent home.
+
+246
+00:19:29,840 --> 00:19:34,640
+They all get hospitalized, and so this should 
+already start to make you think that well, if  
+
+247
+00:19:34,640 --> 00:19:38,560
+the physicians consistently say that every single 
+one of these patients should be hospitalized,  
+
+248
+00:19:38,560 --> 00:19:42,800
+why are they sitting around in the ER waiting 
+to see a triage doctor before they can then be  
+
+249
+00:19:42,800 --> 00:19:49,280
+admitted to the ER instead of just being directly 
+admitted because their risk score is so high,  
+
+250
+00:19:49,280 --> 00:19:53,200
+and so that's the kind of thinking that we're 
+going towards here. We can automate some of  
+
+251
+00:19:53,200 --> 00:19:59,200
+these decisions effectively for free. These are 
+these highest risk patients that are spending a  
+
+252
+00:19:59,200 --> 00:20:02,560
+lot of time waiting around in the ER when 
+in fact they could be directly admitted.
+
+253
+00:20:02,560 --> 00:20:05,760
+No physician is going to disagree 
+with this high risk estimate,  
+
+254
+00:20:06,480 --> 00:20:12,320
+and so what this allows us to do is effectively 
+trace out the space of possible policies. What  
+
+255
+00:20:12,320 --> 00:20:17,040
+are the admission policies that a hospital 
+might have based on an algorithm like this,  
+
+256
+00:20:17,040 --> 00:20:21,600
+and I'll plot this out in terms of a few 
+objectives that hospitals tell us they  
+
+257
+00:20:21,600 --> 00:20:26,000
+care about. Two of these objectives are pretty 
+standard in the machine learning literature.
+
+258
+00:20:26,000 --> 00:20:28,080
+They're objectives related 
+to the errors that you make,  
+
+259
+00:20:28,080 --> 00:20:31,840
+so what are your false positives and true 
+positives look like, so basically what is  
+
+260
+00:20:31,840 --> 00:20:39,200
+the performance of the system in terms of its 
+errors. Now one thing that's pretty common in  
+
+261
+00:20:39,200 --> 00:20:45,600
+this sort of medical setting is that hospitals 
+require really really high true positive rates,  
+
+262
+00:20:45,600 --> 00:20:53,760
+so policies need to be at least at a 99% true 
+positive rate, so of the people who really  
+
+263
+00:20:53,760 --> 00:20:58,960
+need to be hospitalized you want to be catching 
+almost all of those, and so all of the reasonable  
+
+264
+00:20:58,960 --> 00:21:02,400
+policies that a hospital would actually consider 
+you should think of towards the very top of this  
+
+265
+00:21:02,400 --> 00:21:10,240
+plot. The third axis that I'm plotting here in 
+color is how many of these cases we can automate.
+
+266
+00:21:10,240 --> 00:21:14,160
+What fraction of the time do we need 
+to ask a doctor or have a patient wait  
+
+267
+00:21:14,160 --> 00:21:18,400
+in a waiting room to see a doctor before 
+they can either be admitted or discharged,  
+
+268
+00:21:18,400 --> 00:21:23,120
+and you can see that there's some variation in 
+our policies based on this. I've highlighted  
+
+269
+00:21:23,120 --> 00:21:28,000
+two policies here which are in the realm of 
+what might almost be reasonable to deploy  
+
+270
+00:21:28,000 --> 00:21:32,480
+in a hospital. Now I should stress that we 
+haven't deployed any of these policies here.
+
+271
+00:21:32,480 --> 00:21:35,840
+The hospital that we're working with still 
+has a doctor look at every single case,  
+
+272
+00:21:35,840 --> 00:21:39,440
+so this is more of a forward-looking thing 
+of what policies in the future might you  
+
+273
+00:21:39,440 --> 00:21:43,680
+be willing to deploy. In the policy 
+that I've highlighted here in blue,  
+
+274
+00:21:43,680 --> 00:21:47,840
+the summary statistics are as follows. We 
+automate nearly all of the cases, right,  
+
+275
+00:21:47,840 --> 00:21:53,760
+so 86% of the time we just follow the 
+algorithm's recommendation for hospitalization.
+
+276
+00:21:53,760 --> 00:21:58,560
+This achieves a true positive rate of a 
+little over 97% and a false positive rate  
+
+277
+00:21:58,560 --> 00:22:02,400
+around 50%. Now you remember I told 
+you that this is not good enough. You  
+
+278
+00:22:02,400 --> 00:22:07,120
+need at least on the order of 99% to be even 
+willing to deploy a policy in this setting.
+
+279
+00:22:07,120 --> 00:22:11,040
+So it is a lot of automation, possibly 
+more automation than we should be doing,  
+
+280
+00:22:11,040 --> 00:22:15,360
+and it gets slightly lower true positive rate 
+as a result. So this is on the brink of what  
+
+281
+00:22:15,360 --> 00:22:18,160
+might be reasonable, but we would still 
+need to have a better algorithm in order  
+
+282
+00:22:18,160 --> 00:22:23,200
+to be able to deploy this. We're not ready to 
+do this level of this scale of automation yet.
+
+283
+00:22:23,200 --> 00:22:28,480
+On the flip side, we have a much more conservative 
+policy that only automates a small fraction of  
+
+284
+00:22:28,480 --> 00:22:33,200
+cases, right, and in particular if you recall 
+that plot I showed you on the previous slide,  
+
+285
+00:22:33,200 --> 00:22:38,080
+it automates all the high-risk cases. So 
+anyone who's high risk in that highest tier  
+
+286
+00:22:38,080 --> 00:22:42,960
+of risk gets automatically admitted to the 
+ER. Now this turns out to exactly match up  
+
+287
+00:22:42,960 --> 00:22:47,280
+with the hospital's existing policy, and what 
+that means is all those high-risk patients,  
+
+288
+00:22:47,280 --> 00:22:50,800
+yes they were waiting to see a doctor, but then 
+they were all getting admitted to the ER anyways.
+
+289
+00:22:50,800 --> 00:22:55,360
+None of them were getting sent home, and so this 
+matches the current policy's true positive rate  
+
+290
+00:22:55,360 --> 00:23:00,080
+of 99.7 percent. So this is in the realm of 
+what a hospital would consider deploying or  
+
+291
+00:23:00,080 --> 00:23:06,400
+their actual operating characteristics today. Now 
+the interesting thing about this is in a lot of  
+
+292
+00:23:06,400 --> 00:23:12,000
+the literature it suggests that you might want 
+to automate some of these low-risk cases where  
+
+293
+00:23:12,000 --> 00:23:15,920
+the AI is very confident that somebody's low 
+risk, you should be able to send them home,  
+
+294
+00:23:15,920 --> 00:23:20,160
+and that's the type of policy that hospitals are 
+somewhat hesitant to deploy because you could  
+
+295
+00:23:20,160 --> 00:23:24,800
+imagine if people are getting automatically sent 
+home and then somebody suffers some complication,  
+
+296
+00:23:24,800 --> 00:23:29,600
+that's not a good place to be, right, but this 
+policy actually has the opposite flavor that  
+
+297
+00:23:29,600 --> 00:23:34,560
+you're really automatically admitting all 
+of the highest risk patients, and this is  
+
+298
+00:23:34,560 --> 00:23:38,400
+perhaps in contrast to some of the literature on 
+what you should expect to see in these medical  
+
+299
+00:23:38,400 --> 00:23:42,800
+risk algorithms, but more importantly it is 
+conservative, and that conservatism is actually  
+
+300
+00:23:42,800 --> 00:23:47,520
+a good thing from a hospital's perspective, and 
+so again this is more in the realm of possibility  
+
+301
+00:23:47,520 --> 00:23:51,280
+of what you might be willing to deploy, 
+and importantly you are automating these  
+
+302
+00:23:51,280 --> 00:23:56,480
+high-risk cases where people would otherwise spend 
+a bunch of time sitting in a waiting room, okay.
+
+303
+00:23:56,480 --> 00:24:00,800
+So hopefully this has given you a some taste 
+of what it looks like to bring together these  
+
+304
+00:24:00,800 --> 00:24:05,120
+information sets in what I would say is a 
+mathematically and theoretically rigorous way,  
+
+305
+00:24:05,120 --> 00:24:10,480
+so we can, I haven't gone into all the details 
+here, but you get nice formal guarantees about  
+
+306
+00:24:10,480 --> 00:24:14,560
+what sort of value you're getting out of 
+your AI system and how confident you can  
+
+307
+00:24:14,560 --> 00:24:20,240
+be that your physician does or does not 
+add additional expertise beyond that,  
+
+308
+00:24:20,240 --> 00:24:24,640
+okay. So having talked a little bit about human-AI 
+collaboration, we're now going to talk about  
+
+309
+00:24:25,680 --> 00:24:30,960
+this setting of systems of AI agents, and we're 
+going to ask what happens when you put these  
+
+310
+00:24:30,960 --> 00:24:36,880
+systems together and how it matters or how much 
+it matters when they have overlapping information  
+
+311
+00:24:36,880 --> 00:24:45,040
+sets. So I'm going to talk about a few different 
+lines of work here that we've done I'll broadly  
+
+312
+00:24:45,040 --> 00:24:51,200
+refer to this as work on what I call algorithmic 
+monoculture, which I'll explain in a little bit,  
+
+313
+00:24:51,200 --> 00:24:56,400
+and I'll talk about work on decision making 
+and pricing settings and creative settings,  
+
+314
+00:24:56,400 --> 00:25:01,600
+what happens when we have algorithms that all 
+kind of produce very similar things to each other.
+
+315
+00:25:01,600 --> 00:25:07,440
+And the conceptual inspiration for some of this 
+work comes from long-standing knowledge about  
+
+316
+00:25:07,440 --> 00:25:13,200
+crop systems in agriculture. Now the word 
+monoculture itself comes from agriculture.  
+
+317
+00:25:13,200 --> 00:25:18,000
+Monoculture refers to a setting where, 
+maybe I'll set it up in contrast to,  
+
+318
+00:25:18,000 --> 00:25:24,720
+I think it's heteroculture is the opposite 
+of monoculture, which is the setting where  
+
+319
+00:25:24,720 --> 00:25:28,000
+you actually have lots of different 
+plants growing and they're all sort of  
+
+320
+00:25:28,000 --> 00:25:32,400
+going to succeed or fail independently of each 
+other or nearly independently of each other.
+
+321
+00:25:32,400 --> 00:25:37,280
+And this can be good for a lot of 
+reasons, one of which is the following.  
+
+322
+00:25:37,280 --> 00:25:43,600
+Suppose instead that I put together a crop system 
+where I just planted the same crop over and over  
+
+323
+00:25:43,600 --> 00:25:47,280
+again. And maybe I looked at the crops that 
+I have and I plant the most resilient one.
+
+324
+00:25:47,280 --> 00:25:52,080
+So I've selected this bottom right cactus over 
+here. This is the one that has a 90% chance of  
+
+325
+00:25:52,080 --> 00:25:56,320
+survival, let's say. And so I say that's the 
+best plant, I'm going to plant it everywhere.
+
+326
+00:25:56,320 --> 00:26:00,400
+But the problem is my failures 
+are now correlated. In particular,  
+
+327
+00:26:00,400 --> 00:26:04,800
+if there's a virus that targets that 
+particular plant, there's a pretty  
+
+328
+00:26:04,800 --> 00:26:09,760
+reasonable chance that all of my crops are 
+going to die out. And so monoculture creates  
+
+329
+00:26:09,760 --> 00:26:14,480
+a risk of systemic failure, where if one 
+component fails, every component fails.
+
+330
+00:26:14,480 --> 00:26:21,440
+And that has a much more significant impact 
+over the entire ecosystem. Now this concept  
+
+331
+00:26:21,440 --> 00:26:25,200
+originates in agriculture, but you 
+actually see it discussed a lot in  
+
+332
+00:26:25,200 --> 00:26:29,520
+the context of computer systems and more 
+recently in AI. So in computer systems,  
+
+333
+00:26:29,520 --> 00:26:34,000
+the analog of monoculture is something 
+like we all use the same operating system.
+
+334
+00:26:34,000 --> 00:26:36,880
+Our operating systems have 
+vulnerabilities. And so if,  
+
+335
+00:26:36,880 --> 00:26:43,200
+for example, we're all running Windows and some 
+Windows components, as happened a few months ago,  
+
+336
+00:26:43,200 --> 00:26:46,240
+has a bug in it somewhere and it 
+goes down, all of our systems are  
+
+337
+00:26:46,240 --> 00:26:50,400
+going to go down simultaneously. And 
+maybe that's a particular problem.
+
+338
+00:26:50,400 --> 00:26:53,200
+Maybe it would be better if some 
+of us use this operating system,  
+
+339
+00:26:53,200 --> 00:26:55,920
+some of us use that operating system, 
+or we use different versions of those  
+
+340
+00:26:55,920 --> 00:27:00,160
+operating systems. And so now even if 
+there's a virus that affects some of us,  
+
+341
+00:27:00,160 --> 00:27:04,000
+the entire ecosystem isn't going to go 
+down. And maybe there's some resilience.
+
+342
+00:27:04,000 --> 00:27:08,160
+I can use my friend's laptop if mine is broken for 
+a little while, or if we have different systems,  
+
+343
+00:27:08,160 --> 00:27:12,480
+we can pick the one that's working at 
+the time. So there's reasons to prefer  
+
+344
+00:27:12,480 --> 00:27:17,280
+avoiding these types of monocultures. Gary Gensler 
+actually has been talking about this a lot.
+
+345
+00:27:17,280 --> 00:27:23,040
+Gary Gensler, the former SEC chair, has been 
+talking about systemic risk in financial systems  
+
+346
+00:27:23,040 --> 00:27:28,800
+as a result of algorithmic monoculture. So 
+if we're all using the same software that  
+
+347
+00:27:28,800 --> 00:27:31,840
+executes automatic trades or something 
+like that based on market conditions,  
+
+348
+00:27:31,840 --> 00:27:36,560
+based on information that's coming out, 
+if there's some mistake in that code or  
+
+349
+00:27:36,560 --> 00:27:41,520
+if there's some weird condition that gets 
+triggered in which this algorithm starts  
+
+350
+00:27:41,520 --> 00:27:46,640
+doing something weird and unexpected, if it's just 
+this one trader who is following that algorithm,  
+
+351
+00:27:46,640 --> 00:27:50,880
+maybe the effect of that behavior on the 
+market is not super high. Yeah, it's not  
+
+352
+00:27:50,880 --> 00:27:55,840
+good for this particular trader, but the rest of 
+the market at least doesn't get severely affected.
+
+353
+00:27:55,840 --> 00:27:59,360
+But if we're all trading based on the same 
+information, based on the same algorithms and  
+
+354
+00:27:59,360 --> 00:28:04,640
+so on, when one of us enters a weird condition, we 
+all do simultaneously, and that can trigger really  
+
+355
+00:28:04,640 --> 00:28:09,680
+bad downstream consequences for the entire market. 
+So again, these are conditions where there might  
+
+356
+00:28:09,680 --> 00:28:15,040
+be systemic risks as a result of similarity or 
+as a result of us all having the same algorithms  
+
+357
+00:28:15,040 --> 00:28:20,640
+or practices. And so what I'm going to talk 
+about for the rest of today is how should we  
+
+358
+00:28:20,640 --> 00:28:24,240
+think about algorithmic monoculture? How should 
+we think about the case where lots of people  
+
+359
+00:28:24,240 --> 00:28:29,760
+are deploying and using the same algorithms? Is 
+it always a bad thing? And what are the forces,  
+
+360
+00:28:29,760 --> 00:28:34,880
+the market forces perhaps in the world, that 
+are going to push back against it? And the  
+
+361
+00:28:34,880 --> 00:28:41,600
+genesis of this thinking for me started in 2019 
+to 2021, where John Kleinberg and I had started  
+
+362
+00:28:41,600 --> 00:28:46,480
+to think about settings where people were making 
+decisions, high-stakes decisions with algorithms.
+
+363
+00:28:46,480 --> 00:28:51,520
+And the impetus actually came from, I'd been 
+studying the use of algorithms in hiring,  
+
+364
+00:28:51,520 --> 00:28:55,040
+and I noticed that there were a small number 
+of providers that were actually serving large  
+
+365
+00:28:55,040 --> 00:29:00,480
+fractions of the market. And as this becomes 
+more and more concentrated and more and more  
+
+366
+00:29:00,480 --> 00:29:05,760
+ubiquitous, you might worry that if, let's say 
+we're talking about algorithms used to do resume  
+
+367
+00:29:05,760 --> 00:29:09,120
+screening, if I submit my resume and it gets 
+rejected because the algorithm doesn't like my  
+
+368
+00:29:09,120 --> 00:29:14,000
+resume, that's fine if it just happens at one job. 
+It's not great for me, but I could live with it.
+
+369
+00:29:14,000 --> 00:29:17,840
+But if it happens at every single job that I apply 
+to because they're all using the same algorithm,  
+
+370
+00:29:17,840 --> 00:29:21,120
+that seems to be a problem. That 
+systemically locks me out of the  
+
+371
+00:29:21,120 --> 00:29:26,160
+market. And so if we think about a 
+decision-making setting like that,  
+
+372
+00:29:26,160 --> 00:29:31,040
+firms face a choice between having humans make 
+decisions and having algorithms make decisions.
+
+373
+00:29:31,040 --> 00:29:34,160
+Set aside for now the possibility of 
+creating these joint systems like we  
+
+374
+00:29:34,160 --> 00:29:37,760
+talked about. We're going to think about 
+the simplest possible version of this. Now,  
+
+375
+00:29:37,760 --> 00:29:41,360
+what happens in a world where firms have these 
+types of choices and how should we think about  
+
+376
+00:29:41,360 --> 00:29:49,120
+independence of information? My intuition going 
+into this was something like the following.
+
+377
+00:29:49,120 --> 00:29:54,000
+If we have two different firms that hire 
+two different humans to make decisions,  
+
+378
+00:29:54,000 --> 00:29:55,760
+they have some overlap in their information,  
+
+379
+00:29:55,760 --> 00:29:59,440
+but they also have some differences, 
+right? They maybe read resumes differently.
+
+380
+00:29:59,440 --> 00:30:02,720
+they have different experiences, these are just 
+different people, and so there's going to be some  
+
+381
+00:30:02,720 --> 00:30:07,520
+independence to their decisions. One person might 
+like my resume, one person might not like it,  
+
+382
+00:30:07,520 --> 00:30:12,800
+but there's some heterogeneity across them. 
+You know, and maybe if one of these firms  
+
+383
+00:30:12,800 --> 00:30:16,720
+starts using an algorithm, that's still partially 
+true, right? This human is not going to behave  
+
+384
+00:30:16,720 --> 00:30:20,560
+in an identical way to this algorithm, there's 
+still going to be some independence across them.
+
+385
+00:30:20,560 --> 00:30:25,120
+But the problem starts to come about when 
+many firms are using the same algorithm,  
+
+386
+00:30:25,120 --> 00:30:28,880
+and now there's no longer that independence, 
+they actually have complete correlation,  
+
+387
+00:30:28,880 --> 00:30:34,400
+or a lot more correlation, in their decisions 
+and the outcomes that they create. And if you  
+
+388
+00:30:34,400 --> 00:30:38,400
+follow this intuition through, and you do some 
+math, and you do a little bit of modeling,  
+
+389
+00:30:38,400 --> 00:30:45,920
+you get this surprising finding, which I think 
+should give us some pause. As I've been alluding  
+
+390
+00:30:45,920 --> 00:30:53,520
+to, it seems like algorithmic monoculture is 
+bad, it is bad for individuals if everybody's  
+
+391
+00:30:54,720 --> 00:30:59,200
+resumes, or if my resumes are getting 
+rejected by the same robot everywhere.
+
+392
+00:30:59,200 --> 00:31:03,120
+The interesting thing is it turns out 
+to be bad for decision makers as well,  
+
+393
+00:31:03,120 --> 00:31:07,600
+right? It is bad for them if they have 
+this sort of high degree of dependence  
+
+394
+00:31:07,600 --> 00:31:10,560
+or correlation introduced. It's 
+bad for society more broadly,  
+
+395
+00:31:10,560 --> 00:31:16,000
+it just leads to worse aggregate decisions. And 
+the weird thing is, despite this fact that it's  
+
+396
+00:31:16,000 --> 00:31:20,400
+bad for everybody involved, if you just let 
+people make economically rational decisions,  
+
+397
+00:31:20,400 --> 00:31:25,200
+they can still end up in this setting where 
+everybody decides to use algorithms anyways.
+
+398
+00:31:25,200 --> 00:31:29,600
+And this is not a question about price or 
+efficiency or anything, it's a more subtle point  
+
+399
+00:31:29,600 --> 00:31:34,640
+about the externalities created by information 
+sharing. I'll try to give you a little intuition  
+
+400
+00:31:34,640 --> 00:31:39,680
+for what that means. And there's a nice connection 
+to Bray's paradox, if you've ever heard about it.
+
+401
+00:31:39,680 --> 00:31:46,080
+It's a paradox, you can think of it in a traffic 
+planning setting. It's a paradox that says adding  
+
+402
+00:31:46,080 --> 00:31:52,800
+a road can actually make traffic worse, okay? So 
+you give people a better option, but despite this,  
+
+403
+00:31:52,800 --> 00:31:56,400
+because everybody chooses to use that better 
+option, it correlates people's behavior a  
+
+404
+00:31:56,400 --> 00:32:00,800
+lot more and it leads to worse aggregate 
+outcomes. The same intuition holds here.
+
+405
+00:32:00,800 --> 00:32:06,560
+So if I decide to use an algorithm, which 
+is maybe more accurate than it's a human  
+
+406
+00:32:06,560 --> 00:32:10,080
+or more efficient or whatever it might 
+be, it makes me slightly better off,  
+
+407
+00:32:10,080 --> 00:32:15,360
+right? It gives me better outcomes and I use it 
+because of that. It has these externalities. It  
+
+408
+00:32:15,360 --> 00:32:19,440
+actually makes everybody else who's using 
+that same algorithm slightly worse off.
+
+409
+00:32:19,440 --> 00:32:23,520
+And the intuition for this is, well, 
+I'm making slightly better decisions,  
+
+410
+00:32:23,520 --> 00:32:27,760
+but now I'm competing over the same set of 
+candidates with those other people. And so  
+
+411
+00:32:27,760 --> 00:32:31,360
+in aggregate, actually, those people are 
+worse off because I'm now more directly  
+
+412
+00:32:31,360 --> 00:32:35,680
+competing with them. And if everybody 
+makes the same choice, right? They say,  
+
+413
+00:32:35,680 --> 00:32:39,120
+well, it's better off for me if I use 
+the algorithm, so I'm going to use it.
+
+414
+00:32:39,120 --> 00:32:43,360
+This ends up decreasing social welfare because 
+every time somebody new adopts that algorithm,  
+
+415
+00:32:43,360 --> 00:32:47,360
+it harms everybody else. It 
+harms society more broadly. Okay.
+
+416
+00:32:47,360 --> 00:32:52,880
+And so what this makes me, made me realize 
+is the negative impacts from monoculture  
+
+417
+00:32:52,880 --> 00:32:57,040
+come from these externalities, come from 
+these dependencies between people where  
+
+418
+00:32:57,040 --> 00:33:01,360
+one actor in the system behaves in a certain 
+way, and that's going to influence everybody  
+
+419
+00:33:01,360 --> 00:33:06,000
+else's outcomes. And so we should really be 
+thinking about what are the relationships  
+
+420
+00:33:06,000 --> 00:33:10,880
+between different agents or different actors in 
+a system and how do they influence one another,  
+
+421
+00:33:10,880 --> 00:33:15,440
+right? When they start to make similar 
+choices, when is that bad and when does  
+
+422
+00:33:15,440 --> 00:33:19,280
+that create negative outcomes elsewhere? And so 
+those are some of the key questions we should  
+
+423
+00:33:19,280 --> 00:33:23,680
+be asking here. When does similar behavior 
+from different actors lead to these negative  
+
+424
+00:33:23,680 --> 00:33:29,600
+externalities? What are the implications? And 
+can we then try to reason about when we should  
+
+425
+00:33:29,600 --> 00:33:35,920
+expect to see more or less severe monoculture? 
+I'll run through two quick examples of settings  
+
+426
+00:33:35,920 --> 00:33:40,080
+where this has shown up, and then we can 
+have some time for discussion at the end.
+
+427
+00:33:40,080 --> 00:33:44,240
+One of those settings is algorithmic pricing. 
+So increasingly you're starting to see firms  
+
+428
+00:33:44,240 --> 00:33:48,640
+use algorithms to price things or offer 
+discounts or so on. And so we're going  
+
+429
+00:33:48,640 --> 00:33:52,560
+to reason about what happens when you 
+use similar algorithms to this pricing.
+
+430
+00:33:52,560 --> 00:33:58,080
+And the second, we'll talk about a more 
+of a generative AI style of competition  
+
+431
+00:33:58,080 --> 00:34:01,440
+where people are producing things and 
+that content production is actually  
+
+432
+00:34:01,440 --> 00:34:04,800
+starting to look more homogenous because 
+people are using more similar algorithms  
+
+433
+00:34:04,800 --> 00:34:08,800
+to each other. And so we're going to reason 
+about the effects of algorithmic monoculture  
+
+434
+00:34:08,800 --> 00:34:14,640
+in both of these contexts. Let's start 
+with this algorithmic pricing example.
+
+435
+00:34:14,640 --> 00:34:19,040
+So I want you to think about contexts like 
+personalized pricing, where effectively  
+
+436
+00:34:19,040 --> 00:34:24,160
+what you're trying to do is estimate someone's 
+willingness to pay and price accordingly. Now you  
+
+437
+00:34:24,160 --> 00:34:27,520
+may not be a huge fan of this because many of you 
+may be on the receiving end of this. For instance,  
+
+438
+00:34:27,520 --> 00:34:33,920
+many travel sites decide what price to show you 
+based on where you're conducting a search from,  
+
+439
+00:34:33,920 --> 00:34:35,920
+what type of device you're 
+using, that kind of thing.
+
+440
+00:34:36,880 --> 00:34:42,000
+And as in any pricing context, there's two 
+competing forces here. These are sort of  
+
+441
+00:34:42,000 --> 00:34:46,960
+fundamental economic forces. Firms want to keep 
+prices high because this is how they make money,  
+
+442
+00:34:46,960 --> 00:34:50,240
+but firms also want to increase 
+their own market share or increase  
+
+443
+00:34:50,240 --> 00:34:53,520
+your willingness to purchase from 
+them by undercutting one another.
+
+444
+00:34:53,520 --> 00:34:58,400
+These are sort of very basic economic 
+forces. And I want you to think of a setting,  
+
+445
+00:34:59,440 --> 00:35:03,840
+actually a very good concrete example is in 
+ride sharing. So you have services that are  
+
+446
+00:35:03,840 --> 00:35:09,840
+near identical, like something like Uber and Lyft, 
+then they will offer you a point-to-point price.
+
+447
+00:35:09,840 --> 00:35:13,200
+But they'll also often send you these 
+targeted discounts. I don't know if  
+
+448
+00:35:13,200 --> 00:35:16,960
+you've ever seen this. You have a 10% 
+off coupon for your next five rides,  
+
+449
+00:35:16,960 --> 00:35:19,360
+expires on this day, tap to continue and so on.
+
+450
+00:35:19,920 --> 00:35:26,400
+So not only are they offering you these 
+prices, which are based on distance and  
+
+451
+00:35:26,400 --> 00:35:29,920
+time and so on like that, they get to 
+target you in particular and say, hey,  
+
+452
+00:35:29,920 --> 00:35:34,000
+I think you might be a little bit less willing 
+to pay, or I might just want to try to undercut  
+
+453
+00:35:34,000 --> 00:35:40,160
+my competitor. Let me offer you a discount. 
+Now, I want to reason about what happens as  
+
+454
+00:35:40,160 --> 00:35:43,920
+those predictions of your willingness 
+to pay become more or less correlated.
+
+455
+00:35:43,920 --> 00:35:48,720
+Right. Now, as you might expect, more 
+correlation here is bad for consumers,  
+
+456
+00:35:48,720 --> 00:35:52,640
+right? Intuitively, firms might prefer 
+to correlate because it allows them to  
+
+457
+00:35:52,640 --> 00:35:58,160
+keep prices high. In fact, it's a form 
+of collusion and it's bad for consumers.
+
+458
+00:35:58,160 --> 00:36:02,080
+So my simple picture of why it's bad is in 
+a world where there's two different pricing  
+
+459
+00:36:02,080 --> 00:36:06,960
+algorithms being used on me, I can shop around and 
+I can pick the one that offers me the lower price.  
+
+460
+00:36:06,960 --> 00:36:10,880
+But if two firms are using the same pricing 
+algorithm, the same discounting algorithm,  
+
+461
+00:36:10,880 --> 00:36:14,480
+now I don't have that choice anymore 
+and I'm paying higher prices. So this  
+
+462
+00:36:16,160 --> 00:36:20,880
+should be in line with your intuitions of what 
+an economic model would say in this context.
+
+463
+00:36:20,880 --> 00:36:24,480
+I mentioned asking this question about 
+what are the forces pushing back against  
+
+464
+00:36:24,480 --> 00:36:31,760
+this homogenization or this monoculture. 
+Now, one force pushing it back against  
+
+465
+00:36:31,760 --> 00:36:38,560
+coordinated behavior by economic actors or by 
+firms is antitrust law, right? There's specific  
+
+466
+00:36:38,560 --> 00:36:44,160
+ways in which firms colluding to keep prices 
+high is explicitly illegal, right? It prohibits  
+
+467
+00:36:44,160 --> 00:36:51,040
+certain forms of collusion that raise prices. 
+And so the question is, does it apply to this  
+
+468
+00:36:51,040 --> 00:36:57,920
+notion of algorithmic collusion? If we decide 
+to outsource our predictions to the same third  
+
+469
+00:36:57,920 --> 00:37:02,000
+party or we purchase data from the same third 
+party, that's going to coordinate our behavior.
+
+470
+00:37:02,000 --> 00:37:08,000
+Is that illegal or is that just rational 
+market activity? Right. And from our analysis,  
+
+471
+00:37:08,000 --> 00:37:10,160
+the current U.S. and this is, I should say,  
+
+472
+00:37:10,160 --> 00:37:15,360
+I'm not a lawyer. We have legal scholars 
+on the team, on our research team here.
+
+473
+00:37:16,000 --> 00:37:20,800
+Our perspective is that current U.S. antitrust 
+law does not obviously prohibit this form of tacit  
+
+474
+00:37:20,800 --> 00:37:27,760
+collusion. Now, there's a lot of asterisks here. 
+One of those asterisks is the interpretation of  
+
+475
+00:37:27,760 --> 00:37:32,720
+antitrust law has changed quite radically 
+in the last few years and is likely to  
+
+476
+00:37:32,720 --> 00:37:40,080
+continue to change as a result of choices by the 
+previous administration at the FTC and the DOJ.
+
+477
+00:37:40,080 --> 00:37:45,760
+But two, the second asterisk is these are 
+somewhat uncharted waters in the sense that  
+
+478
+00:37:45,760 --> 00:37:50,560
+we haven't actually seen a lot of resolution 
+to this type of litigation yet that says  
+
+479
+00:37:50,560 --> 00:37:54,720
+you are making coordinated decisions via 
+some third party, via some data sharing,  
+
+480
+00:37:54,720 --> 00:37:58,320
+via some algorithmic prediction. Is that 
+actually against the law or under what  
+
+481
+00:37:58,320 --> 00:38:02,720
+theory should that be against the law? 
+Now, one very recent example of this  
+
+482
+00:38:02,720 --> 00:38:07,840
+is many of you may have been following 
+these slew of antitrust law cases against  
+
+483
+00:38:07,840 --> 00:38:12,320
+RealPage. RealPage is a firm that offers 
+pricing softwares to apartment complexes.
+
+484
+00:38:12,320 --> 00:38:16,000
+And so what that means is previously, if 
+you're going to pick out an apartment,  
+
+485
+00:38:16,000 --> 00:38:18,800
+each of them has their own way of 
+setting prices. These are all kind  
+
+486
+00:38:18,800 --> 00:38:22,320
+of different from each other and see a lot of 
+heterogeneity across pricing structure where  
+
+487
+00:38:22,320 --> 00:38:28,400
+you might. But what the government, what 
+several state AGs are actually alleging is  
+
+488
+00:38:28,400 --> 00:38:33,040
+that many of these apartment complexes are now 
+effectively hiding behind the same algorithm.
+
+489
+00:38:33,040 --> 00:38:37,280
+And that's going to allow them to coordinate their 
+prices in ways that are perhaps illegal. So this  
+
+490
+00:38:37,280 --> 00:38:43,200
+is the allegations that have been made. And these 
+are the lawsuits that are being pursued today.
+
+491
+00:38:43,200 --> 00:38:47,680
+So all of this is right on the cutting edge of 
+what we know about the law. And it's interesting  
+
+492
+00:38:47,680 --> 00:38:52,000
+to think about how these mechanisms from 
+data sharing and outsourcing to third  
+
+493
+00:38:52,000 --> 00:38:56,560
+parties propagate all the way through 
+this algorithm monoculture all the way  
+
+494
+00:38:56,560 --> 00:39:04,080
+to the law. I told you I'd give you one more 
+example of algorithmic monoculture in action.
+
+495
+00:39:04,080 --> 00:39:08,640
+I'll briefly talk about monoculture in 
+content production. And there's been a  
+
+496
+00:39:08,640 --> 00:39:15,360
+really interesting body of empirical literature 
+and RCTs in the last couple of years that have  
+
+497
+00:39:15,360 --> 00:39:20,240
+all come up with the same stylized fact, 
+which is the use of generative AI tends to  
+
+498
+00:39:20,240 --> 00:39:25,760
+make content more homogenous. I'll give you a 
+very cartoon picture of what this looks like.
+
+499
+00:39:25,760 --> 00:39:31,680
+Here's a prototypical study that people will 
+do. They'll say, come up with some creative  
+
+500
+00:39:31,680 --> 00:39:35,840
+business ideas, and they'll randomize people 
+into conditions where they either do not get  
+
+501
+00:39:35,840 --> 00:39:41,040
+or do get AI assistance at doing this. 
+So without AI, maybe you send people off.
+
+502
+00:39:41,040 --> 00:39:45,280
+They come up with a couple ideas each. And if you 
+look at the condition where they are allowed to  
+
+503
+00:39:45,280 --> 00:39:49,920
+use AI, they come up with more ideas. So it looks 
+like they've been more individually productive.
+
+504
+00:39:49,920 --> 00:39:54,400
+And you might look at this and conclude, OK, 
+this seems to mean that AI has made people  
+
+505
+00:39:54,400 --> 00:39:58,720
+more productive. Isn't this a good thing? But 
+the interesting thing that happens is if you  
+
+506
+00:39:58,720 --> 00:40:03,440
+do some sort of aggregate analysis of what are 
+the set of ideas that have been produced, you  
+
+507
+00:40:03,440 --> 00:40:09,120
+actually find a narrower overall set of things. 
+And so the cartoon finding here is, yes, people  
+
+508
+00:40:09,120 --> 00:40:12,160
+are individually producing more, but they're 
+just producing the same thing as each other.
+
+509
+00:40:12,160 --> 00:40:16,320
+Their behavior has been very coordinated. And so 
+if you're actually interested in the overall set  
+
+510
+00:40:16,320 --> 00:40:20,880
+of things that gets produced, you've gotten less 
+novelty because everybody's being forced towards  
+
+511
+00:40:20,880 --> 00:40:27,120
+the same ideas by this AI system. I just 
+say, I don't think this is inherent to AI,  
+
+512
+00:40:27,120 --> 00:40:32,000
+but there's some piece of it that's at least true 
+of the current ways that we interact with AI.
+
+513
+00:40:32,000 --> 00:40:36,880
+Now, the key question that I want to ask here 
+is, to what extent is this going to be mitigated  
+
+514
+00:40:36,880 --> 00:40:41,360
+by the fact that in the real world, people don't 
+just create ideas for the sake of coming up with  
+
+515
+00:40:41,360 --> 00:40:46,080
+ideas? They do so because they're competing in 
+some sort of marketplace of ideas. And to what  
+
+516
+00:40:46,080 --> 00:40:51,840
+extent does this matter? And is it going to push 
+back against monoculture? Now, one example of this  
+
+517
+00:40:51,840 --> 00:40:57,760
+is if you think of the... Some of this literature 
+shows that if you look at digital art since the  
+
+518
+00:40:57,760 --> 00:41:03,760
+advent of diffusion models or readily accessible 
+diffusion models for images, you find less overall  
+
+519
+00:41:03,760 --> 00:41:08,880
+diversity in the set of art that gets produced. 
+But there's still some amount of diversity.
+
+520
+00:41:08,880 --> 00:41:13,440
+And intuitively, it's because demand 
+for art is heterogeneous. Not everyone  
+
+521
+00:41:13,440 --> 00:41:17,280
+likes the same things. And so if you 
+are producing art for some market,  
+
+522
+00:41:17,280 --> 00:41:20,080
+you actually have different 
+niches that you're catering to.
+
+523
+00:41:20,080 --> 00:41:23,600
+And ultimately, you're not going to see 
+complete homogenization. So this is an  
+
+524
+00:41:23,600 --> 00:41:26,320
+externality where producing... 
+If we produce the same art,  
+
+525
+00:41:26,320 --> 00:41:29,760
+we split the demand for it. And that 
+actually makes us each worse off.
+
+526
+00:41:29,760 --> 00:41:33,360
+These externalities should then 
+propagate back to how we use AI.  
+
+527
+00:41:33,360 --> 00:41:36,080
+And so I'm going to briefly talk you 
+through some of the things that we  
+
+528
+00:41:36,080 --> 00:41:41,120
+find when doing this type of analysis. 
+One is that, just as you might expect,  
+
+529
+00:41:41,120 --> 00:41:46,080
+more competition in any sort of system is 
+going to encourage more diverse production.
+
+530
+00:41:46,080 --> 00:41:50,560
+So the stronger competition we have, the more 
+it matters whether we collide with each other,  
+
+531
+00:41:50,560 --> 00:41:55,840
+whether I beat you, you beat me, and so on, it 
+encourages us actually to have more diversity.  
+
+532
+00:41:55,840 --> 00:42:00,080
+You find that this is still not as diverse as 
+would be optimal from a social perspective,  
+
+533
+00:42:00,080 --> 00:42:03,680
+but it is somewhere in between the sort 
+of naive, we are all going to completely  
+
+534
+00:42:03,680 --> 00:42:09,440
+homogenize things versus we're going to have 
+this socially optimal as diverse as possible.  
+
+535
+00:42:10,320 --> 00:42:13,280
+A different thing that you find here, 
+which I think is particularly interesting,  
+
+536
+00:42:13,280 --> 00:42:18,160
+is that the quality of an AI model 
+is actually multidimensional.
+
+537
+00:42:18,160 --> 00:42:21,520
+And this is in contrast to a lot 
+of the ways that we measure the  
+
+538
+00:42:21,520 --> 00:42:23,760
+performance of AI models is we 
+just benchmark them. We say,  
+
+539
+00:42:23,760 --> 00:42:27,280
+here's a standard benchmark. We're 
+going to give each model a number.
+
+540
+00:42:27,280 --> 00:42:33,520
+The best number is the best model, and that one 
+wins. What I found was slightly more nuanced.  
+
+541
+00:42:33,520 --> 00:42:38,080
+Some models are good at giving you... 
+Your high probability will give you a  
+
+542
+00:42:38,080 --> 00:42:44,240
+great answer to any question, but there's 
+other models that may not be as reliable,  
+
+543
+00:42:44,240 --> 00:42:47,200
+but give you a wider range of good answers.
+
+544
+00:42:47,200 --> 00:42:50,400
+You can think of this as one 
+makes one single really nice  
+
+545
+00:42:50,400 --> 00:42:51,840
+image. It's very clean. It's beautiful.
+
+546
+00:42:51,840 --> 00:42:55,680
+Everybody likes it, but it only gives 
+you that one image over and over again.  
+
+547
+00:42:55,680 --> 00:43:00,400
+Some models might give you a worse image 
+every time, but they give you a different  
+
+548
+00:43:00,400 --> 00:43:03,680
+image every time. They have a little bit more 
+diversity to the set of things they produce.
+
+549
+00:43:03,680 --> 00:43:07,040
+If you're in a really competitive market, maybe 
+you'd actually prefer the model that gives you  
+
+550
+00:43:07,040 --> 00:43:12,800
+something that's slightly lower quality, but is 
+at least different. What that means is that this  
+
+551
+00:43:12,800 --> 00:43:19,280
+market for AI tools should encourage information 
+diversity. In effect, you're creating a market  
+
+552
+00:43:19,280 --> 00:43:23,680
+in which there's gaps being left open by 
+the monoculture induced by other tools.
+
+553
+00:43:23,680 --> 00:43:27,520
+The picture I'll give you for that is in 
+a world where everybody might be using  
+
+554
+00:43:27,520 --> 00:43:32,800
+the same model. Actually, we might all be 
+better off in a world that looks like this,  
+
+555
+00:43:32,800 --> 00:43:36,800
+where everybody uses a slightly 
+different model. No model is maybe  
+
+556
+00:43:36,800 --> 00:43:40,160
+as good as the one that everybody was 
+using before, but they're all different.
+
+557
+00:43:40,160 --> 00:43:43,520
+The fact that they're different allows us to 
+capture different parts of the market and fill  
+
+558
+00:43:43,520 --> 00:43:49,440
+different niches. The image I want to leave you 
+with is the combination of what we described  
+
+559
+00:43:49,440 --> 00:43:54,320
+here. Ultimately, my goal and my hope is that we 
+end up with worlds that look like the following.
+
+560
+00:43:54,320 --> 00:43:58,560
+When we build these joint systems between 
+AI models and humans, we're somehow able  
+
+561
+00:43:58,560 --> 00:44:02,160
+to leverage the complementary strengths of 
+each one and cover each other's weaknesses,  
+
+562
+00:44:02,160 --> 00:44:08,480
+or put together the information that they have to 
+build a system with more overall information. When  
+
+563
+00:44:08,480 --> 00:44:12,640
+we think about systems of different AI models 
+interacting or going out into the world and  
+
+564
+00:44:12,640 --> 00:44:16,880
+doing things, maybe we want a world that looks a 
+little bit more like the one on the right here,  
+
+565
+00:44:16,880 --> 00:44:20,640
+where everybody gets to use different models, 
+they have different strengths and weaknesses,  
+
+566
+00:44:20,640 --> 00:44:25,360
+and somehow by combining all of them together, 
+either at an individual level or across society,  
+
+567
+00:44:25,360 --> 00:44:30,080
+we end up with better overall outcomes. I know 
+I'm running a little bit over, I'll stop there.
+
+568
+00:44:30,080 --> 00:44:33,920
+Thanks so much for being here, for participating, 
+and I'm looking forward to any questions. Of  
+
+569
+00:44:33,920 --> 00:44:40,480
+course, thanks to all my collaborators through 
+all this work. Thank you so much, Manish.
+
+570
+00:44:40,480 --> 00:44:47,920
+That was really insightful and interesting. 
+There are a bunch of questions in the chat.  
+
+571
+00:44:48,560 --> 00:44:52,960
+For those of you who want to ask 
+questions, please put your hand up.
+
+572
+00:44:53,920 --> 00:45:03,760
+Before we get to the team, I would just like 
+to ask you, how can we apply your insights  
+
+573
+00:45:05,440 --> 00:45:15,200
+to the design of multi-agent societies? There 
+is so much conversation in the field of AI about  
+
+574
+00:45:15,200 --> 00:45:22,480
+bringing agents to do things on our behalf. 
+There is the issue of how much you want the  
+
+575
+00:45:22,480 --> 00:45:28,560
+agent to actually do for you. Then, when 
+the agents interact with other agents,  
+
+576
+00:45:28,560 --> 00:45:35,760
+some of the influences and the issues 
+that you talked about will only amplify.
+
+577
+00:45:35,760 --> 00:45:43,520
+What kind of wisdom would you like to share 
+with the rest of us about this problem? I  
+
+578
+00:45:43,520 --> 00:45:51,840
+don't know about wisdom. My perspective on 
+it is, there's a balance to be had between  
+
+579
+00:45:51,840 --> 00:45:59,200
+building really powerful agents and optimizing 
+your agent to be as good as it can possibly be,  
+
+580
+00:45:59,200 --> 00:46:04,480
+and recognizing that when you have a 
+multi-agent system, it's effectively a way  
+
+581
+00:46:04,480 --> 00:46:09,760
+of aggregating different models together. You're 
+aggregating all the information that they have.
+
+582
+00:46:09,760 --> 00:46:15,040
+The better aggregation processes that you can 
+build, the more you should be diversifying  
+
+583
+00:46:15,040 --> 00:46:19,920
+the set of inputs that goes into it. I'll 
+give you an example. A very simple way of  
+
+584
+00:46:19,920 --> 00:46:24,960
+aggregating outputs from agents is, let's say 
+you're in some discrete decision-making task.
+
+585
+00:46:24,960 --> 00:46:29,520
+You could have a bunch of agents run and 
+take the majority vote across them. That's  
+
+586
+00:46:29,520 --> 00:46:36,400
+a very simple way to aggregate information. 
+Now, if you're going to do that, would you  
+
+587
+00:46:36,400 --> 00:46:41,760
+want to aggregate the vote of K copies or five 
+copies of the same agent over and over again,  
+
+588
+00:46:41,760 --> 00:46:46,800
+or would you want five agents with slightly 
+different properties that some make these  
+
+589
+00:46:46,800 --> 00:46:50,160
+types of mistakes, some make those types 
+of mistakes, and you aggregate them that  
+
+590
+00:46:50,160 --> 00:46:55,440
+way? You might get a more robust system 
+if you are able to diversify the inputs.
+
+591
+00:46:55,440 --> 00:46:57,360
+Now, what that means is we 
+need to have really good,  
+
+592
+00:46:57,360 --> 00:47:02,160
+reliable aggregation systems. You can actually 
+show that if the way I'm aggregating is I just  
+
+593
+00:47:02,160 --> 00:47:06,000
+pick a random agent and do whatever it says, 
+it doesn't matter how many agents I have,  
+
+594
+00:47:06,000 --> 00:47:11,440
+I should make them all the very best agent 
+that I possibly can. Somehow, the value of  
+
+595
+00:47:11,440 --> 00:47:16,400
+information diversity is going to depend on how 
+sophisticated our aggregation processes are.
+
+596
+00:47:16,400 --> 00:47:20,400
+What that means is, in my mind, 
+the aggregation part is not an  
+
+597
+00:47:20,400 --> 00:47:24,480
+AI problem. It is a social choice 
+problem, and we have lots of good  
+
+598
+00:47:24,480 --> 00:47:30,480
+ideas from social choice theory on how to do 
+that. Or maybe it's a task-specific thing where  
+
+599
+00:47:30,480 --> 00:47:35,600
+I have lots of little subtasks that I boil 
+up together and create an overall solution.
+
+600
+00:47:35,600 --> 00:47:39,200
+Maybe I should think really hard about 
+how to design those subtasks such that  
+
+601
+00:47:39,200 --> 00:47:42,640
+even if one of them fails over here, as 
+long as I get three right over there,  
+
+602
+00:47:42,640 --> 00:47:45,920
+the entire system is going to go well. 
+Again, that's the sort of structure  
+
+603
+00:47:45,920 --> 00:47:53,360
+that's going to encourage information 
+diversity. That's really, really awesome.
+
+604
+00:47:53,360 --> 00:48:04,240
+Now, also, I wonder, you are very interested in 
+making the models much more aligned with human  
+
+605
+00:48:05,040 --> 00:48:11,440
+ideals. You did highlight about how 
+performance on a metric is just that  
+
+606
+00:48:11,440 --> 00:48:20,480
+performance on that metric in a benchmark. How 
+can we think about the debiasing problem looking  
+
+607
+00:48:21,200 --> 00:48:28,800
+towards the future? How can we think about the 
+problem with uncertainties in machine learning  
+
+608
+00:48:28,800 --> 00:48:35,280
+models as we imagine more and more sensitive 
+deployments in the future? Should we think  
+
+609
+00:48:35,280 --> 00:48:42,640
+about this in a kind of a task-specific 
+way where we find the benchmarks and the  
+
+610
+00:48:42,640 --> 00:48:51,280
+axes of bias that are intrinsic to the task? Or 
+should we aspire to do something more general,  
+
+611
+00:48:51,280 --> 00:48:57,680
+to get a methodology that applies 
+more broadly and generally? Yeah.
+
+612
+00:48:58,800 --> 00:49:04,800
+I think this is a really hard problem. 
+In the past, I've worked a lot on,  
+
+613
+00:49:04,800 --> 00:49:09,040
+when we say debiasing, assuming you 
+mean sort of social bias and the sort of  
+
+614
+00:49:09,680 --> 00:49:14,240
+demographic biases that we tend to see in 
+society being reflected in the models that  
+
+615
+00:49:14,240 --> 00:49:21,040
+we build. Actually, Manish, I think that we 
+can have bias on all kinds of different axes.
+
+616
+00:49:21,040 --> 00:49:29,520
+It doesn't have to be with respect to people. 
+There could be all kinds of data biases. If we  
+
+617
+00:49:29,520 --> 00:49:37,040
+want to look at cups, maybe most cups are white, 
+and then occasionally we have a red or a blue cup.
+
+618
+00:49:38,320 --> 00:49:48,400
+That's also a kind of a bias that would impact 
+performance in a non-social space. Yeah. In more  
+
+619
+00:49:48,400 --> 00:49:53,520
+traditional machine learning applications, 
+it was a little easier to reason about this.
+
+620
+00:49:54,480 --> 00:49:57,200
+We didn't have great, or I 
+wouldn't say perfect methods,  
+
+621
+00:49:57,200 --> 00:50:02,560
+but the space of things that you could do 
+just wasn't that large relative to what it  
+
+622
+00:50:02,560 --> 00:50:09,680
+is for more sophisticated generative models. I 
+think of measuring bias in a machine learning  
+
+623
+00:50:09,680 --> 00:50:14,560
+system as a more constrained problem than, 
+let's say, measuring bias for humans. Now,  
+
+624
+00:50:14,560 --> 00:50:20,400
+we have all sorts of psychological methods 
+to try to profile individual people's biases.
+
+625
+00:50:20,400 --> 00:50:26,160
+You can measure different slices of the problem, 
+but you can't really get a comprehensive picture  
+
+626
+00:50:26,160 --> 00:50:31,440
+of all of the biases. Maybe, as you said, 
+this person may not be able to recognize  
+
+627
+00:50:31,440 --> 00:50:35,680
+a cup that is blue because they've only 
+seen white cups or whatever it might be.  
+
+628
+00:50:35,680 --> 00:50:41,120
+I think measuring these sorts of biases 
+and debiasing generative systems is a  
+
+629
+00:50:41,120 --> 00:50:46,400
+little closer to profiling humans than 
+profiling machine learning models.
+
+630
+00:50:46,400 --> 00:50:50,240
+That, to me, means that we need to adapt a 
+lot of the methods from psychology, actually,  
+
+631
+00:50:50,240 --> 00:50:57,520
+to think about them. Not that I think that we 
+should be reasoning about the theory of mind of  
+
+632
+00:50:57,520 --> 00:51:03,520
+a generative AI model and treating it as if it is 
+a human. I wouldn't anthropomorphize it that much.
+
+633
+00:51:04,880 --> 00:51:08,960
+Methodologically, the psychologists are 
+actually much better than the computer  
+
+634
+00:51:08,960 --> 00:51:14,320
+scientists at operating in this sort of regime 
+where there's so many degrees of freedom,  
+
+635
+00:51:14,320 --> 00:51:19,760
+so many researcher degrees of freedom. The 
+measurements that you need to construct are  
+
+636
+00:51:19,760 --> 00:51:24,880
+ultimately less about the model and more about 
+the task that you want to accomplish with that  
+
+637
+00:51:24,880 --> 00:51:30,160
+model. To some extent, you have to think really 
+hard about what are the problems that you might  
+
+638
+00:51:30,160 --> 00:51:35,280
+expect to find in that particular context 
+and look to measure those things precisely.
+
+639
+00:51:35,280 --> 00:51:42,400
+I don't think it's going to be feasible to debias 
+a model along every possible axis simultaneously.  
+
+640
+00:51:42,400 --> 00:51:47,680
+I think that's too tall of a goal for us to 
+have. I think it is much more feasible to say,  
+
+641
+00:51:47,680 --> 00:51:51,840
+for this particular deployment, here are 
+the types of biases we're worried about.
+
+642
+00:51:51,840 --> 00:51:54,720
+Maybe it's your cup recognition 
+environment. Maybe you're not really  
+
+643
+00:51:54,720 --> 00:51:59,360
+worried about biases and weather prediction 
+or something like that from that model,  
+
+644
+00:51:59,360 --> 00:52:02,160
+which are completely unrelated to the setting 
+that you're working in, even though those are  
+
+645
+00:52:02,160 --> 00:52:07,600
+going to be present as well. To me, it has to 
+be a very contextual and task-specific approach.
+
+646
+00:52:07,600 --> 00:52:12,800
+Even then, I think we're still far from 
+developing the right methods. We're still  
+
+647
+00:52:12,800 --> 00:52:18,000
+in the phase of trying to not even 
+mitigate the biases that we see,  
+
+648
+00:52:18,000 --> 00:52:21,600
+but even just be able to get a handle on 
+measuring them. I think that's at least  
+
+649
+00:52:21,600 --> 00:52:26,560
+for now and for the next couple of years what 
+the state-of-the-art is going to look like.
+
+650
+00:52:28,400 --> 00:52:34,720
+That's really great. We have a lot of questions 
+in the chat. Let me see how many I can get to.
+
+651
+00:52:36,800 --> 00:52:44,560
+Bhavesh asks, how do we let the model know what 
+doctors know? It's a good question. One of the  
+
+652
+00:52:44,560 --> 00:52:52,240
+things that we're actually trying to do now is 
+see if we can incorporate clinical notes into  
+
+653
+00:52:52,240 --> 00:52:59,200
+these actuarial risk predictions. There's 
+a hope that doctors are actually writing  
+
+654
+00:52:59,200 --> 00:53:02,800
+down in the clinical notes what they know 
+about a case that is not just present in,  
+
+655
+00:53:02,800 --> 00:53:09,040
+I showed you those nine numerical features 
+that are available to an AI system.
+
+656
+00:53:09,040 --> 00:53:14,080
+It's a little bit hard for a bunch of reasons. 
+One of the reasons that you might think it could  
+
+657
+00:53:14,080 --> 00:53:17,920
+be doable now is we've gotten a lot better 
+at processing language in the last however  
+
+658
+00:53:17,920 --> 00:53:21,920
+many years. You could say that because we've 
+gotten so good at dealing with languages and  
+
+659
+00:53:21,920 --> 00:53:25,840
+modality for machine learning, why don't 
+we just use that natural language to make  
+
+660
+00:53:25,840 --> 00:53:30,640
+predictions? The problem is there's a 
+lot of heterogeneity across doctors.
+
+661
+00:53:30,640 --> 00:53:35,120
+When two doctors write similar notes, it may 
+not actually mean the same thing. Doctor A  
+
+662
+00:53:35,120 --> 00:53:38,960
+might always write this kind of thing, and 
+maybe it's very rare for Doctor B to say this,  
+
+663
+00:53:38,960 --> 00:53:43,680
+and you should treat those slightly 
+differently. It also becomes much  
+
+664
+00:53:43,680 --> 00:53:48,000
+harder to validate that this thing is doing 
+exactly what you think it should be doing.
+
+665
+00:53:49,760 --> 00:53:55,040
+In more standard machine learning, you can at 
+least inspect the classifiers that you get and  
+
+666
+00:53:55,040 --> 00:53:59,280
+use interpretability methods to try to understand, 
+is it roughly capturing the signal that I think  
+
+667
+00:53:59,280 --> 00:54:03,440
+it should be capturing? We know what are the 
+conditions under which it will capture the right  
+
+668
+00:54:03,440 --> 00:54:08,320
+signal, especially when we have small numbers 
+of features and relatively big datasets. Again,  
+
+669
+00:54:08,320 --> 00:54:11,760
+it becomes really hard when you try to deal 
+with something like clinical notes because  
+
+670
+00:54:11,760 --> 00:54:16,400
+it's just so unstructured. We actually don't 
+really know how much signal there is at all.
+
+671
+00:54:16,400 --> 00:54:20,640
+There's a separate version of this where 
+you could say, let me try to develop some  
+
+672
+00:54:20,640 --> 00:54:25,600
+method for communication that says, model 
+forms an estimate, human says some stuff,  
+
+673
+00:54:25,600 --> 00:54:31,040
+model thinks for a little bit, comes up with a new 
+estimate, human interacts with that, and so on.  
+
+674
+00:54:31,040 --> 00:54:35,440
+There's some amount of work on this, both 
+in this theory side and in the sort of  
+
+675
+00:54:36,000 --> 00:54:42,720
+human-computer interfaces side. I think I'm 
+optimistic that at some point that work will  
+
+676
+00:54:42,720 --> 00:54:46,640
+end up being the right thing to do and we'll 
+build these more conversational interfaces into  
+
+677
+00:54:46,640 --> 00:54:52,160
+our machine learning models, but I don't 
+think we have the right answers just yet.
+
+678
+00:54:52,160 --> 00:54:58,720
+I also think that it still falls into this 
+subjectivity or heterogeneity across doctor's  
+
+679
+00:54:58,720 --> 00:55:04,400
+problem, where again, you not only have to learn 
+what it means when a doctor in general says this  
+
+680
+00:55:04,400 --> 00:55:08,400
+person has pain in their abdomen, you have to 
+learn what it means when this particular doctor  
+
+681
+00:55:08,400 --> 00:55:13,840
+says this patient has pain in their abdomen, and 
+that's always in a sense a small data problem.  
+
+682
+00:55:13,840 --> 00:55:22,880
+So there's I think some fundamental limitations 
+there, and maybe the long-term resolution is  
+
+683
+00:55:22,880 --> 00:55:27,040
+that you rely less on the subjectivity of 
+the doctors for inputs and just have more  
+
+684
+00:55:27,040 --> 00:55:32,880
+sort of direct sensing into these types 
+of environments. If you have a camera in  
+
+685
+00:55:32,880 --> 00:55:37,040
+the room where it's feeding information 
+out of that patient-doctor interaction,  
+
+686
+00:55:37,040 --> 00:55:41,360
+that's slightly less subjective than the doctor's 
+recounting of what that interaction looked like.
+
+687
+00:55:41,360 --> 00:55:46,400
+So there are ways around this in the 
+long term. I'm not sure how soon I  
+
+688
+00:55:46,400 --> 00:55:53,440
+expect any of that to happen. So I think 
+we have time for just one more question,  
+
+689
+00:55:53,440 --> 00:55:58,800
+and I wonder if there is any 
+question anybody wants to ask live.
+
+690
+00:55:58,800 --> 00:56:09,040
+I don't see any hands raised. If not, I will 
+ask how can conformal prediction methods be  
+
+691
+00:56:09,040 --> 00:56:15,360
+integrated with multi-calibration to yield 
+reliable confidence intervals in high-risk  
+
+692
+00:56:15,360 --> 00:56:22,480
+medical diagnosis? Good question. So one thing 
+that you can, this is getting into the weeds  
+
+693
+00:56:22,480 --> 00:56:28,880
+a little bit of what we did, but one of the 
+things that you get out of our framework is  
+
+694
+00:56:28,880 --> 00:56:34,800
+once you build multi-calibrated predictors, 
+you can get valid confidence intervals.
+
+695
+00:56:34,800 --> 00:56:40,960
+I mean you don't really need conformal prediction 
+to do it. You can think of it as within one  
+
+696
+00:56:40,960 --> 00:56:45,440
+of those buckets. You remember we had seven 
+different buckets that we placed patients into.
+
+697
+00:56:45,440 --> 00:56:49,520
+Within each one, you should think of it as 
+effectively a univariate regression problem to  
+
+698
+00:56:49,520 --> 00:56:57,600
+say given information from a doctor, what should 
+you do with it? It's starting, the methods that I  
+
+699
+00:56:57,600 --> 00:57:02,000
+talked about in terms of using the clinical notes 
+are starting to look a little bit less like that  
+
+700
+00:57:02,000 --> 00:57:06,480
+because now you're saying, okay, this patient is 
+in bucket number five. The doctor wrote this in  
+
+701
+00:57:06,480 --> 00:57:10,800
+their clinical notes. What should I predict for 
+them? That is no longer a univariate regression.
+
+702
+00:57:10,800 --> 00:57:14,480
+It's an just sort of an embedded machine 
+learning problem and you could use  
+
+703
+00:57:14,480 --> 00:57:21,040
+a sort of standard conformal prediction there. 
+I don't know about a more tight integration  
+
+704
+00:57:21,040 --> 00:57:25,840
+of trying to conformalize the actual sort 
+of partitions that you get or the buckets  
+
+705
+00:57:25,840 --> 00:57:29,280
+that you get out of multi-calibration. 
+It's not something we've really thought  
+
+706
+00:57:29,280 --> 00:57:38,080
+about in part because it's not clear what 
+you should do with that uncertainty from a  
+
+707
+00:57:38,080 --> 00:57:41,920
+decision theoretic perspective and in part 
+because it's just a really hard problem.
+
+708
+00:57:43,040 --> 00:57:50,880
+So I think the sort of short answer to 
+your question is you can conformalize,  
+
+709
+00:57:50,880 --> 00:57:54,720
+conditioned on your multi-calibration scheme, 
+you can conformalize the estimates that you get  
+
+710
+00:57:54,720 --> 00:58:01,920
+on top of that. Right now, again, the method 
+is simply using sort of single-dimensional  
+
+711
+00:58:01,920 --> 00:58:06,240
+or binary feedback from a doctor. You don't 
+really need conformal prediction to do that.
+
+712
+00:58:06,240 --> 00:58:12,000
+You can just get sort of standard confidence 
+intervals that way. But in the future,  
+
+713
+00:58:12,000 --> 00:58:17,760
+as we try to build out a pipeline that takes 
+into account more free-form clinical notes,  
+
+714
+00:58:17,760 --> 00:58:24,080
+again, on top of this multi-calibrated partition, 
+then you could try to conformalize that and that's  
+
+715
+00:58:24,080 --> 00:58:32,560
+probably something that we should do given enough 
+data to be able to do it. Thanks for the question.
+
+716
+00:58:32,560 --> 00:58:39,680
+Well, so we are at time. Manish, thank you 
+very much for this wonderful talk. Thank  
+
+717
+00:58:39,680 --> 00:58:46,240
+you for sharing your insights and thank you for 
+all the time you spend on this important topic.
+
+718
+00:58:48,000 --> 00:58:52,560
+I would like to remind you that the 
+next CSAIL Forum is next Tuesday from  
+
+719
+00:58:52,560 --> 00:58:58,000
+12 to 1. So see you then. Have a 
+great rest of the day. Bye-bye.
+
+720
+00:58:58,000 --> 00:58:58,800
+Thanks.
+

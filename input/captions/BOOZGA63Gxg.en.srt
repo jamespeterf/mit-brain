@@ -1,0 +1,6592 @@
+1
+00:00:00,654 --> 00:00:02,674
+[applause]
+
+2
+00:00:02,960 --> 00:00:07,919
+Um so I'm originally in Boston this week
+
+3
+00:00:05,920 --> 00:00:10,000
+mostly to talk about power systems at
+
+4
+00:00:07,919 --> 00:00:11,679
+different events. Uh today is sort of a
+
+5
+00:00:10,000 --> 00:00:13,759
+you know side tour from power systems
+
+6
+00:00:11,679 --> 00:00:15,120
+where I talk about methods. Uh so don't
+
+7
+00:00:13,759 --> 00:00:18,080
+expect that but there will be some power
+
+8
+00:00:15,120 --> 00:00:19,920
+system applications in the end. Good. Uh
+
+9
+00:00:18,080 --> 00:00:22,160
+quick acknowledgements. Uh this work has
+
+10
+00:00:19,920 --> 00:00:24,640
+really been driven by my postto Feyron
+
+11
+00:00:22,160 --> 00:00:27,119
+Chao uh with different collaborators uh
+
+12
+00:00:24,640 --> 00:00:29,039
+from I guess three countries uh which
+
+13
+00:00:27,119 --> 00:00:31,279
+you can recognize by the flags uh China,
+
+14
+00:00:29,039 --> 00:00:33,600
+Italy and Sweden. So that's the team
+
+15
+00:00:31,279 --> 00:00:35,360
+that's been behind that.
+
+16
+00:00:33,600 --> 00:00:37,840
+Okay, I'd like to kick things off with
+
+17
+00:00:35,360 --> 00:00:39,520
+some perspectives on datadriven control
+
+18
+00:00:37,840 --> 00:00:41,200
+and I know this is a topic that
+
+19
+00:00:39,520 --> 00:00:42,800
+everybody has an opinion on. So please
+
+20
+00:00:41,200 --> 00:00:45,040
+take this as my personal opinion and
+
+21
+00:00:42,800 --> 00:00:46,960
+reading of the literature.
+
+22
+00:00:45,040 --> 00:00:49,120
+Um, first we should acknowledge there's
+
+23
+00:00:46,960 --> 00:00:51,039
+been a rich and vast history. I think we
+
+24
+00:00:49,120 --> 00:00:53,680
+can trace it back at least to Carl
+
+25
+00:00:51,039 --> 00:00:56,480
+Astramm and Hogland in the 70s when they
+
+26
+00:00:53,680 --> 00:00:58,160
+developed autotuned P controls of which
+
+27
+00:00:56,480 --> 00:00:59,680
+now tens of thousands maybe even
+
+28
+00:00:58,160 --> 00:01:03,039
+hundreds of thousands out in the field
+
+29
+00:00:59,680 --> 00:01:04,080
+tuning P responses on the fly. Uh, the
+
+30
+00:01:03,039 --> 00:01:06,479
+development of literatur has been
+
+31
+00:01:04,080 --> 00:01:08,640
+fragmented between different fields. Um,
+
+32
+00:01:06,479 --> 00:01:10,159
+system education for instance. But what
+
+33
+00:01:08,640 --> 00:01:12,080
+I want to highlight now are the two ones
+
+34
+00:01:10,159 --> 00:01:13,600
+namely uh reinforcement learning which
+
+35
+00:01:12,080 --> 00:01:17,640
+is of the newer kits in the block and
+
+36
+00:01:13,600 --> 00:01:17,640
+more classic adaptive control.
+
+37
+00:01:17,920 --> 00:01:20,880
+Uh there have been of course various
+
+38
+00:01:19,360 --> 00:01:22,640
+people that tried to build bridges.
+
+39
+00:01:20,880 --> 00:01:24,640
+Here's a very famous article by Barto
+
+40
+00:01:22,640 --> 00:01:26,159
+Sutton you know that invented Q-learning
+
+41
+00:01:24,640 --> 00:01:27,520
+that already recognized back in the day
+
+42
+00:01:26,159 --> 00:01:29,600
+that reinforcement learning is a
+
+43
+00:01:27,520 --> 00:01:32,079
+particular variation of adaptive control
+
+44
+00:01:29,600 --> 00:01:34,000
+and I guess also here from it uh there
+
+45
+00:01:32,079 --> 00:01:35,840
+are statements about you know bridging
+
+46
+00:01:34,000 --> 00:01:37,119
+the gap between the two. Okay. But these
+
+47
+00:01:35,840 --> 00:01:40,000
+have been sort of developing in parallel
+
+48
+00:01:37,119 --> 00:01:41,759
+in the last decade. Uh there has been a
+
+49
+00:01:40,000 --> 00:01:44,560
+common route to many of these approaches
+
+50
+00:01:41,759 --> 00:01:46,399
+which is uh dynamic programming. Okay.
+
+51
+00:01:44,560 --> 00:01:47,680
+The you can trace back approach in both
+
+52
+00:01:46,399 --> 00:01:50,560
+uh fields coming from dynamic
+
+53
+00:01:47,680 --> 00:01:52,880
+programming. Um there have been uh
+
+54
+00:01:50,560 --> 00:01:54,640
+attempts you know to bridge ideas from
+
+55
+00:01:52,880 --> 00:01:56,560
+you know approximate and neurodynamic
+
+56
+00:01:54,640 --> 00:01:58,960
+programming also developed here at MIT
+
+57
+00:01:56,560 --> 00:02:00,640
+over to adaptive control under the name
+
+58
+00:01:58,960 --> 00:02:03,439
+of adaptive dynamic programming. That
+
+59
+00:02:00,640 --> 00:02:06,320
+was around 2008 2010 uh mostly spared by
+
+60
+00:02:03,439 --> 00:02:08,239
+Frank Lewis. Um but that literature
+
+61
+00:02:06,320 --> 00:02:10,479
+somewhat never took off and faded away.
+
+62
+00:02:08,239 --> 00:02:12,239
+This crossing between adaptive control
+
+63
+00:02:10,479 --> 00:02:14,160
+dynamic programming or reinforcement
+
+64
+00:02:12,239 --> 00:02:15,599
+learning. I will later on comment why
+
+65
+00:02:14,160 --> 00:02:18,000
+not. [sighs]
+
+66
+00:02:15,599 --> 00:02:19,680
+I think the main reasons why this bridge
+
+67
+00:02:18,000 --> 00:02:21,440
+has never been crossed is mostly
+
+68
+00:02:19,680 --> 00:02:22,800
+cultural gaps. At least that's my
+
+69
+00:02:21,440 --> 00:02:25,040
+reading of the literature from both
+
+70
+00:02:22,800 --> 00:02:27,440
+fields. They just are going after
+
+71
+00:02:25,040 --> 00:02:30,160
+different goals. So when I give a
+
+72
+00:02:27,440 --> 00:02:32,239
+seminar in an adaptive control workshop,
+
+73
+00:02:30,160 --> 00:02:33,599
+they really care about stabilization. In
+
+74
+00:02:32,239 --> 00:02:35,519
+fact, most people work in depth of
+
+75
+00:02:33,599 --> 00:02:37,280
+control come out of nonlinear control
+
+76
+00:02:35,519 --> 00:02:38,560
+and they phrase every problem as let's
+
+77
+00:02:37,280 --> 00:02:39,840
+minimize an error coordinate. Let's
+
+78
+00:02:38,560 --> 00:02:42,080
+drive it to zero. So it's really a
+
+79
+00:02:39,840 --> 00:02:43,360
+stabilization problem. Whereas people in
+
+80
+00:02:42,080 --> 00:02:45,760
+reinforcement learning think about
+
+81
+00:02:43,360 --> 00:02:47,280
+problems in the spirit of online
+
+82
+00:02:45,760 --> 00:02:48,560
+optimization. You know everything is an
+
+83
+00:02:47,280 --> 00:02:50,000
+online optimization problem. And these
+
+84
+00:02:48,560 --> 00:02:52,000
+two of course clash with these two
+
+85
+00:02:50,000 --> 00:02:53,360
+perspectives.
+
+86
+00:02:52,000 --> 00:02:55,440
+Another one is how do you deal with
+
+87
+00:02:53,360 --> 00:02:56,800
+uncertainty? Of course control people
+
+88
+00:02:55,440 --> 00:02:59,599
+say oh you have to be robust. They solve
+
+89
+00:02:56,800 --> 00:03:00,800
+a minmax problem. Whereas in dynamic
+
+90
+00:02:59,599 --> 00:03:02,080
+sorry in a reinforcement learning they
+
+91
+00:03:00,800 --> 00:03:03,680
+would embrace this optimist in the face
+
+92
+00:03:02,080 --> 00:03:06,720
+of uncertainty. So you solve a minmmin
+
+93
+00:03:03,680 --> 00:03:08,480
+problem. Um also a bit difference in
+
+94
+00:03:06,720 --> 00:03:10,560
+culture. Do you embrace pen and paper or
+
+95
+00:03:08,480 --> 00:03:12,239
+do you embrace compute? And what are you
+
+96
+00:03:10,560 --> 00:03:14,480
+after? Are you after theory certificates
+
+97
+00:03:12,239 --> 00:03:16,560
+or are you after you know impressive
+
+98
+00:03:14,480 --> 00:03:18,720
+demos? You know that's so just some
+
+99
+00:03:16,560 --> 00:03:21,280
+cultural gaps why these two don't really
+
+100
+00:03:18,720 --> 00:03:23,120
+find together. So I'll make another
+
+101
+00:03:21,280 --> 00:03:24,480
+attempt to see if we can bridge the gap
+
+102
+00:03:23,120 --> 00:03:26,879
+and hope we can a little bit cross
+
+103
+00:03:24,480 --> 00:03:28,800
+fertilize ideas from both cultures. But
+
+104
+00:03:26,879 --> 00:03:30,480
+I think it's mostly cultural reasons why
+
+105
+00:03:28,800 --> 00:03:32,000
+these despite many attempts over
+
+106
+00:03:30,480 --> 00:03:35,400
+multiple decades have not found together
+
+107
+00:03:32,000 --> 00:03:35,400
+these two communities.
+
+108
+00:03:36,239 --> 00:03:40,799
+Okay. Um so the title of talk is about
+
+109
+00:03:38,319 --> 00:03:42,799
+datadriven pipelines. So let me review I
+
+110
+00:03:40,799 --> 00:03:44,400
+think four different classifications of
+
+111
+00:03:42,799 --> 00:03:47,120
+how you can set about pipeline for these
+
+112
+00:03:44,400 --> 00:03:49,280
+adaptive control problems. Uh one
+
+113
+00:03:47,120 --> 00:03:50,959
+distinction is the one of direct versus
+
+114
+00:03:49,280 --> 00:03:52,640
+indirect which is very classical and
+
+115
+00:03:50,959 --> 00:03:54,319
+old. Essentially the picture is the
+
+116
+00:03:52,640 --> 00:03:55,840
+following. You are the control designer.
+
+117
+00:03:54,319 --> 00:03:57,519
+You're the brain. You interface yourself
+
+118
+00:03:55,840 --> 00:03:59,439
+with a black box and you ask what should
+
+119
+00:03:57,519 --> 00:04:01,360
+you do? Should you build a model out of
+
+120
+00:03:59,439 --> 00:04:03,280
+the blackbox from the data a mechanistic
+
+121
+00:04:01,360 --> 00:04:04,879
+model do SIS ID plus insert
+
+122
+00:04:03,280 --> 00:04:06,959
+quantification and do model based design
+
+123
+00:04:04,879 --> 00:04:08,879
+that's the indirect approach or should
+
+124
+00:04:06,959 --> 00:04:11,280
+you just search for a control policy
+
+125
+00:04:08,879 --> 00:04:12,879
+compared with that you've seen which uh
+
+126
+00:04:11,280 --> 00:04:14,480
+nowadays people use mostly data
+
+127
+00:04:12,879 --> 00:04:17,280
+informativity and behavioral methods to
+
+128
+00:04:14,480 --> 00:04:20,160
+do that. So those are two different
+
+129
+00:04:17,280 --> 00:04:22,320
+views uh to arrive at the goal. two
+
+130
+00:04:20,160 --> 00:04:23,840
+other ways to classify the pipelines is
+
+131
+00:04:22,320 --> 00:04:25,600
+more like how do you run the algorithms
+
+132
+00:04:23,840 --> 00:04:27,680
+are the algorithms offline or are they
+
+133
+00:04:25,600 --> 00:04:28,880
+online and what I realized depending who
+
+134
+00:04:27,680 --> 00:04:31,759
+you talk to everybody has a different
+
+135
+00:04:28,880 --> 00:04:33,360
+understanding of what means online so
+
+136
+00:04:31,759 --> 00:04:35,280
+one is sort of episodic offline
+
+137
+00:04:33,360 --> 00:04:37,280
+algorithms that is you collect your data
+
+138
+00:04:35,280 --> 00:04:39,600
+in batches you decide on your control
+
+139
+00:04:37,280 --> 00:04:41,919
+policy you put it on a system you roll
+
+140
+00:04:39,600 --> 00:04:45,440
+out trajectories you get new data and
+
+141
+00:04:41,919 --> 00:04:46,960
+you repeat multiple times possibly
+
+142
+00:04:45,440 --> 00:04:48,720
+whereas what people typically understand
+
+143
+00:04:46,960 --> 00:04:50,639
+adaptive control is if the algorithm
+
+144
+00:04:48,720 --> 00:04:53,600
+itself is a feedback loop that is
+
+145
+00:04:50,639 --> 00:04:55,600
+recursive. That is you measure what you
+
+146
+00:04:53,600 --> 00:04:57,919
+get from the system. You adapt your
+
+147
+00:04:55,600 --> 00:04:59,280
+policy, you act and you repeat. So the
+
+148
+00:04:57,919 --> 00:05:00,880
+algorithm itself is feedback loop that
+
+149
+00:04:59,280 --> 00:05:03,360
+is non episodic and that's what I mean
+
+150
+00:05:00,880 --> 00:05:06,479
+by online. So recursive and with closed
+
+151
+00:05:03,360 --> 00:05:08,639
+loop real-time data.
+
+152
+00:05:06,479 --> 00:05:10,400
+Um there have been many well doumented
+
+153
+00:05:08,639 --> 00:05:12,320
+trade-offs on all of these aspects. You
+
+154
+00:05:10,400 --> 00:05:13,919
+know you can read papers and books back
+
+155
+00:05:12,320 --> 00:05:16,320
+to the 80s where people argue what is
+
+156
+00:05:13,919 --> 00:05:18,479
+better direct or indirect and uh you
+
+157
+00:05:16,320 --> 00:05:19,840
+know they're well understood by now. So
+
+158
+00:05:18,479 --> 00:05:21,759
+question, what are you after? Are you
+
+159
+00:05:19,840 --> 00:05:24,800
+after a robust stability or are you
+
+160
+00:05:21,759 --> 00:05:26,160
+after optimality? Uh do you care about a
+
+161
+00:05:24,800 --> 00:05:27,759
+modular pipeline that you can easily
+
+162
+00:05:26,160 --> 00:05:28,800
+debug or do you care about an end to-end
+
+163
+00:05:27,759 --> 00:05:30,160
+approach? I mean all of these have
+
+164
+00:05:28,800 --> 00:05:32,240
+merits depending on the problem that you
+
+165
+00:05:30,160 --> 00:05:33,919
+look at and they have different
+
+166
+00:05:32,240 --> 00:05:35,759
+complexity estimates from what you care
+
+167
+00:05:33,919 --> 00:05:38,240
+about like sample complexity, how much
+
+168
+00:05:35,759 --> 00:05:39,759
+compute use, how tractable it is and
+
+169
+00:05:38,240 --> 00:05:42,960
+people have been arguing about these
+
+170
+00:05:39,759 --> 00:05:45,199
+points over multiple decades.
+
+171
+00:05:42,960 --> 00:05:47,199
+I think the gold standard if you could
+
+172
+00:05:45,199 --> 00:05:49,280
+achieve it, I mean the set gold standard
+
+173
+00:05:47,199 --> 00:05:51,280
+means probably you cannot achieve it is
+
+174
+00:05:49,280 --> 00:05:53,919
+if you had a pipeline that was adaptive
+
+175
+00:05:51,280 --> 00:05:56,240
+that could adapt in real time that is
+
+176
+00:05:53,919 --> 00:05:58,639
+you know optimal ideally at the same
+
+177
+00:05:56,240 --> 00:06:01,600
+time robust cheap you know simple
+
+178
+00:05:58,639 --> 00:06:02,960
+computations and ideally direct reason
+
+179
+00:06:01,600 --> 00:06:05,039
+being people recognize that the
+
+180
+00:06:02,960 --> 00:06:07,360
+uncertainty propagation from data to the
+
+181
+00:06:05,039 --> 00:06:08,960
+model to the policy is too hard or you
+
+182
+00:06:07,360 --> 00:06:10,800
+have to do it very conservatively. So if
+
+183
+00:06:08,960 --> 00:06:13,840
+you can go directly after the policy
+
+184
+00:06:10,800 --> 00:06:15,440
+maybe that's what you should do.
+
+185
+00:06:13,840 --> 00:06:17,600
+Okay.
+
+186
+00:06:15,440 --> 00:06:19,280
+So, we've been studying this uh from
+
+187
+00:06:17,600 --> 00:06:21,120
+many perspectives or many years and you
+
+188
+00:06:19,280 --> 00:06:23,120
+know thrown all sorts of fancy tools at
+
+189
+00:06:21,120 --> 00:06:24,240
+this problem and demos and whatsoever.
+
+190
+00:06:23,120 --> 00:06:25,840
+But today I don't want to talk about
+
+191
+00:06:24,240 --> 00:06:28,479
+something fancy. So there will be no
+
+192
+00:06:25,840 --> 00:06:30,080
+deep learning or impressive robot demos.
+
+193
+00:06:28,479 --> 00:06:31,919
+I just want to discuss a very basic
+
+194
+00:06:30,080 --> 00:06:33,840
+problem and maybe the only problem where
+
+195
+00:06:31,919 --> 00:06:35,199
+we clearly understand what's going on
+
+196
+00:06:33,840 --> 00:06:36,800
+which is probably the most classic
+
+197
+00:06:35,199 --> 00:06:38,560
+problem in both fields. You know it's
+
+198
+00:06:36,800 --> 00:06:41,440
+sort of the benchmark from all of these
+
+199
+00:06:38,560 --> 00:06:43,919
+communities which is the LQR problem.
+
+200
+00:06:41,440 --> 00:06:46,720
+Okay, that is you have a linear system
+
+201
+00:06:43,919 --> 00:06:49,360
+in discrete time x + ax plus b u driven
+
+202
+00:06:46,720 --> 00:06:52,639
+by disturbance w you close the loop with
+
+203
+00:06:49,360 --> 00:06:54,319
+a linear policy u is kx the performance
+
+204
+00:06:52,639 --> 00:06:56,000
+output you care about this set is so
+
+205
+00:06:54,319 --> 00:06:58,160
+that when you squar it so set squared
+
+206
+00:06:56,000 --> 00:07:00,880
+would be the familiar xrpose qx plus
+
+207
+00:06:58,160 --> 00:07:02,000
+urposed ru and if you cannot say
+
+208
+00:07:00,880 --> 00:07:03,840
+anything about this problem then all
+
+209
+00:07:02,000 --> 00:07:05,440
+other problems are essentially hopeless
+
+210
+00:07:03,840 --> 00:07:07,360
+but for this problems you can more or
+
+211
+00:07:05,440 --> 00:07:09,199
+less understand the pros and cons of the
+
+212
+00:07:07,360 --> 00:07:10,960
+different approaches
+
+213
+00:07:09,199 --> 00:07:13,120
+so here's one way to post the lgr
+
+214
+00:07:10,960 --> 00:07:14,880
+problem. You want to minimize the
+
+215
+00:07:13,120 --> 00:07:18,160
+expected value of the long-term average
+
+216
+00:07:14,880 --> 00:07:20,560
+cost of xt + qx uransposed ru
+
+217
+00:07:18,160 --> 00:07:21,919
+expectation of a disturbance subject to
+
+218
+00:07:20,560 --> 00:07:24,080
+the linear dynamics and subject to the
+
+219
+00:07:21,919 --> 00:07:26,880
+linear policy. That's one out of many
+
+220
+00:07:24,080 --> 00:07:28,639
+ways how you can write down this problem
+
+221
+00:07:26,880 --> 00:07:30,479
+and people from all these communities of
+
+222
+00:07:28,639 --> 00:07:32,720
+course attack this problem. So almost
+
+223
+00:07:30,479 --> 00:07:34,880
+all these variations of direct indirect
+
+224
+00:07:32,720 --> 00:07:37,120
+offline episodic adaptive have more or
+
+225
+00:07:34,880 --> 00:07:39,120
+less been explored over the multiple
+
+226
+00:07:37,120 --> 00:07:41,039
+decades.
+
+227
+00:07:39,120 --> 00:07:42,560
+Um I was actually not interested in the
+
+228
+00:07:41,039 --> 00:07:44,639
+problem. I was s of working out a
+
+229
+00:07:42,560 --> 00:07:46,240
+tutorial paper for a tutorial for my
+
+230
+00:07:44,639 --> 00:07:47,520
+class. But then I realized even this
+
+231
+00:07:46,240 --> 00:07:49,759
+problem has some open gaps and it's
+
+232
+00:07:47,520 --> 00:07:51,599
+actually quite interesting. So he had
+
+233
+00:07:49,759 --> 00:07:53,440
+two gaps that identified that despite
+
+234
+00:07:51,599 --> 00:07:54,879
+multiple decades people have not looked
+
+235
+00:07:53,440 --> 00:07:56,080
+at them. I don't think they don't didn't
+
+236
+00:07:54,879 --> 00:07:57,520
+look at them because the problems are
+
+237
+00:07:56,080 --> 00:08:00,080
+too hard. It's just they didn't care
+
+238
+00:07:57,520 --> 00:08:02,560
+about them. For in turns out there has
+
+239
+00:08:00,080 --> 00:08:04,960
+never been any sort of direct adaptive
+
+240
+00:08:02,560 --> 00:08:06,879
+control attempt on the LQR problem.
+
+241
+00:08:04,960 --> 00:08:08,080
+Surprisingly, right? uh when I talked to
+
+242
+00:08:06,879 --> 00:08:10,319
+the people in depth of control the
+
+243
+00:08:08,080 --> 00:08:12,560
+old-timers they would tell me well first
+
+244
+00:08:10,319 --> 00:08:14,160
+of all we'd never cared about optimality
+
+245
+00:08:12,560 --> 00:08:15,360
+and the ones that tried to solve it they
+
+246
+00:08:14,160 --> 00:08:17,199
+didn't find the error coordinates to
+
+247
+00:08:15,360 --> 00:08:19,440
+stabilize so it's essentially a little
+
+248
+00:08:17,199 --> 00:08:20,720
+bit of a cultural mismatch
+
+249
+00:08:19,440 --> 00:08:22,479
+also when you look into the literature
+
+250
+00:08:20,720 --> 00:08:23,599
+of adaptive dynamic programming that
+
+251
+00:08:22,479 --> 00:08:25,280
+tried to bring these ideas from
+
+252
+00:08:23,599 --> 00:08:26,879
+approximate dynamic program to adaptive
+
+253
+00:08:25,280 --> 00:08:28,720
+control
+
+254
+00:08:26,879 --> 00:08:30,000
+none of these many many papers have been
+
+255
+00:08:28,720 --> 00:08:31,919
+written ever talked about the closed
+
+256
+00:08:30,000 --> 00:08:33,599
+loop you know it's all about algorithmic
+
+257
+00:08:31,919 --> 00:08:35,039
+conversions some policy iteration will
+
+258
+00:08:33,599 --> 00:08:36,959
+convert the value iteration will convert
+
+259
+00:08:35,039 --> 00:08:39,519
+to algorithmic conversion ions, but it's
+
+260
+00:08:36,959 --> 00:08:40,399
+not clear what happens in closed loop.
+
+261
+00:08:39,519 --> 00:08:42,320
+That's a question they've been
+
+262
+00:08:40,399 --> 00:08:43,760
+sidestepping. And I talked to some of
+
+263
+00:08:42,320 --> 00:08:46,399
+the people that have been writing these
+
+264
+00:08:43,760 --> 00:08:47,440
+papers in the late 2000s. And again,
+
+265
+00:08:46,399 --> 00:08:49,279
+they said, well, there was sort of a
+
+266
+00:08:47,440 --> 00:08:50,959
+mismatch again in the community. The
+
+267
+00:08:49,279 --> 00:08:52,720
+control community didn't care about all
+
+268
+00:08:50,959 --> 00:08:54,000
+these, you know, fancy approximation of
+
+269
+00:08:52,720 --> 00:08:55,600
+neural networks, and that's why they
+
+270
+00:08:54,000 --> 00:08:56,800
+published elsewhere. And these other
+
+271
+00:08:55,600 --> 00:08:58,480
+people didn't care about stability, and
+
+272
+00:08:56,800 --> 00:09:00,560
+that's why they didn't look at it. You
+
+273
+00:08:58,480 --> 00:09:01,839
+know, just some anecdotes that I heard
+
+274
+00:09:00,560 --> 00:09:03,920
+from people that were working on these
+
+275
+00:09:01,839 --> 00:09:06,399
+problems back in the time. But of course
+
+276
+00:09:03,920 --> 00:09:07,839
+curious uh if you had other anecdotes
+
+277
+00:09:06,399 --> 00:09:09,839
+why people have not looked into these
+
+278
+00:09:07,839 --> 00:09:11,519
+problems.
+
+279
+00:09:09,839 --> 00:09:13,680
+So today I want to revisit these
+
+280
+00:09:11,519 --> 00:09:15,360
+problems as a really old problems
+
+281
+00:09:13,680 --> 00:09:17,680
+classical problems but bringing some new
+
+282
+00:09:15,360 --> 00:09:19,200
+perspective. Um one of the new
+
+283
+00:09:17,680 --> 00:09:20,399
+perspectives to bring in uh it's
+
+284
+00:09:19,200 --> 00:09:22,560
+actually an old perspective that has
+
+285
+00:09:20,399 --> 00:09:25,440
+been rediscovered about 5 years ago is
+
+286
+00:09:22,560 --> 00:09:27,200
+behavioral system theory. So behavioral
+
+287
+00:09:25,440 --> 00:09:29,920
+system theory is uh you know invented by
+
+288
+00:09:27,200 --> 00:09:32,399
+Yan Williams a Dutch uh mathematical
+
+289
+00:09:29,920 --> 00:09:34,320
+system theorist who said let's not look
+
+290
+00:09:32,399 --> 00:09:35,680
+at dynamic systems as what if input
+
+291
+00:09:34,320 --> 00:09:37,920
+output maps state space transfer
+
+292
+00:09:35,680 --> 00:09:39,839
+functions whatsoever he said a system is
+
+293
+00:09:37,920 --> 00:09:42,640
+just a set of trajectories and we work
+
+294
+00:09:39,839 --> 00:09:45,360
+with a pure set theoretic definition for
+
+295
+00:09:42,640 --> 00:09:47,200
+instance a linear system would be in the
+
+296
+00:09:45,360 --> 00:09:49,760
+space of all time series it would span a
+
+297
+00:09:47,200 --> 00:09:51,200
+subspace it's time variant the subspace
+
+298
+00:09:49,760 --> 00:09:52,720
+some shift invariance properties he said
+
+299
+00:09:51,200 --> 00:09:54,560
+let's only work with this definition a
+
+300
+00:09:52,720 --> 00:09:56,080
+linear system is a subspace in the space
+
+301
+00:09:54,560 --> 00:09:59,200
+trajectories and how you characterize
+
+302
+00:09:56,080 --> 00:10:02,240
+subspace with models or with data is up
+
+303
+00:09:59,200 --> 00:10:04,240
+to you. Uh we will leverage a particular
+
+304
+00:10:02,240 --> 00:10:05,920
+par parameterization that has recently
+
+305
+00:10:04,240 --> 00:10:08,240
+gotten some attention among others by
+
+306
+00:10:05,920 --> 00:10:09,680
+plenary talk by probably knowers which
+
+307
+00:10:08,240 --> 00:10:11,200
+is sample coariance. So you build
+
+308
+00:10:09,680 --> 00:10:12,640
+empirical coariance matrices to
+
+309
+00:10:11,200 --> 00:10:14,640
+parameterize the subspace of
+
+310
+00:10:12,640 --> 00:10:16,320
+trajectories and that's sort of the
+
+311
+00:10:14,640 --> 00:10:18,399
+model in quotation marks that you work
+
+312
+00:10:16,320 --> 00:10:20,160
+with.
+
+313
+00:10:18,399 --> 00:10:22,320
+Um, and the other thing we bring in
+
+314
+00:10:20,160 --> 00:10:24,480
+which you know is seemingly obvious to I
+
+315
+00:10:22,320 --> 00:10:26,240
+guess the new generation like you get
+
+316
+00:10:24,480 --> 00:10:27,680
+new data points what you do where you go
+
+317
+00:10:26,240 --> 00:10:29,839
+down the gradient which I guess what
+
+318
+00:10:27,680 --> 00:10:31,760
+most people would do nowadays. It turns
+
+319
+00:10:29,839 --> 00:10:33,440
+out this idea was maybe outrageous in
+
+320
+00:10:31,760 --> 00:10:35,839
+the adaptive control community because
+
+321
+00:10:33,440 --> 00:10:37,839
+they did not consider that necessarily.
+
+322
+00:10:35,839 --> 00:10:38,800
+So we look into policy gradient methods
+
+323
+00:10:37,839 --> 00:10:40,399
+one of the working forces of
+
+324
+00:10:38,800 --> 00:10:42,560
+reinforcement learning. So you get a new
+
+325
+00:10:40,399 --> 00:10:44,640
+data point, you update your policy by
+
+326
+00:10:42,560 --> 00:10:46,880
+going down the gradient of this LQR type
+
+327
+00:10:44,640 --> 00:10:48,399
+cost function which has some challenges
+
+328
+00:10:46,880 --> 00:10:50,399
+non-convexity and so on, but these have
+
+329
+00:10:48,399 --> 00:10:52,320
+by now been mostly handled. And so we
+
+330
+00:10:50,399 --> 00:10:53,920
+bring these two different tools together
+
+331
+00:10:52,320 --> 00:10:58,519
+and see if we can from that build an
+
+332
+00:10:53,920 --> 00:10:58,519
+online adaptive control pipeline.
+
+333
+00:10:58,640 --> 00:11:03,440
+Okay, so here are the contents for the
+
+334
+00:11:00,640 --> 00:11:04,480
+remainder of the talk the menu. Um so
+
+335
+00:11:03,440 --> 00:11:06,560
+I'll talk about these learning
+
+336
+00:11:04,480 --> 00:11:08,079
+pipelines. Uh first only talk about
+
+337
+00:11:06,560 --> 00:11:09,360
+algorithmic properties, algorithmic
+
+338
+00:11:08,079 --> 00:11:10,800
+convergence. you know when would a
+
+339
+00:11:09,360 --> 00:11:13,120
+gradient descent on certain coordinates
+
+340
+00:11:10,800 --> 00:11:14,480
+with some normalization or so converge
+
+341
+00:11:13,120 --> 00:11:16,079
+and then I'll also talk about the closed
+
+342
+00:11:14,480 --> 00:11:18,320
+loop properties will this actually work
+
+343
+00:11:16,079 --> 00:11:20,000
+in closed loop or not actually the
+
+344
+00:11:18,320 --> 00:11:22,880
+answer is not necessarily you have to
+
+345
+00:11:20,000 --> 00:11:25,680
+adapt it a little bit and I brought some
+
+346
+00:11:22,880 --> 00:11:27,360
+case studies um from uh robotics uh
+
+347
+00:11:25,680 --> 00:11:30,959
+flight and power systems let's see if we
+
+348
+00:11:27,360 --> 00:11:32,880
+can cover them good
+
+349
+00:11:30,959 --> 00:11:34,320
+so let's go into the problem setup is
+
+350
+00:11:32,880 --> 00:11:35,600
+that it's very simple it's literally
+
+351
+00:11:34,320 --> 00:11:37,839
+what you could teach in a bachelor
+
+352
+00:11:35,600 --> 00:11:40,000
+control course but that makes it I guess
+
+353
+00:11:37,839 --> 00:11:41,839
+quite appealing because turns out not to
+
+354
+00:11:40,000 --> 00:11:45,200
+be not trivial.
+
+355
+00:11:41,839 --> 00:11:47,920
+Um, here's again the LQR problem. Linear
+
+356
+00:11:45,200 --> 00:11:49,680
+control policy around a linear system.
+
+357
+00:11:47,920 --> 00:11:51,760
+Uh, that's how it I wrote before. So,
+
+358
+00:11:49,680 --> 00:11:54,959
+you minimize over a policy K the
+
+359
+00:11:51,760 --> 00:11:56,720
+expected long-term average query cost.
+
+360
+00:11:54,959 --> 00:11:57,920
+This is not how you solve the problem. I
+
+361
+00:11:56,720 --> 00:11:59,920
+mean, you could try to solve it this
+
+362
+00:11:57,920 --> 00:12:01,279
+way, but people norally reformulate this
+
+363
+00:11:59,920 --> 00:12:04,000
+problem differently so it's easier to
+
+364
+00:12:01,279 --> 00:12:06,880
+solve. uh one reformulation that gained
+
+365
+00:12:04,000 --> 00:12:09,360
+a lot of traction uh I think I forgot
+
+366
+00:12:06,880 --> 00:12:10,959
+when probably in the 90s is when people
+
+367
+00:12:09,360 --> 00:12:13,680
+discovered you know we can attack this
+
+368
+00:12:10,959 --> 00:12:15,120
+problem through ricottian LMI equations
+
+369
+00:12:13,680 --> 00:12:16,480
+so we formulate this normally in terms
+
+370
+00:12:15,120 --> 00:12:19,120
+of what is called the controllability
+
+371
+00:12:16,480 --> 00:12:22,800
+grammarium so we write this in terms of
+
+372
+00:12:19,120 --> 00:12:25,279
+x * xrpost if you want so that's a state
+
+373
+00:12:22,800 --> 00:12:26,959
+coariance matrix and parameters problem
+
+374
+00:12:25,279 --> 00:12:29,279
+in terms of that state coariance matrix
+
+375
+00:12:26,959 --> 00:12:31,440
+let's call this one sigma
+
+376
+00:12:29,279 --> 00:12:33,920
+and then the cost function of xrpose kx
+
+377
+00:12:31,440 --> 00:12:37,600
+X would be the trace of Q sigma uh the
+
+378
+00:12:33,920 --> 00:12:39,519
+trace of K R sigma K and then as a
+
+379
+00:12:37,600 --> 00:12:41,760
+constraint you just have your leap of
+
+380
+00:12:39,519 --> 00:12:43,519
+equation which is sort of the steady
+
+381
+00:12:41,760 --> 00:12:44,800
+state coariance equation which you can
+
+382
+00:12:43,519 --> 00:12:46,320
+solve for sigma as you know there's a
+
+383
+00:12:44,800 --> 00:12:48,720
+unique positive definite solution to
+
+384
+00:12:46,320 --> 00:12:50,079
+that equation so then that's much more a
+
+385
+00:12:48,720 --> 00:12:51,360
+nice way to write this you can easily
+
+386
+00:12:50,079 --> 00:12:55,360
+convexify it put it into your
+
+387
+00:12:51,360 --> 00:12:57,920
+semi-definite solver and get a solution
+
+388
+00:12:55,360 --> 00:13:00,000
+so you can solve this with STPs you can
+
+389
+00:12:57,920 --> 00:13:01,360
+use contraction free equation or first
+
+390
+00:13:00,000 --> 00:13:02,639
+order methods policy violation
+
+391
+00:13:01,360 --> 00:13:03,920
+improvement. There's many approaches
+
+392
+00:13:02,639 --> 00:13:05,680
+people have developed over the years how
+
+393
+00:13:03,920 --> 00:13:07,600
+to solve that obviously and we all teach
+
+394
+00:13:05,680 --> 00:13:10,160
+this in our courses. So I don't tell you
+
+395
+00:13:07,600 --> 00:13:12,000
+anything new. [snorts]
+
+396
+00:13:10,160 --> 00:13:14,639
+So let me take a look at a sort of data
+
+397
+00:13:12,000 --> 00:13:16,240
+parameterization of that problem. Um
+
+398
+00:13:14,639 --> 00:13:18,240
+which again is very obvious but people
+
+399
+00:13:16,240 --> 00:13:20,800
+have only really rediscovered this about
+
+400
+00:13:18,240 --> 00:13:23,279
+maybe 5 years ago. So let's assume we
+
+401
+00:13:20,800 --> 00:13:25,760
+have a data from our system. Um let's
+
+402
+00:13:23,279 --> 00:13:27,440
+assume we have a a matrix x0 that
+
+403
+00:13:25,760 --> 00:13:31,040
+contains the entire time series of x
+
+404
+00:13:27,440 --> 00:13:33,519
+from x0 x1 until xt minus one. That's
+
+405
+00:13:31,040 --> 00:13:35,279
+our state uh data. Let's say we also
+
+406
+00:13:33,519 --> 00:13:37,519
+have a successor data. So that's just
+
+407
+00:13:35,279 --> 00:13:40,160
+everything shifted by plus one. So x1 is
+
+408
+00:13:37,519 --> 00:13:42,800
+time series from x1 to xt. We have the
+
+409
+00:13:40,160 --> 00:13:44,079
+input time series. In ideal world, you'd
+
+410
+00:13:42,800 --> 00:13:46,720
+also have the disturbance time series
+
+411
+00:13:44,079 --> 00:13:48,720
+w0. And all these matrices have to
+
+412
+00:13:46,720 --> 00:13:50,959
+satisfy the model equations because they
+
+413
+00:13:48,720 --> 00:13:52,320
+come from that model. Now of course
+
+414
+00:13:50,959 --> 00:13:54,240
+makes the problem interesting is you
+
+415
+00:13:52,320 --> 00:13:56,320
+don't know the W time series right you
+
+416
+00:13:54,240 --> 00:13:57,760
+don't know the disturbance [laughter]
+
+417
+00:13:56,320 --> 00:13:59,120
+and you need to assume to solve that
+
+418
+00:13:57,760 --> 00:14:01,279
+problem actually necessary condition for
+
+419
+00:13:59,120 --> 00:14:02,399
+serving LQR is an identifiability
+
+420
+00:14:01,279 --> 00:14:04,560
+condition so you have persistive
+
+421
+00:14:02,399 --> 00:14:07,120
+exitation that is your data matrix of
+
+422
+00:14:04,560 --> 00:14:09,040
+state and input pairs has full rank
+
+423
+00:14:07,120 --> 00:14:10,079
+which is sort of also the condition
+
+424
+00:14:09,040 --> 00:14:12,000
+under which you could solve at least
+
+425
+00:14:10,079 --> 00:14:14,800
+square problem
+
+426
+00:14:12,000 --> 00:14:16,880
+okay so it's just a reformulation
+
+427
+00:14:14,800 --> 00:14:18,480
+um and now let me tell you the let me
+
+428
+00:14:16,880 --> 00:14:19,760
+say vanilla approach to solving this
+
+429
+00:14:18,480 --> 00:14:20,880
+it's what is called the indirect
+
+430
+00:14:19,760 --> 00:14:23,519
+approach approach indirect certain
+
+431
+00:14:20,880 --> 00:14:25,120
+equalence approach. So use your data and
+
+432
+00:14:23,519 --> 00:14:27,600
+first solve a le square problem in an
+
+433
+00:14:25,120 --> 00:14:28,959
+inner loop. So it's formulated as a b
+
+434
+00:14:27,600 --> 00:14:31,680
+level optimization problems. So in loop
+
+435
+00:14:28,959 --> 00:14:33,120
+is figure out a and b by solving the le
+
+436
+00:14:31,680 --> 00:14:35,680
+square problem. So minimizing the
+
+437
+00:14:33,120 --> 00:14:37,279
+residual of your data equation. You take
+
+438
+00:14:35,680 --> 00:14:38,880
+this estimate and with the estimate you
+
+439
+00:14:37,279 --> 00:14:40,399
+go into the model based design. You
+
+440
+00:14:38,880 --> 00:14:42,560
+don't robustify things. You just take
+
+441
+00:14:40,399 --> 00:14:44,720
+this certain equivalent formulation.
+
+442
+00:14:42,560 --> 00:14:47,839
+Quite plain just abstract now as a b
+
+443
+00:14:44,720 --> 00:14:49,760
+level optimization prep.
+
+444
+00:14:47,839 --> 00:14:51,040
+Now you can do this of course um you can
+
+445
+00:14:49,760 --> 00:14:53,120
+write down all sorts of theorems about
+
+446
+00:14:51,040 --> 00:14:55,120
+that but I don't want to go there. I I
+
+447
+00:14:53,120 --> 00:14:57,600
+find this entire approach to datadriven
+
+448
+00:14:55,120 --> 00:15:00,000
+control a little bit lame just like I
+
+449
+00:14:57,600 --> 00:15:02,000
+would say 99% of all others for the
+
+450
+00:15:00,000 --> 00:15:04,320
+simple reasoning it's not very sporty
+
+451
+00:15:02,000 --> 00:15:05,839
+you do this all offline right I mean the
+
+452
+00:15:04,320 --> 00:15:07,680
+real problem is could you solve this
+
+453
+00:15:05,839 --> 00:15:10,000
+actually online you know can you not
+
+454
+00:15:07,680 --> 00:15:12,880
+separate offline learning online control
+
+455
+00:15:10,000 --> 00:15:14,320
+but do it in one shot okay why because
+
+456
+00:15:12,880 --> 00:15:16,800
+you would like to improve of course on
+
+457
+00:15:14,320 --> 00:15:18,320
+your policy online and adapt rapidly to
+
+458
+00:15:16,800 --> 00:15:19,920
+any sort of disturbance or timbering
+
+459
+00:15:18,320 --> 00:15:21,120
+nature of the equations so the question
+
+460
+00:15:19,920 --> 00:15:22,720
+is can you solve this in adaptive
+
+461
+00:15:21,120 --> 00:15:24,480
+fashion
+
+462
+00:15:22,720 --> 00:15:26,480
+And you know another fun fact I
+
+463
+00:15:24,480 --> 00:15:28,480
+discovered about adaptive control is you
+
+464
+00:15:26,480 --> 00:15:30,240
+talk to any sort of so-called expert on
+
+465
+00:15:28,480 --> 00:15:32,639
+adaptive control and ask them what is
+
+466
+00:15:30,240 --> 00:15:33,760
+adaptive control and you'll get you know
+
+467
+00:15:32,639 --> 00:15:35,680
+for everyone you get a different
+
+468
+00:15:33,760 --> 00:15:36,880
+definition and then it turns out
+
+469
+00:15:35,680 --> 00:15:38,320
+actually there's no definition everybody
+
+470
+00:15:36,880 --> 00:15:40,240
+agrees on respect if there is no
+
+471
+00:15:38,320 --> 00:15:42,720
+definition whatsoever.
+
+472
+00:15:40,240 --> 00:15:45,680
+The only definition I found really that
+
+473
+00:15:42,720 --> 00:15:47,040
+has been written down is one by so was
+
+474
+00:15:45,680 --> 00:15:48,959
+not an adapt of control person. He was
+
+475
+00:15:47,040 --> 00:15:51,440
+actually in the opposite camp and when I
+
+476
+00:15:48,959 --> 00:15:52,560
+talked to again people from before my
+
+477
+00:15:51,440 --> 00:15:53,680
+generation they said they were really
+
+478
+00:15:52,560 --> 00:15:55,360
+fighting each other. The adaptive
+
+479
+00:15:53,680 --> 00:15:58,000
+control people did not like sames at
+
+480
+00:15:55,360 --> 00:16:00,160
+all. Uh but he wrote down a very nice
+
+481
+00:15:58,000 --> 00:16:01,519
+definition in one of his last papers
+
+482
+00:16:00,160 --> 00:16:04,320
+before I think he passed away half a
+
+483
+00:16:01,519 --> 00:16:06,399
+year later and he defined adaptive
+
+484
+00:16:04,320 --> 00:16:08,320
+control by two monotonisticity
+
+485
+00:16:06,399 --> 00:16:10,560
+principles. One is you have to interact
+
+486
+00:16:08,320 --> 00:16:12,320
+with system and information increases
+
+487
+00:16:10,560 --> 00:16:13,839
+and the other one is of course also
+
+488
+00:16:12,320 --> 00:16:15,519
+control performance should increase. So
+
+489
+00:16:13,839 --> 00:16:17,440
+you want to improve upon the best
+
+490
+00:16:15,519 --> 00:16:19,839
+offline control that you construct with
+
+491
+00:16:17,440 --> 00:16:21,600
+our pre information.
+
+492
+00:16:19,839 --> 00:16:23,680
+I gave a similar talk in the IFAC
+
+493
+00:16:21,600 --> 00:16:24,800
+adaptive control workshop and they
+
+494
+00:16:23,680 --> 00:16:27,759
+essentially kicked me out of the room
+
+495
+00:16:24,800 --> 00:16:29,360
+when I showed the same picture. They did
+
+496
+00:16:27,759 --> 00:16:30,800
+not like him at all. They would say no
+
+497
+00:16:29,360 --> 00:16:32,320
+it means adaptive control is about
+
+498
+00:16:30,800 --> 00:16:34,399
+stabilization in face of uncertain
+
+499
+00:16:32,320 --> 00:16:36,079
+parameters. Um it has nothing to do with
+
+500
+00:16:34,399 --> 00:16:37,600
+that. So I guess you know there are
+
+501
+00:16:36,079 --> 00:16:39,120
+camps in there. I don't have an opinion
+
+502
+00:16:37,600 --> 00:16:40,480
+on that. I just want to say many people
+
+503
+00:16:39,120 --> 00:16:42,880
+would not say this is a proper
+
+504
+00:16:40,480 --> 00:16:44,639
+definition but let's let's run with that
+
+505
+00:16:42,880 --> 00:16:47,120
+because that's very much in the spirit
+
+506
+00:16:44,639 --> 00:16:49,440
+of reinforcement learning
+
+507
+00:16:47,120 --> 00:16:51,040
+and our desired solution would be we
+
+508
+00:16:49,440 --> 00:16:52,480
+want to have an adaptive solution so
+
+509
+00:16:51,040 --> 00:16:55,360
+that should work in real time with
+
+510
+00:16:52,480 --> 00:16:56,720
+closed loop data non episodic non batch
+
+511
+00:16:55,360 --> 00:16:59,120
+and ideally have a recursive
+
+512
+00:16:56,720 --> 00:17:00,399
+implementation and then we'll see if we
+
+513
+00:16:59,120 --> 00:17:02,639
+go indirect or direct and what the
+
+514
+00:17:00,399 --> 00:17:04,880
+merits are
+
+515
+00:17:02,639 --> 00:17:07,919
+and our idea how to find this adaptive
+
+516
+00:17:04,880 --> 00:17:10,319
+solution is very very very naive is we
+
+517
+00:17:07,919 --> 00:17:12,240
+just go down the gradient and see if
+
+518
+00:17:10,319 --> 00:17:14,160
+that works.
+
+519
+00:17:12,240 --> 00:17:15,839
+So here would be the block diagram. So
+
+520
+00:17:14,160 --> 00:17:18,160
+we close the loop with a linear control
+
+521
+00:17:15,839 --> 00:17:19,760
+policy and what we do is simultaneously
+
+522
+00:17:18,160 --> 00:17:22,319
+we do a gradient descent in policy
+
+523
+00:17:19,760 --> 00:17:24,160
+space. That is at any point in time I
+
+524
+00:17:22,319 --> 00:17:25,600
+collect my data and then I do a gradient
+
+525
+00:17:24,160 --> 00:17:28,480
+step going down the cost function of the
+
+526
+00:17:25,600 --> 00:17:30,640
+LQR problem which I would think nowadays
+
+527
+00:17:28,480 --> 00:17:32,000
+from a more modern perspective is the
+
+528
+00:17:30,640 --> 00:17:34,240
+most naive thing you could do. And you
+
+529
+00:17:32,000 --> 00:17:35,840
+wonder why why did people not do this
+
+530
+00:17:34,240 --> 00:17:37,600
+long time ago and I think the reason was
+
+531
+00:17:35,840 --> 00:17:40,559
+just again cultural graphs they didn't
+
+532
+00:17:37,600 --> 00:17:42,400
+care about
+
+533
+00:17:40,559 --> 00:17:44,400
+uh so it seems obvious uh what is not so
+
+534
+00:17:42,400 --> 00:17:46,960
+obvious is you know will this work so on
+
+535
+00:17:44,400 --> 00:17:48,640
+the algorithmic side will this converge
+
+536
+00:17:46,960 --> 00:17:51,039
+how do you compute the gradient actually
+
+537
+00:17:48,640 --> 00:17:53,039
+how do you compute it efficiently go do
+
+538
+00:17:51,039 --> 00:17:54,880
+you go direct indirect and in closed
+
+539
+00:17:53,039 --> 00:17:56,960
+loop do you have stability do you get
+
+540
+00:17:54,880 --> 00:17:58,000
+robustness or not uh let me just tell
+
+541
+00:17:56,960 --> 00:17:59,600
+you why it's not obvious to get
+
+542
+00:17:58,000 --> 00:18:01,280
+stability even if any point in time your
+
+543
+00:17:59,600 --> 00:18:02,880
+policy is stabilizing
+
+544
+00:18:01,280 --> 00:18:04,799
+At any point in time, the closed loop
+
+545
+00:18:02,880 --> 00:18:06,880
+system is different. Right? So you have
+
+546
+00:18:04,799 --> 00:18:08,320
+a sequence of stable matrices, but it
+
+547
+00:18:06,880 --> 00:18:10,559
+has zero implication about the entire
+
+548
+00:18:08,320 --> 00:18:11,840
+sequence being stable. So it's not
+
+549
+00:18:10,559 --> 00:18:14,559
+obvious that this would actually work in
+
+550
+00:18:11,840 --> 00:18:16,080
+closed loop.
+
+551
+00:18:14,559 --> 00:18:17,679
+So let let's just try it out before I
+
+552
+00:18:16,080 --> 00:18:19,120
+give you a little bit of the background.
+
+553
+00:18:17,679 --> 00:18:20,240
+So here's an example where we put it on
+
+554
+00:18:19,120 --> 00:18:21,600
+a little toy system with some
+
+555
+00:18:20,240 --> 00:18:24,080
+collaborators. So we have an autonomous
+
+556
+00:18:21,600 --> 00:18:27,440
+bike that we want to stabilize, drive
+
+557
+00:18:24,080 --> 00:18:28,960
+along. Uh it turns out if you just do LK
+
+558
+00:18:27,440 --> 00:18:30,400
+on that bike, it won't work. The bike is
+
+559
+00:18:28,960 --> 00:18:34,320
+a nonlayer system. it would just fall
+
+560
+00:18:30,400 --> 00:18:36,160
+down non face plenty of issues. Um so
+
+561
+00:18:34,320 --> 00:18:37,679
+what we did here is so we put around a
+
+562
+00:18:36,160 --> 00:18:39,360
+small feedback linearization controller
+
+563
+00:18:37,679 --> 00:18:41,200
+for a small bicycle model like it's just
+
+564
+00:18:39,360 --> 00:18:43,520
+a 2D model. We cancel out the main
+
+565
+00:18:41,200 --> 00:18:45,360
+linearity that wouldn't work by itself
+
+566
+00:18:43,520 --> 00:18:47,760
+but then we strapped around a linear
+
+567
+00:18:45,360 --> 00:18:49,360
+system uh this sort of adaptive LQR
+
+568
+00:18:47,760 --> 00:18:51,440
+where we go down the gradient policy
+
+569
+00:18:49,360 --> 00:18:55,039
+space and see if that work. So the outer
+
+570
+00:18:51,440 --> 00:18:57,520
+loop is this adaptive LQR.
+
+571
+00:18:55,039 --> 00:19:00,480
+So let's see if that
+
+572
+00:18:57,520 --> 00:19:01,919
+video is running. Yeah. So what maybe
+
+573
+00:19:00,480 --> 00:19:04,240
+should look at at is the sort of on the
+
+574
+00:19:01,919 --> 00:19:05,760
+side you see here the control gains and
+
+575
+00:19:04,240 --> 00:19:07,120
+they're nicely converging after some
+
+576
+00:19:05,760 --> 00:19:09,360
+iteration and we could actually now
+
+577
+00:19:07,120 --> 00:19:11,840
+stabilize the bicycle drives somehow. So
+
+578
+00:19:09,360 --> 00:19:13,679
+this naive idea of just online let's go
+
+579
+00:19:11,840 --> 00:19:15,120
+down the gradient apparently works and
+
+580
+00:19:13,679 --> 00:19:16,960
+for this example you could stabilize the
+
+581
+00:19:15,120 --> 00:19:18,160
+system. It turns out if you make the
+
+582
+00:19:16,960 --> 00:19:20,160
+control a little more aggressive it will
+
+583
+00:19:18,160 --> 00:19:21,440
+not work. It will break apart. So we
+
+584
+00:19:20,160 --> 00:19:24,080
+have to understand a little bit why and
+
+585
+00:19:21,440 --> 00:19:25,679
+when it works.
+
+586
+00:19:24,080 --> 00:19:27,120
+Okay
+
+587
+00:19:25,679 --> 00:19:29,360
+so let's go into different learning
+
+588
+00:19:27,120 --> 00:19:31,120
+pipelines. So here are the ones we have
+
+589
+00:19:29,360 --> 00:19:32,480
+explored and you know that's a big tree
+
+590
+00:19:31,120 --> 00:19:34,559
+of you know different directions you
+
+591
+00:19:32,480 --> 00:19:36,559
+could take. Do you go model based or do
+
+592
+00:19:34,559 --> 00:19:38,160
+you go model free and then you go down
+
+593
+00:19:36,559 --> 00:19:39,360
+the gradient. Do you modify the gradient
+
+594
+00:19:38,160 --> 00:19:41,280
+with some fish information or some
+
+595
+00:19:39,360 --> 00:19:42,480
+Newton metric or robustified? There's a
+
+596
+00:19:41,280 --> 00:19:46,000
+lot of variations you could take in the
+
+597
+00:19:42,480 --> 00:19:47,760
+problem. Um let me just do the most
+
+598
+00:19:46,000 --> 00:19:49,919
+simple thing first and we talked then
+
+599
+00:19:47,760 --> 00:19:52,559
+about maybe different paths. The most
+
+600
+00:19:49,919 --> 00:19:55,679
+simple one is the indirect path that is
+
+601
+00:19:52,559 --> 00:19:57,520
+use data to online identify your model
+
+602
+00:19:55,679 --> 00:19:59,919
+and then with the identified model you
+
+603
+00:19:57,520 --> 00:20:02,400
+go down the gradient and if you
+
+604
+00:19:59,919 --> 00:20:04,720
+understand that the others are also more
+
+605
+00:20:02,400 --> 00:20:06,559
+simple to grasp.
+
+606
+00:20:04,720 --> 00:20:08,400
+Okay.
+
+607
+00:20:06,559 --> 00:20:11,679
+So a problem that has a received a lot
+
+608
+00:20:08,400 --> 00:20:13,360
+of attention ever since 2019 when uh
+
+609
+00:20:11,679 --> 00:20:15,039
+Marian Facel sort of wrote a quite
+
+610
+00:20:13,360 --> 00:20:17,600
+similar paper on that is is the LQR
+
+611
+00:20:15,039 --> 00:20:19,280
+optimization landscape.
+
+612
+00:20:17,600 --> 00:20:22,000
+So let me introduce the main ingredients
+
+613
+00:20:19,280 --> 00:20:23,760
+here. So we have a LQR problem. We can
+
+614
+00:20:22,000 --> 00:20:25,200
+actually uniquely resolve the constraint
+
+615
+00:20:23,760 --> 00:20:26,320
+equation. It's a leap of equation. You
+
+616
+00:20:25,200 --> 00:20:30,080
+know the solution of the leapnov
+
+617
+00:20:26,320 --> 00:20:31,919
+equation is a + b k to the power k squar
+
+618
+00:20:30,080 --> 00:20:34,000
+and sum of all time. It's the gramian,
+
+619
+00:20:31,919 --> 00:20:35,280
+right? So we know the explicit solution.
+
+620
+00:20:34,000 --> 00:20:37,919
+So we can just think about this problem
+
+621
+00:20:35,280 --> 00:20:39,520
+as a function of k.
+
+622
+00:20:37,919 --> 00:20:41,360
+So here's what this looks like for a
+
+623
+00:20:39,520 --> 00:20:43,120
+simple example like a two-dimensional
+
+624
+00:20:41,360 --> 00:20:45,360
+system problem. You see this cost
+
+625
+00:20:43,120 --> 00:20:46,960
+function actually looks quite nice. uh
+
+626
+00:20:45,360 --> 00:20:49,600
+convex level sets seems like yeah
+
+627
+00:20:46,960 --> 00:20:51,280
+gradient descent should work in general.
+
+628
+00:20:49,600 --> 00:20:53,039
+It turns out this is a nice example. I
+
+629
+00:20:51,280 --> 00:20:54,799
+can also construct a two dimensional
+
+630
+00:20:53,039 --> 00:20:58,640
+examples where actually it's not convex
+
+631
+00:20:54,799 --> 00:21:01,919
+and it's not obvious what would happen.
+
+632
+00:20:58,640 --> 00:21:04,240
+So uh JFK is usually not convex but it
+
+633
+00:21:01,919 --> 00:21:05,919
+is differentiable and you can actually
+
+634
+00:21:04,240 --> 00:21:08,320
+write down the explicit gradient. It's a
+
+635
+00:21:05,919 --> 00:21:09,679
+formula above me is it to compute it you
+
+636
+00:21:08,320 --> 00:21:10,960
+would have to solve two leap of
+
+637
+00:21:09,679 --> 00:21:12,559
+equations. the closed loop
+
+638
+00:21:10,960 --> 00:21:14,960
+controllability grammarian and the
+
+639
+00:21:12,559 --> 00:21:16,640
+closed loop obserability grammarian the
+
+640
+00:21:14,960 --> 00:21:17,919
+fact that it's differentiable and we can
+
+641
+00:21:16,640 --> 00:21:19,919
+compute the gradient and this what the
+
+642
+00:21:17,919 --> 00:21:22,240
+gradient looks like was actually known
+
+643
+00:21:19,919 --> 00:21:24,559
+since the late '7s actually a paper from
+
+644
+00:21:22,240 --> 00:21:27,280
+MIT I think correctly who was it Mike
+
+645
+00:21:24,559 --> 00:21:28,880
+Ethes who was here right so early in the
+
+646
+00:21:27,280 --> 00:21:30,480
+70s people worked out the gradient
+
+647
+00:21:28,880 --> 00:21:32,559
+formulas and figured out it's
+
+648
+00:21:30,480 --> 00:21:36,559
+differentiable so it's nothing new per
+
+649
+00:21:32,559 --> 00:21:38,320
+se but one thing that surprisingly took
+
+650
+00:21:36,559 --> 00:21:39,520
+you know four or five decades is for
+
+651
+00:21:38,320 --> 00:21:40,880
+somebody to prove that this would
+
+652
+00:21:39,520 --> 00:21:42,240
+converge
+
+653
+00:21:40,880 --> 00:21:44,000
+And again I don't think because the
+
+654
+00:21:42,240 --> 00:21:46,400
+proof is very hard it's probably because
+
+655
+00:21:44,000 --> 00:21:48,159
+nobody cared about it because we had LMI
+
+656
+00:21:46,400 --> 00:21:50,640
+STP solvers so who created about first
+
+657
+00:21:48,159 --> 00:21:52,640
+order methods to solve that problem. So
+
+658
+00:21:50,640 --> 00:21:55,440
+that was in about 2019 I think when
+
+659
+00:21:52,640 --> 00:21:56,720
+Marian FEL Marisp and post of them
+
+660
+00:21:55,440 --> 00:21:58,799
+worked out that this gradient descent
+
+661
+00:21:56,720 --> 00:22:00,640
+would actually converge. So they worked
+
+662
+00:21:58,799 --> 00:22:03,440
+out this LQR cost function it's not
+
+663
+00:22:00,640 --> 00:22:05,280
+convex but it's cursive that it has
+
+664
+00:22:03,440 --> 00:22:07,039
+compact level sets you know it would
+
+665
+00:22:05,280 --> 00:22:09,760
+blow up when you become have
+
+666
+00:22:07,039 --> 00:22:11,440
+unstabilizing gains. It's smooth meaning
+
+667
+00:22:09,760 --> 00:22:12,640
+the derivative is actually lips
+
+668
+00:22:11,440 --> 00:22:15,520
+continuous. You can actually formally
+
+669
+00:22:12,640 --> 00:22:17,520
+show the hashness bounded and this has a
+
+670
+00:22:15,520 --> 00:22:19,039
+property was called gradient dominance
+
+671
+00:22:17,520 --> 00:22:21,679
+that is you could upper bound the cost
+
+672
+00:22:19,039 --> 00:22:24,080
+function J of K by the optimizer plus a
+
+673
+00:22:21,679 --> 00:22:25,919
+constant times the gradient squared and
+
+674
+00:22:24,080 --> 00:22:27,520
+these three ingredients together would
+
+675
+00:22:25,919 --> 00:22:30,799
+tell you if you initialize yourself at a
+
+676
+00:22:27,520 --> 00:22:33,039
+stabilized policy you converge. So that
+
+677
+00:22:30,799 --> 00:22:35,120
+took from the 1970s until today until
+
+678
+00:22:33,039 --> 00:22:38,240
+somebody showed that. But again I think
+
+679
+00:22:35,120 --> 00:22:40,400
+it's just because nobody cared about it.
+
+680
+00:22:38,240 --> 00:22:43,600
+So the formal result is following. So we
+
+681
+00:22:40,400 --> 00:22:45,200
+think about this J ofK the LQR cost and
+
+682
+00:22:43,600 --> 00:22:46,799
+then you know there's a few people that
+
+683
+00:22:45,200 --> 00:22:49,919
+worked on that. There's a nice survey
+
+684
+00:22:46,799 --> 00:22:51,760
+paper from Lena Tamil and others that
+
+685
+00:22:49,919 --> 00:22:54,000
+shows yes if you do gradient descent on
+
+686
+00:22:51,760 --> 00:22:55,919
+the LQR cost if initially stabilizing
+
+687
+00:22:54,000 --> 00:22:57,919
+policy then gradient descent will
+
+688
+00:22:55,919 --> 00:22:59,760
+actually converge with a linear rate to
+
+689
+00:22:57,919 --> 00:23:01,440
+the optimum.
+
+690
+00:22:59,760 --> 00:23:04,240
+Okay so we know gradient descent would
+
+691
+00:23:01,440 --> 00:23:06,159
+work and that's sort of one way how we
+
+692
+00:23:04,240 --> 00:23:07,760
+could now possibly build an adaptive
+
+693
+00:23:06,159 --> 00:23:09,840
+pipeline.
+
+694
+00:23:07,760 --> 00:23:12,799
+uh namely you know you collect your data
+
+695
+00:23:09,840 --> 00:23:14,559
+you collect your matrices of the x0 time
+
+696
+00:23:12,799 --> 00:23:16,640
+series the x1 time series everything
+
+697
+00:23:14,559 --> 00:23:19,039
+shifted by plus one the input time
+
+698
+00:23:16,640 --> 00:23:21,200
+series you update your model so you do
+
+699
+00:23:19,039 --> 00:23:24,000
+for instance a recursively square or a
+
+700
+00:23:21,200 --> 00:23:26,559
+meanly square step and then you compute
+
+701
+00:23:24,000 --> 00:23:29,600
+the two uh gramians and then you just do
+
+702
+00:23:26,559 --> 00:23:32,480
+the gra and you repeat okay so this is
+
+703
+00:23:29,600 --> 00:23:34,159
+one thing you could do and that actually
+
+704
+00:23:32,480 --> 00:23:36,159
+um well at least the algorithm would
+
+705
+00:23:34,159 --> 00:23:38,960
+converge but it's not clear if the
+
+706
+00:23:36,159 --> 00:23:38,960
+closed loop converges
+
+707
+00:23:39,039 --> 00:23:44,240
+So that's sort of the vanilla idea how
+
+708
+00:23:41,280 --> 00:23:46,480
+to approach it. Uh it turns out maybe
+
+709
+00:23:44,240 --> 00:23:49,200
+that's not the best way to do. So people
+
+710
+00:23:46,480 --> 00:23:51,360
+develop different results. One is what
+
+711
+00:23:49,200 --> 00:23:53,039
+is became known as the huer algorithm.
+
+712
+00:23:51,360 --> 00:23:55,200
+Essentially it's going down the gradient
+
+713
+00:23:53,039 --> 00:23:56,720
+in the hessen metric. Okay. So you don't
+
+714
+00:23:55,200 --> 00:23:58,080
+go down just gradient. You premultiply
+
+715
+00:23:56,720 --> 00:24:00,159
+it by the inverse hash or an
+
+716
+00:23:58,080 --> 00:24:02,320
+approximation thereof.
+
+717
+00:24:00,159 --> 00:24:04,799
+So you would premultiply the gradient by
+
+718
+00:24:02,320 --> 00:24:07,039
+some matrix m of k that approximates the
+
+719
+00:24:04,799 --> 00:24:08,640
+hash matrix. And if you go down in the
+
+720
+00:24:07,039 --> 00:24:10,080
+hash direction, you get a much quicker
+
+721
+00:24:08,640 --> 00:24:12,320
+path to conversions because you're not
+
+722
+00:24:10,080 --> 00:24:14,480
+always, you know, just like grades
+
+723
+00:24:12,320 --> 00:24:15,919
+orthogonal to the level sets. Whereas if
+
+724
+00:24:14,480 --> 00:24:19,840
+you go down the hash direction, you take
+
+725
+00:24:15,919 --> 00:24:22,720
+a straight path at least for objective.
+
+726
+00:24:19,840 --> 00:24:25,120
+Um so again people worked out many
+
+727
+00:24:22,720 --> 00:24:28,080
+variations of that and proofs. Uh but it
+
+728
+00:24:25,120 --> 00:24:29,840
+turns out this um Hu algorithm which is
+
+729
+00:24:28,080 --> 00:24:31,200
+iterative policy validation and policy
+
+730
+00:24:29,840 --> 00:24:34,320
+improvement would actually be the same
+
+731
+00:24:31,200 --> 00:24:36,880
+as an approximate uh uh descent in the
+
+732
+00:24:34,320 --> 00:24:38,799
+Newton direction.
+
+733
+00:24:36,880 --> 00:24:41,600
+Another premultiplier you could take is
+
+734
+00:24:38,799 --> 00:24:43,279
+an inverse fish information matrix. Um
+
+735
+00:24:41,600 --> 00:24:44,320
+you know that picture I it is not
+
+736
+00:24:43,279 --> 00:24:46,320
+necessary going down the gradient
+
+737
+00:24:44,320 --> 00:24:47,919
+inverse fish information matrix but nice
+
+738
+00:24:46,320 --> 00:24:49,520
+to illustrate what's going on. If you
+
+739
+00:24:47,919 --> 00:24:51,760
+just follow the gradient may take a very
+
+740
+00:24:49,520 --> 00:24:53,360
+long path to the objective. Maybe you
+
+741
+00:24:51,760 --> 00:24:54,799
+should also bias the gradient in the
+
+742
+00:24:53,360 --> 00:24:56,400
+direction where you have the largest
+
+743
+00:24:54,799 --> 00:24:58,240
+variance
+
+744
+00:24:56,400 --> 00:25:00,720
+and that's why you multiply it with
+
+745
+00:24:58,240 --> 00:25:02,880
+something like the inverse fish matrix
+
+746
+00:25:00,720 --> 00:25:06,240
+to explore essentially go where variance
+
+747
+00:25:02,880 --> 00:25:07,919
+is large. It turns out the LQR problem
+
+748
+00:25:06,240 --> 00:25:10,000
+you don't actually have to compute any
+
+749
+00:25:07,919 --> 00:25:12,000
+fish information. You can just post
+
+750
+00:25:10,000 --> 00:25:14,640
+multiply the gradient by the inverse
+
+751
+00:25:12,000 --> 00:25:17,120
+coariance. Okay, but inverse solution
+
+752
+00:25:14,640 --> 00:25:18,640
+sigma of your leopath equation and
+
+753
+00:25:17,120 --> 00:25:20,240
+that's very easy to evaluate. Turns out
+
+754
+00:25:18,640 --> 00:25:22,000
+actually if you want to that's gradient
+
+755
+00:25:20,240 --> 00:25:25,120
+you just comput one leop equation. So
+
+756
+00:25:22,000 --> 00:25:26,720
+it's very efficient and simple.
+
+757
+00:25:25,120 --> 00:25:29,360
+So there's maybe better ways than just
+
+758
+00:25:26,720 --> 00:25:32,559
+pure gradient descent.
+
+759
+00:25:29,360 --> 00:25:34,000
+But this is all indirect.
+
+760
+00:25:32,559 --> 00:25:35,600
+And so the question that we've been
+
+761
+00:25:34,000 --> 00:25:37,039
+asking is can you also do this direct?
+
+762
+00:25:35,600 --> 00:25:39,600
+Can you compute the gradient without
+
+763
+00:25:37,039 --> 00:25:42,542
+first identifying model and if so what
+
+764
+00:25:39,600 --> 00:25:43,919
+are the benefits of possibly doing okay
+
+765
+00:25:42,542 --> 00:25:45,440
+[snorts] and that's where we use this
+
+766
+00:25:43,919 --> 00:25:48,159
+behavioral system theory and coariance
+
+767
+00:25:45,440 --> 00:25:51,039
+parameterization.
+
+768
+00:25:48,159 --> 00:25:52,799
+So let let me first tell you why I mean
+
+769
+00:25:51,039 --> 00:25:55,039
+why do you want to go indirect? It turns
+
+770
+00:25:52,799 --> 00:25:56,640
+out for for two reasons indirect is of
+
+771
+00:25:55,039 --> 00:25:59,200
+preferred first is uncertainty
+
+772
+00:25:56,640 --> 00:26:00,880
+propagation. So you want to avoid
+
+773
+00:25:59,200 --> 00:26:02,720
+propagating uncertainty from your data
+
+774
+00:26:00,880 --> 00:26:04,320
+to your model to your control policy.
+
+775
+00:26:02,720 --> 00:26:06,720
+Can you sidestep that and go directly
+
+776
+00:26:04,320 --> 00:26:08,159
+for the policy? The other one often
+
+777
+00:26:06,720 --> 00:26:10,640
+brought up in SIS modification is to
+
+778
+00:26:08,159 --> 00:26:12,720
+avoid the bias error. So now this is in
+
+779
+00:26:10,640 --> 00:26:14,240
+state feedback but input output setting.
+
+780
+00:26:12,720 --> 00:26:15,440
+The hardest part about SIS ID is
+
+781
+00:26:14,240 --> 00:26:17,760
+actually what is called model order
+
+782
+00:26:15,440 --> 00:26:19,200
+selection is you choose a model class
+
+783
+00:26:17,760 --> 00:26:20,559
+and then you get a bias error because
+
+784
+00:26:19,200 --> 00:26:22,559
+inevitably you always choose the wrong
+
+785
+00:26:20,559 --> 00:26:24,240
+class. And if you do a direct approach,
+
+786
+00:26:22,559 --> 00:26:27,799
+you don't encounter that bias error. You
+
+787
+00:26:24,240 --> 00:26:27,799
+might get better policies.
+
+788
+00:26:28,080 --> 00:26:32,240
+So what people who classic do if I look
+
+789
+00:26:30,880 --> 00:26:34,559
+at my colleagues in reinforcement
+
+790
+00:26:32,240 --> 00:26:36,720
+learning um let's say let's estimate the
+
+791
+00:26:34,559 --> 00:26:38,159
+gradient with zero order methods
+
+792
+00:26:36,720 --> 00:26:40,240
+something as simple as let's use a
+
+793
+00:26:38,159 --> 00:26:42,240
+finite difference approximation pro left
+
+794
+00:26:40,240 --> 00:26:45,279
+probe it right take the difference
+
+795
+00:26:42,240 --> 00:26:47,120
+divided by two and there you go or you
+
+796
+00:26:45,279 --> 00:26:49,760
+know in higher dimensions you would
+
+797
+00:26:47,120 --> 00:26:52,080
+evaluate j of k plus a random direction
+
+798
+00:26:49,760 --> 00:26:54,640
+u sampled uniformly in you know with
+
+799
+00:26:52,080 --> 00:26:57,520
+some radius r uh compare two different
+
+800
+00:26:54,640 --> 00:26:58,640
+points and then go in the direction you
+
+801
+00:26:57,520 --> 00:27:00,480
+use. So this would be a directional
+
+802
+00:26:58,640 --> 00:27:02,960
+gradient and in expectation this will
+
+803
+00:27:00,480 --> 00:27:05,360
+recover actually a true gradient
+
+804
+00:27:02,960 --> 00:27:06,880
+and you that's sort of just a zero
+
+805
+00:27:05,360 --> 00:27:09,440
+optimization.
+
+806
+00:27:06,880 --> 00:27:11,120
+This works well in expectation. The
+
+807
+00:27:09,440 --> 00:27:12,799
+problem is following you have need to
+
+808
+00:27:11,120 --> 00:27:14,240
+take many samples because you don't
+
+809
+00:27:12,799 --> 00:27:16,480
+cannot take an expectation. You have to
+
+810
+00:27:14,240 --> 00:27:19,360
+average. But every time you want to
+
+811
+00:27:16,480 --> 00:27:20,960
+evaluate J of K. You know what is J of
+
+812
+00:27:19,360 --> 00:27:23,039
+K? It's the infinite horizon cost
+
+813
+00:27:20,960 --> 00:27:24,559
+function where you just need a long
+
+814
+00:27:23,039 --> 00:27:27,360
+enough trajectory to somewhat decently
+
+815
+00:27:24,559 --> 00:27:29,200
+evaluate that. Okay, so here's some of
+
+816
+00:27:27,360 --> 00:27:31,600
+the sample complexity estimates. Say we
+
+817
+00:27:29,200 --> 00:27:33,760
+have a fourth order system, just fourth
+
+818
+00:27:31,600 --> 00:27:36,240
+order. We want to get within 1% of
+
+819
+00:27:33,760 --> 00:27:38,159
+optimality. It turns if you want to get
+
+820
+00:27:36,240 --> 00:27:42,080
+there, you need in total like a 100
+
+821
+00:27:38,159 --> 00:27:44,799
+trajectories each of length 140,000. So
+
+822
+00:27:42,080 --> 00:27:47,679
+somewhere 10 to the 7 trajectories to
+
+823
+00:27:44,799 --> 00:27:49,679
+get to, you know, 1% optimality for a
+
+824
+00:27:47,679 --> 00:27:51,440
+fourth order system.
+
+825
+00:27:49,679 --> 00:27:54,000
+which somewhat kills this idea for me.
+
+826
+00:27:51,440 --> 00:27:56,720
+Why would you ever do you know blackbox
+
+827
+00:27:54,000 --> 00:27:58,159
+gradient descent? Okay. Um so you can do
+
+828
+00:27:56,720 --> 00:28:01,200
+it if you have a simulator and a lot of
+
+829
+00:27:58,159 --> 00:28:03,200
+time but it's not at all suited for any
+
+830
+00:28:01,200 --> 00:28:04,399
+sort of you know adaptive control
+
+831
+00:28:03,200 --> 00:28:05,760
+problem where you have to in real time
+
+832
+00:28:04,399 --> 00:28:07,440
+interact with the system. You cannot do
+
+833
+00:28:05,760 --> 00:28:10,559
+10^ the 7 times probing before you take
+
+834
+00:28:07,440 --> 00:28:13,520
+a step. That wouldn't fly. It's episodic
+
+835
+00:28:10,559 --> 00:28:15,200
+and more or less it's useless. Right? So
+
+836
+00:28:13,520 --> 00:28:19,440
+this idea of doing model free gradient
+
+837
+00:28:15,200 --> 00:28:21,919
+descent you cannot implement that.
+
+838
+00:28:19,440 --> 00:28:23,679
+Um so that's where you call this sample
+
+839
+00:28:21,919 --> 00:28:26,159
+coariance parameterization to rescue to
+
+840
+00:28:23,679 --> 00:28:28,159
+see can we actually compute the gradient
+
+841
+00:28:26,159 --> 00:28:29,840
+with only a single interaction with the
+
+842
+00:28:28,159 --> 00:28:32,840
+system. Can we also get the gradient
+
+843
+00:28:29,840 --> 00:28:32,840
+estimate
+
+844
+00:28:32,880 --> 00:28:37,039
+so
+
+845
+00:28:35,200 --> 00:28:39,120
+here's what I do again let me pull out
+
+846
+00:28:37,039 --> 00:28:40,960
+this equation that parameterizes the
+
+847
+00:28:39,120 --> 00:28:42,799
+problem. So I leave you know uncertainty
+
+848
+00:28:40,960 --> 00:28:45,039
+aside from now so there's no w I'll
+
+849
+00:28:42,799 --> 00:28:47,440
+bring it back in later. Let me just
+
+850
+00:28:45,039 --> 00:28:50,480
+explain to you the detistic case. So we
+
+851
+00:28:47,440 --> 00:28:52,720
+have our three data matrices X0 and X1
+
+852
+00:28:50,480 --> 00:28:54,320
+state and successor state and the input
+
+853
+00:28:52,720 --> 00:28:56,960
+time series. We know they're related by
+
+854
+00:28:54,320 --> 00:28:58,240
+this red box here.
+
+855
+00:28:56,960 --> 00:29:00,720
+Let me formulate the sort of the
+
+856
+00:28:58,240 --> 00:29:02,640
+empirical sample coariances. So let me
+
+857
+00:29:00,720 --> 00:29:04,320
+multiply data matrix time data matrix
+
+858
+00:29:02,640 --> 00:29:05,919
+transpose divided by the length of the
+
+859
+00:29:04,320 --> 00:29:08,159
+time series. This would be the state
+
+860
+00:29:05,919 --> 00:29:09,760
+input coariance. I'll call this one
+
+861
+00:29:08,159 --> 00:29:11,520
+lambda.
+
+862
+00:29:09,760 --> 00:29:14,399
+Let me also form the coariance with the
+
+863
+00:29:11,520 --> 00:29:16,880
+successor state. I call this one x1.
+
+864
+00:29:14,399 --> 00:29:19,520
+Okay. Now we just have two coariances
+
+865
+00:29:16,880 --> 00:29:22,640
+for um both the the state input and with
+
+866
+00:29:19,520 --> 00:29:25,039
+the successor state.
+
+867
+00:29:22,640 --> 00:29:26,799
+Um since the coariance matrix due to
+
+868
+00:29:25,039 --> 00:29:29,120
+posist exitation example is positive
+
+869
+00:29:26,799 --> 00:29:30,159
+definite I can use the coarian matrix to
+
+870
+00:29:29,120 --> 00:29:33,039
+perform a clever coordinate
+
+871
+00:29:30,159 --> 00:29:35,279
+transformation to go from policy space
+
+872
+00:29:33,039 --> 00:29:37,919
+to another space. In particular since
+
+873
+00:29:35,279 --> 00:29:40,080
+this matrix here is positive definite I
+
+874
+00:29:37,919 --> 00:29:41,600
+can rewrite a vector that contain or
+
+875
+00:29:40,080 --> 00:29:44,399
+matrix that contains k the unknown
+
+876
+00:29:41,600 --> 00:29:46,159
+policy and identity. uh formulate this
+
+877
+00:29:44,399 --> 00:29:48,799
+into another variable V. I just use this
+
+878
+00:29:46,159 --> 00:29:50,720
+coordinate transformation. Okay, yeah,
+
+879
+00:29:48,799 --> 00:29:54,399
+you can do this, but why why would you
+
+880
+00:29:50,720 --> 00:29:56,080
+do this? Why would you care?
+
+881
+00:29:54,399 --> 00:29:57,840
+So, here's like one line of a little bit
+
+882
+00:29:56,080 --> 00:30:00,080
+of linear algebra that maybe shows you
+
+883
+00:29:57,840 --> 00:30:01,360
+why you care about this.
+
+884
+00:30:00,080 --> 00:30:03,279
+What you're interested in if you want to
+
+885
+00:30:01,360 --> 00:30:05,360
+solve any sort of linear optimal control
+
+886
+00:30:03,279 --> 00:30:08,159
+problem, explicit feedback policies, you
+
+887
+00:30:05,360 --> 00:30:09,840
+want to know a plus bk because a plus bk
+
+888
+00:30:08,159 --> 00:30:11,679
+is the one thing that enters all of your
+
+889
+00:30:09,840 --> 00:30:13,600
+LMIS or recut equations. If you know how
+
+890
+00:30:11,679 --> 00:30:16,559
+to parameterize a plus bk, you're in
+
+891
+00:30:13,600 --> 00:30:18,640
+shape. So can we parameterize a plus bk
+
+892
+00:30:16,559 --> 00:30:20,159
+just by data?
+
+893
+00:30:18,640 --> 00:30:23,120
+So the way we do this, we write a plus
+
+894
+00:30:20,159 --> 00:30:25,440
+bk as b a ki. [snorts]
+
+895
+00:30:23,120 --> 00:30:29,679
+Now we pull out this green matrix. Okay,
+
+896
+00:30:25,440 --> 00:30:32,799
+b ki is our coariance matrix time v. So
+
+897
+00:30:29,679 --> 00:30:36,640
+that's going to new coordinates time v.
+
+898
+00:30:32,799 --> 00:30:38,399
+Now notice that here b * a time the
+
+899
+00:30:36,640 --> 00:30:39,760
+input and state time z. Oh, that's the
+
+900
+00:30:38,399 --> 00:30:41,840
+red box up here. That's the right hand
+
+901
+00:30:39,760 --> 00:30:43,919
+side of the red box.
+
+902
+00:30:41,840 --> 00:30:47,120
+So I use the red box and say oh this is
+
+903
+00:30:43,919 --> 00:30:50,159
+x1 my successor state time series times
+
+904
+00:30:47,120 --> 00:30:53,520
+my state input time series which again I
+
+905
+00:30:50,159 --> 00:30:55,120
+recognize as my successor coariance
+
+906
+00:30:53,520 --> 00:30:57,279
+and now I've written it in terms of the
+
+907
+00:30:55,120 --> 00:30:59,120
+successor coariance which all like cheap
+
+908
+00:30:57,279 --> 00:31:00,720
+linear algebra tricks and you wonder why
+
+909
+00:30:59,120 --> 00:31:02,720
+why the hell would you do this? The
+
+910
+00:31:00,720 --> 00:31:05,200
+takeaway is I can now take any sort of
+
+911
+00:31:02,720 --> 00:31:08,799
+modelbased control design formulation
+
+912
+00:31:05,200 --> 00:31:11,919
+and replace the A plus BK in my LMIS by
+
+913
+00:31:08,799 --> 00:31:14,080
+the expression above me. So I can take
+
+914
+00:31:11,919 --> 00:31:17,039
+any of my favorite formulations and
+
+915
+00:31:14,080 --> 00:31:21,360
+replace a plus bk by this successor
+
+916
+00:31:17,039 --> 00:31:24,000
+coariance time v and you know the green
+
+917
+00:31:21,360 --> 00:31:26,559
+equation here. I can do this for conman
+
+918
+00:31:24,000 --> 00:31:28,080
+filtering when I have a plus lc for h
+
+919
+00:31:26,559 --> 00:31:29,840
+infinity design lqr whatever you can
+
+920
+00:31:28,080 --> 00:31:32,080
+replace all of the lmis if you want by
+
+921
+00:31:29,840 --> 00:31:34,320
+that in in principle at least you still
+
+922
+00:31:32,080 --> 00:31:35,840
+have to solve them
+
+923
+00:31:34,320 --> 00:31:37,039
+um so there have been many people you
+
+924
+00:31:35,840 --> 00:31:38,559
+know exploring this coariance
+
+925
+00:31:37,039 --> 00:31:40,399
+printerization over many years and most
+
+926
+00:31:38,559 --> 00:31:42,480
+classic in stocastic realization theory
+
+927
+00:31:40,399 --> 00:31:45,200
+but also now more and more people look
+
+928
+00:31:42,480 --> 00:31:48,399
+into this um it seems like a clever
+
+929
+00:31:45,200 --> 00:31:52,080
+parameterization for these problems
+
+930
+00:31:48,399 --> 00:31:53,519
+so the idea for this coance I take my
+
+931
+00:31:52,080 --> 00:31:57,200
+formulation of the problem we have the a
+
+932
+00:31:53,519 --> 00:31:59,600
+plus bk and I replace a plus pk by this
+
+933
+00:31:57,200 --> 00:32:01,279
+successor coariance and my
+
+934
+00:31:59,600 --> 00:32:03,919
+reparameterization
+
+935
+00:32:01,279 --> 00:32:05,360
+and this is what it looks like okay so
+
+936
+00:32:03,919 --> 00:32:07,600
+now I have a problem that is formulated
+
+937
+00:32:05,360 --> 00:32:10,000
+only in terms of data matrices okay
+
+938
+00:32:07,600 --> 00:32:12,399
+there's no more a and b there's also no
+
+939
+00:32:10,000 --> 00:32:14,080
+more k I mean I could elim explicitly
+
+940
+00:32:12,399 --> 00:32:18,720
+eliminate k from these equations not
+
+941
+00:32:14,080 --> 00:32:20,480
+hard and now I optimize um over k the
+
+942
+00:32:18,720 --> 00:32:22,799
+coariant sigma as well as this new
+
+943
+00:32:20,480 --> 00:32:24,880
+variable v turns that this does not
+
+944
+00:32:22,799 --> 00:32:26,240
+change the problem class. I can still
+
+945
+00:32:24,880 --> 00:32:27,519
+easily convexify this with some
+
+946
+00:32:26,240 --> 00:32:28,640
+parameter changes and I can still go
+
+947
+00:32:27,519 --> 00:32:30,080
+down the gradient. I still have the
+
+948
+00:32:28,640 --> 00:32:31,919
+gradient dominance and then all of this
+
+949
+00:32:30,080 --> 00:32:34,480
+holds. It's just another
+
+950
+00:32:31,919 --> 00:32:36,159
+parameterization of the problem.
+
+951
+00:32:34,480 --> 00:32:38,799
+So it's really the same problem as
+
+952
+00:32:36,159 --> 00:32:40,480
+before now just written in V
+
+953
+00:32:38,799 --> 00:32:42,320
+coordinates. It's not anymore in policy
+
+954
+00:32:40,480 --> 00:32:43,919
+coordinates.
+
+955
+00:32:42,320 --> 00:32:45,039
+And sigma and K can be explicitly
+
+956
+00:32:43,919 --> 00:32:48,720
+eliminated. They just go down the
+
+957
+00:32:45,039 --> 00:32:50,159
+gradient in V. It turns out compared to
+
+958
+00:32:48,720 --> 00:32:51,600
+the previous foration, there's one thing
+
+959
+00:32:50,159 --> 00:32:52,799
+you had you have now that you didn't
+
+960
+00:32:51,600 --> 00:32:54,799
+have before, which is an equality
+
+961
+00:32:52,799 --> 00:32:56,320
+constraint. Meaning you have to project
+
+962
+00:32:54,799 --> 00:32:57,679
+a gradient on the equality constraint,
+
+963
+00:32:56,320 --> 00:32:59,360
+but that's just multiplying everything
+
+964
+00:32:57,679 --> 00:33:00,640
+by a matrix. You just product an
+
+965
+00:32:59,360 --> 00:33:02,320
+arranged space of that equality
+
+966
+00:33:00,640 --> 00:33:04,399
+constraint.
+
+967
+00:33:02,320 --> 00:33:07,760
+So now you just do gradient descent in
+
+968
+00:33:04,399 --> 00:33:09,120
+that new space V in the new variables
+
+969
+00:33:07,760 --> 00:33:11,200
+and the only thing you have to do extra
+
+970
+00:33:09,120 --> 00:33:12,880
+is project on that linear reparization.
+
+971
+00:33:11,200 --> 00:33:14,080
+So there's this pi a projection matrix
+
+972
+00:33:12,880 --> 00:33:16,159
+which just takes care of this
+
+973
+00:33:14,080 --> 00:33:17,200
+constraint.
+
+974
+00:33:16,159 --> 00:33:18,720
+You don't have to remember all the
+
+975
+00:33:17,200 --> 00:33:20,159
+details, all the formulas, just
+
+976
+00:33:18,720 --> 00:33:22,159
+takeaways. So you can parameterize
+
+977
+00:33:20,159 --> 00:33:23,679
+problem in terms of sample coariances
+
+978
+00:33:22,159 --> 00:33:27,159
+and do gradient descent on that sample
+
+979
+00:33:23,679 --> 00:33:27,159
+coarian space
+
+980
+00:33:27,360 --> 00:33:30,559
+and you know I can easily evaluate that
+
+981
+00:33:28,880 --> 00:33:33,039
+right I just have my sample coariance
+
+982
+00:33:30,559 --> 00:33:34,960
+from my data and I could now evaluate
+
+983
+00:33:33,039 --> 00:33:36,720
+you know solve this sort of leap
+
+984
+00:33:34,960 --> 00:33:39,519
+equation in that new space compute the
+
+985
+00:33:36,720 --> 00:33:42,000
+gradient actuate repeat and now taking
+
+986
+00:33:39,519 --> 00:33:43,840
+the same fourth order system as before I
+
+987
+00:33:42,000 --> 00:33:46,240
+can actually now solve this in the
+
+988
+00:33:43,840 --> 00:33:49,200
+deterministic case so no noise to global
+
+989
+00:33:46,240 --> 00:33:52,000
+optimality with six samples
+
+990
+00:33:49,200 --> 00:33:54,080
+not 10^ the 7 six right which is I guess
+
+991
+00:33:52,000 --> 00:33:57,440
+a big changer right so you go from 10^ 7
+
+992
+00:33:54,080 --> 00:33:59,440
+times sampling system to six times much
+
+993
+00:33:57,440 --> 00:34:00,960
+much cheaper none of this adaptive it's
+
+994
+00:33:59,440 --> 00:34:03,279
+not online I just take the data once
+
+995
+00:34:00,960 --> 00:34:05,840
+offline but that's enough to compute the
+
+996
+00:34:03,279 --> 00:34:08,560
+gradient descent which makes suddenly
+
+997
+00:34:05,840 --> 00:34:10,240
+this gradient descent in a direct way
+
+998
+00:34:08,560 --> 00:34:12,079
+very attractive right you don't have to
+
+999
+00:34:10,240 --> 00:34:13,760
+probe the system of zero mess to get a
+
+1000
+00:34:12,079 --> 00:34:15,280
+gradient view you just use the different
+
+1001
+00:34:13,760 --> 00:34:19,520
+parameterization and directly get a
+
+1002
+00:34:15,280 --> 00:34:19,520
+gradient out of it which makes it useful
+
+1003
+00:34:20,079 --> 00:34:24,639
+Good.
+
+1004
+00:34:21,919 --> 00:34:26,240
+Are there any questions so far?
+
+1005
+00:34:24,639 --> 00:34:27,599
+Yes.
+
+1006
+00:34:26,240 --> 00:34:31,599
+Please.
+
+1007
+00:34:27,599 --> 00:34:34,800
+>> Um, initially you uh explain displayed
+
+1008
+00:34:31,599 --> 00:34:36,159
+several things in a van diagram direct
+
+1009
+00:34:34,800 --> 00:34:38,879
+and direct
+
+1010
+00:34:36,159 --> 00:34:40,720
+>> and also uh yeah sorry I don't quite
+
+1011
+00:34:38,879 --> 00:34:42,879
+remember but it was in the slides.
+
+1012
+00:34:40,720 --> 00:34:45,760
+>> I was wondering if some of them might be
+
+1013
+00:34:42,879 --> 00:34:48,399
+might be gradients. Um
+
+1014
+00:34:45,760 --> 00:34:50,560
+>> for example from my understanding direct
+
+1015
+00:34:48,399 --> 00:34:51,679
+would be a human figuring out an
+
+1016
+00:34:50,560 --> 00:34:52,720
+algorithm
+
+1017
+00:34:51,679 --> 00:34:53,040
+>> to implement.
+
+1018
+00:34:52,720 --> 00:34:55,440
+>> Y
+
+1019
+00:34:53,040 --> 00:34:57,680
+>> while the indirect is the more the
+
+1020
+00:34:55,440 --> 00:34:58,880
+machine having to to adapt itself to
+
+1021
+00:34:57,680 --> 00:34:59,680
+reality.
+
+1022
+00:34:58,880 --> 00:35:02,480
+>> Mhm.
+
+1023
+00:34:59,680 --> 00:35:04,720
+>> And for for example that could be a
+
+1024
+00:35:02,480 --> 00:35:07,200
+gradient of human in the loop. So it
+
+1025
+00:35:04,720 --> 00:35:09,040
+might not be yes or wrong but there's
+
+1026
+00:35:07,200 --> 00:35:10,400
+different scenarios where one is more
+
+1027
+00:35:09,040 --> 00:35:12,960
+fitting
+
+1028
+00:35:10,400 --> 00:35:16,960
+>> as well as soft and hard logic.
+
+1029
+00:35:12,960 --> 00:35:19,040
+>> Mhm. uh and also the time context
+
+1030
+00:35:16,960 --> 00:35:20,400
+windows like offline and online that's a
+
+1031
+00:35:19,040 --> 00:35:21,920
+yes or a no
+
+1032
+00:35:20,400 --> 00:35:23,520
+>> but perhaps you could look at it as
+
+1033
+00:35:21,920 --> 00:35:25,760
+sometimes we need longer context
+
+1034
+00:35:23,520 --> 00:35:27,440
+sometime we need shorter context
+
+1035
+00:35:25,760 --> 00:35:29,599
+>> so I was just I was just wondering to
+
+1036
+00:35:27,440 --> 00:35:31,280
+hear to hear your opinion about you know
+
+1037
+00:35:29,599 --> 00:35:33,599
+these as readings
+
+1038
+00:35:31,280 --> 00:35:35,040
+>> sure so the the goal I'm after would be
+
+1039
+00:35:33,599 --> 00:35:37,520
+now maybe to answer the last question
+
+1040
+00:35:35,040 --> 00:35:39,760
+first would be I would like to update my
+
+1041
+00:35:37,520 --> 00:35:41,599
+policy every time I do it and there's
+
+1042
+00:35:39,760 --> 00:35:43,680
+many paths I can do it through models or
+
+1043
+00:35:41,599 --> 00:35:45,839
+through coariance matrices possible.
+
+1044
+00:35:43,680 --> 00:35:47,040
+>> Yeah. And but you could argue is that
+
+1045
+00:35:45,839 --> 00:35:47,680
+the best thing? Should you update all
+
+1046
+00:35:47,040 --> 00:35:48,640
+the time
+
+1047
+00:35:47,680 --> 00:35:50,720
+>> or should you have some sort of
+
+1048
+00:35:48,640 --> 00:35:52,480
+information criterion such as when
+
+1049
+00:35:50,720 --> 00:35:54,720
+variance is high then you update your
+
+1050
+00:35:52,480 --> 00:35:56,480
+policy? Um I don't have the answer. It
+
+1051
+00:35:54,720 --> 00:35:58,320
+turns empirically it's not best to
+
+1052
+00:35:56,480 --> 00:36:00,320
+always update every time but to wait
+
+1053
+00:35:58,320 --> 00:36:01,040
+until you collected enough information.
+
+1054
+00:36:00,320 --> 00:36:02,640
+>> Yeah, it seems
+
+1055
+00:36:01,040 --> 00:36:04,480
+>> in some sort of event triggered fashion.
+
+1056
+00:36:02,640 --> 00:36:06,880
+>> That's a problem of like how adaptive do
+
+1057
+00:36:04,480 --> 00:36:09,520
+you need to be? And if you could get AI
+
+1058
+00:36:06,880 --> 00:36:11,680
+to decide when to be more adaptive, more
+
+1059
+00:36:09,520 --> 00:36:13,119
+with more entropy and more chaotic, we
+
+1060
+00:36:11,680 --> 00:36:14,640
+kind of give up. we say okay it's pretty
+
+1061
+00:36:13,119 --> 00:36:17,200
+chaotic this problem we want to be very
+
+1062
+00:36:14,640 --> 00:36:19,599
+adaptive or if the AI can identify this
+
+1063
+00:36:17,200 --> 00:36:21,440
+as a direct solution that it can do some
+
+1064
+00:36:19,599 --> 00:36:23,520
+transformation to the near space get an
+
+1065
+00:36:21,440 --> 00:36:24,640
+accurate prediction and we can ensure
+
+1066
+00:36:23,520 --> 00:36:26,720
+stability
+
+1067
+00:36:24,640 --> 00:36:28,960
+>> so there's kind of this meta problem of
+
+1068
+00:36:26,720 --> 00:36:31,040
+what of how adaptive do we need to be
+
+1069
+00:36:28,960 --> 00:36:32,560
+>> yes uh I I fully agree I do not have an
+
+1070
+00:36:31,040 --> 00:36:35,359
+answer for that but we also recognize
+
+1071
+00:36:32,560 --> 00:36:37,359
+this you know you can adapt every time
+
+1072
+00:36:35,359 --> 00:36:38,720
+but is this the best thing to do it
+
+1073
+00:36:37,359 --> 00:36:40,400
+turns out in adaptive control people
+
+1074
+00:36:38,720 --> 00:36:42,400
+worked out these solutions of adapting
+
+1075
+00:36:40,400 --> 00:36:44,160
+continuously more historically because
+
+1076
+00:36:42,400 --> 00:36:46,079
+adaptive control came out of nonlinear
+
+1077
+00:36:44,160 --> 00:36:47,520
+control but also people have worked it
+
+1078
+00:36:46,079 --> 00:36:49,599
+out sort of an event triggered fashion
+
+1079
+00:36:47,520 --> 00:36:51,040
+like you adapt only if state exceeds a
+
+1080
+00:36:49,599 --> 00:36:53,200
+bound or only if you know variance
+
+1081
+00:36:51,040 --> 00:36:55,200
+exceed a bound or these type of things
+
+1082
+00:36:53,200 --> 00:36:58,079
+I've not seen any statement about what's
+
+1083
+00:36:55,200 --> 00:36:59,280
+the optimal adaptation rate uh but
+
+1084
+00:36:58,079 --> 00:37:01,200
+that's definitely a very important
+
+1085
+00:36:59,280 --> 00:37:03,200
+question to ask
+
+1086
+00:37:01,200 --> 00:37:04,960
+>> yes yes how often should you adapt uh
+
+1087
+00:37:03,200 --> 00:37:06,720
+but I've not I mean I've seen many
+
+1088
+00:37:04,960 --> 00:37:07,920
+results but nobody said this is the rate
+
+1089
+00:37:06,720 --> 00:37:08,640
+at which you should adapt it
+
+1090
+00:37:07,920 --> 00:37:10,640
+>> interesting
+
+1091
+00:37:08,640 --> 00:37:13,280
+>> yeah
+
+1092
+00:37:10,640 --> 00:37:15,440
+um Maybe here first from left to right
+
+1093
+00:37:13,280 --> 00:37:19,920
+>> do we need any assumption on the on the
+
+1094
+00:37:15,440 --> 00:37:21,760
+X and U data so for the youance
+
+1095
+00:37:19,920 --> 00:37:24,160
+information do we need to assume that
+
+1096
+00:37:21,760 --> 00:37:27,200
+like those extend what is coming from
+
+1097
+00:37:24,160 --> 00:37:29,599
+the exact K or
+
+1098
+00:37:27,200 --> 00:37:30,880
+>> yes so uh normally if you do adaptive
+
+1099
+00:37:29,599 --> 00:37:33,359
+control the the big question is
+
+1100
+00:37:30,880 --> 00:37:35,119
+posessive exitation uh which means
+
+1101
+00:37:33,359 --> 00:37:37,839
+plainly is this matrix invertible is it
+
+1102
+00:37:35,119 --> 00:37:41,200
+positive definite here I take a big side
+
+1103
+00:37:37,839 --> 00:37:42,640
+step in terms I assume it I I could of
+
+1104
+00:37:41,200 --> 00:37:44,000
+course try to satisfy it by always
+
+1105
+00:37:42,640 --> 00:37:45,680
+injecting noise in the problem
+
+1106
+00:37:44,000 --> 00:37:48,320
+persistently exciting and I have always
+
+1107
+00:37:45,680 --> 00:37:50,000
+full rank and I can always invert it. uh
+
+1108
+00:37:48,320 --> 00:37:51,760
+how do you solve if you do not want to
+
+1109
+00:37:50,000 --> 00:37:53,200
+inject noise which again in
+
+1110
+00:37:51,760 --> 00:37:54,880
+reinforcement learning people do not
+
+1111
+00:37:53,200 --> 00:37:56,400
+inject noise they would say let's
+
+1112
+00:37:54,880 --> 00:37:59,119
+explore let's go in the direction of
+
+1113
+00:37:56,400 --> 00:38:00,560
+maximum variance um here just make an
+
+1114
+00:37:59,119 --> 00:38:03,119
+assumption it is invertible his full
+
+1115
+00:38:00,560 --> 00:38:03,359
+rank but how you assure that separate
+
+1116
+00:38:03,119 --> 00:38:05,280
+yeah
+
+1117
+00:38:03,359 --> 00:38:10,079
+>> as long as you have the full rank the
+
+1118
+00:38:05,280 --> 00:38:11,040
+the um the the co then you can always
+
+1119
+00:38:10,079 --> 00:38:13,040
+apply these two
+
+1120
+00:38:11,040 --> 00:38:14,320
+>> yes correct but full rank is a necessary
+
+1121
+00:38:13,040 --> 00:38:16,800
+condition for almost everything you want
+
+1122
+00:38:14,320 --> 00:38:18,880
+to do yeah Ali
+
+1123
+00:38:16,800 --> 00:38:21,040
+>> this reminds reminds me a bit and maybe
+
+1124
+00:38:18,880 --> 00:38:23,119
+I I got the timing of the results wrong
+
+1125
+00:38:21,040 --> 00:38:25,359
+but can you comment on how this relates
+
+1126
+00:38:23,119 --> 00:38:28,560
+to the work of Deep Perses and Tessy?
+
+1127
+00:38:25,359 --> 00:38:30,160
+>> Yes, absolutely. Um it actually is fully
+
+1128
+00:38:28,560 --> 00:38:31,040
+derived from them. So I I skipped that
+
+1129
+00:38:30,160 --> 00:38:32,079
+but it would have been here in the
+
+1130
+00:38:31,040 --> 00:38:32,720
+bottom of the slide.
+
+1131
+00:38:32,079 --> 00:38:36,000
+>> Okay.
+
+1132
+00:38:32,720 --> 00:38:38,160
+>> So the Persus and Ty they work with just
+
+1133
+00:38:36,000 --> 00:38:40,160
+the data matrices. They did not take the
+
+1134
+00:38:38,160 --> 00:38:42,079
+coariance. The problem with working with
+
+1135
+00:38:40,160 --> 00:38:44,000
+data matrices they grow over time. They
+
+1136
+00:38:42,079 --> 00:38:46,560
+become longer and longer and longer. So
+
+1137
+00:38:44,000 --> 00:38:48,480
+it's not like the right data format that
+
+1138
+00:38:46,560 --> 00:38:50,640
+you want to use whereas the coariance
+
+1139
+00:38:48,480 --> 00:38:52,960
+matrix always stays square and you can
+
+1140
+00:38:50,640 --> 00:38:54,960
+do cheap rank one updates and so on. But
+
+1141
+00:38:52,960 --> 00:38:55,520
+in principle it's the very same tricks
+
+1142
+00:38:54,960 --> 00:38:57,359
+just applied
+
+1143
+00:38:55,520 --> 00:38:58,560
+>> you still get a convex optimization.
+
+1144
+00:38:57,359 --> 00:39:00,480
+>> Yes policy
+
+1145
+00:38:58,560 --> 00:39:01,920
+>> correct? Yes. But it's very much just
+
+1146
+00:39:00,480 --> 00:39:04,320
+taking their formulation and writing it
+
+1147
+00:39:01,920 --> 00:39:06,160
+in this coarian space.
+
+1148
+00:39:04,320 --> 00:39:09,200
+Yes.
+
+1149
+00:39:06,160 --> 00:39:11,599
+Is there a case star the unique minimum
+
+1150
+00:39:09,200 --> 00:39:12,880
+of your
+
+1151
+00:39:11,599 --> 00:39:14,880
+first function or not?
+
+1152
+00:39:12,880 --> 00:39:16,560
+>> Yes, in this case there would be a con
+
+1153
+00:39:14,880 --> 00:39:18,320
+unique minimum
+
+1154
+00:39:16,560 --> 00:39:19,599
+>> for the LQR problem. It turns out when
+
+1155
+00:39:18,320 --> 00:39:22,000
+you go to other problem formulation like
+
+1156
+00:39:19,599 --> 00:39:23,359
+LQG or H infinity this unique minimum
+
+1157
+00:39:22,000 --> 00:39:26,800
+would not exist anymore
+
+1158
+00:39:23,359 --> 00:39:28,720
+>> and you say this works only.
+
+1159
+00:39:26,800 --> 00:39:30,320
+>> Yes, people showed a necessary condition
+
+1160
+00:39:28,720 --> 00:39:31,680
+for solving the LQR problem is
+
+1161
+00:39:30,320 --> 00:39:33,599
+persistive exitation
+
+1162
+00:39:31,680 --> 00:39:35,119
+>> and in that case you don't the whole
+
+1163
+00:39:33,599 --> 00:39:36,800
+thing. What was the question?
+
+1164
+00:39:35,119 --> 00:39:39,599
+>> In that case, you have a stability proof
+
+1165
+00:39:36,800 --> 00:39:41,359
+of the the whole algorithm. So,
+
+1166
+00:39:39,599 --> 00:39:43,119
+>> yes, it will come later. So, this is now
+
+1167
+00:39:41,359 --> 00:39:45,280
+a statement only about this algorithm
+
+1168
+00:39:43,119 --> 00:39:47,839
+converges. But I did not talk about what
+
+1169
+00:39:45,280 --> 00:39:48,960
+happens in closed loop.
+
+1170
+00:39:47,839 --> 00:39:51,440
+>> Yeah.
+
+1171
+00:39:48,960 --> 00:39:54,480
+>> When you were talking about results and
+
+1172
+00:39:51,440 --> 00:39:57,119
+you mentioned the abundance of the hash
+
+1173
+00:39:54,480 --> 00:39:58,800
+uh I think globally I I I think it
+
+1174
+00:39:57,119 --> 00:40:01,280
+completely forced in this condition
+
+1175
+00:39:58,800 --> 00:40:04,000
+because if you have a climate
+
+1176
+00:40:01,280 --> 00:40:05,280
+needs to expose to it, right? I
+
+1177
+00:40:04,000 --> 00:40:07,359
+understand it doesn't matter because
+
+1178
+00:40:05,280 --> 00:40:09,440
+within the level sets sure is bounded
+
+1179
+00:40:07,359 --> 00:40:13,040
+and then
+
+1180
+00:40:09,440 --> 00:40:15,359
+correct because I also have an adaptive
+
+1181
+00:40:13,040 --> 00:40:17,520
+scenario that boundary moves and it
+
+1182
+00:40:15,359 --> 00:40:18,880
+might approach and put within a place
+
+1183
+00:40:17,520 --> 00:40:22,320
+where you have a fix and spread
+
+1184
+00:40:18,880 --> 00:40:24,640
+gradient. Yes, you're unstable.
+
+1185
+00:40:22,320 --> 00:40:26,079
+>> Yes. Um fully agree two comments.
+
+1186
+00:40:24,640 --> 00:40:27,839
+Formally speaking, everything depends on
+
+1187
+00:40:26,079 --> 00:40:29,119
+the initial condition. like the bound on
+
+1188
+00:40:27,839 --> 00:40:31,760
+the derivative depends on the initial
+
+1189
+00:40:29,119 --> 00:40:33,839
+condition and this is all just for LTI
+
+1190
+00:40:31,760 --> 00:40:35,920
+which is the cheap solution where you
+
+1191
+00:40:33,839 --> 00:40:37,359
+would have an LTV problem you know
+
+1192
+00:40:35,920 --> 00:40:39,440
+further complications come in like this
+
+1193
+00:40:37,359 --> 00:40:40,800
+boundary is moving and
+
+1194
+00:40:39,440 --> 00:40:42,880
+>> you think this could be something as
+
+1195
+00:40:40,800 --> 00:40:47,440
+simple as a various steps size reading
+
+1196
+00:40:42,880 --> 00:40:51,040
+set or that if I did my step size the
+
+1197
+00:40:47,440 --> 00:40:52,400
+hashing point but I'm point
+
+1198
+00:40:51,040 --> 00:40:53,760
+>> it turns out that's what you have to do
+
+1199
+00:40:52,400 --> 00:40:55,839
+at least in the LTI case you have to
+
+1200
+00:40:53,760 --> 00:40:57,839
+adapt your step size to yeah the the
+
+1201
+00:40:55,839 --> 00:40:59,200
+curvature of the cost function and if
+
+1202
+00:40:57,839 --> 00:41:01,760
+it's time varying if you have some up
+
+1203
+00:40:59,200 --> 00:41:04,000
+priority uniform bounds on how curved it
+
+1204
+00:41:01,760 --> 00:41:04,880
+is you could do this yeah
+
+1205
+00:41:04,000 --> 00:41:06,560
+>> yes
+
+1206
+00:41:04,880 --> 00:41:09,839
+>> yeah
+
+1207
+00:41:06,560 --> 00:41:11,839
+to the what kind of adaptivity we need
+
+1208
+00:41:09,839 --> 00:41:13,520
+>> so in some sense if we are convinced
+
+1209
+00:41:11,839 --> 00:41:16,880
+that the offline version of the
+
+1210
+00:41:13,520 --> 00:41:20,480
+algorithm in our case uh first identify
+
+1211
+00:41:16,880 --> 00:41:22,480
+system and then do MQR control stuff is
+
+1212
+00:41:20,480 --> 00:41:25,520
+optimal given a certain data set
+
+1213
+00:41:22,480 --> 00:41:27,680
+>> the optimal or the ideal Perfect
+
+1214
+00:41:25,520 --> 00:41:30,000
+algorithm would be I run this offline
+
+1215
+00:41:27,680 --> 00:41:32,160
+version every time I get new data right
+
+1216
+00:41:30,000 --> 00:41:33,920
+>> but it's in feasible because some
+
+1217
+00:41:32,160 --> 00:41:36,079
+practical reason says computition are
+
+1218
+00:41:33,920 --> 00:41:37,920
+too expensive to do that time and it's
+
+1219
+00:41:36,079 --> 00:41:40,720
+not feasible so I have to
+
+1220
+00:41:37,920 --> 00:41:43,920
+>> find an approximation of this version
+
+1221
+00:41:40,720 --> 00:41:45,440
+with adaptive more adaptive version that
+
+1222
+00:41:43,920 --> 00:41:47,920
+I can actually run at each
+
+1223
+00:41:45,440 --> 00:41:49,680
+>> sure time so do I have a comparison
+
+1224
+00:41:47,920 --> 00:41:51,520
+between
+
+1225
+00:41:49,680 --> 00:41:54,160
+>> this method the method they are
+
+1226
+00:41:51,520 --> 00:41:57,440
+presenting and the ideal case where for
+
+1227
+00:41:54,160 --> 00:41:59,440
+10 but I can solve the offline version.
+
+1228
+00:41:57,440 --> 00:42:01,599
+>> So three comments I have some plots on
+
+1229
+00:41:59,440 --> 00:42:04,319
+the later but maybe three comments. One
+
+1230
+00:42:01,599 --> 00:42:05,839
+is solving an least square problem and
+
+1231
+00:42:04,319 --> 00:42:07,839
+solving the LQR problem at any point in
+
+1232
+00:42:05,839 --> 00:42:09,760
+time is actually rate optimal in terms
+
+1233
+00:42:07,839 --> 00:42:11,920
+of regret. I guess Maximovich proved
+
+1234
+00:42:09,760 --> 00:42:13,760
+that. So it is optimal however in
+
+1235
+00:42:11,920 --> 00:42:15,920
+practice it doesn't work. The reason
+
+1236
+00:42:13,760 --> 00:42:18,079
+being if your data is noisy the
+
+1237
+00:42:15,920 --> 00:42:19,920
+minimizer of some noisy cost function
+
+1238
+00:42:18,079 --> 00:42:21,839
+you know goes around. So every time you
+
+1239
+00:42:19,920 --> 00:42:23,599
+get a different minimizer, whereas the
+
+1240
+00:42:21,839 --> 00:42:25,440
+gradient direction doesn't care much
+
+1241
+00:42:23,599 --> 00:42:28,480
+about the noise. It's much less
+
+1242
+00:42:25,440 --> 00:42:30,880
+sensitive. So with noisy data, you just
+
+1243
+00:42:28,480 --> 00:42:32,720
+go downhill. But if I jump directly to
+
+1244
+00:42:30,880 --> 00:42:35,119
+the minimizer, it jumps around, right?
+
+1245
+00:42:32,720 --> 00:42:37,359
+And then you get like quite zigzaggy
+
+1246
+00:42:35,119 --> 00:42:39,440
+curves. So it longs to show the
+
+1247
+00:42:37,359 --> 00:42:41,119
+greatness more robust direction. Just
+
+1248
+00:42:39,440 --> 00:42:43,200
+like in other control problems, say you
+
+1249
+00:42:41,119 --> 00:42:44,800
+want to go down a leapna function, you
+
+1250
+00:42:43,200 --> 00:42:47,280
+don't jump to the minimum. You just say
+
+1251
+00:42:44,800 --> 00:42:48,800
+go down minus gpose gradient v or
+
+1252
+00:42:47,280 --> 00:42:50,960
+something like that, right? because that
+
+1253
+00:42:48,800 --> 00:42:53,119
+descent direction is a robust one. It's
+
+1254
+00:42:50,960 --> 00:42:55,359
+insensitive to uncertainty or noise or
+
+1255
+00:42:53,119 --> 00:42:56,960
+whatsoever. So while you know
+
+1256
+00:42:55,359 --> 00:42:58,319
+theoretically it's optimal to solve the
+
+1257
+00:42:56,960 --> 00:43:02,319
+problem at any point in time in practice
+
+1258
+00:42:58,319 --> 00:43:05,319
+it doesn't work quite well.
+
+1259
+00:43:02,319 --> 00:43:05,319
+>> Yes.
+
+1260
+00:43:10,720 --> 00:43:14,319
+>> Yes. I I will comment on that later. But
+
+1261
+00:43:12,800 --> 00:43:16,319
+if you had no noise in the problem, all
+
+1262
+00:43:14,319 --> 00:43:18,400
+of these equations would break apart
+
+1263
+00:43:16,319 --> 00:43:20,000
+because this unknown additive noise
+
+1264
+00:43:18,400 --> 00:43:21,680
+would destroy all these nice subspace
+
+1265
+00:43:20,000 --> 00:43:23,440
+relation. The way we will deal with
+
+1266
+00:43:21,680 --> 00:43:26,480
+that, we sort of robustify ourselves to
+
+1267
+00:43:23,440 --> 00:43:27,440
+noise up a posteriority.
+
+1268
+00:43:26,480 --> 00:43:30,000
+>> Yes.
+
+1269
+00:43:27,440 --> 00:43:32,560
+>> Going back to assumptions and sort of
+
+1270
+00:43:30,000 --> 00:43:35,200
+initial results we showed on policing
+
+1271
+00:43:32,560 --> 00:43:37,040
+gradient you there was a requirement for
+
+1272
+00:43:35,200 --> 00:43:39,200
+an initial stabilizing control that
+
+1273
+00:43:37,040 --> 00:43:41,440
+required that the dirt rate data was
+
+1274
+00:43:39,200 --> 00:43:43,599
+small. So I guess the first question is
+
+1275
+00:43:41,440 --> 00:43:44,160
+how small is is small for the learning
+
+1276
+00:43:43,599 --> 00:43:45,920
+rate
+
+1277
+00:43:44,160 --> 00:43:49,119
+>> and the second question is do those
+
+1278
+00:43:45,920 --> 00:43:50,960
+assumptions apply also the sample.
+
+1279
+00:43:49,119 --> 00:43:53,599
+>> Sure. Um yes you need an initial
+
+1280
+00:43:50,960 --> 00:43:55,119
+stabilizing policy. Uh actually most of
+
+1281
+00:43:53,599 --> 00:43:56,480
+these algorithms would need an initial
+
+1282
+00:43:55,119 --> 00:43:58,319
+stabilizing policy. I think there's a
+
+1283
+00:43:56,480 --> 00:44:00,000
+few like uh value function iteration. We
+
+1284
+00:43:58,319 --> 00:44:02,960
+could start anywhere but most of them
+
+1285
+00:44:00,000 --> 00:44:04,160
+don't need that. Um how big is the steps
+
+1286
+00:44:02,960 --> 00:44:05,440
+allowed to be? It's just the standard
+
+1287
+00:44:04,160 --> 00:44:06,960
+rule from the gradient centers. You
+
+1288
+00:44:05,440 --> 00:44:09,680
+don't want to jump on the other minimum.
+
+1289
+00:44:06,960 --> 00:44:11,440
+So it depends on the hashen matrix on
+
+1290
+00:44:09,680 --> 00:44:14,920
+the lipous constant of the gradient. So
+
+1291
+00:44:11,440 --> 00:44:14,920
+that's yeah
+
+1292
+00:44:16,560 --> 00:44:20,880
+okay so we can also do gradient descent
+
+1293
+00:44:18,800 --> 00:44:23,599
+in these new coariance coordinates and
+
+1294
+00:44:20,880 --> 00:44:26,240
+we get away essentially without doing it
+
+1295
+00:44:23,599 --> 00:44:28,800
+knowing the model for that just some
+
+1296
+00:44:26,240 --> 00:44:31,839
+statements on that. Um
+
+1297
+00:44:28,800 --> 00:44:34,000
+so fact one you can do this polic
+
+1298
+00:44:31,839 --> 00:44:36,319
+descent in the coariance coordinates and
+
+1299
+00:44:34,000 --> 00:44:38,400
+if you translate the algorithm back into
+
+1300
+00:44:36,319 --> 00:44:40,560
+modelbased coordinates just for um let
+
+1301
+00:44:38,400 --> 00:44:42,880
+me say intuition it turns that you get
+
+1302
+00:44:40,560 --> 00:44:44,240
+again some sort of pre-scaled gradient
+
+1303
+00:44:42,880 --> 00:44:46,640
+where the gradient would now be
+
+1304
+00:44:44,240 --> 00:44:48,160
+pre-scaled by some data matrices as well
+
+1305
+00:44:46,640 --> 00:44:49,920
+as a projection of parameterization
+
+1306
+00:44:48,160 --> 00:44:51,520
+constraint but you know that's more for
+
+1307
+00:44:49,920 --> 00:44:52,800
+intuition essentially it's a scaled
+
+1308
+00:44:51,520 --> 00:44:55,680
+version of gradient descent if you do it
+
+1309
+00:44:52,800 --> 00:44:58,000
+in this coariance coordinates
+
+1310
+00:44:55,680 --> 00:45:00,079
+second fact which I is in theory is well
+
+1311
+00:44:58,000 --> 00:45:02,400
+known but it would take quite some time
+
+1312
+00:45:00,079 --> 00:45:04,319
+to prove it is if you do the now the
+
+1313
+00:45:02,400 --> 00:45:06,400
+natural gradient descent this is
+
+1314
+00:45:04,319 --> 00:45:07,599
+coordinate invariant that if you do
+
+1315
+00:45:06,400 --> 00:45:09,280
+natural gradient descent so you do
+
+1316
+00:45:07,599 --> 00:45:11,839
+gradient descent premultiplied by sort
+
+1317
+00:45:09,280 --> 00:45:13,440
+of inverse variance then you get the
+
+1318
+00:45:11,839 --> 00:45:15,680
+same natural gradient descent as in the
+
+1319
+00:45:13,440 --> 00:45:17,359
+modelbased coordinates
+
+1320
+00:45:15,680 --> 00:45:18,960
+um so it's invariant with that long
+
+1321
+00:45:17,359 --> 00:45:20,720
+story short why are these two effects
+
+1322
+00:45:18,960 --> 00:45:22,160
+interesting because you just recycle all
+
+1323
+00:45:20,720 --> 00:45:24,720
+the proofs from the modelbased case and
+
+1324
+00:45:22,160 --> 00:45:27,599
+apply them one to one here so it's a big
+
+1325
+00:45:24,720 --> 00:45:30,319
+shortcut for proving
+
+1326
+00:45:27,599 --> 00:45:32,160
+translate that for transformation into
+
+1327
+00:45:30,319 --> 00:45:33,520
+English.
+
+1328
+00:45:32,160 --> 00:45:35,200
+>> Um,
+
+1329
+00:45:33,520 --> 00:45:38,480
+>> what does it do?
+
+1330
+00:45:35,200 --> 00:45:40,240
+>> What does it do? Um, so it turns out if
+
+1331
+00:45:38,480 --> 00:45:42,720
+you if yeah, if I would just take my
+
+1332
+00:45:40,240 --> 00:45:45,040
+gradient descent in,
+
+1333
+00:45:42,720 --> 00:45:47,359
+you know, in these coordinates
+
+1334
+00:45:45,040 --> 00:45:49,359
+and I translate this just, you know,
+
+1335
+00:45:47,359 --> 00:45:52,400
+with this green box into the K
+
+1336
+00:45:49,359 --> 00:45:53,920
+coordinates, this is what it looks like.
+
+1337
+00:45:52,400 --> 00:45:54,880
+meaning you don't just go down the
+
+1338
+00:45:53,920 --> 00:45:56,800
+gradient but the gradient is
+
+1339
+00:45:54,880 --> 00:45:59,760
+premultiplied by some scaling matrix
+
+1340
+00:45:56,800 --> 00:46:01,280
+depends on data. If instead I would do
+
+1341
+00:45:59,760 --> 00:46:02,800
+here what is called natural gradient
+
+1342
+00:46:01,280 --> 00:46:05,359
+descent that is a premultiply the
+
+1343
+00:46:02,800 --> 00:46:07,200
+gradient by the inverse coariance I get
+
+1344
+00:46:05,359 --> 00:46:09,440
+the same gradient descent as in k
+
+1345
+00:46:07,200 --> 00:46:12,000
+coordinates things don't change so you
+
+1346
+00:46:09,440 --> 00:46:13,760
+don't get this pre-scaling
+
+1347
+00:46:12,000 --> 00:46:14,960
+and again we use this mostly as a crux
+
+1348
+00:46:13,760 --> 00:46:16,240
+that we don't have to write the proofs
+
+1349
+00:46:14,960 --> 00:46:19,040
+again so we can use the old proofs and
+
+1350
+00:46:16,240 --> 00:46:20,480
+apply them here
+
+1351
+00:46:19,040 --> 00:46:22,560
+and you get all the desired properties
+
+1352
+00:46:20,480 --> 00:46:24,160
+of course
+
+1353
+00:46:22,560 --> 00:46:26,000
+now I want to go back to your question
+
+1354
+00:46:24,160 --> 00:46:28,400
+here you said what do you do with noise
+
+1355
+00:46:26,000 --> 00:46:30,720
+right uh so when you have noise in the
+
+1356
+00:46:28,400 --> 00:46:32,800
+these nice coariance coordinates look
+
+1357
+00:46:30,720 --> 00:46:35,440
+different. So if you were to you know
+
+1358
+00:46:32,800 --> 00:46:37,839
+repeat all these tricks here that I
+
+1359
+00:46:35,440 --> 00:46:39,440
+showed you that is how do I go from you
+
+1360
+00:46:37,839 --> 00:46:40,480
+know the a plus bk into a new
+
+1361
+00:46:39,440 --> 00:46:41,839
+formulation that just depends on
+
+1362
+00:46:40,480 --> 00:46:43,920
+coariance coordinates and now there will
+
+1363
+00:46:41,839 --> 00:46:46,560
+be a noise here like plus w that you
+
+1364
+00:46:43,920 --> 00:46:49,200
+don't know but it turns out your a plus
+
+1365
+00:46:46,560 --> 00:46:51,680
+bk is not the successor coariance time v
+
+1366
+00:46:49,200 --> 00:46:54,240
+it will be something different
+
+1367
+00:46:51,680 --> 00:46:56,960
+it will be so when you have your noise
+
+1368
+00:46:54,240 --> 00:46:59,119
+it will be the successor coariance minus
+
+1369
+00:46:56,960 --> 00:47:00,640
+some matrix depends on noise time v
+
+1370
+00:46:59,119 --> 00:47:03,040
+where this matrix sort of your your
+
+1371
+00:47:00,640 --> 00:47:05,440
+Third effect it's the coariance between
+
+1372
+00:47:03,040 --> 00:47:09,119
+noise state input which you don't know
+
+1373
+00:47:05,440 --> 00:47:10,480
+right so you don't know now the the
+
+1374
+00:47:09,119 --> 00:47:12,480
+problem you should really be solving is
+
+1375
+00:47:10,480 --> 00:47:14,240
+the one that is in red here right but
+
+1376
+00:47:12,480 --> 00:47:17,119
+you don't know the disturbance right so
+
+1377
+00:47:14,240 --> 00:47:18,720
+that's a little bit idealized
+
+1378
+00:47:17,119 --> 00:47:20,160
+um one thing we learned from the
+
+1379
+00:47:18,720 --> 00:47:22,560
+datadriven control literature over the
+
+1380
+00:47:20,160 --> 00:47:24,160
+last six seven years is that you know
+
+1381
+00:47:22,560 --> 00:47:25,359
+when you solve the idealized problem and
+
+1382
+00:47:24,160 --> 00:47:27,920
+then you want to apply to the noisy
+
+1383
+00:47:25,359 --> 00:47:30,640
+problem a very simple trick that works
+
+1384
+00:47:27,920 --> 00:47:32,319
+quite well is just do the regularization
+
+1385
+00:47:30,640 --> 00:47:34,720
+So don't solve the original problem but
+
+1386
+00:47:32,319 --> 00:47:37,760
+cleverly regularize it. So what
+
+1387
+00:47:34,720 --> 00:47:40,319
+regularization should we pick here?
+
+1388
+00:47:37,760 --> 00:47:42,480
+Um so what you can do you can work out
+
+1389
+00:47:40,319 --> 00:47:44,560
+the leap of equation that gives you the
+
+1390
+00:47:42,480 --> 00:47:46,000
+stability equation
+
+1391
+00:47:44,560 --> 00:47:47,200
+in case you were to know the noise. So
+
+1392
+00:47:46,000 --> 00:47:49,200
+the leap of equation that would include
+
+1393
+00:47:47,200 --> 00:47:50,640
+the red term you could work it out what
+
+1394
+00:47:49,200 --> 00:47:52,720
+it looks like but of course you know you
+
+1395
+00:47:50,640 --> 00:47:54,240
+don't know the noise. You compare this
+
+1396
+00:47:52,720 --> 00:47:56,079
+to the original leapnov equation that
+
+1397
+00:47:54,240 --> 00:47:59,359
+you're actually solving and you see the
+
+1398
+00:47:56,079 --> 00:48:01,359
+two leapniff equations are differing by
+
+1399
+00:47:59,359 --> 00:48:03,280
+a term that is depending on your
+
+1400
+00:48:01,359 --> 00:48:06,480
+coariances you know on the new policy
+
+1401
+00:48:03,280 --> 00:48:08,000
+variable v on the state coariance sigma
+
+1402
+00:48:06,480 --> 00:48:09,920
+as well as the empirical coariance
+
+1403
+00:48:08,000 --> 00:48:12,000
+lambda
+
+1404
+00:48:09,920 --> 00:48:13,440
+and you know one way now to you know
+
+1405
+00:48:12,000 --> 00:48:14,880
+when you solve the idealize the
+
+1406
+00:48:13,440 --> 00:48:16,240
+amplification but you also make sure the
+
+1407
+00:48:14,880 --> 00:48:18,480
+noisy one is true is just say let's
+
+1408
+00:48:16,240 --> 00:48:21,200
+minimize the difference so it's a very
+
+1409
+00:48:18,480 --> 00:48:23,440
+naive idea in that regard so let's just
+
+1410
+00:48:21,200 --> 00:48:24,880
+regularize the LQR problem and as a
+
+1411
+00:48:23,440 --> 00:48:26,800
+regularization term we throw on top of
+
+1412
+00:48:24,880 --> 00:48:29,040
+it the difference between the noisy and
+
+1413
+00:48:26,800 --> 00:48:30,720
+the idealized leap equation making sure
+
+1414
+00:48:29,040 --> 00:48:31,839
+that if you solve one of them you also
+
+1415
+00:48:30,720 --> 00:48:34,960
+solve the other that you also have
+
+1416
+00:48:31,839 --> 00:48:36,559
+stability in presence of noise
+
+1417
+00:48:34,960 --> 00:48:38,400
+and you know these are again some tricks
+
+1418
+00:48:36,559 --> 00:48:40,640
+that people have already explored in
+
+1419
+00:48:38,400 --> 00:48:43,119
+like some datadriven control context uh
+
+1420
+00:48:40,640 --> 00:48:45,200
+you know in deep sea or by uh cloud
+
+1421
+00:48:43,119 --> 00:48:47,839
+pairs and others that you know this is a
+
+1422
+00:48:45,200 --> 00:48:49,359
+good regularization term you can also
+
+1423
+00:48:47,839 --> 00:48:51,520
+write in model based setting then this
+
+1424
+00:48:49,359 --> 00:48:53,200
+is what it looks like uh maybe That's
+
+1425
+00:48:51,520 --> 00:48:54,800
+interesting. What is maybe the main
+
+1426
+00:48:53,200 --> 00:48:56,240
+takeaway is the optimization class does
+
+1427
+00:48:54,800 --> 00:48:57,760
+not change. You're still within the same
+
+1428
+00:48:56,240 --> 00:48:59,040
+optimization class. You just add like
+
+1429
+00:48:57,760 --> 00:49:00,640
+one more term to your objective
+
+1430
+00:48:59,040 --> 00:49:02,800
+function, but it does not destroy any
+
+1431
+00:49:00,640 --> 00:49:04,480
+sort of uh of the gradient dominance
+
+1432
+00:49:02,800 --> 00:49:06,720
+properties and everything still goes
+
+1433
+00:49:04,480 --> 00:49:08,240
+through. Instead of minimizing LTR cost,
+
+1434
+00:49:06,720 --> 00:49:09,839
+you could minimize this regularized
+
+1435
+00:49:08,240 --> 00:49:12,079
+cost.
+
+1436
+00:49:09,839 --> 00:49:13,440
+Let me show you what the effect of that.
+
+1437
+00:49:12,079 --> 00:49:15,280
+So I put in front of the regularization
+
+1438
+00:49:13,440 --> 00:49:17,040
+term this lambda. And here's the plot
+
+1439
+00:49:15,280 --> 00:49:19,680
+that happen shows when you change l what
+
+1440
+00:49:17,040 --> 00:49:22,079
+happens. So if lambda is zero and you
+
+1441
+00:49:19,680 --> 00:49:24,640
+don't regularize I think this like for
+
+1442
+00:49:22,079 --> 00:49:26,720
+fourth order system 1,000 realizations
+
+1443
+00:49:24,640 --> 00:49:29,440
+it turns out only 90% of the solutions
+
+1444
+00:49:26,720 --> 00:49:30,880
+you get will actually be stable because
+
+1445
+00:49:29,440 --> 00:49:32,480
+your data was corrupted by noise and
+
+1446
+00:49:30,880 --> 00:49:33,760
+about 10% of the cases if you solve the
+
+1447
+00:49:32,480 --> 00:49:36,240
+problem by noise corrupted data you get
+
+1448
+00:49:33,760 --> 00:49:38,000
+an unstable solution whereas you
+
+1449
+00:49:36,240 --> 00:49:39,839
+regularize it with this extra term
+
+1450
+00:49:38,000 --> 00:49:41,359
+suddenly go up to 100% of solutions
+
+1451
+00:49:39,839 --> 00:49:44,800
+being stabilizing and you don't need
+
+1452
+00:49:41,359 --> 00:49:46,480
+much like 10 to the minus 2. Uh so that
+
+1453
+00:49:44,800 --> 00:49:47,760
+was expected. What we didn't expect was
+
+1454
+00:49:46,480 --> 00:49:49,760
+a nice takeway is that also your
+
+1455
+00:49:47,760 --> 00:49:51,200
+relative performance gap would improve.
+
+1456
+00:49:49,760 --> 00:49:53,920
+That is if you start regularizing you
+
+1457
+00:49:51,200 --> 00:49:56,240
+get typically better solutions
+
+1458
+00:49:53,920 --> 00:49:57,920
+which was I guess unexpected but we take
+
+1459
+00:49:56,240 --> 00:49:59,520
+it
+
+1460
+00:49:57,920 --> 00:50:02,240
+turns out also improves the algorithmic
+
+1461
+00:49:59,520 --> 00:50:04,400
+convergence maybe not so surprising you
+
+1462
+00:50:02,240 --> 00:50:06,079
+had an extra strongly convex term to
+
+1463
+00:50:04,400 --> 00:50:07,280
+your cost function. The iterates are
+
+1464
+00:50:06,079 --> 00:50:09,599
+more nicely behaved. Maybe that's
+
+1465
+00:50:07,280 --> 00:50:11,200
+expected. Okay. So if you compare the
+
+1466
+00:50:09,599 --> 00:50:14,880
+curves one are with and one without
+
+1467
+00:50:11,200 --> 00:50:17,119
+regularization some are much smoother.
+
+1468
+00:50:14,880 --> 00:50:18,400
+Um now should you always regularize?
+
+1469
+00:50:17,119 --> 00:50:21,440
+Should you always make sure you solve
+
+1470
+00:50:18,400 --> 00:50:22,800
+that problem? Um it turns out um yeah
+
+1471
+00:50:21,440 --> 00:50:25,839
+you need to decrease the constant front
+
+1472
+00:50:22,800 --> 00:50:29,119
+to regularizer but maybe that's not so.
+
+1473
+00:50:25,839 --> 00:50:32,880
+So last main topic and Julia what are we
+
+1474
+00:50:29,119 --> 00:50:34,880
+doing? Okay what happens in closed loop?
+
+1475
+00:50:32,880 --> 00:50:36,720
+Okay so it's not obvious that this would
+
+1476
+00:50:34,880 --> 00:50:38,720
+actually work in closed loop going down
+
+1477
+00:50:36,720 --> 00:50:40,160
+the gradient any of these gradients.
+
+1478
+00:50:38,720 --> 00:50:42,880
+Reason being every time you get a
+
+1479
+00:50:40,160 --> 00:50:44,319
+stabilizing policy but every time you
+
+1480
+00:50:42,880 --> 00:50:45,359
+have a different policy meaning every
+
+1481
+00:50:44,319 --> 00:50:47,599
+time you have different closed loop
+
+1482
+00:50:45,359 --> 00:50:49,599
+matrix if I switch system and you know
+
+1483
+00:50:47,599 --> 00:50:51,280
+the famous joint spectral radio radius
+
+1484
+00:50:49,599 --> 00:50:53,920
+problem the product of a whole bunch of
+
+1485
+00:50:51,280 --> 00:50:55,359
+stable matrices is not stable
+
+1486
+00:50:53,920 --> 00:50:58,400
+that's a problem that in reinforcement
+
+1487
+00:50:55,359 --> 00:51:00,240
+learning they call sequential stability
+
+1488
+00:50:58,400 --> 00:51:02,559
+um what's the takeaway so here's the
+
+1489
+00:51:00,240 --> 00:51:05,599
+result you get in closed loop let me
+
+1490
+00:51:02,559 --> 00:51:08,000
+skip that so one thing I have to
+
+1491
+00:51:05,599 --> 00:51:10,480
+introduce is that there's a signal to
+
+1492
+00:51:08,000 --> 00:51:12,640
+noise ratio introduced in the noisy case
+
+1493
+00:51:10,480 --> 00:51:14,400
+your signal part is the lower single
+
+1494
+00:51:12,640 --> 00:51:15,920
+value of the coariance matrix and your
+
+1495
+00:51:14,400 --> 00:51:18,880
+noise part is the upper bound of the
+
+1496
+00:51:15,920 --> 00:51:20,160
+coariance on the noise
+
+1497
+00:51:18,880 --> 00:51:21,520
+so here's the result you get what
+
+1498
+00:51:20,160 --> 00:51:24,240
+happens to closed loop when you analyze
+
+1499
+00:51:21,520 --> 00:51:26,880
+stability uh let me unpack it there's a
+
+1500
+00:51:24,240 --> 00:51:29,440
+few assumption one is you need initially
+
+1501
+00:51:26,880 --> 00:51:31,359
+stabilizing policy
+
+1502
+00:51:29,440 --> 00:51:33,599
+the other one is you need a sufficiently
+
+1503
+00:51:31,359 --> 00:51:36,400
+large signal to noise ratio and you need
+
+1504
+00:51:33,599 --> 00:51:37,839
+a sufficiently small step size which
+
+1505
+00:51:36,400 --> 00:51:39,200
+maybe is not surprising from the depth
+
+1506
+00:51:37,839 --> 00:51:41,520
+control because it's well known when you
+
+1507
+00:51:39,200 --> 00:51:43,920
+adapt too fast bad things happen. So you
+
+1508
+00:51:41,520 --> 00:51:46,319
+need to choose fish small step size so
+
+1509
+00:51:43,920 --> 00:51:47,920
+that it works and in this case you get
+
+1510
+00:51:46,319 --> 00:51:49,520
+actually nice convergence that is both
+
+1511
+00:51:47,920 --> 00:51:52,400
+your state will have an exponential
+
+1512
+00:51:49,520 --> 00:51:54,079
+convergence plus a bias due to noise as
+
+1513
+00:51:52,400 --> 00:51:56,640
+well as your policy has an exponential
+
+1514
+00:51:54,079 --> 00:51:59,280
+convergence plus a bias due to noise.
+
+1515
+00:51:56,640 --> 00:52:01,440
+Okay, things work also in closed loop.
+
+1516
+00:51:59,280 --> 00:52:03,359
+Um in the tool we leverage there's what
+
+1517
+00:52:01,440 --> 00:52:05,119
+is called sequential stability which
+
+1518
+00:52:03,359 --> 00:52:06,400
+boils down to asking you know along your
+
+1519
+00:52:05,119 --> 00:52:07,920
+sequence of matrices they shouldn't
+
+1520
+00:52:06,400 --> 00:52:09,040
+change too much from one step to the
+
+1521
+00:52:07,920 --> 00:52:11,440
+other and that's why you need a small
+
+1522
+00:52:09,040 --> 00:52:12,800
+enough step size and we've also been
+
+1523
+00:52:11,440 --> 00:52:14,160
+applying this type of analys
+
+1524
+00:52:12,800 --> 00:52:15,920
+reinforcement learning algorithms again
+
+1525
+00:52:14,160 --> 00:52:17,760
+if you don't impose a bound on the rate
+
+1526
+00:52:15,920 --> 00:52:20,000
+of change when you do it in closed loop
+
+1527
+00:52:17,760 --> 00:52:23,559
+they go unstable so it turns out that's
+
+1528
+00:52:20,000 --> 00:52:23,559
+a necessary condition
+
+1529
+00:52:24,720 --> 00:52:31,280
+so let me skip those comments on
+
+1530
+00:52:29,119 --> 00:52:32,880
+on the result maybe look some closed
+
+1531
+00:52:31,280 --> 00:52:35,119
+loop properties which go back to one of
+
+1532
+00:52:32,880 --> 00:52:36,880
+your questions. So here's what is a
+
+1533
+00:52:35,119 --> 00:52:38,960
+benchmark example by Sarah Dean and Nick
+
+1534
+00:52:36,880 --> 00:52:40,240
+Mutney and I compare different
+
+1535
+00:52:38,960 --> 00:52:42,400
+algorithms. If you just solve the
+
+1536
+00:52:40,240 --> 00:52:45,280
+oneshot problem that any point in time
+
+1537
+00:52:42,400 --> 00:52:47,280
+you solve LQR and le squares and applied
+
+1538
+00:52:45,280 --> 00:52:49,599
+yeah might work but you get horrible
+
+1539
+00:52:47,280 --> 00:52:51,359
+transient lots of you know oscillations
+
+1540
+00:52:49,599 --> 00:52:53,440
+because the optimiz is very sensitive to
+
+1541
+00:52:51,359 --> 00:52:55,040
+noise whereas any of the gradient
+
+1542
+00:52:53,440 --> 00:52:57,599
+descent methods would actually nicely
+
+1543
+00:52:55,040 --> 00:52:59,760
+converge.
+
+1544
+00:52:57,599 --> 00:53:02,720
+Um likewise when you look at different
+
+1545
+00:52:59,760 --> 00:53:05,119
+data sets so quality data versus noisy
+
+1546
+00:53:02,720 --> 00:53:07,200
+data the gradient descent would always
+
+1547
+00:53:05,119 --> 00:53:09,040
+nicely converge. It turns out the
+
+1548
+00:53:07,200 --> 00:53:11,440
+oneshotrop method give you quite high
+
+1549
+00:53:09,040 --> 00:53:13,440
+variance and also what is called the the
+
+1550
+00:53:11,440 --> 00:53:15,359
+gaus Newton so the hu algorithm the it
+
+1551
+00:53:13,440 --> 00:53:16,480
+policy evaluation improvement would
+
+1552
+00:53:15,359 --> 00:53:18,559
+actually also give you a lot of
+
+1553
+00:53:16,480 --> 00:53:19,920
+oscillations the reason being it doesn't
+
+1554
+00:53:18,559 --> 00:53:21,440
+have a step size you cannot make it
+
+1555
+00:53:19,920 --> 00:53:22,880
+small enough at least not the vanilla
+
+1556
+00:53:21,440 --> 00:53:24,240
+algorithm and that's why you get a lot
+
+1557
+00:53:22,880 --> 00:53:26,559
+of oscillations so you cannot make the
+
+1558
+00:53:24,240 --> 00:53:30,839
+step size small which I guess shows you
+
+1559
+00:53:26,559 --> 00:53:30,839
+have to adapt sufficiently slow
+
+1560
+00:53:31,200 --> 00:53:35,839
+last to conclude maybe I show you one
+
+1561
+00:53:33,520 --> 00:53:37,680
+implementation we work on we looked into
+
+1562
+00:53:35,839 --> 00:53:40,240
+a ones, but here's the one I care most
+
+1563
+00:53:37,680 --> 00:53:41,839
+about. Power systems. So, what you see
+
+1564
+00:53:40,240 --> 00:53:43,040
+is a very complicated block diagram of a
+
+1565
+00:53:41,839 --> 00:53:44,240
+wind turbine connected to the power
+
+1566
+00:53:43,040 --> 00:53:47,119
+grid, the power electronics, the
+
+1567
+00:53:44,240 --> 00:53:49,280
+turbine, the grid. It turns out we can
+
+1568
+00:53:47,119 --> 00:53:50,559
+leave that all aside because the person
+
+1569
+00:53:49,280 --> 00:53:52,800
+that has to implement the controls of
+
+1570
+00:53:50,559 --> 00:53:55,040
+the wind turbine does not have a model
+
+1571
+00:53:52,800 --> 00:53:56,480
+of the power system, a dynamic model,
+
+1572
+00:53:55,040 --> 00:53:58,480
+and does not have a model from the
+
+1573
+00:53:56,480 --> 00:54:00,480
+vendor of the wind turbine. So in
+
+1574
+00:53:58,480 --> 00:54:02,400
+practice you tune these out what are
+
+1575
+00:54:00,480 --> 00:54:04,640
+called power loops of the power
+
+1576
+00:54:02,400 --> 00:54:07,040
+converters essentially as a PI with you
+
+1577
+00:54:04,640 --> 00:54:09,280
+know tune it until it works because
+
+1578
+00:54:07,040 --> 00:54:10,960
+model based design is model based design
+
+1579
+00:54:09,280 --> 00:54:12,160
+just existing papers you cannot do it in
+
+1580
+00:54:10,960 --> 00:54:13,599
+reality because you just don't have the
+
+1581
+00:54:12,160 --> 00:54:14,800
+models the data is siloed between
+
+1582
+00:54:13,599 --> 00:54:16,640
+different companies they will not share
+
+1583
+00:54:14,800 --> 00:54:18,720
+it
+
+1584
+00:54:16,640 --> 00:54:20,559
+so let's apply the gradient descent here
+
+1585
+00:54:18,720 --> 00:54:22,240
+a challenge is of course this model you
+
+1586
+00:54:20,559 --> 00:54:24,480
+don't have the state but you can easily
+
+1587
+00:54:22,240 --> 00:54:26,079
+construct a state realization uh non
+
+1588
+00:54:24,480 --> 00:54:27,680
+minimal resolation that is you just take
+
+1589
+00:54:26,079 --> 00:54:29,119
+your inputs and outputs and the time
+
+1590
+00:54:27,680 --> 00:54:30,880
+shifts and from that you build your
+
+1591
+00:54:29,119 --> 00:54:32,240
+state specialization. I guess it's what
+
+1592
+00:54:30,880 --> 00:54:35,920
+you learn in class as controllable
+
+1593
+00:54:32,240 --> 00:54:37,657
+canotic form just a time shifts.
+
+1594
+00:54:35,920 --> 00:54:38,480
+You apply the gradient descent here.
+
+1595
+00:54:37,657 --> 00:54:40,480
+[snorts]
+
+1596
+00:54:38,480 --> 00:54:42,960
+So you see some oscillations from your
+
+1597
+00:54:40,480 --> 00:54:44,480
+wind turbine to the grid. You collect
+
+1598
+00:54:42,960 --> 00:54:45,920
+data. So you probe the system a little
+
+1599
+00:54:44,480 --> 00:54:48,640
+with you know additive noise to get the
+
+1600
+00:54:45,920 --> 00:54:50,640
+persistive exitation and you see uh this
+
+1601
+00:54:48,640 --> 00:54:52,240
+would nicely converge. Whereas if you do
+
+1602
+00:54:50,640 --> 00:54:55,280
+any not with no control you get
+
+1603
+00:54:52,240 --> 00:54:58,000
+persistence oscillations.
+
+1604
+00:54:55,280 --> 00:54:59,280
+What happens when you have a fault? So
+
+1605
+00:54:58,000 --> 00:55:01,359
+everything is stable, everything is
+
+1606
+00:54:59,280 --> 00:55:03,920
+nice. You change a parameter in the
+
+1607
+00:55:01,359 --> 00:55:05,520
+system. In this case, the DC control
+
+1608
+00:55:03,920 --> 00:55:07,520
+power set point would change if you know
+
+1609
+00:55:05,520 --> 00:55:08,880
+what that is. Nothing happens.
+
+1610
+00:55:07,520 --> 00:55:10,720
+Everything is stable. I mean you are at
+
+1611
+00:55:08,880 --> 00:55:12,640
+steady state. Everything is nice. But
+
+1612
+00:55:10,720 --> 00:55:15,280
+then you get a fault and the control you
+
+1613
+00:55:12,640 --> 00:55:16,640
+have was tuned for the wrong model. But
+
+1614
+00:55:15,280 --> 00:55:18,640
+when you start adapting this would
+
+1615
+00:55:16,640 --> 00:55:21,119
+actually nicely converge compared to the
+
+1616
+00:55:18,640 --> 00:55:25,160
+control is non adapted. So I guess you
+
+1617
+00:55:21,119 --> 00:55:25,160
+see the benefits for depth control.
+
+1618
+00:55:25,520 --> 00:55:28,160
+which brings to the end. So summary,
+
+1619
+00:55:27,438 --> 00:55:31,040
+[snorts]
+
+1620
+00:55:28,160 --> 00:55:32,319
+I I I talked about this gap. I think
+
+1621
+00:55:31,040 --> 00:55:33,520
+mostly a cultural gap between
+
+1622
+00:55:32,319 --> 00:55:35,760
+reinforcement learning and adaptive
+
+1623
+00:55:33,520 --> 00:55:38,160
+control and I you know launch maybe
+
+1624
+00:55:35,760 --> 00:55:40,400
+another N plus1 attempt to bridge it
+
+1625
+00:55:38,160 --> 00:55:42,079
+which many people have done before. Uh
+
+1626
+00:55:40,400 --> 00:55:44,400
+it was a very naive idea just go down
+
+1627
+00:55:42,079 --> 00:55:46,800
+the policy gradient in real time see if
+
+1628
+00:55:44,400 --> 00:55:48,319
+that works and you saw you can get the
+
+1629
+00:55:46,800 --> 00:55:49,920
+closed loop stability if you choose a
+
+1630
+00:55:48,319 --> 00:55:51,760
+small enough step size which is
+
+1631
+00:55:49,920 --> 00:55:53,839
+important
+
+1632
+00:55:51,760 --> 00:55:55,599
+uh for future work. um I guess from all
+
+1633
+00:55:53,839 --> 00:55:58,160
+the obvious ones like improve the
+
+1634
+00:55:55,599 --> 00:56:00,799
+assumptions is uh I'd like to go beyond
+
+1635
+00:55:58,160 --> 00:56:02,319
+noise injection like persistive extation
+
+1636
+00:56:00,799 --> 00:56:04,400
+by putting in noise I think is a very
+
+1637
+00:56:02,319 --> 00:56:05,520
+naive idea can you do better can you do
+
+1638
+00:56:04,400 --> 00:56:08,799
+something more clever than putting in
+
+1639
+00:56:05,520 --> 00:56:10,880
+noise and there's also the question uh
+
+1640
+00:56:08,799 --> 00:56:13,119
+asked by you namely we know what's the
+
+1641
+00:56:10,880 --> 00:56:14,559
+best batch size when should you adapt
+
+1642
+00:56:13,119 --> 00:56:15,520
+should you adapt every point in time or
+
+1643
+00:56:14,559 --> 00:56:16,640
+is there some sort of information
+
+1644
+00:56:15,520 --> 00:56:18,720
+criterion tells you when you should
+
+1645
+00:56:16,640 --> 00:56:20,160
+adapt or not
+
+1646
+00:56:18,720 --> 00:56:22,319
+uh and I don't have answers to these but
+
+1647
+00:56:20,160 --> 00:56:25,788
+we're looking at those thank you Thank
+
+1648
+00:56:22,319 --> 00:56:25,788
+you very much. [applause]
+

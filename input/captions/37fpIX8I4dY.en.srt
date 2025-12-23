@@ -1,0 +1,3292 @@
+1
+00:00:01,079 --> 00:00:04,640
+welcome to the afternoon session we have
+
+2
+00:00:02,800 --> 00:00:07,799
+three wonderful Talks by three wonderful
+
+3
+00:00:04,640 --> 00:00:10,639
+students uh Noah is a student of Anor
+
+4
+00:00:07,799 --> 00:00:11,920
+and C uh you tell us about start telling
+
+5
+00:00:10,639 --> 00:00:13,960
+us about
+
+6
+00:00:11,920 --> 00:00:15,839
+watermarks great thanks um and thanks
+
+7
+00:00:13,960 --> 00:00:17,279
+for the invitation um so I'm going to be
+
+8
+00:00:15,839 --> 00:00:18,800
+talking about edit distance robust
+
+9
+00:00:17,279 --> 00:00:20,920
+watermarks um and this is Joint work
+
+10
+00:00:18,800 --> 00:00:23,320
+with
+
+11
+00:00:20,920 --> 00:00:27,439
+Anker okay so in recent years there's
+
+12
+00:00:23,320 --> 00:00:29,439
+been a lot of uh significant increase in
+
+13
+00:00:27,439 --> 00:00:31,160
+AI generated content there's been
+
+14
+00:00:29,439 --> 00:00:33,399
+studies which show that it takes up say
+
+15
+00:00:31,160 --> 00:00:35,079
+you know maybe half the internet and
+
+16
+00:00:33,399 --> 00:00:37,440
+there's been various problems or
+
+17
+00:00:35,079 --> 00:00:39,760
+potential problems associated with this
+
+18
+00:00:37,440 --> 00:00:42,520
+so for instance um there's potentially
+
+19
+00:00:39,760 --> 00:00:44,239
+issues in terms of say people editing
+
+20
+00:00:42,520 --> 00:00:47,079
+Wikipedia
+
+21
+00:00:44,239 --> 00:00:49,559
+um there's also evidence that it
+
+22
+00:00:47,079 --> 00:00:51,039
+training Ai and AI generated content is
+
+23
+00:00:49,559 --> 00:00:53,160
+potentially worse than generating
+
+24
+00:00:51,039 --> 00:00:54,960
+unnatural content and finally there's
+
+25
+00:00:53,160 --> 00:00:57,399
+concerns about
+
+26
+00:00:54,960 --> 00:01:00,600
+misinformation so in light of all this
+
+27
+00:00:57,399 --> 00:01:02,399
+um there's uh been a lot of anxiety both
+
+28
+00:01:00,600 --> 00:01:03,760
+in the media and in the government and a
+
+29
+00:01:02,399 --> 00:01:05,640
+few years ago the White House released
+
+30
+00:01:03,760 --> 00:01:08,000
+an executive order on trustworthy
+
+31
+00:01:05,640 --> 00:01:09,560
+development and use of AI and this
+
+32
+00:01:08,000 --> 00:01:11,119
+executive order outlined numerous
+
+33
+00:01:09,560 --> 00:01:13,560
+potential mitigations for some of this
+
+34
+00:01:11,119 --> 00:01:16,400
+increase in AI generated content and one
+
+35
+00:01:13,560 --> 00:01:19,479
+of them was ways of labeling synthetic
+
+36
+00:01:16,400 --> 00:01:21,119
+content such as using water
+
+37
+00:01:19,479 --> 00:01:23,720
+marking and that's going to be the
+
+38
+00:01:21,119 --> 00:01:23,720
+subject of this
+
+39
+00:01:24,439 --> 00:01:27,640
+talk okay so in particular I'm going to
+
+40
+00:01:26,479 --> 00:01:29,600
+talk about what are marking language
+
+41
+00:01:27,640 --> 00:01:32,920
+models and let me first tell you what a
+
+42
+00:01:29,600 --> 00:01:35,240
+language model is it's defin over
+
+43
+00:01:32,920 --> 00:01:38,240
+vocabulary which I'll call Sigma which
+
+44
+00:01:35,240 --> 00:01:40,360
+is a set of possible tokens a token in
+
+45
+00:01:38,240 --> 00:01:42,200
+general is a subword unit or some unit
+
+46
+00:01:40,360 --> 00:01:45,240
+of a word but for this talk just think
+
+47
+00:01:42,200 --> 00:01:48,119
+of token as being synonymous with
+
+48
+00:01:45,240 --> 00:01:50,880
+word and a language model specifies the
+
+49
+00:01:48,119 --> 00:01:51,799
+probability distribution of the I token
+
+50
+00:01:50,880 --> 00:01:54,759
+in a
+
+51
+00:01:51,799 --> 00:01:57,920
+sequence given preceding tokens I'll
+
+52
+00:01:54,759 --> 00:01:59,439
+call T1 through tius one and so in
+
+53
+00:01:57,920 --> 00:02:01,439
+particular we'll call the probability
+
+54
+00:01:59,439 --> 00:02:04,159
+that the I token TI is equal to any
+
+55
+00:02:01,439 --> 00:02:07,159
+value x given the preceding tokens T1
+
+56
+00:02:04,159 --> 00:02:10,479
+through TI minus1 model of TI equal x
+
+57
+00:02:07,159 --> 00:02:13,599
+given T1 through IUS one and so as one
+
+58
+00:02:10,479 --> 00:02:15,680
+example we can look at uh say gpt2 if we
+
+59
+00:02:13,599 --> 00:02:17,200
+feed the sequence of tokens about DNA on
+
+60
+00:02:15,680 --> 00:02:20,480
+the left hand side
+
+61
+00:02:17,200 --> 00:02:22,080
+here the to the model gpt2 will output
+
+62
+00:02:20,480 --> 00:02:24,480
+the distribution over tokens which is
+
+63
+00:02:22,080 --> 00:02:25,840
+shown on the right so DNA is the most
+
+64
+00:02:24,480 --> 00:02:28,200
+likely next token in some of the other
+
+65
+00:02:25,840 --> 00:02:28,200
+ones are
+
+66
+00:02:28,400 --> 00:02:33,560
+shown now to any language model is a
+
+67
+00:02:31,120 --> 00:02:35,280
+canonical generation procedure which
+
+68
+00:02:33,560 --> 00:02:37,560
+samples the tokens in sequence as
+
+69
+00:02:35,280 --> 00:02:40,120
+follows so at each step I I'm going to
+
+70
+00:02:37,560 --> 00:02:41,760
+sample token Ti from the model's next
+
+71
+00:02:40,120 --> 00:02:43,599
+token distribution given the preceding
+
+72
+00:02:41,760 --> 00:02:46,360
+ones that have already sampled and I'll
+
+73
+00:02:43,599 --> 00:02:48,080
+do this for a total of capital L steps
+
+74
+00:02:46,360 --> 00:02:49,440
+so in particular L will denote the
+
+75
+00:02:48,080 --> 00:02:52,680
+length of the model output and I'm going
+
+76
+00:02:49,440 --> 00:02:52,680
+to assume for Simplicity that it's
+
+77
+00:02:54,080 --> 00:03:00,440
+fixed this is roughly speaking how you
+
+78
+00:02:56,360 --> 00:03:00,440
+know Chach BT works
+
+79
+00:03:03,519 --> 00:03:06,560
+now the goal is to come up with water
+
+80
+00:03:05,000 --> 00:03:08,599
+marking schemes for language
+
+81
+00:03:06,560 --> 00:03:10,840
+models and roughly speaking a water
+
+82
+00:03:08,599 --> 00:03:12,920
+marking scheme is a way of embedding a
+
+83
+00:03:10,840 --> 00:03:15,280
+subtle pattern in the language model's
+
+84
+00:03:12,920 --> 00:03:18,840
+output so that a few properties
+
+85
+00:03:15,280 --> 00:03:20,440
+hold the first property formalizes the
+
+86
+00:03:18,840 --> 00:03:22,319
+idea that we don't want the watermark to
+
+87
+00:03:20,440 --> 00:03:23,319
+significantly degrade the quality of the
+
+88
+00:03:22,319 --> 00:03:25,239
+language
+
+89
+00:03:23,319 --> 00:03:26,599
+model and so in particular we're going
+
+90
+00:03:25,239 --> 00:03:28,760
+to aim for this property known as
+
+91
+00:03:26,599 --> 00:03:31,280
+undetectability
+
+92
+00:03:28,760 --> 00:03:33,920
+which means that roughly speaking the
+
+93
+00:03:31,280 --> 00:03:35,640
+output of the watermarked language model
+
+94
+00:03:33,920 --> 00:03:37,159
+looks like the output of the true
+
+95
+00:03:35,640 --> 00:03:39,920
+language model and I'll be more formal
+
+96
+00:03:37,159 --> 00:03:39,920
+about this in a few
+
+97
+00:03:40,599 --> 00:03:45,200
+minutes the second property is
+
+98
+00:03:43,080 --> 00:03:47,200
+robustness which means that the water
+
+99
+00:03:45,200 --> 00:03:49,519
+marking scheme should work namely that
+
+100
+00:03:47,200 --> 00:03:50,239
+it allows us to detect that the output
+
+101
+00:03:49,519 --> 00:03:52,560
+was
+
+102
+00:03:50,239 --> 00:03:54,040
+watermarked even after an adversary
+
+103
+00:03:52,560 --> 00:03:56,360
+comes along and makes some perturbations
+
+104
+00:03:54,040 --> 00:03:59,200
+to the language model output so if we
+
+105
+00:03:56,360 --> 00:04:01,159
+ask chat GPT for an essay and then we
+
+106
+00:03:59,200 --> 00:04:03,480
+come along maybe add some words delete
+
+107
+00:04:01,159 --> 00:04:05,120
+some sentences you name it then as long
+
+108
+00:04:03,480 --> 00:04:06,519
+as we don't make too many perturbations
+
+109
+00:04:05,120 --> 00:04:09,560
+we should still be able to detect this
+
+110
+00:04:06,519 --> 00:04:09,560
+edited essay as being
+
+111
+00:04:10,159 --> 00:04:13,280
+watermarked the third property is
+
+112
+00:04:11,920 --> 00:04:14,680
+soundness which means that if we were to
+
+113
+00:04:13,280 --> 00:04:17,440
+write the essay on our
+
+114
+00:04:14,680 --> 00:04:19,440
+own namly not use this language model to
+
+115
+00:04:17,440 --> 00:04:20,720
+generated then it should not be detected
+
+116
+00:04:19,440 --> 00:04:22,479
+as watermarked in other words we're not
+
+117
+00:04:20,720 --> 00:04:25,280
+falsely accusing anyone of producing
+
+118
+00:04:22,479 --> 00:04:28,440
+output uh from this watermarked model
+
+119
+00:04:25,280 --> 00:04:28,440
+they didn't
+
+120
+00:04:31,880 --> 00:04:34,440
+okay so that's the rough idea of how a
+
+121
+00:04:33,199 --> 00:04:36,120
+water marking scheme works now let me
+
+122
+00:04:34,440 --> 00:04:38,400
+give you a little bit more of a formal
+
+123
+00:04:36,120 --> 00:04:39,720
+definition so formally speaking a water
+
+124
+00:04:38,400 --> 00:04:41,720
+marking scheme consists of three
+
+125
+00:04:39,720 --> 00:04:43,759
+algorithms a key generation algorithm a
+
+126
+00:04:41,720 --> 00:04:46,160
+water marking Al algorithm and a
+
+127
+00:04:43,759 --> 00:04:46,160
+detection
+
+128
+00:04:46,280 --> 00:04:50,759
+algorithm so the key generation
+
+129
+00:04:48,160 --> 00:04:51,639
+algorithm outputs a secret key at random
+
+130
+00:04:50,759 --> 00:04:53,280
+which you can just think of as a
+
+131
+00:04:51,639 --> 00:04:55,759
+sequence of
+
+132
+00:04:53,280 --> 00:04:58,440
+bits the watermarking algorithm takes as
+
+133
+00:04:55,759 --> 00:05:00,800
+input the secret
+
+134
+00:04:58,440 --> 00:05:03,520
+key as as well as a prompt such as the
+
+135
+00:05:00,800 --> 00:05:06,400
+question what is DNA and it outputs a
+
+136
+00:05:03,520 --> 00:05:07,800
+sequence of tokens or text and this
+
+137
+00:05:06,400 --> 00:05:09,639
+sequence of tokens will have some
+
+138
+00:05:07,800 --> 00:05:11,120
+pattern embedded within which should um
+
+139
+00:05:09,639 --> 00:05:12,759
+allow us to detect later on that it's
+
+140
+00:05:11,120 --> 00:05:14,440
+actually
+
+141
+00:05:12,759 --> 00:05:15,680
+watermarked now how do we actually
+
+142
+00:05:14,440 --> 00:05:17,440
+detect this well there's a detection
+
+143
+00:05:15,680 --> 00:05:19,280
+algorithm which takes as input some
+
+144
+00:05:17,440 --> 00:05:21,479
+sequence of tokens such as that output
+
+145
+00:05:19,280 --> 00:05:23,800
+by the language model as well as the
+
+146
+00:05:21,479 --> 00:05:26,080
+secret key that we generated and it
+
+147
+00:05:23,800 --> 00:05:28,039
+outputs a single bit denoting whether or
+
+148
+00:05:26,080 --> 00:05:31,240
+not we detect that this sequence has
+
+149
+00:05:28,039 --> 00:05:31,240
+been watermarked
+
+150
+00:05:36,520 --> 00:05:42,560
+okay so now let me formally Define these
+
+151
+00:05:38,240 --> 00:05:46,199
+three criteria I um discussed earlier on
+
+152
+00:05:42,560 --> 00:05:46,199
+so the first criteria is undetectability
+
+153
+00:05:47,280 --> 00:05:52,960
+and formally speaking what we want is
+
+154
+00:05:49,880 --> 00:05:56,080
+that if we were to fix a prompt and ask
+
+155
+00:05:52,960 --> 00:05:57,479
+the language model for multiple samples
+
+156
+00:05:56,080 --> 00:06:00,160
+of the output of the watermark algorithm
+
+157
+00:05:57,479 --> 00:06:02,280
+multiple independent samples then no
+
+158
+00:06:00,160 --> 00:06:03,880
+polinomial time distinguishing algorithm
+
+159
+00:06:02,280 --> 00:06:05,800
+should be able to distinguish this group
+
+160
+00:06:03,880 --> 00:06:08,599
+of multiple samples from multiple
+
+161
+00:06:05,800 --> 00:06:10,400
+samples from the true language
+
+162
+00:06:08,599 --> 00:06:12,400
+model in other words these two
+
+163
+00:06:10,400 --> 00:06:14,440
+distributions are computationally
+
+164
+00:06:12,400 --> 00:06:15,759
+indistinguishable and a Cory of this
+
+165
+00:06:14,440 --> 00:06:17,880
+requirement is that if we have any
+
+166
+00:06:15,759 --> 00:06:19,720
+quality metric which is computable by a
+
+167
+00:06:17,880 --> 00:06:21,440
+polinomial Time algorithm then the
+
+168
+00:06:19,720 --> 00:06:23,360
+quality metric will be the same for our
+
+169
+00:06:21,440 --> 00:06:25,160
+watermarked algorithm and for the true
+
+170
+00:06:23,360 --> 00:06:26,720
+language model so this establishes that
+
+171
+00:06:25,160 --> 00:06:30,080
+we're not degrading the quality of the
+
+172
+00:06:26,720 --> 00:06:30,080
+language model
+
+173
+00:06:32,680 --> 00:06:37,639
+now how do we formally Define
+
+174
+00:06:35,520 --> 00:06:40,240
+robustness well what we want is that if
+
+175
+00:06:37,639 --> 00:06:41,880
+we take any prompt as well as a secret
+
+176
+00:06:40,240 --> 00:06:44,039
+key generated at
+
+177
+00:06:41,880 --> 00:06:46,680
+random ask our water marking algorithm
+
+178
+00:06:44,039 --> 00:06:48,840
+for a sample of text and then pass this
+
+179
+00:06:46,680 --> 00:06:50,440
+through some noisy an adversarial noisy
+
+180
+00:06:48,840 --> 00:06:52,240
+Channel which introduces a constant
+
+181
+00:06:50,440 --> 00:06:54,520
+fraction of edits namely insertions
+
+182
+00:06:52,240 --> 00:06:56,599
+deletions or substitutions at each
+
+183
+00:06:54,520 --> 00:06:58,120
+position then as long as this constant
+
+184
+00:06:56,599 --> 00:06:59,879
+fraction isn't that large the detection
+
+185
+00:06:58,120 --> 00:07:02,080
+algorithm should still output water with
+
+186
+00:06:59,879 --> 00:07:02,080
+high
+
+187
+00:07:05,680 --> 00:07:11,720
+probability the final property is
+
+188
+00:07:08,039 --> 00:07:14,120
+soundness which means that if we fix any
+
+189
+00:07:11,720 --> 00:07:16,960
+sequence of tokens independent of the
+
+190
+00:07:14,120 --> 00:07:18,199
+secret key distribution and we pass this
+
+191
+00:07:16,960 --> 00:07:19,960
+sequence of tokens to the detection
+
+192
+00:07:18,199 --> 00:07:22,840
+algorithm then it should output not
+
+193
+00:07:19,960 --> 00:07:22,840
+water marked with high
+
+194
+00:07:23,720 --> 00:07:27,360
+probability and so together these three
+
+195
+00:07:25,800 --> 00:07:29,840
+properties of undetectability edit
+
+196
+00:07:27,360 --> 00:07:31,400
+robustness and soundness constitute uh
+
+197
+00:07:29,840 --> 00:07:33,560
+what I'll call a water marking scheme in
+
+198
+00:07:31,400 --> 00:07:33,560
+this
+
+199
+00:07:36,199 --> 00:07:40,759
+talk and there's been a decent amount of
+
+200
+00:07:38,720 --> 00:07:43,680
+work in recent years um both in theory
+
+201
+00:07:40,759 --> 00:07:45,599
+and in practice on getting water marking
+
+202
+00:07:43,680 --> 00:07:46,919
+schemes which satisfy some combination
+
+203
+00:07:45,599 --> 00:07:48,919
+of these properties and I'll highlight a
+
+204
+00:07:46,919 --> 00:07:51,360
+few examples on this
+
+205
+00:07:48,919 --> 00:07:52,879
+slide so one line of work that started
+
+206
+00:07:51,360 --> 00:07:55,080
+with some uh paper by Chris gon and
+
+207
+00:07:52,879 --> 00:07:57,840
+zamir a few years ago was also um follow
+
+208
+00:07:55,080 --> 00:08:00,000
+up by zamir and few other papers as
+
+209
+00:07:57,840 --> 00:08:01,720
+well show that there's water marking
+
+210
+00:08:00,000 --> 00:08:02,639
+schemes which satisfy undetectability
+
+211
+00:08:01,720 --> 00:08:05,400
+and
+
+212
+00:08:02,639 --> 00:08:06,800
+soundness but not quite edit robustness
+
+213
+00:08:05,400 --> 00:08:08,840
+their water marking schemes are only
+
+214
+00:08:06,800 --> 00:08:11,319
+robust to a subc constant fraction of
+
+215
+00:08:08,840 --> 00:08:14,199
+edits namely a fraction of edits which
+
+216
+00:08:11,319 --> 00:08:16,319
+decays as the length of the text goes to
+
+217
+00:08:14,199 --> 00:08:17,960
+infinity and really we want to get
+
+218
+00:08:16,319 --> 00:08:20,280
+waterm Maring schemes which are more
+
+219
+00:08:17,960 --> 00:08:22,840
+robust say to a constant fraction edit
+
+220
+00:08:20,280 --> 00:08:24,879
+so uh basically we're modifying you know
+
+221
+00:08:22,840 --> 00:08:27,680
+some fixed fraction of the language
+
+222
+00:08:24,879 --> 00:08:27,680
+model text like
+
+223
+00:08:27,879 --> 00:08:34,320
+5% and there subsequent Works which did
+
+224
+00:08:32,039 --> 00:08:36,680
+get stronger robustness properties for
+
+225
+00:08:34,320 --> 00:08:39,159
+instance a paper by Ki padal showed a
+
+226
+00:08:36,680 --> 00:08:41,839
+water marking scheme that's edit robust
+
+227
+00:08:39,159 --> 00:08:44,279
+um and sound but it did not
+
+228
+00:08:41,839 --> 00:08:46,560
+satisfy as strong undetectability
+
+229
+00:08:44,279 --> 00:08:48,760
+guarantees it only satisfied a weaker
+
+230
+00:08:46,560 --> 00:08:50,240
+property known as Distortion freeness
+
+231
+00:08:48,760 --> 00:08:52,120
+which roughly speaking states that the
+
+232
+00:08:50,240 --> 00:08:53,920
+distribution of a single sample output
+
+233
+00:08:52,120 --> 00:08:55,519
+from the language model is
+
+234
+00:08:53,920 --> 00:08:58,040
+indistinguishable from a single sample
+
+235
+00:08:55,519 --> 00:09:00,399
+output from The Watermark model the
+
+236
+00:08:58,040 --> 00:09:01,640
+problem with Distortion free watermark
+
+237
+00:09:00,399 --> 00:09:03,000
+is that they might suffer from
+
+238
+00:09:01,640 --> 00:09:05,560
+diversities you could have a watermark
+
+239
+00:09:03,000 --> 00:09:07,640
+which always outputs the same response
+
+240
+00:09:05,560 --> 00:09:09,320
+to a certain prompt this will be
+
+241
+00:09:07,640 --> 00:09:11,600
+Distortion free but it's maybe not very
+
+242
+00:09:09,320 --> 00:09:13,959
+useful because we often want more
+
+243
+00:09:11,600 --> 00:09:17,200
+diversity in the language model
+
+244
+00:09:13,959 --> 00:09:19,800
+outputs yep I understand that your
+
+245
+00:09:17,200 --> 00:09:21,880
+undetectability is a very strong notion
+
+246
+00:09:19,800 --> 00:09:25,680
+that implies a bunch of but a weaker
+
+247
+00:09:21,880 --> 00:09:27,560
+notion might suffice right and and is
+
+248
+00:09:25,680 --> 00:09:30,399
+the is the weaker notion these people
+
+249
+00:09:27,560 --> 00:09:32,880
+look at sort of how should I say it's
+
+250
+00:09:30,399 --> 00:09:34,440
+meaningful um it's it's meaningful for
+
+251
+00:09:32,880 --> 00:09:37,519
+like maybe certain tasks like if you
+
+252
+00:09:34,440 --> 00:09:41,839
+kind of have like a maybe like a factual
+
+253
+00:09:37,519 --> 00:09:43,399
+question you're asking and uh you know
+
+254
+00:09:41,839 --> 00:09:44,920
+if if you wanted to describe some some
+
+255
+00:09:43,399 --> 00:09:46,519
+fact maybe there's only you really only
+
+256
+00:09:44,920 --> 00:09:48,720
+care about like a single sample from
+
+257
+00:09:46,519 --> 00:09:50,000
+this but maybe imagine you wanted to
+
+258
+00:09:48,720 --> 00:09:52,040
+kind of be more creative like you wanted
+
+259
+00:09:50,000 --> 00:09:54,600
+to write a story then you often for
+
+260
+00:09:52,040 --> 00:09:55,839
+these maybe creative tasks you want like
+
+261
+00:09:54,600 --> 00:09:57,040
+you want you want to be able to generate
+
+262
+00:09:55,839 --> 00:09:58,519
+multiple independent stories and
+
+263
+00:09:57,040 --> 00:10:01,279
+Distortion freeness is not sufficient
+
+264
+00:09:58,519 --> 00:10:02,560
+for that so there's maybe some depends a
+
+265
+00:10:01,279 --> 00:10:04,079
+little more on the task and like it is
+
+266
+00:10:02,560 --> 00:10:05,760
+interesting to relax on itability in
+
+267
+00:10:04,079 --> 00:10:08,720
+other
+
+268
+00:10:05,760 --> 00:10:10,279
+ways can yeah so the con you said
+
+269
+00:10:08,720 --> 00:10:12,640
+constant but the Conant should depend on
+
+270
+00:10:10,279 --> 00:10:14,079
+something so like you say it achieves
+
+271
+00:10:12,640 --> 00:10:17,480
+constant at it robustness what's the
+
+272
+00:10:14,079 --> 00:10:18,959
+Conant uh so for for our for your for
+
+273
+00:10:17,480 --> 00:10:19,920
+our thing it will depend on actually
+
+274
+00:10:18,959 --> 00:10:21,720
+I'll introduce this later but it will
+
+275
+00:10:19,920 --> 00:10:23,040
+depend on the entropy so it will depend
+
+276
+00:10:21,720 --> 00:10:25,760
+on something
+
+277
+00:10:23,040 --> 00:10:28,440
+yeah but yeah good
+
+278
+00:10:25,760 --> 00:10:30,320
+question uh so one last paper by Kristen
+
+279
+00:10:28,440 --> 00:10:32,480
+gun established tected by water marking
+
+280
+00:10:30,320 --> 00:10:34,480
+schemes that are sound but only robust
+
+281
+00:10:32,480 --> 00:10:36,279
+to a constant fraction of
+
+282
+00:10:34,480 --> 00:10:38,040
+substitutions and it turns out that
+
+283
+00:10:36,279 --> 00:10:40,560
+going from substitutions to edits in
+
+284
+00:10:38,040 --> 00:10:42,040
+general will require new techniques in
+
+285
+00:10:40,560 --> 00:10:44,079
+particular because edits includes
+
+286
+00:10:42,040 --> 00:10:45,360
+insertions and deletions which can cause
+
+287
+00:10:44,079 --> 00:10:47,920
+offsets and these are actually pretty
+
+288
+00:10:45,360 --> 00:10:49,079
+challenging to deal with so our water
+
+289
+00:10:47,920 --> 00:10:52,040
+marking scheme is the first that gets
+
+290
+00:10:49,079 --> 00:10:54,079
+all three of these properties um and I'm
+
+291
+00:10:52,040 --> 00:10:56,760
+going to to tell you more about this um
+
+292
+00:10:54,079 --> 00:10:56,760
+in the next few
+
+293
+00:10:57,480 --> 00:11:01,680
+slides there a question
+
+294
+00:11:00,079 --> 00:11:03,560
+uh can you clarify a little bit more on
+
+295
+00:11:01,680 --> 00:11:05,600
+why we want detectability I would think
+
+296
+00:11:03,560 --> 00:11:09,079
+just intuitively that you would want
+
+297
+00:11:05,600 --> 00:11:09,079
+like people to easily recognize
+
+298
+00:11:09,480 --> 00:11:14,160
+something uh okay so why do we want uh
+
+299
+00:11:12,120 --> 00:11:16,200
+detectability I guess it depends on the
+
+300
+00:11:14,160 --> 00:11:17,720
+application if you like want to be able
+
+301
+00:11:16,200 --> 00:11:18,959
+to kind of if you want some public
+
+302
+00:11:17,720 --> 00:11:20,800
+attribution for your water marking
+
+303
+00:11:18,959 --> 00:11:22,800
+scheme then yes you want there to be
+
+304
+00:11:20,800 --> 00:11:24,880
+like some this is more like a signature
+
+305
+00:11:22,800 --> 00:11:27,720
+scheme you want there to be some kind of
+
+306
+00:11:24,880 --> 00:11:30,399
+way of seeing you know easily that the
+
+307
+00:11:27,720 --> 00:11:34,079
+text was generated by a language model
+
+308
+00:11:30,399 --> 00:11:37,399
+but uh I I think that you know there's
+
+309
+00:11:34,079 --> 00:11:39,120
+some applications where you really like
+
+310
+00:11:37,399 --> 00:11:41,240
+don't you want to basically kind of
+
+311
+00:11:39,120 --> 00:11:43,720
+pretend that this is generated from the
+
+312
+00:11:41,240 --> 00:11:46,920
+two language model
+
+313
+00:11:43,720 --> 00:11:48,279
+and you maybe only care about detecting
+
+314
+00:11:46,920 --> 00:11:49,920
+whether it was actually you know a
+
+315
+00:11:48,279 --> 00:11:52,320
+language model or you know something
+
+316
+00:11:49,920 --> 00:11:54,600
+else for some Downstream
+
+317
+00:11:52,320 --> 00:11:57,040
+applications that you will want to use
+
+318
+00:11:54,600 --> 00:11:58,120
+your secret key for for detection and so
+
+319
+00:11:57,040 --> 00:11:59,839
+there it depends a lot on the
+
+320
+00:11:58,120 --> 00:12:03,120
+application uh
+
+321
+00:11:59,839 --> 00:12:04,680
+um but I thinkability provides you the
+
+322
+00:12:03,120 --> 00:12:06,519
+guarantee that it doesn't degrade
+
+323
+00:12:04,680 --> 00:12:07,639
+quality in any way yes that's that
+
+324
+00:12:06,519 --> 00:12:09,079
+that's that's the main that's one main
+
+325
+00:12:07,639 --> 00:12:11,000
+motivation yeah exactly how else would
+
+326
+00:12:09,079 --> 00:12:13,279
+you guarantee that it doesn't degrade
+
+327
+00:12:11,000 --> 00:12:14,800
+property quality you know it's a way to
+
+328
+00:12:13,279 --> 00:12:16,240
+there's maybe other ways but this is the
+
+329
+00:12:14,800 --> 00:12:18,600
+kind of the cleanest like strongest
+
+330
+00:12:16,240 --> 00:12:18,600
+possible
+
+331
+00:12:24,519 --> 00:12:29,360
+way uh yes there are um and I I won't
+
+332
+00:12:28,040 --> 00:12:31,120
+discuss those that much in this talk
+
+333
+00:12:29,360 --> 00:12:34,320
+about there
+
+334
+00:12:31,120 --> 00:12:34,320
+are uh
+
+335
+00:12:34,600 --> 00:12:41,279
+[Music]
+
+336
+00:12:36,639 --> 00:12:42,800
+yeah like yes yes there are um yeah uh I
+
+337
+00:12:41,279 --> 00:12:45,680
+won't say that much about it but I I'll
+
+338
+00:12:42,800 --> 00:12:49,440
+touch on it briefly I
+
+339
+00:12:45,680 --> 00:12:50,240
+think okay great so um now I guess there
+
+340
+00:12:49,440 --> 00:12:52,440
+are a few questions about why
+
+341
+00:12:50,240 --> 00:12:55,440
+undetectability let me just motivate
+
+342
+00:12:52,440 --> 00:12:58,320
+edit robustness quickly um so why not
+
+343
+00:12:55,440 --> 00:12:59,920
+just substitutions well there's a lot of
+
+344
+00:12:58,320 --> 00:13:04,079
+applications of editing sequences which
+
+345
+00:12:59,920 --> 00:13:04,079
+involve insertions or deletions
+
+346
+00:13:05,120 --> 00:13:10,839
+and um so in addition to uh text a lot
+
+347
+00:13:08,800 --> 00:13:12,279
+of sequence data say you know another
+
+348
+00:13:10,839 --> 00:13:14,760
+application of sequence modeling
+
+349
+00:13:12,279 --> 00:13:16,399
+sequences is DNA and in DNA mutation we
+
+350
+00:13:14,760 --> 00:13:19,000
+often consider insertions or deletions
+
+351
+00:13:16,399 --> 00:13:20,639
+as well and one other interesting fact
+
+352
+00:13:19,000 --> 00:13:22,480
+is that the process of tokenization
+
+353
+00:13:20,639 --> 00:13:25,480
+itself even if there's not an explicit
+
+354
+00:13:22,480 --> 00:13:28,120
+adversary can insert or delete
+
+355
+00:13:25,480 --> 00:13:29,839
+tokens so let me give you an example
+
+356
+00:13:28,120 --> 00:13:32,720
+language models actually don't output
+
+357
+00:13:29,839 --> 00:13:35,360
+words per se they actually output tokens
+
+358
+00:13:32,720 --> 00:13:37,079
+or token IDs which are just numbers in
+
+359
+00:13:35,360 --> 00:13:39,199
+order to convert a sequence of tokens
+
+360
+00:13:37,079 --> 00:13:40,440
+into human readable text we actually
+
+361
+00:13:39,199 --> 00:13:42,399
+have to apply what's known as a
+
+362
+00:13:40,440 --> 00:13:44,480
+tokenizer in particular a decoding
+
+363
+00:13:42,399 --> 00:13:46,120
+algorithm the tokenizer which takes as
+
+364
+00:13:44,480 --> 00:13:49,399
+input a sequence of token IDs and
+
+365
+00:13:46,120 --> 00:13:51,000
+outputs uh text this particular sequence
+
+366
+00:13:49,399 --> 00:13:52,079
+of tokens will correspond to the text
+
+367
+00:13:51,000 --> 00:13:54,680
+DNA a
+
+368
+00:13:52,079 --> 00:13:56,639
+molecule now to actually apply a a
+
+369
+00:13:54,680 --> 00:14:00,000
+watermarking detection algorithm we have
+
+370
+00:13:56,639 --> 00:14:01,639
+to go back from text to tokens
+
+371
+00:14:00,000 --> 00:14:03,079
+and if you take this sequence of text
+
+372
+00:14:01,639 --> 00:14:05,560
+imply the encoding algorithm for the
+
+373
+00:14:03,079 --> 00:14:06,720
+tokenizer you end up with a different
+
+374
+00:14:05,560 --> 00:14:08,839
+sequence of tokens than the one you
+
+375
+00:14:06,720 --> 00:14:10,680
+started out with in particular the first
+
+376
+00:14:08,839 --> 00:14:12,959
+three tokens were deleted and we
+
+377
+00:14:10,680 --> 00:14:14,920
+inserted one new
+
+378
+00:14:12,959 --> 00:14:16,320
+token so the problem here is that the
+
+379
+00:14:14,920 --> 00:14:18,800
+mapping between tokens and text
+
+380
+00:14:16,320 --> 00:14:21,959
+sequences is actually not one to
+
+381
+00:14:18,800 --> 00:14:24,360
+one and due to this fact even without an
+
+382
+00:14:21,959 --> 00:14:26,959
+explicit adversary there may be edits
+
+383
+00:14:24,360 --> 00:14:31,040
+that are introduced um when going from
+
+384
+00:14:26,959 --> 00:14:31,040
+tokens to text and back to tokens
+
+385
+00:14:31,800 --> 00:14:34,279
+and why do we want a constant fraction
+
+386
+00:14:33,240 --> 00:14:36,120
+of edits well I think the best
+
+387
+00:14:34,279 --> 00:14:38,000
+motivation is say in related areas like
+
+388
+00:14:36,120 --> 00:14:39,839
+coding Theory getting robustness to a
+
+389
+00:14:38,000 --> 00:14:43,199
+constant fraction of of modifications
+
+390
+00:14:39,839 --> 00:14:43,199
+like substitutions or edits is a gold
+
+391
+00:14:45,519 --> 00:14:50,199
+standard okay so now I can move on to
+
+392
+00:14:47,720 --> 00:14:51,720
+say what our main result is um and
+
+393
+00:14:50,199 --> 00:14:53,160
+before stating our main result I need to
+
+394
+00:14:51,720 --> 00:14:53,880
+introduce one more notion which is out
+
+395
+00:14:53,160 --> 00:14:56,160
+of
+
+396
+00:14:53,880 --> 00:14:58,240
+entropy it's motivated by the following
+
+397
+00:14:56,160 --> 00:14:59,959
+observation which is that if I ask a
+
+398
+00:14:58,240 --> 00:15:01,160
+language model say a good language model
+
+399
+00:14:59,959 --> 00:15:03,160
+to Output the Declaration of
+
+400
+00:15:01,160 --> 00:15:05,000
+Independence there's really only one
+
+401
+00:15:03,160 --> 00:15:06,199
+answer to this question it's the
+
+402
+00:15:05,000 --> 00:15:07,399
+Declaration of Independence and you
+
+403
+00:15:06,199 --> 00:15:09,120
+can't really Watermark this it was
+
+404
+00:15:07,399 --> 00:15:11,519
+written several hundred years
+
+405
+00:15:09,120 --> 00:15:13,279
+ago and more generally we can only hope
+
+406
+00:15:11,519 --> 00:15:15,079
+to Watermark language models with
+
+407
+00:15:13,279 --> 00:15:17,279
+sufficient
+
+408
+00:15:15,079 --> 00:15:19,600
+entropy so I'll measure entropy using
+
+409
+00:15:17,279 --> 00:15:21,120
+what's known as the entropy rate and
+
+410
+00:15:19,600 --> 00:15:24,160
+it's defined as
+
+411
+00:15:21,120 --> 00:15:27,160
+follows so it's the average over all L
+
+412
+00:15:24,160 --> 00:15:29,480
+tokens from ials 1 to capital L of the
+
+413
+00:15:27,160 --> 00:15:31,720
+entropy of the I token TI given the
+
+414
+00:15:29,480 --> 00:15:34,600
+preceding tokens T1 through
+
+415
+00:15:31,720 --> 00:15:36,399
+ius1 with respect to the language model
+
+416
+00:15:34,600 --> 00:15:38,480
+and this is divided by the maximum
+
+417
+00:15:36,399 --> 00:15:40,360
+possible enty of a token which is simply
+
+418
+00:15:38,480 --> 00:15:42,519
+the log of the alphabet
+
+419
+00:15:40,360 --> 00:15:44,000
+size so because we're using this
+
+420
+00:15:42,519 --> 00:15:45,800
+normalization the entropy rate will
+
+421
+00:15:44,000 --> 00:15:47,959
+always be be a real number between zero
+
+422
+00:15:45,800 --> 00:15:47,959
+and
+
+423
+00:15:50,240 --> 00:15:55,519
+one now here's what we
+
+424
+00:15:52,680 --> 00:15:58,600
+show under an appropriate cryptographic
+
+425
+00:15:55,519 --> 00:16:00,720
+assumption for security parameter Lambda
+
+426
+00:15:58,600 --> 00:16:02,360
+which parameterizes things such as the
+
+427
+00:16:00,720 --> 00:16:05,120
+running time of the
+
+428
+00:16:02,360 --> 00:16:07,040
+adversary there's a watermarking scheme
+
+429
+00:16:05,120 --> 00:16:09,319
+for language models over alphabets of
+
+430
+00:16:07,040 --> 00:16:11,839
+size that's a polinomial one and
+
+431
+00:16:09,319 --> 00:16:13,120
+Lambda which satisfies the three desired
+
+432
+00:16:11,839 --> 00:16:15,279
+properties so first of all it's
+
+433
+00:16:13,120 --> 00:16:19,519
+undetectable to all polinomial time
+
+434
+00:16:15,279 --> 00:16:21,639
+algorithms and here I mean polinomial in
+
+435
+00:16:19,519 --> 00:16:23,360
+Lambda it's sound which means that it
+
+436
+00:16:21,639 --> 00:16:24,800
+detects any fixed sequence as
+
+437
+00:16:23,360 --> 00:16:26,759
+watermarked with probability that's
+
+438
+00:16:24,800 --> 00:16:30,040
+negligible in Lambda so smaller than any
+
+439
+00:16:26,759 --> 00:16:31,920
+polinomial function in Lambda
+
+440
+00:16:30,040 --> 00:16:32,959
+and finally it's robust to a constant
+
+441
+00:16:31,920 --> 00:16:35,560
+fraction of
+
+442
+00:16:32,959 --> 00:16:37,079
+edits as long as the entropy rate of the
+
+443
+00:16:35,560 --> 00:16:39,399
+model is
+
+444
+00:16:37,079 --> 00:16:42,240
+Alpha and a few things I'll remark here
+
+445
+00:16:39,399 --> 00:16:43,519
+are that the entry rate of the uh
+
+446
+00:16:42,240 --> 00:16:45,079
+language model actually shows up in the
+
+447
+00:16:43,519 --> 00:16:47,160
+alphabet size we need the alphabet size
+
+448
+00:16:45,079 --> 00:16:49,160
+to be Lambda to the one over the enty
+
+449
+00:16:47,160 --> 00:16:50,399
+rate the second thing I'll note here is
+
+450
+00:16:49,160 --> 00:16:52,600
+that the constant fraction of edit
+
+451
+00:16:50,399 --> 00:16:53,959
+robust to also depends on Lambda so for
+
+452
+00:16:52,600 --> 00:16:55,759
+our scheme we showed something like
+
+453
+00:16:53,959 --> 00:16:59,880
+Alpha squared although it you know I
+
+454
+00:16:55,759 --> 00:16:59,880
+think that can may maybe be improved
+
+455
+00:17:03,199 --> 00:17:07,919
+yep tokens yeah exactly
+
+456
+00:17:12,679 --> 00:17:17,439
+y uh sorry I can't hear what if the
+
+457
+00:17:15,400 --> 00:17:19,400
+entrop is really high in some places but
+
+458
+00:17:17,439 --> 00:17:21,120
+really low in other places during
+
+459
+00:17:19,400 --> 00:17:22,559
+generation uh good questions what if the
+
+460
+00:17:21,120 --> 00:17:25,679
+entrop is high in some places and low in
+
+461
+00:17:22,559 --> 00:17:28,120
+others um so it basically what we need
+
+462
+00:17:25,679 --> 00:17:30,440
+is like kind of a a mean uh we're going
+
+463
+00:17:28,120 --> 00:17:32,200
+to be averaging over many positions and
+
+464
+00:17:30,440 --> 00:17:33,760
+so as long as the mean entropy is high
+
+465
+00:17:32,200 --> 00:17:35,679
+there's enough positions where it's high
+
+466
+00:17:33,760 --> 00:17:38,720
+enough that you'll be good so this
+
+467
+00:17:35,679 --> 00:17:38,720
+allows it to be low in some
+
+468
+00:17:40,720 --> 00:17:47,640
+positions okay so let me say a few words
+
+469
+00:17:44,320 --> 00:17:49,559
+about this alphabet size um one thing
+
+470
+00:17:47,640 --> 00:17:51,919
+you might ask is is is this
+
+471
+00:17:49,559 --> 00:17:54,039
+practical um you can actually look at
+
+472
+00:17:51,919 --> 00:17:56,840
+the values of Sigma and Alpha for for
+
+473
+00:17:54,039 --> 00:17:59,159
+say gpt2 so for gpt2 there's about
+
+474
+00:17:56,840 --> 00:18:00,400
+50,000 tokens
+
+475
+00:17:59,159 --> 00:18:02,440
+and you can compute that the entry rate
+
+476
+00:18:00,400 --> 00:18:04,200
+of gpt2 is something like 0. 28 at least
+
+477
+00:18:02,440 --> 00:18:05,520
+for kind of Tex that lies in its
+
+478
+00:18:04,200 --> 00:18:08,159
+training data
+
+479
+00:18:05,520 --> 00:18:09,600
+set unfortunately these values are not
+
+480
+00:18:08,159 --> 00:18:13,039
+quite good enough for our theorem to
+
+481
+00:18:09,600 --> 00:18:14,679
+apply um for gpt2 we would need to take
+
+482
+00:18:13,039 --> 00:18:16,960
+the security parameter Lambda very small
+
+483
+00:18:14,679 --> 00:18:19,000
+it close to
+
+484
+00:18:16,960 --> 00:18:20,720
+one the good news is that there is kind
+
+485
+00:18:19,000 --> 00:18:22,320
+of some empirical ad hoc techniques
+
+486
+00:18:20,720 --> 00:18:23,400
+which actually can be applied to make
+
+487
+00:18:22,320 --> 00:18:26,200
+this practical and you can actually
+
+488
+00:18:23,400 --> 00:18:28,200
+implement this roughly speaking the idea
+
+489
+00:18:26,200 --> 00:18:29,360
+is to group a constant number of tokens
+
+490
+00:18:28,200 --> 00:18:31,320
+together
+
+491
+00:18:29,360 --> 00:18:33,679
+so suppose we group um we group
+
+492
+00:18:31,320 --> 00:18:35,840
+sequences of three consecutive tokens
+
+493
+00:18:33,679 --> 00:18:38,159
+together as a kind of given an example
+
+494
+00:18:35,840 --> 00:18:40,080
+here by doing this we increase the
+
+495
+00:18:38,159 --> 00:18:41,080
+effective alphabet size from Sigma to
+
+496
+00:18:40,080 --> 00:18:43,200
+Sigma
+
+497
+00:18:41,080 --> 00:18:44,880
+cubed however we don't change the
+
+498
+00:18:43,200 --> 00:18:47,440
+entropy
+
+499
+00:18:44,880 --> 00:18:48,840
+rate because the entropy per token is
+
+500
+00:18:47,440 --> 00:18:50,280
+increasing by a factor of three on
+
+501
+00:18:48,840 --> 00:18:53,000
+average and also the log of the alphabet
+
+502
+00:18:50,280 --> 00:18:54,159
+size is increasing by a factor of three
+
+503
+00:18:53,000 --> 00:18:55,760
+so by doing this we can boost the
+
+504
+00:18:54,159 --> 00:18:58,200
+alphabet size keep this Lambda to the
+
+505
+00:18:55,760 --> 00:19:01,240
+one over Alpha the same and get in a
+
+506
+00:18:58,200 --> 00:19:04,120
+more favorable regime for the
+
+507
+00:19:01,240 --> 00:19:06,280
+parameters something bothers me here so
+
+508
+00:19:04,120 --> 00:19:07,640
+why can't you arbitrarily increase the
+
+509
+00:19:06,280 --> 00:19:09,600
+alphabet something grows with the
+
+510
+00:19:07,640 --> 00:19:10,720
+alphabet size right is the runtime of
+
+511
+00:19:09,600 --> 00:19:13,159
+the algorithm
+
+512
+00:19:10,720 --> 00:19:14,520
+perhaps arbitr increase I mean the run
+
+513
+00:19:13,159 --> 00:19:16,919
+time definitely goes the alphabet size
+
+514
+00:19:14,520 --> 00:19:19,640
+yeah so so I can't I can't let the whole
+
+515
+00:19:16,919 --> 00:19:20,919
+sequence the sentence be the uh you know
+
+516
+00:19:19,640 --> 00:19:21,880
+the so I guess okay one other thing I
+
+517
+00:19:20,919 --> 00:19:23,559
+haven't mentioned here is that your
+
+518
+00:19:21,880 --> 00:19:25,919
+robustness also decreases by this
+
+519
+00:19:23,559 --> 00:19:27,799
+constant Factor because now like I only
+
+520
+00:19:25,919 --> 00:19:30,480
+have to change one of those tokens and
+
+521
+00:19:27,799 --> 00:19:32,480
+so like I really want this to be a
+
+522
+00:19:30,480 --> 00:19:34,760
+constant um and also when you're kind of
+
+523
+00:19:32,480 --> 00:19:37,559
+doing these empirical things what is a
+
+524
+00:19:34,760 --> 00:19:39,280
+constant and what is like Lambda it
+
+525
+00:19:37,559 --> 00:19:41,679
+becomes a little bit um trickier to kind
+
+526
+00:19:39,280 --> 00:19:44,000
+of think about what is constant because
+
+527
+00:19:41,679 --> 00:19:46,840
+changes and the one time also increases
+
+528
+00:19:44,000 --> 00:19:46,840
+you look at
+
+529
+00:19:51,159 --> 00:19:56,240
+exactly okay so in the last uh 10 or so
+
+530
+00:19:54,159 --> 00:19:58,360
+minutes I'm going to overview the proof
+
+531
+00:19:56,240 --> 00:19:59,640
+of the theorem and tell you about some
+
+532
+00:19:58,360 --> 00:20:01,159
+kind of
+
+533
+00:19:59,640 --> 00:20:03,960
+related results which I think are kind
+
+534
+00:20:01,159 --> 00:20:05,360
+of maybe of interest in their own right
+
+535
+00:20:03,960 --> 00:20:07,080
+and in particular I'm going to discuss
+
+536
+00:20:05,360 --> 00:20:09,640
+how we can construct edit robust pseudo
+
+537
+00:20:07,080 --> 00:20:12,200
+random codes which is essentially a
+
+538
+00:20:09,640 --> 00:20:17,360
+combination of an error correcting code
+
+539
+00:20:12,200 --> 00:20:18,880
+and um um a secret key scheme um and
+
+540
+00:20:17,360 --> 00:20:21,760
+then I'll show how edit robust through
+
+541
+00:20:18,880 --> 00:20:25,039
+to random codes imply edit robust
+
+542
+00:20:21,760 --> 00:20:26,039
+watermarking um that's what we show um
+
+543
+00:20:25,039 --> 00:20:26,960
+I'm actually only going to focus on the
+
+544
+00:20:26,039 --> 00:20:29,200
+first
+
+545
+00:20:26,960 --> 00:20:30,280
+point so let me first what a pseudo
+
+546
+00:20:29,200 --> 00:20:33,720
+random code
+
+547
+00:20:30,280 --> 00:20:35,280
+is um a pseudo random code or a PRC can
+
+548
+00:20:33,720 --> 00:20:37,679
+be most simply defined as a water
+
+549
+00:20:35,280 --> 00:20:40,120
+marking scheme for the uniform language
+
+550
+00:20:37,679 --> 00:20:41,440
+model Now by uniform language model I
+
+551
+00:20:40,120 --> 00:20:43,600
+simply mean the model which does not
+
+552
+00:20:41,440 --> 00:20:45,320
+take as input a prompt and just outputs
+
+553
+00:20:43,600 --> 00:20:48,280
+distribu uh the uniform distribution
+
+554
+00:20:45,320 --> 00:20:50,919
+over sequences of L
+
+555
+00:20:48,280 --> 00:20:52,440
+tokens now to be to be clear let me just
+
+556
+00:20:50,919 --> 00:20:54,000
+remind you what the three properties are
+
+557
+00:20:52,440 --> 00:20:56,320
+so undetectability for the case the
+
+558
+00:20:54,000 --> 00:20:57,799
+uniform language model tells us that no
+
+559
+00:20:56,320 --> 00:21:00,320
+poly time algorithm can distinguish
+
+560
+00:20:57,799 --> 00:21:01,840
+between the output of quark and the and
+
+561
+00:21:00,320 --> 00:21:03,520
+multiple independent samples from the
+
+562
+00:21:01,840 --> 00:21:05,919
+uniform
+
+563
+00:21:03,520 --> 00:21:07,559
+distribution we also want robustness so
+
+564
+00:21:05,919 --> 00:21:09,720
+edit robustness means that our water
+
+565
+00:21:07,559 --> 00:21:12,240
+marking scheme's detection algorithm is
+
+566
+00:21:09,720 --> 00:21:14,000
+robust to a constant fraction of edits
+
+567
+00:21:12,240 --> 00:21:15,559
+I'll also um discuss substitution
+
+568
+00:21:14,000 --> 00:21:18,320
+robustness where we want robust a
+
+569
+00:21:15,559 --> 00:21:18,320
+constant fraction of
+
+570
+00:21:20,440 --> 00:21:23,720
+substitutions and finally we want
+
+571
+00:21:22,279 --> 00:21:27,000
+soundness which means that independent
+
+572
+00:21:23,720 --> 00:21:27,000
+text is not recognized as
+
+573
+00:21:27,279 --> 00:21:30,720
+watermarked so in this talk I'm going to
+
+574
+00:21:29,240 --> 00:21:33,080
+discuss how to construct these pseudo
+
+575
+00:21:30,720 --> 00:21:34,600
+random codes the proof that edit robust
+
+576
+00:21:33,080 --> 00:21:36,559
+pseudo random codes imply edit robust
+
+577
+00:21:34,600 --> 00:21:38,520
+watermarking follows from similar
+
+578
+00:21:36,559 --> 00:21:40,640
+techniques from a paper by Kristen um
+
+579
+00:21:38,520 --> 00:21:43,679
+gun uh last year so I won't discuss that
+
+580
+00:21:40,640 --> 00:21:43,679
+in in uh during this
+
+581
+00:21:47,520 --> 00:21:51,279
+talk okay so to construct edit robust
+
+582
+00:21:49,840 --> 00:21:53,000
+through random codes the way we do this
+
+583
+00:21:51,279 --> 00:21:54,640
+is we actually first show a construction
+
+584
+00:21:53,000 --> 00:21:55,960
+of substitution robust through random
+
+585
+00:21:54,640 --> 00:21:57,520
+codes so then show how to upgrade this
+
+586
+00:21:55,960 --> 00:21:59,400
+to edit
+
+587
+00:21:57,520 --> 00:22:00,960
+robustness so what we show is that under
+
+588
+00:21:59,400 --> 00:22:02,799
+an appropriate cryptographic assumption
+
+589
+00:22:00,960 --> 00:22:05,279
+there's a binary alphabet pseudo random
+
+590
+00:22:02,799 --> 00:22:07,279
+code which is robust to any constant
+
+591
+00:22:05,279 --> 00:22:09,559
+fraction of substitutions bounded above
+
+592
+00:22:07,279 --> 00:22:09,559
+by a
+
+593
+00:22:11,279 --> 00:22:16,880
+half now what is this cryptographic
+
+594
+00:22:13,400 --> 00:22:19,640
+assumption it's somewhat standard um and
+
+595
+00:22:16,880 --> 00:22:21,880
+one thing that works is assuming that
+
+596
+00:22:19,640 --> 00:22:23,480
+log Lambda hunas in the binary hyper Cub
+
+597
+00:22:21,880 --> 00:22:26,279
+Dimension Lambda form a weak pseudo
+
+598
+00:22:23,480 --> 00:22:28,520
+random function family so let me unpack
+
+599
+00:22:26,279 --> 00:22:31,279
+that a log Lambda hun is a function that
+
+600
+00:22:28,520 --> 00:22:33,200
+only depends on log Lambda
+
+601
+00:22:31,279 --> 00:22:35,080
+coordinates and the fact they form a
+
+602
+00:22:33,200 --> 00:22:36,600
+weak stud random function family
+
+603
+00:22:35,080 --> 00:22:38,159
+basically means that you cannot learn
+
+604
+00:22:36,600 --> 00:22:41,720
+this in polinomial time with respect to
+
+605
+00:22:38,159 --> 00:22:41,720
+the uniform Distribution on the hyper
+
+606
+00:22:41,760 --> 00:22:47,640
+Cube now I want to compare our result to
+
+607
+00:22:44,799 --> 00:22:49,240
+one result by prior work by Christen gun
+
+608
+00:22:47,640 --> 00:22:50,880
+which showed the same conclusion as us
+
+609
+00:22:49,240 --> 00:22:53,440
+namely a binary alphabet
+
+610
+00:22:50,880 --> 00:22:55,039
+PRC but they had a different assumption
+
+611
+00:22:53,440 --> 00:22:58,919
+and to compare these assumptions it can
+
+612
+00:22:55,039 --> 00:23:02,159
+be useful to look at ugo's five worlds
+
+613
+00:22:58,919 --> 00:23:03,600
+so the assumptions of Christ and gun uh
+
+614
+00:23:02,159 --> 00:23:05,200
+are known to imply public key
+
+615
+00:23:03,600 --> 00:23:06,320
+cryptography and so in this sense they
+
+616
+00:23:05,200 --> 00:23:08,720
+lie in
+
+617
+00:23:06,320 --> 00:23:10,720
+cryptomania in contrast our cryptic
+
+618
+00:23:08,720 --> 00:23:14,279
+Africa assumption this this one by
+
+619
+00:23:10,720 --> 00:23:15,840
+bkfl um is not known to apply publicy
+
+620
+00:23:14,279 --> 00:23:19,559
+cryptography so in this sense it lies in
+
+621
+00:23:15,840 --> 00:23:20,559
+minic Crypt which is weaker you know um
+
+622
+00:23:19,559 --> 00:23:22,400
+which means that our assumption the
+
+623
+00:23:20,559 --> 00:23:24,880
+senses is weaker than those of um
+
+624
+00:23:22,400 --> 00:23:26,640
+Christen gun I will say however and this
+
+625
+00:23:24,880 --> 00:23:29,880
+there's a question about this earlier
+
+626
+00:23:26,640 --> 00:23:32,200
+that the um so random codes that
+
+627
+00:23:29,880 --> 00:23:34,480
+crypting uh that Chris and gun are able
+
+628
+00:23:32,200 --> 00:23:36,039
+to show as a result of their assumption
+
+629
+00:23:34,480 --> 00:23:37,400
+have a stronger guarantee in the sense
+
+630
+00:23:36,039 --> 00:23:38,320
+that they're actually public key pseudo
+
+631
+00:23:37,400 --> 00:23:40,120
+vom
+
+632
+00:23:38,320 --> 00:23:41,400
+codes so they're actually getting
+
+633
+00:23:40,120 --> 00:23:44,120
+something more for their assumption as
+
+634
+00:23:41,400 --> 00:23:45,679
+well so they also get us public key
+
+635
+00:23:44,120 --> 00:23:48,880
+watermarking scheme is a result yeah
+
+636
+00:23:45,679 --> 00:23:48,880
+public keybard marking scheme
+
+637
+00:23:51,600 --> 00:23:55,840
+yeah okay now let me move on to the
+
+638
+00:23:53,720 --> 00:23:57,960
+second part of the proof um the idea
+
+639
+00:23:55,840 --> 00:23:59,960
+here is to go from substitution robust
+
+640
+00:23:57,960 --> 00:24:02,080
+prc's to edit robust
+
+641
+00:23:59,960 --> 00:24:03,679
+pies so what we show is that given a
+
+642
+00:24:02,080 --> 00:24:05,840
+binary alphabet pseud random code on
+
+643
+00:24:03,679 --> 00:24:08,880
+length L strings which is robust to a 1
+
+644
+00:24:05,840 --> 00:24:11,799
+half minus Epsilon fraction of
+
+645
+00:24:08,880 --> 00:24:14,240
+substitutions then in a blackbox manner
+
+646
+00:24:11,799 --> 00:24:17,360
+we can construct a pseudo random code
+
+647
+00:24:14,240 --> 00:24:19,600
+which is um an alphabets of size order L
+
+648
+00:24:17,360 --> 00:24:21,279
+which is robust to a one minus order
+
+649
+00:24:19,600 --> 00:24:22,760
+Epsilon fraction of edits so we're
+
+650
+00:24:21,279 --> 00:24:25,440
+getting edit robustness but we're paying
+
+651
+00:24:22,760 --> 00:24:25,440
+in the size of the
+
+652
+00:24:26,440 --> 00:24:29,840
+alphabet and one thing I'll not is that
+
+653
+00:24:28,399 --> 00:24:31,760
+the edit robust PRC that we get is
+
+654
+00:24:29,840 --> 00:24:34,520
+actually robust to an arbitrary
+
+655
+00:24:31,760 --> 00:24:36,200
+permutation on the string not just um
+
+656
+00:24:34,520 --> 00:24:38,520
+some adversarial edits so it has this
+
+657
+00:24:36,200 --> 00:24:40,760
+stronger property the same holds for a
+
+658
+00:24:38,520 --> 00:24:42,159
+watermarking scheme but not if you
+
+659
+00:24:40,760 --> 00:24:45,200
+combine it with some of these you know
+
+660
+00:24:42,159 --> 00:24:46,760
+empirical um kind of ad hoc things which
+
+661
+00:24:45,200 --> 00:24:49,240
+group a constant number of consecutive
+
+662
+00:24:46,760 --> 00:24:49,240
+tokens
+
+663
+00:24:51,120 --> 00:24:55,159
+together so in the last minute or two
+
+664
+00:24:53,240 --> 00:24:57,320
+let me give you a sketch of how our edit
+
+665
+00:24:55,159 --> 00:24:59,520
+robust sud random code
+
+666
+00:24:57,320 --> 00:25:01,320
+works so let's start with a substitution
+
+667
+00:24:59,520 --> 00:25:03,559
+robust do a random code which I'll call
+
+668
+00:25:01,320 --> 00:25:05,679
+Key gen Watermark detect with the
+
+669
+00:25:03,559 --> 00:25:07,720
+subscript of
+
+670
+00:25:05,679 --> 00:25:10,080
+s I'm going to construct an edit
+
+671
+00:25:07,720 --> 00:25:14,000
+robustum codes now I'm using subscrip of
+
+672
+00:25:10,080 --> 00:25:16,200
+e and the rough idea is to write down
+
+673
+00:25:14,000 --> 00:25:19,399
+the indices and ones of the output of
+
+674
+00:25:16,200 --> 00:25:21,720
+the substitution robust Toom
+
+675
+00:25:19,399 --> 00:25:24,080
+code let me tell you a little bit more
+
+676
+00:25:21,720 --> 00:25:26,039
+detail about what I mean by that so the
+
+677
+00:25:24,080 --> 00:25:27,320
+key generation algorithm for edit robust
+
+678
+00:25:26,039 --> 00:25:28,559
+scheme is the same as that for the
+
+679
+00:25:27,320 --> 00:25:30,200
+substitution robust scheme which just
+
+680
+00:25:28,559 --> 00:25:33,440
+outputs a secret
+
+681
+00:25:30,200 --> 00:25:35,399
+key now how does the watermarking method
+
+682
+00:25:33,440 --> 00:25:36,880
+work I'm going to first call the
+
+683
+00:25:35,399 --> 00:25:39,039
+substitution Rob Boss Water marking
+
+684
+00:25:36,880 --> 00:25:42,080
+function which gives me a binary string
+
+685
+00:25:39,039 --> 00:25:44,640
+X of length
+
+686
+00:25:42,080 --> 00:25:47,679
+L I'm going to then let script I denote
+
+687
+00:25:44,640 --> 00:25:49,919
+the set of indices I little I where x i
+
+688
+00:25:47,679 --> 00:25:51,960
+is equal to
+
+689
+00:25:49,919 --> 00:25:53,520
+one then roughly speaking I'm just going
+
+690
+00:25:51,960 --> 00:25:56,200
+to Output a uniform permutation on the
+
+691
+00:25:53,520 --> 00:25:59,039
+elements of this this indexing
+
+692
+00:25:56,200 --> 00:26:00,320
+set i'm eliminating few kind of bells
+
+693
+00:25:59,039 --> 00:26:02,720
+and whistles and I'll maybe get to some
+
+694
+00:26:00,320 --> 00:26:04,880
+why we need some of these in a few
+
+695
+00:26:02,720 --> 00:26:06,360
+moments but this gives me a sequence of
+
+696
+00:26:04,880 --> 00:26:08,120
+tokens which are now just integers from
+
+697
+00:26:06,360 --> 00:26:11,240
+one to L and the length of the sequence
+
+698
+00:26:08,120 --> 00:26:11,240
+is roughly order
+
+699
+00:26:12,039 --> 00:26:16,880
+L now how does the uh detection
+
+700
+00:26:14,760 --> 00:26:19,440
+algorithm work I'm just going to take as
+
+701
+00:26:16,880 --> 00:26:20,320
+input a sequence of tokens which may or
+
+702
+00:26:19,440 --> 00:26:22,640
+may not have been outputed by the
+
+703
+00:26:20,320 --> 00:26:25,559
+watermarking algorithm I'm going to
+
+704
+00:26:22,640 --> 00:26:27,880
+essentially try to reconstruct X so I'm
+
+705
+00:26:25,559 --> 00:26:30,799
+going to let x i Prime be the indicator
+
+706
+00:26:27,880 --> 00:26:33,200
+that token is equal to I in the
+
+707
+00:26:30,799 --> 00:26:36,080
+sequence and then I'm going to feed the
+
+708
+00:26:33,200 --> 00:26:38,200
+string X1 Prime the the string of x i
+
+709
+00:26:36,080 --> 00:26:40,760
+primes to the detection algorithm for
+
+710
+00:26:38,200 --> 00:26:41,919
+the substitution robust pseudo ROM code
+
+711
+00:26:40,760 --> 00:26:44,720
+which is going to Output either
+
+712
+00:26:41,919 --> 00:26:44,720
+watermarked or not
+
+713
+00:26:47,399 --> 00:26:53,360
+watermarked so why does this
+
+714
+00:26:51,000 --> 00:26:56,640
+work well the main idea is that
+
+715
+00:26:53,360 --> 00:26:59,000
+insertions or deletions from the
+
+716
+00:26:56,640 --> 00:27:00,640
+sequence of tokens t
+
+717
+00:26:59,000 --> 00:27:02,080
+correspond to substitutions in the
+
+718
+00:27:00,640 --> 00:27:06,320
+binary string
+
+719
+00:27:02,080 --> 00:27:08,559
+X so let me just kind of illustrate
+
+720
+00:27:06,320 --> 00:27:11,720
+this if you have the binary string X
+
+721
+00:27:08,559 --> 00:27:13,640
+which is 0 1 1 0 01 this corresponds to
+
+722
+00:27:11,720 --> 00:27:16,159
+the sequence of tokens T which is
+
+723
+00:27:13,640 --> 00:27:18,720
+236 we have a noisy Channel which
+
+724
+00:27:16,159 --> 00:27:20,640
+inserts say a four into the sequence
+
+725
+00:27:18,720 --> 00:27:22,679
+that corresponds to changing the fourth
+
+726
+00:27:20,640 --> 00:27:24,520
+bit of x from zero to a one and
+
+727
+00:27:22,679 --> 00:27:26,600
+similarly a deletion from T will
+
+728
+00:27:24,520 --> 00:27:29,399
+correspond to changing a bit of x from a
+
+729
+00:27:26,600 --> 00:27:30,880
+one to a zero and so in this way we can
+
+730
+00:27:29,399 --> 00:27:32,360
+use the substitution robustness of the
+
+731
+00:27:30,880 --> 00:27:34,600
+original watermarking scheme to get edit
+
+732
+00:27:32,360 --> 00:27:36,799
+robustness for the new
+
+733
+00:27:34,600 --> 00:27:39,559
+one now there's a fair number of of
+
+734
+00:27:36,799 --> 00:27:42,159
+details here which I have omitted and in
+
+735
+00:27:39,559 --> 00:27:43,880
+fact the scheme that I've uh kind of
+
+736
+00:27:42,159 --> 00:27:46,039
+sketched on this slide is actually not
+
+737
+00:27:43,880 --> 00:27:48,399
+undetectable there's there's some things
+
+738
+00:27:46,039 --> 00:27:50,720
+you have to add as one example of some
+
+739
+00:27:48,399 --> 00:27:52,919
+technical difficulty that comes up is
+
+740
+00:27:50,720 --> 00:27:55,960
+the scheme as I've um showed it here
+
+741
+00:27:52,919 --> 00:27:57,760
+gives edit robustness for only a smaller
+
+742
+00:27:55,960 --> 00:27:59,360
+than one minus order Epsilon constant
+
+743
+00:27:57,760 --> 00:28:01,960
+fraction edits it's more like a one
+
+744
+00:27:59,360 --> 00:28:03,159
+quarter fraction of constant edits and
+
+745
+00:28:01,960 --> 00:28:05,360
+this is actually not good enough for
+
+746
+00:28:03,159 --> 00:28:07,039
+applications to watermarking we actually
+
+747
+00:28:05,360 --> 00:28:09,760
+need the constant fraction of edits Z
+
+748
+00:28:07,039 --> 00:28:10,960
+robust two to be very close to one and
+
+749
+00:28:09,760 --> 00:28:12,360
+so in light of this we actually have to
+
+750
+00:28:10,960 --> 00:28:14,240
+add some additional components to our
+
+751
+00:28:12,360 --> 00:28:16,880
+watermarking scheme which will force the
+
+752
+00:28:14,240 --> 00:28:20,360
+alphabet size to blow up by constant
+
+753
+00:28:16,880 --> 00:28:20,360
+Factor um
+
+754
+00:28:23,120 --> 00:28:27,559
+yeah I add tokens
+
+755
+00:28:28,600 --> 00:28:34,960
+uh you mean just like add a bunch
+
+756
+00:28:31,679 --> 00:28:37,000
+more um so uh How would how would you
+
+757
+00:28:34,960 --> 00:28:38,799
+want to add them I'm not like oh oh just
+
+758
+00:28:37,000 --> 00:28:40,600
+like oh like if you're an adversary who
+
+759
+00:28:38,799 --> 00:28:42,799
+inserts tokens at the end uh yeah that
+
+760
+00:28:40,600 --> 00:28:44,159
+that's fine like um it's like as long as
+
+761
+00:28:42,799 --> 00:28:45,600
+the number of tokens that you add isn't
+
+762
+00:28:44,159 --> 00:28:47,200
+that big you'll still get edit
+
+763
+00:28:45,600 --> 00:28:49,720
+robustness because this is all kind of
+
+764
+00:28:47,200 --> 00:28:50,840
+permutation and variant on on T so it
+
+765
+00:28:49,720 --> 00:28:53,320
+doesn't really matter if it's to the end
+
+766
+00:28:50,840 --> 00:28:53,320
+or other
+
+767
+00:28:54,760 --> 00:29:01,279
+parts yep here that we're like
+
+768
+00:28:58,960 --> 00:29:04,000
+representing tokens like in or like
+
+769
+00:29:01,279 --> 00:29:06,760
+we're representing output in
+
+770
+00:29:04,000 --> 00:29:09,240
+unary um I wouldn't think of it as un
+
+771
+00:29:06,760 --> 00:29:12,120
+it's more similar to like there's maybe
+
+772
+00:29:09,240 --> 00:29:14,200
+the simplest way to get like um edit
+
+773
+00:29:12,120 --> 00:29:16,720
+robust error correcting codes is via
+
+774
+00:29:14,200 --> 00:29:17,919
+this indexing trick and there's there's
+
+775
+00:29:16,720 --> 00:29:19,640
+actually you know better ways of doing
+
+776
+00:29:17,919 --> 00:29:21,960
+it but this is maybe analogous to like
+
+777
+00:29:19,640 --> 00:29:23,360
+the simplest way of getting edit robust
+
+778
+00:29:21,960 --> 00:29:25,760
+um error correcting
+
+779
+00:29:23,360 --> 00:29:28,559
+codes like what would happen here if I
+
+780
+00:29:25,760 --> 00:29:30,600
+had a duplicate token like I had 2362
+
+781
+00:29:28,559 --> 00:29:32,679
+um so if you have the duplicate tokens
+
+782
+00:29:30,600 --> 00:29:34,039
+don't affect anything like I only look
+
+783
+00:29:32,679 --> 00:29:36,000
+at the existence of whether or not there
+
+784
+00:29:34,039 --> 00:29:37,760
+is some token that's equal to two so
+
+785
+00:29:36,000 --> 00:29:40,120
+yeah I can actually add as many twos as
+
+786
+00:29:37,760 --> 00:29:42,519
+I want nothing's going to change as long
+
+787
+00:29:40,120 --> 00:29:45,519
+as there already two in the
+
+788
+00:29:42,519 --> 00:29:45,519
+sequence
+
+789
+00:29:49,840 --> 00:29:55,080
+yep misspell
+
+790
+00:29:52,200 --> 00:29:57,519
+token Oh you mean like misspell a word
+
+791
+00:29:55,080 --> 00:29:58,799
+okay so so actually like for misspelled
+
+792
+00:29:57,519 --> 00:30:01,200
+words the way that language models
+
+793
+00:29:58,799 --> 00:30:03,600
+actually deal with these is that the
+
+794
+00:30:01,200 --> 00:30:05,039
+kind of the tokenizer will break that up
+
+795
+00:30:03,600 --> 00:30:06,279
+into smaller subwords maybe able to
+
+796
+00:30:05,039 --> 00:30:08,200
+break it up into letters or something
+
+797
+00:30:06,279 --> 00:30:10,600
+else like sub units and so that will
+
+798
+00:30:08,200 --> 00:30:12,039
+actually correspond to like deleting the
+
+799
+00:30:10,600 --> 00:30:15,279
+original token and inserting maybe two
+
+800
+00:30:12,039 --> 00:30:16,720
+new tokens so actually like misspelling
+
+801
+00:30:15,279 --> 00:30:18,799
+the way that you can kind of get these
+
+802
+00:30:16,720 --> 00:30:23,480
+edits these insertions and
+
+803
+00:30:18,799 --> 00:30:23,480
+deletions um into the into the token
+
+804
+00:30:25,039 --> 00:30:31,320
+sequence Okay so uh I guess this is my
+
+805
+00:30:29,000 --> 00:30:33,120
+last slide so uh we have the first edit
+
+806
+00:30:31,320 --> 00:30:35,840
+undetectable edit robust water marking
+
+807
+00:30:33,120 --> 00:30:38,760
+scheme um I didn't talk about how do we
+
+808
+00:30:35,840 --> 00:30:42,960
+go from edit robust prcs to edit robust
+
+809
+00:30:38,760 --> 00:30:44,960
+watermarks um Sor there's many open
+
+810
+00:30:42,960 --> 00:30:46,480
+questions so maybe the biggest open
+
+811
+00:30:44,960 --> 00:30:48,960
+questions to come up with edit robust
+
+812
+00:30:46,480 --> 00:30:51,880
+prcs under reasonable assumptions um
+
+813
+00:30:48,960 --> 00:30:54,200
+that have constant alphabet
+
+814
+00:30:51,880 --> 00:30:55,399
+size it also be interesting to improve
+
+815
+00:30:54,200 --> 00:30:56,840
+the Practical implementation or to
+
+816
+00:30:55,399 --> 00:30:59,639
+figure out if there's properties of
+
+817
+00:30:56,840 --> 00:31:02,039
+natural language models that actually
+
+818
+00:30:59,639 --> 00:31:04,240
+can be exploited to get U mod marking
+
+819
+00:31:02,039 --> 00:31:06,080
+schemes that work better in practice and
+
+820
+00:31:04,240 --> 00:31:07,600
+there's lots of other uh open questions
+
+821
+00:31:06,080 --> 00:31:09,470
+as well so I'll stop there thank you for
+
+822
+00:31:07,600 --> 00:31:13,369
+listening
+
+823
+00:31:09,470 --> 00:31:13,369
+[Applause]
+

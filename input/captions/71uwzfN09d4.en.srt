@@ -1,0 +1,2582 @@
+1
+00:00:00,480 --> 00:00:09,440
+Welcome to today's uh CSAIL Forum. This is our 
+platform for uh rigorous intellectual exchanges  
+
+2
+00:00:09,440 --> 00:00:18,000
+that are at the frontiers of computer science 
+and artificial intelligence. Today I am delighted  
+
+3
+00:00:18,000 --> 00:00:27,280
+to introduce my colleague Yoon Kim who will speak 
+about efficient and uh expressive architectures  
+
+4
+00:00:27,280 --> 00:00:36,880
+for language modeling. So I'd like to welcome 
+all of you to be an engaged participant. Please  
+
+5
+00:00:36,880 --> 00:00:44,480
+start by putting your name and your location in 
+the chat so that we know who is attending and  
+
+6
+00:00:44,480 --> 00:00:50,960
+please put your questions in the chat. At the end 
+of the presentation we will have an opportunity  
+
+7
+00:00:50,960 --> 00:00:58,000
+to do Q&A with a speaker. And with this I will 
+pass it over to Yoon. Yoon please take it away.  
+
+8
+00:00:58,000 --> 00:01:11,440
+Thank you for the introductions. Okay, great. I'll 
+get started. Um, thank you for the introduction,  
+
+9
+00:01:11,440 --> 00:01:15,920
+Daniela. Um, my name is Yoon Kim. I'm very happy 
+to be here and today I'll be telling you about  
+
+10
+00:01:15,920 --> 00:01:21,360
+some efficient and uh some recent sort of 
+body of work, not necessarily from my lab,  
+
+11
+00:01:21,360 --> 00:01:26,480
+but from the community on efficient and 
+expressive architectures for language modeling.  
+
+12
+00:01:28,560 --> 00:01:32,640
+So before getting into the technical details, 
+I think it's worth stepping back and sort  
+
+13
+00:01:32,640 --> 00:01:40,640
+of like reviewing the current AI uh research 
+program. And I think the high-level overview  
+
+14
+00:01:40,640 --> 00:01:47,360
+goes something like this. So we have some data 
+uh some model with learnable parameters and an  
+
+15
+00:01:47,360 --> 00:01:52,960
+optimization objective. Now in the case of 
+modern large language models, the data is  
+
+16
+00:01:52,960 --> 00:01:59,680
+given by you know without an exaggeration a 
+civilization's worth of text. Um the model is  
+
+17
+00:01:59,680 --> 00:02:07,280
+given by a transformer architecture we'll talk 
+about and the um objective is to actually have  
+
+18
+00:02:07,280 --> 00:02:15,120
+the transformer tweak its parameters to give 
+high likelihood to the training data. And um  
+
+19
+00:02:15,120 --> 00:02:20,240
+this is the maximum likelihood objective. Um and 
+in some sense in a real sense all you're doing is  
+
+20
+00:02:20,240 --> 00:02:27,040
+compression i.e. maximum likelihood is minimizing 
+the uh uh code length of your training data using  
+
+21
+00:02:27,040 --> 00:02:34,000
+the model parameters. Um now what is the purpose 
+of this? Of course um it isn't necessarily that  
+
+22
+00:02:34,000 --> 00:02:40,560
+we want to compress the data itself but the 
+hope is with the right model um the the model  
+
+23
+00:02:40,560 --> 00:02:46,080
+will be able to capture sort of the underlying 
+intelligences that produce the data which is given  
+
+24
+00:02:46,080 --> 00:02:51,920
+by sort of external world and then in the case of 
+language models humans so intelligences sort of  
+
+25
+00:02:51,920 --> 00:03:00,080
+uh deploying and using language that produce the 
+data and um there's sort of several additions to  
+
+26
+00:03:00,080 --> 00:03:07,200
+this recipe um So um maybe we can think of this 
+as the language model pre-training stage and once  
+
+27
+00:03:07,200 --> 00:03:12,960
+we have the model we can now have the model uh 
+execute actions in the world get verifications  
+
+28
+00:03:12,960 --> 00:03:18,960
+generate its own data and then um compress that 
+using the weighted likelihood objective and you  
+
+29
+00:03:18,960 --> 00:03:24,000
+know I'm being hand wavy here and maybe that's 
+roughly reinforcement learning and then um once  
+
+30
+00:03:24,000 --> 00:03:31,040
+you have the model you can use it in various 
+ways and to do useful things and um this is uh  
+
+31
+00:03:31,040 --> 00:03:37,600
+in in modern large language models um sometimes 
+called test time scaling. So um this is maybe  
+
+32
+00:03:37,600 --> 00:03:44,480
+the current AI recipe and I think the argument uh 
+the view that I'm going to espouse in this talk is  
+
+33
+00:03:44,480 --> 00:03:51,040
+that this model architecture really is a crucial 
+ingredient in this modern AI recipe. And as maybe  
+
+34
+00:03:51,040 --> 00:03:57,920
+one evidence of this, I think it's worth looking 
+back into large language models back in 2007.  
+
+35
+00:03:57,920 --> 00:04:03,040
+So this is a um very well-known paper from 
+Google and the title of this paper which came  
+
+36
+00:04:03,040 --> 00:04:08,960
+out in 2007 is large language models in machine 
+translation and if you look at the abstract  
+
+37
+00:04:08,960 --> 00:04:13,920
+uh we see they're actually training pretty good 
+language models pretty big language models. So  
+
+38
+00:04:13,920 --> 00:04:20,640
+they're training a n-gram based language model 
+with 300 billion n-grams that's equivalent to  
+
+39
+00:04:20,640 --> 00:04:27,920
+300 billion parameters and they're training this 
+model on two trillion tokens. So even by today's  
+
+40
+00:04:27,920 --> 00:04:34,880
+standards, these are quite large language models 
+and the only thing that's different is what the  
+
+41
+00:04:34,880 --> 00:04:40,000
+model is. So in the data just like in today's 
+language models, we have trillions of words and  
+
+42
+00:04:40,000 --> 00:04:46,000
+the optimization objective uh is the same. It's 
+the maximum likelihood objective. Of course in in  
+
+43
+00:04:46,000 --> 00:04:51,600
+uh sort of uh uh these lookup table n-grammed 
+language models, the maximum likelihood objective  
+
+44
+00:04:51,600 --> 00:04:59,680
+is given by counting and dividing n-grams. Whereas 
+in today's transformers um the optimization  
+
+45
+00:04:59,680 --> 00:05:06,480
+uh objective is solved by um using something 
+like stochastic gradient descent. Um but it is  
+
+46
+00:05:06,480 --> 00:05:11,920
+pretty remarkable that we basically had the same 
+recipe from a high level standpoint but due to  
+
+47
+00:05:11,920 --> 00:05:17,680
+the differences in architecture you know I mean in 
+2007 we had um improvements in machine translation  
+
+48
+00:05:17,680 --> 00:05:23,520
+from large language model but no one was you know 
+talking about um chat GPT or AGI but applying the  
+
+49
+00:05:23,520 --> 00:05:31,200
+same objective to today's architectures um we're 
+getting some um very useful systems like ChatGPT  
+
+50
+00:05:31,200 --> 00:05:36,960
+so I think this is maybe one evidence that um 
+within this AI recipe uh having the architecture  
+
+51
+00:05:36,960 --> 00:05:44,240
+right is is an important component. So today's 
+language models are based on um largely what's  
+
+52
+00:05:44,240 --> 00:05:49,840
+called a transformer architecture. So how do 
+transformer based large language models work?  
+
+53
+00:05:49,840 --> 00:05:56,000
+Well, basically language models are next word 
+prediction systems. So here I'm representing the  
+
+54
+00:05:56,000 --> 00:06:04,160
+language model as a neural network. It gets in a 
+input text like MIT is located in. It produces an  
+
+55
+00:06:04,160 --> 00:06:11,680
+output piece of text um output word and this 
+gets fed as input um and the combined input  
+
+56
+00:06:11,680 --> 00:06:20,000
+gets fed into the LLM again to produce uh the next 
+word. What does this architecture look like? Um so  
+
+57
+00:06:20,000 --> 00:06:26,480
+um this architecture by and large modern LLMs use 
+the transformer network. And what the transformer  
+
+58
+00:06:26,480 --> 00:06:30,880
+network does at a high level, we'll get into 
+the low-level details in a in a few slides. Um,  
+
+59
+00:06:30,880 --> 00:06:39,200
+but at a high level, what it does is it gets the 
+input, it represents each word as a vector. So  
+
+60
+00:06:39,200 --> 00:06:43,840
+deep learning models operated over vector
+ 
+representations. Um, so it represents each  
+
+61
+00:06:43,840 --> 00:06:50,160
+word as a vector. And then it has what's 
+called an attention mechanism which uses the  
+
+62
+00:06:50,160 --> 00:06:56,480
+current representation of the word and performs 
+a pair-wise interaction between all the previous  
+
+63
+00:06:56,480 --> 00:07:02,720
+words um to get a new representation of the 
+current word and then it uses this representation  
+
+64
+00:07:02,720 --> 00:07:09,120
+to predict the next word and then again you feed 
+what you've predicted as input. Um and then this  
+
+65
+00:07:09,120 --> 00:07:14,320
+process continues and with this mechanism um 
+you can sort of produce infinite text given  
+
+66
+00:07:14,320 --> 00:07:21,360
+any context. But the key point uh that's different 
+from uh previous neural network architectures is  
+
+67
+00:07:21,360 --> 00:07:27,120
+this attention mechanism. Okay. And this is really 
+the salient difference between transformers and  
+
+68
+00:07:27,120 --> 00:07:33,040
+other types of neural network architectures that 
+um many people were using like um convolutional  
+
+69
+00:07:33,040 --> 00:07:39,120
+networks or recurrent neural networks and um 
+to the point where the original paper uh that  
+
+70
+00:07:39,120 --> 00:07:44,400
+introduced a transformer architecture had the 
+very sort of like uh uh fun title attention  
+
+71
+00:07:44,400 --> 00:07:50,320
+is all you need. So this attention mechanism 
+is again the key and this paper um which was  
+
+72
+00:07:50,320 --> 00:07:57,040
+released in 2018 has been incredibly influential 
+and uh the transformer network has been found to  
+
+73
+00:07:57,040 --> 00:08:05,280
+be quite effective for many other domains um other 
+than just language. Now what are some issues with  
+
+74
+00:08:05,280 --> 00:08:11,600
+transformer networks? So they are very accurate 
+and they're an important prim so the attention  
+
+75
+00:08:11,600 --> 00:08:16,800
+mechanism is an important primitive for accurate 
+sequence modeling. Um there are several issues.  
+
+76
+00:08:16,800 --> 00:08:23,440
+One is that transformers have difficulty modeling 
+long sequences. So I described how at a intuitive  
+
+77
+00:08:23,440 --> 00:08:27,680
+level the attention mechanism is performing 
+these pair-wise comparisons. And we can see  
+
+78
+00:08:27,680 --> 00:08:32,320
+these pair-wise comparisons if you're doing this 
+at every time step how it can get incredibly  
+
+79
+00:08:32,320 --> 00:08:38,640
+expensive as the the sequence length grows. And we 
+do want sequence models. We do want large language  
+
+80
+00:08:38,640 --> 00:08:43,200
+models that can process long sequences, right? 
+So we want models that can process entire series  
+
+81
+00:08:43,200 --> 00:08:47,760
+of books. And ideally we want models that 
+can produce uh that can um process sequence  
+
+82
+00:08:47,760 --> 00:08:52,480
+lengths in other domains that can be you know
+ 
+millions or even hundreds of millions of elements  
+
+83
+00:08:52,480 --> 00:08:58,320
+of long um but attention um is just inefficient 
+at modeling long sequences because of this  
+
+84
+00:08:58,320 --> 00:09:04,880
+pair-wise pair-wise interaction mechanism. Another 
+difficulty that uh transformers with attention  
+
+85
+00:09:04,880 --> 00:09:11,920
+have is um they're impoverish with regard to 
+um being able to model certain phenomena. So  
+
+86
+00:09:11,920 --> 00:09:19,680
+um one uh version of this is state tracking. So 
+state tracking is um in this case a synthetic task  
+
+87
+00:09:19,680 --> 00:09:25,280
+where um uh one version of this is a synthetic 
+task where you might have a bunch of boxes like  
+
+88
+00:09:25,280 --> 00:09:31,600
+this and the box has certain states like box one 
+containing a book, box two containing an apple,  
+
+89
+00:09:31,600 --> 00:09:36,880
+so on and so forth. And then you have a bunch 
+of permutations of the boxes. So you swap box  
+
+90
+00:09:36,880 --> 00:09:42,480
+one and three, I swap box two and five, so on 
+and so forth. And at the end you ask where is  
+
+91
+00:09:42,480 --> 00:09:49,760
+the apple? So it turns out um you can show that 
+this type of state tracking problem i.e. tracking  
+
+92
+00:09:49,760 --> 00:09:57,600
+permutations over uh a number of um number of 
+states is actually hard from a formal standpoint.  
+
+93
+00:09:57,600 --> 00:10:02,800
+So um from a complexity theory standpoint and 
+this is un ideal right because these types of  
+
+94
+00:10:02,800 --> 00:10:07,600
+state tracking problems it's quite toy in this 
+case but there I think um capabilities underlying  
+
+95
+00:10:07,600 --> 00:10:13,280
+these types of state tracking problems are real 
+world capabilities that we want in our LLMs  
+
+96
+00:10:13,280 --> 00:10:19,440
+um especially when it comes to for example um 
+having them produce code right so in in in uh  
+
+97
+00:10:19,440 --> 00:10:26,480
+code um you're doing a bunch of variable swaps and 
+we ideally do want LLMs to be able to track them  
+
+98
+00:10:26,480 --> 00:10:33,200
+um So uh the purpose uh I think what I'll talk 
+about uh this talk is on some recent developments  
+
+99
+00:10:33,200 --> 00:10:38,880
+uh again from a community of researchers um 
+that suggest an alternative to transformers  
+
+100
+00:10:38,880 --> 00:10:44,960
+that can maintain the accuracy and scalability 
+of transformers while being more efficient and  
+
+101
+00:10:44,960 --> 00:10:52,000
+more expressive. Before I get into this um I 
+think it's worth going into a little bit sort  
+
+102
+00:10:52,000 --> 00:10:58,960
+of technical details about how transformers work. 
+So transformers um taken a set of vectors um here  
+
+103
+00:10:58,960 --> 00:11:06,160
+denoted from x1 to x5 and produces another set 
+of vectors um where the set of vectors has been  
+
+104
+00:11:06,160 --> 00:11:13,280
+contextualized against one another. So transformer 
+is a function that does this. A transformer is  
+
+105
+00:11:13,280 --> 00:11:20,000
+composed of transformer blocks. Um so a transform 
+modern large language models might have tens  
+
+106
+00:11:20,000 --> 00:11:26,800
+or even hundreds of such transformer blocks. 
+Each transform block consists of a attention  
+
+107
+00:11:26,800 --> 00:11:32,480
+layer which does these pair-wise comparisons that 
+I talked about a few slides back followed by a  
+
+108
+00:11:32,480 --> 00:11:38,240
+feed forward layer. Again the real difference of 
+the transformer architecture versus other types  
+
+109
+00:11:38,240 --> 00:11:43,200
+of architectures is this attention layer and this 
+is the sort of the portion of the transformer that  
+
+110
+00:11:43,200 --> 00:11:51,680
+we're going to be focusing on uh in this talk. 
+Um more review uh about how attention works. So  
+
+111
+00:11:51,680 --> 00:11:58,240
+how does this attention mechanism work? Attention 
+mechanism itself is a uh setto set function which  
+
+112
+00:11:58,240 --> 00:12:06,880
+gets in a vector in this case of length L by um D. 
+Here L is the sequence length. So here L is five  
+
+113
+00:12:06,880 --> 00:12:13,760
+in this example and D is a hidden state dimension 
+which in this case is three. So attention takes in  
+
+114
+00:12:13,760 --> 00:12:18,880
+a vector uh set of vectors in this case you can 
+represent it as a matrix produces another matrix  
+
+115
+00:12:18,880 --> 00:12:27,120
+O. Um what are the computations in attention? 
+Um first um you use the key query value matrices  
+
+116
+00:12:27,120 --> 00:12:34,000
+uh key query value projections to get the key 
+query value matrices for each input uh embedding.  
+
+117
+00:12:34,000 --> 00:12:42,080
+And then you use the key query matrix followed 
+by a mask to get an attention matrix. And this  
+
+118
+00:12:42,080 --> 00:12:49,520
+attention matrix um is an L by L matrix where L is 
+again the sequence thing. And then um you use this  
+
+119
+00:12:49,520 --> 00:12:58,240
+attention matrix um to get a uh convex combination 
+of the uh uh value vectors to get the output. And  
+
+120
+00:12:58,240 --> 00:13:04,960
+this is how the attention mechanism works. So this 
+reduces an output matrix O that is L by D given  
+
+121
+00:13:04,960 --> 00:13:11,360
+an input matrix L by D. And here the learnable 
+parameters of the attention layer are these WQ,  
+
+122
+00:13:11,360 --> 00:13:19,280
+WK and WV matrices. And then of course this is 
+just a single layer of attention which and and  
+
+123
+00:13:19,280 --> 00:13:22,880
+this is the layer that I'm going to focus on but 
+you should think of the other components of the  
+
+124
+00:13:22,880 --> 00:13:26,560
+transformer being there as well. So that we're 
+going to have feed forward layers. We're going to  
+
+125
+00:13:26,560 --> 00:13:33,920
+have attention layers um elsewhere but we're just 
+going to be focusing on how some how sort of new  
+
+126
+00:13:33,920 --> 00:13:40,400
+how there are new sort of primitives that might be 
+able to replace these attention layers. Now what's  
+
+127
+00:13:40,400 --> 00:13:49,040
+good about attention? So um recall uh so when I 
+explained the attention um nowhere in the sort of  
+
+128
+00:13:49,040 --> 00:13:54,560
+the number of matt moles that I uh mentioned did 
+I mention the sequence length. So in particular  
+
+129
+00:13:54,560 --> 00:14:00,400
+uh the number of matt moles that you're doing is 
+independent of sequence length. So certainly the  
+
+130
+00:14:00,400 --> 00:14:05,440
+size of the mat mole is like of course a function 
+of sequence length but the number of matt moles  
+
+131
+00:14:05,440 --> 00:14:10,320
+that you're doing is independent of sequence 
+length. And what this means is that attention  
+
+132
+00:14:10,320 --> 00:14:16,720
+computation can be parallelized across time. So 
+you can compute attention for all time steps with  
+
+133
+00:14:16,720 --> 00:14:22,640
+a single or sort of like in this case a number of 
+matt moles that is not a function of the sequence  
+
+134
+00:14:22,640 --> 00:14:28,720
+length. And this is great because we know how to 
+do such mat moles efficiently and and there's an  
+
+135
+00:14:28,720 --> 00:14:34,960
+entire industry of you know um GPUs and TPUs and 
+other other types of chips for doing this very  
+
+136
+00:14:34,960 --> 00:14:41,760
+efficiently. So this is great because that means 
+we can um have very hardware efficient training.  
+
+137
+00:14:41,760 --> 00:14:45,280
+Another thing that's good about attention 
+um and that's different from other types of  
+
+138
+00:14:45,280 --> 00:14:50,640
+sequence models such as convolutional networks 
+or recurrent neural networks is that attention  
+
+139
+00:14:50,640 --> 00:14:56,320
+um allows for more direct access into previous 
+elements. And I'm being sort of hand wavy here,  
+
+140
+00:14:56,320 --> 00:15:02,480
+but we can sort of see how for you know this uh 
+representation to attend to the representation  
+
+141
+00:15:02,480 --> 00:15:08,400
+five steps back there is a direct attention 
+mechanism uh that enables this. So you know  
+
+142
+00:15:08,400 --> 00:15:14,000
+attention from here to there can you can just 
+have it assign high weights. Whereas whereas if  
+
+143
+00:15:14,000 --> 00:15:20,640
+one were to sort of have this representation be 
+aware of the representation five steps back. this  
+
+144
+00:15:20,640 --> 00:15:26,000
+would have to be mediated through these types 
+of intermediate hidden states in an RNN. So  
+
+145
+00:15:26,000 --> 00:15:33,040
+um and so this uh this is one um sort of modeling 
+advantage of attention. Cool. And and this is  
+
+146
+00:15:33,040 --> 00:15:38,960
+important because I think these types of the 
+ability to look back into context that you have is  
+
+147
+00:15:38,960 --> 00:15:43,920
+an important capability that we want in our large 
+language models. Now what are some things that  
+
+148
+00:15:43,920 --> 00:15:51,440
+are not so good about attention? So even though 
+uh attention can be parallelized. So again that  
+
+149
+00:15:51,440 --> 00:15:56,400
+means the number of matt moles is independent of 
+sequence length. The actual comput the complexity  
+
+150
+00:15:56,400 --> 00:16:02,080
+of attention the size of the problem does grow 
+with sequence length and in particular it grows  
+
+151
+00:16:02,080 --> 00:16:09,360
+quadratically quadratically with sequence length. 
+And this means that um uh this is this means that  
+
+152
+00:16:09,360 --> 00:16:15,520
+you just cannot apply exact attention to sequence 
+lengths um you know on the order of tens of  
+
+153
+00:16:15,520 --> 00:16:21,440
+millions. So we've been able to be very clever 
+about structuring attention computations in a  
+
+154
+00:16:21,440 --> 00:16:27,120
+way so that you could do exact uh attention over 
+elements uh sequence lengths of you know maybe on  
+
+155
+00:16:27,120 --> 00:16:32,080
+the order of hundreds of thousands or even million 
+plus. going beyond that is just very difficult  
+
+156
+00:16:32,080 --> 00:16:39,440
+because of this fundamental uh quadratic dependent 
+on sequence length of um attention. Another  
+
+157
+00:16:39,440 --> 00:16:45,680
+inefficiency comes when it comes to inference. 
+So how does uh how do transformers work during  
+
+158
+00:16:45,680 --> 00:16:53,360
+inference? We're doing word by word inference 
+and that means that to produce the next token  
+
+159
+00:16:53,360 --> 00:17:00,560
+um we first have the key query value vectors for 
+the current token and then you use the current  
+
+160
+00:17:00,560 --> 00:17:06,160
+um query vector with the previous key vectors 
+to get an attention distribution to get the  
+
+161
+00:17:06,160 --> 00:17:11,360
+output vector and that's fed to the future layer 
+of the transformers to get the next output y and  
+
+162
+00:17:11,360 --> 00:17:19,120
+this is fed as input and because uh attention 
+ion requires attending to everything that's  
+
+163
+00:17:19,120 --> 00:17:24,320
+uh occurred in the past. That means during 
+inference you need to keep around what's called  
+
+164
+00:17:24,320 --> 00:17:31,040
+a key value or a KB cache. And this memory 
+crucially grows linearly with respect to the  
+
+165
+00:17:31,040 --> 00:17:37,600
+number of elements in the past because you have to 
+for each time step attend over all previous uh all  
+
+166
+00:17:37,600 --> 00:17:45,520
+previous words. And what this means is that um 
+as you generate longer and longer sequences um  
+
+167
+00:17:45,520 --> 00:17:52,640
+inference becomes slow um in particular um you're 
+having to move this KV cache that grows linearly  
+
+168
+00:17:52,640 --> 00:17:59,120
+uh back and forth between on-chip and off-chip 
+memory which can get very slow because man memory  
+
+169
+00:17:59,120 --> 00:18:05,680
+bandwidth is limited on modern hardware. So these 
+are some of the inefficiencies of attention and  
+
+170
+00:18:05,680 --> 00:18:11,520
+um as mentioned previously um transformers with 
+attention without chain of thought have certain  
+
+171
+00:18:11,520 --> 00:18:17,360
+sort of uh uh they're impoverished when it comes 
+to being able to express uh model certain types  
+
+172
+00:18:17,360 --> 00:18:24,240
+of phenomena. In particular, they're in what's 
+called um TC0 complexity class. Um and they that  
+
+173
+00:18:24,240 --> 00:18:28,320
+means they they just aren't able to solve 
+certain types of state tracking problems.  
+
+174
+00:18:28,320 --> 00:18:32,960
+in particular the types of problem um where 
+I talked about before where you're swapping  
+
+175
+00:18:32,960 --> 00:18:38,960
+where you have let's say permutations over five 
+boxes and you have to decide um what where the  
+
+176
+00:18:38,960 --> 00:18:44,480
+apple is after a bunch of permutations. Okay. So 
+um these are maybe some of the things that are  
+
+177
+00:18:44,480 --> 00:18:50,400
+not so good about attention. And again um for 
+the rest of the talk I'll talk talk about sort  
+
+178
+00:18:50,400 --> 00:18:55,840
+of like a potentially a new primitive that can 
+maintain these benefits of attention while being  
+
+179
+00:18:55,840 --> 00:19:05,120
+more efficient and expressive. And um I'm going to 
+argue maybe variance of linear transformers offer  
+
+180
+00:19:05,120 --> 00:19:11,920
+uh a potential solution to uh to these problems 
+while maintain maintaining some of the benefits  
+
+181
+00:19:11,920 --> 00:19:18,640
+of attention. Now what are linear transformers? 
+So um linear transformers or linear attention  
+
+182
+00:19:18,640 --> 00:19:24,160
+transformers are a particular type of transformer 
+um that was proposed a few years ago and it's  
+
+183
+00:19:24,160 --> 00:19:29,520
+quite simple. So it's a much simpler version of 
+the attention mechanism that we've seen. So in  
+
+184
+00:19:29,520 --> 00:19:36,320
+this soft max the classic attention mechanism 
+we again have the key query matrix um after  
+
+185
+00:19:36,320 --> 00:19:41,440
+which you apply the softmax to get an attention 
+distribution that you apply to the value matrix to  
+
+186
+00:19:41,440 --> 00:19:47,440
+get the output. So that's during parallel training 
+um during inference um the output at time step  
+
+187
+00:19:47,440 --> 00:19:53,520
+t is given by a convex combination of all the 
+previous value vectors. linear attention tells  
+
+188
+00:19:53,520 --> 00:20:00,320
+us to do something quite simple. So it just tells 
+us why don't we just remove the soft max. Okay,  
+
+189
+00:20:00,320 --> 00:20:05,760
+so um linear attention looks very much like 
+softmax attention but we don't have the soft max  
+
+190
+00:20:05,760 --> 00:20:11,680
+here in the parallel form and we don't have this
+ 
+expon these exponentials and the normalizer in the  
+
+191
+00:20:11,680 --> 00:20:19,280
+recurrent uh version of the uh the equation. Now 
+from this maybe it's not clear we've done anything  
+
+192
+00:20:19,280 --> 00:20:23,840
+interesting but I'm going to argue that this 
+actually does um does something quite interesting.  
+
+193
+00:20:23,840 --> 00:20:29,600
+So in particular let's look at um this uh this 
+equation for obtaining the output at time step t  
+
+194
+00:20:29,600 --> 00:20:36,480
+um during inference. Okay so we have the 
+output step um at time step t that's now a  
+
+195
+00:20:36,480 --> 00:20:41,520
+linear combination of the previous value vectors. 
+So it's no longer a convex combination but it's  
+
+196
+00:20:41,520 --> 00:20:46,240
+just a linear combination where the weights are 
+given by a dotproduct of the current query query  
+
+197
+00:20:46,240 --> 00:20:53,520
+vector and the previous um key vectors. Now 
+because we no longer have this exponential  
+
+198
+00:20:53,520 --> 00:20:59,440
+um here we can take the query vector for the 
+current time step outside the summation. And  
+
+199
+00:20:59,440 --> 00:21:05,920
+what this means is now we can represent the inner 
+summation as a fixed dimensional matrix that's  
+
+200
+00:21:05,920 --> 00:21:13,440
+size d by d. So we're going to call this S here. 
+And what that means is we can decompose linear  
+
+201
+00:21:13,440 --> 00:21:21,200
+transformers into the following where we have a 
+matrix S of T that's updated by an outer product  
+
+202
+00:21:21,200 --> 00:21:28,720
+of the current key and value vectors and the 
+current output is given by applying a query vector  
+
+203
+00:21:28,720 --> 00:21:36,720
+on this hidden state matrix SFT. So what does this 
+look like um in diagrams? So here we have the key  
+
+204
+00:21:36,720 --> 00:21:43,840
+query value vectors. uh you use the current key 
+and value vectors to get this matrix SFT and then  
+
+205
+00:21:43,840 --> 00:21:51,920
+you apply the query vector on this value mat on 
+this SFT matrix to get the output and um what  
+
+206
+00:21:51,920 --> 00:21:58,720
+what's sort of key about this is now um what I've 
+told you is like linear transformers are basically  
+
+207
+00:21:58,720 --> 00:22:04,880
+um there are an RNN but unlike ordinary RNNs which 
+have vector valued hidden states like in LSTMs and  
+
+208
+00:22:04,880 --> 00:22:11,520
+grew um linear transformers employ matrix valued 
+hidden states and what they what this means is  
+
+209
+00:22:11,520 --> 00:22:17,200
+that they inherit the efficiency benefits of RNN's 
+right so in this case we no longer need to keep  
+
+210
+00:22:17,200 --> 00:22:23,200
+around the key value uh vector for the previous 
+time steps all that is represented or all of that  
+
+211
+00:22:23,200 --> 00:22:29,600
+is compressed into um this hidden state matrix 
+SFT and that's all you need to keep around so this  
+
+212
+00:22:29,600 --> 00:22:36,560
+means that we can have as in ordinary RNN's linear 
+compute and constant memory sequence modeling  
+
+213
+00:22:38,240 --> 00:22:44,640
+Now modern versions of linear transformers uh have 
+some additional bells and whistles. In particular  
+
+214
+00:22:44,640 --> 00:22:52,240
+um they use a gating matrix G of T or gating 
+scaler G um that modulates the previous hidden  
+
+215
+00:22:52,240 --> 00:22:58,080
+state um before the current key uh the outer 
+product of the current key value vectors are  
+
+216
+00:22:58,080 --> 00:23:04,240
+added. And we can sort of think of this make the 
+analogy to um similar datadent gating mechanisms  
+
+217
+00:23:04,240 --> 00:23:13,120
+and classic LSTMs and GRUs. And it turns out 
+these gated linear transformers are roughly  
+
+218
+00:23:13,120 --> 00:23:18,160
+um equivalent to modern state space models. So 
+um there have been a lot of work on a lot of  
+
+219
+00:23:18,160 --> 00:23:22,640
+really nice work on state space models 
+like mamba and mamba 2 and um it turns  
+
+220
+00:23:22,640 --> 00:23:27,760
+out these are sort of like depending on how 
+you parameterize these gating matrix matrix  
+
+221
+00:23:27,760 --> 00:23:36,880
+um these are basically the same thing. Okay, so 
+um these are modern gated linear transformers and  
+
+222
+00:23:36,880 --> 00:23:43,280
+um I I think in so far as their RNNs, I'm going 
+to argue that maybe this lets us let's lets us get  
+
+223
+00:23:43,280 --> 00:23:48,960
+around some inefficiencies of modern transformers. 
+In particular, now we have a sequence model  
+
+224
+00:23:48,960 --> 00:23:55,840
+that has linear compute complexity and constant 
+memory complexity. unlike transformers which have  
+
+225
+00:23:55,840 --> 00:24:04,880
+quadratic compute complexity and linear memory 
+complexity with respect to sequence length. Now um  
+
+226
+00:24:04,880 --> 00:24:11,680
+how do we actually train this? So because we now 
+have a linear RNN um we can actually train these  
+
+227
+00:24:11,680 --> 00:24:17,680
+efficiently. I won't get into the details uh but 
+the basic intuition as follows. So here's a pure  
+
+228
+00:24:17,680 --> 00:24:23,920
+RNN view and in this case um when you're thinking 
+about training classical LSTMs um it's difficult  
+
+229
+00:24:23,920 --> 00:24:29,200
+to parallelize the computation across sequence 
+length and that means it's difficult to have  
+
+230
+00:24:29,200 --> 00:24:35,760
+hardware efficient training on modern hardware but 
+because we have sort of these linear updates or  
+
+231
+00:24:35,760 --> 00:24:45,120
+associated updates um we can now re reparameterize 
+this RNN as a chunk level RNN and we can we can  
+
+232
+00:24:45,120 --> 00:24:49,760
+perform the computations hidden chunk. So in 
+particular we can have these chunk level hidden  
+
+233
+00:24:49,760 --> 00:24:56,640
+states and we can propagate the information from 
+previous chunks and then to get the output um you  
+
+234
+00:24:56,640 --> 00:25:04,080
+can for this chunk let's say the second chunk we 
+can use the current um chunks query matrix and  
+
+235
+00:25:04,080 --> 00:25:11,040
+interact this with the previous chunk hidden state 
+um to get the contribution from the previous uh or  
+
+236
+00:25:11,040 --> 00:25:17,120
+the previous history and then we can have sort 
+of like more classic attention um to and this is  
+
+237
+00:25:17,120 --> 00:25:24,480
+linear attention to get the contribution from the 
+current chunk and again I won't get into details  
+
+238
+00:25:24,480 --> 00:25:30,640
+but this means that we can parallelize across time 
+uh we can parallelize linear transformers across  
+
+239
+00:25:30,640 --> 00:25:37,920
+time and in fact um we can now have a subquadratic 
+parallel algorithm for training that can leverage  
+
+240
+00:25:37,920 --> 00:25:46,240
+the computational resources of modern hardware. 
+Now what about expressivity? again um linear  
+
+241
+00:25:46,240 --> 00:25:51,600
+transformers um even it turns out even gated 
+linear transformers or state space models are  
+
+242
+00:25:51,600 --> 00:25:57,760
+still in this complexity class TC0 and therefore 
+they're unable to model certain types of phenomena  
+
+243
+00:25:57,760 --> 00:26:03,520
+like state tracking over five or more element five 
+or more states even if the gating function is data  
+
+244
+00:26:03,520 --> 00:26:12,640
+dependent as and um here's a very nice figure 
+from um paper by W Merrill where they have a  
+
+245
+00:26:12,640 --> 00:26:19,600
+toy version of this problem and they train various 
+models on this and um as the sequence length grows  
+
+246
+00:26:19,600 --> 00:26:25,840
+we can see how the minimum number of layers to 
+solve this task grows for a transformer um as  
+
+247
+00:26:25,840 --> 00:26:33,200
+well as state space models like S4 and Mumba now 
+it turns out nonlinear RNNs shown in blue here can  
+
+248
+00:26:33,200 --> 00:26:39,440
+solve this with a single layer um but nonlinear 
+RNNs because of the nonlinearities not they're  
+
+249
+00:26:39,440 --> 00:26:45,200
+not parallelizable across sequence length um at 
+least not as easily which means um it's difficult  
+
+250
+00:26:45,200 --> 00:26:51,920
+to train them efficiently on modern hardware. 
+But um so in this paper um they give a very  
+
+251
+00:26:51,920 --> 00:26:57,120
+interesting version of a linear transformer with a 
+sort of a different transition matrix um and they  
+
+252
+00:26:57,120 --> 00:27:04,960
+call this IDS4 where this is a linear RNN a linear 
+transformer um with a particular parameterization  
+
+253
+00:27:04,960 --> 00:27:10,560
+of a transition matrix and they show that this 
+theoretically allows the model to go uh beyond  
+
+254
+00:27:10,560 --> 00:27:16,160
+this TC0 complexity class and empirically it is 
+able to solve this uh synthetic task in a single  
+
+255
+00:27:16,160 --> 00:27:22,480
+layer. Now what does this uh more flexible 
+transition matrix look like? It basically looks  
+
+256
+00:27:22,480 --> 00:27:28,080
+like follows. So whereas um previously with the 
+gated linear transformers or state space models,  
+
+257
+00:27:28,080 --> 00:27:35,680
+we had a uh uh sort of an element-wise gating 
+matrix or the gating scala um now we have a matrix  
+
+258
+00:27:35,680 --> 00:27:42,160
+multiplication um as a transition function. Um 
+and this matrix is data dependent. Now what does  
+
+259
+00:27:42,160 --> 00:27:48,240
+this matrix look like? Um so there there has been 
+various works that work with different types of uh  
+
+260
+00:27:48,240 --> 00:27:55,040
+uh these structured map models. Um so there's a a 
+work called delta where the matrix is given by an  
+
+261
+00:27:55,040 --> 00:28:00,400
+identity plus rank one matrix. Um there are more 
+there are recent works that propose alternatives  
+
+262
+00:28:00,400 --> 00:28:07,040
+but they roughly look like so identity or diagonal 
+plus some low rank components and it turns out  
+
+263
+00:28:07,040 --> 00:28:14,400
+sort of empirically um so this uh this paper which 
+used a product of identity plus rank one matrices  
+
+264
+00:28:14,400 --> 00:28:20,640
+as this um uh transition matrix um it turns 
+out um this does allow these types of recurrent  
+
+265
+00:28:20,640 --> 00:28:26,720
+models to solve these state tracking tasks much 
+better than transformers and very interestingly  
+
+266
+00:28:26,720 --> 00:28:33,120
+Um in this recent work uh called RWK7 which 
+employs a diagonal plus uh sort of different  
+
+267
+00:28:33,120 --> 00:28:39,040
+matrix rank one matrix um they theoretically show 
+that this type of transition function allows a  
+
+268
+00:28:39,040 --> 00:28:45,280
+model allows a model to um go beyond the TC0 
+complexity class and and solve an NC1 complete  
+
+269
+00:28:45,280 --> 00:28:53,280
+problem. Um and of course this is contingent upon 
+sort of um NC1 uh being not equal to TC0 which is  
+
+270
+00:28:53,280 --> 00:29:00,960
+an open problem. Cool. Um, so, um, it turns out we 
+have now linear transformers with these structured  
+
+271
+00:29:00,960 --> 00:29:06,560
+transition matrices, um, that can go beyond 
+transformers, at least when it comes to, um, uh,  
+
+272
+00:29:06,560 --> 00:29:12,240
+state tracking. And I'm going to argue like we've 
+done something quite interesting and and cool with  
+
+273
+00:29:12,240 --> 00:29:17,200
+this class of models. So, in particular, recall 
+that linear attention and linear transformers,  
+
+274
+00:29:17,200 --> 00:29:23,360
+they were motivated from the perspective of having 
+better efficiency, right? So that's why we got rid  
+
+275
+00:29:23,360 --> 00:29:29,600
+of the softmax function which made it possible to 
+reformulate this in RNN. But it turns out if we  
+
+276
+00:29:29,600 --> 00:29:35,360
+sort of massage the um data dependent transition 
+function a bit more we now get a class of models  
+
+277
+00:29:35,360 --> 00:29:41,040
+um that's still as efficient um but I mean still 
+more efficient the transformers but have better  
+
+278
+00:29:41,040 --> 00:29:49,200
+expressivity. Now of course um you know nothing's 
+for free so we lose something. So in particular,  
+
+279
+00:29:49,200 --> 00:29:55,440
+let's look at sort of how these models may 
+or may not be good with respect to certain  
+
+280
+00:29:55,440 --> 00:30:04,560
+cap capabilities that transformers have. Um so 
+uh one aspect one way to measure this is called  
+
+281
+00:30:04,560 --> 00:30:12,800
+associative recall. Um and a motivation for this 
+is like um given by uh looking at natural language  
+
+282
+00:30:12,800 --> 00:30:18,160
+sentences and noticing that when when a model's 
+processing or modeling sort of natural language  
+
+283
+00:30:18,160 --> 00:30:25,520
+we have like we reuse a lot of sort of let's say 
+entities or a lot of um words or entities that  
+
+284
+00:30:25,520 --> 00:30:30,160
+occurred in the past. So in this case, Hakuna 
+mata occurred in the past and it would be nice  
+
+285
+00:30:30,160 --> 00:30:35,600
+to be able to sort of attend or look back into 
+such context um to produ produce sort of the  
+
+286
+00:30:35,600 --> 00:30:45,280
+next word matana given hakuna for example and um 
+uh uh this is a paper from Simon Aurora um where  
+
+287
+00:30:45,280 --> 00:30:50,880
+they did very nice analysis where they showed that 
+a lot of the complexity gap between such RNN or  
+
+288
+00:30:50,880 --> 00:30:58,320
+convolutional models and ordinary transformers is 
+due to the fact that um for these types of words  
+
+289
+00:30:58,320 --> 00:31:04,720
+where you can predict it if you could look back 
+exactly into the past um these types of RNN models  
+
+290
+00:31:04,720 --> 00:31:09,440
+and convolutional models are just not as good as 
+transformers that have this um sort of flexible  
+
+291
+00:31:09,440 --> 00:31:15,920
+attention mechanism to attend over the previous 
+uh past. Now um it turns out some of the recent  
+
+292
+00:31:15,920 --> 00:31:21,600
+models that I talked about like deltaNet or gated 
+delta net with these types of structured mat moles  
+
+293
+00:31:21,600 --> 00:31:28,400
+as a transition matrix are better at these types 
+of associative recall task. So here um this is a  
+
+294
+00:31:28,400 --> 00:31:34,720
+synthetic diagnostic task um again from Shimron 
+um where the key point is you have an arbitrary  
+
+295
+00:31:34,720 --> 00:31:40,720
+set of key and values and a bunch of queries and 
+you need to predict the value associated with the  
+
+296
+00:31:40,720 --> 00:31:46,880
+queries and on this synthetic task um certainly 
+these types of linear RNNs with more flexible  
+
+297
+00:31:46,880 --> 00:31:52,480
+structured transitions do better um but this is 
+actually a fundamental limitation of recurrent  
+
+298
+00:31:52,480 --> 00:31:59,440
+models. So um one of the fundamental limitations 
+um that that these types of even like more  
+
+299
+00:31:59,440 --> 00:32:05,600
+flexible models can't get around is the ability 
+to do recall of arbitrary context and intuitively  
+
+300
+00:32:05,600 --> 00:32:11,440
+this makes sense right so if you have like n bits 
+of information to actually remember this you can't  
+
+301
+00:32:11,440 --> 00:32:18,960
+compress that into a memory that's constant with 
+respect to n um and um so I've mentioned how these  
+
+302
+00:32:18,960 --> 00:32:23,920
+types of more flexible linear transformers are 
+more expressive than transform performers when  
+
+303
+00:32:23,920 --> 00:32:28,720
+it comes to do being able to do straight tracking, 
+but they're also more impoverished. They're still  
+
+304
+00:32:28,720 --> 00:32:34,080
+impoverished when it comes to do being able to 
+do arbitrary recall. So, how do we get around  
+
+305
+00:32:34,080 --> 00:32:40,080
+this? Um, I think maybe one non-answer, but that 
+seems to work well empirically is just use hybrid  
+
+306
+00:32:40,080 --> 00:32:45,680
+models. So, what do I mean by hybrid models? 
+Well, in so far as these types of transformers,  
+
+307
+00:32:45,680 --> 00:32:51,680
+uh, deep learn uh, you know, deep networks with 
+multiple layers, you can use u maybe some of these  
+
+308
+00:32:51,680 --> 00:32:57,760
+more efficient layers. um for most of the layers 
+uh but for a couple of layers you can still make  
+
+309
+00:32:57,760 --> 00:33:03,280
+use of these full soft mackenum mechanism that 
+allows you to um again do associative recall over  
+
+310
+00:33:03,280 --> 00:33:09,200
+arbitrary context. Now what this means is that 
+um from a complexity standpoint you still have  
+
+311
+00:33:09,200 --> 00:33:15,440
+a model that requires quadratic compute and linear 
+memory but because you're not doing this for every  
+
+312
+00:33:15,440 --> 00:33:22,080
+layer um things will still be much more efficient. 
+Um so um as an example um highlighting the  
+
+313
+00:33:22,080 --> 00:33:27,520
+effectiveness of this strategy um we had some 
+work where uh we were training not the biggest  
+
+314
+00:33:27,520 --> 00:33:32,880
+models 1.3b models on 100 billion tokens and 
+we found this hybrid strategy to work really  
+
+315
+00:33:32,880 --> 00:33:39,760
+well. So here we have perplexity evaluation on 
+some NLP tasks as well as uh uh these types of  
+
+316
+00:33:39,760 --> 00:33:46,320
+recall intensive tasks and what was surprising 
+was like um uh delta linear transformers. So  
+
+317
+00:33:46,320 --> 00:33:52,560
+these are linear transformers with a particularly 
+um flexible structured transition matrix. Um they  
+
+318
+00:33:52,560 --> 00:33:58,080
+do well but they don't do as well as transformers 
+when it comes to these types of recall intensive  
+
+319
+00:33:58,080 --> 00:34:04,000
+tasks. But as soon as you add um these types 
+uh a couple of global attention layers um
+ 
+
+320
+00:34:04,000 --> 00:34:09,280
+it does better in terms of both perplexity and 
+retrieval. So this was at a much smaller scale. Um  
+
+321
+00:34:09,280 --> 00:34:15,040
+recent work has shown that um this hybrid strategy 
+works quite well. So there's a very interesting  
+
+322
+00:34:15,040 --> 00:34:22,160
+paper called Jamba um which uh interled mamba 
+layers with these types of full attention  
+
+323
+00:34:22,160 --> 00:34:29,120
+layers and it turns out um they performed um 
+better than sort of just using mumba layers  
+
+324
+00:34:29,120 --> 00:34:36,560
+or just using attention layers. Cool. Um so to 
+summarize um we've seen how linear transformers  
+
+325
+00:34:36,560 --> 00:34:41,280
+or I've argued linear transformers are
+ 
+potentially an efficient and expressive  
+
+326
+00:34:41,280 --> 00:34:46,320
+architectural alternative to transformers 
+but they also still have limitations when  
+
+327
+00:34:46,320 --> 00:34:50,640
+it comes to certain phenomena that we want 
+that you know capabilities that we want in  
+
+328
+00:34:50,640 --> 00:34:56,800
+our LLMs like associative recall right we do 
+want models to be able to attend over you know  
+
+329
+00:34:56,800 --> 00:35:03,280
+um code bases uh of you know like hundreds 
+of thousands of tokens And for that maybe an  
+
+330
+00:35:03,280 --> 00:35:09,200
+appealing middle ground is to still make use of 
+global attention layers but not at every layer.  
+
+331
+00:35:09,200 --> 00:35:14,640
+Um one thought I have is like when it comes to
+ 
+really exploring the long range capabilities of  
+
+332
+00:35:14,640 --> 00:35:19,200
+linear transformers. I think maybe language is 
+not the best domain in which to explore such  
+
+333
+00:35:19,200 --> 00:35:24,560
+architectures because um you know we can do a lot 
+of things by attending over tens of thousands or  
+
+334
+00:35:24,560 --> 00:35:28,800
+hundreds of thousands of tokens. But when it 
+comes to modalities like speech and video, I  
+
+335
+00:35:28,800 --> 00:35:34,240
+think the quadratic attention quadratic complexity 
+of ordinary attention does really play a factor.  
+
+336
+00:35:34,240 --> 00:35:38,880
+And I think maybe those are the domains where 
+we really want to stretch the we really want to
+ 
+
+337
+00:35:38,880 --> 00:35:45,120
+explore the capabilities of these 
+RNN like linear transformers. And  
+
+338
+00:35:45,120 --> 00:35:51,280
+um just stepping back I think um when the 
+transformer architecture was introduced in 2017 18  
+
+339
+00:35:51,280 --> 00:35:56,080
+um in some sense it was great because we now had 
+this general purpose architecture that could model  
+
+340
+00:35:56,080 --> 00:36:01,200
+lots of different domains well enough and all we 
+had to do with like was like compute uh scale the  
+
+341
+00:36:01,200 --> 00:36:08,320
+data and the model size and that strategy did 
+get us um to the current point. Um but I think  
+
+342
+00:36:08,320 --> 00:36:14,160
+there's now you know a lot of exciting work um
+ 
+coming from various uh groups on you know like  
+
+343
+00:36:14,160 --> 00:36:18,960
+proposing these types of alternative architectures 
+to transformers and I think this is an exciting  
+
+344
+00:36:18,960 --> 00:36:29,520
+time to do architecture research and with that 
+I'll end here and take any questions that was  
+
+345
+00:36:29,520 --> 00:36:37,680
+really awesome uh thank you so much um uh Yun uh 
+we um were excited to see these uh more efficient  
+
+346
+00:36:37,680 --> 00:36:46,000
+models and so let me um start with a few of my 
+questions. I wonder if you have identified any  
+
+347
+00:36:46,000 --> 00:36:53,760
+tasks uh where the linear transformer alternative 
+you developed underperforms as compared to
+ 
+
+348
+00:36:53,760 --> 00:36:59,280
+transformers. Yeah. So when it 
+comes to being able to retrieve  
+
+349
+00:36:59,280 --> 00:37:04,640
+uh things from context like for example um in 
+the synthetic case you're given arbitrary key  
+
+350
+00:37:04,640 --> 00:37:10,560
+values and then an arbitrary query and you need 
+to output the value associated with that query.  
+
+351
+00:37:10,560 --> 00:37:17,520
+um these linear transformers still underperform uh 
+classic transformers. And I think these types of  
+
+352
+00:37:17,520 --> 00:37:23,600
+um recall abilities are capabilities that we 
+want in real world language models in so far as  
+
+353
+00:37:23,600 --> 00:37:28,000
+they're important for things like processing 
+code. And these are still sort of like
+ 
+
+354
+00:37:28,000 --> 00:37:35,200
+um you know like capabilities that linear 
+transformers uh uh don't have or aren't as good  
+
+355
+00:37:35,200 --> 00:37:40,400
+um versus ordinary transformers. And 
+um I think this is like a theoretical  
+
+356
+00:37:40,400 --> 00:37:44,800
+limitation. Um and intuitively if you have 
+sort of an arbitrary length context that  
+
+357
+00:37:44,800 --> 00:37:48,800
+you're compressing into a fixed dimensional 
+vector no matter as long as the vector is  
+
+358
+00:37:48,800 --> 00:37:53,440
+sort of fixed dimensional and not a function 
+of input size then you can't do arbitrary in  
+
+359
+00:37:53,440 --> 00:37:59,280
+uh unless there's some structure in the uh context 
+that you give um which motivates these types of
+ 
+
+360
+00:37:59,280 --> 00:38:06,640
+sort of middle ground strategies like hybrid 
+models. So for the um uh for our industry friends  
+
+361
+00:38:06,640 --> 00:38:14,320
+uh in this session, can you give us an example 
+of a specific application domain where you would  
+
+362
+00:38:14,320 --> 00:38:20,400
+recommend the use of linear transformers and 
+a specific application domain where you would  
+
+363
+00:38:20,400 --> 00:38:28,960
+recommend a regular transformer? Yeah. So I I 
+think modalities where uh the deployment has to  
+
+364
+00:38:28,960 --> 00:38:33,920
+be really fast and the sequence length is really 
+long. So these are modalities like real-time  
+
+365
+00:38:33,920 --> 00:38:39,520
+speech processing or long video generation. Um
+ 
+these types of models linear transformers are  
+
+366
+00:38:39,520 --> 00:38:44,720
+quite promising and there has been some exciting 
+work applying some of these types of models to  
+
+367
+00:38:44,720 --> 00:38:52,960
+speech and video modeling domains. Um and those 
+I think that's also like very practical in that  
+
+368
+00:38:52,960 --> 00:38:57,920
+you know if you have uh a million frames it's 
+just very very slow and maybe even impossible  
+
+369
+00:38:57,920 --> 00:39:04,960
+to do full attention over. Now when it comes 
+to uh language and doing reasoning, I do think  
+
+370
+00:39:04,960 --> 00:39:12,240
+these are domains where I'm being hand wavy here, 
+but you want to attend and reason over all the
+ 
+
+371
+00:39:12,240 --> 00:39:20,160
+context that you give it. And I think that's why 
+some of the re uh that's why um especially when  
+
+372
+00:39:20,160 --> 00:39:25,440
+you're doing sort of like processing language, 
+you you do kind of always want these types of  
+
+373
+00:39:25,440 --> 00:39:32,560
+uh global attention layers somewhere at least. 
+So uh you mentioned videos and uh other types  
+
+374
+00:39:32,560 --> 00:39:43,440
+of signals. I wonder if you can say something 
+um about how the language um uh angle of the  
+
+375
+00:39:43,440 --> 00:39:53,200
+of the linear transformer extends to other data 
+modalities. Yeah. So um I think speech and video  
+
+376
+00:39:53,200 --> 00:39:58,080
+is one natural extension where the sequence
+ 
+length are just much longer than language.  
+
+377
+00:39:58,080 --> 00:40:04,160
+um other domains like biology I don't know much 
+but um I get the sense for example DNA can be  
+
+378
+00:40:04,160 --> 00:40:11,200
+in the billions of uh input length and maybe 
+there are exciting applications to be opened up  
+
+379
+00:40:11,200 --> 00:40:16,560
+um have you tried some of these multimodal 
+uh applications multimodal we haven't but  
+
+380
+00:40:16,560 --> 00:40:23,680
+there's been uh the community some some 
+research groups have and um there's been  
+
+381
+00:40:23,680 --> 00:40:28,000
+interesting results applying these models to 
+these types of other so is the focus was then  
+
+382
+00:40:28,000 --> 00:40:37,760
+on uh speech or on video or or what? Um people
+ 
+have done uh speech uh video and DNA as well.  
+
+383
+00:40:37,760 --> 00:40:45,040
+All right. So, uh I'm going to ask you a few 
+more questions and then I will open for broader  
+
+384
+00:40:45,040 --> 00:40:53,440
+discussion with everyone uh in the session. So, 
+uh let's see. I wonder if you can talk about the  
+
+385
+00:40:53,440 --> 00:41:00,400
+tradeoffs between your method and traditional 
+transformers in terms of training stability  
+
+386
+00:41:00,400 --> 00:41:06,400
+and other properties like you know maybe 
+generalization uh out of distribution things  
+
+387
+00:41:06,400 --> 00:41:13,040
+like that. Yeah. So when it comes to training 
+speed um if the sequence length gets longer
+ 
+
+388
+00:41:13,040 --> 00:41:20,320
+like in this so if each batch is over a sequence 
+of let's say over 10,000 these models are quite  
+
+389
+00:41:20,320 --> 00:41:26,320
+a bit more efficient than regular attention. Um 
+now when it comes to maybe like thousand length  
+
+390
+00:41:26,320 --> 00:41:34,400
+sequences 2,000 um the speed benefits uh not 
+as salient. Um stability-wise, we haven't found  
+
+391
+00:41:34,400 --> 00:41:40,960
+these models to be particularly more difficult 
+to train um than regular transformers. Although  
+
+392
+00:41:40,960 --> 00:41:46,400
+there are stability, you know, training 
+stability issues uh associated with training  
+
+393
+00:41:46,400 --> 00:41:52,880
+regular transformers when you get to a certain
+ 
+size. And what was the second question? Sorry.  
+
+394
+00:41:52,880 --> 00:41:59,600
+Uh so let's see. So uh just the question was 
+about trade-offs between linear transformers and  
+
+395
+00:41:59,600 --> 00:42:06,400
+uh and transformers uh with respect to stability 
+and generalization and any other properties  
+
+396
+00:42:06,400 --> 00:42:11,920
+um you might want to highlight. Yeah. And and then 
+when it comes to generalization, we've actually  
+
+397
+00:42:11,920 --> 00:42:19,680
+um I think some of these hybrid models have been 
+able to generalize along certain dimensions better  
+
+398
+00:42:19,680 --> 00:42:23,760
+than regular transformers. And we don't really 
+have a good understanding of why other than
+ 
+
+399
+00:42:23,760 --> 00:42:29,680
+non-answers like um you know maybe these layers 
+are um capturing different types of phenomena.  
+
+400
+00:42:29,680 --> 00:42:35,760
+So you're sort of having an ensembling effect by 
+making use of hybrid models. Um now pure linear  
+
+401
+00:42:35,760 --> 00:42:42,480
+transformers versus ordinary ordinary transformers 
+on language tasks pure linear transformers still  
+
+402
+00:42:42,480 --> 00:42:50,880
+do underperform uh ordinary transformers on just 
+language only tasks. So um uh let's see please  
+
+403
+00:42:50,880 --> 00:42:56,800
+put your hand up if you'd like to address 
+your question directly to Yun otherwise I  
+
+404
+00:42:56,800 --> 00:43:03,120
+see that there are a few questions in the
+ 
+chat but I will come to you um in in just  
+
+405
+00:43:03,120 --> 00:43:09,920
+a second. I do have one last question. Can you 
+talk about uh what kind of uh performance you  
+
+406
+00:43:09,920 --> 00:43:18,480
+observed for tasks that require spatial 
+temporal correlations? We haven't um we  
+
+407
+00:43:18,480 --> 00:43:22,160
+haven't investigated those task though we 
+we are currently investigating applications  
+
+408
+00:43:22,160 --> 00:43:29,520
+of these models to time series data and but we 
+don't have this is just at so it's ongoing work.  
+
+409
+00:43:29,520 --> 00:43:36,480
+Okay. So I have a few questions in the chat. Uh 
+let's see. Mike Stonereaker asks if the domain  
+
+410
+00:43:36,480 --> 00:43:44,320
+is structured data say data warehouses do
+ 
+you think any of this stuff will work well?  
+
+411
+00:43:44,320 --> 00:43:52,080
+Um that's a good question and I think when we say 
+domain is structured data like data warehouses  
+
+412
+00:43:52,080 --> 00:43:59,520
+um that itself is like still a big class of 
+uh types of different data but for example if  
+
+413
+00:43:59,520 --> 00:44:06,080
+it's like structured data where an input of 
+this data is you know very long unstructured  
+
+414
+00:44:06,080 --> 00:44:11,040
+text I think some of these uh methods may 
+be promising from an efficiency standpoint.  
+
+415
+00:44:14,000 --> 00:44:21,520
+Okay. Um, Mike, do you want to follow 
+up or should we go to the next question?  
+
+416
+00:44:23,440 --> 00:44:29,280
+Okay, maybe we go to the next question
+ 
+from Danielle Pace who asks if you have  
+
+417
+00:44:29,280 --> 00:44:36,000
+two clinical nodes and want to extract what 
+is new in the second one which architecture  
+
+418
+00:44:36,000 --> 00:44:42,080
+regular transformers or linear transformers 
+would be the best in a sense you are tracking  
+
+419
+00:44:42,080 --> 00:44:47,440
+states. So I wonder if the linear transformers 
+would be more efficient. Yeah, that's a great  
+
+420
+00:44:47,440 --> 00:44:53,040
+question. And I think maybe from a theoretical 
+standpoint you might argue um some of these more  
+
+421
+00:44:53,040 --> 00:44:58,400
+expressive linear transformers with particular 
+you know data dependent structured matrices um
+ 
+
+422
+00:44:58,400 --> 00:45:05,040
+might perform better. I will say from a practical 
+modeling standpoint um for these types of tasks  
+
+423
+00:45:05,040 --> 00:45:09,760
+you want to use uh existing pre-trained models. 
+So you don't want to be training these models from  
+
+424
+00:45:09,760 --> 00:45:18,720
+scratch. Um and by and large um these uh existing 
+pre-trained models still make use of just sort of  
+
+425
+00:45:18,720 --> 00:45:23,440
+global attention layers at every layer which may 
+change over the few over the next few years but  
+
+426
+00:45:23,440 --> 00:45:28,480
+um in so far as you uh going to be using these 
+offthe-shelf models I think you'll be restricted  
+
+427
+00:45:28,480 --> 00:45:32,960
+to using um these types of uh global
+ 
+attention layers. Now there's been an  
+
+428
+00:45:32,960 --> 00:45:38,880
+interesting line of work on whether you can take 
+a pre-trained softmax attention transformer um  
+
+429
+00:45:38,880 --> 00:45:43,840
+of which there are many you know uh in existence 
+because every sort of pre-trained LLM is pretty  
+
+430
+00:45:43,840 --> 00:45:48,800
+much using this still global attention layers 
+and seeing whether you can fine-tune them into  
+
+431
+00:45:48,800 --> 00:45:53,360
+some of these more efficient architectures and 
+that may be possible but that's very much sort  
+
+432
+00:45:53,360 --> 00:46:02,080
+of ongoing research. Awesome. Okay, Rudong Wu 
+is asking uh with KV cache for auto reggressive
+ 
+
+433
+00:46:02,080 --> 00:46:08,240
+models the inference complexity remains 
+empirically closer to Oven within quite a  
+
+434
+00:46:08,240 --> 00:46:14,240
+few tokens do you think state space models 
+have certain advantages beyond that and  
+
+435
+00:46:14,240 --> 00:46:20,160
+if so where is the boundary yeah so that's a 
+great question so in so far as you know like  
+
+436
+00:46:20,160 --> 00:46:27,120
+um compute is cheap relative to memory movement 
+and in so far as deployment is memory bound um the  
+
+437
+00:46:27,120 --> 00:46:34,560
+compute complexity is maybe not the bottleneck um 
+with uh KV cache until you unless you get to you  
+
+438
+00:46:34,560 --> 00:46:40,400
+know sequence length on the order of millions but
+ 
+still you are paying a lot for moving the KV cache  
+
+439
+00:46:40,400 --> 00:46:45,920
+back and forth from you know offchip memory to 
+onchip memory and um these models in so far as  
+
+440
+00:46:45,920 --> 00:46:51,600
+you have a fixed dimensional representation 
+within entire context um the size of the data  
+
+441
+00:46:51,600 --> 00:46:54,960
+that you're moving back and forth that's 
+going to be independent of sequence length  
+
+442
+00:46:54,960 --> 00:46:59,040
+and that's going to be pract practically much 
+faster and you do see practical gains as you  
+
+443
+00:46:59,040 --> 00:47:03,760
+get to sequence lengths, you know, um over a 
+couple of thousand with these types of models.
+ 
+
+444
+00:47:03,760 --> 00:47:11,200
+Yeah. Which which um which is like a one of the 
+reasons why these models are attractive for things  
+
+445
+00:47:11,200 --> 00:47:20,800
+like real time speech processing. Now, I don't 
+see any hands um uh in my uh little icons. Please  
+
+446
+00:47:20,800 --> 00:47:26,240
+put your virtual hand up if you would like 
+to ask a question directly. In the meantime,  
+
+447
+00:47:26,240 --> 00:47:33,440
+we have a few more questions in the chat. And so, 
+Sebastian Ersheim is asking, "Have you had a look  
+
+448
+00:47:33,440 --> 00:47:41,200
+into XLSTMs complexitywise? And do you know how 
+they compare to linear transformers?" Yeah, great  
+
+449
+00:47:41,200 --> 00:47:47,840
+great question. So, XLSTMs make use of these
+ 
+linear transformer layers. So you can roughly  
+
+450
+00:47:47,840 --> 00:47:55,760
+think of um XLSTMs as having some of these linear 
+transformer layers the in particular gated linear  
+
+451
+00:47:55,760 --> 00:48:05,440
+transform layers and then having ordinary um 
+LSTM layers and interle um both um I don't  
+
+452
+00:48:05,440 --> 00:48:11,840
+think there's been a close comparison at scale of 
+these different types of architectures. One thing  
+
+453
+00:48:11,840 --> 00:48:19,280
+um that's nice about LSTMs is XLSTMs is in so far 
+as they're still making use of classic LSTMs, they  
+
+454
+00:48:19,280 --> 00:48:26,480
+are able to model have like the expressivity bene 
+benefits that you get from nonlinear RNNs. Now um
+ 
+
+455
+00:48:26,480 --> 00:48:33,120
+this is good from a model expressivity standpoint 
+but um bad from a efficient training standpoint  
+
+456
+00:48:33,120 --> 00:48:39,040
+because as soon as you have these nonlinear LSTM 
+layers then it's very difficult to parallelize  
+
+457
+00:48:39,040 --> 00:48:44,080
+across sequence train uh sequence length um 
+which is uh crucial for efficient training at  
+
+458
+00:48:44,080 --> 00:48:51,680
+scale. Great. Thank you. Next question from 
+Jennifer Sunu. Uh, has there been metadata  
+
+459
+00:48:51,680 --> 00:48:59,520
+collection upfront at time of input collection or 
+metadata assessment coupled with associated recall  
+
+460
+00:48:59,520 --> 00:49:06,560
+mixed into the layers um that have been used
+ 
+to help increase efficiency and reduce the number  
+
+461
+00:49:06,560 --> 00:49:13,680
+of layers needed. For example, meta data like what 
+language or subject or common keywords the input  
+
+462
+00:49:13,680 --> 00:49:19,120
+is related to. Yeah, that's a great question. 
+So in practice when you're using these types of  
+
+463
+00:49:19,120 --> 00:49:26,400
+models to do retrieval um over documents um it 
+is helpful to um append such metadata about the  
+
+464
+00:49:26,400 --> 00:49:34,480
+document so we can more easily sort of use that 
+metadata to reason or uh retrieve relevant um  
+
+465
+00:49:34,480 --> 00:49:42,320
+portions. Um I I I'll say there hasn't been like 
+a study of whether for example um being able to
+ 
+
+466
+00:49:42,320 --> 00:49:48,640
+do this allows you to make use of smaller or 
+more efficient architectures. But in general  
+
+467
+00:49:48,640 --> 00:49:53,920
+when you're work when you're doing retrieval or 
+retrieval augmented generation it is helpful to  
+
+468
+00:49:53,920 --> 00:50:02,080
+uh attach such metadata to retrieve documents to 
+help the model do better in context recall. Great.  
+
+469
+00:50:02,080 --> 00:50:09,120
+Thank you Yun. Okay, next question from Yongsung 
+Chung. In the experiment of the last few slides,  
+
+470
+00:50:09,120 --> 00:50:17,440
+Young at all 2024, why linear transformer plus 
+two times soft max layer is even better than  
+
+471
+00:50:17,440 --> 00:50:22,720
+the original transformer at retrieval.
+ 
+That's a great question and we don't know  
+
+472
+00:50:22,720 --> 00:50:29,120
+why and it's possible like uh a lot of this 
+is uh maybe this is within standard error  
+
+473
+00:50:29,120 --> 00:50:34,880
+but it is curious that you know like in so 
+far as transformers are really good at this  
+
+474
+00:50:34,880 --> 00:50:41,120
+associative recall why interle um these just 
+a couple of them along with these types of  
+
+475
+00:50:41,120 --> 00:50:48,320
+um linear transformer layers does better we don't 
+have a good answer what how might you investigate  
+
+476
+00:50:48,320 --> 00:50:56,160
+that yeah Yeah. Um I think maybe one is to really 
+make sure the differences are salient. So um have
+ 
+
+477
+00:50:56,160 --> 00:51:03,440
+uh do this over maybe like a more targeted 
+synthetic task. Um another thing is I didn't  
+
+478
+00:51:03,440 --> 00:51:10,080
+go into the detail in the talk but you can um the 
+delta linear transformer that I talked about which  
+
+479
+00:51:10,080 --> 00:51:16,720
+has this structured attention structured 
+um uh structured map transition matrix.  
+
+480
+00:51:16,720 --> 00:51:25,040
+There's a view of that type of linear transformer 
+as actually doing um associative recall over a  
+
+481
+00:51:25,040 --> 00:51:30,080
+vector space and this is related to like 
+um some stuff from the 90s and 80s on like  
+
+482
+00:51:30,080 --> 00:51:35,680
+fast weight programming and um associative 
+memory from Paul Smelinsky and from that
+ 
+
+483
+00:51:35,680 --> 00:51:40,800
+perspective I think there is something to be 
+said about these delta transformers having  
+
+484
+00:51:40,800 --> 00:51:47,360
+better inductive biases for associative recall 
+but still that's surprising that you So that might  
+
+485
+00:51:47,360 --> 00:51:52,240
+that combined with global attention layers which 
+is actually even more aligned to doing associated  
+
+486
+00:51:52,240 --> 00:52:00,640
+recall um combining both does better that's quite 
+still surprising. Well maybe we can um we can find  
+
+487
+00:52:00,640 --> 00:52:07,440
+some collaborations to explore these questions. 
+Okay one more question in the chat uh from Isaac  
+
+488
+00:52:07,440 --> 00:52:12,720
+Sanchez. Do linear transformers or
+ 
+hybrid models have any implications  
+
+489
+00:52:12,720 --> 00:52:18,960
+for interpretability? Uh that's a great 
+question. So I'll say like model interpret  
+
+490
+00:52:18,960 --> 00:52:24,800
+model interpretability is hard in general. Um 
+my sense is these types of linear transformer  
+
+491
+00:52:24,800 --> 00:52:31,840
+or hybrid models make it even more difficult. And 
+one reason is like with these uh softmax attention  
+
+492
+00:52:31,840 --> 00:52:36,400
+layers although it's not perfect but you could 
+sort of peer into the attention mechanism and  
+
+493
+00:52:36,400 --> 00:52:43,040
+see the distributions over tokens and maybe try to 
+um you know like see what's going on. And I think
+ 
+
+494
+00:52:43,040 --> 00:52:50,880
+attention to an extent is a somewhat human 
+readable uh sort of interpret human readable  
+
+495
+00:52:50,880 --> 00:52:57,280
+output uh of the internal computations of a neural 
+network and that's because um these models are  
+
+496
+00:52:57,280 --> 00:53:02,480
+normalized uh the attention is normalized to be 
+distributions. Now in linear transformers you no  
+
+497
+00:53:02,480 --> 00:53:06,880
+longer have that right. So you no longer have 
+the soft max you no longer have a distribution  
+
+498
+00:53:06,880 --> 00:53:11,040
+over the previous elements. you just have you 
+know dot products and it's unclear whether we  
+
+499
+00:53:11,040 --> 00:53:19,360
+can interpret them as easily um as we have in
+ 
+attention. Um now there is some work on getting an  
+
+500
+00:53:19,360 --> 00:53:25,200
+attention matrix out of these sum of more complex 
+linear transformers and it's possible to do this  
+
+501
+00:53:25,200 --> 00:53:32,400
+and um I I think actually that might be one window 
+into like why these models are computing different  
+
+502
+00:53:32,400 --> 00:53:37,280
+things versus one transformers but I'll say um 
+to answer the original question um maybe some  
+
+503
+00:53:37,280 --> 00:53:41,680
+of these linear transformer or hybrid models 
+are more difficult to interpret than regular  
+
+504
+00:53:41,680 --> 00:53:48,960
+transformers. Awesome. uh Yun, thank you very 
+much for a very interesting and stimulating
+ 
+
+505
+00:53:48,960 --> 00:53:54,880
+presentation. I'd like to thank all of 
+you in the in the virtual session for  
+
+506
+00:53:54,880 --> 00:54:02,400
+uh great questions and for very nice engagement 
+at the end of the talk and uh see you all in  
+
+507
+00:54:02,400 --> 00:54:09,600
+two weeks. Next week we are hosting our industry 
+partners as part of the CSAIL Annual Meeting. So,  
+
+508
+00:54:09,600 --> 00:54:17,200
+please join us in person for our CSAIL Alliances 
+Annual Meeting and otherwise see you in two weeks  
+
+509
+00:54:17,200 --> 00:54:24,800
+for the CSAIL Forum. Thank you all for joining 
+us. Thank you, Yun. Thank you. Bye-bye. Bye.
+

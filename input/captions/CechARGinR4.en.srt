@@ -1,0 +1,7964 @@
+1
+00:00:00,000 --> 00:00:02,000
+All
+
+2
+00:00:16,800 --> 00:00:25,519
+right. I want to welcome Stfan Andrev uh
+
+3
+00:00:21,439 --> 00:00:27,599
+as guest lecture today. He has been a
+
+4
+00:00:25,519 --> 00:00:30,160
+significant part of this course over the
+
+5
+00:00:27,599 --> 00:00:31,840
+past I think 11 years. Is that right,
+
+6
+00:00:30,160 --> 00:00:34,880
+Stefan?
+
+7
+00:00:31,840 --> 00:00:35,680
+A long a long period and
+
+8
+00:00:34,880 --> 00:00:39,200
+>> count that far
+
+9
+00:00:35,680 --> 00:00:41,920
+>> partly because his uh lectures are the
+
+10
+00:00:39,200 --> 00:00:44,320
+most popular in the course and we really
+
+11
+00:00:41,920 --> 00:00:47,840
+are glad to have him come back again.
+
+12
+00:00:44,320 --> 00:00:50,480
+His background um is very interesting.
+
+13
+00:00:47,840 --> 00:00:54,719
+He has a PhD in chemical physics from
+
+14
+00:00:50,480 --> 00:00:58,160
+Harvard and he has worked at the top
+
+15
+00:00:54,719 --> 00:00:59,760
+firms on Wall Street. Morgan Stanley
+
+16
+00:00:58,160 --> 00:01:03,840
+Cedell
+
+17
+00:00:59,760 --> 00:01:06,479
+and now to Sigma. So he's a really great
+
+18
+00:01:03,840 --> 00:01:08,560
+person to uh share his expertise with
+
+19
+00:01:06,479 --> 00:01:09,040
+us. So thank you.
+
+20
+00:01:08,560 --> 00:01:10,159
+>> Thank you.
+
+21
+00:01:09,040 --> 00:01:13,280
+>> Okay.
+
+22
+00:01:10,159 --> 00:01:17,200
+>> Thank you. Thank you guys. Um
+
+23
+00:01:13,280 --> 00:01:20,479
+very nice to to meet you all. Big class
+
+24
+00:01:17,200 --> 00:01:23,439
+big class this year. That's exciting. Um
+
+25
+00:01:20,479 --> 00:01:25,119
+I like I I'll start with this before
+
+26
+00:01:23,439 --> 00:01:26,799
+everybody gets gets tired. But I wanted
+
+27
+00:01:25,119 --> 00:01:29,840
+to say that like I we're going to talk
+
+28
+00:01:26,799 --> 00:01:32,320
+about principal component analysis today
+
+29
+00:01:29,840 --> 00:01:33,840
+and the
+
+30
+00:01:32,320 --> 00:01:38,240
+some of the main things I want you to
+
+31
+00:01:33,840 --> 00:01:40,320
+take away from this are this is a
+
+32
+00:01:38,240 --> 00:01:45,119
+absolutely core data science tool in
+
+33
+00:01:40,320 --> 00:01:47,439
+finance. That's number one. Number two,
+
+34
+00:01:45,119 --> 00:01:51,280
+it's great to like this kind of stuff
+
+35
+00:01:47,439 --> 00:01:55,280
+you only learn by doing it. So doing
+
+36
+00:01:51,280 --> 00:01:58,479
+like actually doing some kind of project
+
+37
+00:01:55,280 --> 00:02:00,719
+that where you use this toolkit
+
+38
+00:01:58,479 --> 00:02:03,360
+is um is like essential for you to kind
+
+39
+00:02:00,719 --> 00:02:06,640
+of relearn it.
+
+40
+00:02:03,360 --> 00:02:09,440
+And um three if you ever want to get a
+
+41
+00:02:06,640 --> 00:02:11,680
+job in finance like I think having
+
+42
+00:02:09,440 --> 00:02:13,360
+having like some experience having like
+
+43
+00:02:11,680 --> 00:02:15,360
+done a project with this and having some
+
+44
+00:02:13,360 --> 00:02:17,200
+familiarity with what this is about
+
+45
+00:02:15,360 --> 00:02:20,319
+might help you during interviews quite a
+
+46
+00:02:17,200 --> 00:02:22,080
+bit. Um we're going to have lectures the
+
+47
+00:02:20,319 --> 00:02:24,560
+slides are minute we're going to have
+
+48
+00:02:22,080 --> 00:02:27,280
+some the slides are on the web on the
+
+49
+00:02:24,560 --> 00:02:31,040
+classroom website.
+
+50
+00:02:27,280 --> 00:02:34,000
+In addition to that there is um there is
+
+51
+00:02:31,040 --> 00:02:38,480
+a notebook and a Jupyter notebook and a
+
+52
+00:02:34,000 --> 00:02:40,400
+data set that I've used to prepare these
+
+53
+00:02:38,480 --> 00:02:43,200
+slides to at least the first the first
+
+54
+00:02:40,400 --> 00:02:46,000
+example we're going to talk about.
+
+55
+00:02:43,200 --> 00:02:47,760
+I've um like I think that that's like
+
+56
+00:02:46,000 --> 00:02:50,560
+that's a great reference if you ever
+
+57
+00:02:47,760 --> 00:02:53,519
+want to like like see how you actually
+
+58
+00:02:50,560 --> 00:02:57,440
+like how this stuff gets computed and if
+
+59
+00:02:53,519 --> 00:03:01,360
+you want to do a final or like a project
+
+60
+00:02:57,440 --> 00:03:04,959
+final project in the class. Um
+
+61
+00:03:01,360 --> 00:03:07,120
+it would be something like that notebook
+
+62
+00:03:04,959 --> 00:03:08,480
+but like a little more elaborate. So it
+
+63
+00:03:07,120 --> 00:03:12,080
+gives you like a little bit of a flavor
+
+64
+00:03:08,480 --> 00:03:14,159
+of what the starting point and uh what
+
+65
+00:03:12,080 --> 00:03:15,920
+you know what the project would be like.
+
+66
+00:03:14,159 --> 00:03:17,360
+Probably would be a little a little more
+
+67
+00:03:15,920 --> 00:03:21,519
+extensive than than what we're talking
+
+68
+00:03:17,360 --> 00:03:24,800
+about here, but but um like in the same
+
+69
+00:03:21,519 --> 00:03:27,599
+same spirit.
+
+70
+00:03:24,800 --> 00:03:29,120
+So yeah, that's so now that we got this
+
+71
+00:03:27,599 --> 00:03:31,599
+over with like we're g let's talk about
+
+72
+00:03:29,120 --> 00:03:35,200
+like what is PCA and where where does it
+
+73
+00:03:31,599 --> 00:03:37,360
+fit within the world of um machine
+
+74
+00:03:35,200 --> 00:03:40,640
+learning algorithms
+
+75
+00:03:37,360 --> 00:03:42,480
+and it's it's basically um it's it's a
+
+76
+00:03:40,640 --> 00:03:45,280
+un method for unsupervised learn
+
+77
+00:03:42,480 --> 00:03:47,040
+learning. So it's it basically a method
+
+78
+00:03:45,280 --> 00:03:48,879
+to cluster reduce dimensional
+
+79
+00:03:47,040 --> 00:03:50,480
+dimensionality to make sense of the
+
+80
+00:03:48,879 --> 00:03:53,280
+data.
+
+81
+00:03:50,480 --> 00:03:54,640
+It it's not it doesn't
+
+82
+00:03:53,280 --> 00:03:56,560
+it doesn't necessar it's not a
+
+83
+00:03:54,640 --> 00:03:58,879
+regression so it doesn't like there's no
+
+84
+00:03:56,560 --> 00:04:02,239
+causality implied when you use PCA but
+
+85
+00:03:58,879 --> 00:04:04,400
+it is it's uh yeah it's a way to
+
+86
+00:04:02,239 --> 00:04:07,599
+understand data better especially data
+
+87
+00:04:04,400 --> 00:04:09,280
+that has a lot of dimensions where
+
+88
+00:04:07,599 --> 00:04:12,159
+things are like many many of those
+
+89
+00:04:09,280 --> 00:04:15,040
+dimensions are highly correlated
+
+90
+00:04:12,159 --> 00:04:18,079
+here we have I've listed a bunch of
+
+91
+00:04:15,040 --> 00:04:20,880
+examples of where PCA can be applied
+
+92
+00:04:18,079 --> 00:04:24,000
+generally really
+
+93
+00:04:20,880 --> 00:04:25,840
+it's it's widely applied in large data
+
+94
+00:04:24,000 --> 00:04:28,800
+sets, multi-dimensional data, like a lot
+
+95
+00:04:25,840 --> 00:04:30,320
+of data. Um it's mostly like the actual
+
+96
+00:04:28,800 --> 00:04:32,639
+the actual calculations are mostly
+
+97
+00:04:30,320 --> 00:04:34,639
+linear algebra. So it's efficient and
+
+98
+00:04:32,639 --> 00:04:38,400
+fast and scalable. So and this is one of
+
+99
+00:04:34,639 --> 00:04:40,960
+the reasons people generally like to
+
+100
+00:04:38,400 --> 00:04:43,759
+to use it. I'm not going to go through
+
+101
+00:04:40,960 --> 00:04:48,479
+all of these, but like it's it's very
+
+102
+00:04:43,759 --> 00:04:51,680
+it's their applications are very widely
+
+103
+00:04:48,479 --> 00:04:53,840
+they widely across across science and
+
+104
+00:04:51,680 --> 00:04:57,120
+and in finance it's used like very
+
+105
+00:04:53,840 --> 00:04:59,040
+extensively as well.
+
+106
+00:04:57,120 --> 00:05:01,600
+Okay. So first thing I wanted to talk
+
+107
+00:04:59,040 --> 00:05:03,680
+about is like kind of go through a
+
+108
+00:05:01,600 --> 00:05:06,240
+visual example
+
+109
+00:05:03,680 --> 00:05:08,720
+of um these are some of these things
+
+110
+00:05:06,240 --> 00:05:11,440
+that I'm going to talk about are like my
+
+111
+00:05:08,720 --> 00:05:13,520
+mental toy models to understand that I
+
+112
+00:05:11,440 --> 00:05:16,639
+always refer to when I think about what
+
+113
+00:05:13,520 --> 00:05:20,160
+is happening when I'm using PCA.
+
+114
+00:05:16,639 --> 00:05:24,240
+In this example, uh do you guys see?
+
+115
+00:05:20,160 --> 00:05:26,560
+Well, okay, good. In this example, I've
+
+116
+00:05:24,240 --> 00:05:28,240
+prepared effectively
+
+117
+00:05:26,560 --> 00:05:30,560
+three data sets, but they're really like
+
+118
+00:05:28,240 --> 00:05:32,000
+one data set. Like it's one I've I've
+
+119
+00:05:30,560 --> 00:05:35,759
+just made this up, right? It's just one
+
+120
+00:05:32,000 --> 00:05:37,520
+it's like one dimensional data set. And
+
+121
+00:05:35,759 --> 00:05:40,400
+all I've done is I've taken this
+
+122
+00:05:37,520 --> 00:05:42,479
+onedimensional data set and
+
+123
+00:05:40,400 --> 00:05:44,400
+um I've made it two dimensional by just
+
+124
+00:05:42,479 --> 00:05:47,759
+adding an extra coordinate like the blue
+
+125
+00:05:44,400 --> 00:05:49,360
+line the extra coordinate y I made zero
+
+126
+00:05:47,759 --> 00:05:52,240
+and then I took this data set and I just
+
+127
+00:05:49,360 --> 00:05:55,919
+like rotated it like 45 degrees and 90
+
+128
+00:05:52,240 --> 00:05:59,600
+degrees. And in the in this two
+
+129
+00:05:55,919 --> 00:06:01,199
+dimensional world like it's it's two
+
+130
+00:05:59,600 --> 00:06:02,960
+each point has two coordinates. So it
+
+131
+00:06:01,199 --> 00:06:04,400
+looks like it's two dimensional, but I
+
+132
+00:06:02,960 --> 00:06:08,639
+know it's like it's onedimensional
+
+133
+00:06:04,400 --> 00:06:11,840
+because I I made it. And and the key
+
+134
+00:06:08,639 --> 00:06:14,160
+thing that that PCA would do is like is
+
+135
+00:06:11,840 --> 00:06:15,680
+PCA kind of would immediately tell you
+
+136
+00:06:14,160 --> 00:06:17,680
+when it looks at this data that it's
+
+137
+00:06:15,680 --> 00:06:19,120
+actually onedimensional.
+
+138
+00:06:17,680 --> 00:06:20,639
+If just by like you download the data,
+
+139
+00:06:19,120 --> 00:06:23,039
+you do the calculations, it's going to
+
+140
+00:06:20,639 --> 00:06:25,919
+be onedimensional. So how how would it
+
+141
+00:06:23,039 --> 00:06:28,880
+work? Um,
+
+142
+00:06:25,919 --> 00:06:31,919
+PCA basically you can think of PCA as
+
+143
+00:06:28,880 --> 00:06:36,240
+like a as a as a way to rotate the
+
+144
+00:06:31,919 --> 00:06:38,639
+coordinate system. And
+
+145
+00:06:36,240 --> 00:06:41,120
+we basically when when you apply PCA to
+
+146
+00:06:38,639 --> 00:06:43,039
+this it will tell you if you apply to
+
+147
+00:06:41,120 --> 00:06:46,479
+the blue blue data it will tell you that
+
+148
+00:06:43,039 --> 00:06:48,240
+the PC1 the first principal component
+
+149
+00:06:46,479 --> 00:06:50,000
+you guys have done uh Peter you guys
+
+150
+00:06:48,240 --> 00:06:51,680
+have done the math part already right of
+
+151
+00:06:50,000 --> 00:06:53,840
+PCA. Yeah. So the first principal
+
+152
+00:06:51,680 --> 00:06:55,919
+component is going to be the x
+
+153
+00:06:53,840 --> 00:06:57,039
+direction. When you do the the red line,
+
+154
+00:06:55,919 --> 00:06:59,520
+it's going to tell you that it's like
+
+155
+00:06:57,039 --> 00:07:04,560
+the the one one direction and and it's
+
+156
+00:06:59,520 --> 00:07:08,080
+going to just discover this this um
+
+157
+00:07:04,560 --> 00:07:09,840
+this dimensionality. And okay, the first
+
+158
+00:07:08,080 --> 00:07:12,319
+data set was like very very simple, but
+
+159
+00:07:09,840 --> 00:07:14,080
+there was no is purely onedimensional.
+
+160
+00:07:12,319 --> 00:07:15,360
+This one here is like kind of the same
+
+161
+00:07:14,080 --> 00:07:18,560
+thing, but I've added a little bit of
+
+162
+00:07:15,360 --> 00:07:22,160
+noise in in the other dimension.
+
+163
+00:07:18,560 --> 00:07:24,000
+And um now when I apply PCA to this,
+
+164
+00:07:22,160 --> 00:07:26,960
+it's going to tell me basically the same
+
+165
+00:07:24,000 --> 00:07:28,880
+thing. PC1 is going to be the same, but
+
+166
+00:07:26,960 --> 00:07:30,720
+PC2 is is going to have a little bit of
+
+167
+00:07:28,880 --> 00:07:33,039
+variance along PC2 along the
+
+168
+00:07:30,720 --> 00:07:35,520
+perpendicular direction. So in both of
+
+169
+00:07:33,039 --> 00:07:39,440
+these cases A and B, it will tell me
+
+170
+00:07:35,520 --> 00:07:41,199
+that PC1 and PC2 vectors are the same.
+
+171
+00:07:39,440 --> 00:07:43,599
+And it's what's going to be different is
+
+172
+00:07:41,199 --> 00:07:45,440
+the there's going to be zero variance in
+
+173
+00:07:43,599 --> 00:07:47,680
+case of B on the PC2 direction and a
+
+174
+00:07:45,440 --> 00:07:51,599
+little bit of variance in in in the
+
+175
+00:07:47,680 --> 00:07:54,080
+first in the in the example A
+
+176
+00:07:51,599 --> 00:07:57,520
+along the PC2 direction.
+
+177
+00:07:54,080 --> 00:07:59,039
+So it basically tells us the two thing
+
+178
+00:07:57,520 --> 00:08:01,840
+it tells us like the directions along
+
+179
+00:07:59,039 --> 00:08:04,479
+which the data is concentrated and the
+
+180
+00:08:01,840 --> 00:08:10,039
+variance or the how important that
+
+181
+00:08:04,479 --> 00:08:10,039
+direction is on a relative basis.
+
+182
+00:08:12,240 --> 00:08:16,720
+We can generally what's nice about this
+
+183
+00:08:14,479 --> 00:08:20,400
+like I've done this two-dimensional
+
+184
+00:08:16,720 --> 00:08:22,400
+plots but PCA like when you actually do
+
+185
+00:08:20,400 --> 00:08:25,360
+it it's just linear algebra and you can
+
+186
+00:08:22,400 --> 00:08:29,120
+do it on you can do it on any number of
+
+187
+00:08:25,360 --> 00:08:32,000
+dimensions you can do it on um yeah it
+
+188
+00:08:29,120 --> 00:08:36,240
+so when you have high dimensionality
+
+189
+00:08:32,000 --> 00:08:38,240
+this is a very robust and powerful tool
+
+190
+00:08:36,240 --> 00:08:39,839
+what's what's really nice about that and
+
+191
+00:08:38,240 --> 00:08:41,760
+the high dimensionality is like it's
+
+192
+00:08:39,839 --> 00:08:44,560
+it's not a minimization, it's not an
+
+193
+00:08:41,760 --> 00:08:48,080
+optimization, it's just a linear algebra
+
+194
+00:08:44,560 --> 00:08:50,080
+calculation and it's fast. So you can
+
+195
+00:08:48,080 --> 00:08:53,640
+you can process very large amounts of
+
+196
+00:08:50,080 --> 00:08:53,640
+data very quickly.
+
+197
+00:08:55,600 --> 00:09:02,080
+Like a very common
+
+198
+00:08:58,160 --> 00:09:03,839
+like when you use this in practice
+
+199
+00:09:02,080 --> 00:09:06,640
+like the answers that you get from like
+
+200
+00:09:03,839 --> 00:09:09,200
+the things you kind of learn from PCA
+
+201
+00:09:06,640 --> 00:09:11,760
+are going to be
+
+202
+00:09:09,200 --> 00:09:14,320
+it tells you like a relationship between
+
+203
+00:09:11,760 --> 00:09:16,000
+variables. Like in our first example, if
+
+204
+00:09:14,320 --> 00:09:17,680
+you look at this diagonal line, it's
+
+205
+00:09:16,000 --> 00:09:19,839
+going to tell you that like it's
+
+206
+00:09:17,680 --> 00:09:21,760
+basically like y equals x is kind of the
+
+207
+00:09:19,839 --> 00:09:23,360
+line, right? And then you can you can
+
+208
+00:09:21,760 --> 00:09:27,360
+think, well, I can discover the same
+
+209
+00:09:23,360 --> 00:09:29,120
+thing if I run a regression y regress y
+
+210
+00:09:27,360 --> 00:09:31,839
+on x and and then it's going to tell me
+
+211
+00:09:29,120 --> 00:09:33,040
+pretty much like the same if I if I look
+
+212
+00:09:31,839 --> 00:09:35,200
+at my diagonal line, it's going to tell
+
+213
+00:09:33,040 --> 00:09:36,640
+me the same thing.
+
+214
+00:09:35,200 --> 00:09:38,880
+And that that is true in the
+
+215
+00:09:36,640 --> 00:09:40,720
+one-dimensional example. But I wanted to
+
+216
+00:09:38,880 --> 00:09:44,640
+kind of give an illustration of what is
+
+217
+00:09:40,720 --> 00:09:48,160
+the difference between regression and
+
+218
+00:09:44,640 --> 00:09:51,440
+and PCA. And the difference is like the
+
+219
+00:09:48,160 --> 00:09:54,080
+PCA is is kind of um
+
+220
+00:09:51,440 --> 00:09:55,360
+it's remember it's it's unsupervised
+
+221
+00:09:54,080 --> 00:09:57,760
+learning. So there's no causality
+
+222
+00:09:55,360 --> 00:09:59,360
+implied. So X and Y are kind of on the
+
+223
+00:09:57,760 --> 00:10:00,959
+same footing.
+
+224
+00:09:59,360 --> 00:10:02,399
+Each dimension is on the same footing.
+
+225
+00:10:00,959 --> 00:10:04,320
+There's no special dimension that's
+
+226
+00:10:02,399 --> 00:10:06,480
+dependent and one that is independent.
+
+227
+00:10:04,320 --> 00:10:08,480
+So when you regress, this is like the
+
+228
+00:10:06,480 --> 00:10:11,519
+same data set and you can see here the
+
+229
+00:10:08,480 --> 00:10:15,040
+regression of Y versus X, the regression
+
+230
+00:10:11,519 --> 00:10:19,120
+of X versus Y and the PC1 line, they're
+
+231
+00:10:15,040 --> 00:10:21,200
+they're similar. They're not but they're
+
+232
+00:10:19,120 --> 00:10:23,680
+not the same. it it like it's actually
+
+233
+00:10:21,200 --> 00:10:26,959
+optimizing it's minimizing the distance
+
+234
+00:10:23,680 --> 00:10:28,560
+to the line but like in a in a
+
+235
+00:10:26,959 --> 00:10:29,760
+in a like this is this is like
+
+236
+00:10:28,560 --> 00:10:31,360
+minimizing the distance in the
+
+237
+00:10:29,760 --> 00:10:32,640
+perpendicular direction and the others
+
+238
+00:10:31,360 --> 00:10:35,120
+are minimizing distance in the
+
+239
+00:10:32,640 --> 00:10:37,040
+independent variable direction so when
+
+240
+00:10:35,120 --> 00:10:38,560
+you do a regression so it's not exactly
+
+241
+00:10:37,040 --> 00:10:41,760
+the same I think it's good to keep that
+
+242
+00:10:38,560 --> 00:10:45,760
+in mind because sometimes
+
+243
+00:10:41,760 --> 00:10:48,399
+if you really want to understand how
+
+244
+00:10:45,760 --> 00:10:51,519
+you know like given an observation X how
+
+245
+00:10:48,399 --> 00:10:53,519
+I should model I maybe PCA is not the
+
+246
+00:10:51,519 --> 00:10:55,680
+right approach maybe you should run a
+
+247
+00:10:53,519 --> 00:10:57,760
+regression
+
+248
+00:10:55,680 --> 00:10:59,920
+but like if you want to understand the
+
+249
+00:10:57,760 --> 00:11:01,839
+the correlation structure of X and Y of
+
+250
+00:10:59,920 --> 00:11:04,320
+two variables there there is no you
+
+251
+00:11:01,839 --> 00:11:05,680
+don't have necessarily one depends on
+
+252
+00:11:04,320 --> 00:11:08,560
+the other you don't know anything about
+
+253
+00:11:05,680 --> 00:11:12,680
+their relationship then then PCA is
+
+254
+00:11:08,560 --> 00:11:12,680
+probably a more appropriate tool
+
+255
+00:11:15,120 --> 00:11:19,519
+um yeah so I was just saying like if
+
+256
+00:11:17,360 --> 00:11:22,000
+there's there's some data that is in
+
+257
+00:11:19,519 --> 00:11:25,519
+some like if data is like in a
+
+258
+00:11:22,000 --> 00:11:26,959
+particular line PC1 which is the red
+
+259
+00:11:25,519 --> 00:11:28,720
+direction here would always discover
+
+260
+00:11:26,959 --> 00:11:31,440
+where that direction is and if you
+
+261
+00:11:28,720 --> 00:11:33,839
+actually map the the data into like PC
+
+262
+00:11:31,440 --> 00:11:36,800
+coordinates it's just going to look like
+
+263
+00:11:33,839 --> 00:11:38,720
+a straight line like that and a couple
+
+264
+00:11:36,800 --> 00:11:41,680
+of things that I like about this example
+
+265
+00:11:38,720 --> 00:11:43,839
+is like you can you can see how rotating
+
+266
+00:11:41,680 --> 00:11:46,640
+this data set doesn't doesn't change the
+
+267
+00:11:43,839 --> 00:11:48,560
+PC coordinate output so it look it's it
+
+268
+00:11:46,640 --> 00:11:50,399
+finds a direction appropriately The
+
+269
+00:11:48,560 --> 00:11:52,959
+second thing that's very important is
+
+270
+00:11:50,399 --> 00:11:55,120
+robustness. In the real world, like when
+
+271
+00:11:52,959 --> 00:11:56,640
+you do, it could be in science or in
+
+272
+00:11:55,120 --> 00:11:58,880
+finance,
+
+273
+00:11:56,640 --> 00:12:01,120
+you're not going to have perfect data.
+
+274
+00:11:58,880 --> 00:12:04,399
+Everything is very noisy. Noise is a
+
+275
+00:12:01,120 --> 00:12:07,200
+huge problem. And robustness to data
+
+276
+00:12:04,399 --> 00:12:09,040
+noise is very important. So this kind of
+
+277
+00:12:07,200 --> 00:12:12,079
+illustrates how robust things are. So if
+
+278
+00:12:09,040 --> 00:12:14,000
+if I if I take one point and I just move
+
+279
+00:12:12,079 --> 00:12:17,200
+it around
+
+280
+00:12:14,000 --> 00:12:19,839
+my um you can see that my the red the
+
+281
+00:12:17,200 --> 00:12:23,120
+red line which is the the direction of
+
+282
+00:12:19,839 --> 00:12:24,880
+my PC1 doesn't it's like it's quite
+
+283
+00:12:23,120 --> 00:12:27,680
+robust
+
+284
+00:12:24,880 --> 00:12:29,600
+it's quite robust to to to noise in to
+
+285
+00:12:27,680 --> 00:12:31,519
+one particular if everything else is
+
+286
+00:12:29,600 --> 00:12:33,680
+aligned like just moving around one data
+
+287
+00:12:31,519 --> 00:12:37,600
+is it doesn't really change things too
+
+288
+00:12:33,680 --> 00:12:39,920
+much um if I make them a little bit more
+
+289
+00:12:37,600 --> 00:12:39,920
+spread
+
+290
+00:12:40,160 --> 00:12:44,800
+It's it's a little less robust, but it's
+
+291
+00:12:41,920 --> 00:12:46,240
+still still pretty robust, right? And
+
+292
+00:12:44,800 --> 00:12:48,160
+the thing that I wanted to kind of say
+
+293
+00:12:46,240 --> 00:12:50,800
+like what happen people are just going
+
+294
+00:12:48,160 --> 00:12:53,360
+to very often you just take some data
+
+295
+00:12:50,800 --> 00:12:55,920
+and you just shove it into PCA and you
+
+296
+00:12:53,360 --> 00:12:57,200
+don't actually care too much before you
+
+297
+00:12:55,920 --> 00:12:59,839
+even know what the data is and you just
+
+298
+00:12:57,200 --> 00:13:02,320
+put it into PCA and PCA always gives you
+
+299
+00:12:59,839 --> 00:13:05,760
+something. But suppose the data doesn't
+
+300
+00:13:02,320 --> 00:13:08,399
+really have a dominant direction
+
+301
+00:13:05,760 --> 00:13:10,959
+then the PCA algorithm becomes not
+
+302
+00:13:08,399 --> 00:13:12,240
+robust. So you can see now look I'm
+
+303
+00:13:10,959 --> 00:13:16,079
+moving one data and look what happening
+
+304
+00:13:12,240 --> 00:13:17,600
+to the coordinate one data point is I
+
+305
+00:13:16,079 --> 00:13:19,920
+can just move that a little bit and like
+
+306
+00:13:17,600 --> 00:13:22,480
+it's just completely giving me the
+
+307
+00:13:19,920 --> 00:13:25,440
+output is like super sensitive to to any
+
+308
+00:13:22,480 --> 00:13:27,200
+noise in the data. So it's kind of
+
+309
+00:13:25,440 --> 00:13:28,639
+worthless.
+
+310
+00:13:27,200 --> 00:13:30,800
+So it's very important when we're
+
+311
+00:13:28,639 --> 00:13:33,120
+looking at the data
+
+312
+00:13:30,800 --> 00:13:34,639
+if we don't really know what this data
+
+313
+00:13:33,120 --> 00:13:36,079
+kind of looks like very sometimes it's
+
+314
+00:13:34,639 --> 00:13:39,600
+high dimensional you can't even really
+
+315
+00:13:36,079 --> 00:13:42,079
+visualize it you have to think how do I
+
+316
+00:13:39,600 --> 00:13:43,519
+understand whether there is actual
+
+317
+00:13:42,079 --> 00:13:46,320
+structure in the data that I'm trying to
+
+318
+00:13:43,519 --> 00:13:48,320
+discover this will help me discover
+
+319
+00:13:46,320 --> 00:13:49,839
+quantify the structure but it's also
+
+320
+00:13:48,320 --> 00:13:54,560
+good to understand qualitatively how
+
+321
+00:13:49,839 --> 00:13:57,279
+much the structure is um
+
+322
+00:13:54,560 --> 00:13:59,600
+one thing that is that PCA also like
+
+323
+00:13:57,279 --> 00:14:04,320
+part of the PCI analysis and the output.
+
+324
+00:13:59,600 --> 00:14:07,040
+Yes. Do you have any like tool for like
+
+325
+00:14:04,320 --> 00:14:09,519
+wiggling around the points to see how
+
+326
+00:14:07,040 --> 00:14:11,920
+how robust it is to see if the data is
+
+327
+00:14:09,519 --> 00:14:16,199
+actually alive or not?
+
+328
+00:14:11,920 --> 00:14:16,199
+Well, um it's
+
+329
+00:14:16,320 --> 00:14:20,639
+no but what it's not I don't have like
+
+330
+00:14:18,639 --> 00:14:23,279
+you can write tools to do that but like
+
+331
+00:14:20,639 --> 00:14:25,839
+I think what you want like one thing
+
+332
+00:14:23,279 --> 00:14:27,360
+that you can do that is very important
+
+333
+00:14:25,839 --> 00:14:31,120
+is to kind of when you do your PCI
+
+334
+00:14:27,360 --> 00:14:32,560
+analysis is to look at the en values
+
+335
+00:14:31,120 --> 00:14:34,079
+because people very often people like
+
+336
+00:14:32,560 --> 00:14:35,360
+look at the vectors and like oh these
+
+337
+00:14:34,079 --> 00:14:37,199
+are my directions and I'm going to
+
+338
+00:14:35,360 --> 00:14:40,480
+project things and I'm going to assume
+
+339
+00:14:37,199 --> 00:14:42,399
+everything is like factorized nicely
+
+340
+00:14:40,480 --> 00:14:44,079
+and like we don't really look as much at
+
+341
+00:14:42,399 --> 00:14:47,760
+the values but it's very important to
+
+342
+00:14:44,079 --> 00:14:50,800
+look at the values and the reason is
+
+343
+00:14:47,760 --> 00:14:53,440
+that in this example when there's no
+
+344
+00:14:50,800 --> 00:14:55,040
+dominant direction the values which
+
+345
+00:14:53,440 --> 00:14:58,560
+measure the variance along each
+
+346
+00:14:55,040 --> 00:15:01,279
+direction would be very similar. So when
+
+347
+00:14:58,560 --> 00:15:02,720
+you look at when you're look using a a
+
+348
+00:15:01,279 --> 00:15:04,800
+principal component like the first
+
+349
+00:15:02,720 --> 00:15:07,600
+principal component you want to make
+
+350
+00:15:04,800 --> 00:15:10,959
+sure that your the value of that
+
+351
+00:15:07,600 --> 00:15:14,639
+component you're using is is like quite
+
+352
+00:15:10,959 --> 00:15:16,720
+distinct from the rest of the values
+
+353
+00:15:14,639 --> 00:15:18,800
+in finance we'll see later like we're
+
+354
+00:15:16,720 --> 00:15:21,519
+dealing with a time series of PCA like
+
+355
+00:15:18,800 --> 00:15:23,199
+every day you construct the PCA model so
+
+356
+00:15:21,519 --> 00:15:25,040
+everything anything that's a number here
+
+357
+00:15:23,199 --> 00:15:28,240
+like a value is actually a time series
+
+358
+00:15:25,040 --> 00:15:31,440
+of value so the thing I look at a when
+
+359
+00:15:28,240 --> 00:15:34,639
+I'm doing analysis is I look at value
+
+360
+00:15:31,440 --> 00:15:37,839
+plots in log space and I want to see
+
+361
+00:15:34,639 --> 00:15:41,120
+that each distinct
+
+362
+00:15:37,839 --> 00:15:42,560
+component that I use ideally you want to
+
+363
+00:15:41,120 --> 00:15:45,760
+see it that it's like an order of
+
+364
+00:15:42,560 --> 00:15:48,560
+magnitude different than the next one in
+
+365
+00:15:45,760 --> 00:15:51,519
+in variance variance invariance
+
+366
+00:15:48,560 --> 00:15:53,360
+basically which if that's true like
+
+367
+00:15:51,519 --> 00:15:55,279
+that's great and that actually and that
+
+368
+00:15:53,360 --> 00:15:56,800
+doesn't always happen but at least you
+
+369
+00:15:55,279 --> 00:15:58,160
+want it to be like visually you want it
+
+370
+00:15:56,800 --> 00:16:01,360
+to be distinct You want it to be like
+
+371
+00:15:58,160 --> 00:16:02,639
+different. You don't want if you if you
+
+372
+00:16:01,360 --> 00:16:04,240
+have a time series of things, you don't
+
+373
+00:16:02,639 --> 00:16:06,800
+want like the first and the second one
+
+374
+00:16:04,240 --> 00:16:08,560
+to cross. And if that's happening, then
+
+375
+00:16:06,800 --> 00:16:11,040
+the first and second principal component
+
+376
+00:16:08,560 --> 00:16:13,199
+if they're if the values are small
+
+377
+00:16:11,040 --> 00:16:15,680
+changes are causing them to switch
+
+378
+00:16:13,199 --> 00:16:17,920
+places, this basically means there isn't
+
+379
+00:16:15,680 --> 00:16:19,680
+a lot of structure and the PC output is
+
+380
+00:16:17,920 --> 00:16:22,959
+noisy and it's actually going to
+
+381
+00:16:19,680 --> 00:16:25,440
+obiscate rather than clarify the thing
+
+382
+00:16:22,959 --> 00:16:27,839
+you're looking at. I've put here like a
+
+383
+00:16:25,440 --> 00:16:30,800
+little bit of math notation. You guys
+
+384
+00:16:27,839 --> 00:16:35,440
+have um done your math lecture on PCA.
+
+385
+00:16:30,800 --> 00:16:38,639
+So, we can be relatively quick here. But
+
+386
+00:16:35,440 --> 00:16:41,440
+I do want to go through it. The the main
+
+387
+00:16:38,639 --> 00:16:44,160
+thing is like you have um your we have
+
+388
+00:16:41,440 --> 00:16:46,480
+your data data matrix is generally like
+
+389
+00:16:44,160 --> 00:16:49,440
+there's
+
+390
+00:16:46,480 --> 00:16:52,399
+n observations in pd dimensions and we
+
+391
+00:16:49,440 --> 00:16:55,920
+think of that as a matrix and then uh if
+
+392
+00:16:52,399 --> 00:17:00,480
+this matrix is x then uh everyday's
+
+393
+00:16:55,920 --> 00:17:02,720
+observation are vectors of size p
+
+394
+00:17:00,480 --> 00:17:06,079
+and then you have a coarian matrix which
+
+395
+00:17:02,720 --> 00:17:08,400
+is xt * x
+
+396
+00:17:06,079 --> 00:17:10,240
+and um
+
+397
+00:17:08,400 --> 00:17:11,839
+um
+
+398
+00:17:10,240 --> 00:17:14,559
+the
+
+399
+00:17:11,839 --> 00:17:18,959
+and then like there is I I've here like
+
+400
+00:17:14,559 --> 00:17:21,039
+defined the the W K or the orthonormals
+
+401
+00:17:18,959 --> 00:17:24,000
+vectors representing the these are the
+
+402
+00:17:21,039 --> 00:17:25,919
+vectors W K and then I've written down
+
+403
+00:17:24,000 --> 00:17:29,600
+the math of how you do the projection of
+
+404
+00:17:25,919 --> 00:17:33,760
+data onto principal components
+
+405
+00:17:29,600 --> 00:17:37,039
+and um and how you compute the variance.
+
+406
+00:17:33,760 --> 00:17:39,039
+How do you get these vectors? Well,
+
+407
+00:17:37,039 --> 00:17:41,039
+there is
+
+408
+00:17:39,039 --> 00:17:43,200
+you could you could do you could take
+
+409
+00:17:41,039 --> 00:17:46,400
+your data compute coariance matrix feed
+
+410
+00:17:43,200 --> 00:17:50,480
+it into an veg value calculator which is
+
+411
+00:17:46,400 --> 00:17:52,240
+basically in in the in my work
+
+412
+00:17:50,480 --> 00:17:54,240
+our data is not really the number of
+
+413
+00:17:52,240 --> 00:17:57,360
+dimensions is not actually that high. So
+
+414
+00:17:54,240 --> 00:17:58,880
+that that's pretty that's okay. it does
+
+415
+00:17:57,360 --> 00:18:02,160
+kill
+
+416
+00:17:58,880 --> 00:18:03,600
+as um like that thing is
+
+417
+00:18:02,160 --> 00:18:06,000
+potentially maybe a little bit slow but
+
+418
+00:18:03,600 --> 00:18:09,919
+it's not actually that slow. There is
+
+419
+00:18:06,000 --> 00:18:11,919
+also a more efficient method called SVD
+
+420
+00:18:09,919 --> 00:18:14,160
+um single singular value composition
+
+421
+00:18:11,919 --> 00:18:16,160
+where you can just compute your
+
+422
+00:18:14,160 --> 00:18:19,039
+projections without calculating the
+
+423
+00:18:16,160 --> 00:18:20,720
+coariance matrix. I like to compute the
+
+424
+00:18:19,039 --> 00:18:22,960
+coarian matrix because we generally need
+
+425
+00:18:20,720 --> 00:18:25,280
+to compute the coarian matrix for other
+
+426
+00:18:22,960 --> 00:18:29,360
+things in any case. So if you have it
+
+427
+00:18:25,280 --> 00:18:33,000
+already then then it's then it's um you
+
+428
+00:18:29,360 --> 00:18:33,000
+might as well use it.
+
+429
+00:18:35,679 --> 00:18:41,200
+Some there's some I've listed here some
+
+430
+00:18:37,840 --> 00:18:44,799
+properties of this vector matrix that
+
+431
+00:18:41,200 --> 00:18:48,000
+are important that it's orthonormal
+
+432
+00:18:44,799 --> 00:18:50,720
+which means that it's the transpose of
+
+433
+00:18:48,000 --> 00:18:52,240
+the vector matrix is kind of also
+
+434
+00:18:50,720 --> 00:18:54,160
+inverse.
+
+435
+00:18:52,240 --> 00:18:57,200
+The coariance matrix is can be written
+
+436
+00:18:54,160 --> 00:18:59,440
+as the in this in this form where lambda
+
+437
+00:18:57,200 --> 00:19:01,760
+is the igen value matrix that's the svd
+
+438
+00:18:59,440 --> 00:19:03,840
+de composition that there's total
+
+439
+00:19:01,760 --> 00:19:05,840
+variance quantity you can think about
+
+440
+00:19:03,840 --> 00:19:08,160
+like which is the variance of x which is
+
+441
+00:19:05,840 --> 00:19:10,960
+just the trace of lambda so like the
+
+442
+00:19:08,160 --> 00:19:13,280
+product of ien values is the variance of
+
+443
+00:19:10,960 --> 00:19:15,679
+your data set
+
+444
+00:19:13,280 --> 00:19:17,919
+and there is something called percent
+
+445
+00:19:15,679 --> 00:19:20,320
+variance explained
+
+446
+00:19:17,919 --> 00:19:24,480
+which is just defined as how much
+
+447
+00:19:20,320 --> 00:19:26,799
+variance is is um along a particular PC
+
+448
+00:19:24,480 --> 00:19:29,360
+direction divided by the total variance.
+
+449
+00:19:26,799 --> 00:19:33,200
+So that adds up to 100%.
+
+450
+00:19:29,360 --> 00:19:35,840
+Like when you're and um but that's very
+
+451
+00:19:33,200 --> 00:19:38,000
+useful because remember how I was saying
+
+452
+00:19:35,840 --> 00:19:39,679
+you want to look at the values to
+
+453
+00:19:38,000 --> 00:19:41,600
+understand
+
+454
+00:19:39,679 --> 00:19:43,360
+how important each direction is.
+
+455
+00:19:41,600 --> 00:19:46,480
+Variance explained tells you that as a
+
+456
+00:19:43,360 --> 00:19:47,840
+kind of a number you want to look at.
+
+457
+00:19:46,480 --> 00:19:50,640
+You want to when you when you're trying
+
+458
+00:19:47,840 --> 00:19:52,640
+to model your data set with as few
+
+459
+00:19:50,640 --> 00:19:55,760
+dimensions as possible, you want to kind
+
+460
+00:19:52,640 --> 00:19:58,960
+of add more PC directions until you get
+
+461
+00:19:55,760 --> 00:20:01,280
+to a relatively high variance explain.
+
+462
+00:19:58,960 --> 00:20:02,640
+If you're able to explain
+
+463
+00:20:01,280 --> 00:20:05,200
+um if you have like a 10 dimensional
+
+464
+00:20:02,640 --> 00:20:07,280
+data set and you're able to explain
+
+465
+00:20:05,200 --> 00:20:11,480
+80% of it using three dimensions, that's
+
+466
+00:20:07,280 --> 00:20:11,480
+a pretty that's a pretty big win.
+
+467
+00:20:11,760 --> 00:20:17,840
+And I've also like written out this out
+
+468
+00:20:15,520 --> 00:20:19,520
+of sample variance explained or very
+
+469
+00:20:17,840 --> 00:20:22,080
+often what we do is we we calculate a
+
+470
+00:20:19,520 --> 00:20:27,120
+PCA we calibrated on historical data and
+
+471
+00:20:22,080 --> 00:20:30,720
+then we apply it to future data
+
+472
+00:20:27,120 --> 00:20:32,640
+that um we're trying to model like
+
+473
+00:20:30,720 --> 00:20:34,559
+trying to model what will happen in the
+
+474
+00:20:32,640 --> 00:20:39,200
+future and especially in finance we do
+
+475
+00:20:34,559 --> 00:20:42,159
+that. So when when the data you're cal
+
+476
+00:20:39,200 --> 00:20:44,400
+calibrating your your um PCA on is
+
+477
+00:20:42,159 --> 00:20:46,320
+different than than the other data then
+
+478
+00:20:44,400 --> 00:20:47,919
+this
+
+479
+00:20:46,320 --> 00:20:50,159
+you hope that the structure of the two
+
+480
+00:20:47,919 --> 00:20:51,520
+data sets are the same. So if if the
+
+481
+00:20:50,159 --> 00:20:53,120
+structure is the same you'll get the
+
+482
+00:20:51,520 --> 00:20:55,440
+same kind of variance explained
+
+483
+00:20:53,120 --> 00:20:59,280
+structure but to the extent that is not
+
+484
+00:20:55,440 --> 00:21:03,760
+true you you may not. So you may see
+
+485
+00:20:59,280 --> 00:21:05,520
+that um your dominance of certain PC1
+
+486
+00:21:03,760 --> 00:21:08,400
+factor becomes like it starts to explain
+
+487
+00:21:05,520 --> 00:21:10,320
+less variance as you as your um out of
+
+488
+00:21:08,400 --> 00:21:12,559
+sample data becomes more different from
+
+489
+00:21:10,320 --> 00:21:14,000
+the the data which you calibrate. So
+
+490
+00:21:12,559 --> 00:21:17,440
+this is a little bit of like the
+
+491
+00:21:14,000 --> 00:21:20,240
+modeling art of it where
+
+492
+00:21:17,440 --> 00:21:21,600
+you're going to be using some data to to
+
+493
+00:21:20,240 --> 00:21:24,720
+calibrate a model and then going to
+
+494
+00:21:21,600 --> 00:21:26,640
+you're going to use this to to um
+
+495
+00:21:24,720 --> 00:21:28,960
+predict the variance the correlation
+
+496
+00:21:26,640 --> 00:21:30,880
+structure of what hap what happens in
+
+497
+00:21:28,960 --> 00:21:34,200
+the future like future market moves or
+
+498
+00:21:30,880 --> 00:21:34,200
+future returns.
+
+499
+00:21:35,520 --> 00:21:41,440
+Okay. So um
+
+500
+00:21:38,960 --> 00:21:43,919
+a typical how do we like what do we
+
+501
+00:21:41,440 --> 00:21:45,600
+generally do when we apply PCA? We we're
+
+502
+00:21:43,919 --> 00:21:49,600
+going to take our data set we're going
+
+503
+00:21:45,600 --> 00:21:52,799
+to demean it and then maybe we're going
+
+504
+00:21:49,600 --> 00:21:54,640
+to normalize the variance to one. Like
+
+505
+00:21:52,799 --> 00:21:56,159
+when I say maybe and the reason this
+
+506
+00:21:54,640 --> 00:21:59,120
+maybe is like sometimes you want to do
+
+507
+00:21:56,159 --> 00:22:01,360
+that and sometimes you don't.
+
+508
+00:21:59,120 --> 00:22:03,360
+It's um
+
+509
+00:22:01,360 --> 00:22:06,960
+very often whether you want to do that
+
+510
+00:22:03,360 --> 00:22:09,840
+or not depends on
+
+511
+00:22:06,960 --> 00:22:13,039
+how exactly you're going to use your uh
+
+512
+00:22:09,840 --> 00:22:15,360
+PC factors and uh your your dimension
+
+513
+00:22:13,039 --> 00:22:16,799
+your dimensions. Generally I would say
+
+514
+00:22:15,360 --> 00:22:20,240
+that most of the time you you want to
+
+515
+00:22:16,799 --> 00:22:22,320
+normalize it in in a in a certain you
+
+516
+00:22:20,240 --> 00:22:24,080
+you want to normalize in a way that you
+
+517
+00:22:22,320 --> 00:22:26,080
+want the expected at least the expected
+
+518
+00:22:24,080 --> 00:22:30,320
+variance along different along your
+
+519
+00:22:26,080 --> 00:22:31,520
+dimensions to be unit to be similar.
+
+520
+00:22:30,320 --> 00:22:35,200
+Then you're going to compute your
+
+521
+00:22:31,520 --> 00:22:37,280
+coariance matrix and calculate the igen
+
+522
+00:22:35,200 --> 00:22:40,320
+values and then you're going to order
+
+523
+00:22:37,280 --> 00:22:42,960
+them by decreasing value.
+
+524
+00:22:40,320 --> 00:22:45,679
+Um and um and you're going to have like
+
+525
+00:22:42,960 --> 00:22:47,520
+a certain cut off where you say okay the
+
+526
+00:22:45,679 --> 00:22:50,640
+only the top I'm going to use only the
+
+527
+00:22:47,520 --> 00:22:52,000
+top X factors to model the the structure
+
+528
+00:22:50,640 --> 00:22:53,600
+of my data set.
+
+529
+00:22:52,000 --> 00:22:55,280
+>> Yeah.
+
+530
+00:22:53,600 --> 00:22:57,120
+>> So you say like maybe you would
+
+531
+00:22:55,280 --> 00:22:59,120
+normalize it. What would be like a
+
+532
+00:22:57,120 --> 00:23:03,320
+concrete example of like where it would
+
+533
+00:22:59,120 --> 00:23:03,320
+be better to not normalize it?
+
+534
+00:23:03,679 --> 00:23:07,840
+>> Um
+
+535
+00:23:05,840 --> 00:23:11,520
+well
+
+536
+00:23:07,840 --> 00:23:11,520
+here's an example.
+
+537
+00:23:12,000 --> 00:23:18,480
+So let let actually let yes I'll start
+
+538
+00:23:14,640 --> 00:23:19,919
+with this. So this is an example of like
+
+539
+00:23:18,480 --> 00:23:21,520
+it's a little bit of a toy example and
+
+540
+00:23:19,919 --> 00:23:23,760
+I'll talk about a real example. So in
+
+541
+00:23:21,520 --> 00:23:26,000
+this toy example there's the blue and
+
+542
+00:23:23,760 --> 00:23:29,039
+the red data set
+
+543
+00:23:26,000 --> 00:23:31,600
+and uh the red one looks that it's kind
+
+544
+00:23:29,039 --> 00:23:34,400
+of one-dimensional
+
+545
+00:23:31,600 --> 00:23:36,080
+and the blue looks like
+
+546
+00:23:34,400 --> 00:23:38,720
+it's just a blob. There's no direct
+
+547
+00:23:36,080 --> 00:23:41,760
+dimensionality. So when if I tell you
+
+548
+00:23:38,720 --> 00:23:43,840
+okay should we use PCA is there what is
+
+549
+00:23:41,760 --> 00:23:45,039
+PCA going to work on the blue data set
+
+550
+00:23:43,840 --> 00:23:47,679
+is going is it going to reduce
+
+551
+00:23:45,039 --> 00:23:49,280
+dimensionality and the answer will be no
+
+552
+00:23:47,679 --> 00:23:50,880
+no because it's there is no dominant
+
+553
+00:23:49,280 --> 00:23:53,200
+direction
+
+554
+00:23:50,880 --> 00:23:55,840
+and in the red one it definitely will it
+
+555
+00:23:53,200 --> 00:23:58,000
+will pick the right direction now what's
+
+556
+00:23:55,840 --> 00:24:01,600
+fun about these two examples is that
+
+557
+00:23:58,000 --> 00:24:03,679
+these two are the same data except I've
+
+558
+00:24:01,600 --> 00:24:08,640
+normal in the blue data set I've
+
+559
+00:24:03,679 --> 00:24:11,760
+normalized the variance along X and y
+
+560
+00:24:08,640 --> 00:24:14,760
+and in the red one I haven't.
+
+561
+00:24:11,760 --> 00:24:14,760
+So
+
+562
+00:24:15,039 --> 00:24:22,080
+if if I if these two dimensions were
+
+563
+00:24:19,919 --> 00:24:26,240
+you know like
+
+564
+00:24:22,080 --> 00:24:30,000
+I don't know temperature versus
+
+565
+00:24:26,240 --> 00:24:31,919
+um temperature in Seattle versus temp
+
+566
+00:24:30,000 --> 00:24:34,080
+in Atlanta or something. They're like
+
+567
+00:24:31,919 --> 00:24:37,120
+the kind of very distinct and generally
+
+568
+00:24:34,080 --> 00:24:38,799
+like different things where you're only
+
+569
+00:24:37,120 --> 00:24:41,279
+interested in correlation and the the
+
+570
+00:24:38,799 --> 00:24:43,279
+relative variance doesn't quite is not
+
+571
+00:24:41,279 --> 00:24:46,320
+very meaningful then you you would want
+
+572
+00:24:43,279 --> 00:24:47,919
+to normalize it because you're you're
+
+573
+00:24:46,320 --> 00:24:49,520
+that otherwise the units are not going
+
+574
+00:24:47,919 --> 00:24:51,679
+to be you want to have like somewhat
+
+575
+00:24:49,520 --> 00:24:53,840
+related units. So the units will be
+
+576
+00:24:51,679 --> 00:24:56,159
+standard deviations if you normalize it.
+
+577
+00:24:53,840 --> 00:24:57,440
+If you don't the units will be arbitrary
+
+578
+00:24:56,159 --> 00:25:00,080
+and they don't it wouldn't really make
+
+579
+00:24:57,440 --> 00:25:03,360
+sense.
+
+580
+00:25:00,080 --> 00:25:06,000
+On the other hand, if
+
+581
+00:25:03,360 --> 00:25:08,320
+um if this was like
+
+582
+00:25:06,000 --> 00:25:11,840
+if x- axis was your grades on quiz one
+
+583
+00:25:08,320 --> 00:25:14,880
+and y axis was your grades on quiz two,
+
+584
+00:25:11,840 --> 00:25:17,279
+these two are like the same units now.
+
+585
+00:25:14,880 --> 00:25:19,840
+And you you may not want to normalize.
+
+586
+00:25:17,279 --> 00:25:21,520
+You you want to actually like these
+
+587
+00:25:19,840 --> 00:25:23,039
+grades are these numbers are meaningful
+
+588
+00:25:21,520 --> 00:25:24,960
+relative to each other. So there's no
+
+589
+00:25:23,039 --> 00:25:26,480
+necessarily like you want to actually
+
+590
+00:25:24,960 --> 00:25:28,320
+model
+
+591
+00:25:26,480 --> 00:25:30,240
+the actual grades including the the
+
+592
+00:25:28,320 --> 00:25:31,600
+variance of quiz one and quiz two. So
+
+593
+00:25:30,240 --> 00:25:32,720
+there is no necessarily need to
+
+594
+00:25:31,600 --> 00:25:33,919
+normalize it.
+
+595
+00:25:32,720 --> 00:25:35,600
+>> That makes sense. Thank you.
+
+596
+00:25:33,919 --> 00:25:37,520
+>> Yeah.
+
+597
+00:25:35,600 --> 00:25:39,279
+>> But it's like that part is to be honest
+
+598
+00:25:37,520 --> 00:25:41,279
+that part is very much the art of
+
+599
+00:25:39,279 --> 00:25:43,120
+things. We've had a we have a lot of
+
+600
+00:25:41,279 --> 00:25:45,120
+discussion work. Are we normalizing it?
+
+601
+00:25:43,120 --> 00:25:48,240
+How are we normalizing it? What are we
+
+602
+00:25:45,120 --> 00:25:50,400
+using to normalize it? Like that's like
+
+603
+00:25:48,240 --> 00:25:52,000
+you'd be surp surprisingly this is
+
+604
+00:25:50,400 --> 00:25:53,360
+sometimes cutting edge research is to
+
+605
+00:25:52,000 --> 00:25:55,679
+actually understand how you normalize
+
+606
+00:25:53,360 --> 00:25:57,840
+it. It's that these are the things that
+
+607
+00:25:55,679 --> 00:26:00,240
+actually make a difference. The other
+
+608
+00:25:57,840 --> 00:26:03,440
+thing I mentioned is we need to demean
+
+609
+00:26:00,240 --> 00:26:05,360
+the data set. Why is that important?
+
+610
+00:26:03,440 --> 00:26:08,400
+Because remember the principle of
+
+611
+00:26:05,360 --> 00:26:12,240
+component analysis is a rotation. So it
+
+612
+00:26:08,400 --> 00:26:16,000
+it always rotates around zero zero. So
+
+613
+00:26:12,240 --> 00:26:17,760
+what zero is it matters a lot.
+
+614
+00:26:16,000 --> 00:26:20,080
+And this is two examples of the same
+
+615
+00:26:17,760 --> 00:26:21,840
+data set. These two blocks are the same
+
+616
+00:26:20,080 --> 00:26:24,080
+data set, but one is like not the mean
+
+617
+00:26:21,840 --> 00:26:28,559
+and the other is the means. So this one
+
+618
+00:26:24,080 --> 00:26:30,480
+here is centered at zero. And PCA
+
+619
+00:26:28,559 --> 00:26:32,320
+finds that there's a direction dominant
+
+620
+00:26:30,480 --> 00:26:34,240
+direction. It finds it. It works like
+
+621
+00:26:32,320 --> 00:26:36,240
+it's supposed to. This one here is not
+
+622
+00:26:34,240 --> 00:26:37,520
+centered at zero. Like for example,
+
+623
+00:26:36,240 --> 00:26:39,440
+let's say you do a bunch of stock
+
+624
+00:26:37,520 --> 00:26:41,120
+prices. Like you just put prices into
+
+625
+00:26:39,440 --> 00:26:42,880
+PCA.
+
+626
+00:26:41,120 --> 00:26:45,360
+Stock prices are not centered at zero.
+
+627
+00:26:42,880 --> 00:26:47,600
+They're always positive. So, it's going
+
+628
+00:26:45,360 --> 00:26:49,360
+to have some direction, but it's going
+
+629
+00:26:47,600 --> 00:26:51,039
+to be somewhere far away from zero. When
+
+630
+00:26:49,360 --> 00:26:52,799
+you run PCA on it, it's going to be like
+
+631
+00:26:51,039 --> 00:26:55,840
+it's going to try to rotate around zero,
+
+632
+00:26:52,799 --> 00:26:58,240
+but it's not it's like it can't find
+
+633
+00:26:55,840 --> 00:27:00,799
+anything because
+
+634
+00:26:58,240 --> 00:27:02,720
+it's not you're not like you can see why
+
+635
+00:27:00,799 --> 00:27:04,320
+like you can't rotate this thing. You
+
+636
+00:27:02,720 --> 00:27:06,640
+can't there's nothing to find if you
+
+637
+00:27:04,320 --> 00:27:08,720
+don't center it at zero.
+
+638
+00:27:06,640 --> 00:27:11,679
+You cannot rotate around it's rotating
+
+639
+00:27:08,720 --> 00:27:13,200
+always around the origin.
+
+640
+00:27:11,679 --> 00:27:15,919
+So
+
+641
+00:27:13,200 --> 00:27:20,840
+me mean that near zero or close to zero
+
+642
+00:27:15,919 --> 00:27:20,840
+or exactly zero is is very important
+
+643
+00:27:22,640 --> 00:27:26,799
+and surprising like it's surprising how
+
+644
+00:27:24,720 --> 00:27:28,320
+often comes up somebody just does PCA on
+
+645
+00:27:26,799 --> 00:27:31,360
+some
+
+646
+00:27:28,320 --> 00:27:34,080
+on some numbers that are just like large
+
+647
+00:27:31,360 --> 00:27:36,320
+positive numbers and like nothing comes
+
+648
+00:27:34,080 --> 00:27:38,799
+out and like ah this doesn't work but
+
+649
+00:27:36,320 --> 00:27:41,600
+you just have to normalize to zero. How
+
+650
+00:27:38,799 --> 00:27:44,320
+do we actually do it? Well um this is
+
+651
+00:27:41,600 --> 00:27:46,720
+just the examples of various places that
+
+652
+00:27:44,320 --> 00:27:48,640
+have implementations of this value
+
+653
+00:27:46,720 --> 00:27:50,640
+calculations. But I think when I started
+
+654
+00:27:48,640 --> 00:27:53,679
+doing this
+
+655
+00:27:50,640 --> 00:27:55,679
+um like 11 what I don't know how many
+
+656
+00:27:53,679 --> 00:27:58,159
+years ago this actually was more
+
+657
+00:27:55,679 --> 00:27:59,440
+relevant. Now it's like everybody uses
+
+658
+00:27:58,159 --> 00:28:02,880
+Python, everybody knows Jupyter
+
+659
+00:27:59,440 --> 00:28:06,600
+notebooks and like you guys um now now
+
+660
+00:28:02,880 --> 00:28:06,600
+it's like standard toolkit.
+
+661
+00:28:07,200 --> 00:28:14,600
+Okay. Now what's special about finance
+
+662
+00:28:10,480 --> 00:28:14,600
+when it comes to BCA?
+
+663
+00:28:14,640 --> 00:28:18,880
+It's mostly what is special about
+
+664
+00:28:16,480 --> 00:28:21,520
+finance. This is not exclusive by the
+
+665
+00:28:18,880 --> 00:28:24,480
+way, but like most of the time
+
+666
+00:28:21,520 --> 00:28:26,080
+we are going to be doing PCA on time
+
+667
+00:28:24,480 --> 00:28:28,399
+series
+
+668
+00:28:26,080 --> 00:28:33,520
+in in quantitative finance like in in
+
+669
+00:28:28,399 --> 00:28:36,320
+the quant world that I live in and I I
+
+670
+00:28:33,520 --> 00:28:40,320
+work in. I would say
+
+671
+00:28:36,320 --> 00:28:43,120
+it's our the general job is to discover
+
+672
+00:28:40,320 --> 00:28:45,679
+patterns in the that are that have
+
+673
+00:28:43,120 --> 00:28:49,840
+happened in the past and try to use that
+
+674
+00:28:45,679 --> 00:28:52,240
+information to model the future and to
+
+675
+00:28:49,840 --> 00:28:54,480
+somehow like it use that as part of your
+
+676
+00:28:52,240 --> 00:28:58,720
+toolkit to make predictions and to place
+
+677
+00:28:54,480 --> 00:29:02,159
+bets in the markets.
+
+678
+00:28:58,720 --> 00:29:05,120
+So every day, every every trading
+
+679
+00:29:02,159 --> 00:29:08,159
+session, every every observation is an
+
+680
+00:29:05,120 --> 00:29:10,480
+opportunity to bet and to make
+
+681
+00:29:08,159 --> 00:29:12,559
+predictions.
+
+682
+00:29:10,480 --> 00:29:15,039
+And you can understand like the thing
+
+683
+00:29:12,559 --> 00:29:17,279
+about time series is that the history
+
+684
+00:29:15,039 --> 00:29:19,679
+now and the history on the next
+
+685
+00:29:17,279 --> 00:29:22,000
+opportunity to bet is not that
+
+686
+00:29:19,679 --> 00:29:24,080
+different. Like it has one extra data
+
+687
+00:29:22,000 --> 00:29:25,760
+point maybe like later has an additional
+
+688
+00:29:24,080 --> 00:29:29,039
+data point, but everything else is the
+
+689
+00:29:25,760 --> 00:29:32,480
+same. So there is like there's a slow
+
+690
+00:29:29,039 --> 00:29:34,720
+changing time series of information and
+
+691
+00:29:32,480 --> 00:29:36,640
+what how we handle that there is a whole
+
+692
+00:29:34,720 --> 00:29:39,039
+time series
+
+693
+00:29:36,640 --> 00:29:41,520
+data science there class that one can
+
+694
+00:29:39,039 --> 00:29:44,559
+take but
+
+695
+00:29:41,520 --> 00:29:47,520
+in especially with regard to PCA
+
+696
+00:29:44,559 --> 00:29:50,240
+it's important to um to understand like
+
+697
+00:29:47,520 --> 00:29:52,159
+how what does what what
+
+698
+00:29:50,240 --> 00:29:55,120
+does impact does that time series aspect
+
+699
+00:29:52,159 --> 00:29:55,120
+of it have on PCA?
+
+700
+00:29:56,159 --> 00:30:02,159
+A couple of things I think are are
+
+701
+00:29:58,559 --> 00:30:03,919
+important. We
+
+702
+00:30:02,159 --> 00:30:08,720
+we generally are going to be interested
+
+703
+00:30:03,919 --> 00:30:11,039
+in in modeling the the changes of var of
+
+704
+00:30:08,720 --> 00:30:14,080
+things of variables like not the levels.
+
+705
+00:30:11,039 --> 00:30:17,039
+Part of that is that the thing I'm I was
+
+706
+00:30:14,080 --> 00:30:20,480
+just talking about which is demeaning.
+
+707
+00:30:17,039 --> 00:30:23,039
+And part of it is that when you make
+
+708
+00:30:20,480 --> 00:30:26,240
+bets in the market, you make money based
+
+709
+00:30:23,039 --> 00:30:28,159
+on how things change after your bet, not
+
+710
+00:30:26,240 --> 00:30:30,399
+the price, the absolute level of where
+
+711
+00:30:28,159 --> 00:30:32,880
+the price is at. So like returns are
+
+712
+00:30:30,399 --> 00:30:36,480
+what matters, not the price of
+
+713
+00:30:32,880 --> 00:30:39,679
+something, the absolute price.
+
+714
+00:30:36,480 --> 00:30:42,720
+Um then the next thing is like okay so
+
+715
+00:30:39,679 --> 00:30:45,039
+when we do when we model when we have
+
+716
+00:30:42,720 --> 00:30:47,919
+our data uh in finance like generally
+
+717
+00:30:45,039 --> 00:30:49,039
+the data is the historical returns or
+
+718
+00:30:47,919 --> 00:30:50,720
+histo history history of something
+
+719
+00:30:49,039 --> 00:30:53,840
+history of prices history of returns
+
+720
+00:30:50,720 --> 00:30:55,120
+history of anything of of whatever
+
+721
+00:30:53,840 --> 00:30:57,440
+you're modeling. It doesn't have to be
+
+722
+00:30:55,120 --> 00:30:59,520
+just prices could be could be any
+
+723
+00:30:57,440 --> 00:31:02,159
+anything that any any technical
+
+724
+00:30:59,520 --> 00:31:04,799
+indicator
+
+725
+00:31:02,159 --> 00:31:06,640
+and that means that every day there is a
+
+726
+00:31:04,799 --> 00:31:09,679
+there is a history that is similar but a
+
+727
+00:31:06,640 --> 00:31:11,600
+little different. So the history changes
+
+728
+00:31:09,679 --> 00:31:14,640
+your your information about what has
+
+729
+00:31:11,600 --> 00:31:17,760
+happened changes slowly
+
+730
+00:31:14,640 --> 00:31:22,480
+and that means that when you're looking
+
+731
+00:31:17,760 --> 00:31:24,480
+at your PCA you have to now define
+
+732
+00:31:22,480 --> 00:31:26,399
+how am I going to define my data matrix
+
+733
+00:31:24,480 --> 00:31:29,360
+which I'm using to calculate my vectors
+
+734
+00:31:26,399 --> 00:31:32,399
+and values and the one of the main
+
+735
+00:31:29,360 --> 00:31:37,120
+choices are how long of a history I want
+
+736
+00:31:32,399 --> 00:31:40,480
+to use and how much how do I weigh How
+
+737
+00:31:37,120 --> 00:31:43,760
+do I weight history? More recent history
+
+738
+00:31:40,480 --> 00:31:45,519
+versus further away history.
+
+739
+00:31:43,760 --> 00:31:48,240
+And this is these are some of the main
+
+740
+00:31:45,519 --> 00:31:50,480
+hyperparameters of principal component
+
+741
+00:31:48,240 --> 00:31:52,480
+analysis in finance.
+
+742
+00:31:50,480 --> 00:31:55,919
+How many things I'm I'm including in my
+
+743
+00:31:52,480 --> 00:31:58,880
+obser in my data data set.
+
+744
+00:31:55,919 --> 00:32:01,919
+How far back am I looking? How am I
+
+745
+00:31:58,880 --> 00:32:04,799
+waiting that those observations as I
+
+746
+00:32:01,919 --> 00:32:07,279
+pass through time?
+
+747
+00:32:04,799 --> 00:32:11,159
+And then the last thing is like the
+
+748
+00:32:07,279 --> 00:32:11,159
+robustness of the data.
+
+749
+00:32:12,960 --> 00:32:18,559
+Very often there is a trade-off between
+
+750
+00:32:15,200 --> 00:32:21,679
+including more data points
+
+751
+00:32:18,559 --> 00:32:23,840
+but each each marginal addition of data
+
+752
+00:32:21,679 --> 00:32:26,720
+like each marginal dimension of data
+
+753
+00:32:23,840 --> 00:32:29,440
+that I'm looking at could be less
+
+754
+00:32:26,720 --> 00:32:32,880
+robust. Like there's like and we'll talk
+
+755
+00:32:29,440 --> 00:32:36,000
+about in the examples later on, but
+
+756
+00:32:32,880 --> 00:32:39,200
+there's um we have to think carefully
+
+757
+00:32:36,000 --> 00:32:41,519
+about how
+
+758
+00:32:39,200 --> 00:32:44,240
+how robust the data we're putting in is
+
+759
+00:32:41,519 --> 00:32:46,399
+because if it's if it's too noisy, if
+
+760
+00:32:44,240 --> 00:32:49,120
+it's not representative of where our
+
+761
+00:32:46,399 --> 00:32:50,720
+bets are going to be, then it becomes
+
+762
+00:32:49,120 --> 00:32:52,000
+less relevant to our modeling down the
+
+763
+00:32:50,720 --> 00:32:54,559
+line. On the other hand, if we don't
+
+764
+00:32:52,000 --> 00:32:57,200
+include enough, we're also going to be
+
+765
+00:32:54,559 --> 00:32:59,039
+missing opportunities to to um
+
+766
+00:32:57,200 --> 00:33:00,960
+understand the structure, the
+
+767
+00:32:59,039 --> 00:33:05,279
+information. So again, that's part of
+
+768
+00:33:00,960 --> 00:33:07,279
+the art of of um of actually of the
+
+769
+00:33:05,279 --> 00:33:09,039
+practitioner is to actually kind of have
+
+770
+00:33:07,279 --> 00:33:10,559
+some feeling of have some intuition
+
+771
+00:33:09,039 --> 00:33:12,640
+about what I should include and what I
+
+772
+00:33:10,559 --> 00:33:16,240
+should not include. And we'll we'll talk
+
+773
+00:33:12,640 --> 00:33:17,840
+about an example here. The example first
+
+774
+00:33:16,240 --> 00:33:19,840
+example and the main example I want to
+
+775
+00:33:17,840 --> 00:33:22,960
+go through
+
+776
+00:33:19,840 --> 00:33:25,360
+is um applying principal component
+
+777
+00:33:22,960 --> 00:33:28,159
+analysis to the United States bond
+
+778
+00:33:25,360 --> 00:33:29,679
+market. Yes. I feel like you mentioned
+
+779
+00:33:28,159 --> 00:33:33,039
+that
+
+780
+00:33:29,679 --> 00:33:36,720
+PCA in this case time series
+
+781
+00:33:33,039 --> 00:33:39,440
+like historical historical but is there
+
+782
+00:33:36,720 --> 00:33:41,840
+you kind of play with the like
+
+783
+00:33:39,440 --> 00:33:45,440
+granularity of the time series as well
+
+784
+00:33:41,840 --> 00:33:48,880
+like the different um I guess window
+
+785
+00:33:45,440 --> 00:33:50,240
+sizes I would say of like how how
+
+786
+00:33:48,880 --> 00:33:51,760
+granular the date is going to be when
+
+787
+00:33:50,240 --> 00:33:54,000
+it's like
+
+788
+00:33:51,760 --> 00:33:55,919
+>> Yeah. Yeah. That that's another that's a
+
+789
+00:33:54,000 --> 00:33:58,000
+whole other dimension of how granular it
+
+790
+00:33:55,919 --> 00:34:00,640
+is. Absolutely right. It's not just
+
+791
+00:33:58,000 --> 00:34:04,080
+about how long of a history, but how
+
+792
+00:34:00,640 --> 00:34:06,080
+granular it is. Like
+
+793
+00:34:04,080 --> 00:34:08,159
+what like the examples I'm going to show
+
+794
+00:34:06,080 --> 00:34:12,560
+you right now
+
+795
+00:34:08,159 --> 00:34:14,159
+are based on daily observations.
+
+796
+00:34:12,560 --> 00:34:16,560
+But
+
+797
+00:34:14,159 --> 00:34:19,040
+why why did I decide to use daily
+
+798
+00:34:16,560 --> 00:34:22,159
+observations?
+
+799
+00:34:19,040 --> 00:34:24,560
+The short answer is like and we by the
+
+800
+00:34:22,159 --> 00:34:27,200
+way very often in in my work we use
+
+801
+00:34:24,560 --> 00:34:29,119
+daily observations. The reason is that
+
+802
+00:34:27,200 --> 00:34:32,159
+daily observations
+
+803
+00:34:29,119 --> 00:34:34,399
+are just a more available generally more
+
+804
+00:34:32,159 --> 00:34:36,720
+histories is high quality data history
+
+805
+00:34:34,399 --> 00:34:40,000
+is available for longer periods of time
+
+806
+00:34:36,720 --> 00:34:43,839
+for daily observations. Second
+
+807
+00:34:40,000 --> 00:34:47,040
+yes intraday observations are
+
+808
+00:34:43,839 --> 00:34:50,320
+they represent additional data.
+
+809
+00:34:47,040 --> 00:34:52,079
+However, the quality of
+
+810
+00:34:50,320 --> 00:34:55,200
+the quality of that data, meaning how
+
+811
+00:34:52,079 --> 00:34:57,760
+how much noise there is, can very often
+
+812
+00:34:55,200 --> 00:34:59,599
+in practice be much higher for interday
+
+813
+00:34:57,760 --> 00:35:01,440
+data than is for end of day data. That
+
+814
+00:34:59,599 --> 00:35:03,839
+might not always be true. There are
+
+815
+00:35:01,440 --> 00:35:06,240
+situations where that's not true, right?
+
+816
+00:35:03,839 --> 00:35:07,760
+But and there's there's entire fields in
+
+817
+00:35:06,240 --> 00:35:09,520
+finance that deal with high frequency
+
+818
+00:35:07,760 --> 00:35:12,560
+trading.
+
+819
+00:35:09,520 --> 00:35:14,640
+In those fields, end of day data is just
+
+820
+00:35:12,560 --> 00:35:17,119
+like they their whole trading buying,
+
+821
+00:35:14,640 --> 00:35:19,280
+holding and selling happens 10 times for
+
+822
+00:35:17,119 --> 00:35:21,200
+the entire day. So they start and end
+
+823
+00:35:19,280 --> 00:35:23,280
+the day with like no positions. And for
+
+824
+00:35:21,200 --> 00:35:25,920
+them daily is like not relevant. It's
+
+825
+00:35:23,280 --> 00:35:28,000
+too too slow. They need to understand
+
+826
+00:35:25,920 --> 00:35:31,000
+how the market moves on a very fast time
+
+827
+00:35:28,000 --> 00:35:31,000
+scale.
+
+828
+00:35:31,040 --> 00:35:37,839
+So that how how often like how you
+
+829
+00:35:34,240 --> 00:35:40,160
+sample time is a whole is a whole other
+
+830
+00:35:37,839 --> 00:35:43,040
+story. And basically how we sample time
+
+831
+00:35:40,160 --> 00:35:45,040
+is going to impact the units of
+
+832
+00:35:43,040 --> 00:35:48,560
+volatility because volatility is
+
+833
+00:35:45,040 --> 00:35:51,280
+measured in in units of square of time
+
+834
+00:35:48,560 --> 00:35:53,760
+basically. So it's it's very important
+
+835
+00:35:51,280 --> 00:35:55,680
+to like to know that and have to to to
+
+836
+00:35:53,760 --> 00:35:58,160
+understand to keep to keep that in mind
+
+837
+00:35:55,680 --> 00:35:59,599
+that whatever the frequency of sampling
+
+838
+00:35:58,160 --> 00:36:02,160
+is that's going to give you effectively
+
+839
+00:35:59,599 --> 00:36:03,680
+the unit of your volatility and then if
+
+840
+00:36:02,160 --> 00:36:06,000
+you want to annualize it like you need
+
+841
+00:36:03,680 --> 00:36:07,680
+to apply appropriate factors and
+
+842
+00:36:06,000 --> 00:36:10,560
+comparing volatilities of different
+
+843
+00:36:07,680 --> 00:36:12,880
+units is not going to be meaningful. So
+
+844
+00:36:10,560 --> 00:36:15,599
+that that's important.
+
+845
+00:36:12,880 --> 00:36:19,359
+Okay, going back to this example,
+
+846
+00:36:15,599 --> 00:36:22,160
+the um US bond market.
+
+847
+00:36:19,359 --> 00:36:24,000
+So why why am I like why is this an
+
+848
+00:36:22,160 --> 00:36:26,320
+interesting example? Like I work in
+
+849
+00:36:24,000 --> 00:36:27,920
+fixed income which is basically where we
+
+850
+00:36:26,320 --> 00:36:29,920
+trade
+
+851
+00:36:27,920 --> 00:36:32,880
+of
+
+852
+00:36:29,920 --> 00:36:34,960
+bonds and various derivatives of bonds
+
+853
+00:36:32,880 --> 00:36:37,200
+and those are the the biggest markets in
+
+854
+00:36:34,960 --> 00:36:38,560
+the world like the most there's huge
+
+855
+00:36:37,200 --> 00:36:39,760
+amounts of money being transferred.
+
+856
+00:36:38,560 --> 00:36:41,359
+They're not necessarily the most
+
+857
+00:36:39,760 --> 00:36:44,960
+volatile. Equities are much more
+
+858
+00:36:41,359 --> 00:36:49,920
+volatile, but they are extremely deep,
+
+859
+00:36:44,960 --> 00:36:51,680
+extremely liquid, and they also allow
+
+860
+00:36:49,920 --> 00:36:53,599
+like people who trade in them to take
+
+861
+00:36:51,680 --> 00:36:56,240
+large amounts of leverage. So even
+
+862
+00:36:53,599 --> 00:36:58,880
+though they're not by themselves that
+
+863
+00:36:56,240 --> 00:37:00,960
+volatile, if once you take leverage, you
+
+864
+00:36:58,880 --> 00:37:04,560
+can increase volatility by taking
+
+865
+00:37:00,960 --> 00:37:07,040
+leverage. So you can actually make um
+
+866
+00:37:04,560 --> 00:37:08,560
+you can construct portfolios that are
+
+867
+00:37:07,040 --> 00:37:12,400
+that are actually quite quite volatile
+
+868
+00:37:08,560 --> 00:37:16,320
+and deliver substantial um substantial
+
+869
+00:37:12,400 --> 00:37:18,240
+like market volatility and and returns.
+
+870
+00:37:16,320 --> 00:37:21,520
+So there's a lot of there's a lot of
+
+871
+00:37:18,240 --> 00:37:25,599
+huge industry of money managers, hedge
+
+872
+00:37:21,520 --> 00:37:27,040
+funds that trade fixed income and um the
+
+873
+00:37:25,599 --> 00:37:28,880
+US bond market is the kind of
+
+874
+00:37:27,040 --> 00:37:30,400
+prototypical example of fixed income.
+
+875
+00:37:28,880 --> 00:37:33,599
+It's the most liquid in the world by
+
+876
+00:37:30,400 --> 00:37:37,599
+far, the most well structured. So, it's
+
+877
+00:37:33,599 --> 00:37:40,960
+a great example to to play with.
+
+878
+00:37:37,599 --> 00:37:43,599
+Another reason I'm using it is because
+
+879
+00:37:40,960 --> 00:37:46,560
+there is pricing data from the Federal
+
+880
+00:37:43,599 --> 00:37:48,480
+Reserve that is freely available and
+
+881
+00:37:46,560 --> 00:37:51,839
+that's the data that we're going to use
+
+882
+00:37:48,480 --> 00:37:53,599
+right now to do our analysis.
+
+883
+00:37:51,839 --> 00:37:58,560
+this data is like it's it's actually
+
+884
+00:37:53,599 --> 00:38:02,800
+quite high quality data and um
+
+885
+00:37:58,560 --> 00:38:04,400
+yeah that like that's I think that um
+
+886
+00:38:02,800 --> 00:38:06,160
+if you want to do a project like this
+
+887
+00:38:04,400 --> 00:38:10,880
+will be a great great data set to play
+
+888
+00:38:06,160 --> 00:38:15,040
+with because it's real and um it's it's
+
+889
+00:38:10,880 --> 00:38:16,960
+goes on for a very long time and and you
+
+890
+00:38:15,040 --> 00:38:19,599
+can apply you can apply our PCA
+
+891
+00:38:16,960 --> 00:38:22,320
+techniques to it. So the first question
+
+892
+00:38:19,599 --> 00:38:24,560
+to ask is like is there remember like we
+
+893
+00:38:22,320 --> 00:38:27,839
+have our data set now what does it
+
+894
+00:38:24,560 --> 00:38:30,320
+consist of? Well, in the United States,
+
+895
+00:38:27,839 --> 00:38:34,000
+the US Treasury issues it just it issues
+
+896
+00:38:30,320 --> 00:38:36,160
+a bunch of T bills, short maturity bills
+
+897
+00:38:34,000 --> 00:38:39,359
+that they raise money. That's that's how
+
+898
+00:38:36,160 --> 00:38:40,800
+they raise money for the debt. But, uh,
+
+899
+00:38:39,359 --> 00:38:42,800
+the part we're going to concern with is
+
+900
+00:38:40,800 --> 00:38:46,240
+going to be the US Treasury notes and
+
+901
+00:38:42,800 --> 00:38:48,400
+bonds, which are kind of the longerdated
+
+902
+00:38:46,240 --> 00:38:50,640
+instruments that US Treasury issues.
+
+903
+00:38:48,400 --> 00:38:53,280
+They issue on a very regular basis.
+
+904
+00:38:50,640 --> 00:38:55,920
+Every month there is a schedule of
+
+905
+00:38:53,280 --> 00:38:57,839
+auctions that is very well known and
+
+906
+00:38:55,920 --> 00:38:59,520
+repetitive
+
+907
+00:38:57,839 --> 00:39:01,440
+and they always issue like a two-year
+
+908
+00:38:59,520 --> 00:39:03,040
+bond, a three-year bond, fiveyear bond,
+
+909
+00:39:01,440 --> 00:39:05,680
+seven-year bond, 10ear bond, and a
+
+910
+00:39:03,040 --> 00:39:08,320
+30-year bond. And there's actually now a
+
+911
+00:39:05,680 --> 00:39:10,560
+20-year bond that started about like
+
+912
+00:39:08,320 --> 00:39:13,119
+three, four years ago, but we're not
+
+913
+00:39:10,560 --> 00:39:15,040
+going to look at that right now because
+
+914
+00:39:13,119 --> 00:39:16,880
+it's it's fairly it's very new and it's
+
+915
+00:39:15,040 --> 00:39:19,760
+not not as liquid. So, we're just going
+
+916
+00:39:16,880 --> 00:39:22,079
+to focus on these.
+
+917
+00:39:19,760 --> 00:39:24,560
+And what are like the other thing about
+
+918
+00:39:22,079 --> 00:39:26,560
+these bonds is that they're
+
+919
+00:39:24,560 --> 00:39:27,920
+they're all debts of the US Treasury.
+
+920
+00:39:26,560 --> 00:39:30,560
+So, they're they're very in a sense
+
+921
+00:39:27,920 --> 00:39:33,280
+they're very similar. Like if you if you
+
+922
+00:39:30,560 --> 00:39:34,960
+if I give you money for six months and I
+
+923
+00:39:33,280 --> 00:39:37,040
+also give you a separate loan for like
+
+924
+00:39:34,960 --> 00:39:39,119
+three years,
+
+925
+00:39:37,040 --> 00:39:40,800
+I've I've given you two loans. The first
+
+926
+00:39:39,119 --> 00:39:43,599
+thing that these two things are they're
+
+927
+00:39:40,800 --> 00:39:45,359
+basically you still owe me money, right?
+
+928
+00:39:43,599 --> 00:39:48,000
+Yeah. one is longer in maturity than the
+
+929
+00:39:45,359 --> 00:39:51,200
+other, but like you're still wing money.
+
+930
+00:39:48,000 --> 00:39:53,920
+So, in terms of the way the price of
+
+931
+00:39:51,200 --> 00:39:56,160
+these of these securities evolves,
+
+932
+00:39:53,920 --> 00:39:58,640
+they're all kind of they all depend on
+
+933
+00:39:56,160 --> 00:40:00,640
+the interest rates, the short-term the
+
+934
+00:39:58,640 --> 00:40:03,040
+path of short-term interest rates of the
+
+935
+00:40:00,640 --> 00:40:05,040
+Federal Reserve and the expectations of
+
+936
+00:40:03,040 --> 00:40:07,359
+that path. So, that it's they're all
+
+937
+00:40:05,040 --> 00:40:10,640
+derivatives of that.
+
+938
+00:40:07,359 --> 00:40:14,800
+The implications of that is that the
+
+939
+00:40:10,640 --> 00:40:17,839
+returns or the um the changes of bond
+
+940
+00:40:14,800 --> 00:40:20,720
+yields are very highly correlated. So
+
+941
+00:40:17,839 --> 00:40:23,040
+here on the bottom right I've shown
+
+942
+00:40:20,720 --> 00:40:24,880
+the um
+
+943
+00:40:23,040 --> 00:40:26,160
+the the correlation matrix of changes
+
+944
+00:40:24,880 --> 00:40:28,800
+and you can see this is like these
+
+945
+00:40:26,160 --> 00:40:32,240
+numbers are very very high.
+
+946
+00:40:28,800 --> 00:40:33,920
+So this is a data set where
+
+947
+00:40:32,240 --> 00:40:36,000
+everything is very very highly
+
+948
+00:40:33,920 --> 00:40:38,560
+correlated
+
+949
+00:40:36,000 --> 00:40:40,800
+prime candidate for PCA. Whenever you
+
+950
+00:40:38,560 --> 00:40:43,599
+see a correlation matrix that has high
+
+951
+00:40:40,800 --> 00:40:45,839
+concentrations of high
+
+952
+00:40:43,599 --> 00:40:48,240
+high correlations prime candidate of
+
+953
+00:40:45,839 --> 00:40:49,760
+PCA. So what are these what are these
+
+954
+00:40:48,240 --> 00:40:52,160
+numbers I'm looking at on the on the
+
+955
+00:40:49,760 --> 00:40:56,160
+left chart I've shown the US yield
+
+956
+00:40:52,160 --> 00:40:58,720
+curve. So on any given day we can
+
+957
+00:40:56,160 --> 00:41:00,000
+observe the prices of two-year bonds,
+
+958
+00:40:58,720 --> 00:41:01,520
+three-year bonds, five year bond,
+
+959
+00:41:00,000 --> 00:41:05,280
+sevenyear bond, 10 year bond, 30-year
+
+960
+00:41:01,520 --> 00:41:08,079
+bond. What is the price of that? And I
+
+961
+00:41:05,280 --> 00:41:12,960
+don't know if uh if Peter have you have
+
+962
+00:41:08,079 --> 00:41:15,839
+you um guys done bond math yet?
+
+963
+00:41:12,960 --> 00:41:17,440
+>> A little. So so you we know the prices
+
+964
+00:41:15,839 --> 00:41:20,000
+where these things buy. So they're very
+
+965
+00:41:17,440 --> 00:41:22,240
+transparent prices and we can convert
+
+966
+00:41:20,000 --> 00:41:24,560
+prices to yields.
+
+967
+00:41:22,240 --> 00:41:27,119
+So basically a yield is like the implied
+
+968
+00:41:24,560 --> 00:41:29,359
+rate of return of the bonds effectively
+
+969
+00:41:27,119 --> 00:41:31,599
+given its price over the course of its
+
+970
+00:41:29,359 --> 00:41:35,200
+maturity. And then when we plot these
+
+971
+00:41:31,599 --> 00:41:38,319
+yields on on this plot here I've plotted
+
+972
+00:41:35,200 --> 00:41:40,160
+the yields the yield is on the y- axis
+
+973
+00:41:38,319 --> 00:41:42,000
+versus the maturity of the bond. And
+
+974
+00:41:40,160 --> 00:41:44,720
+I've sampled
+
+975
+00:41:42,000 --> 00:41:46,319
+five days from history.
+
+976
+00:41:44,720 --> 00:41:49,040
+And this is what's known as the yield
+
+977
+00:41:46,319 --> 00:41:52,160
+curve. that is a that is the most
+
+978
+00:41:49,040 --> 00:41:54,319
+important input of macroeconomics in the
+
+979
+00:41:52,160 --> 00:41:56,240
+world is the US the shape of the dollar
+
+980
+00:41:54,319 --> 00:42:00,240
+yield curve.
+
+981
+00:41:56,240 --> 00:42:02,880
+Um sometimes most of the time the yield
+
+982
+00:42:00,240 --> 00:42:05,680
+curve is upward sloping so people people
+
+983
+00:42:02,880 --> 00:42:07,280
+require a bigger return to lend money
+
+984
+00:42:05,680 --> 00:42:10,079
+for longer and the US treasury like
+
+985
+00:42:07,280 --> 00:42:11,920
+generally requires that. But sometimes
+
+986
+00:42:10,079 --> 00:42:13,440
+that is not true. Like sometimes you can
+
+987
+00:42:11,920 --> 00:42:15,440
+see this top blue line. Sometimes the
+
+988
+00:42:13,440 --> 00:42:17,520
+yields actually like is is starts out
+
+989
+00:42:15,440 --> 00:42:19,280
+downward sloping and then flattens out.
+
+990
+00:42:17,520 --> 00:42:20,960
+So these yields can have a variety of
+
+991
+00:42:19,280 --> 00:42:24,000
+shapes
+
+992
+00:42:20,960 --> 00:42:25,599
+and this is just the level of yields.
+
+993
+00:42:24,000 --> 00:42:27,839
+What we're betting on is the changes. So
+
+994
+00:42:25,599 --> 00:42:31,280
+we're betting on how this curve evolves
+
+995
+00:42:27,839 --> 00:42:34,400
+dayto day. And you can see from these
+
+996
+00:42:31,280 --> 00:42:36,640
+from these um yield curves that you can
+
+997
+00:42:34,400 --> 00:42:38,160
+imagine how if I just if I was to show
+
+998
+00:42:36,640 --> 00:42:40,000
+you a movie of the yield curve, it's
+
+999
+00:42:38,160 --> 00:42:41,280
+going to kind of flop around. It's going
+
+1000
+00:42:40,000 --> 00:42:42,720
+to be like a little string. It's like
+
+1001
+00:42:41,280 --> 00:42:44,720
+flop around, but it's going to be like
+
+1002
+00:42:42,720 --> 00:42:46,800
+going up and down. It's going to slope
+
+1003
+00:42:44,720 --> 00:42:49,119
+like this. It's going to have a whole
+
+1004
+00:42:46,800 --> 00:42:51,839
+set of dynamics
+
+1005
+00:42:49,119 --> 00:42:53,440
+and that that dynamics and that kind of
+
+1006
+00:42:51,839 --> 00:42:57,960
+those dynamics is what we're trying to
+
+1007
+00:42:53,440 --> 00:42:57,960
+kind of model with PCA here.
+
+1008
+00:42:58,160 --> 00:43:03,599
+Um
+
+1009
+00:43:00,000 --> 00:43:05,119
+bonus question is
+
+1010
+00:43:03,599 --> 00:43:07,440
+do you guys know what is the shape of
+
+1011
+00:43:05,119 --> 00:43:09,920
+the yield curve now? What does it look
+
+1012
+00:43:07,440 --> 00:43:11,520
+like? What are what are the is are
+
+1013
+00:43:09,920 --> 00:43:15,040
+short-term interest rates like higher
+
+1014
+00:43:11,520 --> 00:43:19,680
+than long-term interest rates?
+
+1015
+00:43:15,040 --> 00:43:22,160
+Have you has has anybody like
+
+1016
+00:43:19,680 --> 00:43:24,880
+we had a a very prominent Federal
+
+1017
+00:43:22,160 --> 00:43:27,680
+Reserve meeting recently
+
+1018
+00:43:24,880 --> 00:43:29,680
+and uh they they do do you remember what
+
+1019
+00:43:27,680 --> 00:43:32,319
+they did
+
+1020
+00:43:29,680 --> 00:43:33,920
+the action the Fed took was the action
+
+1021
+00:43:32,319 --> 00:43:36,640
+the Fed took was to cut interest rates
+
+1022
+00:43:33,920 --> 00:43:38,720
+by 50 basis points. So what the Fed is
+
+1023
+00:43:36,640 --> 00:43:40,480
+doing it's cutting the interest rate
+
+1024
+00:43:38,720 --> 00:43:42,960
+that is the leftmost point on this yield
+
+1025
+00:43:40,480 --> 00:43:45,680
+curve that that they're they're setting
+
+1026
+00:43:42,960 --> 00:43:48,319
+that point. Everything else, the rest of
+
+1027
+00:43:45,680 --> 00:43:50,800
+the curve is market expectations of what
+
+1028
+00:43:48,319 --> 00:43:52,880
+that point would do in the future. So
+
+1029
+00:43:50,800 --> 00:43:54,880
+they moved this point down by 50 basis
+
+1030
+00:43:52,880 --> 00:43:58,400
+points. 50 basis points means half a
+
+1031
+00:43:54,880 --> 00:44:00,480
+percent. So it went it went down by half
+
+1032
+00:43:58,400 --> 00:44:02,480
+a percent.
+
+1033
+00:44:00,480 --> 00:44:04,880
+Right now this blue curve, even though
+
+1034
+00:44:02,480 --> 00:44:08,160
+it's from 2023, that's like that's
+
+1035
+00:44:04,880 --> 00:44:10,160
+pretty recent, it's still the curve is
+
+1036
+00:44:08,160 --> 00:44:11,680
+still downward sloping. It looks a
+
+1037
+00:44:10,160 --> 00:44:14,319
+little bit more like like this right
+
+1038
+00:44:11,680 --> 00:44:15,599
+now. So it's not it it was for a very
+
+1039
+00:44:14,319 --> 00:44:17,599
+long time it was actually like really
+
+1040
+00:44:15,599 --> 00:44:20,240
+inverted. It was going like downward
+
+1041
+00:44:17,599 --> 00:44:23,280
+sloping like that. Now the back now the
+
+1042
+00:44:20,240 --> 00:44:25,040
+back is like starting to flatten out but
+
+1043
+00:44:23,280 --> 00:44:28,599
+it's still quite high in the front end
+
+1044
+00:44:25,040 --> 00:44:28,599
+and downward sloping.
+
+1045
+00:44:30,240 --> 00:44:35,359
+So that that unrelated to what we're
+
+1046
+00:44:32,400 --> 00:44:38,560
+talking about but fun kind of a fun
+
+1047
+00:44:35,359 --> 00:44:40,560
+fact. Okay. So now when we look at yield
+
+1048
+00:44:38,560 --> 00:44:43,560
+changes
+
+1049
+00:44:40,560 --> 00:44:43,560
+um
+
+1050
+00:44:43,760 --> 00:44:48,560
+when we look at the we take our data we
+
+1051
+00:44:46,319 --> 00:44:51,920
+compute your changes so the changes of
+
+1052
+00:44:48,560 --> 00:44:54,319
+yields on dayto day
+
+1053
+00:44:51,920 --> 00:44:56,000
+we we can we should demean that data set
+
+1054
+00:44:54,319 --> 00:44:57,359
+but generally demeaning it doesn't
+
+1055
+00:44:56,000 --> 00:44:59,119
+really help that much because the mean
+
+1056
+00:44:57,359 --> 00:45:00,800
+is going to be very close to zero
+
+1057
+00:44:59,119 --> 00:45:01,920
+because changes are sometimes the are
+
+1058
+00:45:00,800 --> 00:45:05,280
+going to go up sometimes they're going
+
+1059
+00:45:01,920 --> 00:45:08,000
+to go down you're not going to have over
+
+1060
+00:45:05,280 --> 00:45:09,119
+the history of of 20 30 years that we're
+
+1061
+00:45:08,000 --> 00:45:13,040
+talking about here, you're not going to
+
+1062
+00:45:09,119 --> 00:45:16,319
+have a large large mean. Still, it's
+
+1063
+00:45:13,040 --> 00:45:19,440
+always good practice to demean it.
+
+1064
+00:45:16,319 --> 00:45:21,520
+Won't change much the result. But then
+
+1065
+00:45:19,440 --> 00:45:24,000
+we take this
+
+1066
+00:45:21,520 --> 00:45:26,000
+in this example, I didn't actually
+
+1067
+00:45:24,000 --> 00:45:28,720
+normalize the variance. I think we just
+
+1068
+00:45:26,000 --> 00:45:30,800
+just left it in there. So we did PCA on
+
+1069
+00:45:28,720 --> 00:45:33,520
+coariance matrix. And the reason is that
+
+1070
+00:45:30,800 --> 00:45:36,800
+the units the yield changes are they're
+
+1071
+00:45:33,520 --> 00:45:40,000
+comparable units and there is
+
+1072
+00:45:36,800 --> 00:45:42,160
+um looking at the PCA without without
+
+1073
+00:45:40,000 --> 00:45:45,760
+normalizing the the variance is actually
+
+1074
+00:45:42,160 --> 00:45:48,400
+like it's a very meaningful output like
+
+1075
+00:45:45,760 --> 00:45:50,960
+it's it's we want to understand how
+
+1076
+00:45:48,400 --> 00:45:52,560
+volatile is going to tell us something
+
+1077
+00:45:50,960 --> 00:45:55,040
+about the relative volatilities of
+
+1078
+00:45:52,560 --> 00:45:58,640
+points.
+
+1079
+00:45:55,040 --> 00:46:00,560
+So when we do that and we look at the um
+
+1080
+00:45:58,640 --> 00:46:05,040
+what what I what I'm plotting here on
+
+1081
+00:46:00,560 --> 00:46:07,040
+the top are the the igen vectors. So the
+
+1082
+00:46:05,040 --> 00:46:08,319
+the principal component factors the
+
+1083
+00:46:07,040 --> 00:46:11,440
+shapes of the principal component
+
+1084
+00:46:08,319 --> 00:46:14,400
+factors on variance days.
+
+1085
+00:46:11,440 --> 00:46:15,680
+So this plot can be confusing right and
+
+1086
+00:46:14,400 --> 00:46:19,280
+I want to make sure that we're all on
+
+1087
+00:46:15,680 --> 00:46:22,720
+the same page what it is. This was
+
+1088
+00:46:19,280 --> 00:46:24,640
+this is the shape. This is the yields.
+
+1089
+00:46:22,720 --> 00:46:27,040
+Then we take these yields. We look at
+
+1090
+00:46:24,640 --> 00:46:29,599
+the changes of yields. Then we put them
+
+1091
+00:46:27,040 --> 00:46:32,240
+through PCA. And remember the output of
+
+1092
+00:46:29,599 --> 00:46:35,520
+PCA is IGN vectors and values. IN
+
+1093
+00:46:32,240 --> 00:46:37,520
+vectors means every every point like two
+
+1094
+00:46:35,520 --> 00:46:38,960
+year, three year, 5 year, 10 year, 30
+
+1095
+00:46:37,520 --> 00:46:40,880
+year everything has a number. Now a
+
+1096
+00:46:38,960 --> 00:46:44,079
+loading
+
+1097
+00:46:40,880 --> 00:46:46,160
+we call that the number the vector
+
+1098
+00:46:44,079 --> 00:46:50,560
+coefficient. I call that loading. That's
+
+1099
+00:46:46,160 --> 00:46:53,359
+a very a term that we use.
+
+1100
+00:46:50,560 --> 00:46:55,599
+that loading is again there's a time
+
+1101
+00:46:53,359 --> 00:46:58,880
+series of those and I'm plotting here a
+
+1102
+00:46:55,599 --> 00:47:00,800
+select like five different dates in
+
+1103
+00:46:58,880 --> 00:47:03,760
+history
+
+1104
+00:47:00,800 --> 00:47:05,760
+of what that vector looks like what the
+
+1105
+00:47:03,760 --> 00:47:07,359
+first principal component looks like
+
+1106
+00:47:05,760 --> 00:47:08,720
+what the second principal component
+
+1107
+00:47:07,359 --> 00:47:12,359
+looks like what the third principal
+
+1108
+00:47:08,720 --> 00:47:12,359
+component looks like
+
+1109
+00:47:12,400 --> 00:47:18,800
+these are f these are like snapshots
+
+1110
+00:47:15,680 --> 00:47:22,800
+like five snapshots in time
+
+1111
+00:47:18,800 --> 00:47:24,240
+and I'm plotting maturity versus loading
+
+1112
+00:47:22,800 --> 00:47:25,520
+and there like there's actually three
+
+1113
+00:47:24,240 --> 00:47:27,680
+dimensions here. There's maturity,
+
+1114
+00:47:25,520 --> 00:47:28,960
+loading and time. So I can't like I can
+
+1115
+00:47:27,680 --> 00:47:32,160
+show you a threedimensional plot but
+
+1116
+00:47:28,960 --> 00:47:33,520
+that will just be like confusing. So I'm
+
+1117
+00:47:32,160 --> 00:47:34,640
+I'm showing here cross-sections. So
+
+1118
+00:47:33,520 --> 00:47:37,760
+these are these are various
+
+1119
+00:47:34,640 --> 00:47:40,800
+cross-sections on time.
+
+1120
+00:47:37,760 --> 00:47:43,599
+And you can see that
+
+1121
+00:47:40,800 --> 00:47:48,160
+there is a clear and persistent pattern
+
+1122
+00:47:43,599 --> 00:47:52,400
+in what the en vectors look like. The
+
+1123
+00:47:48,160 --> 00:47:54,960
+first one PC1 is called the level.
+
+1124
+00:47:52,400 --> 00:47:57,280
+That's basically means that
+
+1125
+00:47:54,960 --> 00:47:59,040
+the that that is like it all the
+
+1126
+00:47:57,280 --> 00:48:01,440
+loadings are positive. So it means when
+
+1127
+00:47:59,040 --> 00:48:04,160
+the yield curves move generally they
+
+1128
+00:48:01,440 --> 00:48:06,319
+move up and down together when in the
+
+1129
+00:48:04,160 --> 00:48:08,800
+same direction. So if 10 year rate is
+
+1130
+00:48:06,319 --> 00:48:10,319
+going up probably two-year rate is going
+
+1131
+00:48:08,800 --> 00:48:13,520
+up as well. Five year rate is going up
+
+1132
+00:48:10,319 --> 00:48:15,520
+as well. And hence the term rates are
+
+1133
+00:48:13,520 --> 00:48:17,119
+going up. rates are going up is like
+
+1134
+00:48:15,520 --> 00:48:19,680
+generally speaking everything is going
+
+1135
+00:48:17,119 --> 00:48:21,520
+up or down and that's the most that is
+
+1136
+00:48:19,680 --> 00:48:24,880
+the the move that that is explains most
+
+1137
+00:48:21,520 --> 00:48:27,359
+of the variance of the yield curve
+
+1138
+00:48:24,880 --> 00:48:29,599
+but on top of that now there's a second
+
+1139
+00:48:27,359 --> 00:48:31,839
+move which is we call this PC2 and we
+
+1140
+00:48:29,599 --> 00:48:34,800
+when we look at the shape of it we can
+
+1141
+00:48:31,839 --> 00:48:36,640
+say oh it starts out negative and the
+
+1142
+00:48:34,800 --> 00:48:39,359
+front end of the curve and it's positive
+
+1143
+00:48:36,640 --> 00:48:41,040
+on the back end of the curve that's the
+
+1144
+00:48:39,359 --> 00:48:43,119
+slope
+
+1145
+00:48:41,040 --> 00:48:45,200
+so that's kind of a steepening of the
+
+1146
+00:48:43,119 --> 00:48:47,760
+curve versus flattening the curve that
+
+1147
+00:48:45,200 --> 00:48:49,280
+is the second PC factor.
+
+1148
+00:48:47,760 --> 00:48:52,000
+So this first PC factor by the way
+
+1149
+00:48:49,280 --> 00:48:53,680
+explains around like 90% of the variance
+
+1150
+00:48:52,000 --> 00:48:56,400
+maybe like 85 or something and the
+
+1151
+00:48:53,680 --> 00:48:59,119
+second PC factor explains like between
+
+1152
+00:48:56,400 --> 00:49:01,839
+five and 10% of the variance
+
+1153
+00:48:59,119 --> 00:49:03,680
+like very huge difference
+
+1154
+00:49:01,839 --> 00:49:06,960
+and the third PC factor is like the
+
+1155
+00:49:03,680 --> 00:49:09,200
+curvature. So how how curvy what is the
+
+1156
+00:49:06,960 --> 00:49:10,720
+curvature of the of the like it's it's
+
+1157
+00:49:09,200 --> 00:49:13,119
+positive on the front end positive on
+
+1158
+00:49:10,720 --> 00:49:16,960
+the at the 30-year and negative at the
+
+1159
+00:49:13,119 --> 00:49:18,480
+belly of the curve 10 year point
+
+1160
+00:49:16,960 --> 00:49:20,160
+and that has the smallest amount of
+
+1161
+00:49:18,480 --> 00:49:21,839
+variance. So what does that mean? If you
+
+1162
+00:49:20,160 --> 00:49:23,760
+think mentally of the movie of what the
+
+1163
+00:49:21,839 --> 00:49:25,440
+yield curve is doing it's mostly going
+
+1164
+00:49:23,760 --> 00:49:28,400
+up and down mostly going up and down
+
+1165
+00:49:25,440 --> 00:49:30,079
+like that but it's also like it's also
+
+1166
+00:49:28,400 --> 00:49:31,520
+slope a little bit of slope. So it's
+
+1167
+00:49:30,079 --> 00:49:33,280
+mostly up and down but like a little bit
+
+1168
+00:49:31,520 --> 00:49:36,319
+of slope and a little bit of like
+
+1169
+00:49:33,280 --> 00:49:38,319
+curvature like that.
+
+1170
+00:49:36,319 --> 00:49:39,760
+So like that that's that's that's the
+
+1171
+00:49:38,319 --> 00:49:42,800
+that's what this thing tells us is the
+
+1172
+00:49:39,760 --> 00:49:46,160
+dynamics of the curve.
+
+1173
+00:49:42,800 --> 00:49:47,760
+Um now
+
+1174
+00:49:46,160 --> 00:49:48,880
+some of these things are like super the
+
+1175
+00:49:47,760 --> 00:49:51,839
+structure of this thing actually tells
+
+1176
+00:49:48,880 --> 00:49:53,599
+you a lot. You can see how the the PC1
+
+1177
+00:49:51,839 --> 00:49:57,000
+level
+
+1178
+00:49:53,599 --> 00:49:57,000
+it like
+
+1179
+00:49:58,640 --> 00:50:02,960
+the the u the maturity at which it like
+
+1180
+00:50:00,800 --> 00:50:05,119
+it starts out steep upward sloping and
+
+1181
+00:50:02,960 --> 00:50:06,800
+then it levels out. The maturity at the
+
+1182
+00:50:05,119 --> 00:50:09,359
+maturity in years at which it levels
+
+1183
+00:50:06,800 --> 00:50:11,839
+out. I've plotted here what the maturity
+
+1184
+00:50:09,359 --> 00:50:13,440
+is at which it it kind of levels out
+
+1185
+00:50:11,839 --> 00:50:16,480
+where the short-term rate decoupled from
+
+1186
+00:50:13,440 --> 00:50:19,440
+long-term rates. And if you plot that in
+
+1187
+00:50:16,480 --> 00:50:23,280
+time in time series, you can kind of see
+
+1188
+00:50:19,440 --> 00:50:27,200
+that um it was
+
+1189
+00:50:23,280 --> 00:50:29,359
+very short like monetary policy was was
+
+1190
+00:50:27,200 --> 00:50:32,880
+basically only governing the short end
+
+1191
+00:50:29,359 --> 00:50:34,559
+of the curve up to two years up until
+
+1192
+00:50:32,880 --> 00:50:36,480
+right after the postfinancial crisis.
+
+1193
+00:50:34,559 --> 00:50:38,800
+And then the Fed became very very
+
+1194
+00:50:36,480 --> 00:50:41,520
+powerful. Post financial crisis the Fed
+
+1195
+00:50:38,800 --> 00:50:43,280
+said we're going to keep rates low for a
+
+1196
+00:50:41,520 --> 00:50:46,079
+very long time and all of a sudden this
+
+1197
+00:50:43,280 --> 00:50:49,040
+thing exploded. it became very very very
+
+1198
+00:50:46,079 --> 00:50:52,720
+high. So like basically um the short end
+
+1199
+00:50:49,040 --> 00:50:56,000
+rates were governing effectively the the
+
+1200
+00:50:52,720 --> 00:50:58,559
+the um rates up to up to four or five
+
+1201
+00:50:56,000 --> 00:51:01,359
+years and then up until co they started
+
+1202
+00:50:58,559 --> 00:51:03,280
+to decrease up until co happened. Fed
+
+1203
+00:51:01,359 --> 00:51:04,640
+came in and said we're going to bring
+
+1204
+00:51:03,280 --> 00:51:07,200
+the bazooka so we're going to
+
+1205
+00:51:04,640 --> 00:51:09,119
+everybody's like okay they're going to
+
+1206
+00:51:07,200 --> 00:51:11,920
+keep rates low for a long time as well.
+
+1207
+00:51:09,119 --> 00:51:15,359
+It exploded again and now it's back down
+
+1208
+00:51:11,920 --> 00:51:16,880
+again. So that is like that's that's
+
+1209
+00:51:15,359 --> 00:51:19,280
+already something that is kind of like a
+
+1210
+00:51:16,880 --> 00:51:20,880
+regime indicator. You can see how the
+
+1211
+00:51:19,280 --> 00:51:23,359
+market behavior is reflected in the
+
+1212
+00:51:20,880 --> 00:51:24,880
+shape of these PC factors.
+
+1213
+00:51:23,359 --> 00:51:26,240
+That tells you so much about what's
+
+1214
+00:51:24,880 --> 00:51:27,760
+going on in the market when you look at
+
+1215
+00:51:26,240 --> 00:51:29,920
+the these in the details of these
+
+1216
+00:51:27,760 --> 00:51:31,920
+factors.
+
+1217
+00:51:29,920 --> 00:51:34,800
+Something like
+
+1218
+00:51:31,920 --> 00:51:37,440
+where is the bottom of PC3 where is the
+
+1219
+00:51:34,800 --> 00:51:39,280
+belly you can see that sometimes is at
+
+1220
+00:51:37,440 --> 00:51:41,920
+at 10 years sometimes it becomes close
+
+1221
+00:51:39,280 --> 00:51:45,280
+to five sometimes close to 15. That's
+
+1222
+00:51:41,920 --> 00:51:47,680
+also a regime indicator
+
+1223
+00:51:45,280 --> 00:51:50,319
+PC loading stability. So here I'm taking
+
+1224
+00:51:47,680 --> 00:51:53,359
+this this graph PC1 graph but instead of
+
+1225
+00:51:50,319 --> 00:51:56,319
+plotting loading versus maturity I'm
+
+1226
+00:51:53,359 --> 00:52:00,160
+plotting loading versus time and each
+
+1227
+00:51:56,319 --> 00:52:01,839
+maturity point is line.
+
+1228
+00:52:00,160 --> 00:52:03,920
+So that tells me the stability of my
+
+1229
+00:52:01,839 --> 00:52:05,920
+loadings. you generally you want to look
+
+1230
+00:52:03,920 --> 00:52:08,319
+at that because you want you want
+
+1231
+00:52:05,920 --> 00:52:10,880
+factors that are stable
+
+1232
+00:52:08,319 --> 00:52:14,480
+and PC1 loadings are are pretty stable
+
+1233
+00:52:10,880 --> 00:52:17,440
+but these and the fact where the changes
+
+1234
+00:52:14,480 --> 00:52:18,800
+in PC1 loadings they're very often like
+
+1235
+00:52:17,440 --> 00:52:22,160
+they're quite meaningful like you can
+
+1236
+00:52:18,800 --> 00:52:23,920
+2008 crisis two-year rate this blue line
+
+1237
+00:52:22,160 --> 00:52:25,520
+is a two-year rate the short end the
+
+1238
+00:52:23,920 --> 00:52:26,800
+short end becomes very volatile nobody
+
+1239
+00:52:25,520 --> 00:52:28,800
+knows what the Fed is going to do
+
+1240
+00:52:26,800 --> 00:52:32,319
+there's a lot of volatility and then
+
+1241
+00:52:28,800 --> 00:52:34,559
+collapses post 2012 like the Fed is not
+
+1242
+00:52:32,319 --> 00:52:36,319
+doing anything. So the to your point is
+
+1243
+00:52:34,559 --> 00:52:37,839
+not moving.
+
+1244
+00:52:36,319 --> 00:52:40,319
+Then it goes up. Maybe the Fed is going
+
+1245
+00:52:37,839 --> 00:52:41,920
+to move. And then after CO it also
+
+1246
+00:52:40,319 --> 00:52:43,520
+collapses
+
+1247
+00:52:41,920 --> 00:52:45,920
+and now it's back up again. The Fed is
+
+1248
+00:52:43,520 --> 00:52:48,880
+very active right now. This this ends in
+
+1249
+00:52:45,920 --> 00:52:50,240
+like 2023 this data set. If I make it a
+
+1250
+00:52:48,880 --> 00:52:52,800
+little bit longer, you see this line
+
+1251
+00:52:50,240 --> 00:52:55,800
+actually went very high in the recent
+
+1252
+00:52:52,800 --> 00:52:55,800
+history.
+
+1253
+00:52:56,240 --> 00:53:01,119
+So all of that is um these things are
+
+1254
+00:52:58,880 --> 00:53:03,359
+like they're they're
+
+1255
+00:53:01,119 --> 00:53:05,760
+they all come from this data but they're
+
+1256
+00:53:03,359 --> 00:53:08,240
+they tell you they they they tell you a
+
+1257
+00:53:05,760 --> 00:53:10,319
+lot about the behavior the regime and
+
+1258
+00:53:08,240 --> 00:53:12,559
+the uh dynamics of of interest rate
+
+1259
+00:53:10,319 --> 00:53:14,800
+market.
+
+1260
+00:53:12,559 --> 00:53:16,800
+This is the variance explained. I think
+
+1261
+00:53:14,800 --> 00:53:19,520
+this is like this is a way remember how
+
+1262
+00:53:16,800 --> 00:53:22,960
+I was telling you how we look at values
+
+1263
+00:53:19,520 --> 00:53:25,440
+and we want to make sure that they're
+
+1264
+00:53:22,960 --> 00:53:28,000
+well segregated. Well, this is a good
+
+1265
+00:53:25,440 --> 00:53:29,680
+this is a way to look at it. If you look
+
+1266
+00:53:28,000 --> 00:53:31,520
+at this chart and the first factor
+
+1267
+00:53:29,680 --> 00:53:34,240
+explains so much variance, it's like
+
+1268
+00:53:31,520 --> 00:53:35,920
+yeah, that that's that's a good factor.
+
+1269
+00:53:34,240 --> 00:53:40,400
+That's a good factor to that like that's
+
+1270
+00:53:35,920 --> 00:53:41,920
+a solid factor and you can um you know
+
+1271
+00:53:40,400 --> 00:53:44,240
+that this thing is persistent. You're
+
+1272
+00:53:41,920 --> 00:53:46,240
+very this thing is likely to continue is
+
+1273
+00:53:44,240 --> 00:53:48,720
+likely to be stable and it's a good part
+
+1274
+00:53:46,240 --> 00:53:50,240
+of your model for the future. If you
+
+1275
+00:53:48,720 --> 00:53:52,400
+look at variance explained by factor,
+
+1276
+00:53:50,240 --> 00:53:54,240
+this is a log plot.
+
+1277
+00:53:52,400 --> 00:53:56,720
+You'll see that how the first and second
+
+1278
+00:53:54,240 --> 00:53:58,640
+and third factor are separated in like
+
+1279
+00:53:56,720 --> 00:54:01,359
+by order of magnitude. So they never
+
+1280
+00:53:58,640 --> 00:54:04,640
+cross. So that means that these factors
+
+1281
+00:54:01,359 --> 00:54:06,960
+are robust and
+
+1282
+00:54:04,640 --> 00:54:08,559
+they they are like yeah they're they're
+
+1283
+00:54:06,960 --> 00:54:10,480
+very useful modeling factors for
+
+1284
+00:54:08,559 --> 00:54:12,160
+modeling. You want to see this kind of
+
+1285
+00:54:10,480 --> 00:54:14,319
+picture. What you don't want to see is
+
+1286
+00:54:12,160 --> 00:54:15,520
+like lines that are all entangled up
+
+1287
+00:54:14,319 --> 00:54:16,960
+with each other. That's you don't want
+
+1288
+00:54:15,520 --> 00:54:18,559
+to see that. You want to see something
+
+1289
+00:54:16,960 --> 00:54:20,800
+like this in general when you're looking
+
+1290
+00:54:18,559 --> 00:54:22,480
+at PCA.
+
+1291
+00:54:20,800 --> 00:54:26,359
+Again this is these are values I'm
+
+1292
+00:54:22,480 --> 00:54:26,359
+looking at variance explained
+
+1293
+00:54:26,720 --> 00:54:31,280
+um
+
+1294
+00:54:29,200 --> 00:54:34,960
+and this out of sample coariance is like
+
+1295
+00:54:31,280 --> 00:54:38,400
+when I'm this is basically when I when I
+
+1296
+00:54:34,960 --> 00:54:40,559
+calibrate my PCA remember my my in my if
+
+1297
+00:54:38,400 --> 00:54:45,520
+I take a single data set however I
+
+1298
+00:54:40,559 --> 00:54:48,880
+choose it and I do run my PCA the PC1
+
+1299
+00:54:45,520 --> 00:54:50,559
+projections and the PC2 projections
+
+1300
+00:54:48,880 --> 00:54:53,200
+are going to be uncorrelated with each
+
+1301
+00:54:50,559 --> 00:54:56,480
+other by construction. But if I take the
+
+1302
+00:54:53,200 --> 00:54:59,280
+same loadings now and I look at the
+
+1303
+00:54:56,480 --> 00:55:02,000
+future returns,
+
+1304
+00:54:59,280 --> 00:55:03,920
+there is nothing that says that
+
+1305
+00:55:02,000 --> 00:55:05,920
+um if I project my future data, future
+
+1306
+00:55:03,920 --> 00:55:07,280
+returns onto the same loadings, those
+
+1307
+00:55:05,920 --> 00:55:09,760
+might not might actually become
+
+1308
+00:55:07,280 --> 00:55:11,520
+correlated.
+
+1309
+00:55:09,760 --> 00:55:13,599
+So here I'm computing like kind of
+
+1310
+00:55:11,520 --> 00:55:16,400
+future returns
+
+1311
+00:55:13,599 --> 00:55:20,160
+projected onto PC factors using that are
+
+1312
+00:55:16,400 --> 00:55:22,400
+calibrated on like past past history and
+
+1313
+00:55:20,160 --> 00:55:24,720
+and you see that it's not they're not
+
+1314
+00:55:22,400 --> 00:55:27,440
+fully orthogonal. However, they're quite
+
+1315
+00:55:24,720 --> 00:55:30,160
+orthogonal. So it means that like the
+
+1316
+00:55:27,440 --> 00:55:32,559
+dynamics are mostly preserved.
+
+1317
+00:55:30,160 --> 00:55:35,040
+They're the loading the PC factors are
+
+1318
+00:55:32,559 --> 00:55:36,319
+mostly stable. This is not like this is
+
+1319
+00:55:35,040 --> 00:55:38,160
+something you would expect you would
+
+1320
+00:55:36,319 --> 00:55:39,359
+hope to see. You don't want to see you
+
+1321
+00:55:38,160 --> 00:55:41,599
+don't want to see these numbers off
+
+1322
+00:55:39,359 --> 00:55:42,800
+diagonal numbers to become like 30 50%
+
+1323
+00:55:41,599 --> 00:55:46,160
+that will be like that means that your
+
+1324
+00:55:42,800 --> 00:55:48,640
+PCI model is quite unstable but if it's
+
+1325
+00:55:46,160 --> 00:55:50,400
+like if if your our sample correlation
+
+1326
+00:55:48,640 --> 00:55:53,400
+is is pretty small that's that's a good
+
+1327
+00:55:50,400 --> 00:55:53,400
+thing
+
+1328
+00:55:53,839 --> 00:55:59,200
+and
+
+1329
+00:55:55,680 --> 00:56:02,960
+now what do we do with this PCA
+
+1330
+00:55:59,200 --> 00:56:05,280
+well one of the key things is like okay
+
+1331
+00:56:02,960 --> 00:56:09,040
+I want to go back to this slide for one
+
+1332
+00:56:05,280 --> 00:56:12,000
+reason suppose you say, well, I really I
+
+1333
+00:56:09,040 --> 00:56:14,880
+want to bet on curve. I want to bet on
+
+1334
+00:56:12,000 --> 00:56:16,160
+the second factor or I have a model that
+
+1335
+00:56:14,880 --> 00:56:18,400
+on that I want to bet on like curve
+
+1336
+00:56:16,160 --> 00:56:20,480
+stippling or relative value of 10ear
+
+1337
+00:56:18,400 --> 00:56:23,359
+bonds versus fiveyear bonds or 30-year
+
+1338
+00:56:20,480 --> 00:56:25,920
+bonds versus 10ear bonds.
+
+1339
+00:56:23,359 --> 00:56:28,559
+I can use PCA to isolate effects that
+
+1340
+00:56:25,920 --> 00:56:31,440
+are idiosyncratic to particular points
+
+1341
+00:56:28,559 --> 00:56:34,160
+on the curve to particular factors. And
+
+1342
+00:56:31,440 --> 00:56:37,200
+I can basically say well if I if I hedge
+
+1343
+00:56:34,160 --> 00:56:40,000
+out the vast majority of the variance by
+
+1344
+00:56:37,200 --> 00:56:43,520
+hedging out PC1
+
+1345
+00:56:40,000 --> 00:56:46,640
+and I look at like the residual PC1
+
+1346
+00:56:43,520 --> 00:56:50,640
+residuals which is PC2 and above. What
+
+1347
+00:56:46,640 --> 00:56:53,520
+can I say about those uh about those
+
+1348
+00:56:50,640 --> 00:56:55,760
+returns? How can I model those and how
+
+1349
+00:56:53,520 --> 00:56:56,799
+do I and the key thing you can you can
+
+1350
+00:56:55,760 --> 00:56:58,880
+construct these things. You can say,
+
+1351
+00:56:56,799 --> 00:57:01,359
+"Oh, I want to model these things." But
+
+1352
+00:56:58,880 --> 00:57:02,640
+the key is how do if once you once you
+
+1353
+00:57:01,359 --> 00:57:05,920
+have a good model, how do you trade
+
+1354
+00:57:02,640 --> 00:57:08,160
+them? So being able to construct P to
+
+1355
+00:57:05,920 --> 00:57:09,760
+understand how PC loadings translate to
+
+1356
+00:57:08,160 --> 00:57:12,240
+portfolios is very important because it
+
+1357
+00:57:09,760 --> 00:57:15,440
+it tells you how I can use this
+
+1358
+00:57:12,240 --> 00:57:17,760
+methodology to construct specific
+
+1359
+00:57:15,440 --> 00:57:20,880
+portfolios that are uncorrelated to each
+
+1360
+00:57:17,760 --> 00:57:24,559
+other and
+
+1361
+00:57:20,880 --> 00:57:27,599
+um and give me like a new a new a new
+
+1362
+00:57:24,559 --> 00:57:30,319
+kind of target to model.
+
+1363
+00:57:27,599 --> 00:57:32,640
+If you if I didn't do that, I have I
+
+1364
+00:57:30,319 --> 00:57:34,160
+still have like eight things I can trade
+
+1365
+00:57:32,640 --> 00:57:36,079
+or six things. Two year, three year,
+
+1366
+00:57:34,160 --> 00:57:38,240
+five year, 10 year, and 30-year bonds,
+
+1367
+00:57:36,079 --> 00:57:40,000
+but they're so correlated where I'm
+
+1368
+00:57:38,240 --> 00:57:42,079
+trading 10-year bond or 30-year bond.
+
+1369
+00:57:40,000 --> 00:57:43,839
+Like, if I just trade 10-year bond
+
+1370
+00:57:42,079 --> 00:57:46,640
+outright or 30-year bond outright, I'm
+
+1371
+00:57:43,839 --> 00:57:48,720
+mostly getting the same return. So to be
+
+1372
+00:57:46,640 --> 00:57:51,440
+able to increase the diversity of what
+
+1373
+00:57:48,720 --> 00:57:54,160
+I'm of the target I'm capturing, I'm
+
+1374
+00:57:51,440 --> 00:57:55,680
+using PCA to construct more portfolios
+
+1375
+00:57:54,160 --> 00:57:57,200
+that are going to be uncorrelated and
+
+1376
+00:57:55,680 --> 00:57:59,599
+present me with more opportunities to
+
+1377
+00:57:57,200 --> 00:58:01,760
+model to make bets.
+
+1378
+00:57:59,599 --> 00:58:04,000
+That's like that's a key use case for
+
+1379
+00:58:01,760 --> 00:58:06,079
+PCA finance. Like we take these things
+
+1380
+00:58:04,000 --> 00:58:08,960
+that are very highly correlated and now
+
+1381
+00:58:06,079 --> 00:58:10,640
+I'm going to create out of these six
+
+1382
+00:58:08,960 --> 00:58:12,960
+highly correlated portfolios, I'm going
+
+1383
+00:58:10,640 --> 00:58:16,079
+to create three or four portfolios that
+
+1384
+00:58:12,960 --> 00:58:17,920
+are not highly correlated.
+
+1385
+00:58:16,079 --> 00:58:19,520
+What are like and these portfolios are
+
+1386
+00:58:17,920 --> 00:58:22,400
+going to be my PCA are going to be
+
+1387
+00:58:19,520 --> 00:58:25,200
+defined by my PCA factors.
+
+1388
+00:58:22,400 --> 00:58:27,520
+So remember the factors
+
+1389
+00:58:25,200 --> 00:58:30,799
+on any given day they give me a loading
+
+1390
+00:58:27,520 --> 00:58:32,640
+on every tenor on every maturity.
+
+1391
+00:58:30,799 --> 00:58:34,319
+Yeah. Did you have a question? Okay.
+
+1392
+00:58:32,640 --> 00:58:37,359
+Yeah. They gave me a loading on every
+
+1393
+00:58:34,319 --> 00:58:40,160
+maturity. So it tells me and I I can
+
+1394
+00:58:37,359 --> 00:58:43,599
+think of this loading as telling me how
+
+1395
+00:58:40,160 --> 00:58:48,160
+much to own of this particular
+
+1396
+00:58:43,599 --> 00:58:50,880
+bond on on that maturity. So PC1 means
+
+1397
+00:58:48,160 --> 00:58:55,680
+buy every bond in some in some equal
+
+1398
+00:58:50,880 --> 00:58:57,920
+amount. That would be that's PC1. PC2
+
+1399
+00:58:55,680 --> 00:59:01,200
+is like oh you should like sell some
+
+1400
+00:58:57,920 --> 00:59:03,280
+two-year bonds, buy some 30-year bonds.
+
+1401
+00:59:01,200 --> 00:59:05,119
+Like basically the portfolio is going to
+
+1402
+00:59:03,280 --> 00:59:06,799
+be
+
+1403
+00:59:05,119 --> 00:59:09,680
+the portfolio is going to be defined
+
+1404
+00:59:06,799 --> 00:59:13,119
+like you're going to you're going to
+
+1405
+00:59:09,680 --> 00:59:18,079
+basically buy bonds according to the
+
+1406
+00:59:13,119 --> 00:59:20,000
+loading on every on every point on PC2.
+
+1407
+00:59:18,079 --> 00:59:22,720
+Why is this portfolio interesting? Well,
+
+1408
+00:59:20,000 --> 00:59:24,480
+it's interesting because PCA tells us
+
+1409
+00:59:22,720 --> 00:59:26,880
+that if I construct this portfolio like
+
+1410
+00:59:24,480 --> 00:59:28,880
+this, it would have no sensitivity to
+
+1411
+00:59:26,880 --> 00:59:32,319
+PC1.
+
+1412
+00:59:28,880 --> 00:59:34,000
+But PC1 is like 90% of my variance. So
+
+1413
+00:59:32,319 --> 00:59:37,359
+that means that by if I construct the
+
+1414
+00:59:34,000 --> 00:59:40,640
+PC2 portfolio, I have effectively hedged
+
+1415
+00:59:37,359 --> 00:59:42,400
+out 90% of the variance of individual
+
+1416
+00:59:40,640 --> 00:59:45,280
+bonds and I've constructed something
+
+1417
+00:59:42,400 --> 00:59:48,960
+that's new, less volatile,
+
+1418
+00:59:45,280 --> 00:59:51,920
+but uncorrelated to my original like
+
+1419
+00:59:48,960 --> 00:59:54,640
+outright tenure bond.
+
+1420
+00:59:51,920 --> 00:59:56,400
+Same thing with PC3. I can construct and
+
+1421
+00:59:54,640 --> 00:59:58,640
+I can construct like these PC3
+
+1422
+00:59:56,400 --> 01:00:00,319
+portfolios that are like and these by
+
+1423
+00:59:58,640 --> 01:00:01,520
+the way these things actually trade in
+
+1424
+01:00:00,319 --> 01:00:04,000
+the market. They're they're they're
+
+1425
+01:00:01,520 --> 01:00:07,520
+called like curves PC2 things are like
+
+1426
+01:00:04,000 --> 01:00:10,319
+they're curves like you you buy two year
+
+1427
+01:00:07,520 --> 01:00:13,280
+you sell 10 year vice versa and then and
+
+1428
+01:00:10,319 --> 01:00:15,280
+there's flies which are like 10 and 30s
+
+1429
+01:00:13,280 --> 01:00:18,079
+where you sell 10 year and you buy two
+
+1430
+01:00:15,280 --> 01:00:20,160
+year and 30 year. Yes. Is there any
+
+1431
+01:00:18,079 --> 01:00:21,760
+application of the higher order PCs or
+
+1432
+01:00:20,160 --> 01:00:22,960
+are they just they explain such little
+
+1433
+01:00:21,760 --> 01:00:23,520
+variance that you don't really bother
+
+1434
+01:00:22,960 --> 01:00:25,280
+with?
+
+1435
+01:00:23,520 --> 01:00:26,960
+>> They are the most interesting thing
+
+1436
+01:00:25,280 --> 01:00:30,240
+because
+
+1437
+01:00:26,960 --> 01:00:32,640
+the PC1 stuff is easy to bet on like you
+
+1438
+01:00:30,240 --> 01:00:34,720
+just bite your bond buy and sell. If you
+
+1439
+01:00:32,640 --> 01:00:37,280
+can model that and predict it that's
+
+1440
+01:00:34,720 --> 01:00:41,040
+awesome
+
+1441
+01:00:37,280 --> 01:00:42,559
+but like first that's hard but also it's
+
+1442
+01:00:41,040 --> 01:00:45,200
+only one thing you can predict whether
+
+1443
+01:00:42,559 --> 01:00:46,559
+are you doing 10 year or 30 years you're
+
+1444
+01:00:45,200 --> 01:00:49,680
+predicting only one thing. So you can
+
+1445
+01:00:46,559 --> 01:00:51,760
+make a model for that.
+
+1446
+01:00:49,680 --> 01:00:54,640
+Being able to construct these portfolios
+
+1447
+01:00:51,760 --> 01:00:56,319
+PC2 and three, you're able to create out
+
+1448
+01:00:54,640 --> 01:00:58,400
+of these
+
+1449
+01:00:56,319 --> 01:00:59,599
+out of these like out of these bounds
+
+1450
+01:00:58,400 --> 01:01:01,440
+that are highly correlated, you're able
+
+1451
+01:00:59,599 --> 01:01:03,680
+to create something that is entirely
+
+1452
+01:01:01,440 --> 01:01:05,920
+different from from the PC1
+
+1453
+01:01:03,680 --> 01:01:08,799
+uncorrelated. So now you have something
+
+1454
+01:01:05,920 --> 01:01:11,680
+else that you can model and you can and
+
+1455
+01:01:08,799 --> 01:01:14,160
+because of the market is so the market
+
+1456
+01:01:11,680 --> 01:01:16,160
+is is liquid. It needs to be very liquid
+
+1457
+01:01:14,160 --> 01:01:17,920
+because remember this it doesn't explain
+
+1458
+01:01:16,160 --> 01:01:20,240
+a lot of variance. So if you construct
+
+1459
+01:01:17,920 --> 01:01:22,240
+this thing it's not going to move much.
+
+1460
+01:01:20,240 --> 01:01:25,520
+But all that means is I just need to buy
+
+1461
+01:01:22,240 --> 01:01:28,079
+more of it. If I buy enough of it even
+
+1462
+01:01:25,520 --> 01:01:29,520
+though a single unit might not move much
+
+1463
+01:01:28,079 --> 01:01:31,599
+when I buy enough of it is still going
+
+1464
+01:01:29,520 --> 01:01:34,160
+to move enough. And that's the point of
+
+1465
+01:01:31,599 --> 01:01:36,559
+leverage. So if I sell a bunch of
+
+1466
+01:01:34,160 --> 01:01:38,079
+two-year bond, buy a bunch of 30-year
+
+1467
+01:01:36,559 --> 01:01:39,760
+bond.
+
+1468
+01:01:38,079 --> 01:01:41,599
+Now,
+
+1469
+01:01:39,760 --> 01:01:44,640
+if I buy the same notional, buy and sell
+
+1470
+01:01:41,599 --> 01:01:46,720
+the same notionals as as the PC1, it's
+
+1471
+01:01:44,640 --> 01:01:48,960
+not going to, like you said, it's not
+
+1472
+01:01:46,720 --> 01:01:50,799
+going to move very much. Maybe it's
+
+1473
+01:01:48,960 --> 01:01:55,280
+going to move like only one/ird as much
+
+1474
+01:01:50,799 --> 01:01:58,960
+as my PC1 portfolio. But if I scale it
+
+1475
+01:01:55,280 --> 01:02:02,079
+up by by three by by a factor of three,
+
+1476
+01:01:58,960 --> 01:02:03,920
+now my new portfolio PC2 has the same
+
+1477
+01:02:02,079 --> 01:02:05,440
+daily standard deviation as my PC1
+
+1478
+01:02:03,920 --> 01:02:08,160
+portfolio
+
+1479
+01:02:05,440 --> 01:02:09,760
+and it's orthogonal. So you just need
+
+1480
+01:02:08,160 --> 01:02:11,520
+basically so what did I need to do that?
+
+1481
+01:02:09,760 --> 01:02:13,520
+I need to be able to buy three times as
+
+1482
+01:02:11,520 --> 01:02:15,119
+much. So it needs the market needs to be
+
+1483
+01:02:13,520 --> 01:02:18,400
+liquid. I need to have access to
+
+1484
+01:02:15,119 --> 01:02:20,799
+leverage. You can do the same with PC3.
+
+1485
+01:02:18,400 --> 01:02:22,559
+And yes, in in the in the big liquid
+
+1486
+01:02:20,799 --> 01:02:24,480
+markets like US Treasury, there is
+
+1487
+01:02:22,559 --> 01:02:26,799
+enough access for to leverage where you
+
+1488
+01:02:24,480 --> 01:02:28,559
+can actually do that. You'll see a lot
+
+1489
+01:02:26,799 --> 01:02:31,040
+of times in the press, it's a very hot
+
+1490
+01:02:28,559 --> 01:02:32,559
+topic now. the CFTC is trying to
+
+1491
+01:02:31,040 --> 01:02:34,559
+regulate like how much leverage exists
+
+1492
+01:02:32,559 --> 01:02:37,839
+in the financial markets especially in
+
+1493
+01:02:34,559 --> 01:02:39,599
+interest rates because because of this
+
+1494
+01:02:37,839 --> 01:02:41,599
+because of the fact that PC1 is so
+
+1495
+01:02:39,599 --> 01:02:44,240
+explained so much people use massive
+
+1496
+01:02:41,599 --> 01:02:46,720
+amounts of leverage to gain access to to
+
+1497
+01:02:44,240 --> 01:02:51,680
+basically enough volatility to make
+
+1498
+01:02:46,720 --> 01:02:53,440
+these bets on on PC2 and three and um
+
+1499
+01:02:51,680 --> 01:02:55,760
+that can create that means you own large
+
+1500
+01:02:53,440 --> 01:02:58,559
+amount you own long and short massive
+
+1501
+01:02:55,760 --> 01:03:00,400
+amounts of certain bonds that can be
+
+1502
+01:02:58,559 --> 01:03:02,079
+dangerous if it's systemic in a certain
+
+1503
+01:03:00,400 --> 01:03:04,799
+way and like this presents risk but it's
+
+1504
+01:03:02,079 --> 01:03:07,440
+also but it's definitely it's doable
+
+1505
+01:03:04,799 --> 01:03:09,520
+because there is so much debt there's so
+
+1506
+01:03:07,440 --> 01:03:12,880
+much debt in the world that there is
+
+1507
+01:03:09,520 --> 01:03:14,960
+enough out there where you can where you
+
+1508
+01:03:12,880 --> 01:03:16,880
+can bet um you can gain this leverage
+
+1509
+01:03:14,960 --> 01:03:20,799
+basically and it's it's very accessible
+
+1510
+01:03:16,880 --> 01:03:23,839
+to professional investors
+
+1511
+01:03:20,799 --> 01:03:26,799
+so yeah the actually the the far from
+
+1512
+01:03:23,839 --> 01:03:28,799
+far from it being irrelevant like that
+
+1513
+01:03:26,799 --> 01:03:32,079
+is actually where a lot of times the
+
+1514
+01:03:28,799 --> 01:03:34,319
+money is made but like it is true that
+
+1515
+01:03:32,079 --> 01:03:36,720
+as you go why can't we go to PC4 and
+
+1516
+01:03:34,319 --> 01:03:38,960
+five the amount of leverage you need to
+
+1517
+01:03:36,720 --> 01:03:41,680
+make this work is become so high it
+
+1518
+01:03:38,960 --> 01:03:43,440
+becomes really expensive to trade
+
+1519
+01:03:41,680 --> 01:03:45,760
+>> yes
+
+1520
+01:03:43,440 --> 01:03:48,079
+that's like as you said before that this
+
+1521
+01:03:45,760 --> 01:03:50,160
+is this allows you where allowing you to
+
+1522
+01:03:48,079 --> 01:03:52,559
+kind of scale it up to get the
+
+1523
+01:03:50,160 --> 01:03:55,680
+volatility that you need is only is
+
+1524
+01:03:52,559 --> 01:03:59,119
+useful for like the fixed income because
+
+1525
+01:03:55,680 --> 01:04:01,599
+it's more like liquid than like if buy
+
+1526
+01:03:59,119 --> 01:04:03,200
+the same thing like equities for example
+
+1527
+01:04:01,599 --> 01:04:05,599
+like since it's not as likely you
+
+1528
+01:04:03,200 --> 01:04:09,839
+couldn't get like if you were to buy
+
+1529
+01:04:05,599 --> 01:04:13,920
+that many of whatever um security cost
+
+1530
+01:04:09,839 --> 01:04:16,640
+too much of a shift or stuff like that.
+
+1531
+01:04:13,920 --> 01:04:21,359
+>> Well
+
+1532
+01:04:16,640 --> 01:04:23,680
+it turns out that it's not that is not
+
+1533
+01:04:21,359 --> 01:04:25,440
+it's it's not actually it's not really
+
+1534
+01:04:23,680 --> 01:04:28,160
+true what you say and and the re the
+
+1535
+01:04:25,440 --> 01:04:30,240
+reason is the following. Yeah, the
+
+1536
+01:04:28,160 --> 01:04:32,000
+volumes in notional volumes of equity
+
+1537
+01:04:30,240 --> 01:04:35,119
+market may be a little bit smaller.
+
+1538
+01:04:32,000 --> 01:04:36,400
+They're still very large and the
+
+1539
+01:04:35,119 --> 01:04:37,920
+variance explained of the first
+
+1540
+01:04:36,400 --> 01:04:40,960
+principal component in equities is not
+
+1541
+01:04:37,920 --> 01:04:43,280
+nearly as high as it is in rates. So you
+
+1542
+01:04:40,960 --> 01:04:44,880
+don't need as much leverage to get like
+
+1543
+01:04:43,280 --> 01:04:46,880
+the second principal components got a
+
+1544
+01:04:44,880 --> 01:04:50,799
+lot of volatility a lot more relative to
+
+1545
+01:04:46,880 --> 01:04:52,799
+the first than in in this example here
+
+1546
+01:04:50,799 --> 01:04:54,240
+later in the slides which I think we
+
+1547
+01:04:52,799 --> 01:04:57,119
+might not get to. There's also an
+
+1548
+01:04:54,240 --> 01:04:59,760
+example with equity indices in Europe.
+
+1549
+01:04:57,119 --> 01:05:01,280
+The same concept there. And by the way,
+
+1550
+01:04:59,760 --> 01:05:03,119
+a lot of equity, there's a whole field
+
+1551
+01:05:01,280 --> 01:05:05,599
+of hedge funds called equities that are
+
+1552
+01:05:03,119 --> 01:05:08,799
+equity long short neutral. They are
+
+1553
+01:05:05,599 --> 01:05:11,200
+basically betting on equities without
+
+1554
+01:05:08,799 --> 01:05:12,799
+taking directional risk. So everybody is
+
+1555
+01:05:11,200 --> 01:05:15,680
+trying those all these guys are hedging
+
+1556
+01:05:12,799 --> 01:05:18,160
+out PC1. They're taking leverage. It
+
+1557
+01:05:15,680 --> 01:05:19,839
+exists. It it's just a little more
+
+1558
+01:05:18,160 --> 01:05:21,039
+expensive to trade, but it gives you
+
+1559
+01:05:19,839 --> 01:05:23,839
+opportunities that you wouldn't be able
+
+1560
+01:05:21,039 --> 01:05:25,359
+to access otherwise. Yeah.
+
+1561
+01:05:23,839 --> 01:05:26,960
+>> Yes.
+
+1562
+01:05:25,359 --> 01:05:28,079
+>> I was curious for like some big
+
+1563
+01:05:26,960 --> 01:05:31,440
+statement products, especially ones that
+
+1564
+01:05:28,079 --> 01:05:33,760
+are more liquid, they might trade like
+
+1565
+01:05:31,440 --> 01:05:37,440
+one rarely and two around specific
+
+1566
+01:05:33,760 --> 01:05:40,319
+events. So like the prices that you see
+
+1567
+01:05:37,440 --> 01:05:43,359
+are necessarily indicative of how the
+
+1568
+01:05:40,319 --> 01:05:46,240
+prices would have traded like a day or
+
+1569
+01:05:43,359 --> 01:05:50,799
+two before that. in how do you think
+
+1570
+01:05:46,240 --> 01:05:53,440
+about like how um to like I guess clean
+
+1571
+01:05:50,799 --> 01:05:55,119
+data in a way or like understand that
+
+1572
+01:05:53,440 --> 01:05:57,359
+there's a lot of idiosyncratic factors
+
+1573
+01:05:55,119 --> 01:05:59,680
+that go on with fixing a product
+
+1574
+01:05:57,359 --> 01:06:02,960
+especially ones that are more
+
+1575
+01:05:59,680 --> 01:06:05,760
+>> yeah um it's a great question there's a
+
+1576
+01:06:02,960 --> 01:06:09,119
+lot of art that goes a lot of like
+
+1577
+01:06:05,760 --> 01:06:11,760
+domain knowledge that goes into that in
+
+1578
+01:06:09,119 --> 01:06:14,319
+this example with bonds
+
+1579
+01:06:11,760 --> 01:06:18,400
+um yeah there is certainly events
+
+1580
+01:06:14,319 --> 01:06:20,960
+that where the market is very volatile
+
+1581
+01:06:18,400 --> 01:06:23,280
+and
+
+1582
+01:06:20,960 --> 01:06:25,440
+when we when we look at daily returns if
+
+1583
+01:06:23,280 --> 01:06:26,799
+I look at like 10 years of daily returns
+
+1584
+01:06:25,440 --> 01:06:28,640
+and I'm going to estimate like a
+
+1585
+01:06:26,799 --> 01:06:32,400
+standard deviation
+
+1586
+01:06:28,640 --> 01:06:37,760
+and I'm going to say well on average
+
+1587
+01:06:32,400 --> 01:06:39,839
+the I could on average yields move by I
+
+1588
+01:06:37,760 --> 01:06:41,520
+don't know five to six basis points per
+
+1589
+01:06:39,839 --> 01:06:44,480
+day something but which is that's
+
+1590
+01:06:41,520 --> 01:06:48,000
+roughly how much they
+
+1591
+01:06:44,480 --> 01:06:49,680
+But and then I say like well if I'm
+
+1592
+01:06:48,000 --> 01:06:53,359
+sitting there and tomorrow is like there
+
+1593
+01:06:49,680 --> 01:06:57,119
+wasn't this example in in August that
+
+1594
+01:06:53,359 --> 01:06:59,920
+there was a huge huge like
+
+1595
+01:06:57,119 --> 01:07:02,160
+um you know there was a huge number that
+
+1596
+01:06:59,920 --> 01:07:06,640
+comes out a huge print that was related
+
+1597
+01:07:02,160 --> 01:07:09,359
+to um to inflation and
+
+1598
+01:07:06,640 --> 01:07:11,119
+in on that day if you look at the the
+
+1599
+01:07:09,359 --> 01:07:13,280
+price of the day before versus the price
+
+1600
+01:07:11,119 --> 01:07:15,359
+after that announcement And the
+
+1601
+01:07:13,280 --> 01:07:18,400
+volatility that people expected on this
+
+1602
+01:07:15,359 --> 01:07:20,640
+on this day was probably twice as high.
+
+1603
+01:07:18,400 --> 01:07:22,000
+So people expected the daily the
+
+1604
+01:07:20,640 --> 01:07:24,319
+standard deviation of daily move that
+
+1605
+01:07:22,000 --> 01:07:27,359
+was priced in was probably like 10 to 12
+
+1606
+01:07:24,319 --> 01:07:28,960
+basis points per day.
+
+1607
+01:07:27,359 --> 01:07:30,640
+Okay.
+
+1608
+01:07:28,960 --> 01:07:32,960
+What does that does that mean that all
+
+1609
+01:07:30,640 --> 01:07:34,880
+this is irrelevant? No, it's not. It
+
+1610
+01:07:32,960 --> 01:07:37,599
+just means that when you're thinking
+
+1611
+01:07:34,880 --> 01:07:39,680
+about the risk you're taking, you have
+
+1612
+01:07:37,599 --> 01:07:42,319
+to understand that if you take a certain
+
+1613
+01:07:39,680 --> 01:07:44,559
+amount of for the same notional same
+
+1614
+01:07:42,319 --> 01:07:47,680
+number of bonds or the same number of
+
+1615
+01:07:44,559 --> 01:07:49,359
+like the same investment that you hold,
+
+1616
+01:07:47,680 --> 01:07:50,960
+if you hold it on that kind of a day,
+
+1617
+01:07:49,359 --> 01:07:52,480
+you would just have a lot more risk. So
+
+1618
+01:07:50,960 --> 01:07:54,240
+if you're when you're doing your risk
+
+1619
+01:07:52,480 --> 01:07:56,240
+management, you have to account for
+
+1620
+01:07:54,240 --> 01:07:57,520
+that. Do you want to do that? Do you
+
+1621
+01:07:56,240 --> 01:07:59,599
+want to hold it? you may want to maybe
+
+1622
+01:07:57,520 --> 01:08:00,880
+shrink your position or if you have a
+
+1623
+01:07:59,599 --> 01:08:02,720
+view maybe you don't want to shrink your
+
+1624
+01:08:00,880 --> 01:08:04,720
+position like but that you have to just
+
+1625
+01:08:02,720 --> 01:08:07,680
+be aware of it the correlations are very
+
+1626
+01:08:04,720 --> 01:08:10,400
+likely to continue to hold sometimes
+
+1627
+01:08:07,680 --> 01:08:13,440
+things happen covid happens for example
+
+1628
+01:08:10,400 --> 01:08:15,599
+covid hit these loadings the curve the
+
+1629
+01:08:13,440 --> 01:08:18,000
+dynamics of the curve changed overnight
+
+1630
+01:08:15,599 --> 01:08:20,319
+like the PC loadings
+
+1631
+01:08:18,000 --> 01:08:22,480
+the that the way the curve started to
+
+1632
+01:08:20,319 --> 01:08:24,480
+behave like the central bank came there
+
+1633
+01:08:22,480 --> 01:08:27,359
+was an emergency cut and things changed
+
+1634
+01:08:24,480 --> 01:08:27,359
+like super quickly
+
+1635
+01:08:27,440 --> 01:08:31,279
+Being able to reflect that in your model
+
+1636
+01:08:29,520 --> 01:08:34,400
+is very important because now if you're
+
+1637
+01:08:31,279 --> 01:08:37,199
+trying to take a PC2 bet, but your PC
+
+1638
+01:08:34,400 --> 01:08:39,199
+loadings are not indicative of how the
+
+1639
+01:08:37,199 --> 01:08:42,719
+current dynamics are, you're going to be
+
+1640
+01:08:39,199 --> 01:08:44,400
+ending up taking like massive massive
+
+1641
+01:08:42,719 --> 01:08:46,080
+leverage, but you're not you're not
+
+1642
+01:08:44,400 --> 01:08:48,239
+really PC1 hedge. So all this leverage
+
+1643
+01:08:46,080 --> 01:08:50,799
+is going to produce huge amounts of
+
+1644
+01:08:48,239 --> 01:08:52,480
+returns and noise in your P&L.
+
+1645
+01:08:50,799 --> 01:08:54,960
+So that these are the practical
+
+1646
+01:08:52,480 --> 01:08:56,640
+questions of when that you face when
+
+1647
+01:08:54,960 --> 01:08:58,799
+you're actually doing this thing. How do
+
+1648
+01:08:56,640 --> 01:09:00,000
+you and remember you need history to
+
+1649
+01:08:58,799 --> 01:09:02,400
+train your model. So you're sitting
+
+1650
+01:09:00,000 --> 01:09:04,960
+there COVID happened. There was a big
+
+1651
+01:09:02,400 --> 01:09:08,400
+cut emergency cut in the central bank.
+
+1652
+01:09:04,960 --> 01:09:11,679
+They cut like 1% in one day and you know
+
+1653
+01:09:08,400 --> 01:09:14,319
+it's a new world but there is no data on
+
+1654
+01:09:11,679 --> 01:09:15,839
+how the new world is going to behave
+
+1655
+01:09:14,319 --> 01:09:17,359
+because it just happened two days ago.
+
+1656
+01:09:15,839 --> 01:09:19,440
+You don't have 10 years of history to
+
+1657
+01:09:17,359 --> 01:09:21,839
+calibrate your PCA model. So what are
+
+1658
+01:09:19,440 --> 01:09:23,359
+you going to do? And there's a lot of
+
+1659
+01:09:21,839 --> 01:09:24,880
+answers to that. You can look at implied
+
+1660
+01:09:23,359 --> 01:09:27,520
+markets. There's a lot of answers to
+
+1661
+01:09:24,880 --> 01:09:30,400
+that. But how you answer a question is
+
+1662
+01:09:27,520 --> 01:09:32,880
+going to is like that's critical. That's
+
+1663
+01:09:30,400 --> 01:09:35,120
+critical. Yeah.
+
+1664
+01:09:32,880 --> 01:09:37,600
+>> Can I follow up to that? Do you think
+
+1665
+01:09:35,120 --> 01:09:39,920
+like it's it's worth in some sense
+
+1666
+01:09:37,600 --> 01:09:43,600
+almost like slicing up your data into
+
+1667
+01:09:39,920 --> 01:09:45,359
+those pieces where you think um like
+
+1668
+01:09:43,600 --> 01:09:48,319
+things will behave in similar fashions
+
+1669
+01:09:45,359 --> 01:09:49,839
+and then like like I guess using or
+
+1670
+01:09:48,319 --> 01:09:51,600
+something some other model to better
+
+1671
+01:09:49,839 --> 01:09:54,640
+understand how they behave in those
+
+1672
+01:09:51,600 --> 01:09:56,159
+specific like regimes and times.
+
+1673
+01:09:54,640 --> 01:09:58,080
+>> Yeah. Yeah. That that's certainly a
+
+1674
+01:09:56,159 --> 01:10:00,960
+thing that that is that is a thing that
+
+1675
+01:09:58,080 --> 01:10:03,199
+you can do like regime specific. You can
+
+1676
+01:10:00,960 --> 01:10:05,040
+group together data that are specific to
+
+1677
+01:10:03,199 --> 01:10:06,880
+this regime like oh I'm going to look at
+
+1678
+01:10:05,040 --> 01:10:09,679
+right now the Fed is cutting rates. I'm
+
+1679
+01:10:06,880 --> 01:10:11,120
+going to model my curve behavior not by
+
+1680
+01:10:09,679 --> 01:10:14,480
+looking at the last five years of
+
+1681
+01:10:11,120 --> 01:10:16,480
+history but I'm going to look at like
+
+1682
+01:10:14,480 --> 01:10:18,560
+join together historical periods where
+
+1683
+01:10:16,480 --> 01:10:20,800
+rate Fed was cutting rates and just look
+
+1684
+01:10:18,560 --> 01:10:23,520
+at that like it's an approach and it's a
+
+1685
+01:10:20,800 --> 01:10:26,159
+sensible approach like for now when you
+
+1686
+01:10:23,520 --> 01:10:27,440
+do that you you're introducing other yes
+
+1687
+01:10:26,159 --> 01:10:29,440
+the Fed is cutting rates but there are
+
+1688
+01:10:27,440 --> 01:10:31,760
+other things that were not the same so
+
+1689
+01:10:29,440 --> 01:10:33,440
+there's no like perfect answer in that
+
+1690
+01:10:31,760 --> 01:10:34,960
+because again you're you're still trying
+
+1691
+01:10:33,440 --> 01:10:36,719
+to use the past to predict the future
+
+1692
+01:10:34,960 --> 01:10:38,320
+And
+
+1693
+01:10:36,719 --> 01:10:42,280
+there is no perfect answer but there
+
+1694
+01:10:38,320 --> 01:10:42,280
+there are many valid answers.
+
+1695
+01:10:44,480 --> 01:10:48,960
+Um
+
+1696
+01:10:46,480 --> 01:10:50,640
+yeah I I kind of wanted to like this is
+
+1697
+01:10:48,960 --> 01:10:53,520
+a description of how you construct these
+
+1698
+01:10:50,640 --> 01:10:55,679
+PC portfolios and PC residuals.
+
+1699
+01:10:53,520 --> 01:10:59,920
+We have like some of the pros and cons.
+
+1700
+01:10:55,679 --> 01:11:04,239
+I already talked about some of these
+
+1701
+01:10:59,920 --> 01:11:08,960
+and I kind of wanted to talk about
+
+1702
+01:11:04,239 --> 01:11:10,960
+this part of um the output of this. So
+
+1703
+01:11:08,960 --> 01:11:14,640
+here I've created like a little trading
+
+1704
+01:11:10,960 --> 01:11:18,800
+strategy based on the the recent the
+
+1705
+01:11:14,640 --> 01:11:23,280
+returns of um like basically a momentum
+
+1706
+01:11:18,800 --> 01:11:24,560
+mean reversion strategy for PC1 and and
+
+1707
+01:11:23,280 --> 01:11:26,000
+uh look to the performance. So it
+
+1708
+01:11:24,560 --> 01:11:27,920
+doesn't really work great, but it that's
+
+1709
+01:11:26,000 --> 01:11:30,080
+not the point. The point is that it's an
+
+1710
+01:11:27,920 --> 01:11:32,960
+illustration of how this works. All the
+
+1711
+01:11:30,080 --> 01:11:34,239
+code of how this was created and how you
+
+1712
+01:11:32,960 --> 01:11:36,719
+can calculate these things is part of
+
+1713
+01:11:34,239 --> 01:11:38,880
+that Jupyter notebook that is
+
+1714
+01:11:36,719 --> 01:11:41,280
+accompanying the slides that you can
+
+1715
+01:11:38,880 --> 01:11:44,159
+download and the data is there is in a
+
+1716
+01:11:41,280 --> 01:11:47,360
+CSV file which you can pull from the fed
+
+1717
+01:11:44,159 --> 01:11:50,640
+like an updated version of. So if you
+
+1718
+01:11:47,360 --> 01:11:52,480
+are interested in like doing a project
+
+1719
+01:11:50,640 --> 01:11:54,239
+there there's a lot of like a lot of
+
+1720
+01:11:52,480 --> 01:11:58,640
+standard like strategies that you can
+
+1721
+01:11:54,239 --> 01:12:01,120
+try for example to to write and and um
+
+1722
+01:11:58,640 --> 01:12:02,640
+and and to test out like it's not there
+
+1723
+01:12:01,120 --> 01:12:04,880
+not again the point is not to actually
+
+1724
+01:12:02,640 --> 01:12:07,920
+go and trade it but like to actually
+
+1725
+01:12:04,880 --> 01:12:09,520
+practice a little bit applying PCA to
+
+1726
+01:12:07,920 --> 01:12:12,320
+real data and there's not there's no
+
+1727
+01:12:09,520 --> 01:12:14,880
+substitute to actually doing it because
+
+1728
+01:12:12,320 --> 01:12:16,560
+you you see that in every single step
+
+1729
+01:12:14,880 --> 01:12:18,880
+there's choices to make there's little
+
+1730
+01:12:16,560 --> 01:12:22,239
+details and these details matter and
+
+1731
+01:12:18,880 --> 01:12:23,679
+being able to like to to to understand
+
+1732
+01:12:22,239 --> 01:12:26,320
+the pros and cons of each of these
+
+1733
+01:12:23,679 --> 01:12:28,719
+details. One lecture is like not enough
+
+1734
+01:12:26,320 --> 01:12:30,159
+to go over everything. I I've kind of
+
+1735
+01:12:28,719 --> 01:12:32,080
+wanted to give you a little taste of
+
+1736
+01:12:30,159 --> 01:12:34,159
+what it's like to to deal with this
+
+1737
+01:12:32,080 --> 01:12:37,600
+stuff, but it's a very powerful tool.
+
+1738
+01:12:34,159 --> 01:12:41,840
+It's used all around the street for for
+
+1739
+01:12:37,600 --> 01:12:44,080
+modeling of things like stocks and bonds
+
+1740
+01:12:41,840 --> 01:12:45,920
+and um
+
+1741
+01:12:44,080 --> 01:12:48,320
+it's a great thing to have in your
+
+1742
+01:12:45,920 --> 01:12:50,480
+toolkit as somebody who is like looking
+
+1743
+01:12:48,320 --> 01:12:53,480
+for a job in finance if you decide to do
+
+1744
+01:12:50,480 --> 01:12:53,480
+that.
+
+1745
+01:12:53,600 --> 01:12:57,679
+So I'm going to stop here down here like
+
+1746
+01:12:55,920 --> 01:13:00,000
+this. There is another example which is
+
+1747
+01:12:57,679 --> 01:13:02,480
+European stock market indices. Same
+
+1748
+01:13:00,000 --> 01:13:04,159
+thing tells you about the correlation,
+
+1749
+01:13:02,480 --> 01:13:07,440
+what the various principal components
+
+1750
+01:13:04,159 --> 01:13:09,600
+are, what they mean and and tells you
+
+1751
+01:13:07,440 --> 01:13:12,320
+about the strategy. So there's like
+
+1752
+01:13:09,600 --> 01:13:13,920
+there's two examples in the slides. We
+
+1753
+01:13:12,320 --> 01:13:16,400
+don't need to go through both of them. I
+
+1754
+01:13:13,920 --> 01:13:20,719
+think I know that in five minutes you
+
+1755
+01:13:16,400 --> 01:13:24,880
+kind of have to leave. So I I wanted to
+
+1756
+01:13:20,719 --> 01:13:26,960
+give a little bit of time for questions
+
+1757
+01:13:24,880 --> 01:13:30,960
+and and for discussion. I thank you so
+
+1758
+01:13:26,960 --> 01:13:34,400
+much for being so active and
+
+1759
+01:13:30,960 --> 01:13:35,920
+interactive rather. You guys have you
+
+1760
+01:13:34,400 --> 01:13:39,760
+guys have asked more questions in this
+
+1761
+01:13:35,920 --> 01:13:41,520
+class than than it's like definitely top
+
+1762
+01:13:39,760 --> 01:13:44,239
+one of the top like question asking
+
+1763
+01:13:41,520 --> 01:13:47,199
+classes in in my in my experience doing
+
+1764
+01:13:44,239 --> 01:13:48,960
+this class. So I love that that that
+
+1765
+01:13:47,199 --> 01:13:50,320
+shows that like the stuff is
+
+1766
+01:13:48,960 --> 01:13:53,440
+interesting. So I'm very happy to hear
+
+1767
+01:13:50,320 --> 01:13:57,040
+that. Um
+
+1768
+01:13:53,440 --> 01:13:58,560
+so like yeah I I definitely wanted to
+
+1769
+01:13:57,040 --> 01:14:02,480
+ask if you have any questions and in
+
+1770
+01:13:58,560 --> 01:14:04,159
+particular if I if this is clear I
+
+1771
+01:14:02,480 --> 01:14:06,000
+really want to make sure that this this
+
+1772
+01:14:04,159 --> 01:14:08,719
+stuff is clear these top three plots
+
+1773
+01:14:06,000 --> 01:14:09,120
+what they represent.
+
+1774
+01:14:08,719 --> 01:14:10,400
+>> Yeah.
+
+1775
+01:14:09,120 --> 01:14:13,199
+>> Is there any chance you could explain
+
+1776
+01:14:10,400 --> 01:14:18,480
+the bottom left plot?
+
+1777
+01:14:13,199 --> 01:14:21,199
+>> Yeah. Yeah. So the bottom left one
+
+1778
+01:14:18,480 --> 01:14:26,239
+um basically
+
+1779
+01:14:21,199 --> 01:14:29,679
+so if there's two PC1 shapes
+
+1780
+01:14:26,239 --> 01:14:35,040
+this is date one and there is one that
+
+1781
+01:14:29,679 --> 01:14:38,040
+is date two. I kind of said, well,
+
+1782
+01:14:35,040 --> 01:14:38,040
+um,
+
+1783
+01:14:38,239 --> 01:14:43,440
+what I'm looking for is basically
+
+1784
+01:14:41,199 --> 01:14:46,239
+the
+
+1785
+01:14:43,440 --> 01:14:50,719
+I'm looking for the the point maturity
+
+1786
+01:14:46,239 --> 01:14:53,199
+point where the loadings cross a certain
+
+1787
+01:14:50,719 --> 01:14:54,880
+threshold because at the end both of
+
+1788
+01:14:53,199 --> 01:14:56,800
+these are going to be kind of relatively
+
+1789
+01:14:54,880 --> 01:14:58,480
+flat towards the back end. So basically
+
+1790
+01:14:56,800 --> 01:14:59,679
+10-year bonds and 30-year bonds when the
+
+1791
+01:14:58,480 --> 01:15:01,600
+rates move up and down, they're going to
+
+1792
+01:14:59,679 --> 01:15:03,199
+move like the same amount. But on the
+
+1793
+01:15:01,600 --> 01:15:05,679
+very front end, that's not really true.
+
+1794
+01:15:03,199 --> 01:15:07,360
+And why is that? Well, on the very front
+
+1795
+01:15:05,679 --> 01:15:10,320
+end, it the rates are governed by the
+
+1796
+01:15:07,360 --> 01:15:12,480
+central bank. So central bank is saying
+
+1797
+01:15:10,320 --> 01:15:14,320
+we're going to set the rate here.
+
+1798
+01:15:12,480 --> 01:15:16,400
+Expectations can vary for what happens
+
+1799
+01:15:14,320 --> 01:15:18,080
+10 years down the line. But expectations
+
+1800
+01:15:16,400 --> 01:15:20,239
+of what's going to happen over the next
+
+1801
+01:15:18,080 --> 01:15:22,480
+couple of months are not going to vary
+
+1802
+01:15:20,239 --> 01:15:25,440
+very much because that is basically the
+
+1803
+01:15:22,480 --> 01:15:29,679
+Fed sets that the Fed tells you what
+
+1804
+01:15:25,440 --> 01:15:32,800
+what is going to happen. So um the
+
+1805
+01:15:29,679 --> 01:15:34,640
+loading of this PC1 like that that front
+
+1806
+01:15:32,800 --> 01:15:36,800
+end point is like much less volatile in
+
+1807
+01:15:34,640 --> 01:15:39,360
+general that can change like it could
+
+1808
+01:15:36,800 --> 01:15:42,080
+also be that in the recent in the last
+
+1809
+01:15:39,360 --> 01:15:44,159
+couple of months
+
+1810
+01:15:42,080 --> 01:15:46,320
+that the actual shape of the PC1 factor
+
+1811
+01:15:44,159 --> 01:15:48,080
+was probably like that and the reason is
+
+1812
+01:15:46,320 --> 01:15:50,080
+that the front end was so uncertain
+
+1813
+01:15:48,080 --> 01:15:51,440
+nobody knew are they going to cut are
+
+1814
+01:15:50,080 --> 01:15:54,000
+they going to hike like we don't really
+
+1815
+01:15:51,440 --> 01:15:56,159
+know what what's going to happen but
+
+1816
+01:15:54,000 --> 01:15:58,560
+generally speaking the front end is
+
+1817
+01:15:56,159 --> 01:16:03,840
+going to be less volatile than than the
+
+1818
+01:15:58,560 --> 01:16:06,480
+back end because of the fact that the um
+
+1819
+01:16:03,840 --> 01:16:08,800
+the the Federal Reserve like is like
+
+1820
+01:16:06,480 --> 01:16:10,640
+they they control the front end part of
+
+1821
+01:16:08,800 --> 01:16:13,600
+the curve.
+
+1822
+01:16:10,640 --> 01:16:16,000
+So what I'm plotting is effectively
+
+1823
+01:16:13,600 --> 01:16:20,159
+at what point does does the loadings
+
+1824
+01:16:16,000 --> 01:16:22,480
+cross a threshold? Why? And if if the
+
+1825
+01:16:20,159 --> 01:16:25,040
+Fed controls the curve, if if people
+
+1826
+01:16:22,480 --> 01:16:27,040
+believe the Fed is going to have um if
+
+1827
+01:16:25,040 --> 01:16:29,440
+if there's clarity on the Fed's policy
+
+1828
+01:16:27,040 --> 01:16:32,159
+over a longer period of time, we're
+
+1829
+01:16:29,440 --> 01:16:33,840
+going to have lower loadings on the
+
+1830
+01:16:32,159 --> 01:16:37,199
+front of the curve for longer periods of
+
+1831
+01:16:33,840 --> 01:16:39,040
+time. And if there is less clarity, that
+
+1832
+01:16:37,199 --> 01:16:40,480
+period is going to shrink. Meaning,
+
+1833
+01:16:39,040 --> 01:16:43,360
+yeah, they're always going to control
+
+1834
+01:16:40,480 --> 01:16:45,679
+the front end, but like how quickly do
+
+1835
+01:16:43,360 --> 01:16:47,440
+we decouple from that? And that's what
+
+1836
+01:16:45,679 --> 01:16:49,360
+I'm plotting here. I'm I'm taking on
+
+1837
+01:16:47,440 --> 01:16:51,600
+every day I'm I'm taking this point.
+
+1838
+01:16:49,360 --> 01:16:53,280
+This is on day one it's going to be here
+
+1839
+01:16:51,600 --> 01:16:54,960
+on day some other day it's going to be
+
+1840
+01:16:53,280 --> 01:16:58,159
+here and I'm plotting a time series of
+
+1841
+01:16:54,960 --> 01:17:01,040
+that of that point like at what time in
+
+1842
+01:16:58,159 --> 01:17:04,080
+in maturity years like at which maturity
+
+1843
+01:17:01,040 --> 01:17:05,520
+do we cross the threshold. Could you
+
+1844
+01:17:04,080 --> 01:17:08,719
+explain the connection between the
+
+1845
+01:17:05,520 --> 01:17:09,920
+curvature and the map situation?
+
+1846
+01:17:08,719 --> 01:17:12,320
+>> The curvature and what
+
+1847
+01:17:09,920 --> 01:17:16,159
+>> and the map.
+
+1848
+01:17:12,320 --> 01:17:17,679
+>> Ah yeah right. Yeah. Um right. So the
+
+1849
+01:17:16,159 --> 01:17:19,840
+PC3
+
+1850
+01:17:17,679 --> 01:17:22,800
+shape remember was like there is like
+
+1851
+01:17:19,840 --> 01:17:25,679
+it's this is zero
+
+1852
+01:17:22,800 --> 01:17:29,679
+and it's like positive negative
+
+1853
+01:17:25,679 --> 01:17:32,960
+positive. So the short end and the back
+
+1854
+01:17:29,679 --> 01:17:35,840
+end are like basically like there's a
+
+1855
+01:17:32,960 --> 01:17:40,080
+once you hedge out the curvature and and
+
+1856
+01:17:35,840 --> 01:17:42,159
+the levels what remains is like the the
+
+1857
+01:17:40,080 --> 01:17:43,600
+uh once you mention out the once you
+
+1858
+01:17:42,159 --> 01:17:45,520
+hedge out the slope and levels what
+
+1859
+01:17:43,600 --> 01:17:49,040
+remains is the curvature and the
+
+1860
+01:17:45,520 --> 01:17:51,840
+question is like at that point
+
+1861
+01:17:49,040 --> 01:17:55,199
+how does the curve move and I can give
+
+1862
+01:17:51,840 --> 01:17:56,800
+it give you two examples in dollars you
+
+1863
+01:17:55,199 --> 01:17:59,360
+can see that most of the time The bottom
+
+1864
+01:17:56,800 --> 01:18:01,679
+of this graph is at like around 10 years
+
+1865
+01:17:59,360 --> 01:18:03,520
+10 year maturity. So that means that
+
+1866
+01:18:01,679 --> 01:18:05,520
+like once you hedge out slope and
+
+1867
+01:18:03,520 --> 01:18:07,760
+curvature 10-year bonds are going to be
+
+1868
+01:18:05,520 --> 01:18:09,840
+anti-correlated with two-year and
+
+1869
+01:18:07,760 --> 01:18:12,480
+30-year bonds. So it's going to like
+
+1870
+01:18:09,840 --> 01:18:15,120
+move around like that with where the
+
+1871
+01:18:12,480 --> 01:18:18,320
+belly of the curve is 10ear point. Now
+
+1872
+01:18:15,120 --> 01:18:19,840
+if I look at another country that is
+
+1873
+01:18:18,320 --> 01:18:22,960
+like more like an emerging markets
+
+1874
+01:18:19,840 --> 01:18:26,320
+country for example like Mexico
+
+1875
+01:18:22,960 --> 01:18:27,920
+it's going to look like this.
+
+1876
+01:18:26,320 --> 01:18:30,719
+where this is going to be around five
+
+1877
+01:18:27,920 --> 01:18:33,920
+years.
+
+1878
+01:18:30,719 --> 01:18:36,400
+What is the significance of this? Well,
+
+1879
+01:18:33,920 --> 01:18:38,719
+it tells you like you can think of this
+
+1880
+01:18:36,400 --> 01:18:41,920
+is like the curve has distinct like
+
+1881
+01:18:38,719 --> 01:18:43,760
+parts that different things drive it.
+
+1882
+01:18:41,920 --> 01:18:47,440
+the the very front end we said a central
+
+1883
+01:18:43,760 --> 01:18:49,920
+bank. Then there's like a period after
+
+1884
+01:18:47,440 --> 01:18:51,920
+that that is really mostly driven by
+
+1885
+01:18:49,920 --> 01:18:53,840
+inflation expectations
+
+1886
+01:18:51,920 --> 01:18:57,920
+and then the very long end is a lot of
+
+1887
+01:18:53,840 --> 01:19:00,719
+it is about growth growth expectations
+
+1888
+01:18:57,920 --> 01:19:03,520
+and um
+
+1889
+01:19:00,719 --> 01:19:05,840
+this the the point where where this
+
+1890
+01:19:03,520 --> 01:19:08,239
+bottom of the curvature is it really
+
+1891
+01:19:05,840 --> 01:19:10,080
+tells you a lot about like where which
+
+1892
+01:19:08,239 --> 01:19:12,560
+part where does the what part of the
+
+1893
+01:19:10,080 --> 01:19:14,480
+curve is where does this crossover go
+
+1894
+01:19:12,560 --> 01:19:16,080
+from like inflation expect inflation
+
+1895
+01:19:14,480 --> 01:19:18,880
+being dominant to like growth being
+
+1896
+01:19:16,080 --> 01:19:21,440
+dominant. Different players invest in
+
+1897
+01:19:18,880 --> 01:19:23,440
+different parts of the curve. Certain
+
+1898
+01:19:21,440 --> 01:19:25,280
+like um the back end of the curve
+
+1899
+01:19:23,440 --> 01:19:26,880
+there's a lot of pensions, insurance
+
+1900
+01:19:25,280 --> 01:19:28,719
+companies investing in the very long
+
+1901
+01:19:26,880 --> 01:19:32,080
+end. They have long-term liabilities.
+
+1902
+01:19:28,719 --> 01:19:35,040
+They invest here. Very front end is like
+
+1903
+01:19:32,080 --> 01:19:37,760
+a lot of like two-year rates, a lot of
+
+1904
+01:19:35,040 --> 01:19:40,719
+speculators, a lot of like like people
+
+1905
+01:19:37,760 --> 01:19:43,679
+who need short-term financing. 10 year
+
+1906
+01:19:40,719 --> 01:19:45,520
+in the US between five and 10 year is
+
+1907
+01:19:43,679 --> 01:19:47,280
+where most most corporate bonds most
+
+1908
+01:19:45,520 --> 01:19:49,679
+corporations they issue they raise that
+
+1909
+01:19:47,280 --> 01:19:53,360
+in the five to 10 year maturity. So the
+
+1910
+01:19:49,679 --> 01:19:55,360
+the different players participate in the
+
+1911
+01:19:53,360 --> 01:19:58,000
+different parts of the curve and that
+
+1912
+01:19:55,360 --> 01:19:59,920
+means the dynamics are they that means
+
+1913
+01:19:58,000 --> 01:20:01,280
+the dynamics are are different. Once you
+
+1914
+01:19:59,920 --> 01:20:02,960
+hedge out those two components, you
+
+1915
+01:20:01,280 --> 01:20:04,880
+start to discover those like these
+
+1916
+01:20:02,960 --> 01:20:07,440
+dynamics are small relatively speaking
+
+1917
+01:20:04,880 --> 01:20:09,679
+on the scale of rates going up and down.
+
+1918
+01:20:07,440 --> 01:20:11,199
+But once you remove that, you start to
+
+1919
+01:20:09,679 --> 01:20:14,000
+discover these features. They're they're
+
+1920
+01:20:11,199 --> 01:20:16,719
+kind of hidden under this this big noise
+
+1921
+01:20:14,000 --> 01:20:18,000
+of like rates going up and down and you
+
+1922
+01:20:16,719 --> 01:20:21,400
+start to kind of see these things start
+
+1923
+01:20:18,000 --> 01:20:21,400
+to pop out.
+
+1924
+01:20:21,840 --> 01:20:26,080
+This being longer term, it just it tells
+
+1925
+01:20:23,840 --> 01:20:28,239
+you again something about developed
+
+1926
+01:20:26,080 --> 01:20:31,920
+markets tend to have this belly be
+
+1927
+01:20:28,239 --> 01:20:33,360
+further out because people have people
+
+1928
+01:20:31,920 --> 01:20:36,239
+people look at like a longer term
+
+1929
+01:20:33,360 --> 01:20:38,560
+horizon essentially for investing. This
+
+1930
+01:20:36,239 --> 01:20:40,800
+the pension funds invest for longer they
+
+1931
+01:20:38,560 --> 01:20:43,120
+buy longer term bonds
+
+1932
+01:20:40,800 --> 01:20:45,280
+and like generally people invest in
+
+1933
+01:20:43,120 --> 01:20:47,360
+longer term than than in say emerging
+
+1934
+01:20:45,280 --> 01:20:50,560
+market countries.
+
+1935
+01:20:47,360 --> 01:20:52,159
+So these are like when you look at when
+
+1936
+01:20:50,560 --> 01:20:54,000
+you compare these factors across
+
+1937
+01:20:52,159 --> 01:20:55,600
+countries,
+
+1938
+01:20:54,000 --> 01:20:57,920
+you can actually make sense of some of
+
+1939
+01:20:55,600 --> 01:21:00,960
+these p these things and you can
+
+1940
+01:20:57,920 --> 01:21:02,159
+quantify those those feature those um
+
+1941
+01:21:00,960 --> 01:21:05,800
+those things and they can become
+
+1942
+01:21:02,159 --> 01:21:05,800
+features for modeling.
+
+1943
+01:21:08,400 --> 01:21:13,120
+>> One more question perhaps.
+
+1944
+01:21:11,679 --> 01:21:14,960
+>> Yeah,
+
+1945
+01:21:13,120 --> 01:21:18,560
+>> for a lot of markets you're not going to
+
+1946
+01:21:14,960 --> 01:21:21,920
+get prices easily for like US like is
+
+1947
+01:21:18,560 --> 01:21:24,080
+there a way in which like by um like
+
+1948
+01:21:21,920 --> 01:21:28,080
+trying to ask for like transacts you
+
+1949
+01:21:24,080 --> 01:21:30,320
+like synthetically create data?
+
+1950
+01:21:28,080 --> 01:21:33,120
+>> Yeah, getting getting um getting access
+
+1951
+01:21:30,320 --> 01:21:35,920
+to good data is step one in every
+
+1952
+01:21:33,120 --> 01:21:38,560
+quantitative finance project. I would
+
+1953
+01:21:35,920 --> 01:21:41,360
+say that like
+
+1954
+01:21:38,560 --> 01:21:43,040
+that may be true but it's I you can like
+
+1955
+01:21:41,360 --> 01:21:45,520
+there's ways to get it. First of all, a
+
+1956
+01:21:43,040 --> 01:21:47,360
+lot of there's bond futures which are
+
+1957
+01:21:45,520 --> 01:21:49,440
+effectively futures on bonds. Those
+
+1958
+01:21:47,360 --> 01:21:51,040
+trade on exchanges that data also tends
+
+1959
+01:21:49,440 --> 01:21:53,040
+to be pretty high quality and readily
+
+1960
+01:21:51,040 --> 01:21:56,560
+available. So there's ways to get it,
+
+1961
+01:21:53,040 --> 01:21:58,159
+but like yeah, that's there for every
+
+1962
+01:21:56,560 --> 01:22:00,400
+particular market you look at, there's
+
+1963
+01:21:58,159 --> 01:22:03,040
+going to be certain data quality issues
+
+1964
+01:22:00,400 --> 01:22:06,159
+you have to overcome.
+
+1965
+01:22:03,040 --> 01:22:07,360
+US market is the easiest for that. Now,
+
+1966
+01:22:06,159 --> 01:22:08,400
+it's part of, for example, that's why,
+
+1967
+01:22:07,360 --> 01:22:09,520
+for example, if you're going to do your
+
+1968
+01:22:08,400 --> 01:22:12,000
+project, you're not going to look at
+
+1969
+01:22:09,520 --> 01:22:14,320
+like South African rates because it's
+
+1970
+01:22:12,000 --> 01:22:16,400
+just like hard to get good data. But if
+
+1971
+01:22:14,320 --> 01:22:18,239
+you're in a hedge fund, like maybe, oh,
+
+1972
+01:22:16,400 --> 01:22:20,400
+it's worth getting the data and putting
+
+1973
+01:22:18,239 --> 01:22:21,760
+some effort because maybe you have less
+
+1974
+01:22:20,400 --> 01:22:23,440
+competition there. You can you can maybe
+
+1975
+01:22:21,760 --> 01:22:25,360
+make some money or maybe you have some
+
+1976
+01:22:23,440 --> 01:22:26,960
+ideas where you could model it, where
+
+1977
+01:22:25,360 --> 01:22:28,639
+you can actually have some predictive
+
+1978
+01:22:26,960 --> 01:22:31,520
+power in South African, right? So, you
+
+1979
+01:22:28,639 --> 01:22:35,440
+make that investment of time. But it's
+
+1980
+01:22:31,520 --> 01:22:37,440
+it's all part of that. Um the the less
+
+1981
+01:22:35,440 --> 01:22:39,440
+the data the more the harder it is to
+
+1982
+01:22:37,440 --> 01:22:40,800
+get the data usually means that there's
+
+1983
+01:22:39,440 --> 01:22:43,040
+probably going to be more opportunities
+
+1984
+01:22:40,800 --> 01:22:44,800
+for quantitative modeling because it's
+
+1985
+01:22:43,040 --> 01:22:47,360
+hard for everybody. If it's easy then
+
+1986
+01:22:44,800 --> 01:22:50,880
+everybody can do it. So you always have
+
+1987
+01:22:47,360 --> 01:22:54,800
+to be on the edge of of the wave to to
+
+1988
+01:22:50,880 --> 01:22:56,719
+find to make money.
+
+1989
+01:22:54,800 --> 01:22:58,300
+>> Great. Thank you so much.
+
+1990
+01:22:56,719 --> 01:23:01,459
+>> You're welcome.
+
+1991
+01:22:58,300 --> 01:23:01,459
+[Applause]
+

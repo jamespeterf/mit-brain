@@ -1,0 +1,888 @@
+1
+00:00:03,304 --> 00:00:14,174
+Daniela Rus: Hello, everyone, and welcome to the CSAIL Forum. My name is Daniela Rus, I'm the Director of the Computer Science and Artificial Intelligence Laboratory at MIT.
+
+2
+00:00:14,284 --> 00:00:23,214
+Daniela Rus: And today, I'm delighted to introduce our colleague and friend, Professor Sam Madden, who will give the forum.
+
+3
+00:00:23,484 --> 00:00:38,333
+Daniela Rus: Now, Sam is an expert in databases, and he is really leading some of the most exceptional and interesting projects at the intersection of data and AI.
+
+4
+00:00:38,334 --> 00:00:46,704
+Daniela Rus: He was an undergraduate student at MIT. He did his PhD in database management at UC Berkeley.
+
+5
+00:00:47,214 --> 00:01:05,034
+Daniela Rus: And after that, he came to MIT, where he joined the faculty of the electrical engineering and computer science department. He's also a member of CSAIL. In his spare time, he starts companies. So Sam is a co-founder of Cambridge Mobile Telematics.
+
+6
+00:01:05,034 --> 00:01:11,414
+Daniela Rus: and Vertica Systems, and both of these companies have had a really big impact in the world.
+
+7
+00:01:11,414 --> 00:01:35,493
+Daniela Rus: He received numerous awards, and I would just flag his recent 2024 SIGMOD Edgar Cott Innovation Award for his contributions to multi-aspects of database management. And so, we're really happy and delighted to have him with us today to tell us about the intersection of databases and AI.
+
+8
+00:01:35,574 --> 00:01:52,393
+Daniela Rus: Now, before I give the floor to Sam, I would like to ask you all to be an engaged community. Please put in the chat your name and your location, and add your questions to the chat when you have them. So with that, Sam, please take it away.
+
+9
+00:01:53,394 --> 00:02:03,704
+Sam Madden: Thanks, Daniela. Hey, everybody, it's really great to be here. I'm going to talk a little bit about our experience building data systems around AI, especially around these
+
+10
+00:02:03,704 --> 00:02:16,273
+Sam Madden: new, large, generative models. So, I'll start off by saying, you know, I'm… I'm an AI superfan. I mean, I think we… we live in super exciting times. I think, the…
+
+11
+00:02:16,334 --> 00:02:33,893
+Sam Madden: LLMs and associated technologies are amongst the most exciting things that have happened in my career as a computer scientist, and I'm really, really excited about trying to figure out how we use them to do interesting new computer science research. So I'm…
+
+12
+00:02:33,894 --> 00:02:44,243
+Sam Madden: embrace the hype, but I would say I try to do it, you know, with my sort of engineering, database researcher hat on. Like, think about how this changes the way that we build systems for working with data.
+
+13
+00:02:44,674 --> 00:02:51,303
+Sam Madden: So, in particular, the vision that we've been pursuing in my research group, along with some of my colleagues.
+
+14
+00:02:51,304 --> 00:03:13,723
+Sam Madden: are to sort of think about how you build a database system for all of the world's data. So database systems are these kind of boring enterprise systems that run the back ends of all the big companies in the world. They store tables of information about employees and their salaries and the departments they work on, and all these things that if you took an undergrad database class.
+
+15
+00:03:13,724 --> 00:03:15,023
+Sam Madden: You heard about.
+
+16
+00:03:15,174 --> 00:03:17,283
+Sam Madden: But the,
+
+17
+00:03:18,454 --> 00:03:27,344
+Sam Madden: the sort of amazing thing about this generative AI, revolution is that it allows us to bring the sort of,
+
+18
+00:03:27,354 --> 00:03:47,964
+Sam Madden: build these new systems that store data, but where you can ask questions over not just these tables of information, but over text and images and PDFs and videos and everything else. So the goal is to sort of figure out how we build systems that work kind of like database systems, but based on these amazing superpowers that generative AI gives us.
+
+19
+00:03:47,964 --> 00:04:12,664
+Sam Madden: And the kinds of things that we imagine being able to do is empower people to ask questions about their data that they couldn't ask before. So imagine if you're a data engineer, and you can take all the financial documents that are at a big finance company, and you can take all the financial documents that you have and turn them into structured data that you can ask questions over. Or if you're a lawyer who can search through thousands of pages of legal documents.
+
+20
+00:04:12,664 --> 00:04:32,573
+Sam Madden: to look for the phrases, names, and topics of people, and tabulate statistics about the prevalence of each one. Or if you're a medical researcher who can quickly summarize information about all the patients with a particular disease at a hospital, and combine them… combine… compare those to findings, the known findings, in a bunch of PDFs that represent the medical literature.
+
+21
+00:04:33,004 --> 00:04:51,704
+Sam Madden: Or an investment banker who can correlate stock data with news announcements, or an AI researcher who can extract the performance of competitive models from archive, right? So, all these things that sort of require you to do extraction of knowledge from very large collections of documents, and then answer questions over them.
+
+22
+00:04:52,154 --> 00:04:56,134
+Sam Madden: And so the, the sort of, the, the key…
+
+23
+00:04:56,134 --> 00:05:18,973
+Sam Madden: insight that I sort of… we've been drawing on from our research is actually one that's a really old idea. In fact, I thought I would show you this slide. So, this is a slide from when I was a graduate student at UC Berkeley. This was a slide from my job talk when I… that I gave when I interviewed at MIT. I had this system called TinyDB that we built.
+
+24
+00:05:18,974 --> 00:05:25,703
+Sam Madden: And you can tell this slide is from, like, 2004, because I used this horrible, ugly chalkboard font that everybody thought was cool at that time.
+
+25
+00:05:25,704 --> 00:05:48,733
+Sam Madden: But the key thing you see here is this, the power of declarative thinking. So this sort of idea in my PhD research, this was about, you had a network of these little, tiny sensor devices, maybe hundreds or thousands of them spread around some remote environment, and the key idea, the abstraction of my PhD thesis was to say you could treat this whole network as though it's a database system that you could ask questions over.
+
+26
+00:05:48,734 --> 00:05:59,673
+Sam Madden: Using a simple SQL-like language. And by doing that, you abstract away all of the complexity of programming this very noisy, complex network.
+
+27
+00:05:59,904 --> 00:06:23,454
+Sam Madden: And so I kind of want you to think the same way about these AI models. I want you to think about how we could build systems that allow you to query these… query all of the documents and the data in your world as though it were a database, and without having to think about the underlying details of how you get the AI system to do that. And that's what I'm going to talk about.
+
+28
+00:06:23,504 --> 00:06:41,663
+Sam Madden: In most of the talk today. And there's a bunch of challenges in making this work. So, first of all, you know, we need to figure out how we scale from a system like ChatGPT or Deep Research that lets you ask questions over a small number of documents to asking questions over thousands or millions of documents.
+
+29
+00:06:41,864 --> 00:06:50,854
+Sam Madden: And in order to do that, we're going to need to think about new components, like query optimizers, and query planners, and storage systems, and executors, and access control, and security.
+
+30
+00:06:51,044 --> 00:06:56,433
+Sam Madden: All these things that a modern database system have, we're gonna have to reinvent them.
+
+31
+00:06:56,804 --> 00:07:00,234
+Sam Madden: figure out what the analogs are in this new AI world.
+
+32
+00:07:00,334 --> 00:07:23,133
+Sam Madden: And then on top of that, there's going to be a whole bunch of new software components, which we're going to have to build that don't exist in the existing database world, like prompt tuners and things for guardrails to make sure that we're not… the LMs aren't exposing information they're not supposed to, or saying crazy things, or, you know, figure out how we choose between different choices of possible models, or how we estimate the accuracy of a response.
+
+33
+00:07:23,134 --> 00:07:24,453
+Sam Madden: From an LLM.
+
+34
+00:07:24,734 --> 00:07:30,963
+Sam Madden: And, and, doing this is, is really hard, because,
+
+35
+00:07:30,964 --> 00:07:48,344
+Sam Madden: these LMs, any of you who've worked with them, I mean, I sort of… I like… I liken it to, we've turned computer scientists from engineers into biologists. Interacting with these LLMs and predicting how they're going to behave is like poking some organism, right? You're not… you're no longer,
+
+36
+00:07:49,144 --> 00:08:11,603
+Sam Madden: able to apply this sort of engineering principles and underlying sort of mathematical thinking that empowers computer science. Instead, you have to sort of interact with it in natural language, and you never know whether it's going to quite give the answer that you expect or behave in the way that you expect it, but it might. And this is really a challenge for building database systems where
+
+37
+00:08:11,604 --> 00:08:30,624
+Sam Madden: the sort of cornerstone, the reason that people pay companies like Oracle millions of dollars a year is not… is because these systems are sort of predicated on providing consistency and correctness and robustness and reliability, and those are, like, the opposite of what you think of when you think about interacting with an LLM.
+
+38
+00:08:30,844 --> 00:08:55,714
+Sam Madden: So, anyway, I want you to sort of… the very simple picture to have in mind when I talk about declarative thinking is this one, which is that right now, when you build an application in an AI world, you think of it like this. You've got your application, and it chooses some underlying LLM model to interact with. Instead, think of it like this. You're going to add an abstraction layer between the applications and the underlying models, and our system I'm going to talk about is a system called
+
+39
+00:08:55,714 --> 00:09:08,043
+Sam Madden: Zest, but there's other systems that try to do this, like, our recent hire at, CSAIL and EECS, Omar Kattab, builds a system called DSPI that tries to do something similar from a kind of different perspective.
+
+40
+00:09:08,284 --> 00:09:25,253
+Sam Madden: And the power of this is that it's going to allow users of these AI systems to think about what they want. Like, I want to find cars running red lights in this archive of video, or I want to find emails about fraud in this collection of emails, or I want a summary of recent performance on some benchmark from a collection of PDFs.
+
+41
+00:09:25,254 --> 00:09:38,173
+Sam Madden: without the programmer having to think about which LLM model they should use, exactly how to craft a prompt, they don't have to say, you know, get their… think it through step-by-step exactly right, right? They just, you know.
+
+42
+00:09:38,224 --> 00:10:02,773
+Sam Madden: say what they want, not exactly how to get it. They don't have to think about exactly which generation of LLM they should use, or whether they should ask the LLM to write code, or whether they should ask the LLM to just answer from its own knowledge base, or which collection of agents they should use. Instead, they just say what they want. Our system will figure out how to get that information to the user, and that's the sort of power of declarative thinking.
+
+43
+00:10:03,314 --> 00:10:12,303
+Sam Madden: Okay, so I'm going to talk, in a little bit of detail now about a system that we've been… we've been building to achieve this called Palum Zest. So, Palum Zest is a…
+
+44
+00:10:12,304 --> 00:10:32,483
+Sam Madden: It's a funny name. A palimstest is a Greek word for a physical document that has been erased and rewritten multiple times. So, palamstest is a zesty palimstest, and, hopefully it's at least a memorable name and a weird name. Sometimes we call it PZ for, just because it rolls off the tongue a little bit better.
+
+45
+00:10:32,484 --> 00:10:55,853
+Sam Madden: So Pelham Zest is a programming language that lets users implement AI tasks in a few lines of code, and behind the scenes, it hypothesizes and tests hundreds of ways to use AI models to achieve whatever your goal is. So it uses this idea of declarative optimization under the covers to select the fastest or cheapest or highest quality option, whichever you as a user of the system prefer.
+
+46
+00:10:55,854 --> 00:11:02,664
+Sam Madden: without you requiring to iterate through all the different implementation alternatives. And I'll show you what you… what I mean by that.
+
+47
+00:11:02,934 --> 00:11:17,253
+Sam Madden: Okay, so let's consider a super simple AI application. This is a multimodal real estate search application. So the application is one that mixes, sort of.
+
+48
+00:11:17,254 --> 00:11:41,504
+Sam Madden: conventional database search applications with more advanced AI predicates. So imagine what we want to do. We maybe just relocated to Cambridge, and what we want to do is to find a collection of… we've given a collection of real estate listings that consist of images and text. We want to find properties that are in our price range, or maybe near to MIT, and then that have some
+
+49
+00:11:41,504 --> 00:12:03,594
+Sam Madden: sort of more vague predicates over them, like are modern and attractive and have natural sunlight. So, these first two things are things that any conventional real estate search system, Zillow or Pick Your Favorite, could do, but this latter one is modern and attractive and has natural sunlight. That's a predicate over images, and it's not something that we would have been able to do until this era of generative AI.
+
+50
+00:12:03,754 --> 00:12:17,934
+Sam Madden: And then we want to produce the results. So the key sort of way that our system works, and I'm going to show you the code for doing this in a second, but it uses a collection of operations, what we call semantic operators.
+
+51
+00:12:17,934 --> 00:12:40,083
+Sam Madden: which have sort of analogs and database, query execution. So if you've ever used a system like SQL, you know that you write a select statement where you select the, you know, maybe you would select the address and the price, and you'd have a predicate, like, where is modern, and where… and then you would, you know, maybe where it has some, some,
+
+52
+00:12:40,084 --> 00:12:56,064
+Sam Madden: you know, predicate on the maximum square footage, or the square footage, so you'd have this collection of, sort of operations that you apply to the data. And so what our system, sort of does under the covers is these programs consist of a series of these operations like this.
+
+53
+00:12:56,204 --> 00:13:11,824
+Sam Madden: And, what, concretely, what you actually interact with is a piece of Python code. I'm not going to walk through this Python code in detail, but it essentially expresses this program that we just wrote as a sequence of filters over the data.
+
+54
+00:13:11,824 --> 00:13:31,684
+Sam Madden: And the main, sort of, key thing in this program to take away from this is that what you do when you're programming in Palum Zest is you say, here's a collection of documents, and then here's a collection of fields, in this case, real estate text documents, that I want to impute over these documents. So I can say, here's these images and this text, and now I want to have
+
+55
+00:13:31,814 --> 00:13:42,273
+Sam Madden: use AI to extract from these images and text the certain fields, like address and price, or things like, is modern and attractive?
+
+56
+00:13:42,274 --> 00:13:53,024
+Sam Madden: Okay? And then the system underneath the covers takes this high-level program, and it searches through a whole bunch of different implementation alternatives to find the best way to execute this.
+
+57
+00:13:53,024 --> 00:14:02,724
+Sam Madden: Okay? So this program is… takes about 14 lines of code to write, and you could imagine, actually, and I'll show you in a second, we have a chat
+
+58
+00:14:02,734 --> 00:14:09,684
+Sam Madden: interface for doing this, so if you don't want to write Python code, you can interact with a chatbot and have it write the code on your behalf.
+
+59
+00:14:09,684 --> 00:14:23,593
+Sam Madden: But the critical thing to realize about these programs is that I haven't said anything about specifically what the prompt should look like, right? There's no think it through, step by step here, or whatever other magic incantation you have to give to your AI model.
+
+60
+00:14:23,604 --> 00:14:35,954
+Sam Madden: There's no data labeling, there's no… you don't have to understand anything about the AI model that you're using. You didn't have to say anything about which particular LLM you want to use.
+
+61
+00:14:35,954 --> 00:14:44,463
+Sam Madden: You didn't even really have to say that you… say anything about whether you wanted to use an LLM to do this at all. You could have used some other model.
+
+62
+00:14:44,464 --> 00:14:52,754
+Sam Madden: For, for example, extracting the address or the price, or for extracting whether a property is modern and attractive.
+
+63
+00:14:52,814 --> 00:14:53,564
+Sam Madden: Okay?
+
+64
+00:14:53,704 --> 00:15:07,324
+Sam Madden: So beneath… underneath the covers, what this system is doing, and I'm going to spend a fair bit of time now talking about this, is figuring out how to find the best execution plan for a program like this.
+
+65
+00:15:07,584 --> 00:15:31,664
+Sam Madden: And so, but the key thing about this optimization process is that what our system is able to do when it's doing this execution is not only does it abstract away all these details from you as the programmer, but it's actually able to explore the space of possible AI programs to find implementations which are more efficient and just as accurate as using the most expensive
+
+66
+00:15:31,664 --> 00:15:56,003
+Sam Madden: AI model on top of all the data. And remember I said at the very beginning that the objective here is to be able to bring the power of AI to very large collections of documents, and so we think in order to do this, you're going to need to have an ability to search for efficient AI applications that can run these things. So, for example, compared to GPT-4 on… I think this is a collection of 100 of these images.
+
+67
+00:15:56,114 --> 00:16:19,664
+Sam Madden: GPT-4 would take about 1500 seconds to do this and cost about $5. Our system can do this at about 5% of the runtime at 30% of the cost. And we have a bunch of applications, and I'll show you some more benchmarks later, that have kind of similar results. And I should say, this is done well sort of preserving the quality. So F1 here is a weighted combination of precision and recall.
+
+68
+00:16:19,664 --> 00:16:27,204
+Sam Madden: Against a human-judged benchmark, essentially a measure of the accuracy or quality of the results this thing produces.
+
+69
+00:16:27,704 --> 00:16:46,144
+Sam Madden: Okay, I think what I'll do, actually, I was gonna… I was gonna show, a, a demo on some animals, but I think what I'll do, hopefully you guys can still see this, I think what I'll do is I'll jump to another short demo video of this thing running, just to give you a sense of this thing running.
+
+70
+00:16:46,224 --> 00:16:51,523
+Sam Madden: Hopefully you guys can still see that, I hope so.
+
+71
+00:16:52,574 --> 00:17:16,123
+Sam Madden: Alright, so I'm gonna just run this thing now, and what you should be seeing is this, Python, this program executing. So this is Palum Zest running, on this, real estate evaluation. And you see it's running… it's a pipeline of, like, 6 or 7 operators that it's running here on these 125, these 125 images that we've input into this thing.
+
+72
+00:17:16,124 --> 00:17:41,104
+Sam Madden: And you can see that it's… it's sort of the optimizer is run, and it… what it did during this optimization process was it came up with an optimal plan, it spent 30 cents to find an optimal plan, and then it went off and it executed the plan that it identified on all of the documents. And so it's working through… it's… oops, working through that now, I skipped a little bit there, sorry. So it's… it's working through this here, running and finding all the documents
+
+73
+00:17:41,104 --> 00:18:05,044
+Sam Madden: the images that satisfy our result. And what we'll see in a minute, this video is sped up, but what we'll see in just one minute is the listings that it produced. So you can see what we got out of this was a collection of listings that satisfied our criteria in terms of both being, you know, price and location, and with this subjective predicate about is
+
+74
+00:18:05,044 --> 00:18:15,923
+Sam Madden: is modern and attractive, and I guess, you know, obviously it's subjective. You may or may not agree with the model's decisions about modern and attractive, so…
+
+75
+00:18:16,104 --> 00:18:18,003
+Sam Madden: Alright, I'm gonna just jump back.
+
+76
+00:18:18,014 --> 00:18:25,944
+Sam Madden: to where I was in the slide, because my live demo wasn't gonna work, so, I'll just jump back into this and put this up.
+
+77
+00:18:25,944 --> 00:18:49,513
+Sam Madden: And then, continue to share. So, here's… if you'd like to try it out, the tool is available, it's online, we're looking for users. As I mentioned, sorry about the typo here, there's a, there's a, a chat interface you can use to interact with this, with Palm Zest. There's also a walkthrough and a tutorial with a Colab notebook if you want to try it out in your web browser.
+
+78
+00:18:49,514 --> 00:19:05,364
+Sam Madden: And then you can get access to the code. It's an open source project. You can try it and run it on your data. So, I'm gonna talk in a little bit more detail about the optimization system that underlies this thing in a minute, but maybe what I'll do now is just pause and see if
+
+79
+00:19:05,404 --> 00:19:15,243
+Sam Madden: anybody has any questions about the system, feel free to type them into Zoom. I'm looking at the Zoom thing. If anybody has any questions or things they would, like me to…
+
+80
+00:19:15,754 --> 00:19:23,694
+Sam Madden: to sort of… would like to ask before I move on to the system… the details of the optimization system that's underlying Palm Zest.
+
+81
+00:19:41,864 --> 00:19:47,224
+Sam Madden: Okay, sorry, I missed, Shaimal, Shaimal, I missed your questions up above, but…
+
+82
+00:19:47,494 --> 00:19:52,844
+Sam Madden: Let me see if I can find them…
+
+83
+00:19:56,384 --> 00:19:58,933
+Sam Madden: Oh, maybe they're in a different place.
+
+84
+00:20:00,154 --> 00:20:15,463
+Sam Madden: I… I don't see… I don't see Shyimal's questions, but I see a few. So, David, David Moon asks, is optimization just trying samples or predicting what each LM will do based on the under… on understanding its guts? So what optimization is doing is,
+
+85
+00:20:15,834 --> 00:20:40,234
+Sam Madden: is, what the optimizer is doing is… I'll talk about it in a minute, but it's, sampling the LLMs… it's sampling different implementation alternatives and comparing the results that you get to either a gold standard human-labeled, ground truth dataset, or, a human, sort of an LLM as judge kind of model, where we use an expensive LLM,
+
+86
+00:20:40,234 --> 00:20:48,863
+Sam Madden: And we see which implementation… we look for implementation alternatives that best match the quality of that LLM as judged, but at a lower cost.
+
+87
+00:20:50,444 --> 00:20:55,674
+Daniela Rus: I can monitor the questions, and we can come back to them at the end of the talk.
+
+88
+00:20:55,674 --> 00:21:11,433
+Sam Madden: Okay, yeah, I just thought, since I'm… I just thought, I'm gonna talk… I think I'll get back to some of these, some of these questions. So, a bunch of the questions are about the optimizer, which I'll… I'll come back to. And then there was this… this question about,
+
+89
+00:21:11,634 --> 00:21:26,353
+Sam Madden: applying this to MapReduce or Spark or other models. So I would say, you know, one thing, we often get this question, and we picked a particular implementation point of view, which was about, implementing this inside of Python.
+
+90
+00:21:26,354 --> 00:21:51,344
+Sam Madden: But I think systems like this clearly could be applied in other environments, like Spark. Many of the database vendors are now introducing this notion of semantic operators, which run inside of the database system itself. So these are, like, you can have a SQL query where you can then have semantic predicates that are embedded in it. Snowflake, for example, has announced something like this. And we think our optimization ideas would apply there.
+
+91
+00:21:51,344 --> 00:21:58,613
+Sam Madden: a specific system that we've implemented them in, but I think a lot of the ideas that I'm going to talk about in the next part of this talk would apply there as well.
+
+92
+00:21:58,844 --> 00:22:05,504
+Sam Madden: All right, so let me, maybe I'll move on now and talk about this optimization idea a little bit… in a little bit more detail.
+
+93
+00:22:05,504 --> 00:22:30,044
+Sam Madden: So one thing I just want to quickly, mention, we often get asked about this idea of agentic AI and how that relates or interacts with Palmsest, and I think agentic AI is… so for those of you who don't, you know, have a sense of what agentic AI means, typically what people mean when they talk about adding agent and agentic system, it has several different connotations, but one thing that
+
+94
+00:22:30,154 --> 00:22:54,783
+Sam Madden: They often mean is providing tools, agents that have access to specific tools or knowledge about an enterprise to the LLM. So, for example, you might have an agent that knows how to ingest data and normalize schemas, or an agent that knows how to deduplicate information, or an agent that knows how to check facts, or an agent that knows how to look up in some
+
+95
+00:22:54,984 --> 00:23:05,253
+Sam Madden: index structure or inside of a relational database information that's relevant for your enterprise. Or you might have an agent that knows how to invoke a specific or particular LLM.
+
+96
+00:23:05,254 --> 00:23:18,494
+Sam Madden: So, the thing about this agentic AI world is that it creates this very complicated, sort of collection of tools that you have to choose between in order to accomplish a task.
+
+97
+00:23:18,644 --> 00:23:31,264
+Sam Madden: These agents often have overlapping functionality, variable cost, and it's tricky to figure out how to sequence them. And if you look at a tool like Deep Research, which is… uses some sort of thing like this, like an agentic.
+
+98
+00:23:31,264 --> 00:23:55,533
+Sam Madden: it has a sequence series of different agents that it can use to invoke to solve tasks. One way to stitch together these agents would be to use an LLM to do this. But our perspective is that actually it makes a lot more sense to think about this as an optimization problem, where you're trying to choose the agents that are going to maximize quality or minimize cost for achieving a specific task.
+
+99
+00:23:56,124 --> 00:24:21,064
+Sam Madden: So you… I think you've all, maybe are sort of… maybe you're a bit familiar with agents, but, like, one example agent that I think is really interesting is this idea of you might have an agent that's good at writing code. So, for example, if I have this real estate listing, of course, I could ask an LLM, I could ask ChatGPT, figure out how to… what's the price in this real estate listing, right? But it's actually pretty trivial to write a very small
+
+100
+00:24:21,064 --> 00:24:39,234
+Sam Madden: piece of Python code that extracts the price from a real estate listing, because prices have a very regular structure, so something like a regular expression can easily pull out a dollar amount from a piece of text, and that's a pretty good guess for a price if you know that something is a real estate listing. You don't need to execute
+
+101
+00:24:39,234 --> 00:24:53,923
+Sam Madden: billions or trillions of floating-point operations on top of this piece of text using an LLM to do this. You can do it with a much, much more efficient little piece of conventional code. So I think that there's a very interesting trade-off now when I give you a task.
+
+102
+00:24:53,924 --> 00:25:01,523
+Sam Madden: should I generate code to achieve that task using, say, an LLM, or should I ask the LLM to do it directly?
+
+103
+00:25:01,544 --> 00:25:26,513
+Sam Madden: That's the kind of thing that… one of the types of optimizations that we're looking at. So the idea now is that, that Palmsest, it has… because we have this high-level language that abstracts away from the specific implementations, like the choice of model, or the batching of examples, or the specific ordering of operations, or even whether I should implement something like extracting the price as a piece of code, or by invoking an LLM to do it.
+
+104
+00:25:26,514 --> 00:25:27,614
+Sam Madden: It…
+
+105
+00:25:27,614 --> 00:25:39,924
+Sam Madden: it introduces this huge space of possible different physical implementations for a given plan. I mean, that's the job of the palim Zest operator, is to select them from amongst all these physical operations.
+
+106
+00:25:40,764 --> 00:26:05,423
+Sam Madden: Our key optimization insight is a pretty simple one. It's basically that these programs are running over a very large number of documents, so they're running over hundreds of documents. You saw in that demo, if you watched the demo video closely, it first did an optimization pass, where it spent a small amount of money to figure out what the best execution plan was on those 125 documents, and it did that by doing a sample from
+
+107
+00:26:05,424 --> 00:26:16,263
+Sam Madden: a collection of documents and a collection of operators, and then it used that sample to figure out what the best way to run the entire larger plan was. And I'm going to talk about how that sampling process works.
+
+108
+00:26:16,594 --> 00:26:20,063
+Sam Madden: So the kind of gist of the idea here is that
+
+109
+00:26:20,224 --> 00:26:25,134
+Sam Madden: We're gonna use a sample of the… the… the… the…
+
+110
+00:26:25,474 --> 00:26:49,543
+Sam Madden: a sample of the data, we're going to run a variety of different implementation alternatives on that sample of data in order to find the one that works best. And we're going to judge what works best. Obviously, we can measure the runtime and the dollar cost of how long each implementation takes, but then we're going to judge the quality of how well it works by using… by comparing the results of the different methods, either to an expensive
+
+111
+00:26:49,714 --> 00:27:03,104
+Sam Madden: state-of-the-art LLM, so this is the LLM as judge approach that I mentioned before, or to a ground truth dataset that the user provides us, some gold standard data that the user's hand-labeled, which is like, this is the correct answer on my dataset.
+
+112
+00:27:03,584 --> 00:27:21,214
+Sam Madden: Okay, so now the optimization process is going to work kind of as follows. So we're going to take, our logical plan, which, you know, in this case is these, you know, this sequence of operators that load the data set, filter by address, filter by price, filter by, you know, is modern and attractive?
+
+113
+00:27:21,214 --> 00:27:43,704
+Sam Madden: And we're gonna… so that's a logical sequence of operations, say, these… depicted by these five blue boxes here. And what we're gonna do is we're gonna, generate possible physical implement… alternative physical implementations. So by physical, I mean instantiations of these logical operations as, say, calls to LLMs, or pieces of generated code, or other things.
+
+114
+00:27:44,134 --> 00:28:06,793
+Sam Madden: And then we're gonna… and obviously there's a very large, like, an exponential number of varieties of these plans, because for each operation, I have many choices of implementation. Like, even if you just think about a simple trade-off, like using, you know, one of three different LLM models, Gemini, Anthropic, or OpenAI, for each of these 5 different things, right, then I've got
+
+115
+00:28:06,794 --> 00:28:15,833
+Sam Madden: 3 times 3 times 3 times 3 times 3 times 3 alternatives, right? So 3 to the 5th alternatives for a very simple plan space. So the plan space is actually very large.
+
+116
+00:28:15,844 --> 00:28:40,744
+Sam Madden: And so what the optimizer does, then, is it generates a Pareto optimal sort of curve that explores the space between runtime or dollar cost on one hand, so the y-axis here, and the overall quality of the plan as measured, say, for example, by this… against an LLM as judge. And it produces a plan which satisfies whatever the user's constraints are. So, for example, the user may say.
+
+117
+00:28:40,744 --> 00:28:51,294
+Sam Madden: a Mac, I want the highest quality plan subject to a constraint on dollar cost, and so whatever this little blue plan here shown is would be the one that it would ultimately select.
+
+118
+00:28:51,584 --> 00:29:08,014
+Sam Madden: So, now I'm going to talk a little bit more detail about how this optimization process actually works. So, I'll give some examples of these different physical implementations. So, like, one physical implementation might be I could call one LLM model, like OpenAI, for each of these LLM calls.
+
+119
+00:29:08,154 --> 00:29:25,063
+Sam Madden: Another thing I do would be this mixed model thing, so I might choose different, open… different LLMs for different, different operations, right? But there's many other things I could do. So one optimization we apply is context trimming. So, in context trimming, you might,
+
+120
+00:29:25,514 --> 00:29:49,374
+Sam Madden: have a way to, before you invoke the model, trim away text that you know is not relevant, right? So, for example, maybe I preprocess this data to only need to know about the price and the address, and then once I preprocessed the data to do that, I don't need to feed the rest of the real estate listing into the prompt. And that, of course, will save quite a bit of money, because
+
+121
+00:29:49,374 --> 00:29:53,633
+Sam Madden: The cost to run these LLMs is proportional to the number of tokens that they process.
+
+122
+00:29:54,034 --> 00:30:18,503
+Sam Madden: Okay? And then I can combine these things together, so I can do trimming and mixed models, right? Or I can do trimming and mixed models and code generation. Like, I might be able to generate code to do this, extract the price. Okay, so many, many different, alternatives that I can choose for doing all these different things, right? So I've got all these alternatives, I need to pick between them. That's the job of the optimizer. And so internally, the optimizer looks a bit like.
+
+123
+00:30:18,504 --> 00:30:35,123
+Sam Madden: a, sort of a conventional database query optimizer with a few small differences. So, this is… I'll explain a little bit about how it works, but the… the sort of… there are two key components to this. So, one is I need some way to enumerate all the different possible plans.
+
+124
+00:30:35,124 --> 00:30:58,223
+Sam Madden: Okay, and that's the plan search method, so DP here is dynamic programming, so a dynamic programming plan search method. And then we need a cost model, some way to evaluate how good each plan is, and that cost model is not just measuring the, as I've already said, not just measuring, say, the dollar cost of the runtime, but actually the frontier, or the sort of combination of
+
+125
+00:30:58,224 --> 00:31:02,013
+Sam Madden: Dollar cost, runtime, and overall quality of the plan.
+
+126
+00:31:02,394 --> 00:31:07,474
+Sam Madden: Okay, so let's first talk about this planned search problem. So the, the sort of…
+
+127
+00:31:07,474 --> 00:31:32,443
+Sam Madden: the database community, most database engines use something called a cascade-style optimizer. I'll just briefly tell you about how it works. So the idea in a cascade-style optimizer is that you have expressions, logical expressions and physical expressions. So logical expressions are things like scans and filters. Physical expressions would be instantiations of those logical plans in terms of specific operations.
+
+128
+00:31:32,444 --> 00:31:47,563
+Sam Madden: So, for example, I might… local… scan might be implemented by a local scan on my file system, or maybe it would be go out to my data lake and read the file from the data lake, whatever it is. And then filter might be implemented, for example, by a call to an LLM.
+
+129
+00:31:47,864 --> 00:32:11,263
+Sam Madden: And then we have a collection of transformation rules in these optimizers. So, for example, one transformation rule might be a logical-to-logical transformation, which would say that two operators commute with each other. So, for example, two filters commute. It doesn't matter whether I first filter my price by… my properties by price, and then geographic distance, or by geographic distance, and then price.
+
+130
+00:32:11,264 --> 00:32:31,063
+Sam Madden: In terms of the overall end result of the program that I get. But those two different implementations might have substantially different runtimes, depending on how much of the data is filtered out by each of the operations. Like, if none of my properties are close to MIT, then it's going to be much more efficient to first filter by closeness to MIT before I filter by price.
+
+131
+00:32:31,434 --> 00:32:45,924
+Sam Madden: Okay? And then… so these things, obviously, sort of, we can… and then we also have implementation rules which take these, logical operations and can… and instantiate them in terms of these physical implementations.
+
+132
+00:32:46,364 --> 00:33:11,014
+Sam Madden: And then finally, what I get out of the optimizer is I have groups of operations, so I have an operation, a group of operations like AB. This says these are two things that I need to do. I need to execute A and B, and there are two logical ways to do this. First, I can do B and then A, or I can do A and then B if A and B commute with each other. And then, from those two logical expressions, I can generate all the different possible
+
+133
+00:33:11,014 --> 00:33:31,204
+Sam Madden: physical implementations. So, for example, if I have B, then A, I can first do B with GPT, with ChatGPT, and then I can do A with Llama, or I can do B with Llama, and then I can do A with GPT, right? So I have this combinatorial, sort of explosion of the number of possible physical implementations that I can do, okay?
+
+134
+00:33:31,204 --> 00:33:54,513
+Sam Madden: So the optimizer has to, sort of, in the context of this program like this, if we have, say, for example, 5 operations like this, what the optimizer has to do is, compute some objective, like maximize quality over this particular group, ABCDE, and, you know, enumerating all the different logical and physical expressions for achieving this.
+
+135
+00:33:54,874 --> 00:34:12,613
+Sam Madden: Okay, and so the way this enumeration process would work is that we would consider, all of the different sub-plans of this group A, B, C, D, E. So the sub-plans would be, like, E, first do E, and then do whatever the optimal way to do A, B, C, D is. And then there would be two, for example, physical ways to implement this.
+
+136
+00:34:12,753 --> 00:34:27,073
+Sam Madden: Okay, and then I can consider other plan alternatives, right? Like, this ABCDED, for example. So I could, in that case, I could first do D, and then whatever the best way to do ABC E is. So I can enumerate all the different logical expressions.
+
+137
+00:34:27,204 --> 00:34:41,143
+Sam Madden: And then, what we then do is we recurse. So, the sort of notation here, this E implies ABCD, is showing that, the best way to compute ABCD, is
+
+138
+00:34:41,144 --> 00:35:04,964
+Sam Madden: and this is sort of like, I take… I figure out how to add E onto whatever the best way to compute A, B, C, D is. So this is why this is a dynamic programming problem, because we have some memoization or caching of the best way to compute these subplans, and I don't need to recompute the cost to do these subplans, whether I'm, you know, first doing A, or whether I'm doing, you know.
+
+139
+00:35:05,064 --> 00:35:13,074
+Sam Madden: however I add E onto the result of ABCD isn't going to affect the overall, you know, sort of cost of doing ABCD.
+
+140
+00:35:13,114 --> 00:35:38,113
+Sam Madden: Okay, so then we just recurse and enumerate. So now I would consider, how do I add… if I'm considering the subplan E, A, B, C, D, I then consider the subplan D, ABC, and all the other subplans underneath it, like A, B, C, D, B, A, C, D, and so on and so forth. And I consider all of the physical implementations of each one of those, and I do the same for all the other expressions.
+
+141
+00:35:38,114 --> 00:35:43,624
+Sam Madden: We get this plan tree, which enumerates all the different, plan choices.
+
+142
+00:35:43,624 --> 00:36:02,414
+Sam Madden: And by… so this is how we sort of enumerate all the different possible implementation alternatives. And you can see that there's, like, 2 to the number… there's, like, 2 to the number of, plan steps that we can… sort of logical expressions that we can enumerate, from… from a program like this.
+
+143
+00:36:02,634 --> 00:36:26,984
+Sam Madden: Okay, so once we have a way to enumerate the plans, now we need a way to cost them and figure out which ones are best, and that's the job of the cost model. And the cost model that we're going to use is a sampling-based cost model, as I've already sort of alluded to. So we used a simple multi-arm bandit sampling method. So what the sampling method does is for each operator, like map A, it has a number of different implementation alternatives, so map, maybe, N of them here.
+
+144
+00:36:26,984 --> 00:36:39,853
+Sam Madden: What it does is it samples, randomly samples a collection of those operators and randomly samples a collection of inputs. And it evaluates each of those, in this case, K operators on
+
+145
+00:36:40,104 --> 00:36:44,774
+Sam Madden: each of the J inputs that it sampled, and it gets a…
+
+146
+00:36:44,984 --> 00:36:51,693
+Sam Madden: Output of the cost and quality of running each of these different implementations on that sample.
+
+147
+00:36:51,854 --> 00:37:15,883
+Sam Madden: And what it's trying to do, this multi-art band is trying to do, is it's trying to come up with confidence bounds that allow it to estimate which of these different implementation alternatives might be a viable, optimal way to do this implementation. So, for example, in this case, you can see that this map A3, was… had low quality on 2 out of the three operators, and map A1 and A2, you know, had higher quality.
+
+148
+00:37:15,884 --> 00:37:29,924
+Sam Madden: With Map A2 having the best of what we've seen. So we are going to sort of compute a confidence bound using confidence sampling on each of these operators, and then we'll see whether those confidence bounds overlap or not.
+
+149
+00:37:29,924 --> 00:37:51,273
+Sam Madden: And for the ones that don't overlap, so for example, in this case, our upper confidence bound is below the lower confidence bound of either of the two operators, we would discard those implementations which are no longer viable. So this gives us a way, as we're enumerating this plan space in this tree in sort of a bottom-up way, it gives us a way to filter out operations which are not
+
+150
+00:37:51,354 --> 00:37:52,764
+Sam Madden: optimal anymore.
+
+151
+00:37:52,854 --> 00:38:05,614
+Sam Madden: And we iterate doing this until we've exhausted our sampling budget, and then at that point, we pick whatever operation, whichever implementation is our highest estimated quality.
+
+152
+00:38:05,634 --> 00:38:20,003
+Sam Madden: Okay? So we're able to do this, we have to take constraints into account so we can formulate this as an optimization problem with constraints, so I can find the highest quality plan subject to a price constraint. We have a way to incorporate prior beliefs, like if you believe that
+
+153
+00:38:20,044 --> 00:38:40,434
+Sam Madden: GPT-5.1 is better than Gemini 2.5, then you can input that as a prior into the system. And I'll just say that this optimization method, it produces this Pareto optimal frontier, and this is a very different sort of an optimization objective than what people in the database community have used in the past, where they've always optimized
+
+154
+00:38:40,434 --> 00:38:45,534
+Sam Madden: Or typically optimized just for runtime, like minimum… finding the cost, the minimum cost
+
+155
+00:38:45,534 --> 00:38:51,823
+Sam Madden: Cost plan, as opposed to the plan that achieves some multi… multi-dimensional objective.
+
+156
+00:38:52,304 --> 00:38:54,234
+Sam Madden: Okay, so,
+
+157
+00:38:54,234 --> 00:39:16,994
+Sam Madden: I've already showed you this demo. I'll just quickly go through some results, and then I have some more stuff, but I think we'll just switch over to questions, because I'd love to have a conversation with you. So, the kind of output that you get out of this system are things like this. So these green dots are the Pareto optimal frontier that our system is able to explore, and I've labeled here the single point that, for example, at the time we ran this GPT-4,
+
+158
+00:39:16,994 --> 00:39:31,664
+Sam Madden: was able to achieve. And so you can see that our system achieves a frontier of lower-cost plans, some of which actually exceed the quality of the
+
+159
+00:39:32,264 --> 00:39:46,844
+Sam Madden: base LLM model, GPT-4 in this case. And you can see from these diagrams that this holds against a number of different domains. We've done explorations not only in real estate search, but legal discovery and medical ma- medical schema matching.
+
+160
+00:39:46,844 --> 00:40:02,883
+Sam Madden: We've also done evaluations against some of the other systems in the literature that try to do similar things like this. So there's a system from Berkeley and a system from Stanford that have somewhat similar objectives. One of them, the Berkeley system's called Doc ETL.
+
+161
+00:40:02,884 --> 00:40:17,764
+Sam Madden: The Stanford system is called Lotus, and we've shown that our optimizer is able to achieve, in general, higher quality plans at a lower cost than what these systems do. These systems don't employ a much
+
+162
+00:40:17,814 --> 00:40:23,614
+Sam Madden: Sorry. These systems employ a much simpler optimizer than what PZ does.
+
+163
+00:40:23,954 --> 00:40:34,534
+Sam Madden: Okay, so we've done… we're doing a whole bunch of other research and indexing, which is gonna be, like, how do I… how do I take a whole bunch of documents and put them into something like a rag or a graph?
+
+164
+00:40:34,534 --> 00:40:57,303
+Sam Madden: So that I don't have to search all the data. Debugging, benchmarking, and multi-step retrieval, and many other things. So we're actively… these are kind of the active directions we're research… we're working on. We would love to collaborate people, with people on this, if there are people in the CCL community who want to, think about any of these topics, how you integrate these kinds of ideas into
+
+165
+00:40:57,304 --> 00:41:20,234
+Sam Madden: system like PZ, or a database, or Spark, or anything else, please reach out. I would love to talk to you. And so what I'll do is just skip to my conclusion slide here, and put this up. I was going to show a demo of our debugging system, but I think in the interest of time, maybe I'll just stop there, and then we can take some questions, so…
+
+166
+00:41:20,234 --> 00:41:43,073
+Sam Madden: And I should say, before I wrap up, of course, this is the work of our fabulous postdocs and graduate students. Myself, Mike Caffarilla, and Tim Kroska are the faculty members who are collaborating on this, but it really is the work of the graduate students and postdocs, and they deserve all the credit. So, in particular, Matt Rousseau is a PhD student who's been working on the
+
+167
+00:41:43,074 --> 00:41:47,343
+Sam Madden: optimization system, which I talked about. So, thanks very much.
+
+168
+00:41:47,914 --> 00:41:51,074
+Daniela Rus: Thank you, Sam. Thank you,
+
+169
+00:41:51,084 --> 00:42:08,613
+Daniela Rus: I just want to give everyone the following warning. At the end of this discussion, I would like all of you to unmute so we can give Sam an appropriate and loud applause. So get ready, please. But in the meantime.
+
+170
+00:42:08,934 --> 00:42:20,154
+Daniela Rus: Sam, there are a lot of questions in the chat, but I want to kick off the discussion with something more philosophical.
+
+171
+00:42:20,154 --> 00:42:36,444
+Daniela Rus: And, so in particular, also, Danny, Weitzner is wondering how cost is calculated in advance of, actually running the full prompt. And I want to add to this question.
+
+172
+00:42:36,444 --> 00:42:49,223
+Daniela Rus: The bigger question of how do we actually think about the energy cost, versus the other, kind of, of savings? And so, if I save, 3 minutes of my time.
+
+173
+00:42:49,224 --> 00:43:02,623
+Daniela Rus: But I end up causing or doing a lot of prompts that are very energy-intensive. How should I be thinking about that? How do you think about this?
+
+174
+00:43:02,924 --> 00:43:27,734
+Sam Madden: Yeah, so first of all, specifically to Danny's question, hopefully it's a little bit clearer how this works. There's a sampling… there's this sampling method that we're using in order to estimate the cost of a plan. And so, because we're imagining running on a very large number of documents, we think it's okay to do this kind of sampling. You could also imagine sort of pre-computing the plan, the best plan for a particular type of document, and then reusing that previously computed best plan.
+
+175
+00:43:27,734 --> 00:43:28,704
+Sam Madden: plan.
+
+176
+00:43:28,704 --> 00:43:32,444
+Sam Madden: With respect to energy consumption, you know, I guess,
+
+177
+00:43:33,544 --> 00:43:49,613
+Sam Madden: So, you know, I think in most cases, probably the LLM… commercial LLM providers, certainly if you're running… hosting your own LLMs, this is the case, that the runtime and or the number of CPU cycles and or the dollar cost is
+
+178
+00:43:49,714 --> 00:43:59,024
+Sam Madden: largely proportional to the energy cost, right? So if we can find a… if we can search through this space of,
+
+179
+00:43:59,364 --> 00:44:17,733
+Sam Madden: plans and find a plan which is a lower dollar cost, or uses fewer CPU cycles, that's gonna hopefully result in lower energy costs. You know, I think… I mean, clearly, you know, one thing, one thing I guess I would sort of add to that is I feel like, philosophically.
+
+180
+00:44:18,154 --> 00:44:23,663
+Sam Madden: People are… in this world of LLMs, people have sort of
+
+181
+00:44:23,664 --> 00:44:47,023
+Sam Madden: gotten into this mode where it's like, well, just ask the LLM to do it. And I personally feel like, especially for something like an optimization problem, I mean, we have decades of research in computer science and AI about how you analytically solve optimization problems. Most optimization problems, like, asking an LLM to solve an optimization problem is like… I don't know, it's kind of like asking a human to solve an optimization problem. We have
+
+182
+00:44:47,024 --> 00:45:11,484
+Sam Madden: mathematics and algorithms that can do optimization, and so we should rely on those techniques when they can be applied, and not, for example, in the case of agentic AI, the idea that you're going to ask an LLM to make a decision about which of n agents to choose between for a task, you know, I think we sh… like, yes, that's one way you might do this, but I think it's an extremely energy-consumptive way of solving a task which you can likely solve
+
+183
+00:45:11,654 --> 00:45:17,693
+Sam Madden: Way faster with a more conventional algorithm that will use far less power and probably do a better job.
+
+184
+00:45:17,894 --> 00:45:36,174
+Daniela Rus: So, Sam, I couldn't agree with you more, and I actually think that there is now a tendency of reducing all problems to LLM calls, and I think that's very unfortunate because of the energy cost of running
+
+185
+00:45:36,174 --> 00:45:39,723
+Daniela Rus: the LLM calls, at least the kind of LLMs that,
+
+186
+00:45:39,724 --> 00:45:44,604
+Daniela Rus: Are now available, the really large models that run in the cloud.
+
+187
+00:45:44,604 --> 00:45:59,844
+Daniela Rus: But then I wonder, also from a philosophical point of view, how would you advise people to approach a problem solution? When should we use, when should we use LLMs, and when should we try to use algorithms?
+
+188
+00:46:00,184 --> 00:46:16,944
+Sam Madden: Yeah, I mean, I guess that was sort of part of my point that I hope you guys took away from this a little bit, which is that by introducing an abstraction layer between the LLM and the, and the higher level program, like the application, we…
+
+189
+00:46:17,344 --> 00:46:23,773
+Sam Madden: Add the opportunity for systems designers, at least, to try to automate, to sort of avoid that
+
+190
+00:46:23,844 --> 00:46:43,594
+Sam Madden: just, I'm going to send everything to the LLM, right? You have some AI, some task, a lot of these data processing tasks are a mix of AI models and other more conventional data processing things that we're going to need to do, and so we shouldn't just route everything through the LLM to figure out how to do this. We should have some abstraction layer that can make these decisions.
+
+191
+00:46:43,604 --> 00:46:52,583
+Sam Madden: I guess, you know, not everything is going to fit into the… into the framework that I described here, but I do think that
+
+192
+00:46:52,594 --> 00:47:08,594
+Sam Madden: exactly as you said, Daniela, like, you know, there's a tendency for people to just say, oh, I'll just ask an LLM to do it, and you know, you should… I would encourage people to think about whether there exists a, you know, a known algorithm that can do this at
+
+193
+00:47:08,594 --> 00:47:23,143
+Sam Madden: a tiny fraction of the energy, and probably with the equivalent or way better, you know, equivalent or possibly even better quality than what you would get by… and certainly better reliability than you would get by asking an LM to do it, so…
+
+194
+00:47:23,314 --> 00:47:39,533
+Daniela Rus: Yes, I also think that this is an opportunity for us to maybe articulate with more granularity the costs, and maybe also even give some guidance to how we develop using
+
+195
+00:47:39,534 --> 00:47:48,444
+Daniela Rus: traditional methods versus LLM-based methods. So, okay, so, let me go to the chat.
+
+196
+00:47:48,474 --> 00:48:03,903
+Daniela Rus: And, let's see, just, going up in the chat, there is a question, from, Shamal Chandra. Have you thought about applying this MVC middleware model to map… oh, we also addressed that.
+
+197
+00:48:03,904 --> 00:48:05,223
+Sam Madden: I talked about that one a little bit.
+
+198
+00:48:05,224 --> 00:48:22,064
+Daniela Rus: Yeah, yeah. So, I'm just, looking at, at, the chat right now. Let's see, then, let's see, David Moon asks, is optimization just trying samples or predicting what each LLM will do based on understanding its guts?
+
+199
+00:48:22,354 --> 00:48:41,003
+Sam Madden: Yeah, so it is fundamentally a sampling-based method, and we're not… but the idea of this sampling-based method is that by sampling different LLMs, you learn something about… that is, you get an estimate of its quality on your task, right? So you're sort of learning something about its guts by sampling it.
+
+200
+00:48:41,264 --> 00:48:52,984
+Sam Madden: And as I very briefly mentioned, although I didn't go into the details, we do allow a human, or you could imagine even a search process before you run the optimizer.
+
+201
+00:48:53,354 --> 00:49:03,783
+Sam Madden: to input some sort of a prior about the performance of different models on your specific task. So if you know something about
+
+202
+00:49:04,004 --> 00:49:14,043
+Sam Madden: this model tends to be better than this other model, or this implementation method tends to be better, then we have a way that you can input that into this. But it is fundamentally a sampling-based method.
+
+203
+00:49:16,104 --> 00:49:29,133
+Daniela Rus: Okay, so, next question is from David Mankins, who wants to know, how do you characterize the AI tools so your optimizer knows what to do and how to use it?
+
+204
+00:49:30,074 --> 00:49:53,314
+Sam Madden: Yeah, so that's a great question. So, like, we've got all these different tools, and which ones are… which ones can be used for each different implementation. So, the way that the software works underneath the covers is we have this collection of particular operations. Like, we've got joins, we've got maps, we've got things that extract information from text, things that extract information from images.
+
+205
+00:49:53,314 --> 00:50:02,883
+Sam Madden: things that extract information from audio files, so we have support for a variety of different multimodal data types, and support for a collection of a specific collection of
+
+206
+00:50:02,884 --> 00:50:06,674
+Sam Madden: Sort of semantic relational operators.
+
+207
+00:50:07,034 --> 00:50:21,764
+Sam Madden: internally, the system essentially has, for each one of those, an enumeration of what the different implementation alternatives are that it can choose between. So, for example, not all commercial large language models can work with audio.
+
+208
+00:50:21,764 --> 00:50:34,683
+Sam Madden: Right? So you would only have the ones that can work with audio available when you're asking a question about an audio-style document. So it's… that's kind of a low-level, nitty-gritty answer, but hopefully it gives you a sense of how the implementation works.
+
+209
+00:50:35,524 --> 00:50:53,373
+Daniela Rus: Really great. So I see Shyamal Chandra paid a lot of attention. He's asked a lot of questions, so I'm gonna… I'm gonna come back to your questions, Shyamal, but, before then, I want to, give, you, Sam, Robert Tao's question.
+
+210
+00:50:53,374 --> 00:51:05,273
+Daniela Rus: Who says, for a data B of, say, real estate listings, there are likely to be many queries on similar attributes, perhaps with different preferences, price, style, address, location.
+
+211
+00:51:05,274 --> 00:51:17,773
+Daniela Rus: Have you thought about identifying common relevant attributes for dataset and caching extracted values to avoid some of all query time LLM use?
+
+212
+00:51:17,774 --> 00:51:38,923
+Sam Madden: Yeah, this is an excellent question. So, in fact, this is something that we're working on actively now. So, you know, it's absolutely right that doing this extraction at runtime when you have thousands or millions of documents is probably not practical, and instead what you're going to need to do, and I only mentioned this, like, extremely briefly on my future work, my sort of current project slide.
+
+213
+00:51:38,924 --> 00:52:02,823
+Sam Madden: But you're going to want to have indexed all the documents by their attributes. So one thing, if you know that you're going to need to preprocess a collection of fields, of course, you can preprocess those documents in that way. But one thing that I think is very interesting is to, and this is what we're sort of working on, is imagining that you can learn from the types of queries that people ask over time to learn what types of fields you might want to preprocess on.
+
+214
+00:52:02,824 --> 00:52:24,254
+Sam Madden: So that you can have the data sort of indexed according to the types of things that people often query on to make those types of queries very fast. So it's sort of a index-as-you-go style approach, where we learn the types of semantic predicates that people want to apply in their documents, so that we can execute those queries on those predicates more efficiently.
+
+215
+00:52:24,904 --> 00:52:41,134
+Daniela Rus: Okay, so I'll pick one of Shyamal Chandra's questions. The other ones will capture them in the chat. And the question is, what about semantic fill for spreadsheets? And how about higher order fillers with sliding user interfaces?
+
+216
+00:52:41,134 --> 00:53:05,843
+Sam Madden: Yeah, I mean, so I think you absolutely could imagine using a system like PZ for semantic fill if you wanted to. I mean, it's… it's, you know, we… part of the reason we built it as sort of a programming language is that we think that, higher-level applications, you know, that do, like, for example, semantic fill would be a very natural thing that you could implement with a system like PZ. I personally love the idea of semantic fill or semantic spreadsheets. I know there's some commercial tools out there.
+
+217
+00:53:05,964 --> 00:53:27,544
+Sam Madden: that are trying to do this, where you, you know, have a… imagine a spreadsheet where you have text in one column, and then you can have, you know, another column, which is a LLM-based predicate on top of that first column, right? And you could imagine changing these things together much the way you do in complex Excel spreadsheets and other things. So I think that's a super cool
+
+218
+00:53:27,544 --> 00:53:34,783
+Sam Madden: kind of an implementation alternative, and you could imagine using a system like PZ as the runtime, underneath a system like that.
+
+219
+00:53:36,174 --> 00:53:45,112
+Daniela Rus: So, it's… we are at time, Sam. We're gonna save all the other questions for you. Thank you all for joining us. 
+
+220
+00:53:45,167 --> 00:53:53,000
+Sam Madden: All right, well, thank you so much, everybody. Please reach out if you have questions, or if you want to, you know, join the project. We're always looking for collaborators. So, thanks so much, everybody.
+
+221
+00:53:53,134 --> 00:53:54,240
+Daniela Rus: Thank you, Sam.
+
+222
+00:53:54,440 --> 00:53:57,760
+Daniela Rus: Bye-bye, everyone.
+

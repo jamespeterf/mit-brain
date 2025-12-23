@@ -1,0 +1,5308 @@
+1
+00:00:01,360 --> 00:00:04,400
+Good afternoon. Uh my name is David
+
+2
+00:00:03,120 --> 00:00:04,640
+Martin. I'm a first need to connect
+
+3
+00:00:04,400 --> 00:00:07,120
+this.
+
+4
+00:00:04,640 --> 00:00:09,599
+>> Yep. Another program director here at uh
+
+5
+00:00:07,120 --> 00:00:11,679
+uh corporate relations and uh uh while
+
+6
+00:00:09,599 --> 00:00:13,679
+Har's getting set up, I have the honor
+
+7
+00:00:11,679 --> 00:00:17,359
+to be uh introducing him this afternoon.
+
+8
+00:00:13,679 --> 00:00:20,000
+So Hari Balakrishnan is the Fujitsu
+
+9
+00:00:17,359 --> 00:00:22,320
+professor of computer science at MIT and
+
+10
+00:00:20,000 --> 00:00:25,119
+a director of MIT's center for wireless
+
+11
+00:00:22,320 --> 00:00:27,920
+networks and mobile computing. His
+
+12
+00:00:25,119 --> 00:00:30,000
+research is inworked computer systems
+
+13
+00:00:27,920 --> 00:00:32,320
+with current interests in networking,
+
+14
+00:00:30,000 --> 00:00:33,920
+sensing and perception for sensor
+
+15
+00:00:32,320 --> 00:00:35,920
+equipped mobile devices connected to
+
+16
+00:00:33,920 --> 00:00:38,559
+cloud or edge services running in data
+
+17
+00:00:35,920 --> 00:00:40,160
+centers. He has made many highly cited
+
+18
+00:00:38,559 --> 00:00:42,160
+contributions to mobile and sensor
+
+19
+00:00:40,160 --> 00:00:44,559
+computing, internet transport and
+
+20
+00:00:42,160 --> 00:00:47,200
+routing, overlay networks and P2P
+
+21
+00:00:44,559 --> 00:00:50,480
+systems and data management. And today
+
+22
+00:00:47,200 --> 00:00:53,199
+his presentation is titled Gala in AI
+
+23
+00:00:50,480 --> 00:00:55,360
+for autonomous system design and optim
+
+24
+00:00:53,199 --> 00:00:58,295
+optimization. So join me in welcoming
+
+25
+00:00:55,360 --> 00:01:00,315
+Hari Abalakrishnan.
+
+26
+00:00:58,295 --> 00:01:00,315
+[applause]
+
+27
+00:01:02,399 --> 00:01:05,399
+>> Thanks.
+
+28
+00:01:12,799 --> 00:01:17,280
+>> Okay,
+
+29
+00:01:14,560 --> 00:01:20,000
+it's working. Is mic on? Great. Good
+
+30
+00:01:17,280 --> 00:01:22,080
+afternoon everybody. Um so what I'd like
+
+31
+00:01:20,000 --> 00:01:23,759
+to talk to you about is a line of
+
+32
+00:01:22,080 --> 00:01:26,560
+research that our group has been working
+
+33
+00:01:23,759 --> 00:01:28,240
+on for about a little over 18 months or
+
+34
+00:01:26,560 --> 00:01:31,040
+two years but actually builds on about a
+
+35
+00:01:28,240 --> 00:01:33,040
+decade's work uh worth of work in our
+
+36
+00:01:31,040 --> 00:01:36,720
+lab u the networks and mobile systems
+
+37
+00:01:33,040 --> 00:01:38,079
+group um which is uh a lot of this work
+
+38
+00:01:36,720 --> 00:01:41,280
+has been actually led by my colleague
+
+39
+00:01:38,079 --> 00:01:44,560
+Mohammed Alizad um uh working with me
+
+40
+00:01:41,280 --> 00:01:48,240
+and several of our students uh uh Joseph
+
+41
+00:01:44,560 --> 00:01:53,240
+Puya Ponta Arash and Kimya
+
+42
+00:01:48,240 --> 00:01:53,240
+So um let's get into it.
+
+43
+00:01:58,079 --> 00:02:01,759
+All right. So here's the big picture of
+
+44
+00:02:00,079 --> 00:02:03,520
+um what I'm going to talk about. If you
+
+45
+00:02:01,759 --> 00:02:06,719
+look at AI today, especially generative
+
+46
+00:02:03,520 --> 00:02:08,319
+AI um technologies and things related to
+
+47
+00:02:06,719 --> 00:02:10,239
+inference,
+
+48
+00:02:08,319 --> 00:02:14,319
+whether they're based on LLMs or not
+
+49
+00:02:10,239 --> 00:02:17,200
+LLMs, the pace at which AI model
+
+50
+00:02:14,319 --> 00:02:19,599
+advancements are happening outpaces the
+
+51
+00:02:17,200 --> 00:02:21,360
+pace at which the systems that deliver
+
+52
+00:02:19,599 --> 00:02:25,360
+these AI applications are being
+
+53
+00:02:21,360 --> 00:02:27,440
+innovated upon. And while there's been a
+
+54
+00:02:25,360 --> 00:02:29,120
+lot of advances in modeling, systems
+
+55
+00:02:27,440 --> 00:02:31,360
+really are the lifeblood of AI. If you
+
+56
+00:02:29,120 --> 00:02:34,640
+didn't have computing systems based on
+
+57
+00:02:31,360 --> 00:02:37,840
+GPUs and fast networks um and other
+
+58
+00:02:34,640 --> 00:02:40,319
+compute engines uh working at very high
+
+59
+00:02:37,840 --> 00:02:42,080
+speed and efficiency uh you end up with
+
+60
+00:02:40,319 --> 00:02:44,400
+not being able to take advantage of all
+
+61
+00:02:42,080 --> 00:02:45,599
+of the impressive advances in the models
+
+62
+00:02:44,400 --> 00:02:47,680
+and we've talked to a number of
+
+63
+00:02:45,599 --> 00:02:50,640
+companies and many of them have started
+
+64
+00:02:47,680 --> 00:02:52,959
+dedicating squads of experts to AI
+
+65
+00:02:50,640 --> 00:02:54,480
+infrastructure and this is true for the
+
+66
+00:02:52,959 --> 00:02:56,959
+big companies but it's also true for
+
+67
+00:02:54,480 --> 00:02:59,360
+companies that have started to have
+
+68
+00:02:56,959 --> 00:03:01,280
+deployed their own models often in the
+
+69
+00:02:59,360 --> 00:03:03,120
+cloud and there's very little support
+
+70
+00:03:01,280 --> 00:03:04,800
+given to those engineers and these
+
+71
+00:03:03,120 --> 00:03:06,879
+engineers end up spending a lot of time
+
+72
+00:03:04,800 --> 00:03:09,840
+on making AI more efficient and it's
+
+73
+00:03:06,879 --> 00:03:12,159
+expensive. Uh GPUs are expensive and uh
+
+74
+00:03:09,840 --> 00:03:14,239
+often uh it's hard to get hands get your
+
+75
+00:03:12,159 --> 00:03:16,159
+hands on GPUs as well. So what we've
+
+76
+00:03:14,239 --> 00:03:18,159
+been doing in this work is trying to
+
+77
+00:03:16,159 --> 00:03:22,080
+pioneer a new era of highly autonomous
+
+78
+00:03:18,159 --> 00:03:24,480
+infrastructure which allows for these
+
+79
+00:03:22,080 --> 00:03:28,640
+systems uh these complex distributed
+
+80
+00:03:24,480 --> 00:03:31,440
+computing systems to be uh adaptive to
+
+81
+00:03:28,640 --> 00:03:35,680
+changing workloads and changing hardware
+
+82
+00:03:31,440 --> 00:03:38,400
+um and uh changing user needs.
+
+83
+00:03:35,680 --> 00:03:40,480
+Self-improves by observing what it's
+
+84
+00:03:38,400 --> 00:03:42,959
+doing, what's happening to the data in
+
+85
+00:03:40,480 --> 00:03:44,480
+the system. And because these systems
+
+86
+00:03:42,959 --> 00:03:47,120
+are pretty complicated, we feel like
+
+87
+00:03:44,480 --> 00:03:49,200
+it's reached the edge of human comping
+
+88
+00:03:47,120 --> 00:03:50,799
+and human comprehension to understand
+
+89
+00:03:49,200 --> 00:03:52,640
+how to design and optimize these
+
+90
+00:03:50,799 --> 00:03:55,360
+systems. Uh it turns out it's
+
+91
+00:03:52,640 --> 00:03:58,080
+architected by AI itself. And our
+
+92
+00:03:55,360 --> 00:04:00,239
+initial mode here is to view the AI as a
+
+93
+00:03:58,080 --> 00:04:02,799
+collaborator to the human engineer or
+
+94
+00:04:00,239 --> 00:04:04,640
+the human designer. Um but actually over
+
+95
+00:04:02,799 --> 00:04:06,159
+time we think for some of these very
+
+96
+00:04:04,640 --> 00:04:09,360
+complicated problems, we would end up
+
+97
+00:04:06,159 --> 00:04:10,879
+with the AI making decisions um and
+
+98
+00:04:09,360 --> 00:04:12,560
+updating even production code. And
+
+99
+00:04:10,879 --> 00:04:15,280
+that's part of the vision. It's not it's
+
+100
+00:04:12,560 --> 00:04:17,040
+not real yet. So the types of results
+
+101
+00:04:15,280 --> 00:04:18,400
+that we've been observing are that we
+
+102
+00:04:17,040 --> 00:04:19,919
+can deliver continuous system
+
+103
+00:04:18,400 --> 00:04:21,680
+optimizations
+
+104
+00:04:19,919 --> 00:04:23,600
+because the workload keeps changing you
+
+105
+00:04:21,680 --> 00:04:25,759
+know um and I'll show lots of examples
+
+106
+00:04:23,600 --> 00:04:27,520
+of this uh about one or two orders of
+
+107
+00:04:25,759 --> 00:04:31,199
+magnitude 10 to 100 times faster than
+
+108
+00:04:27,520 --> 00:04:34,080
+experts. It takes uh hours to produce
+
+109
+00:04:31,199 --> 00:04:36,800
+these optimizations and improvements uh
+
+110
+00:04:34,080 --> 00:04:39,520
+in a continuous way. uh whereas it would
+
+111
+00:04:36,800 --> 00:04:41,360
+take weeks of time uh for an expert or a
+
+112
+00:04:39,520 --> 00:04:44,240
+squad of experts to produce these types
+
+113
+00:04:41,360 --> 00:04:46,639
+of optimizations.
+
+114
+00:04:44,240 --> 00:04:49,520
+So here here's some uh evidence for AI
+
+115
+00:04:46,639 --> 00:04:52,080
+outpacing its system infrastructure. So
+
+116
+00:04:49,520 --> 00:04:53,199
+you know TensorFlow which today is sort
+
+117
+00:04:52,080 --> 00:04:54,560
+of people have stopped using it because
+
+118
+00:04:53,199 --> 00:04:55,360
+I think Google recently announced that
+
+119
+00:04:54,560 --> 00:04:56,639
+they're really not going to be
+
+120
+00:04:55,360 --> 00:04:59,520
+supporting it anymore. It's about 10
+
+121
+00:04:56,639 --> 00:05:05,520
+years old. um that was uh that came
+
+122
+00:04:59,520 --> 00:05:06,960
+about in 2016 and when the first um LLM
+
+123
+00:05:05,520 --> 00:05:09,680
+based systems were starting to get
+
+124
+00:05:06,960 --> 00:05:11,520
+deployed they deployed it on these
+
+125
+00:05:09,680 --> 00:05:13,680
+inference servers that were built on
+
+126
+00:05:11,520 --> 00:05:15,919
+TensorFlow which is really not a good
+
+127
+00:05:13,680 --> 00:05:18,320
+match for these types of problems. Um
+
+128
+00:05:15,919 --> 00:05:20,080
+and this has been evolved later on this
+
+129
+00:05:18,320 --> 00:05:22,560
+was named uh renamed to Triton which
+
+130
+00:05:20,080 --> 00:05:24,720
+I'll come back to because today we used
+
+131
+00:05:22,560 --> 00:05:27,199
+um people use Triton which is uh an open
+
+132
+00:05:24,720 --> 00:05:32,320
+source projects uh led by largely by
+
+133
+00:05:27,199 --> 00:05:34,800
+Nvidia um to um uh to deploy these these
+
+134
+00:05:32,320 --> 00:05:36,639
+nonLM based systems but there's been
+
+135
+00:05:34,800 --> 00:05:38,000
+about a two or three year gap in terms
+
+136
+00:05:36,639 --> 00:05:42,000
+of the infrastructure and then when chat
+
+137
+00:05:38,000 --> 00:05:44,960
+GPT came about um there was really huge
+
+138
+00:05:42,000 --> 00:05:46,800
+memory footprint they grew very very um
+
+139
+00:05:44,960 --> 00:05:48,320
+aggressive very very quickly. Uh it's an
+
+140
+00:05:46,800 --> 00:05:49,919
+auto reggressive model and there wasn't
+
+141
+00:05:48,320 --> 00:05:52,000
+the system infrastructure that was
+
+142
+00:05:49,919 --> 00:05:54,000
+available. We had these GPUs but there
+
+143
+00:05:52,000 --> 00:05:57,199
+was not really much software to support
+
+144
+00:05:54,000 --> 00:05:58,880
+this and and the first types of systems
+
+145
+00:05:57,199 --> 00:06:00,560
+that allowed us to do something
+
+146
+00:05:58,880 --> 00:06:03,280
+reasonable was this open source project
+
+147
+00:06:00,560 --> 00:06:05,919
+out of Berkeley VLM which is now
+
+148
+00:06:03,280 --> 00:06:08,319
+probably the de facto most popular way
+
+149
+00:06:05,919 --> 00:06:09,919
+to support LLM based applications. In
+
+150
+00:06:08,319 --> 00:06:11,520
+fact, even companies that have large
+
+151
+00:06:09,919 --> 00:06:14,720
+language model deployments, many of them
+
+152
+00:06:11,520 --> 00:06:17,039
+are kind of based or folks off of VLM
+
+153
+00:06:14,720 --> 00:06:19,759
+and uh it took about two years of a gap
+
+154
+00:06:17,039 --> 00:06:22,160
+and it continues to get uh uh innovated
+
+155
+00:06:19,759 --> 00:06:25,120
+upon. Uh SG lang was another system that
+
+156
+00:06:22,160 --> 00:06:26,800
+came about two years after this uh model
+
+157
+00:06:25,120 --> 00:06:28,400
+advancement.
+
+158
+00:06:26,800 --> 00:06:29,919
+And if you look at the commercial world
+
+159
+00:06:28,400 --> 00:06:31,840
+in terms of a lot of these projects are
+
+160
+00:06:29,919 --> 00:06:33,680
+actually open source. Uh the ways in
+
+161
+00:06:31,840 --> 00:06:35,680
+which these GPU clusters for large
+
+162
+00:06:33,680 --> 00:06:38,319
+language models get managed is you know
+
+163
+00:06:35,680 --> 00:06:41,280
+you have NVIDIA Dynamo uh AI bricks from
+
+164
+00:06:38,319 --> 00:06:44,479
+from bite dance um and VLM production
+
+165
+00:06:41,280 --> 00:06:46,240
+stack is the system that you would run
+
+166
+00:06:44,479 --> 00:06:47,440
+to orchestrate all of these GPU
+
+167
+00:06:46,240 --> 00:06:50,800
+software. So you have these engines that
+
+168
+00:06:47,440 --> 00:06:53,199
+are running things like VLM or uh other
+
+169
+00:06:50,800 --> 00:06:54,960
+individual engine LLM inferences and
+
+170
+00:06:53,199 --> 00:06:56,880
+then you need something to manage and
+
+171
+00:06:54,960 --> 00:06:59,440
+coordinate this cluster of GPUs whether
+
+172
+00:06:56,880 --> 00:07:01,840
+it be two GPUs or 8 GPUs or you know
+
+173
+00:06:59,440 --> 00:07:03,759
+thousands of GPUs and we'll talk about
+
+174
+00:07:01,840 --> 00:07:04,960
+this. The GPUs are extremely complicated
+
+175
+00:07:03,759 --> 00:07:07,759
+engines. They're highly parallel
+
+176
+00:07:04,960 --> 00:07:10,000
+machines of their own and uh there's
+
+177
+00:07:07,759 --> 00:07:11,440
+lots of ways in which one could uh go
+
+178
+00:07:10,000 --> 00:07:13,360
+wrong and we've talked to some
+
+179
+00:07:11,440 --> 00:07:16,319
+companies. they bought these GPUs or
+
+180
+00:07:13,360 --> 00:07:18,080
+they lease them um in in GPU clouds and
+
+181
+00:07:16,319 --> 00:07:21,199
+they're running at utilization of 10 or
+
+182
+00:07:18,080 --> 00:07:22,960
+15% because uh they need that for the
+
+183
+00:07:21,199 --> 00:07:25,440
+peak but they don't know how to manage
+
+184
+00:07:22,960 --> 00:07:28,160
+these GPUs um efficiently and wastes a
+
+185
+00:07:25,440 --> 00:07:32,639
+lot of money.
+
+186
+00:07:28,160 --> 00:07:34,319
+Now our research was not didn't start
+
+187
+00:07:32,639 --> 00:07:36,240
+based on these observations about AI
+
+188
+00:07:34,319 --> 00:07:39,199
+inference. It started with a different
+
+189
+00:07:36,240 --> 00:07:42,880
+observation. Um
+
+190
+00:07:39,199 --> 00:07:45,840
+we notice that when we look at students
+
+191
+00:07:42,880 --> 00:07:47,440
+who join our group um in our lab, it
+
+192
+00:07:45,840 --> 00:07:49,440
+takes about two to two and a half years
+
+193
+00:07:47,440 --> 00:07:50,880
+to teach a student how to think the way
+
+194
+00:07:49,440 --> 00:07:53,039
+we do. We work on a large number of
+
+195
+00:07:50,880 --> 00:07:55,520
+different distributed and uh distributed
+
+196
+00:07:53,039 --> 00:07:56,720
+systems. And uh there's particular ways
+
+197
+00:07:55,520 --> 00:07:59,919
+we think about it. At the end of the
+
+198
+00:07:56,720 --> 00:08:02,800
+day, all these distributed systems are
+
+199
+00:07:59,919 --> 00:08:05,199
+big networks of cues with caching and
+
+200
+00:08:02,800 --> 00:08:06,560
+pipelining and parallel machines. And it
+
+201
+00:08:05,199 --> 00:08:08,000
+just so happens you can configure them
+
+202
+00:08:06,560 --> 00:08:09,680
+and you can you know kind of connect
+
+203
+00:08:08,000 --> 00:08:11,199
+them in lots of different ways and you
+
+204
+00:08:09,680 --> 00:08:13,440
+know essentially infinite number of
+
+205
+00:08:11,199 --> 00:08:15,759
+ways. And it takes two to two and a half
+
+206
+00:08:13,440 --> 00:08:17,759
+years to teach students how to be
+
+207
+00:08:15,759 --> 00:08:19,039
+productive in in research. And this is
+
+208
+00:08:17,759 --> 00:08:22,240
+not just true of our group. We've talked
+
+209
+00:08:19,039 --> 00:08:24,319
+to other professors and other um um
+
+210
+00:08:22,240 --> 00:08:26,560
+people in companies when undergraduates
+
+211
+00:08:24,319 --> 00:08:28,080
+join after and then it takes them two to
+
+212
+00:08:26,560 --> 00:08:30,000
+three years to get up to speed in
+
+213
+00:08:28,080 --> 00:08:32,560
+understanding how to design complex
+
+214
+00:08:30,000 --> 00:08:34,320
+computer systems. So almost like I
+
+215
+00:08:32,560 --> 00:08:36,800
+wouldn't say as a joke but almost as a
+
+216
+00:08:34,320 --> 00:08:38,800
+off-the- cuff remark I mentioned to my
+
+217
+00:08:36,800 --> 00:08:40,240
+colleague Mohammad Ali Zadi that you
+
+218
+00:08:38,800 --> 00:08:41,919
+know I wonder what it'll take for us to
+
+219
+00:08:40,240 --> 00:08:43,360
+teach an AI not train an AI this
+
+220
+00:08:41,919 --> 00:08:46,399
+foundational models have already been
+
+221
+00:08:43,360 --> 00:08:47,920
+built and they come with three things
+
+222
+00:08:46,399 --> 00:08:49,440
+which are exactly the same three things
+
+223
+00:08:47,920 --> 00:08:52,160
+that our undergraduate students come
+
+224
+00:08:49,440 --> 00:08:54,240
+come with. They know how to do um kind
+
+225
+00:08:52,160 --> 00:08:56,320
+of analytics and math kind of read
+
+226
+00:08:54,240 --> 00:08:58,320
+spreadsheets or look at data and analyze
+
+227
+00:08:56,320 --> 00:09:00,320
+this data. They understand how to
+
+228
+00:08:58,320 --> 00:09:01,680
+summarize documents and understand
+
+229
+00:09:00,320 --> 00:09:04,240
+documents. You can ask them questions.
+
+230
+00:09:01,680 --> 00:09:06,000
+They know how to read and they know how
+
+231
+00:09:04,240 --> 00:09:08,320
+to write code and they know how to
+
+232
+00:09:06,000 --> 00:09:09,600
+comprehend code which is staggeringly
+
+233
+00:09:08,320 --> 00:09:11,040
+impressive. But if you look at it,
+
+234
+00:09:09,600 --> 00:09:12,959
+that's exactly the three same skills
+
+235
+00:09:11,040 --> 00:09:14,240
+that students come into our group after
+
+236
+00:09:12,959 --> 00:09:15,200
+their undergraduate degree. Yes, they've
+
+237
+00:09:14,240 --> 00:09:16,800
+learned some computer science. They've
+
+238
+00:09:15,200 --> 00:09:19,519
+learned all the stuff, but they don't
+
+239
+00:09:16,800 --> 00:09:22,399
+learn how we should be designing uh
+
+240
+00:09:19,519 --> 00:09:23,680
+highly complex computer systems. So, I
+
+241
+00:09:22,399 --> 00:09:26,800
+just said like I wonder what it would
+
+242
+00:09:23,680 --> 00:09:28,480
+take to do this. And he's crazy. So he
+
+243
+00:09:26,800 --> 00:09:31,200
+went about starting to teach an AI how
+
+244
+00:09:28,480 --> 00:09:32,720
+to do this. So he built a prototype and
+
+245
+00:09:31,200 --> 00:09:34,880
+very quickly came up with some results
+
+246
+00:09:32,720 --> 00:09:37,120
+and then all of us most of us in our
+
+247
+00:09:34,880 --> 00:09:39,040
+group jumped onto this and then we
+
+248
+00:09:37,120 --> 00:09:41,519
+started looking at real problems to to
+
+249
+00:09:39,040 --> 00:09:44,160
+solve. So our mission here in this
+
+250
+00:09:41,519 --> 00:09:46,399
+project uh is to reimagine system design
+
+251
+00:09:44,160 --> 00:09:48,000
+and optimization with AI. So today it's
+
+252
+00:09:46,399 --> 00:09:50,160
+a fairly rare specialty especially for
+
+253
+00:09:48,000 --> 00:09:51,680
+these very complicated systems. uh and
+
+254
+00:09:50,160 --> 00:09:53,360
+there are some companies with a large
+
+255
+00:09:51,680 --> 00:09:54,959
+number of engineers who know how to do
+
+256
+00:09:53,360 --> 00:09:57,680
+this like Google but most companies
+
+257
+00:09:54,959 --> 00:09:59,600
+don't have this type of capability it's
+
+258
+00:09:57,680 --> 00:10:01,839
+quite painfully slow even at large
+
+259
+00:09:59,600 --> 00:10:04,240
+companies and frankly it's capped by
+
+260
+00:10:01,839 --> 00:10:06,720
+human time and human intuition and
+
+261
+00:10:04,240 --> 00:10:09,680
+you'll see this with some examples but
+
+262
+00:10:06,720 --> 00:10:11,360
+these AI systems now have read every
+
+263
+00:10:09,680 --> 00:10:13,279
+possible paper that's been written on
+
+264
+00:10:11,360 --> 00:10:15,440
+this topic and no human being has done
+
+265
+00:10:13,279 --> 00:10:17,600
+that so they're actually kind of able to
+
+266
+00:10:15,440 --> 00:10:19,440
+apply that knowledge if you teach it the
+
+267
+00:10:17,600 --> 00:10:22,000
+right way if you if you guide it the the
+
+268
+00:10:19,440 --> 00:10:24,000
+right way. So what we'd like instead is
+
+269
+00:10:22,000 --> 00:10:25,760
+to think about design in terms of hours
+
+270
+00:10:24,000 --> 00:10:27,120
+and then you tune in minutes and as the
+
+271
+00:10:25,760 --> 00:10:29,920
+workload changes you're continuously
+
+272
+00:10:27,120 --> 00:10:31,519
+adapting to each use case and the lesson
+
+273
+00:10:29,920 --> 00:10:33,920
+here which I'll get to at the end again
+
+274
+00:10:31,519 --> 00:10:35,519
+is that to try to be highly specialized
+
+275
+00:10:33,920 --> 00:10:38,320
+to what's actually happening rather than
+
+276
+00:10:35,519 --> 00:10:40,240
+to build highly generic systems.
+
+277
+00:10:38,320 --> 00:10:42,240
+So we started going about building a PhD
+
+278
+00:10:40,240 --> 00:10:45,040
+level AI. So this the the aim of the
+
+279
+00:10:42,240 --> 00:10:48,160
+research was can we build an AI that
+
+280
+00:10:45,040 --> 00:10:49,440
+could act like a junior PhD student in
+
+281
+00:10:48,160 --> 00:10:52,240
+you know maybe with two or three years
+
+282
+00:10:49,440 --> 00:10:54,640
+of experience uh or a mid-career PhD
+
+283
+00:10:52,240 --> 00:10:56,640
+student or equivalently an engineer and
+
+284
+00:10:54,640 --> 00:10:58,720
+so what do the what do we do as system
+
+285
+00:10:56,640 --> 00:11:01,200
+design what do system designers do well
+
+286
+00:10:58,720 --> 00:11:02,640
+we look at a lot of data we don't really
+
+287
+00:11:01,200 --> 00:11:04,320
+have we have some intuition but we look
+
+288
+00:11:02,640 --> 00:11:06,880
+at a lot of data we conduct a lot of
+
+289
+00:11:04,320 --> 00:11:08,880
+experiments and we use that data and
+
+290
+00:11:06,880 --> 00:11:10,800
+then we look at documentation of systems
+
+291
+00:11:08,880 --> 00:11:13,920
+we read papers
+
+292
+00:11:10,800 --> 00:11:15,839
+and we look at code. We might actually
+
+293
+00:11:13,920 --> 00:11:19,120
+reach out to some optimizers and solvers
+
+294
+00:11:15,839 --> 00:11:20,800
+and so on. But this workflow,
+
+295
+00:11:19,120 --> 00:11:23,040
+you could build an AI to do lots of
+
+296
+00:11:20,800 --> 00:11:25,279
+things. Our goal was to build a workflow
+
+297
+00:11:23,040 --> 00:11:27,839
+for a group of systems designers that's
+
+298
+00:11:25,279 --> 00:11:29,760
+almost exactly the same as how human
+
+299
+00:11:27,839 --> 00:11:31,360
+beings operate. So we have researcher
+
+300
+00:11:29,760 --> 00:11:33,120
+agents, we have engineer agents, we have
+
+301
+00:11:31,360 --> 00:11:34,320
+supervisor or adviser agents. And I'll
+
+302
+00:11:33,120 --> 00:11:36,160
+show you an example where most of the
+
+303
+00:11:34,320 --> 00:11:38,000
+time the supervisor is doing nothing
+
+304
+00:11:36,160 --> 00:11:40,320
+except every once in a while it's going
+
+305
+00:11:38,000 --> 00:11:41,839
+to come up with some uh with questions.
+
+306
+00:11:40,320 --> 00:11:43,519
+And we've done this in a way that's
+
+307
+00:11:41,839 --> 00:11:46,000
+pretty interesting. The supervisor agent
+
+308
+00:11:43,519 --> 00:11:49,279
+has access to the knowledge but it never
+
+309
+00:11:46,000 --> 00:11:50,800
+proposes an idea. It asks questions. It
+
+310
+00:11:49,279 --> 00:11:52,800
+asks for things that are being missed.
+
+311
+00:11:50,800 --> 00:11:54,399
+And so this has been amazing as an
+
+312
+00:11:52,800 --> 00:11:56,320
+effort for us because we've been able to
+
+313
+00:11:54,399 --> 00:11:58,720
+mimic the way human small human teams
+
+314
+00:11:56,320 --> 00:12:00,320
+three four people work. And we've been
+
+315
+00:11:58,720 --> 00:12:02,800
+able to get an AI to do some pretty
+
+316
+00:12:00,320 --> 00:12:04,880
+interesting things. So what this AI
+
+317
+00:12:02,800 --> 00:12:07,200
+agentic system does is it does modeling,
+
+318
+00:12:04,880 --> 00:12:08,560
+it does some analysis.
+
+319
+00:12:07,200 --> 00:12:10,000
+Most importantly, it constructs
+
+320
+00:12:08,560 --> 00:12:12,560
+experiments which is really what we do
+
+321
+00:12:10,000 --> 00:12:13,920
+as humans. And the key is to construct a
+
+322
+00:12:12,560 --> 00:12:15,600
+small number of experiments. If you put
+
+323
+00:12:13,920 --> 00:12:17,440
+this into a system like an LLM and you
+
+324
+00:12:15,600 --> 00:12:19,839
+ask it to solve a single problem, it
+
+325
+00:12:17,440 --> 00:12:21,839
+will conduct 4,000 to 5,000 experiments
+
+326
+00:12:19,839 --> 00:12:24,000
+which just takes too long and takes
+
+327
+00:12:21,839 --> 00:12:25,200
+costs too much money. So instead we come
+
+328
+00:12:24,000 --> 00:12:28,320
+up with something that takes maybe about
+
+329
+00:12:25,200 --> 00:12:30,320
+10 to 20 experiments. And by contrast,
+
+330
+00:12:28,320 --> 00:12:32,320
+human beings when applied to this these
+
+331
+00:12:30,320 --> 00:12:34,079
+problems we find take a 100 experiments.
+
+332
+00:12:32,320 --> 00:12:35,440
+And partly that's because human beings
+
+333
+00:12:34,079 --> 00:12:36,959
+first of all it takes them more time to
+
+334
+00:12:35,440 --> 00:12:39,120
+construct the experiment and do the
+
+335
+00:12:36,959 --> 00:12:42,320
+system experiment but they also make
+
+336
+00:12:39,120 --> 00:12:43,839
+mistakes. And shockingly the AI may have
+
+337
+00:12:42,320 --> 00:12:46,720
+a wrong idea but it doesn't make a
+
+338
+00:12:43,839 --> 00:12:49,040
+mistake implementing the wrong idea. Um
+
+339
+00:12:46,720 --> 00:12:50,880
+whereas humans with with an idea right
+
+340
+00:12:49,040 --> 00:12:52,800
+or wrong they have bugs in their code
+
+341
+00:12:50,880 --> 00:12:54,480
+much because the way this is structured
+
+342
+00:12:52,800 --> 00:12:56,320
+is not inventing massive amounts of
+
+343
+00:12:54,480 --> 00:12:59,440
+code. It's taking existing software and
+
+344
+00:12:56,320 --> 00:13:01,120
+making kind of fine-tuned changes to it.
+
+345
+00:12:59,440 --> 00:13:02,639
+The most interesting thing about it that
+
+346
+00:13:01,120 --> 00:13:04,639
+really got us all excited and I'll show
+
+347
+00:13:02,639 --> 00:13:06,240
+you this um and hope I convey excitement
+
+348
+00:13:04,639 --> 00:13:08,880
+is that this thing has invented
+
+349
+00:13:06,240 --> 00:13:10,639
+algorithms. It's invented uh today five
+
+350
+00:13:08,880 --> 00:13:12,959
+or six new algorithms for managing
+
+351
+00:13:10,639 --> 00:13:15,519
+resources and at least three of them are
+
+352
+00:13:12,959 --> 00:13:17,279
+publishable in conferences. And so
+
+353
+00:13:15,519 --> 00:13:19,519
+that's what's got us excited about this
+
+354
+00:13:17,279 --> 00:13:21,279
+this system.
+
+355
+00:13:19,519 --> 00:13:23,120
+Now the intuition for our system is
+
+356
+00:13:21,279 --> 00:13:25,040
+built on a re a decade of research on
+
+357
+00:13:23,120 --> 00:13:27,600
+AIdriven systems in my group. A lot of
+
+358
+00:13:25,040 --> 00:13:30,720
+this was led by uh my colleague uh
+
+359
+00:13:27,600 --> 00:13:32,320
+Mohammad Ali Zade. But um over 10 years
+
+360
+00:13:30,720 --> 00:13:33,920
+ago I worked with one of my students
+
+361
+00:13:32,320 --> 00:13:36,320
+who's now a professor at Stanford Keith
+
+362
+00:13:33,920 --> 00:13:38,560
+Winstein on a system called Remy which
+
+363
+00:13:36,320 --> 00:13:40,639
+applied uh a version of reinforcement
+
+364
+00:13:38,560 --> 00:13:42,160
+learning to automatically invent new
+
+365
+00:13:40,639 --> 00:13:43,839
+congestion control protocols for the
+
+366
+00:13:42,160 --> 00:13:47,279
+internet things like you know that are
+
+367
+00:13:43,839 --> 00:13:48,959
+implemented in TCP. Um data center
+
+368
+00:13:47,279 --> 00:13:50,959
+scheduling. uh Mohammad and his students
+
+369
+00:13:48,959 --> 00:13:53,200
+worked on data center scheduling uh
+
+370
+00:13:50,959 --> 00:13:54,800
+using machine learning and the insight
+
+371
+00:13:53,200 --> 00:13:56,880
+here was very similar to the type of
+
+372
+00:13:54,800 --> 00:13:58,639
+insight used in Alph Go which was that
+
+373
+00:13:56,880 --> 00:14:00,800
+thing from deep mind that was pretty
+
+374
+00:13:58,639 --> 00:14:04,000
+impressive. So he observed that the way
+
+375
+00:14:00,800 --> 00:14:06,320
+in which you have to pack jobs within a
+
+376
+00:14:04,000 --> 00:14:08,480
+big cluster is multi-resource and
+
+377
+00:14:06,320 --> 00:14:10,160
+multi-dimensional because you have uh
+
+378
+00:14:08,480 --> 00:14:11,360
+CPUs, you have storage, you have memory
+
+379
+00:14:10,160 --> 00:14:14,160
+and it's not a single resource
+
+380
+00:14:11,360 --> 00:14:16,320
+optimization. So he framed it as kind of
+
+381
+00:14:14,160 --> 00:14:18,880
+a game in the first version that they
+
+382
+00:14:16,320 --> 00:14:21,040
+built. um where there were simulations
+
+383
+00:14:18,880 --> 00:14:22,560
+being done and it was almost like you
+
+384
+00:14:21,040 --> 00:14:23,839
+have you make a decision and then new
+
+385
+00:14:22,560 --> 00:14:24,959
+jobs come in and then you make a
+
+386
+00:14:23,839 --> 00:14:26,399
+decision so you could view it as a
+
+387
+00:14:24,959 --> 00:14:27,680
+two-player game and what you're trying
+
+388
+00:14:26,399 --> 00:14:29,839
+to do is like Tetris you're trying to
+
+389
+00:14:27,680 --> 00:14:32,079
+pack the most number of jobs into your
+
+390
+00:14:29,839 --> 00:14:35,519
+into your cluster. So there's a a long
+
+391
+00:14:32,079 --> 00:14:38,399
+string of this work that has been done.
+
+392
+00:14:35,519 --> 00:14:40,399
+But what we also observed from this work
+
+393
+00:14:38,399 --> 00:14:42,560
+um was that almost every single one of
+
+394
+00:14:40,399 --> 00:14:44,320
+them it was all based on reinforcement
+
+395
+00:14:42,560 --> 00:14:47,680
+learning. And almost every single one of
+
+396
+00:14:44,320 --> 00:14:49,199
+them required simulation which is fine
+
+397
+00:14:47,680 --> 00:14:51,279
+but
+
+398
+00:14:49,199 --> 00:14:52,720
+in the end it was pretty fragile. And
+
+399
+00:14:51,279 --> 00:14:55,279
+the reason it was fragile is two
+
+400
+00:14:52,720 --> 00:14:56,880
+reasons. One is that with reinforcement
+
+401
+00:14:55,279 --> 00:14:58,880
+learning what you come up with is a
+
+402
+00:14:56,880 --> 00:15:02,480
+neural policy. You come up with a neural
+
+403
+00:14:58,880 --> 00:15:04,639
+network as a policy. And
+
+404
+00:15:02,480 --> 00:15:06,079
+when you run this, you might have a huge
+
+405
+00:15:04,639 --> 00:15:08,880
+amount of training data. You do all the
+
+406
+00:15:06,079 --> 00:15:10,320
+most rigorous experiments. The simulator
+
+407
+00:15:08,880 --> 00:15:12,480
+is it's very difficult to build a
+
+408
+00:15:10,320 --> 00:15:13,680
+simulator that's exactly faithful to the
+
+409
+00:15:12,480 --> 00:15:14,800
+environment in which you're operating.
+
+410
+00:15:13,680 --> 00:15:16,959
+There's all sorts of implementation
+
+411
+00:15:14,800 --> 00:15:19,600
+artifacts. And with reinforcement
+
+412
+00:15:16,959 --> 00:15:20,959
+learning producing a neural policy, a
+
+413
+00:15:19,600 --> 00:15:22,800
+you end up with a neural policy that
+
+414
+00:15:20,959 --> 00:15:24,240
+human beings don't understand. So people
+
+415
+00:15:22,800 --> 00:15:25,279
+are really afraid to put into some
+
+416
+00:15:24,240 --> 00:15:26,959
+production system because they don't
+
+417
+00:15:25,279 --> 00:15:29,440
+know what's happening. and B when you
+
+418
+00:15:26,959 --> 00:15:31,760
+get new data or the environment changes
+
+419
+00:15:29,440 --> 00:15:33,279
+these policies these algorithms all many
+
+420
+00:15:31,760 --> 00:15:35,920
+of our papers almost all of them are
+
+421
+00:15:33,279 --> 00:15:38,000
+pretty fragile they don't perform well
+
+422
+00:15:35,920 --> 00:15:41,279
+and they don't keel over like in a
+
+423
+00:15:38,000 --> 00:15:42,800
+graceful way uh they fail badly when
+
+424
+00:15:41,279 --> 00:15:45,760
+they optimize they optimize really well
+
+425
+00:15:42,800 --> 00:15:48,560
+when they fail they fail really badly
+
+426
+00:15:45,760 --> 00:15:49,759
+so we were stuck you know it's
+
+427
+00:15:48,560 --> 00:15:51,279
+disappointing because we published all
+
+428
+00:15:49,759 --> 00:15:55,680
+these papers the results look great and
+
+429
+00:15:51,279 --> 00:15:57,759
+nobody uses this in a production system.
+
+430
+00:15:55,680 --> 00:15:59,519
+The difference happened for us with the
+
+431
+00:15:57,759 --> 00:16:01,519
+when when LLMs came along and not
+
+432
+00:15:59,519 --> 00:16:03,600
+because of their ability to code but
+
+433
+00:16:01,519 --> 00:16:06,240
+because of their ability to think in
+
+434
+00:16:03,600 --> 00:16:08,079
+terms of natural language and express
+
+435
+00:16:06,240 --> 00:16:09,600
+their thinking to us. You can ask for
+
+436
+00:16:08,079 --> 00:16:12,320
+chain of thought. You can ask for how it
+
+437
+00:16:09,600 --> 00:16:15,199
+how it's reasoning. And what we've done
+
+438
+00:16:12,320 --> 00:16:16,959
+instead is to generalize this approach.
+
+439
+00:16:15,199 --> 00:16:19,279
+So we're not interested in optimizing a
+
+440
+00:16:16,959 --> 00:16:21,040
+specific system. We're interested in
+
+441
+00:16:19,279 --> 00:16:22,720
+optimizing
+
+442
+00:16:21,040 --> 00:16:26,480
+pretty much any distributed computing
+
+443
+00:16:22,720 --> 00:16:28,800
+system and we can do that with uh large
+
+444
+00:16:26,480 --> 00:16:30,399
+language models as one of the components
+
+445
+00:16:28,800 --> 00:16:32,800
+and then I'll show you some of the other
+
+446
+00:16:30,399 --> 00:16:34,320
+components. So I'm going to do this with
+
+447
+00:16:32,800 --> 00:16:36,560
+an example first and then we'll
+
+448
+00:16:34,320 --> 00:16:39,040
+generalize. So we looked at the problem
+
+449
+00:16:36,560 --> 00:16:41,360
+of serving an LLM workload. So this is
+
+450
+00:16:39,040 --> 00:16:42,800
+like chat, GPT, perplexity, anthropic,
+
+451
+00:16:41,360 --> 00:16:46,399
+all of these things. you know, requests
+
+452
+00:16:42,800 --> 00:16:50,399
+come in to uh to an API server to a set
+
+453
+00:16:46,399 --> 00:16:53,040
+of API servers and they dispatch them to
+
+454
+00:16:50,399 --> 00:16:54,639
+these GPUs and the GPUs done do a bunch
+
+455
+00:16:53,040 --> 00:16:57,279
+of computing and they get the results
+
+456
+00:16:54,639 --> 00:17:00,240
+back and you know users are you know
+
+457
+00:16:57,279 --> 00:17:02,160
+they engage with the with the dialogue
+
+458
+00:17:00,240 --> 00:17:03,759
+and every one of these distributed
+
+459
+00:17:02,160 --> 00:17:05,919
+systems has something called a request
+
+460
+00:17:03,759 --> 00:17:07,600
+router which is how do you request how
+
+461
+00:17:05,919 --> 00:17:09,600
+do you route these or distribute these
+
+462
+00:17:07,600 --> 00:17:11,439
+requests among GPUs in an inference
+
+463
+00:17:09,600 --> 00:17:14,079
+cluster and this is a pretty difficult
+
+464
+00:17:11,439 --> 00:17:15,600
+problem. Um firstly for two reasons
+
+465
+00:17:14,079 --> 00:17:17,199
+mainly two reasons. The first one is
+
+466
+00:17:15,600 --> 00:17:19,679
+that the workloads are very very
+
+467
+00:17:17,199 --> 00:17:21,760
+complicated and changing. You have you
+
+468
+00:17:19,679 --> 00:17:23,919
+know when you use chat GPT you type in
+
+469
+00:17:21,760 --> 00:17:25,919
+something and that's a prompt. These
+
+470
+00:17:23,919 --> 00:17:27,520
+prompts you could think of it as tokens
+
+471
+00:17:25,919 --> 00:17:29,280
+that come into the system and then you
+
+472
+00:17:27,520 --> 00:17:32,000
+have output tokens whatever the answer
+
+473
+00:17:29,280 --> 00:17:34,160
+it's producing. It's very difficult to
+
+474
+00:17:32,000 --> 00:17:35,520
+predict how much work a given query is
+
+475
+00:17:34,160 --> 00:17:37,440
+going to take. You might send in a big
+
+476
+00:17:35,520 --> 00:17:39,600
+document, lots of tokens and you might
+
+477
+00:17:37,440 --> 00:17:42,160
+ask a very simple question of that and
+
+478
+00:17:39,600 --> 00:17:43,600
+it takes almost no resources to produce
+
+479
+00:17:42,160 --> 00:17:45,600
+the answer. You might send a big PDF and
+
+480
+00:17:43,600 --> 00:17:47,760
+ask what's the title very little
+
+481
+00:17:45,600 --> 00:17:49,679
+computation small number of output
+
+482
+00:17:47,760 --> 00:17:51,840
+tokens or you might send a small amount
+
+483
+00:17:49,679 --> 00:17:53,200
+of information in your prompt and then
+
+484
+00:17:51,840 --> 00:17:54,880
+the thing goes about thinking and
+
+485
+00:17:53,200 --> 00:17:57,600
+reasoning and it takes like five minutes
+
+486
+00:17:54,880 --> 00:17:59,280
+and it comes back with this huge answer.
+
+487
+00:17:57,600 --> 00:18:01,760
+So it's very difficult to predict and
+
+488
+00:17:59,280 --> 00:18:04,559
+one of the main resources that um get
+
+489
+00:18:01,760 --> 00:18:06,480
+consumed here is memory in the GPU. The
+
+490
+00:18:04,559 --> 00:18:08,080
+second reason this is problematic is you
+
+491
+00:18:06,480 --> 00:18:10,960
+don't get to send one request at a time
+
+492
+00:18:08,080 --> 00:18:12,880
+to a GPU. These GPUs are themselves
+
+493
+00:18:10,960 --> 00:18:16,400
+parallel machines. So each GPU you can
+
+494
+00:18:12,880 --> 00:18:18,240
+get to send some number of requests. And
+
+495
+00:18:16,400 --> 00:18:19,600
+to first order what gates the number of
+
+496
+00:18:18,240 --> 00:18:22,080
+requests is the amount of memory that
+
+497
+00:18:19,600 --> 00:18:24,720
+the GPU consumes. Problem is you don't
+
+498
+00:18:22,080 --> 00:18:26,480
+know how much memory u a future request
+
+499
+00:18:24,720 --> 00:18:28,880
+is going to consume. So you don't quite
+
+500
+00:18:26,480 --> 00:18:32,320
+know what to do. So what do existing
+
+501
+00:18:28,880 --> 00:18:34,080
+systems do? What they do is they come up
+
+502
+00:18:32,320 --> 00:18:35,679
+with some generic policy. They do
+
+503
+00:18:34,080 --> 00:18:37,039
+roundrobin, you know, just like in the
+
+504
+00:18:35,679 --> 00:18:38,880
+grocery store, you just like whatever
+
+505
+00:18:37,039 --> 00:18:40,640
+you send it to the next each request
+
+506
+00:18:38,880 --> 00:18:42,480
+comes in, you send it to the next GPU in
+
+507
+00:18:40,640 --> 00:18:43,919
+sequence. And some of the systems have
+
+508
+00:18:42,480 --> 00:18:46,799
+something slightly more sophisticated
+
+509
+00:18:43,919 --> 00:18:48,400
+called LLQ or least loaded Q. And least
+
+510
+00:18:46,799 --> 00:18:49,679
+loaded Q is what you would imagine. You
+
+511
+00:18:48,400 --> 00:18:51,200
+know, you have a Q in front of every
+
+512
+00:18:49,679 --> 00:18:52,559
+GPU, you send it to the least loaded
+
+513
+00:18:51,200 --> 00:18:55,120
+queue. If you don't know anything about
+
+514
+00:18:52,559 --> 00:18:57,039
+the workload, that's what you do. So, we
+
+515
+00:18:55,120 --> 00:18:59,039
+ran this on a whole series of workloads
+
+516
+00:18:57,039 --> 00:19:00,799
+and this is one of them. uh it's a
+
+517
+00:18:59,039 --> 00:19:02,480
+somewhat challenging workload which uses
+
+518
+00:19:00,799 --> 00:19:04,559
+chatting and you know those reasoning
+
+519
+00:19:02,480 --> 00:19:06,640
+models and this is a benchmark shared
+
+520
+00:19:04,559 --> 00:19:09,840
+GPT plus reasoning and you we run it at
+
+521
+00:19:06,640 --> 00:19:12,720
+somewhat high load on a 256 node uh GPU
+
+522
+00:19:09,840 --> 00:19:15,840
+cluster running the VLM uh open source
+
+523
+00:19:12,720 --> 00:19:18,320
+inference engine on this llama model and
+
+524
+00:19:15,840 --> 00:19:20,160
+we measure the slowdown which is the
+
+525
+00:19:18,320 --> 00:19:21,760
+mean latency for a request. You send a
+
+526
+00:19:20,160 --> 00:19:24,080
+request and you get a response back. We
+
+527
+00:19:21,760 --> 00:19:25,919
+measure the time um and you divide that
+
+528
+00:19:24,080 --> 00:19:27,760
+by the best possible latency which is
+
+529
+00:19:25,919 --> 00:19:29,520
+the delay you would get to respond to
+
+530
+00:19:27,760 --> 00:19:31,840
+that request when there's no load on the
+
+531
+00:19:29,520 --> 00:19:34,480
+system and what we find is it's between
+
+532
+00:19:31,840 --> 00:19:38,000
+35 and 50 plus about 50 for the
+
+533
+00:19:34,480 --> 00:19:39,520
+roundroin policy and 35 for LLQ. Now if
+
+534
+00:19:38,000 --> 00:19:42,240
+you worked in the sort of distributed
+
+535
+00:19:39,520 --> 00:19:45,679
+cluster management area, it's possible
+
+536
+00:19:42,240 --> 00:19:48,160
+to design not with GPUs but with
+
+537
+00:19:45,679 --> 00:19:50,080
+standard CPUs, it's possible to design
+
+538
+00:19:48,160 --> 00:19:51,600
+things where no matter what the workload
+
+539
+00:19:50,080 --> 00:19:53,039
+is, you can be pretty clever and design
+
+540
+00:19:51,600 --> 00:19:55,760
+things with a slowdown of like a factor
+
+541
+00:19:53,039 --> 00:19:58,880
+of three or four. A slowdown of 35 to 50
+
+542
+00:19:55,760 --> 00:20:01,919
+is quite quite substantial.
+
+543
+00:19:58,880 --> 00:20:03,919
+So the first thing we did was um as we
+
+544
+00:20:01,919 --> 00:20:06,720
+started thinking about an AI wanting to
+
+545
+00:20:03,919 --> 00:20:10,160
+solve this problem um we have a human
+
+546
+00:20:06,720 --> 00:20:11,760
+expert and in fact um Mohammmed my
+
+547
+00:20:10,160 --> 00:20:13,200
+colleague is one of the world's experts
+
+548
+00:20:11,760 --> 00:20:16,000
+on this worked on this these types of
+
+549
+00:20:13,200 --> 00:20:17,919
+problems in routing and scheduling and
+
+550
+00:20:16,000 --> 00:20:21,679
+um resource management in systems for
+
+551
+00:20:17,919 --> 00:20:23,840
+over 20 years. So um he decided to work
+
+552
+00:20:21,679 --> 00:20:26,240
+on this problem and about two weeks of
+
+553
+00:20:23,840 --> 00:20:29,360
+work and over a 100 experiments he
+
+554
+00:20:26,240 --> 00:20:30,720
+designed for this workload a scheduling
+
+555
+00:20:29,360 --> 00:20:32,159
+algorithm a request starting algorithm
+
+556
+00:20:30,720 --> 00:20:33,679
+that had a slowdown of about two a
+
+557
+00:20:32,159 --> 00:20:37,440
+factor of two or three and took him
+
+558
+00:20:33,679 --> 00:20:40,240
+about over two weeks to do this
+
+559
+00:20:37,440 --> 00:20:43,200
+problems like this and others our AI GIA
+
+560
+00:20:40,240 --> 00:20:44,320
+is able to solve in two hours and it
+
+561
+00:20:43,200 --> 00:20:46,240
+does it with a small number of
+
+562
+00:20:44,320 --> 00:20:47,919
+simulations and it does it more
+
+563
+00:20:46,240 --> 00:20:49,760
+importantly if you look at his
+
+564
+00:20:47,919 --> 00:20:51,440
+algorithm's algorithm and GIA they
+
+565
+00:20:49,760 --> 00:20:53,600
+actually end up using the same insight
+
+566
+00:20:51,440 --> 00:20:55,600
+but the GIA algorithm is more robust and
+
+567
+00:20:53,600 --> 00:20:56,799
+better than what our human expert in
+
+568
+00:20:55,600 --> 00:20:59,200
+this problem produced and we've seen
+
+569
+00:20:56,799 --> 00:21:01,600
+this now in multiple examples that I'll
+
+570
+00:20:59,200 --> 00:21:04,240
+show you as we go along. So again I'm
+
+571
+00:21:01,600 --> 00:21:06,880
+not saying yet that this replaces people
+
+572
+00:21:04,240 --> 00:21:08,480
+because it's not yet at that point but
+
+573
+00:21:06,880 --> 00:21:11,039
+it's at the point where it's giving us
+
+574
+00:21:08,480 --> 00:21:12,640
+really good ideas on how to think about
+
+575
+00:21:11,039 --> 00:21:14,720
+systems. So it is really a good
+
+576
+00:21:12,640 --> 00:21:16,480
+collaborator and it's at the point now
+
+577
+00:21:14,720 --> 00:21:18,799
+where almost all of the students in our
+
+578
+00:21:16,480 --> 00:21:20,159
+group are using the tool and they're
+
+579
+00:21:18,799 --> 00:21:22,080
+they're modifying the tool for their own
+
+580
+00:21:20,159 --> 00:21:25,120
+purposes and uh I'm teaching a graduate
+
+581
+00:21:22,080 --> 00:21:26,240
+networking class this semester and uh
+
+582
+00:21:25,120 --> 00:21:27,919
+one of the things that we're doing
+
+583
+00:21:26,240 --> 00:21:29,360
+Mohammed and I are doing in our class is
+
+584
+00:21:27,919 --> 00:21:31,120
+we we have all these student projects
+
+585
+00:21:29,360 --> 00:21:33,120
+that people are supposed to work on and
+
+586
+00:21:31,120 --> 00:21:34,640
+one of the things for them this semester
+
+587
+00:21:33,120 --> 00:21:37,120
+is more than half of the groups we have
+
+588
+00:21:34,640 --> 00:21:39,360
+about 60 plus students more than half of
+
+589
+00:21:37,120 --> 00:21:41,600
+the groups I believe are have been asked
+
+590
+00:21:39,360 --> 00:21:43,840
+to take any problem in computer systems
+
+591
+00:21:41,600 --> 00:21:46,559
+and networking that they've seen either
+
+592
+00:21:43,840 --> 00:21:48,640
+in the class or outside and use this
+
+593
+00:21:46,559 --> 00:21:51,120
+agentic system to see what they get out
+
+594
+00:21:48,640 --> 00:21:53,360
+of it and the students are super excited
+
+595
+00:21:51,120 --> 00:21:55,200
+about being able to use that to to come
+
+596
+00:21:53,360 --> 00:21:56,640
+up with good insight. So I'm hyper
+
+597
+00:21:55,200 --> 00:21:58,960
+confident that this is going to lead to
+
+598
+00:21:56,640 --> 00:22:01,520
+new ideas and new publishable work uh
+
+599
+00:21:58,960 --> 00:22:03,760
+where we presumably have to make the AI
+
+600
+00:22:01,520 --> 00:22:06,240
+uh certainly a co-author if not a lead
+
+601
+00:22:03,760 --> 00:22:07,919
+author.
+
+602
+00:22:06,240 --> 00:22:10,320
+Okay, so now the first thing you might
+
+603
+00:22:07,919 --> 00:22:12,320
+ask is how good are just existing LLMs?
+
+604
+00:22:10,320 --> 00:22:14,000
+These are absolutely impressive. So you
+
+605
+00:22:12,320 --> 00:22:16,640
+could go to like a reasoning model like
+
+606
+00:22:14,000 --> 00:22:19,039
+03 or 40 or something like that. You
+
+607
+00:22:16,640 --> 00:22:20,960
+could say, "Hey, I'm going to give you a
+
+608
+00:22:19,039 --> 00:22:23,840
+very detailed system prompt. I'm going
+
+609
+00:22:20,960 --> 00:22:26,400
+to tell you, here's all the information.
+
+610
+00:22:23,840 --> 00:22:28,320
+Just put it in the G LM and ask for it
+
+611
+00:22:26,400 --> 00:22:31,120
+to come up with an answer." And what we
+
+612
+00:22:28,320 --> 00:22:33,440
+find that they're kind of okay, but the
+
+613
+00:22:31,120 --> 00:22:35,360
+human expert though, this is the score
+
+614
+00:22:33,440 --> 00:22:37,760
+is sort of you think of it as the a
+
+615
+00:22:35,360 --> 00:22:39,360
+score that's inverse of the of the delay
+
+616
+00:22:37,760 --> 00:22:40,640
+for this workload. the what the metric
+
+617
+00:22:39,360 --> 00:22:42,480
+you're trying to optimize the better
+
+618
+00:22:40,640 --> 00:22:44,240
+scores are on the right and what you
+
+619
+00:22:42,480 --> 00:22:46,880
+find is you can the LLM does better than
+
+620
+00:22:44,240 --> 00:22:49,360
+LLQ and the reason it's a distribution
+
+621
+00:22:46,880 --> 00:22:50,799
+is the LLM is allowed to come up with
+
+622
+00:22:49,360 --> 00:22:52,159
+lots of algorithms because every time
+
+623
+00:22:50,799 --> 00:22:53,280
+you give it you change the temperature a
+
+624
+00:22:52,159 --> 00:22:55,280
+little bit you give a little it'll come
+
+625
+00:22:53,280 --> 00:22:56,559
+up with a new algorithm you tell it oh
+
+626
+00:22:55,280 --> 00:22:58,400
+this algorithm didn't work and it'll
+
+627
+00:22:56,559 --> 00:22:59,600
+tell you oh you're absolutely right it
+
+628
+00:22:58,400 --> 00:23:00,960
+didn't work here's a new algorithm
+
+629
+00:22:59,600 --> 00:23:02,320
+you've you've seen the you've seen the
+
+630
+00:23:00,960 --> 00:23:04,240
+drill and you can adjust the temperature
+
+631
+00:23:02,320 --> 00:23:06,000
+and have it come up with new algorithms
+
+632
+00:23:04,240 --> 00:23:09,679
+so there a distribution of scores and
+
+633
+00:23:06,000 --> 00:23:12,080
+you find it's a little bit LLQ but far
+
+634
+00:23:09,679 --> 00:23:14,480
+worse than what the human expert has
+
+635
+00:23:12,080 --> 00:23:16,960
+produced.
+
+636
+00:23:14,480 --> 00:23:19,600
+So we've done it differently. It's not a
+
+637
+00:23:16,960 --> 00:23:22,240
+black box sending into an LLM. It's a
+
+638
+00:23:19,600 --> 00:23:24,240
+system where it goes in with a
+
+639
+00:23:22,240 --> 00:23:25,679
+simulator. And for any complex problem,
+
+640
+00:23:24,240 --> 00:23:29,280
+we either create a simulator or you have
+
+641
+00:23:25,679 --> 00:23:30,799
+a test bed. And what these agents have
+
+642
+00:23:29,280 --> 00:23:32,880
+been taught, there's a supervisor agent,
+
+643
+00:23:30,799 --> 00:23:34,559
+there's a researcher agent, etc. They've
+
+644
+00:23:32,880 --> 00:23:36,400
+been taught to think about computer
+
+645
+00:23:34,559 --> 00:23:38,080
+systems. So we've taught them almost the
+
+646
+00:23:36,400 --> 00:23:39,760
+way in which we've taught we teach our
+
+647
+00:23:38,080 --> 00:23:41,440
+students with example. We teach them
+
+648
+00:23:39,760 --> 00:23:44,400
+principles like measure two levels
+
+649
+00:23:41,440 --> 00:23:46,480
+deeper than you than your high level
+
+650
+00:23:44,400 --> 00:23:48,559
+metric and we teach it to ask questions
+
+651
+00:23:46,480 --> 00:23:49,679
+about the data. We teach it to be
+
+652
+00:23:48,559 --> 00:23:51,440
+consistent you know ask about
+
+653
+00:23:49,679 --> 00:23:52,880
+consistency questions about the data and
+
+654
+00:23:51,440 --> 00:23:54,159
+we've taught it how to design new
+
+655
+00:23:52,880 --> 00:23:55,600
+experiments and there's a difference
+
+656
+00:23:54,159 --> 00:23:57,200
+here. So there are systems now that are
+
+657
+00:23:55,600 --> 00:23:58,960
+super exciting out there called alpha
+
+658
+00:23:57,200 --> 00:24:01,200
+evolve from Google if you've seen alpha
+
+659
+00:23:58,960 --> 00:24:03,280
+evolve. Um there's fun search which was
+
+660
+00:24:01,200 --> 00:24:06,480
+the previous version of it. This is an
+
+661
+00:24:03,280 --> 00:24:08,559
+extremely hot area. But they all come up
+
+662
+00:24:06,480 --> 00:24:10,640
+with a new idea. But the way they all
+
+663
+00:24:08,559 --> 00:24:12,400
+come up with a new idea is they morph
+
+664
+00:24:10,640 --> 00:24:14,320
+the code. So the way these things work
+
+665
+00:24:12,400 --> 00:24:16,720
+is you come up with some existing piece
+
+666
+00:24:14,320 --> 00:24:18,400
+of software. Maybe you have two ideas.
+
+667
+00:24:16,720 --> 00:24:20,480
+You say here's my two ideas and then it
+
+668
+00:24:18,400 --> 00:24:22,400
+runs the experiment. And at all the
+
+669
+00:24:20,480 --> 00:24:25,200
+points in time it's creating a database
+
+670
+00:24:22,400 --> 00:24:29,440
+of programs which is some code for some
+
+671
+00:24:25,200 --> 00:24:31,039
+algorithm and a score. And to mutate the
+
+672
+00:24:29,440 --> 00:24:33,200
+code it uses a sort of genetic
+
+673
+00:24:31,039 --> 00:24:35,279
+programming approach. it mutates and
+
+674
+00:24:33,200 --> 00:24:37,279
+comes up with a new algorithm by kind of
+
+675
+00:24:35,279 --> 00:24:39,120
+taking the code taking the code the
+
+676
+00:24:37,279 --> 00:24:41,200
+codes that have good scores and starts
+
+677
+00:24:39,120 --> 00:24:43,760
+tweaking it and it throws out the ones
+
+678
+00:24:41,200 --> 00:24:45,600
+with bad scores. The problem is this is
+
+679
+00:24:43,760 --> 00:24:47,600
+not how human experts think. This is not
+
+680
+00:24:45,600 --> 00:24:49,520
+how any human thinks about systems
+
+681
+00:24:47,600 --> 00:24:51,760
+design. They're not looking at the code
+
+682
+00:24:49,520 --> 00:24:53,360
+and trying to code monkey around to
+
+683
+00:24:51,760 --> 00:24:54,880
+figure out the next thing. They're
+
+684
+00:24:53,360 --> 00:24:57,039
+thinking in terms of conceptual ideas.
+
+685
+00:24:54,880 --> 00:24:58,799
+They're thinking in terms of the design
+
+686
+00:24:57,039 --> 00:25:01,360
+and the measurement. So they should be
+
+687
+00:24:58,799 --> 00:25:03,279
+thinking the code's important but the
+
+688
+00:25:01,360 --> 00:25:04,960
+architecture the understanding of the
+
+689
+00:25:03,279 --> 00:25:07,440
+system is also important and the
+
+690
+00:25:04,960 --> 00:25:09,520
+principles are much more important. So
+
+691
+00:25:07,440 --> 00:25:12,320
+we've done it differently and we also
+
+692
+00:25:09,520 --> 00:25:14,880
+think that a single agent coming up with
+
+693
+00:25:12,320 --> 00:25:16,640
+things doesn't really work. We've built
+
+694
+00:25:14,880 --> 00:25:18,240
+something that has multiple agents
+
+695
+00:25:16,640 --> 00:25:20,000
+collaborating and they have different
+
+696
+00:25:18,240 --> 00:25:23,120
+specialized goals. The goal of the
+
+697
+00:25:20,000 --> 00:25:25,200
+supervisor is vetting and questioning
+
+698
+00:25:23,120 --> 00:25:26,799
+and forcing a chain of thought. So it's
+
+699
+00:25:25,200 --> 00:25:30,159
+a different architecture and it's not
+
+700
+00:25:26,799 --> 00:25:32,960
+rooted in code. It's rooted in kind of
+
+701
+00:25:30,159 --> 00:25:34,480
+design and documents and then it goes in
+
+702
+00:25:32,960 --> 00:25:35,760
+and changes the code and comes up.
+
+703
+00:25:34,480 --> 00:25:37,360
+There's a lot of measurement that
+
+704
+00:25:35,760 --> 00:25:39,760
+happens. So I'll show you a demo of how
+
+705
+00:25:37,360 --> 00:25:41,120
+this works for the same LLM problem. So
+
+706
+00:25:39,760 --> 00:25:43,760
+you give it a prompt that looks like
+
+707
+00:25:41,120 --> 00:25:46,880
+this and this is a screenshot of a a
+
+708
+00:25:43,760 --> 00:25:48,000
+video. So the user prompt basically is
+
+709
+00:25:46,880 --> 00:25:49,520
+design a request scheduleuler to
+
+710
+00:25:48,000 --> 00:25:51,520
+minimize average latency. Now you could
+
+711
+00:25:49,520 --> 00:25:53,919
+do other metrics. Uh people have things
+
+712
+00:25:51,520 --> 00:25:55,120
+like time to first token which is a
+
+713
+00:25:53,919 --> 00:25:56,480
+metric because you're sitting there you
+
+714
+00:25:55,120 --> 00:25:58,480
+want to get the answer quickly if you're
+
+715
+00:25:56,480 --> 00:26:00,799
+sitting behind. Some people also look at
+
+716
+00:25:58,480 --> 00:26:03,360
+something called tapot which is time per
+
+717
+00:26:00,799 --> 00:26:05,200
+output token which is the time between
+
+718
+00:26:03,360 --> 00:26:06,640
+different tokens on the output. So it
+
+719
+00:26:05,200 --> 00:26:08,559
+makes you feel like you're getting a
+
+720
+00:26:06,640 --> 00:26:10,080
+response as chat GPT is producing the
+
+721
+00:26:08,559 --> 00:26:11,919
+response. There's lots of metrics but we
+
+722
+00:26:10,080 --> 00:26:15,200
+just look at the entire request which is
+
+723
+00:26:11,919 --> 00:26:17,840
+actually a good metric for things like
+
+724
+00:26:15,200 --> 00:26:20,080
+coding agents or things where you have
+
+725
+00:26:17,840 --> 00:26:21,679
+an agentic system. So you know just
+
+726
+00:26:20,080 --> 00:26:24,240
+getting a partial result is not very
+
+727
+00:26:21,679 --> 00:26:27,039
+useful in an agentic system. So anyway
+
+728
+00:26:24,240 --> 00:26:29,200
+this is one of the metrics. So you don't
+
+729
+00:26:27,039 --> 00:26:31,039
+have to give it a lot of detail. You
+
+730
+00:26:29,200 --> 00:26:33,679
+give it the highle architecture and then
+
+731
+00:26:31,039 --> 00:26:36,480
+you say that use the simulator. So we've
+
+732
+00:26:33,679 --> 00:26:39,039
+built a simulator for distributed large
+
+733
+00:26:36,480 --> 00:26:40,559
+language models. Um and for other
+
+734
+00:26:39,039 --> 00:26:42,799
+systems we have an approach to build
+
+735
+00:26:40,559 --> 00:26:44,720
+simulators using causal simulation uh
+
+736
+00:26:42,799 --> 00:26:46,159
+which is a long line of papers. But we
+
+737
+00:26:44,720 --> 00:26:49,840
+can either work with simulators or we
+
+738
+00:26:46,159 --> 00:26:51,120
+could work with actual test bed um code.
+
+739
+00:26:49,840 --> 00:26:52,240
+So you don't have to give it a lot of
+
+740
+00:26:51,120 --> 00:26:53,679
+details. You give it the high level
+
+741
+00:26:52,240 --> 00:26:55,200
+architecture and then you give it the
+
+742
+00:26:53,679 --> 00:26:57,760
+task. You optimize the global
+
+743
+00:26:55,200 --> 00:26:59,039
+scheduleuler and here's the benchmark
+
+744
+00:26:57,760 --> 00:27:01,039
+that you have to run and then you have
+
+745
+00:26:59,039 --> 00:27:02,640
+to specify some guard rails. One of the
+
+746
+00:27:01,039 --> 00:27:04,960
+things that these AI systems are pretty
+
+747
+00:27:02,640 --> 00:27:06,720
+good at is cheating. So for example, if
+
+748
+00:27:04,960 --> 00:27:08,000
+you ask it to optimize a metric and you
+
+749
+00:27:06,720 --> 00:27:10,720
+give it the workload, give it the
+
+750
+00:27:08,000 --> 00:27:12,159
+simulator, they the first versions of
+
+751
+00:27:10,720 --> 00:27:13,600
+this, they're very good at kind of
+
+752
+00:27:12,159 --> 00:27:17,279
+running the simulator, getting the
+
+753
+00:27:13,600 --> 00:27:19,120
+result, and then coming up with an idea
+
+754
+00:27:17,279 --> 00:27:20,480
+that'll only work on that workload. They
+
+755
+00:27:19,120 --> 00:27:22,480
+basically cheat. It's not that
+
+756
+00:27:20,480 --> 00:27:24,559
+different, I think, from if you allowed
+
+757
+00:27:22,480 --> 00:27:25,919
+like humans to say you want to win a
+
+758
+00:27:24,559 --> 00:27:27,120
+metric, and you give it the workload.
+
+759
+00:27:25,919 --> 00:27:29,039
+Well, it's going to cheat on that
+
+760
+00:27:27,120 --> 00:27:30,880
+workload. So you specify the guardrails
+
+761
+00:27:29,039 --> 00:27:33,039
+to prevent it from cheating. And when
+
+762
+00:27:30,880 --> 00:27:34,320
+you specify it tightly, it says you're
+
+763
+00:27:33,039 --> 00:27:35,520
+not allowed to modify this. You're not
+
+764
+00:27:34,320 --> 00:27:37,279
+allowed to look at the number of output
+
+765
+00:27:35,520 --> 00:27:39,039
+tokens. Like if you look at the output
+
+766
+00:27:37,279 --> 00:27:40,480
+tokens, it optimizes it immediately. So
+
+767
+00:27:39,039 --> 00:27:42,320
+you specify the guard, which was a
+
+768
+00:27:40,480 --> 00:27:46,480
+lesson. It like if it can cheat, it
+
+769
+00:27:42,320 --> 00:27:50,000
+absolutely cheats. Um so
+
+770
+00:27:46,480 --> 00:27:51,520
+we have also asked it to understand the
+
+771
+00:27:50,000 --> 00:27:52,640
+code first and you'll see that when it
+
+772
+00:27:51,520 --> 00:27:54,480
+starts working, this is what the
+
+773
+00:27:52,640 --> 00:27:56,080
+trajectory looks like in this system. I
+
+774
+00:27:54,480 --> 00:27:59,520
+forgot to say the system is called GIA.
+
+775
+00:27:56,080 --> 00:28:01,039
+GIA u comes from gal cells which are
+
+776
+00:27:59,520 --> 00:28:02,559
+support tissues for neurons in the
+
+777
+00:28:01,039 --> 00:28:06,240
+brain. So in the same way we would like
+
+778
+00:28:02,559 --> 00:28:09,279
+ga as a system to support human uh
+
+779
+00:28:06,240 --> 00:28:11,200
+engineers or the human brain. So it
+
+780
+00:28:09,279 --> 00:28:12,880
+starts looking at this and it starts to
+
+781
+00:28:11,200 --> 00:28:14,720
+navigate files because it's been taught
+
+782
+00:28:12,880 --> 00:28:16,399
+to do this exactly the way a human being
+
+783
+00:28:14,720 --> 00:28:18,080
+would do it. It's given some documents,
+
+784
+00:28:16,399 --> 00:28:19,760
+it reads the documents and then it's
+
+785
+00:28:18,080 --> 00:28:21,679
+doing like Unix commands and shell
+
+786
+00:28:19,760 --> 00:28:23,440
+commands. It has access to a shell. It
+
+787
+00:28:21,679 --> 00:28:25,360
+has access to sandbox. It's doing pretty
+
+788
+00:28:23,440 --> 00:28:27,679
+much what a human engineer would do
+
+789
+00:28:25,360 --> 00:28:30,320
+because that's what it's been taught to
+
+790
+00:28:27,679 --> 00:28:32,159
+do and then it starts running some stuff
+
+791
+00:28:30,320 --> 00:28:33,840
+and you know it's really good at being
+
+792
+00:28:32,159 --> 00:28:36,240
+told how to do it. So it runs its first
+
+793
+00:28:33,840 --> 00:28:37,919
+LLQ baseline the least loaded queue and
+
+794
+00:28:36,240 --> 00:28:40,480
+on this workload it finds that the mean
+
+795
+00:28:37,919 --> 00:28:44,320
+response time is the mean latency is 40
+
+796
+00:28:40,480 --> 00:28:46,240
+seconds. So it keeps chugging along and
+
+797
+00:28:44,320 --> 00:28:48,080
+now it produces its first attempt. And
+
+798
+00:28:46,240 --> 00:28:50,159
+this was super exciting to us because
+
+799
+00:28:48,080 --> 00:28:51,760
+what it does is it looks at all this.
+
+800
+00:28:50,159 --> 00:28:54,080
+And by the way, by this time it's
+
+801
+00:28:51,760 --> 00:28:57,760
+already taken 45 steps. It's about 5 or
+
+802
+00:28:54,080 --> 00:28:59,039
+10 minutes in. Um, and it says, you
+
+803
+00:28:57,760 --> 00:29:00,799
+can't read this too well, but it says
+
+804
+00:28:59,039 --> 00:29:02,559
+this file contains and it does it
+
+805
+00:29:00,799 --> 00:29:04,240
+exactly as it's been taught. It's been
+
+806
+00:29:02,559 --> 00:29:06,000
+taught to make small changes,
+
+807
+00:29:04,240 --> 00:29:07,679
+incremental changes, not to do some big
+
+808
+00:29:06,000 --> 00:29:09,200
+thing. So it comes out and this is so
+
+809
+00:29:07,679 --> 00:29:11,200
+amazing. It produces these comments that
+
+810
+00:29:09,200 --> 00:29:13,279
+are so humanlike. This file contains a
+
+811
+00:29:11,200 --> 00:29:14,640
+very with like puts a star on very small
+
+812
+00:29:13,279 --> 00:29:16,399
+amount because it's been told to produce
+
+813
+00:29:14,640 --> 00:29:17,679
+a very small amount of improvement in
+
+814
+00:29:16,399 --> 00:29:19,120
+the beginning contains a very small
+
+815
+00:29:17,679 --> 00:29:21,039
+amount of logic that tries to pick a
+
+816
+00:29:19,120 --> 00:29:23,120
+replica that will lead to lower overall
+
+817
+00:29:21,039 --> 00:29:24,640
+latency than and then it becomes
+
+818
+00:29:23,120 --> 00:29:27,440
+arrogant. It immediately starts calling
+
+819
+00:29:24,640 --> 00:29:29,520
+this LLQ naive which is very similar. It
+
+820
+00:29:27,440 --> 00:29:30,960
+says this is a naive LLQ and where it's
+
+821
+00:29:29,520 --> 00:29:32,240
+picking this up who knows it's probably
+
+822
+00:29:30,960 --> 00:29:34,159
+from some literature or some code
+
+823
+00:29:32,240 --> 00:29:35,520
+somewhere else. Then the naive algorithm
+
+824
+00:29:34,159 --> 00:29:37,440
+which by the way is not actually super
+
+825
+00:29:35,520 --> 00:29:39,679
+naive. It just happens to not work here.
+
+826
+00:29:37,440 --> 00:29:41,840
+The key observation is that LQ not only
+
+827
+00:29:39,679 --> 00:29:43,760
+looks at the number of requests while
+
+828
+00:29:41,840 --> 00:29:45,440
+ignoring how big those requests are and
+
+829
+00:29:43,760 --> 00:29:47,919
+how much GPU memory they currently
+
+830
+00:29:45,440 --> 00:29:49,600
+occupy. This is completely the way we
+
+831
+00:29:47,919 --> 00:29:51,440
+want human. And by the way, the AI has
+
+832
+00:29:49,600 --> 00:29:52,880
+not been trained on this problem because
+
+833
+00:29:51,440 --> 00:29:54,399
+it's going to be applied to all these
+
+834
+00:29:52,880 --> 00:29:56,640
+other problems. It's been trained on
+
+835
+00:29:54,399 --> 00:29:57,520
+distributed systems. It has not been it
+
+836
+00:29:56,640 --> 00:29:59,520
+doesn't know anything about this
+
+837
+00:29:57,520 --> 00:30:01,760
+problem. It's just thinking the way
+
+838
+00:29:59,520 --> 00:30:03,360
+we've been uh we've taught it to think.
+
+839
+00:30:01,760 --> 00:30:05,200
+And it's very gratifying. It's like you
+
+840
+00:30:03,360 --> 00:30:06,960
+see a student and it runs the first
+
+841
+00:30:05,200 --> 00:30:08,240
+experiment or they run the first
+
+842
+00:30:06,960 --> 00:30:11,120
+experiment. I don't know the pronoun for
+
+843
+00:30:08,240 --> 00:30:14,320
+these LL for these AIs and it produces
+
+844
+00:30:11,120 --> 00:30:15,840
+an answer which isn't that much better
+
+845
+00:30:14,320 --> 00:30:18,159
+but you know it's impressive. It
+
+846
+00:30:15,840 --> 00:30:19,600
+produced one algorithm and it worked. It
+
+847
+00:30:18,159 --> 00:30:22,000
+didn't it didn't break. It actually
+
+848
+00:30:19,600 --> 00:30:24,159
+worked and we were super excited. So now
+
+849
+00:30:22,000 --> 00:30:25,520
+it kind of chugs along and it starts
+
+850
+00:30:24,159 --> 00:30:27,600
+searching. It hasn't actually done
+
+851
+00:30:25,520 --> 00:30:29,039
+anything. all these algorithms that it's
+
+852
+00:30:27,600 --> 00:30:31,600
+searching for and you can see the code
+
+853
+00:30:29,039 --> 00:30:35,360
+that it oh sorry you can see the code
+
+854
+00:30:31,600 --> 00:30:37,360
+that it let me uh get back here
+
+855
+00:30:35,360 --> 00:30:39,360
+I think I was over here yeah all the
+
+856
+00:30:37,360 --> 00:30:41,600
+code that it's produces in as the search
+
+857
+00:30:39,360 --> 00:30:43,200
+continues it's they're reasonable ideas
+
+858
+00:30:41,600 --> 00:30:44,640
+but none of them is actually working you
+
+859
+00:30:43,200 --> 00:30:46,960
+can see that these trajectories it's
+
+860
+00:30:44,640 --> 00:30:49,520
+printing out these uh it's plotting
+
+861
+00:30:46,960 --> 00:30:52,320
+these points um as it go along goes
+
+862
+00:30:49,520 --> 00:30:56,720
+along and it kind of doesn't really
+
+863
+00:30:52,320 --> 00:30:59,360
+achieve anything um and At this point,
+
+864
+00:30:56,720 --> 00:31:01,120
+what's going to happen,
+
+865
+00:30:59,360 --> 00:31:02,880
+it's been taught to run a bunch of
+
+866
+00:31:01,120 --> 00:31:04,880
+things. If it doesn't make any progress,
+
+867
+00:31:02,880 --> 00:31:06,320
+it's been taught to now present its
+
+868
+00:31:04,880 --> 00:31:08,399
+thinking. It's like now it's going and
+
+869
+00:31:06,320 --> 00:31:10,080
+meeting its supervisor. And it says,
+
+870
+00:31:08,399 --> 00:31:11,919
+I've carefully explored multiple design
+
+871
+00:31:10,080 --> 00:31:13,520
+directions. Memory aware load balancing,
+
+872
+00:31:11,919 --> 00:31:14,720
+prompt length bucketing, shortest prompt
+
+873
+00:31:13,520 --> 00:31:16,559
+first. These are all interesting
+
+874
+00:31:14,720 --> 00:31:18,159
+algorithms. They've never been published
+
+875
+00:31:16,559 --> 00:31:19,679
+in the context of these LLMs. In fact,
+
+876
+00:31:18,159 --> 00:31:21,919
+one of these algorithms is from job
+
+877
+00:31:19,679 --> 00:31:24,159
+scheduling in factories. Another is from
+
+878
+00:31:21,919 --> 00:31:26,000
+internet um you know like RSVP those
+
+879
+00:31:24,159 --> 00:31:27,679
+protocols for admission control. It's
+
+880
+00:31:26,000 --> 00:31:29,919
+tried something. It's tried prompt link
+
+881
+00:31:27,679 --> 00:31:31,120
+bucketing which is and then memory aware
+
+882
+00:31:29,919 --> 00:31:33,200
+load balance. It's tried all these
+
+883
+00:31:31,120 --> 00:31:35,679
+things like it's got from the train
+
+884
+00:31:33,200 --> 00:31:37,760
+model and then it goes rather than
+
+885
+00:31:35,679 --> 00:31:39,600
+continuing to iterate blindly. I'm going
+
+886
+00:31:37,760 --> 00:31:41,360
+to step by step back. It's been taught
+
+887
+00:31:39,600 --> 00:31:42,960
+to do this in systems profile the
+
+888
+00:31:41,360 --> 00:31:44,880
+baseline more rigorously and derive a
+
+889
+00:31:42,960 --> 00:31:46,559
+quantitative model of where time is
+
+890
+00:31:44,880 --> 00:31:48,480
+actually spent. Is it queuing versus
+
+891
+00:31:46,559 --> 00:31:51,279
+execution? Is it preeemptions? Is it GPU
+
+892
+00:31:48,480 --> 00:31:53,679
+memory pressure? This is super humanlike
+
+893
+00:31:51,279 --> 00:31:54,799
+in what it's actually doing. And the
+
+894
+00:31:53,679 --> 00:31:57,360
+super, you didn't see this, but the
+
+895
+00:31:54,799 --> 00:32:01,039
+supervisor goes agreed, which is kind of
+
+896
+00:31:57,360 --> 00:32:02,559
+what supervisors often do. Um, so um,
+
+897
+00:32:01,039 --> 00:32:04,320
+and again, that's also been taught. You
+
+898
+00:32:02,559 --> 00:32:06,720
+either agree, you disagree, or you ask
+
+899
+00:32:04,320 --> 00:32:07,840
+questions. So that's it's it's very
+
+900
+00:32:06,720 --> 00:32:10,640
+controlled in terms of what the
+
+901
+00:32:07,840 --> 00:32:13,440
+supervisor um really does. So now it's
+
+902
+00:32:10,640 --> 00:32:14,640
+starting to measure things. It doesn't
+
+903
+00:32:13,440 --> 00:32:15,919
+know anything about this problem, but
+
+904
+00:32:14,640 --> 00:32:17,440
+it's being taught to measure multiple
+
+905
+00:32:15,919 --> 00:32:19,279
+levels deeper. So it now instruments
+
+906
+00:32:17,440 --> 00:32:21,360
+everything it can in the simulator. It
+
+907
+00:32:19,279 --> 00:32:22,720
+says here's the request simulator 7,300.
+
+908
+00:32:21,360 --> 00:32:24,640
+The average latency is 40 seconds.
+
+909
+00:32:22,720 --> 00:32:26,000
+Here's the 95th percentile. It's like
+
+910
+00:32:24,640 --> 00:32:28,320
+very humanlike. And then it starts
+
+911
+00:32:26,000 --> 00:32:30,399
+looking at lower level numbers. Plots
+
+912
+00:32:28,320 --> 00:32:32,720
+the memory utilization. And then it
+
+913
+00:32:30,399 --> 00:32:35,120
+plots this total number of restarts
+
+914
+00:32:32,720 --> 00:32:37,760
+which is shown at the bottom. This turns
+
+915
+00:32:35,120 --> 00:32:40,159
+out to be very key because everybody who
+
+916
+00:32:37,760 --> 00:32:42,080
+was presented this problem on request
+
+917
+00:32:40,159 --> 00:32:43,279
+routing assumes this is a load balancing
+
+918
+00:32:42,080 --> 00:32:44,399
+problem because anytime you have a
+
+919
+00:32:43,279 --> 00:32:45,840
+request router, you like find the thing
+
+920
+00:32:44,399 --> 00:32:47,600
+with the least load and you send it
+
+921
+00:32:45,840 --> 00:32:49,360
+there.
+
+922
+00:32:47,600 --> 00:32:51,039
+This took Mohammad about a week to
+
+923
+00:32:49,360 --> 00:32:52,960
+figure out that this is not a load
+
+924
+00:32:51,039 --> 00:32:54,559
+balancing problem. What's happening is
+
+925
+00:32:52,960 --> 00:32:56,640
+that on this workload, the memory, the
+
+926
+00:32:54,559 --> 00:32:59,519
+mean memory utilization is about 90%.
+
+927
+00:32:56,640 --> 00:33:02,880
+And the P95 is 99.8%.
+
+928
+00:32:59,519 --> 00:33:04,320
+The memory is kind of being used.
+
+929
+00:33:02,880 --> 00:33:06,559
+This is not a load balance problem. It
+
+930
+00:33:04,320 --> 00:33:08,159
+took the human expert who's he's amazing
+
+931
+00:33:06,559 --> 00:33:09,760
+on these problems. It took him almost a
+
+932
+00:33:08,159 --> 00:33:13,679
+week to figure this out. This thing got
+
+933
+00:33:09,760 --> 00:33:15,919
+it in about an hour. And what it really
+
+934
+00:33:13,679 --> 00:33:17,919
+is is a restart. What a restart is is
+
+935
+00:33:15,919 --> 00:33:20,960
+the following. You send a job to a GPU.
+
+936
+00:33:17,919 --> 00:33:23,039
+You send multiple jobs to a GPU and it's
+
+937
+00:33:20,960 --> 00:33:25,360
+processing it and then it's decoding. So
+
+938
+00:33:23,039 --> 00:33:26,799
+you might have sent a 50 token input
+
+939
+00:33:25,360 --> 00:33:30,240
+like small number of characters and it's
+
+940
+00:33:26,799 --> 00:33:32,240
+producing 10,000 bytes of output and it
+
+941
+00:33:30,240 --> 00:33:33,840
+runs out of memory. Now when something
+
+942
+00:33:32,240 --> 00:33:35,200
+runs out of memory in the GPU, what
+
+943
+00:33:33,840 --> 00:33:37,360
+these engines do is they got to pick
+
+944
+00:33:35,200 --> 00:33:40,640
+something and stop that stop it. So what
+
+945
+00:33:37,360 --> 00:33:42,159
+LLM does, it picks the youngest job, the
+
+946
+00:33:40,640 --> 00:33:43,440
+one that's been in the system the least
+
+947
+00:33:42,159 --> 00:33:45,440
+amount of time in the parallel execution
+
+948
+00:33:43,440 --> 00:33:47,519
+and just says I'm going to suspend you.
+
+949
+00:33:45,440 --> 00:33:50,320
+it leaves it on the engine. So it frees
+
+950
+00:33:47,519 --> 00:33:52,240
+up memory and then when it restarts
+
+951
+00:33:50,320 --> 00:33:53,679
+there's no storage to keep track of all
+
+952
+00:33:52,240 --> 00:33:56,640
+the state that was what was consuming
+
+953
+00:33:53,679 --> 00:33:59,200
+it. So you restart the whole job. So the
+
+954
+00:33:56,640 --> 00:34:00,960
+number of restarts is 26%. And this will
+
+955
+00:33:59,200 --> 00:34:03,120
+turn out to be pretty important because
+
+956
+00:34:00,960 --> 00:34:04,960
+the whole thing comes down to these
+
+957
+00:34:03,120 --> 00:34:08,159
+restarts which are essentially you do
+
+958
+00:34:04,960 --> 00:34:09,839
+all this work and then it's wasted work.
+
+959
+00:34:08,159 --> 00:34:11,359
+So anyway, there's still going to be
+
+960
+00:34:09,839 --> 00:34:13,280
+quite a ways to go before we come up
+
+961
+00:34:11,359 --> 00:34:14,720
+with something new because even Mohammed
+
+962
+00:34:13,280 --> 00:34:17,760
+took a week after this insight to come
+
+963
+00:34:14,720 --> 00:34:19,520
+up with something. So now it says nearly
+
+964
+00:34:17,760 --> 00:34:21,040
+half the latency is pure queuing at the
+
+965
+00:34:19,520 --> 00:34:22,960
+globe. All these inferences it's coming
+
+966
+00:34:21,040 --> 00:34:24,800
+up with based on data. Now all the
+
+967
+00:34:22,960 --> 00:34:27,440
+replicas are driven to almost 100%
+
+968
+00:34:24,800 --> 00:34:30,399
+memory. To cut latency, we must keep
+
+969
+00:34:27,440 --> 00:34:32,320
+prompt load prompts prompt loads prompt
+
+970
+00:34:30,399 --> 00:34:34,240
+loads balanced to avoid replicas hitting
+
+971
+00:34:32,320 --> 00:34:35,839
+100%. And shorten the global queue,
+
+972
+00:34:34,240 --> 00:34:36,560
+which is a just sort of a stupid
+
+973
+00:34:35,839 --> 00:34:38,320
+statement. Of course, you need to
+
+974
+00:34:36,560 --> 00:34:39,520
+shorten the global queue. That's the
+
+975
+00:34:38,320 --> 00:34:41,520
+whole point. That's where the latency
+
+976
+00:34:39,520 --> 00:34:43,119
+is. But at least it's observing these
+
+977
+00:34:41,520 --> 00:34:44,800
+things.
+
+978
+00:34:43,119 --> 00:34:47,359
+So then advisor, you missed it. It said,
+
+979
+00:34:44,800 --> 00:34:49,200
+"Sounds good. Proceed." Which is another
+
+980
+00:34:47,359 --> 00:34:51,919
+great supervisor uh thing. It's it's
+
+981
+00:34:49,200 --> 00:34:55,520
+easy to be a professor. Um so [laughter]
+
+982
+00:34:51,919 --> 00:34:57,200
+so then it starts to do this and it
+
+983
+00:34:55,520 --> 00:34:58,960
+tries some ideas which actually make it
+
+984
+00:34:57,200 --> 00:35:00,480
+worse. But one of the things that we've
+
+985
+00:34:58,960 --> 00:35:02,560
+taught it is if it becomes worse, don't
+
+986
+00:35:00,480 --> 00:35:05,040
+immediately stop. Understand why it's
+
+987
+00:35:02,560 --> 00:35:08,560
+becoming worse. So it continues to do
+
+988
+00:35:05,040 --> 00:35:11,200
+this thing and it's trying lots of
+
+989
+00:35:08,560 --> 00:35:12,640
+things and actually you see here that
+
+990
+00:35:11,200 --> 00:35:14,480
+what it's doing and this is a place
+
+991
+00:35:12,640 --> 00:35:16,720
+where the advisers are finally going to
+
+992
+00:35:14,480 --> 00:35:20,880
+contribute something on let me just go
+
+993
+00:35:16,720 --> 00:35:23,359
+back a bit so it runs this and it says
+
+994
+00:35:20,880 --> 00:35:25,119
+I've run all these algorithms
+
+995
+00:35:23,359 --> 00:35:26,560
+memory head room it comes up with
+
+996
+00:35:25,119 --> 00:35:28,560
+beautiful names for these things size
+
+997
+00:35:26,560 --> 00:35:30,960
+affinity batching I've evaluated all of
+
+998
+00:35:28,560 --> 00:35:32,560
+the stuff I'm short of this improvement
+
+999
+00:35:30,960 --> 00:35:34,480
+that you want basically I'm at the same
+
+1000
+00:35:32,560 --> 00:35:37,680
+level I'm 3% % better which is probably
+
+1001
+00:35:34,480 --> 00:35:40,000
+useless and I'm going to continue to
+
+1002
+00:35:37,680 --> 00:35:42,640
+iterate on schedulers and at this point
+
+1003
+00:35:40,000 --> 00:35:45,440
+finally the supervisor has had enough
+
+1004
+00:35:42,640 --> 00:35:47,520
+and it says it seem it doesn't propose
+
+1005
+00:35:45,440 --> 00:35:49,359
+anything it says this is exactly what
+
+1006
+00:35:47,520 --> 00:35:50,720
+we've taught it just ask questions it
+
+1007
+00:35:49,359 --> 00:35:52,800
+seems we've been unable to reduce the
+
+1008
+00:35:50,720 --> 00:35:54,240
+number of restarts why is that is there
+
+1009
+00:35:52,800 --> 00:35:55,680
+something structurally wrong about our
+
+1010
+00:35:54,240 --> 00:35:58,800
+approach that's making it difficult to
+
+1011
+00:35:55,680 --> 00:36:00,800
+limit the number of restarts now when a
+
+1012
+00:35:58,800 --> 00:36:04,480
+question is asked this thing has been
+
+1013
+00:36:00,800 --> 00:36:04,480
+taught to do chain of thought reasoning
+
+1014
+00:36:05,119 --> 00:36:08,960
+So it spits out a boatload of
+
+1015
+00:36:06,960 --> 00:36:11,440
+information and then the supervisor is
+
+1016
+00:36:08,960 --> 00:36:13,040
+going to start discussing this with it.
+
+1017
+00:36:11,440 --> 00:36:15,520
+So the boatload of information it says
+
+1018
+00:36:13,040 --> 00:36:17,280
+why do they persist VLM's preempt on
+
+1019
+00:36:15,520 --> 00:36:18,480
+growth behavior. It alloc allocates just
+
+1020
+00:36:17,280 --> 00:36:20,560
+enough blocks and then comes up with
+
+1021
+00:36:18,480 --> 00:36:22,480
+this example a 50 token prompt that
+
+1022
+00:36:20,560 --> 00:36:24,720
+later decodes 1,5 by the way it's
+
+1023
+00:36:22,480 --> 00:36:27,040
+measured one example and says the 50
+
+1024
+00:36:24,720 --> 00:36:30,079
+token prompt that gave me 1500 will
+
+1025
+00:36:27,040 --> 00:36:31,760
+eventually need 1500 over 16 94 extra
+
+1026
+00:36:30,079 --> 00:36:33,599
+blocks. We cannot foresee this growth.
+
+1027
+00:36:31,760 --> 00:36:35,280
+So an apparently safe decision can
+
+1028
+00:36:33,599 --> 00:36:36,960
+trigger a preeemption. So it found one
+
+1029
+00:36:35,280 --> 00:36:39,359
+example like this and it actually found
+
+1030
+00:36:36,960 --> 00:36:42,240
+an insight which by the way a human
+
+1031
+00:36:39,359 --> 00:36:44,000
+might not have obtained um easily and it
+
+1032
+00:36:42,240 --> 00:36:47,040
+kind of gave you this insight and then
+
+1033
+00:36:44,000 --> 00:36:48,960
+it says that what we need is to come up
+
+1034
+00:36:47,040 --> 00:36:50,400
+with a scheduleuler where we don't know
+
+1035
+00:36:48,960 --> 00:36:51,760
+the decode growth. Decode is the number
+
+1036
+00:36:50,400 --> 00:36:54,480
+of output tokens that you have to
+
+1037
+00:36:51,760 --> 00:36:57,280
+produce. Um and then it says what could
+
+1038
+00:36:54,480 --> 00:36:58,640
+cut restarts
+
+1039
+00:36:57,280 --> 00:37:00,160
+and this is where like this idea of
+
+1040
+00:36:58,640 --> 00:37:02,240
+networking of doing admission control
+
+1041
+00:37:00,160 --> 00:37:04,480
+starts to come into play. What it's
+
+1042
+00:37:02,240 --> 00:37:07,920
+going to do is come up with an insight
+
+1043
+00:37:04,480 --> 00:37:09,440
+that tries to reserve some headroom per
+
+1044
+00:37:07,920 --> 00:37:13,400
+replica. So it's not going to push the
+
+1045
+00:37:09,440 --> 00:37:13,400
+memory to 100%.
+
+1046
+00:37:13,839 --> 00:37:18,160
+So it has a conclusion and the
+
+1047
+00:37:16,000 --> 00:37:23,119
+supervisor is brilliant at this point.
+
+1048
+00:37:18,160 --> 00:37:25,119
+It says proceed. Um so continue um and
+
+1049
+00:37:23,119 --> 00:37:27,760
+then it invents this algorithm that when
+
+1050
+00:37:25,119 --> 00:37:29,200
+we saw it we were really blown away. It
+
+1051
+00:37:27,760 --> 00:37:30,720
+and comes up with a beautiful name for
+
+1052
+00:37:29,200 --> 00:37:34,240
+the algorithm called headroom admission
+
+1053
+00:37:30,720 --> 00:37:36,960
+h global scheduleul harra. What it says
+
+1054
+00:37:34,240 --> 00:37:38,720
+is eliminate most preeemption. So it's
+
+1055
+00:37:36,960 --> 00:37:40,560
+aiming now to not worry about this
+
+1056
+00:37:38,720 --> 00:37:42,480
+highle metric. It's tried all these
+
+1057
+00:37:40,560 --> 00:37:44,160
+ideas. It never cut the restarts and it
+
+1058
+00:37:42,480 --> 00:37:45,920
+says I'm not going to worry about this
+
+1059
+00:37:44,160 --> 00:37:47,119
+latency metric that you want me to. I am
+
+1060
+00:37:45,920 --> 00:37:49,520
+just going to come up with the best way
+
+1061
+00:37:47,119 --> 00:37:52,640
+to cut restarts. and says what I'm going
+
+1062
+00:37:49,520 --> 00:37:54,960
+to do is I'm going to monitor my
+
+1063
+00:37:52,640 --> 00:37:56,000
+workload recent amount of whatever work
+
+1064
+00:37:54,960 --> 00:37:57,359
+is coming I'm going to look at the
+
+1065
+00:37:56,000 --> 00:37:59,119
+number of decode tokens which is the
+
+1066
+00:37:57,359 --> 00:38:00,480
+output tokens and I know the number of
+
+1067
+00:37:59,119 --> 00:38:02,640
+input tokens they're called prefill
+
+1068
+00:38:00,480 --> 00:38:05,200
+tokens in LLM jargon so I'm going to
+
+1069
+00:38:02,640 --> 00:38:06,720
+have this ratio of decode to prefill if
+
+1070
+00:38:05,200 --> 00:38:08,800
+the number of output tokens to the
+
+1071
+00:38:06,720 --> 00:38:10,800
+number of input tokens measured in
+
+1072
+00:38:08,800 --> 00:38:14,000
+recent workload is higher than a
+
+1073
+00:38:10,800 --> 00:38:17,440
+threshold and if the memory with safety
+
+1074
+00:38:14,000 --> 00:38:19,440
+fraction is if the amount of memory is
+
+1075
+00:38:17,440 --> 00:38:21,440
+used is above ove a certain threshold
+
+1076
+00:38:19,440 --> 00:38:24,160
+then I'm going to hold on to the job.
+
+1077
+00:38:21,440 --> 00:38:25,839
+I'm not going to send it. Okay. So I got
+
+1078
+00:38:24,160 --> 00:38:27,839
+these two parameters and it's also been
+
+1079
+00:38:25,839 --> 00:38:30,320
+taught by the way whenever you come up
+
+1080
+00:38:27,839 --> 00:38:33,760
+with a proposal and you think that
+
+1081
+00:38:30,320 --> 00:38:36,160
+there's um some u you don't know how to
+
+1082
+00:38:33,760 --> 00:38:37,760
+tune it come up with two two or more
+
+1083
+00:38:36,160 --> 00:38:39,359
+parameters that you can trade off and
+
+1084
+00:38:37,760 --> 00:38:40,960
+ideally come up with two parameters that
+
+1085
+00:38:39,359 --> 00:38:42,880
+you can trade off between in order to
+
+1086
+00:38:40,960 --> 00:38:44,880
+get the result that you want. So, it
+
+1087
+00:38:42,880 --> 00:38:47,599
+does this
+
+1088
+00:38:44,880 --> 00:38:49,920
+and it actually is going to run it and
+
+1089
+00:38:47,599 --> 00:38:52,320
+the first time it runs it, it actually
+
+1090
+00:38:49,920 --> 00:38:54,800
+becomes worse,
+
+1091
+00:38:52,320 --> 00:38:57,839
+but it's been taught not to not to give
+
+1092
+00:38:54,800 --> 00:39:01,280
+up on it. And uh let me see if I can
+
+1093
+00:38:57,839 --> 00:39:04,280
+show you what it found.
+
+1094
+00:39:01,280 --> 00:39:04,280
+Uh
+
+1095
+00:39:05,200 --> 00:39:09,920
+what it'll do is it runs it and the
+
+1096
+00:39:07,839 --> 00:39:13,440
+number of restarts that it found found
+
+1097
+00:39:09,920 --> 00:39:15,440
+is only seven. But now it says I found a
+
+1098
+00:39:13,440 --> 00:39:17,280
+parameter and I can trade off between
+
+1099
+00:39:15,440 --> 00:39:18,480
+the parameters and it starts trading off
+
+1100
+00:39:17,280 --> 00:39:21,440
+between these. You can see that it
+
+1101
+00:39:18,480 --> 00:39:23,599
+changes these values of the uh let me go
+
+1102
+00:39:21,440 --> 00:39:26,720
+back a bit. It's changing the values of
+
+1103
+00:39:23,599 --> 00:39:28,960
+the uh prefill and decode u the the the
+
+1104
+00:39:26,720 --> 00:39:30,400
+ratio and the safety margin and it
+
+1105
+00:39:28,960 --> 00:39:31,440
+finally breaks through this 40 secondond
+
+1106
+00:39:30,400 --> 00:39:34,079
+barrier. It comes up with something
+
+1107
+00:39:31,440 --> 00:39:36,480
+that's about 30 seconds. But it's also
+
+1108
+00:39:34,079 --> 00:39:38,000
+been taught to compose ideas. So what it
+
+1109
+00:39:36,480 --> 00:39:39,839
+also has been taught is you've done
+
+1110
+00:39:38,000 --> 00:39:43,119
+other ideas before and one of the ideas
+
+1111
+00:39:39,839 --> 00:39:44,880
+it did before was the shortest remaining
+
+1112
+00:39:43,119 --> 00:39:46,240
+time first or shortest job scheduling
+
+1113
+00:39:44,880 --> 00:39:48,160
+which is from factory scheduling when
+
+1114
+00:39:46,240 --> 00:39:49,839
+you have a set of variable job length
+
+1115
+00:39:48,160 --> 00:39:52,000
+jobs you put the shortest jobs first and
+
+1116
+00:39:49,839 --> 00:39:53,280
+the mean latency goes down that didn't
+
+1117
+00:39:52,000 --> 00:39:55,040
+work before because it was running out
+
+1118
+00:39:53,280 --> 00:39:56,720
+of memory but now it goes back and
+
+1119
+00:39:55,040 --> 00:39:58,640
+composes that idea because it's been
+
+1120
+00:39:56,720 --> 00:40:00,720
+taught to not throw away old ideas that
+
+1121
+00:39:58,640 --> 00:40:03,040
+may work so it's been taught to compose
+
+1122
+00:40:00,720 --> 00:40:04,560
+it comes back and composes it and it
+
+1123
+00:40:03,040 --> 00:40:08,160
+actually comes back and produces
+
+1124
+00:40:04,560 --> 00:40:10,480
+something That's about 22 seconds which
+
+1125
+00:40:08,160 --> 00:40:12,240
+matches the time of the human expert
+
+1126
+00:40:10,480 --> 00:40:14,480
+except it did it in 20 simulations in
+
+1127
+00:40:12,240 --> 00:40:16,320
+two hours versus uh over a 100
+
+1128
+00:40:14,480 --> 00:40:18,320
+simulation and two weeks because the
+
+1129
+00:40:16,320 --> 00:40:20,320
+human being gets tired and has to go to
+
+1130
+00:40:18,320 --> 00:40:22,320
+the guy has to sleep. I mean you know he
+
+1131
+00:40:20,320 --> 00:40:26,000
+runs out of ideas. This thing just
+
+1132
+00:40:22,320 --> 00:40:28,160
+continues to continues to crank.
+
+1133
+00:40:26,000 --> 00:40:30,640
+Now oops let me go to the next slide
+
+1134
+00:40:28,160 --> 00:40:33,359
+here. the algorithm it discovers at the
+
+1135
+00:40:30,640 --> 00:40:35,040
+end and implements
+
+1136
+00:40:33,359 --> 00:40:38,400
+it's also been taught to be very compact
+
+1137
+00:40:35,040 --> 00:40:41,680
+and clean. This is the original code. Um
+
+1138
+00:40:38,400 --> 00:40:43,359
+it's got basically it's added these two
+
+1139
+00:40:41,680 --> 00:40:44,720
+key lines and there's a little bit more
+
+1140
+00:40:43,359 --> 00:40:46,079
+somewhere else but these are the two key
+
+1141
+00:40:44,720 --> 00:40:48,079
+lines. It's been taught to have very
+
+1142
+00:40:46,079 --> 00:40:50,880
+understandable, very comprehensible,
+
+1143
+00:40:48,079 --> 00:40:52,400
+very explainable outputs. So this first
+
+1144
+00:40:50,880 --> 00:40:54,079
+idea is to prioritize smaller requests
+
+1145
+00:40:52,400 --> 00:40:55,680
+and the second idea is the submission
+
+1146
+00:40:54,079 --> 00:40:58,560
+control and it writes this in a very
+
+1147
+00:40:55,680 --> 00:41:00,560
+compact way. you can teach it to to uh
+
+1148
+00:40:58,560 --> 00:41:02,240
+provide explanations for it. So this is
+
+1149
+00:41:00,560 --> 00:41:04,079
+not a blackbox neural policy. It's
+
+1150
+00:41:02,240 --> 00:41:05,599
+intended really whether or not somebody
+
+1151
+00:41:04,079 --> 00:41:08,079
+uses this algorithm. The point is the
+
+1152
+00:41:05,599 --> 00:41:09,760
+insight becomes completely obvious to to
+
+1153
+00:41:08,079 --> 00:41:12,400
+people. And that's just one of many
+
+1154
+00:41:09,760 --> 00:41:14,640
+optimizations. Uh we had it go and do a
+
+1155
+00:41:12,400 --> 00:41:16,079
+better batuler. It improved by 21
+
+1156
+00:41:14,640 --> 00:41:17,359
+seconds. By this time mama then my
+
+1157
+00:41:16,079 --> 00:41:18,800
+students had given up. They they wanted
+
+1158
+00:41:17,359 --> 00:41:20,400
+to use the tool. Nobody wants to invent
+
+1159
+00:41:18,800 --> 00:41:22,079
+this on their own. Like let me use the
+
+1160
+00:41:20,400 --> 00:41:23,839
+tool. Let me teach the tool to come up
+
+1161
+00:41:22,079 --> 00:41:25,520
+with something. And then we had it build
+
+1162
+00:41:23,839 --> 00:41:26,880
+an autoscaler when the workload varies.
+
+1163
+00:41:25,520 --> 00:41:28,800
+And when we do all of this together for
+
+1164
+00:41:26,880 --> 00:41:30,560
+these types of workloads, we find we can
+
+1165
+00:41:28,800 --> 00:41:34,800
+provide the same latency guarantees with
+
+1166
+00:41:30,560 --> 00:41:37,200
+40% fewer GPU resources.
+
+1167
+00:41:34,800 --> 00:41:40,240
+Uh we did another use case recently from
+
+1168
+00:41:37,200 --> 00:41:42,079
+a company that um is a nonlm based
+
+1169
+00:41:40,240 --> 00:41:43,920
+transformer model. This is not about
+
+1170
+00:41:42,079 --> 00:41:46,240
+LLMs at all. This runs on the Triton
+
+1171
+00:41:43,920 --> 00:41:48,319
+server. It's doing um some sort of
+
+1172
+00:41:46,240 --> 00:41:50,640
+ranking thing. uh we don't really
+
+1173
+00:41:48,319 --> 00:41:53,200
+understand the know the application and
+
+1174
+00:41:50,640 --> 00:41:55,520
+the original algorithm with the queries
+
+1175
+00:41:53,200 --> 00:41:57,839
+per second or requests per second uh was
+
+1176
+00:41:55,520 --> 00:41:59,440
+this for different uh 90th percentiles
+
+1177
+00:41:57,839 --> 00:42:01,680
+of latencies and they wanted a 20
+
+1178
+00:41:59,440 --> 00:42:04,800
+millisecond latency uh for the 90th
+
+1179
+00:42:01,680 --> 00:42:06,960
+percentile we're able to provide um a
+
+1180
+00:42:04,800 --> 00:42:10,000
+10x higher throughput for the same
+
+1181
+00:42:06,960 --> 00:42:11,920
+latency guarantee as the original system
+
+1182
+00:42:10,000 --> 00:42:13,760
+so again that's another very interesting
+
+1183
+00:42:11,920 --> 00:42:15,760
+result completely different system again
+
+1184
+00:42:13,760 --> 00:42:17,280
+the GIA AI has not been taught anything
+
+1185
+00:42:15,760 --> 00:42:19,520
+about that system it's been taught about
+
+1186
+00:42:17,280 --> 00:42:21,119
+system design. So there's two
+
+1187
+00:42:19,520 --> 00:42:23,200
+differentiators. The first is this
+
+1188
+00:42:21,119 --> 00:42:25,520
+verification playground. It could be in
+
+1189
+00:42:23,200 --> 00:42:27,359
+simulation or a test bed and it
+
+1190
+00:42:25,520 --> 00:42:28,560
+instruments everything and it's been
+
+1191
+00:42:27,359 --> 00:42:31,040
+taught to measure and the other is this
+
+1192
+00:42:28,560 --> 00:42:33,359
+multi-agentic framework with these
+
+1193
+00:42:31,040 --> 00:42:36,079
+supervisors and these engineers and it's
+
+1194
+00:42:33,359 --> 00:42:37,920
+really white box approach not this
+
+1195
+00:42:36,079 --> 00:42:41,040
+blackbox approach. It's rooted in
+
+1196
+00:42:37,920 --> 00:42:42,880
+systems reasoning not the use of LLMs
+
+1197
+00:42:41,040 --> 00:42:45,119
+blindly. So in other words, we are
+
+1198
+00:42:42,880 --> 00:42:47,040
+teaching the things that it should be
+
+1199
+00:42:45,119 --> 00:42:48,960
+looking at uh the principles it should
+
+1200
+00:42:47,040 --> 00:42:51,520
+be looking at. So I'll skip some of
+
+1201
+00:42:48,960 --> 00:42:53,599
+this. Uh if there's something you take
+
+1202
+00:42:51,520 --> 00:42:55,839
+away from here, I think that it is the
+
+1203
+00:42:53,599 --> 00:42:57,920
+specialization is a key to unlocking
+
+1204
+00:42:55,839 --> 00:42:59,440
+performance. As the workload changes, as
+
+1205
+00:42:57,920 --> 00:43:02,160
+the environment changes, you want your
+
+1206
+00:42:59,440 --> 00:43:04,160
+systems to adapt and continually change.
+
+1207
+00:43:02,160 --> 00:43:07,119
+And that is something that this type of
+
+1208
+00:43:04,160 --> 00:43:10,240
+AI uh can enable.
+
+1209
+00:43:07,119 --> 00:43:12,960
+So I I'll leave on this note that AI for
+
+1210
+00:43:10,240 --> 00:43:15,680
+AI I think it's time and just like these
+
+1211
+00:43:12,960 --> 00:43:18,640
+tools for CAD like magic and spice and
+
+1212
+00:43:15,680 --> 00:43:20,640
+so on led to this era of exponential
+
+1213
+00:43:18,640 --> 00:43:22,560
+improvement because what you would do is
+
+1214
+00:43:20,640 --> 00:43:25,440
+you would have these tools that would
+
+1215
+00:43:22,560 --> 00:43:27,200
+run on computers and you would use them
+
+1216
+00:43:25,440 --> 00:43:29,200
+to simulate the next generation of
+
+1217
+00:43:27,200 --> 00:43:30,880
+faster computers which then got built
+
+1218
+00:43:29,200 --> 00:43:32,480
+and then those faster computers would
+
+1219
+00:43:30,880 --> 00:43:34,560
+allow you to build even more complicated
+
+1220
+00:43:32,480 --> 00:43:36,240
+hardware systems with simulation. We
+
+1221
+00:43:34,560 --> 00:43:38,560
+think that the way to get truly
+
+1222
+00:43:36,240 --> 00:43:41,599
+exponential improvements is in something
+
+1223
+00:43:38,560 --> 00:43:45,119
+like this. Um so uh this has been pretty
+
+1224
+00:43:41,599 --> 00:43:46,720
+exciting. So our research side uh we've
+
+1225
+00:43:45,119 --> 00:43:48,640
+recently started a company with this
+
+1226
+00:43:46,720 --> 00:43:50,720
+because people got really excited about
+
+1227
+00:43:48,640 --> 00:43:53,680
+this. It's uh venture funded and the
+
+1228
+00:43:50,720 --> 00:43:56,720
+company's focus is on AI systems for uh
+
+1229
+00:43:53,680 --> 00:43:59,839
+using GEA for AI. But our research at
+
+1230
+00:43:56,720 --> 00:44:01,760
+MIT continues in things unrelated to AI
+
+1231
+00:43:59,839 --> 00:44:03,680
+applications. So if you could apply this
+
+1232
+00:44:01,760 --> 00:44:05,760
+to other computer systems problems, they
+
+1233
+00:44:03,680 --> 00:44:09,200
+could be in wireless, they could be in
+
+1234
+00:44:05,760 --> 00:44:11,119
+um um distributed systems design etc. So
+
+1235
+00:44:09,200 --> 00:44:12,880
+that's where we are. If you u have any
+
+1236
+00:44:11,119 --> 00:44:14,640
+questions or any comments, I can take
+
+1237
+00:44:12,880 --> 00:44:16,710
+them now or you can reach me by email.
+
+1238
+00:44:14,640 --> 00:44:17,200
+Thank you.
+
+1239
+00:44:16,710 --> 00:44:20,240
+[applause] Are
+
+1240
+00:44:17,200 --> 00:44:21,599
+>> you going to be able to maybe the the uh
+
+1241
+00:44:20,240 --> 00:44:22,319
+networking session which is right after
+
+1242
+00:44:21,599 --> 00:44:24,640
+the next talk?
+
+1243
+00:44:22,319 --> 00:44:26,319
+>> Sure. I think I can if people want to
+
+1244
+00:44:24,640 --> 00:44:28,319
+ask questions then I can offer that.
+
+1245
+00:44:26,319 --> 00:44:30,560
+>> Um I have to leave at three.
+
+1246
+00:44:28,319 --> 00:44:33,920
+>> Okay. All right.
+
+1247
+00:44:30,560 --> 00:44:36,240
+Anyway, um like to thank uh uh Hari for
+
+1248
+00:44:33,920 --> 00:44:38,640
+a great talk today. Um if we could
+
+1249
+00:44:36,240 --> 00:44:40,400
+probably take one question if somebody
+
+1250
+00:44:38,640 --> 00:44:41,680
+had something that they were dying to
+
+1251
+00:44:40,400 --> 00:44:43,280
+ask.
+
+1252
+00:44:41,680 --> 00:44:44,800
+>> All right. Go ahead.
+
+1253
+00:44:43,280 --> 00:44:45,440
+>> Yeah.
+
+1254
+00:44:44,800 --> 00:44:50,640
+>> Yeah. Go ahead.
+
+1255
+00:44:45,440 --> 00:44:52,880
+>> Go ahead. So uh very very enjoyable.
+
+1256
+00:44:50,640 --> 00:44:54,560
+Was everything done through the language
+
+1257
+00:44:52,880 --> 00:44:57,280
+modality or did you actually have any
+
+1258
+00:44:54,560 --> 00:44:59,200
+sort of uh any sort of policy that was
+
+1259
+00:44:57,280 --> 00:45:00,800
+parameterized by a neural net or did you
+
+1260
+00:44:59,200 --> 00:45:02,880
+apply reinforcement learning as an
+
+1261
+00:45:00,800 --> 00:45:05,119
+overlay either overall for the iteration
+
+1262
+00:45:02,880 --> 00:45:07,280
+or even once it found some parameters
+
+1263
+00:45:05,119 --> 00:45:09,920
+that it wanted to tune or was even that
+
+1264
+00:45:07,280 --> 00:45:12,480
+tuning done via text to the LLM?
+
+1265
+00:45:09,920 --> 00:45:14,560
+>> In this work we didn't use RL at all. uh
+
+1266
+00:45:12,480 --> 00:45:17,359
+although internally LLMs use RL to get
+
+1267
+00:45:14,560 --> 00:45:20,400
+better and better on things we u did not
+
+1268
+00:45:17,359 --> 00:45:21,839
+use RL in this at all uh uh and our
+
+1269
+00:45:20,400 --> 00:45:23,680
+policies are not neural in nature
+
+1270
+00:45:21,839 --> 00:45:28,319
+although I think there will be problems
+
+1271
+00:45:23,680 --> 00:45:30,960
+where your idea would be useful I'm sure
+
+1272
+00:45:28,319 --> 00:45:33,839
+>> so fantastic work I I really like this
+
+1273
+00:45:30,960 --> 00:45:35,680
+ju can you step like step back above the
+
+1274
+00:45:33,839 --> 00:45:38,960
+kind of system design
+
+1275
+00:45:35,680 --> 00:45:43,119
+>> domain what's this telling us about how
+
+1276
+00:45:38,960 --> 00:45:45,520
+we use the language abilities LLMs in
+
+1277
+00:45:43,119 --> 00:45:48,000
+systems generally because it seems to be
+
+1278
+00:45:45,520 --> 00:45:49,440
+like you know using the systems to argue
+
+1279
+00:45:48,000 --> 00:45:50,800
+in natural language against each other
+
+1280
+00:45:49,440 --> 00:45:54,319
+and to debate internally in the system
+
+1281
+00:45:50,800 --> 00:45:54,960
+is a very different design approach
+
+1282
+00:45:54,319 --> 00:45:56,640
+applicable.
+
+1283
+00:45:54,960 --> 00:45:59,440
+>> That's a good question. I I have only a
+
+1284
+00:45:56,640 --> 00:46:02,240
+superficial answer. I think that our
+
+1285
+00:45:59,440 --> 00:46:04,800
+goal here was to design this thing the
+
+1286
+00:46:02,240 --> 00:46:06,160
+way humans the way we work. So you just
+
+1287
+00:46:04,800 --> 00:46:07,440
+mimic that because we don't think it
+
+1288
+00:46:06,160 --> 00:46:08,720
+needs to get thrown away. We don't think
+
+1289
+00:46:07,440 --> 00:46:10,720
+it needs to get replaced because one of
+
+1290
+00:46:08,720 --> 00:46:12,800
+the things we have at the end is we want
+
+1291
+00:46:10,720 --> 00:46:14,640
+a human agent to be sitting in this mix.
+
+1292
+00:46:12,800 --> 00:46:16,880
+A human to also be sitting right now
+
+1293
+00:46:14,640 --> 00:46:18,000
+this is much more autonomous. So we've
+
+1294
+00:46:16,880 --> 00:46:19,440
+designed like that. So I don't have a
+
+1295
+00:46:18,000 --> 00:46:22,160
+good answer to your question but how do
+
+1296
+00:46:19,440 --> 00:46:24,880
+we think about systems like the last
+
+1297
+00:46:22,160 --> 00:46:26,640
+thing you look at is the code to figure
+
+1298
+00:46:24,880 --> 00:46:29,119
+out how to optimize something. So you're
+
+1299
+00:46:26,640 --> 00:46:30,880
+arguing and making these decisions based
+
+1300
+00:46:29,119 --> 00:46:33,119
+on documents, based on design, based on
+
+1301
+00:46:30,880 --> 00:46:35,680
+pictures and based on analytics. You're
+
+1302
+00:46:33,119 --> 00:46:37,760
+measuring and experimenting. So we've
+
+1303
+00:46:35,680 --> 00:46:41,280
+taught this thing to when in doubt
+
+1304
+00:46:37,760 --> 00:46:43,040
+conduct the experiment and be um ri be
+
+1305
+00:46:41,280 --> 00:46:44,800
+judicious about the next experiment you
+
+1306
+00:46:43,040 --> 00:46:46,720
+conduct. The next experiment you conduct
+
+1307
+00:46:44,800 --> 00:46:48,640
+should not be based on taking pieces of
+
+1308
+00:46:46,720 --> 00:46:50,160
+code and morphing them but instead based
+
+1309
+00:46:48,640 --> 00:46:52,240
+on some understanding of what's going on
+
+1310
+00:46:50,160 --> 00:46:54,160
+underneath in the system. So I think
+
+1311
+00:46:52,240 --> 00:46:55,359
+what it's telling us I I feel like what
+
+1312
+00:46:54,160 --> 00:46:57,200
+it's telling us is the way humans have
+
+1313
+00:46:55,359 --> 00:46:58,960
+been doing this is actually pretty good.
+
+1314
+00:46:57,200 --> 00:47:00,319
+It's just that I think these problems
+
+1315
+00:46:58,960 --> 00:47:02,160
+are too difficult. They're too
+
+1316
+00:47:00,319 --> 00:47:03,119
+complicated. Uh we don't know enough of
+
+1317
+00:47:02,160 --> 00:47:04,640
+the literature and the amount of
+
+1318
+00:47:03,119 --> 00:47:06,880
+literature on this is phenomenal. this
+
+1319
+00:47:04,640 --> 00:47:09,359
+thing knows everything. Uh we don't none
+
+1320
+00:47:06,880 --> 00:47:13,119
+of us knows. Half the papers it's used
+
+1321
+00:47:09,359 --> 00:47:15,520
+in this I've never even heard of. And so
+
+1322
+00:47:13,119 --> 00:47:19,040
+it's telling us that uh that and then
+
+1323
+00:47:15,520 --> 00:47:22,240
+the ability to um kind of reason on
+
+1324
+00:47:19,040 --> 00:47:23,119
+these models is freaking impressive.
+
+1325
+00:47:22,240 --> 00:47:24,319
+Thank you. Yeah.
+
+1326
+00:47:23,119 --> 00:47:26,717
+>> Thank you very much.
+
+1327
+00:47:24,319 --> 00:47:26,717
+>> Thank you. [applause]
+

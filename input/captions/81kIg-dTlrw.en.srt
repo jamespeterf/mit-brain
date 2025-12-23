@@ -1,0 +1,720 @@
+1
+00:00:01,000 --> 00:00:05,400
+so hi everyone welcome back to the crash
+
+2
+00:00:03,520 --> 00:00:07,480
+course lecture series for the autoimmune
+
+3
+00:00:05,400 --> 00:00:09,840
+disease machine learning challenge in
+
+4
+00:00:07,480 --> 00:00:11,639
+this lecture we're going to cover uh the
+
+5
+00:00:09,840 --> 00:00:14,080
+data that you'll be working with during
+
+6
+00:00:11,639 --> 00:00:16,080
+the three crunches uh how the data is
+
+7
+00:00:14,080 --> 00:00:17,680
+organized uh and then what are the
+
+8
+00:00:16,080 --> 00:00:19,240
+actual crunches what are the actual
+
+9
+00:00:17,680 --> 00:00:22,279
+tasks that you're going to be working on
+
+10
+00:00:19,240 --> 00:00:24,920
+with these data sets so first I'd like
+
+11
+00:00:22,279 --> 00:00:26,920
+to give you uh a really brief recap of
+
+12
+00:00:24,920 --> 00:00:30,840
+the first two lectures before we go into
+
+13
+00:00:26,920 --> 00:00:32,640
+the data so in the first lecture you got
+
+14
+00:00:30,840 --> 00:00:34,399
+an introduction to autoimmune disease
+
+15
+00:00:32,640 --> 00:00:37,160
+and you learned about ulcerative colitis
+
+16
+00:00:34,399 --> 00:00:39,600
+and how Pathologists study ulcerative
+
+17
+00:00:37,160 --> 00:00:42,000
+colitis tissue by doing these h& e
+
+18
+00:00:39,600 --> 00:00:44,079
+stains and here again we have this
+
+19
+00:00:42,000 --> 00:00:45,960
+comparison between healthy colon where
+
+20
+00:00:44,079 --> 00:00:47,640
+you have these nice ordered Crypts and
+
+21
+00:00:45,960 --> 00:00:50,399
+aler of kitis where you're seeing this
+
+22
+00:00:47,640 --> 00:00:52,920
+inflammation and really massive changes
+
+23
+00:00:50,399 --> 00:00:54,719
+in the tissue structure and organization
+
+24
+00:00:52,920 --> 00:00:56,440
+so you know this is really great
+
+25
+00:00:54,719 --> 00:00:58,079
+Pathologists can learn a lot from these
+
+26
+00:00:56,440 --> 00:00:59,760
+images but in the challenge or these
+
+27
+00:00:58,079 --> 00:01:00,480
+crunches we really want to move beyond
+
+28
+00:00:59,760 --> 00:01:03,399
+that
+
+29
+00:01:00,480 --> 00:01:06,920
+and then we also want to ask can we use
+
+30
+00:01:03,399 --> 00:01:09,119
+these images to inform uh predictions
+
+31
+00:01:06,920 --> 00:01:10,560
+about uh the development of cancer in
+
+32
+00:01:09,119 --> 00:01:13,200
+these
+
+33
+00:01:10,560 --> 00:01:15,000
+patients the second lecture we cover the
+
+34
+00:01:13,200 --> 00:01:17,159
+technologies that are used to measure
+
+35
+00:01:15,000 --> 00:01:18,960
+gene expression programs so you remember
+
+36
+00:01:17,159 --> 00:01:21,119
+the gene expression programs are groups
+
+37
+00:01:18,960 --> 00:01:23,040
+of genes that are turned on and
+
+38
+00:01:21,119 --> 00:01:25,040
+regulated together during a biological
+
+39
+00:01:23,040 --> 00:01:26,920
+process and they dramatically change
+
+40
+00:01:25,040 --> 00:01:29,000
+from Health to disease so from Health to
+
+41
+00:01:26,920 --> 00:01:30,640
+ulcerative colitis or from healthy colon
+
+42
+00:01:29,000 --> 00:01:32,880
+to colar rectal cancer
+
+43
+00:01:30,640 --> 00:01:35,200
+and then we've also introduced three
+
+44
+00:01:32,880 --> 00:01:37,479
+different Technologies to profile these
+
+45
+00:01:35,200 --> 00:01:39,520
+colon tissues they're these h& stains
+
+46
+00:01:37,479 --> 00:01:41,720
+the Pathologists use and then there's
+
+47
+00:01:39,520 --> 00:01:43,479
+the spatial transcriptomics measurements
+
+48
+00:01:41,720 --> 00:01:45,399
+where we can profile hundreds of genes
+
+49
+00:01:43,479 --> 00:01:46,880
+at a time while maintaining spatial
+
+50
+00:01:45,399 --> 00:01:48,759
+information and then there are these
+
+51
+00:01:46,880 --> 00:01:50,680
+single cell RNA seek or single cell
+
+52
+00:01:48,759 --> 00:01:52,880
+transcriptomics measurements where we're
+
+53
+00:01:50,680 --> 00:01:54,920
+measuring thousands of single cells and
+
+54
+00:01:52,880 --> 00:01:57,119
+getting gene expression for all 20,000
+
+55
+00:01:54,920 --> 00:02:00,000
+genes but we lose the spatial
+
+56
+00:01:57,119 --> 00:02:02,399
+information okay so that's a brief recap
+
+57
+00:02:00,000 --> 00:02:04,479
+of what you've already seen and now
+
+58
+00:02:02,399 --> 00:02:06,280
+let's go into what data you're going to
+
+59
+00:02:04,479 --> 00:02:08,280
+be working with so we'll talk about the
+
+60
+00:02:06,280 --> 00:02:10,319
+clinical samples that we're working with
+
+61
+00:02:08,280 --> 00:02:12,080
+and the data that's derived from them
+
+62
+00:02:10,319 --> 00:02:13,920
+from them and then finally we'll go into
+
+63
+00:02:12,080 --> 00:02:17,080
+the three different
+
+64
+00:02:13,920 --> 00:02:18,840
+crunches so first the clinical samples
+
+65
+00:02:17,080 --> 00:02:20,800
+so the collection of the clinical
+
+66
+00:02:18,840 --> 00:02:23,280
+samples uh from ulcerative colitis
+
+67
+00:02:20,800 --> 00:02:25,120
+patients was spearheaded by uh Dr Ron
+
+68
+00:02:23,280 --> 00:02:28,400
+mavier who again is one of the
+
+69
+00:02:25,120 --> 00:02:31,519
+organizers of this of this Challenge and
+
+70
+00:02:28,400 --> 00:02:33,800
+also uh with help from Dr Angela shei
+
+71
+00:02:31,519 --> 00:02:35,519
+who is a pathologist at Harvard Medical
+
+72
+00:02:33,800 --> 00:02:38,760
+School and Massachusetts General
+
+73
+00:02:35,519 --> 00:02:40,920
+Hospital and they collected eight tissue
+
+74
+00:02:38,760 --> 00:02:43,440
+samples from patients with colon
+
+75
+00:02:40,920 --> 00:02:45,400
+inflammation so here we're showing again
+
+76
+00:02:43,440 --> 00:02:46,760
+non-inflamed colon and inflamed colon
+
+77
+00:02:45,400 --> 00:02:49,000
+this is the view from a
+
+78
+00:02:46,760 --> 00:02:50,640
+colonoscopy and most of the samples
+
+79
+00:02:49,000 --> 00:02:53,360
+you're going to be working with are from
+
+80
+00:02:50,640 --> 00:02:54,760
+ulcerative colitis uh and we have pieces
+
+81
+00:02:53,360 --> 00:02:57,560
+of the tissue that are both from
+
+82
+00:02:54,760 --> 00:03:00,239
+inflamed and non-inflamed regions we
+
+83
+00:02:57,560 --> 00:03:02,080
+also have a few samples from a more mild
+
+84
+00:03:00,239 --> 00:03:04,760
+form of inflammation called
+
+85
+00:03:02,080 --> 00:03:07,799
+diverticulitis um we provide these
+
+86
+00:03:04,760 --> 00:03:10,080
+samples because there's less change to
+
+87
+00:03:07,799 --> 00:03:12,239
+the colon spatial organization in
+
+88
+00:03:10,080 --> 00:03:13,959
+diverticulitis so this is a good thing
+
+89
+00:03:12,239 --> 00:03:15,640
+to compare to when you want to think
+
+90
+00:03:13,959 --> 00:03:18,040
+about what healthy colon looks like
+
+91
+00:03:15,640 --> 00:03:20,080
+versus what inflamed or heavily inflamed
+
+92
+00:03:18,040 --> 00:03:21,920
+colon looks like in ulcerative colitis
+
+93
+00:03:20,080 --> 00:03:24,040
+so this is a good point of reference
+
+94
+00:03:21,920 --> 00:03:27,319
+when looking at the changes in spatial
+
+95
+00:03:24,040 --> 00:03:30,439
+organization as inflammation
+
+96
+00:03:27,319 --> 00:03:32,920
+increases so each tissue sample was
+
+97
+00:03:30,439 --> 00:03:35,840
+prepared by uh a group of doctors and
+
+98
+00:03:32,920 --> 00:03:38,000
+Pathologists for uh processing an h&
+
+99
+00:03:35,840 --> 00:03:40,920
+image and also collecting spal
+
+100
+00:03:38,000 --> 00:03:44,000
+transcriptomic data and for each tissue
+
+101
+00:03:40,920 --> 00:03:46,319
+uh our pathologist Angela shei um looked
+
+102
+00:03:44,000 --> 00:03:48,360
+at uh the tissue and the h& stain and
+
+103
+00:03:46,319 --> 00:03:50,439
+diagnosed the disease type and how
+
+104
+00:03:48,360 --> 00:03:52,120
+severe it is and also looked for
+
+105
+00:03:50,439 --> 00:03:54,439
+evidence of dysplasia which you'll
+
+106
+00:03:52,120 --> 00:03:56,799
+remember is a sign of precancer it's
+
+107
+00:03:54,439 --> 00:03:58,400
+these early abnormal growths in the
+
+108
+00:03:56,799 --> 00:04:01,519
+epithelial
+
+109
+00:03:58,400 --> 00:04:03,760
+cells so here is the tissue processing
+
+110
+00:04:01,519 --> 00:04:06,519
+pipeline uh that each of these samples
+
+111
+00:04:03,760 --> 00:04:09,000
+went through uh the this is work that
+
+112
+00:04:06,519 --> 00:04:11,720
+was done at the Bro Institute by Osa
+
+113
+00:04:09,000 --> 00:04:13,879
+seopa and crystalin and what they did
+
+114
+00:04:11,720 --> 00:04:16,239
+was they take the colon tissue that's
+
+115
+00:04:13,879 --> 00:04:17,959
+been taken out of the patient and they
+
+116
+00:04:16,239 --> 00:04:20,040
+chop it up and they identify the
+
+117
+00:04:17,959 --> 00:04:22,840
+different layers of the tissue then they
+
+118
+00:04:20,040 --> 00:04:25,440
+embed the tissue in paraffin paraffin is
+
+119
+00:04:22,840 --> 00:04:27,600
+a rigid substrate it's like Wax and once
+
+120
+00:04:25,440 --> 00:04:30,520
+the tissue is embedded in this wax you
+
+121
+00:04:27,600 --> 00:04:33,080
+can make very very thin slices 5 Micron
+
+122
+00:04:30,520 --> 00:04:35,280
+width and that's ideal for microscopy
+
+123
+00:04:33,080 --> 00:04:37,800
+and imaging so you make these uh
+
+124
+00:04:35,280 --> 00:04:39,880
+paraffin blocks you make these very thin
+
+125
+00:04:37,800 --> 00:04:41,840
+sections as you see here and then you
+
+126
+00:04:39,880 --> 00:04:44,479
+can stain those very thin sections of
+
+127
+00:04:41,840 --> 00:04:46,600
+the colon tissue with the h& stain and
+
+128
+00:04:44,479 --> 00:04:48,400
+Angela the pathologist come look at it
+
+129
+00:04:46,600 --> 00:04:50,360
+and start to annotate the image and tell
+
+130
+00:04:48,400 --> 00:04:53,039
+us uh what's happening from the
+
+131
+00:04:50,360 --> 00:04:56,400
+histopathology
+
+132
+00:04:53,039 --> 00:04:57,880
+perspective so here are the first four
+
+133
+00:04:56,400 --> 00:05:00,479
+of the eight samples you'll be working
+
+134
+00:04:57,880 --> 00:05:02,560
+with these are the h& images of ulcer
+
+135
+00:05:00,479 --> 00:05:04,520
+colitis samples an inflamed piece from
+
+136
+00:05:02,560 --> 00:05:06,080
+patient one and a non-inflamed piece
+
+137
+00:05:04,520 --> 00:05:08,720
+from patient one in addition to
+
+138
+00:05:06,080 --> 00:05:10,840
+diverticulitis samples which look a lot
+
+139
+00:05:08,720 --> 00:05:12,960
+more normal in terms of the colon tissue
+
+140
+00:05:10,840 --> 00:05:16,960
+organization you see clearly all the
+
+141
+00:05:12,960 --> 00:05:18,840
+layers and not really evidence of uh bad
+
+142
+00:05:16,960 --> 00:05:20,919
+inflammation and then here's the next
+
+143
+00:05:18,840 --> 00:05:23,120
+four tissue sections you work with um
+
+144
+00:05:20,919 --> 00:05:25,160
+these are all ulcerative colitis uh
+
+145
+00:05:23,120 --> 00:05:27,960
+patients an inflamed then a non-inflamed
+
+146
+00:05:25,160 --> 00:05:30,720
+piece and then two other inflamed pieces
+
+147
+00:05:27,960 --> 00:05:33,440
+and then uh importantly uh when Dr
+
+148
+00:05:30,720 --> 00:05:36,080
+Angela shei was looking at this sample
+
+149
+00:05:33,440 --> 00:05:38,120
+uh she spotted that this patient has
+
+150
+00:05:36,080 --> 00:05:41,080
+dysplasia which again is a mark of
+
+151
+00:05:38,120 --> 00:05:44,080
+precancer so let's look at that h& stain
+
+152
+00:05:41,080 --> 00:05:46,759
+a little more closely um so just to
+
+153
+00:05:44,080 --> 00:05:48,560
+remind you uh there's a Continuum of
+
+154
+00:05:46,759 --> 00:05:50,680
+cancer where we go from normal colon
+
+155
+00:05:48,560 --> 00:05:52,759
+mucosa to dysplasia which is these
+
+156
+00:05:50,680 --> 00:05:54,880
+abnormal growth of epithelial cells all
+
+157
+00:05:52,759 --> 00:05:57,800
+the way to carcino which is the coloral
+
+158
+00:05:54,880 --> 00:06:00,560
+cancer and so here's the h& image of
+
+159
+00:05:57,800 --> 00:06:03,759
+that patient uh col tissue that was
+
+160
+00:06:00,560 --> 00:06:06,000
+taken out and Angela noted that this
+
+161
+00:06:03,759 --> 00:06:07,919
+region of the mucosa that's darker has
+
+162
+00:06:06,000 --> 00:06:09,479
+displasia and this region that's a
+
+163
+00:06:07,919 --> 00:06:12,440
+little lighter and looks more a little
+
+164
+00:06:09,479 --> 00:06:14,520
+more normal and ordered is non-cancerous
+
+165
+00:06:12,440 --> 00:06:15,720
+so this was very interesting to us
+
+166
+00:06:14,520 --> 00:06:17,400
+because we wanted to know you know
+
+167
+00:06:15,720 --> 00:06:19,280
+what's different between these regions
+
+168
+00:06:17,400 --> 00:06:21,680
+and can we learn more about the regions
+
+169
+00:06:19,280 --> 00:06:24,720
+with displasia and better identify them
+
+170
+00:06:21,680 --> 00:06:26,479
+from pathology images and on the right
+
+171
+00:06:24,720 --> 00:06:29,039
+here we have some of the notes that Dr
+
+172
+00:06:26,479 --> 00:06:31,039
+shei made about that image but the most
+
+173
+00:06:29,039 --> 00:06:33,520
+important thing is that was remarked was
+
+174
+00:06:31,039 --> 00:06:36,039
+that there's this low grade dysplasia in
+
+175
+00:06:33,520 --> 00:06:39,840
+this region
+
+176
+00:06:36,039 --> 00:06:41,400
+here so that's an overview of the tissue
+
+177
+00:06:39,840 --> 00:06:44,639
+uh the clinical tissue samples you'll be
+
+178
+00:06:41,400 --> 00:06:46,479
+working with and now we will discuss uh
+
+179
+00:06:44,639 --> 00:06:49,479
+the data that's derived from those
+
+180
+00:06:46,479 --> 00:06:49,479
+samples
+

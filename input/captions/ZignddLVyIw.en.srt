@@ -1,0 +1,5480 @@
+1
+00:00:01,120 --> 00:00:06,000
+it's a great great pleasure to uh to
+
+2
+00:00:03,560 --> 00:00:08,280
+have salil vadan speaking to us today um
+
+3
+00:00:06,000 --> 00:00:10,320
+salil was one of our own he was a
+
+4
+00:00:08,280 --> 00:00:12,759
+graduate student at MIT and once one of
+
+5
+00:00:10,320 --> 00:00:14,480
+our own always one of our own um he's
+
+6
+00:00:12,759 --> 00:00:16,600
+now a professor of computer science and
+
+7
+00:00:14,480 --> 00:00:20,320
+Applied Mathematics uh down the road at
+
+8
+00:00:16,600 --> 00:00:22,760
+Harvard um and seil has worked on a
+
+9
+00:00:20,320 --> 00:00:25,560
+range of topics uh you know starting
+
+10
+00:00:22,760 --> 00:00:28,240
+with uh photography uh zor knowledge
+
+11
+00:00:25,560 --> 00:00:30,000
+proofs he really kind of um you know
+
+12
+00:00:28,240 --> 00:00:34,120
+gave shape to the notion of uh
+
+13
+00:00:30,000 --> 00:00:36,840
+statistical zero knowledge um uh he then
+
+14
+00:00:34,120 --> 00:00:38,320
+moved on to complexity Theory um where
+
+15
+00:00:36,840 --> 00:00:40,440
+he constructed his construction of
+
+16
+00:00:38,320 --> 00:00:42,879
+expander graphs is is a classic uh he
+
+17
+00:00:40,440 --> 00:00:45,960
+won the gel price for it with uh Omar
+
+18
+00:00:42,879 --> 00:00:48,440
+rold and AI werson um then he moved on
+
+19
+00:00:45,960 --> 00:00:50,399
+to uh studying Randomness in computer
+
+20
+00:00:48,440 --> 00:00:52,840
+science and der randomization uh and so
+
+21
+00:00:50,399 --> 00:00:54,680
+forth and most recently his fashion is
+
+22
+00:00:52,840 --> 00:00:57,719
+differential privacy uh he's been
+
+23
+00:00:54,680 --> 00:01:00,480
+leading the open DP project uh at
+
+24
+00:00:57,719 --> 00:01:02,519
+Harvard um so uh and and and his talk
+
+25
+00:01:00,480 --> 00:01:05,400
+will be on yet another facet of computer
+
+26
+00:01:02,519 --> 00:01:07,560
+science uh so welcome s welcome back
+
+27
+00:01:05,400 --> 00:01:07,560
+thank
+
+28
+00:01:10,240 --> 00:01:14,560
+you uh thank you venod for the very
+
+29
+00:01:12,600 --> 00:01:15,799
+generous introduction it's um yeah one
+
+30
+00:01:14,560 --> 00:01:18,119
+always wonderful to have an excuse to
+
+31
+00:01:15,799 --> 00:01:20,280
+come back to MIT and now in this
+
+32
+00:01:18,119 --> 00:01:21,880
+beautiful new building uh you know
+
+33
+00:01:20,280 --> 00:01:24,520
+you're getting old when the place where
+
+34
+00:01:21,880 --> 00:01:26,640
+you did a PhD has changed buildings
+
+35
+00:01:24,520 --> 00:01:28,960
+twice uh
+
+36
+00:01:26,640 --> 00:01:31,560
+since um the time so I was a graduate
+
+37
+00:01:28,960 --> 00:01:37,360
+student in lcf yes U
+
+38
+00:01:31,560 --> 00:01:41,040
+PRI um and uh yeah about um what I'll be
+
+39
+00:01:37,360 --> 00:01:43,200
+talking about um it's actually a
+
+40
+00:01:41,040 --> 00:01:46,560
+collection of topics that uh haven't
+
+41
+00:01:43,200 --> 00:01:48,479
+been a focus of mine for a long time uh
+
+42
+00:01:46,560 --> 00:01:50,880
+so multic calibration is something that
+
+43
+00:01:48,479 --> 00:01:52,920
+has come out of the algorithmic fairness
+
+44
+00:01:50,880 --> 00:01:55,759
+literature um which is not really an
+
+45
+00:01:52,920 --> 00:01:59,079
+area um that I work on U but just kind
+
+46
+00:01:55,759 --> 00:02:01,479
+of follow uh from a distance and then as
+
+47
+00:01:59,079 --> 00:02:04,759
+ven know IND ated uh I used to work a
+
+48
+00:02:01,479 --> 00:02:08,840
+lot on cryptography it's been a while um
+
+49
+00:02:04,759 --> 00:02:12,640
+but thanks to a wonderful undergraduate
+
+50
+00:02:08,840 --> 00:02:16,000
+Sylvia coberta who um decided to do her
+
+51
+00:02:12,640 --> 00:02:18,519
+senior thesis with um Cynthia dwar my
+
+52
+00:02:16,000 --> 00:02:22,440
+colleague at Harvard and and me and
+
+53
+00:02:18,519 --> 00:02:25,160
+Cynthia as an expert on on fairness um
+
+54
+00:02:22,440 --> 00:02:27,200
+uh we got I got back into this and we
+
+55
+00:02:25,160 --> 00:02:28,920
+realized connections between multic
+
+56
+00:02:27,200 --> 00:02:32,080
+calibration and things that I was very
+
+57
+00:02:28,920 --> 00:02:35,920
+interested in uh 10 years ago and got me
+
+58
+00:02:32,080 --> 00:02:39,720
+excited and uh that's what this uh talk
+
+59
+00:02:35,920 --> 00:02:43,159
+uh will be telling you about and uh in
+
+60
+00:02:39,720 --> 00:02:48,400
+many ways uh this talk and this work uh
+
+61
+00:02:43,159 --> 00:02:50,720
+I think of as a tribute to um uh dear uh
+
+62
+00:02:48,400 --> 00:02:54,360
+friend and longtime collaborator Luca
+
+63
+00:02:50,720 --> 00:02:57,120
+travison who was um uh tragically and
+
+64
+00:02:54,360 --> 00:03:00,200
+suddenly taken away from us by cancer uh
+
+65
+00:02:57,120 --> 00:03:02,760
+last year and as you'll see uh hopefully
+
+66
+00:03:00,200 --> 00:03:05,440
+I'll convey in the talk I think uh some
+
+67
+00:03:02,760 --> 00:03:07,760
+of kind of what what we be doing with
+
+68
+00:03:05,440 --> 00:03:12,640
+somehow trying to realize a vision that
+
+69
+00:03:07,760 --> 00:03:16,159
+uh Luca had um uh a while
+
+70
+00:03:12,640 --> 00:03:18,480
+back okay so uh let me begin it's very
+
+71
+00:03:16,159 --> 00:03:20,200
+much on the foundations side this talk
+
+72
+00:03:18,480 --> 00:03:24,120
+but I've added some things in the
+
+73
+00:03:20,200 --> 00:03:26,080
+beginning um to uh kind of at least
+
+74
+00:03:24,120 --> 00:03:27,680
+convey for those who are on the more
+
+75
+00:03:26,080 --> 00:03:30,920
+applied side of
+
+76
+00:03:27,680 --> 00:03:32,319
+cryptography security why we why we
+
+77
+00:03:30,920 --> 00:03:34,200
+might be interested in these kinds of
+
+78
+00:03:32,319 --> 00:03:36,280
+questions and why they might be useful
+
+79
+00:03:34,200 --> 00:03:38,920
+right and so I want to convey how this
+
+80
+00:03:36,280 --> 00:03:42,959
+concept um from algorithmic fairness
+
+81
+00:03:38,920 --> 00:03:44,599
+multic calibration uh actually is also a
+
+82
+00:03:42,959 --> 00:03:45,319
+powerful new tool for security proofs
+
+83
+00:03:44,599 --> 00:03:48,480
+and
+
+84
+00:03:45,319 --> 00:03:52,680
+cryptography okay in a short summary the
+
+85
+00:03:48,480 --> 00:03:57,599
+the way in which it um is such a tool is
+
+86
+00:03:52,680 --> 00:03:59,920
+that uh it enables Us in some maybe many
+
+87
+00:03:57,599 --> 00:04:03,000
+cases and hopefully you'll find more to
+
+88
+00:03:59,920 --> 00:04:04,680
+derive computational security proofs
+
+89
+00:04:03,000 --> 00:04:06,519
+from information theoretic security
+
+90
+00:04:04,680 --> 00:04:09,480
+proofs and information theoretic
+
+91
+00:04:06,519 --> 00:04:12,040
+security proofs are uh typically much
+
+92
+00:04:09,480 --> 00:04:13,760
+easier and then a lot of the hard work
+
+93
+00:04:12,040 --> 00:04:16,880
+of getting a computational security
+
+94
+00:04:13,760 --> 00:04:18,959
+proof is then done by multi
+
+95
+00:04:16,880 --> 00:04:21,959
+calibration okay and so I'm going to
+
+96
+00:04:18,959 --> 00:04:24,160
+start to talk with some older examples
+
+97
+00:04:21,959 --> 00:04:26,360
+of contrasting computational and
+
+98
+00:04:24,160 --> 00:04:29,160
+information theoretic security proofs
+
+99
+00:04:26,360 --> 00:04:30,360
+and earlier cases of kind of how we knew
+
+100
+00:04:29,160 --> 00:04:33,080
+to
+
+101
+00:04:30,360 --> 00:04:34,520
+obtain a computational security proof
+
+102
+00:04:33,080 --> 00:04:36,120
+kind of somehow by reduction to an
+
+103
+00:04:34,520 --> 00:04:39,440
+information theoretic
+
+104
+00:04:36,120 --> 00:04:42,039
+one um so let's start with a kind of
+
+105
+00:04:39,440 --> 00:04:44,120
+very old question in the foundations of
+
+106
+00:04:42,039 --> 00:04:46,520
+cryptography uh and in complexity theory
+
+107
+00:04:44,120 --> 00:04:49,280
+is the hardness amplification question
+
+108
+00:04:46,520 --> 00:04:50,759
+all right so I'm given a function uh
+
+109
+00:04:49,280 --> 00:04:53,759
+let's potentially allow to be a
+
+110
+00:04:50,759 --> 00:04:56,639
+randomized Boolean function so G from n
+
+111
+00:04:53,759 --> 00:04:57,800
+Bits to one bit that's slightly hard on
+
+112
+00:04:56,639 --> 00:05:00,160
+average and I'll be a little more
+
+113
+00:04:57,800 --> 00:05:03,039
+precise about that in a moment
+
+114
+00:05:00,160 --> 00:05:05,479
+um how do we construct a harder Boolean
+
+115
+00:05:03,039 --> 00:05:07,360
+function from it okay and so like one
+
+116
+00:05:05,479 --> 00:05:10,160
+example might be you know you have a
+
+117
+00:05:07,360 --> 00:05:12,160
+one-way function and the function G of X
+
+118
+00:05:10,160 --> 00:05:16,080
+is you you invert the oneway function on
+
+119
+00:05:12,160 --> 00:05:17,840
+X and you take some bit of the input and
+
+120
+00:05:16,080 --> 00:05:19,400
+uh all right so if if this is a what's
+
+121
+00:05:17,840 --> 00:05:21,160
+called a hardcore bit of the oneway
+
+122
+00:05:19,400 --> 00:05:23,840
+function then little G is already very
+
+123
+00:05:21,160 --> 00:05:26,880
+harder than average but um often
+
+124
+00:05:23,840 --> 00:05:28,919
+individual bits of uh the pre-image
+
+125
+00:05:26,880 --> 00:05:31,199
+oneway function are not necessarily
+
+126
+00:05:28,919 --> 00:05:33,800
+hardcore full fledged hardcore bits but
+
+127
+00:05:31,199 --> 00:05:36,319
+might only be uh somewhat weakly Harden
+
+128
+00:05:33,800 --> 00:05:39,319
+average and kind of motivated in fact by
+
+129
+00:05:36,319 --> 00:05:43,000
+that particular example uh Yao gave a
+
+130
+00:05:39,319 --> 00:05:44,800
+method back in 1982 called the uh
+
+131
+00:05:43,000 --> 00:05:47,440
+captured by Yao's exhort Lemma for doing
+
+132
+00:05:44,800 --> 00:05:49,360
+this all right so first let's say to
+
+133
+00:05:47,440 --> 00:05:51,880
+State ya X Orma more precise what do I
+
+134
+00:05:49,360 --> 00:05:54,120
+mean by slightly hard on average we mean
+
+135
+00:05:51,880 --> 00:05:57,000
+for all efficient algorithms a all
+
+136
+00:05:54,120 --> 00:06:00,160
+polinomial time algorithms if I uh now
+
+137
+00:05:57,000 --> 00:06:01,479
+here capital x is a um a random
+
+138
+00:06:00,160 --> 00:06:04,639
+input think you can think of it as
+
+139
+00:06:01,479 --> 00:06:07,520
+uniform on on strings of length n it can
+
+140
+00:06:04,639 --> 00:06:10,120
+be other another distribution any other
+
+141
+00:06:07,520 --> 00:06:12,880
+fixed distribution as well um any
+
+142
+00:06:10,120 --> 00:06:14,840
+efficient algorithm will compute G will
+
+143
+00:06:12,880 --> 00:06:16,479
+uh with at most you know probability
+
+144
+00:06:14,840 --> 00:06:19,080
+bounded away from one so it'll error
+
+145
+00:06:16,479 --> 00:06:21,039
+with probability at least Delta uh in
+
+146
+00:06:19,080 --> 00:06:24,400
+Computing G right and sometimes we'll
+
+147
+00:06:21,039 --> 00:06:28,520
+use the language G as Delta hard uh for
+
+148
+00:06:24,400 --> 00:06:30,639
+that okay so think of Delta you know 0.1
+
+149
+00:06:28,520 --> 00:06:33,199
+or even you know one over n or something
+
+150
+00:06:30,639 --> 00:06:35,000
+like that and then what Yao said well
+
+151
+00:06:33,199 --> 00:06:37,560
+one way we can obtain a very harder on
+
+152
+00:06:35,000 --> 00:06:42,880
+average function is to ask our adversary
+
+153
+00:06:37,560 --> 00:06:46,280
+instead to compute the exor of G on many
+
+154
+00:06:42,880 --> 00:06:48,880
+independent inputs X1 to XK okay so each
+
+155
+00:06:46,280 --> 00:06:52,199
+of these XIs are um
+
+156
+00:06:48,880 --> 00:06:54,680
+drawn uh from the same distribution as X
+
+157
+00:06:52,199 --> 00:06:59,599
+but independently okay and then Yao's
+
+158
+00:06:54,680 --> 00:07:02,759
+exor Lemma tells you that the um success
+
+159
+00:06:59,599 --> 00:07:04,919
+probability of efficient algorithms uh
+
+160
+00:07:02,759 --> 00:07:07,400
+uh tends to a half as you increase K and
+
+161
+00:07:04,919 --> 00:07:08,840
+it tends to half exponentially fast in K
+
+162
+00:07:07,400 --> 00:07:11,280
+and then there's some kind of negligible
+
+163
+00:07:08,840 --> 00:07:14,000
+additive term all right and so our new
+
+164
+00:07:11,280 --> 00:07:17,759
+function here is a function on K * n
+
+165
+00:07:14,000 --> 00:07:22,080
+Bits um uh you know that that computes
+
+166
+00:07:17,759 --> 00:07:25,400
+the xor on those K IND uh K
+
+167
+00:07:22,080 --> 00:07:27,639
+inputs okay so let's um first look at
+
+168
+00:07:25,400 --> 00:07:29,800
+the information theoretic version of Yao
+
+169
+00:07:27,639 --> 00:07:33,720
+xor LMA and see why it's like very easy
+
+170
+00:07:29,800 --> 00:07:35,039
+to prove it's two lines um the proof I
+
+171
+00:07:33,720 --> 00:07:37,759
+won't give all the
+
+172
+00:07:35,039 --> 00:07:40,000
+details um one way so what do I mean by
+
+173
+00:07:37,759 --> 00:07:42,039
+the information theoretic version I mean
+
+174
+00:07:40,000 --> 00:07:43,360
+let's remove the polytime constraint in
+
+175
+00:07:42,039 --> 00:07:45,479
+both the Assumption and the conclusion
+
+176
+00:07:43,360 --> 00:07:49,360
+we say for every a the probability you
+
+177
+00:07:45,479 --> 00:07:51,919
+compute G is bounded away from one so
+
+178
+00:07:49,360 --> 00:07:53,759
+for this to make sense G can't actually
+
+179
+00:07:51,919 --> 00:07:55,879
+be a deterministic
+
+180
+00:07:53,759 --> 00:07:58,039
+function because if you have unbounded
+
+181
+00:07:55,879 --> 00:08:00,240
+computing power and G of X is determined
+
+182
+00:07:58,039 --> 00:08:01,720
+by X then given X you can compute with
+
+183
+00:08:00,240 --> 00:08:05,720
+probability one so here it's really
+
+184
+00:08:01,720 --> 00:08:07,680
+important that we think of randomized uh
+
+185
+00:08:05,720 --> 00:08:09,479
+functions okay and the randomness of the
+
+186
+00:08:07,680 --> 00:08:13,120
+function is the only source of hardness
+
+187
+00:08:09,479 --> 00:08:16,120
+here all right so then you can actually
+
+188
+00:08:13,120 --> 00:08:18,120
+just write a simple formula for the
+
+189
+00:08:16,120 --> 00:08:21,000
+maximum success probability of any
+
+190
+00:08:18,120 --> 00:08:23,800
+efficient algorithm right it's going to
+
+191
+00:08:21,000 --> 00:08:26,520
+one expression for it um that's very
+
+192
+00:08:23,800 --> 00:08:30,680
+convenient is for proving the xrm is a
+
+193
+00:08:26,520 --> 00:08:34,680
+half plus a halftimes this quantity
+
+194
+00:08:30,680 --> 00:08:38,039
+here um it's the expectation over
+
+195
+00:08:34,680 --> 00:08:41,320
+inputs of of an expression here that's
+
+196
+00:08:38,039 --> 00:08:44,279
+the bias of g g remember is a randomized
+
+197
+00:08:41,320 --> 00:08:46,760
+function on that input X all right and
+
+198
+00:08:44,279 --> 00:08:48,519
+so um you can write in this form
+
+199
+00:08:46,760 --> 00:08:50,839
+expectation over the randomness of G of
+
+200
+00:08:48,519 --> 00:08:52,640
+negative -1 to the G ofx what this is
+
+201
+00:08:50,839 --> 00:08:54,760
+just doing is taking the absolute value
+
+202
+00:08:52,640 --> 00:08:57,240
+of the of the probability that g is one
+
+203
+00:08:54,760 --> 00:08:59,640
+on X and the probability that g is zero
+
+204
+00:08:57,240 --> 00:09:01,680
+on x
+
+205
+00:08:59,640 --> 00:09:04,040
+okay so if G is determined G of X is
+
+206
+00:09:01,680 --> 00:09:08,120
+determined by X this quantity is one if
+
+207
+00:09:04,040 --> 00:09:09,800
+it's a coin toss it's it's it's uh uh
+
+208
+00:09:08,120 --> 00:09:13,720
+it's
+
+209
+00:09:09,800 --> 00:09:18,920
+zero okay and then we just observe if
+
+210
+00:09:13,720 --> 00:09:23,200
+you look at -1 to G of X1 plus X or G of
+
+211
+00:09:18,920 --> 00:09:26,320
+X2 and so on um that just becomes a
+
+212
+00:09:23,200 --> 00:09:28,279
+product of of negative 1 to the G of XI
+
+213
+00:09:26,320 --> 00:09:30,079
+for the different XIs and then you just
+
+214
+00:09:28,279 --> 00:09:33,160
+do a little algebra and you get exactly
+
+215
+00:09:30,079 --> 00:09:37,000
+this exponential decay that we wrote
+
+216
+00:09:33,160 --> 00:09:38,279
+here really um easy proof uh once you
+
+217
+00:09:37,000 --> 00:09:41,800
+kind of have the right figure out the
+
+218
+00:09:38,279 --> 00:09:46,480
+right expression to work
+
+219
+00:09:41,800 --> 00:09:51,800
+with um but now a computational version
+
+220
+00:09:46,480 --> 00:09:53,720
+um uh not so obvious to prove um like if
+
+221
+00:09:51,800 --> 00:09:55,720
+you haven't seen a proof before you
+
+222
+00:09:53,720 --> 00:09:59,480
+probably stumble around for a while um
+
+223
+00:09:55,720 --> 00:10:01,959
+before finding one um ya uh as far as
+
+224
+00:09:59,480 --> 00:10:04,560
+know didn't actually write down a proof
+
+225
+00:10:01,959 --> 00:10:08,600
+of this um there's a nice survey of gold
+
+226
+00:10:04,560 --> 00:10:10,560
+Nissan and vigoron from uh little more
+
+227
+00:10:08,600 --> 00:10:13,560
+than 10 a decade later which gave
+
+228
+00:10:10,560 --> 00:10:16,279
+several different proofs of ya xor Lemma
+
+229
+00:10:13,560 --> 00:10:18,480
+um each each a few pages and that's
+
+230
+00:10:16,279 --> 00:10:20,040
+untrivial um but the one that I want to
+
+231
+00:10:18,480 --> 00:10:21,760
+focus on is the one that uses imp
+
+232
+00:10:20,040 --> 00:10:24,720
+palat's hardcore LMA since that will
+
+233
+00:10:21,760 --> 00:10:26,800
+play play a role later in the talk and
+
+234
+00:10:24,720 --> 00:10:28,519
+also illustrates this idea of reducing
+
+235
+00:10:26,800 --> 00:10:33,200
+computational security proofs to
+
+236
+00:10:28,519 --> 00:10:36,240
+information theoretic ones um okay and
+
+237
+00:10:33,200 --> 00:10:39,120
+um what the hardcore Lema says is that
+
+238
+00:10:36,240 --> 00:10:43,560
+if a function is Delta
+
+239
+00:10:39,120 --> 00:10:46,040
+hard then there's some subset of the
+
+240
+00:10:43,560 --> 00:10:49,360
+domain some sub hardcore set
+
+241
+00:10:46,040 --> 00:10:53,399
+H um on which it's really
+
+242
+00:10:49,360 --> 00:10:56,079
+hard okay so um specifically the subset
+
+243
+00:10:53,399 --> 00:10:59,000
+of the domain that its size its density
+
+244
+00:10:56,079 --> 00:11:01,920
+in in in the full domain is related to
+
+245
+00:10:59,000 --> 00:11:05,120
+the of G it's actually of density to
+
+246
+00:11:01,920 --> 00:11:09,079
+Delta um imp palat's original hardcore
+
+247
+00:11:05,120 --> 00:11:11,680
+LMA had just a Delta here this correct
+
+248
+00:11:09,079 --> 00:11:14,560
+version um is due to hollenstein with
+
+249
+00:11:11,680 --> 00:11:18,160
+the factor of two and on this set H what
+
+250
+00:11:14,560 --> 00:11:21,040
+do we mean that g is really hard um I
+
+251
+00:11:18,160 --> 00:11:23,079
+mean that it's indistinguishable from a
+
+252
+00:11:21,040 --> 00:11:26,800
+from a random coin toss an unbiased coin
+
+253
+00:11:23,079 --> 00:11:28,800
+toss all right so if I look at X
+
+254
+00:11:26,800 --> 00:11:31,399
+together with G of X conditioned on X
+
+255
+00:11:28,800 --> 00:11:32,680
+being in the hardcore set that's
+
+256
+00:11:31,399 --> 00:11:34,600
+computationally
+
+257
+00:11:32,680 --> 00:11:36,639
+indistinguishable from choosing xit
+
+258
+00:11:34,600 --> 00:11:40,200
+random from the hardcore set and just
+
+259
+00:11:36,639 --> 00:11:42,519
+out tossing a random
+
+260
+00:11:40,200 --> 00:11:44,760
+coin the way the hardcore Lim is usually
+
+261
+00:11:42,519 --> 00:11:46,880
+stated is that G Can't Be predicted with
+
+262
+00:11:44,760 --> 00:11:49,120
+probability much better than a half on
+
+263
+00:11:46,880 --> 00:11:50,600
+the hardcore set but by the equivalence
+
+264
+00:11:49,120 --> 00:11:52,440
+of pseudo Randomness unpredictability
+
+265
+00:11:50,600 --> 00:11:54,639
+that this is an equivalent formulation
+
+266
+00:11:52,440 --> 00:11:54,639
+of
+
+267
+00:11:55,120 --> 00:12:04,720
+that okay so um another
+
+268
+00:12:00,240 --> 00:12:07,480
+uh sort of a consequence of this is that
+
+269
+00:12:04,720 --> 00:12:10,519
+if I now look at X and G of X on the
+
+270
+00:12:07,480 --> 00:12:12,240
+entire domain all right not restricting
+
+271
+00:12:10,519 --> 00:12:16,279
+to the hardcore
+
+272
+00:12:12,240 --> 00:12:18,160
+set um uh it's computationally
+
+273
+00:12:16,279 --> 00:12:21,079
+indistinguishable I can construct a
+
+274
+00:12:18,160 --> 00:12:23,279
+function H um that's indistinguishable
+
+275
+00:12:21,079 --> 00:12:25,920
+from G on the entire domain meaning XG
+
+276
+00:12:23,279 --> 00:12:27,920
+of X is indistinguishable from X H ofx
+
+277
+00:12:25,920 --> 00:12:30,639
+where H is information theoretically
+
+278
+00:12:27,920 --> 00:12:32,519
+Delta heart
+
+279
+00:12:30,639 --> 00:12:36,000
+and what is that function
+
+280
+00:12:32,519 --> 00:12:37,720
+H um on the hardcore set it just it's a
+
+281
+00:12:36,000 --> 00:12:42,000
+randomized function that outputs just a
+
+282
+00:12:37,720 --> 00:12:44,720
+a coin toss a bruli half and elsewhere
+
+283
+00:12:42,000 --> 00:12:44,720
+it just equals
+
+284
+00:12:45,399 --> 00:12:51,839
+g okay and so um and so now like if you
+
+285
+00:12:49,720 --> 00:12:54,600
+try to compute H with whatever your
+
+286
+00:12:51,839 --> 00:12:55,880
+computing power is outside H you might
+
+287
+00:12:54,600 --> 00:12:58,000
+be able to compute it with probability
+
+288
+00:12:55,880 --> 00:13:00,440
+one on H you're going to compute it with
+
+289
+00:12:58,000 --> 00:13:04,600
+only probability half and since H has
+
+290
+00:13:00,440 --> 00:13:07,120
+density to Delta you'll have uh error
+
+291
+00:13:04,600 --> 00:13:07,120
+probability
+
+292
+00:13:09,079 --> 00:13:12,079
+Delta
+
+293
+00:13:14,040 --> 00:13:19,279
+yes yes this is H independent of the
+
+294
+00:13:17,079 --> 00:13:22,120
+distinguisher that's
+
+295
+00:13:19,279 --> 00:13:24,040
+right right so hardcore Lemma is really
+
+296
+00:13:22,120 --> 00:13:26,480
+amazing uh
+
+297
+00:13:24,040 --> 00:13:29,279
+theorem very powerful all right so once
+
+298
+00:13:26,480 --> 00:13:33,760
+you have this fact you can actually
+
+299
+00:13:29,279 --> 00:13:35,720
+prove the conclusion of Yao's xor LMA um
+
+300
+00:13:33,760 --> 00:13:37,160
+by saying okay I take this quantity that
+
+301
+00:13:35,720 --> 00:13:40,000
+I'm interested in the probability you
+
+302
+00:13:37,160 --> 00:13:42,279
+compute G on K an efficient algorithm
+
+303
+00:13:40,000 --> 00:13:44,079
+computes G on K independent
+
+304
+00:13:42,279 --> 00:13:46,880
+copies by computational
+
+305
+00:13:44,079 --> 00:13:48,800
+indistinguishability with from h and a
+
+306
+00:13:46,880 --> 00:13:50,399
+hybrid argument I can replace all these
+
+307
+00:13:48,800 --> 00:13:53,279
+G's with
+
+308
+00:13:50,399 --> 00:13:55,839
+H's up to a negligible additive term
+
+309
+00:13:53,279 --> 00:13:57,440
+which we had in the in the bound and
+
+310
+00:13:55,839 --> 00:14:00,880
+then apply the information theoretic
+
+311
+00:13:57,440 --> 00:14:00,880
+Bound for H
+
+312
+00:14:08,639 --> 00:14:15,680
+okay so uh that's the first example um
+
+313
+00:14:12,199 --> 00:14:18,959
+I'm going to give one more example and
+
+314
+00:14:15,680 --> 00:14:20,959
+uh the kind of takeaway message is later
+
+315
+00:14:18,959 --> 00:14:23,600
+in the talk will be multic calibration
+
+316
+00:14:20,959 --> 00:14:26,040
+gives you kind of a even more powerful
+
+317
+00:14:23,600 --> 00:14:28,320
+in general tool for doing these kinds of
+
+318
+00:14:26,040 --> 00:14:31,639
+reductions from computational security
+
+319
+00:14:28,320 --> 00:14:31,639
+to information theoretic
+
+320
+00:14:32,160 --> 00:14:39,160
+security all right um next example is
+
+321
+00:14:36,320 --> 00:14:40,560
+from leakage resilient cryptography we
+
+322
+00:14:39,160 --> 00:14:42,959
+have
+
+323
+00:14:40,560 --> 00:14:44,759
+u a lot of people in the room are much
+
+324
+00:14:42,959 --> 00:14:47,000
+more experts on this topic than than me
+
+325
+00:14:44,759 --> 00:14:49,680
+but I'm just do going to do a a very
+
+326
+00:14:47,000 --> 00:14:51,959
+simplified um uh example from leakage
+
+327
+00:14:49,680 --> 00:14:54,480
+resilient cryptography suppose I have
+
+328
+00:14:51,959 --> 00:14:59,720
+some secret U and I'll have actually
+
+329
+00:14:54,480 --> 00:15:03,000
+have it in in two parts uh a k and r
+
+330
+00:14:59,720 --> 00:15:04,639
+um uh so they're indistinguishable from
+
+331
+00:15:03,000 --> 00:15:08,480
+uniform
+
+332
+00:15:04,639 --> 00:15:12,320
+and um an adversary learns a little bit
+
+333
+00:15:08,480 --> 00:15:15,320
+of leakage on the K part of my
+
+334
+00:15:12,320 --> 00:15:21,079
+key okay why might they only learn on
+
+335
+00:15:15,320 --> 00:15:24,160
+the K part well one of the um uh
+
+336
+00:15:21,079 --> 00:15:27,199
+common uh axiom's assumptions in leakage
+
+337
+00:15:24,160 --> 00:15:29,639
+Brazilian cryptography is that um
+
+338
+00:15:27,199 --> 00:15:31,680
+leakage only computation leaks
+
+339
+00:15:29,639 --> 00:15:34,639
+and so maybe you did a computation that
+
+340
+00:15:31,680 --> 00:15:36,240
+only uses K doesn't use R and so that
+
+341
+00:15:34,639 --> 00:15:38,839
+would be the opportunity for an
+
+342
+00:15:36,240 --> 00:15:40,440
+adversary um to learn something about K
+
+343
+00:15:38,839 --> 00:15:43,800
+and not learn anything about R right
+
+344
+00:15:40,440 --> 00:15:45,519
+that that's the m m raisen I think U
+
+345
+00:15:43,800 --> 00:15:47,759
+sort of assumption and leakage resilient
+
+346
+00:15:45,519 --> 00:15:50,399
+cryptography all right and importantly
+
+347
+00:15:47,759 --> 00:15:52,440
+it's uh the the adversary only learns a
+
+348
+00:15:50,399 --> 00:15:55,399
+small amount of leakage so now think
+
+349
+00:15:52,440 --> 00:15:57,399
+even just uh one bit of
+
+350
+00:15:55,399 --> 00:15:59,800
+leakage um but what I'll say for the
+
+351
+00:15:57,399 --> 00:16:01,720
+next couple of slides actually holds for
+
+352
+00:15:59,800 --> 00:16:03,040
+a larger or up to at least logarithmic
+
+353
+00:16:01,720 --> 00:16:05,560
+number of bits of leakage now the
+
+354
+00:16:03,040 --> 00:16:08,000
+question is how do I refresh my
+
+355
+00:16:05,560 --> 00:16:09,839
+secret okay because now given what the
+
+356
+00:16:08,000 --> 00:16:11,600
+adversary's learned my key is no longer
+
+357
+00:16:09,839 --> 00:16:13,680
+sudo random if I try to use it for
+
+358
+00:16:11,600 --> 00:16:17,240
+something useful
+
+359
+00:16:13,680 --> 00:16:17,240
+cryptographically I may not have
+
+360
+00:16:18,399 --> 00:16:26,199
+security um and so um uh an answer uh
+
+361
+00:16:24,360 --> 00:16:28,519
+that I know from this work of zimowski
+
+362
+00:16:26,199 --> 00:16:30,240
+and pitock maybe it goes back earlier in
+
+363
+00:16:28,519 --> 00:16:31,240
+the in the leakage Brazilian
+
+364
+00:16:30,240 --> 00:16:33,519
+cryptography
+
+365
+00:16:31,240 --> 00:16:38,959
+literature um is the following I can get
+
+366
+00:16:33,519 --> 00:16:42,319
+a new key and R Pair by um applying
+
+367
+00:16:38,959 --> 00:16:44,959
+What's called the random extractor to K
+
+368
+00:16:42,319 --> 00:16:50,279
+so I use r as the seed for the extractor
+
+369
+00:16:44,959 --> 00:16:52,600
+and uh uh to kind of get good quality
+
+370
+00:16:50,279 --> 00:16:55,639
+Randomness that's the idea out of out of
+
+371
+00:16:52,600 --> 00:16:57,880
+this um out of this uh key that there's
+
+372
+00:16:55,639 --> 00:16:59,319
+been leakage on uh if you're not
+
+373
+00:16:57,880 --> 00:17:02,079
+familiar with random extraction think of
+
+374
+00:16:59,319 --> 00:17:04,160
+this as a hash function where R is the
+
+375
+00:17:02,079 --> 00:17:06,000
+kind of the index of the hash function
+
+376
+00:17:04,160 --> 00:17:07,240
+from like a universal hash function
+
+377
+00:17:06,000 --> 00:17:08,919
+family that's telling you which hash
+
+378
+00:17:07,240 --> 00:17:11,000
+function you're applying that to
+
+379
+00:17:08,919 --> 00:17:12,520
+K and then because you might get
+
+380
+00:17:11,000 --> 00:17:14,079
+something shorter out of this you apply
+
+381
+00:17:12,520 --> 00:17:15,760
+a suseo random generator to stretch back
+
+382
+00:17:14,079 --> 00:17:18,880
+to the appropriate
+
+383
+00:17:15,760 --> 00:17:23,079
+length and repeated applications of this
+
+384
+00:17:18,880 --> 00:17:27,880
+idea with a K and an r and also another
+
+385
+00:17:23,079 --> 00:17:30,039
+auxiliary L let's say for left um uh uh
+
+386
+00:17:27,880 --> 00:17:31,520
+repeated applications a were used by zos
+
+387
+00:17:30,039 --> 00:17:34,440
+and P to construct what's called a
+
+388
+00:17:31,520 --> 00:17:36,720
+leakage res resilient stream
+
+389
+00:17:34,440 --> 00:17:40,240
+Cipher all right so let's think about
+
+390
+00:17:36,720 --> 00:17:47,039
+how do we prove that from this we get a
+
+391
+00:17:40,240 --> 00:17:48,039
+good new new uh uh KR pair and again
+
+392
+00:17:47,039 --> 00:17:50,640
+we'll start with the information
+
+393
+00:17:48,039 --> 00:17:53,799
+theoretic version in the information
+
+394
+00:17:50,640 --> 00:17:56,159
+theoretic version K the original k&r are
+
+395
+00:17:53,799 --> 00:17:59,520
+not pseudo random anymore they're
+
+396
+00:17:56,159 --> 00:18:02,880
+actually uniform
+
+397
+00:17:59,520 --> 00:18:05,039
+uh and uh I'm not going to better not
+
+398
+00:18:02,880 --> 00:18:07,880
+use a prg so we'll just tolerate K Prime
+
+399
+00:18:05,039 --> 00:18:10,400
+and RP Prime being shorter um than K
+
+400
+00:18:07,880 --> 00:18:13,320
+andr because the prg will immediately
+
+401
+00:18:10,400 --> 00:18:15,840
+put us in computational security
+
+402
+00:18:13,320 --> 00:18:17,360
+World
+
+403
+00:18:15,840 --> 00:18:22,600
+um
+
+404
+00:18:17,360 --> 00:18:25,240
+so um this proof is also um uh quite
+
+405
+00:18:22,600 --> 00:18:28,159
+easy in the information theoretic case
+
+406
+00:18:25,240 --> 00:18:32,559
+so K was originally uniform and now I've
+
+407
+00:18:28,159 --> 00:18:37,960
+leaked bits on it and so the entropy of
+
+408
+00:18:32,559 --> 00:18:40,440
+K given G of K should be at least n the
+
+409
+00:18:37,960 --> 00:18:42,280
+L original entropy minus the length of
+
+410
+00:18:40,440 --> 00:18:44,919
+my
+
+411
+00:18:42,280 --> 00:18:47,679
+leakage now it's important to pick the
+
+412
+00:18:44,919 --> 00:18:49,840
+right way to measure entropy for the
+
+413
+00:18:47,679 --> 00:18:51,840
+kind of um for for what follows so we
+
+414
+00:18:49,840 --> 00:18:54,840
+don't use Shannon entropy here we use
+
+415
+00:18:51,840 --> 00:18:58,120
+the notion of average Min entropy um of
+
+416
+00:18:54,840 --> 00:19:01,840
+dois ovsky Raisin and Smith um is a is a
+
+417
+00:18:58,120 --> 00:19:04,159
+very clean one uh uh to use here and so
+
+418
+00:19:01,840 --> 00:19:07,080
+and and this fact turns out to be true
+
+419
+00:19:04,159 --> 00:19:09,480
+um for average Min entropy as
+
+420
+00:19:07,080 --> 00:19:13,200
+well and then the good thing about using
+
+421
+00:19:09,480 --> 00:19:16,720
+average Min entropy is
+
+422
+00:19:13,200 --> 00:19:17,919
+um uh that's like what or Min entropy
+
+423
+00:19:16,720 --> 00:19:20,200
+and it also turns out to work for
+
+424
+00:19:17,919 --> 00:19:22,960
+average Min entropy uh is that
+
+425
+00:19:20,200 --> 00:19:25,120
+Randomness extractors can convert things
+
+426
+00:19:22,960 --> 00:19:26,640
+that have high Min entropy into things
+
+427
+00:19:25,120 --> 00:19:30,480
+that are close to
+
+428
+00:19:26,640 --> 00:19:31,960
+uniform and so if I apply a Randomness
+
+429
+00:19:30,480 --> 00:19:34,880
+extractor to
+
+430
+00:19:31,960 --> 00:19:36,919
+K uh and K has high average Min entropy
+
+431
+00:19:34,880 --> 00:19:39,320
+given G of K then then the output of the
+
+432
+00:19:36,919 --> 00:19:42,960
+extractor is statistically close to
+
+433
+00:19:39,320 --> 00:19:44,400
+uniform even given G of K right so G of
+
+434
+00:19:42,960 --> 00:19:48,520
+K together with the output of the
+
+435
+00:19:44,400 --> 00:19:51,480
+extractor is um statistically close to
+
+436
+00:19:48,520 --> 00:19:53,679
+gfk in uniform and how how much uniform
+
+437
+00:19:51,480 --> 00:19:57,840
+bits you get out you get n get the Min
+
+438
+00:19:53,679 --> 00:19:59,679
+entropy n minus L minus uh something uh
+
+439
+00:19:57,840 --> 00:20:01,559
+that's kind of house close to uniform
+
+440
+00:19:59,679 --> 00:20:04,679
+you want to be um and so you know you
+
+441
+00:20:01,559 --> 00:20:06,840
+can think of this Epsilon as as you know
+
+442
+00:20:04,679 --> 00:20:09,400
+arbitrarily small polinomial slightly
+
+443
+00:20:06,840 --> 00:20:13,120
+negligable and so you still get compared
+
+444
+00:20:09,400 --> 00:20:13,120
+to n you get a lot of entropy
+
+445
+00:20:13,240 --> 00:20:17,039
+out okay so that's the information
+
+446
+00:20:15,600 --> 00:20:20,840
+theoretic
+
+447
+00:20:17,039 --> 00:20:25,840
+proof what about the computational
+
+448
+00:20:20,840 --> 00:20:28,200
+version um the tool that um enables you
+
+449
+00:20:25,840 --> 00:20:30,039
+to kind of derive a computational proof
+
+450
+00:20:28,200 --> 00:20:33,480
+of security from the information
+
+451
+00:20:30,039 --> 00:20:36,760
+theoretic one um is the dense model
+
+452
+00:20:33,480 --> 00:20:40,000
+theorem which was um uh done in joint
+
+453
+00:20:36,760 --> 00:20:41,240
+work with uh Omar reinold Luca and
+
+454
+00:20:40,000 --> 00:20:43,280
+mother
+
+455
+00:20:41,240 --> 00:20:47,440
+tosani
+
+456
+00:20:43,280 --> 00:20:51,200
+um uh which tells us okay we no longer
+
+457
+00:20:47,440 --> 00:20:54,000
+can say that K given G of K has a lot of
+
+458
+00:20:51,200 --> 00:20:55,320
+entropy um I mean k even didn't
+
+459
+00:20:54,000 --> 00:20:58,240
+necessarily it was just only pseudo
+
+460
+00:20:55,320 --> 00:21:00,520
+random so it doesn't have a lot of
+
+461
+00:20:58,240 --> 00:21:02,200
+information theor it need not have a lot
+
+462
+00:21:00,520 --> 00:21:03,640
+of information theoretic entropy may
+
+463
+00:21:02,200 --> 00:21:08,240
+have actually very low
+
+464
+00:21:03,640 --> 00:21:13,919
+entropy um but what we can say is
+
+465
+00:21:08,240 --> 00:21:16,480
+um K is indistinguishable from some M
+
+466
+00:21:13,919 --> 00:21:20,200
+random variable M that has a lot of
+
+467
+00:21:16,480 --> 00:21:23,000
+entropy given G of K right so originally
+
+468
+00:21:20,200 --> 00:21:27,840
+K was indistinguishable from the uniform
+
+469
+00:21:23,000 --> 00:21:29,520
+distribution so uh but now given leakage
+
+470
+00:21:27,840 --> 00:21:31,039
+is it still indistinguishable from
+
+471
+00:21:29,520 --> 00:21:33,000
+something of high
+
+472
+00:21:31,039 --> 00:21:35,559
+entropy that's what the dense model
+
+473
+00:21:33,000 --> 00:21:38,559
+theorem tells us it tells us that that
+
+474
+00:21:35,559 --> 00:21:40,240
+actually even given given the leakage K
+
+475
+00:21:38,559 --> 00:21:42,720
+will be indistinguishable from something
+
+476
+00:21:40,240 --> 00:21:45,000
+of the kind of entropy that we expect n
+
+477
+00:21:42,720 --> 00:21:45,000
+minus
+
+478
+00:21:45,600 --> 00:21:53,120
+L and uh now again we have a a kind of
+
+479
+00:21:49,559 --> 00:21:57,840
+very um simple proof of computational
+
+480
+00:21:53,120 --> 00:22:00,360
+security um uh derived from the
+
+481
+00:21:57,840 --> 00:22:02,559
+information theor security so by the
+
+482
+00:22:00,360 --> 00:22:04,919
+dense model theorem the thing we're
+
+483
+00:22:02,559 --> 00:22:07,000
+interested in what the extractor does
+
+484
+00:22:04,919 --> 00:22:09,760
+given G of K is
+
+485
+00:22:07,000 --> 00:22:10,919
+indistinguishable from on on K is
+
+486
+00:22:09,760 --> 00:22:13,840
+indistinguishable from applying the
+
+487
+00:22:10,919 --> 00:22:17,559
+extractor on this dense model M this
+
+488
+00:22:13,840 --> 00:22:19,720
+model distribution M given G of
+
+489
+00:22:17,559 --> 00:22:23,640
+K uh that's just by the dense model
+
+490
+00:22:19,720 --> 00:22:26,600
+theorem and now the latter thing we um
+
+491
+00:22:23,640 --> 00:22:29,039
+is statistically close to to uniform by
+
+492
+00:22:26,600 --> 00:22:32,039
+the same argument that we had in the
+
+493
+00:22:29,039 --> 00:22:32,039
+information theoretic proof of
+
+494
+00:22:33,400 --> 00:22:39,039
+security yes
+
+495
+00:22:35,880 --> 00:22:42,679
+Yeahs only G is efficient the
+
+496
+00:22:39,039 --> 00:22:45,960
+information theore verion you can have G
+
+497
+00:22:42,679 --> 00:22:47,520
+arbitrary uh no G here is arbitrary G
+
+498
+00:22:45,960 --> 00:22:49,400
+does not need to be efficient so that's
+
+499
+00:22:47,520 --> 00:22:51,679
+the that's important in this dense model
+
+500
+00:22:49,400 --> 00:22:55,480
+theorem G does not need to be
+
+501
+00:22:51,679 --> 00:22:59,520
+efficient how you if G okay so if G is
+
+502
+00:22:55,480 --> 00:23:01,840
+all powerful it can kind of take off of
+
+503
+00:22:59,520 --> 00:23:05,360
+like shows that it can be kind of a
+
+504
+00:23:01,840 --> 00:23:06,960
+container proof that actually K has no
+
+505
+00:23:05,360 --> 00:23:11,760
+entropy
+
+506
+00:23:06,960 --> 00:23:15,520
+um let me could you please repeat G G oh
+
+507
+00:23:11,760 --> 00:23:18,000
+so um y's concern was asking like how
+
+508
+00:23:15,520 --> 00:23:21,880
+can the dense model theorem be true even
+
+509
+00:23:18,000 --> 00:23:23,840
+when G is um not efficiently
+
+510
+00:23:21,880 --> 00:23:25,200
+computable and the point is that the
+
+511
+00:23:23,840 --> 00:23:28,919
+leakage is
+
+512
+00:23:25,200 --> 00:23:31,279
+short I think that's the okay the Le so
+
+513
+00:23:28,919 --> 00:23:33,440
+here okay dense model theorem good thank
+
+514
+00:23:31,279 --> 00:23:35,400
+you I forgot to write what I wrote on
+
+515
+00:23:33,440 --> 00:23:39,080
+the previous slide held for any value of
+
+516
+00:23:35,400 --> 00:23:42,440
+L this only holds for L up to order log
+
+517
+00:23:39,080 --> 00:23:45,400
+in or log of your security parameter um
+
+518
+00:23:42,440 --> 00:23:48,880
+yes thank you short
+
+519
+00:23:45,400 --> 00:23:51,279
+leakage and also M has a is joint
+
+520
+00:23:48,880 --> 00:23:54,279
+jointly distributed with yes yes m is
+
+521
+00:23:51,279 --> 00:23:56,159
+sorry um this random variable is jointly
+
+522
+00:23:54,279 --> 00:23:58,200
+distributed with K so that this this
+
+523
+00:23:56,159 --> 00:23:59,120
+like it's correlated here with with G of
+
+524
+00:23:58,200 --> 00:24:02,840
+K
+
+525
+00:23:59,120 --> 00:24:02,840
+absolutely yes thank
+
+526
+00:24:03,320 --> 00:24:08,200
+you show up in the there like
+
+527
+00:24:06,279 --> 00:24:10,039
+degradation and the indistinguishability
+
+528
+00:24:08,200 --> 00:24:12,559
+and this is exponential in L or
+
+529
+00:24:10,039 --> 00:24:13,919
+something exactly exactly and that
+
+530
+00:24:12,559 --> 00:24:16,159
+relates to kind of an open question at
+
+531
+00:24:13,919 --> 00:24:18,480
+the end of the talk if I have time to
+
+532
+00:24:16,159 --> 00:24:18,480
+get to
+
+533
+00:24:19,320 --> 00:24:26,919
+it okay so let me get a little um sort
+
+534
+00:24:21,840 --> 00:24:29,520
+of kind of History here so um in the
+
+535
+00:24:26,919 --> 00:24:31,240
+kind of early 2000s
+
+536
+00:24:29,520 --> 00:24:32,880
+uh there was starting to be a really
+
+537
+00:24:31,240 --> 00:24:36,679
+fruitful interplay between theoretical
+
+538
+00:24:32,880 --> 00:24:38,520
+computer science and um arithmetic
+
+539
+00:24:36,679 --> 00:24:41,399
+combinatorics additive
+
+540
+00:24:38,520 --> 00:24:44,200
+combinatorics uh it was papers were
+
+541
+00:24:41,399 --> 00:24:46,880
+starting to use results from those areas
+
+542
+00:24:44,200 --> 00:24:49,200
+as kind of black boxes to build better
+
+543
+00:24:46,880 --> 00:24:50,279
+random extractors in the Barack and
+
+544
+00:24:49,200 --> 00:24:54,919
+patoo of
+
+545
+00:24:50,279 --> 00:24:56,399
+erson uh to analyze PCP constructions to
+
+546
+00:24:54,919 --> 00:25:00,080
+build certain kinds of pseudo random
+
+547
+00:24:56,399 --> 00:25:00,080
+generators for polinomial
+
+548
+00:25:00,520 --> 00:25:06,480
+um
+
+549
+00:25:03,080 --> 00:25:07,960
+and Luca had a conviction that there
+
+550
+00:25:06,480 --> 00:25:10,039
+were there were some things that were
+
+551
+00:25:07,960 --> 00:25:11,960
+happening in that arithmetic com Comics
+
+552
+00:25:10,039 --> 00:25:13,360
+literature that really had deeper
+
+553
+00:25:11,960 --> 00:25:15,080
+connections with the concepts that we
+
+554
+00:25:13,360 --> 00:25:17,279
+study in theoretical computer science
+
+555
+00:25:15,080 --> 00:25:20,039
+not not just like okay that's a powerful
+
+556
+00:25:17,279 --> 00:25:22,720
+tool that we can import um or that their
+
+557
+00:25:20,039 --> 00:25:24,159
+tools will be useful when we're studying
+
+558
+00:25:22,720 --> 00:25:25,480
+some problem that involves groups or
+
+559
+00:25:24,159 --> 00:25:27,520
+polinomial or the kinds of things they
+
+560
+00:25:25,480 --> 00:25:31,919
+were they were studying uh and
+
+561
+00:25:27,520 --> 00:25:34,960
+specifically he was uh intrigued by um
+
+562
+00:25:31,919 --> 00:25:37,440
+one of the main tools uh lemas in the
+
+563
+00:25:34,960 --> 00:25:40,039
+proof of the green tow
+
+564
+00:25:37,440 --> 00:25:43,120
+theorem um all right so the green tow
+
+565
+00:25:40,039 --> 00:25:45,320
+theorem says that the set of prime
+
+566
+00:25:43,120 --> 00:25:46,799
+numbers um have arbitrarily long
+
+567
+00:25:45,320 --> 00:25:49,159
+arithmetic
+
+568
+00:25:46,799 --> 00:25:51,159
+progressions okay doesn't seem like it
+
+569
+00:25:49,159 --> 00:25:55,279
+has anything to do with you know
+
+570
+00:25:51,159 --> 00:25:56,399
+complexity Theory but the main um one of
+
+571
+00:25:55,279 --> 00:25:59,480
+the main
+
+572
+00:25:56,399 --> 00:26:03,039
+steps key novelties in the in the in the
+
+573
+00:25:59,480 --> 00:26:05,919
+green green tow proof was um proving
+
+574
+00:26:03,039 --> 00:26:08,240
+that the set of prime numbers is
+
+575
+00:26:05,919 --> 00:26:11,440
+indistinguishable in some
+
+576
+00:26:08,240 --> 00:26:14,480
+sense from a subset of the natural
+
+577
+00:26:11,440 --> 00:26:14,480
+numbers of constant
+
+578
+00:26:15,279 --> 00:26:24,279
+density and we already knew from samet's
+
+579
+00:26:19,440 --> 00:26:25,399
+theorem in the 1970s that um all subsets
+
+580
+00:26:24,279 --> 00:26:27,120
+of the natural numbers that have
+
+581
+00:26:25,399 --> 00:26:30,240
+constant density have arbitrarily long
+
+582
+00:26:27,120 --> 00:26:30,240
+arithmetic progressions
+
+583
+00:26:31,559 --> 00:26:35,919
+and green to kind of proved such a
+
+584
+00:26:34,159 --> 00:26:37,440
+indistinguishability result with a kind
+
+585
+00:26:35,919 --> 00:26:40,480
+of notion of indistinguishability that
+
+586
+00:26:37,440 --> 00:26:43,159
+then allowed to deduce from samar's
+
+587
+00:26:40,480 --> 00:26:46,520
+theorem that the prime numbers must also
+
+588
+00:26:43,159 --> 00:26:46,520
+have arbitrarily long arithmetic
+
+589
+00:26:48,200 --> 00:26:51,200
+progressions
+
+590
+00:26:51,279 --> 00:26:56,919
+yes here is ative distinguisher and the
+
+591
+00:26:55,200 --> 00:27:00,240
+property of being a prime is sort of
+
+592
+00:26:56,919 --> 00:27:00,240
+multiplicative and so this
+
+593
+00:27:01,039 --> 00:27:06,760
+distinguish
+
+594
+00:27:02,840 --> 00:27:06,760
+um I mean
+
+595
+00:27:10,760 --> 00:27:17,200
+so it's a good
+
+596
+00:27:14,600 --> 00:27:19,279
+question what do you mean our
+
+597
+00:27:17,200 --> 00:27:22,360
+indistinguishable I'm not going to try
+
+598
+00:27:19,279 --> 00:27:26,600
+to uh uh formulate it it's been uh it's
+
+599
+00:27:22,360 --> 00:27:29,480
+been it's been a long time um
+
+600
+00:27:26,600 --> 00:27:30,520
+uh let me put both of those questions on
+
+601
+00:27:29,480 --> 00:27:31,559
+hold because they're not really they're
+
+602
+00:27:30,520 --> 00:27:33,760
+not important for this is sort of a
+
+603
+00:27:31,559 --> 00:27:37,440
+detour in the talk and if I spend spend
+
+604
+00:27:33,760 --> 00:27:39,159
+time kind of reconstructing answers um
+
+605
+00:27:37,440 --> 00:27:44,000
+uh we'll we'll lose too much time maybe
+
+606
+00:27:39,159 --> 00:27:45,960
+on the break so um Luca thought this
+
+607
+00:27:44,000 --> 00:27:48,480
+seems a lot like things that we study in
+
+608
+00:27:45,960 --> 00:27:49,559
+complexity the notion of we you know
+
+609
+00:27:48,480 --> 00:27:51,799
+obviously we study IND distinguishably
+
+610
+00:27:49,559 --> 00:27:54,760
+all the time in complexity and and
+
+611
+00:27:51,799 --> 00:27:57,279
+cryptography and being indistinguishable
+
+612
+00:27:54,760 --> 00:27:58,919
+from large subsets that's like having
+
+613
+00:27:57,279 --> 00:28:00,399
+high ENT
+
+614
+00:27:58,919 --> 00:28:02,640
+High pseudo
+
+615
+00:28:00,399 --> 00:28:04,279
+entropy there should be some complexity
+
+616
+00:28:02,640 --> 00:28:07,240
+theoretic
+
+617
+00:28:04,279 --> 00:28:12,080
+analog and um in fact it turned out to
+
+618
+00:28:07,240 --> 00:28:14,399
+be true um so suppose I have a let let
+
+619
+00:28:12,080 --> 00:28:16,200
+me draw put a picture here um at the
+
+620
+00:28:14,399 --> 00:28:17,640
+same time as stating theorem suppose I
+
+621
+00:28:16,200 --> 00:28:19,840
+have a a
+
+622
+00:28:17,640 --> 00:28:21,399
+distribution um I'm drawing it like a
+
+623
+00:28:19,840 --> 00:28:23,200
+set so think like uniform Distribution
+
+624
+00:28:21,399 --> 00:28:25,840
+on some set that's indistinguishable
+
+625
+00:28:23,200 --> 00:28:28,960
+from the uniform
+
+626
+00:28:25,840 --> 00:28:33,159
+distribution so a pseudo random s pseud
+
+627
+00:28:28,960 --> 00:28:36,240
+random distribution and now I have some
+
+628
+00:28:33,159 --> 00:28:39,679
+event which may not be efficient at all
+
+629
+00:28:36,240 --> 00:28:43,279
+right it's an arbitrary event of of some
+
+630
+00:28:39,679 --> 00:28:47,200
+non-negligible probability Delta in x a
+
+631
+00:28:43,279 --> 00:28:48,799
+subset say of of X of uh probably at
+
+632
+00:28:47,200 --> 00:28:52,000
+least
+
+633
+00:28:48,799 --> 00:28:55,799
+Delta then the dense model theorem
+
+634
+00:28:52,000 --> 00:29:01,039
+says this x conditioned on this
+
+635
+00:28:55,799 --> 00:29:03,880
+event okay is comput there is some truly
+
+636
+00:29:01,039 --> 00:29:06,279
+dense model distribution that's
+
+637
+00:29:03,880 --> 00:29:09,320
+computationally indistinguishable um
+
+638
+00:29:06,279 --> 00:29:09,320
+from X conditional net
+
+639
+00:29:15,919 --> 00:29:20,120
+event good question
+
+640
+00:29:20,240 --> 00:29:25,360
+um yes and no is it constructive was the
+
+641
+00:29:23,640 --> 00:29:29,360
+question
+
+642
+00:29:25,360 --> 00:29:34,240
+um uh meaning there are proofs of this
+
+643
+00:29:29,360 --> 00:29:37,440
+uh that um kind of describe a way to
+
+644
+00:29:34,240 --> 00:29:40,799
+build M um kind of
+
+645
+00:29:37,440 --> 00:29:42,799
+using distinguishers uh like you assume
+
+646
+00:29:40,799 --> 00:29:46,440
+by contradiction that there is not a no
+
+647
+00:29:42,799 --> 00:29:46,440
+no such thing
+
+648
+00:29:50,720 --> 00:29:57,399
+um but uh the complexity of whatever
+
+649
+00:29:55,559 --> 00:30:00,640
+description you get which I I won't bu a
+
+650
+00:29:57,399 --> 00:30:03,559
+to reconstruct exactly is going to be
+
+651
+00:30:00,640 --> 00:30:05,200
+higher complexity than the than the
+
+652
+00:30:03,559 --> 00:30:07,600
+distinguishers that appear in this
+
+653
+00:30:05,200 --> 00:30:10,000
+computational indistinguishability here
+
+654
+00:30:07,600 --> 00:30:12,519
+so we'll see another phenomenon like
+
+655
+00:30:10,000 --> 00:30:15,320
+that later in the talk
+
+656
+00:30:12,519 --> 00:30:17,039
+um um okay so this is the dense model
+
+657
+00:30:15,320 --> 00:30:20,320
+theorem I have a a pseudo random set or
+
+658
+00:30:17,039 --> 00:30:22,399
+pseudo random distribution some subset
+
+659
+00:30:20,320 --> 00:30:25,880
+or kind of subdistribution of it of of
+
+660
+00:30:22,399 --> 00:30:27,640
+probability Delta it actually is going
+
+661
+00:30:25,880 --> 00:30:28,519
+to be indistinguishable from something
+
+662
+00:30:27,640 --> 00:30:31,440
+that
+
+663
+00:30:28,519 --> 00:30:34,240
+is truly dense right which is the same
+
+664
+00:30:31,440 --> 00:30:35,559
+as going like having high men entropy
+
+665
+00:30:34,240 --> 00:30:38,000
+right you get the formulation I talked
+
+666
+00:30:35,559 --> 00:30:39,840
+about earlier where I I took X
+
+667
+00:30:38,000 --> 00:30:41,559
+conditioned on some leakage let's think
+
+668
+00:30:39,840 --> 00:30:45,240
+one bit
+
+669
+00:30:41,559 --> 00:30:47,240
+leakage um I I can have the event of
+
+670
+00:30:45,240 --> 00:30:49,360
+conditioning on on G being the leakage
+
+671
+00:30:47,240 --> 00:30:51,200
+being zero the event of the leakage
+
+672
+00:30:49,360 --> 00:30:53,440
+being one and Stitch those together to
+
+673
+00:30:51,200 --> 00:30:54,559
+get the the model that I I talked about
+
+674
+00:30:53,440 --> 00:30:57,440
+on the previous
+
+675
+00:30:54,559 --> 00:30:59,279
+slide okay and now you can see why
+
+676
+00:30:57,440 --> 00:31:01,080
+shortly Le or having only a small number
+
+677
+00:30:59,279 --> 00:31:02,919
+of possible values of leakage will be
+
+678
+00:31:01,080 --> 00:31:05,639
+important
+
+679
+00:31:02,919 --> 00:31:07,200
+there um also if the leakage is is large
+
+680
+00:31:05,639 --> 00:31:10,320
+these conditioning on the leakage will
+
+681
+00:31:07,200 --> 00:31:11,600
+tend to lead to a a set of negligible an
+
+682
+00:31:10,320 --> 00:31:13,440
+event of negligible probability for
+
+683
+00:31:11,600 --> 00:31:17,159
+which the dense model theorem doesn't
+
+684
+00:31:13,440 --> 00:31:20,600
+apply all right so soon the dense model
+
+685
+00:31:17,159 --> 00:31:22,960
+theorem um was found to
+
+686
+00:31:20,600 --> 00:31:24,240
+have connections to other things in
+
+687
+00:31:22,960 --> 00:31:25,960
+complexity and cryptography I already
+
+688
+00:31:24,240 --> 00:31:29,039
+mentioned uh actually as motivation the
+
+689
+00:31:25,960 --> 00:31:32,039
+leakage resilient cryptography
+
+690
+00:31:29,039 --> 00:31:34,159
+application um and I we saw also how it
+
+691
+00:31:32,039 --> 00:31:36,039
+relates to computational entropy being
+
+692
+00:31:34,159 --> 00:31:41,039
+indistinguishable from having high
+
+693
+00:31:36,039 --> 00:31:45,039
+entropy um and then uh uh
+
+694
+00:31:41,039 --> 00:31:46,799
+impal um showed that actually so in the
+
+695
+00:31:45,039 --> 00:31:49,600
+dense model theorem paper we proved the
+
+696
+00:31:46,799 --> 00:31:51,320
+dense model theorem using ideas inspired
+
+697
+00:31:49,600 --> 00:31:55,159
+by the proof of the hardcore
+
+698
+00:31:51,320 --> 00:31:56,760
+Lemma and then impal um uh showed a
+
+699
+00:31:55,159 --> 00:31:58,720
+clever way of actually deriving the
+
+700
+00:31:56,760 --> 00:32:01,000
+dense model theorem from from the from
+
+701
+00:31:58,720 --> 00:32:03,159
+an appropriately generalized version of
+
+702
+00:32:01,000 --> 00:32:06,799
+the hardcore
+
+703
+00:32:03,159 --> 00:32:08,720
+Lema um but Luca wanded sort of still
+
+704
+00:32:06,799 --> 00:32:13,200
+felt that there should be some deeper
+
+705
+00:32:08,720 --> 00:32:17,679
+unifying unifying principle here
+
+706
+00:32:13,200 --> 00:32:19,679
+um and uh conjectured that the kind of
+
+707
+00:32:17,679 --> 00:32:21,880
+really the like right unifying principle
+
+708
+00:32:19,679 --> 00:32:24,120
+had something to do with
+
+709
+00:32:21,880 --> 00:32:26,840
+regularity so now let me turn to talk
+
+710
+00:32:24,120 --> 00:32:29,840
+about regularity theorems in in graph
+
+711
+00:32:26,840 --> 00:32:29,840
+Theory and complexity
+
+712
+00:32:30,519 --> 00:32:36,559
+um so the classic example of uh kind of
+
+713
+00:32:34,240 --> 00:32:39,320
+a regularity theorem is Sam's regularity
+
+714
+00:32:36,559 --> 00:32:41,960
+Lemma uh in graph
+
+715
+00:32:39,320 --> 00:32:46,679
+Theory
+
+716
+00:32:41,960 --> 00:32:49,600
+um so uh this says at a high level every
+
+717
+00:32:46,679 --> 00:32:51,440
+graph right no matter how comple complex
+
+718
+00:32:49,600 --> 00:32:53,880
+you should think of of G as a dense
+
+719
+00:32:51,440 --> 00:32:56,960
+graph uh sparse graphs the statement
+
+720
+00:32:53,880 --> 00:33:00,720
+will just be vacuous uh vacuously true
+
+721
+00:32:56,960 --> 00:33:03,679
+uh every Gra dense graph
+
+722
+00:33:00,720 --> 00:33:05,960
+is indistinguishable in some sense from
+
+723
+00:33:03,679 --> 00:33:10,919
+a graph of low
+
+724
+00:33:05,960 --> 00:33:13,039
+complexity so what is a graph of low
+
+725
+00:33:10,919 --> 00:33:14,399
+complexity um all right so we're giving
+
+726
+00:33:13,039 --> 00:33:17,559
+the graph G and then we have our our
+
+727
+00:33:14,399 --> 00:33:19,480
+indistinguishability parameter Epsilon
+
+728
+00:33:17,559 --> 00:33:22,320
+um the graph of low complexity it's
+
+729
+00:33:19,480 --> 00:33:26,240
+going to be defined by some partition of
+
+730
+00:33:22,320 --> 00:33:29,159
+the vertex space into a small number of
+
+731
+00:33:26,240 --> 00:33:31,760
+Parts where here small means depends
+
+732
+00:33:29,159 --> 00:33:35,159
+only on Epsilon or it doesn't depend on
+
+733
+00:33:31,760 --> 00:33:35,159
+N the number of vertices in the
+
+734
+00:33:35,320 --> 00:33:41,519
+graph
+
+735
+00:33:36,840 --> 00:33:43,360
+and um between every two parts in this
+
+736
+00:33:41,519 --> 00:33:45,559
+partition VI cross
+
+737
+00:33:43,360 --> 00:33:48,480
+VJ our graph
+
+738
+00:33:45,559 --> 00:33:51,360
+G is actually
+
+739
+00:33:48,480 --> 00:33:54,080
+indistinguishable from a random graph of
+
+740
+00:33:51,360 --> 00:33:54,080
+the appropriate
+
+741
+00:33:54,960 --> 00:33:59,880
+density um and the appropriate density
+
+742
+00:33:57,080 --> 00:34:01,600
+is the density like What proportion of
+
+743
+00:33:59,880 --> 00:34:07,079
+VI cross
+
+744
+00:34:01,600 --> 00:34:09,560
+VJ has edges from from in G like G's
+
+745
+00:34:07,079 --> 00:34:12,679
+density all right and this is true for
+
+746
+00:34:09,560 --> 00:34:15,760
+all pairs I and J except for some
+
+747
+00:34:12,679 --> 00:34:18,399
+Epsilon fraction where we kind of
+
+748
+00:34:15,760 --> 00:34:20,040
+measure you know this this fraction is
+
+749
+00:34:18,399 --> 00:34:23,320
+where we're measuring the pairs weighted
+
+750
+00:34:20,040 --> 00:34:26,079
+by their their dens density we the pairs
+
+751
+00:34:23,320 --> 00:34:29,280
+so um you know the weight we put on VI
+
+752
+00:34:26,079 --> 00:34:32,399
+cross VJ is the density of VI times the
+
+753
+00:34:29,280 --> 00:34:34,440
+density of V VJ alpha alpha J so there's
+
+754
+00:34:32,399 --> 00:34:39,280
+some exceptional Pairs and aside from
+
+755
+00:34:34,440 --> 00:34:42,480
+that um uh G is indistinguishable from a
+
+756
+00:34:39,280 --> 00:34:44,800
+random graph between all other
+
+757
+00:34:42,480 --> 00:34:46,679
+parts all right so it's kind of low
+
+758
+00:34:44,800 --> 00:34:48,839
+complexity in the sense
+
+759
+00:34:46,679 --> 00:34:51,919
+that for many
+
+760
+00:34:48,839 --> 00:34:54,040
+purposes um like we've reduced the
+
+761
+00:34:51,919 --> 00:34:56,079
+description of this graph G on an
+
+762
+00:34:54,040 --> 00:34:59,040
+arbitrarily large number of vertices to
+
+763
+00:34:56,079 --> 00:35:01,839
+this number of par that depends only on
+
+764
+00:34:59,040 --> 00:35:03,720
+Epsilon like these Alpha parameters that
+
+765
+00:35:01,839 --> 00:35:05,040
+are the you know if if we're thinking of
+
+766
+00:35:03,720 --> 00:35:06,280
+just you know sort of graph properties
+
+767
+00:35:05,040 --> 00:35:08,920
+that are invariant under permutation of
+
+768
+00:35:06,280 --> 00:35:13,839
+vertices all that matters is the the
+
+769
+00:35:08,920 --> 00:35:13,839
+alphas the densities and the mui
+
+770
+00:35:15,119 --> 00:35:22,000
+JS um all right so one downside of Sam's
+
+771
+00:35:19,359 --> 00:35:24,040
+regularity Lemma is that the number of
+
+772
+00:35:22,000 --> 00:35:26,440
+Parts is actually it's a function only
+
+773
+00:35:24,040 --> 00:35:28,760
+of Epsilon but it's an enormous function
+
+774
+00:35:26,440 --> 00:35:30,920
+of Epsilon it's a Tower of height
+
+775
+00:35:28,760 --> 00:35:33,160
+polinomial in one over Epsilon and in
+
+776
+00:35:30,920 --> 00:35:35,680
+fact for some versions of the and it's
+
+777
+00:35:33,160 --> 00:35:39,160
+known um gowers proved that that that
+
+778
+00:35:35,680 --> 00:35:41,560
+kind of behavior is necessary and now uh
+
+779
+00:35:39,160 --> 00:35:43,000
+or I guess a decade ago uh they even
+
+780
+00:35:41,560 --> 00:35:44,760
+pinned down the right polinomial in
+
+781
+00:35:43,000 --> 00:35:46,119
+epsilon so one over Epsilon Square I
+
+782
+00:35:44,760 --> 00:35:50,079
+think a tower of height one over Epsilon
+
+783
+00:35:46,119 --> 00:35:51,880
+squar for an appropriately formulated
+
+784
+00:35:50,079 --> 00:35:54,560
+version of the regularity L there
+
+785
+00:35:51,880 --> 00:35:56,280
+several different you know equivalent
+
+786
+00:35:54,560 --> 00:35:58,319
+formulations um that might lead to
+
+787
+00:35:56,280 --> 00:36:00,920
+slightly different um
+
+788
+00:35:58,319 --> 00:36:00,920
+dependence
+
+789
+00:36:02,359 --> 00:36:08,839
+Epson okay
+
+790
+00:36:05,160 --> 00:36:10,839
+so um this Tower by the way is I don't
+
+791
+00:36:08,839 --> 00:36:13,720
+know at least for me I think was a bit
+
+792
+00:36:10,839 --> 00:36:17,040
+of a sort of psychological barrier that
+
+793
+00:36:13,720 --> 00:36:19,440
+we'll come come back to um in a
+
+794
+00:36:17,040 --> 00:36:22,520
+bit
+
+795
+00:36:19,440 --> 00:36:24,960
+uh so can there be a complexity
+
+796
+00:36:22,520 --> 00:36:28,480
+theoretic regularity Lemma um so with
+
+797
+00:36:24,960 --> 00:36:30,560
+Luca and madur tulsiani
+
+798
+00:36:28,480 --> 00:36:32,440
+um we Prov the following kind of
+
+799
+00:36:30,560 --> 00:36:34,440
+complexity theoretic regularity LMA
+
+800
+00:36:32,440 --> 00:36:39,040
+which is that every Boolean function is
+
+801
+00:36:34,440 --> 00:36:40,680
+indistinguishable from a low complexity
+
+802
+00:36:39,040 --> 00:36:44,880
+function
+
+803
+00:36:40,680 --> 00:36:47,240
+um but it what we mean by low complexity
+
+804
+00:36:44,880 --> 00:36:49,079
+it's going to be pretty different look
+
+805
+00:36:47,240 --> 00:36:53,920
+different than what's in in
+
+806
+00:36:49,079 --> 00:36:58,200
+Sam so for every function G and now um
+
+807
+00:36:53,920 --> 00:37:01,200
+let me make these uh functions that are
+
+808
+00:36:58,200 --> 00:37:03,000
+bounded functions between zero and one
+
+809
+00:37:01,200 --> 00:37:05,119
+where we think of this as a description
+
+810
+00:37:03,000 --> 00:37:07,200
+of a randomized function so if it if it
+
+811
+00:37:05,119 --> 00:37:10,400
+says one3 there that means really we're
+
+812
+00:37:07,200 --> 00:37:13,400
+thinking of if G of X is 1/3 that means
+
+813
+00:37:10,400 --> 00:37:15,920
+G of X is one with probability 1/3 and
+
+814
+00:37:13,400 --> 00:37:19,280
+Zer um with probability
+
+815
+00:37:15,920 --> 00:37:20,400
+2/3 I'll be more precise about that so
+
+816
+00:37:19,280 --> 00:37:23,520
+for now just think of them as real
+
+817
+00:37:20,400 --> 00:37:26,160
+valued functions there exists so I have
+
+818
+00:37:23,520 --> 00:37:30,480
+a fix a function a distribution on the
+
+819
+00:37:26,160 --> 00:37:33,880
+inputs um a circuit size parameter s and
+
+820
+00:37:30,480 --> 00:37:35,520
+uh Epsilon and there exists a function
+
+821
+00:37:33,880 --> 00:37:39,000
+that's low complexity in the sense it's
+
+822
+00:37:35,520 --> 00:37:41,040
+computable by a circuit of size um just
+
+823
+00:37:39,000 --> 00:37:42,599
+a little bit bigger than s s * poly 1
+
+824
+00:37:41,040 --> 00:37:46,319
+over
+
+825
+00:37:42,599 --> 00:37:50,400
+Epsilon and is indistinguishable from
+
+826
+00:37:46,319 --> 00:37:54,079
+G by all circuits of size
+
+827
+00:37:50,400 --> 00:37:56,640
+s okay so if I look at the expectation
+
+828
+00:37:54,079 --> 00:37:59,240
+for every circuit F of size s
+
+829
+00:37:56,640 --> 00:38:01,240
+expectation F of x times the difference
+
+830
+00:37:59,240 --> 00:38:04,079
+between h of X and G of X that's bounded
+
+831
+00:38:01,240 --> 00:38:05,920
+by by Epsilon all right this is kind of
+
+832
+00:38:04,079 --> 00:38:08,800
+an unusual way for us to write things in
+
+833
+00:38:05,920 --> 00:38:11,960
+cryptography this kind of uh
+
+834
+00:38:08,800 --> 00:38:14,240
+comes um more from the way they do
+
+835
+00:38:11,960 --> 00:38:15,680
+things in this arithmetic combinatorics
+
+836
+00:38:14,240 --> 00:38:18,000
+when they talk about regularity they
+
+837
+00:38:15,680 --> 00:38:19,760
+think of this as like an inner product
+
+838
+00:38:18,000 --> 00:38:21,280
+between the diff F and the differences
+
+839
+00:38:19,760 --> 00:38:23,880
+between the functions F being nearly
+
+840
+00:38:21,280 --> 00:38:25,560
+orthogonal to it but an equivalent form
+
+841
+00:38:23,880 --> 00:38:28,599
+formulation that's more kind of
+
+842
+00:38:25,560 --> 00:38:30,480
+cryptographer friendly is instead of
+
+843
+00:38:28,599 --> 00:38:32,359
+thinking of these real valued functions
+
+844
+00:38:30,480 --> 00:38:34,400
+that I've written here think of a
+
+845
+00:38:32,359 --> 00:38:38,640
+randomized the corresponding randomized
+
+846
+00:38:34,400 --> 00:38:40,680
+function so H Rand on X is one with
+
+847
+00:38:38,640 --> 00:38:43,160
+probability h of X and zero with
+
+848
+00:38:40,680 --> 00:38:46,520
+probability 1 minus h of X and then this
+
+849
+00:38:43,160 --> 00:38:49,760
+is an equivalent way to to write this is
+
+850
+00:38:46,520 --> 00:38:52,079
+say um The Joint distribution of an
+
+851
+00:38:49,760 --> 00:38:53,240
+input X and H Ren of X is
+
+852
+00:38:52,079 --> 00:38:56,319
+computationally
+
+853
+00:38:53,240 --> 00:38:58,200
+indistinguishable from X and G Rand of X
+
+854
+00:38:56,319 --> 00:39:00,319
+and computationally IND distinguish
+
+855
+00:38:58,200 --> 00:39:03,640
+I have this s Epsilon here to Just note
+
+856
+00:39:00,319 --> 00:39:06,400
+by circuits of size s and with indis
+
+857
+00:39:03,640 --> 00:39:06,400
+with Advantage
+
+858
+00:39:17,800 --> 00:39:24,280
+Epsilon okay so um some of this might
+
+859
+00:39:20,839 --> 00:39:26,000
+look familiar to some of you um this is
+
+860
+00:39:24,280 --> 00:39:30,400
+actually
+
+861
+00:39:26,000 --> 00:39:31,960
+um uh another an equivalent this is this
+
+862
+00:39:30,400 --> 00:39:34,160
+latter thing is the statement of what's
+
+863
+00:39:31,960 --> 00:39:35,960
+known as the leakage simulation Lemma in
+
+864
+00:39:34,160 --> 00:39:38,599
+leakage resilient cryptography so also
+
+865
+00:39:35,960 --> 00:39:41,960
+very like useful for security proofs in
+
+866
+00:39:38,599 --> 00:39:44,560
+leakage resilient cryptography
+
+867
+00:39:41,960 --> 00:39:46,359
+um this is the special case for one bit
+
+868
+00:39:44,560 --> 00:39:50,000
+one bit leakage which is captured
+
+869
+00:39:46,359 --> 00:39:52,640
+captured here um the full leakage
+
+870
+00:39:50,000 --> 00:39:56,760
+resilient leakage simulation LMA of jet
+
+871
+00:39:52,640 --> 00:39:58,760
+petock also considers um more bits of
+
+872
+00:39:56,760 --> 00:40:00,839
+leakage with like some exponential blow
+
+873
+00:39:58,760 --> 00:40:03,079
+up in the number of bits of leakage so
+
+874
+00:40:00,839 --> 00:40:05,800
+they think of the leakage as as as
+
+875
+00:40:03,079 --> 00:40:08,560
+logarithmic um and kind of optimizes the
+
+876
+00:40:05,800 --> 00:40:13,200
+dependence on on the leakage and Epsilon
+
+877
+00:40:08,560 --> 00:40:16,319
+and so on which um uh in some cases is
+
+878
+00:40:13,200 --> 00:40:19,560
+is better than what you would get using
+
+879
+00:40:16,319 --> 00:40:23,520
+this um and all right towards it being a
+
+880
+00:40:19,560 --> 00:40:25,440
+unifying principle it it um we did we're
+
+881
+00:40:23,520 --> 00:40:27,319
+able to use it to derive the dense model
+
+882
+00:40:25,440 --> 00:40:30,160
+theorem and the hardcore LMA and it's
+
+883
+00:40:27,319 --> 00:40:32,079
+seem like a like a a cleaner statement
+
+884
+00:40:30,160 --> 00:40:33,760
+there's no like Assumption of hardness
+
+885
+00:40:32,079 --> 00:40:36,520
+here it's like just a structure theorem
+
+886
+00:40:33,760 --> 00:40:38,920
+about functions every function has a low
+
+887
+00:40:36,520 --> 00:40:41,520
+complexity approximation and now we use
+
+888
+00:40:38,920 --> 00:40:43,839
+that to do you know various security
+
+889
+00:40:41,520 --> 00:40:46,560
+proofs where we might have an assumption
+
+890
+00:40:43,839 --> 00:40:48,319
+that g is hard or um some distribution
+
+891
+00:40:46,560 --> 00:40:50,680
+is pseudo
+
+892
+00:40:48,319 --> 00:40:52,720
+random uh but one sign that it was maybe
+
+893
+00:40:50,680 --> 00:40:55,720
+not quite yet the right unifying
+
+894
+00:40:52,720 --> 00:40:57,800
+principle is that um when we tried to
+
+895
+00:40:55,720 --> 00:41:00,400
+prove the hardcore LMA we didn't get
+
+896
+00:40:57,800 --> 00:41:03,319
+the optimal Hollin to Delta density we
+
+897
+00:41:00,400 --> 00:41:05,480
+only got hardcore density Delta was kind
+
+898
+00:41:03,319 --> 00:41:08,720
+of annoying annoying to
+
+899
+00:41:05,480 --> 00:41:10,200
+us um like if you in particular if you
+
+900
+00:41:08,720 --> 00:41:12,160
+wanted to get the right ya exor Lemma
+
+901
+00:41:10,200 --> 00:41:14,160
+from the proof I told told earlier the
+
+902
+00:41:12,160 --> 00:41:15,880
+right bound there you you want the right
+
+903
+00:41:14,160 --> 00:41:18,240
+hardcore
+
+904
+00:41:15,880 --> 00:41:20,920
+density all right what does it how does
+
+905
+00:41:18,240 --> 00:41:22,040
+it relate to a samet or graph Theory
+
+906
+00:41:20,920 --> 00:41:24,680
+because that's what I motivated
+
+907
+00:41:22,040 --> 00:41:26,560
+regularity Lemma coming from you there
+
+908
+00:41:24,680 --> 00:41:28,400
+is a version of this and actually what
+
+909
+00:41:26,560 --> 00:41:31,520
+what what we proves a version that you
+
+910
+00:41:28,400 --> 00:41:33,599
+know doesn't restrict to circuits and
+
+911
+00:41:31,520 --> 00:41:36,480
+and bit strings as your input you can
+
+912
+00:41:33,599 --> 00:41:38,000
+have any domain for your input and any
+
+913
+00:41:36,480 --> 00:41:41,680
+family of distinguishers that you're
+
+914
+00:41:38,000 --> 00:41:45,480
+interested in for your second condition
+
+915
+00:41:41,680 --> 00:41:48,480
+here um and then what low complexity
+
+916
+00:41:45,480 --> 00:41:51,720
+means is that your function H your low
+
+917
+00:41:48,480 --> 00:41:54,240
+complexity approximator is a com is
+
+918
+00:41:51,720 --> 00:41:55,800
+obtained by combining a small polinomial
+
+919
+00:41:54,240 --> 00:41:58,119
+in one over Epsilon functions from your
+
+920
+00:41:55,800 --> 00:41:59,720
+distinguisher family and it turns out
+
+921
+00:41:58,119 --> 00:42:01,920
+that the way you combine them also can
+
+922
+00:41:59,720 --> 00:42:04,079
+be done by a circuit of size poly one
+
+923
+00:42:01,920 --> 00:42:06,839
+over
+
+924
+00:42:04,079 --> 00:42:08,760
+Epsilon and then you can apply it in the
+
+925
+00:42:06,839 --> 00:42:11,240
+graph theoretic setting by taking your
+
+926
+00:42:08,760 --> 00:42:13,520
+domain so if I I have a Vertex set of
+
+927
+00:42:11,240 --> 00:42:16,960
+size N I take my domain to
+
+928
+00:42:13,520 --> 00:42:19,359
+be um of size n choose two representing
+
+929
+00:42:16,960 --> 00:42:20,480
+all possible edges that might be present
+
+930
+00:42:19,359 --> 00:42:22,520
+in a
+
+931
+00:42:20,480 --> 00:42:25,480
+graph okay and then we can think of the
+
+932
+00:42:22,520 --> 00:42:27,720
+function G if this is our domain and G
+
+933
+00:42:25,480 --> 00:42:31,440
+is a Boolean function on the domain as
+
+934
+00:42:27,720 --> 00:42:33,359
+just the um describing the graph zero or
+
+935
+00:42:31,440 --> 00:42:36,280
+one according to is an edge present or
+
+936
+00:42:33,359 --> 00:42:39,000
+not and you can take the family of
+
+937
+00:42:36,280 --> 00:42:41,640
+distinguishers to be family of all cut
+
+938
+00:42:39,000 --> 00:42:43,680
+functions like for two sets in the
+
+939
+00:42:41,640 --> 00:42:46,720
+vertices is there an edge between
+
+940
+00:42:43,680 --> 00:42:48,839
+them and it turns out if you apply the
+
+941
+00:42:46,720 --> 00:42:52,680
+this regularity LMA for that special
+
+942
+00:42:48,839 --> 00:42:54,480
+case you get what's known as the um weak
+
+943
+00:42:52,680 --> 00:42:57,920
+regularity the freeze conon regularity
+
+944
+00:42:54,480 --> 00:43:00,760
+LMA for graphs
+
+945
+00:42:57,920 --> 00:43:03,880
+right so not which is weaker than the
+
+946
+00:43:00,760 --> 00:43:07,480
+samti regularity Lemma in the in the
+
+947
+00:43:03,880 --> 00:43:09,680
+kind of indistinguishability it
+
+948
+00:43:07,480 --> 00:43:12,400
+provides but it's better in the sense
+
+949
+00:43:09,680 --> 00:43:14,520
+the freeze conon regularity Lemma has
+
+950
+00:43:12,400 --> 00:43:18,000
+not a tower dependence on Epsilon it has
+
+951
+00:43:14,520 --> 00:43:18,000
+only a one over Epsilon squar
+
+952
+00:43:19,720 --> 00:43:24,200
+dependence and somehow I think I
+
+953
+00:43:21,720 --> 00:43:26,599
+mentioned this psychological
+
+954
+00:43:24,200 --> 00:43:28,599
+barrier you know one might ask this
+
+955
+00:43:26,599 --> 00:43:32,520
+question is there a complexity theoretic
+
+956
+00:43:28,599 --> 00:43:36,960
+analog of of like actual strong semed
+
+957
+00:43:32,520 --> 00:43:36,960
+regularity and
+
+958
+00:43:37,000 --> 00:43:43,599
+um uh I would have said of course not
+
+959
+00:43:41,440 --> 00:43:46,319
+semar regularity has this Tower
+
+960
+00:43:43,599 --> 00:43:47,880
+dependence and that's makes it useless
+
+961
+00:43:46,319 --> 00:43:49,440
+for complexity theoretic and certainly
+
+962
+00:43:47,880 --> 00:43:51,800
+cryptographic applications where we
+
+963
+00:43:49,440 --> 00:43:54,800
+think of Epsilon as like one over polom
+
+964
+00:43:51,800 --> 00:43:57,119
+small or neg negligibly small a tower if
+
+965
+00:43:54,800 --> 00:43:59,480
+you pay that price in a security
+
+966
+00:43:57,119 --> 00:44:01,760
+reduction game over like nothing you get
+
+967
+00:43:59,480 --> 00:44:08,000
+nothing useful
+
+968
+00:44:01,760 --> 00:44:09,359
+out and um the answer um is actually uh
+
+969
+00:44:08,000 --> 00:44:11,599
+that I want to convey is that actually
+
+970
+00:44:09,359 --> 00:44:14,200
+yes there is a complexity theoretic
+
+971
+00:44:11,599 --> 00:44:17,119
+analog of strong
+
+972
+00:44:14,200 --> 00:44:20,720
+samti uh and that's multic calibration
+
+973
+00:44:17,119 --> 00:44:24,800
+and that's work from from Cynthia and PR
+
+974
+00:44:20,720 --> 00:44:25,920
+and uh and Rachel Lynn and Daniel Lee
+
+975
+00:44:24,800 --> 00:44:28,040
+that I'll mention some of the the
+
+976
+00:44:25,920 --> 00:44:31,480
+history later
+
+977
+00:44:28,040 --> 00:44:33,079
+so um all right so what is multic
+
+978
+00:44:31,480 --> 00:44:36,640
+calibration
+
+979
+00:44:33,079 --> 00:44:40,280
+um see how we're doing on time
+
+980
+00:44:36,640 --> 00:44:45,240
+okay uh so the multic calibration
+
+981
+00:44:40,280 --> 00:44:46,480
+theorem says for every uh uh I'll state
+
+982
+00:44:45,240 --> 00:44:49,359
+in the complexity theoretic form for
+
+983
+00:44:46,480 --> 00:44:50,640
+every randomized function on say bit
+
+984
+00:44:49,359 --> 00:44:52,680
+strings of length and every Distribution
+
+985
+00:44:50,640 --> 00:44:54,920
+on inputs again I have size and
+
+986
+00:44:52,680 --> 00:44:57,400
+Epsilon there's a partition of the
+
+987
+00:44:54,920 --> 00:45:00,680
+domain
+
+988
+00:44:57,400 --> 00:45:03,720
+uh into only one over Epsilon parts so
+
+989
+00:45:00,680 --> 00:45:09,280
+no no Tower appearing
+
+990
+00:45:03,720 --> 00:45:12,359
+there such that on each part G of X is
+
+991
+00:45:09,280 --> 00:45:14,800
+indistinguishable from a random function
+
+992
+00:45:12,359 --> 00:45:18,720
+like a a buruli of the
+
+993
+00:45:14,800 --> 00:45:22,599
+appropriate um parameter mui uh mui
+
+994
+00:45:18,720 --> 00:45:22,599
+being just the expectation of G on that
+
+995
+00:45:22,720 --> 00:45:26,720
+part
+
+996
+00:45:24,559 --> 00:45:28,960
+um that's that's for all right so I have
+
+997
+00:45:26,720 --> 00:45:30,800
+a i K plus one Parts here p 0 to PK
+
+998
+00:45:28,960 --> 00:45:32,760
+there's some exceptional part some
+
+999
+00:45:30,800 --> 00:45:35,359
+Epsilon portion of the domain where
+
+1000
+00:45:32,760 --> 00:45:38,440
+indistinguishability doesn't
+
+1001
+00:45:35,359 --> 00:45:41,400
+hold and finally the partition is low
+
+1002
+00:45:38,440 --> 00:45:43,280
+complexity in the sense that you can
+
+1003
+00:45:41,400 --> 00:45:45,520
+given an input you can tell which piece
+
+1004
+00:45:43,280 --> 00:45:48,760
+of the partition you're in using a
+
+1005
+00:45:45,520 --> 00:45:51,960
+circuit of size um slightly bigger than
+
+1006
+00:45:48,760 --> 00:45:51,960
+s s * po 1 over
+
+1007
+00:45:52,640 --> 00:45:57,839
+Epsilon all right let me draw a picture
+
+1008
+00:45:54,720 --> 00:46:01,240
+to make this U statement still there
+
+1009
+00:45:57,839 --> 00:46:02,720
+um so I have the arbitrary domain and
+
+1010
+00:46:01,240 --> 00:46:04,599
+the multic calibration I have my
+
+1011
+00:46:02,720 --> 00:46:07,119
+function G sorry I lost some of the
+
+1012
+00:46:04,599 --> 00:46:08,760
+animation I used to have here um it
+
+1013
+00:46:07,119 --> 00:46:10,640
+tells us that there's a partition of the
+
+1014
+00:46:08,760 --> 00:46:12,240
+domain right that's given to us so
+
+1015
+00:46:10,640 --> 00:46:14,720
+originally we just given G the zeros and
+
+1016
+00:46:12,240 --> 00:46:18,440
+ones it's partition of the domain into a
+
+1017
+00:46:14,720 --> 00:46:23,400
+small number of Parts um
+
+1018
+00:46:18,440 --> 00:46:25,240
+and on uh a part where you know G is
+
+1019
+00:46:23,400 --> 00:46:26,640
+nearly balanced say here it's
+
+1020
+00:46:25,240 --> 00:46:28,000
+indistinguishable so here it's IND
+
+1021
+00:46:26,640 --> 00:46:30,480
+disting
+
+1022
+00:46:28,000 --> 00:46:33,119
+from you know the XG of X is
+
+1023
+00:46:30,480 --> 00:46:37,440
+indistinguishable from bruli 6 here it's
+
+1024
+00:46:33,119 --> 00:46:37,440
+indistinguishable from bruli point9 so
+
+1025
+00:46:38,400 --> 00:46:43,319
+on
+
+1026
+00:46:40,520 --> 00:46:44,839
+yes the partition you assume like you
+
+1027
+00:46:43,319 --> 00:46:47,720
+have a function that tells you if you're
+
+1028
+00:46:44,839 --> 00:46:49,160
+in the node is in there or not yeah so
+
+1029
+00:46:47,720 --> 00:46:51,000
+it's a one way of doing is there a
+
+1030
+00:46:49,160 --> 00:46:53,640
+circuit that giv an input gives you a
+
+1031
+00:46:51,000 --> 00:46:55,640
+number from zero to K and says I'm in
+
+1032
+00:46:53,640 --> 00:46:58,960
+which piece of the partition you're
+
+1033
+00:46:55,640 --> 00:47:00,640
+in all right this condition is crucial
+
+1034
+00:46:58,960 --> 00:47:02,599
+right so this multic calibration theorem
+
+1035
+00:47:00,640 --> 00:47:05,720
+would be
+
+1036
+00:47:02,599 --> 00:47:08,640
+trivial um if we didn't have this so we
+
+1037
+00:47:05,720 --> 00:47:11,200
+just say okay my partition is one piece
+
+1038
+00:47:08,640 --> 00:47:13,680
+is the zeros of G one piece is the ones
+
+1039
+00:47:11,200 --> 00:47:15,480
+of G clearly on the zeros G is
+
+1040
+00:47:13,680 --> 00:47:16,680
+indistinguishable from a beri zero on
+
+1041
+00:47:15,480 --> 00:47:19,280
+the ones it's indistinguishable from a
+
+1042
+00:47:16,680 --> 00:47:21,319
+beri one right but the point is that's
+
+1043
+00:47:19,280 --> 00:47:23,800
+not an efficiently computable partition
+
+1044
+00:47:21,319 --> 00:47:26,040
+unless G itself is easy to
+
+1045
+00:47:23,800 --> 00:47:27,960
+compute okay and this is this is the
+
+1046
+00:47:26,040 --> 00:47:29,559
+theorem the structure holds for all G
+
+1047
+00:47:27,960 --> 00:47:31,680
+regardless of whether it's easy or hard
+
+1048
+00:47:29,559 --> 00:47:31,680
+to
+
+1049
+00:47:32,200 --> 00:47:36,680
+compute all right so this looks a bit
+
+1050
+00:47:34,920 --> 00:47:39,559
+like uh what the way I formulated the
+
+1051
+00:47:36,680 --> 00:47:43,559
+hardcore LMA let's just
+
+1052
+00:47:39,559 --> 00:47:46,599
+contrast um the hardcore
+
+1053
+00:47:43,559 --> 00:47:49,160
+LMA uh this holds for all functions the
+
+1054
+00:47:46,599 --> 00:47:50,880
+hardcore LMA assumes that the function
+
+1055
+00:47:49,160 --> 00:47:53,040
+is hard in a particular sense that it's
+
+1056
+00:47:50,880 --> 00:47:56,240
+Delta hard to
+
+1057
+00:47:53,040 --> 00:47:57,760
+predict second G the hardcore LMA just
+
+1058
+00:47:56,240 --> 00:47:59,559
+tells you there's some subset of the
+
+1059
+00:47:57,760 --> 00:48:00,720
+domain where G is indistinguishable from
+
+1060
+00:47:59,559 --> 00:48:03,440
+beri
+
+1061
+00:48:00,720 --> 00:48:06,480
+half this is giving you covering the
+
+1062
+00:48:03,440 --> 00:48:08,960
+entire domain and saying everywhere the
+
+1063
+00:48:06,480 --> 00:48:10,920
+function G is kind of indistinguishable
+
+1064
+00:48:08,960 --> 00:48:12,079
+from something very structured a a
+
+1065
+00:48:10,920 --> 00:48:15,319
+random
+
+1066
+00:48:12,079 --> 00:48:16,920
+function and finally the pieces here are
+
+1067
+00:48:15,319 --> 00:48:20,880
+efficiently recognizable and there's no
+
+1068
+00:48:16,920 --> 00:48:20,880
+such guarantee in the hardcore
+
+1069
+00:48:23,119 --> 00:48:30,040
+Lemma okay now let's contrast with Sam
+
+1070
+00:48:25,839 --> 00:48:33,920
+ready so I've put in in blue the places
+
+1071
+00:48:30,040 --> 00:48:37,520
+where um it's the two statements are
+
+1072
+00:48:33,920 --> 00:48:39,599
+really the same or special cases of that
+
+1073
+00:48:37,520 --> 00:48:41,760
+same common generalization the notion of
+
+1074
+00:48:39,599 --> 00:48:44,800
+indistinguishability
+
+1075
+00:48:41,760 --> 00:48:45,440
+um uh can be formulated for both to be
+
+1076
+00:48:44,800 --> 00:48:48,200
+the
+
+1077
+00:48:45,440 --> 00:48:49,880
+same uh and your distinguishability from
+
+1078
+00:48:48,200 --> 00:48:53,599
+something of density given by the
+
+1079
+00:48:49,880 --> 00:48:56,240
+density of of of G your graph or your
+
+1080
+00:48:53,599 --> 00:48:57,559
+function um is is the same and that you
+
+1081
+00:48:56,240 --> 00:49:00,720
+have some
+
+1082
+00:48:57,559 --> 00:49:01,920
+cepal uh set of uh pairs or an
+
+1083
+00:49:00,720 --> 00:49:03,480
+exceptional part of the domain that's
+
+1084
+00:49:01,920 --> 00:49:07,920
+that's really kind of the
+
+1085
+00:49:03,480 --> 00:49:10,440
+same the um two important differences
+
+1086
+00:49:07,920 --> 00:49:13,280
+one is we've gone from a tower
+
+1087
+00:49:10,440 --> 00:49:15,319
+dependence to a polinomial
+
+1088
+00:49:13,280 --> 00:49:18,000
+dependence and the second is what's our
+
+1089
+00:49:15,319 --> 00:49:18,000
+notion of low
+
+1090
+00:49:18,280 --> 00:49:23,799
+complexity uh in samti the crucial
+
+1091
+00:49:21,520 --> 00:49:28,720
+aspect of low complexity is that what we
+
+1092
+00:49:23,799 --> 00:49:28,720
+have is a partition of the vertex set
+
+1093
+00:49:28,799 --> 00:49:35,200
+that induces then a partition of the
+
+1094
+00:49:30,720 --> 00:49:35,200
+edge The Edge space into these VI cross
+
+1095
+00:49:35,520 --> 00:49:40,119
+VJs um which is different than what we
+
+1096
+00:49:38,079 --> 00:49:41,520
+have in our statement where we said your
+
+1097
+00:49:40,119 --> 00:49:43,119
+function on your domain and you have a
+
+1098
+00:49:41,520 --> 00:49:45,280
+partition on that domain that
+
+1099
+00:49:43,119 --> 00:49:47,200
+corresponds in the graph theor exing to
+
+1100
+00:49:45,280 --> 00:49:48,760
+a partition of the potential Edge space
+
+1101
+00:49:47,200 --> 00:49:53,000
+the N choose
+
+1102
+00:49:48,760 --> 00:49:55,559
+two and um to my surprise but this is
+
+1103
+00:49:53,000 --> 00:49:57,640
+really out of out of the work of uh
+
+1104
+00:49:55,559 --> 00:50:00,680
+Cynthia P at
+
+1105
+00:49:57,640 --> 00:50:03,440
+um it's this insistence on a partition
+
+1106
+00:50:00,680 --> 00:50:07,559
+of the vertex set that is what incurs
+
+1107
+00:50:03,440 --> 00:50:07,559
+this Tower dependence in in in
+
+1108
+00:50:08,839 --> 00:50:12,240
+Sam and then finally how does it relate
+
+1109
+00:50:10,839 --> 00:50:14,160
+to the weak
+
+1110
+00:50:12,240 --> 00:50:18,200
+regularity
+
+1111
+00:50:14,160 --> 00:50:19,680
+um uh from this you can get a a kind of
+
+1112
+00:50:18,200 --> 00:50:23,599
+a
+
+1113
+00:50:19,680 --> 00:50:27,400
+uh your your uh indistinguishable low
+
+1114
+00:50:23,599 --> 00:50:31,040
+complexity function to be the one that
+
+1115
+00:50:27,400 --> 00:50:33,119
+that on an input X you first compute
+
+1116
+00:50:31,040 --> 00:50:34,760
+which piece of the domain you're in
+
+1117
+00:50:33,119 --> 00:50:38,480
+because that's efficiently computable by
+
+1118
+00:50:34,760 --> 00:50:41,240
+condition three and then you just output
+
+1119
+00:50:38,480 --> 00:50:42,680
+the expectation of of G on that part
+
+1120
+00:50:41,240 --> 00:50:44,119
+which you can hardwire in if we're
+
+1121
+00:50:42,680 --> 00:50:45,440
+working with non-uniform circuit
+
+1122
+00:50:44,119 --> 00:50:47,839
+complexity which we
+
+1123
+00:50:45,440 --> 00:50:52,280
+are um or you output a coin if you want
+
+1124
+00:50:47,839 --> 00:50:52,280
+to do the randomized uh function of that
+
+1125
+00:50:53,640 --> 00:50:59,040
+bias Okay so
+
+1126
+00:50:57,079 --> 00:51:01,119
+because of time maybe I
+
+1127
+00:50:59,040 --> 00:51:02,799
+won't um this came out of the
+
+1128
+00:51:01,119 --> 00:51:07,280
+algorithmic fairness
+
+1129
+00:51:02,799 --> 00:51:09,520
+literature um in their setting the the
+
+1130
+00:51:07,280 --> 00:51:12,160
+uh G is like some ground truth function
+
+1131
+00:51:09,520 --> 00:51:14,280
+that you're trying to learn and H is a a
+
+1132
+00:51:12,160 --> 00:51:17,680
+predictor um that you've
+
+1133
+00:51:14,280 --> 00:51:20,960
+learned and
+
+1134
+00:51:17,680 --> 00:51:22,760
+uh what what multic calibration is
+
+1135
+00:51:20,960 --> 00:51:25,400
+saying like even conditioned on your
+
+1136
+00:51:22,760 --> 00:51:26,960
+prediction G and H are indistinguishable
+
+1137
+00:51:25,400 --> 00:51:28,839
+and and the way it captures fairness is
+
+1138
+00:51:26,960 --> 00:51:31,720
+that your distinguishers correspond to
+
+1139
+00:51:28,839 --> 00:51:33,160
+like demographic groups subsets of the
+
+1140
+00:51:31,720 --> 00:51:35,400
+population that you might want to have
+
+1141
+00:51:33,160 --> 00:51:38,720
+fairness on but I think since we're
+
+1142
+00:51:35,400 --> 00:51:40,440
+short on time let me skip over that um
+
+1143
+00:51:38,720 --> 00:51:44,400
+and just give because this is not a talk
+
+1144
+00:51:40,440 --> 00:51:47,839
+on algorithmic fairness um so just some
+
+1145
+00:51:44,400 --> 00:51:50,799
+credits here so uh the original multic
+
+1146
+00:51:47,839 --> 00:51:53,440
+calibration theorem as Hebert Johnson
+
+1147
+00:51:50,799 --> 00:51:55,480
+Kim Ry gold and Roth Bloom wasn't stated
+
+1148
+00:51:53,440 --> 00:51:57,359
+quite the way that I stated it the first
+
+1149
+00:51:55,480 --> 00:51:59,760
+partition-based Formula
+
+1150
+00:51:57,359 --> 00:52:02,240
+I believe is in this uh paper of goon
+
+1151
+00:51:59,760 --> 00:52:05,240
+Kai Ry gold Sharon and
+
+1152
+00:52:02,240 --> 00:52:08,440
+weer um another important uh reference
+
+1153
+00:52:05,240 --> 00:52:11,920
+is uh uh connection you know that
+
+1154
+00:52:08,440 --> 00:52:14,880
+psychological barrier I mentioned
+
+1155
+00:52:11,920 --> 00:52:17,240
+um skorski had a paper showing that like
+
+1156
+00:52:14,880 --> 00:52:20,480
+you can use the complexity theoretic way
+
+1157
+00:52:17,240 --> 00:52:23,400
+of proving regularity and so on to give
+
+1158
+00:52:20,480 --> 00:52:26,119
+a another proof of samet's regularity
+
+1159
+00:52:23,400 --> 00:52:28,400
+Lemma and so maybe that should have been
+
+1160
+00:52:26,119 --> 00:52:30,119
+a hint that uh maybe there really is a
+
+1161
+00:52:28,400 --> 00:52:33,200
+complexity theoretic analog of strong
+
+1162
+00:52:30,119 --> 00:52:36,280
+seet regularity uh and then this paper
+
+1163
+00:52:33,200 --> 00:52:39,119
+of um uh dwark Ley Lyn and tankala that
+
+1164
+00:52:36,280 --> 00:52:41,079
+I mentioned is the one that that really
+
+1165
+00:52:39,119 --> 00:52:42,480
+formalized this idea that multic
+
+1166
+00:52:41,079 --> 00:52:44,640
+calibration really is the same
+
+1167
+00:52:42,480 --> 00:52:47,000
+indistinguishability condition uh like
+
+1168
+00:52:44,640 --> 00:52:49,599
+that it is a complexity theoretic analog
+
+1169
+00:52:47,000 --> 00:52:53,079
+of strong regularity and then finally
+
+1170
+00:52:49,599 --> 00:52:57,720
+the U work that um kind of got me into
+
+1171
+00:52:53,079 --> 00:53:01,359
+this with uh Sylvia caserta and Cynthia
+
+1172
+00:52:57,720 --> 00:53:03,480
+um uh was pointing out that multic
+
+1173
+00:53:01,359 --> 00:53:05,920
+calibration is very useful for
+
+1174
+00:53:03,480 --> 00:53:07,920
+complexity and crypto
+
+1175
+00:53:05,920 --> 00:53:13,040
+applications and since we have only a
+
+1176
+00:53:07,920 --> 00:53:15,480
+few minutes maybe I'll just do one just
+
+1177
+00:53:13,040 --> 00:53:19,880
+uh or two quick
+
+1178
+00:53:15,480 --> 00:53:21,880
+examples the point is similar to samur
+
+1179
+00:53:19,880 --> 00:53:25,079
+now we've described our arbitrarily
+
+1180
+00:53:21,880 --> 00:53:28,200
+complex function in terms
+
+1181
+00:53:25,079 --> 00:53:31,480
+of uh just a small number of parameters
+
+1182
+00:53:28,200 --> 00:53:35,160
+these M's and Alphas the densities of
+
+1183
+00:53:31,480 --> 00:53:38,480
+the pieces of the partition and the
+
+1184
+00:53:35,160 --> 00:53:38,480
+expectation of G on those
+
+1185
+00:53:39,720 --> 00:53:45,680
+pieces and in
+
+1186
+00:53:42,599 --> 00:53:50,359
+particular um you can just calculate
+
+1187
+00:53:45,680 --> 00:53:51,880
+like how hard is g to predict um on a
+
+1188
+00:53:50,359 --> 00:53:53,640
+uniformly random input that same
+
+1189
+00:53:51,880 --> 00:53:58,200
+quantity that came up in Delta hardness
+
+1190
+00:53:53,640 --> 00:54:01,599
+in in patoo well it's the
+
+1191
+00:53:58,200 --> 00:54:03,359
+um on each piece what's the best thing
+
+1192
+00:54:01,599 --> 00:54:04,799
+you can do the best thing you should do
+
+1193
+00:54:03,359 --> 00:54:06,319
+if you're trying to predict G with the
+
+1194
+00:54:04,799 --> 00:54:08,599
+highest success probability is predict
+
+1195
+00:54:06,319 --> 00:54:12,680
+the majority
+
+1196
+00:54:08,599 --> 00:54:15,799
+value right if if it's uh sorry think
+
+1197
+00:54:12,680 --> 00:54:19,040
+about H sorry H the random function that
+
+1198
+00:54:15,799 --> 00:54:21,960
+g corresponds to so think of the
+
+1199
+00:54:19,040 --> 00:54:24,000
+information theoretic hardness in h on
+
+1200
+00:54:21,960 --> 00:54:26,000
+each piece the best thing I can do it's
+
+1201
+00:54:24,000 --> 00:54:27,520
+it's a bruli coin toss so my input gives
+
+1202
+00:54:26,000 --> 00:54:30,160
+me no other than what piece of the
+
+1203
+00:54:27,520 --> 00:54:31,520
+partition it's in and then I'm trying to
+
+1204
+00:54:30,160 --> 00:54:34,000
+guess a beri
+
+1205
+00:54:31,520 --> 00:54:35,680
+mui and if mui is bigger than a half I
+
+1206
+00:54:34,000 --> 00:54:37,720
+should guess one and if it's smaller
+
+1207
+00:54:35,680 --> 00:54:41,240
+than a half I should get
+
+1208
+00:54:37,720 --> 00:54:45,599
+zero and then because G and H are
+
+1209
+00:54:41,240 --> 00:54:47,760
+indistinguishable um that strategy the
+
+1210
+00:54:45,599 --> 00:54:49,760
+best strategy for computing H is also
+
+1211
+00:54:47,760 --> 00:54:53,319
+the best strategy for computing
+
+1212
+00:54:49,760 --> 00:54:57,280
+G right up to a plus or minus negligible
+
+1213
+00:54:53,319 --> 00:55:00,400
+success probability and up to a poly one
+
+1214
+00:54:57,280 --> 00:55:00,400
+over Epsilon in circuit
+
+1215
+00:55:01,240 --> 00:55:07,079
+size okay and similarly you can like
+
+1216
+00:55:04,440 --> 00:55:09,880
+derive the hardcore Lemma very nicely by
+
+1217
+00:55:07,079 --> 00:55:11,480
+just saying okay the way I'm going to
+
+1218
+00:55:09,880 --> 00:55:13,480
+get something that's very hard to
+
+1219
+00:55:11,480 --> 00:55:17,000
+compute is just rebalance on each of the
+
+1220
+00:55:13,480 --> 00:55:19,720
+part pieces of the partition so if if if
+
+1221
+00:55:17,000 --> 00:55:21,920
+if G was very biased if H is very sorry
+
+1222
+00:55:19,720 --> 00:55:26,680
+like in a place where G is very biased
+
+1223
+00:55:21,920 --> 00:55:29,559
+towards one if I uh upweight the zero to
+
+1224
+00:55:26,680 --> 00:55:31,520
+make it balanced then I become
+
+1225
+00:55:29,559 --> 00:55:34,640
+indistinguishable from a bruli half just
+
+1226
+00:55:31,520 --> 00:55:37,319
+like you want in hardcore
+
+1227
+00:55:34,640 --> 00:55:38,599
+LMA um but it doesn't just do these
+
+1228
+00:55:37,319 --> 00:55:41,760
+things that are related to the hardcore
+
+1229
+00:55:38,599 --> 00:55:45,000
+LMA and Delta hardness you can
+
+1230
+00:55:41,760 --> 00:55:47,200
+also um for example analyze the pseudo
+
+1231
+00:55:45,000 --> 00:55:50,319
+Shannon entropy of G of x given X in
+
+1232
+00:55:47,200 --> 00:55:52,960
+terms of these parameters by just again
+
+1233
+00:55:50,319 --> 00:55:57,680
+calculating the the Shannon entropy of
+
+1234
+00:55:52,960 --> 00:55:59,960
+the beri um given X um just the average
+
+1235
+00:55:57,680 --> 00:56:03,720
+weighted by the alpha eyes of
+
+1236
+00:55:59,960 --> 00:56:06,119
+the Shannon entropy of a of a beri mui
+
+1237
+00:56:03,720 --> 00:56:08,359
+and this is something that has come up
+
+1238
+00:56:06,119 --> 00:56:09,799
+in kind of work we did a while back on
+
+1239
+00:56:08,359 --> 00:56:11,400
+constructing pseudo random generators
+
+1240
+00:56:09,799 --> 00:56:13,799
+from oneway functions without using
+
+1241
+00:56:11,400 --> 00:56:16,799
+hardcore
+
+1242
+00:56:13,799 --> 00:56:20,280
+bits um and then finally let me just
+
+1243
+00:56:16,799 --> 00:56:23,240
+give a um a teaser I think I won't go
+
+1244
+00:56:20,280 --> 00:56:26,960
+through the details in a new work with
+
+1245
+00:56:23,240 --> 00:56:30,240
+um uh Cassandra marcuson and L Potterman
+
+1246
+00:56:26,960 --> 00:56:34,319
+I think Louie might be here I saw Louie
+
+1247
+00:56:30,240 --> 00:56:37,799
+earlier Cassandra I'm not sure um is we
+
+1248
+00:56:34,319 --> 00:56:39,079
+apply multic calibration to understand
+
+1249
+00:56:37,799 --> 00:56:41,079
+indistinguishability
+
+1250
+00:56:39,079 --> 00:56:43,920
+between uh
+
+1251
+00:56:41,079 --> 00:56:46,920
+distributions and uh in
+
+1252
+00:56:43,920 --> 00:56:48,359
+particular let me not explain how you
+
+1253
+00:56:46,920 --> 00:56:51,640
+apply multic
+
+1254
+00:56:48,359 --> 00:56:53,760
+calibration but basically you can reduce
+
+1255
+00:56:51,640 --> 00:56:56,960
+we have two random variables we want to
+
+1256
+00:56:53,760 --> 00:56:58,880
+understand how does their computational
+
+1257
+00:56:56,960 --> 00:57:01,119
+indistinguishably
+
+1258
+00:56:58,880 --> 00:57:02,359
+indistinguishability degrade as you take
+
+1259
+00:57:01,119 --> 00:57:05,000
+more
+
+1260
+00:57:02,359 --> 00:57:06,680
+samples and we can related to the
+
+1261
+00:57:05,000 --> 00:57:07,839
+information theoretic problem of how
+
+1262
+00:57:06,680 --> 00:57:09,920
+computational indistinguishability
+
+1263
+00:57:07,839 --> 00:57:12,240
+degrades when you take more
+
+1264
+00:57:09,920 --> 00:57:16,440
+samples and in
+
+1265
+00:57:12,240 --> 00:57:19,799
+particular um we're able to
+
+1266
+00:57:16,440 --> 00:57:21,240
+um characterize this in what in terms of
+
+1267
+00:57:19,799 --> 00:57:23,440
+What's called the pseudo what we call
+
+1268
+00:57:21,240 --> 00:57:24,799
+the pseudo helinger distance so helinger
+
+1269
+00:57:23,440 --> 00:57:26,680
+information theoretically helinger
+
+1270
+00:57:24,799 --> 00:57:28,559
+distance tells
+
+1271
+00:57:26,680 --> 00:57:30,319
+if I have two distributions how many
+
+1272
+00:57:28,559 --> 00:57:32,359
+samples do I need to take to distinguish
+
+1273
+00:57:30,319 --> 00:57:34,880
+them with constant advantage that's
+
+1274
+00:57:32,359 --> 00:57:36,319
+given up to a constant Factor by their
+
+1275
+00:57:34,880 --> 00:57:39,119
+the helinger distance between those
+
+1276
+00:57:36,319 --> 00:57:41,799
+distributions and now we have
+
+1277
+00:57:39,119 --> 00:57:43,760
+a um a computational analog of that
+
+1278
+00:57:41,799 --> 00:57:46,039
+statement as again as an easy
+
+1279
+00:57:43,760 --> 00:57:49,559
+consequence of multic
+
+1280
+00:57:46,039 --> 00:57:52,079
+calibration okay so
+
+1281
+00:57:49,559 --> 00:57:55,720
+um hopefully I've convinced you multic
+
+1282
+00:57:52,079 --> 00:57:58,359
+calibration is a um powerful tool for
+
+1283
+00:57:55,720 --> 00:58:00,599
+reasoning about computational hardness
+
+1284
+00:57:58,359 --> 00:58:02,920
+and indust I didn't get to the examples
+
+1285
+00:58:00,599 --> 00:58:05,359
+but I so much but conveyed how it's a
+
+1286
+00:58:02,920 --> 00:58:07,839
+strengthening of these earlier ways that
+
+1287
+00:58:05,359 --> 00:58:12,720
+we had to reduce computational security
+
+1288
+00:58:07,839 --> 00:58:15,640
+proofs to um uh information theoretic
+
+1289
+00:58:12,720 --> 00:58:17,760
+ones and there's a bunch of open
+
+1290
+00:58:15,640 --> 00:58:25,640
+questions that I'll just like leave
+
+1291
+00:58:17,760 --> 00:58:28,079
+for uh discussion on the Break um and uh
+
+1292
+00:58:25,640 --> 00:58:30,760
+another take away from from this is that
+
+1293
+00:58:28,079 --> 00:58:33,280
+there we can continue to draw uh
+
+1294
+00:58:30,760 --> 00:58:35,270
+inspiration um from Luca and the ideas
+
+1295
+00:58:33,280 --> 00:58:43,720
+he had thank
+
+1296
+00:58:35,270 --> 00:58:46,079
+[Applause]
+
+1297
+00:58:43,720 --> 00:58:49,720
+you
+
+1298
+00:58:46,079 --> 00:58:52,640
+Cynthia your work with Cassandra and
+
+1299
+00:58:49,720 --> 00:58:55,000
+Louie you talked about multiple samples
+
+1300
+00:58:52,640 --> 00:58:57,359
+any connections or things that we can uh
+
+1301
+00:58:55,000 --> 00:59:00,240
+get for differential
+
+1302
+00:58:57,359 --> 00:59:03,599
+privacy X is the Distribution on one
+
+1303
+00:59:00,240 --> 00:59:03,599
+database and X1 on the
+
+1304
+00:59:05,280 --> 00:59:11,960
+other great uh since is asking whether
+
+1305
+00:59:08,280 --> 00:59:14,000
+looking at um uh
+
+1306
+00:59:11,960 --> 00:59:15,520
+multiple uh this this fact that we're
+
+1307
+00:59:14,000 --> 00:59:17,079
+looking at indistinguishability under
+
+1308
+00:59:15,520 --> 00:59:19,440
+multiple samples whether there might be
+
+1309
+00:59:17,079 --> 00:59:22,119
+any applications to differential
+
+1310
+00:59:19,440 --> 00:59:25,039
+privacy one
+
+1311
+00:59:22,119 --> 00:59:26,680
+guess is maybe one can derive
+
+1312
+00:59:25,039 --> 00:59:29,960
+composition theorem
+
+1313
+00:59:26,680 --> 00:59:33,119
+for computational differential
+
+1314
+00:59:29,960 --> 00:59:35,640
+privacy from composition theorems for
+
+1315
+00:59:33,119 --> 00:59:40,280
+from for information theoretic
+
+1316
+00:59:35,640 --> 00:59:44,880
+differential privacy um that's
+
+1317
+00:59:40,280 --> 00:59:44,880
+my my first guess on
+
+1318
+00:59:46,280 --> 00:59:50,319
+it you know the the multic calibration
+
+1319
+00:59:48,680 --> 00:59:52,160
+theorem and many of these theorems are
+
+1320
+00:59:50,319 --> 00:59:55,079
+agnostic of the complexity of computing
+
+1321
+00:59:52,160 --> 00:59:59,240
+G right so this works for all G's so if
+
+1322
+00:59:55,079 --> 01:00:01,119
+you now look at you know easy to compute
+
+1323
+00:59:59,240 --> 01:00:03,799
+G's you know ones that have circuits of
+
+1324
+01:00:01,119 --> 01:00:06,079
+size I don't know something does that
+
+1325
+01:00:03,799 --> 01:00:09,280
+you know change the consequences you
+
+1326
+01:00:06,079 --> 01:00:12,920
+know um maybe stronger consequences
+
+1327
+01:00:09,280 --> 01:00:15,839
+somehow yeah so V asking uh you know I
+
+1328
+01:00:12,920 --> 01:00:17,280
+said these These are agnostic of G and
+
+1329
+01:00:15,839 --> 01:00:18,079
+specifically we're using them to
+
+1330
+01:00:17,280 --> 01:00:20,760
+understand
+
+1331
+01:00:18,079 --> 01:00:22,760
+hardness the hardness in G various kinds
+
+1332
+01:00:20,760 --> 01:00:24,119
+of hardness uh various kinds of average
+
+1333
+01:00:22,760 --> 01:00:26,760
+case hardness like which may be this
+
+1334
+01:00:24,119 --> 01:00:28,839
+hardness of prediction it may this
+
+1335
+01:00:26,760 --> 01:00:32,880
+pseudo Shannon entropy that I'm talking
+
+1336
+01:00:28,839 --> 01:00:32,880
+about um in distinguishability
+
+1337
+01:00:33,000 --> 01:00:39,580
+uh now if G is like actually
+
+1338
+01:00:37,200 --> 01:00:41,240
+easy yeah so
+
+1339
+01:00:39,580 --> 01:00:43,880
+[Music]
+
+1340
+01:00:41,240 --> 01:00:45,559
+um I'm I'm not sure yeah so I'm not sure
+
+1341
+01:00:43,880 --> 01:00:47,039
+in that in that region between like if
+
+1342
+01:00:45,559 --> 01:00:49,520
+it's if it's easy then the multi-
+
+1343
+01:00:47,039 --> 01:00:51,960
+calibration theorem is is is just you
+
+1344
+01:00:49,520 --> 01:00:54,920
+know vacu like vacuously true right you
+
+1345
+01:00:51,960 --> 01:00:56,599
+just partition into the zeros and ones
+
+1346
+01:00:54,920 --> 01:00:58,760
+um
+
+1347
+01:00:56,599 --> 01:01:01,599
+one kind of in between thing I mention
+
+1348
+01:00:58,760 --> 01:01:05,359
+here as a as a kind of open problem is
+
+1349
+01:01:01,599 --> 01:01:07,480
+to have a uniform complexity analog so
+
+1350
+01:01:05,359 --> 01:01:09,280
+everything I said in the talk was all in
+
+1351
+01:01:07,480 --> 01:01:11,240
+the kind of non-uniform circuit
+
+1352
+01:01:09,280 --> 01:01:14,880
+complexity circuits of your adversary
+
+1353
+01:01:11,240 --> 01:01:18,799
+polze circuits um I believe there should
+
+1354
+01:01:14,880 --> 01:01:21,760
+be one um the settings in which the
+
+1355
+01:01:18,799 --> 01:01:25,200
+statement should involve some kind of
+
+1356
+01:01:21,760 --> 01:01:27,680
+easiness associated with G so like maybe
+
+1357
+01:01:25,200 --> 01:01:31,359
+G is not easy easy to compute but I can
+
+1358
+01:01:27,680 --> 01:01:33,680
+efficiently sample random pairs XG of X
+
+1359
+01:01:31,359 --> 01:01:36,920
+so if you think of the example I gave of
+
+1360
+01:01:33,680 --> 01:01:38,839
+a uh uh the least significant bit of the
+
+1361
+01:01:36,920 --> 01:01:41,520
+inverse on a oneway function I can't
+
+1362
+01:01:38,839 --> 01:01:44,400
+compute G if you give me an input it's
+
+1363
+01:01:41,520 --> 01:01:46,200
+hard for me to compute the value of G
+
+1364
+01:01:44,400 --> 01:01:49,760
+but if you want me to draw a random
+
+1365
+01:01:46,200 --> 01:01:52,520
+sample from XG of X I can do that I pick
+
+1366
+01:01:49,760 --> 01:01:54,000
+a random input to the oneway function
+
+1367
+01:01:52,520 --> 01:01:57,839
+and then I have the value of G and I
+
+1368
+01:01:54,000 --> 01:01:57,839
+take the take the output
+
+1369
+01:02:02,559 --> 01:02:05,559
+sure
+
+1370
+01:02:06,220 --> 01:02:10,280
+[Applause]
+

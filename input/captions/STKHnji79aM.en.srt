@@ -1,0 +1,3124 @@
+1
+00:00:05,520 --> 00:00:10,000
+Um so uh yeah I'm going to talk about
+
+2
+00:00:08,320 --> 00:00:11,519
+the notion
+
+3
+00:00:10,000 --> 00:00:13,360
+uh that we call generative computing or
+
+4
+00:00:11,519 --> 00:00:17,199
+generative programming. Um and it's
+
+5
+00:00:13,360 --> 00:00:19,279
+really about um uh embedding software
+
+6
+00:00:17,199 --> 00:00:22,640
+within AI workflows. I probably should
+
+7
+00:00:19,279 --> 00:00:25,680
+say around uh embedding workflows within
+
+8
+00:00:22,640 --> 00:00:27,680
+software. Um, and I hope you're going to
+
+9
+00:00:25,680 --> 00:00:29,199
+already start liking this mushroom here
+
+10
+00:00:27,680 --> 00:00:30,720
+because it's going to appear in at least
+
+11
+00:00:29,199 --> 00:00:34,719
+half of my slides and you're going to
+
+12
+00:00:30,720 --> 00:00:37,760
+understand in a minute in soon why. Um,
+
+13
+00:00:34,719 --> 00:00:39,760
+there you go.
+
+14
+00:00:37,760 --> 00:00:41,200
+Okay. Yeah. Okay. So, just before I
+
+15
+00:00:39,760 --> 00:00:42,559
+start talking about uh generative
+
+16
+00:00:41,200 --> 00:00:44,640
+programming, just uh where I'm coming
+
+17
+00:00:42,559 --> 00:00:47,280
+from and maybe that will explain why why
+
+18
+00:00:44,640 --> 00:00:49,520
+I'm here. Uh, so I'm part of the MIT IBM
+
+19
+00:00:47,280 --> 00:00:51,840
+uh what's on AI lab. Um this is the
+
+20
+00:00:49,520 --> 00:00:53,440
+building literally outside the door when
+
+21
+00:00:51,840 --> 00:00:56,079
+you come out on Main Street just across
+
+22
+00:00:53,440 --> 00:00:59,280
+the road. Um we are at the 30th floor of
+
+23
+00:00:56,079 --> 00:01:01,840
+that building. Um uh the lab was founded
+
+24
+00:00:59,280 --> 00:01:03,440
+uh about 10 years ago. Um and the idea
+
+25
+00:01:01,840 --> 00:01:06,320
+is to bring together researchers from
+
+26
+00:01:03,440 --> 00:01:10,720
+IBM and MIT and and really truly working
+
+27
+00:01:06,320 --> 00:01:12,560
+together. Um in fact in the almost 115
+
+28
+00:01:10,720 --> 00:01:14,640
+years that IBM existed, this is the
+
+29
+00:01:12,560 --> 00:01:17,600
+largest investment that IBM has done
+
+30
+00:01:14,640 --> 00:01:19,360
+ever in any academic institution. Um
+
+31
+00:01:17,600 --> 00:01:21,439
+here are some statistics on publications
+
+32
+00:01:19,360 --> 00:01:23,520
+and citations and and so on. We support
+
+33
+00:01:21,439 --> 00:01:25,280
+students. We have summary internships.
+
+34
+00:01:23,520 --> 00:01:26,880
+Um and part of the research that I'm
+
+35
+00:01:25,280 --> 00:01:29,759
+going to show now some of it came out of
+
+36
+00:01:26,880 --> 00:01:32,400
+of those collaborations.
+
+37
+00:01:29,759 --> 00:01:33,759
+So um in the last uh several decades
+
+38
+00:01:32,400 --> 00:01:35,920
+there are you know several different
+
+39
+00:01:33,759 --> 00:01:39,360
+paradigms of programming that emerged
+
+40
+00:01:35,920 --> 00:01:42,000
+and there are two very extremes. uh one
+
+41
+00:01:39,360 --> 00:01:44,560
+is good old coding um which is also
+
+42
+00:01:42,000 --> 00:01:46,799
+known as imperative programming and here
+
+43
+00:01:44,560 --> 00:01:49,360
+a coder which up until two three years
+
+44
+00:01:46,799 --> 00:01:52,720
+ago was just a human now it's AI or
+
+45
+00:01:49,360 --> 00:01:54,799
+human plus AI or just human um writes a
+
+46
+00:01:52,720 --> 00:01:58,640
+code so it just writes instructions step
+
+47
+00:01:54,799 --> 00:02:00,799
+by step how you should perform a task
+
+48
+00:01:58,640 --> 00:02:03,200
+now the coder whether it's a human or AI
+
+49
+00:02:00,799 --> 00:02:04,880
+can benefit from seeing a few inputs and
+
+50
+00:02:03,200 --> 00:02:06,479
+output examples but it doesn't really
+
+51
+00:02:04,880 --> 00:02:08,000
+need them as long as it have a good
+
+52
+00:02:06,479 --> 00:02:10,879
+specification and then it just writes
+
+53
+00:02:08,000 --> 00:02:12,879
+the code and and really what we're doing
+
+54
+00:02:10,879 --> 00:02:15,920
+here we're instructing a generalist
+
+55
+00:02:12,879 --> 00:02:17,840
+computer like my laptop or a server uh
+
+56
+00:02:15,920 --> 00:02:19,840
+to perform a single task and we do it
+
+57
+00:02:17,840 --> 00:02:21,440
+using code right and I say a generalist
+
+58
+00:02:19,840 --> 00:02:23,200
+computer because the computer can do
+
+59
+00:02:21,440 --> 00:02:25,520
+many tasks if I give it another piece of
+
+60
+00:02:23,200 --> 00:02:27,040
+code it'll perform it on the other
+
+61
+00:02:25,520 --> 00:02:29,760
+extreme we have statistical machine
+
+62
+00:02:27,040 --> 00:02:31,120
+learning um which is a form of inductive
+
+63
+00:02:29,760 --> 00:02:33,040
+programming here we have no
+
+64
+00:02:31,120 --> 00:02:35,519
+specification at all or the
+
+65
+00:02:33,040 --> 00:02:37,599
+specification is given us by many many
+
+66
+00:02:35,519 --> 00:02:38,720
+examples of input inputs and outputs and
+
+67
+00:02:37,599 --> 00:02:40,560
+I don't really know what the
+
+68
+00:02:38,720 --> 00:02:42,080
+specification is. But then there's all
+
+69
+00:02:40,560 --> 00:02:44,239
+these learning algorithms that we
+
+70
+00:02:42,080 --> 00:02:46,319
+developed in the last few decades and
+
+71
+00:02:44,239 --> 00:02:49,760
+they then they come up with a model or a
+
+72
+00:02:46,319 --> 00:02:51,280
+formula and that's how the computer
+
+73
+00:02:49,760 --> 00:02:53,280
+knows what to do. So again we're
+
+74
+00:02:51,280 --> 00:02:55,920
+instructing a generalist computer to
+
+75
+00:02:53,280 --> 00:02:58,800
+perform a single task but now we do it
+
+76
+00:02:55,920 --> 00:03:01,360
+through a model. And now came a new cool
+
+77
+00:02:58,800 --> 00:03:02,959
+kid on the block and that's genai. Um
+
+78
+00:03:01,360 --> 00:03:05,920
+and J gen ji is actually very
+
+79
+00:03:02,959 --> 00:03:08,000
+interesting because it has two stages.
+
+80
+00:03:05,920 --> 00:03:11,599
+The first stage we use inductive
+
+81
+00:03:08,000 --> 00:03:13,440
+programming to compute a new model which
+
+82
+00:03:11,599 --> 00:03:15,599
+is a generalist model. So we give it
+
+83
+00:03:13,440 --> 00:03:16,800
+many many inputs and outputs and they
+
+84
+00:03:15,599 --> 00:03:18,640
+come in different forms at different
+
+85
+00:03:16,800 --> 00:03:20,720
+stages of the training. The pre-training
+
+86
+00:03:18,640 --> 00:03:23,040
+the inputs are prefixes and the outputs
+
+87
+00:03:20,720 --> 00:03:24,400
+are the next token and then later during
+
+88
+00:03:23,040 --> 00:03:26,080
+instruction tuning we give it just
+
+89
+00:03:24,400 --> 00:03:28,159
+instructions and outcomes of these of
+
+90
+00:03:26,080 --> 00:03:29,680
+performing these instructions and then
+
+91
+00:03:28,159 --> 00:03:31,840
+that's a very long process. It can take
+
+92
+00:03:29,680 --> 00:03:34,480
+months and a lot of compute. Um and then
+
+93
+00:03:31,840 --> 00:03:36,879
+we get this generalist model. But once
+
+94
+00:03:34,480 --> 00:03:40,480
+we have it, it's like a little computer,
+
+95
+00:03:36,879 --> 00:03:42,319
+right? Um so now we can program it. And
+
+96
+00:03:40,480 --> 00:03:44,400
+I call it natural programming, but don't
+
+97
+00:03:42,319 --> 00:03:46,959
+worry about that. That that's going to
+
+98
+00:03:44,400 --> 00:03:49,040
+go away soon, that word natural. And we
+
+99
+00:03:46,959 --> 00:03:51,280
+do it by prompting really. So really
+
+100
+00:03:49,040 --> 00:03:53,920
+what we're doing here, we're instructing
+
+101
+00:03:51,280 --> 00:03:55,519
+a generalist model again to perform a
+
+102
+00:03:53,920 --> 00:03:58,720
+single task. And we use natural
+
+103
+00:03:55,519 --> 00:04:02,000
+language, English or whatever language
+
+104
+00:03:58,720 --> 00:04:03,920
+uh you want. Um, and that's great,
+
+105
+00:04:02,000 --> 00:04:05,760
+right? Because now we have people that
+
+106
+00:04:03,920 --> 00:04:08,080
+never studied computer science, never
+
+107
+00:04:05,760 --> 00:04:11,040
+been, you know, trained on programming.
+
+108
+00:04:08,080 --> 00:04:12,799
+They can now program a computer and
+
+109
+00:04:11,040 --> 00:04:14,400
+yeah, all off we go to the races and
+
+110
+00:04:12,799 --> 00:04:16,560
+there's a lot of excitement and all
+
+111
+00:04:14,400 --> 00:04:18,160
+these, you know, and AI is going to take
+
+112
+00:04:16,560 --> 00:04:21,359
+the world and people are developing
+
+113
+00:04:18,160 --> 00:04:23,919
+beautiful apps and it's all great, but
+
+114
+00:04:21,359 --> 00:04:27,280
+not so fast, right? So there's um this
+
+115
+00:04:23,919 --> 00:04:29,360
+famous uh MIT
+
+116
+00:04:27,280 --> 00:04:32,560
+uh research that actually Puma didn't
+
+117
+00:04:29,360 --> 00:04:33,919
+say but he is one of the authors um this
+
+118
+00:04:32,560 --> 00:04:36,639
+you you probably most of you have seen
+
+119
+00:04:33,919 --> 00:04:38,320
+this that 95% of AI pilots in the
+
+120
+00:04:36,639 --> 00:04:40,880
+business fail and there other evidence
+
+121
+00:04:38,320 --> 00:04:42,639
+that there are issues and then we we ask
+
+122
+00:04:40,880 --> 00:04:45,520
+ourselves so okay so what's what's what
+
+123
+00:04:42,639 --> 00:04:48,400
+really is going on here
+
+124
+00:04:45,520 --> 00:04:51,280
+and in order to understand what's going
+
+125
+00:04:48,400 --> 00:04:53,840
+on here let's see what agents really are
+
+126
+00:04:51,280 --> 00:04:56,880
+and agents are just you know glorified
+
+127
+00:04:53,840 --> 00:04:59,280
+prompts and and another title for this
+
+128
+00:04:56,880 --> 00:05:00,960
+slide should be well we're rediscovering
+
+129
+00:04:59,280 --> 00:05:02,560
+that programming in natural language is
+
+130
+00:05:00,960 --> 00:05:04,960
+actually really difficult. So there's
+
+131
+00:05:02,560 --> 00:05:07,199
+all kinds of problems that can can come
+
+132
+00:05:04,960 --> 00:05:09,039
+up. Uh so when people write these
+
+133
+00:05:07,199 --> 00:05:11,039
+prompts they often do it by themselves
+
+134
+00:05:09,039 --> 00:05:13,280
+but more more often they actually use
+
+135
+00:05:11,039 --> 00:05:15,440
+other ALMs to help them write these long
+
+136
+00:05:13,280 --> 00:05:17,440
+essay prompts. Uh but then you end up
+
+137
+00:05:15,440 --> 00:05:18,880
+being you know having these long essays
+
+138
+00:05:17,440 --> 00:05:20,479
+that there's no way you can maintain
+
+139
+00:05:18,880 --> 00:05:22,000
+them. Maybe you can maintain them
+
+140
+00:05:20,479 --> 00:05:23,520
+yourself, but if you work as part of a
+
+141
+00:05:22,000 --> 00:05:26,000
+team, then another team member will have
+
+142
+00:05:23,520 --> 00:05:27,600
+no idea what to do with that prompt. Um,
+
+143
+00:05:26,000 --> 00:05:29,199
+it's very easy to break. If I add
+
+144
+00:05:27,600 --> 00:05:30,400
+another constraints, how do I know that
+
+145
+00:05:29,199 --> 00:05:33,680
+it doesn't contradict a different
+
+146
+00:05:30,400 --> 00:05:36,080
+constraint? Um, then there's security,
+
+147
+00:05:33,680 --> 00:05:38,479
+right? We we we all know that LLMs
+
+148
+00:05:36,080 --> 00:05:41,120
+hallucinate, they make errors. Um, here
+
+149
+00:05:38,479 --> 00:05:43,440
+I'm begging the LLM that if there's
+
+150
+00:05:41,120 --> 00:05:45,680
+password, just don't reveal it. But once
+
+151
+00:05:43,440 --> 00:05:47,280
+I say the word password, if you know how
+
+152
+00:05:45,680 --> 00:05:48,960
+the transformer works, it works by
+
+153
+00:05:47,280 --> 00:05:51,039
+attention. than the word password its
+
+154
+00:05:48,960 --> 00:05:53,360
+tokens will probably if there is a
+
+155
+00:05:51,039 --> 00:05:54,960
+password the tokens of the password
+
+156
+00:05:53,360 --> 00:05:56,960
+their representation will probably
+
+157
+00:05:54,960 --> 00:05:59,840
+include the password in it and then I'm
+
+158
+00:05:56,960 --> 00:06:02,240
+just praying that the attention later on
+
+159
+00:05:59,840 --> 00:06:05,039
+when I generate other tokens will notice
+
+160
+00:06:02,240 --> 00:06:07,440
+that I say do not include and we'll kind
+
+161
+00:06:05,039 --> 00:06:10,720
+of suppress it but it's kind of security
+
+162
+00:06:07,440 --> 00:06:12,880
+by prayer and then there's all these
+
+163
+00:06:10,720 --> 00:06:15,440
+essay prompts and they really what
+
+164
+00:06:12,880 --> 00:06:18,560
+they're doing they are encoding in
+
+165
+00:06:15,440 --> 00:06:20,400
+language very complex language age uh
+
+166
+00:06:18,560 --> 00:06:22,960
+steps in a control flow but then it's
+
+167
+00:06:20,400 --> 00:06:24,960
+very difficult to be sure that this is
+
+168
+00:06:22,960 --> 00:06:27,680
+really going to the model's really going
+
+169
+00:06:24,960 --> 00:06:31,039
+to follow it. So with that I want to
+
+170
+00:06:27,680 --> 00:06:34,240
+pose a question for all of us is if LLS
+
+171
+00:06:31,039 --> 00:06:36,240
+are a computing device then why are we
+
+172
+00:06:34,240 --> 00:06:38,080
+forgetting about decades of computer
+
+173
+00:06:36,240 --> 00:06:40,160
+science research and software
+
+174
+00:06:38,080 --> 00:06:42,400
+engineering practice. The first
+
+175
+00:06:40,160 --> 00:06:44,560
+programmable computers were developed
+
+176
+00:06:42,400 --> 00:06:46,960
+during World War II. So that's more than
+
+177
+00:06:44,560 --> 00:06:49,199
+80 years ago. So we have decades of
+
+178
+00:06:46,960 --> 00:06:51,440
+experience and that experience gives us
+
+179
+00:06:49,199 --> 00:06:52,960
+a lot right. So we have tooling like
+
+180
+00:06:51,440 --> 00:06:54,880
+debuggers for example. We have best
+
+181
+00:06:52,960 --> 00:06:57,280
+practices unit testing abstraction
+
+182
+00:06:54,880 --> 00:06:59,280
+boundaries code reuse. We have paradigm
+
+183
+00:06:57,280 --> 00:07:02,560
+and design patterns like divide and
+
+184
+00:06:59,280 --> 00:07:04,479
+concore and map reduce and recussion and
+
+185
+00:07:02,560 --> 00:07:06,080
+dynamic programming and and we've got
+
+186
+00:07:04,479 --> 00:07:08,319
+thousands and thousands of algorithms
+
+187
+00:07:06,080 --> 00:07:10,319
+like sorting and clustering and
+
+188
+00:07:08,319 --> 00:07:12,000
+constraint satisfaction and you know any
+
+189
+00:07:10,319 --> 00:07:13,520
+any problem in the world. We've thought
+
+190
+00:07:12,000 --> 00:07:16,160
+a lot about that. So why are we
+
+191
+00:07:13,520 --> 00:07:17,759
+forgetting this? Whereas in Gen AI we
+
+192
+00:07:16,160 --> 00:07:19,680
+have prompt engineering and I'm putting
+
+193
+00:07:17,759 --> 00:07:22,720
+engineering quote unquote because it's
+
+194
+00:07:19,680 --> 00:07:24,800
+really mostly trial and error
+
+195
+00:07:22,720 --> 00:07:26,720
+and this I don't want to dismiss prompt
+
+196
+00:07:24,800 --> 00:07:28,800
+engineering uh because actually works
+
+197
+00:07:26,720 --> 00:07:30,800
+great right if somebody you know as I
+
+198
+00:07:28,800 --> 00:07:32,720
+said people can sit in their attic and
+
+199
+00:07:30,800 --> 00:07:34,880
+create beautiful apps and that works
+
+200
+00:07:32,720 --> 00:07:37,360
+great but it doesn't work when you work
+
+201
+00:07:34,880 --> 00:07:40,479
+with large teams sophisticated business
+
+202
+00:07:37,360 --> 00:07:42,960
+use cases it just doesn't work so let's
+
+203
+00:07:40,479 --> 00:07:45,840
+see what we using what we're losing by
+
+204
+00:07:42,960 --> 00:07:48,560
+not thinking of geni I is just a mode of
+
+205
+00:07:45,840 --> 00:07:51,120
+computation. So obstruction boundaries
+
+206
+00:07:48,560 --> 00:07:54,000
+right prompts as we know they're very
+
+207
+00:07:51,120 --> 00:07:56,560
+highly tailored to the model that they
+
+208
+00:07:54,000 --> 00:07:58,879
+are that I developed them for. Know that
+
+209
+00:07:56,560 --> 00:08:02,240
+in the previous example I said if there
+
+210
+00:07:58,879 --> 00:08:04,400
+are passwords ignore them but maybe for
+
+211
+00:08:02,240 --> 00:08:06,240
+other model it will say ignore if you
+
+212
+00:08:04,400 --> 00:08:08,080
+see passwords if you put the sometimes
+
+213
+00:08:06,240 --> 00:08:10,479
+it completely changes the performance of
+
+214
+00:08:08,080 --> 00:08:12,160
+the of the model. So they're really not
+
+215
+00:08:10,479 --> 00:08:14,400
+uh you know you can't transfer them from
+
+216
+00:08:12,160 --> 00:08:16,960
+from one model to the other and it's
+
+217
+00:08:14,400 --> 00:08:21,199
+very hard to encapsulate specific
+
+218
+00:08:16,960 --> 00:08:22,560
+functionality. So agents as as pruma
+
+219
+00:08:21,199 --> 00:08:24,400
+said you know we can use them as
+
+220
+00:08:22,560 --> 00:08:26,960
+microser and they can we can reuse them
+
+221
+00:08:24,400 --> 00:08:29,120
+as agents as a whole entire agent but
+
+222
+00:08:26,960 --> 00:08:31,599
+it's very difficult to extract from
+
+223
+00:08:29,120 --> 00:08:33,519
+these essay prompts like low-level
+
+224
+00:08:31,599 --> 00:08:35,279
+functionalities that can be reused
+
+225
+00:08:33,519 --> 00:08:36,880
+between you know on one agent can use
+
+226
+00:08:35,279 --> 00:08:38,959
+this you know this little functionality
+
+227
+00:08:36,880 --> 00:08:42,159
+I can put it in another agent and so on
+
+228
+00:08:38,959 --> 00:08:44,240
+and so forth. We all know that LLMs are
+
+229
+00:08:42,159 --> 00:08:47,120
+unpredictable and they're stochastic in
+
+230
+00:08:44,240 --> 00:08:49,519
+nature. So if it's a stochastic
+
+231
+00:08:47,120 --> 00:08:51,040
+computation device, we need to account
+
+232
+00:08:49,519 --> 00:08:54,240
+for that. We need in our design
+
+233
+00:08:51,040 --> 00:08:55,360
+patterns, we need to address that. Um
+
+234
+00:08:54,240 --> 00:08:57,200
+and finally, there's no real
+
+235
+00:08:55,360 --> 00:08:59,040
+methodology, right? We forgot about
+
+236
+00:08:57,200 --> 00:09:02,560
+methodology. As I said, it's all trial
+
+237
+00:08:59,040 --> 00:09:05,040
+and error. If I come with this 10k essay
+
+238
+00:09:02,560 --> 00:09:08,480
+and you ask me why did you do this? I
+
+239
+00:09:05,040 --> 00:09:10,640
+can't say why. It just worked, right?
+
+240
+00:09:08,480 --> 00:09:12,720
+So really what we want to do is come up
+
+241
+00:09:10,640 --> 00:09:14,480
+with I want to give it a name first. I'm
+
+242
+00:09:12,720 --> 00:09:16,800
+going to call it generative computing. A
+
+243
+00:09:14,480 --> 00:09:20,080
+generative computing is is is not is is
+
+244
+00:09:16,800 --> 00:09:22,880
+is a way to work with LLMs. Um but work
+
+245
+00:09:20,080 --> 00:09:24,800
+it in a method methodical way. Um so
+
+246
+00:09:22,880 --> 00:09:28,080
+what I'm going to do now generative
+
+247
+00:09:24,800 --> 00:09:30,959
+computing will combine code and
+
+248
+00:09:28,080 --> 00:09:33,680
+prompting. And what we we we really want
+
+249
+00:09:30,959 --> 00:09:36,560
+to try is to bring as much as we can
+
+250
+00:09:33,680 --> 00:09:38,240
+from computer science uh everything that
+
+251
+00:09:36,560 --> 00:09:41,279
+we've learned and and we have a lot of
+
+252
+00:09:38,240 --> 00:09:42,959
+experience and use it in generative
+
+253
+00:09:41,279 --> 00:09:45,279
+computing. And if we need to adjust
+
+254
+00:09:42,959 --> 00:09:46,800
+something because of the the model that
+
+255
+00:09:45,279 --> 00:09:48,800
+we're working with, then let's do that.
+
+256
+00:09:46,800 --> 00:09:52,200
+But let's do it um in a way that we
+
+257
+00:09:48,800 --> 00:09:52,200
+understand why.
+
+258
+00:09:53,360 --> 00:09:57,519
+So with that, I want to introduce
+
+259
+00:09:54,880 --> 00:09:59,760
+project MA. So Millia is an open- source
+
+260
+00:09:57,519 --> 00:10:01,279
+Python library that we've started
+
+261
+00:09:59,760 --> 00:10:04,240
+developing
+
+262
+00:10:01,279 --> 00:10:08,160
+maybe four, five months ago when we open
+
+263
+00:10:04,240 --> 00:10:09,440
+sourced it in the summer. Um Malaya is
+
+264
+00:10:08,160 --> 00:10:11,680
+actually a type of mushroom. It's
+
+265
+00:10:09,440 --> 00:10:12,560
+edible. Uh the they're they're very
+
+266
+00:10:11,680 --> 00:10:15,040
+pretty. They kind [clears throat] of
+
+267
+00:10:12,560 --> 00:10:17,040
+grow in bunches around barks of dead
+
+268
+00:10:15,040 --> 00:10:20,399
+trees. Don't ask me why we call it
+
+269
+00:10:17,040 --> 00:10:22,000
+Malaya. Um so let me give you a little
+
+270
+00:10:20,399 --> 00:10:23,760
+bit of a kind of a sales pitch and then
+
+271
+00:10:22,000 --> 00:10:26,079
+I'll give you an example of a design
+
+272
+00:10:23,760 --> 00:10:28,720
+pattern with Malaya. Uh so Malaya is is
+
+273
+00:10:26,079 --> 00:10:31,360
+really lets you use LLMs uh but less
+
+274
+00:10:28,720 --> 00:10:34,240
+lets you use it inside or more like
+
+275
+00:10:31,360 --> 00:10:35,920
+writing a a software which will give you
+
+276
+00:10:34,240 --> 00:10:38,560
+predictability, maintainability,
+
+277
+00:10:35,920 --> 00:10:40,640
+composibility and security.
+
+278
+00:10:38,560 --> 00:10:43,279
+And crucially, and you'll see it more in
+
+279
+00:10:40,640 --> 00:10:45,760
+later on in my slides, what we what
+
+280
+00:10:43,279 --> 00:10:48,640
+we're doing, we're taking control flows
+
+281
+00:10:45,760 --> 00:10:51,440
+out of the prompt and put them in in
+
+282
+00:10:48,640 --> 00:10:53,279
+software in code. Um, and as a result,
+
+283
+00:10:51,440 --> 00:10:56,160
+and Purduma talked about that too, in
+
+284
+00:10:53,279 --> 00:10:57,760
+the context of, you know, web of agents.
+
+285
+00:10:56,160 --> 00:11:00,240
+So now I'm talking about in the context
+
+286
+00:10:57,760 --> 00:11:01,839
+of a single agent. The prompts are now
+
+287
+00:11:00,240 --> 00:11:03,360
+becoming shorter. So instead of this
+
+288
+00:11:01,839 --> 00:11:05,120
+essay prompt, I'm breaking down the
+
+289
+00:11:03,360 --> 00:11:06,720
+prompt and but because I took the
+
+290
+00:11:05,120 --> 00:11:08,720
+control flow out of the out of the
+
+291
+00:11:06,720 --> 00:11:10,959
+prompt and [clears throat] I'm using
+
+292
+00:11:08,720 --> 00:11:13,600
+small calls to the LLM and now small
+
+293
+00:11:10,959 --> 00:11:16,079
+language model all of a sudden have a
+
+294
+00:11:13,600 --> 00:11:17,519
+power of a large model that was maybe
+
+295
+00:11:16,079 --> 00:11:21,839
+the only thing that could understand
+
+296
+00:11:17,519 --> 00:11:24,240
+this 10k uh long essay. And we say when
+
+297
+00:11:21,839 --> 00:11:25,839
+we work when we program in Malaya if
+
+298
+00:11:24,240 --> 00:11:27,680
+your prompts are more than one or two
+
+299
+00:11:25,839 --> 00:11:28,959
+lines or if you think too much how to
+
+300
+00:11:27,680 --> 00:11:31,600
+word them then you're doing something
+
+301
+00:11:28,959 --> 00:11:33,200
+wrong. should be easy and these short
+
+302
+00:11:31,600 --> 00:11:36,480
+prompts are also much more likely to be
+
+303
+00:11:33,200 --> 00:11:39,040
+portable from one model to the next.
+
+304
+00:11:36,480 --> 00:11:41,519
+I want to emphasize that malaya is not
+
+305
+00:11:39,040 --> 00:11:45,120
+an agent framework. It's a way to build
+
+306
+00:11:41,519 --> 00:11:46,560
+agents but it's not a way to orchestrate
+
+307
+00:11:45,120 --> 00:11:48,480
+agents. You have nand for that you have
+
+308
+00:11:46,560 --> 00:11:50,480
+lang chain you have other things. So you
+
+309
+00:11:48,480 --> 00:11:52,640
+can in you can incorporate malaya or
+
+310
+00:11:50,480 --> 00:11:55,279
+malaya programs in any of your favorite
+
+311
+00:11:52,640 --> 00:11:57,440
+agentic framework. You'll also see some
+
+312
+00:11:55,279 --> 00:11:58,880
+examples of inference scaling. Uh for
+
+313
+00:11:57,440 --> 00:12:01,120
+those who knows what inference scaling
+
+314
+00:11:58,880 --> 00:12:04,320
+is, um it's also another library of
+
+315
+00:12:01,120 --> 00:12:06,480
+inference scaling, but it's definitely a
+
+316
+00:12:04,320 --> 00:12:08,320
+framework where we can build and use
+
+317
+00:12:06,480 --> 00:12:10,560
+inference scaling in a smart way and
+
+318
+00:12:08,320 --> 00:12:12,560
+methodical way.
+
+319
+00:12:10,560 --> 00:12:15,519
+And finally, because it's software, we
+
+320
+00:12:12,560 --> 00:12:19,200
+can package libraries of functionalities
+
+321
+00:12:15,519 --> 00:12:20,800
+that have AI or LMS in them. And then we
+
+322
+00:12:19,200 --> 00:12:22,320
+can work as teams just like we, you
+
+323
+00:12:20,800 --> 00:12:24,480
+know, we work with software, right? So
+
+324
+00:12:22,320 --> 00:12:25,839
+we can have libraries and one one team
+
+325
+00:12:24,480 --> 00:12:27,040
+can write this library, another team can
+
+326
+00:12:25,839 --> 00:12:30,000
+write this and they can talk with each
+
+327
+00:12:27,040 --> 00:12:31,600
+other. They define APIs and so on and so
+
+328
+00:12:30,000 --> 00:12:34,160
+forth.
+
+329
+00:12:31,600 --> 00:12:36,560
+So let's talk about design patterns
+
+330
+00:12:34,160 --> 00:12:38,160
+within uh Malaya and and this is
+
+331
+00:12:36,560 --> 00:12:40,399
+probably the most important design
+
+332
+00:12:38,160 --> 00:12:43,440
+pattern that I'm going to show you and
+
+333
+00:12:40,399 --> 00:12:45,680
+and and it comes from the fact that we
+
+334
+00:12:43,440 --> 00:12:48,320
+all know that LLNs are intrinsically
+
+335
+00:12:45,680 --> 00:12:50,639
+unpredictable and often wrong. There's a
+
+336
+00:12:48,320 --> 00:12:52,639
+famous quote by Winston Churchill that
+
+337
+00:12:50,639 --> 00:12:54,160
+says it is remarkable that airlines can
+
+338
+00:12:52,639 --> 00:12:55,680
+understand and produce flu fluent
+
+339
+00:12:54,160 --> 00:12:57,200
+natural language. It is even more
+
+340
+00:12:55,680 --> 00:13:00,160
+remarkable that they are wrong five or
+
+341
+00:12:57,200 --> 00:13:03,440
+50% of the time
+
+342
+00:13:00,160 --> 00:13:05,360
+maybe 50% chance that Churchill said
+
+343
+00:13:03,440 --> 00:13:07,200
+that or he would have said it if he
+
+344
+00:13:05,360 --> 00:13:09,680
+would have been here today. So you got
+
+345
+00:13:07,200 --> 00:13:12,000
+my idea. So the consequence is that we
+
+346
+00:13:09,680 --> 00:13:15,120
+need structure that make uh that make it
+
+347
+00:13:12,000 --> 00:13:17,040
+a first class concern to check if it uh
+
+348
+00:13:15,120 --> 00:13:20,399
+to check our work and implement ways to
+
+349
+00:13:17,040 --> 00:13:22,160
+repair it. The analogy here is quantum
+
+350
+00:13:20,399 --> 00:13:23,920
+computers and quantum computers because
+
+351
+00:13:22,160 --> 00:13:28,320
+we know that the nature of the computing
+
+352
+00:13:23,920 --> 00:13:30,399
+device is that cubits are not uh uh are
+
+353
+00:13:28,320 --> 00:13:31,920
+not stable then we need to incorporate
+
+354
+00:13:30,399 --> 00:13:35,120
+error correcting codes inside our
+
+355
+00:13:31,920 --> 00:13:38,079
+computation. The same here.
+
+356
+00:13:35,120 --> 00:13:40,000
+So this is the pattern that uh uh that
+
+357
+00:13:38,079 --> 00:13:41,120
+kind of the main pattern in Malaya but
+
+358
+00:13:40,000 --> 00:13:43,920
+there are other patterns we can talk
+
+359
+00:13:41,120 --> 00:13:48,240
+about and we call it instruct validate
+
+360
+00:13:43,920 --> 00:13:50,720
+repair or IVR IVR this is a a simple
+
+361
+00:13:48,240 --> 00:13:53,600
+program in Malaya it's just a little
+
+362
+00:13:50,720 --> 00:13:56,160
+agent that can write an email um and the
+
+363
+00:13:53,600 --> 00:13:57,920
+first thing is we need that because we
+
+364
+00:13:56,160 --> 00:13:59,600
+are now instructing a computer to
+
+365
+00:13:57,920 --> 00:14:01,600
+perform a task so it starts with an
+
+366
+00:13:59,600 --> 00:14:03,839
+instructions right an email you can get
+
+367
+00:14:01,600 --> 00:14:06,560
+some inputs invite them to the end of
+
+368
+00:14:03,839 --> 00:14:09,360
+end of summer intern party
+
+369
+00:14:06,560 --> 00:14:10,959
+and then we also have requirements.
+
+370
+00:14:09,360 --> 00:14:12,240
+Okay, the requirement says the email
+
+371
+00:14:10,959 --> 00:14:15,360
+should be this and that and don't do
+
+372
+00:14:12,240 --> 00:14:16,800
+that. Yes, do that. Um within that
+
+373
+00:14:15,360 --> 00:14:18,480
+construct that you see here which called
+
+374
+00:14:16,800 --> 00:14:19,920
+m.instruct
+
+375
+00:14:18,480 --> 00:14:22,240
+when we have an instruction and
+
+376
+00:14:19,920 --> 00:14:24,079
+requirement under the hood when we going
+
+377
+00:14:22,240 --> 00:14:26,079
+to call the LLM and get back the output
+
+378
+00:14:24,079 --> 00:14:28,480
+under the hood there's going to be a
+
+379
+00:14:26,079 --> 00:14:30,880
+validation process. The user doesn't
+
+380
+00:14:28,480 --> 00:14:33,040
+need to know how that work. The default
+
+381
+00:14:30,880 --> 00:14:34,800
+will be using LLM as a judge, but it
+
+382
+00:14:33,040 --> 00:14:38,639
+doesn't have to be LLM as a judge. In
+
+383
+00:14:34,800 --> 00:14:40,399
+fact, some of the requirements can be uh
+
+384
+00:14:38,639 --> 00:14:41,760
+checked with code. You don't need LLMs.
+
+385
+00:14:40,399 --> 00:14:43,920
+For example, if there was a requirement
+
+386
+00:14:41,760 --> 00:14:46,639
+here that says that my email should
+
+387
+00:14:43,920 --> 00:14:48,480
+include at most 100 words. I can just
+
+388
+00:14:46,639 --> 00:14:49,920
+write a Python program. So, I can come I
+
+389
+00:14:48,480 --> 00:14:53,120
+can bring a requirement with its own
+
+390
+00:14:49,920 --> 00:14:56,560
+checker and and this all this happens
+
+391
+00:14:53,120 --> 00:14:59,040
+under the hood. Once we have an answer
+
+392
+00:14:56,560 --> 00:15:01,360
+if something was right or wrong, I can
+
+393
+00:14:59,040 --> 00:15:03,040
+do exception handling, right? I can know
+
+394
+00:15:01,360 --> 00:15:04,800
+if something went wrong, okay, then I
+
+395
+00:15:03,040 --> 00:15:06,480
+need to do something about it. Maybe I
+
+396
+00:15:04,800 --> 00:15:09,600
+tell a human to write the email or maybe
+
+397
+00:15:06,480 --> 00:15:12,480
+I send it to a larger LLM.
+
+398
+00:15:09,600 --> 00:15:15,120
+But before I give up, we also remember
+
+399
+00:15:12,480 --> 00:15:18,320
+that there's an advantage of the way LM
+
+400
+00:15:15,120 --> 00:15:20,079
+work. LM are samplers, right? So LLM, if
+
+401
+00:15:18,320 --> 00:15:22,160
+I raise the temperature, if it's not
+
+402
+00:15:20,079 --> 00:15:24,720
+zero of the LLM, then it just samples
+
+403
+00:15:22,160 --> 00:15:26,560
+from my token. So I can try again. So I
+
+404
+00:15:24,720 --> 00:15:28,399
+can have all kinds of repair strategies.
+
+405
+00:15:26,560 --> 00:15:30,160
+One of them is rejection sampling. So
+
+406
+00:15:28,399 --> 00:15:31,760
+here is a strategy that we implemented
+
+407
+00:15:30,160 --> 00:15:33,519
+in MLS. Again the user doesn't need to
+
+408
+00:15:31,760 --> 00:15:35,440
+worry about it. They just write that
+
+409
+00:15:33,519 --> 00:15:38,720
+piece of code that line of code and that
+
+410
+00:15:35,440 --> 00:15:40,480
+says try three times and until if you
+
+411
+00:15:38,720 --> 00:15:44,480
+succeed within three times great. If not
+
+412
+00:15:40,480 --> 00:15:46,959
+then say I can't do it within my budget.
+
+413
+00:15:44,480 --> 00:15:48,399
+So here's what happens under the hood.
+
+414
+00:15:46,959 --> 00:15:50,880
+Um so we get these instruction
+
+415
+00:15:48,399 --> 00:15:53,440
+requirements and the strategy for repair
+
+416
+00:15:50,880 --> 00:15:55,519
+and this breaks down
+
+417
+00:15:53,440 --> 00:15:57,199
+to several different calls. One the
+
+418
+00:15:55,519 --> 00:15:59,440
+first one will of of course will be
+
+419
+00:15:57,199 --> 00:16:01,839
+execute call the LLM to perform the
+
+420
+00:15:59,440 --> 00:16:03,600
+instruction with these requirements. The
+
+421
+00:16:01,839 --> 00:16:05,360
+instruction and the requirements that we
+
+422
+00:16:03,600 --> 00:16:07,600
+saw they were written in natural uh
+
+423
+00:16:05,360 --> 00:16:09,680
+language in English but that's not
+
+424
+00:16:07,600 --> 00:16:11,040
+necessarily what the LLMs will see. of
+
+425
+00:16:09,680 --> 00:16:12,320
+course it'll see that language but
+
+426
+00:16:11,040 --> 00:16:14,079
+there'll be some additional things and
+
+427
+00:16:12,320 --> 00:16:16,160
+maybe we'll add some structure and you
+
+428
+00:16:14,079 --> 00:16:18,720
+know the we'll kind of adjust it to the
+
+429
+00:16:16,160 --> 00:16:20,320
+way the LLM is used to see instructions
+
+430
+00:16:18,720 --> 00:16:22,240
+and requirements but again the user
+
+431
+00:16:20,320 --> 00:16:23,839
+doesn't need to worry about that and
+
+432
+00:16:22,240 --> 00:16:25,199
+then there's validation as I said
+
+433
+00:16:23,839 --> 00:16:28,959
+validation can come in many different
+
+434
+00:16:25,199 --> 00:16:31,440
+forms default is LLM as a judge um and
+
+435
+00:16:28,959 --> 00:16:33,279
+then there's my strategy you know I can
+
+436
+00:16:31,440 --> 00:16:34,639
+do all kinds of things here I'm asking
+
+437
+00:16:33,279 --> 00:16:36,720
+it to rewrite so I'm giving it the
+
+438
+00:16:34,639 --> 00:16:38,800
+output and the requirement says okay the
+
+439
+00:16:36,720 --> 00:16:41,199
+requirement failed on that output try
+
+440
+00:16:38,800 --> 00:16:42,880
+and fix it or I can just sample without
+
+441
+00:16:41,199 --> 00:16:44,560
+giving it out. Just resample without
+
+442
+00:16:42,880 --> 00:16:46,480
+knowing anything why it failed before
+
+443
+00:16:44,560 --> 00:16:48,880
+and I can do it several different times.
+
+444
+00:16:46,480 --> 00:16:50,800
+So you can already see here all the
+
+445
+00:16:48,880 --> 00:16:52,720
+things that I mentioned before. There is
+
+446
+00:16:50,800 --> 00:16:55,519
+abstraction boundaries here, right? So
+
+447
+00:16:52,720 --> 00:16:57,839
+the the way I run the LLM, the execute,
+
+448
+00:16:55,519 --> 00:16:59,839
+the way I run the instruction does not
+
+449
+00:16:57,839 --> 00:17:01,519
+depend on the way I validate that,
+
+450
+00:16:59,839 --> 00:17:02,800
+right? So these two things are separate.
+
+451
+00:17:01,519 --> 00:17:04,959
+It just needs, you know, a common
+
+452
+00:17:02,800 --> 00:17:07,199
+interface between them. Um so there's
+
+453
+00:17:04,959 --> 00:17:10,400
+abstraction, there's code reuse. I can
+
+454
+00:17:07,199 --> 00:17:12,640
+use the same validation technique to
+
+455
+00:17:10,400 --> 00:17:15,120
+validate something else and so on and so
+
+456
+00:17:12,640 --> 00:17:17,280
+forth. You can already see how I'm using
+
+457
+00:17:15,120 --> 00:17:19,360
+the regular computer science way of
+
+458
+00:17:17,280 --> 00:17:22,400
+thinking in developing my agents.
+
+459
+00:17:19,360 --> 00:17:26,400
+Whereas if I write that in a prompt that
+
+460
+00:17:22,400 --> 00:17:27,919
+would be a mess as you can imagine.
+
+461
+00:17:26,400 --> 00:17:30,559
+Um and there's many different ways I can
+
+462
+00:17:27,919 --> 00:17:32,400
+implement any anyone any parts of this.
+
+463
+00:17:30,559 --> 00:17:34,799
+And again the user an advanced user can
+
+464
+00:17:32,400 --> 00:17:36,080
+write their own but you know a simple
+
+465
+00:17:34,799 --> 00:17:37,360
+user that doesn't want to deal with it
+
+466
+00:17:36,080 --> 00:17:39,440
+doesn't have to worry because a lot of
+
+467
+00:17:37,360 --> 00:17:41,440
+it is already implemented. So it can be
+
+468
+00:17:39,440 --> 00:17:43,280
+just simple prompting. It can be an
+
+469
+00:17:41,440 --> 00:17:44,720
+adapter lura for those who knows and if
+
+470
+00:17:43,280 --> 00:17:48,080
+you don't I'm going to talk about lura
+
+471
+00:17:44,720 --> 00:17:50,960
+soon. Um so now we can take this to the
+
+472
+00:17:48,080 --> 00:17:53,039
+next step and we can apply all kinds of
+
+473
+00:17:50,960 --> 00:17:54,960
+traditional classical algorithms to
+
+474
+00:17:53,039 --> 00:17:57,440
+natural language tasks. We call this
+
+475
+00:17:54,960 --> 00:17:59,440
+verbalized algorithms. And here's an
+
+476
+00:17:57,440 --> 00:18:01,440
+example. So suppose you want to you have
+
+477
+00:17:59,440 --> 00:18:02,720
+a you have a list of customer complaints
+
+478
+00:18:01,440 --> 00:18:04,640
+and you want to deal with the most
+
+479
+00:18:02,720 --> 00:18:07,520
+severe one first. So you want to sort
+
+480
+00:18:04,640 --> 00:18:09,280
+them according to severity.
+
+481
+00:18:07,520 --> 00:18:11,840
+Now this is a natural language task and
+
+482
+00:18:09,280 --> 00:18:14,240
+I can just take an LLM and feed the list
+
+483
+00:18:11,840 --> 00:18:16,080
+of let's say 100 complaints that I have
+
+484
+00:18:14,240 --> 00:18:19,679
+feed it in the whole the whole thing in
+
+485
+00:18:16,080 --> 00:18:21,120
+one prompt. Now the LLM most likely not
+
+486
+00:18:19,679 --> 00:18:23,600
+only it won't be able to sort it
+
+487
+00:18:21,120 --> 00:18:25,760
+correctly, it will probably hallucinate
+
+488
+00:18:23,600 --> 00:18:28,400
+some other may may drop some complaints
+
+489
+00:18:25,760 --> 00:18:30,160
+and hallucinate some others. But now
+
+490
+00:18:28,400 --> 00:18:31,840
+let's make an observation. If I take any
+
+491
+00:18:30,160 --> 00:18:34,720
+any of your favorite sorting algorithm
+
+492
+00:18:31,840 --> 00:18:37,200
+like merge sort or bubble sort all they
+
+493
+00:18:34,720 --> 00:18:38,880
+do is really they have some control flow
+
+494
+00:18:37,200 --> 00:18:40,559
+but they just repeatedly perform pair
+
+495
+00:18:38,880 --> 00:18:42,480
+wise comparisons between the elements
+
+496
+00:18:40,559 --> 00:18:44,320
+that we're sorting. So here's an idea.
+
+497
+00:18:42,480 --> 00:18:46,799
+Let's use an LLM just to do the pair
+
+498
+00:18:44,320 --> 00:18:48,320
+wise comparison. This is an oracle. Um
+
+499
+00:18:46,799 --> 00:18:50,000
+and the rest of the algorithm we'll just
+
+500
+00:18:48,320 --> 00:18:52,640
+write in pi python. Python is great at
+
+501
+00:18:50,000 --> 00:18:56,160
+it. So we did that and and here are some
+
+502
+00:18:52,640 --> 00:18:57,840
+some results. This is the paper. Um so I
+
+503
+00:18:56,160 --> 00:18:59,200
+I want to emphasize so what you see here
+
+504
+00:18:57,840 --> 00:19:00,799
+the baseline is just feeding everything
+
+505
+00:18:59,200 --> 00:19:02,720
+in a prompt and all the other columns
+
+506
+00:19:00,799 --> 00:19:05,440
+are different implementations of the
+
+507
+00:19:02,720 --> 00:19:06,960
+verbalized algorithm idea. And I I
+
+508
+00:19:05,440 --> 00:19:08,400
+really want to emphasize you can see in
+
+509
+00:19:06,960 --> 00:19:10,000
+both models. So we ran it on two quen
+
+510
+00:19:08,400 --> 00:19:11,760
+models. One is a small model and one is
+
+511
+00:19:10,000 --> 00:19:13,120
+a kind of mediumsiz model. And both of
+
+512
+00:19:11,760 --> 00:19:16,240
+them we see really nice improvements.
+
+513
+00:19:13,120 --> 00:19:19,120
+But but really huge gains are for the
+
+514
+00:19:16,240 --> 00:19:21,600
+small model. Um the the numbers here are
+
+515
+00:19:19,120 --> 00:19:23,600
+just correlation. So correlation between
+
+516
+00:19:21,600 --> 00:19:26,080
+the ground truth sorting and the sorting
+
+517
+00:19:23,600 --> 00:19:27,600
+that the algorithm outputed and zero
+
+518
+00:19:26,080 --> 00:19:29,600
+means it's completely random. So the
+
+519
+00:19:27,600 --> 00:19:31,360
+small models completely get gets lost
+
+520
+00:19:29,600 --> 00:19:34,640
+with with the list. The list here is is
+
+521
+00:19:31,360 --> 00:19:36,240
+of size 25. So it's 25 um I think like
+
+522
+00:19:34,640 --> 00:19:38,640
+Amazon reviews or something that we that
+
+523
+00:19:36,240 --> 00:19:41,120
+we're sorting. Um but it get very nice
+
+524
+00:19:38,640 --> 00:19:45,440
+results better than the 32 billion
+
+525
+00:19:41,120 --> 00:19:47,280
+baseline quen just with 1.7 billion
+
+526
+00:19:45,440 --> 00:19:49,039
+and we have uh we're developing which is
+
+527
+00:19:47,280 --> 00:19:51,120
+a constantly growing library of
+
+528
+00:19:49,039 --> 00:19:53,840
+verbalized algorithms for sorting subm
+
+529
+00:19:51,120 --> 00:19:56,080
+modular set maximization clustering so
+
+530
+00:19:53,840 --> 00:19:57,520
+on and so forth
+
+531
+00:19:56,080 --> 00:19:59,280
+also opens the door for very interesting
+
+532
+00:19:57,520 --> 00:20:01,120
+research of you know all these
+
+533
+00:19:59,280 --> 00:20:03,520
+algorithms we now need to make them more
+
+534
+00:20:01,120 --> 00:20:05,600
+robust because the oracle is an LLM so
+
+535
+00:20:03,520 --> 00:20:07,679
+it's not reliable but potentially I can
+
+536
+00:20:05,600 --> 00:20:09,840
+actually Maybe if I have a time I'll
+
+537
+00:20:07,679 --> 00:20:11,760
+speak about it a bit. Potentially we can
+
+538
+00:20:09,840 --> 00:20:13,039
+actually quantify the uncertainty. So
+
+539
+00:20:11,760 --> 00:20:17,360
+how can we do that and make our
+
+540
+00:20:13,039 --> 00:20:20,000
+algorithm more more robust.
+
+541
+00:20:17,360 --> 00:20:21,360
+So really this is the message from this
+
+542
+00:20:20,000 --> 00:20:23,760
+part of my talk. My main part of the
+
+543
+00:20:21,360 --> 00:20:26,240
+talk is don't put the control flow in
+
+544
+00:20:23,760 --> 00:20:28,400
+the prompt. Okay are really bad at
+
+545
+00:20:26,240 --> 00:20:31,200
+following control flows even basic ones.
+
+546
+00:20:28,400 --> 00:20:32,799
+I mean and often this is where agents uh
+
+547
+00:20:31,200 --> 00:20:35,840
+fail
+
+548
+00:20:32,799 --> 00:20:38,240
+uh like Python handle the flow
+
+549
+00:20:35,840 --> 00:20:41,440
+divide and conquer.
+
+550
+00:20:38,240 --> 00:20:44,720
+So I have how much uh I see here nine
+
+551
+00:20:41,440 --> 00:20:46,799
+minutes is with the questions.
+
+552
+00:20:44,720 --> 00:20:50,159
+Okay. Uh maybe I'll do this fast. So
+
+553
+00:20:46,799 --> 00:20:52,320
+it's more technical. Um so if you know
+
+554
+00:20:50,159 --> 00:20:53,840
+whatever it's just be a few minutes. Um
+
+555
+00:20:52,320 --> 00:20:55,760
+so I just want to get give you some
+
+556
+00:20:53,840 --> 00:20:57,280
+examples of what happens under the hood.
+
+557
+00:20:55,760 --> 00:20:58,880
+um just to show you that we're not only
+
+558
+00:20:57,280 --> 00:21:01,840
+talking about the high level but but
+
+559
+00:20:58,880 --> 00:21:04,240
+also Malaya is is translating things
+
+560
+00:21:01,840 --> 00:21:06,799
+into the inner working of the model to
+
+561
+00:21:04,240 --> 00:21:08,400
+make everything efficient. Um and here
+
+562
+00:21:06,799 --> 00:21:10,240
+I'm going to touch of that that notion
+
+563
+00:21:08,400 --> 00:21:12,720
+of MLA session. So when you start MLA
+
+564
+00:21:10,240 --> 00:21:14,880
+you start a you write a you kind of
+
+565
+00:21:12,720 --> 00:21:16,159
+start a MLA session and there you you
+
+566
+00:21:14,880 --> 00:21:17,919
+specify all kinds of things in
+
+567
+00:21:16,159 --> 00:21:19,760
+particular you you determining which
+
+568
+00:21:17,919 --> 00:21:22,159
+serving framework like VLM you're going
+
+569
+00:21:19,760 --> 00:21:24,320
+to work with which model or models are
+
+570
+00:21:22,159 --> 00:21:26,960
+going to be associated uh with this
+
+571
+00:21:24,320 --> 00:21:29,120
+program and and also we have with this
+
+572
+00:21:26,960 --> 00:21:31,200
+model we have some uh implementations of
+
+573
+00:21:29,120 --> 00:21:33,120
+what we call intrinsic functions. So
+
+574
+00:21:31,200 --> 00:21:35,600
+introducing functions are all kinds of
+
+575
+00:21:33,120 --> 00:21:37,360
+capabilities that we want to inject into
+
+576
+00:21:35,600 --> 00:21:39,200
+the model and and and again it's back to
+
+577
+00:21:37,360 --> 00:21:41,760
+the code reuse just things that that we
+
+578
+00:21:39,200 --> 00:21:43,520
+want the code to know how to do. We
+
+579
+00:21:41,760 --> 00:21:45,200
+mentioned requirement check that's on
+
+580
+00:21:43,520 --> 00:21:46,640
+the top right here. We mentioned the
+
+581
+00:21:45,200 --> 00:21:48,640
+requirement checker. This is a very
+
+582
+00:21:46,640 --> 00:21:50,320
+important capability that appears in IVR
+
+583
+00:21:48,640 --> 00:21:52,720
+all the time. So we want kind of a
+
+584
+00:21:50,320 --> 00:21:54,640
+specific piece specific module that is
+
+585
+00:21:52,720 --> 00:21:56,320
+very good at it. I mentioned uncertainty
+
+586
+00:21:54,640 --> 00:21:58,400
+quantification. I think this is really
+
+587
+00:21:56,320 --> 00:22:00,799
+important for LLM. So, so we actually
+
+588
+00:21:58,400 --> 00:22:02,480
+have um a module that doesn't serve
+
+589
+00:22:00,799 --> 00:22:03,600
+dewantification. We have guardrails.
+
+590
+00:22:02,480 --> 00:22:05,679
+This is guardian. So, there's something
+
+591
+00:22:03,600 --> 00:22:07,120
+that checks guardrails for profanity and
+
+592
+00:22:05,679 --> 00:22:08,960
+things like this. We have a bunch of
+
+593
+00:22:07,120 --> 00:22:10,880
+things for rag. Um these are things that
+
+594
+00:22:08,960 --> 00:22:12,480
+are not part of malaya, but malaya can
+
+595
+00:22:10,880 --> 00:22:14,400
+use them. So, we we we're releasing
+
+596
+00:22:12,480 --> 00:22:16,880
+these things separately separately on on
+
+597
+00:22:14,400 --> 00:22:18,400
+hugging face.
+
+598
+00:22:16,880 --> 00:22:20,159
+Now, some of these things can be
+
+599
+00:22:18,400 --> 00:22:22,320
+implemented in Python, but most of them
+
+600
+00:22:20,159 --> 00:22:25,520
+are actually learnable modules. uh but
+
+601
+00:22:22,320 --> 00:22:27,840
+we don't need to retrain a whole module
+
+602
+00:22:25,520 --> 00:22:30,240
+uh model just to do that. We do that by
+
+603
+00:22:27,840 --> 00:22:33,120
+using efficient adapters uh also known
+
+604
+00:22:30,240 --> 00:22:34,640
+as loras. So let me take you again going
+
+605
+00:22:33,120 --> 00:22:36,400
+to be technical let me take you a little
+
+606
+00:22:34,640 --> 00:22:39,280
+bit into the what happens what is a
+
+607
+00:22:36,400 --> 00:22:41,919
+lora. Um so a lora is is an efficient
+
+608
+00:22:39,280 --> 00:22:44,640
+way to tune a model to do something
+
+609
+00:22:41,919 --> 00:22:46,960
+specific. Um and the way it works it
+
+610
+00:22:44,640 --> 00:22:49,200
+looks uh we look at the way transformer
+
+611
+00:22:46,960 --> 00:22:51,360
+model attention the main piece of
+
+612
+00:22:49,200 --> 00:22:54,400
+transformer architecture works and the
+
+613
+00:22:51,360 --> 00:22:56,320
+way it works it's really just many many
+
+614
+00:22:54,400 --> 00:22:59,440
+matrix multiplication. So you have your
+
+615
+00:22:56,320 --> 00:23:01,919
+input that's X and you take every token
+
+616
+00:22:59,440 --> 00:23:03,760
+and X and you generate
+
+617
+00:23:01,919 --> 00:23:05,919
+three things. The these things are
+
+618
+00:23:03,760 --> 00:23:08,320
+vectors. It's just list of numbers. Uh
+
+619
+00:23:05,919 --> 00:23:12,320
+one is query, one is key and one is
+
+620
+00:23:08,320 --> 00:23:14,000
+value. Um and you do that by multiplying
+
+621
+00:23:12,320 --> 00:23:17,039
+uh the input the token by some
+
+622
+00:23:14,000 --> 00:23:18,960
+projection matrices. And this is the the
+
+623
+00:23:17,039 --> 00:23:20,480
+entries of those matrices. This is what
+
+624
+00:23:18,960 --> 00:23:22,320
+we're learning. This is the model. So
+
+625
+00:23:20,480 --> 00:23:23,919
+during the learning phase, this is
+
+626
+00:23:22,320 --> 00:23:28,799
+really what's happening. we're adjusting
+
+627
+00:23:23,919 --> 00:23:31,440
+these the entries of the matrices. Um,
+
+628
+00:23:28,799 --> 00:23:32,960
+and what Laura does instead when I want
+
+629
+00:23:31,440 --> 00:23:34,640
+to do something when I teach the model
+
+630
+00:23:32,960 --> 00:23:36,880
+something new, something very specific,
+
+631
+00:23:34,640 --> 00:23:38,320
+rather than retraining all these
+
+632
+00:23:36,880 --> 00:23:40,000
+matrices from the beginning, I'm just
+
+633
+00:23:38,320 --> 00:23:42,240
+I'm fixing them. I'm not touching them.
+
+634
+00:23:40,000 --> 00:23:44,000
+I'm just going to train another matrix
+
+635
+00:23:42,240 --> 00:23:47,440
+on the side. This is these are those
+
+636
+00:23:44,000 --> 00:23:50,640
+deltas here. Um, and this matrix has
+
+637
+00:23:47,440 --> 00:23:52,240
+less parameters. It's low rank. Let's
+
+638
+00:23:50,640 --> 00:23:54,480
+not get into that, but it's it's less
+
+639
+00:23:52,240 --> 00:23:56,640
+parameters. Um, and after I train that,
+
+640
+00:23:54,480 --> 00:23:59,280
+I just add these two matrices and that's
+
+641
+00:23:56,640 --> 00:24:00,640
+how I perform my computation.
+
+642
+00:23:59,280 --> 00:24:03,200
+And that's very efficient. It's really
+
+643
+00:24:00,640 --> 00:24:06,000
+nice because they're very uh small these
+
+644
+00:24:03,200 --> 00:24:08,559
+deltas. So I have kind of a tiny module
+
+645
+00:24:06,000 --> 00:24:10,240
+in tiny compared to the whole model and
+
+646
+00:24:08,559 --> 00:24:11,679
+I can have many of them and I can store
+
+647
+00:24:10,240 --> 00:24:13,120
+them. I can bring them up and bring them
+
+648
+00:24:11,679 --> 00:24:14,640
+down and run them and so on and so
+
+649
+00:24:13,120 --> 00:24:16,320
+forth. But there's something that people
+
+650
+00:24:14,640 --> 00:24:18,480
+don't talk about that much. there is
+
+651
+00:24:16,320 --> 00:24:22,640
+something inefficient in the way we use
+
+652
+00:24:18,480 --> 00:24:25,120
+Lauras and this is the the so so the
+
+653
+00:24:22,640 --> 00:24:28,960
+model the way the model works is you get
+
+654
+00:24:25,120 --> 00:24:31,200
+a prompt um and then you run an answer
+
+655
+00:24:28,960 --> 00:24:33,440
+okay so you you kind of perform all
+
+656
+00:24:31,200 --> 00:24:35,039
+these computations by the base model and
+
+657
+00:24:33,440 --> 00:24:36,480
+let's say now you need to perform some
+
+658
+00:24:35,039 --> 00:24:40,880
+evaluation let's say a requirement
+
+659
+00:24:36,480 --> 00:24:43,440
+checking okay so if I now need to run a
+
+660
+00:24:40,880 --> 00:24:45,279
+lura for requirement checking I need to
+
+661
+00:24:43,440 --> 00:24:47,440
+recomputee everything that I did until
+
+662
+00:24:45,279 --> 00:24:48,960
+now because that's what the low rise
+
+663
+00:24:47,440 --> 00:24:52,159
+knows how to do. It knows how to work
+
+664
+00:24:48,960 --> 00:24:53,679
+with things that are the w plus the
+
+665
+00:24:52,159 --> 00:24:55,200
+delta.
+
+666
+00:24:53,679 --> 00:24:56,480
+And we came up and again I'm going to
+
+667
+00:24:55,200 --> 00:24:57,760
+I'm going to skip that. I'm just going
+
+668
+00:24:56,480 --> 00:24:59,039
+to very quickly we came up with an idea
+
+669
+00:24:57,760 --> 00:25:00,960
+which actually very simple. We were
+
+670
+00:24:59,039 --> 00:25:02,320
+surprised that it hasn't uh been
+
+671
+00:25:00,960 --> 00:25:04,480
+observed before and we call that
+
+672
+00:25:02,320 --> 00:25:06,640
+activated Laura which is trained to work
+
+673
+00:25:04,480 --> 00:25:08,480
+with both of them. So it knows how to
+
+674
+00:25:06,640 --> 00:25:10,320
+work with the original representations
+
+675
+00:25:08,480 --> 00:25:12,640
+of the base model. But once it starts
+
+676
+00:25:10,320 --> 00:25:15,279
+computing the actual things that I
+
+677
+00:25:12,640 --> 00:25:17,760
+wanted to compute, then it adds the
+
+678
+00:25:15,279 --> 00:25:19,919
+deltas and it works amazingly well. I'm
+
+679
+00:25:17,760 --> 00:25:23,200
+going to yeah, I'm going to have an
+
+680
+00:25:19,919 --> 00:25:25,360
+example. But it has like amazing uh you
+
+681
+00:25:23,200 --> 00:25:27,440
+know speed ups and evaluations. Of
+
+682
+00:25:25,360 --> 00:25:29,120
+course, the speed up get better and
+
+683
+00:25:27,440 --> 00:25:32,320
+better as the prompts grow longer or if
+
+684
+00:25:29,120 --> 00:25:34,880
+I need more and more uh activated Lauras
+
+685
+00:25:32,320 --> 00:25:37,440
+to run. And with that I'm going to
+
+686
+00:25:34,880 --> 00:25:39,360
+conclude. So what I I I talked about the
+
+687
+00:25:37,440 --> 00:25:42,480
+way why why we want to bring computer
+
+688
+00:25:39,360 --> 00:25:44,559
+science back to be you know at the
+
+689
+00:25:42,480 --> 00:25:46,400
+driver seat. Uh showed you how to build
+
+690
+00:25:44,559 --> 00:25:50,000
+agents with software using best
+
+691
+00:25:46,400 --> 00:25:52,000
+practices design patterns. Um we have to
+
+692
+00:25:50,000 --> 00:25:54,000
+understand that the LLMs are stoastic in
+
+693
+00:25:52,000 --> 00:25:55,840
+nature. We have to design for that and
+
+694
+00:25:54,000 --> 00:25:58,320
+we compile I show you how we compiled in
+
+695
+00:25:55,840 --> 00:26:01,120
+very efficient way models behaviors. I'm
+
+696
+00:25:58,320 --> 00:26:02,880
+just going to conclude this fits this is
+
+697
+00:26:01,120 --> 00:26:04,640
+this is not a kind of new thing you have
+
+698
+00:26:02,880 --> 00:26:08,000
+to throw everything that we did before
+
+699
+00:26:04,640 --> 00:26:10,000
+with with genai. Um so this fits with
+
+700
+00:26:08,000 --> 00:26:11,520
+your own framework. So what we're doing
+
+701
+00:26:10,000 --> 00:26:14,480
+here we we're creating these runtimes
+
+702
+00:26:11,520 --> 00:26:16,720
+that orchestrate multiple LLM calls
+
+703
+00:26:14,480 --> 00:26:18,559
+combining them with other software and
+
+704
+00:26:16,720 --> 00:26:21,039
+you know control flows that are done in
+
+705
+00:26:18,559 --> 00:26:22,480
+Python. We do that using Malaya. So that
+
+706
+00:26:21,039 --> 00:26:24,799
+gives us kind of the program programming
+
+707
+00:26:22,480 --> 00:26:27,440
+abstraction and methodology. But then
+
+708
+00:26:24,799 --> 00:26:30,480
+you can just plug this in in your
+
+709
+00:26:27,440 --> 00:26:33,840
+endpoint if it's lchain or open AAI API
+
+710
+00:26:30,480 --> 00:26:37,240
+and so on and so forth. And with that I
+
+711
+00:26:33,840 --> 00:26:37,240
+can take questions.
+
+712
+00:26:38,218 --> 00:26:40,238
+[applause]
+
+713
+00:26:42,240 --> 00:26:44,640
+That's excellent work. I really like
+
+714
+00:26:43,520 --> 00:26:46,240
+this. And then there's obviously a lot
+
+715
+00:26:44,640 --> 00:26:47,919
+of work going on to think about how do
+
+716
+00:26:46,240 --> 00:26:50,000
+we combine code and models together in
+
+717
+00:26:47,919 --> 00:26:52,000
+different topologies. So there's two
+
+718
+00:26:50,000 --> 00:26:54,000
+ways of thinking about Malia. One is
+
+719
+00:26:52,000 --> 00:26:55,520
+either as the user interest this is how
+
+720
+00:26:54,000 --> 00:26:57,919
+we write the applications or as an
+
+721
+00:26:55,520 --> 00:27:00,080
+intermediate layer that gets written by
+
+722
+00:26:57,919 --> 00:27:01,760
+other natural language is on top of. So
+
+723
+00:27:00,080 --> 00:27:03,520
+do you primarily see this as the way
+
+724
+00:27:01,760 --> 00:27:06,080
+we'll program or as an intermediate
+
+725
+00:27:03,520 --> 00:27:07,919
+layer within the programming stack where
+
+726
+00:27:06,080 --> 00:27:08,320
+we might be alternating code and models
+
+727
+00:27:07,919 --> 00:27:10,320
+and code.
+
+728
+00:27:08,320 --> 00:27:13,600
+>> Yes. So I'm thinking as as a layer
+
+729
+00:27:10,320 --> 00:27:15,840
+between you know the agentic and and the
+
+730
+00:27:13,600 --> 00:27:18,000
+LLM. So this is really how we we talk
+
+731
+00:27:15,840 --> 00:27:19,679
+with LLM. That that's how I'm thinking
+
+732
+00:27:18,000 --> 00:27:19,919
+about it.
+
+733
+00:27:19,679 --> 00:27:23,120
+Okay.
+
+734
+00:27:19,919 --> 00:27:25,760
+>> How do I Okay. Um I wanted to ask a
+
+735
+00:27:23,120 --> 00:27:26,960
+question. You um sort of paraphrasing
+
+736
+00:27:25,760 --> 00:27:27,440
+what you Here I am.
+
+737
+00:27:26,960 --> 00:27:30,000
+>> Oh
+
+738
+00:27:27,440 --> 00:27:34,080
+>> yeah. Yeah. Paraphrasing your discussion
+
+739
+00:27:30,000 --> 00:27:38,240
+which was good. Um you focused on
+
+740
+00:27:34,080 --> 00:27:38,799
+uh that the uh agents are glorified
+
+741
+00:27:38,240 --> 00:27:39,679
+prompts.
+
+742
+00:27:38,799 --> 00:27:42,080
+>> Yeah.
+
+743
+00:27:39,679 --> 00:27:45,200
+>> And you then pointed out that there was
+
+744
+00:27:42,080 --> 00:27:46,960
+a intrinsic ontology problem which was
+
+745
+00:27:45,200 --> 00:27:49,840
+the basis for I thought what you were
+
+746
+00:27:46,960 --> 00:27:53,840
+saying was the the brittleleness of of
+
+747
+00:27:49,840 --> 00:27:56,960
+that. So I I uh so I'm sure you've
+
+748
+00:27:53,840 --> 00:27:58,960
+thought about this but uh did you take a
+
+749
+00:27:56,960 --> 00:28:01,360
+schema approach and then the scripts
+
+750
+00:27:58,960 --> 00:28:04,320
+were sort of part of the runtime so that
+
+751
+00:28:01,360 --> 00:28:07,360
+the schema sort of solves the ontology
+
+752
+00:28:04,320 --> 00:28:10,159
+but I I I I didn't see how the how the
+
+753
+00:28:07,360 --> 00:28:12,159
+semantic or ontology problem was solved
+
+754
+00:28:10,159 --> 00:28:14,159
+but you certainly gave an example of one
+
+755
+00:28:12,159 --> 00:28:15,840
+path. So I I just wanted you to sort of
+
+756
+00:28:14,159 --> 00:28:18,240
+address those two two questions.
+
+757
+00:28:15,840 --> 00:28:20,000
+>> Yeah. So I think when you have a task uh
+
+758
+00:28:18,240 --> 00:28:21,919
+you have again to think about it from a
+
+759
+00:28:20,000 --> 00:28:24,559
+programmer point of view it's like what
+
+760
+00:28:21,919 --> 00:28:26,240
+is the specification what is the control
+
+761
+00:28:24,559 --> 00:28:27,919
+flow
+
+762
+00:28:26,240 --> 00:28:30,080
+which parts in the control flow I need
+
+763
+00:28:27,919 --> 00:28:31,520
+the LMS which part I don't need the LM
+
+764
+00:28:30,080 --> 00:28:32,720
+so I don't know if in your words maybe
+
+765
+00:28:31,520 --> 00:28:34,480
+that's the schema maybe that's why you
+
+766
+00:28:32,720 --> 00:28:36,799
+refer to the schema and then just write
+
+767
+00:28:34,480 --> 00:28:38,640
+the code and where are pieces that you
+
+768
+00:28:36,799 --> 00:28:40,559
+need to call the LM yeah well you need
+
+769
+00:28:38,640 --> 00:28:42,080
+to write a prompt right I'm not we need
+
+770
+00:28:40,559 --> 00:28:43,440
+some stage somewhere you need to write
+
+771
+00:28:42,080 --> 00:28:45,200
+natural language so you need to write it
+
+772
+00:28:43,440 --> 00:28:46,799
+but as I said it has to be something
+
+773
+00:28:45,200 --> 00:28:47,919
+small if it's not small. If it's not one
+
+774
+00:28:46,799 --> 00:28:49,279
+or two lines, you're doing something
+
+775
+00:28:47,919 --> 00:28:51,039
+wrong. You can probably break it
+
+776
+00:28:49,279 --> 00:28:53,440
+further.
+
+777
+00:28:51,039 --> 00:28:55,840
+I hope that answered the question.
+
+778
+00:28:53,440 --> 00:28:59,320
+>> I think I saw a hand around here. Is uh
+
+779
+00:28:55,840 --> 00:28:59,320
+another question.
+
+780
+00:29:01,120 --> 00:29:06,960
+Okay, then let's uh give a hand for Dan.
+
+781
+00:29:04,940 --> 00:29:06,960
+>> [applause]
+

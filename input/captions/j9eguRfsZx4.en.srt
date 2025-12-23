@@ -1,0 +1,2204 @@
+1
+00:00:01,319 --> 00:00:08,040
+okay so um our last speaker for today's
+
+2
+00:00:04,359 --> 00:00:11,639
+Symposium is Professor Jen tan uh he's a
+
+3
+00:00:08,040 --> 00:00:13,599
+associate professor at Mila and at um uh
+
+4
+00:00:11,639 --> 00:00:15,839
+Montreal um he has done a lot of
+
+5
+00:00:13,599 --> 00:00:18,279
+exciting work on drug Discovery and
+
+6
+00:00:15,839 --> 00:00:20,359
+proin design um due to he couldn't come
+
+7
+00:00:18,279 --> 00:00:23,480
+in person today due to Visa difficulty
+
+8
+00:00:20,359 --> 00:00:26,359
+so he will present on Zoom uh so without
+
+9
+00:00:23,480 --> 00:00:29,480
+further Ado um J please take it
+
+10
+00:00:26,359 --> 00:00:32,640
+away okay uh so thank you thanks very
+
+11
+00:00:29,480 --> 00:00:34,879
+much uh W for the invitation and also
+
+12
+00:00:32,640 --> 00:00:37,280
+the introduction uh it's great pleasure
+
+13
+00:00:34,879 --> 00:00:39,200
+to be here uh unfortunately I cannot
+
+14
+00:00:37,280 --> 00:00:40,920
+come in person due to Visa issues
+
+15
+00:00:39,200 --> 00:00:43,640
+hopefully we can meet in person next
+
+16
+00:00:40,920 --> 00:00:45,719
+time um so in today's talk I'm going to
+
+17
+00:00:43,640 --> 00:00:48,680
+talk about geometric deep learning for
+
+18
+00:00:45,719 --> 00:00:50,840
+protein design uh I'm going to quickly
+
+19
+00:00:48,680 --> 00:00:53,480
+introduce the background of proteins so
+
+20
+00:00:50,840 --> 00:00:55,879
+as we know proteins are the work hes in
+
+21
+00:00:53,480 --> 00:00:58,559
+living cells so in our living cells most
+
+22
+00:00:55,879 --> 00:01:00,559
+of the functions actually carry out by
+
+23
+00:00:58,559 --> 00:01:03,239
+proteins right and that's why understand
+
+24
+00:01:00,559 --> 00:01:05,640
+the functions or proteins also designing
+
+25
+00:01:03,239 --> 00:01:07,799
+proteins of new functions is going to be
+
+26
+00:01:05,640 --> 00:01:10,720
+important in many different areas for
+
+27
+00:01:07,799 --> 00:01:13,400
+example Therapeutics anible design and
+
+28
+00:01:10,720 --> 00:01:15,840
+also enzy design in synthetic biology
+
+29
+00:01:13,400 --> 00:01:17,840
+okay and then so nowaday we actually see
+
+30
+00:01:15,840 --> 00:01:20,360
+a huge opportunities uh for machine
+
+31
+00:01:17,840 --> 00:01:22,720
+learning uh for protein design because a
+
+32
+00:01:20,360 --> 00:01:25,119
+huge amount of data set is generated in
+
+33
+00:01:22,720 --> 00:01:27,159
+btic domain like like for example we
+
+34
+00:01:25,119 --> 00:01:30,439
+have like tens of billions put in
+
+35
+00:01:27,159 --> 00:01:33,439
+sequence available we also have like U
+
+36
+00:01:30,439 --> 00:01:36,200
+uh uh hundreds of thousands protein
+
+37
+00:01:33,439 --> 00:01:37,640
+structure available in the pdb database
+
+38
+00:01:36,200 --> 00:01:39,759
+okay so a lot of different machine
+
+39
+00:01:37,640 --> 00:01:42,399
+learning techniques have been uh
+
+40
+00:01:39,759 --> 00:01:44,600
+developed for uh for party modeling so
+
+41
+00:01:42,399 --> 00:01:47,320
+these approaches are mainly uh divided
+
+42
+00:01:44,600 --> 00:01:48,880
+into two Tech two categories so the
+
+43
+00:01:47,320 --> 00:01:51,600
+first category is basically sequence
+
+44
+00:01:48,880 --> 00:01:54,439
+based approach so we we just represent
+
+45
+00:01:51,600 --> 00:01:56,479
+proteins as am sequence and then we can
+
+46
+00:01:54,439 --> 00:01:59,119
+use models like language models
+
+47
+00:01:56,479 --> 00:02:01,240
+Transformers to to model Ament acid
+
+48
+00:01:59,119 --> 00:02:02,880
+sequence so this one type approach so
+
+49
+00:02:01,240 --> 00:02:05,079
+another type approach is okay we can
+
+50
+00:02:02,880 --> 00:02:06,840
+represent proteins as 3D structures
+
+51
+00:02:05,079 --> 00:02:09,039
+right and then we can use approaches
+
+52
+00:02:06,840 --> 00:02:11,360
+like geometric de approach to model 3D
+
+53
+00:02:09,039 --> 00:02:13,319
+structures okay so in our approach in
+
+54
+00:02:11,360 --> 00:02:14,920
+our group so we have been take um we
+
+55
+00:02:13,319 --> 00:02:18,000
+have been taking the structure Centric
+
+56
+00:02:14,920 --> 00:02:20,120
+approach to model uh uh 3D structures
+
+57
+00:02:18,000 --> 00:02:21,920
+with geomet de learning okay so in
+
+58
+00:02:20,120 --> 00:02:23,760
+particular so we mainly trying to
+
+59
+00:02:21,920 --> 00:02:25,920
+address three research questions the
+
+60
+00:02:23,760 --> 00:02:27,680
+first research question is okay so once
+
+61
+00:02:25,920 --> 00:02:31,120
+we are we are given a 3D planting
+
+62
+00:02:27,680 --> 00:02:33,000
+structure how do we represent this 3D uh
+
+63
+00:02:31,120 --> 00:02:35,160
+this uh 3D protein structures right how
+
+64
+00:02:33,000 --> 00:02:36,680
+can we learn features out of these 3D
+
+65
+00:02:35,160 --> 00:02:38,640
+prot structures so this the first
+
+66
+00:02:36,680 --> 00:02:40,720
+research question the second one is okay
+
+67
+00:02:38,640 --> 00:02:42,480
+how can we as we know for most of the
+
+68
+00:02:40,720 --> 00:02:45,400
+proteins we don't know we don't know
+
+69
+00:02:42,480 --> 00:02:48,120
+there 3D uh protein structures right how
+
+70
+00:02:45,400 --> 00:02:50,640
+can we predict the 3D protein structures
+
+71
+00:02:48,120 --> 00:02:52,680
+uh from the am acid sequence this the
+
+72
+00:02:50,640 --> 00:02:54,720
+first the second research question of
+
+73
+00:02:52,680 --> 00:02:56,760
+course at end our end go is always we
+
+74
+00:02:54,720 --> 00:02:59,319
+want to generate we want to design new
+
+75
+00:02:56,760 --> 00:03:00,760
+proteins with gener models so I'm going
+
+76
+00:02:59,319 --> 00:03:03,239
+to focus mainly focus on the first
+
+77
+00:03:00,760 --> 00:03:05,360
+research question okay so in this in
+
+78
+00:03:03,239 --> 00:03:09,519
+this work so what we do is we actually
+
+79
+00:03:05,360 --> 00:03:12,640
+develop new um uh new uh 3D protein uh
+
+80
+00:03:09,519 --> 00:03:15,560
+geometry encoder to encode proteins into
+
+81
+00:03:12,640 --> 00:03:18,360
+continuous rep repetitions so our input
+
+82
+00:03:15,560 --> 00:03:21,319
+is a 3D protein structure and then given
+
+83
+00:03:18,360 --> 00:03:24,480
+this uh uh 3D uh protein structure we
+
+84
+00:03:21,319 --> 00:03:25,959
+first construct a graph out of this 3D
+
+85
+00:03:24,480 --> 00:03:27,959
+putting structure so what kind of graph
+
+86
+00:03:25,959 --> 00:03:30,560
+we are constructing here so this is
+
+87
+00:03:27,959 --> 00:03:33,599
+actually um a reso graph
+
+88
+00:03:30,560 --> 00:03:36,200
+so every node here is a resio okay and
+
+89
+00:03:33,599 --> 00:03:38,599
+then how do we Define the edges between
+
+90
+00:03:36,200 --> 00:03:40,040
+the resos so we we mainly make use of
+
+91
+00:03:38,599 --> 00:03:41,640
+two kinds of information so first is
+
+92
+00:03:40,040 --> 00:03:44,519
+structure information and and the second
+
+93
+00:03:41,640 --> 00:03:46,080
+is sequence information so for structure
+
+94
+00:03:44,519 --> 00:03:48,000
+information so essentially what we do
+
+95
+00:03:46,080 --> 00:03:51,120
+here we just construct The KES nebor
+
+96
+00:03:48,000 --> 00:03:53,120
+graph uh from the spatial uh information
+
+97
+00:03:51,120 --> 00:03:54,680
+of of of the protein structure to define
+
+98
+00:03:53,120 --> 00:03:57,280
+the the spatial relationship between the
+
+99
+00:03:54,680 --> 00:03:59,560
+residual so this is from the structur
+
+100
+00:03:57,280 --> 00:04:01,400
+information and then we also make use of
+
+101
+00:03:59,560 --> 00:04:03,400
+the sequential orders between the regos
+
+102
+00:04:01,400 --> 00:04:05,920
+in the protein sequence to Define
+
+103
+00:04:03,400 --> 00:04:08,480
+another type of like edges between the
+
+104
+00:04:05,920 --> 00:04:12,000
+between the uh between the regos okay
+
+105
+00:04:08,480 --> 00:04:14,480
+but anyway so here we will end up with a
+
+106
+00:04:12,000 --> 00:04:16,320
+resio graph and this graph is directed
+
+107
+00:04:14,480 --> 00:04:18,919
+and then the problem of learning protein
+
+108
+00:04:16,320 --> 00:04:21,320
+structure uh translate to learning the
+
+109
+00:04:18,919 --> 00:04:24,000
+repetition of the entire resue graph
+
+110
+00:04:21,320 --> 00:04:26,720
+okay so here we actually propose two
+
+111
+00:04:24,000 --> 00:04:29,160
+type of graph new networks to learn this
+
+112
+00:04:26,720 --> 00:04:31,520
+repetition the first uh approach is is
+
+113
+00:04:29,160 --> 00:04:35,120
+quite straightforward so we just do
+
+114
+00:04:31,520 --> 00:04:36,840
+massive passing between the reses okay
+
+115
+00:04:35,120 --> 00:04:38,400
+of course when we do massive passing
+
+116
+00:04:36,840 --> 00:04:39,960
+between the reses since there are
+
+117
+00:04:38,400 --> 00:04:43,160
+different type of edges between the
+
+118
+00:04:39,960 --> 00:04:45,320
+residues so we will also uh uh take the
+
+119
+00:04:43,160 --> 00:04:47,240
+edge type into consideration when we do
+
+120
+00:04:45,320 --> 00:04:49,320
+the mass passing okay so once we do the
+
+121
+00:04:47,240 --> 00:04:51,160
+mass passing so we can have a repetition
+
+122
+00:04:49,320 --> 00:04:53,880
+for all the different reses and then we
+
+123
+00:04:51,160 --> 00:04:55,639
+Su up all the res reputations to get the
+
+124
+00:04:53,880 --> 00:04:57,479
+repetition of the entire graph or the
+
+125
+00:04:55,639 --> 00:05:00,120
+entire protein structures so this are
+
+126
+00:04:57,479 --> 00:05:02,400
+first type of like architecture we
+
+127
+00:05:00,120 --> 00:05:04,840
+propose and and for the second type
+
+128
+00:05:02,400 --> 00:05:07,199
+approach okay we actually not not doing
+
+129
+00:05:04,840 --> 00:05:09,160
+massive passing between the Ros so
+
+130
+00:05:07,199 --> 00:05:11,240
+instead so what we do here is we
+
+131
+00:05:09,160 --> 00:05:13,120
+actually doing massive passing between
+
+132
+00:05:11,240 --> 00:05:14,960
+the edges okay for example we can do
+
+133
+00:05:13,120 --> 00:05:18,120
+massive passing between neighboring
+
+134
+00:05:14,960 --> 00:05:20,319
+edges uh two and two uh two 4 and 47
+
+135
+00:05:18,120 --> 00:05:22,919
+okay and then when we do Massy passing
+
+136
+00:05:20,319 --> 00:05:25,280
+between the edges 2 4 and 47 so we also
+
+137
+00:05:22,919 --> 00:05:26,840
+make use of the angle information
+
+138
+00:05:25,280 --> 00:05:29,080
+between the edges into into
+
+139
+00:05:26,840 --> 00:05:31,199
+consideration so by making use of the
+
+140
+00:05:29,080 --> 00:05:33,960
+angle information so we actually Bas
+
+141
+00:05:31,199 --> 00:05:37,039
+basically we we are basically better
+
+142
+00:05:33,960 --> 00:05:38,560
+able to make use of the 3D geomet
+
+143
+00:05:37,039 --> 00:05:40,039
+geometric structure of the proteins
+
+144
+00:05:38,560 --> 00:05:42,039
+right and then once we do the edge
+
+145
+00:05:40,039 --> 00:05:43,680
+massive passing so every Edge can have
+
+146
+00:05:42,039 --> 00:05:45,039
+repetition and then we can aggregate all
+
+147
+00:05:43,680 --> 00:05:47,400
+the edge repetition to get the
+
+148
+00:05:45,039 --> 00:05:51,039
+repetition of the whole proteins okay so
+
+149
+00:05:47,400 --> 00:05:53,560
+that's another type of like a which we
+
+150
+00:05:51,039 --> 00:05:55,280
+call gonet Edge okay and for both type
+
+151
+00:05:53,560 --> 00:05:57,000
+of approaches we actually train the
+
+152
+00:05:55,280 --> 00:05:58,240
+model in a superv fashion which means
+
+153
+00:05:57,000 --> 00:06:00,479
+we're going to train the new network
+
+154
+00:05:58,240 --> 00:06:03,600
+right from some label data uh
+
+155
+00:06:00,479 --> 00:06:05,880
+inding task so this is like superon okay
+
+156
+00:06:03,600 --> 00:06:07,840
+and then so we also prend the 3D
+
+157
+00:06:05,880 --> 00:06:10,080
+geometry encoder from some un labored
+
+158
+00:06:07,840 --> 00:06:14,919
+proteins so here the idea is very
+
+159
+00:06:10,080 --> 00:06:17,560
+similar to what we do um in um in uh in
+
+160
+00:06:14,919 --> 00:06:19,919
+uh image representation learning uh with
+
+161
+00:06:17,560 --> 00:06:21,880
+uh with like self learning so the basic
+
+162
+00:06:19,919 --> 00:06:23,520
+assump assumption here is okay we use
+
+163
+00:06:21,880 --> 00:06:26,080
+contrast learning we basically assume
+
+164
+00:06:23,520 --> 00:06:28,039
+that okay for two structure motives if
+
+165
+00:06:26,080 --> 00:06:30,440
+they are from the same proteins so then
+
+166
+00:06:28,039 --> 00:06:33,360
+their repetitions should similar
+
+167
+00:06:30,440 --> 00:06:35,400
+otherwise their repetition should be uh
+
+168
+00:06:33,360 --> 00:06:37,960
+dissimilar so that's the high level idea
+
+169
+00:06:35,400 --> 00:06:40,280
+okay and then so we evalu the mods on
+
+170
+00:06:37,960 --> 00:06:42,639
+some Downstream uh task like for example
+
+171
+00:06:40,280 --> 00:06:45,680
+enzyme commission number predictions for
+
+172
+00:06:42,639 --> 00:06:47,479
+the ction these are some classical um
+
+173
+00:06:45,680 --> 00:06:49,440
+protein understanding task and then in
+
+174
+00:06:47,479 --> 00:06:52,599
+terms of pring dat so we actually try
+
+175
+00:06:49,440 --> 00:06:55,720
+different the pring uh um protein
+
+176
+00:06:52,599 --> 00:06:59,039
+structure database one is the pdb uh
+
+177
+00:06:55,720 --> 00:07:00,840
+experimental uh um uh um uh structures
+
+178
+00:06:59,039 --> 00:07:03,280
+and another one the predicted structures
+
+179
+00:07:00,840 --> 00:07:04,800
+by Alpha 42 okay so here we can quickly
+
+180
+00:07:03,280 --> 00:07:07,960
+look at the results of the super
+
+181
+00:07:04,800 --> 00:07:09,520
+learning um uh uh uh performance so we
+
+182
+00:07:07,960 --> 00:07:12,160
+compare our approaches with some like
+
+183
+00:07:09,520 --> 00:07:13,879
+sequence base and also graph base so our
+
+184
+00:07:12,160 --> 00:07:15,599
+approaches is able to outperform both
+
+185
+00:07:13,879 --> 00:07:16,960
+the sequence and graph base approach
+
+186
+00:07:15,599 --> 00:07:19,039
+which is not surprising because we make
+
+187
+00:07:16,960 --> 00:07:21,080
+use of the 3D structures right and then
+
+188
+00:07:19,039 --> 00:07:23,360
+in particular if you compare the gear
+
+189
+00:07:21,080 --> 00:07:25,879
+net and also the gear net Edge so gear
+
+190
+00:07:23,360 --> 00:07:28,560
+net only makes use of the no the the
+
+191
+00:07:25,879 --> 00:07:30,599
+which do mass pass between the resid but
+
+192
+00:07:28,560 --> 00:07:32,400
+for gear net and Ed we actually make use
+
+193
+00:07:30,599 --> 00:07:34,800
+of we do Mass passing between the
+
+194
+00:07:32,400 --> 00:07:37,280
+between the edges which is B basically
+
+195
+00:07:34,800 --> 00:07:39,599
+better uh able to better make use of the
+
+196
+00:07:37,280 --> 00:07:40,840
+edge uh the the 3D geometric code so you
+
+197
+00:07:39,599 --> 00:07:42,960
+can see the performance is actually
+
+198
+00:07:40,840 --> 00:07:45,479
+significantly improved uh compared to
+
+199
+00:07:42,960 --> 00:07:46,960
+the gonet and then so after doing PR
+
+200
+00:07:45,479 --> 00:07:48,919
+training you can see the performance is
+
+201
+00:07:46,960 --> 00:07:51,440
+further improved compared to the super
+
+202
+00:07:48,919 --> 00:07:53,360
+wi like training so you see PR train is
+
+203
+00:07:51,440 --> 00:07:55,960
+is is indeed able to improve the
+
+204
+00:07:53,360 --> 00:07:58,199
+performance okay and then so we also
+
+205
+00:07:55,960 --> 00:08:01,039
+like do some aeration study on the
+
+206
+00:07:58,199 --> 00:08:02,919
+preing so we actually try different
+
+207
+00:08:01,039 --> 00:08:04,960
+pre-training database is the pdb
+
+208
+00:08:02,919 --> 00:08:07,319
+database which are experimental
+
+209
+00:08:04,960 --> 00:08:08,960
+structures and also the other four to uh
+
+210
+00:08:07,319 --> 00:08:11,120
+predict the protein structures so we
+
+211
+00:08:08,960 --> 00:08:13,759
+actually see that our prity model is
+
+212
+00:08:11,120 --> 00:08:15,800
+actually quite robust is a trend on the
+
+213
+00:08:13,759 --> 00:08:17,919
+experimental structures and also maybe
+
+214
+00:08:15,800 --> 00:08:21,120
+also the predictive prot structures by
+
+215
+00:08:17,919 --> 00:08:23,879
+Al too okay so this so so this is the
+
+216
+00:08:21,120 --> 00:08:26,759
+the first work and then we apply this
+
+217
+00:08:23,879 --> 00:08:29,520
+kind of like a structure pring and the
+
+218
+00:08:26,759 --> 00:08:31,759
+fine tuning idea to a real world problem
+
+219
+00:08:29,520 --> 00:08:33,039
+which is antibody optimization so as we
+
+220
+00:08:31,759 --> 00:08:34,640
+know in practice sometimes the
+
+221
+00:08:33,039 --> 00:08:37,039
+antibodies like like for example the
+
+222
+00:08:34,640 --> 00:08:39,479
+antibodies of turn through anyal
+
+223
+00:08:37,039 --> 00:08:41,279
+immunizations so we usually sometimes we
+
+224
+00:08:39,479 --> 00:08:43,599
+we need to do lead optimization right so
+
+225
+00:08:41,279 --> 00:08:45,480
+we need we need to do some mutations to
+
+226
+00:08:43,599 --> 00:08:47,440
+improve the Bing Affinity so in
+
+227
+00:08:45,480 --> 00:08:50,320
+particular for for this problem so what
+
+228
+00:08:47,440 --> 00:08:52,880
+we what we have is okay we have antibody
+
+229
+00:08:50,320 --> 00:08:55,360
+uh binding to a specific antigen right
+
+230
+00:08:52,880 --> 00:08:58,079
+and then we want to make some mutations
+
+231
+00:08:55,360 --> 00:09:01,000
+in the interface to improve the B
+
+232
+00:08:58,079 --> 00:09:03,399
+Infinity so m mathmatically what we want
+
+233
+00:09:01,000 --> 00:09:06,600
+to do is we actually want to build a
+
+234
+00:09:03,399 --> 00:09:09,120
+binding Affinity change predicted models
+
+235
+00:09:06,600 --> 00:09:11,800
+so we want to we want to predict okay if
+
+236
+00:09:09,120 --> 00:09:13,839
+we make some mut mutations on the
+
+237
+00:09:11,800 --> 00:09:15,399
+interface so what's going to be the by
+
+238
+00:09:13,839 --> 00:09:18,279
+Infinity change right so we want to
+
+239
+00:09:15,399 --> 00:09:19,959
+build this this Delta Del G uh predict
+
+240
+00:09:18,279 --> 00:09:22,640
+model so which is the difference between
+
+241
+00:09:19,959 --> 00:09:25,440
+the Bing free energy of the mutant and
+
+242
+00:09:22,640 --> 00:09:27,839
+also and and the Bing free the Bing free
+
+243
+00:09:25,440 --> 00:09:29,760
+energ of the the Y type okay and so so
+
+244
+00:09:27,839 --> 00:09:32,480
+this is the goal okay so you know Bing
+
+245
+00:09:29,760 --> 00:09:33,880
+affinities essentially most the the The
+
+246
+00:09:32,480 --> 00:09:35,920
+Binding Infinity most of the time we
+
+247
+00:09:33,880 --> 00:09:38,839
+mainly actually look at the interface
+
+248
+00:09:35,920 --> 00:09:40,959
+between the two uh protein structure to
+
+249
+00:09:38,839 --> 00:09:43,240
+two proteins right so you see for this
+
+250
+00:09:40,959 --> 00:09:45,600
+model Al also we also trying to model
+
+251
+00:09:43,240 --> 00:09:47,560
+the protein structures but for this for
+
+252
+00:09:45,600 --> 00:09:49,839
+this problem so we want to model the
+
+253
+00:09:47,560 --> 00:09:52,800
+interactions between two proteins
+
+254
+00:09:49,839 --> 00:09:55,200
+instead of like a single protein okay so
+
+255
+00:09:52,800 --> 00:09:57,000
+here we also uh so this a new work we
+
+256
+00:09:55,200 --> 00:09:59,839
+publish in this is like natural
+
+257
+00:09:57,000 --> 00:10:02,640
+Communications so this a new uh Al
+
+258
+00:09:59,839 --> 00:10:05,839
+so this for this uh work we also uh
+
+259
+00:10:02,640 --> 00:10:09,240
+adopt the pring and also fine tuning
+
+260
+00:10:05,839 --> 00:10:11,720
+framework so we first prend the model on
+
+261
+00:10:09,240 --> 00:10:13,279
+a huge number of like unlabeled protein
+
+262
+00:10:11,720 --> 00:10:15,360
+protein complex structure so that the
+
+263
+00:10:13,279 --> 00:10:17,680
+model is able to understand how
+
+264
+00:10:15,360 --> 00:10:19,839
+different proteins interact okay and
+
+265
+00:10:17,680 --> 00:10:22,040
+then we fine tune the model based on
+
+266
+00:10:19,839 --> 00:10:24,680
+some experimental data to build this
+
+267
+00:10:22,040 --> 00:10:26,519
+like by the infinity um uh change
+
+268
+00:10:24,680 --> 00:10:29,079
+predict model and then we can apply this
+
+269
+00:10:26,519 --> 00:10:32,040
+model to to real what the uh scenarios
+
+270
+00:10:29,079 --> 00:10:34,120
+we can can do in cical um screening and
+
+271
+00:10:32,040 --> 00:10:37,279
+identify some mutants which could lead
+
+272
+00:10:34,120 --> 00:10:40,000
+to higher Bing Infinity okay so this is
+
+273
+00:10:37,279 --> 00:10:42,399
+the main idea so we can start from the
+
+274
+00:10:40,000 --> 00:10:44,760
+pre turnning stage as as I just said so
+
+275
+00:10:42,399 --> 00:10:46,760
+for pre turnning so we're going to we're
+
+276
+00:10:44,760 --> 00:10:48,680
+going to pre return the model on protein
+
+277
+00:10:46,760 --> 00:10:50,360
+protein complex structure because our
+
+278
+00:10:48,680 --> 00:10:52,800
+goal is trying to understand how
+
+279
+00:10:50,360 --> 00:10:54,320
+different proteins interact okay so so
+
+280
+00:10:52,800 --> 00:10:57,360
+that's why we prend the model on protein
+
+281
+00:10:54,320 --> 00:11:00,360
+protein comp structure and then so uh we
+
+282
+00:10:57,360 --> 00:11:02,959
+also use like um uh contrast learning
+
+283
+00:11:00,360 --> 00:11:05,320
+idea okay so what we do here is okay we
+
+284
+00:11:02,959 --> 00:11:07,279
+take a natural protein protein complex
+
+285
+00:11:05,320 --> 00:11:09,240
+structure we mainly take the interface
+
+286
+00:11:07,279 --> 00:11:11,200
+so these are so this a posit pair right
+
+287
+00:11:09,240 --> 00:11:12,639
+so this a natural interface and then
+
+288
+00:11:11,200 --> 00:11:14,959
+what we do is we also make some
+
+289
+00:11:12,639 --> 00:11:17,440
+mutations on the interface and this this
+
+290
+00:11:14,959 --> 00:11:20,680
+is basically netive pair right so we we
+
+291
+00:11:17,440 --> 00:11:22,720
+we we do some mutations on the interface
+
+292
+00:11:20,680 --> 00:11:24,920
+okay we mutate the residues we change
+
+293
+00:11:22,720 --> 00:11:27,560
+one residue to another reg but then for
+
+294
+00:11:24,920 --> 00:11:30,240
+the mutated reg we also quickly um
+
+295
+00:11:27,560 --> 00:11:32,120
+update the structure with some efficient
+
+296
+00:11:30,240 --> 00:11:34,120
+siton structure predict model for
+
+297
+00:11:32,120 --> 00:11:36,920
+example we can sample from R Library we
+
+298
+00:11:34,120 --> 00:11:39,320
+can also optimize with some physic based
+
+299
+00:11:36,920 --> 00:11:41,000
+approaches right but then now we have
+
+300
+00:11:39,320 --> 00:11:43,000
+this like two two different structures
+
+301
+00:11:41,000 --> 00:11:44,760
+and now now we want to distinguish
+
+302
+00:11:43,000 --> 00:11:47,399
+whether this is a natural structure a
+
+303
+00:11:44,760 --> 00:11:49,800
+natural complex natural interface or a
+
+304
+00:11:47,399 --> 00:11:52,279
+mutated ones right so we use the graph
+
+305
+00:11:49,800 --> 00:11:54,760
+new networks or geomet planing to encode
+
+306
+00:11:52,279 --> 00:11:56,639
+the two different 3D structures right
+
+307
+00:11:54,760 --> 00:11:58,200
+and then we build the classify to to to
+
+308
+00:11:56,639 --> 00:12:00,519
+to to distinguish the two right so this
+
+309
+00:11:58,200 --> 00:12:02,399
+is the preing stage okay and then in the
+
+310
+00:12:00,519 --> 00:12:04,200
+F tuning stage as we just said we
+
+311
+00:12:02,399 --> 00:12:05,839
+essentially we just want to predict uh
+
+312
+00:12:04,200 --> 00:12:08,079
+build the predict model to predict the
+
+313
+00:12:05,839 --> 00:12:10,079
+Bing Infinity change so here we actually
+
+314
+00:12:08,079 --> 00:12:11,959
+find to the model with some experimental
+
+315
+00:12:10,079 --> 00:12:14,240
+data so in the experiment data like a
+
+316
+00:12:11,959 --> 00:12:16,560
+scan pie so we have a protein protein
+
+317
+00:12:14,240 --> 00:12:18,760
+comp structure and then we are given
+
+318
+00:12:16,560 --> 00:12:21,000
+some mutations and people already have
+
+319
+00:12:18,760 --> 00:12:22,959
+test the B Infinity changed for
+
+320
+00:12:21,000 --> 00:12:25,399
+different mutations right so that's the
+
+321
+00:12:22,959 --> 00:12:27,279
+the the data we use to to find the model
+
+322
+00:12:25,399 --> 00:12:29,720
+so we here we do do a similar things
+
+323
+00:12:27,279 --> 00:12:31,920
+right so we have the Y type protein
+
+324
+00:12:29,720 --> 00:12:33,760
+protein structures or antigen antibody
+
+325
+00:12:31,920 --> 00:12:36,160
+structures right and then we have some
+
+326
+00:12:33,760 --> 00:12:37,680
+mutations we take the two structure as
+
+327
+00:12:36,160 --> 00:12:39,800
+input and then you can get the
+
+328
+00:12:37,680 --> 00:12:42,240
+reputations of the two two comple
+
+329
+00:12:39,800 --> 00:12:44,279
+structures but at end here we are not
+
+330
+00:12:42,240 --> 00:12:46,760
+trying to do binary cation because here
+
+331
+00:12:44,279 --> 00:12:49,240
+we are actually trying to predict the B
+
+332
+00:12:46,760 --> 00:12:51,399
+Infinity change which is d d g okay and
+
+333
+00:12:49,240 --> 00:12:53,720
+so this model is is uh we're going to
+
+334
+00:12:51,399 --> 00:12:56,160
+find tun this model based on the uh
+
+335
+00:12:53,720 --> 00:12:58,079
+experimental Del theology data okay by
+
+336
+00:12:56,160 --> 00:13:00,560
+doing this so we are able to build a
+
+337
+00:12:58,079 --> 00:13:02,720
+predict model to by Infinity change
+
+338
+00:13:00,560 --> 00:13:05,079
+given any mutations on the interface
+
+339
+00:13:02,720 --> 00:13:06,880
+okay so once we have this model okay
+
+340
+00:13:05,079 --> 00:13:09,240
+we're going we're going to do some like
+
+341
+00:13:06,880 --> 00:13:11,639
+evaluations in cations so here we do
+
+342
+00:13:09,240 --> 00:13:13,760
+cross validations on the scampa data set
+
+343
+00:13:11,639 --> 00:13:16,600
+so we compare with some traditional
+
+344
+00:13:13,760 --> 00:13:18,240
+physic based methods like f x f CDG and
+
+345
+00:13:16,600 --> 00:13:20,560
+also some recent deep running Bas based
+
+346
+00:13:18,240 --> 00:13:22,199
+methods so you can see our G gyte can
+
+347
+00:13:20,560 --> 00:13:24,240
+aeve better performance compared to
+
+348
+00:13:22,199 --> 00:13:26,240
+transition approaches and then after
+
+349
+00:13:24,240 --> 00:13:27,720
+doing pre-training so our model actually
+
+350
+00:13:26,240 --> 00:13:30,199
+achieve the best performance among all
+
+351
+00:13:27,720 --> 00:13:32,440
+these methods so this is some in cical
+
+352
+00:13:30,199 --> 00:13:34,800
+evation okay and then you may Wonder
+
+353
+00:13:32,440 --> 00:13:36,639
+okay can this model be applied to real
+
+354
+00:13:34,800 --> 00:13:39,360
+world problems yes so we actually
+
+355
+00:13:36,639 --> 00:13:41,880
+collaborate with some biologist uh for
+
+356
+00:13:39,360 --> 00:13:43,760
+like antibody optimization so here's a
+
+357
+00:13:41,880 --> 00:13:47,279
+case like we have so our like
+
+358
+00:13:43,760 --> 00:13:49,959
+collaborator has a um sasco 2 antibody
+
+359
+00:13:47,279 --> 00:13:52,880
+actually this is not sasco 2 this is a
+
+360
+00:13:49,959 --> 00:13:55,759
+antibody um collected actually Harvest
+
+361
+00:13:52,880 --> 00:13:58,079
+from sasc one patient and then they want
+
+362
+00:13:55,759 --> 00:14:02,320
+to optimize this antibod so that it can
+
+363
+00:13:58,079 --> 00:14:04,920
+Target uh against the uh the Omicron
+
+364
+00:14:02,320 --> 00:14:10,800
+variant so they already have this like
+
+365
+00:14:04,920 --> 00:14:13,079
+um antibody and also sasco 2 um um uh uh
+
+366
+00:14:10,800 --> 00:14:15,920
+antigen uh complex and then we use our
+
+367
+00:14:13,079 --> 00:14:18,320
+models to do some in cical screening so
+
+368
+00:14:15,920 --> 00:14:20,639
+in the first round so we identify some
+
+369
+00:14:18,320 --> 00:14:23,759
+single mutations we pretty much identify
+
+370
+00:14:20,639 --> 00:14:26,399
+like I think s or eight uh single
+
+371
+00:14:23,759 --> 00:14:28,639
+mutations and also the best uh double
+
+372
+00:14:26,399 --> 00:14:31,519
+mutations and then we test them in the
+
+373
+00:14:28,639 --> 00:14:34,000
+we laap okay and and then once we finish
+
+374
+00:14:31,519 --> 00:14:37,079
+the first round we experiments okay we
+
+375
+00:14:34,000 --> 00:14:39,040
+can identify a few good single mutations
+
+376
+00:14:37,079 --> 00:14:42,000
+and then in the second round we just do
+
+377
+00:14:39,040 --> 00:14:44,199
+comori mutations we we mainly test like
+
+378
+00:14:42,000 --> 00:14:46,600
+uh double mutations and also triple
+
+379
+00:14:44,199 --> 00:14:49,199
+mutations so as end we are able to
+
+380
+00:14:46,600 --> 00:14:51,079
+identify a good mutant with three
+
+381
+00:14:49,199 --> 00:14:53,120
+mutations and this these mutants
+
+382
+00:14:51,079 --> 00:14:55,399
+actually by Infinity has improved at 77
+
+383
+00:14:53,120 --> 00:14:57,639
+F and actually this problem is quite
+
+384
+00:14:55,399 --> 00:14:59,680
+challenging because for the or antibody
+
+385
+00:14:57,639 --> 00:15:01,959
+uh the Bing Affinity is is already like
+
+386
+00:14:59,680 --> 00:15:04,759
+one Nal and now we able to improve to
+
+387
+00:15:01,959 --> 00:15:06,399
+like 0.06 Nal so so this actually the
+
+388
+00:15:04,759 --> 00:15:07,680
+problem is quite quite challenged so
+
+389
+00:15:06,399 --> 00:15:11,160
+this is the
+
+390
+00:15:07,680 --> 00:15:12,959
+first case study we we did with our a
+
+391
+00:15:11,160 --> 00:15:15,160
+okay and then we actually also
+
+392
+00:15:12,959 --> 00:15:17,880
+collaborate with another group which has
+
+393
+00:15:15,160 --> 00:15:20,560
+a similar problem so they also have like
+
+394
+00:15:17,880 --> 00:15:23,000
+sasco 2 antibody and then they want to
+
+395
+00:15:20,560 --> 00:15:25,839
+optimize this antibody to uh to to
+
+396
+00:15:23,000 --> 00:15:27,480
+neutralize against the new variant gm1
+
+397
+00:15:25,839 --> 00:15:30,600
+so we did a similar SC so in the first
+
+398
+00:15:27,480 --> 00:15:34,639
+mutation in the first round we we we we
+
+399
+00:15:30,600 --> 00:15:37,720
+we do uh inal screening so we
+
+400
+00:15:34,639 --> 00:15:39,759
+identify some good single mutations and
+
+401
+00:15:37,720 --> 00:15:42,279
+in the second round we combine them to
+
+402
+00:15:39,759 --> 00:15:46,319
+do double or triple mutations eventually
+
+403
+00:15:42,279 --> 00:15:48,600
+so we actually identify a good mutant U
+
+404
+00:15:46,319 --> 00:15:51,399
+which the the B Infinity has uh improved
+
+405
+00:15:48,600 --> 00:15:53,680
+over 300 FS compared to the the white
+
+406
+00:15:51,399 --> 00:15:56,480
+type okay and this paper now is actually
+
+407
+00:15:53,680 --> 00:15:59,319
+um in Revision in pen so so this a
+
+408
+00:15:56,480 --> 00:16:01,360
+second case study okay
+
+409
+00:15:59,319 --> 00:16:03,480
+and then so I probably do not have time
+
+410
+00:16:01,360 --> 00:16:06,160
+to to cover the uh the details of the
+
+411
+00:16:03,480 --> 00:16:08,319
+other uh work we have done so for for 3D
+
+412
+00:16:06,160 --> 00:16:10,639
+putting structures and also denov design
+
+413
+00:16:08,319 --> 00:16:12,800
+I'm going to quickly uh uh summarize
+
+414
+00:16:10,639 --> 00:16:15,160
+some work we have done in in in in these
+
+415
+00:16:12,800 --> 00:16:18,959
+two directions okay so for the first
+
+416
+00:16:15,160 --> 00:16:20,680
+work div pack uh so we mainly work on S
+
+417
+00:16:18,959 --> 00:16:23,040
+and structure predictions so you guys
+
+418
+00:16:20,680 --> 00:16:25,120
+probably all know like U uh uh models
+
+419
+00:16:23,040 --> 00:16:27,440
+like Ava fold to esm fold right but
+
+420
+00:16:25,120 --> 00:16:30,040
+remember that for Ava fold to esm fold
+
+421
+00:16:27,440 --> 00:16:32,560
+so they they main need work on
+
+422
+00:16:30,040 --> 00:16:35,040
+uh uh predicting the backbone backbone
+
+423
+00:16:32,560 --> 00:16:38,079
+structures of proteins right uh so
+
+424
+00:16:35,040 --> 00:16:40,480
+actually the cyons predicted by a v to
+
+425
+00:16:38,079 --> 00:16:42,040
+and and yes yes V so they're not
+
+426
+00:16:40,480 --> 00:16:44,199
+accurate so that's why in this
+
+427
+00:16:42,040 --> 00:16:47,480
+particular work so what we did is we
+
+428
+00:16:44,199 --> 00:16:50,519
+actually proposed diffusion models um to
+
+429
+00:16:47,480 --> 00:16:52,360
+accurately uh predict the cyon structure
+
+430
+00:16:50,519 --> 00:16:54,920
+as a protein so you know cyon structure
+
+431
+00:16:52,360 --> 00:16:57,040
+prediction is very important like uh for
+
+432
+00:16:54,920 --> 00:16:59,120
+drug design because you know for for for
+
+433
+00:16:57,040 --> 00:17:00,920
+either for small molecule or or protein
+
+434
+00:16:59,120 --> 00:17:03,560
+right so so so interactions between two
+
+435
+00:17:00,920 --> 00:17:05,839
+molecules is actually mainly happened
+
+436
+00:17:03,560 --> 00:17:07,360
+through through through the Cain
+
+437
+00:17:05,839 --> 00:17:09,160
+interaction so that's why citon
+
+438
+00:17:07,360 --> 00:17:11,600
+structure prediction is is very very
+
+439
+00:17:09,160 --> 00:17:15,199
+important problem so what we did in this
+
+440
+00:17:11,600 --> 00:17:20,120
+work we actually proposed a defusion
+
+441
+00:17:15,199 --> 00:17:23,319
+model to to to to generate or or predict
+
+442
+00:17:20,120 --> 00:17:25,079
+the the the S structures of the of the C
+
+443
+00:17:23,319 --> 00:17:27,319
+so essentially just generate the 3D
+
+444
+00:17:25,079 --> 00:17:32,360
+coordinates of the of the
+
+445
+00:17:27,319 --> 00:17:35,000
+atom uh as you because for uh siton um
+
+446
+00:17:32,360 --> 00:17:37,720
+uh so uh so their degree of freedom is
+
+447
+00:17:35,000 --> 00:17:39,799
+not the 3D coordinates of the Aton so
+
+448
+00:17:37,720 --> 00:17:41,679
+actually made controlled by the uh
+
+449
+00:17:39,799 --> 00:17:43,799
+different the four toal angles and
+
+450
+00:17:41,679 --> 00:17:47,720
+that's why in this new work uh in this
+
+451
+00:17:43,799 --> 00:17:49,960
+work U we actually didn't uh do
+
+452
+00:17:47,720 --> 00:17:51,799
+diffusion in the cardan space so instead
+
+453
+00:17:49,960 --> 00:17:53,840
+of what we do is we actually did a
+
+454
+00:17:51,799 --> 00:17:55,960
+diffusion we propos a diffusion model in
+
+455
+00:17:53,840 --> 00:17:58,000
+the torsion space so that's the main
+
+456
+00:17:55,960 --> 00:18:01,360
+idea of this work so I'm not going into
+
+457
+00:17:58,000 --> 00:18:02,760
+the details okay and then for the second
+
+458
+00:18:01,360 --> 00:18:04,880
+work this is also Rel to protein
+
+459
+00:18:02,760 --> 00:18:07,799
+structure prediction as we know like for
+
+460
+00:18:04,880 --> 00:18:10,919
+Alpha 42 and also yes F they only
+
+461
+00:18:07,799 --> 00:18:13,600
+predict a single structure for each uh
+
+462
+00:18:10,919 --> 00:18:15,159
+protein sequence but but we know like
+
+463
+00:18:13,600 --> 00:18:17,080
+each protein can take multiple
+
+464
+00:18:15,159 --> 00:18:19,280
+confirmations right and that's why here
+
+465
+00:18:17,080 --> 00:18:21,799
+we actually try to predict multiple
+
+466
+00:18:19,280 --> 00:18:25,200
+confirmations for given
+
+467
+00:18:21,799 --> 00:18:27,360
+the amino acid sequence right so the the
+
+468
+00:18:25,200 --> 00:18:29,720
+high idea is we got some inspiration
+
+469
+00:18:27,360 --> 00:18:31,640
+from traditional like a mole Dynamic
+
+470
+00:18:29,720 --> 00:18:35,120
+approaches especially the the approach
+
+471
+00:18:31,640 --> 00:18:37,360
+collect simulated okay and then we CH
+
+472
+00:18:35,120 --> 00:18:40,120
+joint models essential of diffusion
+
+473
+00:18:37,360 --> 00:18:43,840
+models uh to to to generate multiple
+
+474
+00:18:40,120 --> 00:18:46,280
+confirmations given the uh given given a
+
+475
+00:18:43,840 --> 00:18:48,480
+single M&S sequence so I'm not going to
+
+476
+00:18:46,280 --> 00:18:51,640
+details so this paper is accept in dcsi
+
+477
+00:18:48,480 --> 00:18:53,320
+clear okay and so this is the second one
+
+478
+00:18:51,640 --> 00:18:55,400
+and then finally for the diffusion
+
+479
+00:18:53,320 --> 00:18:58,360
+models and this is very latest work we
+
+480
+00:18:55,400 --> 00:18:59,320
+did like U just we just put uh put it on
+
+481
+00:18:58,360 --> 00:19:02,440
+I on
+
+482
+00:18:59,320 --> 00:19:04,440
+on arive so for this problem we want to
+
+483
+00:19:02,440 --> 00:19:07,360
+given a small molecule we want to design
+
+484
+00:19:04,440 --> 00:19:09,200
+a a protein Bing into this small
+
+485
+00:19:07,360 --> 00:19:12,200
+molecule okay so here we actually
+
+486
+00:19:09,200 --> 00:19:14,080
+propose a model to uh based on the flow
+
+487
+00:19:12,200 --> 00:19:16,240
+matching framework to model The Joint
+
+488
+00:19:14,080 --> 00:19:18,919
+distribution of the protein nen complex
+
+489
+00:19:16,240 --> 00:19:21,360
+and then given uh the the the chemical
+
+490
+00:19:18,919 --> 00:19:23,320
+graph so we can uh we can use flow
+
+491
+00:19:21,360 --> 00:19:25,760
+magion to S
+
+492
+00:19:23,320 --> 00:19:28,559
+simultaneously uh generate the protein
+
+493
+00:19:25,760 --> 00:19:31,720
+lant 3D comp structure okay so that we
+
+494
+00:19:28,559 --> 00:19:34,679
+can eventually we can go like proteins
+
+495
+00:19:31,720 --> 00:19:38,960
+binding to the 3D molecule B binding to
+
+496
+00:19:34,679 --> 00:19:41,840
+the the the the given Lian okay so I
+
+497
+00:19:38,960 --> 00:19:45,120
+will WRA WRA here so essentially
+
+498
+00:19:41,840 --> 00:19:48,280
+so in our group so we have been taking a
+
+499
+00:19:45,120 --> 00:19:50,400
+structure Centric approach to model 3D
+
+500
+00:19:48,280 --> 00:19:53,000
+uh structures of proteins so we mainly
+
+501
+00:19:50,400 --> 00:19:55,000
+make use techniques like geomet deep
+
+502
+00:19:53,000 --> 00:19:57,240
+learning and also diffusion models for
+
+503
+00:19:55,000 --> 00:19:59,960
+Manion to to model different kinds of
+
+504
+00:19:57,240 --> 00:20:02,880
+props in proteins in particular how to
+
+505
+00:19:59,960 --> 00:20:05,360
+represent 3D protein structures how to
+
+506
+00:20:02,880 --> 00:20:08,360
+how to better predict um uh protein
+
+507
+00:20:05,360 --> 00:20:09,919
+structures like citr the Dynamics and
+
+508
+00:20:08,360 --> 00:20:11,799
+also protein protein comp structure
+
+509
+00:20:09,919 --> 00:20:14,400
+prediction of course at end we care
+
+510
+00:20:11,799 --> 00:20:17,799
+about how can we design new proteins
+
+511
+00:20:14,400 --> 00:20:20,240
+with diffusion models with FR with
+
+512
+00:20:17,799 --> 00:20:23,600
+models like frion so that's all I want
+
+513
+00:20:20,240 --> 00:20:23,600
+to show thank you very much
+
+514
+00:20:26,679 --> 00:20:33,440
+okay great thank you d for your
+
+515
+00:20:29,000 --> 00:20:33,440
+wonderful talk uh any questions
+
+516
+00:20:33,720 --> 00:20:39,919
+um uh I actually have questions about um
+
+517
+00:20:36,799 --> 00:20:41,640
+your uh uh design part which you
+
+518
+00:20:39,919 --> 00:20:44,200
+couldn't really um go into too much
+
+519
+00:20:41,640 --> 00:20:46,320
+detail but uh how are you are you
+
+520
+00:20:44,200 --> 00:20:48,840
+generating both the Li and protein
+
+521
+00:20:46,320 --> 00:20:50,600
+simultaneously or your the given the
+
+522
+00:20:48,840 --> 00:20:53,360
+Lian confirmation is actually
+
+523
+00:20:50,600 --> 00:20:56,400
+given oh that's a good question so I
+
+524
+00:20:53,360 --> 00:20:59,880
+think so for many of a recent work the
+
+525
+00:20:56,400 --> 00:21:03,000
+the 3D lean structure is given so so um
+
+526
+00:20:59,880 --> 00:21:07,280
+in all this latest work we actually only
+
+527
+00:21:03,000 --> 00:21:09,840
+um give the the the 2D chemical graph as
+
+528
+00:21:07,280 --> 00:21:11,559
+input so the 3D confirmation of the Lian
+
+529
+00:21:09,840 --> 00:21:14,240
+is not given
+
+530
+00:21:11,559 --> 00:21:17,760
+okay and do you know the binding pocket
+
+531
+00:21:14,240 --> 00:21:19,520
+location or you are just gener okay we
+
+532
+00:21:17,760 --> 00:21:22,400
+we don't we don't assume the Bing pocket
+
+533
+00:21:19,520 --> 00:21:25,600
+is is given just the input is just
+
+534
+00:21:22,400 --> 00:21:28,320
+arbitary so just a like Lian so only the
+
+535
+00:21:25,600 --> 00:21:31,559
+sequence or the chemic graph is given
+
+536
+00:21:28,320 --> 00:21:34,880
+and then we want to generate a protein
+
+537
+00:21:31,559 --> 00:21:37,200
+which is able to bind to the the the the
+
+538
+00:21:34,880 --> 00:21:40,279
+LI but but but you're right so so we
+
+539
+00:21:37,200 --> 00:21:43,200
+also now doing some testing
+
+540
+00:21:40,279 --> 00:21:45,440
+or proposing some new varant so okay
+
+541
+00:21:43,200 --> 00:21:47,799
+maybe we know that we are The Binding
+
+542
+00:21:45,440 --> 00:21:49,559
+positions of the lean okay so in that
+
+543
+00:21:47,799 --> 00:21:51,960
+case we can also do some more
+
+544
+00:21:49,559 --> 00:21:54,600
+controllable uh protein design okay you
+
+545
+00:21:51,960 --> 00:21:57,000
+want to design proteins bind into
+
+546
+00:21:54,600 --> 00:21:59,440
+specific regions of the of the the small
+
+547
+00:21:57,000 --> 00:22:02,240
+molecule yeah
+
+548
+00:21:59,440 --> 00:22:04,520
+great uh so since we are already over
+
+549
+00:22:02,240 --> 00:22:05,960
+time so let's give our speaker one more
+
+550
+00:22:04,520 --> 00:22:10,480
+round of
+
+551
+00:22:05,960 --> 00:22:10,480
+applause thank you very much
+

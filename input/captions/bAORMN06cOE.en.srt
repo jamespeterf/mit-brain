@@ -1,0 +1,2872 @@
+1
+00:00:05,000 --> 00:00:11,679
+Our next speaker is Adam Chapala who is
+
+2
+00:00:09,599 --> 00:00:15,040
+a professor of electrical engineering
+
+3
+00:00:11,679 --> 00:00:18,800
+and computer science here at MIT also a
+
+4
+00:00:15,040 --> 00:00:21,920
+member of Seesale and Adam is going to
+
+5
+00:00:18,800 --> 00:00:24,640
+discuss AI powered integrated
+
+6
+00:00:21,920 --> 00:00:26,560
+development environments or idees. Thank
+
+7
+00:00:24,640 --> 00:00:28,560
+you. Let's hear for Adam.
+
+8
+00:00:26,560 --> 00:00:30,000
+So, so I also need to start my
+
+9
+00:00:28,560 --> 00:00:31,599
+presentation like Daniel's with a
+
+10
+00:00:30,000 --> 00:00:33,680
+confession which is kind of a related
+
+11
+00:00:31,599 --> 00:00:35,520
+one. Especially a few years ago, I would
+
+12
+00:00:33,680 --> 00:00:37,360
+often describe myself as the last person
+
+13
+00:00:35,520 --> 00:00:40,640
+standing in the ECS department who
+
+14
+00:00:37,360 --> 00:00:42,640
+wasn't working on on AI. Uh so given
+
+15
+00:00:40,640 --> 00:00:44,719
+that how do I find myself speaking to
+
+16
+00:00:42,640 --> 00:00:48,480
+you today? Well, let me tell you a
+
+17
+00:00:44,719 --> 00:00:52,399
+little bit about my background. So, I
+
+18
+00:00:48,480 --> 00:00:54,160
+started my career uh in in the software
+
+19
+00:00:52,399 --> 00:00:55,840
+industry as a high school intern working
+
+20
+00:00:54,160 --> 00:00:58,320
+at a company that did contract
+
+21
+00:00:55,840 --> 00:01:00,640
+development of e-commerce websites and
+
+22
+00:00:58,320 --> 00:01:02,719
+learned all about the practicalities of
+
+23
+00:01:00,640 --> 00:01:05,119
+creating enterprise software and got
+
+24
+00:01:02,719 --> 00:01:07,680
+into even creating developer tools to
+
+25
+00:01:05,119 --> 00:01:09,280
+support this kind of stuff. And then as
+
+26
+00:01:07,680 --> 00:01:11,119
+I learned about what kind of methods
+
+27
+00:01:09,280 --> 00:01:14,240
+would be most effective for supporting
+
+28
+00:01:11,119 --> 00:01:16,240
+quality in software, I gravitated in in
+
+29
+00:01:14,240 --> 00:01:18,960
+my uh university career towards this
+
+30
+00:01:16,240 --> 00:01:21,280
+specialty of formal methods where we
+
+31
+00:01:18,960 --> 00:01:23,920
+actually do mathematical proofs showing
+
+32
+00:01:21,280 --> 00:01:27,280
+that pieces of software or hardware are
+
+33
+00:01:23,920 --> 00:01:28,799
+correct, secure, etc. And I came to be
+
+34
+00:01:27,280 --> 00:01:30,240
+one of the few people in the world who's
+
+35
+00:01:28,799 --> 00:01:32,159
+thinking about both of these topics at
+
+36
+00:01:30,240 --> 00:01:34,320
+once. The process of building enterprise
+
+37
+00:01:32,159 --> 00:01:36,560
+software and deep mathematical
+
+38
+00:01:34,320 --> 00:01:38,640
+guarantees about correctness. This is
+
+39
+00:01:36,560 --> 00:01:40,799
+very much at odds with at least the uh
+
+40
+00:01:38,640 --> 00:01:42,560
+the caricaturured idea of of AI and
+
+41
+00:01:40,799 --> 00:01:44,799
+machine learning as not giving you very
+
+42
+00:01:42,560 --> 00:01:44,799
+strong
+
+43
+00:01:45,079 --> 00:01:51,600
+guarantees. So uh now I want to step
+
+44
+00:01:48,079 --> 00:01:53,680
+back and muse about this phenomenon of
+
+45
+00:01:51,600 --> 00:01:56,000
+AI coding.
+
+46
+00:01:53,680 --> 00:01:59,280
+So uh I just want to stop and think
+
+47
+00:01:56,000 --> 00:02:01,920
+about why LLM assisted programming is
+
+48
+00:01:59,280 --> 00:02:04,640
+being so successful in industry these
+
+49
+00:02:01,920 --> 00:02:06,240
+days and then step back and ask the
+
+50
+00:02:04,640 --> 00:02:07,759
+question what new abstractions could we
+
+51
+00:02:06,240 --> 00:02:09,679
+develop that would make this sort of
+
+52
+00:02:07,759 --> 00:02:13,400
+thing even more effective and then how
+
+53
+00:02:09,679 --> 00:02:16,800
+should programming change based on those
+
+54
+00:02:13,400 --> 00:02:18,400
+abstractions. So uh from the the title
+
+55
+00:02:16,800 --> 00:02:19,760
+and abstract of my presentation, you
+
+56
+00:02:18,400 --> 00:02:21,599
+might have expected I was going to give
+
+57
+00:02:19,760 --> 00:02:23,760
+an overview of the most popular tools
+
+58
+00:02:21,599 --> 00:02:25,680
+today and give you suggestions of which
+
+59
+00:02:23,760 --> 00:02:27,599
+which already popular systems you should
+
+60
+00:02:25,680 --> 00:02:28,959
+adopt. I'm just going to briefly name
+
+61
+00:02:27,599 --> 00:02:30,160
+check the kind of tools you're probably
+
+62
+00:02:28,959 --> 00:02:31,599
+used to thinking about and then I'm
+
+63
+00:02:30,160 --> 00:02:33,599
+going to spend most of my time on on an
+
+64
+00:02:31,599 --> 00:02:35,840
+alternative perspective. So there are
+
+65
+00:02:33,599 --> 00:02:37,519
+all these co-pilot style coding
+
+66
+00:02:35,840 --> 00:02:39,599
+assistants out there that you use to
+
+67
+00:02:37,519 --> 00:02:41,200
+sort of solve targeted challenges within
+
+68
+00:02:39,599 --> 00:02:42,879
+a codebase where you point somewhere and
+
+69
+00:02:41,200 --> 00:02:45,280
+give some text and say make it better in
+
+70
+00:02:42,879 --> 00:02:47,599
+this way. And then there are tools like
+
+71
+00:02:45,280 --> 00:02:49,920
+a a popular one at the moment is lovable
+
+72
+00:02:47,599 --> 00:02:52,640
+that will take a sort of a requirements
+
+73
+00:02:49,920 --> 00:02:56,160
+document for a software app and go off
+
+74
+00:02:52,640 --> 00:02:56,160
+and write it for you pretty
+
+75
+00:02:56,280 --> 00:03:01,599
+autonomously. Why do these these kind of
+
+76
+00:02:58,879 --> 00:03:03,040
+tools in both categories work well? And
+
+77
+00:03:01,599 --> 00:03:04,720
+there's been some echoes of this already
+
+78
+00:03:03,040 --> 00:03:07,239
+in the previous presentations, but
+
+79
+00:03:04,720 --> 00:03:10,000
+basically my take is they work because
+
+80
+00:03:07,239 --> 00:03:11,760
+of on average low novelty in in the
+
+81
+00:03:10,000 --> 00:03:13,040
+world of software engineering. Most
+
+82
+00:03:11,760 --> 00:03:14,959
+programs that are being written are
+
+83
+00:03:13,040 --> 00:03:16,319
+actually highly similar to programs that
+
+84
+00:03:14,959 --> 00:03:18,000
+have already been written and are maybe
+
+85
+00:03:16,319 --> 00:03:20,560
+even in the training sets of the the
+
+86
+00:03:18,000 --> 00:03:23,280
+machine learning models. So as a result,
+
+87
+00:03:20,560 --> 00:03:25,360
+AI assisted coding can work more like a
+
+88
+00:03:23,280 --> 00:03:27,760
+smart search engine than like a
+
+89
+00:03:25,360 --> 00:03:29,680
+reasoning engine. It's finding all the
+
+90
+00:03:27,760 --> 00:03:31,280
+little bits and pieces out there that
+
+91
+00:03:29,680 --> 00:03:33,440
+are very similar to what you're looking
+
+92
+00:03:31,280 --> 00:03:37,120
+for and doing some some light reasoning
+
+93
+00:03:33,440 --> 00:03:37,120
+to put them together for you
+
+94
+00:03:37,319 --> 00:03:41,519
+effectively. Now, the software
+
+95
+00:03:39,920 --> 00:03:43,360
+engineering world has lots of experience
+
+96
+00:03:41,519 --> 00:03:45,840
+with what can go wrong when you develop
+
+97
+00:03:43,360 --> 00:03:48,159
+software with copying and pasting. It
+
+98
+00:03:45,840 --> 00:03:51,599
+was already the case a lot of developers
+
+99
+00:03:48,159 --> 00:03:53,519
+uh before LLMs became big would do many
+
+100
+00:03:51,599 --> 00:03:55,360
+searches in websites like Stack Overflow
+
+101
+00:03:53,519 --> 00:03:57,360
+with questions and they'd copy and paste
+
+102
+00:03:55,360 --> 00:03:59,200
+snippets of code out of there and some
+
+103
+00:03:57,360 --> 00:04:00,959
+research has shown that this was a
+
+104
+00:03:59,200 --> 00:04:03,200
+pretty risky thing for them to do. So
+
+105
+00:04:00,959 --> 00:04:04,560
+let's take the example of security
+
+106
+00:04:03,200 --> 00:04:06,480
+critical code maybe setting up
+
+107
+00:04:04,560 --> 00:04:08,799
+encryption or something that this paper
+
+108
+00:04:06,480 --> 00:04:12,319
+came out in 2019
+
+109
+00:04:08,799 --> 00:04:14,400
+uh showing not only is can you not
+
+110
+00:04:12,319 --> 00:04:16,560
+necessarily trust the answers you get to
+
+111
+00:04:14,400 --> 00:04:18,320
+security questions on Stack Overflow but
+
+112
+00:04:16,560 --> 00:04:20,880
+actually the popular answers are worse
+
+113
+00:04:18,320 --> 00:04:23,120
+than the unpopular answers. Uh you get
+
+114
+00:04:20,880 --> 00:04:25,360
+more view counts for the insecure
+
+115
+00:04:23,120 --> 00:04:27,120
+answers to questions and there are
+
+116
+00:04:25,360 --> 00:04:28,960
+significantly higher scores on average
+
+117
+00:04:27,120 --> 00:04:30,720
+for the insecure answers. So this was
+
+118
+00:04:28,960 --> 00:04:32,960
+bad enough when it was a feedback system
+
+119
+00:04:30,720 --> 00:04:36,120
+just involving people. But now imagine
+
+120
+00:04:32,960 --> 00:04:38,240
+LLMs are choosing these insecure answers
+
+121
+00:04:36,120 --> 00:04:39,759
+preferentially. Putting them in new code
+
+122
+00:04:38,240 --> 00:04:41,199
+that's posted on the web and becomes
+
+123
+00:04:39,759 --> 00:04:43,280
+part of the training data for future
+
+124
+00:04:41,199 --> 00:04:44,840
+generations could be a downward spiral
+
+125
+00:04:43,280 --> 00:04:47,120
+very
+
+126
+00:04:44,840 --> 00:04:48,560
+easily. Uh so let's step back and think
+
+127
+00:04:47,120 --> 00:04:51,199
+about why we're trying to use machine
+
+128
+00:04:48,560 --> 00:04:53,040
+learning for for coding. U I think of
+
+129
+00:04:51,199 --> 00:04:55,199
+machine learning as a good tool for
+
+130
+00:04:53,040 --> 00:04:56,960
+learning a blackbox model of a complex
+
+131
+00:04:55,199 --> 00:04:58,960
+system because we can't think of any
+
+132
+00:04:56,960 --> 00:05:01,280
+better ideas. this system is is is
+
+133
+00:04:58,960 --> 00:05:03,440
+beyond our intuitions. We we can't get a
+
+134
+00:05:01,280 --> 00:05:04,560
+more structured understanding of it. In
+
+135
+00:05:03,440 --> 00:05:06,960
+some sense, when we're trying to
+
+136
+00:05:04,560 --> 00:05:08,800
+understand biology or the visual world,
+
+137
+00:05:06,960 --> 00:05:10,639
+we don't have any better options. Uh
+
+138
+00:05:08,800 --> 00:05:13,560
+these unfortunately were not built for
+
+139
+00:05:10,639 --> 00:05:16,160
+our ease of understanding. They kind of
+
+140
+00:05:13,560 --> 00:05:18,000
+uh developed through natural laws and we
+
+141
+00:05:16,160 --> 00:05:19,600
+evolved in some way that that doesn't
+
+142
+00:05:18,000 --> 00:05:21,280
+predispose us to have a really simple
+
+143
+00:05:19,600 --> 00:05:23,199
+way to understand why our own bodies
+
+144
+00:05:21,280 --> 00:05:25,039
+work in a in a particular way. But
+
+145
+00:05:23,199 --> 00:05:26,800
+software code, I would argue, is
+
+146
+00:05:25,039 --> 00:05:29,600
+different. This is not a natural system
+
+147
+00:05:26,800 --> 00:05:31,199
+that we just need to handle. We build
+
+148
+00:05:29,600 --> 00:05:33,120
+the ecosystem of software development
+
+149
+00:05:31,199 --> 00:05:35,039
+tools. It's our responsibility as
+
+150
+00:05:33,120 --> 00:05:37,600
+software engineers to build these tools
+
+151
+00:05:35,039 --> 00:05:40,320
+for legibility so that we don't need to
+
+152
+00:05:37,600 --> 00:05:42,479
+rely at least not rely completely on
+
+153
+00:05:40,320 --> 00:05:45,680
+blackbox function learning to do a good
+
+154
+00:05:42,479 --> 00:05:47,520
+job building software. So if we
+
+155
+00:05:45,680 --> 00:05:48,800
+reconsider that responsibility, what
+
+156
+00:05:47,520 --> 00:05:50,639
+might we do differently? I'm going to
+
+157
+00:05:48,800 --> 00:05:52,639
+argue for two approaches. One we just
+
+158
+00:05:50,639 --> 00:05:54,800
+heard uh 30 minutes about from Daniel
+
+159
+00:05:52,639 --> 00:05:56,720
+Jackson. I'll I'll say uh just a few
+
+160
+00:05:54,800 --> 00:05:59,280
+minutes myself about it. The importance
+
+161
+00:05:56,720 --> 00:06:01,759
+of modularity in doing a good job
+
+162
+00:05:59,280 --> 00:06:03,680
+combining the strengths of AI based and
+
+163
+00:06:01,759 --> 00:06:05,319
+other software development techniques.
+
+164
+00:06:03,680 --> 00:06:08,720
+And then I'll I'll talk about formal
+
+165
+00:06:05,319 --> 00:06:10,160
+verification as a an effective antidote
+
+166
+00:06:08,720 --> 00:06:12,240
+for some of the worst things that can
+
+167
+00:06:10,160 --> 00:06:14,000
+happen with the the kind of flows we're
+
+168
+00:06:12,240 --> 00:06:16,600
+used to with with AI in software
+
+169
+00:06:14,000 --> 00:06:20,240
+engineering.
+
+170
+00:06:16,600 --> 00:06:22,319
+So today we can send a paragraph to chat
+
+171
+00:06:20,240 --> 00:06:24,400
+GPT saying here's this the web app I
+
+172
+00:06:22,319 --> 00:06:26,960
+want go off and build it for me and
+
+173
+00:06:24,400 --> 00:06:29,360
+chatgpt does its best it generates uh
+
+174
+00:06:26,960 --> 00:06:31,840
+pages of code and sometimes they're not
+
+175
+00:06:29,360 --> 00:06:34,000
+even all you're looking for and for
+
+176
+00:06:31,840 --> 00:06:35,759
+instance I asked this question it showed
+
+177
+00:06:34,000 --> 00:06:37,759
+me only the backend code for the app I
+
+178
+00:06:35,759 --> 00:06:39,360
+asked about and I said okay great now
+
+179
+00:06:37,759 --> 00:06:41,520
+could you please write the front-end
+
+180
+00:06:39,360 --> 00:06:43,280
+code as well and then five seconds later
+
+181
+00:06:41,520 --> 00:06:45,680
+it gave me some obscure error message I
+
+182
+00:06:43,280 --> 00:06:47,280
+don't know what's going on there uh So,
+
+183
+00:06:45,680 --> 00:06:49,199
+but it's a it's a good starting point at
+
+184
+00:06:47,280 --> 00:06:52,639
+one level, but every line of code here
+
+185
+00:06:49,199 --> 00:06:54,800
+is pretty dense and low level, and it's
+
+186
+00:06:52,639 --> 00:06:57,039
+just no fun to read output like this,
+
+187
+00:06:54,800 --> 00:06:59,440
+even for such a simple application, to
+
+188
+00:06:57,039 --> 00:07:00,280
+check that you got the functionality you
+
+189
+00:06:59,440 --> 00:07:03,599
+were looking
+
+190
+00:07:00,280 --> 00:07:04,800
+for. Why is it so verbose? I I happen to
+
+191
+00:07:03,599 --> 00:07:06,800
+show a prompt that we can sort of
+
+192
+00:07:04,800 --> 00:07:08,400
+decompose at the English level into a
+
+193
+00:07:06,800 --> 00:07:10,080
+bunch of standard ideas which are very
+
+194
+00:07:08,400 --> 00:07:12,800
+similar to the concepts that Daniel was
+
+195
+00:07:10,080 --> 00:07:15,120
+talking about. I brought together the
+
+196
+00:07:12,800 --> 00:07:16,960
+idea of a CSV import, fuzzy matching of
+
+197
+00:07:15,120 --> 00:07:20,479
+data, and a connection to the the
+
+198
+00:07:16,960 --> 00:07:21,919
+Salesforce system. And uh it's at some
+
+199
+00:07:20,479 --> 00:07:23,440
+level, this is all the description we
+
+200
+00:07:21,919 --> 00:07:25,919
+need to completely describe what we're
+
+201
+00:07:23,440 --> 00:07:27,520
+looking for. And because each of these
+
+202
+00:07:25,919 --> 00:07:28,880
+little bubbles and boxes is such a
+
+203
+00:07:27,520 --> 00:07:30,479
+standard thing in the world of of
+
+204
+00:07:28,880 --> 00:07:31,759
+enterprise software development, there
+
+205
+00:07:30,479 --> 00:07:33,280
+should just be a library that has all
+
+206
+00:07:31,759 --> 00:07:35,120
+these in it or multiple libraries. And
+
+207
+00:07:33,280 --> 00:07:37,520
+we should be referencing libraries and
+
+208
+00:07:35,120 --> 00:07:39,120
+not copying and pasting their code or
+
+209
+00:07:37,520 --> 00:07:41,240
+copy and pasting code out of particular
+
+210
+00:07:39,120 --> 00:07:44,560
+apps. that just seems
+
+211
+00:07:41,240 --> 00:07:46,400
+barbaric. So, uh I de developed a new
+
+212
+00:07:44,560 --> 00:07:48,960
+programming language uh starting about
+
+213
+00:07:46,400 --> 00:07:51,280
+20 years ago called webweb which is able
+
+214
+00:07:48,960 --> 00:07:54,240
+to support the right level of component
+
+215
+00:07:51,280 --> 00:07:55,919
+reuse for that level of programming. And
+
+216
+00:07:54,240 --> 00:07:57,520
+so it's a domain specific language for
+
+217
+00:07:55,919 --> 00:08:00,400
+full stack databasebacked web
+
+218
+00:07:57,520 --> 00:08:03,039
+applications. And the key idea is you
+
+219
+00:08:00,400 --> 00:08:05,520
+can write modules that have first class
+
+220
+00:08:03,039 --> 00:08:07,360
+status in this language that encapsulate
+
+221
+00:08:05,520 --> 00:08:09,199
+in the same way that maybe a Java class
+
+222
+00:08:07,360 --> 00:08:11,520
+for a hash table encapsulates an array
+
+223
+00:08:09,199 --> 00:08:13,440
+that no one can touch directly. In our
+
+224
+00:08:11,520 --> 00:08:15,039
+web modules can encapsulate all the
+
+225
+00:08:13,440 --> 00:08:16,800
+pieces you need for a full stack web
+
+226
+00:08:15,039 --> 00:08:19,039
+application. Front end, backend, and
+
+227
+00:08:16,800 --> 00:08:21,039
+database aspects can be private fields
+
+228
+00:08:19,039 --> 00:08:22,560
+of a module that can only be accessed
+
+229
+00:08:21,039 --> 00:08:24,160
+through the the public methods of that
+
+230
+00:08:22,560 --> 00:08:26,000
+module. And then it's relatively
+
+231
+00:08:24,160 --> 00:08:28,960
+lightweight to plum these together in
+
+232
+00:08:26,000 --> 00:08:31,199
+new ways.
+
+233
+00:08:28,960 --> 00:08:33,680
+So I'm going to have a presentation in
+
+234
+00:08:31,199 --> 00:08:35,279
+the the startup part of of today uh a
+
+235
+00:08:33,680 --> 00:08:36,880
+bit later talking about a company called
+
+236
+00:08:35,279 --> 00:08:39,279
+Nectrie that we've spun out based on
+
+237
+00:08:36,880 --> 00:08:41,120
+those ideas. But the the brief version
+
+238
+00:08:39,279 --> 00:08:43,039
+is we're able to take the diagram I
+
+239
+00:08:41,120 --> 00:08:45,360
+showed you before and embody it in the
+
+240
+00:08:43,039 --> 00:08:48,000
+code shown on the left where I've orange
+
+241
+00:08:45,360 --> 00:08:49,519
+underlined five invocations of library
+
+242
+00:08:48,000 --> 00:08:52,080
+components and that's almost all that's
+
+243
+00:08:49,519 --> 00:08:53,839
+going on here. Uh we also built an LLM
+
+244
+00:08:52,080 --> 00:08:56,000
+based front end that can take natural
+
+245
+00:08:53,839 --> 00:08:58,800
+language requirements and help the user
+
+246
+00:08:56,000 --> 00:09:00,240
+craft this code and doesn't the user
+
+247
+00:08:58,800 --> 00:09:01,760
+doesn't even necessarily see the code
+
+248
+00:09:00,240 --> 00:09:03,680
+version. We render this as English. So
+
+249
+00:09:01,760 --> 00:09:06,160
+it looks like a requirements document in
+
+250
+00:09:03,680 --> 00:09:08,560
+the end and we then use the technology
+
+251
+00:09:06,160 --> 00:09:10,160
+I'm going to talk about next to get very
+
+252
+00:09:08,560 --> 00:09:13,120
+reliable implementation of this
+
+253
+00:09:10,160 --> 00:09:17,000
+description in a productionready secure
+
+254
+00:09:13,120 --> 00:09:17,000
+high performance application.
+
+255
+00:09:17,279 --> 00:09:22,800
+One more point I I want to make about
+
+256
+00:09:19,279 --> 00:09:24,480
+modularity. Uh, of course, when you go
+
+257
+00:09:22,800 --> 00:09:26,880
+to sit down and write some code, what
+
+258
+00:09:24,480 --> 00:09:28,240
+you want is for the world to help you.
+
+259
+00:09:26,880 --> 00:09:30,000
+You want to bring in code from other
+
+260
+00:09:28,240 --> 00:09:32,000
+places and start putting it to use for
+
+261
+00:09:30,000 --> 00:09:33,600
+your application. I think it's also a
+
+262
+00:09:32,000 --> 00:09:35,600
+good thing for the community, say the
+
+263
+00:09:33,600 --> 00:09:38,000
+the world of open source developers to
+
+264
+00:09:35,600 --> 00:09:41,120
+try to use AI to identify opportunities
+
+265
+00:09:38,000 --> 00:09:42,880
+for new modules where say some system is
+
+266
+00:09:41,120 --> 00:09:44,480
+is constantly surveilling all the code
+
+267
+00:09:42,880 --> 00:09:46,160
+out there and finding there sure is a
+
+268
+00:09:44,480 --> 00:09:47,839
+lot of similarity across this this code
+
+269
+00:09:46,160 --> 00:09:49,760
+and this code and this code. I'm going
+
+270
+00:09:47,839 --> 00:09:51,279
+to suggest a whole new library or I'm
+
+271
+00:09:49,760 --> 00:09:53,279
+going to suggest a new function or a new
+
+272
+00:09:51,279 --> 00:09:54,320
+class in an existing library and I'm
+
+273
+00:09:53,279 --> 00:09:56,640
+even going to write some great
+
+274
+00:09:54,320 --> 00:09:59,040
+documentation for it. I think that I'
+
+275
+00:09:56,640 --> 00:10:01,760
+I'd love to see more use of AI in this
+
+276
+00:09:59,040 --> 00:10:03,440
+way as well.
+
+277
+00:10:01,760 --> 00:10:05,839
+Okay, so now let me talk about formal
+
+278
+00:10:03,440 --> 00:10:07,680
+verification and how it I think really
+
+279
+00:10:05,839 --> 00:10:09,839
+pays off for solving some of the the
+
+280
+00:10:07,680 --> 00:10:12,000
+problems that plague AI based software
+
+281
+00:10:09,839 --> 00:10:14,560
+engineering. Um, one thing we can do is
+
+282
+00:10:12,000 --> 00:10:16,560
+we can use an arbitrary potentially
+
+283
+00:10:14,560 --> 00:10:19,040
+unreliable coding assistant to write
+
+284
+00:10:16,560 --> 00:10:20,480
+some code and it would be lovely to have
+
+285
+00:10:19,040 --> 00:10:22,160
+some kind of tool that we can call a
+
+286
+00:10:20,480 --> 00:10:24,560
+program verifier that looks at the
+
+287
+00:10:22,160 --> 00:10:26,560
+output and actually confirms that it's
+
+288
+00:10:24,560 --> 00:10:28,320
+doing what we wanted it to do.
+
+289
+00:10:26,560 --> 00:10:29,839
+Unfortunately, this guy called Turring
+
+290
+00:10:28,320 --> 00:10:31,519
+told us we can't expect a fully
+
+291
+00:10:29,839 --> 00:10:33,519
+automatic checker that's able to confirm
+
+292
+00:10:31,519 --> 00:10:35,279
+that any program is correct. Uh, but
+
+293
+00:10:33,519 --> 00:10:37,279
+there are a lot of of heristic things
+
+294
+00:10:35,279 --> 00:10:39,920
+that work pretty well in practice.
+
+295
+00:10:37,279 --> 00:10:42,079
+Another trick we can use, we can
+
+296
+00:10:39,920 --> 00:10:43,680
+actually ask the coding assistant to not
+
+297
+00:10:42,079 --> 00:10:45,440
+just generate the code, but accompany it
+
+298
+00:10:43,680 --> 00:10:47,920
+with a mathematical proof that shows
+
+299
+00:10:45,440 --> 00:10:49,920
+that it does what we want it to do. And
+
+300
+00:10:47,920 --> 00:10:52,000
+then our program verifier just becomes a
+
+301
+00:10:49,920 --> 00:10:53,600
+proof checker. Doesn't need to develop
+
+302
+00:10:52,000 --> 00:10:55,519
+the creative arguments for correctness
+
+303
+00:10:53,600 --> 00:10:59,240
+on its own. it only needs to check the
+
+304
+00:10:55,519 --> 00:11:02,240
+argument that the the tool produced for
+
+305
+00:10:59,240 --> 00:11:04,320
+it. So many of you have probably seen
+
+306
+00:11:02,240 --> 00:11:06,880
+the the or heard about the Google alpha
+
+307
+00:11:04,320 --> 00:11:09,200
+proof system which is using machine
+
+308
+00:11:06,880 --> 00:11:11,200
+learning to generate uh fully rigorous
+
+309
+00:11:09,200 --> 00:11:13,480
+mathematical proofs that are checked by
+
+310
+00:11:11,200 --> 00:11:17,200
+a pre-existing software package called
+
+311
+00:11:13,480 --> 00:11:19,519
+lean. Uh so people building foundation
+
+312
+00:11:17,200 --> 00:11:20,959
+models really love to find new kinds of
+
+313
+00:11:19,519 --> 00:11:22,720
+benchmarks that they can compete with
+
+314
+00:11:20,959 --> 00:11:24,720
+each other on. And at some point someone
+
+315
+00:11:22,720 --> 00:11:27,040
+realized mathematical proofs were a good
+
+316
+00:11:24,720 --> 00:11:28,800
+one. So this has become a hot topic. But
+
+317
+00:11:27,040 --> 00:11:30,800
+I promise we were working on this kind
+
+318
+00:11:28,800 --> 00:11:32,240
+of stuff decades before the machine
+
+319
+00:11:30,800 --> 00:11:35,760
+learning people found it to use it for
+
+320
+00:11:32,240 --> 00:11:37,519
+for competitions. And uh not only is
+
+321
+00:11:35,760 --> 00:11:39,440
+there a lot of work on machine check
+
+322
+00:11:37,519 --> 00:11:41,440
+mathematical proofs about math, but
+
+323
+00:11:39,440 --> 00:11:44,480
+there's also a lot of work in showing
+
+324
+00:11:41,440 --> 00:11:46,000
+the correctness of software. And that's
+
+325
+00:11:44,480 --> 00:11:50,760
+been the the main subject that I've been
+
+326
+00:11:46,000 --> 00:11:50,760
+working on in in academia for a while.
+
+327
+00:11:50,800 --> 00:11:54,399
+So let me tell you about a place where
+
+328
+00:11:52,320 --> 00:11:56,079
+we applied that kind of technology and
+
+329
+00:11:54,399 --> 00:11:57,680
+were able to kind of combine some of the
+
+330
+00:11:56,079 --> 00:12:00,800
+nice benefits of AI and these these
+
+331
+00:11:57,680 --> 00:12:02,880
+classical techniques. In 2014 there was
+
+332
+00:12:00,800 --> 00:12:05,040
+an important security vulnerability in a
+
+333
+00:12:02,880 --> 00:12:06,800
+widely used library called OpenSSL.
+
+334
+00:12:05,040 --> 00:12:08,880
+Vulnerability was called heartbleleed
+
+335
+00:12:06,800 --> 00:12:10,480
+and it it allowed uh attackers to
+
+336
+00:12:08,880 --> 00:12:12,639
+interfere with the the proper use of
+
+337
+00:12:10,480 --> 00:12:14,880
+encrypted connections over the internet.
+
+338
+00:12:12,639 --> 00:12:16,800
+It was a big deal and it inspired the
+
+339
+00:12:14,880 --> 00:12:18,959
+Linux Foundation to start running a
+
+340
+00:12:16,800 --> 00:12:21,360
+series of workshops to bring together
+
+341
+00:12:18,959 --> 00:12:23,440
+academics who are experts in programming
+
+342
+00:12:21,360 --> 00:12:25,360
+technology and formal assurance with the
+
+343
+00:12:23,440 --> 00:12:28,079
+people in charge of the most important
+
+344
+00:12:25,360 --> 00:12:29,680
+open-source artifacts. And one of the
+
+345
+00:12:28,079 --> 00:12:31,920
+things I learned participating in those
+
+346
+00:12:29,680 --> 00:12:33,920
+workshops is that it's very hard to get
+
+347
+00:12:31,920 --> 00:12:35,680
+arithmetic right in cryptographic
+
+348
+00:12:33,920 --> 00:12:37,200
+software when you're working with really
+
+349
+00:12:35,680 --> 00:12:38,480
+big numbers that the hardware doesn't
+
+350
+00:12:37,200 --> 00:12:40,000
+support natively. You have to write
+
+351
+00:12:38,480 --> 00:12:41,920
+pretty complicated code if you want to
+
+352
+00:12:40,000 --> 00:12:44,880
+get good enough performance. and people
+
+353
+00:12:41,920 --> 00:12:46,519
+do accidentally put in bugs that lead to
+
+354
+00:12:44,880 --> 00:12:49,120
+significant
+
+355
+00:12:46,519 --> 00:12:51,279
+problems. So,
+
+356
+00:12:49,120 --> 00:12:52,720
+uh, in particular, there's a a
+
+357
+00:12:51,279 --> 00:12:54,639
+moderately large set of different
+
+358
+00:12:52,720 --> 00:12:56,560
+cryptographic algorithms that matter for
+
+359
+00:12:54,639 --> 00:12:58,480
+internet standards, and they're
+
+360
+00:12:56,560 --> 00:13:00,320
+typically parameterized over large prime
+
+361
+00:12:58,480 --> 00:13:03,240
+numbers that are used as the modulus of
+
+362
+00:13:00,320 --> 00:13:05,279
+arithmetic. And then there's a small but
+
+363
+00:13:03,240 --> 00:13:06,800
+non-trivized set of different hardware
+
+364
+00:13:05,279 --> 00:13:08,240
+architectures where depending on which
+
+365
+00:13:06,800 --> 00:13:09,440
+one you're targeting, you write your
+
+366
+00:13:08,240 --> 00:13:12,079
+code differently to get the best
+
+367
+00:13:09,440 --> 00:13:13,680
+performance. And I was shocked to learn
+
+368
+00:13:12,079 --> 00:13:16,800
+coming into this area that the
+
+369
+00:13:13,680 --> 00:13:19,040
+state-of-the-art was when you pick a new
+
+370
+00:13:16,800 --> 00:13:22,079
+element of the three-way cross product,
+
+371
+00:13:19,040 --> 00:13:24,240
+pick one circle inside each each cloud
+
+372
+00:13:22,079 --> 00:13:25,760
+and you picked a new choice that no one
+
+373
+00:13:24,240 --> 00:13:27,680
+had done before, you have to find
+
+374
+00:13:25,760 --> 00:13:29,839
+someone from a small population of
+
+375
+00:13:27,680 --> 00:13:32,320
+experts to rewrite all the arithmetic
+
+376
+00:13:29,839 --> 00:13:34,000
+code from scratch in C or assembly
+
+377
+00:13:32,320 --> 00:13:35,600
+because this was seen as the only way to
+
+378
+00:13:34,000 --> 00:13:38,079
+get good enough performance without
+
+379
+00:13:35,600 --> 00:13:40,639
+giving up security.
+
+380
+00:13:38,079 --> 00:13:42,279
+So we wanted to automate that process
+
+381
+00:13:40,639 --> 00:13:44,560
+and we built a tool called fiat
+
+382
+00:13:42,279 --> 00:13:46,240
+cryptography that starts from a library
+
+383
+00:13:44,560 --> 00:13:48,720
+of generic algorithms or you could call
+
+384
+00:13:46,240 --> 00:13:51,360
+them algorithm templates in this domain
+
+385
+00:13:48,720 --> 00:13:52,880
+that are written and proved in another
+
+386
+00:13:51,360 --> 00:13:54,720
+one of these theorem proving tools. It's
+
+387
+00:13:52,880 --> 00:13:56,639
+kind of a cousin of lean. It's called
+
+388
+00:13:54,720 --> 00:13:58,880
+coaul coq and that's what the rooster
+
+389
+00:13:56,639 --> 00:14:02,240
+icon stands for. And then we also built
+
+390
+00:13:58,880 --> 00:14:04,079
+a automatic code specializer that given
+
+391
+00:14:02,240 --> 00:14:06,000
+the parameters like the big prime number
+
+392
+00:14:04,079 --> 00:14:09,040
+that'll be the modulus that you want to
+
+393
+00:14:06,000 --> 00:14:10,959
+instantiate the algorithm with it. It uh
+
+394
+00:14:09,040 --> 00:14:12,399
+it shrinks down the code and keeps just
+
+395
+00:14:10,959 --> 00:14:13,920
+the parts of it that are relevant to the
+
+396
+00:14:12,399 --> 00:14:16,240
+parameter you chose and produces
+
+397
+00:14:13,920 --> 00:14:18,160
+something like the C code that the
+
+398
+00:14:16,240 --> 00:14:20,560
+experts were writing by hand. And we
+
+399
+00:14:18,160 --> 00:14:22,880
+also formally proved the correctness of
+
+400
+00:14:20,560 --> 00:14:25,440
+this specializer. So you you can get a a
+
+401
+00:14:22,880 --> 00:14:28,240
+extremely trustworthy pathway from more
+
+402
+00:14:25,440 --> 00:14:31,000
+or less Blackboard level math down to
+
+403
+00:14:28,240 --> 00:14:34,320
+pretty fast CC
+
+404
+00:14:31,000 --> 00:14:36,079
+code. And the the value proposition here
+
+405
+00:14:34,320 --> 00:14:38,240
+was so compelling that this tool was
+
+406
+00:14:36,079 --> 00:14:40,320
+widely adopted by all the major web
+
+407
+00:14:38,240 --> 00:14:42,320
+browsers to generate parts of their
+
+408
+00:14:40,320 --> 00:14:43,920
+their there software bases that are
+
+409
+00:14:42,320 --> 00:14:45,600
+running every time the browser shows you
+
+410
+00:14:43,920 --> 00:14:49,440
+a little lock icon to tell you you have
+
+411
+00:14:45,600 --> 00:14:51,680
+a secure connection to a server. So over
+
+412
+00:14:49,440 --> 00:14:53,279
+95% of secure web connections by
+
+413
+00:14:51,680 --> 00:14:55,600
+browsers are running this code that was
+
+414
+00:14:53,279 --> 00:14:57,440
+created with a a method that actually
+
+415
+00:14:55,600 --> 00:14:59,600
+has strong mathematical assurance of
+
+416
+00:14:57,440 --> 00:15:00,760
+correctness while still producing pretty
+
+417
+00:14:59,600 --> 00:15:05,040
+reasonable
+
+418
+00:15:00,760 --> 00:15:07,120
+code. Unfortunately in version one of
+
+419
+00:15:05,040 --> 00:15:08,959
+this project where in the first paper we
+
+420
+00:15:07,120 --> 00:15:11,519
+published we had this uh this
+
+421
+00:15:08,959 --> 00:15:13,680
+performance table for one of the most
+
+422
+00:15:11,519 --> 00:15:16,639
+popular algorithms that we're applying
+
+423
+00:15:13,680 --> 00:15:18,560
+the tool to. And we can see like for all
+
+424
+00:15:16,639 --> 00:15:21,279
+the other algorithms we we we used as
+
+425
+00:15:18,560 --> 00:15:24,079
+examples, we produced the fastest known
+
+426
+00:15:21,279 --> 00:15:26,320
+CC code, which is a good start, but
+
+427
+00:15:24,079 --> 00:15:28,240
+handwritten assembly language by experts
+
+428
+00:15:26,320 --> 00:15:30,959
+was still doing better by about a factor
+
+429
+00:15:28,240 --> 00:15:32,079
+of two. And that was embarrassing. This
+
+430
+00:15:30,959 --> 00:15:34,360
+was still good enough to get wide
+
+431
+00:15:32,079 --> 00:15:37,839
+adoption, but we we wanted to do
+
+432
+00:15:34,360 --> 00:15:40,480
+better. Okay, so here I'm going to bring
+
+433
+00:15:37,839 --> 00:15:42,480
+up a quick quote bringing uh our
+
+434
+00:15:40,480 --> 00:15:44,399
+attention to this standard idea. When we
+
+435
+00:15:42,480 --> 00:15:46,160
+ask the question, what is AI? It's
+
+436
+00:15:44,399 --> 00:15:48,000
+basically the stuff that we don't know
+
+437
+00:15:46,160 --> 00:15:50,399
+how to do systematically yet. It's the
+
+438
+00:15:48,000 --> 00:15:52,000
+the the domain of of heruristics. And we
+
+439
+00:15:50,399 --> 00:15:54,560
+were able to be systematic about the
+
+440
+00:15:52,000 --> 00:15:56,320
+process of producing the CC code that
+
+441
+00:15:54,560 --> 00:15:58,240
+goes with one of the algorithms in this
+
+442
+00:15:56,320 --> 00:16:00,560
+family. But we couldn't figure out a
+
+443
+00:15:58,240 --> 00:16:02,560
+systematic way to apply all the assembly
+
+444
+00:16:00,560 --> 00:16:05,040
+level tricks that the experts were
+
+445
+00:16:02,560 --> 00:16:06,959
+applying. So uh why don't we try to use
+
+446
+00:16:05,040 --> 00:16:11,440
+something more on the AI side of the
+
+447
+00:16:06,959 --> 00:16:13,680
+spectrum to address that second part.
+
+448
+00:16:11,440 --> 00:16:15,519
+So we adopted a hybrid method where we
+
+449
+00:16:13,680 --> 00:16:17,040
+have the the the code generation
+
+450
+00:16:15,519 --> 00:16:20,000
+pipeline from before still as
+
+451
+00:16:17,040 --> 00:16:21,920
+mathematically solid as it was. Uh but
+
+452
+00:16:20,000 --> 00:16:23,920
+then starting in the the middle of this
+
+453
+00:16:21,920 --> 00:16:28,079
+picture, we have the CC code and we
+
+454
+00:16:23,920 --> 00:16:30,480
+apply a random search procedure that
+
+455
+00:16:28,079 --> 00:16:32,399
+keeps uh generating small variations of
+
+456
+00:16:30,480 --> 00:16:34,320
+assembly programs, switching one
+
+457
+00:16:32,399 --> 00:16:36,560
+instruction for another, reordering
+
+458
+00:16:34,320 --> 00:16:38,160
+instructions, that kind of thing. You
+
+459
+00:16:36,560 --> 00:16:39,199
+can let it run all night exploring
+
+460
+00:16:38,160 --> 00:16:41,600
+different assembly programs,
+
+461
+00:16:39,199 --> 00:16:44,639
+benchmarking each one and keeping the
+
+462
+00:16:41,600 --> 00:16:46,639
+fastest ones. And then in the end of
+
+463
+00:16:44,639 --> 00:16:49,440
+this process to maintain the
+
+464
+00:16:46,639 --> 00:16:51,360
+mathematical guarantees, we apply an
+
+465
+00:16:49,440 --> 00:16:54,240
+equivalence checker that can actually
+
+466
+00:16:51,360 --> 00:16:57,040
+take in a C program and assembly program
+
+467
+00:16:54,240 --> 00:16:58,720
+and confirm that they compute the same
+
+468
+00:16:57,040 --> 00:17:01,360
+mathematical function. And this
+
+469
+00:16:58,720 --> 00:17:04,640
+equivalence checker we formally proved
+
+470
+00:17:01,360 --> 00:17:06,959
+to be correct. So that means that this
+
+471
+00:17:04,640 --> 00:17:09,799
+whole pipeline which does bring in some
+
+472
+00:17:06,959 --> 00:17:12,480
+heristic elements uh is totally
+
+473
+00:17:09,799 --> 00:17:14,400
+trustworthy and you get an endto-end
+
+474
+00:17:12,480 --> 00:17:16,400
+mathematical theorem connecting the
+
+475
+00:17:14,400 --> 00:17:17,839
+blackboard level math with the fast
+
+476
+00:17:16,400 --> 00:17:20,319
+assembly program that comes out in the
+
+477
+00:17:17,839 --> 00:17:23,439
+end. Now this project just used genetic
+
+478
+00:17:20,319 --> 00:17:26,640
+algorithms random program search uh but
+
+479
+00:17:23,439 --> 00:17:28,400
+in fact any kind of smart heristic
+
+480
+00:17:26,640 --> 00:17:30,320
+program transformer could be useful
+
+481
+00:17:28,400 --> 00:17:32,240
+here. We can imagine some follow-up work
+
+482
+00:17:30,320 --> 00:17:34,320
+that used LLM to suggest promising
+
+483
+00:17:32,240 --> 00:17:37,200
+variations of assembly programs or some
+
+484
+00:17:34,320 --> 00:17:38,799
+other machine learning based approach. U
+
+485
+00:17:37,200 --> 00:17:40,799
+nice thing about this domain which is
+
+486
+00:17:38,799 --> 00:17:42,720
+only straight line code, no loops or or
+
+487
+00:17:40,799 --> 00:17:44,320
+anything like that is that you can build
+
+488
+00:17:42,720 --> 00:17:46,160
+a pretty robust equivalence checker
+
+489
+00:17:44,320 --> 00:17:49,200
+that's ready for all sorts of huristic
+
+490
+00:17:46,160 --> 00:17:49,200
+program transformation
+
+491
+00:17:49,320 --> 00:17:55,039
+approaches. And uh this extension of our
+
+492
+00:17:51,840 --> 00:17:57,679
+tool is used in production at at Google.
+
+493
+00:17:55,039 --> 00:17:59,600
+Uh this is a quick screenshot of a a
+
+494
+00:17:57,679 --> 00:18:00,960
+pull request where they improved the
+
+495
+00:17:59,600 --> 00:18:02,640
+performance of one of the central
+
+496
+00:18:00,960 --> 00:18:06,039
+algorithms of security in Chrome by
+
+497
+00:18:02,640 --> 00:18:08,320
+about 50% on x86
+
+498
+00:18:06,039 --> 00:18:09,919
+processors. So now we are actually back
+
+499
+00:18:08,320 --> 00:18:12,000
+up to having world champion
+
+500
+00:18:09,919 --> 00:18:13,760
+implementations of some routines like we
+
+501
+00:18:12,000 --> 00:18:16,400
+found the fastest implementation of the
+
+502
+00:18:13,760 --> 00:18:18,080
+Bitcoin uh elliptic curve on on most
+
+503
+00:18:16,400 --> 00:18:18,919
+recent Intel processors using these
+
+504
+00:18:18,080 --> 00:18:21,600
+these
+
+505
+00:18:18,919 --> 00:18:25,559
+tools with still a theorem a
+
+506
+00:18:21,600 --> 00:18:25,559
+mathematical theorem of correctness.
+
+507
+00:18:26,320 --> 00:18:32,720
+Okay, so that was a domain where having
+
+508
+00:18:29,840 --> 00:18:34,799
+heruristics write code for you aligns
+
+509
+00:18:32,720 --> 00:18:36,400
+well with using a relatively simple
+
+510
+00:18:34,799 --> 00:18:38,880
+checker that you got the right answer
+
+511
+00:18:36,400 --> 00:18:40,400
+out. In other domains, we need help to
+
+512
+00:18:38,880 --> 00:18:42,720
+be able to check the correctness of
+
+513
+00:18:40,400 --> 00:18:44,240
+code. I mentioned the idea of get the
+
+514
+00:18:42,720 --> 00:18:45,919
+machine learning tool to generate a
+
+515
+00:18:44,240 --> 00:18:47,760
+mathematical proof that you're the
+
+516
+00:18:45,919 --> 00:18:50,160
+program it wrote for you is correct. So
+
+517
+00:18:47,760 --> 00:18:51,760
+we can imagine some scenario like I
+
+518
+00:18:50,160 --> 00:18:53,280
+showed you before. We asked Chat GBT to
+
+519
+00:18:51,760 --> 00:18:55,120
+write this app. It gives not just the
+
+520
+00:18:53,280 --> 00:18:58,280
+code but also a mathematical proof which
+
+521
+00:18:55,120 --> 00:18:59,799
+we feed into a proof-checking
+
+522
+00:18:58,280 --> 00:19:02,720
+algorithm.
+
+523
+00:18:59,799 --> 00:19:04,480
+Um I think that kind of approach can
+
+524
+00:19:02,720 --> 00:19:06,240
+work well but it'll work especially well
+
+525
+00:19:04,480 --> 00:19:08,000
+when we don't just keep programming the
+
+526
+00:19:06,240 --> 00:19:09,520
+same way as it has always been but we
+
+527
+00:19:08,000 --> 00:19:11,280
+actually co-design programming and
+
+528
+00:19:09,520 --> 00:19:13,880
+verification to make it easier to check
+
+529
+00:19:11,280 --> 00:19:16,799
+the correctness of of programs. In
+
+530
+00:19:13,880 --> 00:19:18,559
+particular, as a a call back to Daniel's
+
+531
+00:19:16,799 --> 00:19:20,160
+presentation and the first part of mine,
+
+532
+00:19:18,559 --> 00:19:22,240
+I think it'll be easiest to check
+
+533
+00:19:20,160 --> 00:19:25,600
+programs, the more we can make them be
+
+534
+00:19:22,240 --> 00:19:27,360
+expressed as compositions of nice highle
+
+535
+00:19:25,600 --> 00:19:30,240
+pieces that have been curated carefully
+
+536
+00:19:27,360 --> 00:19:32,240
+as a as a library. And then we can take
+
+537
+00:19:30,240 --> 00:19:34,160
+advantage of libraries of mathematical
+
+538
+00:19:32,240 --> 00:19:36,320
+facts that are known about these pieces
+
+539
+00:19:34,160 --> 00:19:38,320
+to very efficiently show the correctness
+
+540
+00:19:36,320 --> 00:19:40,400
+of the the overall program that we've
+
+541
+00:19:38,320 --> 00:19:42,400
+built from them.
+
+542
+00:19:40,400 --> 00:19:43,679
+Let me give you one example in a a
+
+543
+00:19:42,400 --> 00:19:45,679
+project that I've been involved with.
+
+544
+00:19:43,679 --> 00:19:49,039
+It's a a programming language called
+
+545
+00:19:45,679 --> 00:19:50,720
+ATL, a tensor language. It's for coding
+
+546
+00:19:49,039 --> 00:19:52,320
+computations over tensors of the kind
+
+547
+00:19:50,720 --> 00:19:54,000
+you would use to implement machine
+
+548
+00:19:52,320 --> 00:19:56,080
+learning. And you actually write your
+
+549
+00:19:54,000 --> 00:19:58,880
+program as shown at the top right here
+
+550
+00:19:56,080 --> 00:20:00,880
+as basically a mathematical expression
+
+551
+00:19:58,880 --> 00:20:03,440
+uh describing how to compute some
+
+552
+00:20:00,880 --> 00:20:06,000
+tensors. And then we developed a
+
+553
+00:20:03,440 --> 00:20:07,919
+compiler that turns those programs into
+
+554
+00:20:06,000 --> 00:20:09,840
+nested loop C programs that work with
+
+555
+00:20:07,919 --> 00:20:12,559
+with arrays.
+
+556
+00:20:09,840 --> 00:20:14,559
+And the compiler itself is formally
+
+557
+00:20:12,559 --> 00:20:16,320
+proved as correct. So you know that the
+
+558
+00:20:14,559 --> 00:20:19,440
+C program computes the same answers as
+
+559
+00:20:16,320 --> 00:20:22,400
+the mathematical expression. But the
+
+560
+00:20:19,440 --> 00:20:24,160
+when you have your nice uh beautiful
+
+561
+00:20:22,400 --> 00:20:26,640
+mathematical expression, the C code that
+
+562
+00:20:24,160 --> 00:20:28,480
+comes out probably isn't nearly the
+
+563
+00:20:26,640 --> 00:20:31,440
+right optimized C code that you'd like
+
+564
+00:20:28,480 --> 00:20:33,600
+to have eventually. But we did develop a
+
+565
+00:20:31,440 --> 00:20:34,880
+an approach to allowing uh the
+
+566
+00:20:33,600 --> 00:20:36,480
+mathematical expression to be
+
+567
+00:20:34,880 --> 00:20:38,720
+manipulated in various ways that
+
+568
+00:20:36,480 --> 00:20:40,400
+influence which CC code you get. So that
+
+569
+00:20:38,720 --> 00:20:42,240
+if you choose the right manipulations,
+
+570
+00:20:40,400 --> 00:20:44,640
+you can actually get your nice optimized
+
+571
+00:20:42,240 --> 00:20:46,720
+C program. And then you just have to
+
+572
+00:20:44,640 --> 00:20:48,640
+convince yourself that the less obvious
+
+573
+00:20:46,720 --> 00:20:50,400
+looking math expression is correct. Our
+
+574
+00:20:48,640 --> 00:20:52,000
+tool handles the rest of the process of
+
+575
+00:20:50,400 --> 00:20:53,440
+producing the C code. But how do you
+
+576
+00:20:52,000 --> 00:20:54,880
+come up with the right math expression?
+
+577
+00:20:53,440 --> 00:20:56,880
+How do you know it's correct? The
+
+578
+00:20:54,880 --> 00:20:58,880
+approach that we use is this idea called
+
+579
+00:20:56,880 --> 00:21:00,880
+user scheduling that was first uh
+
+580
+00:20:58,880 --> 00:21:03,039
+introduced in tools like a programming
+
+581
+00:21:00,880 --> 00:21:04,640
+language called haly that my
+
+582
+00:21:03,039 --> 00:21:07,679
+collaborator on this project Jonathan
+
+583
+00:21:04,640 --> 00:21:09,679
+Reagan Kelly developed. We start with
+
+584
+00:21:07,679 --> 00:21:11,600
+the naive version of your math
+
+585
+00:21:09,679 --> 00:21:13,679
+expression and then on the left we're
+
+586
+00:21:11,600 --> 00:21:17,440
+accumulating a series of directives and
+
+587
+00:21:13,679 --> 00:21:19,440
+everyone we run modifies that program.
+
+588
+00:21:17,440 --> 00:21:21,600
+Every directive is itself proved
+
+589
+00:21:19,440 --> 00:21:24,159
+correct. So we know it preserves the
+
+590
+00:21:21,600 --> 00:21:26,080
+meaning of the math expression. And when
+
+591
+00:21:24,159 --> 00:21:28,480
+we line up enough of those, we've
+
+592
+00:21:26,080 --> 00:21:30,080
+transformed into a new math expression.
+
+593
+00:21:28,480 --> 00:21:31,679
+And we can compose together the proofs
+
+594
+00:21:30,080 --> 00:21:34,159
+of all the steps that we used to get
+
+595
+00:21:31,679 --> 00:21:35,760
+there to get a theorem linking this
+
+596
+00:21:34,159 --> 00:21:37,679
+expression back to the original one,
+
+597
+00:21:35,760 --> 00:21:40,880
+proving that they're equal. And then we
+
+598
+00:21:37,679 --> 00:21:42,799
+can combine that with our our compiler,
+
+599
+00:21:40,880 --> 00:21:44,640
+which is also proved to get an endto-end
+
+600
+00:21:42,799 --> 00:21:49,080
+path from the original simple math
+
+601
+00:21:44,640 --> 00:21:49,080
+expression to the optimized C program.
+
+602
+00:21:49,679 --> 00:21:53,280
+So now imagine using that kind of
+
+603
+00:21:51,440 --> 00:21:55,200
+approach where it's not a human writing
+
+604
+00:21:53,280 --> 00:21:57,360
+a sequence of directives, but we
+
+605
+00:21:55,200 --> 00:21:59,640
+actually get the AI involved in choosing
+
+606
+00:21:57,360 --> 00:22:02,240
+the right way to optimize your your math
+
+607
+00:21:59,640 --> 00:22:04,400
+expression. We stock a library with
+
+608
+00:22:02,240 --> 00:22:06,960
+proved rewrite rules that explain how to
+
+609
+00:22:04,400 --> 00:22:08,480
+rearrange math expressions. Humans can
+
+610
+00:22:06,960 --> 00:22:10,240
+do the work of demonstrating the
+
+611
+00:22:08,480 --> 00:22:12,720
+correctness of each of these rules. And
+
+612
+00:22:10,240 --> 00:22:14,960
+then we can let AI do what it does best.
+
+613
+00:22:12,720 --> 00:22:17,600
+heristically explore the space of
+
+614
+00:22:14,960 --> 00:22:19,280
+possible sequences of rules that will
+
+615
+00:22:17,600 --> 00:22:21,919
+will will change the math expression and
+
+616
+00:22:19,280 --> 00:22:23,679
+at every step we pause and recompile
+
+617
+00:22:21,919 --> 00:22:25,480
+benchmark the program and we're we're
+
+618
+00:22:23,679 --> 00:22:28,480
+trying to keep the the best one at each
+
+619
+00:22:25,480 --> 00:22:30,559
+point we get some of the the the
+
+620
+00:22:28,480 --> 00:22:32,640
+benefits of both the classical and AI
+
+621
+00:22:30,559 --> 00:22:34,159
+approaches here this is still a correct
+
+622
+00:22:32,640 --> 00:22:37,200
+by construction approach we don't have
+
+623
+00:22:34,159 --> 00:22:39,280
+to worry about bugs anymore uh but also
+
+624
+00:22:37,200 --> 00:22:41,600
+we can take advantage of whatever sort
+
+625
+00:22:39,280 --> 00:22:43,280
+of uh leaps of insight a machine
+
+626
+00:22:41,600 --> 00:22:45,280
+learning system can provide to us in
+
+627
+00:22:43,280 --> 00:22:48,640
+choosing the right way to take advantage
+
+628
+00:22:45,280 --> 00:22:50,960
+of a library of pieces that are provided
+
+629
+00:22:48,640 --> 00:22:50,960
+by the
+
+630
+00:22:51,080 --> 00:22:57,760
+programmer. So, uh summing up here are
+
+631
+00:22:54,640 --> 00:23:00,000
+my thoughts on the way we should aim in
+
+632
+00:22:57,760 --> 00:23:03,440
+redeveloping future IDs to take maximal
+
+633
+00:23:00,000 --> 00:23:05,760
+advantage of both classical IDs and uh
+
+634
+00:23:03,440 --> 00:23:08,320
+machine learning and AI techniques. We
+
+635
+00:23:05,760 --> 00:23:11,520
+want developers not to just think about
+
+636
+00:23:08,320 --> 00:23:14,400
+the task at hand, but work on stalking a
+
+637
+00:23:11,520 --> 00:23:16,159
+library of good idea components. Maybe
+
+638
+00:23:14,400 --> 00:23:18,400
+even spend some time explaining why
+
+639
+00:23:16,159 --> 00:23:20,240
+they're good. Something like uh writing
+
+640
+00:23:18,400 --> 00:23:21,159
+specifications or helping a system that
+
+641
+00:23:20,240 --> 00:23:23,600
+checks
+
+642
+00:23:21,159 --> 00:23:25,280
+correctness. Tell the ID what are all
+
+643
+00:23:23,600 --> 00:23:28,480
+the components that it should be taking
+
+644
+00:23:25,280 --> 00:23:30,159
+into account. And then set it loose to
+
+645
+00:23:28,480 --> 00:23:32,440
+heristically search for programs that
+
+646
+00:23:30,159 --> 00:23:34,880
+can be built from the blessed
+
+647
+00:23:32,440 --> 00:23:36,960
+components. And if we set this up right,
+
+648
+00:23:34,880 --> 00:23:39,679
+there can also be a formal verification
+
+649
+00:23:36,960 --> 00:23:41,880
+element that is able to check that the
+
+650
+00:23:39,679 --> 00:23:44,559
+generated artifact meets the
+
+651
+00:23:41,880 --> 00:23:46,320
+requirements with no trust in the AI
+
+652
+00:23:44,559 --> 00:23:48,240
+process that created that code in the
+
+653
+00:23:46,320 --> 00:23:51,120
+first place. We're kind of reconfirming
+
+654
+00:23:48,240 --> 00:23:53,039
+everything uh from scratch. And then
+
+655
+00:23:51,120 --> 00:23:54,880
+finally, I think there's a lot of room
+
+656
+00:23:53,039 --> 00:23:58,080
+for interesting feedback mechanisms
+
+657
+00:23:54,880 --> 00:24:00,640
+where idees can uh consume many code
+
+658
+00:23:58,080 --> 00:24:02,720
+bases and make suggestions for new
+
+659
+00:24:00,640 --> 00:24:04,000
+components that might be worth creating,
+
+660
+00:24:02,720 --> 00:24:06,880
+putting out there with with good
+
+661
+00:24:04,000 --> 00:24:09,840
+documentation, etc., and then just feed
+
+662
+00:24:06,880 --> 00:24:11,840
+this this virtuous cycle where humans do
+
+663
+00:24:09,840 --> 00:24:13,640
+what what they're good at and the uh the
+
+664
+00:24:11,840 --> 00:24:17,799
+AIs do what they're good
+
+665
+00:24:13,640 --> 00:24:17,799
+at. Thank you.
+
+666
+00:24:18,080 --> 00:24:25,320
+So when it comes to component in AI
+
+667
+00:24:21,279 --> 00:24:28,720
+generated code if the components have a
+
+668
+00:24:25,320 --> 00:24:30,480
+flaw then your verification will treat
+
+669
+00:24:28,720 --> 00:24:32,640
+that flaw as a correct thing and then
+
+670
+00:24:30,480 --> 00:24:35,159
+we'll try to verify that way right and
+
+671
+00:24:32,640 --> 00:24:38,559
+we may be just trusting the verification
+
+672
+00:24:35,159 --> 00:24:42,400
+result is that something you guys think
+
+673
+00:24:38,559 --> 00:24:44,960
+is a concern or need to be worked upon
+
+674
+00:24:42,400 --> 00:24:47,039
+because if I'm writing a component I may
+
+675
+00:24:44,960 --> 00:24:50,159
+be thinking it's the correct Yeah, you
+
+676
+00:24:47,039 --> 00:24:54,080
+know thing that or a correct prompt I
+
+677
+00:24:50,159 --> 00:24:56,080
+already passed on to AI and now AI
+
+678
+00:24:54,080 --> 00:24:58,320
+generated code verification is thinking
+
+679
+00:24:56,080 --> 00:25:00,880
+the prompt is also correct right and
+
+680
+00:24:58,320 --> 00:25:02,559
+it's using that as a baseline to just
+
+681
+00:25:00,880 --> 00:25:04,240
+verify the code maybe you're asking
+
+682
+00:25:02,559 --> 00:25:06,640
+about the question of how do we know
+
+683
+00:25:04,240 --> 00:25:08,720
+what correctness means for a particular
+
+684
+00:25:06,640 --> 00:25:10,159
+uh software engineering project if the
+
+685
+00:25:08,720 --> 00:25:12,320
+correctness is expressed in English and
+
+686
+00:25:10,159 --> 00:25:14,559
+we use AI to translate that into a more
+
+687
+00:25:12,320 --> 00:25:16,559
+rigorous form then that AI translation
+
+688
+00:25:14,559 --> 00:25:18,720
+is the weakest link Is that the concern
+
+689
+00:25:16,559 --> 00:25:21,039
+you're you're bringing up? Yes. Or maybe
+
+690
+00:25:18,720 --> 00:25:23,600
+I'm missing some requirements in my
+
+691
+00:25:21,039 --> 00:25:26,080
+component and prompt itself that I
+
+692
+00:25:23,600 --> 00:25:27,840
+wasn't aware of. Right. Yeah. It it in
+
+693
+00:25:26,080 --> 00:25:29,200
+formal methods in general knowing you
+
+694
+00:25:27,840 --> 00:25:31,360
+have the right specification is one of
+
+695
+00:25:29,200 --> 00:25:32,840
+the the classic challenges that at some
+
+696
+00:25:31,360 --> 00:25:35,520
+level is not completely solvable
+
+697
+00:25:32,840 --> 00:25:37,279
+automatically. Um but the the way we can
+
+698
+00:25:35,520 --> 00:25:40,400
+get around it is just try to come up
+
+699
+00:25:37,279 --> 00:25:42,000
+with nice concise readable languages of
+
+700
+00:25:40,400 --> 00:25:43,720
+requirements.
+
+701
+00:25:42,000 --> 00:25:46,720
+And
+
+702
+00:25:43,720 --> 00:25:47,840
+uh that means that humans can audit the
+
+703
+00:25:46,720 --> 00:25:49,760
+description of what they've
+
+704
+00:25:47,840 --> 00:25:51,200
+accomplished. Maybe several of them can
+
+705
+00:25:49,760 --> 00:25:52,960
+just like we do code review today.
+
+706
+00:25:51,200 --> 00:25:55,279
+Instead of of code reviewing the whole
+
+707
+00:25:52,960 --> 00:25:58,159
+sprawling codebase, you reduce the scope
+
+708
+00:25:55,279 --> 00:26:00,400
+to auditing the description of the
+
+709
+00:25:58,159 --> 00:26:02,640
+requirements for your your particular
+
+710
+00:26:00,400 --> 00:26:04,240
+program and then checking that the the
+
+711
+00:26:02,640 --> 00:26:06,480
+big code base matches those requirements
+
+712
+00:26:04,240 --> 00:26:08,320
+can be automated. And I think that's a
+
+713
+00:26:06,480 --> 00:26:09,919
+big improvement. There's still room for
+
+714
+00:26:08,320 --> 00:26:13,200
+streamlining the process of capturing
+
+715
+00:26:09,919 --> 00:26:13,200
+requirements formally.
+
+716
+00:26:13,600 --> 00:26:18,000
+Anyone
+
+717
+00:26:14,919 --> 00:26:21,159
+else? Okay, let's hear it for Adam.
+
+718
+00:26:18,000 --> 00:26:21,159
+Thank you.
+

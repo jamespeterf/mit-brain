@@ -1,0 +1,5740 @@
+1
+00:00:11,280 --> 00:00:16,480
+Well, today we're going to talk about
+
+2
+00:00:13,360 --> 00:00:19,920
+volatility modeling. And this uh topic
+
+3
+00:00:16,480 --> 00:00:23,680
+in finance is one that um it has really
+
+4
+00:00:19,920 --> 00:00:25,920
+interested me for decades. Um and there
+
+5
+00:00:23,680 --> 00:00:28,720
+are a lot of subtle details involved
+
+6
+00:00:25,920 --> 00:00:32,399
+with understanding volatility, how to
+
+7
+00:00:28,720 --> 00:00:36,399
+measure it, how to forecast it. And
+
+8
+00:00:32,399 --> 00:00:40,559
+we've had some uh talks already with the
+
+9
+00:00:36,399 --> 00:00:43,840
+group u projects about uh dealing with
+
+10
+00:00:40,559 --> 00:00:45,920
+volatility estimation and uh measuring
+
+11
+00:00:43,840 --> 00:00:50,399
+volatility in particular implied
+
+12
+00:00:45,920 --> 00:00:52,719
+volatility. Uh today we'll focus more on
+
+13
+00:00:50,399 --> 00:00:58,239
+uh realized volatility and modeling
+
+14
+00:00:52,719 --> 00:01:02,079
+that. And so to begin um here's just an
+
+15
+00:00:58,239 --> 00:01:05,840
+overview of different ways one might
+
+16
+00:01:02,079 --> 00:01:08,320
+define volatility. And it's basic
+
+17
+00:01:05,840 --> 00:01:10,880
+definition is the annualized standard
+
+18
+00:01:08,320 --> 00:01:13,040
+deviation of the change in price or
+
+19
+00:01:10,880 --> 00:01:15,920
+value of a financial security. And of
+
+20
+00:01:13,040 --> 00:01:20,640
+course this this concept is really
+
+21
+00:01:15,920 --> 00:01:24,240
+important for measuring risk and
+
+22
+00:01:20,640 --> 00:01:26,240
+evaluating the uh value of options on
+
+23
+00:01:24,240 --> 00:01:28,320
+underlying assets. Yep.
+
+24
+00:01:26,240 --> 00:01:32,079
+>> What's it mean by randomized?
+
+25
+00:01:28,320 --> 00:01:37,119
+>> Um what that means? Okay. Suppose
+
+26
+00:01:32,079 --> 00:01:42,759
+suppose we have a sigma day that's equal
+
+27
+00:01:37,119 --> 00:01:42,759
+to um say 0.01
+
+28
+00:01:42,880 --> 00:01:51,840
+percent. So 1% variability per day. If
+
+29
+00:01:47,520 --> 00:01:57,439
+we wanted to measure volatility on an
+
+30
+00:01:51,840 --> 00:01:58,960
+annualized scale, then we could
+
+31
+00:01:57,439 --> 00:02:02,399
+consider
+
+32
+00:01:58,960 --> 00:02:04,640
+possibly the square root of 252 times
+
+33
+00:02:02,399 --> 00:02:06,719
+sigma day.
+
+34
+00:02:04,640 --> 00:02:10,399
+So it's a matter of scaling the
+
+35
+00:02:06,719 --> 00:02:15,680
+volatility up to an annual horizon.
+
+36
+00:02:10,399 --> 00:02:19,040
+And the value of that rescaling is that
+
+37
+00:02:15,680 --> 00:02:21,520
+we can talk about volatilities over
+
+38
+00:02:19,040 --> 00:02:27,280
+different maturities and they're
+
+39
+00:02:21,520 --> 00:02:30,959
+measured on the same scale. Um and uh
+
+40
+00:02:27,280 --> 00:02:32,959
+with different estimation uh approaches.
+
+41
+00:02:30,959 --> 00:02:37,120
+There's historical sample volatility
+
+42
+00:02:32,959 --> 00:02:40,319
+measures which um don't require really
+
+43
+00:02:37,120 --> 00:02:42,560
+any probability models with them. Then
+
+44
+00:02:40,319 --> 00:02:44,640
+we have geometric brownie in motion.
+
+45
+00:02:42,560 --> 00:02:48,560
+That's a very familiar model to everyone
+
+46
+00:02:44,640 --> 00:02:51,760
+here. Um and we can consider extensions
+
+47
+00:02:48,560 --> 00:02:55,519
+of that to the pson jump diffusion
+
+48
+00:02:51,760 --> 00:02:58,480
+model. A group delivered a nice lecture
+
+49
+00:02:55,519 --> 00:03:02,159
+on lecture note on the pson jump
+
+50
+00:02:58,480 --> 00:03:06,159
+diffusions. And then following these
+
+51
+00:03:02,159 --> 00:03:10,480
+cases are cases where volatility
+
+52
+00:03:06,159 --> 00:03:13,280
+might have some time dynamics in them.
+
+53
+00:03:10,480 --> 00:03:16,400
+Um with these uh geometric brownian
+
+54
+00:03:13,280 --> 00:03:20,319
+motion and pan jump diffusion models, we
+
+55
+00:03:16,400 --> 00:03:23,519
+think of volatility being some constant
+
+56
+00:03:20,319 --> 00:03:27,360
+which is the same from one period to the
+
+57
+00:03:23,519 --> 00:03:31,200
+next. But it turns out that there can be
+
+58
+00:03:27,360 --> 00:03:34,560
+time dependence in volatility. And so
+
+59
+00:03:31,200 --> 00:03:37,440
+there are ARCH and GARCH models which
+
+60
+00:03:34,560 --> 00:03:40,720
+stand for auto reggressive conditional
+
+61
+00:03:37,440 --> 00:03:44,239
+heteroscadastic models. And then the
+
+62
+00:03:40,720 --> 00:03:45,840
+GARCH are generalized versions of those.
+
+63
+00:03:44,239 --> 00:03:50,319
+And then there are stochcastic
+
+64
+00:03:45,840 --> 00:03:54,159
+volatility models as well. Um I know uh
+
+65
+00:03:50,319 --> 00:03:58,560
+let's see the H uh option pricing model
+
+66
+00:03:54,159 --> 00:04:02,560
+uses a stochcastic volatility uh term in
+
+67
+00:03:58,560 --> 00:04:04,959
+its in its formulation. So uh we have
+
+68
+00:04:02,560 --> 00:04:07,040
+those kinds of extensions and then
+
+69
+00:04:04,959 --> 00:04:09,120
+finally there's implied volatility from
+
+70
+00:04:07,040 --> 00:04:12,560
+options and derivatives.
+
+71
+00:04:09,120 --> 00:04:16,799
+So let's just look at computing
+
+72
+00:04:12,560 --> 00:04:18,959
+volatility from an historical series of
+
+73
+00:04:16,799 --> 00:04:23,440
+actual prices.
+
+74
+00:04:18,959 --> 00:04:28,080
+Um if we have prices PT then we can
+
+75
+00:04:23,440 --> 00:04:32,160
+define the log returns by looking at the
+
+76
+00:04:28,080 --> 00:04:35,040
+ratio of price prices from one day to
+
+77
+00:04:32,160 --> 00:04:39,280
+the next or one period to the next and
+
+78
+00:04:35,040 --> 00:04:43,280
+taking the logarithm of that. Um this is
+
+79
+00:04:39,280 --> 00:04:45,919
+a useful way of measuring returns as an
+
+80
+00:04:43,280 --> 00:04:50,160
+alternative to simply the percentage
+
+81
+00:04:45,919 --> 00:04:53,440
+change in value using the log scale or
+
+82
+00:04:50,160 --> 00:04:56,479
+the log return. If we look at the
+
+83
+00:04:53,440 --> 00:05:01,040
+cumulative change over successive
+
+84
+00:04:56,479 --> 00:05:03,120
+periods with log returns they just add.
+
+85
+00:05:01,040 --> 00:05:05,759
+um whereas if we were using percentage
+
+86
+00:05:03,120 --> 00:05:08,000
+returns we'd have to uh basically
+
+87
+00:05:05,759 --> 00:05:15,600
+multiply factors together representing
+
+88
+00:05:08,000 --> 00:05:20,639
+that. Now um in modeling volatility uh
+
+89
+00:05:15,600 --> 00:05:25,919
+we consider models that correspond to
+
+90
+00:05:20,639 --> 00:05:30,080
+stationary processes for our returns. So
+
+91
+00:05:25,919 --> 00:05:34,880
+the log returns of price series are
+
+92
+00:05:30,080 --> 00:05:39,360
+often uh consistent w via tests with a
+
+93
+00:05:34,880 --> 00:05:41,120
+stationary distribution of returns and
+
+94
+00:05:39,360 --> 00:05:45,840
+under the assumption of covariant
+
+95
+00:05:41,120 --> 00:05:48,880
+stationerity we can define uh sigma to
+
+96
+00:05:45,840 --> 00:05:52,639
+be the variance of or the standard
+
+97
+00:05:48,880 --> 00:05:56,000
+deviation of of those returns. Now in
+
+98
+00:05:52,639 --> 00:05:59,440
+this notation here, this sigma for the
+
+99
+00:05:56,000 --> 00:06:02,240
+volatility would be corresponding to a
+
+100
+00:05:59,440 --> 00:06:04,800
+frequency of observation that's daily or
+
+101
+00:06:02,240 --> 00:06:08,400
+weekly or monthly.
+
+102
+00:06:04,800 --> 00:06:12,000
+And we'd have sample estimates given by
+
+103
+00:06:08,400 --> 00:06:15,280
+the square root of the
+
+104
+00:06:12,000 --> 00:06:18,639
+uh sample variance where we
+
+105
+00:06:15,280 --> 00:06:22,000
+traditionally use the estimator for
+
+106
+00:06:18,639 --> 00:06:25,759
+variance which is an unbiased estimate
+
+107
+00:06:22,000 --> 00:06:29,199
+of the variance. So that factor divisor
+
+108
+00:06:25,759 --> 00:06:31,520
+two t minus one is included there. And
+
+109
+00:06:29,199 --> 00:06:33,919
+then if we want to annualize these
+
+110
+00:06:31,520 --> 00:06:37,039
+values, it's
+
+111
+00:06:33,919 --> 00:06:38,560
+common practice just to treat these
+
+112
+00:06:37,039 --> 00:06:41,759
+returns
+
+113
+00:06:38,560 --> 00:06:44,720
+as independent
+
+114
+00:06:41,759 --> 00:06:48,080
+or uncorrelated over time. So that the
+
+115
+00:06:44,720 --> 00:06:49,600
+variance of a sum is the sum of the
+
+116
+00:06:48,080 --> 00:06:53,039
+variances.
+
+117
+00:06:49,600 --> 00:06:56,639
+So there are roughly 252
+
+118
+00:06:53,039 --> 00:06:58,720
+days in a year. So we multiply by the
+
+119
+00:06:56,639 --> 00:07:03,919
+square<unk> of 252
+
+120
+00:06:58,720 --> 00:07:07,680
+for daily uh returns. For weekly returns
+
+121
+00:07:03,919 --> 00:07:10,400
+we do the roo<unk> 52 time sigma hat and
+
+122
+00:07:07,680 --> 00:07:12,639
+roo<unk>2 for monthly.
+
+123
+00:07:10,400 --> 00:07:14,560
+Now um
+
+124
+00:07:12,639 --> 00:07:19,360
+when
+
+125
+00:07:14,560 --> 00:07:24,160
+measuring uh historical volatility
+
+126
+00:07:19,360 --> 00:07:25,840
+um we can think of a simple historical
+
+127
+00:07:24,160 --> 00:07:29,280
+average sort of since the beginning of
+
+128
+00:07:25,840 --> 00:07:32,240
+our time series. Um so this historical
+
+129
+00:07:29,280 --> 00:07:35,759
+average would use all available data.
+
+130
+00:07:32,240 --> 00:07:40,000
+It's reasonable to think that volatility
+
+131
+00:07:35,759 --> 00:07:44,160
+isn't necessarily stable over the entire
+
+132
+00:07:40,000 --> 00:07:47,440
+time range of a price series. And so we
+
+133
+00:07:44,160 --> 00:07:50,560
+could consider just using the last m
+
+134
+00:07:47,440 --> 00:07:54,639
+values. So take a rolling average of the
+
+135
+00:07:50,560 --> 00:07:59,039
+last m uh
+
+136
+00:07:54,639 --> 00:08:05,120
+values of this sigma hat^ 2 t minus j.
+
+137
+00:07:59,039 --> 00:08:11,199
+Now um if we uh define sigma hat squared
+
+138
+00:08:05,120 --> 00:08:13,680
+t to just be a single day volatility
+
+139
+00:08:11,199 --> 00:08:17,599
+that could be like the
+
+140
+00:08:13,680 --> 00:08:22,560
+square of the daily return on a given
+
+141
+00:08:17,599 --> 00:08:27,599
+day. Now using equal weighted values
+
+142
+00:08:22,560 --> 00:08:30,720
+over a window of length m
+
+143
+00:08:27,599 --> 00:08:33,519
+might be improved upon by using an
+
+144
+00:08:30,720 --> 00:08:37,519
+exponential moving average.
+
+145
+00:08:33,519 --> 00:08:40,479
+And so exponential moving averages are
+
+146
+00:08:37,519 --> 00:08:43,200
+averages where we take a weighted
+
+147
+00:08:40,479 --> 00:08:48,000
+average of
+
+148
+00:08:43,200 --> 00:08:50,480
+the previous estimate of volatility
+
+149
+00:08:48,000 --> 00:08:54,080
+and the current
+
+150
+00:08:50,480 --> 00:08:57,360
+estimate of volatility using the time
+
+151
+00:08:54,080 --> 00:09:01,600
+the time t value. So this one minus beta
+
+152
+00:08:57,360 --> 00:09:05,839
+beta weight allows us to uh weight the
+
+153
+00:09:01,600 --> 00:09:08,880
+past versus the present um in an
+
+154
+00:09:05,839 --> 00:09:11,839
+exponential way. And with this formula
+
+155
+00:09:08,880 --> 00:09:15,279
+it's recursive over t and so it can
+
+156
+00:09:11,839 --> 00:09:20,160
+actually apply across an entire range of
+
+157
+00:09:15,279 --> 00:09:22,240
+historical data. um an alternative to
+
+158
+00:09:20,160 --> 00:09:24,399
+just the regular exponential moving
+
+159
+00:09:22,240 --> 00:09:27,920
+averages and exponential weighted moving
+
+160
+00:09:24,399 --> 00:09:33,440
+average where we only go back maybe m
+
+161
+00:09:27,920 --> 00:09:37,040
+periods but we decrease the weights on
+
+162
+00:09:33,440 --> 00:09:43,360
+past volatility estimates um according
+
+163
+00:09:37,040 --> 00:09:47,440
+to the power of beta j. So beta j is uh
+
+164
+00:09:43,360 --> 00:09:50,000
+or beta is sort of a decay factor in
+
+165
+00:09:47,440 --> 00:09:52,720
+estimating volatilities.
+
+166
+00:09:50,000 --> 00:09:57,120
+The uh
+
+167
+00:09:52,720 --> 00:10:00,480
+so okay additionally one could consider
+
+168
+00:09:57,120 --> 00:10:05,200
+uh regression models with these
+
+169
+00:10:00,480 --> 00:10:08,000
+volatility uh sigma hats indexed by t.
+
+170
+00:10:05,200 --> 00:10:13,200
+Um and
+
+171
+00:10:08,000 --> 00:10:15,600
+depending on uh the relationship of
+
+172
+00:10:13,200 --> 00:10:18,800
+volatility to the past, you know, we
+
+173
+00:10:15,600 --> 00:10:21,600
+might you want use more data to increase
+
+174
+00:10:18,800 --> 00:10:25,680
+precision of estimators, but use data
+
+175
+00:10:21,600 --> 00:10:27,680
+closer to time t when we believe that
+
+176
+00:10:25,680 --> 00:10:32,320
+the volatility may be changing over
+
+177
+00:10:27,680 --> 00:10:36,399
+time. And what's neat about these uh
+
+178
+00:10:32,320 --> 00:10:39,200
+estimation methods is that we can
+
+179
+00:10:36,399 --> 00:10:42,880
+evaluate say the exponential moving
+
+180
+00:10:39,200 --> 00:10:46,240
+average estimates of volatility over
+
+181
+00:10:42,880 --> 00:10:47,839
+different assets and different asset
+
+182
+00:10:46,240 --> 00:10:51,120
+classes.
+
+183
+00:10:47,839 --> 00:10:56,560
+And uh this
+
+184
+00:10:51,120 --> 00:11:00,959
+approach was applied in risk metrics. Um
+
+185
+00:10:56,560 --> 00:11:04,000
+here there's a web link to the risk
+
+186
+00:11:00,959 --> 00:11:08,480
+metrics technical document. I think I
+
+187
+00:11:04,000 --> 00:11:14,480
+have it listed here. Um
+
+188
+00:11:08,480 --> 00:11:19,839
+so actually this uh riskmetrics was um
+
+189
+00:11:14,480 --> 00:11:23,200
+created by JP Morgan back in the 1990s.
+
+190
+00:11:19,839 --> 00:11:26,399
+Coincidentally, when I was at the Sloan
+
+191
+00:11:23,200 --> 00:11:28,640
+School teaching statistics and financial
+
+192
+00:11:26,399 --> 00:11:30,800
+modeling, I was part of the financial
+
+193
+00:11:28,640 --> 00:11:34,320
+services research center that was
+
+194
+00:11:30,800 --> 00:11:38,399
+sponsored by uh JP Morgan and other
+
+195
+00:11:34,320 --> 00:11:44,320
+groups when this risk metrics document
+
+196
+00:11:38,399 --> 00:11:47,600
+was um was created. And if we look at um
+
+197
+00:11:44,320 --> 00:11:49,600
+let's see there's a section here of risk
+
+198
+00:11:47,600 --> 00:11:53,440
+metrics
+
+199
+00:11:49,600 --> 00:11:56,800
+um decay factors for volatility.
+
+200
+00:11:53,440 --> 00:12:00,079
+Basically for different countries,
+
+201
+00:11:56,800 --> 00:12:03,040
+one can use the exponential moving
+
+202
+00:12:00,079 --> 00:12:06,639
+average of
+
+203
+00:12:03,040 --> 00:12:09,920
+uh asset returns for foreign exchange
+
+204
+00:12:06,639 --> 00:12:13,519
+uh 10year zero prices, equity indices
+
+205
+00:12:09,920 --> 00:12:16,800
+and other assets. And what's interesting
+
+206
+00:12:13,519 --> 00:12:19,839
+to see is that the decay factor is
+
+207
+00:12:16,800 --> 00:12:24,399
+generally well above 0.9. It's more like
+
+208
+00:12:19,839 --> 00:12:28,160
+0 n5 which suggests that volatility is
+
+209
+00:12:24,399 --> 00:12:32,320
+changing slowly over time. And the way
+
+210
+00:12:28,160 --> 00:12:36,800
+they chose these decay factors was to
+
+211
+00:12:32,320 --> 00:12:40,480
+look at how predictive they were with
+
+212
+00:12:36,800 --> 00:12:43,279
+mean squared error of volatility. So
+
+213
+00:12:40,480 --> 00:12:47,360
+these are reasonable uh estimates of
+
+214
+00:12:43,279 --> 00:12:49,519
+volatility and an important aspect of
+
+215
+00:12:47,360 --> 00:12:53,360
+these measures
+
+216
+00:12:49,519 --> 00:12:58,240
+is having benchmark values that people
+
+217
+00:12:53,360 --> 00:13:00,160
+can agree upon. So it we're not arguing
+
+218
+00:12:58,240 --> 00:13:03,920
+that these are the best estimators, but
+
+219
+00:13:00,160 --> 00:13:06,639
+they're a simple objective estimator
+
+220
+00:13:03,920 --> 00:13:08,800
+that can be applied. And when we
+
+221
+00:13:06,639 --> 00:13:11,600
+communicate about these other people
+
+222
+00:13:08,800 --> 00:13:17,040
+understand what we're measuring. So
+
+223
+00:13:11,600 --> 00:13:19,279
+those are important. Now um
+
+224
+00:13:17,040 --> 00:13:23,519
+let's see with geometric brownie in
+
+225
+00:13:19,279 --> 00:13:26,240
+motion turning now to having a
+
+226
+00:13:23,519 --> 00:13:30,800
+stochcastic process model for the
+
+227
+00:13:26,240 --> 00:13:32,959
+prices. Um if we have this stochastic
+
+228
+00:13:30,800 --> 00:13:37,279
+differential equation the geometric
+
+229
+00:13:32,959 --> 00:13:40,320
+brownie motion one um we see that and
+
+230
+00:13:37,279 --> 00:13:45,440
+it's totally obvious but if we divide
+
+231
+00:13:40,320 --> 00:13:54,079
+both sides by s of t we get mud dt plus
+
+232
+00:13:45,440 --> 00:13:59,360
+um sigma d s of t or d sigma dw of t
+
+233
+00:13:54,079 --> 00:14:03,360
+where w of t is a uh standard brownie in
+
+234
+00:13:59,360 --> 00:14:07,360
+motion. So by looking at essentially the
+
+235
+00:14:03,360 --> 00:14:11,279
+percentage change on an infiniteesmal
+
+236
+00:14:07,360 --> 00:14:14,880
+level u we basically have a linear trend
+
+237
+00:14:11,279 --> 00:14:18,079
+that's deterministic and then a random
+
+238
+00:14:14,880 --> 00:14:20,480
+walk with brownie in motion steps on
+
+239
+00:14:18,079 --> 00:14:24,320
+that scale.
+
+240
+00:14:20,480 --> 00:14:29,760
+And with this geometric brownie in
+
+241
+00:14:24,320 --> 00:14:31,440
+motion, we have um basically independent
+
+242
+00:14:29,760 --> 00:14:35,120
+increments
+
+243
+00:14:31,440 --> 00:14:38,639
+with normally distributed increments on
+
+244
+00:14:35,120 --> 00:14:40,240
+this uh log scale for the brownie
+
+245
+00:14:38,639 --> 00:14:45,839
+motion.
+
+246
+00:14:40,240 --> 00:14:49,279
+And with our uh homework exercise this
+
+247
+00:14:45,839 --> 00:14:54,160
+past week, we actually dealt with um
+
+248
+00:14:49,279 --> 00:14:56,639
+estimating the drift parameter and the
+
+249
+00:14:54,160 --> 00:15:01,199
+volatility parameter in geometric
+
+250
+00:14:56,639 --> 00:15:05,120
+brownie and motion. And so if our
+
+251
+00:15:01,199 --> 00:15:10,160
+increments of time are unit increments,
+
+252
+00:15:05,120 --> 00:15:14,720
+then we can estimate a drift term mu
+
+253
+00:15:10,160 --> 00:15:17,760
+star with the average log return. And we
+
+254
+00:15:14,720 --> 00:15:22,320
+can estimate the
+
+255
+00:15:17,760 --> 00:15:26,000
+period volatility or period variance uh
+
+256
+00:15:22,320 --> 00:15:30,160
+with the the sample variance using n
+
+257
+00:15:26,000 --> 00:15:32,800
+instead of n minus one. Um now these
+
+258
+00:15:30,160 --> 00:15:35,920
+essentially are correspond to maximum
+
+259
+00:15:32,800 --> 00:15:41,680
+likelihood estimates of these parameters
+
+260
+00:15:35,920 --> 00:15:45,680
+and uh what's important to note here is
+
+261
+00:15:41,680 --> 00:15:50,639
+that um the
+
+262
+00:15:45,680 --> 00:15:54,639
+drift term mu star per period
+
+263
+00:15:50,639 --> 00:15:57,920
+um is actually equal to the mu of the
+
+264
+00:15:54,639 --> 00:16:01,360
+geometric brownian motion minus the
+
+265
+00:15:57,920 --> 00:16:05,440
+square of the volatility term divided by
+
+266
+00:16:01,360 --> 00:16:09,680
+two. And so what's important is that
+
+267
+00:16:05,440 --> 00:16:13,279
+when we apply this
+
+268
+00:16:09,680 --> 00:16:18,560
+stochastic differential equation um
+
+269
+00:16:13,279 --> 00:16:21,920
+there basically comes a an extra term in
+
+270
+00:16:18,560 --> 00:16:24,880
+the drift that's due to the squared
+
+271
+00:16:21,920 --> 00:16:28,560
+variation in the process.
+
+272
+00:16:24,880 --> 00:16:31,839
+So um in working with these stochastic
+
+273
+00:16:28,560 --> 00:16:34,079
+differential equations, it's important
+
+274
+00:16:31,839 --> 00:16:36,720
+not to just look at first order terms
+
+275
+00:16:34,079 --> 00:16:38,639
+but to look at second order terms in
+
+276
+00:16:36,720 --> 00:16:41,600
+your tailaylor series approximation. And
+
+277
+00:16:38,639 --> 00:16:45,600
+that's how that mu star gets gets in
+
+278
+00:16:41,600 --> 00:16:48,079
+there to be different from mu. Now um an
+
+279
+00:16:45,600 --> 00:16:50,399
+interesting
+
+280
+00:16:48,079 --> 00:16:52,320
+uh exercise which hopefully was of
+
+281
+00:16:50,399 --> 00:16:57,279
+interest to people who worked on that
+
+282
+00:16:52,320 --> 00:17:00,959
+last week. Um if we vary the increments
+
+283
+00:16:57,279 --> 00:17:05,399
+delta J over which we observe this price
+
+284
+00:17:00,959 --> 00:17:05,399
+process then
+
+285
+00:17:07,039 --> 00:17:15,199
+we can talk about how accurate or how
+
+286
+00:17:10,640 --> 00:17:18,400
+precise are our estimates of mu
+
+287
+00:17:15,199 --> 00:17:21,760
+star and sigma squared.
+
+288
+00:17:18,400 --> 00:17:26,959
+And it turns out that
+
+289
+00:17:21,760 --> 00:17:32,160
+if the delta j the increments between
+
+290
+00:17:26,959 --> 00:17:36,320
+observations varies then our estimate of
+
+291
+00:17:32,160 --> 00:17:39,120
+mu star is always the same. It
+
+292
+00:17:36,320 --> 00:17:42,080
+corresponds to just the cumulative
+
+293
+00:17:39,120 --> 00:17:43,760
+return over the entire period divided by
+
+294
+00:17:42,080 --> 00:17:47,919
+the length of the period. So it's the
+
+295
+00:17:43,760 --> 00:17:49,440
+average rate of return per period.
+
+296
+00:17:47,919 --> 00:17:53,200
+Interestingly,
+
+297
+00:17:49,440 --> 00:17:57,760
+if we increase the number of increments,
+
+298
+00:17:53,200 --> 00:18:00,320
+then our precision on the variance gets
+
+299
+00:17:57,760 --> 00:18:03,520
+more and more precise
+
+300
+00:18:00,320 --> 00:18:08,480
+and uh the variability of that actually
+
+301
+00:18:03,520 --> 00:18:11,679
+goes down uh with a factor of n. So that
+
+302
+00:18:08,480 --> 00:18:16,799
+was a homework exercise that I think is
+
+303
+00:18:11,679 --> 00:18:19,679
+is an important one uh to realize.
+
+304
+00:18:16,799 --> 00:18:23,679
+Now,
+
+305
+00:18:19,679 --> 00:18:26,880
+a really interesting extension of sort
+
+306
+00:18:23,679 --> 00:18:29,760
+of maximum likelihood estimation with
+
+307
+00:18:26,880 --> 00:18:33,039
+normally distributed increments coming
+
+308
+00:18:29,760 --> 00:18:35,840
+from the Brownian motion process is
+
+309
+00:18:33,039 --> 00:18:39,360
+looking at
+
+310
+00:18:35,840 --> 00:18:43,440
+the problem of using more information
+
+311
+00:18:39,360 --> 00:18:47,760
+than just the close to close prices. And
+
+312
+00:18:43,440 --> 00:18:51,760
+so what we want to do is introduce you
+
+313
+00:18:47,760 --> 00:18:56,080
+to the Garmin class estimator.
+
+314
+00:18:51,760 --> 00:19:00,720
+And let me just turn to
+
+315
+00:18:56,080 --> 00:19:03,280
+the Garmin class paper. Um these papers
+
+316
+00:19:00,720 --> 00:19:06,880
+are distributed in canvas in the
+
+317
+00:19:03,280 --> 00:19:12,480
+volatility notes section. But um if we
+
+318
+00:19:06,880 --> 00:19:16,240
+think of a period of time with one day
+
+319
+00:19:12,480 --> 00:19:19,679
+going from yesterday's close to today's
+
+320
+00:19:16,240 --> 00:19:22,000
+open to today's close.
+
+321
+00:19:19,679 --> 00:19:24,400
+Then
+
+322
+00:19:22,000 --> 00:19:28,640
+in thinking about
+
+323
+00:19:24,400 --> 00:19:30,960
+measuring volatility using the
+
+324
+00:19:28,640 --> 00:19:33,200
+difference between today's close and
+
+325
+00:19:30,960 --> 00:19:35,440
+yesterday's close.
+
+326
+00:19:33,200 --> 00:19:38,000
+That can be very useful.
+
+327
+00:19:35,440 --> 00:19:41,120
+But it's missing out on other
+
+328
+00:19:38,000 --> 00:19:46,960
+information that we may have access to,
+
+329
+00:19:41,120 --> 00:19:49,760
+such as what's the opening price
+
+330
+00:19:46,960 --> 00:19:52,480
+today, what's the low value today,
+
+331
+00:19:49,760 --> 00:19:56,640
+what's the high value today, and how can
+
+332
+00:19:52,480 --> 00:20:00,960
+we use that extra information to have
+
+333
+00:19:56,640 --> 00:20:04,880
+more precise estimates of volatility. Um
+
+334
+00:20:00,960 --> 00:20:08,000
+anecdotally, uh when I was studying for
+
+335
+00:20:04,880 --> 00:20:12,240
+a doctorate in statistics at Berkeley,
+
+336
+00:20:08,000 --> 00:20:13,840
+um I was a research assistant to Michael
+
+337
+00:20:12,240 --> 00:20:16,640
+class
+
+338
+00:20:13,840 --> 00:20:19,360
+and I was getting interested in
+
+339
+00:20:16,640 --> 00:20:22,559
+non-statistics topics like finance and
+
+340
+00:20:19,360 --> 00:20:24,880
+so I took a course from Mark Garmin who
+
+341
+00:20:22,559 --> 00:20:27,679
+co-wrote this co-wrote this paper. So
+
+342
+00:20:24,880 --> 00:20:29,679
+it's a rather interesting uh to have
+
+343
+00:20:27,679 --> 00:20:33,679
+that had that exposure actually. It was
+
+344
+00:20:29,679 --> 00:20:38,159
+a very inspiring set of uh classes that
+
+345
+00:20:33,679 --> 00:20:41,039
+I took which uh motivated my I guess
+
+346
+00:20:38,159 --> 00:20:45,919
+lifelong interest in financial modeling.
+
+347
+00:20:41,039 --> 00:20:51,280
+So let's take a look at some notation.
+
+348
+00:20:45,919 --> 00:20:56,640
+very simply will think of just a single
+
+349
+00:20:51,280 --> 00:21:00,480
+period like one day and refer to the
+
+350
+00:20:56,640 --> 00:21:04,960
+closing price on day J, opening price on
+
+351
+00:21:00,480 --> 00:21:06,559
+day J, the high and low on day J as
+
+352
+00:21:04,960 --> 00:21:11,919
+well.
+
+353
+00:21:06,559 --> 00:21:15,039
+Importantly, the notation here includes
+
+354
+00:21:11,919 --> 00:21:18,720
+this well includes the time points, but
+
+355
+00:21:15,039 --> 00:21:23,200
+it also includes the
+
+356
+00:21:18,720 --> 00:21:25,120
+parameter f which is uh the period the
+
+357
+00:21:23,200 --> 00:21:27,600
+length of time that the market is closed
+
+358
+00:21:25,120 --> 00:21:31,440
+on a given day. So the time between the
+
+359
+00:21:27,600 --> 00:21:35,280
+close and open of the next day.
+
+360
+00:21:31,440 --> 00:21:37,520
+Um so we have this notation
+
+361
+00:21:35,280 --> 00:21:41,280
+and if we
+
+362
+00:21:37,520 --> 00:21:45,039
+consider just focusing on single periods
+
+363
+00:21:41,280 --> 00:21:48,640
+and in this case the first one um if we
+
+364
+00:21:45,039 --> 00:21:51,039
+look at the change in closing values.
+
+365
+00:21:48,640 --> 00:21:55,679
+Now perhaps it makes sense to think of
+
+366
+00:21:51,039 --> 00:22:00,480
+these on the log scale of the prices. Um
+
+367
+00:21:55,679 --> 00:22:02,159
+the uh close to close squared return
+
+368
+00:22:00,480 --> 00:22:06,720
+um
+
+369
+00:22:02,159 --> 00:22:10,799
+basically will have uh mean sigma
+
+370
+00:22:06,720 --> 00:22:15,120
+squared and variance equal to 2 sigma to
+
+371
+00:22:10,799 --> 00:22:20,159
+the 4th. Now this corresponds to the
+
+372
+00:22:15,120 --> 00:22:22,720
+theory of normal random variables for
+
+373
+00:22:20,159 --> 00:22:28,000
+returns which are comes from the brownie
+
+374
+00:22:22,720 --> 00:22:29,600
+in motion and the uh expected squared
+
+375
+00:22:28,000 --> 00:22:33,120
+value
+
+376
+00:22:29,600 --> 00:22:37,520
+uh is well actually we can think of
+
+377
+00:22:33,120 --> 00:22:40,559
+maybe the mean return being zero or
+
+378
+00:22:37,520 --> 00:22:44,799
+being subtracted from all the returns.
+
+379
+00:22:40,559 --> 00:22:47,840
+Um but the variance of this sigma knot
+
+380
+00:22:44,799 --> 00:22:49,679
+hat squared is the variance of a ki
+
+381
+00:22:47,840 --> 00:22:52,960
+squared random variable with one degree
+
+382
+00:22:49,679 --> 00:22:55,679
+of freedom. And so in probability
+
+383
+00:22:52,960 --> 00:22:59,120
+classes we learned that a kai squared
+
+384
+00:22:55,679 --> 00:23:01,360
+random variable has expectation equal to
+
+385
+00:22:59,120 --> 00:23:04,640
+the degrees of freedom. And if it's a
+
+386
+00:23:01,360 --> 00:23:07,600
+scaled kai squared it's the the scale
+
+387
+00:23:04,640 --> 00:23:09,760
+factor sigma squ times that. And the
+
+388
+00:23:07,600 --> 00:23:12,080
+variance of a kai squared is equal to
+
+389
+00:23:09,760 --> 00:23:15,039
+twice the degrees of freedom. So that's
+
+390
+00:23:12,080 --> 00:23:18,720
+where that formula comes from.
+
+391
+00:23:15,039 --> 00:23:22,640
+Now if we look at the closed to open
+
+392
+00:23:18,720 --> 00:23:25,919
+squared return, the same arguments lead
+
+393
+00:23:22,640 --> 00:23:30,000
+to this sigma 1 hat squared. looking at
+
+394
+00:23:25,919 --> 00:23:34,159
+the squared return from close to open
+
+395
+00:23:30,000 --> 00:23:36,000
+uh normalized by the length of the
+
+396
+00:23:34,159 --> 00:23:40,640
+period
+
+397
+00:23:36,000 --> 00:23:43,200
+between the close and open. Um this will
+
+398
+00:23:40,640 --> 00:23:46,640
+also have expectation equal to sigma
+
+399
+00:23:43,200 --> 00:23:49,520
+squared and its variance will also be 2
+
+400
+00:23:46,640 --> 00:23:53,200
+sigma to the 4th.
+
+401
+00:23:49,520 --> 00:23:58,080
+So if the model applies
+
+402
+00:23:53,200 --> 00:24:00,159
+throughout u the time periods you know
+
+403
+00:23:58,080 --> 00:24:03,039
+of the market being open as well as the
+
+404
+00:24:00,159 --> 00:24:06,960
+market being closed then these formulas
+
+405
+00:24:03,039 --> 00:24:10,400
+u apply. Now we could also do the open
+
+406
+00:24:06,960 --> 00:24:14,640
+to close squared return
+
+407
+00:24:10,400 --> 00:24:17,919
+and again get if we normalize the
+
+408
+00:24:14,640 --> 00:24:21,440
+squared change in
+
+409
+00:24:17,919 --> 00:24:24,080
+price or log price uh if we normalize
+
+410
+00:24:21,440 --> 00:24:27,679
+that by the length of the period 1 minus
+
+411
+00:24:24,080 --> 00:24:29,840
+f then we get the same
+
+412
+00:24:27,679 --> 00:24:32,960
+properties of the moments for these
+
+413
+00:24:29,840 --> 00:24:35,600
+estimates of sigma squ. So all of these
+
+414
+00:24:32,960 --> 00:24:38,159
+have estimate or have expectation equal
+
+415
+00:24:35,600 --> 00:24:41,600
+to sigma squar and all of them have the
+
+416
+00:24:38,159 --> 00:24:44,400
+same degree of variation.
+
+417
+00:24:41,600 --> 00:24:46,159
+Well
+
+418
+00:24:44,400 --> 00:24:50,720
+the
+
+419
+00:24:46,159 --> 00:24:54,559
+second and the indexed one and two cases
+
+420
+00:24:50,720 --> 00:24:56,720
+are estimates that use different
+
+421
+00:24:54,559 --> 00:25:00,799
+time periods different increments
+
+422
+00:24:56,720 --> 00:25:04,080
+disjoint increments of the process.
+
+423
+00:25:00,799 --> 00:25:09,120
+And so these have to be independent if
+
+424
+00:25:04,080 --> 00:25:14,240
+our Brownian motion model um applies.
+
+425
+00:25:09,120 --> 00:25:17,840
+And so if we simply take the weighted
+
+426
+00:25:14,240 --> 00:25:20,320
+average of these or the simple average
+
+427
+00:25:17,840 --> 00:25:23,919
+then
+
+428
+00:25:20,320 --> 00:25:25,520
+the expectation is unchanged and the
+
+429
+00:25:23,919 --> 00:25:29,200
+variance
+
+430
+00:25:25,520 --> 00:25:31,760
+is equal to basically a half squared
+
+431
+00:25:29,200 --> 00:25:34,960
+times the sum of the variances and that
+
+432
+00:25:31,760 --> 00:25:38,080
+equals actually sigma to the 4th. So
+
+433
+00:25:34,960 --> 00:25:42,400
+we're able to get a more precise
+
+434
+00:25:38,080 --> 00:25:45,760
+estimate of the volatility using these
+
+435
+00:25:42,400 --> 00:25:51,200
+two increments separately.
+
+436
+00:25:45,760 --> 00:25:53,679
+And so it's common in uh statistical
+
+437
+00:25:51,200 --> 00:25:57,440
+theory of estimators to talk about the
+
+438
+00:25:53,679 --> 00:26:04,320
+efficiency of one estimator versus
+
+439
+00:25:57,440 --> 00:26:06,400
+another. And so if we compare um this
+
+440
+00:26:04,320 --> 00:26:09,039
+sigma star
+
+441
+00:26:06,400 --> 00:26:11,679
+we can divide its variance into the
+
+442
+00:26:09,039 --> 00:26:16,799
+variance of sigma kn squared and get a
+
+443
+00:26:11,679 --> 00:26:18,880
+factor of two. So um we basically have
+
+444
+00:26:16,799 --> 00:26:23,080
+uh
+
+445
+00:26:18,880 --> 00:26:23,080
+let's see have I got that correct
+
+446
+00:26:24,640 --> 00:26:30,240
+right we basically have have twice the
+
+447
+00:26:26,880 --> 00:26:31,760
+efficiency. um in this case. So we're
+
+448
+00:26:30,240 --> 00:26:36,240
+sort of thinking of inverse
+
+449
+00:26:31,760 --> 00:26:42,799
+relationships of the variance. Now um
+
+450
+00:26:36,240 --> 00:26:46,320
+let's see Parkinson uh came up with uh
+
+451
+00:26:42,799 --> 00:26:52,400
+considering the high and low values over
+
+452
+00:26:46,320 --> 00:26:57,840
+a period and showed that this estimate
+
+453
+00:26:52,400 --> 00:27:01,120
+sigma hat 3 squared um is an unbiased
+
+454
+00:26:57,840 --> 00:27:04,480
+estimate of sigma squared
+
+455
+00:27:01,120 --> 00:27:09,679
+when f is equal to zero.
+
+456
+00:27:04,480 --> 00:27:12,080
+and has efficiency equal to 5.2.
+
+457
+00:27:09,679 --> 00:27:15,520
+So this
+
+458
+00:27:12,080 --> 00:27:18,799
+high and low data really has a lot of
+
+459
+00:27:15,520 --> 00:27:22,159
+information in it compared with just the
+
+460
+00:27:18,799 --> 00:27:24,880
+close to close returns.
+
+461
+00:27:22,159 --> 00:27:27,919
+we our precision with estimating sigma
+
+462
+00:27:24,880 --> 00:27:31,279
+squared basically can increase by a
+
+463
+00:27:27,919 --> 00:27:33,760
+factor of five with using the high and
+
+464
+00:27:31,279 --> 00:27:35,279
+low values instead of the close to
+
+465
+00:27:33,760 --> 00:27:36,960
+close.
+
+466
+00:27:35,279 --> 00:27:39,600
+Um
+
+467
+00:27:36,960 --> 00:27:45,200
+and uh let's see. I just posted today
+
+468
+00:27:39,600 --> 00:27:47,440
+the problem set due next week. Um where
+
+469
+00:27:45,200 --> 00:27:52,320
+there's an article by Parkinson
+
+470
+00:27:47,440 --> 00:27:55,840
+discussing issues of high and low um or
+
+471
+00:27:52,320 --> 00:27:58,080
+high or extreme value estimates of the
+
+472
+00:27:55,840 --> 00:28:00,559
+variance um which I think it'll be
+
+473
+00:27:58,080 --> 00:28:03,200
+interesting to read. I think it's
+
+474
+00:28:00,559 --> 00:28:05,760
+somewhat fun to read the sort of classic
+
+475
+00:28:03,200 --> 00:28:07,600
+papers in these areas especially because
+
+476
+00:28:05,760 --> 00:28:09,520
+what the older they are the easier they
+
+477
+00:28:07,600 --> 00:28:12,799
+are to read I think although sometimes
+
+478
+00:28:09,520 --> 00:28:18,640
+that's not totally true. Anyway, what
+
+479
+00:28:12,799 --> 00:28:21,840
+Garmin and class did was um they
+
+480
+00:28:18,640 --> 00:28:25,919
+considered alternatives
+
+481
+00:28:21,840 --> 00:28:28,159
+which included the high low uh
+
+482
+00:28:25,919 --> 00:28:34,000
+volatility estimate
+
+483
+00:28:28,159 --> 00:28:37,200
+and a simple average or weighted by a uh
+
+484
+00:28:34,000 --> 00:28:42,480
+and one minus a of this high low
+
+485
+00:28:37,200 --> 00:28:46,080
+estimate of Parkinson and the sigma one
+
+486
+00:28:42,480 --> 00:28:48,240
+which is the uh
+
+487
+00:28:46,080 --> 00:28:52,480
+let's see let's go back and the sigma
+
+488
+00:28:48,240 --> 00:28:56,080
+one which is the open open to close um
+
+489
+00:28:52,480 --> 00:28:59,760
+value um this has an even higher
+
+490
+00:28:56,080 --> 00:29:04,159
+efficiency of 6.2 two
+
+491
+00:28:59,760 --> 00:29:07,679
+and a rather striking result of their
+
+492
+00:29:04,159 --> 00:29:12,799
+paper is they were able to derive the
+
+493
+00:29:07,679 --> 00:29:14,320
+best analytic scale invariant estimator.
+
+494
+00:29:12,799 --> 00:29:16,799
+So depending on whether you like
+
+495
+00:29:14,320 --> 00:29:19,200
+mathematics or not, you may like this
+
+496
+00:29:16,799 --> 00:29:22,880
+paper or not. But it's really
+
+497
+00:29:19,200 --> 00:29:27,120
+interesting to see how
+
+498
+00:29:22,880 --> 00:29:28,799
+a property of finding a scale invariant
+
+499
+00:29:27,120 --> 00:29:32,720
+estimator
+
+500
+00:29:28,799 --> 00:29:36,000
+that is best
+
+501
+00:29:32,720 --> 00:29:38,399
+among the class of such estimators. Um
+
+502
+00:29:36,000 --> 00:29:43,039
+that's actually derived by Garmin and
+
+503
+00:29:38,399 --> 00:29:44,799
+class. So let me just uh sort of
+
+504
+00:29:43,039 --> 00:29:48,480
+highlight
+
+505
+00:29:44,799 --> 00:29:50,640
+how this section five in their paper
+
+506
+00:29:48,480 --> 00:29:53,919
+talks about best analytic scale and
+
+507
+00:29:50,640 --> 00:29:57,440
+variant estimators. And you may be able
+
+508
+00:29:53,919 --> 00:30:00,000
+to see from the derivation here that
+
+509
+00:29:57,440 --> 00:30:04,399
+their arguments just are dealing with
+
+510
+00:30:00,000 --> 00:30:06,399
+some quadratic forms and solving for
+
+511
+00:30:04,399 --> 00:30:09,919
+properties minimizing these quadratic
+
+512
+00:30:06,399 --> 00:30:12,960
+forms. And so it's it's rather neat that
+
+513
+00:30:09,919 --> 00:30:14,080
+they're able to uh achieve this result.
+
+514
+00:30:12,960 --> 00:30:17,039
+Yeah.
+
+515
+00:30:14,080 --> 00:30:20,159
+>> Why is it necessary?
+
+516
+00:30:17,039 --> 00:30:21,919
+Because that's just commenting about the
+
+517
+00:30:20,159 --> 00:30:24,880
+comparative, right?
+
+518
+00:30:21,919 --> 00:30:26,480
+>> Right. Well, well, with a higher
+
+519
+00:30:24,880 --> 00:30:28,720
+efficient
+
+520
+00:30:26,480 --> 00:30:33,279
+uh estimator,
+
+521
+00:30:28,720 --> 00:30:37,600
+you can have as precise an estimator
+
+522
+00:30:33,279 --> 00:30:40,559
+with a smaller or shorter time series.
+
+523
+00:30:37,600 --> 00:30:42,080
+So instead of using say 20 days close to
+
+524
+00:30:40,559 --> 00:30:44,640
+close,
+
+525
+00:30:42,080 --> 00:30:48,000
+you could use a week
+
+526
+00:30:44,640 --> 00:30:51,640
+of data and have estimators that are
+
+527
+00:30:48,000 --> 00:30:51,640
+comparably precise.
+
+528
+00:30:58,159 --> 00:31:01,440
+extra assumptions that complicate
+
+529
+00:31:00,159 --> 00:31:02,960
+things. And in many of these
+
+530
+00:31:01,440 --> 00:31:05,840
+developments, there there are
+
+531
+00:31:02,960 --> 00:31:09,600
+simplifying assumptions like um the mean
+
+532
+00:31:05,840 --> 00:31:12,799
+is zero. But um but if you were trying
+
+533
+00:31:09,600 --> 00:31:16,240
+to model time varying volatility,
+
+534
+00:31:12,799 --> 00:31:18,080
+then rather than looking at say close to
+
+535
+00:31:16,240 --> 00:31:20,480
+close volatility and how that changes
+
+536
+00:31:18,080 --> 00:31:24,159
+over time, if you use these other
+
+537
+00:31:20,480 --> 00:31:27,600
+estimators, um the garment class for
+
+538
+00:31:24,159 --> 00:31:30,480
+example, um you could maybe use a much
+
+539
+00:31:27,600 --> 00:31:33,039
+shorter time period and be able to track
+
+540
+00:31:30,480 --> 00:31:35,440
+or model changes in volatility over time
+
+541
+00:31:33,039 --> 00:31:38,080
+with that.
+
+542
+00:31:35,440 --> 00:31:38,080
+Okay.
+
+543
+00:31:39,200 --> 00:31:43,159
+Well, let's see. Um,
+
+544
+00:31:46,799 --> 00:31:53,360
+so then finally, there's this composite
+
+545
+00:31:48,880 --> 00:31:56,320
+estimator which uh has efficiency 8.4.
+
+546
+00:31:53,360 --> 00:32:00,399
+Um, and finally, there are a number of
+
+547
+00:31:56,320 --> 00:32:04,799
+extensions of the Garmin class that are
+
+548
+00:32:00,399 --> 00:32:07,840
+listed here. And um the one that is
+
+549
+00:32:04,799 --> 00:32:12,799
+actually recommended these days is
+
+550
+00:32:07,840 --> 00:32:15,279
+actually this Yang Jiang uh model which
+
+551
+00:32:12,799 --> 00:32:18,559
+has a drift independent volatility
+
+552
+00:32:15,279 --> 00:32:22,240
+estimation based on the high low close.
+
+553
+00:32:18,559 --> 00:32:25,679
+So the fact that it's drift independent
+
+554
+00:32:22,240 --> 00:32:30,799
+deals with that assumption that was just
+
+555
+00:32:25,679 --> 00:32:35,519
+just mentioned. Now um let's see there's
+
+556
+00:32:30,799 --> 00:32:39,200
+a case study uh of using R to calculate
+
+557
+00:32:35,519 --> 00:32:44,320
+these different volatility estimates
+
+558
+00:32:39,200 --> 00:32:48,799
+and uh let's see here.
+
+559
+00:32:44,320 --> 00:32:54,240
+So here's the uh
+
+560
+00:32:48,799 --> 00:32:57,519
+case study which um goes through
+
+561
+00:32:54,240 --> 00:32:59,840
+calculating different measures of
+
+562
+00:32:57,519 --> 00:33:02,960
+volatility using close to close
+
+563
+00:32:59,840 --> 00:33:05,200
+Parkinson's all the way down to Yang and
+
+564
+00:33:02,960 --> 00:33:10,799
+Jang in section 1.6 six and then
+
+565
+00:33:05,200 --> 00:33:12,320
+comparing those for the S&P 500 index
+
+566
+00:33:10,799 --> 00:33:16,000
+and
+
+567
+00:33:12,320 --> 00:33:18,000
+we'll go through these in a moment but
+
+568
+00:33:16,000 --> 00:33:19,600
+following just looking at these
+
+569
+00:33:18,000 --> 00:33:23,200
+individually
+
+570
+00:33:19,600 --> 00:33:27,200
+um we consider time series modeling of
+
+571
+00:33:23,200 --> 00:33:30,880
+these different volatility statistics.
+
+572
+00:33:27,200 --> 00:33:33,840
+Um and so in terms of understanding
+
+573
+00:33:30,880 --> 00:33:37,440
+realized volatility,
+
+574
+00:33:33,840 --> 00:33:39,519
+a useful um analysis is to be able to
+
+575
+00:33:37,440 --> 00:33:42,880
+predict how our realized volatility is
+
+576
+00:33:39,519 --> 00:33:45,440
+going to change into the future. Um so
+
+577
+00:33:42,880 --> 00:33:49,519
+there may be some predictability there
+
+578
+00:33:45,440 --> 00:33:52,799
+and what we'll see is that in the time
+
+579
+00:33:49,519 --> 00:33:56,240
+series analysis of these volatilities
+
+580
+00:33:52,799 --> 00:33:58,000
+uh time series models such as auto
+
+581
+00:33:56,240 --> 00:34:02,960
+reggressive integrated moving average
+
+582
+00:33:58,000 --> 00:34:07,200
+models can be applied and can be very
+
+583
+00:34:02,960 --> 00:34:11,280
+useful and in particular um there's a
+
+584
+00:34:07,200 --> 00:34:12,320
+role to be played with seasonal ARMA
+
+585
+00:34:11,280 --> 00:34:18,480
+models.
+
+586
+00:34:12,320 --> 00:34:21,919
+So um let's take a look at that. Um
+
+587
+00:34:18,480 --> 00:34:25,119
+and just as a preview um let's see one
+
+588
+00:34:21,919 --> 00:34:30,000
+of the problems in uh the next problem
+
+589
+00:34:25,119 --> 00:34:34,960
+set is to look at this same
+
+590
+00:34:30,000 --> 00:34:37,839
+analys set of analyses for the S&P 500.
+
+591
+00:34:34,960 --> 00:34:40,240
+look at the same analyses for uh the
+
+592
+00:34:37,839 --> 00:34:43,679
+stock ARK
+
+593
+00:34:40,240 --> 00:34:46,399
+which is Kathy Wood's ETF
+
+594
+00:34:43,679 --> 00:34:51,919
+and uh just see how different the
+
+595
+00:34:46,399 --> 00:34:55,919
+results are. Um and uh what's nice is
+
+596
+00:34:51,919 --> 00:34:59,680
+that the R markdown files that create
+
+597
+00:34:55,919 --> 00:35:01,760
+this case study can be applied to any
+
+598
+00:34:59,680 --> 00:35:05,200
+other stocks you want to analyze if you
+
+599
+00:35:01,760 --> 00:35:09,839
+so choose. Uh for the problem set, I
+
+600
+00:35:05,200 --> 00:35:13,040
+posted the two versions of this study
+
+601
+00:35:09,839 --> 00:35:16,240
+for S&P 500 and ARK.
+
+602
+00:35:13,040 --> 00:35:17,760
+So you don't need to do R at all. But if
+
+603
+00:35:16,240 --> 00:35:20,480
+you
+
+604
+00:35:17,760 --> 00:35:23,040
+set up a posit
+
+605
+00:35:20,480 --> 00:35:25,680
+cloud account for with our studio cloud,
+
+606
+00:35:23,040 --> 00:35:28,320
+you should be able to just upload the
+
+607
+00:35:25,680 --> 00:35:32,000
+file, the R markdown file, and rerun the
+
+608
+00:35:28,320 --> 00:35:35,760
+programs and do so with another stock if
+
+609
+00:35:32,000 --> 00:35:40,400
+you want. So choose. So so in this note,
+
+610
+00:35:35,760 --> 00:35:44,160
+the first section just goes through and
+
+611
+00:35:40,400 --> 00:35:47,040
+looks at the S&P 500 index. It actually
+
+612
+00:35:44,160 --> 00:35:50,000
+is going through
+
+613
+00:35:47,040 --> 00:35:55,200
+a couple of days ago. Um it's a good
+
+614
+00:35:50,000 --> 00:35:57,280
+time to be have an equity exposure. Um
+
+615
+00:35:55,200 --> 00:35:59,119
+and if we look at close to close
+
+616
+00:35:57,280 --> 00:36:04,480
+volatility,
+
+617
+00:35:59,119 --> 00:36:09,280
+um this is a graph of the 21-day
+
+618
+00:36:04,480 --> 00:36:13,440
+variance scaled up to an annualized
+
+619
+00:36:09,280 --> 00:36:17,280
+basis by multiplying by root 252.
+
+620
+00:36:13,440 --> 00:36:21,599
+And what's important
+
+621
+00:36:17,280 --> 00:36:25,200
+is to see that volatility generally is
+
+622
+00:36:21,599 --> 00:36:30,160
+well below 25%.
+
+623
+00:36:25,200 --> 00:36:33,119
+Often it's sort of around like 12 to 15%
+
+624
+00:36:30,160 --> 00:36:36,160
+when it's low. Uh but it does have
+
+625
+00:36:33,119 --> 00:36:41,599
+spikes and uh during COVID there was the
+
+626
+00:36:36,160 --> 00:36:46,240
+huge spike up. Um and uh more recently
+
+627
+00:36:41,599 --> 00:36:49,920
+there was uh some elevated volatility
+
+628
+00:36:46,240 --> 00:36:53,520
+uh that uh suggests that volatility is
+
+629
+00:36:49,920 --> 00:36:56,560
+not constant. Um so anyway this is the
+
+630
+00:36:53,520 --> 00:37:01,680
+close to close volatility. If we look at
+
+631
+00:36:56,560 --> 00:37:04,880
+the high low volatility of Parkinson
+
+632
+00:37:01,680 --> 00:37:09,839
+then we just are averaging the log of
+
+633
+00:37:04,880 --> 00:37:12,640
+the ratio of the high to low and scaling
+
+634
+00:37:09,839 --> 00:37:16,560
+it up and so we get this plot which is
+
+635
+00:37:12,640 --> 00:37:18,880
+very very similar. Um, in principle,
+
+636
+00:37:16,560 --> 00:37:21,520
+this
+
+637
+00:37:18,880 --> 00:37:24,079
+estimator is more precise, at least if
+
+638
+00:37:21,520 --> 00:37:26,000
+if our underlying sort of brownie
+
+639
+00:37:24,079 --> 00:37:29,520
+emotion model or geometric brownie
+
+640
+00:37:26,000 --> 00:37:31,839
+emotion model is is true. Um, but it
+
+641
+00:37:29,520 --> 00:37:34,960
+gives us different values
+
+642
+00:37:31,839 --> 00:37:38,079
+and then the Garmin class
+
+643
+00:37:34,960 --> 00:37:40,560
+model is here. So what's what's useful
+
+644
+00:37:38,079 --> 00:37:43,280
+just in this case study is partly just
+
+645
+00:37:40,560 --> 00:37:45,440
+seeing what the formulas are for the
+
+646
+00:37:43,280 --> 00:37:48,320
+volatility estimates
+
+647
+00:37:45,440 --> 00:37:53,359
+and then being able to compare those and
+
+648
+00:37:48,320 --> 00:37:56,800
+then finally this uh Yang Jiang model is
+
+649
+00:37:53,359 --> 00:37:58,240
+a extension of Garmin class and as it
+
+650
+00:37:56,800 --> 00:38:00,640
+says here this is currently the
+
+651
+00:37:58,240 --> 00:38:04,079
+preferred version
+
+652
+00:38:00,640 --> 00:38:06,000
+uh of volatility estimates. Now in
+
+653
+00:38:04,079 --> 00:38:07,920
+looking at these different volatility
+
+654
+00:38:06,000 --> 00:38:09,920
+estimates
+
+655
+00:38:07,920 --> 00:38:13,440
+um
+
+656
+00:38:09,920 --> 00:38:15,599
+we can uh
+
+657
+00:38:13,440 --> 00:38:18,480
+create a panel series of all the
+
+658
+00:38:15,599 --> 00:38:20,960
+volatility measures. This sort of shows
+
+659
+00:38:18,480 --> 00:38:24,320
+not surprisingly there's peaks at the
+
+660
+00:38:20,960 --> 00:38:26,880
+same times with all of these. Um what's
+
+661
+00:38:24,320 --> 00:38:30,240
+more interesting is to look how they
+
+662
+00:38:26,880 --> 00:38:33,359
+move simultaneously.
+
+663
+00:38:30,240 --> 00:38:36,640
+And if you look at too much data, it's
+
+664
+00:38:33,359 --> 00:38:38,880
+hard to see exactly what's going on. So
+
+665
+00:38:36,640 --> 00:38:42,320
+there's a graph here of looking at just
+
+666
+00:38:38,880 --> 00:38:44,720
+uh the last year, almost two years of
+
+667
+00:38:42,320 --> 00:38:48,640
+data and seeing how these different
+
+668
+00:38:44,720 --> 00:38:51,839
+volatility estimates vary. So
+
+669
+00:38:48,640 --> 00:38:55,839
+what this highlights is how a choice of
+
+670
+00:38:51,839 --> 00:38:57,599
+volatility measure matters.
+
+671
+00:38:55,839 --> 00:39:01,280
+there can be significant differences
+
+672
+00:38:57,599 --> 00:39:04,720
+between them. And
+
+673
+00:39:01,280 --> 00:39:09,839
+what would you anticipate is
+
+674
+00:39:04,720 --> 00:39:12,839
+sort of a good property of a volatility
+
+675
+00:39:09,839 --> 00:39:12,839
+estimator?
+
+676
+00:39:13,920 --> 00:39:18,960
+That's a very general question,
+
+677
+00:39:16,560 --> 00:39:21,119
+but um
+
+678
+00:39:18,960 --> 00:39:25,320
+intuitively what would make one
+
+679
+00:39:21,119 --> 00:39:25,320
+estimator better than another?
+
+680
+00:39:30,880 --> 00:39:35,440
+And there's no right or wrong answer to
+
+681
+00:39:33,040 --> 00:39:38,880
+this,
+
+682
+00:39:35,440 --> 00:39:42,160
+but I think it's useful to think about
+
+683
+00:39:38,880 --> 00:39:46,079
+what you would like to have in an
+
+684
+00:39:42,160 --> 00:39:51,640
+estimator and whether these estimators
+
+685
+00:39:46,079 --> 00:39:51,640
+might be consistent with that or not.
+
+686
+00:39:56,400 --> 00:40:00,280
+any any thoughts?
+
+687
+00:40:03,119 --> 00:40:10,160
+Well, one of the problems,
+
+688
+00:40:07,280 --> 00:40:12,880
+I guess I'll call it a problem, uh, with
+
+689
+00:40:10,160 --> 00:40:15,680
+the close to close estimate is that if
+
+690
+00:40:12,880 --> 00:40:18,640
+you have a rolling window of close to
+
+691
+00:40:15,680 --> 00:40:22,800
+close variance estimates, then if you
+
+692
+00:40:18,640 --> 00:40:25,520
+have a spike in returns, positive or
+
+693
+00:40:22,800 --> 00:40:29,440
+negative, that spike is going to remain
+
+694
+00:40:25,520 --> 00:40:34,160
+in that window until it falls off. And
+
+695
+00:40:29,440 --> 00:40:38,560
+so there can be elevated volatilities
+
+696
+00:40:34,160 --> 00:40:44,320
+due to from in the close to close series
+
+697
+00:40:38,560 --> 00:40:46,240
+um volatility series that may uh not be
+
+698
+00:40:44,320 --> 00:40:48,960
+as persistent
+
+699
+00:40:46,240 --> 00:40:51,280
+with the other estimators. So when there
+
+700
+00:40:48,960 --> 00:40:54,079
+are spikes in volatility, often that
+
+701
+00:40:51,280 --> 00:40:57,119
+those spikes occur when there's some
+
+702
+00:40:54,079 --> 00:40:59,040
+great uncertainty in the market that
+
+703
+00:40:57,119 --> 00:41:00,560
+gets
+
+704
+00:40:59,040 --> 00:41:04,079
+resolved
+
+705
+00:41:00,560 --> 00:41:08,000
+and the volatility often drops
+
+706
+00:41:04,079 --> 00:41:10,880
+a fair amount after that. And so, um, I
+
+707
+00:41:08,000 --> 00:41:15,440
+would think that those volatility
+
+708
+00:41:10,880 --> 00:41:19,280
+estimates that basically drop faster
+
+709
+00:41:15,440 --> 00:41:23,520
+following the spikes could be better.
+
+710
+00:41:19,280 --> 00:41:26,480
+Um, and uh, certainly if we're trying to
+
+711
+00:41:23,520 --> 00:41:30,480
+use these volatility estimates
+
+712
+00:41:26,480 --> 00:41:33,520
+to predict future realized volatility,
+
+713
+00:41:30,480 --> 00:41:37,200
+that property could be useful.
+
+714
+00:41:33,520 --> 00:41:39,440
+Um now what's
+
+715
+00:41:37,200 --> 00:41:43,200
+interesting in section two of this case
+
+716
+00:41:39,440 --> 00:41:46,560
+study is to just consider some really
+
+717
+00:41:43,200 --> 00:41:50,000
+really basic time series modeling of the
+
+718
+00:41:46,560 --> 00:41:52,960
+different volatility measures. So the so
+
+719
+00:41:50,000 --> 00:41:56,000
+what we are modeling is different
+
+720
+00:41:52,960 --> 00:41:59,040
+volatility measures over a 21-day period
+
+721
+00:41:56,000 --> 00:42:03,599
+that's rolling through our time series.
+
+722
+00:41:59,040 --> 00:42:06,319
+And so one of the most basic forecasting
+
+723
+00:42:03,599 --> 00:42:08,800
+models there is is a model called the
+
+724
+00:42:06,319 --> 00:42:13,400
+naive model.
+
+725
+00:42:08,800 --> 00:42:13,400
+And with a naive model,
+
+726
+00:42:16,960 --> 00:42:24,720
+we have a time series yt
+
+727
+00:42:20,000 --> 00:42:30,480
+and we basically have that um
+
+728
+00:42:24,720 --> 00:42:30,480
+y t is equal to yt minus one.
+
+729
+00:42:30,640 --> 00:42:40,720
+And if we think of yt is equal to y t
+
+730
+00:42:36,000 --> 00:42:44,800
+plus an error term then our errors are
+
+731
+00:42:40,720 --> 00:42:46,560
+equal to yt minus yhat
+
+732
+00:42:44,800 --> 00:42:50,640
+t
+
+733
+00:42:46,560 --> 00:42:54,480
+which is equal to yt minus yt minus one.
+
+734
+00:42:50,640 --> 00:42:57,920
+And this specification corresponds to a
+
+735
+00:42:54,480 --> 00:43:03,160
+random walk model. So there's basically
+
+736
+00:42:57,920 --> 00:43:03,160
+a random walk model for YT
+
+737
+00:43:07,119 --> 00:43:14,240
+and the random walk model is consistent
+
+738
+00:43:11,280 --> 00:43:16,319
+with sort of efficient markets where our
+
+739
+00:43:14,240 --> 00:43:21,680
+best estimate of what's going to happen
+
+740
+00:43:16,319 --> 00:43:26,400
+is what's h where things are now. So um
+
+741
+00:43:21,680 --> 00:43:29,119
+so this naive model uh basically has an
+
+742
+00:43:26,400 --> 00:43:31,359
+autocorrelation function which has a
+
+743
+00:43:29,119 --> 00:43:34,720
+very high
+
+744
+00:43:31,359 --> 00:43:38,160
+or the our data uh has a high first
+
+745
+00:43:34,720 --> 00:43:41,119
+order autocorrelation. And if we
+
+746
+00:43:38,160 --> 00:43:44,560
+calculate first differences which are
+
+747
+00:43:41,119 --> 00:43:46,960
+the residuals from this model then we
+
+748
+00:43:44,560 --> 00:43:48,480
+get this
+
+749
+00:43:46,960 --> 00:43:51,440
+residual
+
+750
+00:43:48,480 --> 00:43:54,160
+diagnostic information the time series
+
+751
+00:43:51,440 --> 00:43:56,240
+of residuals
+
+752
+00:43:54,160 --> 00:44:00,240
+um the autocorrelation function of the
+
+753
+00:43:56,240 --> 00:44:04,079
+residuals and the
+
+754
+00:44:00,240 --> 00:44:06,560
+histogram of residuals. Now,
+
+755
+00:44:04,079 --> 00:44:10,720
+would you say that these residuals are
+
+756
+00:44:06,560 --> 00:44:15,720
+consistent with white noise
+
+757
+00:44:10,720 --> 00:44:15,720
+that may be Gaussian or normal?
+
+758
+00:44:18,000 --> 00:44:26,560
+I see some going and others going
+
+759
+00:44:23,200 --> 00:44:30,800
+um well one thing that's important is
+
+760
+00:44:26,560 --> 00:44:33,280
+that the autocorrelation function
+
+761
+00:44:30,800 --> 00:44:35,200
+of residuals
+
+762
+00:44:33,280 --> 00:44:37,040
+um if the residuals are consistent with
+
+763
+00:44:35,200 --> 00:44:40,160
+white noise there should be no
+
+764
+00:44:37,040 --> 00:44:42,720
+significant autocorrelation at any lag
+
+765
+00:44:40,160 --> 00:44:44,480
+and so there are some spikes of
+
+766
+00:44:42,720 --> 00:44:46,160
+autocorrelation that break beyond the
+
+767
+00:44:44,480 --> 00:44:48,720
+critical levels
+
+768
+00:44:46,160 --> 00:44:52,079
+And so those are suggesting that this is
+
+769
+00:44:48,720 --> 00:44:56,640
+not a white noise. And if we look at the
+
+770
+00:44:52,079 --> 00:44:59,119
+distribution of the residuals,
+
+771
+00:44:56,640 --> 00:45:01,599
+they're unimodal, but they certainly
+
+772
+00:44:59,119 --> 00:45:04,599
+aren't well described by a normal
+
+773
+00:45:01,599 --> 00:45:04,599
+distribution.
+
+774
+00:45:04,640 --> 00:45:08,319
+Um
+
+775
+00:45:06,160 --> 00:45:13,760
+so
+
+776
+00:45:08,319 --> 00:45:17,839
+let's see the uh so we can sort of plot
+
+777
+00:45:13,760 --> 00:45:20,560
+forecasts of this uh naive method
+
+778
+00:45:17,839 --> 00:45:24,000
+and then um
+
+779
+00:45:20,560 --> 00:45:28,240
+let's see we can also
+
+780
+00:45:24,000 --> 00:45:30,800
+fit an ARMA model to this close to close
+
+781
+00:45:28,240 --> 00:45:35,280
+volatility series
+
+782
+00:45:30,800 --> 00:45:38,960
+and with the ARMA model. Um actually
+
+783
+00:45:35,280 --> 00:45:43,400
+there's this package in R
+
+784
+00:45:38,960 --> 00:45:43,400
+called um FPPP2
+
+785
+00:45:45,520 --> 00:45:50,720
+and this
+
+786
+00:45:47,520 --> 00:45:53,359
+was created by the authors of a book
+
+787
+00:45:50,720 --> 00:45:56,880
+forecasting principles and practice
+
+788
+00:45:53,359 --> 00:46:01,839
+that's in the references to this. They
+
+789
+00:45:56,880 --> 00:46:04,319
+have an automated ARMA modeling function
+
+790
+00:46:01,839 --> 00:46:10,079
+which will take an input a time series
+
+791
+00:46:04,319 --> 00:46:12,400
+as output what is judged to be a decent
+
+792
+00:46:10,079 --> 00:46:16,640
+auto regressive integrative moving
+
+793
+00:46:12,400 --> 00:46:20,760
+average model. And so this
+
+794
+00:46:16,640 --> 00:46:20,760
+ARMA 310
+
+795
+00:46:20,800 --> 00:46:32,000
+um corresponds to
+
+796
+00:46:24,480 --> 00:46:36,000
+ARMA P = 3, D = 1
+
+797
+00:46:32,000 --> 00:46:38,400
+and Q = Z where P is the order of the
+
+798
+00:46:36,000 --> 00:46:41,040
+auto regression, D is the order of
+
+799
+00:46:38,400 --> 00:46:43,680
+differencing. Yes. How is it random? Is
+
+800
+00:46:41,040 --> 00:46:47,520
+it um like AIC or BIC or something?
+
+801
+00:46:43,680 --> 00:46:49,599
+>> Yes, it it uses um a criterion that's
+
+802
+00:46:47,520 --> 00:46:52,640
+called the corrected
+
+803
+00:46:49,599 --> 00:46:56,800
+AI information criterion.
+
+804
+00:46:52,640 --> 00:47:00,200
+And so there's this AIC which is equal
+
+805
+00:46:56,800 --> 00:47:00,200
+to the corrected
+
+806
+00:47:00,640 --> 00:47:09,359
+AIC. And the corrected AIC is due to the
+
+807
+00:47:05,760 --> 00:47:14,480
+fact that with shorter series there's a
+
+808
+00:47:09,359 --> 00:47:18,640
+bias in the AIC that is systematic and
+
+809
+00:47:14,480 --> 00:47:22,720
+so this corrects for that bias. Um now
+
+810
+00:47:18,640 --> 00:47:25,760
+when we do this um with any sort of
+
+811
+00:47:22,720 --> 00:47:29,359
+fitted model what's really
+
+812
+00:47:25,760 --> 00:47:31,359
+important to check is how our estimated
+
+813
+00:47:29,359 --> 00:47:33,359
+coefficients compare with their standard
+
+814
+00:47:31,359 --> 00:47:36,319
+errors.
+
+815
+00:47:33,359 --> 00:47:39,680
+When the signal estimate to noise
+
+816
+00:47:36,319 --> 00:47:42,000
+standard error ratio is bigger than two.
+
+817
+00:47:39,680 --> 00:47:44,560
+We have some confidence that that's an
+
+818
+00:47:42,000 --> 00:47:48,400
+important factor in the in the model.
+
+819
+00:47:44,560 --> 00:47:50,240
+And in this case, the AR3 is almost
+
+820
+00:47:48,400 --> 00:47:52,400
+three
+
+821
+00:47:50,240 --> 00:47:57,280
+uh has a signal to noise ratio of almost
+
+822
+00:47:52,400 --> 00:48:04,760
+three and the AR2 has a ratio that's one
+
+823
+00:47:57,280 --> 00:48:04,760
+and a half. Now um if we go through
+
+824
+00:48:05,440 --> 00:48:10,400
+let's see this second section sort of
+
+825
+00:48:07,839 --> 00:48:14,480
+does the same analysis of the the Yang
+
+826
+00:48:10,400 --> 00:48:17,480
+Xang volatility estimate.
+
+827
+00:48:14,480 --> 00:48:17,480
+And
+
+828
+00:48:18,640 --> 00:48:25,839
+I guess importantly here um
+
+829
+00:48:23,520 --> 00:48:31,200
+we have
+
+830
+00:48:25,839 --> 00:48:36,839
+an ARMA model now uh for this
+
+831
+00:48:31,200 --> 00:48:36,839
+Yang Jiang model which is an ARMA 111
+
+832
+00:48:37,760 --> 00:48:40,760
+and
+
+833
+00:48:41,440 --> 00:48:45,520
+the coefficient estimates are many
+
+834
+00:48:43,520 --> 00:48:48,000
+multiples of the standard error. So
+
+835
+00:48:45,520 --> 00:48:51,839
+these are highly significant.
+
+836
+00:48:48,000 --> 00:48:55,200
+And this um is our residual analysis
+
+837
+00:48:51,839 --> 00:48:57,760
+check which suggests that for the most
+
+838
+00:48:55,200 --> 00:48:59,839
+part the residuals are consistent with
+
+839
+00:48:57,760 --> 00:49:01,200
+white noise. The autocorrelations tend
+
+840
+00:48:59,839 --> 00:49:03,760
+to be close to zero. However, there's
+
+841
+00:49:01,200 --> 00:49:07,200
+this large spike
+
+842
+00:49:03,760 --> 00:49:09,680
+at 21. And here are the residuals. Now,
+
+843
+00:49:07,200 --> 00:49:13,079
+why do you think there's a large spike
+
+844
+00:49:09,680 --> 00:49:13,079
+at 21?
+
+845
+00:49:15,520 --> 00:49:20,480
+Well, we're computing rolling
+
+846
+00:49:18,720 --> 00:49:23,280
+statistics
+
+847
+00:49:20,480 --> 00:49:27,599
+and so the window
+
+848
+00:49:23,280 --> 00:49:29,119
+is of length 21. So this corresponds to
+
+849
+00:49:27,599 --> 00:49:34,079
+cases
+
+850
+00:49:29,119 --> 00:49:36,720
+entering and exiting the windows. And so
+
+851
+00:49:34,079 --> 00:49:41,119
+interestingly we can accommodate that by
+
+852
+00:49:36,720 --> 00:49:44,079
+fitting a seasonal arma model. And so
+
+853
+00:49:41,119 --> 00:49:48,079
+with the seasonal ARMA model, I'll sort
+
+854
+00:49:44,079 --> 00:49:52,240
+of jump to the uh conclusion here at the
+
+855
+00:49:48,079 --> 00:49:55,839
+very end which is um
+
+856
+00:49:52,240 --> 00:50:00,160
+for the Yang Jiang
+
+857
+00:49:55,839 --> 00:50:04,079
+volatility estimator. Um this is its
+
+858
+00:50:00,160 --> 00:50:08,319
+simple autocorrelation function before
+
+859
+00:50:04,079 --> 00:50:11,200
+the model. And then when we
+
+860
+00:50:08,319 --> 00:50:14,960
+fit the seasonal ARMA model
+
+861
+00:50:11,200 --> 00:50:17,680
+automatically, it gives us a 213 and a
+
+862
+00:50:14,960 --> 00:50:19,280
+2011.
+
+863
+00:50:17,680 --> 00:50:23,119
+And
+
+864
+00:50:19,280 --> 00:50:26,240
+let's see when we introduced you to time
+
+865
+00:50:23,119 --> 00:50:28,960
+series models before
+
+866
+00:50:26,240 --> 00:50:32,240
+um
+
+867
+00:50:28,960 --> 00:50:34,640
+let's see if we have
+
+868
+00:50:32,240 --> 00:50:37,640
+an ARMA
+
+869
+00:50:34,640 --> 00:50:37,640
+model
+
+870
+00:50:38,640 --> 00:50:49,680
+which is P DQ
+
+871
+00:50:42,720 --> 00:50:55,520
+um we basically have 1 minus V1 V - V2 B
+
+872
+00:50:49,680 --> 00:50:57,760
+^ 2 minus V P B to the P power
+
+873
+00:50:55,520 --> 00:51:03,000
+time YT
+
+874
+00:50:57,760 --> 00:51:03,000
+turns out to be equal to 1 minus
+
+875
+00:51:03,040 --> 00:51:10,640
+theta 1 B
+
+876
+00:51:07,440 --> 00:51:14,960
+minus theta 2 B^ 2
+
+877
+00:51:10,640 --> 00:51:18,559
+minus theta or sorry 1 plus here plus
+
+878
+00:51:14,960 --> 00:51:20,880
+theta Q B
+
+879
+00:51:18,559 --> 00:51:22,400
+to the Q power
+
+880
+00:51:20,880 --> 00:51:25,839
+times
+
+881
+00:51:22,400 --> 00:51:32,319
+our error term. So we have this kind of
+
+882
+00:51:25,839 --> 00:51:37,280
+mathematical equation for an ARMA model
+
+883
+00:51:32,319 --> 00:51:41,400
+um where we assume that the epsilon t
+
+884
+00:51:37,280 --> 00:51:41,400
+series is white noise
+
+885
+00:51:42,480 --> 00:51:50,400
+which means that it's expectation is
+
+886
+00:51:44,880 --> 00:51:52,960
+always zero and the uh variances are
+
+887
+00:51:50,400 --> 00:51:55,359
+constant
+
+888
+00:51:52,960 --> 00:51:58,240
+and the correlation between any
+
+889
+00:51:55,359 --> 00:52:01,680
+different epsilons
+
+890
+00:51:58,240 --> 00:52:06,240
+is equal to zero if t is not equal to t
+
+891
+00:52:01,680 --> 00:52:09,359
+prime. Um the power of auto reggressive
+
+892
+00:52:06,240 --> 00:52:13,520
+integrated moving average models is that
+
+893
+00:52:09,359 --> 00:52:16,079
+these sort of auto reggressive terms as
+
+894
+00:52:13,520 --> 00:52:19,119
+well as moving average terms can account
+
+895
+00:52:16,079 --> 00:52:22,160
+for all of the correlations
+
+896
+00:52:19,119 --> 00:52:25,920
+autocorrelations in the original series.
+
+897
+00:52:22,160 --> 00:52:28,559
+and our residuals which are estimates of
+
+898
+00:52:25,920 --> 00:52:32,240
+this error sequence should be consistent
+
+899
+00:52:28,559 --> 00:52:35,760
+with white noise. Now what ends up
+
+900
+00:52:32,240 --> 00:52:39,119
+happening with um
+
+901
+00:52:35,760 --> 00:52:41,599
+with uh
+
+902
+00:52:39,119 --> 00:52:45,520
+actually I should maybe put here yt
+
+903
+00:52:41,599 --> 00:52:49,200
+prime where yt prime is maybe equal to 1
+
+904
+00:52:45,520 --> 00:52:54,000
+minus b to the power d yt.
+
+905
+00:52:49,200 --> 00:52:56,960
+So if we have an ordered D
+
+906
+00:52:54,000 --> 00:53:00,160
+model, we take the deth order difference
+
+907
+00:52:56,960 --> 00:53:07,040
+and put that into an ARMA model.
+
+908
+00:53:00,160 --> 00:53:11,520
+And if we have a seasonal ARMA model,
+
+909
+00:53:07,040 --> 00:53:15,920
+we actually add a capital P, capital Q,
+
+910
+00:53:11,520 --> 00:53:19,119
+capital D, capital Q.
+
+911
+00:53:15,920 --> 00:53:22,079
+And here we have sort of the frequency
+
+912
+00:53:19,119 --> 00:53:27,359
+of the data. And in this example I
+
+913
+00:53:22,079 --> 00:53:31,920
+considered a 21 period frequency just to
+
+914
+00:53:27,359 --> 00:53:34,160
+correspond to um the window size.
+
+915
+00:53:31,920 --> 00:53:39,040
+And
+
+916
+00:53:34,160 --> 00:53:41,839
+what this model does is it sort of has
+
+917
+00:53:39,040 --> 00:53:44,839
+another polomial
+
+918
+00:53:41,839 --> 00:53:44,839
+of
+
+919
+00:53:55,359 --> 00:54:02,880
+So this is B to the 2 * 21.
+
+920
+00:53:59,839 --> 00:54:04,400
+So we basically end up having um
+
+921
+00:54:02,880 --> 00:54:07,119
+backshift
+
+922
+00:54:04,400 --> 00:54:11,680
+operator polomials
+
+923
+00:54:07,119 --> 00:54:13,920
+that work with the
+
+924
+00:54:11,680 --> 00:54:16,559
+seasonal frequencies
+
+925
+00:54:13,920 --> 00:54:20,839
+of the time series.
+
+926
+00:54:16,559 --> 00:54:20,839
+And so um
+
+927
+00:54:21,520 --> 00:54:32,480
+so uh okay so this is a a polomial of
+
+928
+00:54:26,559 --> 00:54:35,680
+order Q of order P in B to the 12th
+
+929
+00:54:32,480 --> 00:54:39,520
+sorry B to the 21
+
+930
+00:54:35,680 --> 00:54:41,839
+and then we would also multiply this on
+
+931
+00:54:39,520 --> 00:54:44,880
+this side perhaps
+
+932
+00:54:41,839 --> 00:54:51,520
+by a one minus
+
+933
+00:54:44,880 --> 00:54:55,440
+capital theta 1 B 21 or plus theta 2 B
+
+934
+00:54:51,520 --> 00:54:59,280
+to the 21^ 2
+
+935
+00:54:55,440 --> 00:55:00,800
+so times 2
+
+936
+00:54:59,280 --> 00:55:05,760
+and
+
+937
+00:55:00,800 --> 00:55:08,559
+so so this kind of notation leads us to
+
+938
+00:55:05,760 --> 00:55:11,200
+these coefficient estimates. So there's
+
+939
+00:55:08,559 --> 00:55:13,119
+this sort of simple order auto
+
+940
+00:55:11,200 --> 00:55:16,119
+reggressive terms and moving average
+
+941
+00:55:13,119 --> 00:55:16,119
+terms.
+
+942
+00:55:16,240 --> 00:55:21,520
+Order two auto reggressive order three
+
+943
+00:55:19,119 --> 00:55:25,839
+moving average. But then for the
+
+944
+00:55:21,520 --> 00:55:28,640
+seasonal auto reggressive terms we have
+
+945
+00:55:25,839 --> 00:55:32,079
+these terms here. And for the seasonal
+
+946
+00:55:28,640 --> 00:55:35,839
+moving average we have uh the last term
+
+947
+00:55:32,079 --> 00:55:39,040
+here. And what's generally important in
+
+948
+00:55:35,839 --> 00:55:42,319
+fitting models is when you consider the
+
+949
+00:55:39,040 --> 00:55:45,599
+last terms to enter into a model such as
+
+950
+00:55:42,319 --> 00:55:49,280
+in this case the seasonal moving average
+
+951
+00:55:45,599 --> 00:55:52,400
+term it is its estimate is many
+
+952
+00:55:49,280 --> 00:55:55,599
+multiples of its standard error. So
+
+953
+00:55:52,400 --> 00:55:58,880
+that's a a very important factor in the
+
+954
+00:55:55,599 --> 00:56:01,520
+model. Um and
+
+955
+00:55:58,880 --> 00:56:03,119
+let's see just
+
+956
+00:56:01,520 --> 00:56:05,760
+as
+
+957
+00:56:03,119 --> 00:56:09,440
+uh let's see
+
+958
+00:56:05,760 --> 00:56:12,559
+as an anecdote um
+
+959
+00:56:09,440 --> 00:56:16,720
+let me just say uh
+
+960
+00:56:12,559 --> 00:56:23,760
+let's see if we take a series yt
+
+961
+00:56:16,720 --> 00:56:26,480
+and we look at a seasonal difference
+
+962
+00:56:23,760 --> 00:56:28,640
+operator and a first order difference
+
+963
+00:56:26,480 --> 00:56:30,400
+operator.
+
+964
+00:56:28,640 --> 00:56:33,440
+Um
+
+965
+00:56:30,400 --> 00:56:36,799
+this turns out to be equal to the first
+
+966
+00:56:33,440 --> 00:56:40,000
+difference operator multiplying the
+
+967
+00:56:36,799 --> 00:56:45,440
+seasonal difference operator
+
+968
+00:56:40,000 --> 00:56:47,599
+and it equals basically 1 - b + b to the
+
+969
+00:56:45,440 --> 00:56:53,440
+21
+
+970
+00:56:47,599 --> 00:56:57,040
+uh sorry minus b 21 + b 22
+
+971
+00:56:53,440 --> 00:56:59,680
+times yt. And so with seasonal
+
+972
+00:56:57,040 --> 00:57:01,280
+differences
+
+973
+00:56:59,680 --> 00:57:04,319
+in
+
+974
+00:57:01,280 --> 00:57:07,440
+auto reggressive moving averages
+
+975
+00:57:04,319 --> 00:57:09,359
+whether we take first differences
+
+976
+00:57:07,440 --> 00:57:11,359
+nonseasonally and then seasonal
+
+977
+00:57:09,359 --> 00:57:13,520
+differences
+
+978
+00:57:11,359 --> 00:57:15,680
+subsequently or reverse the order we end
+
+979
+00:57:13,520 --> 00:57:19,839
+up getting the same transformation of
+
+980
+00:57:15,680 --> 00:57:21,920
+the data. And so um what's well actually
+
+981
+00:57:19,839 --> 00:57:25,599
+with economic time series where we have
+
+982
+00:57:21,920 --> 00:57:28,880
+a seasonal frequency of say months then
+
+983
+00:57:25,599 --> 00:57:30,799
+the uh
+
+984
+00:57:28,880 --> 00:57:33,440
+basically the seasonal differences
+
+985
+00:57:30,799 --> 00:57:38,079
+correspond to year-over-year changes
+
+986
+00:57:33,440 --> 00:57:41,680
+whereas the simple uh differences um are
+
+987
+00:57:38,079 --> 00:57:45,680
+just uh period by period differences.
+
+988
+00:57:41,680 --> 00:57:49,280
+Anyway, with this final uh example here,
+
+989
+00:57:45,680 --> 00:57:53,599
+this is sort of how the
+
+990
+00:57:49,280 --> 00:57:56,559
+residual analysis looks. And it actually
+
+991
+00:57:53,599 --> 00:57:58,880
+um does yield residuals that do look a
+
+992
+00:57:56,559 --> 00:58:03,119
+lot like white noise, although there is
+
+993
+00:57:58,880 --> 00:58:05,520
+still this sort of persistent spike
+
+994
+00:58:03,119 --> 00:58:09,520
+just beyond the sort of window width for
+
+995
+00:58:05,520 --> 00:58:12,400
+the computation. But the uh distribution
+
+996
+00:58:09,520 --> 00:58:15,280
+of the residuals looks more Gaussian
+
+997
+00:58:12,400 --> 00:58:17,599
+perhaps than well much more than than
+
+998
+00:58:15,280 --> 00:58:21,839
+the cases before.
+
+999
+00:58:17,599 --> 00:58:25,839
+So um with that um
+
+1000
+00:58:21,839 --> 00:58:29,599
+let's see in in analyzing different time
+
+1001
+00:58:25,839 --> 00:58:33,599
+series models there are these accuracy
+
+1002
+00:58:29,599 --> 00:58:36,799
+statistics that can be computed for any
+
+1003
+00:58:33,599 --> 00:58:39,040
+forecasting model. And so you're
+
+1004
+00:58:36,799 --> 00:58:42,640
+probably familiar with root mean squared
+
+1005
+00:58:39,040 --> 00:58:46,240
+error or mean squared error. Um but we
+
+1006
+00:58:42,640 --> 00:58:49,680
+also have the map which is the mean
+
+1007
+00:58:46,240 --> 00:58:53,520
+absolute percent error. And I actually
+
+1008
+00:58:49,680 --> 00:58:57,440
+find that pretty useful uh for judging
+
+1009
+00:58:53,520 --> 00:59:00,400
+uh how effective the models are. And
+
+1010
+00:58:57,440 --> 00:59:04,720
+what's really nice about the uh FPPP2
+
+1011
+00:59:00,400 --> 00:59:07,920
+package is that one can just ask it to
+
+1012
+00:59:04,720 --> 00:59:11,280
+plot the time series and the forecast
+
+1013
+00:59:07,920 --> 00:59:13,839
+and it generates a point forecast in a
+
+1014
+00:59:11,280 --> 00:59:16,960
+solid blue line and prediction intervals
+
+1015
+00:59:13,839 --> 00:59:19,440
+about that forecast which assume
+
+1016
+00:59:16,960 --> 00:59:22,880
+Gaussian or normal distributions for the
+
+1017
+00:59:19,440 --> 00:59:26,160
+error terms. But one can see how those
+
+1018
+00:59:22,880 --> 00:59:28,480
+evolve into the future. And it's really
+
+1019
+00:59:26,160 --> 00:59:30,240
+consistent for
+
+1020
+00:59:28,480 --> 00:59:33,119
+prediction intervals to get wider the
+
+1021
+00:59:30,240 --> 00:59:34,799
+further out we forecast. And that's
+
+1022
+00:59:33,119 --> 00:59:38,319
+happening here. What's rather
+
+1023
+00:59:34,799 --> 00:59:41,920
+interesting about this forecast
+
+1024
+00:59:38,319 --> 00:59:44,400
+um using the Yang Jang
+
+1025
+00:59:41,920 --> 00:59:48,000
+uh measure and forecasting that into the
+
+1026
+00:59:44,400 --> 00:59:50,720
+future is that it actually after being
+
+1027
+00:59:48,000 --> 00:59:53,040
+at a lower level is predicting that it
+
+1028
+00:59:50,720 --> 00:59:54,640
+might go back to more of a mean level of
+
+1029
+00:59:53,040 --> 00:59:56,480
+volatility.
+
+1030
+00:59:54,640 --> 00:59:58,559
+So that's that's an interesting
+
+1031
+00:59:56,480 --> 01:00:00,319
+property.
+
+1032
+00:59:58,559 --> 01:00:03,040
+Okay.
+
+1033
+01:00:00,319 --> 01:00:05,200
+Well, let's go back to
+
+1034
+01:00:03,040 --> 01:00:07,760
+the notes here
+
+1035
+01:00:05,200 --> 01:00:12,319
+and um
+
+1036
+01:00:07,760 --> 01:00:16,240
+let's see. There are extensions of uh
+
+1037
+01:00:12,319 --> 01:00:20,000
+geometric brownie in motion that we
+
+1038
+01:00:16,240 --> 01:00:23,839
+have uh seen before. One of them is a
+
+1039
+01:00:20,000 --> 01:00:26,960
+pluson jump diffusion model. Um where
+
+1040
+01:00:23,839 --> 01:00:29,839
+the stochastic differential equation has
+
+1041
+01:00:26,960 --> 01:00:35,760
+the brownie in motion part as the first
+
+1042
+01:00:29,839 --> 01:00:38,799
+two terms but then has a jump process as
+
+1043
+01:00:35,760 --> 01:00:41,760
+a last term where the jump process can
+
+1044
+01:00:38,799 --> 01:00:46,640
+be modeled as
+
+1045
+01:00:41,760 --> 01:00:51,440
+a plus process. So a jump occurs
+
+1046
+01:00:46,640 --> 01:00:56,559
+at some rate that is that defines the
+
+1047
+01:00:51,440 --> 01:00:58,240
+plus process and the rate is lambda and
+
+1048
+01:00:56,559 --> 01:01:01,280
+if
+
+1049
+01:00:58,240 --> 01:01:07,119
+an event in the plus process occurs then
+
+1050
+01:01:01,280 --> 01:01:10,319
+there's a jump in the uh stock uh which
+
+1051
+01:01:07,119 --> 01:01:13,520
+is given by this
+
+1052
+01:01:10,319 --> 01:01:15,119
+factor here. So um one can actually
+
+1053
+01:01:13,520 --> 01:01:19,359
+model
+
+1054
+01:01:15,119 --> 01:01:23,680
+uh data with this plus jump diffusion
+
+1055
+01:01:19,359 --> 01:01:28,480
+model and um let's see I I ended up
+
+1056
+01:01:23,680 --> 01:01:34,480
+working with uh David Pickard and Arshad
+
+1057
+01:01:28,480 --> 01:01:38,000
+Zacharia on fitting this diffusion model
+
+1058
+01:01:34,480 --> 01:01:40,960
+and it was an interesting um uh
+
+1059
+01:01:38,000 --> 01:01:44,480
+application in statistics of using the
+
+1060
+01:01:40,960 --> 01:01:47,920
+EM M algorithm. Um
+
+1061
+01:01:44,480 --> 01:01:52,480
+basically the jumps are treated as
+
+1062
+01:01:47,920 --> 01:01:55,200
+latent or hidden values in our data and
+
+1063
+01:01:52,480 --> 01:01:58,160
+those hidden values
+
+1064
+01:01:55,200 --> 01:02:00,720
+occur according to plus probabilities
+
+1065
+01:01:58,160 --> 01:02:04,640
+like the probability of one jump or two
+
+1066
+01:02:00,720 --> 01:02:08,880
+jumps can be computed using the plus
+
+1067
+01:02:04,640 --> 01:02:12,640
+parameter and one can apply this EM
+
+1068
+01:02:08,880 --> 01:02:15,520
+algorithm to obtain maximum likelihood
+
+1069
+01:02:12,640 --> 01:02:18,880
+estimates of all the parameters. And um
+
+1070
+01:02:15,520 --> 01:02:25,280
+in applying this an interesting property
+
+1071
+01:02:18,880 --> 01:02:27,839
+that uh occurred was that um there were
+
+1072
+01:02:25,280 --> 01:02:32,480
+quite frequent
+
+1073
+01:02:27,839 --> 01:02:35,680
+there that or the rate of uh plus events
+
+1074
+01:02:32,480 --> 01:02:37,359
+was quite high like every couple of
+
+1075
+01:02:35,680 --> 01:02:40,480
+days.
+
+1076
+01:02:37,359 --> 01:02:42,799
+And um what the model was doing was
+
+1077
+01:02:40,480 --> 01:02:44,880
+capturing
+
+1078
+01:02:42,799 --> 01:02:47,920
+heavier tailed distributions than a
+
+1079
+01:02:44,880 --> 01:02:49,440
+normal distribution. So instead of a
+
+1080
+01:02:47,920 --> 01:02:52,480
+single
+
+1081
+01:02:49,440 --> 01:02:55,280
+normal model for the return, one has a
+
+1082
+01:02:52,480 --> 01:02:57,839
+mixture of a normal with no jumps, a
+
+1083
+01:02:55,280 --> 01:03:00,400
+normal with one jump, two jumps,
+
+1084
+01:02:57,839 --> 01:03:03,760
+weighted according to plus song rates.
+
+1085
+01:03:00,400 --> 01:03:06,319
+And so the implication of the model
+
+1086
+01:03:03,760 --> 01:03:09,680
+fitting was that one didn't have sort of
+
+1087
+01:03:06,319 --> 01:03:13,200
+rare events necessarily that occurred uh
+
+1088
+01:03:09,680 --> 01:03:16,160
+but one had uh
+
+1089
+01:03:13,200 --> 01:03:20,559
+or there was evidence suggesting sort of
+
+1090
+01:03:16,160 --> 01:03:23,200
+uh a jump process that related to um
+
+1091
+01:03:20,559 --> 01:03:26,720
+trying to capture the excess variability
+
+1092
+01:03:23,200 --> 01:03:28,720
+of the stock price returns. Now that
+
+1093
+01:03:26,720 --> 01:03:32,319
+leads to
+
+1094
+01:03:28,720 --> 01:03:35,119
+um another model extending Brownian
+
+1095
+01:03:32,319 --> 01:03:39,760
+motion and this is the lelass
+
+1096
+01:03:35,119 --> 01:03:44,400
+distribution where if instead of
+
+1097
+01:03:39,760 --> 01:03:47,400
+observing a time series over equal
+
+1098
+01:03:44,400 --> 01:03:47,400
+increments.
+
+1099
+01:03:48,640 --> 01:03:53,200
+So between zero
+
+1100
+01:03:51,520 --> 01:03:55,599
+you know one can think of just equal
+
+1101
+01:03:53,200 --> 01:04:01,440
+increments of time.
+
+1102
+01:03:55,599 --> 01:04:06,240
+So t1, t2 and so forth up to tn say from
+
+1103
+01:04:01,440 --> 01:04:08,480
+time z to capital t. Um, it may be that
+
+1104
+01:04:06,240 --> 01:04:12,240
+we observe
+
+1105
+01:04:08,480 --> 01:04:17,280
+the Brownian motion process at random
+
+1106
+01:04:12,240 --> 01:04:19,200
+times. T1 and then here's T2,
+
+1107
+01:04:17,280 --> 01:04:21,200
+here's T3,
+
+1108
+01:04:19,200 --> 01:04:23,760
+where
+
+1109
+01:04:21,200 --> 01:04:28,559
+the increments of time themselves are
+
+1110
+01:04:23,760 --> 01:04:33,039
+also random. And it turns out that
+
+1111
+01:04:28,559 --> 01:04:34,880
+if the times at which we observe
+
+1112
+01:04:33,039 --> 01:04:36,960
+have
+
+1113
+01:04:34,880 --> 01:04:39,520
+sort of a time
+
+1114
+01:04:36,960 --> 01:04:41,440
+increment that's exponentially
+
+1115
+01:04:39,520 --> 01:04:45,039
+distributed
+
+1116
+01:04:41,440 --> 01:04:48,960
+then the increments of the brownian
+
+1117
+01:04:45,039 --> 01:04:52,240
+motion follow a lelass distribution.
+
+1118
+01:04:48,960 --> 01:04:56,240
+So heavier tail distributions
+
+1119
+01:04:52,240 --> 01:04:58,000
+than normal and this is the density of a
+
+1120
+01:04:56,240 --> 01:05:02,160
+lelass
+
+1121
+01:04:58,000 --> 01:05:06,559
+distribution. It's
+
+1122
+01:05:02,160 --> 01:05:08,480
+depends on the exponential of minus the
+
+1123
+01:05:06,559 --> 01:05:12,319
+magnitude
+
+1124
+01:05:08,480 --> 01:05:15,760
+of the deviation of x from mu as opposed
+
+1125
+01:05:12,319 --> 01:05:17,599
+to the square of that deviation. A
+
+1126
+01:05:15,760 --> 01:05:21,520
+Gaussian or normal distribution would
+
+1127
+01:05:17,599 --> 01:05:24,960
+have a power two there. With the lelass
+
+1128
+01:05:21,520 --> 01:05:30,240
+distribution, it's the absolute. And
+
+1129
+01:05:24,960 --> 01:05:33,039
+with this distribution, we have a mean
+
+1130
+01:05:30,240 --> 01:05:35,599
+mu which is sort of at the center of the
+
+1131
+01:05:33,039 --> 01:05:40,880
+distribution. The variance turns out to
+
+1132
+01:05:35,599 --> 01:05:43,760
+depend on this scale factor B um which
+
+1133
+01:05:40,880 --> 01:05:46,960
+is twice B^2.
+
+1134
+01:05:43,760 --> 01:05:46,960
+So um
+
+1135
+01:05:48,400 --> 01:05:52,319
+So let's just take a look at what lelass
+
+1136
+01:05:50,480 --> 01:05:56,480
+models look like. They basically are
+
+1137
+01:05:52,319 --> 01:06:00,559
+bilateral exponential distributions.
+
+1138
+01:05:56,480 --> 01:06:04,720
+And if we consider fitting the uh daily
+
+1139
+01:06:00,559 --> 01:06:07,280
+returns on the S&P 500, this is data for
+
+1140
+01:06:04,720 --> 01:06:11,680
+I know four-year period.
+
+1141
+01:06:07,280 --> 01:06:16,079
+um this sort of peaked distribution with
+
+1142
+01:06:11,680 --> 01:06:20,880
+exponentially dis decaying density is
+
+1143
+01:06:16,079 --> 01:06:23,119
+fitting the data really quite well and
+
+1144
+01:06:20,880 --> 01:06:27,680
+more importantly much better really than
+
+1145
+01:06:23,119 --> 01:06:30,160
+a Gaussian curve does. So here we have
+
+1146
+01:06:27,680 --> 01:06:33,599
+the fit of the Gaussian
+
+1147
+01:06:30,160 --> 01:06:37,599
+bell curve in red comparing it to the
+
+1148
+01:06:33,599 --> 01:06:42,720
+lelass curve in blue.
+
+1149
+01:06:37,599 --> 01:06:46,960
+And an interesting question is how do we
+
+1150
+01:06:42,720 --> 01:06:52,640
+judge whether uh one model or another is
+
+1151
+01:06:46,960 --> 01:06:54,640
+a good model? And a useful tool
+
+1152
+01:06:52,640 --> 01:06:57,839
+is
+
+1153
+01:06:54,640 --> 01:07:01,680
+to construct a QQ plot
+
+1154
+01:06:57,839 --> 01:07:07,039
+which is a quantile quantile plot.
+
+1155
+01:07:01,680 --> 01:07:10,079
+So we consider points where the vertical
+
+1156
+01:07:07,039 --> 01:07:12,720
+value corresponds to the magnitude of
+
+1157
+01:07:10,079 --> 01:07:15,599
+our data
+
+1158
+01:07:12,720 --> 01:07:17,760
+and the horizontal
+
+1159
+01:07:15,599 --> 01:07:20,640
+coordinate corresponds to the
+
+1160
+01:07:17,760 --> 01:07:22,240
+theoretical value
+
+1161
+01:07:20,640 --> 01:07:25,680
+for
+
+1162
+01:07:22,240 --> 01:07:28,640
+the smallest from a sample of lelass,
+
+1163
+01:07:25,680 --> 01:07:32,720
+the second smallest from a given lelass
+
+1164
+01:07:28,640 --> 01:07:36,480
+distribution. And so um we basically
+
+1165
+01:07:32,720 --> 01:07:38,640
+plot sort of observed quantiles versus
+
+1166
+01:07:36,480 --> 01:07:42,799
+theoretical quantiles for the fitted
+
+1167
+01:07:38,640 --> 01:07:45,599
+model. So this fits quite close to a
+
+1168
+01:07:42,799 --> 01:07:48,240
+line although it's not perfect. At least
+
+1169
+01:07:45,599 --> 01:07:51,760
+if it were perfect it would even sort of
+
+1170
+01:07:48,240 --> 01:07:54,480
+snake around the straight line where uh
+
+1171
+01:07:51,760 --> 01:07:58,400
+the sample quantiles equal the
+
+1172
+01:07:54,480 --> 01:08:03,440
+theoretical quantiles. If we do the same
+
+1173
+01:07:58,400 --> 01:08:06,319
+QQQ plot for a Gaussian or normal model,
+
+1174
+01:08:03,440 --> 01:08:10,880
+this is what our QQQ plot looks like.
+
+1175
+01:08:06,319 --> 01:08:14,160
+And so one can see that this second QQ
+
+1176
+01:08:10,880 --> 01:08:15,680
+plot is not fitting the data very well
+
+1177
+01:08:14,160 --> 01:08:21,040
+at all.
+
+1178
+01:08:15,680 --> 01:08:24,560
+So um this would favor uh using the
+
+1179
+01:08:21,040 --> 01:08:27,440
+lelass instead of the Gaussian
+
+1180
+01:08:24,560 --> 01:08:29,359
+with as a model for independent daily
+
+1181
+01:08:27,440 --> 01:08:33,600
+returns.
+
+1182
+01:08:29,359 --> 01:08:37,839
+Now the independence of or period by
+
+1183
+01:08:33,600 --> 01:08:41,679
+period returns is one that may not be
+
+1184
+01:08:37,839 --> 01:08:48,080
+satisfied by the data. And uh Robert
+
+1185
+01:08:41,679 --> 01:08:50,640
+Engel um proposed looking at time series
+
+1186
+01:08:48,080 --> 01:08:54,080
+um of returns
+
+1187
+01:08:50,640 --> 01:08:56,560
+and considering the possibility that the
+
+1188
+01:08:54,080 --> 01:09:00,960
+variability of these returns given by
+
+1189
+01:08:56,560 --> 01:09:04,560
+the variability of the epsilon t terms
+
+1190
+01:09:00,960 --> 01:09:08,799
+that these in fact
+
+1191
+01:09:04,560 --> 01:09:10,719
+have time varying volatilities sigma t
+
+1192
+01:09:08,799 --> 01:09:14,400
+where
+
+1193
+01:09:10,719 --> 01:09:17,520
+the sigma t squared
+
+1194
+01:09:14,400 --> 01:09:22,239
+evolves according to a sort of moving
+
+1195
+01:09:17,520 --> 01:09:25,839
+average of past squared errors. So an
+
+1196
+01:09:22,239 --> 01:09:27,359
+auto reggressive conditionally
+
+1197
+01:09:25,839 --> 01:09:31,759
+heteroscadastic
+
+1198
+01:09:27,359 --> 01:09:36,880
+model is what he proposed.
+
+1199
+01:09:31,759 --> 01:09:43,199
+And um in looking at this model
+
+1200
+01:09:36,880 --> 01:09:46,799
+um it's interesting to note that if one
+
+1201
+01:09:43,199 --> 01:09:52,159
+normal or one can sort of reexpress the
+
+1202
+01:09:46,799 --> 01:09:55,120
+arch model in terms of this
+
+1203
+01:09:52,159 --> 01:09:59,920
+squared error term
+
+1204
+01:09:55,120 --> 01:10:02,320
+and have this model uh in the second
+
+1205
+01:09:59,920 --> 01:10:06,320
+equation being consistent with the
+
+1206
+01:10:02,320 --> 01:10:08,000
+first. And this second model corresponds
+
+1207
+01:10:06,320 --> 01:10:12,159
+to
+
+1208
+01:10:08,000 --> 01:10:15,520
+there being an auto reggressive model
+
+1209
+01:10:12,159 --> 01:10:20,320
+consistent with the squared returns. And
+
+1210
+01:10:15,520 --> 01:10:22,640
+so this lrangege multiplier test can fit
+
+1211
+01:10:20,320 --> 01:10:25,199
+the auto reggressive model to these
+
+1212
+01:10:22,640 --> 01:10:27,199
+epsilon hat squares and test whether
+
+1213
+01:10:25,199 --> 01:10:29,760
+there is auto reggressive structure or
+
+1214
+01:10:27,199 --> 01:10:33,679
+not. And if we look at the
+
+1215
+01:10:29,760 --> 01:10:35,679
+autocorrelations of the S&P 500 returns
+
+1216
+01:10:33,679 --> 01:10:39,760
+squared,
+
+1217
+01:10:35,679 --> 01:10:42,960
+you can see that the first
+
+1218
+01:10:39,760 --> 01:10:46,000
+almost 10 autocorrelations
+
+1219
+01:10:42,960 --> 01:10:48,640
+are significantly different from zero in
+
+1220
+01:10:46,000 --> 01:10:52,239
+magnitude. So there is strong time
+
+1221
+01:10:48,640 --> 01:10:55,840
+dependence in the log returns.
+
+1222
+01:10:52,239 --> 01:10:59,360
+And so um how does one sort of fit this
+
+1223
+01:10:55,840 --> 01:11:02,640
+model? Well,
+
+1224
+01:10:59,360 --> 01:11:05,760
+the go-to typically in statist in
+
+1225
+01:11:02,640 --> 01:11:10,000
+statistical modeling is to consider a
+
+1226
+01:11:05,760 --> 01:11:13,120
+likelihood approach where we consider a
+
+1227
+01:11:10,000 --> 01:11:16,480
+density for our data
+
+1228
+01:11:13,120 --> 01:11:22,000
+uh specified by the model. So if the
+
+1229
+01:11:16,480 --> 01:11:24,560
+errors epsilon t are uh independent
+
+1230
+01:11:22,000 --> 01:11:26,159
+gaussian distributions with different
+
+1231
+01:11:24,560 --> 01:11:30,640
+variances
+
+1232
+01:11:26,159 --> 01:11:34,800
+then uh this likelihood function defines
+
+1233
+01:11:30,640 --> 01:11:39,040
+um the uh joint density of our data
+
+1234
+01:11:34,800 --> 01:11:43,280
+given underlying parameters. And what's
+
+1235
+01:11:39,040 --> 01:11:46,000
+becomes tricky with this likelihood
+
+1236
+01:11:43,280 --> 01:11:50,239
+specification is that there in fact are
+
+1237
+01:11:46,000 --> 01:11:52,880
+constraints on our parameters. So with
+
+1238
+01:11:50,239 --> 01:11:55,440
+the arch model we can't have a negative
+
+1239
+01:11:52,880 --> 01:11:58,480
+alpha
+
+1240
+01:11:55,440 --> 01:12:00,960
+because with the Gaussian squared
+
+1241
+01:11:58,480 --> 01:12:02,800
+epsilon that could be arbitrarily large
+
+1242
+01:12:00,960 --> 01:12:06,880
+negative
+
+1243
+01:12:02,800 --> 01:12:09,679
+or epsilon could be sorry I sorry if the
+
+1244
+01:12:06,880 --> 01:12:11,440
+alphas were negative then the epsilon
+
+1245
+01:12:09,679 --> 01:12:13,679
+squares could be arbitrarily large
+
+1246
+01:12:11,440 --> 01:12:17,280
+positive we get a negative variance so
+
+1247
+01:12:13,679 --> 01:12:19,199
+we can't have that also we have this
+
+1248
+01:12:17,280 --> 01:12:21,920
+property of the sum of the auto
+
+1249
+01:12:19,199 --> 01:12:24,480
+reggressive parameters is less than one
+
+1250
+01:12:21,920 --> 01:12:28,719
+and this corresponds to the process not
+
+1251
+01:12:24,480 --> 01:12:33,920
+being explosive in its in its movements.
+
+1252
+01:12:28,719 --> 01:12:37,760
+Um and then uh let's see an extension of
+
+1253
+01:12:33,920 --> 01:12:42,560
+the arch models was
+
+1254
+01:12:37,760 --> 01:12:47,280
+done by Bowlers Lev and this basically
+
+1255
+01:12:42,560 --> 01:12:53,679
+adds to our arch model terms like an
+
+1256
+01:12:47,280 --> 01:12:57,760
+order P arch model. It adds an order Q
+
+1257
+01:12:53,679 --> 01:13:00,960
+set of terms on lags of the volatility.
+
+1258
+01:12:57,760 --> 01:13:05,760
+And if we consider the special case of
+
+1259
+01:13:00,960 --> 01:13:09,040
+the garch1 model, this is its form
+
+1260
+01:13:05,760 --> 01:13:11,760
+which is very simple and parsimmonious.
+
+1261
+01:13:09,040 --> 01:13:14,239
+What's rather surprising
+
+1262
+01:13:11,760 --> 01:13:19,120
+is that the empirical specification of
+
+1263
+01:13:14,239 --> 01:13:22,719
+these models is um such that the garch1
+
+1264
+01:13:19,120 --> 01:13:27,120
+model is often chosen or identified as
+
+1265
+01:13:22,719 --> 01:13:30,239
+the best garch order case. So we end up
+
+1266
+01:13:27,120 --> 01:13:33,280
+having a very simple model with just a
+
+1267
+01:13:30,239 --> 01:13:34,880
+few parameters to characterize the the
+
+1268
+01:13:33,280 --> 01:13:37,840
+volatility
+
+1269
+01:13:34,880 --> 01:13:40,880
+and um
+
+1270
+01:13:37,840 --> 01:13:43,520
+let's see okay these notes talk about
+
+1271
+01:13:40,880 --> 01:13:46,000
+how the GACH model induces an ARMA
+
+1272
+01:13:43,520 --> 01:13:48,560
+model. So this is some time series
+
+1273
+01:13:46,000 --> 01:13:51,760
+results that are gone through here and
+
+1274
+01:13:48,560 --> 01:13:57,360
+there's a long run variance
+
+1275
+01:13:51,760 --> 01:14:01,840
+of the Garch model um that uh is given
+
+1276
+01:13:57,360 --> 01:14:07,360
+here and with a GACH one model
+
+1277
+01:14:01,840 --> 01:14:12,719
+there basically is a sort of long run
+
+1278
+01:14:07,360 --> 01:14:16,560
+uh volatility sigma star
+
+1279
+01:14:12,719 --> 01:14:23,800
+uh which has this particular formula
+
+1280
+01:14:16,560 --> 01:14:23,800
+and one uh basically can
+
+1281
+01:14:24,239 --> 01:14:28,640
+okay so one can find the long run
+
+1282
+01:14:26,560 --> 01:14:32,560
+variance of a garch model with this
+
+1283
+01:14:28,640 --> 01:14:35,679
+formula there this formula also leads to
+
+1284
+01:14:32,560 --> 01:14:38,480
+sort of updates of volatility being a
+
+1285
+01:14:35,679 --> 01:14:42,719
+multiple of the long run variance plus a
+
+1286
+01:14:38,480 --> 01:14:46,760
+deviation from that long run variance
+
+1287
+01:14:42,719 --> 01:14:46,760
+and So um
+
+1288
+01:14:47,679 --> 01:14:52,159
+all right so we have a maximum
+
+1289
+01:14:49,840 --> 01:14:55,440
+likelihood estimation for these models.
+
+1290
+01:14:52,159 --> 01:14:58,560
+Now I wanted to
+
+1291
+01:14:55,440 --> 01:15:01,280
+share with you let's see a case study
+
+1292
+01:14:58,560 --> 01:15:03,440
+using arch and garch models with foreign
+
+1293
+01:15:01,280 --> 01:15:07,920
+exchange returns.
+
+1294
+01:15:03,440 --> 01:15:11,920
+And so this note uses data collected
+
+1295
+01:15:07,920 --> 01:15:17,520
+from the Federal Reserve on foreign
+
+1296
+01:15:11,920 --> 01:15:20,239
+exchange uh values. Um section 1.2
+
+1297
+01:15:17,520 --> 01:15:22,800
+actually fits Brownie in motion using
+
+1298
+01:15:20,239 --> 01:15:25,199
+different time scales. So not assuming
+
+1299
+01:15:22,800 --> 01:15:26,719
+time dependence. It actually is sort of
+
+1300
+01:15:25,199 --> 01:15:28,560
+interesting
+
+1301
+01:15:26,719 --> 01:15:32,480
+to
+
+1302
+01:15:28,560 --> 01:15:36,800
+think about different time scales. Um
+
+1303
+01:15:32,480 --> 01:15:38,880
+but um if we go to section 1.3
+
+1304
+01:15:36,800 --> 01:15:41,199
+1.3
+
+1305
+01:15:38,880 --> 01:15:46,400
+and look at time dependence and squared
+
+1306
+01:15:41,199 --> 01:15:48,000
+returns this is uh uh the dollar pound u
+
+1307
+01:15:46,400 --> 01:15:52,000
+returns.
+
+1308
+01:15:48,000 --> 01:15:54,000
+Um this shows the autocorrelation and
+
+1309
+01:15:52,000 --> 01:15:56,960
+partial autocorrelation
+
+1310
+01:15:54,000 --> 01:15:59,520
+of the returns.
+
+1311
+01:15:56,960 --> 01:16:01,600
+So there are sort of strong partial
+
+1312
+01:15:59,520 --> 01:16:04,159
+oiler correlations
+
+1313
+01:16:01,600 --> 01:16:06,480
+um of the actual series and if we look
+
+1314
+01:16:04,159 --> 01:16:11,120
+at the squared returns
+
+1315
+01:16:06,480 --> 01:16:12,960
+um the actual series um has high
+
+1316
+01:16:11,120 --> 01:16:16,640
+autocorrelations over time but the
+
+1317
+01:16:12,960 --> 01:16:19,600
+partial autocorrelations have very high
+
+1318
+01:16:16,640 --> 01:16:21,679
+spikes at low lag. So this suggests sort
+
+1319
+01:16:19,600 --> 01:16:23,760
+of an auto reggressive model in the
+
+1320
+01:16:21,679 --> 01:16:28,400
+squared returns
+
+1321
+01:16:23,760 --> 01:16:32,239
+and the note fits an arch one an arch
+
+1322
+01:16:28,400 --> 01:16:33,920
+two. So one lag or sorry one auto
+
+1323
+01:16:32,239 --> 01:16:37,360
+reggressive
+
+1324
+01:16:33,920 --> 01:16:40,320
+uh term two auto reggressive terms or 10
+
+1325
+01:16:37,360 --> 01:16:42,560
+and then fits the GARCH one
+
+1326
+01:16:40,320 --> 01:16:45,280
+and the results
+
+1327
+01:16:42,560 --> 01:16:46,960
+are highlighted here just showing you
+
+1328
+01:16:45,280 --> 01:16:49,520
+the different coefficient estimates for
+
+1329
+01:16:46,960 --> 01:16:51,679
+these different models. They're all
+
+1330
+01:16:49,520 --> 01:16:54,640
+statistically significant in terms of
+
+1331
+01:16:51,679 --> 01:16:58,159
+the parameters. What's of interest
+
+1332
+01:16:54,640 --> 01:17:00,800
+though is just to look at the time
+
+1333
+01:16:58,159 --> 01:17:03,440
+series plot of the fitted volatilities
+
+1334
+01:17:00,800 --> 01:17:06,960
+using arch of different orders. So
+
+1335
+01:17:03,440 --> 01:17:10,640
+here's the arch one model.
+
+1336
+01:17:06,960 --> 01:17:13,600
+Here's the arch 2 model.
+
+1337
+01:17:10,640 --> 01:17:15,520
+A property of this these arch models is
+
+1338
+01:17:13,600 --> 01:17:18,159
+that you know it never goes below zero.
+
+1339
+01:17:15,520 --> 01:17:20,640
+There's sort of a lower bound. Here's
+
+1340
+01:17:18,159 --> 01:17:23,280
+the arch 10 model which looks like it's
+
+1341
+01:17:20,640 --> 01:17:26,400
+maybe tracking time varying volatility
+
+1342
+01:17:23,280 --> 01:17:30,719
+well. And then finally we can compare
+
+1343
+01:17:26,400 --> 01:17:33,920
+that with the GARCH one model.
+
+1344
+01:17:30,719 --> 01:17:37,760
+So instead of having 10 auto reggressive
+
+1345
+01:17:33,920 --> 01:17:40,400
+parameters in arch the generalized arch
+
+1346
+01:17:37,760 --> 01:17:43,040
+model is capturing time varying
+
+1347
+01:17:40,400 --> 01:17:46,159
+volatility in an appealing way. You know
+
+1348
+01:17:43,040 --> 01:17:49,040
+whether that's really valid or not is is
+
+1349
+01:17:46,159 --> 01:17:51,280
+of interest. Um but it certainly is an
+
+1350
+01:17:49,040 --> 01:17:56,800
+alternative to these arch models that
+
+1351
+01:17:51,280 --> 01:17:58,880
+that is quite powerful. Um and in the uh
+
+1352
+01:17:56,800 --> 01:18:00,719
+well here's just a graph of all three
+
+1353
+01:17:58,880 --> 01:18:05,040
+together.
+
+1354
+01:18:00,719 --> 01:18:08,000
+Um this this note actually does a final
+
+1355
+01:18:05,040 --> 01:18:10,880
+section of looking at what happens if
+
+1356
+01:18:08,000 --> 01:18:13,600
+our error distribution
+
+1357
+01:18:10,880 --> 01:18:16,880
+is not Gaussian
+
+1358
+01:18:13,600 --> 01:18:20,960
+but is a t distribution.
+
+1359
+01:18:16,880 --> 01:18:23,600
+the code there are packages ruarchch
+
+1360
+01:18:20,960 --> 01:18:28,159
+which allow us to specify
+
+1361
+01:18:23,600 --> 01:18:31,280
+parameters and fits using t models t
+
+1362
+01:18:28,159 --> 01:18:35,760
+distribution models for the errors and
+
+1363
+01:18:31,280 --> 01:18:40,560
+what's very curious is
+
+1364
+01:18:35,760 --> 01:18:44,320
+in judging the uh
+
+1365
+01:18:40,560 --> 01:18:46,400
+uh in judging the uh histogram of
+
+1366
+01:18:44,320 --> 01:18:49,679
+standardized residuals
+
+1367
+01:18:46,400 --> 01:18:51,760
+Um, the t distribution seems to do a
+
+1368
+01:18:49,679 --> 01:18:54,159
+decent job.
+
+1369
+01:18:51,760 --> 01:18:56,880
+And
+
+1370
+01:18:54,159 --> 01:18:59,120
+so here's with Gaussian residuals, I
+
+1371
+01:18:56,880 --> 01:19:03,360
+guess.
+
+1372
+01:18:59,120 --> 01:19:05,040
+And then here's the uh Gaussian garch
+
+1373
+01:19:03,360 --> 01:19:08,960
+residuals
+
+1374
+01:19:05,040 --> 01:19:12,000
+and QQ plot associated with uh the
+
+1375
+01:19:08,960 --> 01:19:17,199
+standardized Gaussian assumption.
+
+1376
+01:19:12,000 --> 01:19:19,440
+Then finally um there's the QQQ plot of
+
+1377
+01:19:17,199 --> 01:19:22,000
+standardized residuals with a t
+
+1378
+01:19:19,440 --> 01:19:24,480
+distribution assumed. So what's
+
+1379
+01:19:22,000 --> 01:19:26,800
+significant is just how the quantile
+
+1380
+01:19:24,480 --> 01:19:28,560
+quantile plot suggests that this model
+
+1381
+01:19:26,800 --> 01:19:30,640
+is really fitting the data much much
+
+1382
+01:19:28,560 --> 01:19:36,400
+better in terms of characterizing the
+
+1383
+01:19:30,640 --> 01:19:38,640
+variation and the choice of which order
+
+1384
+01:19:36,400 --> 01:19:41,520
+model to use
+
+1385
+01:19:38,640 --> 01:19:46,000
+for um
+
+1386
+01:19:41,520 --> 01:19:51,040
+let's see for the uh degrees of freedom
+
+1387
+01:19:46,000 --> 01:19:55,120
+there's this um negative log likelihood
+
+1388
+01:19:51,040 --> 01:19:57,440
+function of models for different t
+
+1389
+01:19:55,120 --> 01:20:01,440
+distributions as we vary the degrees of
+
+1390
+01:19:57,440 --> 01:20:03,440
+freedom for the t and a t distribution
+
+1391
+01:20:01,440 --> 01:20:05,440
+has a heavier tail than a Gaussian
+
+1392
+01:20:03,440 --> 01:20:07,280
+distribution
+
+1393
+01:20:05,440 --> 01:20:09,360
+at least if the degrees of freedom is
+
+1394
+01:20:07,280 --> 01:20:12,560
+really high it's virtually equivalent to
+
+1395
+01:20:09,360 --> 01:20:15,679
+a Gaussian but this is suggesting that
+
+1396
+01:20:12,560 --> 01:20:18,960
+there's uh possibly a nine degrees of
+
+1397
+01:20:15,679 --> 01:20:22,400
+freedom for that so that's a very
+
+1398
+01:20:18,960 --> 01:20:25,840
+interesting finding And it actually
+
+1399
+01:20:22,400 --> 01:20:29,679
+arises with some mathematical analysis
+
+1400
+01:20:25,840 --> 01:20:31,360
+that sort of t distributions
+
+1401
+01:20:29,679 --> 01:20:33,120
+are
+
+1402
+01:20:31,360 --> 01:20:37,040
+appropriate
+
+1403
+01:20:33,120 --> 01:20:40,320
+if we think of spherical symmetry
+
+1404
+01:20:37,040 --> 01:20:42,640
+in the number of dimensions equal to the
+
+1405
+01:20:40,320 --> 01:20:45,760
+degree of freedom.
+
+1406
+01:20:42,640 --> 01:20:47,760
+And so if you imagine sort of a joint
+
+1407
+01:20:45,760 --> 01:20:50,080
+distribution
+
+1408
+01:20:47,760 --> 01:20:53,520
+that is spherically symmetric in really
+
+1409
+01:20:50,080 --> 01:20:56,000
+high dimensions when you project that
+
+1410
+01:20:53,520 --> 01:20:58,400
+down onto coordinate axes you end up
+
+1411
+01:20:56,000 --> 01:21:04,239
+getting a Gaussian distribution.
+
+1412
+01:20:58,400 --> 01:21:06,159
+But if the symmetry is just of say nine
+
+1413
+01:21:04,239 --> 01:21:09,040
+dimensions
+
+1414
+01:21:06,159 --> 01:21:12,320
+then you end up having a t distribution
+
+1415
+01:21:09,040 --> 01:21:15,199
+for what those projections are. So, so
+
+1416
+01:21:12,320 --> 01:21:20,000
+this suggests that
+
+1417
+01:21:15,199 --> 01:21:24,320
+in terms of um time periods over which
+
+1418
+01:21:20,000 --> 01:21:26,719
+um the distribution of volatility sort
+
+1419
+01:21:24,320 --> 01:21:31,840
+of is is stable, you know, could be
+
+1420
+01:21:26,719 --> 01:21:34,000
+close to sort of nine dimensions. Um so
+
+1421
+01:21:31,840 --> 01:21:36,640
+perhaps corresponding to nine periods of
+
+1422
+01:21:34,000 --> 01:21:37,920
+data, I believe. All right. Well, we'll
+
+1423
+01:21:36,640 --> 01:21:40,239
+finish there. There's a lot of
+
+1424
+01:21:37,920 --> 01:21:44,640
+interesting material for you to check
+
+1425
+01:21:40,239 --> 01:21:47,520
+out. if you like. Um, and uh, I hope you
+
+1426
+01:21:44,640 --> 01:21:49,920
+can enjoy reading some of the articles
+
+1427
+01:21:47,520 --> 01:21:53,679
+of people who have studied volatility
+
+1428
+01:21:49,920 --> 01:21:56,560
+and see what their work has contributed
+
+1429
+01:21:53,679 --> 01:22:00,719
+and uh, it's a really interesting area
+
+1430
+01:21:56,560 --> 01:22:02,320
+for uh, uh, final papers um, you know,
+
+1431
+01:22:00,719 --> 01:22:04,159
+modeling volatility and predicting
+
+1432
+01:22:02,320 --> 01:22:07,199
+volatility. This is really scratching
+
+1433
+01:22:04,159 --> 01:22:08,560
+the surface of the topic. So there's a
+
+1434
+01:22:07,199 --> 01:22:13,719
+lot of interesting problems you could
+
+1435
+01:22:08,560 --> 01:22:13,719
+study. All right. Thanks a lot.
+

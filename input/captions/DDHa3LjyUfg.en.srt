@@ -1,0 +1,9832 @@
+1
+00:00:06,319 --> 00:00:12,160
+I'm excited to talk about this project
+
+2
+00:00:08,360 --> 00:00:15,240
+today um so as was mentioned in the
+
+3
+00:00:12,160 --> 00:00:18,039
+introduction our lab you know we have so
+
+4
+00:00:15,240 --> 00:00:20,840
+one thing we we sort of the name of the
+
+5
+00:00:18,039 --> 00:00:23,199
+lab we say is the Alo bio lab which
+
+6
+00:00:20,840 --> 00:00:25,199
+comes from this algorithmic lens on
+
+7
+00:00:23,199 --> 00:00:28,760
+biology business and we've done a lot of
+
+8
+00:00:25,199 --> 00:00:31,279
+work um in the past that has been
+
+9
+00:00:28,760 --> 00:00:33,320
+related to more more directly related to
+
+10
+00:00:31,279 --> 00:00:35,520
+this business of using an algorithmic
+
+11
+00:00:33,320 --> 00:00:38,200
+lens on biology and what we mean by that
+
+12
+00:00:35,520 --> 00:00:40,879
+is sort of taking lessons from the
+
+13
+00:00:38,200 --> 00:00:42,160
+limits of algorithms in particular the
+
+14
+00:00:40,879 --> 00:00:43,800
+application of certain types of
+
+15
+00:00:42,160 --> 00:00:46,640
+algorithms to the study of very
+
+16
+00:00:43,800 --> 00:00:48,480
+organized but high-dimensional systems
+
+17
+00:00:46,640 --> 00:00:50,520
+uh to rethink sort of the limits of
+
+18
+00:00:48,480 --> 00:00:53,120
+biological experimentation and and
+
+19
+00:00:50,520 --> 00:00:54,879
+experimental design and in particular
+
+20
+00:00:53,120 --> 00:00:56,559
+that's that's manifested in a number of
+
+21
+00:00:54,879 --> 00:00:58,879
+different ways but especially in this
+
+22
+00:00:56,559 --> 00:01:01,559
+line of work that is on these compressed
+
+23
+00:00:58,879 --> 00:01:03,399
+experiments um so I think when or
+
+24
+00:01:01,559 --> 00:01:05,240
+originally invited me he thought I might
+
+25
+00:01:03,399 --> 00:01:07,520
+talk about compressed perturb seek for
+
+26
+00:01:05,240 --> 00:01:09,320
+example and I'm not talking about
+
+27
+00:01:07,520 --> 00:01:10,400
+compressed perturb seek and there's a
+
+28
+00:01:09,320 --> 00:01:12,439
+reason I'm not talking about compressed
+
+29
+00:01:10,400 --> 00:01:13,799
+perturb seek okay so one is that I've
+
+30
+00:01:12,439 --> 00:01:15,119
+talked about it for eight years that's
+
+31
+00:01:13,799 --> 00:01:17,360
+actually probably the main internal
+
+32
+00:01:15,119 --> 00:01:19,840
+reason but that's a selfish reason and
+
+33
+00:01:17,360 --> 00:01:21,520
+my my style of talking is as soon as we
+
+34
+00:01:19,840 --> 00:01:22,799
+have something interesting to say I like
+
+35
+00:01:21,520 --> 00:01:25,439
+to go talk about it so that's thing
+
+36
+00:01:22,799 --> 00:01:27,759
+number one um to note about this talk is
+
+37
+00:01:25,439 --> 00:01:30,200
+this is all unpublished relatively early
+
+38
+00:01:27,759 --> 00:01:33,159
+stage work so we're very excited to to
+
+39
+00:01:30,200 --> 00:01:35,720
+hear your feedback on it um you know
+
+40
+00:01:33,159 --> 00:01:38,799
+which may include the usual simultaneous
+
+41
+00:01:35,720 --> 00:01:40,920
+feedback of this is wrong and this is
+
+42
+00:01:38,799 --> 00:01:43,000
+Trivial and already known so I would
+
+43
+00:01:40,920 --> 00:01:44,280
+love to hear um any of those comments
+
+44
+00:01:43,000 --> 00:01:45,360
+that you have but no seriously we do
+
+45
+00:01:44,280 --> 00:01:47,479
+want to hear your feedback and we're
+
+46
+00:01:45,360 --> 00:01:49,119
+excited to talk about it um but a little
+
+47
+00:01:47,479 --> 00:01:52,159
+bit more on the motivation for this work
+
+48
+00:01:49,119 --> 00:01:54,079
+so our previous line of stuff on um
+
+49
+00:01:52,159 --> 00:01:56,200
+these compressed experiments what those
+
+50
+00:01:54,079 --> 00:01:57,680
+really have been about and it's okay if
+
+51
+00:01:56,200 --> 00:02:00,680
+you're not familiar with the work I I'll
+
+52
+00:01:57,680 --> 00:02:03,000
+give you the gist um the idea is that
+
+53
+00:02:00,680 --> 00:02:05,600
+you know when we're doing sort of high
+
+54
+00:02:03,000 --> 00:02:07,920
+throughput and high content biological
+
+55
+00:02:05,600 --> 00:02:10,640
+experiments um oftentimes they cost a
+
+56
+00:02:07,920 --> 00:02:13,640
+lot of money but it turns out to be very
+
+57
+00:02:10,640 --> 00:02:15,360
+sort of um useful to get lots of Rich
+
+58
+00:02:13,640 --> 00:02:17,000
+data from lots of different types of
+
+59
+00:02:15,360 --> 00:02:18,560
+pertubations or many different
+
+60
+00:02:17,000 --> 00:02:21,519
+conditions or many different samples or
+
+61
+00:02:18,560 --> 00:02:23,200
+whatever and that's manifest in 10,000
+
+62
+00:02:21,519 --> 00:02:25,800
+papers a year now with ever bigger
+
+63
+00:02:23,200 --> 00:02:28,519
+scales of data and ever bigger
+
+64
+00:02:25,800 --> 00:02:30,120
+models so these are expensive but yet it
+
+65
+00:02:28,519 --> 00:02:32,800
+seems good to have lots of data there's
+
+66
+00:02:30,120 --> 00:02:34,560
+a line of statistical work a bunch of
+
+67
+00:02:32,800 --> 00:02:37,720
+different sort of threads going in
+
+68
+00:02:34,560 --> 00:02:39,480
+parallel but most famously um a line of
+
+69
+00:02:37,720 --> 00:02:40,879
+work in statistics and the development
+
+70
+00:02:39,480 --> 00:02:42,920
+of algorithms on something called
+
+71
+00:02:40,879 --> 00:02:44,599
+compressed sensing which has interesting
+
+72
+00:02:42,920 --> 00:02:47,400
+things to say about studying
+
+73
+00:02:44,599 --> 00:02:48,920
+high-dimensional signals um with small
+
+74
+00:02:47,400 --> 00:02:50,319
+amounts of data when you have prior
+
+75
+00:02:48,920 --> 00:02:53,599
+knowledge that the high dimensional
+
+76
+00:02:50,319 --> 00:02:56,280
+signal is very very structured okay and
+
+77
+00:02:53,599 --> 00:02:57,959
+in particular the the the idea is if
+
+78
+00:02:56,280 --> 00:02:59,840
+there's certain types of statistical
+
+79
+00:02:57,959 --> 00:03:02,560
+structure like sparcity or low rank
+
+80
+00:02:59,840 --> 00:03:04,680
+frankness or so some covariant structure
+
+81
+00:03:02,560 --> 00:03:06,440
+in your high-dimensional data then you
+
+82
+00:03:04,680 --> 00:03:09,200
+can collect what seems to be a
+
+83
+00:03:06,440 --> 00:03:11,360
+fantastically too small amount of data
+
+84
+00:03:09,200 --> 00:03:13,599
+and then use algorithms that can exploit
+
+85
+00:03:11,360 --> 00:03:15,440
+that statistical structure to recover a
+
+86
+00:03:13,599 --> 00:03:17,360
+much larger number of parameters than
+
+87
+00:03:15,440 --> 00:03:19,959
+you have any business recovering from
+
+88
+00:03:17,360 --> 00:03:21,879
+having only done this much work okay so
+
+89
+00:03:19,959 --> 00:03:24,560
+like I said we've explored that general
+
+90
+00:03:21,879 --> 00:03:25,760
+idea in half a dozen or so papers most
+
+91
+00:03:24,560 --> 00:03:27,319
+recently with this thing called
+
+92
+00:03:25,760 --> 00:03:28,640
+compressed perturb seek which again I'm
+
+93
+00:03:27,319 --> 00:03:31,000
+not talking about even though I actually
+
+94
+00:03:28,640 --> 00:03:33,040
+am talking about it right now okay but
+
+95
+00:03:31,000 --> 00:03:35,519
+the the point there is that our lab is
+
+96
+00:03:33,040 --> 00:03:37,959
+generally interested in in basic forms
+
+97
+00:03:35,519 --> 00:03:40,640
+of biological organization really trying
+
+98
+00:03:37,959 --> 00:03:43,080
+to understand the nature of organization
+
+99
+00:03:40,640 --> 00:03:45,879
+and if such things exist fundamental
+
+100
+00:03:43,080 --> 00:03:48,040
+units of organization at the level of
+
+101
+00:03:45,879 --> 00:03:49,360
+single cells and tissues so we want to
+
+102
+00:03:48,040 --> 00:03:50,720
+know what these things are many other
+
+103
+00:03:49,360 --> 00:03:52,840
+people are interested in similar
+
+104
+00:03:50,720 --> 00:03:55,799
+questions that line of work on
+
+105
+00:03:52,840 --> 00:03:58,360
+compressed experiment says we don't
+
+106
+00:03:55,799 --> 00:04:00,159
+really know what the underlying things
+
+107
+00:03:58,360 --> 00:04:03,560
+are I don't know what the under lying
+
+108
+00:04:00,159 --> 00:04:06,599
+biophysical mechanisms are but the last
+
+109
+00:04:03,560 --> 00:04:09,480
+20 or 30 or 300 years of doing biology
+
+110
+00:04:06,599 --> 00:04:12,200
+has taught us something exists okay
+
+111
+00:04:09,480 --> 00:04:14,879
+there is organization it's not all
+
+112
+00:04:12,200 --> 00:04:17,359
+20,000 genes operating independent of
+
+113
+00:04:14,879 --> 00:04:20,479
+each other or all the proteins or all
+
+114
+00:04:17,359 --> 00:04:21,919
+the uh metabolic fluxes or what have you
+
+115
+00:04:20,479 --> 00:04:24,000
+but there seems to be quite a lot of
+
+116
+00:04:21,919 --> 00:04:25,840
+organization we may not have pinned down
+
+117
+00:04:24,000 --> 00:04:28,160
+the exact biophysical mechanisms but
+
+118
+00:04:25,840 --> 00:04:30,479
+what I do know is that from the last
+
+119
+00:04:28,160 --> 00:04:32,800
+years maybe 10 to 20 years especially
+
+120
+00:04:30,479 --> 00:04:35,520
+where we collect a lot of data what we
+
+121
+00:04:32,800 --> 00:04:37,680
+always see are statistical patterns that
+
+122
+00:04:35,520 --> 00:04:40,360
+manifest from whatever those underlying
+
+123
+00:04:37,680 --> 00:04:42,880
+units of biological organization are
+
+124
+00:04:40,360 --> 00:04:44,840
+like if you collect a big Matrix of gene
+
+125
+00:04:42,880 --> 00:04:46,720
+expression data there's always a lot of
+
+126
+00:04:44,840 --> 00:04:48,639
+correlation patterns usually there's
+
+127
+00:04:46,720 --> 00:04:50,639
+some low rank decomposition that
+
+128
+00:04:48,639 --> 00:04:53,880
+captures most of the variance in the
+
+129
+00:04:50,639 --> 00:04:56,160
+data and so on so somehow there's
+
+130
+00:04:53,880 --> 00:04:59,400
+underlying biophysical mechanisms that
+
+131
+00:04:56,160 --> 00:05:02,039
+organize this high-dimensional system
+
+132
+00:04:59,400 --> 00:05:04,240
+that manifest in statistical parameters
+
+133
+00:05:02,039 --> 00:05:06,199
+and this line of compressed work says
+
+134
+00:05:04,240 --> 00:05:07,840
+aha there are these statistical
+
+135
+00:05:06,199 --> 00:05:09,759
+properties in our data we know how to
+
+136
+00:05:07,840 --> 00:05:12,759
+exploit that to collect almost
+
+137
+00:05:09,759 --> 00:05:14,479
+exponentially less data um in the lab
+
+138
+00:05:12,759 --> 00:05:17,320
+but still recover a large amount of
+
+139
+00:05:14,479 --> 00:05:19,720
+information so that's the background is
+
+140
+00:05:17,320 --> 00:05:22,039
+that we're generally interested in basic
+
+141
+00:05:19,720 --> 00:05:24,840
+units or the nature of organization at
+
+142
+00:05:22,039 --> 00:05:26,560
+the level of single cells and tissues
+
+143
+00:05:24,840 --> 00:05:28,840
+and we've done a lot of work that says
+
+144
+00:05:26,560 --> 00:05:31,440
+it exists here's an interesting thing to
+
+145
+00:05:28,840 --> 00:05:33,919
+note about your experiments that we have
+
+146
+00:05:31,440 --> 00:05:35,759
+a very strong statistical formalism of
+
+147
+00:05:33,919 --> 00:05:38,199
+how we can exploit that to spend fewer
+
+148
+00:05:35,759 --> 00:05:41,520
+dollars and fewer labor hours and
+
+149
+00:05:38,199 --> 00:05:43,960
+whatnot in the lab okay this project is
+
+150
+00:05:41,520 --> 00:05:46,479
+now getting back to the main question
+
+151
+00:05:43,960 --> 00:05:47,840
+what are the things what are the actual
+
+152
+00:05:46,479 --> 00:05:49,520
+units of
+
+153
+00:05:47,840 --> 00:05:52,880
+organization
+
+154
+00:05:49,520 --> 00:05:54,800
+and it's a problem that as I said many
+
+155
+00:05:52,880 --> 00:05:57,720
+people are interested in there's a whole
+
+156
+00:05:54,800 --> 00:05:59,840
+lot of work out there that collects a
+
+157
+00:05:57,720 --> 00:06:01,960
+lot of data we can focus on Gene EXP
+
+158
+00:05:59,840 --> 00:06:04,759
+expression collects a lot of for example
+
+159
+00:06:01,960 --> 00:06:07,720
+gene expression data and does something
+
+160
+00:06:04,759 --> 00:06:09,759
+to look for like latent factors and say
+
+161
+00:06:07,720 --> 00:06:12,440
+here are something that looks like a
+
+162
+00:06:09,759 --> 00:06:13,800
+program a gene expression program or
+
+163
+00:06:12,440 --> 00:06:16,880
+here's something that looks like a
+
+164
+00:06:13,800 --> 00:06:19,360
+pathway or here's a set of units whose
+
+165
+00:06:16,880 --> 00:06:22,160
+Collective activity can describe sort of
+
+166
+00:06:19,360 --> 00:06:23,960
+the the um you know all of what's going
+
+167
+00:06:22,160 --> 00:06:27,960
+on inside of a single cell or inside of
+
+168
+00:06:23,960 --> 00:06:30,919
+a tissue or whatever and um that's great
+
+169
+00:06:27,960 --> 00:06:33,120
+but the problem with that is
+
+170
+00:06:30,919 --> 00:06:35,479
+um discovering these biophysical
+
+171
+00:06:33,120 --> 00:06:39,919
+mechanisms is not in the domain of
+
+172
+00:06:35,479 --> 00:06:42,160
+Statistics okay so that's like if I have
+
+173
+00:06:39,919 --> 00:06:43,840
+this mic you know this I'll drop a mic
+
+174
+00:06:42,160 --> 00:06:46,680
+or something that that should be an
+
+175
+00:06:43,840 --> 00:06:48,520
+indictment of like a large field and I
+
+176
+00:06:46,680 --> 00:06:52,280
+don't know you know I've contributed to
+
+177
+00:06:48,520 --> 00:06:54,800
+that bad behavior quite a lot um but you
+
+178
+00:06:52,280 --> 00:06:57,160
+know I don't know if anyone yeah
+
+179
+00:06:54,800 --> 00:06:59,639
+please so you described this as a bad
+
+180
+00:06:57,160 --> 00:07:01,919
+behavior and I do agree that um
+
+181
+00:06:59,639 --> 00:07:03,720
+statistics is not maybe going to
+
+182
+00:07:01,919 --> 00:07:06,240
+discover the biophysical model but
+
+183
+00:07:03,720 --> 00:07:07,240
+wouldn't it propose new hypothesis for
+
+184
+00:07:06,240 --> 00:07:09,039
+perhaps there is some sort of
+
+185
+00:07:07,240 --> 00:07:12,240
+interaction between these two things go
+
+186
+00:07:09,039 --> 00:07:15,919
+test it out with um biop physical models
+
+187
+00:07:12,240 --> 00:07:18,240
+or experiments um so are they really
+
+188
+00:07:15,919 --> 00:07:20,199
+like is there no contribution I guess
+
+189
+00:07:18,240 --> 00:07:22,800
+from the statistical side no there
+
+190
+00:07:20,199 --> 00:07:24,680
+definitely is so you know there's a role
+
+191
+00:07:22,800 --> 00:07:26,680
+of finding patterns in developing new
+
+192
+00:07:24,680 --> 00:07:28,080
+hypotheses and trying to understand what
+
+193
+00:07:26,680 --> 00:07:30,720
+might be going on and finding new
+
+194
+00:07:28,080 --> 00:07:33,120
+threads to pull on but the problem is
+
+195
+00:07:30,720 --> 00:07:36,440
+that the things that we find um should
+
+196
+00:07:33,120 --> 00:07:38,599
+not be sort of privileged units right um
+
+197
+00:07:36,440 --> 00:07:40,039
+think about the most basic form we are
+
+198
+00:07:38,599 --> 00:07:41,960
+going to do a principal component
+
+199
+00:07:40,039 --> 00:07:43,720
+analysis of some gene expression data
+
+200
+00:07:41,960 --> 00:07:46,759
+set and then try and interpret the
+
+201
+00:07:43,720 --> 00:07:48,599
+things as like programs or Pathways or
+
+202
+00:07:46,759 --> 00:07:50,360
+something what's the problem with that
+
+203
+00:07:48,599 --> 00:07:51,879
+the problem with that is if I collect a
+
+204
+00:07:50,360 --> 00:07:53,720
+new data set I'm not going to find the
+
+205
+00:07:51,879 --> 00:07:56,159
+same thing so it's a little bit hard for
+
+206
+00:07:53,720 --> 00:07:59,720
+me to claim that those are the actual
+
+207
+00:07:56,159 --> 00:08:01,520
+units moreover there is it turn turns
+
+208
+00:07:59,720 --> 00:08:03,759
+out more than one way to look for
+
+209
+00:08:01,520 --> 00:08:05,560
+statistical patterns in a data set in
+
+210
+00:08:03,759 --> 00:08:09,080
+fact the number of ways that there are
+
+211
+00:08:05,560 --> 00:08:12,360
+is infinite and so if I tell you that I
+
+212
+00:08:09,080 --> 00:08:14,879
+have infinitely many ways to find a
+
+213
+00:08:12,360 --> 00:08:17,879
+fundamental unit of organization doesn't
+
+214
+00:08:14,879 --> 00:08:20,000
+seem so meaningful anymore so I agree
+
+215
+00:08:17,879 --> 00:08:21,680
+that there's a role for statistics and a
+
+216
+00:08:20,000 --> 00:08:24,120
+role for collecting a large amount of
+
+217
+00:08:21,680 --> 00:08:25,919
+data when we have no sort of existing
+
+218
+00:08:24,120 --> 00:08:28,879
+notion of what we're looking for we need
+
+219
+00:08:25,919 --> 00:08:31,159
+to just go do exploratory analysis and
+
+220
+00:08:28,879 --> 00:08:33,479
+in fact in data we're getting way off
+
+221
+00:08:31,159 --> 00:08:36,320
+track here by the way um no you you're
+
+222
+00:08:33,479 --> 00:08:39,519
+completely fine um uh uh mostly I'm just
+
+223
+00:08:36,320 --> 00:08:43,240
+off in the weeds um uh there in fact
+
+224
+00:08:39,519 --> 00:08:45,600
+data science um is a necessary part of
+
+225
+00:08:43,240 --> 00:08:48,240
+biology um because the phenomenon that
+
+226
+00:08:45,600 --> 00:08:51,240
+we're studying are a product of complex
+
+227
+00:08:48,240 --> 00:08:52,600
+historical processes there's I need to
+
+228
+00:08:51,240 --> 00:08:55,320
+write this up at some point but there's
+
+229
+00:08:52,600 --> 00:08:57,839
+a there's in fact a kinship between data
+
+230
+00:08:55,320 --> 00:08:59,800
+science and cosmology among the Natural
+
+231
+00:08:57,839 --> 00:09:01,519
+Sciences because the things we're
+
+232
+00:08:59,800 --> 00:09:03,320
+studying require some sort of
+
+233
+00:09:01,519 --> 00:09:05,240
+exploratory analysis we can't just
+
+234
+00:09:03,320 --> 00:09:06,640
+reason about them in the abstract
+
+235
+00:09:05,240 --> 00:09:08,120
+because they're the result of sort of
+
+236
+00:09:06,640 --> 00:09:09,519
+these random and complex historical
+
+237
+00:09:08,120 --> 00:09:11,000
+processes so we actually have to go
+
+238
+00:09:09,519 --> 00:09:13,440
+observe things in the world we can't
+
+239
+00:09:11,000 --> 00:09:16,040
+just come up with the answers um from
+
+240
+00:09:13,440 --> 00:09:17,320
+sitting on a mountain for 10 years um so
+
+241
+00:09:16,040 --> 00:09:19,800
+anyway so there is a role for data
+
+242
+00:09:17,320 --> 00:09:22,519
+science but but in the end discovering
+
+243
+00:09:19,800 --> 00:09:24,200
+these basic units of organization inside
+
+244
+00:09:22,519 --> 00:09:27,120
+cells and tissues is not in the domain
+
+245
+00:09:24,200 --> 00:09:29,959
+of Statistics okay so that's the that's
+
+246
+00:09:27,120 --> 00:09:32,200
+the 45 minute or however long I've taken
+
+247
+00:09:29,959 --> 00:09:33,920
+um introduction to what is the purpose
+
+248
+00:09:32,200 --> 00:09:36,120
+of this project the purpose of this
+
+249
+00:09:33,920 --> 00:09:38,399
+project is to take a different Tack and
+
+250
+00:09:36,120 --> 00:09:43,000
+to directly from the bottom up try and
+
+251
+00:09:38,399 --> 00:09:46,480
+derive a theory of something like a um
+
+252
+00:09:43,000 --> 00:09:49,079
+uh what a basic unit of organization is
+
+253
+00:09:46,480 --> 00:09:50,920
+or how something like a biological
+
+254
+00:09:49,079 --> 00:09:54,079
+process a fundamental unit of
+
+255
+00:09:50,920 --> 00:09:56,640
+organization within a cell could arise
+
+256
+00:09:54,079 --> 00:10:00,279
+out of evolutionary Dynamics or out of a
+
+257
+00:09:56,640 --> 00:10:02,680
+selective process okay so that's my
+
+258
+00:10:00,279 --> 00:10:05,040
+motivation for what this project is
+
+259
+00:10:02,680 --> 00:10:07,440
+about when Aiden gives his talk he's
+
+260
+00:10:05,040 --> 00:10:09,360
+going to give a much better motivation
+
+261
+00:10:07,440 --> 00:10:12,120
+this is the dumb motivation that is
+
+262
+00:10:09,360 --> 00:10:15,600
+internal basically to uh to me and to
+
+263
+00:10:12,120 --> 00:10:17,720
+our group about like our path of why we
+
+264
+00:10:15,600 --> 00:10:19,200
+started investigating this so the title
+
+265
+00:10:17,720 --> 00:10:21,720
+of the talk is about genotype to
+
+266
+00:10:19,200 --> 00:10:23,079
+phenotype mapping and so on and and
+
+267
+00:10:21,720 --> 00:10:26,360
+again Aiden's going to give you a much
+
+268
+00:10:23,079 --> 00:10:28,800
+more generalizable and overall better um
+
+269
+00:10:26,360 --> 00:10:30,839
+motivation for um the work that he's
+
+270
+00:10:28,800 --> 00:10:32,279
+going to present present but I just
+
+271
+00:10:30,839 --> 00:10:34,959
+wanted to give you a little bit of extra
+
+272
+00:10:32,279 --> 00:10:38,040
+context that there internally it came
+
+273
+00:10:34,959 --> 00:10:39,760
+from our basically anxiety uh about the
+
+274
+00:10:38,040 --> 00:10:41,639
+state of the world where many people
+
+275
+00:10:39,760 --> 00:10:44,279
+seem to be interested in what these
+
+276
+00:10:41,639 --> 00:10:46,720
+basic units of organization are but the
+
+277
+00:10:44,279 --> 00:10:49,560
+dominant mode of interrogation I believe
+
+278
+00:10:46,720 --> 00:10:52,839
+has little hope of succeeding on its own
+
+279
+00:10:49,560 --> 00:10:55,680
+that it needs a a very sharp shift or a
+
+280
+00:10:52,839 --> 00:10:57,680
+very heavy dose of bottom up and
+
+281
+00:10:55,680 --> 00:10:59,320
+theoretical approaches to actually tell
+
+282
+00:10:57,680 --> 00:11:02,720
+us the types of things that we might be
+
+283
+00:10:59,320 --> 00:11:06,800
+looking for okay there we go that's the
+
+284
+00:11:02,720 --> 00:11:10,959
+introduction so um again yes it's Alex
+
+285
+00:11:06,800 --> 00:11:13,360
+blel nice to see you um hi Alex hi um I
+
+286
+00:11:10,959 --> 00:11:15,279
+I just wonder um there's a hypothesis
+
+287
+00:11:13,360 --> 00:11:17,720
+underlying your motivation which is sort
+
+288
+00:11:15,279 --> 00:11:21,040
+of that that that there really is such a
+
+289
+00:11:17,720 --> 00:11:23,920
+modularity uh in some in some underlying
+
+290
+00:11:21,040 --> 00:11:26,040
+fundamental way um rather than like you
+
+291
+00:11:23,920 --> 00:11:27,519
+know a massive irreducible complexity
+
+292
+00:11:26,040 --> 00:11:30,360
+and of course we all hope that otherwise
+
+293
+00:11:27,519 --> 00:11:33,079
+like what are we doing anyway but um do
+
+294
+00:11:30,360 --> 00:11:35,279
+you have anything to say about that um
+
+295
+00:11:33,079 --> 00:11:37,320
+so we don't know for sure that it's
+
+296
+00:11:35,279 --> 00:11:39,360
+going to exist I'll grant you that what
+
+297
+00:11:37,320 --> 00:11:41,720
+we can say is again from like 20 years
+
+298
+00:11:39,360 --> 00:11:44,440
+of collecting lots of data there sure
+
+299
+00:11:41,720 --> 00:11:48,519
+seems to be a lot of statistical
+
+300
+00:11:44,440 --> 00:11:50,120
+organization and um you know one very
+
+301
+00:11:48,519 --> 00:11:51,959
+obvious way for those statistical
+
+302
+00:11:50,120 --> 00:11:55,480
+patterns to arise is because there's
+
+303
+00:11:51,959 --> 00:11:57,440
+underlying biophysical organization so
+
+304
+00:11:55,480 --> 00:12:00,200
+again with that I don't think that that
+
+305
+00:11:57,440 --> 00:12:03,279
+quite proves that there is this sort of
+
+306
+00:12:00,200 --> 00:12:04,720
+physical modularity um but I don't
+
+307
+00:12:03,279 --> 00:12:06,839
+really know how to explain the
+
+308
+00:12:04,720 --> 00:12:08,839
+statistical modularity other than
+
+309
+00:12:06,839 --> 00:12:11,399
+through those physical mechanisms does
+
+310
+00:12:08,839 --> 00:12:13,639
+that make sense it yes and I think there
+
+311
+00:12:11,399 --> 00:12:15,839
+are also potentially evolutionary
+
+312
+00:12:13,639 --> 00:12:17,199
+genetics reasons why that that could
+
+313
+00:12:15,839 --> 00:12:19,440
+motivate it but that's another for
+
+314
+00:12:17,199 --> 00:12:20,839
+another time but yes I I completely
+
+315
+00:12:19,440 --> 00:12:24,760
+agree and what we're going to arrive at
+
+316
+00:12:20,839 --> 00:12:26,000
+today is not um a full decomposition of
+
+317
+00:12:24,760 --> 00:12:27,680
+the activity at the cell what we're
+
+318
+00:12:26,000 --> 00:12:30,320
+going to arrive at today is basically
+
+319
+00:12:27,680 --> 00:12:33,240
+like one unit how do we how does one
+
+320
+00:12:30,320 --> 00:12:35,279
+process arise specifically a metabolic
+
+321
+00:12:33,240 --> 00:12:36,839
+process today is going to be a
+
+322
+00:12:35,279 --> 00:12:38,480
+discussion of a theory of how something
+
+323
+00:12:36,839 --> 00:12:40,760
+we are calling a collective mode but you
+
+324
+00:12:38,480 --> 00:12:44,199
+can think of as a metabolic process
+
+325
+00:12:40,760 --> 00:12:46,839
+arises um so we're baby steps baby steps
+
+326
+00:12:44,199 --> 00:12:48,600
+Alex great no examples are where it's at
+
+327
+00:12:46,839 --> 00:12:50,160
+it's perfect
+
+328
+00:12:48,600 --> 00:12:52,959
+okay
+
+329
+00:12:50,160 --> 00:12:56,560
+okay um very good so I'm mostly going to
+
+330
+00:12:52,959 --> 00:12:58,600
+go on the board today um and if um
+
+331
+00:12:56,560 --> 00:13:01,959
+feeling the need later I have a couple
+
+332
+00:12:58,600 --> 00:13:03,079
+slides to illustrate a couple points so
+
+333
+00:13:01,959 --> 00:13:04,800
+what we want to do the more
+
+334
+00:13:03,079 --> 00:13:06,720
+generalizable version of the
+
+335
+00:13:04,800 --> 00:13:08,720
+introduction and the motivation to this
+
+336
+00:13:06,720 --> 00:13:10,839
+talk is that we're interested in
+
+337
+00:13:08,720 --> 00:13:13,560
+studying non-trivial genotype to
+
+338
+00:13:10,839 --> 00:13:16,480
+phenotype Maps Okay like many people in
+
+339
+00:13:13,560 --> 00:13:18,880
+the world um and we want sort of a
+
+340
+00:13:16,480 --> 00:13:21,079
+mathematically tractable problem as I
+
+341
+00:13:18,880 --> 00:13:23,639
+said um part of our initial motivation
+
+342
+00:13:21,079 --> 00:13:26,440
+is to develop a theory of how something
+
+343
+00:13:23,639 --> 00:13:28,519
+like a process or a unit of organization
+
+344
+00:13:26,440 --> 00:13:31,320
+arises so we're going to be doing some
+
+345
+00:13:28,519 --> 00:13:34,000
+math so we need to live in a world of
+
+346
+00:13:31,320 --> 00:13:36,959
+somewhere we need to find a a
+
+347
+00:13:34,000 --> 00:13:39,360
+non-trivial um uh genotype to phenotype
+
+348
+00:13:36,959 --> 00:13:42,240
+map in a space that's mathematically
+
+349
+00:13:39,360 --> 00:13:44,800
+tractable one of the spaces um that sort
+
+350
+00:13:42,240 --> 00:13:47,240
+of fits these goals is in the analysis
+
+351
+00:13:44,800 --> 00:13:49,160
+of metabolic reaction networks so we're
+
+352
+00:13:47,240 --> 00:13:51,639
+going to be talking about evolution in
+
+353
+00:13:49,160 --> 00:13:53,600
+the space of metabolic reaction networks
+
+354
+00:13:51,639 --> 00:13:56,880
+and like I said how something like a
+
+355
+00:13:53,600 --> 00:14:00,240
+metabolic process um might arise or a
+
+356
+00:13:56,880 --> 00:14:03,279
+basic unit of um a metabolic reaction
+
+357
+00:14:00,240 --> 00:14:05,839
+flux Network might arise so um the rest
+
+358
+00:14:03,279 --> 00:14:07,279
+of the primer now um you know well I
+
+359
+00:14:05,839 --> 00:14:09,680
+can't make any promises that I won't
+
+360
+00:14:07,279 --> 00:14:13,120
+ramble on any other tangents but the
+
+361
+00:14:09,680 --> 00:14:15,240
+rest of the primer is intended to be um
+
+362
+00:14:13,120 --> 00:14:17,320
+giving you background on these metabolic
+
+363
+00:14:15,240 --> 00:14:19,680
+reaction networks and then we're going
+
+364
+00:14:17,320 --> 00:14:21,600
+to move into I'll set up the the general
+
+365
+00:14:19,680 --> 00:14:23,240
+framing of of what they are the
+
+366
+00:14:21,600 --> 00:14:26,079
+mathematical framing of something called
+
+367
+00:14:23,240 --> 00:14:28,560
+flux balance analysis which is usually
+
+368
+00:14:26,079 --> 00:14:31,720
+formulated as a constrained optimization
+
+369
+00:14:28,560 --> 00:14:34,600
+problem linear program to do our sort of
+
+370
+00:14:31,720 --> 00:14:36,680
+theory we need to analyze the basic
+
+371
+00:14:34,600 --> 00:14:38,959
+mathematical framework of flux balance
+
+372
+00:14:36,680 --> 00:14:40,399
+analysis a little bit differently for
+
+373
+00:14:38,959 --> 00:14:42,040
+those who are familiar with convex
+
+374
+00:14:40,399 --> 00:14:44,399
+optimization we're going to look at the
+
+375
+00:14:42,040 --> 00:14:47,240
+Duel of the Primal program so I'm going
+
+376
+00:14:44,399 --> 00:14:49,600
+to talk a little bit about Duality um
+
+377
+00:14:47,240 --> 00:14:52,399
+and then if I have time left at the end
+
+378
+00:14:49,600 --> 00:14:54,800
+to do our um especially evolutionary
+
+379
+00:14:52,399 --> 00:14:56,759
+simulations that Aiden is going to talk
+
+380
+00:14:54,800 --> 00:14:58,519
+about we have a little bit of teeny
+
+381
+00:14:56,759 --> 00:15:00,880
+little bit of Pop gen that I'll I'll
+
+382
+00:14:58,519 --> 00:15:03,839
+throw in if I have time at the end okay
+
+383
+00:15:00,880 --> 00:15:09,240
+so let's launch into it here um we're
+
+384
+00:15:03,839 --> 00:15:12,639
+the the first thing to discuss um is uh
+
+385
+00:15:09,240 --> 00:15:12,639
+genome scale metabolic
+
+386
+00:15:22,880 --> 00:15:28,120
+models okay and I put a genome scale in
+
+387
+00:15:26,120 --> 00:15:30,360
+parentheses in there because there's
+
+388
+00:15:28,120 --> 00:15:33,000
+there's sort of a a whole field out
+
+389
+00:15:30,360 --> 00:15:36,800
+there of doing this metabolic um uh
+
+390
+00:15:33,000 --> 00:15:39,319
+network analysis and and when um they
+
+391
+00:15:36,800 --> 00:15:42,399
+want to apply it to actual living
+
+392
+00:15:39,319 --> 00:15:44,639
+organisms one of the first tasks is to
+
+393
+00:15:42,399 --> 00:15:47,399
+try and reconstruct the metabolic
+
+394
+00:15:44,639 --> 00:15:50,560
+Network for a given organism and they
+
+395
+00:15:47,399 --> 00:15:52,839
+call that a genome scale model for our
+
+396
+00:15:50,560 --> 00:15:54,279
+purposes it doesn't particularly matter
+
+397
+00:15:52,839 --> 00:15:55,720
+we're not looking at a general you know
+
+398
+00:15:54,279 --> 00:15:57,440
+a specific organism again we're just
+
+399
+00:15:55,720 --> 00:15:59,880
+doing theory for starters here later
+
+400
+00:15:57,440 --> 00:16:01,120
+we're going to look at eoli um but even
+
+401
+00:15:59,880 --> 00:16:03,279
+when we do that it doesn't really have
+
+402
+00:16:01,120 --> 00:16:05,040
+to be genome scale lots of times people
+
+403
+00:16:03,279 --> 00:16:06,959
+do this analysis with like core
+
+404
+00:16:05,040 --> 00:16:09,600
+metabolism or one little branch of
+
+405
+00:16:06,959 --> 00:16:12,639
+something or whatever um but the purpose
+
+406
+00:16:09,600 --> 00:16:15,319
+of of generating a genome scale uh
+
+407
+00:16:12,639 --> 00:16:18,279
+metabolic model is to have a formal
+
+408
+00:16:15,319 --> 00:16:18,279
+representation of
+
+409
+00:16:26,639 --> 00:16:33,639
+metabolism um for the purpose of um you
+
+410
+00:16:30,519 --> 00:16:36,040
+know having a a a mathematical and a
+
+411
+00:16:33,639 --> 00:16:39,240
+computational framework for making
+
+412
+00:16:36,040 --> 00:16:41,560
+phenotype predictions um from a given
+
+413
+00:16:39,240 --> 00:16:43,120
+genotype okay and so the way that these
+
+414
+00:16:41,560 --> 00:16:46,399
+things work is that we're going to have
+
+415
+00:16:43,120 --> 00:16:49,279
+a set of metabolic reactions that exist
+
+416
+00:16:46,399 --> 00:16:52,079
+in the network and those reactions are
+
+417
+00:16:49,279 --> 00:16:54,319
+derived from the genes if you're trying
+
+418
+00:16:52,079 --> 00:16:56,759
+to reconstruct the metabolic network of
+
+419
+00:16:54,319 --> 00:17:00,000
+a particular organism we look at the
+
+420
+00:16:56,759 --> 00:17:02,920
+genes that are annotated
+
+421
+00:17:00,000 --> 00:17:02,920
+as metabolic
+
+422
+00:17:04,760 --> 00:17:09,799
+enzymes and this gives us um the
+
+423
+00:17:07,600 --> 00:17:14,400
+available
+
+424
+00:17:09,799 --> 00:17:17,039
+reactions r a c t i
+
+425
+00:17:14,400 --> 00:17:18,679
+s okay so we look in the genome we know
+
+426
+00:17:17,039 --> 00:17:20,640
+where all the genes are we look for
+
+427
+00:17:18,679 --> 00:17:24,199
+which ones are annotated as metabolic
+
+428
+00:17:20,640 --> 00:17:27,360
+enzymes um and that tells us the list of
+
+429
+00:17:24,199 --> 00:17:29,799
+reactions that are available in that
+
+430
+00:17:27,360 --> 00:17:31,760
+organism if you have enzyme to catalyze
+
+431
+00:17:29,799 --> 00:17:33,679
+reaction number one reaction number one
+
+432
+00:17:31,760 --> 00:17:35,440
+goes in your list if there's a second
+
+433
+00:17:33,679 --> 00:17:37,200
+reaction that exists in some organisms
+
+434
+00:17:35,440 --> 00:17:39,120
+but we have no enzyme or set of enzymes
+
+435
+00:17:37,200 --> 00:17:42,080
+for that reaction it doesn't make the
+
+436
+00:17:39,120 --> 00:17:44,160
+list and um the individual reactions are
+
+437
+00:17:42,080 --> 00:17:45,919
+just taken from Big databases like I
+
+438
+00:17:44,160 --> 00:17:49,440
+think keg and other things like that and
+
+439
+00:17:45,919 --> 00:17:51,880
+they consist of a reaction stochiometry
+
+440
+00:17:49,440 --> 00:17:54,200
+consume two of metabolite a and one of
+
+441
+00:17:51,880 --> 00:17:56,880
+metabolite B and produce one of
+
+442
+00:17:54,200 --> 00:18:00,640
+metabolite C so these things what they
+
+443
+00:17:56,880 --> 00:18:03,159
+represent are sort of fluxes or changes
+
+444
+00:18:00,640 --> 00:18:06,600
+through metabolites so consume one of
+
+445
+00:18:03,159 --> 00:18:09,360
+this produce one of this and so on we
+
+446
+00:18:06,600 --> 00:18:09,360
+could think of
+
+447
+00:18:09,520 --> 00:18:15,880
+this if we you know multiply this by
+
+448
+00:18:13,080 --> 00:18:19,240
+some amount of flux so call this like
+
+449
+00:18:15,880 --> 00:18:23,760
+one reaction reaction number one is
+
+450
+00:18:19,240 --> 00:18:27,320
+going to consume one of metabolite 2 uh
+
+451
+00:18:23,760 --> 00:18:31,120
+produce uh one of here just ignore that
+
+452
+00:18:27,320 --> 00:18:33,520
+for now prod one of metabolite 3 and and
+
+453
+00:18:31,120 --> 00:18:36,039
+it doesn't involve the other metabolites
+
+454
+00:18:33,520 --> 00:18:39,679
+there okay and in the end later we're
+
+455
+00:18:36,039 --> 00:18:41,679
+going to look at um uh fluxes so right
+
+456
+00:18:39,679 --> 00:18:44,039
+now this is just sort of DM we haven't
+
+457
+00:18:41,679 --> 00:18:46,000
+really said anything about DT um we're
+
+458
+00:18:44,039 --> 00:18:48,400
+going to say how much flux is there
+
+459
+00:18:46,000 --> 00:18:49,880
+through each individual reaction and
+
+460
+00:18:48,400 --> 00:18:52,600
+that's going to tell us about rates of
+
+461
+00:18:49,880 --> 00:18:55,159
+change of each individual metabolite all
+
+462
+00:18:52,600 --> 00:18:57,440
+right and so in the end if we have a a a
+
+463
+00:18:55,159 --> 00:18:59,919
+whole bunch of genes that code for
+
+464
+00:18:57,440 --> 00:19:02,679
+different enzymes that gives us
+
+465
+00:18:59,919 --> 00:19:05,120
+potentially a big set of reactions and
+
+466
+00:19:02,679 --> 00:19:07,520
+so we might end up with what we call a
+
+467
+00:19:05,120 --> 00:19:10,480
+big stochiometric
+
+468
+00:19:07,520 --> 00:19:13,960
+Matrix okay something that's going to be
+
+469
+00:19:10,480 --> 00:19:16,559
+metabolites by reactions big so we've
+
+470
+00:19:13,960 --> 00:19:19,280
+got one row per metabolite and one
+
+471
+00:19:16,559 --> 00:19:21,480
+column uh per reaction we call that a
+
+472
+00:19:19,280 --> 00:19:23,880
+stochiometric matrix yeah please does it
+
+473
+00:19:21,480 --> 00:19:26,200
+matter if you have more than one gene
+
+474
+00:19:23,880 --> 00:19:28,919
+per metabolite or metabolic reaction
+
+475
+00:19:26,200 --> 00:19:32,120
+okay great question so um there's a a
+
+476
+00:19:28,919 --> 00:19:34,039
+mapping that um goes from right now
+
+477
+00:19:32,120 --> 00:19:36,799
+we're going from just genes to reactions
+
+478
+00:19:34,039 --> 00:19:40,159
+so there's no genes for metabolites in
+
+479
+00:19:36,799 --> 00:19:42,480
+in the traditional setup um and very
+
+480
+00:19:40,159 --> 00:19:45,240
+often there turns out to be a complex
+
+481
+00:19:42,480 --> 00:19:47,200
+mapping between genes and metabolites
+
+482
+00:19:45,240 --> 00:19:48,960
+and the answer is yes it turns out to
+
+483
+00:19:47,200 --> 00:19:50,400
+matter in a very interesting way that
+
+484
+00:19:48,960 --> 00:19:51,559
+Aiden's can tell us but I probably won't
+
+485
+00:19:50,400 --> 00:19:54,320
+be able to help myself and I'm going to
+
+486
+00:19:51,559 --> 00:19:56,320
+let it slip before we get to his talk um
+
+487
+00:19:54,320 --> 00:19:59,520
+but very often for example you know an
+
+488
+00:19:56,320 --> 00:20:02,080
+enzyme can catalyze multiple reactions
+
+489
+00:19:59,520 --> 00:20:04,440
+or a given reaction might be catalyzed
+
+490
+00:20:02,080 --> 00:20:07,080
+by multiple enzymes and so what
+
+491
+00:20:04,440 --> 00:20:09,240
+generally when people build these genome
+
+492
+00:20:07,080 --> 00:20:11,360
+scale reconstructions of a metabolic
+
+493
+00:20:09,240 --> 00:20:14,080
+Network they look through a list of
+
+494
+00:20:11,360 --> 00:20:16,520
+genes that exist in an organism and they
+
+495
+00:20:14,080 --> 00:20:20,520
+come up with these rules like reaction
+
+496
+00:20:16,520 --> 00:20:25,600
+one could use you know x
+
+497
+00:20:20,520 --> 00:20:30,440
+one uh and
+
+498
+00:20:25,600 --> 00:20:34,840
+X2 or Y something like that so reaction
+
+499
+00:20:30,440 --> 00:20:36,679
+one could proceed either if you have um
+
+500
+00:20:34,840 --> 00:20:39,440
+these two genes present or through
+
+501
+00:20:36,679 --> 00:20:42,159
+basically the catalytic capacity um
+
+502
+00:20:39,440 --> 00:20:44,840
+combined through Gene one or Gene X1 and
+
+503
+00:20:42,159 --> 00:20:47,520
+Gene X2 or through Gene y so these are
+
+504
+00:20:44,840 --> 00:20:50,400
+the types of rules that tend to get um
+
+505
+00:20:47,520 --> 00:20:53,679
+derived um by looking through a genome
+
+506
+00:20:50,400 --> 00:20:55,400
+and um but for now yes we're going to
+
+507
+00:20:53,679 --> 00:20:58,760
+put this to the side for now so this
+
+508
+00:20:55,400 --> 00:21:01,240
+exists and is important um but but but
+
+509
+00:20:58,760 --> 00:21:04,600
+for now um consider just that we've
+
+510
+00:21:01,240 --> 00:21:07,840
+looked through all these types of rules
+
+511
+00:21:04,600 --> 00:21:09,480
+and said which reactions seem to have be
+
+512
+00:21:07,840 --> 00:21:11,000
+able to be satisfied in some way or
+
+513
+00:21:09,480 --> 00:21:13,799
+another like in this case I would need
+
+514
+00:21:11,000 --> 00:21:15,720
+Gene X1 and Gene x2 in the genome or I
+
+515
+00:21:13,799 --> 00:21:17,960
+would need Gene Y and if I have all of
+
+516
+00:21:15,720 --> 00:21:20,840
+them in any case reaction one can happen
+
+517
+00:21:17,960 --> 00:21:23,559
+so reaction one goes in the list okay so
+
+518
+00:21:20,840 --> 00:21:26,400
+I end up with a big stochiometric Matrix
+
+519
+00:21:23,559 --> 00:21:30,000
+and importantly these types of rules are
+
+520
+00:21:26,400 --> 00:21:31,559
+the bridge between biochem in genomics
+
+521
+00:21:30,000 --> 00:21:34,159
+that's going to allow us to do this
+
+522
+00:21:31,559 --> 00:21:36,440
+genotype to phenotype mapping so these
+
+523
+00:21:34,159 --> 00:21:38,840
+rules are critical and yes it matters
+
+524
+00:21:36,440 --> 00:21:42,480
+that they are sometimes
+
+525
+00:21:38,840 --> 00:21:46,120
+complex um okay finally usually there's
+
+526
+00:21:42,480 --> 00:21:47,919
+one additional reaction um that maybe
+
+527
+00:21:46,120 --> 00:21:49,480
+isn't entirely intuitive that's
+
+528
+00:21:47,919 --> 00:21:52,559
+something that's typically called a
+
+529
+00:21:49,480 --> 00:21:55,840
+biomass reaction uh that corresponds to
+
+530
+00:21:52,559 --> 00:21:57,880
+the production of biomass okay and it
+
+531
+00:21:55,840 --> 00:22:01,120
+represents you know a consumption of
+
+532
+00:21:57,880 --> 00:22:04,039
+basic pre cursors amino acids ntps
+
+533
+00:22:01,120 --> 00:22:06,240
+lipids co-actors Etc uh and the
+
+534
+00:22:04,039 --> 00:22:08,880
+production of just overall biomass of a
+
+535
+00:22:06,240 --> 00:22:11,640
+cell okay and we don't need to get into
+
+536
+00:22:08,880 --> 00:22:13,440
+the details of exactly what those look
+
+537
+00:22:11,640 --> 00:22:15,600
+like they vary for a a little bit for
+
+538
+00:22:13,440 --> 00:22:18,400
+each organism depending on the actual
+
+539
+00:22:15,600 --> 00:22:20,279
+biomass composition of each organism um
+
+540
+00:22:18,400 --> 00:22:22,320
+but typically there's one reaction that
+
+541
+00:22:20,279 --> 00:22:25,880
+represents again the consumption of
+
+542
+00:22:22,320 --> 00:22:28,720
+precursors and the production of
+
+543
+00:22:25,880 --> 00:22:31,080
+biomass okay so we can look through
+
+544
+00:22:28,720 --> 00:22:33,200
+genome look at the enzymes that are
+
+545
+00:22:31,080 --> 00:22:35,919
+annotated uh the genes that are
+
+546
+00:22:33,200 --> 00:22:39,320
+annotated as metabolic enzymes and
+
+547
+00:22:35,919 --> 00:22:42,640
+create a big stochiometric Matrix that
+
+548
+00:22:39,320 --> 00:22:44,880
+captures um which reactions can run and
+
+549
+00:22:42,640 --> 00:22:46,559
+how those reactions affect the flux
+
+550
+00:22:44,880 --> 00:22:49,080
+through each individual
+
+551
+00:22:46,559 --> 00:22:51,520
+metabolite all right so
+
+552
+00:22:49,080 --> 00:22:56,799
+now there's a further mathematical
+
+553
+00:22:51,520 --> 00:22:56,799
+framework called flux balance analysis
+
+554
+00:23:04,640 --> 00:23:10,600
+and flux balances analysis um is is is
+
+555
+00:23:08,760 --> 00:23:14,240
+the mathematical approach that sort of
+
+556
+00:23:10,600 --> 00:23:16,159
+Builds on U metabolic uh networks
+
+557
+00:23:14,240 --> 00:23:19,760
+reconstructed at the genome level or a
+
+558
+00:23:16,159 --> 00:23:23,159
+smaller level um to make predictions uh
+
+559
+00:23:19,760 --> 00:23:26,120
+phenotypic predictions um from genotype
+
+560
+00:23:23,159 --> 00:23:27,480
+or in this case from a metabolic Network
+
+561
+00:23:26,120 --> 00:23:30,039
+okay so this is the framework that we're
+
+562
+00:23:27,480 --> 00:23:33,880
+going to use to say what phenotype do we
+
+563
+00:23:30,039 --> 00:23:36,559
+expect to see uh given a particular um
+
+564
+00:23:33,880 --> 00:23:38,400
+stochiometric Matrix
+
+565
+00:23:36,559 --> 00:23:43,000
+okay
+
+566
+00:23:38,400 --> 00:23:43,000
+um okay great so what are the inputs to
+
+567
+00:23:44,000 --> 00:23:49,880
+this the inputs to this are a
+
+568
+00:23:47,039 --> 00:23:52,159
+stochiometric Matrix S like I talked
+
+569
+00:23:49,880 --> 00:23:56,559
+about here that's metabolites by
+
+570
+00:23:52,159 --> 00:23:56,559
+reactions big some
+
+571
+00:23:57,200 --> 00:24:03,039
+bounds on the fluxes So biochemically
+
+572
+00:24:00,320 --> 00:24:05,360
+speaking reactions can't just run at
+
+573
+00:24:03,039 --> 00:24:07,679
+infinite rate okay typically there's a
+
+574
+00:24:05,360 --> 00:24:10,640
+biochemical bound and as we'll discuss
+
+575
+00:24:07,679 --> 00:24:13,279
+later those biochemical bounds depend in
+
+576
+00:24:10,640 --> 00:24:15,559
+large part on the capacity of the
+
+577
+00:24:13,279 --> 00:24:17,760
+enzymes that underly the different
+
+578
+00:24:15,559 --> 00:24:20,080
+reactions so generally speaking going
+
+579
+00:24:17,760 --> 00:24:22,360
+forward we're we're going to talk about
+
+580
+00:24:20,080 --> 00:24:25,480
+these bounds as being related to the
+
+581
+00:24:22,360 --> 00:24:27,960
+genes and and think about that as the
+
+582
+00:24:25,480 --> 00:24:30,360
+gene um somehow what we're really
+
+583
+00:24:27,960 --> 00:24:32,960
+represent in is the catalytic capacity
+
+584
+00:24:30,360 --> 00:24:35,279
+of the gene which is you know
+
+585
+00:24:32,960 --> 00:24:37,399
+contributed to by like the expression
+
+586
+00:24:35,279 --> 00:24:39,960
+level of the gene but also whether or
+
+587
+00:24:37,399 --> 00:24:42,080
+not the gene product the enzyme is good
+
+588
+00:24:39,960 --> 00:24:43,760
+at doing its job okay so I'm not going
+
+589
+00:24:42,080 --> 00:24:44,960
+to differentiate going forward between
+
+590
+00:24:43,760 --> 00:24:47,440
+those things but just think about when
+
+591
+00:24:44,960 --> 00:24:50,080
+we talk about a constraint as having
+
+592
+00:24:47,440 --> 00:24:51,679
+derived from a gene it's just the
+
+593
+00:24:50,080 --> 00:24:53,880
+catalytic capacity of that which again
+
+594
+00:24:51,679 --> 00:24:55,520
+is is a combination of expression level
+
+595
+00:24:53,880 --> 00:24:57,840
+and whether or not the enzyme's a good
+
+596
+00:24:55,520 --> 00:25:02,080
+enzyme um and usually there's also
+
+597
+00:24:57,840 --> 00:25:02,080
+something called a fitness
+
+598
+00:25:06,159 --> 00:25:11,960
+function okay which might be in the
+
+599
+00:25:09,000 --> 00:25:13,919
+usual case the production of biomass
+
+600
+00:25:11,960 --> 00:25:16,520
+which we can think about as basically
+
+601
+00:25:13,919 --> 00:25:19,000
+the growth rate of the cell okay and and
+
+602
+00:25:16,520 --> 00:25:21,760
+you know production of biomass clearly
+
+603
+00:25:19,000 --> 00:25:23,080
+isn't always Fitness um but it's usually
+
+604
+00:25:21,760 --> 00:25:25,360
+treated as Fitness so there's something
+
+605
+00:25:23,080 --> 00:25:27,000
+called a fitness function those are the
+
+606
+00:25:25,360 --> 00:25:30,520
+inputs
+
+607
+00:25:27,000 --> 00:25:33,279
+um and and then the thing that we're
+
+608
+00:25:30,520 --> 00:25:33,279
+looking to get
+
+609
+00:25:34,120 --> 00:25:38,240
+out is
+
+610
+00:25:45,000 --> 00:25:49,960
+uh is the flux through every reaction in
+
+611
+00:25:47,840 --> 00:25:52,919
+the network so we have a big stoom
+
+612
+00:25:49,960 --> 00:25:55,200
+metric Matrix and I want to make a
+
+613
+00:25:52,919 --> 00:25:57,320
+prediction about the phenotype at the
+
+614
+00:25:55,200 --> 00:26:00,520
+level of flux through every reaction you
+
+615
+00:25:57,320 --> 00:26:02,799
+have a question no okay that's the
+
+616
+00:26:00,520 --> 00:26:05,600
+output um in order to do this we're
+
+617
+00:26:02,799 --> 00:26:05,600
+going to make some
+
+618
+00:26:08,039 --> 00:26:15,080
+assumptions and the assumptions include
+
+619
+00:26:11,760 --> 00:26:15,080
+a steady state
+
+620
+00:26:17,080 --> 00:26:21,159
+assumption I'll say formally what that
+
+621
+00:26:19,240 --> 00:26:23,520
+means in a second but it's related to
+
+622
+00:26:21,159 --> 00:26:28,240
+this flux through all the metabolites
+
+623
+00:26:23,520 --> 00:26:28,240
+and also an assumption of optimality
+
+624
+00:26:31,080 --> 00:26:37,480
+okay all right so formally what um this
+
+625
+00:26:35,000 --> 00:26:40,840
+looks like we can incorporate all of
+
+626
+00:26:37,480 --> 00:26:45,000
+this into a constrained optimization
+
+627
+00:26:40,840 --> 00:26:49,200
+problem um that tries to um output
+
+628
+00:26:45,000 --> 00:26:51,840
+fluxes that are optimal with a steady
+
+629
+00:26:49,200 --> 00:26:54,440
+state constraint and the and a
+
+630
+00:26:51,840 --> 00:26:57,640
+constraint on the bounds of each
+
+631
+00:26:54,440 --> 00:27:00,080
+individual reaction okay so usually the
+
+632
+00:26:57,640 --> 00:27:03,600
+way that this is is written down is that
+
+633
+00:27:00,080 --> 00:27:05,919
+we want to maximize over all the fluxes
+
+634
+00:27:03,600 --> 00:27:10,279
+we're going to use V to represent a
+
+635
+00:27:05,919 --> 00:27:13,840
+vector of fluxes V exists in uh how big
+
+636
+00:27:10,279 --> 00:27:15,360
+is v v is like uh yeah one by reactions
+
+637
+00:27:13,840 --> 00:27:18,600
+or whatever it's a vector of length
+
+638
+00:27:15,360 --> 00:27:23,200
+reactions big we want to maximize over
+
+639
+00:27:18,600 --> 00:27:25,840
+reactions now let's define our fitness
+
+640
+00:27:23,200 --> 00:27:28,399
+function usually this is just defined to
+
+641
+00:27:25,840 --> 00:27:31,279
+be something linear so a linear
+
+642
+00:27:28,399 --> 00:27:34,159
+combination of reaction fluxes is
+
+643
+00:27:31,279 --> 00:27:35,880
+somehow the fitness function and often
+
+644
+00:27:34,159 --> 00:27:39,480
+times that's represented with
+
+645
+00:27:35,880 --> 00:27:41,080
+coefficients beta okay so um we're going
+
+646
+00:27:39,480 --> 00:27:43,720
+to have a fitness function that looks
+
+647
+00:27:41,080 --> 00:27:45,760
+something like this in this simple case
+
+648
+00:27:43,720 --> 00:27:47,760
+when I have a biomass reaction let's
+
+649
+00:27:45,760 --> 00:27:50,840
+assume that the last column here is the
+
+650
+00:27:47,760 --> 00:27:53,159
+biomass reaction then beta is going to
+
+651
+00:27:50,840 --> 00:27:53,159
+look
+
+652
+00:27:54,360 --> 00:27:58,720
+something very boring like this beta is
+
+653
+00:27:56,960 --> 00:28:01,360
+going to say just take the flux through
+
+654
+00:27:58,720 --> 00:28:05,080
+the biomass reaction and that's the
+
+655
+00:28:01,360 --> 00:28:06,600
+fitness okay but generally speaking we
+
+656
+00:28:05,080 --> 00:28:08,240
+could have any old sort of Fitness
+
+657
+00:28:06,600 --> 00:28:09,640
+function here and and I'm going to
+
+658
+00:28:08,240 --> 00:28:13,039
+present everything as linear it actually
+
+659
+00:28:09,640 --> 00:28:14,000
+doesn't have to be linear um but uh uh
+
+660
+00:28:13,039 --> 00:28:16,360
+so we're going to have a fitness
+
+661
+00:28:14,000 --> 00:28:20,200
+function and so what we want to do is
+
+662
+00:28:16,360 --> 00:28:25,159
+find fluxes that maximize
+
+663
+00:28:20,200 --> 00:28:25,159
+Fitness subject to constraints
+
+664
+00:28:30,159 --> 00:28:35,519
+one is that we need steady state which
+
+665
+00:28:33,200 --> 00:28:38,279
+is really an imposition of conservation
+
+666
+00:28:35,519 --> 00:28:40,240
+of mass so this says if I take my
+
+667
+00:28:38,279 --> 00:28:43,279
+stochiometric
+
+668
+00:28:40,240 --> 00:28:46,440
+Matrix and I have a flux through every
+
+669
+00:28:43,279 --> 00:28:49,600
+reaction this product The Matrix x times
+
+670
+00:28:46,440 --> 00:28:52,240
+the vector v gives me the rate of change
+
+671
+00:28:49,600 --> 00:28:54,519
+through each individual metabolite so
+
+672
+00:28:52,240 --> 00:28:56,919
+we're just assuming and this is not the
+
+673
+00:28:54,519 --> 00:28:58,880
+world's wildest assumption we're just
+
+674
+00:28:56,919 --> 00:29:00,360
+assuming that at least at the population
+
+675
+00:28:58,880 --> 00:29:02,120
+level we're not really saying anything
+
+676
+00:29:00,360 --> 00:29:04,720
+here about phenotypic variability but at
+
+677
+00:29:02,120 --> 00:29:07,320
+the population level we're assuming that
+
+678
+00:29:04,720 --> 00:29:08,919
+metabol each metabolite is at steady
+
+679
+00:29:07,320 --> 00:29:10,480
+state so we're not constantly
+
+680
+00:29:08,919 --> 00:29:12,919
+accumulating any metabolites and we're
+
+681
+00:29:10,480 --> 00:29:14,519
+not constantly depleting any metabolites
+
+682
+00:29:12,919 --> 00:29:16,840
+and again this just follows from
+
+683
+00:29:14,519 --> 00:29:19,440
+conservation of mass basically so
+
+684
+00:29:16,840 --> 00:29:21,559
+somehow our flux Vector for you linear
+
+685
+00:29:19,440 --> 00:29:24,559
+algebra folk out there needs to live in
+
+686
+00:29:21,559 --> 00:29:30,000
+the null space of this Matrix S and then
+
+687
+00:29:24,559 --> 00:29:31,720
+we usually also have bounds um
+
+688
+00:29:30,000 --> 00:29:34,840
+on the
+
+689
+00:29:31,720 --> 00:29:37,840
+fluxes uh so this is a vector of lower
+
+690
+00:29:34,840 --> 00:29:40,039
+bounds and our fluxes have to be greater
+
+691
+00:29:37,840 --> 00:29:41,919
+than some lower bounds and this is a
+
+692
+00:29:40,039 --> 00:29:44,519
+vector of upper bounds and our fluxes
+
+693
+00:29:41,919 --> 00:29:46,440
+have to be less than um some upper
+
+694
+00:29:44,519 --> 00:29:48,840
+bounds so these are just biochemical
+
+695
+00:29:46,440 --> 00:29:51,000
+constraints okay so that's it this is a
+
+696
+00:29:48,840 --> 00:29:54,399
+linear program this is the basic setup
+
+697
+00:29:51,000 --> 00:29:57,279
+of flux balance analysis um and it can
+
+698
+00:29:54,399 --> 00:30:00,159
+be solved you know numerically Simplex
+
+699
+00:29:57,279 --> 00:30:02,360
+method or whatever ever um and and again
+
+700
+00:30:00,159 --> 00:30:04,840
+that's the basic setup so the assumption
+
+701
+00:30:02,360 --> 00:30:07,440
+is that we're going to end up predicting
+
+702
+00:30:04,840 --> 00:30:10,360
+the flux through every
+
+703
+00:30:07,440 --> 00:30:12,399
+reaction and we're assuming the the
+
+704
+00:30:10,360 --> 00:30:15,840
+basis of our prediction is somehow that
+
+705
+00:30:12,399 --> 00:30:19,559
+the fluxes have been optimized by
+
+706
+00:30:15,840 --> 00:30:22,880
+Evolution to maximize a fitness function
+
+707
+00:30:19,559 --> 00:30:25,720
+but subject to constraints imposed by
+
+708
+00:30:22,880 --> 00:30:28,039
+the universe conservation of mass and
+
+709
+00:30:25,720 --> 00:30:31,960
+biochemical constraints on how quickly
+
+710
+00:30:28,039 --> 00:30:34,720
+we can run each individual reaction okay
+
+711
+00:30:31,960 --> 00:30:37,480
+that's the basic setup of a flux balance
+
+712
+00:30:34,720 --> 00:30:40,399
+analysis now we can modify this a little
+
+713
+00:30:37,480 --> 00:30:43,360
+bit if You' like we can have you know
+
+714
+00:30:40,399 --> 00:30:46,640
+the same sort of problem where we have
+
+715
+00:30:43,360 --> 00:30:48,720
+we want to maximize a fitness function
+
+716
+00:30:46,640 --> 00:30:51,080
+and we have conservation of mass
+
+717
+00:30:48,720 --> 00:30:53,960
+constraint but we can also have sort of
+
+718
+00:30:51,080 --> 00:30:57,120
+linear combinations you
+
+719
+00:30:53,960 --> 00:30:58,840
+know like this so we could have a
+
+720
+00:30:57,120 --> 00:31:01,399
+constraint that's not just on each
+
+721
+00:30:58,840 --> 00:31:04,279
+individual reaction but a constraint
+
+722
+00:31:01,399 --> 00:31:08,240
+over linear combinations of reaction
+
+723
+00:31:04,279 --> 00:31:10,000
+fluxes okay and then later um Aiden's
+
+724
+00:31:08,240 --> 00:31:12,960
+also going to introduce how we could
+
+725
+00:31:10,000 --> 00:31:13,960
+generalize this even further and say is
+
+726
+00:31:12,960 --> 00:31:18,799
+this thing an
+
+727
+00:31:13,960 --> 00:31:18,799
+eraser look at that
+
+728
+00:31:20,000 --> 00:31:25,559
+whoa we could also generalize this later
+
+729
+00:31:23,840 --> 00:31:28,919
+and
+
+730
+00:31:25,559 --> 00:31:32,200
+say that our upper bound constraints in
+
+731
+00:31:28,919 --> 00:31:35,799
+fact somehow uh involve linear
+
+732
+00:31:32,200 --> 00:31:37,799
+combinations over um the catalytic
+
+733
+00:31:35,799 --> 00:31:39,159
+capacity of a bunch of genes this is
+
+734
+00:31:37,799 --> 00:31:41,559
+going to end up relating to your
+
+735
+00:31:39,159 --> 00:31:44,880
+question of if there's a non-trivial
+
+736
+00:31:41,559 --> 00:31:47,799
+relationship between genes and
+
+737
+00:31:44,880 --> 00:31:51,399
+constraints on different reactions then
+
+738
+00:31:47,799 --> 00:31:53,960
+G is going to look funny somehow but for
+
+739
+00:31:51,399 --> 00:31:55,760
+for for a lot of purposes we're just
+
+740
+00:31:53,960 --> 00:31:58,240
+going to let G be something like the
+
+741
+00:31:55,760 --> 00:32:00,880
+identity Matrix so there's a one one
+
+742
+00:31:58,240 --> 00:32:03,519
+relationship between genes and
+
+743
+00:32:00,880 --> 00:32:05,399
+constraints on individual reactions and
+
+744
+00:32:03,519 --> 00:32:07,320
+we're going to let a be the identity
+
+745
+00:32:05,399 --> 00:32:09,799
+Matrix as well so you get back to a
+
+746
+00:32:07,320 --> 00:32:11,200
+situation that looks like this also
+
+747
+00:32:09,799 --> 00:32:13,080
+going forward I'm normally going to
+
+748
+00:32:11,200 --> 00:32:14,880
+ignore the lower bounds because I don't
+
+749
+00:32:13,080 --> 00:32:16,919
+want to have to write the basically the
+
+750
+00:32:14,880 --> 00:32:18,240
+same thing twice the lower bounds matter
+
+751
+00:32:16,919 --> 00:32:22,080
+the meaning of a lower bound or a
+
+752
+00:32:18,240 --> 00:32:24,399
+negative flux is um how much the
+
+753
+00:32:22,080 --> 00:32:25,799
+reaction can run in Reverse okay so
+
+754
+00:32:24,399 --> 00:32:27,120
+that's what a negative flux means is
+
+755
+00:32:25,799 --> 00:32:29,399
+you're just running the reaction in
+
+756
+00:32:27,120 --> 00:32:32,960
+reverse so flip all the signs of those
+
+757
+00:32:29,399 --> 00:32:36,679
+things for example okay but again so
+
+758
+00:32:32,960 --> 00:32:40,720
+this these types of rules here about how
+
+759
+00:32:36,679 --> 00:32:43,120
+genes relate to an individual reaction
+
+760
+00:32:40,720 --> 00:32:46,039
+are going to end up manifesting in this
+
+761
+00:32:43,120 --> 00:32:48,720
+type of Matrix here and then it it ends
+
+762
+00:32:46,039 --> 00:32:51,799
+up being a key point of um the stuff
+
+763
+00:32:48,720 --> 00:32:54,279
+that we've sound found so far is that
+
+764
+00:32:51,799 --> 00:32:56,039
+okay so A1 it just turns out that g is
+
+765
+00:32:54,279 --> 00:32:58,159
+not identity basically ever if you look
+
+766
+00:32:56,039 --> 00:33:01,760
+in any organism there's all kinds of
+
+767
+00:32:58,159 --> 00:33:04,559
+stuff going on um but if G is degenerate
+
+768
+00:33:01,760 --> 00:33:06,639
+or G is not full rank um it turns out
+
+769
+00:33:04,559 --> 00:33:07,840
+that has a very interesting result um
+
+770
+00:33:06,639 --> 00:33:10,760
+that we refer to as sort of
+
+771
+00:33:07,840 --> 00:33:13,120
+non-identifiability of genes by a
+
+772
+00:33:10,760 --> 00:33:16,039
+selective process so evolution in fact
+
+773
+00:33:13,120 --> 00:33:18,840
+can't tell if it's selecting on Gene a
+
+774
+00:33:16,039 --> 00:33:20,880
+or Gene B um that result it turns out to
+
+775
+00:33:18,840 --> 00:33:22,440
+be quite General um he's going to tell
+
+776
+00:33:20,880 --> 00:33:24,760
+you more details about that but that
+
+777
+00:33:22,440 --> 00:33:29,200
+relates to this G Matrix being not full
+
+778
+00:33:24,760 --> 00:33:32,720
+rank okay yes we assume that beta is
+
+779
+00:33:29,200 --> 00:33:35,039
+known a prior from like just what we
+
+780
+00:33:32,720 --> 00:33:39,039
+know about biology or experiments yeah
+
+781
+00:33:35,039 --> 00:33:41,000
+so we do um so again interpreting it as
+
+782
+00:33:39,039 --> 00:33:43,840
+a fitness function is a bit funny if you
+
+783
+00:33:41,000 --> 00:33:46,320
+think about it just as biomass then beta
+
+784
+00:33:43,840 --> 00:33:48,919
+is just going to be all zeros with one
+
+785
+00:33:46,320 --> 00:33:50,880
+one on the biomass reaction but your
+
+786
+00:33:48,919 --> 00:33:53,480
+question then is also implicitly do we
+
+787
+00:33:50,880 --> 00:33:55,840
+assume we know the biomass reaction and
+
+788
+00:33:53,480 --> 00:33:58,320
+usually that we can do by looking at the
+
+789
+00:33:55,840 --> 00:34:00,320
+biomass composition of the the organism
+
+790
+00:33:58,320 --> 00:34:01,519
+of Interest what is the relative
+
+791
+00:34:00,320 --> 00:34:05,320
+abundance of different types of
+
+792
+00:34:01,519 --> 00:34:07,559
+macromolecules and so on but overall do
+
+793
+00:34:05,320 --> 00:34:09,720
+we know the real Fitness function I
+
+794
+00:34:07,559 --> 00:34:11,839
+would say is a fantastic ho in the
+
+795
+00:34:09,720 --> 00:34:14,800
+entire field of evolution that the
+
+796
+00:34:11,839 --> 00:34:20,119
+fitness function is a central object but
+
+797
+00:34:14,800 --> 00:34:20,119
+we generally can't say what it is okay
+
+798
+00:34:23,879 --> 00:34:28,240
+yeah our robust is this kind of
+
+799
+00:34:26,399 --> 00:34:30,599
+optimization problem generally to model
+
+800
+00:34:28,240 --> 00:34:33,520
+the specification like I guess mentioned
+
+801
+00:34:30,599 --> 00:34:34,919
+maybe the beta you might not know or
+
+802
+00:34:33,520 --> 00:34:37,320
+like maybe you're missing a reaction
+
+803
+00:34:34,919 --> 00:34:40,119
+that you don't know about or you like
+
+804
+00:34:37,320 --> 00:34:43,879
+kind of got the upper bound incorrect
+
+805
+00:34:40,119 --> 00:34:47,320
+yeah so um again if you're trying to um
+
+806
+00:34:43,879 --> 00:34:50,800
+predict a specific organism yes it
+
+807
+00:34:47,320 --> 00:34:52,760
+there's this is an entire big process if
+
+808
+00:34:50,800 --> 00:34:56,599
+I want to go make phenotype predictions
+
+809
+00:34:52,760 --> 00:34:58,520
+using FBA for some new organism the
+
+810
+00:34:56,599 --> 00:35:00,760
+process of doing the genome scale
+
+811
+00:34:58,520 --> 00:35:03,079
+metabolic reconstruction is usually
+
+812
+00:35:00,760 --> 00:35:05,160
+quite an Endeavor is very hard these
+
+813
+00:35:03,079 --> 00:35:07,400
+things are usually not so trivial to
+
+814
+00:35:05,160 --> 00:35:08,560
+decode and it really depends on what
+
+815
+00:35:07,400 --> 00:35:10,280
+you're trying to ask if you're looking
+
+816
+00:35:08,560 --> 00:35:12,920
+at like Central metabolism where we know
+
+817
+00:35:10,280 --> 00:35:14,960
+everything super super well and then
+
+818
+00:35:12,920 --> 00:35:16,800
+maybe it's not so big of a deal um but
+
+819
+00:35:14,960 --> 00:35:18,480
+if if you know you're looking for the
+
+820
+00:35:16,800 --> 00:35:20,359
+production of some more obscure
+
+821
+00:35:18,480 --> 00:35:22,680
+metabolite it probably matters if you
+
+822
+00:35:20,359 --> 00:35:25,480
+get all of the reactions so it depends a
+
+823
+00:35:22,680 --> 00:35:28,200
+little bit for our analysis we're just
+
+824
+00:35:25,480 --> 00:35:30,920
+going to have like random S's and random
+
+825
+00:35:28,200 --> 00:35:32,359
+everything so you know um it doesn't
+
+826
+00:35:30,920 --> 00:35:34,880
+particularly matter we're going to we're
+
+827
+00:35:32,359 --> 00:35:38,200
+going to assume we know s and that we
+
+828
+00:35:34,880 --> 00:35:39,680
+know beta um and yes if we didn't
+
+829
+00:35:38,200 --> 00:35:42,280
+actually know those things we would get
+
+830
+00:35:39,680 --> 00:35:44,320
+things wrong but but our goal is not to
+
+831
+00:35:42,280 --> 00:35:46,079
+take this one specific organism and
+
+832
+00:35:44,320 --> 00:35:49,240
+predict this one specific phenotype it's
+
+833
+00:35:46,079 --> 00:35:50,920
+to understand in general what are the
+
+834
+00:35:49,240 --> 00:35:54,000
+evolutionary Dynamics when you're
+
+835
+00:35:50,920 --> 00:35:55,839
+operating in the genotype to phenotype
+
+836
+00:35:54,000 --> 00:35:59,920
+mapping imposed by
+
+837
+00:35:55,839 --> 00:36:02,880
+metabolism okay yeah thanks yep okay
+
+838
+00:35:59,920 --> 00:36:06,200
+great so now um I'm going to speed it up
+
+839
+00:36:02,880 --> 00:36:08,000
+a little bit uh in theory um to talk
+
+840
+00:36:06,200 --> 00:36:09,800
+about um what we're actually doing so
+
+841
+00:36:08,000 --> 00:36:11,680
+again there's you know whatever 10,000
+
+842
+00:36:09,800 --> 00:36:13,560
+papers doing flux balance analysis in
+
+843
+00:36:11,680 --> 00:36:15,119
+different ways trying to reconstruct
+
+844
+00:36:13,560 --> 00:36:18,640
+these types of things various things
+
+845
+00:36:15,119 --> 00:36:21,720
+that they do is they'll ask like suppose
+
+846
+00:36:18,640 --> 00:36:25,079
+I wanted um you know I want to predict
+
+847
+00:36:21,720 --> 00:36:26,319
+phenotype when I knock out Gene a so
+
+848
+00:36:25,079 --> 00:36:28,960
+what they'll do is they'll go to the
+
+849
+00:36:26,319 --> 00:36:32,720
+reaction rules and say suppose I remove
+
+850
+00:36:28,960 --> 00:36:34,839
+X2 from The genome does that modify the
+
+851
+00:36:32,720 --> 00:36:37,160
+stochiometric Matrix plug the new
+
+852
+00:36:34,839 --> 00:36:39,440
+stochiometric Matrix into this problem
+
+853
+00:36:37,160 --> 00:36:41,800
+and ask how the phenotype changes so
+
+854
+00:36:39,440 --> 00:36:44,040
+you're going to plug in a new s and ask
+
+855
+00:36:41,800 --> 00:36:46,119
+how the phenotype changes or maybe you
+
+856
+00:36:44,040 --> 00:36:47,960
+are able to con control some of these
+
+857
+00:36:46,119 --> 00:36:51,160
+bounds for example for things called
+
+858
+00:36:47,960 --> 00:36:53,280
+exchange fluxes meaning just importing
+
+859
+00:36:51,160 --> 00:36:55,079
+something into the cell or exporting
+
+860
+00:36:53,280 --> 00:36:56,839
+something from the cell if you're trying
+
+861
+00:36:55,079 --> 00:36:58,400
+to import something to the cell you
+
+862
+00:36:56,839 --> 00:37:00,920
+could take it away from the environment
+
+863
+00:36:58,400 --> 00:37:03,040
+so now the upper bound on that import
+
+864
+00:37:00,920 --> 00:37:04,680
+reaction is now zero or something like
+
+865
+00:37:03,040 --> 00:37:06,760
+that okay so people do all manner of
+
+866
+00:37:04,680 --> 00:37:10,200
+different stuff in the realm of flux
+
+867
+00:37:06,760 --> 00:37:12,200
+balance analysis what we're doing is not
+
+868
+00:37:10,200 --> 00:37:14,240
+just this this is our starting
+
+869
+00:37:12,200 --> 00:37:16,680
+mathematical framework and as I
+
+870
+00:37:14,240 --> 00:37:19,319
+mentioned before we want to analyze um
+
+871
+00:37:16,680 --> 00:37:21,599
+what's known as The Duel of this problem
+
+872
+00:37:19,319 --> 00:37:23,839
+okay so in in optimization this is a
+
+873
+00:37:21,599 --> 00:37:25,200
+constrained optimization problem happens
+
+874
+00:37:23,839 --> 00:37:26,200
+to be a linear problem and there is a
+
+875
+00:37:25,200 --> 00:37:29,800
+linear
+
+876
+00:37:26,200 --> 00:37:31,880
+program uh and we can call this the
+
+877
+00:37:29,800 --> 00:37:34,480
+Primal problem because it is the one of
+
+878
+00:37:31,880 --> 00:37:36,720
+primary interest we want to analyze
+
+879
+00:37:34,480 --> 00:37:39,440
+What's called the Dual problem so what
+
+880
+00:37:36,720 --> 00:37:41,520
+is the duel first it might be helpful
+
+881
+00:37:39,440 --> 00:37:44,480
+for me to write this out in What's
+
+882
+00:37:41,520 --> 00:37:46,640
+called the lran formulation so in the
+
+883
+00:37:44,480 --> 00:37:49,160
+lran formulation I'm going to write down
+
+884
+00:37:46,640 --> 00:37:51,160
+the same optimization problem but I'm
+
+885
+00:37:49,160 --> 00:37:54,040
+going to move the constraints up into
+
+886
+00:37:51,160 --> 00:37:57,560
+the objective so now we're going to have
+
+887
+00:37:54,040 --> 00:38:02,400
+something that looks like um
+
+888
+00:37:57,560 --> 00:38:02,400
+I transpose V let me get my signs
+
+889
+00:38:14,960 --> 00:38:20,680
+right okay so again I don't want to have
+
+890
+00:38:18,599 --> 00:38:22,800
+to write twice as much stuff so ignore
+
+891
+00:38:20,680 --> 00:38:24,160
+the lower bounds the lower bounds are in
+
+892
+00:38:22,800 --> 00:38:26,240
+there they can also matter I'm only
+
+893
+00:38:24,160 --> 00:38:27,960
+going to write the upper bounds so I'm
+
+894
+00:38:26,240 --> 00:38:30,520
+taking you know this
+
+895
+00:38:27,960 --> 00:38:32,839
+type of optimization problem where we're
+
+896
+00:38:30,520 --> 00:38:35,560
+also going to ignore G for
+
+897
+00:38:32,839 --> 00:38:38,400
+now this optimization problem and i'
+
+898
+00:38:35,560 --> 00:38:40,280
+I've moved these constraints up into the
+
+899
+00:38:38,400 --> 00:38:41,400
+objective with these things called
+
+900
+00:38:40,280 --> 00:38:43,960
+lrange
+
+901
+00:38:41,400 --> 00:38:46,240
+multipliers and these things it turns
+
+902
+00:38:43,960 --> 00:38:48,680
+out are going to be our Central object
+
+903
+00:38:46,240 --> 00:38:50,839
+of Interest so we want to know the
+
+904
+00:38:48,680 --> 00:38:53,359
+values of these parameters these might
+
+905
+00:38:50,839 --> 00:38:55,040
+look familiar to people who are more you
+
+906
+00:38:53,359 --> 00:38:56,760
+know in the realm of statistical
+
+907
+00:38:55,040 --> 00:38:59,560
+learning and so on you you could think
+
+908
+00:38:56,760 --> 00:39:01,800
+of these as like the um penalty
+
+909
+00:38:59,560 --> 00:39:03,520
+parameters of regularized regression or
+
+910
+00:39:01,800 --> 00:39:05,800
+something like that and many regularized
+
+911
+00:39:03,520 --> 00:39:08,200
+regression problems you know could
+
+912
+00:39:05,800 --> 00:39:10,200
+potentially be mapped back to strict
+
+913
+00:39:08,200 --> 00:39:12,960
+constraints like this sort of depends on
+
+914
+00:39:10,200 --> 00:39:15,359
+what's going on um but they're analogous
+
+915
+00:39:12,960 --> 00:39:18,040
+to like the hyperparameters of your
+
+916
+00:39:15,359 --> 00:39:20,760
+penalized regression tells us in our
+
+917
+00:39:18,040 --> 00:39:24,119
+optimization problem how much do we
+
+918
+00:39:20,760 --> 00:39:26,400
+penalize violating the steady state
+
+919
+00:39:24,119 --> 00:39:27,960
+assumption they penalize it this much so
+
+920
+00:39:26,400 --> 00:39:30,599
+this is a vector
+
+921
+00:39:27,960 --> 00:39:33,720
+of length number of metabolites remember
+
+922
+00:39:30,599 --> 00:39:36,520
+s is metabolites by reactions so this is
+
+923
+00:39:33,720 --> 00:39:37,839
+like one um these things we're going to
+
+924
+00:39:36,520 --> 00:39:39,200
+end up calling Shadow prices for a
+
+925
+00:39:37,839 --> 00:39:41,440
+reason I'll explain in a second one
+
+926
+00:39:39,200 --> 00:39:44,040
+Shadow price per metabolite and over
+
+927
+00:39:41,440 --> 00:39:46,880
+here we have one Shadow price per
+
+928
+00:39:44,040 --> 00:39:49,040
+constraint okay so um you can write
+
+929
+00:39:46,880 --> 00:39:52,400
+those down in the lran or you can also
+
+930
+00:39:49,040 --> 00:39:52,400
+write them down in the
+
+931
+00:39:52,640 --> 00:39:58,599
+Dual of the Primal optimization problem
+
+932
+00:39:56,480 --> 00:40:02,079
+and the Dual is going
+
+933
+00:39:58,599 --> 00:40:05,920
+to show us a dual way to optimize over
+
+934
+00:40:02,079 --> 00:40:09,560
+this problem where in the Dual problem
+
+935
+00:40:05,920 --> 00:40:11,920
+um constraints in the Primal problem
+
+936
+00:40:09,560 --> 00:40:14,599
+become dual variables so now the
+
+937
+00:40:11,920 --> 00:40:16,760
+variables that we're optimizing over um
+
+938
+00:40:14,599 --> 00:40:18,480
+are related to the constraints of that
+
+939
+00:40:16,760 --> 00:40:21,760
+problem so we're going to be an
+
+940
+00:40:18,480 --> 00:40:24,960
+optimization problem over these lrange
+
+941
+00:40:21,760 --> 00:40:27,960
+multipliers and the variables in the
+
+942
+00:40:24,960 --> 00:40:30,960
+Primal problem become constraints in the
+
+943
+00:40:27,960 --> 00:40:34,119
+Dual problem also where we had a
+
+944
+00:40:30,960 --> 00:40:36,400
+maximization problem in the Primal we're
+
+945
+00:40:34,119 --> 00:40:39,480
+now going to have a minimization problem
+
+946
+00:40:36,400 --> 00:40:41,640
+in the Dual okay so Duality theory is
+
+947
+00:40:39,480 --> 00:40:44,160
+you know sort of deep beautiful extends
+
+948
+00:40:41,640 --> 00:40:46,960
+well beyond this framework here slight
+
+949
+00:40:44,160 --> 00:40:48,560
+mysterious in some senses um but if we
+
+950
+00:40:46,960 --> 00:40:51,359
+want to write down the flux balance
+
+951
+00:40:48,560 --> 00:40:53,280
+analysis problem in the Dual formulation
+
+952
+00:40:51,359 --> 00:40:56,240
+it would look like this we're now going
+
+953
+00:40:53,280 --> 00:41:00,200
+to have a minimization problem over
+
+954
+00:40:56,240 --> 00:41:02,290
+these lrange multipliers or
+
+955
+00:41:00,200 --> 00:41:05,449
+hyperparameters and we're going
+
+956
+00:41:02,290 --> 00:41:05,449
+[Music]
+
+957
+00:41:06,160 --> 00:41:12,000
+to uh what did I call this
+
+958
+00:41:10,079 --> 00:41:14,480
+2
+
+959
+00:41:12,000 --> 00:41:17,520
+okay this becomes the new objective
+
+960
+00:41:14,480 --> 00:41:21,480
+function and our
+
+961
+00:41:17,520 --> 00:41:21,480
+constraints now look
+
+962
+00:41:21,839 --> 00:41:25,839
+like this
+
+963
+00:41:32,560 --> 00:41:38,720
+okay that's the the Dual formulation of
+
+964
+00:41:36,119 --> 00:41:41,400
+the flux balance analysis problem and
+
+965
+00:41:38,720 --> 00:41:44,000
+again the idea is now we have
+
+966
+00:41:41,400 --> 00:41:45,760
+optimization that's a minimization of
+
+967
+00:41:44,000 --> 00:41:48,480
+this function where these are the upper
+
+968
+00:41:45,760 --> 00:41:51,280
+bounds on each individual
+
+969
+00:41:48,480 --> 00:41:53,440
+reaction these are these lrange
+
+970
+00:41:51,280 --> 00:41:55,760
+multipliers that tell us something about
+
+971
+00:41:53,440 --> 00:41:57,880
+each of the upper bound constraints
+
+972
+00:41:55,760 --> 00:42:01,160
+that's our new objective function
+
+973
+00:41:57,880 --> 00:42:03,040
+and we have a constraint here uh that is
+
+974
+00:42:01,160 --> 00:42:05,079
+this thing beta is equal to this stuff
+
+975
+00:42:03,040 --> 00:42:07,200
+this stuff there's these things called
+
+976
+00:42:05,079 --> 00:42:08,760
+the kkt conditions and because I'm going
+
+977
+00:42:07,200 --> 00:42:12,760
+so slow I don't have time to walk
+
+978
+00:42:08,760 --> 00:42:14,800
+through it in um in entirety um but um
+
+979
+00:42:12,760 --> 00:42:17,800
+one of the important things to note here
+
+980
+00:42:14,800 --> 00:42:20,800
+is that um there's sort of a constraint
+
+981
+00:42:17,800 --> 00:42:22,680
+on these things that uh is related to
+
+982
+00:42:20,800 --> 00:42:24,040
+something called complimentary slackness
+
+983
+00:42:22,680 --> 00:42:25,960
+maybe I'll give the interpretation of
+
+984
+00:42:24,040 --> 00:42:27,720
+what these things are first so that we
+
+985
+00:42:25,960 --> 00:42:30,520
+can have a little bit more into of where
+
+986
+00:42:27,720 --> 00:42:32,119
+that arises what is the meaning of these
+
+987
+00:42:30,520 --> 00:42:34,520
+things does anyone happen to know the
+
+988
+00:42:32,119 --> 00:42:36,520
+meaning of these things anyone familiar
+
+989
+00:42:34,520 --> 00:42:39,119
+with duol Theory or these things I've
+
+990
+00:42:36,520 --> 00:42:41,720
+said the word Shadow prices
+
+991
+00:42:39,119 --> 00:42:44,760
+before okay great I'm so happy I get to
+
+992
+00:42:41,720 --> 00:42:47,960
+tell you the meaning of these things and
+
+993
+00:42:44,760 --> 00:42:50,839
+the term Shadow price is um it turns out
+
+994
+00:42:47,960 --> 00:42:54,920
+that these Lambda parameters here um
+
+995
+00:42:50,839 --> 00:42:58,960
+that were optimizing over um tell us
+
+996
+00:42:54,920 --> 00:43:01,480
+about the change in the optimum
+
+997
+00:42:58,960 --> 00:43:03,559
+especially this Optimum or you can think
+
+998
+00:43:01,480 --> 00:43:07,280
+about it as the change in the fitness
+
+999
+00:43:03,559 --> 00:43:09,760
+function as we relax each individual
+
+1000
+00:43:07,280 --> 00:43:12,480
+constraint so specifically we have
+
+1001
+00:43:09,760 --> 00:43:15,240
+something like the lambdas are going to
+
+1002
+00:43:12,480 --> 00:43:15,240
+be equal
+
+1003
+00:43:15,480 --> 00:43:20,000
+to something like this again we're only
+
+1004
+00:43:18,000 --> 00:43:22,640
+or really this is all the constraints so
+
+1005
+00:43:20,000 --> 00:43:24,839
+we could think about um I'm going to
+
+1006
+00:43:22,640 --> 00:43:27,119
+write C for constraints there's some
+
+1007
+00:43:24,839 --> 00:43:29,280
+constraints on metabolites being at
+
+1008
+00:43:27,119 --> 00:43:32,280
+steady state and there's constraints on
+
+1009
+00:43:29,280 --> 00:43:35,559
+the upper bounds of each reaction so the
+
+1010
+00:43:32,280 --> 00:43:39,119
+lambdas tell us the change in the
+
+1011
+00:43:35,559 --> 00:43:42,760
+optimal value of um the the Primal
+
+1012
+00:43:39,119 --> 00:43:45,640
+objective with respect to relaxation of
+
+1013
+00:43:42,760 --> 00:43:49,400
+each individual constraint so that is to
+
+1014
+00:43:45,640 --> 00:43:52,800
+say if I were to um increase for example
+
+1015
+00:43:49,400 --> 00:43:55,000
+the upper bound on reaction number one
+
+1016
+00:43:52,800 --> 00:43:57,760
+uh the Lambda or the shadow price for
+
+1017
+00:43:55,000 --> 00:44:01,680
+reaction number one tells me much the
+
+1018
+00:43:57,760 --> 00:44:05,200
+optimal Fitness would increase okay so
+
+1019
+00:44:01,680 --> 00:44:08,160
+for us these are like the most important
+
+1020
+00:44:05,200 --> 00:44:11,720
+things to analyze because these give us
+
+1021
+00:44:08,160 --> 00:44:13,839
+a lens into selective pressure and by
+
+1022
+00:44:11,720 --> 00:44:16,160
+give us a lens into selective pressure
+
+1023
+00:44:13,839 --> 00:44:19,440
+what I mean is we interpret these as the
+
+1024
+00:44:16,160 --> 00:44:22,760
+selective pressure okay this is why do
+
+1025
+00:44:19,440 --> 00:44:25,800
+we do that it's because um these Lambda
+
+1026
+00:44:22,760 --> 00:44:27,839
+parameters again the shadow price of an
+
+1027
+00:44:25,800 --> 00:44:30,760
+individual constraint
+
+1028
+00:44:27,839 --> 00:44:32,960
+gives me a fitness difference okay which
+
+1029
+00:44:30,760 --> 00:44:35,040
+in in in pop genen in like curra's
+
+1030
+00:44:32,960 --> 00:44:37,440
+formulas if we're looking at a selective
+
+1031
+00:44:35,040 --> 00:44:40,440
+coefficient The Selective coefficient
+
+1032
+00:44:37,440 --> 00:44:42,640
+usually represents a fitness difference
+
+1033
+00:44:40,440 --> 00:44:45,760
+and so these give me a fitness
+
+1034
+00:44:42,640 --> 00:44:50,240
+difference that would arise from a
+
+1035
+00:44:45,760 --> 00:44:52,520
+mutation for example that would uh relax
+
+1036
+00:44:50,240 --> 00:44:54,760
+a constraint move the upper bound up
+
+1037
+00:44:52,520 --> 00:44:56,559
+move the lower bound down or make the
+
+1038
+00:44:54,760 --> 00:44:58,880
+constraint tighter move a upper bound
+
+1039
+00:44:56,559 --> 00:45:01,760
+down or move the lower bound up or
+
+1040
+00:44:58,880 --> 00:45:03,640
+whatever okay so these are our Central
+
+1041
+00:45:01,760 --> 00:45:07,440
+objects and again these are the Shadow
+
+1042
+00:45:03,640 --> 00:45:09,680
+prices Shadow prices arise in all manner
+
+1043
+00:45:07,440 --> 00:45:11,920
+of other scenarios or are interrogated
+
+1044
+00:45:09,680 --> 00:45:13,839
+in all manner of other scenarios very
+
+1045
+00:45:11,920 --> 00:45:16,800
+often in economics
+
+1046
+00:45:13,839 --> 00:45:19,960
+literature um but in principle anytime
+
+1047
+00:45:16,800 --> 00:45:22,240
+you have uh uh a constrained
+
+1048
+00:45:19,960 --> 00:45:25,119
+optimization problem you can look at the
+
+1049
+00:45:22,240 --> 00:45:27,720
+shadow price of the constraints okay so
+
+1050
+00:45:25,119 --> 00:45:30,800
+we have a mapping that goes goes from
+
+1051
+00:45:27,720 --> 00:45:32,559
+genes to which reactions are possible
+
+1052
+00:45:30,800 --> 00:45:33,960
+and also what are the constraints on
+
+1053
+00:45:32,559 --> 00:45:37,040
+each individual
+
+1054
+00:45:33,960 --> 00:45:41,280
+reaction now I have a way analytically
+
+1055
+00:45:37,040 --> 00:45:45,319
+theoretically to say if I were to mutate
+
+1056
+00:45:41,280 --> 00:45:47,800
+a gene such that a constraint is changed
+
+1057
+00:45:45,319 --> 00:45:49,920
+how would that affect Fitness so these
+
+1058
+00:45:47,800 --> 00:45:53,000
+are what we want to analyze are these
+
+1059
+00:45:49,920 --> 00:45:57,040
+lambdas here these lambdas you can solve
+
+1060
+00:45:53,000 --> 00:46:00,319
+for because this is just a nice linear
+
+1061
+00:45:57,040 --> 00:46:03,200
+program here we can solve for uh
+
+1062
+00:46:00,319 --> 00:46:04,520
+numerically or in some cases we will see
+
+1063
+00:46:03,200 --> 00:46:05,480
+well we won't actually see because we
+
+1064
+00:46:04,520 --> 00:46:07,839
+probably won't have time to go through
+
+1065
+00:46:05,480 --> 00:46:10,440
+the full derivation um but you may also
+
+1066
+00:46:07,839 --> 00:46:12,760
+be able to solve for them analytically
+
+1067
+00:46:10,440 --> 00:46:15,319
+um the point is you can find them
+
+1068
+00:46:12,760 --> 00:46:17,440
+numerically or analytically and so now
+
+1069
+00:46:15,319 --> 00:46:19,920
+we can calculate um sort of what are the
+
+1070
+00:46:17,440 --> 00:46:23,119
+selective pressures on each individual
+
+1071
+00:46:19,920 --> 00:46:25,920
+Gene in a reaction Network okay let me
+
+1072
+00:46:23,119 --> 00:46:29,440
+see how I'm doing on time 949 I might
+
+1073
+00:46:25,920 --> 00:46:31,359
+take three two three more minutes um
+
+1074
+00:46:29,440 --> 00:46:35,520
+just to set up a final problem or just
+
+1075
+00:46:31,359 --> 00:46:37,040
+to um draw you some pictures of of um
+
+1076
+00:46:35,520 --> 00:46:38,800
+some of the types of reaction networks
+
+1077
+00:46:37,040 --> 00:46:41,000
+that we're going to look at in a second
+
+1078
+00:46:38,800 --> 00:46:42,640
+Brian f fstar is the value at the
+
+1079
+00:46:41,000 --> 00:46:45,240
+optimum just checking make sure I got it
+
+1080
+00:46:42,640 --> 00:46:47,640
+right exactly so if you're not at the
+
+1081
+00:46:45,240 --> 00:46:49,160
+optimum then you know we don't have
+
+1082
+00:46:47,640 --> 00:46:52,920
+anything to say about this this tells us
+
+1083
+00:46:49,160 --> 00:46:54,920
+how the optimal Fitness or the um yes
+
+1084
+00:46:52,920 --> 00:46:56,520
+the optimal objective value over there
+
+1085
+00:46:54,920 --> 00:46:58,760
+in the Primal would change it doesn't
+
+1086
+00:46:56,520 --> 00:47:00,520
+tell you about n sure yeah yeah it's the
+
+1087
+00:46:58,760 --> 00:47:02,200
+value at the solution or any of the
+
+1088
+00:47:00,520 --> 00:47:04,280
+solutions if it's non- Unique but that's
+
+1089
+00:47:02,200 --> 00:47:05,800
+correct yeah correct any of the
+
+1090
+00:47:04,280 --> 00:47:09,000
+solutions because they have all of the
+
+1091
+00:47:05,800 --> 00:47:11,240
+same the same value yeah yes yes exactly
+
+1092
+00:47:09,000 --> 00:47:13,640
+okay so now let's draw some pictures so
+
+1093
+00:47:11,240 --> 00:47:15,800
+let's think of a a very basic um
+
+1094
+00:47:13,640 --> 00:47:18,160
+reaction Network where we have just like
+
+1095
+00:47:15,800 --> 00:47:18,160
+two
+
+1096
+00:47:18,400 --> 00:47:22,920
+metabolites and a couple different
+
+1097
+00:47:20,880 --> 00:47:26,960
+reactions we'll have some import
+
+1098
+00:47:22,920 --> 00:47:28,920
+reaction and maybe you know we do
+
+1099
+00:47:26,960 --> 00:47:32,559
+something like this so here's a reaction
+
+1100
+00:47:28,920 --> 00:47:36,440
+Network and let's say that our our beta
+
+1101
+00:47:32,559 --> 00:47:39,200
+our fitness function
+
+1102
+00:47:36,440 --> 00:47:42,240
+um you know is just based on the flux
+
+1103
+00:47:39,200 --> 00:47:44,960
+through these two reactions so my my
+
+1104
+00:47:42,240 --> 00:47:47,160
+Total Fitness is the flux through this
+
+1105
+00:47:44,960 --> 00:47:49,520
+reaction plus the flux through this
+
+1106
+00:47:47,160 --> 00:47:51,520
+reaction okay so now we can also think
+
+1107
+00:47:49,520 --> 00:47:54,800
+about our steady state assumption one
+
+1108
+00:47:51,520 --> 00:47:56,440
+thing to note is that um we have this
+
+1109
+00:47:54,800 --> 00:47:59,720
+basic sort of conservation of mass
+
+1110
+00:47:56,440 --> 00:48:02,599
+steady State thing so um you know if I
+
+1111
+00:47:59,720 --> 00:48:04,480
+have any sort of flux through here
+
+1112
+00:48:02,599 --> 00:48:07,359
+that's producing metabolite one the
+
+1113
+00:48:04,480 --> 00:48:08,960
+production of metabolite one needs to be
+
+1114
+00:48:07,359 --> 00:48:12,880
+balanced by the consumption of
+
+1115
+00:48:08,960 --> 00:48:15,359
+metabolite one so if I have a flux of a
+
+1116
+00:48:12,880 --> 00:48:18,119
+coming in through this reaction that
+
+1117
+00:48:15,359 --> 00:48:20,319
+needs to be balanced by the total flux
+
+1118
+00:48:18,119 --> 00:48:21,800
+through these two things or if this
+
+1119
+00:48:20,319 --> 00:48:23,119
+thing is running in Reverse you know
+
+1120
+00:48:21,800 --> 00:48:26,000
+then this thing whatever the combination
+
+1121
+00:48:23,119 --> 00:48:27,480
+of flux is through these two reactions
+
+1122
+00:48:26,000 --> 00:48:29,079
+needs to equal
+
+1123
+00:48:27,480 --> 00:48:30,960
+um the flux through that reaction same
+
+1124
+00:48:29,079 --> 00:48:33,960
+thing here whatever my flux that's
+
+1125
+00:48:30,960 --> 00:48:38,000
+producing M2 needs to be balanced by the
+
+1126
+00:48:33,960 --> 00:48:39,839
+flux that's consuming M2 okay so now you
+
+1127
+00:48:38,000 --> 00:48:42,359
+can imagine that there's some feasible
+
+1128
+00:48:39,839 --> 00:48:45,800
+space that exists and part of that
+
+1129
+00:48:42,359 --> 00:48:48,359
+feasible space again comes from the
+
+1130
+00:48:45,800 --> 00:48:52,000
+fluxes that are allowed live need to
+
+1131
+00:48:48,359 --> 00:48:53,440
+live in the null space of s now you can
+
+1132
+00:48:52,000 --> 00:48:55,000
+also imagine that we have different
+
+1133
+00:48:53,440 --> 00:48:57,559
+constraints but let's ignore the
+
+1134
+00:48:55,000 --> 00:48:59,440
+constraints for a second and just or
+
+1135
+00:48:57,559 --> 00:49:02,000
+rather let's think about every reaction
+
+1136
+00:48:59,440 --> 00:49:03,799
+has a upper bound of one there you go
+
+1137
+00:49:02,000 --> 00:49:05,799
+every reaction has a upper bound of one
+
+1138
+00:49:03,799 --> 00:49:08,079
+now we can start to talk about solutions
+
+1139
+00:49:05,799 --> 00:49:09,920
+to the Primal problem okay so flux
+
+1140
+00:49:08,079 --> 00:49:12,960
+balance analysis what can flux balance
+
+1141
+00:49:09,920 --> 00:49:16,000
+analysis tell us we want to maximize the
+
+1142
+00:49:12,960 --> 00:49:19,920
+flux through the sum of these two
+
+1143
+00:49:16,000 --> 00:49:22,680
+reactions such that we are at steady
+
+1144
+00:49:19,920 --> 00:49:25,160
+state and that none of the fluxes are
+
+1145
+00:49:22,680 --> 00:49:28,440
+over the upper bound of one okay so what
+
+1146
+00:49:25,160 --> 00:49:29,680
+are the things you could do
+
+1147
+00:49:28,440 --> 00:49:31,880
+clearly everything is going to be
+
+1148
+00:49:29,680 --> 00:49:35,319
+limited by this reaction because we have
+
+1149
+00:49:31,880 --> 00:49:36,799
+to balance the production of M1 with the
+
+1150
+00:49:35,319 --> 00:49:38,520
+consumption of these things so let's
+
+1151
+00:49:36,799 --> 00:49:41,240
+just assume that one's at a reaction
+
+1152
+00:49:38,520 --> 00:49:42,760
+flux of one all right so what's one
+
+1153
+00:49:41,240 --> 00:49:45,400
+thing we could do is that could be
+
+1154
+00:49:42,760 --> 00:49:48,680
+balanced by a reaction flux of one
+
+1155
+00:49:45,400 --> 00:49:51,319
+through this reaction there you go and I
+
+1156
+00:49:48,680 --> 00:49:52,960
+get one biomass point out of that which
+
+1157
+00:49:51,319 --> 00:49:54,160
+seems like it's the most I'm going to be
+
+1158
+00:49:52,960 --> 00:49:55,960
+able to get if everything has an upper
+
+1159
+00:49:54,160 --> 00:49:58,119
+bound of one I'm not going to be able to
+
+1160
+00:49:55,960 --> 00:49:59,400
+produce more than one biomass unit per
+
+1161
+00:49:58,119 --> 00:50:01,799
+time my growth rate is not going to be
+
+1162
+00:49:59,400 --> 00:50:05,599
+greater than one another possible
+
+1163
+00:50:01,799 --> 00:50:08,760
+solution would be that I do that so I
+
+1164
+00:50:05,599 --> 00:50:11,079
+have a a flux at a rate of one through
+
+1165
+00:50:08,760 --> 00:50:13,119
+this reaction and then a flux at a rate
+
+1166
+00:50:11,079 --> 00:50:15,319
+of one through there and through there
+
+1167
+00:50:13,119 --> 00:50:18,359
+that gets me the same number of biomass
+
+1168
+00:50:15,319 --> 00:50:21,559
+points and in fact any linear
+
+1169
+00:50:18,359 --> 00:50:23,920
+combination of those two solutions lives
+
+1170
+00:50:21,559 --> 00:50:26,240
+at the optimum and it turns out that
+
+1171
+00:50:23,920 --> 00:50:27,520
+this is not uncommon in flux balance
+
+1172
+00:50:26,240 --> 00:50:29,440
+analysis
+
+1173
+00:50:27,520 --> 00:50:32,040
+that there ends up being not just a
+
+1174
+00:50:29,440 --> 00:50:35,400
+unique solution but a whole Space of
+
+1175
+00:50:32,040 --> 00:50:37,160
+solutions that could exist okay so now
+
+1176
+00:50:35,400 --> 00:50:38,680
+to finalize the setup here so everyone
+
+1177
+00:50:37,160 --> 00:50:41,079
+can have their breakfast before Aiden
+
+1178
+00:50:38,680 --> 00:50:42,920
+tells you the actual interesting stuff
+
+1179
+00:50:41,079 --> 00:50:45,920
+what we want to do is different from
+
+1180
+00:50:42,920 --> 00:50:49,640
+this in a couple of respects we're not
+
+1181
+00:50:45,920 --> 00:50:49,640
+going to assume
+
+1182
+00:50:49,920 --> 00:50:55,040
+optimality that is that Evolution has
+
+1183
+00:50:52,440 --> 00:50:57,359
+ended and that we are at the optimal
+
+1184
+00:50:55,040 --> 00:51:00,160
+solution because we are interested in
+
+1185
+00:50:57,359 --> 00:51:02,760
+the evolutionary Dynamics so we want to
+
+1186
+00:51:00,160 --> 00:51:04,799
+understand how this process changes over
+
+1187
+00:51:02,760 --> 00:51:07,040
+time the other thing that we're not
+
+1188
+00:51:04,799 --> 00:51:11,240
+going to assume is that the constraints
+
+1189
+00:51:07,040 --> 00:51:13,920
+are fixed so here we either have in the
+
+1190
+00:51:11,240 --> 00:51:16,200
+Primal problem we have a problem of how
+
+1191
+00:51:13,920 --> 00:51:19,119
+is evolution effectively going to wiggle
+
+1192
+00:51:16,200 --> 00:51:22,400
+the fluxes around to optimize the growth
+
+1193
+00:51:19,119 --> 00:51:24,599
+rate or biomass under a set of fixed
+
+1194
+00:51:22,400 --> 00:51:27,119
+constraints but what we can see is that
+
+1195
+00:51:24,599 --> 00:51:28,559
+the constraints are super important they
+
+1196
+00:51:27,119 --> 00:51:29,920
+tell you something and the constraints
+
+1197
+00:51:28,559 --> 00:51:33,160
+are the things that are actually
+
+1198
+00:51:29,920 --> 00:51:34,359
+directly mappable to genes so fluxes
+
+1199
+00:51:33,160 --> 00:51:36,640
+it's unclear if they're directly
+
+1200
+00:51:34,359 --> 00:51:38,880
+mappable to genes probably in some way
+
+1201
+00:51:36,640 --> 00:51:41,200
+they might be but the constraints are
+
+1202
+00:51:38,880 --> 00:51:42,400
+actually directly mappable to genes so
+
+1203
+00:51:41,200 --> 00:51:44,119
+if we're going to be in the business of
+
+1204
+00:51:42,400 --> 00:51:46,640
+asking what happens when I allow the
+
+1205
+00:51:44,119 --> 00:51:48,119
+genes to mutate it's immediately obvious
+
+1206
+00:51:46,640 --> 00:51:50,240
+that the constraints are going to wiggle
+
+1207
+00:51:48,119 --> 00:51:52,640
+around so the second thing that we want
+
+1208
+00:51:50,240 --> 00:51:55,680
+to do different from normal flux balance
+
+1209
+00:51:52,640 --> 00:51:58,520
+analysis is to say in a reaction Network
+
+1210
+00:51:55,680 --> 00:51:58,520
+like this
+
+1211
+00:51:58,720 --> 00:52:02,359
+how what are the Dynamics going to look
+
+1212
+00:52:00,400 --> 00:52:04,880
+like as we allow the constraints to
+
+1213
+00:52:02,359 --> 00:52:06,400
+wiggle around according to different
+
+1214
+00:52:04,880 --> 00:52:10,200
+selective
+
+1215
+00:52:06,400 --> 00:52:11,839
+pressures okay so if we move the start
+
+1216
+00:52:10,200 --> 00:52:13,599
+the constraints at whatever place you
+
+1217
+00:52:11,839 --> 00:52:15,960
+like and start the fluxes at whatever
+
+1218
+00:52:13,599 --> 00:52:18,119
+place you like and now assume that
+
+1219
+00:52:15,960 --> 00:52:20,200
+there's some process of mutation that
+
+1220
+00:52:18,119 --> 00:52:22,920
+Wiggles some of the
+
+1221
+00:52:20,200 --> 00:52:24,559
+constraints and those constraints have
+
+1222
+00:52:22,920 --> 00:52:26,079
+some the wiggling of the constraints and
+
+1223
+00:52:24,559 --> 00:52:27,480
+wiggling of the fluxes has some effect
+
+1224
+00:52:26,079 --> 00:52:29,960
+on fit
+
+1225
+00:52:27,480 --> 00:52:32,319
+then we'll use his basic pop gen stuff
+
+1226
+00:52:29,960 --> 00:52:35,240
+like curra's formula of probability of
+
+1227
+00:52:32,319 --> 00:52:37,640
+fixation to say does that mutation fix
+
+1228
+00:52:35,240 --> 00:52:40,200
+in a population or not and now we want
+
+1229
+00:52:37,640 --> 00:52:42,559
+to know what's the overall direction of
+
+1230
+00:52:40,200 --> 00:52:45,119
+evolution where is the system going to
+
+1231
+00:52:42,559 --> 00:52:48,400
+go I've just told you that flux balance
+
+1232
+00:52:45,119 --> 00:52:50,319
+analysis very frequently doesn't tell us
+
+1233
+00:52:48,400 --> 00:52:53,119
+the real an they can't even tell us if I
+
+1234
+00:52:50,319 --> 00:52:55,799
+give you fixed constraints flux balance
+
+1235
+00:52:53,119 --> 00:52:57,079
+analysis can't even identify one unique
+
+1236
+00:52:55,799 --> 00:52:59,000
+solution
+
+1237
+00:52:57,079 --> 00:53:01,839
+so we have a harder problem my
+
+1238
+00:52:59,000 --> 00:53:05,240
+constraints aren't fixed and I want to
+
+1239
+00:53:01,839 --> 00:53:08,359
+identify one actual solution hopefully
+
+1240
+00:53:05,240 --> 00:53:11,520
+not just a space of solutions so that's
+
+1241
+00:53:08,359 --> 00:53:13,079
+our goal we want to say in a regime
+
+1242
+00:53:11,520 --> 00:53:16,480
+where the constraints are allowed to
+
+1243
+00:53:13,079 --> 00:53:18,520
+wiggle the fluxes are allowed to wiggle
+
+1244
+00:53:16,480 --> 00:53:20,640
+how is this network going to end up what
+
+1245
+00:53:18,520 --> 00:53:23,440
+is the phenotype we're going to end up
+
+1246
+00:53:20,640 --> 00:53:25,680
+seeing after some amount of evolutionary
+
+1247
+00:53:23,440 --> 00:53:28,200
+time and again as I mentioned in the
+
+1248
+00:53:25,680 --> 00:53:31,000
+introduction we think about that as the
+
+1249
+00:53:28,200 --> 00:53:34,640
+way in which a basic unit something in
+
+1250
+00:53:31,000 --> 00:53:37,720
+this case like a um metabolic process
+
+1251
+00:53:34,640 --> 00:53:39,880
+can arise and it turns out that I
+
+1252
+00:53:37,720 --> 00:53:42,200
+mentioned before flux balance analysis
+
+1253
+00:53:39,880 --> 00:53:44,119
+can't distinguish between linear
+
+1254
+00:53:42,200 --> 00:53:45,760
+combinations of going all the way
+
+1255
+00:53:44,119 --> 00:53:48,359
+through this path or going all the way
+
+1256
+00:53:45,760 --> 00:53:50,720
+through this path the answer in this
+
+1257
+00:53:48,359 --> 00:53:52,559
+particular Network just to give you some
+
+1258
+00:53:50,720 --> 00:53:54,240
+sense that there's something non-trivial
+
+1259
+00:53:52,559 --> 00:53:58,440
+that you wouldn't be able to just guess
+
+1260
+00:53:54,240 --> 00:53:58,440
+going on here uh ends up being
+
+1261
+00:53:59,520 --> 00:54:04,400
+this okay why the hell should that be I
+
+1262
+00:54:02,160 --> 00:54:05,960
+don't know math says it's true and we're
+
+1263
+00:54:04,400 --> 00:54:08,680
+going to do a bunch of simulations to
+
+1264
+00:54:05,960 --> 00:54:11,040
+check whether it's true as well okay so
+
+1265
+00:54:08,680 --> 00:54:13,480
+that's most of what I wanted to cover um
+
+1266
+00:54:11,040 --> 00:54:14,839
+in the primer um I don't know if there's
+
+1267
+00:54:13,480 --> 00:54:18,359
+any final questions but I'm sure I'm
+
+1268
+00:54:14,839 --> 00:54:18,359
+over time uh
+
+1269
+00:54:23,839 --> 00:54:29,480
+anyway um yeah I'm in I'm in Brian's
+
+1270
+00:54:27,079 --> 00:54:31,240
+at bu and I'm going to be talking about
+
+1271
+00:54:29,480 --> 00:54:33,680
+some of the results of the work we've
+
+1272
+00:54:31,240 --> 00:54:35,760
+been doing um specifically modeling
+
+1273
+00:54:33,680 --> 00:54:39,000
+genotype to phenotype and our search for
+
+1274
+00:54:35,760 --> 00:54:39,000
+the natural objects of
+
+1275
+00:54:39,079 --> 00:54:44,000
+selection so get ass started in maybe
+
+1276
+00:54:42,680 --> 00:54:45,359
+some stories that don't quite make sense
+
+1277
+00:54:44,000 --> 00:54:47,680
+with what Brian just talked about we're
+
+1278
+00:54:45,359 --> 00:54:50,000
+going to talk about CLE cell
+
+1279
+00:54:47,680 --> 00:54:52,319
+disease as many of you probably know CLE
+
+1280
+00:54:50,000 --> 00:54:54,720
+cell disease is a recessive disease so
+
+1281
+00:54:52,319 --> 00:54:58,040
+to be affected by it you need two copies
+
+1282
+00:54:54,720 --> 00:55:00,599
+of mutated hemoglobin
+
+1283
+00:54:58,040 --> 00:55:02,880
+these mutations cause hemoglobin to pize
+
+1284
+00:55:00,599 --> 00:55:04,960
+and lead to the characteristic CLE shape
+
+1285
+00:55:02,880 --> 00:55:06,960
+of red blood
+
+1286
+00:55:04,960 --> 00:55:09,760
+cells the shape leads to poor
+
+1287
+00:55:06,960 --> 00:55:12,520
+circulation and eventually causes
+
+1288
+00:55:09,760 --> 00:55:14,440
+pain we can also look at this scenario
+
+1289
+00:55:12,520 --> 00:55:17,480
+where you're carrier for the disease and
+
+1290
+00:55:14,440 --> 00:55:20,160
+only have one mutated copy of
+
+1291
+00:55:17,480 --> 00:55:22,079
+hemoglobin in this scenario heem is more
+
+1292
+00:55:20,160 --> 00:55:25,000
+likely to be released from hemoglobin
+
+1293
+00:55:22,079 --> 00:55:27,520
+and this increases hem oxygen one
+
+1294
+00:55:25,000 --> 00:55:30,079
+activity this increased activity leads
+
+1295
+00:55:27,520 --> 00:55:30,079
+to malaria
+
+1296
+00:55:30,119 --> 00:55:34,720
+tolerance and these are more just facts
+
+1297
+00:55:33,160 --> 00:55:37,520
+but we can make them stories by looking
+
+1298
+00:55:34,720 --> 00:55:39,720
+at them in an evolutionary
+
+1299
+00:55:37,520 --> 00:55:41,359
+context for example if we're in a
+
+1300
+00:55:39,720 --> 00:55:43,559
+malaria Rich environment you might be
+
+1301
+00:55:41,359 --> 00:55:45,200
+able to predict that the carrier a
+
+1302
+00:55:43,559 --> 00:55:48,000
+single mutant of hemoglobin should be
+
+1303
+00:55:45,200 --> 00:55:48,000
+enriched in the
+
+1304
+00:55:48,200 --> 00:55:52,079
+population similarly we could predict
+
+1305
+00:55:50,559 --> 00:55:54,960
+that the pain caused by the double
+
+1306
+00:55:52,079 --> 00:55:58,240
+mutant keeps the double mutation from
+
+1307
+00:55:54,960 --> 00:55:58,240
+enriching in the population
+
+1308
+00:55:58,359 --> 00:56:02,359
+I'm here telling you these stories about
+
+1309
+00:56:00,000 --> 00:56:03,200
+CLE cell disease because they're nice
+
+1310
+00:56:02,359 --> 00:56:05,599
+and
+
+1311
+00:56:03,200 --> 00:56:07,839
+simple I claim that they're nice and
+
+1312
+00:56:05,599 --> 00:56:10,920
+simple because there's a direct onetoone
+
+1313
+00:56:07,839 --> 00:56:11,640
+relationship between genotype phenotype
+
+1314
+00:56:10,920 --> 00:56:14,200
+and
+
+1315
+00:56:11,640 --> 00:56:16,119
+fitness knowing a change at the genotype
+
+1316
+00:56:14,200 --> 00:56:18,680
+level we can make a prediction about the
+
+1317
+00:56:16,119 --> 00:56:20,599
+change at the phenotype this allows us
+
+1318
+00:56:18,680 --> 00:56:23,039
+to make a conclusion about how Fitness
+
+1319
+00:56:20,599 --> 00:56:25,160
+will change and we can make a prediction
+
+1320
+00:56:23,039 --> 00:56:28,240
+about if the mutation will enrich or
+
+1321
+00:56:25,160 --> 00:56:28,240
+leave the population
+
+1322
+00:56:29,760 --> 00:56:33,000
+however many stories aren't like CLE
+
+1323
+00:56:32,200 --> 00:56:34,960
+cell
+
+1324
+00:56:33,000 --> 00:56:37,400
+disease for example we could look at
+
+1325
+00:56:34,960 --> 00:56:38,680
+serum urate levels which are controlled
+
+1326
+00:56:37,400 --> 00:56:41,520
+by many
+
+1327
+00:56:38,680 --> 00:56:43,480
+genes if we try to tell a story like we
+
+1328
+00:56:41,520 --> 00:56:46,240
+told about CLE cell disease you might
+
+1329
+00:56:43,480 --> 00:56:48,839
+ask if a mutation occurs in one gene
+
+1330
+00:56:46,240 --> 00:56:51,480
+what happens to the other ones it's not
+
+1331
+00:56:48,839 --> 00:56:54,240
+as clear as the CLE cell
+
+1332
+00:56:51,480 --> 00:56:55,599
+scenario similarly in starting to get
+
+1333
+00:56:54,240 --> 00:56:57,000
+onto what Brian was talking about we
+
+1334
+00:56:55,599 --> 00:56:59,920
+could look at metab abolism in the
+
+1335
+00:56:57,000 --> 00:57:01,960
+citric acid cycle here again there's
+
+1336
+00:56:59,920 --> 00:57:03,359
+many genes involved but there's also
+
+1337
+00:57:01,960 --> 00:57:05,680
+some interesting
+
+1338
+00:57:03,359 --> 00:57:07,359
+structure you could ask what role this
+
+1339
+00:57:05,680 --> 00:57:08,079
+structure plays in the stories we tell
+
+1340
+00:57:07,359 --> 00:57:10,520
+about
+
+1341
+00:57:08,079 --> 00:57:13,000
+Evolution if we see a mutation in one
+
+1342
+00:57:10,520 --> 00:57:16,680
+gene does the structure change what we
+
+1343
+00:57:13,000 --> 00:57:16,680
+might predict about mutations in other
+
+1344
+00:57:16,720 --> 00:57:20,799
+genes even in the simple stories we just
+
+1345
+00:57:19,000 --> 00:57:24,160
+told you can start to
+
+1346
+00:57:20,799 --> 00:57:26,319
+Foles for example in the carrier story
+
+1347
+00:57:24,160 --> 00:57:28,240
+what happens to H MOX one the gene that
+
+1348
+00:57:26,319 --> 00:57:30,079
+encodes H
+
+1349
+00:57:28,240 --> 00:57:32,799
+oxygenase I think you can make a few
+
+1350
+00:57:30,079 --> 00:57:35,079
+different arguments one is that the
+
+1351
+00:57:32,799 --> 00:57:36,920
+increased H oxygenase activity was what
+
+1352
+00:57:35,079 --> 00:57:38,559
+led to the increase in Fitness so
+
+1353
+00:57:36,920 --> 00:57:40,960
+mutation should accumulate that also
+
+1354
+00:57:38,559 --> 00:57:44,039
+increase hee oxygene
+
+1355
+00:57:40,960 --> 00:57:45,720
+activity alternatively You could argue
+
+1356
+00:57:44,039 --> 00:57:47,400
+there shouldn't really be any change to
+
+1357
+00:57:45,720 --> 00:57:48,960
+hmx one because the mutation in
+
+1358
+00:57:47,400 --> 00:57:49,880
+hemoglobin has already caused the
+
+1359
+00:57:48,960 --> 00:57:52,039
+fitness
+
+1360
+00:57:49,880 --> 00:57:56,400
+benefit the story we try and tell about
+
+1361
+00:57:52,039 --> 00:57:58,200
+hmx one isn't so clear
+
+1362
+00:57:56,400 --> 00:58:00,000
+and this is the Crux of this project is
+
+1363
+00:57:58,200 --> 00:58:00,960
+that we want to tell complicated stories
+
+1364
+00:58:00,000 --> 00:58:04,160
+about
+
+1365
+00:58:00,960 --> 00:58:06,640
+Evolution we want to look at complicated
+
+1366
+00:58:04,160 --> 00:58:09,720
+relationships between genotype phenotype
+
+1367
+00:58:06,640 --> 00:58:11,799
+and fitness and in specific
+
+1368
+00:58:09,720 --> 00:58:13,440
+environments we might look at scenarios
+
+1369
+00:58:11,799 --> 00:58:15,480
+where multiple phenotypes contribute to
+
+1370
+00:58:13,440 --> 00:58:18,160
+Fitness or where there's non-trivial
+
+1371
+00:58:15,480 --> 00:58:20,160
+genotype to phenotype relationships such
+
+1372
+00:58:18,160 --> 00:58:22,319
+as shown for GC which contributes to
+
+1373
+00:58:20,160 --> 00:58:22,319
+both
+
+1374
+00:58:24,039 --> 00:58:27,839
+phenotypes additionally we might want to
+
+1375
+00:58:26,000 --> 00:58:29,720
+ask ask how our stories change if we put
+
+1376
+00:58:27,839 --> 00:58:31,079
+them in a different environment in the
+
+1377
+00:58:29,720 --> 00:58:32,799
+stories I told you about cyle cell
+
+1378
+00:58:31,079 --> 00:58:34,839
+disease you can imagine that if we're
+
+1379
+00:58:32,799 --> 00:58:37,640
+not in a malaria Rich environment our
+
+1380
+00:58:34,839 --> 00:58:37,640
+predictions might be
+
+1381
+00:58:37,960 --> 00:58:42,079
+different we can summarize these ideas
+
+1382
+00:58:40,520 --> 00:58:44,359
+by asking the question of how do
+
+1383
+00:58:42,079 --> 00:58:46,640
+non-trivial genotype to phenotype Maps
+
+1384
+00:58:44,359 --> 00:58:48,720
+imp impact evolutionary
+
+1385
+00:58:46,640 --> 00:58:51,000
+outcomes and importantly we'd like to
+
+1386
+00:58:48,720 --> 00:58:53,240
+make quantitative predictions in the
+
+1387
+00:58:51,000 --> 00:58:55,240
+stories I told about hemoglobin the
+
+1388
+00:58:53,240 --> 00:58:56,760
+ultimate prediction we made was if a
+
+1389
+00:58:55,240 --> 00:58:58,720
+gene will be enich
+
+1390
+00:58:56,760 --> 00:59:01,039
+or say away from the
+
+1391
+00:58:58,720 --> 00:59:02,880
+population it be might might be nice to
+
+1392
+00:59:01,039 --> 00:59:05,039
+have a more precise picture and a
+
+1393
+00:59:02,880 --> 00:59:07,799
+quantitative
+
+1394
+00:59:05,039 --> 00:59:09,680
+one we'll spend the rest of this talk
+
+1395
+00:59:07,799 --> 00:59:11,000
+discussing the work we've done towards
+
+1396
+00:59:09,680 --> 00:59:14,119
+answering these
+
+1397
+00:59:11,000 --> 00:59:16,799
+questions first we'll discuss our
+
+1398
+00:59:14,119 --> 00:59:19,079
+non-trivial genotype to phenotype map
+
+1399
+00:59:16,799 --> 00:59:20,839
+which you might be able to guess is
+
+1400
+00:59:19,079 --> 00:59:23,599
+metabolism then we'll perform
+
+1401
+00:59:20,839 --> 00:59:25,480
+evolutionary simulations to see if what
+
+1402
+00:59:23,599 --> 00:59:26,880
+arises and if there is a story we can
+
+1403
+00:59:25,480 --> 00:59:28,720
+tell
+
+1404
+00:59:26,880 --> 00:59:31,039
+and then we'll use some of the analysis
+
+1405
+00:59:28,720 --> 00:59:33,319
+of Shadow prices to make predictions
+
+1406
+00:59:31,039 --> 00:59:33,319
+about
+
+1407
+00:59:33,559 --> 00:59:40,200
+Evolution as I mentioned metabolism is
+
+1408
+00:59:36,440 --> 00:59:43,200
+our non-trivial genotype to phenotype
+
+1409
+00:59:40,200 --> 00:59:46,000
+map we can map the genotype phenotype in
+
+1410
+00:59:43,200 --> 00:59:49,359
+Fitness using the citric acid
+
+1411
+00:59:46,000 --> 00:59:52,200
+cycle as you'd expect genes in the
+
+1412
+00:59:49,359 --> 00:59:55,119
+enzymes that they incode are the
+
+1413
+00:59:52,200 --> 00:59:56,720
+genotype we could imagine the gene mdh
+
+1414
+00:59:55,119 --> 00:59:59,200
+which codes for the enzyme that converts
+
+1415
+00:59:56,720 --> 01:00:01,200
+malet to oxal acetate we could also
+
+1416
+00:59:59,200 --> 01:00:03,559
+consider the gene T which holds a
+
+1417
+01:00:01,200 --> 01:00:03,559
+similar
+
+1418
+01:00:03,839 --> 01:00:07,599
+role I'm going to introduce the
+
+1419
+01:00:05,599 --> 01:00:09,760
+phenotype but we'll return to discussing
+
+1420
+01:00:07,599 --> 01:00:12,440
+genes to talk about their the
+
+1421
+01:00:09,760 --> 01:00:15,680
+quantitative role they
+
+1422
+01:00:12,440 --> 01:00:18,160
+have the phenotype is the metabolic
+
+1423
+01:00:15,680 --> 01:00:19,960
+fluxes we could look at the phenotype
+
+1424
+01:00:18,160 --> 01:00:21,280
+for the the metabolic flux through
+
+1425
+01:00:19,960 --> 01:00:23,240
+isocitrate
+
+1426
+01:00:21,280 --> 01:00:24,839
+dehydrogenase or we could consider the
+
+1427
+01:00:23,240 --> 01:00:27,839
+flux through Alpha keto glut
+
+1428
+01:00:24,839 --> 01:00:27,839
+dehydrogenase
+
+1429
+01:00:29,280 --> 01:00:32,799
+importantly there's a non-trivial
+
+1430
+01:00:31,160 --> 01:00:34,480
+relationship between genotype and
+
+1431
+01:00:32,799 --> 01:00:37,000
+phenotype through the biochemical
+
+1432
+01:00:34,480 --> 01:00:39,839
+constraints that physics and genes
+
+1433
+01:00:37,000 --> 01:00:42,520
+impose on metabolic fluxes we discuss
+
+1434
+01:00:39,839 --> 01:00:43,960
+conservation of mass and the require and
+
+1435
+01:00:42,520 --> 01:00:46,480
+operating at steady state as one of
+
+1436
+01:00:43,960 --> 01:00:50,160
+those constraints and similarly genes
+
+1437
+01:00:46,480 --> 01:00:52,480
+will impose specific constraints on
+
+1438
+01:00:50,160 --> 01:00:53,680
+flexes now we can discuss how we're
+
+1439
+01:00:52,480 --> 01:00:56,119
+representing
+
+1440
+01:00:53,680 --> 01:00:58,880
+genes Brian alluded to this idea of
+
+1441
+01:00:56,119 --> 01:01:03,319
+capacity so we consider a gene to be the
+
+1442
+01:00:58,880 --> 01:01:05,799
+ultimate capacity for the a metabolic
+
+1443
+01:01:03,319 --> 01:01:07,280
+flux Brian also discussed this that we
+
+1444
+01:01:05,799 --> 01:01:09,319
+can think about that as coming from how
+
+1445
+01:01:07,280 --> 01:01:12,359
+much of an enzyme we could make or how
+
+1446
+01:01:09,319 --> 01:01:15,240
+efficient that enzyme is for example for
+
+1447
+01:01:12,359 --> 01:01:17,039
+the mdh gene if there's an excess of it
+
+1448
+01:01:15,240 --> 01:01:19,960
+in the cell it might have a higher
+
+1449
+01:01:17,039 --> 01:01:22,440
+capacity compared to fuman however if
+
+1450
+01:01:19,960 --> 01:01:24,520
+you may had was a more efficient at
+
+1451
+01:01:22,440 --> 01:01:27,920
+catalyzing its reaction it could also
+
+1452
+01:01:24,520 --> 01:01:27,920
+have a higher capacity
+
+1453
+01:01:29,079 --> 01:01:33,480
+now we can discuss Fitness and we'll
+
+1454
+01:01:30,880 --> 01:01:35,440
+view this as the growth rate here we'll
+
+1455
+01:01:33,480 --> 01:01:38,520
+view it as this Bri discussed as a
+
+1456
+01:01:35,440 --> 01:01:42,240
+linear combination of reaction fluxes
+
+1457
+01:01:38,520 --> 01:01:42,240
+beta is the coefficients for the
+
+1458
+01:01:43,280 --> 01:01:48,079
+sum this is a nice picture of metabolism
+
+1459
+01:01:45,960 --> 01:01:50,000
+we started to make it more quantitative
+
+1460
+01:01:48,079 --> 01:01:51,799
+but we need a mathematical formulation
+
+1461
+01:01:50,000 --> 01:01:54,520
+to really be able to analyze
+
+1462
+01:01:51,799 --> 01:01:57,839
+it as Brian discussed in the primer this
+
+1463
+01:01:54,520 --> 01:01:57,839
+formulation is flux balance anal
+
+1464
+01:02:01,799 --> 01:02:04,960
+shown here on the screen is our
+
+1465
+01:02:03,000 --> 01:02:07,880
+formulation a flex balance analysis and
+
+1466
+01:02:04,960 --> 01:02:10,079
+we can walk through the individual
+
+1467
+01:02:07,880 --> 01:02:12,920
+equations first we seek to maximize
+
+1468
+01:02:10,079 --> 01:02:14,760
+Fitness over the reaction flexes and
+
+1469
+01:02:12,920 --> 01:02:15,720
+then we impose conservation of mass as
+
+1470
+01:02:14,760 --> 01:02:17,760
+one
+
+1471
+01:02:15,720 --> 01:02:20,880
+constraint additionally we look at
+
+1472
+01:02:17,760 --> 01:02:23,480
+constraints imposed by
+
+1473
+01:02:20,880 --> 01:02:24,680
+genes here again s is the stochiometric
+
+1474
+01:02:23,480 --> 01:02:27,640
+Matrix of
+
+1475
+01:02:24,680 --> 01:02:29,319
+reactions and A and G are matrices that
+
+1476
+01:02:27,640 --> 01:02:32,319
+allow us to consider constraints on
+
+1477
+01:02:29,319 --> 01:02:33,559
+linear combinations of reactions or
+
+1478
+01:02:32,319 --> 01:02:36,240
+constraints imposed by linear
+
+1479
+01:02:33,559 --> 01:02:36,240
+combinations of
+
+1480
+01:02:36,400 --> 01:02:42,279
+genes again this is implicitly included
+
+1481
+01:02:39,599 --> 01:02:44,079
+in FBA but they consider genes as being
+
+1482
+01:02:42,279 --> 01:02:47,319
+on or off where we're taking a slightly
+
+1483
+01:02:44,079 --> 01:02:47,319
+more quantitative numeric
+
+1484
+01:02:47,640 --> 01:02:51,760
+perspective let's take a look at what
+
+1485
+01:02:49,440 --> 01:02:55,200
+FBA is doing visually we start with a
+
+1486
+01:02:51,760 --> 01:02:59,160
+phenotypic space in this case Flex space
+
+1487
+01:02:55,200 --> 01:03:01,400
+here I've shown the 2D the 2D version
+
+1488
+01:02:59,160 --> 01:03:04,039
+with two reactions there's a reaction a
+
+1489
+01:03:01,400 --> 01:03:04,039
+and a reaction
+
+1490
+01:03:04,160 --> 01:03:08,760
+B we know the direction that increases
+
+1491
+01:03:06,839 --> 01:03:11,119
+Fitness and that's beta and we can put
+
+1492
+01:03:08,760 --> 01:03:13,520
+that in this space as
+
+1493
+01:03:11,119 --> 01:03:17,079
+well then there are constraints imposed
+
+1494
+01:03:13,520 --> 01:03:19,839
+by genes with five shown
+
+1495
+01:03:17,079 --> 01:03:22,480
+here these constraints Define a feasible
+
+1496
+01:03:19,839 --> 01:03:24,920
+region of fluxes that we can select
+
+1497
+01:03:22,480 --> 01:03:26,880
+from now that we have a feasible region
+
+1498
+01:03:24,920 --> 01:03:30,000
+we can perform the optim ization problem
+
+1499
+01:03:26,880 --> 01:03:32,880
+to arrive at our our optimal set of
+
+1500
+01:03:30,000 --> 01:03:37,200
+fluxes in this scenario b0 would be at
+
+1501
+01:03:32,880 --> 01:03:37,200
+the top right as it's most in line with
+
+1502
+01:03:38,440 --> 01:03:43,799
+beta importantly and as Brian discussed
+
+1503
+01:03:41,480 --> 01:03:47,079
+in the primer there's a lot fixed about
+
+1504
+01:03:43,799 --> 01:03:50,559
+FBA the constraints and genes are fixed
+
+1505
+01:03:47,079 --> 01:03:53,400
+beta is fixed and ultimately we arrive
+
+1506
+01:03:50,559 --> 01:03:55,760
+at one single optimal set of
+
+1507
+01:03:53,400 --> 01:03:58,279
+fluxes however we care more about
+
+1508
+01:03:55,760 --> 01:04:00,960
+evolutionary Dynamics in traditional
+
+1509
+01:03:58,279 --> 01:04:02,480
+FBA and this arises in two main ways
+
+1510
+01:04:00,960 --> 01:04:04,640
+that Brian discussed
+
+1511
+01:04:02,480 --> 01:04:06,279
+earlier the first is that we do want to
+
+1512
+01:04:04,640 --> 01:04:09,119
+see constraints
+
+1513
+01:04:06,279 --> 01:04:11,760
+change here a mutation happens that
+
+1514
+01:04:09,119 --> 01:04:15,279
+changes the constraint c0 to C1 and
+
+1515
+01:04:11,760 --> 01:04:15,279
+expands the feasible region of
+
+1516
+01:04:15,319 --> 01:04:19,480
+fluxes the second point is slightly more
+
+1517
+01:04:17,640 --> 01:04:22,200
+subtle in
+
+1518
+01:04:19,480 --> 01:04:23,880
+FBA there's an assumption that Evolution
+
+1519
+01:04:22,200 --> 01:04:25,920
+will eventually bring us to the optimal
+
+1520
+01:04:23,880 --> 01:04:27,559
+set of fluxes however however this
+
+1521
+01:04:25,920 --> 01:04:29,480
+assumption is made under fixed
+
+1522
+01:04:27,559 --> 01:04:31,039
+constraints now that we're constantly
+
+1523
+01:04:29,480 --> 01:04:33,520
+changing constraints to examine the
+
+1524
+01:04:31,039 --> 01:04:36,319
+evolutionary Dynamics it's not as clear
+
+1525
+01:04:33,520 --> 01:04:39,000
+if this assumption is still
+
+1526
+01:04:36,319 --> 01:04:40,760
+valid we address both these ideas and
+
+1527
+01:04:39,000 --> 01:04:43,279
+how we set up the simulations so let's
+
+1528
+01:04:40,760 --> 01:04:43,279
+discuss that
+
+1529
+01:04:44,799 --> 01:04:50,200
+now this again is our formulation of FBA
+
+1530
+01:04:48,359 --> 01:04:51,960
+and we'll discuss it as we walk through
+
+1531
+01:04:50,200 --> 01:04:54,039
+each step of the
+
+1532
+01:04:51,960 --> 01:04:57,079
+simulation we start with an initial set
+
+1533
+01:04:54,039 --> 01:05:00,400
+of fluxes and genes so we need some V
+
+1534
+01:04:57,079 --> 01:05:02,119
+and some lowercase G U and GL which are
+
+1535
+01:05:00,400 --> 01:05:04,760
+the
+
+1536
+01:05:02,119 --> 01:05:07,200
+genes then we perform a mutation by
+
+1537
+01:05:04,760 --> 01:05:09,400
+sampling a new constraint now the genes
+
+1538
+01:05:07,200 --> 01:05:09,400
+are
+
+1539
+01:05:09,760 --> 01:05:15,279
+changing then we also sample a new flux
+
+1540
+01:05:13,240 --> 01:05:18,119
+biologically we can think of this as a
+
+1541
+01:05:15,279 --> 01:05:20,240
+noisy inheritance of
+
+1542
+01:05:18,119 --> 01:05:22,520
+phenotype with this new flux we can
+
+1543
+01:05:20,240 --> 01:05:24,200
+calculate a new fitness and we can use
+
+1544
+01:05:22,520 --> 01:05:26,200
+this new fitness along with c's
+
+1545
+01:05:24,200 --> 01:05:28,200
+equations to decide
+
+1546
+01:05:26,200 --> 01:05:30,279
+if this new mutation should fix in the
+
+1547
+01:05:28,200 --> 01:05:32,960
+population or
+
+1548
+01:05:30,279 --> 01:05:34,920
+not we can repeat this process as much
+
+1549
+01:05:32,960 --> 01:05:37,079
+as we'd like to examine Evolution and
+
+1550
+01:05:34,920 --> 01:05:37,079
+its
+
+1551
+01:05:37,279 --> 01:05:41,440
+trajectory let's look visually at what
+
+1552
+01:05:39,599 --> 01:05:45,440
+happens in a single
+
+1553
+01:05:41,440 --> 01:05:47,559
+step we start with our initial flux and
+
+1554
+01:05:45,440 --> 01:05:50,599
+constraints and we'll initially perform
+
+1555
+01:05:47,559 --> 01:05:51,520
+a mutation to change from constraint c0
+
+1556
+01:05:50,599 --> 01:05:54,039
+to
+
+1557
+01:05:51,520 --> 01:05:55,680
+C1 I've drawn this mutation as
+
+1558
+01:05:54,039 --> 01:05:57,160
+increasing the feasible region over
+
+1559
+01:05:55,680 --> 01:05:59,799
+were're randomly selecting so we could
+
+1560
+01:05:57,160 --> 01:06:02,319
+decrease the feasible region as
+
+1561
+01:05:59,799 --> 01:06:04,200
+well this addresses our first difference
+
+1562
+01:06:02,319 --> 01:06:05,880
+with FBA that we alluded to we're
+
+1563
+01:06:04,200 --> 01:06:08,000
+changing the constraints so now we can
+
+1564
+01:06:05,880 --> 01:06:11,480
+watch the Dynamics of
+
+1565
+01:06:08,000 --> 01:06:14,119
+them then we randomly sample a new
+
+1566
+01:06:11,480 --> 01:06:16,200
+flux here this is drawn as increasing
+
+1567
+01:06:14,119 --> 01:06:18,760
+Fitness but we could also decrease
+
+1568
+01:06:16,200 --> 01:06:18,760
+Fitness as
+
+1569
+01:06:19,079 --> 01:06:23,599
+well this addresses our second concern
+
+1570
+01:06:21,480 --> 01:06:24,760
+with FBA now instead of making an
+
+1571
+01:06:23,599 --> 01:06:26,920
+assumption about stepping towards
+
+1572
+01:06:24,760 --> 01:06:30,520
+optimality instead we just randomly
+
+1573
+01:06:26,920 --> 01:06:30,520
+sample and make no such
+
+1574
+01:06:31,240 --> 01:06:36,440
+assumption this is drawn as occurring
+
+1575
+01:06:34,760 --> 01:06:38,920
+somewhat within a single cell but really
+
+1576
+01:06:36,440 --> 01:06:41,000
+there's a population of cells we can
+
+1577
+01:06:38,920 --> 01:06:43,799
+think of this process as an having a set
+
+1578
+01:06:41,000 --> 01:06:46,480
+of cells that are all initially at flux
+
+1579
+01:06:43,799 --> 01:06:49,640
+v0 then we perform a mutation to create
+
+1580
+01:06:46,480 --> 01:06:51,480
+a mutant cell which now has flux V1
+
+1581
+01:06:49,640 --> 01:06:53,599
+compared to the
+
+1582
+01:06:51,480 --> 01:06:56,760
+parents the question we'd like to ask in
+
+1583
+01:06:53,599 --> 01:06:59,079
+our simulations and this is a simple
+
+1584
+01:06:56,760 --> 01:07:01,520
+is if the parent wins and eventually
+
+1585
+01:06:59,079 --> 01:07:04,319
+overtakes the entire population or if
+
+1586
+01:07:01,520 --> 01:07:06,039
+the mutant will win we'll decide this
+
+1587
+01:07:04,319 --> 01:07:08,400
+based off of their respective
+
+1588
+01:07:06,039 --> 01:07:11,960
+fitnesses beta times to be one for the
+
+1589
+01:07:08,400 --> 01:07:15,799
+mutant and beta times to be zero for the
+
+1590
+01:07:11,960 --> 01:07:17,079
+parent this setup is what we can use's
+
+1591
+01:07:15,799 --> 01:07:19,599
+equation
+
+1592
+01:07:17,079 --> 01:07:22,760
+for's equation describes the probability
+
+1593
+01:07:19,599 --> 01:07:25,680
+that the mutant wins and takes over the
+
+1594
+01:07:22,760 --> 01:07:27,400
+population the key parameter of it is a
+
+1595
+01:07:25,680 --> 01:07:29,520
+The Selective Advantage which is the
+
+1596
+01:07:27,400 --> 01:07:32,039
+difference between the two fitnesses of
+
+1597
+01:07:29,520 --> 01:07:35,119
+the mutant and the
+
+1598
+01:07:32,039 --> 01:07:36,599
+parent in this equation as a increases
+
+1599
+01:07:35,119 --> 01:07:37,599
+the probability of the mutant winning
+
+1600
+01:07:36,599 --> 01:07:40,760
+also
+
+1601
+01:07:37,599 --> 01:07:42,920
+increases importantly if a is zero so a
+
+1602
+01:07:40,760 --> 01:07:44,559
+neutral mutation has occurred the
+
+1603
+01:07:42,920 --> 01:07:46,240
+probability of the mutant winning is one
+
+1604
+01:07:44,559 --> 01:07:48,440
+over the population size
+
+1605
+01:07:46,240 --> 01:07:51,319
+n so there is a chance that we can
+
+1606
+01:07:48,440 --> 01:07:51,319
+accumulate some neutral
+
+1607
+01:07:51,799 --> 01:07:56,000
+mutations yeah uh and the population
+
+1608
+01:07:54,680 --> 01:07:58,119
+size is fixed
+
+1609
+01:07:56,000 --> 01:07:58,119
+the
+
+1610
+01:08:01,960 --> 01:08:06,119
+simulations a diagram of an initial
+
+1611
+01:08:04,400 --> 01:08:07,839
+population with one mutant right and
+
+1612
+01:08:06,119 --> 01:08:11,079
+then mutants might be taking over or
+
+1613
+01:08:07,839 --> 01:08:13,319
+maybe they're seled or dying out yeah um
+
+1614
+01:08:11,079 --> 01:08:16,520
+so when I think about the population
+
+1615
+01:08:13,319 --> 01:08:18,080
+size what should I think of the
+
+1616
+01:08:16,520 --> 01:08:21,159
+population looking
+
+1617
+01:08:18,080 --> 01:08:23,520
+like uh you could think the I'm not from
+
+1618
+01:08:21,159 --> 01:08:26,159
+population genetics I might be asking no
+
+1619
+01:08:23,520 --> 01:08:28,839
+yeah this is a good question um so n is
+
+1620
+01:08:26,159 --> 01:08:31,520
+the population size here you know it' be
+
+1621
+01:08:28,839 --> 01:08:33,279
+like seven and that'll be fixed
+
+1622
+01:08:31,520 --> 01:08:35,799
+throughout the simulations so a mutation
+
+1623
+01:08:33,279 --> 01:08:39,159
+you're just assuming the in a Sim in a
+
+1624
+01:08:35,799 --> 01:08:40,199
+population of like 100 cells yeah okay
+
+1625
+01:08:39,159 --> 01:08:42,480
+we just pick for a lot of the
+
+1626
+01:08:40,199 --> 01:08:44,719
+simulations it's a thousand that's the
+
+1627
+01:08:42,480 --> 01:08:46,679
+size of the population we're considering
+
+1628
+01:08:44,719 --> 01:08:50,120
+but generally we're considering sizes
+
+1629
+01:08:46,679 --> 01:08:51,600
+that are so large that yes we can see
+
+1630
+01:08:50,120 --> 01:08:53,920
+neutral mutations but it's quite
+
+1631
+01:08:51,600 --> 01:08:57,440
+unlikely because it's one over the
+
+1632
+01:08:53,920 --> 01:08:57,440
+population size
+
+1633
+01:08:58,719 --> 01:09:03,759
+okay now we have a framework that we can
+
+1634
+01:09:01,359 --> 01:09:05,679
+perform some simulations we can repeat
+
+1635
+01:09:03,759 --> 01:09:08,799
+this process a lot we can perform
+
+1636
+01:09:05,679 --> 01:09:10,759
+mutations wiggle the flux calculate the
+
+1637
+01:09:08,799 --> 01:09:12,640
+probability of the mutant winning and we
+
+1638
+01:09:10,759 --> 01:09:14,600
+can watch Evolution
+
+1639
+01:09:12,640 --> 01:09:16,719
+happened we're going to look at this in
+
+1640
+01:09:14,600 --> 01:09:19,560
+two different
+
+1641
+01:09:16,719 --> 01:09:21,679
+systems the first is a small toy Network
+
+1642
+01:09:19,560 --> 01:09:23,640
+which this is the same as the toy
+
+1643
+01:09:21,679 --> 01:09:26,080
+Network Brian drew it just looks a
+
+1644
+01:09:23,640 --> 01:09:27,719
+little different I think um
+
+1645
+01:09:26,080 --> 01:09:30,920
+and the second is we'll look at the
+
+1646
+01:09:27,719 --> 01:09:33,040
+equal cor metabolism you can see the
+
+1647
+01:09:30,920 --> 01:09:35,759
+circle in the centers the TCA cycle and
+
+1648
+01:09:33,040 --> 01:09:38,480
+then BSIS is the long vertical column of
+
+1649
+01:09:35,759 --> 01:09:38,480
+reactions on the
+
+1650
+01:09:40,400 --> 01:09:43,920
+left we're going to spend a lot of time
+
+1651
+01:09:42,319 --> 01:09:46,199
+with the TW Network so we'll walk
+
+1652
+01:09:43,920 --> 01:09:47,839
+through it step by step I personally
+
+1653
+01:09:46,199 --> 01:09:49,440
+have spent a ton of time with this TW
+
+1654
+01:09:47,839 --> 01:09:50,920
+Network it's a great great Network to
+
+1655
+01:09:49,440 --> 01:09:53,120
+look
+
+1656
+01:09:50,920 --> 01:09:55,679
+at there's four
+
+1657
+01:09:53,120 --> 01:09:57,480
+reactions reactions 0 through three and
+
+1658
+01:09:55,679 --> 01:10:01,560
+there's two metabolites metabolites X
+
+1659
+01:09:57,480 --> 01:10:04,280
+and Y reaction zero is an exchange flux
+
+1660
+01:10:01,560 --> 01:10:07,520
+and it brings metabolite X into the
+
+1661
+01:10:04,280 --> 01:10:09,679
+cell then in our very simple scenario
+
+1662
+01:10:07,520 --> 01:10:13,080
+metabolite X can be consumed for growth
+
+1663
+01:10:09,679 --> 01:10:15,360
+through reaction One alternatively
+
+1664
+01:10:13,080 --> 01:10:18,480
+metabolite X can be consumed and turned
+
+1665
+01:10:15,360 --> 01:10:22,000
+into metabolite Y and this can also be
+
+1666
+01:10:18,480 --> 01:10:22,000
+turned into growth through reaction
+
+1667
+01:10:22,760 --> 01:10:29,080
+three if these AR metabolized should I
+
+1668
+01:10:25,640 --> 01:10:31,560
+assume that the two can also happen in
+
+1669
+01:10:29,080 --> 01:10:35,000
+Reverse yeah here we'll talk about them
+
+1670
+01:10:31,560 --> 01:10:35,000
+they can happen in Reverse as well
+
+1671
+01:10:35,080 --> 01:10:40,320
+yeah there's also genes underlying these
+
+1672
+01:10:38,159 --> 01:10:42,159
+reactions we'll have one gene for each
+
+1673
+01:10:40,320 --> 01:10:44,640
+reaction so here we'd have Gene zero for
+
+1674
+01:10:42,159 --> 01:10:45,640
+reaction zero Gene one for reaction one
+
+1675
+01:10:44,640 --> 01:10:48,400
+and so
+
+1676
+01:10:45,640 --> 01:10:50,840
+on mathematically G in the FBA
+
+1677
+01:10:48,400 --> 01:10:54,440
+formulation the capital G's end up being
+
+1678
+01:10:50,840 --> 01:10:58,080
+the identity Matrix so nothing crazy
+
+1679
+01:10:54,440 --> 01:11:00,560
+with these G rules have happened
+
+1680
+01:10:58,080 --> 01:11:02,120
+yet an important feature of this network
+
+1681
+01:11:00,560 --> 01:11:05,040
+is that there's two ways for the cell to
+
+1682
+01:11:02,120 --> 01:11:06,800
+grow you can either convert metabolite X
+
+1683
+01:11:05,040 --> 01:11:09,080
+into growth for reaction one or it can
+
+1684
+01:11:06,800 --> 01:11:09,960
+convert M metabolite Y into growth for
+
+1685
+01:11:09,080 --> 01:11:12,360
+reaction
+
+1686
+01:11:09,960 --> 01:11:14,199
+three this means our beta has multiple
+
+1687
+01:11:12,360 --> 01:11:15,960
+non-zero entries and in this case we're
+
+1688
+01:11:14,199 --> 01:11:17,840
+assuming that both metabolite X and
+
+1689
+01:11:15,960 --> 01:11:19,679
+metabolite y are equally efficient at
+
+1690
+01:11:17,840 --> 01:11:25,640
+turning into growth so they both are
+
+1691
+01:11:19,679 --> 01:11:25,640
+just set to one they entries uh in beta
+
+1692
+01:11:27,239 --> 01:11:32,239
+yeah two ways to goow um as Brian
+
+1693
+01:11:29,880 --> 01:11:34,080
+mentioned there's many different ways
+
+1694
+01:11:32,239 --> 01:11:35,800
+for the same many different sets of
+
+1695
+01:11:34,080 --> 01:11:37,960
+fluxes that give the same Fitness in
+
+1696
+01:11:35,800 --> 01:11:40,600
+this network we could look at a scenario
+
+1697
+01:11:37,960 --> 01:11:43,040
+where only reaction one is used and this
+
+1698
+01:11:40,600 --> 01:11:45,800
+would correspond to one
+
+1699
+01:11:43,040 --> 01:11:47,320
+growth similarly we could look at a
+
+1700
+01:11:45,800 --> 01:11:48,960
+scenario where only reactions two and
+
+1701
+01:11:47,320 --> 01:11:50,679
+three are used and this gives us the
+
+1702
+01:11:48,960 --> 01:11:52,679
+same
+
+1703
+01:11:50,679 --> 01:11:54,120
+Fitness again as Brian mentioned we
+
+1704
+01:11:52,679 --> 01:11:56,440
+could look at any linear combination
+
+1705
+01:11:54,120 --> 01:11:59,080
+between these two extremes
+
+1706
+01:11:56,440 --> 01:12:01,520
+here I've chosen a combination which as
+
+1707
+01:11:59,080 --> 01:12:03,960
+Brian hinted at will become important
+
+1708
+01:12:01,520 --> 01:12:05,639
+where the first reaction uses two thirds
+
+1709
+01:12:03,960 --> 01:12:08,159
+of reaction the flex through reaction
+
+1710
+01:12:05,639 --> 01:12:10,199
+zero and the second and third reactions
+
+1711
+01:12:08,159 --> 01:12:12,199
+both use a
+
+1712
+01:12:10,199 --> 01:12:14,000
+third importantly these all give the
+
+1713
+01:12:12,199 --> 01:12:15,719
+same Fitness so it might be difficult
+
+1714
+01:12:14,000 --> 01:12:18,239
+for us to tell beforehand if evolution
+
+1715
+01:12:15,719 --> 01:12:19,080
+should have a preference to any of these
+
+1716
+01:12:18,239 --> 01:12:21,400
+think you might be able to make an
+
+1717
+01:12:19,080 --> 01:12:22,840
+argument well reaction one is only one
+
+1718
+01:12:21,400 --> 01:12:24,400
+reaction compared to reactions two and
+
+1719
+01:12:22,840 --> 01:12:26,960
+three so maybe it should it should be
+
+1720
+01:12:24,400 --> 01:12:29,120
+used but also then you're missing out on
+
+1721
+01:12:26,960 --> 01:12:31,480
+using metabolite y so it's not quite
+
+1722
+01:12:29,120 --> 01:12:34,080
+clear right now if anything should arise
+
+1723
+01:12:31,480 --> 01:12:34,080
+as we perform
+
+1724
+01:12:36,480 --> 01:12:41,760
+Evolution now we can perform simulations
+
+1725
+01:12:39,040 --> 01:12:44,120
+and look and see how these systems
+
+1726
+01:12:41,760 --> 01:12:45,920
+evolve we'll start with the toy Network
+
+1727
+01:12:44,120 --> 01:12:48,040
+shown here is the growth rate versus
+
+1728
+01:12:45,920 --> 01:12:50,040
+time throughout the simulation for a
+
+1729
+01:12:48,040 --> 01:12:51,840
+single
+
+1730
+01:12:50,040 --> 01:12:54,239
+simulation as you can see the growth
+
+1731
+01:12:51,840 --> 01:12:56,000
+rate does increase at a somewhat linear
+
+1732
+01:12:54,239 --> 01:12:58,960
+rate and we can see that this result is
+
+1733
+01:12:56,000 --> 01:13:04,000
+consistent across reactions a
+
+1734
+01:12:58,960 --> 01:13:06,800
+second simulation a third a fourth and a
+
+1735
+01:13:04,000 --> 01:13:08,360
+fifth there is some variability due to
+
+1736
+01:13:06,800 --> 01:13:11,120
+the randomness of these simulations but
+
+1737
+01:13:08,360 --> 01:13:11,120
+the results are quite
+
+1738
+01:13:11,400 --> 01:13:15,639
+consistent we can also look at the E cor
+
+1739
+01:13:13,679 --> 01:13:18,360
+metabolism and again see that the growth
+
+1740
+01:13:15,639 --> 01:13:19,920
+rate does increase the time similarly
+
+1741
+01:13:18,360 --> 01:13:25,280
+the results are consistent across a
+
+1742
+01:13:19,920 --> 01:13:25,280
+second third fourth and fifth simulation
+
+1743
+01:13:25,360 --> 01:13:28,719
+at this point if you think back to the
+
+1744
+01:13:26,760 --> 01:13:30,440
+stories we told about CLE cell disease
+
+1745
+01:13:28,719 --> 01:13:32,480
+in some sense we have the second half of
+
+1746
+01:13:30,440 --> 01:13:34,639
+those stories we know Fitness is
+
+1747
+01:13:32,480 --> 01:13:37,199
+occurring and we know evolution is
+
+1748
+01:13:34,639 --> 01:13:39,960
+occurring and fitness is increasing but
+
+1749
+01:13:37,199 --> 01:13:41,679
+it's not clear why in those stories we
+
+1750
+01:13:39,960 --> 01:13:43,719
+were able to tell the second half
+
+1751
+01:13:41,679 --> 01:13:46,560
+because we knew the relationship between
+
+1752
+01:13:43,719 --> 01:13:46,560
+genotype and
+
+1753
+01:13:47,280 --> 01:13:51,080
+fitness so as a good Next Step let's see
+
+1754
+01:13:49,719 --> 01:13:53,520
+what's happening at the level of
+
+1755
+01:13:51,080 --> 01:13:53,520
+individual
+
+1756
+01:13:53,639 --> 01:13:58,000
+genes as Brian suggested one way we can
+
+1757
+01:13:56,440 --> 01:13:59,679
+consider genes is by looking at the
+
+1758
+01:13:58,000 --> 01:14:01,239
+selective pressure on them which is the
+
+1759
+01:13:59,679 --> 01:14:03,760
+difference which is related to a
+
+1760
+01:14:01,239 --> 01:14:03,760
+difference in
+
+1761
+01:14:04,000 --> 01:14:08,080
+Fitness one way we can calculate this
+
+1762
+01:14:06,120 --> 01:14:11,400
+change in Fitness is by using the shadow
+
+1763
+01:14:08,080 --> 01:14:13,880
+Braes in this scenario G the gene would
+
+1764
+01:14:11,400 --> 01:14:16,480
+just be a vector of zeros and one one
+
+1765
+01:14:13,880 --> 01:14:19,280
+that corresponds to our Gene of
+
+1766
+01:14:16,480 --> 01:14:21,199
+Interest then the Shadow prices again
+
+1767
+01:14:19,280 --> 01:14:24,800
+correspond to the change in optimality
+
+1768
+01:14:21,199 --> 01:14:24,800
+as you change a gene
+
+1769
+01:14:25,280 --> 01:14:30,560
+visually what's going on is we perform a
+
+1770
+01:14:27,880 --> 01:14:32,480
+mutation and then we take a step towards
+
+1771
+01:14:30,560 --> 01:14:34,159
+optimality we can look at the difference
+
+1772
+01:14:32,480 --> 01:14:37,400
+in Fitness and this gives us the
+
+1773
+01:14:34,159 --> 01:14:40,040
+selective pressure on an individual
+
+1774
+01:14:37,400 --> 01:14:42,480
+Gene this neatly captures the first half
+
+1775
+01:14:40,040 --> 01:14:44,840
+of the stories we told about CLE cell
+
+1776
+01:14:42,480 --> 01:14:46,960
+disease we knew that if we saw a
+
+1777
+01:14:44,840 --> 01:14:49,360
+mutation occur in hemoglobin that would
+
+1778
+01:14:46,960 --> 01:14:51,960
+lead to a fitness benefit of Mia
+
+1779
+01:14:49,360 --> 01:14:53,560
+tolerance in the carrier scenario in the
+
+1780
+01:14:51,960 --> 01:14:55,760
+same sense The Selective pressure tells
+
+1781
+01:14:53,560 --> 01:14:58,600
+us if we change a gene what is the
+
+1782
+01:14:55,760 --> 01:14:58,600
+numeric Fitness
+
+1783
+01:14:58,639 --> 01:15:02,000
+method let's take a look at the
+
+1784
+01:15:00,400 --> 01:15:04,679
+selective pressure on the individual
+
+1785
+01:15:02,000 --> 01:15:04,679
+genes in the to
+
+1786
+01:15:05,920 --> 01:15:09,480
+network we're going to look at a thin
+
+1787
+01:15:07,800 --> 01:15:11,639
+slice of a simulation to start so this
+
+1788
+01:15:09,480 --> 01:15:14,280
+is only the graphs I'm about to show are
+
+1789
+01:15:11,639 --> 01:15:15,800
+only from between the two vertical lines
+
+1790
+01:15:14,280 --> 01:15:16,880
+importantly maybe it's a little
+
+1791
+01:15:15,800 --> 01:15:18,679
+difficult to tell but you can see the
+
+1792
+01:15:16,880 --> 01:15:22,400
+evolution is occurring in Fitness
+
+1793
+01:15:18,679 --> 01:15:24,520
+increases over this short time
+
+1794
+01:15:22,400 --> 01:15:26,159
+period we'll start by looking at the
+
+1795
+01:15:24,520 --> 01:15:29,239
+selective pressure on the gene for
+
+1796
+01:15:26,159 --> 01:15:32,120
+reaction zero initially it's constant at
+
+1797
+01:15:29,239 --> 01:15:34,800
+one it drops down to zero before
+
+1798
+01:15:32,120 --> 01:15:36,639
+returning to one but then it starts to
+
+1799
+01:15:34,800 --> 01:15:39,080
+oscillate quite
+
+1800
+01:15:36,639 --> 01:15:41,239
+frequently we can see similar results
+
+1801
+01:15:39,080 --> 01:15:43,600
+for all the other genes here's the gene
+
+1802
+01:15:41,239 --> 01:15:46,800
+for reaction One the gene for reaction
+
+1803
+01:15:43,600 --> 01:15:49,800
+two and the gene for reaction
+
+1804
+01:15:46,800 --> 01:15:51,719
+three now then this was only a fin slice
+
+1805
+01:15:49,800 --> 01:15:54,040
+and you can see the gene for reaction
+
+1806
+01:15:51,719 --> 01:15:56,960
+two The Selective pressure is nearly
+
+1807
+01:15:54,040 --> 01:15:58,320
+constant on it so you might want to ask
+
+1808
+01:15:56,960 --> 01:16:00,560
+what does the rest of the simulation
+
+1809
+01:15:58,320 --> 01:16:00,560
+look
+
+1810
+01:16:01,639 --> 01:16:05,719
+like these are the same graphs as I
+
+1811
+01:16:04,080 --> 01:16:06,960
+showed you on the last slide but over
+
+1812
+01:16:05,719 --> 01:16:09,159
+the entire
+
+1813
+01:16:06,960 --> 01:16:12,679
+simulation here's the gene for reaction
+
+1814
+01:16:09,159 --> 01:16:14,120
+zero reaction One reaction two and
+
+1815
+01:16:12,679 --> 01:16:16,040
+reaction
+
+1816
+01:16:14,120 --> 01:16:18,400
+three The Selective pressure is
+
+1817
+01:16:16,040 --> 01:16:20,480
+oscillating so much that you can't even
+
+1818
+01:16:18,400 --> 01:16:22,360
+make out the individual
+
+1819
+01:16:20,480 --> 01:16:23,520
+trajectories there are some Thin
+
+1820
+01:16:22,360 --> 01:16:25,320
+vertical lines where you can tell
+
+1821
+01:16:23,520 --> 01:16:27,920
+nothing is changing but generally The
+
+1822
+01:16:25,320 --> 01:16:30,719
+Selective pressure is constantly
+
+1823
+01:16:27,920 --> 01:16:32,679
+changing this is our first result The
+
+1824
+01:16:30,719 --> 01:16:35,400
+Selective pressure on individual genes
+
+1825
+01:16:32,679 --> 01:16:37,199
+is highly variable throughout
+
+1826
+01:16:35,400 --> 01:16:39,320
+Evolution if we think back to the
+
+1827
+01:16:37,199 --> 01:16:41,760
+stories we told about CLE cell
+
+1828
+01:16:39,320 --> 01:16:45,000
+disease we can't quite use individual
+
+1829
+01:16:41,760 --> 01:16:47,320
+genes the same way we could
+
+1830
+01:16:45,000 --> 01:16:49,159
+there additionally this raises a new
+
+1831
+01:16:47,320 --> 01:16:51,280
+question if you think back to the
+
+1832
+01:16:49,159 --> 01:16:54,080
+fitness growth I showed you a few slides
+
+1833
+01:16:51,280 --> 01:16:55,560
+ago those trajectories were relatively
+
+1834
+01:16:54,080 --> 01:16:57,960
+constant
+
+1835
+01:16:55,560 --> 01:17:02,400
+however we see that genes are quite
+
+1836
+01:16:57,960 --> 01:17:02,400
+variable so what's providing this
+
+1837
+01:17:03,199 --> 01:17:07,040
+consistency if it's not at the genotype
+
+1838
+01:17:05,360 --> 01:17:09,239
+level then maybe it's at the phenotype
+
+1839
+01:17:07,040 --> 01:17:11,960
+level so we can examine the fluxes and
+
+1840
+01:17:09,239 --> 01:17:14,400
+the toy Network and the eoli
+
+1841
+01:17:11,960 --> 01:17:16,440
+network here's the flux the reaction
+
+1842
+01:17:14,400 --> 01:17:19,719
+zero and as expected for increasing
+
+1843
+01:17:16,440 --> 01:17:21,560
+Fitness the flux increases with time
+
+1844
+01:17:19,719 --> 01:17:23,520
+shown here is the average of the five
+
+1845
+01:17:21,560 --> 01:17:25,960
+simulations from
+
+1846
+01:17:23,520 --> 01:17:30,719
+before we can o look at the flux through
+
+1847
+01:17:25,960 --> 01:17:30,719
+reaction One reaction two and reaction
+
+1848
+01:17:30,880 --> 01:17:34,880
+three as you can see the flux through
+
+1849
+01:17:33,239 --> 01:17:37,480
+reaction zero is the highest as it's the
+
+1850
+01:17:34,880 --> 01:17:39,040
+entry we of the network reactions two
+
+1851
+01:17:37,480 --> 01:17:41,880
+and three have the same flux because
+
+1852
+01:17:39,040 --> 01:17:43,440
+they're in series and then reaction one
+
+1853
+01:17:41,880 --> 01:17:46,280
+has a slightly higher flux than
+
+1854
+01:17:43,440 --> 01:17:46,280
+reactions two and
+
+1855
+01:17:47,320 --> 01:17:52,199
+three we can also look at this in the
+
+1856
+01:17:49,639 --> 01:17:54,400
+eoli to toy Network I'm going to show
+
+1857
+01:17:52,199 --> 01:17:56,400
+you four fluxes that I randomly selected
+
+1858
+01:17:54,400 --> 01:17:57,679
+from the around 100 that are involved in
+
+1859
+01:17:56,400 --> 01:18:00,600
+this part of the
+
+1860
+01:17:57,679 --> 01:18:03,719
+network here's one here's another here's
+
+1861
+01:18:00,600 --> 01:18:03,719
+a thirdd here's a
+
+1862
+01:18:05,239 --> 01:18:10,719
+fourth if you look at this closely you
+
+1863
+01:18:08,520 --> 01:18:13,719
+might see that after an initial period
+
+1864
+01:18:10,719 --> 01:18:16,159
+the flexes start to go
+
+1865
+01:18:13,719 --> 01:18:19,360
+linearly this suggests that we might be
+
+1866
+01:18:16,159 --> 01:18:22,880
+adding a constant Vector to the flexes
+
+1867
+01:18:19,360 --> 01:18:25,679
+at over each time step let me say that
+
+1868
+01:18:22,880 --> 01:18:28,679
+again at a specific time we have a set
+
+1869
+01:18:25,679 --> 01:18:30,760
+of fluxes after a short period of time
+
+1870
+01:18:28,679 --> 01:18:33,280
+it appears that we're adding some
+
+1871
+01:18:30,760 --> 01:18:35,840
+constant Vector to that new
+
+1872
+01:18:33,280 --> 01:18:38,120
+flux we can repeat this process again
+
+1873
+01:18:35,840 --> 01:18:40,120
+and again and this would give us these
+
+1874
+01:18:38,120 --> 01:18:42,600
+linear directions we're
+
+1875
+01:18:40,120 --> 01:18:45,199
+seeing one way we can isolate this is by
+
+1876
+01:18:42,600 --> 01:18:47,600
+looking at the relative flux so we can
+
+1877
+01:18:45,199 --> 01:18:49,719
+normalize by the maximum flux within an
+
+1878
+01:18:47,600 --> 01:18:52,400
+individual time Point let's look at the
+
+1879
+01:18:49,719 --> 01:18:52,400
+toy Network
+
+1880
+01:18:52,760 --> 01:18:57,840
+first we said before that the
+
+1881
+01:18:55,320 --> 01:19:01,040
+the the first reaction had the maximum
+
+1882
+01:18:57,840 --> 01:19:03,760
+flux so when we normalize it by it
+
+1883
+01:19:01,040 --> 01:19:05,719
+reaction zero goes to one through its
+
+1884
+01:19:03,760 --> 01:19:07,440
+relative
+
+1885
+01:19:05,719 --> 01:19:11,080
+flux however we can see that for
+
+1886
+01:19:07,440 --> 01:19:13,040
+reaction One it converges to around 66
+
+1887
+01:19:11,080 --> 01:19:17,239
+similarly we see that reactions 2 and
+
+1888
+01:19:13,040 --> 01:19:17,239
+three converge to around
+
+1889
+01:19:18,320 --> 01:19:23,159
+33 we can look at the same for reactions
+
+1890
+01:19:21,239 --> 01:19:26,199
+from the equaline
+
+1891
+01:19:23,159 --> 01:19:28,400
+network again we see that after a short
+
+1892
+01:19:26,199 --> 01:19:32,360
+period of some change the relative
+
+1893
+01:19:28,400 --> 01:19:32,360
+fluxes converge to a specific
+
+1894
+01:19:36,600 --> 01:19:40,880
+value now we can look at all of the
+
+1895
+01:19:38,800 --> 01:19:41,840
+fluxes in the equal Network and their
+
+1896
+01:19:40,880 --> 01:19:44,120
+relative
+
+1897
+01:19:41,840 --> 01:19:45,600
+fluxes this is what that looks like for
+
+1898
+01:19:44,120 --> 01:19:47,679
+the around 100
+
+1899
+01:19:45,600 --> 01:19:50,000
+reactions as you can see there's an
+
+1900
+01:19:47,679 --> 01:19:52,120
+initial period of some nonlinearity
+
+1901
+01:19:50,000 --> 01:19:53,800
+where fluxes are moving about but then
+
+1902
+01:19:52,120 --> 01:19:56,639
+they eventually start to converge to
+
+1903
+01:19:53,800 --> 01:19:59,280
+specific constant
+
+1904
+01:19:56,639 --> 01:20:01,960
+values to give you a sense of what
+
+1905
+01:19:59,280 --> 01:20:04,520
+reactions are involved you can the
+
+1906
+01:20:01,960 --> 01:20:08,639
+reactions for ATP synthes cytochrom
+
+1907
+01:20:04,520 --> 01:20:11,800
+oxidase and GAP DH all involved in
+
+1908
+01:20:08,639 --> 01:20:13,280
+glycolysis and oxidative oxidative
+
+1909
+01:20:11,800 --> 01:20:15,880
+phosphorilation which should be
+
+1910
+01:20:13,280 --> 01:20:18,239
+important for growth they all have high
+
+1911
+01:20:15,880 --> 01:20:18,239
+relative
+
+1912
+01:20:18,360 --> 01:20:23,560
+fluxes this brings us to our second
+
+1913
+01:20:20,679 --> 01:20:26,560
+result Evolution prefers to grow Fitness
+
+1914
+01:20:23,560 --> 01:20:30,480
+in a specific Direction
+
+1915
+01:20:26,560 --> 01:20:34,800
+we call this direction the collective
+
+1916
+01:20:30,480 --> 01:20:37,080
+mode importantly this is a direction
+
+1917
+01:20:34,800 --> 01:20:40,400
+we're looking at the moves the evolution
+
+1918
+01:20:37,080 --> 01:20:42,960
+takes as it occurs it's taking a step in
+
+1919
+01:20:40,400 --> 01:20:45,600
+a direction to change the
+
+1920
+01:20:42,960 --> 01:20:48,360
+genotype however as we repeatedly move
+
+1921
+01:20:45,600 --> 01:20:50,719
+in this direction we eventually converge
+
+1922
+01:20:48,360 --> 01:20:52,480
+at the phenotypic level to this
+
+1923
+01:20:50,719 --> 01:20:54,360
+direction so in this sense the
+
+1924
+01:20:52,480 --> 01:20:56,679
+collective mode is both a direction in
+
+1925
+01:20:54,360 --> 01:20:58,800
+that we're taking steps along it but
+
+1926
+01:20:56,679 --> 01:21:02,800
+also a specific value that we eventually
+
+1927
+01:20:58,800 --> 01:21:02,800
+converge to after repeated rounds of
+
+1928
+01:21:05,880 --> 01:21:10,600
+evolution now then you might ask what's
+
+1929
+01:21:07,800 --> 01:21:12,280
+so special about this Collective mode
+
+1930
+01:21:10,600 --> 01:21:14,760
+one way we can look at this is Again by
+
+1931
+01:21:12,280 --> 01:21:16,440
+using this concept of selective pressure
+
+1932
+01:21:14,760 --> 01:21:18,920
+before we looked at selective pressure
+
+1933
+01:21:16,440 --> 01:21:20,800
+on individual genes and we calculated it
+
+1934
+01:21:18,920 --> 01:21:23,280
+using the Shadow
+
+1935
+01:21:20,800 --> 01:21:24,800
+prices we can generalize this idea to
+
+1936
+01:21:23,280 --> 01:21:26,800
+look at the selective pressure on
+
+1937
+01:21:24,800 --> 01:21:28,679
+directions we're still using the same
+
+1938
+01:21:26,800 --> 01:21:31,159
+equation but now instead of interpreting
+
+1939
+01:21:28,679 --> 01:21:33,159
+G as a gene we can think about it as
+
+1940
+01:21:31,159 --> 01:21:34,560
+taking a step in a specific Direction
+
+1941
+01:21:33,159 --> 01:21:36,840
+along the
+
+1942
+01:21:34,560 --> 01:21:38,639
+genotype once again we'll use the Shadow
+
+1943
+01:21:36,840 --> 01:21:41,440
+prices which tell us how Fitness is
+
+1944
+01:21:38,639 --> 01:21:44,199
+changing as we change a
+
+1945
+01:21:41,440 --> 01:21:47,280
+constraint for the toy Network we saw
+
+1946
+01:21:44,199 --> 01:21:48,800
+the simulation converge to 1.
+
+1947
+01:21:47,280 --> 01:21:51,320
+6633
+
+1948
+01:21:48,800 --> 01:21:53,159
+and33 so this is the direction of the
+
+1949
+01:21:51,320 --> 01:21:56,520
+collective mode that we would care about
+
+1950
+01:21:53,159 --> 01:21:56,520
+calculating the selective pressure on
+
+1951
+01:21:58,480 --> 01:22:01,679
+shown here are the same four graphs I
+
+1952
+01:22:00,120 --> 01:22:04,679
+showed you before where the selective
+
+1953
+01:22:01,679 --> 01:22:06,600
+pressure on individual genes is
+
+1954
+01:22:04,679 --> 01:22:07,880
+varying now we can calculate the
+
+1955
+01:22:06,600 --> 01:22:10,320
+selective pressure on the collective
+
+1956
+01:22:07,880 --> 01:22:12,920
+mode using this
+
+1957
+01:22:10,320 --> 01:22:16,800
+equation again this
+
+1958
+01:22:12,920 --> 01:22:18,760
+1.66 33.33 value is from the simulation
+
+1959
+01:22:16,800 --> 01:22:21,679
+of the toy
+
+1960
+01:22:18,760 --> 01:22:23,800
+note when we put the selective pressure
+
+1961
+01:22:21,679 --> 01:22:26,360
+on the collective mode over the genes we
+
+1962
+01:22:23,800 --> 01:22:29,080
+see that it is cont
+
+1963
+01:22:26,360 --> 01:22:30,719
+Conant this might help explain how our
+
+1964
+01:22:29,080 --> 01:22:32,800
+evolutionary simulations were so
+
+1965
+01:22:30,719 --> 01:22:34,600
+consistent they converged the collective
+
+1966
+01:22:32,800 --> 01:22:36,600
+mode which has a constant selective
+
+1967
+01:22:34,600 --> 01:22:40,199
+pressure and there are constant gains of
+
+1968
+01:22:36,600 --> 01:22:42,520
+Fitness as we move along the collective
+
+1969
+01:22:40,199 --> 01:22:44,120
+mode however doesn't quite raise answer
+
+1970
+01:22:42,520 --> 01:22:45,159
+the question of why we end up at the
+
+1971
+01:22:44,120 --> 01:22:47,760
+collective
+
+1972
+01:22:45,159 --> 01:22:49,120
+mode one way we can look at this is by
+
+1973
+01:22:47,760 --> 01:22:51,480
+looking at the cumulative selective
+
+1974
+01:22:49,120 --> 01:22:53,040
+pressure on individual genes and the
+
+1975
+01:22:51,480 --> 01:22:55,960
+collective
+
+1976
+01:22:53,040 --> 01:22:57,679
+mode in this to calculate this we are
+
+1977
+01:22:55,960 --> 01:22:59,440
+just adding The Selective pressure on
+
+1978
+01:22:57,679 --> 01:23:02,040
+the individual genes or Collective mode
+
+1979
+01:22:59,440 --> 01:23:03,880
+versus time for example here's the
+
+1980
+01:23:02,040 --> 01:23:05,440
+cumulative selective pressure on the
+
+1981
+01:23:03,880 --> 01:23:08,639
+gene for the first
+
+1982
+01:23:05,440 --> 01:23:10,960
+reaction the they the reaction zero
+
+1983
+01:23:08,639 --> 01:23:11,920
+here's reaction One reaction two and
+
+1984
+01:23:10,960 --> 01:23:13,960
+reaction
+
+1985
+01:23:11,920 --> 01:23:16,199
+three before we get to the collective
+
+1986
+01:23:13,960 --> 01:23:18,320
+mode we can get some intuition for why
+
+1987
+01:23:16,199 --> 01:23:21,440
+we see these
+
+1988
+01:23:18,320 --> 01:23:23,440
+results intuitively reaction zero is the
+
+1989
+01:23:21,440 --> 01:23:25,320
+entry way for the network so we would
+
+1990
+01:23:23,440 --> 01:23:26,360
+expect it to have more pressure on it
+
+1991
+01:23:25,320 --> 01:23:28,840
+than the other
+
+1992
+01:23:26,360 --> 01:23:30,880
+reactions if we ever want to evolve we
+
+1993
+01:23:28,840 --> 01:23:32,520
+have to mutate reaction zero to increase
+
+1994
+01:23:30,880 --> 01:23:34,560
+Fitness so it should have a high
+
+1995
+01:23:32,520 --> 01:23:37,199
+selective pressure on
+
+1996
+01:23:34,560 --> 01:23:40,280
+it similarly we see that reactions two
+
+1997
+01:23:37,199 --> 01:23:43,320
+and three have nearly equal selective
+
+1998
+01:23:40,280 --> 01:23:45,040
+pressure they're in series so if they
+
+1999
+01:23:43,320 --> 01:23:48,600
+want to be mutated and contribute to
+
+2000
+01:23:45,040 --> 01:23:51,120
+increasing Fitness they must be mutated
+
+2001
+01:23:48,600 --> 01:23:52,960
+similarly if one if reaction two had a
+
+2002
+01:23:51,120 --> 01:23:54,719
+higher capacity than reaction three
+
+2003
+01:23:52,960 --> 01:23:56,679
+reaction three would be rate limiting
+
+2004
+01:23:54,719 --> 01:23:58,080
+and you need to increase reaction three
+
+2005
+01:23:56,679 --> 01:24:00,360
+and you could then make the same Claim
+
+2006
+01:23:58,080 --> 01:24:02,440
+about reaction
+
+2007
+01:24:00,360 --> 01:24:04,719
+two now we can look at the selective
+
+2008
+01:24:02,440 --> 01:24:07,239
+pressure on the collective
+
+2009
+01:24:04,719 --> 01:24:09,880
+mode we see that it's perfectly linear
+
+2010
+01:24:07,239 --> 01:24:11,920
+due to its constant value but we also
+
+2011
+01:24:09,880 --> 01:24:14,880
+see that it's
+
+2012
+01:24:11,920 --> 01:24:16,800
+maximal this is our third result the
+
+2013
+01:24:14,880 --> 01:24:18,239
+collective mode has constant and maximal
+
+2014
+01:24:16,800 --> 01:24:20,719
+selective
+
+2015
+01:24:18,239 --> 01:24:23,000
+pressure this helps explain why we
+
+2016
+01:24:20,719 --> 01:24:24,800
+arrived at the flective mode flective
+
+2017
+01:24:23,000 --> 01:24:27,360
+pressure is capturing some idea of a
+
+2018
+01:24:24,800 --> 01:24:29,040
+fitness benefit and we see that the
+
+2019
+01:24:27,360 --> 01:24:31,719
+collective mode has a maximal
+
+2020
+01:24:29,040 --> 01:24:31,719
+Improvement of
+
+2021
+01:24:31,840 --> 01:24:35,760
+Fitness if we think about the stories we
+
+2022
+01:24:33,880 --> 01:24:38,520
+were telling at the start with CLE cell
+
+2023
+01:24:35,760 --> 01:24:40,679
+disease even with this complex genotype
+
+2024
+01:24:38,520 --> 01:24:44,400
+to phenotype map we're able to recapture
+
+2025
+01:24:40,679 --> 01:24:47,080
+a simple story now using the collective
+
+2026
+01:24:44,400 --> 01:24:48,920
+mode if we take a step at the genotype
+
+2027
+01:24:47,080 --> 01:24:51,560
+level in the direction of the collective
+
+2028
+01:24:48,920 --> 01:24:52,880
+mode we know this increases Fitness in a
+
+2029
+01:24:51,560 --> 01:24:55,159
+maximal
+
+2030
+01:24:52,880 --> 01:24:56,480
+sense this means the evolution should
+
+2031
+01:24:55,159 --> 01:24:58,560
+then enrich the genotype in the
+
+2032
+01:24:56,480 --> 01:25:00,400
+collective mode and this process would
+
+2033
+01:24:58,560 --> 01:25:01,920
+continue and then we can make a
+
+2034
+01:25:00,400 --> 01:25:04,480
+prediction about where the genotype
+
+2035
+01:25:01,920 --> 01:25:04,480
+would arrive
+
+2036
+01:25:04,800 --> 01:25:09,480
+at one question you might ask is can we
+
+2037
+01:25:07,639 --> 01:25:11,159
+generalize these results this is only
+
+2038
+01:25:09,480 --> 01:25:12,960
+for the toy Network and it only has four
+
+2039
+01:25:11,159 --> 01:25:15,639
+reactions and two
+
+2040
+01:25:12,960 --> 01:25:17,920
+metabolites additionally we calculated
+
+2041
+01:25:15,639 --> 01:25:19,520
+the collective mode by simulation so it
+
+2042
+01:25:17,920 --> 01:25:21,360
+might be nice to know if we could
+
+2043
+01:25:19,520 --> 01:25:24,880
+predict the collective mode without
+
+2044
+01:25:21,360 --> 01:25:24,880
+performing a simulation
+
+2045
+01:25:27,280 --> 01:25:31,719
+to make these predictions we turn the
+
+2046
+01:25:29,199 --> 01:25:33,280
+constant in maximal selective pressure
+
+2047
+01:25:31,719 --> 01:25:35,199
+into a mathematic
+
+2048
+01:25:33,280 --> 01:25:37,520
+framework we start with the collective
+
+2049
+01:25:35,199 --> 01:25:40,400
+mode and first we seek to maximize
+
+2050
+01:25:37,520 --> 01:25:42,719
+selective pressure here Z would be a
+
+2051
+01:25:40,400 --> 01:25:45,119
+direction at the gene
+
+2052
+01:25:42,719 --> 01:25:47,400
+level then we impose a constraint that
+
+2053
+01:25:45,119 --> 01:25:49,239
+the selective pressure must be constant
+
+2054
+01:25:47,400 --> 01:25:51,199
+to get some intuition for why this is
+
+2055
+01:25:49,239 --> 01:25:52,920
+the constraint you can imagine taking
+
+2056
+01:25:51,199 --> 01:25:56,239
+the derivative of the selective pressure
+
+2057
+01:25:52,920 --> 01:25:56,239
+as genes are changing
+
+2058
+01:25:57,080 --> 01:26:01,560
+we impose a positivity constraint to
+
+2059
+01:25:59,280 --> 01:26:03,320
+have physically possible results and
+
+2060
+01:26:01,560 --> 01:26:05,239
+then we can solve this optimization
+
+2061
+01:26:03,320 --> 01:26:07,040
+problem to arrive at a prediction of the
+
+2062
+01:26:05,239 --> 01:26:12,159
+collective
+
+2063
+01:26:07,040 --> 01:26:15,119
+mode importantly Lambda and damb DG are
+
+2064
+01:26:12,159 --> 01:26:17,639
+functions of the specific S A and G
+
+2065
+01:26:15,119 --> 01:26:19,760
+matrices that we discussed in the FBA
+
+2066
+01:26:17,639 --> 01:26:21,400
+setup this means that each metabolic
+
+2067
+01:26:19,760 --> 01:26:24,400
+network will have a unique Collective
+
+2068
+01:26:21,400 --> 01:26:24,400
+mode
+
+2069
+01:26:24,560 --> 01:26:29,040
+under some specific scenarios we can
+
+2070
+01:26:26,600 --> 01:26:30,480
+solve this problem analytically we can
+
+2071
+01:26:29,040 --> 01:26:32,119
+always Solve IT numerically but looking
+
+2072
+01:26:30,480 --> 01:26:34,920
+at the analytical result give might give
+
+2073
+01:26:32,119 --> 01:26:36,639
+us some intuition for what's going on
+
+2074
+01:26:34,920 --> 01:26:37,679
+it's a bit of a mess but let's walk
+
+2075
+01:26:36,639 --> 01:26:41,199
+through
+
+2076
+01:26:37,679 --> 01:26:44,440
+it first we have this s Matrix which a
+
+2077
+01:26:41,199 --> 01:26:46,880
+is a combination of the S and a
+
+2078
+01:26:44,440 --> 01:26:48,679
+matrices both of these matrices were
+
+2079
+01:26:46,880 --> 01:26:50,440
+related to imposing constraints on
+
+2080
+01:26:48,679 --> 01:26:54,440
+fluxes so that might provide some
+
+2081
+01:26:50,440 --> 01:26:56,360
+intuition for why we group them
+
+2082
+01:26:54,440 --> 01:26:59,360
+then we perform some multiplication of
+
+2083
+01:26:56,360 --> 01:27:00,800
+beta in this stil Matrix to calculate
+
+2084
+01:26:59,360 --> 01:27:03,520
+something that is akin to the Shadow
+
+2085
+01:27:00,800 --> 01:27:07,040
+prices Lambda that we're looking to
+
+2086
+01:27:03,520 --> 01:27:09,480
+maximize with Selective
+
+2087
+01:27:07,040 --> 01:27:11,639
+pressure however we impose the constant
+
+2088
+01:27:09,480 --> 01:27:14,800
+selective pressure requirement and this
+
+2089
+01:27:11,639 --> 01:27:17,600
+involves projecting this special Vector
+
+2090
+01:27:14,800 --> 01:27:22,080
+made up of beta and stie into the null
+
+2091
+01:27:17,600 --> 01:27:22,080
+space of the D Lambda DG
+
+2092
+01:27:22,480 --> 01:27:26,639
+Matrix this part of the pro project is
+
+2093
+01:27:24,679 --> 01:27:28,400
+what I've spent a lot of time on in how
+
+2094
+01:27:26,639 --> 01:27:29,920
+we predict the collective mode this is
+
+2095
+01:27:28,400 --> 01:27:32,119
+all I'm going to say for now but if you
+
+2096
+01:27:29,920 --> 01:27:33,880
+want to discuss it more after I'm more
+
+2097
+01:27:32,119 --> 01:27:36,520
+than happy
+
+2098
+01:27:33,880 --> 01:27:39,000
+to if you think back to the toy network
+
+2099
+01:27:36,520 --> 01:27:41,199
+from simulation we saw the results
+
+2100
+01:27:39,000 --> 01:27:42,760
+converge the relative flexes converge to
+
+2101
+01:27:41,199 --> 01:27:47,639
+1
+
+2102
+01:27:42,760 --> 01:27:49,719
+6633 and33 for reactions 0 through three
+
+2103
+01:27:47,639 --> 01:27:52,520
+if we solve this optimization problem
+
+2104
+01:27:49,719 --> 01:27:57,760
+for the specific s matrices of the toy
+
+2105
+01:27:52,520 --> 01:27:59,320
+Network we arrive at 1 2/3 1/3 and 1/3
+
+2106
+01:27:57,760 --> 01:28:01,480
+these are the numbers Brian mentioned in
+
+2107
+01:27:59,320 --> 01:28:05,800
+primer and we can see that we're able to
+
+2108
+01:28:01,480 --> 01:28:05,800
+predict the collective mode of the toy
+
+2109
+01:28:07,280 --> 01:28:11,840
+Network now then to really put this
+
+2110
+01:28:09,880 --> 01:28:14,280
+framework to the test we'll Generate
+
+2111
+01:28:11,840 --> 01:28:17,199
+random metabolic networks and see how
+
+2112
+01:28:14,280 --> 01:28:17,199
+well our predictions f
+
+2113
+01:28:17,360 --> 01:28:22,679
+up I'm going to put the S Matrix for a
+
+2114
+01:28:20,520 --> 01:28:24,360
+metabog Network that has 16 reactions
+
+2115
+01:28:22,679 --> 01:28:27,760
+and 10 metabolites on it in the screen
+
+2116
+01:28:24,360 --> 01:28:30,119
+in a second there's a lot of numbers um
+
+2117
+01:28:27,760 --> 01:28:32,520
+but we're going to walk through it and
+
+2118
+01:28:30,119 --> 01:28:35,119
+this is just an example of the type of s
+
+2119
+01:28:32,520 --> 01:28:37,320
+Matrix we could
+
+2120
+01:28:35,119 --> 01:28:41,239
+generate this is what that Matrix looks
+
+2121
+01:28:37,320 --> 01:28:43,159
+like um as Brian mentioned reactions go
+
+2122
+01:28:41,239 --> 01:28:44,400
+across the columns and metabolites go
+
+2123
+01:28:43,159 --> 01:28:46,880
+down the
+
+2124
+01:28:44,400 --> 01:28:49,560
+rows among reactions there's a few
+
+2125
+01:28:46,880 --> 01:28:52,119
+different classes that we can look at
+
+2126
+01:28:49,560 --> 01:28:54,119
+first there's exchange flexes so here
+
+2127
+01:28:52,119 --> 01:28:55,800
+the first reaction is just the first
+
+2128
+01:28:54,119 --> 01:28:58,719
+metabolite appearing in the
+
+2129
+01:28:55,800 --> 01:29:01,520
+cell and the second reaction is the
+
+2130
+01:28:58,719 --> 01:29:03,760
+fourth metabolite leaving the
+
+2131
+01:29:01,520 --> 01:29:05,760
+cell then we can look at the set of
+
+2132
+01:29:03,760 --> 01:29:07,880
+reactions that are what we probably
+
+2133
+01:29:05,760 --> 01:29:09,239
+think of as traditional metabolic
+
+2134
+01:29:07,880 --> 01:29:11,719
+reactions where we're converting
+
+2135
+01:29:09,239 --> 01:29:14,159
+different metabolites into each
+
+2136
+01:29:11,719 --> 01:29:17,480
+other finally we have a growth or
+
+2137
+01:29:14,159 --> 01:29:19,600
+biomass reaction that uses all of the
+
+2138
+01:29:17,480 --> 01:29:21,880
+metabolites and take some in and take
+
+2139
+01:29:19,600 --> 01:29:25,560
+some out but this is what is capturing
+
+2140
+01:29:21,880 --> 01:29:25,560
+the growth of the cell
+
+2141
+01:29:26,080 --> 01:29:29,800
+when we perform these randomly generated
+
+2142
+01:29:27,920 --> 01:29:32,320
+matrices right now we're only going to
+
+2143
+01:29:29,800 --> 01:29:36,000
+make a random s Matrix But the A and G
+
+2144
+01:29:32,320 --> 01:29:38,560
+matrices from the FBA setup will be
+
+2145
+01:29:36,000 --> 01:29:40,080
+identity to generate a matrix like this
+
+2146
+01:29:38,560 --> 01:29:42,520
+we would first fix some number of
+
+2147
+01:29:40,080 --> 01:29:44,920
+exchange fluxes so here we picked one
+
+2148
+01:29:42,520 --> 01:29:46,800
+influx and one efux
+
+2149
+01:29:44,920 --> 01:29:49,080
+reaction and then we would sample
+
+2150
+01:29:46,800 --> 01:29:51,719
+stochiometric coefficients as integers
+
+2151
+01:29:49,080 --> 01:29:54,080
+to generate the metabolic reactions and
+
+2152
+01:29:51,719 --> 01:29:55,960
+then we would sample just real numbers
+
+2153
+01:29:54,080 --> 01:29:58,520
+to generate the growth
+
+2154
+01:29:55,960 --> 01:30:00,400
+reaction we impose some what I'm going
+
+2155
+01:29:58,520 --> 01:30:02,800
+to call neness constraints on the SM
+
+2156
+01:30:00,400 --> 01:30:05,000
+matrices such as like you have to use
+
+2157
+01:30:02,800 --> 01:30:06,639
+all the metabolites there can't be any
+
+2158
+01:30:05,000 --> 01:30:08,880
+metabolites that aren't used but
+
+2159
+01:30:06,639 --> 01:30:12,159
+generally the process is randomly
+
+2160
+01:30:08,880 --> 01:30:12,159
+selecting Soom metric
+
+2161
+01:30:12,719 --> 01:30:17,800
+coefficients we can visualize this s
+
+2162
+01:30:15,239 --> 01:30:20,040
+matrix by looking at the metabolic
+
+2163
+01:30:17,800 --> 01:30:22,960
+Network here the orange circles are
+
+2164
+01:30:20,040 --> 01:30:25,480
+metabolites and the blue arrows are the
+
+2165
+01:30:22,960 --> 01:30:28,520
+reactions you can see reaction zero is
+
+2166
+01:30:25,480 --> 01:30:30,520
+an influx and generates metabolite a and
+
+2167
+01:30:28,520 --> 01:30:33,040
+reaction one is an efux and takes out
+
+2168
+01:30:30,520 --> 01:30:33,040
+metabolite
+
+2169
+01:30:33,119 --> 01:30:39,199
+D in the corner is shown the biomass
+
+2170
+01:30:35,719 --> 01:30:41,600
+reaction which uses all of the fluxes or
+
+2171
+01:30:39,199 --> 01:30:41,600
+all of the
+
+2172
+01:30:43,480 --> 01:30:46,239
+metabolites if you sare at this for a
+
+2173
+01:30:45,320 --> 01:30:48,119
+little bit you'll see that some
+
+2174
+01:30:46,239 --> 01:30:50,239
+reactions are simple such as the third
+
+2175
+01:30:48,119 --> 01:30:51,560
+reaction which just converts a into G
+
+2176
+01:30:50,239 --> 01:30:53,639
+but there's other more complicated
+
+2177
+01:30:51,560 --> 01:30:54,520
+reactions such as reaction two on the
+
+2178
+01:30:53,639 --> 01:30:57,040
+left
+
+2179
+01:30:54,520 --> 01:31:01,080
+which is converting metabolite e into
+
+2180
+01:30:57,040 --> 01:31:01,080
+one J 1 c and 1
+
+2181
+01:31:01,679 --> 01:31:05,960
+F all right I've described how we're
+
+2182
+01:31:04,159 --> 01:31:08,080
+generating random matrices but now we
+
+2183
+01:31:05,960 --> 01:31:10,840
+can see how well we predict
+
+2184
+01:31:08,080 --> 01:31:12,920
+them shown here is the correlation
+
+2185
+01:31:10,840 --> 01:31:15,080
+between the simulation result for a
+
+2186
+01:31:12,920 --> 01:31:16,679
+specific random Network and our
+
+2187
+01:31:15,080 --> 01:31:17,840
+predicted Collective mode for 20
+
+2188
+01:31:16,679 --> 01:31:20,520
+different random
+
+2189
+01:31:17,840 --> 01:31:22,119
+networks as you can see we're generally
+
+2190
+01:31:20,520 --> 01:31:25,920
+able to predict the collective mode
+
+2191
+01:31:22,119 --> 01:31:25,920
+quite well and with high accuracy
+
+2192
+01:31:26,880 --> 01:31:30,400
+this brings us to our fourth result The
+
+2193
+01:31:28,880 --> 01:31:31,880
+Selective pressure mathematical
+
+2194
+01:31:30,400 --> 01:31:34,239
+framework accurately predicts the
+
+2195
+01:31:31,880 --> 01:31:34,239
+collective
+
+2196
+01:31:35,119 --> 01:31:40,080
+mode these are the main results that
+
+2197
+01:31:37,800 --> 01:31:42,199
+we've feel have we fleshed out decently
+
+2198
+01:31:40,080 --> 01:31:45,040
+well and that I wanted to share with you
+
+2199
+01:31:42,199 --> 01:31:46,840
+today but we can also start to look at
+
+2200
+01:31:45,040 --> 01:31:48,320
+some of the more interesting scenarios
+
+2201
+01:31:46,840 --> 01:31:50,400
+where we start to use some of these Gene
+
+2202
+01:31:48,320 --> 01:31:51,920
+rules and turn the complexity up a
+
+2203
+01:31:50,400 --> 01:31:55,520
+little
+
+2204
+01:31:51,920 --> 01:31:57,560
+bit this is the same tetk as before but
+
+2205
+01:31:55,520 --> 01:32:00,280
+now we'll change what the genotype looks
+
+2206
+01:31:57,560 --> 01:32:03,920
+like we'll still have a single Gene for
+
+2207
+01:32:00,280 --> 01:32:06,920
+reaction zero reaction two and reaction
+
+2208
+01:32:03,920 --> 01:32:08,159
+three however now we'll have two genes
+
+2209
+01:32:06,920 --> 01:32:11,880
+for reaction
+
+2210
+01:32:08,159 --> 01:32:14,440
+one here the protein encoded by Gene a
+
+2211
+01:32:11,880 --> 01:32:16,920
+can catalyze reaction one and the
+
+2212
+01:32:14,440 --> 01:32:19,280
+protein encoded by Gene B can catalyze
+
+2213
+01:32:16,920 --> 01:32:19,280
+reaction
+
+2214
+01:32:19,320 --> 01:32:25,560
+one we view this as the reaction one is
+
+2215
+01:32:23,040 --> 01:32:27,880
+able to use the capacity of Gene a or
+
+2216
+01:32:25,560 --> 01:32:27,880
+Gene
+
+2217
+01:32:30,639 --> 01:32:35,560
+B this toy Network this second toy
+
+2218
+01:32:33,920 --> 01:32:38,520
+Network only differs from the original
+
+2219
+01:32:35,560 --> 01:32:39,719
+toy Network at the genotypic level we
+
+2220
+01:32:38,520 --> 01:32:40,960
+can take a look at what that difference
+
+2221
+01:32:39,719 --> 01:32:42,719
+is
+
+2222
+01:32:40,960 --> 01:32:44,400
+mathematically first we'll look at the
+
+2223
+01:32:42,719 --> 01:32:47,760
+original toy Network which only had one
+
+2224
+01:32:44,400 --> 01:32:50,400
+gene for reaction one in that scenario G
+
+2225
+01:32:47,760 --> 01:32:52,760
+was the identity Matrix and there was a
+
+2226
+01:32:50,400 --> 01:32:55,560
+column for each gene and a row for each
+
+2227
+01:32:52,760 --> 01:32:57,159
+reaction
+
+2228
+01:32:55,560 --> 01:32:59,880
+now let's look at this new to network
+
+2229
+01:32:57,159 --> 01:33:01,960
+where we have two genes for reaction one
+
+2230
+01:32:59,880 --> 01:33:04,080
+now G looks slightly
+
+2231
+01:33:01,960 --> 01:33:06,600
+different it looks a little bit like the
+
+2232
+01:33:04,080 --> 01:33:09,000
+identity Matrix but we have a new column
+
+2233
+01:33:06,600 --> 01:33:10,199
+which corresponds to the second Gene for
+
+2234
+01:33:09,000 --> 01:33:12,880
+reaction
+
+2235
+01:33:10,199 --> 01:33:15,280
+one again the rows correspond to the
+
+2236
+01:33:12,880 --> 01:33:15,280
+individual
+
+2237
+01:33:16,040 --> 01:33:21,159
+reactions one thing you might notice if
+
+2238
+01:33:18,639 --> 01:33:25,159
+you look at these G matri's is that for
+
+2239
+01:33:21,159 --> 01:33:28,080
+the one gene uh version
+
+2240
+01:33:25,159 --> 01:33:31,360
+this G Matrix doesn't have a null
+
+2241
+01:33:28,080 --> 01:33:34,040
+space however the second version does
+
+2242
+01:33:31,360 --> 01:33:36,920
+have a nonzero n space and that'll be a
+
+2243
+01:33:34,040 --> 01:33:36,920
+little bit important
+
+2244
+01:33:37,400 --> 01:33:41,600
+later all right before when I ran we
+
+2245
+01:33:40,239 --> 01:33:43,639
+looked at the toy Network I showed you
+
+2246
+01:33:41,600 --> 01:33:45,320
+that Evolution occurs and that there The
+
+2247
+01:33:43,639 --> 01:33:46,280
+Selective pressure on individual genes
+
+2248
+01:33:45,320 --> 01:33:49,840
+is highly
+
+2249
+01:33:46,280 --> 01:33:51,040
+variable that is all true now still true
+
+2250
+01:33:49,840 --> 01:33:52,600
+uh and I can show you those results if
+
+2251
+01:33:51,040 --> 01:33:55,119
+you'd like but for right now we're just
+
+2252
+01:33:52,600 --> 01:33:58,080
+going to skip straight to the collect
+
+2253
+01:33:55,119 --> 01:34:01,159
+mode as we saw before in the one gene
+
+2254
+01:33:58,080 --> 01:34:04,520
+version uh for reaction One the relative
+
+2255
+01:34:01,159 --> 01:34:08,480
+fluxes converge to 1 66 and then 33
+
+2256
+01:34:04,520 --> 01:34:08,480
+and33 for reactions two and
+
+2257
+01:34:09,800 --> 01:34:14,639
+three now we can look at the version
+
+2258
+01:34:12,360 --> 01:34:17,920
+with two genes for reaction
+
+2259
+01:34:14,639 --> 01:34:19,560
+one here we see the collective mode is
+
+2260
+01:34:17,920 --> 01:34:23,960
+one for reaction
+
+2261
+01:34:19,560 --> 01:34:26,000
+zero uh 08 for reaction one and point
+
+2262
+01:34:23,960 --> 01:34:28,560
+two for reactions two and
+
+2263
+01:34:26,000 --> 01:34:30,760
+three just by making a cal change at the
+
+2264
+01:34:28,560 --> 01:34:32,960
+genotype level we see a shift in the
+
+2265
+01:34:30,760 --> 01:34:35,520
+collective
+
+2266
+01:34:32,960 --> 01:34:37,880
+mode some intuition for why we see this
+
+2267
+01:34:35,520 --> 01:34:40,440
+shift can be explained by thinking about
+
+2268
+01:34:37,880 --> 01:34:42,920
+how evolution is occurring now that
+
+2269
+01:34:40,440 --> 01:34:45,719
+there are two genes that somehow control
+
+2270
+01:34:42,920 --> 01:34:47,639
+the capacity of reaction one you can
+
+2271
+01:34:45,719 --> 01:34:49,560
+think that it is easier for mutations to
+
+2272
+01:34:47,639 --> 01:34:51,880
+accumulate along this reaction and
+
+2273
+01:34:49,560 --> 01:34:54,360
+increase the
+
+2274
+01:34:51,880 --> 01:34:56,280
+capacity this causes a sh
+
+2275
+01:34:54,360 --> 01:34:58,320
+in the collective mode increasing how
+
+2276
+01:34:56,280 --> 01:35:00,920
+much reaction one is utilized compared
+
+2277
+01:34:58,320 --> 01:35:04,280
+to reactions two and three instead of
+
+2278
+01:35:00,920 --> 01:35:06,320
+using uh reaction one for 66% of the
+
+2279
+01:35:04,280 --> 01:35:07,920
+total flux of the network now we use it
+
+2280
+01:35:06,320 --> 01:35:10,480
+for
+
+2281
+01:35:07,920 --> 01:35:14,520
+80% and similarly reactions two and
+
+2282
+01:35:10,480 --> 01:35:14,520
+three must shift down in flux to
+
+2283
+01:35:15,560 --> 01:35:20,080
+accommodate another interesting feature
+
+2284
+01:35:17,960 --> 01:35:22,159
+of a network like this is that multiple
+
+2285
+01:35:20,080 --> 01:35:24,280
+genes and directions in gene space can
+
+2286
+01:35:22,159 --> 01:35:25,320
+satisfy the constant and Max selective
+
+2287
+01:35:24,280 --> 01:35:27,440
+pressure
+
+2288
+01:35:25,320 --> 01:35:29,600
+criteria so right now I'm showing you
+
+2289
+01:35:27,440 --> 01:35:32,440
+the selective pressure on the gene for
+
+2290
+01:35:29,600 --> 01:35:34,040
+reaction two but we can look at the
+
+2291
+01:35:32,440 --> 01:35:36,400
+selective pressure on a few different
+
+2292
+01:35:34,040 --> 01:35:38,960
+versions of the collective
+
+2293
+01:35:36,400 --> 01:35:41,960
+mode we can look at one scenario where
+
+2294
+01:35:38,960 --> 01:35:45,040
+we only take steps using gene a here we
+
+2295
+01:35:41,960 --> 01:35:47,360
+see again a constant selective pressure
+
+2296
+01:35:45,040 --> 01:35:49,719
+and I will tell you that it's
+
+2297
+01:35:47,360 --> 01:35:51,600
+Max alternatively we can look at a
+
+2298
+01:35:49,719 --> 01:35:54,119
+version of the collective mode where we
+
+2299
+01:35:51,600 --> 01:35:55,679
+only use Gene B
+
+2300
+01:35:54,119 --> 01:35:57,040
+as you can see the selective pressure is
+
+2301
+01:35:55,679 --> 01:36:00,199
+the
+
+2302
+01:35:57,040 --> 01:36:01,639
+same importantly at the flux level as
+
+2303
+01:36:00,199 --> 01:36:04,679
+shown by the little
+
+2304
+01:36:01,639 --> 01:36:06,920
+diagrams we haven't changed what we see
+
+2305
+01:36:04,679 --> 01:36:09,719
+the fluxes the relative fluxes are still
+
+2306
+01:36:06,920 --> 01:36:12,480
+at one point8 and 02 and 02 for
+
+2307
+01:36:09,719 --> 01:36:12,480
+reactions two and
+
+2308
+01:36:12,800 --> 01:36:17,600
+three this adds some new Nuance to the
+
+2309
+01:36:15,239 --> 01:36:19,880
+story before if you think about the
+
+2310
+01:36:17,600 --> 01:36:22,320
+stories we were talking about CLE cell
+
+2311
+01:36:19,880 --> 01:36:24,159
+if we took a step along the collective
+
+2312
+01:36:22,320 --> 01:36:25,920
+mode at the genotype level we could
+
+2313
+01:36:24,159 --> 01:36:28,320
+confidently say this would increase
+
+2314
+01:36:25,920 --> 01:36:29,639
+Fitness and cause evolution to enrich
+
+2315
+01:36:28,320 --> 01:36:33,440
+the collective
+
+2316
+01:36:29,639 --> 01:36:35,159
+mode however now we have a wrinkle I
+
+2317
+01:36:33,440 --> 01:36:36,480
+could tell you one story where I say I'm
+
+2318
+01:36:35,159 --> 01:36:38,560
+going to take a step along the
+
+2319
+01:36:36,480 --> 01:36:40,880
+collective mode using only
+
+2320
+01:36:38,560 --> 01:36:42,360
+G because this has constant maximal
+
+2321
+01:36:40,880 --> 01:36:43,920
+selective pressure on it we know that
+
+2322
+01:36:42,360 --> 01:36:45,880
+this should be enriched in the
+
+2323
+01:36:43,920 --> 01:36:47,560
+population I could tell you a similar
+
+2324
+01:36:45,880 --> 01:36:50,639
+story by saying I'm only going to take
+
+2325
+01:36:47,560 --> 01:36:52,320
+steps using Gene B again this has the
+
+2326
+01:36:50,639 --> 01:36:55,639
+same and constant maximal selective
+
+2327
+01:36:52,320 --> 01:36:57,960
+pressure on it so this change should be
+
+2328
+01:36:55,639 --> 01:37:01,040
+enriched in the
+
+2329
+01:36:57,960 --> 01:37:05,159
+population in essence Evolution cannot
+
+2330
+01:37:01,040 --> 01:37:05,159
+tell the difference between genes A and
+
+2331
+01:37:07,560 --> 01:37:13,040
+B at the start of the talk we set out to
+
+2332
+01:37:10,520 --> 01:37:16,080
+tell complicated stories about Evolution
+
+2333
+01:37:13,040 --> 01:37:18,400
+with complex genotype to phenotype
+
+2334
+01:37:16,080 --> 01:37:19,880
+Maps we've worked toward this in a few
+
+2335
+01:37:18,400 --> 01:37:22,520
+different
+
+2336
+01:37:19,880 --> 01:37:24,760
+ways first we saw the selective pressure
+
+2337
+01:37:22,520 --> 01:37:26,880
+on individual genes is highly variable
+
+2338
+01:37:24,760 --> 01:37:29,440
+throughout
+
+2339
+01:37:26,880 --> 01:37:32,639
+Evolution this complexity limited our
+
+2340
+01:37:29,440 --> 01:37:35,159
+ability to tell evolutionary stories um
+
+2341
+01:37:32,639 --> 01:37:36,679
+about genotype to phenotype maps for
+
+2342
+01:37:35,159 --> 01:37:38,440
+example we couldn't tell a simple story
+
+2343
+01:37:36,679 --> 01:37:40,480
+like we did a CLE cell disease where
+
+2344
+01:37:38,440 --> 01:37:41,880
+just by looking at one gene you were
+
+2345
+01:37:40,480 --> 01:37:45,320
+able to make a prediction about
+
+2346
+01:37:41,880 --> 01:37:47,679
+enrichment of that Gene in the
+
+2347
+01:37:45,320 --> 01:37:49,400
+genotype this point is furthered by the
+
+2348
+01:37:47,679 --> 01:37:51,719
+Redundant genotype example we just
+
+2349
+01:37:49,400 --> 01:37:55,440
+showed here there were two genes the
+
+2350
+01:37:51,719 --> 01:37:55,440
+evolution couldn't even different differ
+
+2351
+01:37:56,000 --> 01:38:00,360
+iate let me emphasize this point
+
+2352
+01:37:58,800 --> 01:38:02,119
+Evolution doesn't appear to
+
+2353
+01:38:00,360 --> 01:38:04,480
+differentiate between different patterns
+
+2354
+01:38:02,119 --> 01:38:06,239
+of selection and mutations at the
+
+2355
+01:38:04,480 --> 01:38:08,840
+genotypic
+
+2356
+01:38:06,239 --> 01:38:11,320
+level genes may not be the natural
+
+2357
+01:38:08,840 --> 01:38:11,320
+object of
+
+2358
+01:38:12,920 --> 01:38:16,239
+selection as we saw the selective
+
+2359
+01:38:15,119 --> 01:38:18,480
+pressure
+
+2360
+01:38:16,239 --> 01:38:19,880
+varied however even though we had this
+
+2361
+01:38:18,480 --> 01:38:21,880
+issue with Selective pressure varrying
+
+2362
+01:38:19,880 --> 01:38:24,360
+on genes we saw that the simulation
+
+2363
+01:38:21,880 --> 01:38:27,159
+still converged to a Ive mode when we
+
+2364
+01:38:24,360 --> 01:38:27,159
+looked at the relative
+
+2365
+01:38:27,960 --> 01:38:34,280
+fluxes this led us to examine these and
+
+2366
+01:38:31,320 --> 01:38:37,080
+provided us ability to retell the story
+
+2367
+01:38:34,280 --> 01:38:37,080
+using the collective
+
+2368
+01:38:38,440 --> 01:38:42,199
+mode we saw by looking at the selective
+
+2369
+01:38:40,719 --> 01:38:43,760
+pressure on the collective mode that it
+
+2370
+01:38:42,199 --> 01:38:46,520
+was
+
+2371
+01:38:43,760 --> 01:38:49,280
+constant this suggested along with the
+
+2372
+01:38:46,520 --> 01:38:51,040
+maximal criteria that the collective
+
+2373
+01:38:49,280 --> 01:38:53,679
+modes may be the natural objects of
+
+2374
+01:38:51,040 --> 01:38:55,040
+selection
+
+2375
+01:38:53,679 --> 01:38:57,320
+another way we can think about this
+
+2376
+01:38:55,040 --> 01:38:59,719
+difference between selection on genes
+
+2377
+01:38:57,320 --> 01:39:02,000
+and selection on Collective modes has to
+
+2378
+01:38:59,719 --> 01:39:06,960
+do with
+
+2379
+01:39:02,000 --> 01:39:06,960
+uh the genes and when they are
+
+2380
+01:39:07,040 --> 01:39:11,880
+active as selection occurs whether or
+
+2381
+01:39:09,840 --> 01:39:14,400
+not mutating a gene is favorable depends
+
+2382
+01:39:11,880 --> 01:39:16,360
+on the current state of the system if
+
+2383
+01:39:14,400 --> 01:39:18,280
+one Gene and its capacity is rate
+
+2384
+01:39:16,360 --> 01:39:20,920
+limiting the network mutating that Gene
+
+2385
+01:39:18,280 --> 01:39:23,520
+might be beneficial however if a gene
+
+2386
+01:39:20,920 --> 01:39:25,920
+and its bound isn't rate limiting the I
+
+2387
+01:39:23,520 --> 01:39:29,520
+olic fluxes then mutations there will
+
+2388
+01:39:25,920 --> 01:39:32,239
+have a minimal effect on the
+
+2389
+01:39:29,520 --> 01:39:34,080
+fitness so the selective pressure and
+
+2390
+01:39:32,239 --> 01:39:37,480
+the Gen roles depends on the current
+
+2391
+01:39:34,080 --> 01:39:39,920
+state of the system however we see that
+
+2392
+01:39:37,480 --> 01:39:41,599
+the selective pressure excuse me the
+
+2393
+01:39:39,920 --> 01:39:43,560
+collective mode is invariant to the
+
+2394
+01:39:41,599 --> 01:39:45,239
+current state of the system The
+
+2395
+01:39:43,560 --> 01:39:47,679
+Selective pressure is constant as
+
+2396
+01:39:45,239 --> 01:39:50,080
+Evolution
+
+2397
+01:39:47,679 --> 01:39:52,520
+occurs the collective mode was useful to
+
+2398
+01:39:50,080 --> 01:39:55,159
+us with some wrinkles from the last
+
+2399
+01:39:52,520 --> 01:39:57,119
+point I made about done in genotypes and
+
+2400
+01:39:55,159 --> 01:39:57,880
+being able to recapture simple stories
+
+2401
+01:39:57,119 --> 01:40:00,320
+about
+
+2402
+01:39:57,880 --> 01:40:02,040
+Evolution if we take a step along the
+
+2403
+01:40:00,320 --> 01:40:04,360
+direction of the collective mode at the
+
+2404
+01:40:02,040 --> 01:40:07,080
+genotype level this will lead to a
+
+2405
+01:40:04,360 --> 01:40:11,000
+maximal change in Fitness and it lead to
+
+2406
+01:40:07,080 --> 01:40:11,000
+enrichment of the collective mode in the
+
+2407
+01:40:11,800 --> 01:40:15,920
+genotype finally we found we were able
+
+2408
+01:40:13,960 --> 01:40:17,719
+to predict colletive mode using this
+
+2409
+01:40:15,920 --> 01:40:19,840
+criteria of constant and maximal
+
+2410
+01:40:17,719 --> 01:40:23,040
+selective pressure and able to do so
+
+2411
+01:40:19,840 --> 01:40:23,040
+quite accurately
+
+2412
+01:40:24,119 --> 01:40:27,920
+this idea of constant selective pressure
+
+2413
+01:40:25,719 --> 01:40:29,320
+is an interesting one and could arise in
+
+2414
+01:40:27,920 --> 01:40:31,800
+other
+
+2415
+01:40:29,320 --> 01:40:33,480
+scenarios ultimately it arises from
+
+2416
+01:40:31,800 --> 01:40:35,320
+having constraints on the genotype to
+
+2417
+01:40:33,480 --> 01:40:37,480
+phenotype map here there were
+
+2418
+01:40:35,320 --> 01:40:39,280
+constraints imposed by genes and
+
+2419
+01:40:37,480 --> 01:40:41,480
+conservation of mass but one could
+
+2420
+01:40:39,280 --> 01:40:42,400
+imagine that other constraints might
+
+2421
+01:40:41,480 --> 01:40:45,080
+also
+
+2422
+01:40:42,400 --> 01:40:47,280
+impose lead to the a collective mode
+
+2423
+01:40:45,080 --> 01:40:48,880
+coming about for example other
+
+2424
+01:40:47,280 --> 01:40:51,280
+conservation laws might lead to a
+
+2425
+01:40:48,880 --> 01:40:51,280
+collective
+
+2426
+01:40:51,800 --> 01:40:56,520
+mode Beyond this as we told in this
+
+2427
+01:40:54,199 --> 01:40:58,719
+project these results give some
+
+2428
+01:40:56,520 --> 01:40:59,760
+intuition and maybe help explain
+
+2429
+01:40:58,719 --> 01:41:02,440
+polygenic
+
+2430
+01:40:59,760 --> 01:41:04,520
+traits for example we know that there
+
+2431
+01:41:02,440 --> 01:41:06,880
+are observations that predicting the
+
+2432
+01:41:04,520 --> 01:41:09,159
+phenotype is easier than the genotype
+
+2433
+01:41:06,880 --> 01:41:11,599
+after multiple rounds of
+
+2434
+01:41:09,159 --> 01:41:13,000
+selection selection on a collective mode
+
+2435
+01:41:11,599 --> 01:41:15,000
+might help explain
+
+2436
+01:41:13,000 --> 01:41:18,239
+this additionally we can think about
+
+2437
+01:41:15,000 --> 01:41:21,239
+gwos studies of polygenic traits Define
+
+2438
+01:41:18,239 --> 01:41:23,440
+many hits for a trait this might be the
+
+2439
+01:41:21,239 --> 01:41:26,280
+result of selection on Collective mode
+
+2440
+01:41:23,440 --> 01:41:26,280
+rather than individual
+
+2441
+01:41:27,000 --> 01:41:31,440
+genes currently we're continuing to
+
+2442
+01:41:29,080 --> 01:41:33,520
+explore the role of the G Matrix and
+
+2443
+01:41:31,440 --> 01:41:36,199
+redundant genotypes and complicated Gene
+
+2444
+01:41:33,520 --> 01:41:38,159
+rules like this one and what effect that
+
+2445
+01:41:36,199 --> 01:41:39,800
+has on the collective mode and
+
+2446
+01:41:38,159 --> 01:41:41,280
+additionally we're starting to consider
+
+2447
+01:41:39,800 --> 01:41:44,480
+what role the environment might have on
+
+2448
+01:41:41,280 --> 01:41:47,320
+the reflective mode if you limit One
+
+2449
+01:41:44,480 --> 01:41:49,199
+exchange reaction by removing a
+
+2450
+01:41:47,320 --> 01:41:53,159
+metabolite from the environment how does
+
+2451
+01:41:49,199 --> 01:41:53,159
+that change the deflective mode
+
+2452
+01:41:53,760 --> 01:41:59,040
+with that I'd like to thank everyone my
+
+2453
+01:41:55,599 --> 01:42:00,679
+lab uh thank you to Brian and Fage who
+
+2454
+01:41:59,040 --> 01:42:02,599
+is not here but great gave a lot of good
+
+2455
+01:42:00,679 --> 01:42:04,320
+feedback on the talk and then thank you
+
+2456
+01:42:02,599 --> 01:42:06,480
+to Sarah who's an undergrad that's been
+
+2457
+01:42:04,320 --> 01:42:10,639
+working on this
+
+2458
+01:42:06,480 --> 01:42:10,639
+project thank you
+

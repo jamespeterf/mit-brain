@@ -1,0 +1,6912 @@
+1
+00:00:02,720 --> 00:00:06,680
+um thanks so much for sticking around
+
+2
+00:00:04,040 --> 00:00:09,280
+for the last Talk of the day I'm really
+
+3
+00:00:06,680 --> 00:00:11,920
+excited to have Nadia heninger here from
+
+4
+00:00:09,280 --> 00:00:13,759
+UC San Diego um for those of you who
+
+5
+00:00:11,920 --> 00:00:15,440
+don't know Nadia's work she's done some
+
+6
+00:00:13,759 --> 00:00:20,439
+of the most influential work in applied
+
+7
+00:00:15,440 --> 00:00:23,720
+crypto over the last um say 10 years in
+
+8
+00:00:20,439 --> 00:00:26,240
+both analysis and crypt analysis of
+
+9
+00:00:23,720 --> 00:00:30,119
+deployed protocols so lots of factoring
+
+10
+00:00:26,240 --> 00:00:32,719
+discrete log analysis of TLS um and has
+
+11
+00:00:30,119 --> 00:00:35,399
+had a ton of impact both in research and
+
+12
+00:00:32,719 --> 00:00:37,360
+in what systems are used in practice um
+
+13
+00:00:35,399 --> 00:00:39,920
+she's won best paper awards from all the
+
+14
+00:00:37,360 --> 00:00:41,559
+conferences and test of time Awards and
+
+15
+00:00:39,920 --> 00:00:43,719
+is also a wonderful speaker so thanks
+
+16
+00:00:41,559 --> 00:00:43,719
+for
+
+17
+00:00:46,680 --> 00:00:52,800
+coming so thank you so much for having
+
+18
+00:00:49,160 --> 00:00:55,079
+me um and it's always nice to be back in
+
+19
+00:00:52,800 --> 00:00:56,719
+Cambridge um enjoying your lovely
+
+20
+00:00:55,079 --> 00:01:00,239
+weather
+
+21
+00:00:56,719 --> 00:01:01,559
+uh um so uh this talk I heard some
+
+22
+00:01:00,239 --> 00:01:05,439
+grumbling about the title like how do
+
+23
+00:01:01,559 --> 00:01:07,360
+you pronounce that um so I uh I made up
+
+24
+00:01:05,439 --> 00:01:10,479
+this title it is a combination of two
+
+25
+00:01:07,360 --> 00:01:13,520
+words Crypt analysis and economics so
+
+26
+00:01:10,479 --> 00:01:15,479
+this talk is about sort of the structure
+
+27
+00:01:13,520 --> 00:01:17,080
+of our field and the different
+
+28
+00:01:15,479 --> 00:01:18,840
+incentives in play and how they
+
+29
+00:01:17,080 --> 00:01:21,960
+influence the kind of research that gets
+
+30
+00:01:18,840 --> 00:01:23,880
+done so this is a meta talk which is a
+
+31
+00:01:21,960 --> 00:01:25,240
+bunch of inside baseball so I apologize
+
+32
+00:01:23,880 --> 00:01:26,479
+to people who are a little bit outside
+
+33
+00:01:25,240 --> 00:01:28,479
+of the field some of this may be
+
+34
+00:01:26,479 --> 00:01:30,040
+intelligible and some of it may be like
+
+35
+00:01:28,479 --> 00:01:33,079
+too
+
+36
+00:01:30,040 --> 00:01:35,439
+obscure academic politics so um but this
+
+37
+00:01:33,079 --> 00:01:37,439
+this talk is going to be a mix of semi-
+
+38
+00:01:35,439 --> 00:01:42,040
+spicy opinions which you may or may not
+
+39
+00:01:37,439 --> 00:01:44,320
+um agree with and uh you can if you want
+
+40
+00:01:42,040 --> 00:01:45,719
+to Sidetrack me like that's cool we can
+
+41
+00:01:44,320 --> 00:01:48,880
+we can get totally sidetracked if you
+
+42
+00:01:45,719 --> 00:01:50,920
+want that that might be fun um so that
+
+43
+00:01:48,880 --> 00:01:54,000
+will be that will be so that that's kind
+
+44
+00:01:50,920 --> 00:01:56,439
+of the plan here is I will give you
+
+45
+00:01:54,000 --> 00:01:58,520
+semiformed semi- spicy opinions on a
+
+46
+00:01:56,439 --> 00:02:00,759
+variety of topics that I have a varying
+
+47
+00:01:58,520 --> 00:02:02,240
+amount of expertise on but I have
+
+48
+00:02:00,759 --> 00:02:06,520
+opinions because I've been doing this
+
+49
+00:02:02,240 --> 00:02:09,239
+for uh 15 years I guess um okay so
+
+50
+00:02:06,520 --> 00:02:13,920
+here's my madeup title with madeup word
+
+51
+00:02:09,239 --> 00:02:15,840
+um and yeah okay so crypto analysis and
+
+52
+00:02:13,920 --> 00:02:18,560
+economics and it's the economics in the
+
+53
+00:02:15,840 --> 00:02:20,040
+sense of markets um and incentives
+
+54
+00:02:18,560 --> 00:02:23,200
+rather than money strictly speaking
+
+55
+00:02:20,040 --> 00:02:25,160
+although money is part of it okay so the
+
+56
+00:02:23,200 --> 00:02:29,239
+starting point here is if we think of
+
+57
+00:02:25,160 --> 00:02:31,760
+ourselves as a research field um we have
+
+58
+00:02:29,239 --> 00:02:34,160
+some input which are essentially we get
+
+59
+00:02:31,760 --> 00:02:36,200
+funding from like governments and
+
+60
+00:02:34,160 --> 00:02:38,680
+companies and like our institutions and
+
+61
+00:02:36,200 --> 00:02:40,720
+the states and whatnot um and then we
+
+62
+00:02:38,680 --> 00:02:43,239
+have a bunch of human effort from
+
+63
+00:02:40,720 --> 00:02:46,519
+researchers professors students so on
+
+64
+00:02:43,239 --> 00:02:48,000
+and so forth and like any academic field
+
+65
+00:02:46,519 --> 00:02:50,120
+we produce outputs and generally the
+
+66
+00:02:48,000 --> 00:02:53,120
+outputs from any academic field are we
+
+67
+00:02:50,120 --> 00:02:55,280
+write papers and we train students who
+
+68
+00:02:53,120 --> 00:02:56,720
+then go like contribute to the workforce
+
+69
+00:02:55,280 --> 00:02:59,280
+and are like part of the development of
+
+70
+00:02:56,720 --> 00:03:01,360
+our civilization so that's like Academia
+
+71
+00:02:59,280 --> 00:03:04,159
+as a whole and then like within
+
+72
+00:03:01,360 --> 00:03:06,879
+cryptography as a field we have another
+
+73
+00:03:04,159 --> 00:03:08,760
+output which is a set of cryptographic
+
+74
+00:03:06,879 --> 00:03:10,440
+algorithms that we say these are good
+
+75
+00:03:08,760 --> 00:03:12,799
+algorithms that everybody should be
+
+76
+00:03:10,440 --> 00:03:15,000
+using um that we should use in this
+
+77
+00:03:12,799 --> 00:03:16,799
+protocol which is like proven secure and
+
+78
+00:03:15,000 --> 00:03:18,560
+and whatnot and like with these
+
+79
+00:03:16,799 --> 00:03:21,080
+parameters and like we have proven it
+
+80
+00:03:18,560 --> 00:03:22,879
+secure in this way and we say world go
+
+81
+00:03:21,080 --> 00:03:24,920
+out and use this do not invent your own
+
+82
+00:03:22,879 --> 00:03:28,519
+cryptography we know what you're doing
+
+83
+00:03:24,920 --> 00:03:30,720
+you don't so use this stuff so like as a
+
+84
+00:03:28,519 --> 00:03:34,519
+field we have this EXT output which is
+
+85
+00:03:30,720 --> 00:03:36,680
+we say like we're a science we know what
+
+86
+00:03:34,519 --> 00:03:39,120
+we're doing here's the algorithms that
+
+87
+00:03:36,680 --> 00:03:42,000
+you should be using so this is our sort
+
+88
+00:03:39,120 --> 00:03:44,799
+of like extra thing so this is our like
+
+89
+00:03:42,000 --> 00:03:47,120
+super simplified version of the world
+
+90
+00:03:44,799 --> 00:03:49,599
+that you know and clearly there are like
+
+91
+00:03:47,120 --> 00:03:51,360
+incentives and structures in play here
+
+92
+00:03:49,599 --> 00:03:54,560
+in what gets funded and what people
+
+93
+00:03:51,360 --> 00:03:56,319
+choose to work on um the other thing
+
+94
+00:03:54,560 --> 00:04:00,200
+that's interesting about cryptography as
+
+95
+00:03:56,319 --> 00:04:03,040
+a field of study is that not all fields
+
+96
+00:04:00,200 --> 00:04:06,079
+have such the sort of Duality that we do
+
+97
+00:04:03,040 --> 00:04:08,079
+so um cryptography security there
+
+98
+00:04:06,079 --> 00:04:12,640
+there's a constructive side and there's
+
+99
+00:04:08,079 --> 00:04:14,360
+a destructive side and one side in the
+
+100
+00:04:12,640 --> 00:04:16,759
+field of cryptography builds
+
+101
+00:04:14,360 --> 00:04:18,880
+cryptography the other side destroys it
+
+102
+00:04:16,759 --> 00:04:20,759
+that is not a typo some of you may get
+
+103
+00:04:18,880 --> 00:04:24,400
+the joke who gets the
+
+104
+00:04:20,759 --> 00:04:28,759
+joke some of you get the okay
+
+105
+00:04:24,400 --> 00:04:31,520
+um so yes and um you might think okay
+
+106
+00:04:28,759 --> 00:04:33,639
+like we we actually heard some very nice
+
+107
+00:04:31,520 --> 00:04:36,400
+talks about complexity Theory and lower
+
+108
+00:04:33,639 --> 00:04:38,039
+bounds and so you might think like um
+
+109
+00:04:36,400 --> 00:04:39,360
+really like the way okay so we have a
+
+110
+00:04:38,039 --> 00:04:40,600
+side that constructs cryptography and
+
+111
+00:04:39,360 --> 00:04:41,880
+then we have a side that like tries to
+
+112
+00:04:40,600 --> 00:04:43,199
+attack cryptography because that's
+
+113
+00:04:41,880 --> 00:04:44,919
+really the only way that we know how to
+
+114
+00:04:43,199 --> 00:04:46,320
+show that something is secure is like
+
+115
+00:04:44,919 --> 00:04:48,199
+people have looked at this for some
+
+116
+00:04:46,320 --> 00:04:51,720
+number of years and nobody has broken it
+
+117
+00:04:48,199 --> 00:04:53,360
+yet um and you might think like maybe
+
+118
+00:04:51,720 --> 00:04:56,199
+it's really only necessary to research
+
+119
+00:04:53,360 --> 00:04:57,759
+do research in Crypt analysis because
+
+120
+00:04:56,199 --> 00:04:59,919
+complexity Theory this is a failure of
+
+121
+00:04:57,759 --> 00:05:02,080
+complexity Theory really like if we had
+
+122
+00:04:59,919 --> 00:05:03,919
+strong lower bounds for certain problems
+
+123
+00:05:02,080 --> 00:05:05,360
+like we would not need all of these
+
+124
+00:05:03,919 --> 00:05:08,600
+people to try to break things because we
+
+125
+00:05:05,360 --> 00:05:10,120
+could just like have some concrete
+
+126
+00:05:08,600 --> 00:05:11,440
+complexity lower Bound for some
+
+127
+00:05:10,120 --> 00:05:13,720
+fundamental problem that we could then
+
+128
+00:05:11,440 --> 00:05:15,680
+build cryptography off of well I mean we
+
+129
+00:05:13,720 --> 00:05:17,440
+would also have to like resolve P versus
+
+130
+00:05:15,680 --> 00:05:19,319
+NP first in order to like do something
+
+131
+00:05:17,440 --> 00:05:21,319
+like that so it's pretty far out of
+
+132
+00:05:19,319 --> 00:05:25,199
+reach but even in in a fantasy world
+
+133
+00:05:21,319 --> 00:05:28,880
+where we could do that um we still need
+
+134
+00:05:25,199 --> 00:05:30,680
+attack work period because you have to
+
+135
+00:05:28,880 --> 00:05:32,199
+have the attacks in order to inspire the
+
+136
+00:05:30,680 --> 00:05:35,720
+security models that you want to prove
+
+137
+00:05:32,199 --> 00:05:38,160
+things to be secure in um so this is my
+
+138
+00:05:35,720 --> 00:05:39,960
+like argument for why attack work in
+
+139
+00:05:38,160 --> 00:05:42,600
+general and crypt analysis in general
+
+140
+00:05:39,960 --> 00:05:45,479
+isn't done and why like sort of we need
+
+141
+00:05:42,600 --> 00:05:50,639
+that to be a healthy side of the field
+
+142
+00:05:45,479 --> 00:05:55,759
+um okay and I also want to draw a sort
+
+143
+00:05:50,639 --> 00:05:58,800
+of analogy to um this super interesting
+
+144
+00:05:55,759 --> 00:06:00,160
+essay by Tim goers who's read this essay
+
+145
+00:05:58,800 --> 00:06:02,000
+it's like really enlightening actually
+
+146
+00:06:00,160 --> 00:06:03,280
+if you if you like math I recommend like
+
+147
+00:06:02,000 --> 00:06:05,440
+looking it up and reading it because
+
+148
+00:06:03,280 --> 00:06:06,919
+it's it's um it's very interesting and
+
+149
+00:06:05,440 --> 00:06:08,800
+very beautiful so so he writes this
+
+150
+00:06:06,919 --> 00:06:11,680
+essay about the two cultures of
+
+151
+00:06:08,800 --> 00:06:14,479
+mathematics and um many people have
+
+152
+00:06:11,680 --> 00:06:18,120
+written about this topic in various
+
+153
+00:06:14,479 --> 00:06:21,360
+formulations um but he sort of um
+
+154
+00:06:18,120 --> 00:06:24,280
+divides mathematicians into two worlds
+
+155
+00:06:21,360 --> 00:06:27,400
+one of them um like one set of of
+
+156
+00:06:24,280 --> 00:06:30,080
+mathematicians lives to solve problems
+
+157
+00:06:27,400 --> 00:06:32,039
+um and then the other sort of set of
+
+158
+00:06:30,080 --> 00:06:35,160
+mathematicians want to build and
+
+159
+00:06:32,039 --> 00:06:37,599
+understand theories um and I think other
+
+160
+00:06:35,160 --> 00:06:40,280
+thinkers have have called these like
+
+161
+00:06:37,599 --> 00:06:44,319
+frogs and Eagles for example
+
+162
+00:06:40,280 --> 00:06:47,720
+um and so um what goard does in his
+
+163
+00:06:44,319 --> 00:06:50,319
+essay is he talks about how um this way
+
+164
+00:06:47,720 --> 00:06:52,120
+of dividing up mathematicians ends up
+
+165
+00:06:50,319 --> 00:06:54,000
+influencing the the way that the field
+
+166
+00:06:52,120 --> 00:06:56,160
+regards certain subfields of of
+
+167
+00:06:54,000 --> 00:06:57,759
+mathematics so there are fields that are
+
+168
+00:06:56,160 --> 00:07:00,080
+largely problemsolving like
+
+169
+00:06:57,759 --> 00:07:01,479
+combinatorics um and there are fields
+
+170
+00:07:00,080 --> 00:07:04,120
+that are much more Theory building like
+
+171
+00:07:01,479 --> 00:07:07,319
+algebraic geometry and what ended up
+
+172
+00:07:04,120 --> 00:07:09,000
+happening in mathematics is that the um
+
+173
+00:07:07,319 --> 00:07:11,080
+sort of combinatorics fields was
+
+174
+00:07:09,000 --> 00:07:13,319
+generally result like thought of as like
+
+175
+00:07:11,080 --> 00:07:15,160
+less prestigious than algebraic geometry
+
+176
+00:07:13,319 --> 00:07:19,639
+because they were not doing all of this
+
+177
+00:07:15,160 --> 00:07:21,280
+beautiful Theory building um and that
+
+178
+00:07:19,639 --> 00:07:22,400
+that Prestige influences the kinds of
+
+179
+00:07:21,280 --> 00:07:24,639
+research that gets done and what
+
+180
+00:07:22,400 --> 00:07:26,319
+students study um and then I want sort
+
+181
+00:07:24,639 --> 00:07:28,599
+of if we go back to being in
+
+182
+00:07:26,319 --> 00:07:30,120
+cryptography Crypt analysis is much more
+
+183
+00:07:28,599 --> 00:07:31,879
+towards the problem solv in side than
+
+184
+00:07:30,120 --> 00:07:33,199
+the theory building side of our field
+
+185
+00:07:31,879 --> 00:07:36,280
+and so I think there is like a similar
+
+186
+00:07:33,199 --> 00:07:39,759
+structural issue going on there that um
+
+187
+00:07:36,280 --> 00:07:43,240
+it is somehow like less highly regarded
+
+188
+00:07:39,759 --> 00:07:46,479
+in a way and um if I make a super
+
+189
+00:07:43,240 --> 00:07:48,840
+simplistic sort of caricature of the
+
+190
+00:07:46,479 --> 00:07:51,199
+kinds of messaging that happens from the
+
+191
+00:07:48,840 --> 00:07:53,400
+different sides of the field um if you
+
+192
+00:07:51,199 --> 00:07:56,319
+listen to people who give talks about
+
+193
+00:07:53,400 --> 00:07:57,879
+sort of constructive cryptography um I
+
+194
+00:07:56,319 --> 00:07:59,560
+mean it's beautiful they're like
+
+195
+00:07:57,879 --> 00:08:01,360
+exploring the underlying truth of the
+
+196
+00:07:59,560 --> 00:08:03,360
+computational universe and they're
+
+197
+00:08:01,360 --> 00:08:05,039
+building like a bright future full of
+
+198
+00:08:03,360 --> 00:08:06,440
+privacy preserving technologies that
+
+199
+00:08:05,039 --> 00:08:07,840
+will allow companies to collect and
+
+200
+00:08:06,440 --> 00:08:10,840
+process all the data they want without
+
+201
+00:08:07,840 --> 00:08:13,960
+any legal liability whatsoever um and I
+
+202
+00:08:10,840 --> 00:08:15,520
+mean clearly this is like companies love
+
+203
+00:08:13,960 --> 00:08:17,199
+this stuff they are building the future
+
+204
+00:08:15,520 --> 00:08:18,759
+and they can and they can do whatever
+
+205
+00:08:17,199 --> 00:08:21,240
+they want because magic technology will
+
+206
+00:08:18,759 --> 00:08:23,919
+let them do it um whereas like on the
+
+207
+00:08:21,240 --> 00:08:25,319
+other side like I mean researchers are
+
+208
+00:08:23,919 --> 00:08:26,720
+just destroying perfectly good
+
+209
+00:08:25,319 --> 00:08:29,479
+cryptographic algorithms with like
+
+210
+00:08:26,720 --> 00:08:30,680
+one-off tricks and like okay like some
+
+211
+00:08:29,479 --> 00:08:33,039
+somebody screwed up their parameters
+
+212
+00:08:30,680 --> 00:08:34,479
+okay you fix the parameters and really
+
+213
+00:08:33,039 --> 00:08:36,159
+and then you like end up in this sort of
+
+214
+00:08:34,479 --> 00:08:37,560
+like cycle but like really it's just
+
+215
+00:08:36,159 --> 00:08:40,680
+like a question of parameters like
+
+216
+00:08:37,560 --> 00:08:43,519
+there's some parameters that work surely
+
+217
+00:08:40,680 --> 00:08:45,760
+um and like this is not building the
+
+218
+00:08:43,519 --> 00:08:47,839
+future this is destroying the future so
+
+219
+00:08:45,760 --> 00:08:50,959
+like why would any company want to fund
+
+220
+00:08:47,839 --> 00:08:52,360
+that like there's no reason why would
+
+221
+00:08:50,959 --> 00:08:53,800
+they do that they they want to fund the
+
+222
+00:08:52,360 --> 00:08:55,920
+future not the past and they don't want
+
+223
+00:08:53,800 --> 00:08:58,680
+to fund destruction they want to fund
+
+224
+00:08:55,920 --> 00:09:01,440
+things that are building the future okay
+
+225
+00:08:58,680 --> 00:09:03,279
+and um this this extends to like there
+
+226
+00:09:01,440 --> 00:09:05,880
+are certain people in the field who do
+
+227
+00:09:03,279 --> 00:09:09,600
+not think that attack work is like valid
+
+228
+00:09:05,880 --> 00:09:12,519
+science um this applies more to like
+
+229
+00:09:09,600 --> 00:09:13,800
+security than like cryp Crypt analysis
+
+230
+00:09:12,519 --> 00:09:15,600
+at least with Crypt analysis if you're
+
+231
+00:09:13,800 --> 00:09:18,320
+doing stuff that requires like a PhD in
+
+232
+00:09:15,600 --> 00:09:20,399
+math to understand um it's hard to claim
+
+233
+00:09:18,320 --> 00:09:23,399
+that that's not like valid research uh
+
+234
+00:09:20,399 --> 00:09:25,600
+but like there's kind of this notion
+
+235
+00:09:23,399 --> 00:09:29,000
+that it's like less scientific and it's
+
+236
+00:09:25,600 --> 00:09:31,160
+less valuable um and just as like
+
+237
+00:09:29,000 --> 00:09:33,640
+comfort for any students who are in the
+
+238
+00:09:31,160 --> 00:09:35,079
+room um I want to provide some anecdotes
+
+239
+00:09:33,640 --> 00:09:37,200
+from when I was on the job market the
+
+240
+00:09:35,079 --> 00:09:39,200
+first time around as a junior Professor
+
+241
+00:09:37,200 --> 00:09:41,880
+um this
+
+242
+00:09:39,200 --> 00:09:44,720
+was uh an embarrassing long time I guess
+
+243
+00:09:41,880 --> 00:09:46,040
+this was like 13 years ago so this was
+
+244
+00:09:44,720 --> 00:09:48,200
+this was a while ago but the the kinds
+
+245
+00:09:46,040 --> 00:09:49,480
+of questions that I got there there was
+
+246
+00:09:48,200 --> 00:09:51,839
+this notion that like what we really
+
+247
+00:09:49,480 --> 00:09:54,440
+needed was like a science of security
+
+248
+00:09:51,839 --> 00:09:56,200
+and in breaking things this is not
+
+249
+00:09:54,440 --> 00:09:57,720
+scientific you're just finding bugs like
+
+250
+00:09:56,200 --> 00:09:59,440
+really we need to solve this by making a
+
+251
+00:09:57,720 --> 00:10:00,760
+science of security and then we will no
+
+252
+00:09:59,440 --> 00:10:03,279
+longer have to deal with all of these
+
+253
+00:10:00,760 --> 00:10:06,839
+bugs is that a hand yeah I was confused
+
+254
+00:10:03,279 --> 00:10:06,839
+about something go back
+
+255
+00:10:07,440 --> 00:10:12,360
+slides yeah um I'm confused why um this
+
+256
+00:10:10,800 --> 00:10:14,079
+implied that privacy preserving
+
+257
+00:10:12,360 --> 00:10:16,519
+Technologies would allow companies to
+
+258
+00:10:14,079 --> 00:10:18,000
+like help companies collect data you
+
+259
+00:10:16,519 --> 00:10:21,000
+would think that you know privacy like
+
+260
+00:10:18,000 --> 00:10:22,240
+stops them data protect privacy like us
+
+261
+00:10:21,000 --> 00:10:25,120
+it wait I can't hear all the words
+
+262
+00:10:22,240 --> 00:10:26,720
+you're saying so it's it's implied for
+
+263
+00:10:25,120 --> 00:10:29,680
+my understanding that it says privacy
+
+264
+00:10:26,720 --> 00:10:32,640
+preserving technologies will help
+
+265
+00:10:29,680 --> 00:10:34,079
+collect and process a lot of data right
+
+266
+00:10:32,640 --> 00:10:35,839
+like just part from like Association
+
+267
+00:10:34,079 --> 00:10:37,200
+like word association it feels like you
+
+268
+00:10:35,839 --> 00:10:39,000
+would think that privacy preserving
+
+269
+00:10:37,200 --> 00:10:41,760
+technology stops them from collecting
+
+270
+00:10:39,000 --> 00:10:43,160
+data from like you know servers people
+
+271
+00:10:41,760 --> 00:10:45,760
+so like I'm just curious what's the
+
+272
+00:10:43,160 --> 00:10:48,040
+connection why does
+
+273
+00:10:45,760 --> 00:10:50,120
+that I'm being a little bit provocative
+
+274
+00:10:48,040 --> 00:10:52,120
+here um I mean you could you could hear
+
+275
+00:10:50,120 --> 00:10:54,839
+the you can hear the you could hear the
+
+276
+00:10:52,120 --> 00:10:56,639
+Snickers when when um half the room got
+
+277
+00:10:54,839 --> 00:10:58,519
+got the the implication here so
+
+278
+00:10:56,639 --> 00:11:00,040
+basically so what the companies so the
+
+279
+00:10:58,519 --> 00:11:01,160
+reason that compan are interested in
+
+280
+00:11:00,040 --> 00:11:04,200
+something like fully homomorphic
+
+281
+00:11:01,160 --> 00:11:06,399
+encryption is because what they want is
+
+282
+00:11:04,200 --> 00:11:08,560
+to continue collecting all the data that
+
+283
+00:11:06,399 --> 00:11:10,200
+they can on their customers and then be
+
+284
+00:11:08,560 --> 00:11:12,440
+able to like do all the metrics that
+
+285
+00:11:10,200 --> 00:11:13,959
+they want without like having to share
+
+286
+00:11:12,440 --> 00:11:15,680
+the data across departments having to
+
+287
+00:11:13,959 --> 00:11:19,800
+share the data like to other companies
+
+288
+00:11:15,680 --> 00:11:22,200
+but also like to basically tell
+
+289
+00:11:19,800 --> 00:11:23,839
+um like whenever they get hacked that
+
+290
+00:11:22,200 --> 00:11:25,680
+they they don't need to like actually
+
+291
+00:11:23,839 --> 00:11:27,000
+report any data breaches because no
+
+292
+00:11:25,680 --> 00:11:30,519
+information was revealed because it was
+
+293
+00:11:27,000 --> 00:11:32,320
+all encrypted so you still want to have
+
+294
+00:11:30,519 --> 00:11:35,880
+all of the surveillance capitalism that
+
+295
+00:11:32,320 --> 00:11:38,839
+is like sort of funding the internet but
+
+296
+00:11:35,880 --> 00:11:41,120
+without any of the problems that come
+
+297
+00:11:38,839 --> 00:11:46,600
+from the lack of fundamental security
+
+298
+00:11:41,120 --> 00:11:50,079
+that we have um with computers basically
+
+299
+00:11:46,600 --> 00:11:51,399
+um yeah so like I mean we know that
+
+300
+00:11:50,079 --> 00:11:52,560
+companies they they want fully
+
+301
+00:11:51,399 --> 00:11:55,000
+homomorphic encryption because they want
+
+302
+00:11:52,560 --> 00:11:57,160
+a magic box and the magic box is going
+
+303
+00:11:55,000 --> 00:11:58,320
+to solve all of their cybercity problems
+
+304
+00:11:57,160 --> 00:12:01,240
+that is that is what they think that
+
+305
+00:11:58,320 --> 00:12:01,240
+they are going to get
+
+306
+00:12:01,800 --> 00:12:08,120
+um okay which they you know maybe maybe
+
+307
+00:12:04,600 --> 00:12:10,399
+someday they will I don't know um okay
+
+308
+00:12:08,120 --> 00:12:15,480
+so basically the the underlying thesis
+
+309
+00:12:10,399 --> 00:12:17,920
+for my talk is that um like all good
+
+310
+00:12:15,480 --> 00:12:20,560
+dualities there is no light without the
+
+311
+00:12:17,920 --> 00:12:22,120
+dark and I think that in some areas of
+
+312
+00:12:20,560 --> 00:12:25,399
+cryptography the two sides of our field
+
+313
+00:12:22,120 --> 00:12:28,519
+are out of balance and this imbalance is
+
+314
+00:12:25,399 --> 00:12:30,639
+leading to insecurity um I don't have
+
+315
+00:12:28,519 --> 00:12:33,000
+necessarily solution but I want to pose
+
+316
+00:12:30,639 --> 00:12:34,920
+the problem and be like you know
+
+317
+00:12:33,000 --> 00:12:36,160
+provocative here and maybe maybe
+
+318
+00:12:34,920 --> 00:12:37,680
+somebody will come up with a solution or
+
+319
+00:12:36,160 --> 00:12:40,519
+maybe I'll just encourage you to like
+
+320
+00:12:37,680 --> 00:12:44,560
+break some more stuff because it's fun
+
+321
+00:12:40,519 --> 00:12:46,839
+um so I think basically every talk that
+
+322
+00:12:44,560 --> 00:12:49,199
+I give there is some XKCD cartoon at
+
+323
+00:12:46,839 --> 00:12:52,480
+least one in it because there's always
+
+324
+00:12:49,199 --> 00:12:56,560
+an appropriate XKCD cartoon so um this
+
+325
+00:12:52,480 --> 00:12:59,279
+is the relevant XKCD cartoon for um this
+
+326
+00:12:56,560 --> 00:13:01,680
+talk which is basically all modern
+
+327
+00:12:59,279 --> 00:13:04,720
+structure is this amazing tower that is
+
+328
+00:13:01,680 --> 00:13:07,160
+built upon some project that some random
+
+329
+00:13:04,720 --> 00:13:09,880
+person in Nebraska has been thanklessly
+
+330
+00:13:07,160 --> 00:13:12,480
+maintaining since 2003 yeah what is the
+
+331
+00:13:09,880 --> 00:13:12,480
+left pad of
+
+332
+00:13:12,760 --> 00:13:17,399
+cryptography the the what the the left
+
+333
+00:13:15,160 --> 00:13:21,199
+pad sorry uh there ComiCon reference to
+
+334
+00:13:17,399 --> 00:13:23,199
+a job script package left pad oh um what
+
+335
+00:13:21,199 --> 00:13:26,839
+what is which does exactly what it
+
+336
+00:13:23,199 --> 00:13:26,839
+sounds like uh do
+
+337
+00:13:28,120 --> 00:13:33,680
+we so um actually I'm gonna get my water
+
+338
+00:13:31,399 --> 00:13:36,600
+for a second um this
+
+339
+00:13:33,680 --> 00:13:38,160
+is a great question yes uh you you
+
+340
+00:13:36,600 --> 00:13:41,079
+predicted exactly the structure of my
+
+341
+00:13:38,160 --> 00:13:42,920
+slides this is great um so uh i' I've
+
+342
+00:13:41,079 --> 00:13:44,360
+got a few more variants of this but um
+
+343
+00:13:42,920 --> 00:13:46,120
+sort of in line actually with the
+
+344
+00:13:44,360 --> 00:13:47,800
+previous talk which I think LED very
+
+345
+00:13:46,120 --> 00:13:51,360
+very well into like the first half of
+
+346
+00:13:47,800 --> 00:13:56,560
+this talk that I'm going to be giving
+
+347
+00:13:51,360 --> 00:13:58,759
+um basically uh yeah all modern digital
+
+348
+00:13:56,560 --> 00:14:01,880
+infrastructure which is that like you
+
+349
+00:13:58,759 --> 00:14:03,480
+know we we we will be relying on RSA for
+
+350
+00:14:01,880 --> 00:14:06,000
+decades to come and everything does rely
+
+351
+00:14:03,480 --> 00:14:07,759
+on decades RSA for like has been relying
+
+352
+00:14:06,000 --> 00:14:11,959
+on RSA for
+
+353
+00:14:07,759 --> 00:14:13,759
+decades the security of RSA relies very
+
+354
+00:14:11,959 --> 00:14:17,399
+closely on the fact that we believe that
+
+355
+00:14:13,759 --> 00:14:21,079
+classical factoring costs precisely L
+
+356
+00:14:17,399 --> 00:14:23,560
+1/3 with cube root of 64 over 9 if you
+
+357
+00:14:21,079 --> 00:14:26,279
+change either of those numbers it's a
+
+358
+00:14:23,560 --> 00:14:29,120
+bad time
+
+359
+00:14:26,279 --> 00:14:31,079
+so I'll talk about that more um Okay so
+
+360
+00:14:29,120 --> 00:14:32,959
+for this project which I started this
+
+361
+00:14:31,079 --> 00:14:35,160
+project and like with as as with all
+
+362
+00:14:32,959 --> 00:14:37,120
+good projects I was like over ambitious
+
+363
+00:14:35,160 --> 00:14:41,800
+and I I actually talked to a large
+
+364
+00:14:37,120 --> 00:14:45,240
+number of people over the past year um
+
+365
+00:14:41,800 --> 00:14:47,040
+who do either relevant things and most
+
+366
+00:14:45,240 --> 00:14:49,839
+of these people have done some kind of
+
+367
+00:14:47,040 --> 00:14:52,240
+attack work um in various areas of
+
+368
+00:14:49,839 --> 00:14:53,680
+cryptography um and this is not a
+
+369
+00:14:52,240 --> 00:14:56,800
+representative sample at all this is
+
+370
+00:14:53,680 --> 00:14:58,240
+just like who I thought of to talk to
+
+371
+00:14:56,800 --> 00:15:00,680
+and the people that I thought you know
+
+372
+00:14:58,240 --> 00:15:02,000
+would respond to my email or whatever um
+
+373
+00:15:00,680 --> 00:15:03,759
+so we had super interesting
+
+374
+00:15:02,000 --> 00:15:06,399
+conversations which I should have
+
+375
+00:15:03,759 --> 00:15:08,440
+recorded more carefully and I didn't um
+
+376
+00:15:06,399 --> 00:15:11,600
+but I have recorded sort
+
+377
+00:15:08,440 --> 00:15:14,079
+of parts of them and I have Incorporated
+
+378
+00:15:11,600 --> 00:15:15,639
+parts of the things into this talk so
+
+379
+00:15:14,079 --> 00:15:17,040
+this talk these people are not to blame
+
+380
+00:15:15,639 --> 00:15:18,959
+for anything that is in this talk but I
+
+381
+00:15:17,040 --> 00:15:22,240
+do have quotes that I attribute to them
+
+382
+00:15:18,959 --> 00:15:24,399
+and um various ideas but yeah okay the
+
+383
+00:15:22,240 --> 00:15:27,519
+you know these conversations um were
+
+384
+00:15:24,399 --> 00:15:29,440
+quite wide ranging but um among other
+
+385
+00:15:27,519 --> 00:15:30,759
+things okay um Martin alre complains
+
+386
+00:15:29,440 --> 00:15:32,079
+that you're you're asking all these
+
+387
+00:15:30,759 --> 00:15:34,360
+weird introspection questions that are
+
+388
+00:15:32,079 --> 00:15:36,360
+kind of hard to answer so it may or may
+
+389
+00:15:34,360 --> 00:15:40,279
+not have been uh you
+
+390
+00:15:36,360 --> 00:15:41,839
+know useful or coherent um and the other
+
+391
+00:15:40,279 --> 00:15:44,759
+thing that I want to say is that I live
+
+392
+00:15:41,839 --> 00:15:47,360
+in the open research World um and so one
+
+393
+00:15:44,759 --> 00:15:49,360
+of the things that um Paul CER mentioned
+
+394
+00:15:47,360 --> 00:15:51,319
+is that the balance is really different
+
+395
+00:15:49,360 --> 00:15:53,639
+in the government and classified world
+
+396
+00:15:51,319 --> 00:15:56,000
+where offense gets the Lion Share of the
+
+397
+00:15:53,639 --> 00:15:57,560
+budget and Glory um and they may have
+
+398
+00:15:56,000 --> 00:15:59,759
+the opposite imbalance from the academic
+
+399
+00:15:57,560 --> 00:16:02,399
+world um and
+
+400
+00:15:59,759 --> 00:16:04,480
+we have some evidence in the open world
+
+401
+00:16:02,399 --> 00:16:07,680
+that prioritizing offense over defense
+
+402
+00:16:04,480 --> 00:16:09,959
+in the government has led to problems so
+
+403
+00:16:07,680 --> 00:16:13,319
+things like um you know famously I mean
+
+404
+00:16:09,959 --> 00:16:15,920
+I I teach this every year to my students
+
+405
+00:16:13,319 --> 00:16:19,079
+in like intro crypto classes like the
+
+406
+00:16:15,920 --> 00:16:21,639
+story of the NSA shortening the key
+
+407
+00:16:19,079 --> 00:16:24,079
+strength of Dez um which caused it to
+
+408
+00:16:21,639 --> 00:16:28,279
+become obsolete quite a bit earlier than
+
+409
+00:16:24,079 --> 00:16:33,079
+it would have otherwise um and then um
+
+410
+00:16:28,279 --> 00:16:34,560
+we have the dual EC drbg debacle um and
+
+411
+00:16:33,079 --> 00:16:36,279
+there's continuing mistrust around
+
+412
+00:16:34,560 --> 00:16:38,279
+standardization algorithm
+
+413
+00:16:36,279 --> 00:16:40,880
+recommendations um that have definitely
+
+414
+00:16:38,279 --> 00:16:42,040
+influenced the like ongoing M
+
+415
+00:16:40,880 --> 00:16:46,440
+postquantum
+
+416
+00:16:42,040 --> 00:16:49,160
+process so okay um so I am talking about
+
+417
+00:16:46,440 --> 00:16:52,680
+incentives mostly in the open
+
+418
+00:16:49,160 --> 00:16:55,600
+cryptography research World um so now I
+
+419
+00:16:52,680 --> 00:16:58,519
+have a collection of thoughts about
+
+420
+00:16:55,600 --> 00:17:00,199
+different areas um so this also so my
+
+421
+00:16:58,519 --> 00:17:02,120
+first is quantum Computing and I want to
+
+422
+00:17:00,199 --> 00:17:04,600
+say I am not a Quantum Computing person
+
+423
+00:17:02,120 --> 00:17:06,760
+I live purely in the classical World um
+
+424
+00:17:04,600 --> 00:17:09,079
+I in fact only understand Quantum
+
+425
+00:17:06,760 --> 00:17:11,520
+Computing at like a super Cartoon Level
+
+426
+00:17:09,079 --> 00:17:14,280
+so these are like things that I have
+
+427
+00:17:11,520 --> 00:17:16,959
+like gathered but you may disagree with
+
+428
+00:17:14,280 --> 00:17:19,799
+what I'm going to say but I think the
+
+429
+00:17:16,959 --> 00:17:21,360
+last talk um before the break um
+
+430
+00:17:19,799 --> 00:17:22,959
+introduced this quite nicely which is
+
+431
+00:17:21,360 --> 00:17:24,400
+essentially that the looming threat of
+
+432
+00:17:22,959 --> 00:17:26,280
+quantum computers is just about the
+
+433
+00:17:24,400 --> 00:17:28,400
+biggest thing in our field in the past
+
+434
+00:17:26,280 --> 00:17:29,760
+several years and when we think about
+
+435
+00:17:28,400 --> 00:17:31,640
+Quantum comp computers we think of sh's
+
+436
+00:17:29,760 --> 00:17:35,320
+algorithm because sh's Al algorithm is
+
+437
+00:17:31,640 --> 00:17:37,160
+going to break all classical public key
+
+438
+00:17:35,320 --> 00:17:38,480
+cryptography um the thing that's
+
+439
+00:17:37,160 --> 00:17:39,799
+interesting so you go into a group of
+
+440
+00:17:38,480 --> 00:17:41,280
+cryptographers and they talk about
+
+441
+00:17:39,799 --> 00:17:43,120
+quantum computers as like Shores
+
+442
+00:17:41,280 --> 00:17:45,520
+algorithm Shores algorithm sh Shores
+
+443
+00:17:43,120 --> 00:17:48,400
+algorithm factoring disree log elliptic
+
+444
+00:17:45,520 --> 00:17:50,320
+curve discreet log or hosed um but if
+
+445
+00:17:48,400 --> 00:17:52,400
+you go to a talk by like the people who
+
+446
+00:17:50,320 --> 00:17:53,919
+are actually building quantum computers
+
+447
+00:17:52,400 --> 00:17:55,640
+they don't want to talk about Shores
+
+448
+00:17:53,919 --> 00:17:57,280
+algorithm they only talk about it as
+
+449
+00:17:55,640 --> 00:17:59,120
+like a proof of concept or like maybe
+
+450
+00:17:57,280 --> 00:18:00,880
+like some like academic demonstration
+
+451
+00:17:59,120 --> 00:18:03,679
+they do not talk about it as like the
+
+452
+00:18:00,880 --> 00:18:05,520
+killer app for Quantum Computing um what
+
+453
+00:18:03,679 --> 00:18:08,559
+they talk about is quantum chemistry
+
+454
+00:18:05,520 --> 00:18:10,240
+simulations so um they don't care about
+
+455
+00:18:08,559 --> 00:18:11,640
+sh Shores algorithm because who cares
+
+456
+00:18:10,240 --> 00:18:13,280
+about Shores algorithm when you can
+
+457
+00:18:11,640 --> 00:18:15,080
+solve world hunger by building better
+
+458
+00:18:13,280 --> 00:18:17,080
+fertilizer or you're going to like solve
+
+459
+00:18:15,080 --> 00:18:18,400
+Disease by doing drug Discovery or
+
+460
+00:18:17,080 --> 00:18:19,679
+you're going to like solve energy
+
+461
+00:18:18,400 --> 00:18:22,440
+Problems by like building better
+
+462
+00:18:19,679 --> 00:18:23,880
+batteries and solar cells like this is
+
+463
+00:18:22,440 --> 00:18:25,320
+this is what the people who are like if
+
+464
+00:18:23,880 --> 00:18:26,960
+you go to these talks where they're like
+
+465
+00:18:25,320 --> 00:18:29,559
+actually like we built a cubid like this
+
+466
+00:18:26,960 --> 00:18:31,039
+is what they talk about um and like if
+
+467
+00:18:29,559 --> 00:18:32,559
+you're if you're like hey so when are we
+
+468
+00:18:31,039 --> 00:18:34,200
+going to have sh Shores algorithm like
+
+469
+00:18:32,559 --> 00:18:36,679
+they avoid that question like they do
+
+470
+00:18:34,200 --> 00:18:39,120
+not want to answer it um which is like
+
+471
+00:18:36,679 --> 00:18:41,480
+this weird disconnect because like
+
+472
+00:18:39,120 --> 00:18:44,760
+crypto versus like the quantum
+
+473
+00:18:41,480 --> 00:18:46,640
+people yeah talking about incentives
+
+474
+00:18:44,760 --> 00:18:49,640
+right uh you one reason for this might
+
+475
+00:18:46,640 --> 00:18:51,760
+be that uh you know NSA or Mist just put
+
+476
+00:18:49,640 --> 00:18:55,000
+out this refective that's said 203 by
+
+477
+00:18:51,760 --> 00:18:57,400
+2035 please stop using RSA so by the
+
+478
+00:18:55,000 --> 00:18:59,760
+time we build AUM computer that could
+
+479
+00:18:57,400 --> 00:19:01,919
+Factor would be that nobody in the world
+
+480
+00:18:59,760 --> 00:19:05,559
+is using uh
+
+481
+00:19:01,919 --> 00:19:07,559
+RSA at all which decreases significantly
+
+482
+00:19:05,559 --> 00:19:09,799
+the incentive to build a computer that
+
+483
+00:19:07,559 --> 00:19:12,559
+factor in the first place people are
+
+484
+00:19:09,799 --> 00:19:13,880
+still going to be using RSA in 2035
+
+485
+00:19:12,559 --> 00:19:17,480
+people are still going to be using RSA
+
+486
+00:19:13,880 --> 00:19:17,480
+for decades after quantum computer is
+
+487
+00:19:21,679 --> 00:19:26,799
+built New Uses of uh of Photography are
+
+488
+00:19:25,200 --> 00:19:29,720
+not going to be I mean people are going
+
+489
+00:19:26,799 --> 00:19:31,880
+to start slowly shifting
+
+490
+00:19:29,720 --> 00:19:35,960
+argue about the magnitude of that shift
+
+491
+00:19:31,880 --> 00:19:40,360
+um but you know um you know that could
+
+492
+00:19:35,960 --> 00:19:44,159
+be a reason why you know there isn't
+
+493
+00:19:40,360 --> 00:19:44,159
+more but there are all these
+
+494
+00:19:45,039 --> 00:19:49,600
+archives enough so okay so there's data
+
+495
+00:19:47,280 --> 00:19:52,360
+centers in Utah full of um information
+
+496
+00:19:49,600 --> 00:19:55,640
+that is uh encrypted in yeah is that
+
+497
+00:19:52,360 --> 00:19:57,280
+information valuable when it's who knows
+
+498
+00:19:55,640 --> 00:19:59,039
+I mean that's that's a great question uh
+
+499
+00:19:57,280 --> 00:20:00,400
+so but you know if if nobody actually
+
+500
+00:19:59,039 --> 00:20:01,840
+build ever builds a computer where you
+
+501
+00:20:00,400 --> 00:20:03,840
+could use shores algorithm then like do
+
+502
+00:20:01,840 --> 00:20:05,120
+we need to transfer like you know change
+
+503
+00:20:03,840 --> 00:20:08,240
+all of our cryptography maybe we should
+
+504
+00:20:05,120 --> 00:20:09,840
+just keep using RSA choice right I mean
+
+505
+00:20:08,240 --> 00:20:12,799
+uh the government systems apparently
+
+506
+00:20:09,840 --> 00:20:15,240
+supposed to use one of these new things
+
+507
+00:20:12,799 --> 00:20:17,559
+by crane 35 so yeah so it's clear that
+
+508
+00:20:15,240 --> 00:20:23,320
+we will have a we will have a transition
+
+509
+00:20:17,559 --> 00:20:25,640
+um I uh I'll get through this this like
+
+510
+00:20:23,320 --> 00:20:27,720
+section um
+
+511
+00:20:25,640 --> 00:20:29,679
+because I think that there's like a
+
+512
+00:20:27,720 --> 00:20:35,480
+weird there's a little bit of a weird
+
+513
+00:20:29,679 --> 00:20:37,280
+disconnect um that I want to like um to
+
+514
+00:20:35,480 --> 00:20:38,440
+point out and and like maybe maybe the
+
+515
+00:20:37,280 --> 00:20:41,440
+people who know more about Quantum
+
+516
+00:20:38,440 --> 00:20:45,159
+Computing can like uh help solve this
+
+517
+00:20:41,440 --> 00:20:46,919
+disconnect um I think so one of the most
+
+518
+00:20:45,159 --> 00:20:48,880
+enlightening things that I read about
+
+519
+00:20:46,919 --> 00:20:50,679
+Quantum Computing was this this is a
+
+520
+00:20:48,880 --> 00:20:53,720
+National's report which is now getting
+
+521
+00:20:50,679 --> 00:20:55,640
+quite old it's like six years old um I
+
+522
+00:20:53,720 --> 00:20:57,640
+don't think the conclusions have changed
+
+523
+00:20:55,640 --> 00:20:59,120
+even though we have had like some
+
+524
+00:20:57,640 --> 00:21:02,760
+progress in
+
+525
+00:20:59,120 --> 00:21:05,080
+building quantum computers um so I guess
+
+526
+00:21:02,760 --> 00:21:07,400
+the most recent like sort of news making
+
+527
+00:21:05,080 --> 00:21:09,159
+progress uh progress was like the Google
+
+528
+00:21:07,400 --> 00:21:10,960
+announcement that like they think that
+
+529
+00:21:09,159 --> 00:21:13,120
+they may be able to do error correction
+
+530
+00:21:10,960 --> 00:21:14,640
+like nobody has actually demonstrated
+
+531
+00:21:13,120 --> 00:21:17,120
+Quantum error correction yet but they
+
+532
+00:21:14,640 --> 00:21:21,159
+like think that they can probably do it
+
+533
+00:21:17,120 --> 00:21:22,559
+in the future um so that's like that's
+
+534
+00:21:21,159 --> 00:21:24,159
+the current state so so we're still at
+
+535
+00:21:22,559 --> 00:21:29,880
+the point where we cannot simulate a
+
+536
+00:21:24,159 --> 00:21:31,720
+single logical Cubit um and uh this um
+
+537
+00:21:29,880 --> 00:21:33,720
+this National's report the first couple
+
+538
+00:21:31,720 --> 00:21:35,640
+of chapters I think are like really
+
+539
+00:21:33,720 --> 00:21:38,799
+super well written um and like I found
+
+540
+00:21:35,640 --> 00:21:42,200
+them very enlightening um basically the
+
+541
+00:21:38,799 --> 00:21:44,320
+um the introduction is like um sort of a
+
+542
+00:21:42,200 --> 00:21:45,919
+history of the like classical
+
+543
+00:21:44,320 --> 00:21:47,840
+semiconductor industry in the 20th
+
+544
+00:21:45,919 --> 00:21:49,880
+century and talking about like how
+
+545
+00:21:47,840 --> 00:21:52,559
+transistors were were developed and
+
+546
+00:21:49,880 --> 00:21:56,000
+essentially that like the development of
+
+547
+00:21:52,559 --> 00:22:00,000
+classical computers um is the story of
+
+548
+00:21:56,000 --> 00:22:02,840
+like in order to get an expan IAL like
+
+549
+00:22:00,000 --> 00:22:05,000
+rate of progress in like building
+
+550
+00:22:02,840 --> 00:22:06,720
+classical computers we had this virtuous
+
+551
+00:22:05,000 --> 00:22:09,840
+cycle where the first computers were
+
+552
+00:22:06,720 --> 00:22:11,520
+like extremely useful and people bought
+
+553
+00:22:09,840 --> 00:22:14,039
+them because you needed to do that kind
+
+554
+00:22:11,520 --> 00:22:15,919
+of computation even with like room-sized
+
+555
+00:22:14,039 --> 00:22:18,039
+computers and then the companies
+
+556
+00:22:15,919 --> 00:22:22,080
+building those computers rolled all of
+
+557
+00:22:18,039 --> 00:22:23,720
+their um profits back into R&D and then
+
+558
+00:22:22,080 --> 00:22:25,760
+improved their computers and then we had
+
+559
+00:22:23,720 --> 00:22:27,279
+this virtuous cycle which is what led to
+
+560
+00:22:25,760 --> 00:22:29,200
+Mo's law which is what led to the
+
+561
+00:22:27,279 --> 00:22:32,679
+amazing developments in technology that
+
+562
+00:22:29,200 --> 00:22:35,720
+we have now um
+
+563
+00:22:32,679 --> 00:22:39,679
+and the argument made in this report is
+
+564
+00:22:35,720 --> 00:22:42,840
+that to build an entirely new
+
+565
+00:22:39,679 --> 00:22:45,360
+um computer architecture like a quantum
+
+566
+00:22:42,840 --> 00:22:47,559
+computer we need to have the scale of
+
+567
+00:22:45,360 --> 00:22:49,840
+engineering challenges is such that the
+
+568
+00:22:47,559 --> 00:22:52,400
+investment required to do all of that
+
+569
+00:22:49,840 --> 00:22:54,600
+engineering is probably beyond the scale
+
+570
+00:22:52,400 --> 00:22:56,600
+of a single government acting alone so
+
+571
+00:22:54,600 --> 00:22:58,760
+like beyond the scale of like the NSA or
+
+572
+00:22:56,600 --> 00:23:00,279
+the Chinese government um even though
+
+573
+00:22:58,760 --> 00:23:01,679
+they may be willing to put in billions
+
+574
+00:23:00,279 --> 00:23:03,480
+of dollars you actually need probably
+
+575
+00:23:01,679 --> 00:23:05,480
+need more on the order of trillions of
+
+576
+00:23:03,480 --> 00:23:07,919
+dollars like an entire economy's worth
+
+577
+00:23:05,480 --> 00:23:11,760
+of virtuous cycle in order to actually
+
+578
+00:23:07,919 --> 00:23:16,640
+fund that um that kind of engineering
+
+579
+00:23:11,760 --> 00:23:20,240
+progress and so um sort of the the like
+
+580
+00:23:16,640 --> 00:23:22,000
+conclusion is that like um it may be
+
+581
+00:23:20,240 --> 00:23:24,279
+beyond the scale of a single government
+
+582
+00:23:22,000 --> 00:23:26,480
+to like actually build like a fully
+
+583
+00:23:24,279 --> 00:23:29,080
+scalable like quantum computer you may
+
+584
+00:23:26,480 --> 00:23:30,679
+need like um a real virtuous cycle which
+
+585
+00:23:29,080 --> 00:23:34,279
+means that you need applications for
+
+586
+00:23:30,679 --> 00:23:37,679
+Quantum Computing um
+
+587
+00:23:34,279 --> 00:23:41,640
+and so that so the question is what
+
+588
+00:23:37,679 --> 00:23:44,520
+applications do we have
+
+589
+00:23:41,640 --> 00:23:46,520
+um and okay so like we we've also like
+
+590
+00:23:44,520 --> 00:23:48,600
+heard about this from from previous
+
+591
+00:23:46,520 --> 00:23:49,960
+talks So like um you know I talked to
+
+592
+00:23:48,600 --> 00:23:51,799
+Scott arenson He estimates that there's
+
+593
+00:23:49,960 --> 00:23:53,760
+billions of dollars of investment in in
+
+594
+00:23:51,799 --> 00:23:56,360
+Quantum Computing right now um and the
+
+595
+00:23:53,760 --> 00:23:59,559
+question is for
+
+596
+00:23:56,360 --> 00:24:00,840
+what because it's not Shores algorithm
+
+597
+00:23:59,559 --> 00:24:03,799
+because there's no market for Shores
+
+598
+00:24:00,840 --> 00:24:05,200
+algorithm um it's really I mean the only
+
+599
+00:24:03,799 --> 00:24:09,960
+people who want to run Shores algorithm
+
+600
+00:24:05,200 --> 00:24:11,919
+are the NSA and China um so like what do
+
+601
+00:24:09,960 --> 00:24:16,400
+like what do Google and IBM think that
+
+602
+00:24:11,919 --> 00:24:19,000
+they are investing in um and really the
+
+603
+00:24:16,400 --> 00:24:21,159
+only real application for quantum
+
+604
+00:24:19,000 --> 00:24:22,919
+computers is this quantum chemistry
+
+605
+00:24:21,159 --> 00:24:25,120
+simulation um which means that there
+
+606
+00:24:22,919 --> 00:24:26,919
+there certainly is a market for like
+
+607
+00:24:25,120 --> 00:24:29,320
+specialized scientific equipment being
+
+608
+00:24:26,919 --> 00:24:31,399
+sold to like biotech companies and and
+
+609
+00:24:29,320 --> 00:24:33,159
+whatnot um so like you know if you have
+
+610
+00:24:31,399 --> 00:24:35,360
+a quantum computer that's like $100,000
+
+611
+00:24:33,159 --> 00:24:36,760
+machine that can get a speed up on
+
+612
+00:24:35,360 --> 00:24:38,559
+quantum chemistry simulations there's
+
+613
+00:24:36,760 --> 00:24:41,960
+definitely a market for that but for
+
+614
+00:24:38,559 --> 00:24:43,360
+everything else we don't I mean we we
+
+615
+00:24:41,960 --> 00:24:46,720
+actually just heard a a great talk about
+
+616
+00:24:43,360 --> 00:24:51,360
+this we don't have like exponential time
+
+617
+00:24:46,720 --> 00:24:55,000
+speedups for most problems um so all the
+
+618
+00:24:51,360 --> 00:24:57,799
+stuff about like machine learning or
+
+619
+00:24:55,000 --> 00:24:59,320
+optimization like you get some
+
+620
+00:24:57,799 --> 00:25:00,840
+polinomial time speed ups but it's sort
+
+621
+00:24:59,320 --> 00:25:04,279
+of unclear whether there's actually like
+
+622
+00:25:00,840 --> 00:25:08,000
+a real Market or need for that um
+
+623
+00:25:04,279 --> 00:25:09,279
+and so I there's this weird disconnect
+
+624
+00:25:08,000 --> 00:25:11,080
+where like the only thing quantum
+
+625
+00:25:09,279 --> 00:25:13,039
+computers are good for is breaking
+
+626
+00:25:11,080 --> 00:25:15,159
+cryptography but the only people who
+
+627
+00:25:13,039 --> 00:25:18,320
+care about breaking cryptography are
+
+628
+00:25:15,159 --> 00:25:20,480
+governments um and so like just
+
+629
+00:25:18,320 --> 00:25:22,480
+realistically like for you know we can
+
+630
+00:25:20,480 --> 00:25:25,120
+do some threat modeling like for you
+
+631
+00:25:22,480 --> 00:25:27,320
+know any entity who's using cryptography
+
+632
+00:25:25,120 --> 00:25:30,559
+um if your attacker is breaking
+
+633
+00:25:27,320 --> 00:25:32,919
+cryptography they're either pirating
+
+634
+00:25:30,559 --> 00:25:35,399
+copy protected content or they're a
+
+635
+00:25:32,919 --> 00:25:37,520
+government like essentially nobody cares
+
+636
+00:25:35,399 --> 00:25:40,720
+nobody else cares enough to break
+
+637
+00:25:37,520 --> 00:25:42,679
+cryptography um and like this is this is
+
+638
+00:25:40,720 --> 00:25:43,919
+great news because like cryptography is
+
+639
+00:25:42,679 --> 00:25:45,360
+doing way better than the rest of
+
+640
+00:25:43,919 --> 00:25:49,000
+security where it's just a constant
+
+641
+00:25:45,360 --> 00:25:50,559
+disaster all the time um so like I mean
+
+642
+00:25:49,000 --> 00:25:53,120
+essentially like this is like you know
+
+643
+00:25:50,559 --> 00:25:54,840
+how you just have to outrun your other
+
+644
+00:25:53,120 --> 00:25:58,480
+colleagues in front of the bear like
+
+645
+00:25:54,840 --> 00:26:00,679
+then you're doing great right like um so
+
+646
+00:25:58,480 --> 00:26:02,520
+um essentially like cryptography
+
+647
+00:26:00,679 --> 00:26:04,080
+essentially makes like you know we we
+
+648
+00:26:02,520 --> 00:26:05,440
+know that real systems get compromised
+
+649
+00:26:04,080 --> 00:26:06,679
+by like fishing and social engineering
+
+650
+00:26:05,440 --> 00:26:08,640
+and not really breaking cryptography
+
+651
+00:26:06,679 --> 00:26:11,559
+most of the time um unless your
+
+652
+00:26:08,640 --> 00:26:13,640
+adversary is a government um and so like
+
+653
+00:26:11,559 --> 00:26:17,720
+those are somebody else's problem really
+
+654
+00:26:13,640 --> 00:26:20,000
+like cryptography we're doing great um
+
+655
+00:26:17,720 --> 00:26:22,520
+but that means that
+
+656
+00:26:20,000 --> 00:26:24,960
+like normal people don't need to run
+
+657
+00:26:22,520 --> 00:26:26,320
+Shores algorithm on their cell phones so
+
+658
+00:26:24,960 --> 00:26:29,039
+we don't need a
+
+659
+00:26:26,320 --> 00:26:32,559
+Quantum like we don't need a a Quantum
+
+660
+00:26:29,039 --> 00:26:36,000
+co-processor on every smartphone in the
+
+661
+00:26:32,559 --> 00:26:37,559
+world so what are quantum computers for
+
+662
+00:26:36,000 --> 00:26:40,760
+essentially like there's no Mass market
+
+663
+00:26:37,559 --> 00:26:42,480
+for sh Shores algorithm um the C the
+
+664
+00:26:40,760 --> 00:26:44,600
+customers for sh Shores algorithm are
+
+665
+00:26:42,480 --> 00:26:46,000
+handful of large governments the people
+
+666
+00:26:44,600 --> 00:26:47,399
+who are building quantum computers think
+
+667
+00:26:46,000 --> 00:26:49,360
+of Shores algorithm as a proof of
+
+668
+00:26:47,399 --> 00:26:52,600
+concept and not an end
+
+669
+00:26:49,360 --> 00:26:54,679
+product and so um if Shores algorithm
+
+670
+00:26:52,600 --> 00:26:56,039
+ever becomes feasible it's going to be a
+
+671
+00:26:54,679 --> 00:26:58,520
+byproduct of other things that the
+
+672
+00:26:56,039 --> 00:27:00,880
+market cares more about and so if it is
+
+673
+00:26:58,520 --> 00:27:02,880
+a b it is if it is a direct byproduct of
+
+674
+00:27:00,880 --> 00:27:04,679
+quantum chemistry simulations then we
+
+675
+00:27:02,880 --> 00:27:08,279
+may be in trouble but if you need
+
+676
+00:27:04,679 --> 00:27:09,559
+something much beyond that then I don't
+
+677
+00:27:08,279 --> 00:27:10,799
+know is it ever going to be built like
+
+678
+00:27:09,559 --> 00:27:11,760
+because the market incentives just
+
+679
+00:27:10,799 --> 00:27:15,000
+aren't
+
+680
+00:27:11,760 --> 00:27:17,039
+there so I just wanted to point out this
+
+681
+00:27:15,000 --> 00:27:19,559
+disconnect so this is my first like
+
+682
+00:27:17,039 --> 00:27:22,480
+spicy opinion on Quantum Computing which
+
+683
+00:27:19,559 --> 00:27:25,840
+is not my research area yeah there's if
+
+684
+00:27:22,480 --> 00:27:28,360
+they're going to build like invest and
+
+685
+00:27:25,840 --> 00:27:29,919
+do research and build this F for or
+
+686
+00:27:28,360 --> 00:27:31,919
+whatever reason whether it's chemical
+
+687
+00:27:29,919 --> 00:27:33,559
+simulation or whatever then they'll be
+
+688
+00:27:31,919 --> 00:27:36,679
+able to implement your's algorithm once
+
+689
+00:27:33,559 --> 00:27:39,039
+they have the technology there then it
+
+690
+00:27:36,679 --> 00:27:42,200
+will be like so if the if the cubits you
+
+691
+00:27:39,039 --> 00:27:45,360
+need to do quantum chemistry simulations
+
+692
+00:27:42,200 --> 00:27:46,919
+work in the same way and like the the
+
+693
+00:27:45,360 --> 00:27:48,799
+circuits that you need to build and the
+
+694
+00:27:46,919 --> 00:27:51,440
+air correction that you need to do if
+
+695
+00:27:48,799 --> 00:27:53,519
+that is all the same then yes it will
+
+696
+00:27:51,440 --> 00:27:56,200
+happen if you need if you need to
+
+697
+00:27:53,519 --> 00:27:59,200
+do something else
+
+698
+00:27:56,200 --> 00:28:00,760
+architecturally then it seems less
+
+699
+00:27:59,200 --> 00:28:04,159
+likely to
+
+700
+00:28:00,760 --> 00:28:06,559
+happen just heard of I'm not going to
+
+701
+00:28:04,159 --> 00:28:09,600
+attribute to one of the faulty members
+
+702
+00:28:06,559 --> 00:28:11,440
+here that uh Quantum factoring is is an
+
+703
+00:28:09,600 --> 00:28:14,760
+easier problem completely in terms of
+
+704
+00:28:11,440 --> 00:28:16,760
+building than quantum chemistry again
+
+705
+00:28:14,760 --> 00:28:18,880
+this is a blackbox statement uh I don't
+
+706
+00:28:16,760 --> 00:28:21,640
+know any details and I'm not even
+
+707
+00:28:18,880 --> 00:28:22,760
+attributing to anybody so this is
+
+708
+00:28:21,640 --> 00:28:24,000
+interesting this is the first time that
+
+709
+00:28:22,760 --> 00:28:28,200
+I've heard that factoring is easier than
+
+710
+00:28:24,000 --> 00:28:29,760
+quantum chemistry H I priv tell you that
+
+711
+00:28:28,200 --> 00:28:33,279
+okay we
+
+712
+00:28:29,760 --> 00:28:37,399
+will we will talk offline then
+
+713
+00:28:33,279 --> 00:28:41,760
+um yeah the uh the the statement was
+
+714
+00:28:37,399 --> 00:28:44,840
+that um an unknown source uh says an
+
+715
+00:28:41,760 --> 00:28:48,039
+unnamed Source um says that um factoring
+
+716
+00:28:44,840 --> 00:28:48,039
+is easier than quantum chemistry
+
+717
+00:28:50,039 --> 00:28:54,399
+simulation so if that's the case um I
+
+718
+00:28:53,159 --> 00:28:55,840
+guess that set that sets up an
+
+719
+00:28:54,399 --> 00:28:58,519
+interesting set of incentives so if
+
+720
+00:28:55,840 --> 00:29:02,120
+factoring goes along the way to build
+
+721
+00:28:58,519 --> 00:29:03,799
+like the $100,000 specialized like um
+
+722
+00:29:02,120 --> 00:29:08,080
+scientific equipment that you can sell
+
+723
+00:29:03,799 --> 00:29:11,320
+to like biotech companies
+
+724
+00:29:08,080 --> 00:29:14,320
+um if there's enough of a market to sell
+
+725
+00:29:11,320 --> 00:29:17,440
+the specialized scientific equipment to
+
+726
+00:29:14,320 --> 00:29:19,640
+like um to biotech companies Plus sell
+
+727
+00:29:17,440 --> 00:29:21,559
+your facturing machines to the NSA then
+
+728
+00:29:19,640 --> 00:29:23,240
+then like yeah maybe maybe the the
+
+729
+00:29:21,559 --> 00:29:26,480
+things are maybe maybe the incentives
+
+730
+00:29:23,240 --> 00:29:30,039
+are aligned so another incentive is to
+
+731
+00:29:26,480 --> 00:29:30,039
+be richer than S
+
+732
+00:29:31,080 --> 00:29:34,840
+okay so so yes uh you were you were
+
+733
+00:29:33,320 --> 00:29:38,600
+saying there's a market for stealing
+
+734
+00:29:34,840 --> 00:29:38,600
+Bitcoin and
+
+735
+00:29:38,810 --> 00:29:43,240
+[Laughter]
+
+736
+00:29:40,519 --> 00:29:44,880
+um uh so this this yeah I mean the
+
+737
+00:29:43,240 --> 00:29:49,640
+question is um is there anything that
+
+738
+00:29:44,880 --> 00:29:51,840
+could get Bitcoin to go away um
+
+739
+00:29:49,640 --> 00:29:55,039
+and I don't I don't think the security
+
+740
+00:29:51,840 --> 00:29:58,760
+claims of um cryptocurrencies are why
+
+741
+00:29:55,039 --> 00:30:00,519
+people keep in investing in
+
+742
+00:29:58,760 --> 00:30:03,279
+them
+
+743
+00:30:00,519 --> 00:30:06,559
+uh so so yeah
+
+744
+00:30:03,279 --> 00:30:08,600
+um I so I I don't know like whether the
+
+745
+00:30:06,559 --> 00:30:09,880
+engineering challenges can be overcome
+
+746
+00:30:08,600 --> 00:30:11,559
+in building a quantum computer I mean I
+
+747
+00:30:09,880 --> 00:30:13,720
+think none of us do right and like this
+
+748
+00:30:11,559 --> 00:30:15,240
+is also not our area because we do like
+
+749
+00:30:13,720 --> 00:30:17,360
+the cryptography and like maybe the
+
+750
+00:30:15,240 --> 00:30:22,279
+algorithm side but not the like you know
+
+751
+00:30:17,360 --> 00:30:23,440
+deep Frozen Cubit side um so but it's
+
+752
+00:30:22,279 --> 00:30:27,320
+yeah
+
+753
+00:30:23,440 --> 00:30:30,720
+um it is an entirely new Computing
+
+754
+00:30:27,320 --> 00:30:32,519
+architecture and we've had proposals for
+
+755
+00:30:30,720 --> 00:30:34,200
+very compelling entirely new Computing
+
+756
+00:30:32,519 --> 00:30:36,000
+architectures in the past like you talk
+
+757
+00:30:34,200 --> 00:30:38,679
+to gray beards and they'll talk about
+
+758
+00:30:36,000 --> 00:30:40,559
+like Optical Computing in the 90s and
+
+759
+00:30:38,679 --> 00:30:41,679
+like we don't have Optical computers now
+
+760
+00:30:40,559 --> 00:30:46,120
+even though they could do like super
+
+761
+00:30:41,679 --> 00:30:48,640
+awesome things so yeah
+
+762
+00:30:46,120 --> 00:30:50,440
+um I think I think it's just worth
+
+763
+00:30:48,640 --> 00:30:53,120
+thinking about like what good is an
+
+764
+00:30:50,440 --> 00:30:55,039
+entirely new Computing architecture for
+
+765
+00:30:53,120 --> 00:30:57,639
+um and clearly like we have some
+
+766
+00:30:55,039 --> 00:30:59,960
+applications but we don't have general
+
+767
+00:30:57,639 --> 00:31:02,240
+purpose Computing applications and so
+
+768
+00:30:59,960 --> 00:31:03,799
+the question is like is there a market
+
+769
+00:31:02,240 --> 00:31:06,000
+for the special purpose Computing
+
+770
+00:31:03,799 --> 00:31:08,960
+applications that they are good for um
+
+771
+00:31:06,000 --> 00:31:11,919
+that is enough to fund the engineering
+
+772
+00:31:08,960 --> 00:31:14,440
+developments the financial industry is
+
+773
+00:31:11,919 --> 00:31:17,679
+very dependent on traditional
+
+774
+00:31:14,440 --> 00:31:19,840
+cryptography if they don't change then
+
+775
+00:31:17,679 --> 00:31:23,880
+there's certainly an incentive for a
+
+776
+00:31:19,840 --> 00:31:27,279
+malan actor to to go after the whole
+
+777
+00:31:23,880 --> 00:31:28,799
+thing I don't think cryptography is
+
+778
+00:31:27,279 --> 00:31:32,080
+really the thing that is protecting the
+
+779
+00:31:28,799 --> 00:31:33,480
+financial industry think regulation is
+
+780
+00:31:32,080 --> 00:31:36,240
+the thing that's protecting the the
+
+781
+00:31:33,480 --> 00:31:39,080
+financial industry
+
+782
+00:31:36,240 --> 00:31:40,720
+um uh I mean you know a lot large
+
+783
+00:31:39,080 --> 00:31:42,399
+portions of the fin Finance industry are
+
+784
+00:31:40,720 --> 00:31:44,360
+still using single de from what I hear
+
+785
+00:31:42,399 --> 00:31:48,039
+so like
+
+786
+00:31:44,360 --> 00:31:50,880
+um I don't know so um okay actually so
+
+787
+00:31:48,039 --> 00:31:54,399
+if we go to um this the topic of who is
+
+788
+00:31:50,880 --> 00:31:56,960
+willing to bet on um factoring like
+
+789
+00:31:54,399 --> 00:31:58,559
+quantumly versus classically um and I
+
+790
+00:31:56,960 --> 00:32:00,720
+made this slide before I heard of any
+
+791
+00:31:58,559 --> 00:32:03,760
+bets that um that venod was was willing
+
+792
+00:32:00,720 --> 00:32:06,120
+to put money towards um so I asked my
+
+793
+00:32:03,760 --> 00:32:08,159
+various panelists their opinions of
+
+794
+00:32:06,120 --> 00:32:10,679
+whether 20 48 bit RSA would happen
+
+795
+00:32:08,159 --> 00:32:13,399
+classically or quantumly first um and
+
+796
+00:32:10,679 --> 00:32:16,519
+they were split so some people said
+
+797
+00:32:13,399 --> 00:32:18,960
+Quantum some people said classical um
+
+798
+00:32:16,519 --> 00:32:21,159
+Antoine J has a running bet against Dan
+
+799
+00:32:18,960 --> 00:32:23,840
+Bernstein um on this
+
+800
+00:32:21,159 --> 00:32:28,720
+topic Quant have
+
+801
+00:32:23,840 --> 00:32:32,960
+quantumly yes 24 days
+
+802
+00:32:28,720 --> 00:32:36,480
+um and um actually like on the topic of
+
+803
+00:32:32,960 --> 00:32:39,760
+the talk that just preceded mine um I
+
+804
+00:32:36,480 --> 00:32:43,080
+think uh it is a compelling argument um
+
+805
+00:32:39,760 --> 00:32:44,679
+this was this was raised by Tomas PTO um
+
+806
+00:32:43,080 --> 00:32:46,639
+that um you know the original Shores
+
+807
+00:32:44,679 --> 00:32:48,080
+algorithm was clearly sort of infeasible
+
+808
+00:32:46,639 --> 00:32:52,080
+to build with a reasonable number of
+
+809
+00:32:48,080 --> 00:32:54,279
+physical cubits um but uh perhaps we
+
+810
+00:32:52,080 --> 00:32:56,200
+will actually sort of meet in the middle
+
+811
+00:32:54,279 --> 00:32:57,320
+with algorithmic improvements um that
+
+812
+00:32:56,200 --> 00:32:59,559
+this is like a compelling line of
+
+813
+00:32:57,320 --> 00:33:00,760
+research yeah you have a timeline on any
+
+814
+00:32:59,559 --> 00:33:04,799
+of
+
+815
+00:33:00,760 --> 00:33:06,440
+these no so it could be so so this this
+
+816
+00:33:04,799 --> 00:33:08,600
+is this is yeah instead of saying like
+
+817
+00:33:06,440 --> 00:33:12,480
+by 2040 we're going to have like 20 40
+
+818
+00:33:08,600 --> 00:33:14,799
+40 bit RSA this is just Quantum versus
+
+819
+00:33:12,480 --> 00:33:17,919
+classical who who gets to 20 uh who gets
+
+820
+00:33:14,799 --> 00:33:17,919
+to 20 48 bits
+
+821
+00:33:18,279 --> 00:33:25,480
+first um and uh so this this seems like
+
+822
+00:33:22,880 --> 00:33:26,840
+a a compelling Direction essentially
+
+823
+00:33:25,480 --> 00:33:28,559
+like in order for shor's algorithm to
+
+824
+00:33:26,840 --> 00:33:30,159
+actually become feasible we really need
+
+825
+00:33:28,559 --> 00:33:34,320
+to get the the complexity down we've
+
+826
+00:33:30,159 --> 00:33:36,480
+heard this from multiple angles um so
+
+827
+00:33:34,320 --> 00:33:41,200
+that's cool
+
+828
+00:33:36,480 --> 00:33:43,480
+um so short little interlude um one
+
+829
+00:33:41,200 --> 00:33:47,080
+thing like I'm a little bit too young
+
+830
+00:33:43,480 --> 00:33:49,480
+for this but like my favorite papers are
+
+831
+00:33:47,080 --> 00:33:52,559
+like all written in the 90s cuz it was
+
+832
+00:33:49,480 --> 00:33:54,120
+like super fun then like it was like all
+
+833
+00:33:52,559 --> 00:33:55,679
+the stories that you hear of like crypto
+
+834
+00:33:54,120 --> 00:33:56,880
+like people were like proposing schemes
+
+835
+00:33:55,679 --> 00:33:59,279
+and then they get like broken in the
+
+836
+00:33:56,880 --> 00:34:00,639
+rump session and it's like um and
+
+837
+00:33:59,279 --> 00:34:02,120
+there's all these like beautiful attacks
+
+838
+00:34:00,639 --> 00:34:04,159
+that are like Elementary number Theory
+
+839
+00:34:02,120 --> 00:34:07,360
+and you're just like a this is so great
+
+840
+00:34:04,159 --> 00:34:09,399
+um and like it is not that fun anymore
+
+841
+00:34:07,360 --> 00:34:11,399
+like the papers are like so long and
+
+842
+00:34:09,399 --> 00:34:13,159
+they're like so complicated and like the
+
+843
+00:34:11,399 --> 00:34:15,119
+attack techniques are like so long and
+
+844
+00:34:13,159 --> 00:34:19,159
+it's so complicated like it's really
+
+845
+00:34:15,119 --> 00:34:21,280
+it's like way less fun um and uh like
+
+846
+00:34:19,159 --> 00:34:24,520
+talking to some of the people that I
+
+847
+00:34:21,280 --> 00:34:28,399
+interviewed um you know for example like
+
+848
+00:34:24,520 --> 00:34:30,119
+Paul cotcher okay he like invented side
+
+849
+00:34:28,399 --> 00:34:32,599
+Channel attacks like against
+
+850
+00:34:30,119 --> 00:34:34,119
+cryptography and basically he said that
+
+851
+00:34:32,599 --> 00:34:36,079
+like you know he started by doing
+
+852
+00:34:34,119 --> 00:34:40,359
+classical Crypt analysis but then that
+
+853
+00:34:36,079 --> 00:34:41,720
+got too hard and so like when the actual
+
+854
+00:34:40,359 --> 00:34:43,240
+like classical crypto analysis like when
+
+855
+00:34:41,720 --> 00:34:44,720
+people improved their implementation so
+
+856
+00:34:43,240 --> 00:34:46,359
+much that you couldn't just like break
+
+857
+00:34:44,720 --> 00:34:48,359
+them out right you needed stronger
+
+858
+00:34:46,359 --> 00:34:50,040
+attack techniques so you needed a better
+
+859
+00:34:48,359 --> 00:34:51,520
+attack technique invent side Channel
+
+860
+00:34:50,040 --> 00:34:54,480
+attacks turns out that like nobody can
+
+861
+00:34:51,520 --> 00:34:58,880
+protect against side Channel attacks um
+
+862
+00:34:54,480 --> 00:35:03,359
+so uh that's kind of um um like One
+
+863
+00:34:58,880 --> 00:35:04,880
+Direction um yeah Emanuel to had like um
+
+864
+00:35:03,359 --> 00:35:06,280
+sort of points out that there's been
+
+865
+00:35:04,880 --> 00:35:08,079
+this shifting balance so like there used
+
+866
+00:35:06,280 --> 00:35:11,320
+to be a lot more Crypt analysis papers
+
+867
+00:35:08,079 --> 00:35:16,040
+25 or 30 years ago um and we see like
+
+868
+00:35:11,320 --> 00:35:18,480
+you know um far fewer now um and some of
+
+869
+00:35:16,040 --> 00:35:19,800
+that so antoan J um says like with
+
+870
+00:35:18,480 --> 00:35:21,440
+provable security people are making
+
+871
+00:35:19,800 --> 00:35:23,640
+fewer and fewer stupid mistakes the
+
+872
+00:35:21,440 --> 00:35:25,880
+kinds of things that made Crypt analysis
+
+873
+00:35:23,640 --> 00:35:27,839
+possible without breaking the algorithms
+
+874
+00:35:25,880 --> 00:35:29,079
+um sometimes there are things left over
+
+875
+00:35:27,839 --> 00:35:31,000
+but it's really getting harder to get
+
+876
+00:35:29,079 --> 00:35:33,520
+interesting resultss so in some sense
+
+877
+00:35:31,000 --> 00:35:34,839
+this is good news for the constructive
+
+878
+00:35:33,520 --> 00:35:36,480
+side that there are better tools there
+
+879
+00:35:34,839 --> 00:35:38,960
+are better proof techniques there's
+
+880
+00:35:36,480 --> 00:35:40,160
+better analysis um so you can publish
+
+881
+00:35:38,960 --> 00:35:41,760
+papers without making like super
+
+882
+00:35:40,160 --> 00:35:44,200
+embarrassing mistakes but this also
+
+883
+00:35:41,760 --> 00:35:47,839
+means there's fewer targets for upand
+
+884
+00:35:44,200 --> 00:35:50,079
+cominging researchers to like you know
+
+885
+00:35:47,839 --> 00:35:52,920
+sharpen their teeth on
+
+886
+00:35:50,079 --> 00:35:56,240
+essentially um
+
+887
+00:35:52,920 --> 00:35:58,280
+and if you want to have like a pipeline
+
+888
+00:35:56,240 --> 00:36:01,280
+of people who know how to do Crypt
+
+889
+00:35:58,280 --> 00:36:04,440
+analysis they have to publish papers on
+
+890
+00:36:01,280 --> 00:36:06,560
+something so the question is what like
+
+891
+00:36:04,440 --> 00:36:10,520
+are we training the next generation of
+
+892
+00:36:06,560 --> 00:36:14,040
+of um like Crypt analysis researchers
+
+893
+00:36:10,520 --> 00:36:15,800
+and um kind of I mean clearly we still
+
+894
+00:36:14,040 --> 00:36:17,240
+are because there are still like you
+
+895
+00:36:15,800 --> 00:36:19,119
+know young people who are working on the
+
+896
+00:36:17,240 --> 00:36:20,920
+on these kinds of things so like Tomas
+
+897
+00:36:19,119 --> 00:36:23,880
+PTO you know he got his PhD a few years
+
+898
+00:36:20,920 --> 00:36:26,680
+ago so I guess is like fairly young um
+
+899
+00:36:23,880 --> 00:36:29,640
+and like his philosophy towards breaking
+
+900
+00:36:26,680 --> 00:36:30,920
+lattice schemes is there's like three
+
+901
+00:36:29,640 --> 00:36:32,040
+things that you can do you can look at
+
+902
+00:36:30,920 --> 00:36:33,680
+the scheme and you can get like an
+
+903
+00:36:32,040 --> 00:36:36,440
+incremental algorithmic Improvement on
+
+904
+00:36:33,680 --> 00:36:39,800
+some fundamental hard problem like lwe
+
+905
+00:36:36,440 --> 00:36:41,920
+or whatever um you can look at the crazy
+
+906
+00:36:39,800 --> 00:36:43,400
+new assumptions that people have to come
+
+907
+00:36:41,920 --> 00:36:46,040
+up with because if you actually want to
+
+908
+00:36:43,400 --> 00:36:48,079
+build like fully homomorphic encryption
+
+909
+00:36:46,040 --> 00:36:50,119
+or like zero knowledge proofs or
+
+910
+00:36:48,079 --> 00:36:53,040
+whatever like you need some like some
+
+911
+00:36:50,119 --> 00:36:55,640
+special variant of like ring LW you
+
+912
+00:36:53,040 --> 00:36:58,359
+can't just use like the the main scheme
+
+913
+00:36:55,640 --> 00:37:00,400
+and so like those variants are more
+
+914
+00:36:58,359 --> 00:37:02,160
+subject to attack but like if you can't
+
+915
+00:37:00,400 --> 00:37:03,880
+break that then you just do a side
+
+916
+00:37:02,160 --> 00:37:05,720
+Channel and you know that the side
+
+917
+00:37:03,880 --> 00:37:08,720
+channel is going to work so like that's
+
+918
+00:37:05,720 --> 00:37:10,680
+how you publish the paper and um that's
+
+919
+00:37:08,720 --> 00:37:12,640
+why there's so many side Channel papers
+
+920
+00:37:10,680 --> 00:37:13,880
+right but this means that like people in
+
+921
+00:37:12,640 --> 00:37:16,480
+the popular press think that side
+
+922
+00:37:13,880 --> 00:37:18,920
+channels are an actual real
+
+923
+00:37:16,480 --> 00:37:21,599
+problem even though
+
+924
+00:37:18,920 --> 00:37:23,400
+like it's a super strong like threat
+
+925
+00:37:21,599 --> 00:37:25,920
+model that like your adversary is
+
+926
+00:37:23,400 --> 00:37:29,760
+running a process like collocated on the
+
+927
+00:37:25,920 --> 00:37:31,160
+same processor as yours um so like this
+
+928
+00:37:29,760 --> 00:37:32,920
+is one of these weird incentive things
+
+929
+00:37:31,160 --> 00:37:34,839
+that like people have to publish papers
+
+930
+00:37:32,920 --> 00:37:36,599
+somehow people are not publishing nearly
+
+931
+00:37:34,839 --> 00:37:37,920
+as many papers on like social
+
+932
+00:37:36,599 --> 00:37:40,359
+engineering techniques even though we
+
+933
+00:37:37,920 --> 00:37:43,000
+know like that's actually how companies
+
+934
+00:37:40,359 --> 00:37:44,160
+get hacked and not side Channel attacks
+
+935
+00:37:43,000 --> 00:37:45,760
+but then the companies are like oh we
+
+936
+00:37:44,160 --> 00:37:48,880
+really have to fix this like whatever
+
+937
+00:37:45,760 --> 00:37:51,960
+this new like meltdown variant that is
+
+938
+00:37:48,880 --> 00:37:54,200
+coming out so that's like a weird thing
+
+939
+00:37:51,960 --> 00:37:55,480
+that's coming out like the imbalances in
+
+940
+00:37:54,200 --> 00:37:58,079
+our field that we have to keep
+
+941
+00:37:55,480 --> 00:38:00,319
+publishing papers mean that companies
+
+942
+00:37:58,079 --> 00:38:04,800
+are focusing on the wrong things in a
+
+943
+00:38:00,319 --> 00:38:06,800
+weird way um so from a paper publishing
+
+944
+00:38:04,800 --> 00:38:08,200
+perspective like if you're a student
+
+945
+00:38:06,800 --> 00:38:10,560
+here's one way to think about like how
+
+946
+00:38:08,200 --> 00:38:11,760
+to look at a solve a problem is like you
+
+947
+00:38:10,560 --> 00:38:13,599
+have some Target problem you want to
+
+948
+00:38:11,760 --> 00:38:15,359
+solve you have a collection of attack
+
+949
+00:38:13,599 --> 00:38:16,720
+techniques and you iterate through your
+
+950
+00:38:15,359 --> 00:38:18,400
+collection of attack techniques and you
+
+951
+00:38:16,720 --> 00:38:20,560
+try to just whack your problem with with
+
+952
+00:38:18,400 --> 00:38:22,400
+each of them and see if you get a hit so
+
+953
+00:38:20,560 --> 00:38:24,240
+that's one way to to do something yeah
+
+954
+00:38:22,400 --> 00:38:27,119
+is it actually true that the companies
+
+955
+00:38:24,240 --> 00:38:28,200
+are focusing on these things that people
+
+956
+00:38:27,119 --> 00:38:30,800
+publish
+
+957
+00:38:28,200 --> 00:38:32,359
+or they know better I think a lot of
+
+958
+00:38:30,800 --> 00:38:34,800
+companies are freaking out about like
+
+959
+00:38:32,359 --> 00:38:36,839
+patching against like the most latest
+
+960
+00:38:34,800 --> 00:38:39,440
+like side Channel
+
+961
+00:38:36,839 --> 00:38:42,119
+attack but that's also easier to catch
+
+962
+00:38:39,440 --> 00:38:45,800
+against that than to prevent social
+
+963
+00:38:42,119 --> 00:38:47,119
+engineering attacks yes so I mean there
+
+964
+00:38:45,800 --> 00:38:49,079
+there may be an effect of like you do
+
+965
+00:38:47,119 --> 00:38:51,680
+what you can and certainly you will look
+
+966
+00:38:49,079 --> 00:38:52,880
+irresponsible if like somebody if you
+
+967
+00:38:51,680 --> 00:38:54,079
+like don't patch against a thing that
+
+968
+00:38:52,880 --> 00:38:55,920
+somebody told you were vulnerable
+
+969
+00:38:54,079 --> 00:38:59,440
+against but like maybe that's not the
+
+970
+00:38:55,920 --> 00:38:59,440
+best use of time
+
+971
+00:39:00,480 --> 00:39:07,480
+so was there a hint you since we're
+
+972
+00:39:04,280 --> 00:39:09,960
+saying Pap like things you know like
+
+973
+00:39:07,480 --> 00:39:12,079
+side tax like and the companies are like
+
+974
+00:39:09,960 --> 00:39:14,319
+looking at them getting worried can you
+
+975
+00:39:12,079 --> 00:39:19,440
+just at the end say you know don't
+
+976
+00:39:14,319 --> 00:39:20,720
+worry that not is that not nobody will
+
+977
+00:39:19,440 --> 00:39:22,359
+yeah I mean if you if you don't say your
+
+978
+00:39:20,720 --> 00:39:23,720
+paper is like the most important thing
+
+979
+00:39:22,359 --> 00:39:27,680
+to happen like the reviewers are
+
+980
+00:39:23,720 --> 00:39:27,680
+definitely not going to accept it
+
+981
+00:39:28,480 --> 00:39:31,720
+your University is going to be much
+
+982
+00:39:29,800 --> 00:39:35,920
+happier if you got a lot of press about
+
+983
+00:39:31,720 --> 00:39:37,520
+your article um and the Press they have
+
+984
+00:39:35,920 --> 00:39:40,079
+to say that it's like the newest and
+
+985
+00:39:37,520 --> 00:39:42,560
+greatest attack because like that's why
+
+986
+00:39:40,079 --> 00:39:44,839
+it's novel so there's a whole there's
+
+987
+00:39:42,560 --> 00:39:47,240
+whole layers of incentives here where
+
+988
+00:39:44,839 --> 00:39:48,560
+like we know the game that we're playing
+
+989
+00:39:47,240 --> 00:39:50,800
+but not everybody else knows the game
+
+990
+00:39:48,560 --> 00:39:50,800
+that we're
+
+991
+00:39:54,280 --> 00:40:01,200
+playing um
+
+992
+00:39:57,760 --> 00:40:03,640
+I have thought about how to write the
+
+993
+00:40:01,200 --> 00:40:06,079
+paper of like is anybody actually
+
+994
+00:40:03,640 --> 00:40:10,839
+exploiting a side Channel attack
+
+995
+00:40:06,079 --> 00:40:14,560
+ever um it's a good title is anybody
+
+996
+00:40:10,839 --> 00:40:17,520
+exploting a side Channel attack so
+
+997
+00:40:14,560 --> 00:40:19,960
+um I have I have asked around if anybody
+
+998
+00:40:17,520 --> 00:40:23,000
+has ever seen exploitation of a side
+
+999
+00:40:19,960 --> 00:40:27,720
+Channel attack um
+
+1000
+00:40:23,000 --> 00:40:29,440
+and there okay so the um and and people
+
+1001
+00:40:27,720 --> 00:40:32,160
+people are always like yeah we saw some
+
+1002
+00:40:29,440 --> 00:40:34,680
+like CCC talk from like whenever where
+
+1003
+00:40:32,160 --> 00:40:37,480
+somebody did a side Channel attack um so
+
+1004
+00:40:34,680 --> 00:40:40,000
+I have seen so there was
+
+1005
+00:40:37,480 --> 00:40:44,079
+one super fun
+
+1006
+00:40:40,000 --> 00:40:46,160
+paper like a couple years
+
+1007
+00:40:44,079 --> 00:40:48,000
+ago what was the name of the scheme it
+
+1008
+00:40:46,160 --> 00:40:50,319
+was it was like a broken
+
+1009
+00:40:48,000 --> 00:40:53,599
+European um
+
+1010
+00:40:50,319 --> 00:40:56,680
+proprietary uh encryption scheme where
+
+1011
+00:40:53,599 --> 00:41:00,200
+in order to reverse engineer the scheme
+
+1012
+00:40:56,680 --> 00:41:02,800
+they had to do a blind AES cachee attack
+
+1013
+00:41:00,200 --> 00:41:04,319
+um against the encrypted firmware that
+
+1014
+00:41:02,800 --> 00:41:06,880
+they were trying to break so that is
+
+1015
+00:41:04,319 --> 00:41:09,119
+clearly a case where like those kinds of
+
+1016
+00:41:06,880 --> 00:41:11,240
+vulnerability researchers like it turns
+
+1017
+00:41:09,119 --> 00:41:13,319
+out that like doing a an ases cach
+
+1018
+00:41:11,240 --> 00:41:14,560
+attack can actually be the way that you
+
+1019
+00:41:13,319 --> 00:41:15,720
+you get your keys in order to like
+
+1020
+00:41:14,560 --> 00:41:18,680
+decrypt the firmware that you're trying
+
+1021
+00:41:15,720 --> 00:41:20,319
+to reverse engineer so that is that is a
+
+1022
+00:41:18,680 --> 00:41:22,720
+a side Channel attack threat model that
+
+1023
+00:41:20,319 --> 00:41:25,160
+I will absolutely accept that like you
+
+1024
+00:41:22,720 --> 00:41:27,599
+have the hardware you can you can do all
+
+1025
+00:41:25,160 --> 00:41:30,319
+the side channels you want um also like
+
+1026
+00:41:27,599 --> 00:41:32,640
+apparently the like people stealing payv
+
+1027
+00:41:30,319 --> 00:41:37,160
+and stuff were were totally like doing
+
+1028
+00:41:32,640 --> 00:41:38,839
+side Channel attacks to to steal um the
+
+1029
+00:41:37,160 --> 00:41:41,760
+um whatever the encryption key of the
+
+1030
+00:41:38,839 --> 00:41:43,079
+day was um so like that kind of threat
+
+1031
+00:41:41,760 --> 00:41:44,920
+model where like the attacker has like
+
+1032
+00:41:43,079 --> 00:41:47,160
+unlimited physical access to like a
+
+1033
+00:41:44,920 --> 00:41:48,720
+machine that is like doing encryption
+
+1034
+00:41:47,160 --> 00:41:52,200
+that's definitely like a real side
+
+1035
+00:41:48,720 --> 00:41:54,680
+Channel model but then the the case of
+
+1036
+00:41:52,200 --> 00:41:55,960
+like General software the most that I've
+
+1037
+00:41:54,680 --> 00:41:57,599
+heard is that apparently like the
+
+1038
+00:41:55,960 --> 00:42:00,319
+Spectre and meltdown code code was
+
+1039
+00:41:57,599 --> 00:42:02,560
+included in like metlo or like some some
+
+1040
+00:42:00,319 --> 00:42:05,480
+like version of that that appeared in
+
+1041
+00:42:02,560 --> 00:42:07,200
+some malware um but I've never heard of
+
+1042
+00:42:05,480 --> 00:42:10,160
+like a
+
+1043
+00:42:07,200 --> 00:42:13,480
+real Attack of that
+
+1044
+00:42:10,160 --> 00:42:16,280
+form ipes are stolen it's like one of
+
+1045
+00:42:13,480 --> 00:42:19,440
+the ways to steal technology is to do an
+
+1046
+00:42:16,280 --> 00:42:21,880
+attack on the the Cryptor which loads
+
+1047
+00:42:19,440 --> 00:42:25,960
+the software onto the
+
+1048
+00:42:21,880 --> 00:42:27,839
+fpga uh so that's a practical one uh and
+
+1049
+00:42:25,960 --> 00:42:30,760
+there are some other government
+
+1050
+00:42:27,839 --> 00:42:33,319
+sectors where they probably do this type
+
+1051
+00:42:30,760 --> 00:42:37,680
+of thing but they're not going to
+
+1052
+00:42:33,319 --> 00:42:39,040
+publish it yeah I I I I believe that so
+
+1053
+00:42:37,680 --> 00:42:41,040
+um yeah that's that's another that's
+
+1054
+00:42:39,040 --> 00:42:42,920
+another example of of like in order to
+
+1055
+00:42:41,040 --> 00:42:44,400
+do yeah reverse engineering or other
+
+1056
+00:42:42,920 --> 00:42:45,920
+kinds of stealing like you actually have
+
+1057
+00:42:44,400 --> 00:42:48,680
+like an encrypted Target and you have
+
+1058
+00:42:45,920 --> 00:42:50,400
+like physical access to it and um and a
+
+1059
+00:42:48,680 --> 00:42:53,240
+side Channel attack is actually the the
+
+1060
+00:42:50,400 --> 00:42:57,839
+right thing to do point
+
+1061
+00:42:53,240 --> 00:42:58,839
+it's when these attacks happen
+
+1062
+00:42:57,839 --> 00:43:00,800
+that's that's that's one of the
+
+1063
+00:42:58,839 --> 00:43:02,280
+difficulties in in like writing this
+
+1064
+00:43:00,800 --> 00:43:04,079
+paper is like how do you prove that
+
+1065
+00:43:02,280 --> 00:43:07,520
+something was or was not a side Channel
+
+1066
+00:43:04,079 --> 00:43:08,680
+attack um so yeah I I don't know how to
+
+1067
+00:43:07,520 --> 00:43:09,920
+like it could be that I'm totally wrong
+
+1068
+00:43:08,680 --> 00:43:11,359
+and people are exploiting them all over
+
+1069
+00:43:09,920 --> 00:43:13,400
+the place but usually it's not the
+
+1070
+00:43:11,359 --> 00:43:17,359
+easiest way to to get
+
+1071
+00:43:13,400 --> 00:43:19,119
+data um okay um for the students I want
+
+1072
+00:43:17,359 --> 00:43:21,960
+to say there's another approach to
+
+1073
+00:43:19,119 --> 00:43:24,960
+solving problems that you can adopt
+
+1074
+00:43:21,960 --> 00:43:29,839
+which is um this is an anecdote about
+
+1075
+00:43:24,960 --> 00:43:33,359
+Fineman from this um fun uh talk SL
+
+1076
+00:43:29,839 --> 00:43:34,720
+essay um from uh Roa 10 lessons I wish
+
+1077
+00:43:33,359 --> 00:43:36,599
+i' had been taught so he he tells this
+
+1078
+00:43:34,720 --> 00:43:37,839
+anecdote about Fineman um he was fond of
+
+1079
+00:43:36,599 --> 00:43:39,160
+giving the following advice on how to be
+
+1080
+00:43:37,839 --> 00:43:41,280
+a genius you keep a dozen of your
+
+1081
+00:43:39,160 --> 00:43:43,520
+favorite problems in constantly in your
+
+1082
+00:43:41,280 --> 00:43:45,440
+mind and every time you hear read a new
+
+1083
+00:43:43,520 --> 00:43:47,200
+trick or new result test against your 12
+
+1084
+00:43:45,440 --> 00:43:49,200
+problems and see whether it helps every
+
+1085
+00:43:47,200 --> 00:43:51,359
+once in a while thebody hit people say
+
+1086
+00:43:49,200 --> 00:43:52,760
+how did he do it he must be a genius so
+
+1087
+00:43:51,359 --> 00:43:54,880
+this is like the opposite direction
+
+1088
+00:43:52,760 --> 00:43:56,280
+where you like um have some dictionary
+
+1089
+00:43:54,880 --> 00:43:58,079
+of Target problems and then every time
+
+1090
+00:43:56,280 --> 00:43:59,760
+you learn a new technique you like whack
+
+1091
+00:43:58,079 --> 00:44:01,040
+all of your target problems with it and
+
+1092
+00:43:59,760 --> 00:44:03,040
+every once in a while you get a you get
+
+1093
+00:44:01,040 --> 00:44:04,720
+a technique um I think I accidentally
+
+1094
+00:44:03,040 --> 00:44:06,640
+ended up doing this except it turned
+
+1095
+00:44:04,720 --> 00:44:08,720
+down to like I would read some like
+
+1096
+00:44:06,640 --> 00:44:09,800
+paper from the 90s and then like scan
+
+1097
+00:44:08,720 --> 00:44:11,359
+the internet and find somebody who
+
+1098
+00:44:09,800 --> 00:44:13,390
+screwed it up and publish a paper that's
+
+1099
+00:44:11,359 --> 00:44:15,119
+how I got a job
+
+1100
+00:44:13,390 --> 00:44:18,640
+[Music]
+
+1101
+00:44:15,119 --> 00:44:20,640
+um okay um anyway that's how I got
+
+1102
+00:44:18,640 --> 00:44:22,160
+interested in this stuff um so I want to
+
+1103
+00:44:20,640 --> 00:44:25,319
+tell you about classical and factoring
+
+1104
+00:44:22,160 --> 00:44:29,079
+and discret log a little bit so yes
+
+1105
+00:44:25,319 --> 00:44:33,160
+people still use RSA and Diffy Helman
+
+1106
+00:44:29,079 --> 00:44:37,760
+like um mod primes and they will be for
+
+1107
+00:44:33,160 --> 00:44:40,680
+a long time and basically okay so uh if
+
+1108
+00:44:37,760 --> 00:44:44,040
+we look at the data going across ucsd's
+
+1109
+00:44:40,680 --> 00:44:47,640
+Network um right now about 22% of SSH
+
+1110
+00:44:44,040 --> 00:44:50,680
+connections use RSA host Keys um 83% of
+
+1111
+00:44:47,640 --> 00:44:52,520
+TLS 1.2 connections use RSA signatures
+
+1112
+00:44:50,680 --> 00:44:54,079
+um we can't see the signatures in TLS
+
+1113
+00:44:52,520 --> 00:44:58,480
+1.3 because they're encrypted good job
+
+1114
+00:44:54,079 --> 00:45:01,200
+TLS 1.3 um but uh
+
+1115
+00:44:58,480 --> 00:45:02,599
+certificates are like basically this is
+
+1116
+00:45:01,200 --> 00:45:05,839
+the fraction of certificates that are
+
+1117
+00:45:02,599 --> 00:45:08,839
+using RSA public keys so there their
+
+1118
+00:45:05,839 --> 00:45:10,480
+signatures are going to be RSA like no
+
+1119
+00:45:08,839 --> 00:45:14,319
+matter whether you're using TS 1.2 or
+
+1120
+00:45:10,480 --> 00:45:17,319
+1.3 um and TS 1.3 also everybody is is
+
+1121
+00:45:14,319 --> 00:45:19,960
+only using elliptic curve Diffy Helman
+
+1122
+00:45:17,319 --> 00:45:21,640
+but um the protocol itself supports a
+
+1123
+00:45:19,960 --> 00:45:23,520
+list of named finite field Diffy Helman
+
+1124
+00:45:21,640 --> 00:45:26,480
+groups that are like specified
+
+1125
+00:45:23,520 --> 00:45:30,960
+hard-coded smallest size is 20 48 bits
+
+1126
+00:45:26,480 --> 00:45:34,280
+so like these are there um
+
+1127
+00:45:30,960 --> 00:45:36,760
+and most implementers are skeptical
+
+1128
+00:45:34,280 --> 00:45:38,240
+enough about the postquantum schemes
+
+1129
+00:45:36,760 --> 00:45:39,640
+that they are going to be doing hybrid
+
+1130
+00:45:38,240 --> 00:45:41,440
+so we actually are going to still be
+
+1131
+00:45:39,640 --> 00:45:47,240
+seeing these schemes for a long
+
+1132
+00:45:41,440 --> 00:45:50,119
+time okay so going back to our um
+
+1133
+00:45:47,240 --> 00:45:51,720
+cartoon here um all modern digital
+
+1134
+00:45:50,119 --> 00:45:54,079
+infrastructure if you look at who's
+
+1135
+00:45:51,720 --> 00:45:55,520
+actually studying this problem it's five
+
+1136
+00:45:54,079 --> 00:45:58,800
+underpaid French
+
+1137
+00:45:55,520 --> 00:46:01,000
+researchers that's it okay so um we have
+
+1138
+00:45:58,800 --> 00:46:02,920
+heard that uh factoring and discrete log
+
+1139
+00:46:01,000 --> 00:46:04,599
+are well understood and well studied
+
+1140
+00:46:02,920 --> 00:46:06,440
+problems the best algorithm that we have
+
+1141
+00:46:04,599 --> 00:46:08,960
+for these is called the number field Civ
+
+1142
+00:46:06,440 --> 00:46:11,400
+there is a spooky connection between
+
+1143
+00:46:08,960 --> 00:46:13,800
+factoring and finite field discreet log
+
+1144
+00:46:11,400 --> 00:46:16,680
+um that the they're like analogous
+
+1145
+00:46:13,800 --> 00:46:20,760
+algorithms for like both in in many
+
+1146
+00:46:16,680 --> 00:46:22,160
+cases um so number field Civ um this is
+
+1147
+00:46:20,760 --> 00:46:23,680
+like a picture of the structure of this
+
+1148
+00:46:22,160 --> 00:46:25,240
+algorithm it's a super complicated
+
+1149
+00:46:23,680 --> 00:46:26,559
+algorithm with a billion different
+
+1150
+00:46:25,240 --> 00:46:28,160
+parameters that you have to optimize
+
+1151
+00:46:26,559 --> 00:46:32,119
+just right in order to get it to work at
+
+1152
+00:46:28,160 --> 00:46:34,359
+all um if you optimize everything
+
+1153
+00:46:32,119 --> 00:46:37,240
+correctly ASM totically your running
+
+1154
+00:46:34,359 --> 00:46:40,800
+time is this like ugly looking function
+
+1155
+00:46:37,240 --> 00:46:44,040
+like L of 1/3 there's a parameter n
+
+1156
+00:46:40,800 --> 00:46:46,079
+which is either the modulus or like your
+
+1157
+00:46:44,040 --> 00:46:49,079
+Prime that you're doing discret log mod
+
+1158
+00:46:46,079 --> 00:46:50,359
+um and then you have this uh constant
+
+1159
+00:46:49,079 --> 00:46:53,400
+which is in the exponent which is like
+
+1160
+00:46:50,359 --> 00:46:54,880
+cube root of 64 over 9 um and so this L
+
+1161
+00:46:53,400 --> 00:46:56,599
+function comes up whenever you need to
+
+1162
+00:46:54,880 --> 00:46:58,079
+do heuristics involving the prime number
+
+1163
+00:46:56,599 --> 00:47:00,480
+theor to like get bounds on the
+
+1164
+00:46:58,079 --> 00:47:02,440
+smoothness of like random numbers of a
+
+1165
+00:47:00,480 --> 00:47:04,920
+particular size so basically it's like
+
+1166
+00:47:02,440 --> 00:47:07,200
+exponential in like log n the 1/3
+
+1167
+00:47:04,920 --> 00:47:08,559
+there's this ugly constant in the front
+
+1168
+00:47:07,200 --> 00:47:10,280
+which is in the exponent so it really
+
+1169
+00:47:08,559 --> 00:47:12,480
+matters and then there's this log log n
+
+1170
+00:47:10,280 --> 00:47:14,119
+to the 2/3 so like basically the running
+
+1171
+00:47:12,480 --> 00:47:14,800
+times of all of these algorithms have
+
+1172
+00:47:14,119 --> 00:47:17,440
+this
+
+1173
+00:47:14,800 --> 00:47:20,119
+structure um all right and then if you
+
+1174
+00:47:17,440 --> 00:47:22,119
+look at like concrete progress uh this
+
+1175
+00:47:20,119 --> 00:47:24,720
+is essentially what factoring discret
+
+1176
+00:47:22,119 --> 00:47:27,040
+log algorithm progress looks like um
+
+1177
+00:47:24,720 --> 00:47:28,200
+over the past few decades you you can
+
+1178
+00:47:27,040 --> 00:47:29,319
+see there was like constant progress and
+
+1179
+00:47:28,200 --> 00:47:33,079
+then people kind I don't know sort of
+
+1180
+00:47:29,319 --> 00:47:34,720
+petered out um but like factoring is
+
+1181
+00:47:33,079 --> 00:47:37,480
+like a little bit it's like a constant
+
+1182
+00:47:34,720 --> 00:47:40,520
+Factor harder than discret log turns out
+
+1183
+00:47:37,480 --> 00:47:44,000
+for like it's hidden by the astics but
+
+1184
+00:47:40,520 --> 00:47:47,040
+um it's slightly harder apparently um
+
+1185
+00:47:44,000 --> 00:47:49,440
+and the way that these records work um I
+
+1186
+00:47:47,040 --> 00:47:51,559
+think Arian ler was involved in like
+
+1187
+00:47:49,440 --> 00:47:54,079
+most of the ones down
+
+1188
+00:47:51,559 --> 00:47:55,960
+here um and then but like the way it
+
+1189
+00:47:54,079 --> 00:47:58,559
+works is like every few years some
+
+1190
+00:47:55,960 --> 00:48:00,280
+academics are like hey do we do another
+
+1191
+00:47:58,559 --> 00:48:01,880
+factoring record and everybody like
+
+1192
+00:48:00,280 --> 00:48:03,319
+pulls out their like supercomputer
+
+1193
+00:48:01,880 --> 00:48:05,000
+access or their own custers and then
+
+1194
+00:48:03,319 --> 00:48:06,559
+they like you know run the software for
+
+1195
+00:48:05,000 --> 00:48:08,119
+a little while like transfer some files
+
+1196
+00:48:06,559 --> 00:48:10,240
+over and then like publish a paper
+
+1197
+00:48:08,119 --> 00:48:13,160
+that's basically like a trip report of
+
+1198
+00:48:10,240 --> 00:48:14,960
+like here's what we did and like doing
+
+1199
+00:48:13,160 --> 00:48:17,559
+doing this kind of computation honestly
+
+1200
+00:48:14,960 --> 00:48:21,000
+is kind of a drag like so okay I I had
+
+1201
+00:48:17,559 --> 00:48:23,000
+like a small part in in like that little
+
+1202
+00:48:21,000 --> 00:48:24,480
+um most recent bubble which basically
+
+1203
+00:48:23,000 --> 00:48:26,400
+consisted of like babysitting a
+
+1204
+00:48:24,480 --> 00:48:31,280
+computation like part of the computation
+
+1205
+00:48:26,400 --> 00:48:33,079
+on on my cluster um and like you have to
+
+1206
+00:48:31,280 --> 00:48:34,680
+deal with like file system stuff and
+
+1207
+00:48:33,079 --> 00:48:36,960
+like you get like Corruptions and then
+
+1208
+00:48:34,680 --> 00:48:39,359
+like you know we have like some ungodly
+
+1209
+00:48:36,960 --> 00:48:40,960
+like SSH Tunnel open to France and it
+
+1210
+00:48:39,359 --> 00:48:44,359
+like you know the stuff just like goes
+
+1211
+00:48:40,960 --> 00:48:49,040
+down and like um like maintaining
+
+1212
+00:48:44,359 --> 00:48:52,720
+Hardware is like a giant drag um so it's
+
+1213
+00:48:49,040 --> 00:48:54,319
+yeah it's just kind of painful to do um
+
+1214
+00:48:52,720 --> 00:48:56,960
+and so it's really like a a collection
+
+1215
+00:48:54,319 --> 00:48:58,720
+of like funky little academics most them
+
+1216
+00:48:56,960 --> 00:49:00,359
+in France who actually do this stuff so
+
+1217
+00:48:58,720 --> 00:49:02,280
+if you actually want to compute like
+
+1218
+00:49:00,359 --> 00:49:04,440
+factorizations of integers the software
+
+1219
+00:49:02,280 --> 00:49:08,760
+that you're going to use is called K NFS
+
+1220
+00:49:04,440 --> 00:49:11,119
+um it is written by this team in inria
+
+1221
+00:49:08,760 --> 00:49:12,559
+um they credit many people but like
+
+1222
+00:49:11,119 --> 00:49:15,079
+there's varying I mean there's varying
+
+1223
+00:49:12,559 --> 00:49:16,440
+amounts of of contribution or whatnot um
+
+1224
+00:49:15,079 --> 00:49:18,720
+but like this is this is the software
+
+1225
+00:49:16,440 --> 00:49:23,000
+you want to use
+
+1226
+00:49:18,720 --> 00:49:27,880
+um and um there have actually been
+
+1227
+00:49:23,000 --> 00:49:29,720
+improvements in uh this area um by
+
+1228
+00:49:27,880 --> 00:49:33,040
+recent I mean I guess this past couple
+
+1229
+00:49:29,720 --> 00:49:35,200
+of decades um so the running time as we
+
+1230
+00:49:33,040 --> 00:49:38,319
+heard of the the general number field C
+
+1231
+00:49:35,200 --> 00:49:40,319
+um is this uh ugly function here which
+
+1232
+00:49:38,319 --> 00:49:44,400
+has been the same since like 1993 or
+
+1233
+00:49:40,319 --> 00:49:46,359
+1991 whatever um and but there actually
+
+1234
+00:49:44,400 --> 00:49:48,920
+have been improvements so for discret
+
+1235
+00:49:46,359 --> 00:49:50,839
+log the Final Phase of discret log there
+
+1236
+00:49:48,920 --> 00:49:53,960
+was an ASM totic Improvement that
+
+1237
+00:49:50,839 --> 00:49:56,799
+improved the constant in this exponent
+
+1238
+00:49:53,960 --> 00:49:57,640
+from cube root of 64 over 9 to basically
+
+1239
+00:49:56,799 --> 00:49:59,920
+Like This
+
+1240
+00:49:57,640 --> 00:50:02,440
+1.2 um and this makes a huge difference
+
+1241
+00:49:59,920 --> 00:50:05,240
+this is the difference between for
+
+1242
+00:50:02,440 --> 00:50:09,680
+like
+
+1243
+00:50:05,240 --> 00:50:11,960
+um 512 to 1024 bit numbers like this is
+
+1244
+00:50:09,680 --> 00:50:13,280
+like years of computation this this is
+
+1245
+00:50:11,960 --> 00:50:17,960
+like years of computation to like
+
+1246
+00:50:13,280 --> 00:50:20,040
+minutes of computation um and um more
+
+1247
+00:50:17,960 --> 00:50:23,079
+spectacularly in 2013 there was a series
+
+1248
+00:50:20,040 --> 00:50:26,920
+of improvements um that brought the
+
+1249
+00:50:23,079 --> 00:50:30,680
+running time for discret log in a fin
+
+1250
+00:50:26,920 --> 00:50:32,359
+field of small characteristic from this
+
+1251
+00:50:30,680 --> 00:50:35,160
+subexponential running time like L of
+
+1252
+00:50:32,359 --> 00:50:38,880
+1/3 to quasi polinomial so like
+
+1253
+00:50:35,160 --> 00:50:41,160
+basically end to the like o of login um
+
+1254
+00:50:38,880 --> 00:50:42,960
+and this freaked a bunch of people out
+
+1255
+00:50:41,160 --> 00:50:44,760
+but there was no sort of obvious
+
+1256
+00:50:42,960 --> 00:50:46,119
+extension to large characteristic finite
+
+1257
+00:50:44,760 --> 00:50:48,520
+field which is what we actually use for
+
+1258
+00:50:46,119 --> 00:50:50,680
+cryptography or to factoring so like
+
+1259
+00:50:48,520 --> 00:50:54,200
+that sort of petered out um but I want
+
+1260
+00:50:50,680 --> 00:50:56,680
+to say like even if you had a tiny
+
+1261
+00:50:54,200 --> 00:50:59,440
+looking Improvement in the running time
+
+1262
+00:50:56,680 --> 00:51:01,920
+so like if you could improve this cube
+
+1263
+00:50:59,440 --> 00:51:03,799
+root of 64 over9 to cube root of 32
+
+1264
+00:51:01,920 --> 00:51:05,079
+over9 so this is the running time of the
+
+1265
+00:51:03,799 --> 00:51:08,319
+special number what's called the special
+
+1266
+00:51:05,079 --> 00:51:11,280
+number field cve um this is academically
+
+1267
+00:51:08,319 --> 00:51:13,920
+easy for 1024 bit factoring this like
+
+1268
+00:51:11,280 --> 00:51:16,160
+this was done 15 years ago um by
+
+1269
+00:51:13,920 --> 00:51:18,400
+academics um if you had if you improved
+
+1270
+00:51:16,160 --> 00:51:21,440
+this 1/3 to a 1/4 this would take out
+
+1271
+00:51:18,400 --> 00:51:23,280
+2048 bits so if you think that 2048 bit
+
+1272
+00:51:21,440 --> 00:51:25,960
+RSA is is not going to be done anytime
+
+1273
+00:51:23,280 --> 00:51:27,720
+soon you are putting a bet that this 1/3
+
+1274
+00:51:25,960 --> 00:51:31,440
+can never be improv to
+
+1275
+00:51:27,720 --> 00:51:32,720
+1/4 um which this is an ugly looking
+
+1276
+00:51:31,440 --> 00:51:33,839
+running time like do you really think
+
+1277
+00:51:32,720 --> 00:51:36,480
+that's the running time for such a
+
+1278
+00:51:33,839 --> 00:51:39,000
+fundamental sounding problem is
+
+1279
+00:51:36,480 --> 00:51:41,400
+factoring like how willing are you to
+
+1280
+00:51:39,000 --> 00:51:41,400
+bet on
+
+1281
+00:51:41,520 --> 00:51:48,640
+this yeah some well why is it I mean
+
+1282
+00:51:44,920 --> 00:51:52,760
+who's working on it 500 PA French
+
+1283
+00:51:48,640 --> 00:51:54,119
+people um okay uh so just back at the
+
+1284
+00:51:52,760 --> 00:51:57,000
+envelope it's like why has nobody done
+
+1285
+00:51:54,119 --> 00:51:58,280
+1024-bit RSA um the answer is because
+
+1286
+00:51:57,000 --> 00:52:00,240
+like I mean somebody could have like
+
+1287
+00:51:58,280 --> 00:52:01,880
+clearly this was done by the NSA like 15
+
+1288
+00:52:00,240 --> 00:52:04,559
+years ago like if they didn't do it like
+
+1289
+00:52:01,880 --> 00:52:07,400
+what are tax dollars for this
+
+1290
+00:52:04,559 --> 00:52:09,799
+is this is like without any algorithmic
+
+1291
+00:52:07,400 --> 00:52:14,520
+improvements and this is running on CPUs
+
+1292
+00:52:09,799 --> 00:52:16,520
+so like you know um call up sheny and
+
+1293
+00:52:14,520 --> 00:52:18,000
+like build some like special purpose
+
+1294
+00:52:16,520 --> 00:52:20,160
+hardware and then like you know you
+
+1295
+00:52:18,000 --> 00:52:23,480
+bring this down by a factor of 100 and
+
+1296
+00:52:20,160 --> 00:52:27,280
+like your golden basically
+
+1297
+00:52:23,480 --> 00:52:28,720
+um so like yeah it's it's clearly
+
+1298
+00:52:27,280 --> 00:52:30,440
+feasible it's just that like this is a
+
+1299
+00:52:28,720 --> 00:52:32,559
+pain for academics so like we're talking
+
+1300
+00:52:30,440 --> 00:52:35,319
+about doing it you know we'll probably
+
+1301
+00:52:32,559 --> 00:52:37,240
+do it soon I don't know um but like okay
+
+1302
+00:52:35,319 --> 00:52:38,880
+why hasn't there been any Improvement um
+
+1303
+00:52:37,240 --> 00:52:40,319
+and the the thing is nobody's working on
+
+1304
+00:52:38,880 --> 00:52:43,440
+this problem so as I said it's five
+
+1305
+00:52:40,319 --> 00:52:45,040
+underpaid French people they're like in
+
+1306
+00:52:43,440 --> 00:52:48,160
+non and then if you want to count antoan
+
+1307
+00:52:45,040 --> 00:52:51,079
+J he's in like Zar broken now um but
+
+1308
+00:52:48,160 --> 00:52:53,640
+like basically one of the things that
+
+1309
+00:52:51,079 --> 00:52:55,240
+happened with like provable cryptography
+
+1310
+00:52:53,640 --> 00:52:56,839
+is that we had this separation between
+
+1311
+00:52:55,240 --> 00:52:58,440
+constructions and crypt analysis and
+
+1312
+00:52:56,839 --> 00:53:00,960
+people focused a lot more on the
+
+1313
+00:52:58,440 --> 00:53:03,000
+constructions um and they were insulated
+
+1314
+00:53:00,960 --> 00:53:04,599
+from the actual mathematical structure
+
+1315
+00:53:03,000 --> 00:53:07,760
+of the problems that they were working
+
+1316
+00:53:04,599 --> 00:53:10,520
+on which meant that like they just said
+
+1317
+00:53:07,760 --> 00:53:11,960
+assumption factoring is hard we're done
+
+1318
+00:53:10,520 --> 00:53:13,640
+and we don't need to learn all of this
+
+1319
+00:53:11,960 --> 00:53:15,680
+like complicated math that's involved in
+
+1320
+00:53:13,640 --> 00:53:17,480
+the number field Civ and so you don't
+
+1321
+00:53:15,680 --> 00:53:19,880
+have a pipeline of students who
+
+1322
+00:53:17,480 --> 00:53:23,240
+understand these things nobody studies
+
+1323
+00:53:19,880 --> 00:53:26,119
+this in the US um and so the work has
+
+1324
+00:53:23,240 --> 00:53:28,000
+like sort of gone elsewhere um so like
+
+1325
+00:53:26,119 --> 00:53:30,119
+literally really nobody is sort of
+
+1326
+00:53:28,000 --> 00:53:33,480
+thinking about this within France it's
+
+1327
+00:53:30,119 --> 00:53:36,559
+kind of an interesting structure that um
+
+1328
+00:53:33,480 --> 00:53:40,040
+the structure of inria as like a
+
+1329
+00:53:36,559 --> 00:53:41,760
+scientific lab they actually like the um
+
+1330
+00:53:40,040 --> 00:53:43,599
+researchers are actually supported like
+
+1331
+00:53:41,760 --> 00:53:45,440
+doing software development is part of
+
+1332
+00:53:43,599 --> 00:53:46,880
+their job and so they can be like oh I
+
+1333
+00:53:45,440 --> 00:53:48,400
+only published like one paper this year
+
+1334
+00:53:46,880 --> 00:53:50,920
+but I like built this software package
+
+1335
+00:53:48,400 --> 00:53:53,760
+and so like they get evaluated on that
+
+1336
+00:53:50,920 --> 00:53:55,960
+this is not something that you can do in
+
+1337
+00:53:53,760 --> 00:53:57,920
+the US as a professor like you have to
+
+1338
+00:53:55,960 --> 00:54:01,640
+like pump out papers you can't be like
+
+1339
+00:53:57,920 --> 00:54:03,160
+oh I publish the software package um but
+
+1340
+00:54:01,640 --> 00:54:04,559
+sort of more fundamentally like one of
+
+1341
+00:54:03,160 --> 00:54:07,160
+the reasons I think nobody's working on
+
+1342
+00:54:04,559 --> 00:54:08,880
+this is like within computer science
+
+1343
+00:54:07,160 --> 00:54:11,400
+this is not a good topic for grad
+
+1344
+00:54:08,880 --> 00:54:14,559
+students to work on because you're not
+
+1345
+00:54:11,400 --> 00:54:16,040
+going to get a job the jobs are if you
+
+1346
+00:54:14,559 --> 00:54:17,640
+study cryptography you're going to go
+
+1347
+00:54:16,040 --> 00:54:19,839
+work for a company who wants to build
+
+1348
+00:54:17,640 --> 00:54:22,000
+fhe or like wants somebody to help them
+
+1349
+00:54:19,839 --> 00:54:23,400
+with their postquantum transition
+
+1350
+00:54:22,000 --> 00:54:26,240
+studying something like the number field
+
+1351
+00:54:23,400 --> 00:54:29,160
+Civ is not going to get you a job and so
+
+1352
+00:54:26,240 --> 00:54:31,000
+like I can't in good faith like
+
+1353
+00:54:29,160 --> 00:54:33,520
+recommend grad students work on this
+
+1354
+00:54:31,000 --> 00:54:35,000
+topic which means that nobody except
+
+1355
+00:54:33,520 --> 00:54:36,200
+these five underpaid French people is
+
+1356
+00:54:35,000 --> 00:54:37,440
+working on it everybody's like oh
+
+1357
+00:54:36,200 --> 00:54:40,280
+factoring is a super well-studied
+
+1358
+00:54:37,440 --> 00:54:42,280
+problem but really the people who were
+
+1359
+00:54:40,280 --> 00:54:44,920
+studying it in the early 90s they're all
+
+1360
+00:54:42,280 --> 00:54:49,040
+retiring and there isn't another
+
+1361
+00:54:44,920 --> 00:54:51,119
+Generation Um so I think yeah that's
+
+1362
+00:54:49,040 --> 00:54:54,000
+that's like one of the structural issues
+
+1363
+00:54:51,119 --> 00:54:56,839
+um so if you compare the like billions
+
+1364
+00:54:54,000 --> 00:54:59,760
+of dollars a year being put into Quantum
+
+1365
+00:54:56,839 --> 00:55:01,280
+Computing to the current investment in
+
+1366
+00:54:59,760 --> 00:55:03,440
+the kinds of research that would lead to
+
+1367
+00:55:01,280 --> 00:55:05,119
+factoring discret log improvements
+
+1368
+00:55:03,440 --> 00:55:07,440
+classically it's at most hundreds of
+
+1369
+00:55:05,119 --> 00:55:10,040
+thousands of dollars a year to like fund
+
+1370
+00:55:07,440 --> 00:55:12,520
+like a team of a handful of French
+
+1371
+00:55:10,040 --> 00:55:15,200
+researchers and like a few grad students
+
+1372
+00:55:12,520 --> 00:55:18,119
+um so that's where the incentives are
+
+1373
+00:55:15,200 --> 00:55:19,520
+not aligned um and so like if you know
+
+1374
+00:55:18,119 --> 00:55:21,640
+if you talk to the people who actually
+
+1375
+00:55:19,520 --> 00:55:23,000
+understand this topic like Emanuel to is
+
+1376
+00:55:21,640 --> 00:55:24,880
+willing to put out there that he thinks
+
+1377
+00:55:23,000 --> 00:55:27,200
+the correct running time for factoring
+
+1378
+00:55:24,880 --> 00:55:28,480
+in discret log is quasi polom
+
+1379
+00:55:27,200 --> 00:55:30,400
+but we don't know how to do it like
+
+1380
+00:55:28,480 --> 00:55:34,000
+obviously if they knew how to do it like
+
+1381
+00:55:30,400 --> 00:55:36,319
+you would do it um so like you could you
+
+1382
+00:55:34,000 --> 00:55:37,640
+could like get some increased investment
+
+1383
+00:55:36,319 --> 00:55:40,160
+but it's unclear what the payoff would
+
+1384
+00:55:37,640 --> 00:55:42,359
+be because maybe the technology to do it
+
+1385
+00:55:40,160 --> 00:55:44,160
+doesn't exist I don't know like we can't
+
+1386
+00:55:42,359 --> 00:55:46,520
+actually say that we're going to to have
+
+1387
+00:55:44,160 --> 00:55:49,280
+it so Emanuel says that like if there
+
+1388
+00:55:46,520 --> 00:55:50,640
+was more investment like um in the field
+
+1389
+00:55:49,280 --> 00:55:52,280
+maybe you could have found the small
+
+1390
+00:55:50,640 --> 00:55:55,359
+characteristics ofet log improvements
+
+1391
+00:55:52,280 --> 00:55:56,640
+like 5 to 10 years earlier so possibly
+
+1392
+00:55:55,359 --> 00:55:58,160
+something like that is true for
+
+1393
+00:55:56,640 --> 00:55:59,680
+factoring but maybe maybe it's just
+
+1394
+00:55:58,160 --> 00:56:00,880
+maybe actually that is the running time
+
+1395
+00:55:59,680 --> 00:56:03,280
+we don't actually
+
+1396
+00:56:00,880 --> 00:56:06,520
+know
+
+1397
+00:56:03,280 --> 00:56:08,680
+yeah the number of sa and the quadratic
+
+1398
+00:56:06,520 --> 00:56:10,640
+and so forth came up uh it was
+
+1399
+00:56:08,680 --> 00:56:13,400
+congressman's algorithm which only
+
+1400
+00:56:10,640 --> 00:56:17,000
+worked for small characteristics and uh
+
+1401
+00:56:13,400 --> 00:56:21,799
+right and got the right time so so to
+
+1402
+00:56:17,000 --> 00:56:21,799
+the extent that history is uh
+
+1403
+00:56:24,480 --> 00:56:28,119
+repeats so I mean there could be a real
+
+1404
+00:56:26,839 --> 00:56:31,039
+difference between small characteristic
+
+1405
+00:56:28,119 --> 00:56:32,880
+and large characteristic discret log um
+
+1406
+00:56:31,039 --> 00:56:35,400
+because yeah I mean there
+
+1407
+00:56:32,880 --> 00:56:36,760
+were there were like structural there
+
+1408
+00:56:35,400 --> 00:56:37,960
+are structural things that you can do in
+
+1409
+00:56:36,760 --> 00:56:41,720
+small characteristic that you just
+
+1410
+00:56:37,960 --> 00:56:44,280
+cannot do um in large characteristic
+
+1411
+00:56:41,720 --> 00:56:50,079
+so yeah might
+
+1412
+00:56:44,280 --> 00:56:53,160
+be um what about the problem and Cur I
+
+1413
+00:56:50,079 --> 00:56:54,960
+have a little bit about that later yeah
+
+1414
+00:56:53,160 --> 00:56:56,839
+yeah a couple yeah okay I will I can
+
+1415
+00:56:54,960 --> 00:56:58,880
+speed up um
+
+1416
+00:56:56,839 --> 00:57:01,000
+maybe I will I'll speed through the
+
+1417
+00:56:58,880 --> 00:57:04,720
+isogeny part but like you know we had we
+
+1418
+00:57:01,000 --> 00:57:08,240
+had this amazing spectacular break on um
+
+1419
+00:57:04,720 --> 00:57:11,000
+on psych um and like uh but the isogeny
+
+1420
+00:57:08,240 --> 00:57:14,640
+people are like don't worry the field is
+
+1421
+00:57:11,000 --> 00:57:16,839
+healthy we're super happy um and the
+
+1422
+00:57:14,640 --> 00:57:18,480
+thing is like right now it's the same
+
+1423
+00:57:16,839 --> 00:57:24,160
+people doing constructive cryptography
+
+1424
+00:57:18,480 --> 00:57:25,839
+and crypt analysis in isogenes um and um
+
+1425
+00:57:24,160 --> 00:57:27,480
+the there's like a feedback loop between
+
+1426
+00:57:25,839 --> 00:57:28,880
+the constructions and the Crypt analysis
+
+1427
+00:57:27,480 --> 00:57:31,720
+that is actually much healthier than in
+
+1428
+00:57:28,880 --> 00:57:33,839
+other areas um which this was just
+
+1429
+00:57:31,720 --> 00:57:35,119
+posted the other day and it's amazing
+
+1430
+00:57:33,839 --> 00:57:36,640
+like this pre-print was posted and then
+
+1431
+00:57:35,119 --> 00:57:38,240
+it was broken the next day so this is
+
+1432
+00:57:36,640 --> 00:57:41,000
+like going back to the 90s so if you
+
+1433
+00:57:38,240 --> 00:57:42,799
+want an exciting area um isogenes the
+
+1434
+00:57:41,000 --> 00:57:47,119
+the isogeny club people are like
+
+1435
+00:57:42,799 --> 00:57:50,160
+deliriously happy um and so they're like
+
+1436
+00:57:47,119 --> 00:57:52,200
+don't worry higher dimensional isogenes
+
+1437
+00:57:50,160 --> 00:57:54,280
+are great um so we're going to build
+
+1438
+00:57:52,200 --> 00:57:58,039
+everything the spicy thing that I want
+
+1439
+00:57:54,280 --> 00:58:01,359
+to say that um was brought up by
+
+1440
+00:57:58,039 --> 00:58:04,559
+um castri and J crew who I talked about
+
+1441
+00:58:01,359 --> 00:58:07,119
+um uh or talked to um is that if you
+
+1442
+00:58:04,559 --> 00:58:11,079
+look at elliptic curve discreet log
+
+1443
+00:58:07,119 --> 00:58:12,599
+versus factoring um the people are
+
+1444
+00:58:11,079 --> 00:58:14,240
+worried about elliptic curve discreet
+
+1445
+00:58:12,599 --> 00:58:16,640
+log from a Quantum perspective because
+
+1446
+00:58:14,240 --> 00:58:20,599
+our key sizes are so so much smaller for
+
+1447
+00:58:16,640 --> 00:58:22,839
+elliptic curves than for factoring
+
+1448
+00:58:20,599 --> 00:58:23,880
+um but there's another thing which is
+
+1449
+00:58:22,839 --> 00:58:25,079
+going on which is sort of this
+
+1450
+00:58:23,880 --> 00:58:26,640
+dictionary between number Theory and
+
+1451
+00:58:25,079 --> 00:58:28,640
+algebraic geometry
+
+1452
+00:58:26,640 --> 00:58:32,240
+um which exists like sort of all the way
+
+1453
+00:58:28,640 --> 00:58:34,640
+through mathematics which is that um
+
+1454
+00:58:32,240 --> 00:58:36,400
+there's a lot of problems on the number
+
+1455
+00:58:34,640 --> 00:58:38,400
+theory side that are hard so problems
+
+1456
+00:58:36,400 --> 00:58:40,760
+over the integers are hard for some
+
+1457
+00:58:38,400 --> 00:58:43,520
+reason so like factoring integers is
+
+1458
+00:58:40,760 --> 00:58:46,119
+hard like SVP over an integer lattice is
+
+1459
+00:58:43,520 --> 00:58:47,799
+hard um the reman hypothesis is pretty
+
+1460
+00:58:46,119 --> 00:58:51,799
+hard to resolve if you look at the
+
+1461
+00:58:47,799 --> 00:58:55,799
+analogous problems in like the function
+
+1462
+00:58:51,799 --> 00:58:58,880
+field World um everything is easier over
+
+1463
+00:58:55,799 --> 00:59:02,520
+po nomials and their extensions so like
+
+1464
+00:58:58,880 --> 00:59:04,839
+factoring pols is easy um solving SVP is
+
+1465
+00:59:02,520 --> 00:59:06,200
+easy over a lattice of polinomial in any
+
+1466
+00:59:04,839 --> 00:59:09,000
+lattice with like a non- archimedian
+
+1467
+00:59:06,200 --> 00:59:11,119
+norm um like the analog of the reman
+
+1468
+00:59:09,000 --> 00:59:14,119
+hypothesis was resolved quite some time
+
+1469
+00:59:11,119 --> 00:59:17,039
+ago for function
+
+1470
+00:59:14,119 --> 00:59:21,039
+fields and so elliptic curve discreet
+
+1471
+00:59:17,039 --> 00:59:24,559
+log lives on this side of this
+
+1472
+00:59:21,039 --> 00:59:26,160
+table and so like from the mathematical
+
+1473
+00:59:24,559 --> 00:59:27,960
+perspective and this is way beyond my
+
+1474
+00:59:26,160 --> 00:59:29,240
+math knowledge um the elliptic curve
+
+1475
+00:59:27,960 --> 00:59:31,000
+disre log problem has a lot more
+
+1476
+00:59:29,240 --> 00:59:33,359
+structure than factoring it's an isogen
+
+1477
+00:59:31,000 --> 00:59:36,680
+finding problem and as we've seen there
+
+1478
+00:59:33,359 --> 00:59:38,839
+um improvements that have been made in
+
+1479
+00:59:36,680 --> 00:59:40,200
+isogenies um the existing isogeny
+
+1480
+00:59:38,839 --> 00:59:42,839
+attacks fail because the degree of the
+
+1481
+00:59:40,200 --> 00:59:44,400
+isog is is secret but in general what
+
+1482
+00:59:42,839 --> 00:59:46,440
+was pointed out is sort of the geometry
+
+1483
+00:59:44,400 --> 00:59:48,640
+of elliptic curves is easier over finite
+
+1484
+00:59:46,440 --> 00:59:49,839
+Fields some people will argue like maybe
+
+1485
+00:59:48,640 --> 00:59:51,559
+like elliptic curve groups are the
+
+1486
+00:59:49,839 --> 00:59:54,160
+closest to like abstract groups that we
+
+1487
+00:59:51,559 --> 00:59:58,960
+could get but this is Food For Thought
+
+1488
+00:59:54,160 --> 01:00:02,160
+if you like um sort of academic uh
+
+1489
+00:59:58,960 --> 01:00:03,359
+conspiracy theories so I think I am over
+
+1490
+01:00:02,160 --> 01:00:08,640
+time so I
+
+1491
+01:00:03,359 --> 01:00:10,880
+will maybe skip to the end yeah there's
+
+1492
+01:00:08,640 --> 01:00:13,240
+this perhaps academic question of you
+
+1493
+01:00:10,880 --> 01:00:16,480
+know can can you find any way in which
+
+1494
+01:00:13,240 --> 01:00:19,079
+elliptic CS behave differently from a
+
+1495
+01:00:16,480 --> 01:00:21,160
+generic tic groups behave differently
+
+1496
+01:00:19,079 --> 01:00:23,559
+from a generic that could be like a
+
+1497
+01:00:21,160 --> 01:00:25,200
+contrived problem that can show as hard
+
+1498
+01:00:23,559 --> 01:00:28,640
+in the generic one would you have an
+
+1499
+01:00:25,200 --> 01:00:30,319
+attack have such an example right to the
+
+1500
+01:00:28,640 --> 01:00:32,319
+best of my
+
+1501
+01:00:30,319 --> 01:00:33,400
+knowledge is there any that's for super
+
+1502
+01:00:32,319 --> 01:00:35,559
+singular
+
+1503
+01:00:33,400 --> 01:00:37,799
+curves okay so is there any way in which
+
+1504
+01:00:35,559 --> 01:00:39,880
+elliptic curv groups behave differently
+
+1505
+01:00:37,799 --> 01:00:41,720
+from from generic
+
+1506
+01:00:39,880 --> 01:00:44,720
+groups
+
+1507
+01:00:41,720 --> 01:00:46,680
+do I guess if you Ru out all the attack
+
+1508
+01:00:44,720 --> 01:00:49,319
+on special cases no no no no that's one
+
+1509
+01:00:46,680 --> 01:00:50,839
+time one but there's there's there's
+
+1510
+01:00:49,319 --> 01:00:51,920
+other okay so yeah you could you could
+
+1511
+01:00:50,839 --> 01:00:53,920
+take okay you could take the entire
+
+1512
+01:00:51,920 --> 01:00:56,839
+space of elliptic curves and and carve
+
+1513
+01:00:53,920 --> 01:00:59,160
+it up into classes of curves for which
+
+1514
+01:00:56,839 --> 01:01:00,400
+you have attacks or behaviors and the
+
+1515
+01:00:59,160 --> 01:01:02,480
+curves that we are using for
+
+1516
+01:01:00,400 --> 01:01:03,599
+cryptography have basically been chosen
+
+1517
+01:01:02,480 --> 01:01:06,119
+so that like none of those
+
+1518
+01:01:03,599 --> 01:01:07,920
+characteristics apply and so then okay
+
+1519
+01:01:06,119 --> 01:01:09,359
+we don't know but like yeah I guess yeah
+
+1520
+01:01:07,920 --> 01:01:10,880
+to your point we do have cases of
+
+1521
+01:01:09,359 --> 01:01:12,880
+elliptic curves that behave differently
+
+1522
+01:01:10,880 --> 01:01:14,880
+but those curves have sort of a hard
+
+1523
+01:01:12,880 --> 01:01:18,000
+potentially diff helment problem right
+
+1524
+01:01:14,880 --> 01:01:20,440
+I'm saying make up your own G to the
+
+1525
+01:01:18,000 --> 01:01:22,559
+powers of some X and then something
+
+1526
+01:01:20,440 --> 01:01:25,480
+something something can you come up with
+
+1527
+01:01:22,559 --> 01:01:28,400
+a contr problem which is harder the
+
+1528
+01:01:25,480 --> 01:01:30,000
+generic group work than for these curves
+
+1529
+01:01:28,400 --> 01:01:32,280
+that are used in
+
+1530
+01:01:30,000 --> 01:01:34,839
+practice perhaps an academic question
+
+1531
+01:01:32,280 --> 01:01:37,160
+but would to give some incited to why
+
+1532
+01:01:34,839 --> 01:01:39,160
+these guys behave differently from a
+
+1533
+01:01:37,160 --> 01:01:40,599
+generic group right that would be yeah
+
+1534
+01:01:39,160 --> 01:01:42,640
+that's that's an interesting question I
+
+1535
+01:01:40,599 --> 01:01:44,119
+don't know if anybody has done that
+
+1536
+01:01:42,640 --> 01:01:45,680
+there was a little bit of an argument I
+
+1537
+01:01:44,119 --> 01:01:48,880
+guess I sped by it the the riddle
+
+1538
+01:01:45,680 --> 01:01:51,160
+wrapped in an enigma um article by um
+
+1539
+01:01:48,880 --> 01:01:53,079
+coas and menzes um sort of talking about
+
+1540
+01:01:51,160 --> 01:01:55,079
+like you know is it possible that the
+
+1541
+01:01:53,079 --> 01:01:57,520
+NSA has back doored the um elliptic
+
+1542
+01:01:55,079 --> 01:01:58,640
+curve standards um they have sort of an
+
+1543
+01:01:57,520 --> 01:02:00,720
+argument maybe it's a little bit
+
+1544
+01:01:58,640 --> 01:02:03,799
+different in flavor than what you're um
+
+1545
+01:02:00,720 --> 01:02:05,039
+suggesting that like um if you wanted to
+
+1546
+01:02:03,799 --> 01:02:06,319
+essentially back to our family of
+
+1547
+01:02:05,039 --> 01:02:07,960
+elliptic curves like how would you
+
+1548
+01:02:06,319 --> 01:02:09,200
+generate it such that like there is like
+
+1549
+01:02:07,960 --> 01:02:12,559
+a dense enough set that you would be
+
+1550
+01:02:09,200 --> 01:02:14,480
+able to find one um and sort of they
+
+1551
+01:02:12,559 --> 01:02:18,039
+they they argue that it seems unlikely
+
+1552
+01:02:14,480 --> 01:02:20,319
+that that would have been possible um so
+
+1553
+01:02:18,039 --> 01:02:24,000
+uh but yeah I don't know anyway um I
+
+1554
+01:02:20,319 --> 01:02:25,599
+think I'm over time so I will I will um
+
+1555
+01:02:24,000 --> 01:02:27,319
+wrap up here and then I guess yeah
+
+1556
+01:02:25,599 --> 01:02:29,319
+there's stuff that I sped through that
+
+1557
+01:02:27,319 --> 01:02:30,559
+didn't talk about but essentially like I
+
+1558
+01:02:29,319 --> 01:02:32,520
+think that there's an imbalance in
+
+1559
+01:02:30,559 --> 01:02:33,960
+incentives um between constructive
+
+1560
+01:02:32,520 --> 01:02:38,920
+cryptography and crypt analysis that
+
+1561
+01:02:33,960 --> 01:02:41,920
+leads to late surprises um and
+
+1562
+01:02:38,920 --> 01:02:44,119
+um I sped through the lat stuff uh but
+
+1563
+01:02:41,920 --> 01:02:47,520
+if you're a student lattice assumptions
+
+1564
+01:02:44,119 --> 01:02:49,000
+great project um and a focus but a focus
+
+1565
+01:02:47,520 --> 01:02:51,799
+on constructions is probably best if you
+
+1566
+01:02:49,000 --> 01:02:54,480
+want to actually be employed um and
+
+1567
+01:02:51,799 --> 01:02:56,000
+there is a serious lack of number
+
+1568
+01:02:54,480 --> 01:02:59,799
+theorists in cryptography in in the
+
+1569
+01:02:56,000 --> 01:03:03,160
+United States um for various structural
+
+1570
+01:02:59,799 --> 01:03:05,000
+reasons and um I think that we do not
+
+1571
+01:03:03,160 --> 01:03:06,359
+have the end of the story for classical
+
+1572
+01:03:05,000 --> 01:03:08,559
+factoring discreet log and elliptic
+
+1573
+01:03:06,359 --> 01:03:10,279
+curve discreet log but there is a real
+
+1574
+01:03:08,559 --> 01:03:13,160
+incentive gap for research we need to
+
+1575
+01:03:10,279 --> 01:03:14,920
+have a healthier um population of like
+
+1576
+01:03:13,160 --> 01:03:16,920
+real number theorists and I'm not a real
+
+1577
+01:03:14,920 --> 01:03:18,440
+number theorist uh working on this stuff
+
+1578
+01:03:16,920 --> 01:03:21,559
+and this is not also not a good project
+
+1579
+01:03:18,440 --> 01:03:23,160
+for grad students um although perhaps if
+
+1580
+01:03:21,559 --> 01:03:24,720
+you work with venod he can come up with
+
+1581
+01:03:23,160 --> 01:03:26,880
+like a compelling story that may help
+
+1582
+01:03:24,720 --> 01:03:29,720
+like make make progress I don't know but
+
+1583
+01:03:26,880 --> 01:03:31,950
+anyway so that is my shortened version
+
+1584
+01:03:29,720 --> 01:03:41,250
+of of spicy opinion so thank you very
+
+1585
+01:03:31,950 --> 01:03:41,250
+[Applause]
+
+1586
+01:03:43,520 --> 01:03:49,480
+much yeah um maybe another spicy
+
+1587
+01:03:47,599 --> 01:03:51,279
+question but I'm wondering like I think
+
+1588
+01:03:49,480 --> 01:03:53,480
+there a lot of things in the world that
+
+1589
+01:03:51,279 --> 01:03:55,880
+are very productive that we have decided
+
+1590
+01:03:53,480 --> 01:03:56,960
+are not meant in the academy and do
+
+1591
+01:03:55,880 --> 01:03:58,400
+think like is this something that's like
+
+1592
+01:03:56,960 --> 01:04:00,240
+just a public good and the government
+
+1593
+01:03:58,400 --> 01:04:02,799
+just fund separately like there should
+
+1594
+01:04:00,240 --> 01:04:04,520
+be like this should have like an
+
+1595
+01:04:02,799 --> 01:04:06,839
+analysis section and this is not really
+
+1596
+01:04:04,520 --> 01:04:08,839
+a good pit for research or is this
+
+1597
+01:04:06,839 --> 01:04:09,920
+actually a good pit for research we like
+
+1598
+01:04:08,839 --> 01:04:12,720
+restructure
+
+1599
+01:04:09,920 --> 01:04:15,039
+incentives um I mean I think it is it is
+
+1600
+01:04:12,720 --> 01:04:17,240
+a good uh it is a good idea to call
+
+1601
+01:04:15,039 --> 01:04:18,920
+crypto analysis like a public good um
+
+1602
+01:04:17,240 --> 01:04:21,240
+that should be sort of funded like
+
+1603
+01:04:18,920 --> 01:04:24,119
+separately from like the market or like
+
+1604
+01:04:21,240 --> 01:04:25,799
+we shouldn't rely on Commercial
+
+1605
+01:04:24,119 --> 01:04:27,720
+incentives to to fund this kind of thing
+
+1606
+01:04:25,799 --> 01:04:29,400
+I guess um the US government's approach
+
+1607
+01:04:27,720 --> 01:04:31,559
+for a very long time was that like this
+
+1608
+01:04:29,400 --> 01:04:34,640
+is the job of the NSA and so like they
+
+1609
+01:04:31,559 --> 01:04:36,240
+do fund large numbers of like very very
+
+1610
+01:04:34,640 --> 01:04:38,000
+good mathematicians to think about these
+
+1611
+01:04:36,240 --> 01:04:39,200
+problems all day and not all night um
+
+1612
+01:04:38,000 --> 01:04:40,920
+but then they wouldn't tell the rest of
+
+1613
+01:04:39,200 --> 01:04:42,599
+us about it I mean like the the
+
+1614
+01:04:40,920 --> 01:04:44,039
+relationship between nist and the NSA
+
+1615
+01:04:42,599 --> 01:04:45,480
+was supposed to be that like nist would
+
+1616
+01:04:44,039 --> 01:04:46,960
+be like hey and the NSA would be like
+
+1617
+01:04:45,480 --> 01:04:48,559
+don't do this or this or this and then
+
+1618
+01:04:46,960 --> 01:04:50,680
+like they would go back but now we no
+
+1619
+01:04:48,559 --> 01:04:52,960
+longer trust the NSA to like be truthful
+
+1620
+01:04:50,680 --> 01:04:54,400
+in doing that so there is an argument to
+
+1621
+01:04:52,960 --> 01:04:57,440
+to be said that like yeah maybe we
+
+1622
+01:04:54,400 --> 01:05:00,720
+should have like a public
+
+1623
+01:04:57,440 --> 01:05:05,760
+um like a more public
+
+1624
+01:05:00,720 --> 01:05:07,160
+facing um research group uh who does
+
+1625
+01:05:05,760 --> 01:05:10,680
+that kind of thing and like we do have
+
+1626
+01:05:07,160 --> 01:05:12,880
+National Labs um but you know
+
+1627
+01:05:10,680 --> 01:05:14,279
+cryptography tends to be like a very
+
+1628
+01:05:12,880 --> 01:05:17,520
+high clearance level and so stuff
+
+1629
+01:05:14,279 --> 01:05:19,880
+doesn't like come out of like out of
+
+1630
+01:05:17,520 --> 01:05:21,200
+that direction um so this is one way
+
+1631
+01:05:19,880 --> 01:05:22,520
+where I I think Europe really does do a
+
+1632
+01:05:21,200 --> 01:05:23,599
+better job because if like you look at
+
+1633
+01:05:22,520 --> 01:05:25,799
+France you look at all the people at
+
+1634
+01:05:23,599 --> 01:05:28,160
+inria like a lot of the people that I
+
+1635
+01:05:25,799 --> 01:05:31,079
+that I mentioned are like at inria or
+
+1636
+01:05:28,160 --> 01:05:32,920
+like were in Europe um because like you
+
+1637
+01:05:31,079 --> 01:05:35,359
+know Germany has Max plank institutes
+
+1638
+01:05:32,920 --> 01:05:36,880
+and and like France has has inria and
+
+1639
+01:05:35,359 --> 01:05:38,640
+like we have these other you know
+
+1640
+01:05:36,880 --> 01:05:39,920
+basically like government funded
+
+1641
+01:05:38,640 --> 01:05:41,319
+organizations where they're like we're
+
+1642
+01:05:39,920 --> 01:05:43,000
+going to do fundamental research and
+
+1643
+01:05:41,319 --> 01:05:45,920
+computational number Theory and it will
+
+1644
+01:05:43,000 --> 01:05:47,480
+be good for the world um so yeah it
+
+1645
+01:05:45,920 --> 01:05:48,839
+might be nice to have that um
+
+1646
+01:05:47,480 --> 01:05:52,760
+structurally I mean I think one one
+
+1647
+01:05:48,839 --> 01:05:56,599
+issue in the US is it's great that the
+
+1648
+01:05:52,760 --> 01:05:58,680
+like most of our universities are funded
+
+1649
+01:05:56,599 --> 01:06:01,160
+by the governments in a lot of ways but
+
+1650
+01:05:58,680 --> 01:06:02,760
+it's led to weird incentives like I'm at
+
+1651
+01:06:01,160 --> 01:06:04,319
+the University of California which like
+
+1652
+01:06:02,760 --> 01:06:05,599
+originally was generously funded by the
+
+1653
+01:06:04,319 --> 01:06:07,160
+state of California but they've like
+
+1654
+01:06:05,599 --> 01:06:11,039
+been cutting funding over
+
+1655
+01:06:07,160 --> 01:06:15,920
+the um over the decades and then it's
+
+1656
+01:06:11,039 --> 01:06:18,319
+been made up for by NSF funding but like
+
+1657
+01:06:15,920 --> 01:06:21,160
+if we have political instability that is
+
+1658
+01:06:18,319 --> 01:06:24,480
+like causing our grants
+
+1659
+01:06:21,160 --> 01:06:27,000
+to come into question then like it's
+
+1660
+01:06:24,480 --> 01:06:28,400
+hard to yeah but then then people are
+
+1661
+01:06:27,000 --> 01:06:30,079
+making up that for that by like let's
+
+1662
+01:06:28,400 --> 01:06:31,319
+get corporate funding but now the
+
+1663
+01:06:30,079 --> 01:06:36,240
+corporations are like we only want to
+
+1664
+01:06:31,319 --> 01:06:39,839
+fund AI um so yeah I mean it's it's a
+
+1665
+01:06:36,240 --> 01:06:41,680
+mess a little bit Yeah AB question so
+
+1666
+01:06:39,839 --> 01:06:44,279
+you talk about how there's um some like
+
+1667
+01:06:41,680 --> 01:06:46,240
+a lot of attack know things that um
+
+1668
+01:06:44,279 --> 01:06:47,720
+there not enough money cost so cost a
+
+1669
+01:06:46,240 --> 01:06:50,599
+lot of money cost need a lot of
+
+1670
+01:06:47,720 --> 01:06:52,079
+expertise need a lot of you know effort
+
+1671
+01:06:50,599 --> 01:06:55,200
+that is like just kind of not for plot
+
+1672
+01:06:52,079 --> 01:06:57,359
+of to do it doesn't this also mean that
+
+1673
+01:06:55,200 --> 01:07:00,119
+like are so hard not wor doing like
+
+1674
+01:06:57,359 --> 01:07:04,960
+nobody want you try to do it and so like
+
+1675
+01:07:00,119 --> 01:07:04,960
+it's going to be secure for a while
+
+1676
+01:07:05,119 --> 01:07:12,359
+well so okay is is um if the attack is
+
+1677
+01:07:10,359 --> 01:07:13,760
+is too much of a pain for academics to
+
+1678
+01:07:12,359 --> 01:07:15,680
+carry out does that mean that the scheme
+
+1679
+01:07:13,760 --> 01:07:19,440
+is
+
+1680
+01:07:15,680 --> 01:07:22,480
+secure um so I would argue that um the
+
+1681
+01:07:19,440 --> 01:07:24,359
+incentives of uh different organizations
+
+1682
+01:07:22,480 --> 01:07:25,400
+are different and so we know that there
+
+1683
+01:07:24,359 --> 01:07:26,960
+we know that there are governments who
+
+1684
+01:07:25,400 --> 01:07:31,720
+have have a very strong incentive to
+
+1685
+01:07:26,960 --> 01:07:34,319
+break cryptography um and so if the I
+
+1686
+01:07:31,720 --> 01:07:38,359
+guess the question is like if you are
+
+1687
+01:07:34,319 --> 01:07:40,000
+Google and you consider both the NSA and
+
+1688
+01:07:38,359 --> 01:07:42,200
+the Chinese government to be a potential
+
+1689
+01:07:40,000 --> 01:07:43,400
+adversary in this area and these
+
+1690
+01:07:42,200 --> 01:07:44,920
+governments are willing to put in
+
+1691
+01:07:43,400 --> 01:07:47,319
+hundreds of millions of dollars towards
+
+1692
+01:07:44,920 --> 01:07:51,440
+Crypt analysis in the private in in
+
+1693
+01:07:47,319 --> 01:07:52,799
+their government um uh organizations um
+
+1694
+01:07:51,440 --> 01:07:56,160
+but they are they are a threat but you
+
+1695
+01:07:52,799 --> 01:07:58,319
+are Google so you're relying on what the
+
+1696
+01:07:56,160 --> 01:08:01,480
+public research Community is telling you
+
+1697
+01:07:58,319 --> 01:08:03,839
+to use um then there's a misalignment
+
+1698
+01:08:01,480 --> 01:08:06,760
+there so say it's possible the
+
+1699
+01:08:03,839 --> 01:08:08,400
+government like you know solve whatever
+
+1700
+01:08:06,760 --> 01:08:10,359
+the problems
+
+1701
+01:08:08,400 --> 01:08:13,720
+thats
+
+1702
+01:08:10,359 --> 01:08:16,239
+are uh absolutely I mean basically as
+
+1703
+01:08:13,720 --> 01:08:21,080
+like as I said if the NSA wasn't
+
+1704
+01:08:16,239 --> 01:08:23,040
+factoring 1024b RSA 15 years ago or more
+
+1705
+01:08:21,080 --> 01:08:24,560
+where are my tax dollars going like I
+
+1706
+01:08:23,040 --> 01:08:27,839
+will be personally disappointed if they
+
+1707
+01:08:24,560 --> 01:08:32,040
+do not have like their their machine
+
+1708
+01:08:27,839 --> 01:08:35,159
+just set up like crunching um well both
+
+1709
+01:08:32,040 --> 01:08:37,880
+1024 but just discret log and and
+
+1710
+01:08:35,159 --> 01:08:39,799
+factoring um and like they have people
+
+1711
+01:08:37,880 --> 01:08:42,640
+who can build special purpose Hardware
+
+1712
+01:08:39,799 --> 01:08:45,679
+they have the best people in the world
+
+1713
+01:08:42,640 --> 01:08:47,319
+who can design algorithmic improvements
+
+1714
+01:08:45,679 --> 01:08:49,159
+um even like get constant Factor
+
+1715
+01:08:47,319 --> 01:08:51,520
+improvements that that
+
+1716
+01:08:49,159 --> 01:08:53,480
+like come on it has to be feasible like
+
+1717
+01:08:51,520 --> 01:08:56,199
+if they're not doing I'm I'm I'm I'm
+
+1718
+01:08:53,480 --> 01:08:58,040
+very disappointed in them um but like
+
+1719
+01:08:56,199 --> 01:09:00,560
+yeah they they have
+
+1720
+01:08:58,040 --> 01:09:02,000
+and we know that they they want to do it
+
+1721
+01:09:00,560 --> 01:09:03,279
+and that they have an actual incentive
+
+1722
+01:09:02,000 --> 01:09:05,080
+to do it and they have the budget to do
+
+1723
+01:09:03,279 --> 01:09:08,600
+it whereas
+
+1724
+01:09:05,080 --> 01:09:10,839
+like five underpaid French researchers
+
+1725
+01:09:08,600 --> 01:09:14,880
+um are very interested in the topic but
+
+1726
+01:09:10,839 --> 01:09:18,500
+do not have the resources of the
+
+1727
+01:09:14,880 --> 01:09:25,329
+NSA we should there yeah cool
+
+1728
+01:09:18,500 --> 01:09:25,329
+[Applause]
+

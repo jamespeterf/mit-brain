@@ -1,0 +1,5352 @@
+1
+00:00:00,080 --> 00:00:03,679
+Yeah, thank you. Thank you for the
+
+2
+00:00:01,439 --> 00:00:05,680
+introduction, Dvara, and thank you for
+
+3
+00:00:03,679 --> 00:00:08,400
+having me here and thanks to everyone
+
+4
+00:00:05,680 --> 00:00:10,080
+for coming to my talk. Um, so today,
+
+5
+00:00:08,400 --> 00:00:12,880
+yeah, I would like to talk to you about
+
+6
+00:00:10,080 --> 00:00:16,160
+this uh local to global approach we
+
+7
+00:00:12,880 --> 00:00:18,560
+developed uh for uh designing policies
+
+8
+00:00:16,160 --> 00:00:21,439
+for decision- making problems in large
+
+9
+00:00:18,560 --> 00:00:24,000
+case networks. Um so this talk is based
+
+10
+00:00:21,439 --> 00:00:26,240
+on a sequence of papers we wrote uh
+
+11
+00:00:24,000 --> 00:00:28,960
+during the past two or three years uh
+
+12
+00:00:26,240 --> 00:00:33,120
+mainly led by my PhD student Eigger at
+
+13
+00:00:28,960 --> 00:00:34,960
+CMU and in collaboration with uh Xang
+
+14
+00:00:33,120 --> 00:00:37,600
+who is like undergraduate student from
+
+15
+00:00:34,960 --> 00:00:41,520
+Chinua and our collaborators Xiaomi and
+
+16
+00:00:37,600 --> 00:00:43,760
+Yud from Wic. Okay. Um so I'm quite
+
+17
+00:00:41,520 --> 00:00:46,800
+excited about like what we were able to
+
+18
+00:00:43,760 --> 00:00:49,520
+achieve uh through this framework. Um so
+
+19
+00:00:46,800 --> 00:00:51,760
+we were able to design policies that are
+
+20
+00:00:49,520 --> 00:00:54,480
+are different from like the traditional
+
+21
+00:00:51,760 --> 00:00:57,120
+class of policies and which leads to the
+
+22
+00:00:54,480 --> 00:00:58,879
+removal of a long-standing barrier and
+
+23
+00:00:57,120 --> 00:01:01,120
+also like our approach is quite
+
+24
+00:00:58,879 --> 00:01:03,359
+generalizable. It can handle like a
+
+25
+00:01:01,120 --> 00:01:04,960
+strong heterogeneity in the system which
+
+26
+00:01:03,359 --> 00:01:08,320
+which is usually a challenge for
+
+27
+00:01:04,960 --> 00:01:11,920
+traditional methods. Okay. Um so uh so
+
+28
+00:01:08,320 --> 00:01:14,960
+yeah let me get started. Um so uh yeah
+
+29
+00:01:11,920 --> 00:01:17,840
+feel free to ask questions any any time
+
+30
+00:01:14,960 --> 00:01:20,560
+and um if you don't ask questions I may
+
+31
+00:01:17,840 --> 00:01:24,799
+ask you questions instead okay so be
+
+32
+00:01:20,560 --> 00:01:27,759
+prepared okay um so large networks or
+
+33
+00:01:24,799 --> 00:01:30,799
+large stoastic systems um they arise
+
+34
+00:01:27,759 --> 00:01:33,439
+from a lot of uh applications in
+
+35
+00:01:30,799 --> 00:01:36,400
+practice um so because we are living in
+
+36
+00:01:33,439 --> 00:01:38,799
+this era of unprecedented scale uh
+
+37
+00:01:36,400 --> 00:01:40,960
+everything is large scale for example if
+
+38
+00:01:38,799 --> 00:01:43,040
+you think about communication systems um
+
+39
+00:01:40,960 --> 00:01:45,280
+is larger than ever because of the
+
+40
+00:01:43,040 --> 00:01:48,000
+increasing number of smart devices,
+
+41
+00:01:45,280 --> 00:01:50,960
+personal devices and so on. And modern
+
+42
+00:01:48,000 --> 00:01:54,000
+computing systems are massive because
+
+43
+00:01:50,960 --> 00:01:56,079
+they need to uh support the um
+
+44
+00:01:54,000 --> 00:01:58,640
+staggering need from computation
+
+45
+00:01:56,079 --> 00:02:02,399
+especially in AI and machine learning
+
+46
+00:01:58,640 --> 00:02:05,439
+applications and uh um everyone almost
+
+47
+00:02:02,399 --> 00:02:08,000
+everyone is on uh a social network and
+
+48
+00:02:05,439 --> 00:02:11,599
+uh also like uh service platforms like
+
+49
+00:02:08,000 --> 00:02:13,760
+rice sharing systems um provide like um
+
+50
+00:02:11,599 --> 00:02:16,080
+a lot of service like for example I
+
+51
+00:02:13,760 --> 00:02:18,400
+think uh for the right sharing service
+
+52
+00:02:16,080 --> 00:02:22,000
+in Austin every day they provide more
+
+53
+00:02:18,400 --> 00:02:24,160
+than 100,000 rice. Okay. Um so those all
+
+54
+00:02:22,000 --> 00:02:27,440
+of those are pretty large systems and
+
+55
+00:02:24,160 --> 00:02:29,680
+the scale makes it tricky uh to uh
+
+56
+00:02:27,440 --> 00:02:32,319
+understand the dynamics in those systems
+
+57
+00:02:29,680 --> 00:02:34,640
+and design uh policies for decision
+
+58
+00:02:32,319 --> 00:02:37,200
+decision making in those systems. Um
+
+59
+00:02:34,640 --> 00:02:40,000
+however fortunately most of those like
+
+60
+00:02:37,200 --> 00:02:42,319
+practical problems are not like that
+
+61
+00:02:40,000 --> 00:02:44,560
+adversarial. they usually have certain
+
+62
+00:02:42,319 --> 00:02:47,440
+structure that can help break the curse
+
+63
+00:02:44,560 --> 00:02:50,400
+of dimensionality. Um so for example low
+
+64
+00:02:47,440 --> 00:02:53,680
+rank structures are uh explored a lot or
+
+65
+00:02:50,400 --> 00:02:55,599
+like uh sometimes like uh uh when you
+
+66
+00:02:53,680 --> 00:02:58,319
+model those as a queueing problem with
+
+67
+00:02:55,599 --> 00:03:00,640
+many cues there are like state
+
+68
+00:02:58,319 --> 00:03:02,720
+aggregation so you can use like
+
+69
+00:03:00,640 --> 00:03:05,360
+techniques like a mean field analysis or
+
+70
+00:03:02,720 --> 00:03:08,800
+diffusion approximation and so on. Okay.
+
+71
+00:03:05,360 --> 00:03:11,200
+Um so in our work uh we would like to
+
+72
+00:03:08,800 --> 00:03:13,519
+advocate this perspective that you
+
+73
+00:03:11,200 --> 00:03:16,720
+should make use of the independent
+
+74
+00:03:13,519 --> 00:03:19,360
+structure in those systems. So um this
+
+75
+00:03:16,720 --> 00:03:22,000
+is like this is like a common idea like
+
+76
+00:03:19,360 --> 00:03:24,640
+that shows up in many problems, many
+
+77
+00:03:22,000 --> 00:03:27,360
+approaches, many areas. Um but we just
+
+78
+00:03:24,640 --> 00:03:30,239
+found it like this the following view
+
+79
+00:03:27,360 --> 00:03:33,360
+very informative and it forms the basis
+
+80
+00:03:30,239 --> 00:03:36,000
+of our approach. So basically it's a
+
+81
+00:03:33,360 --> 00:03:39,200
+very simple principle. If you have like
+
+82
+00:03:36,000 --> 00:03:42,000
+a system that has n components but if
+
+83
+00:03:39,200 --> 00:03:44,400
+they were totally completely independent
+
+84
+00:03:42,000 --> 00:03:46,879
+then you can just like separate them and
+
+85
+00:03:44,400 --> 00:03:49,440
+then it becomes in separate problems you
+
+86
+00:03:46,879 --> 00:03:51,760
+can solve them individually and you are
+
+87
+00:03:49,440 --> 00:03:55,280
+not subject to like any complexity
+
+88
+00:03:51,760 --> 00:03:57,439
+exponential or anything. Okay. Um of
+
+89
+00:03:55,280 --> 00:04:00,319
+course like all those problems things
+
+90
+00:03:57,439 --> 00:04:02,239
+are not completely independent. um but
+
+91
+00:04:00,319 --> 00:04:04,799
+still there's certain independence going
+
+92
+00:04:02,239 --> 00:04:08,159
+on which still allows like the
+
+93
+00:04:04,799 --> 00:04:10,560
+decomposition in some form. Okay. So let
+
+94
+00:04:08,159 --> 00:04:13,200
+me give you some examples about this
+
+95
+00:04:10,560 --> 00:04:16,239
+independent structure. Um so the first
+
+96
+00:04:13,200 --> 00:04:18,720
+example comes from scheduling for uh
+
+97
+00:04:16,239 --> 00:04:21,359
+computing systems. So you have like a
+
+98
+00:04:18,720 --> 00:04:24,000
+lot of servers and nowadays the like the
+
+99
+00:04:21,359 --> 00:04:26,160
+jobs come in and each job you can think
+
+100
+00:04:24,000 --> 00:04:28,720
+of it as a virtual machine or it's
+
+101
+00:04:26,160 --> 00:04:31,040
+called a container job. So basically it
+
+102
+00:04:28,720 --> 00:04:34,080
+requires a certain amount of uh
+
+103
+00:04:31,040 --> 00:04:36,080
+resources like from different types. Uh
+
+104
+00:04:34,080 --> 00:04:38,240
+so for simplicity I'm just illustrating
+
+105
+00:04:36,080 --> 00:04:40,400
+like maybe onedimensional uh
+
+106
+00:04:38,240 --> 00:04:42,960
+requirement. You can think of it as the
+
+107
+00:04:40,400 --> 00:04:45,120
+number of CPU cores for example and then
+
+108
+00:04:42,960 --> 00:04:47,280
+you look at all the servers you decide
+
+109
+00:04:45,120 --> 00:04:50,639
+where you want to schedule this job.
+
+110
+00:04:47,280 --> 00:04:52,560
+Okay. Um so for this problem um like
+
+111
+00:04:50,639 --> 00:04:54,639
+yeah then the servers has this capacity
+
+112
+00:04:52,560 --> 00:04:57,199
+and they have jobs have resource
+
+113
+00:04:54,639 --> 00:04:59,040
+requirement and then um you need to be
+
+114
+00:04:57,199 --> 00:05:02,240
+subject to the resource capacity
+
+115
+00:04:59,040 --> 00:05:04,639
+constraint. Um so for this problem it
+
+116
+00:05:02,240 --> 00:05:07,520
+has like uh the compon each component
+
+117
+00:05:04,639 --> 00:05:10,160
+here is a server um and it has many
+
+118
+00:05:07,520 --> 00:05:13,520
+servers. So for each component the state
+
+119
+00:05:10,160 --> 00:05:15,680
+is like the kind of jobs is running um
+
+120
+00:05:13,520 --> 00:05:18,479
+so like the resource usage from
+
+121
+00:05:15,680 --> 00:05:21,280
+different jobs. Okay. And this state
+
+122
+00:05:18,479 --> 00:05:24,160
+could change, right? Like the user who
+
+123
+00:05:21,280 --> 00:05:26,639
+submits this uh uh job could change the
+
+124
+00:05:24,160 --> 00:05:28,560
+way they use this like virtual machine
+
+125
+00:05:26,639 --> 00:05:31,840
+like maybe they go from like intensive
+
+126
+00:05:28,560 --> 00:05:34,000
+usage to like like lower intensive like
+
+127
+00:05:31,840 --> 00:05:36,560
+uh usage. So the state could change.
+
+128
+00:05:34,000 --> 00:05:39,039
+Okay. And then like if you think about
+
+129
+00:05:36,560 --> 00:05:41,919
+the state transitions here, if you know
+
+130
+00:05:39,039 --> 00:05:44,639
+the states of all the servers and uh
+
+131
+00:05:41,919 --> 00:05:47,120
+before the next job comes in then the
+
+132
+00:05:44,639 --> 00:05:50,320
+transitions from different servers are
+
+133
+00:05:47,120 --> 00:05:53,440
+independent because like the jobs like
+
+134
+00:05:50,320 --> 00:05:56,160
+running on one server the their their
+
+135
+00:05:53,440 --> 00:05:58,479
+behavior is determined by the users and
+
+136
+00:05:56,160 --> 00:06:01,680
+they are kind of just separate from the
+
+137
+00:05:58,479 --> 00:06:04,000
+jobs on another server. Okay. So then
+
+138
+00:06:01,680 --> 00:06:06,880
+like the station the transitions here
+
+139
+00:06:04,000 --> 00:06:11,520
+are independent from each other. Okay.
+
+140
+00:06:06,880 --> 00:06:13,039
+Um is that like reasonable like Okay.
+
+141
+00:06:11,520 --> 00:06:14,720
+Yeah. You it you look like you have a
+
+142
+00:06:13,039 --> 00:06:16,479
+questionual
+
+143
+00:06:14,720 --> 00:06:17,520
+coupling happening in terms of how job
+
+144
+00:06:16,479 --> 00:06:18,240
+allocation is done.
+
+145
+00:06:17,520 --> 00:06:20,720
+>> Yes. Yes.
+
+146
+00:06:18,240 --> 00:06:22,960
+>> And then there is a sort of servicing of
+
+147
+00:06:20,720 --> 00:06:25,199
+each of the queue that's happening.
+
+148
+00:06:22,960 --> 00:06:27,759
+>> So yeah. So here there's no queue. It's
+
+149
+00:06:25,199 --> 00:06:30,800
+just like the job like you hosted the
+
+150
+00:06:27,759 --> 00:06:31,759
+job on the server. The job disappear or
+
+151
+00:06:30,800 --> 00:06:33,759
+job remain dead?
+
+152
+00:06:31,759 --> 00:06:36,319
+>> Job could disappear. The job could
+
+153
+00:06:33,759 --> 00:06:38,560
+remain there and change like maybe at
+
+154
+00:06:36,319 --> 00:06:40,400
+this moment I need one CPU core but the
+
+155
+00:06:38,560 --> 00:06:41,919
+next moment I need two CPU cores. It
+
+156
+00:06:40,400 --> 00:06:43,360
+could change state.
+
+157
+00:06:41,919 --> 00:06:44,560
+>> What do you want us to agree right now
+
+158
+00:06:43,360 --> 00:06:47,440
+on this slide?
+
+159
+00:06:44,560 --> 00:06:50,080
+>> The transitions given the job states
+
+160
+00:06:47,440 --> 00:06:52,560
+before the next arrival happening are
+
+161
+00:06:50,080 --> 00:06:55,520
+independent from each other for across
+
+162
+00:06:52,560 --> 00:06:58,080
+servers. That's what I'm trying to like
+
+163
+00:06:55,520 --> 00:06:59,199
+convey. And and there is it's it's
+
+164
+00:06:58,080 --> 00:06:59,840
+basically you're saying that's a
+
+165
+00:06:59,199 --> 00:07:01,360
+physics.
+
+166
+00:06:59,840 --> 00:07:03,360
+>> Yeah, that's physics. Yeah, that's just
+
+167
+00:07:01,360 --> 00:07:06,080
+because they're separate. Yeah. Yeah.
+
+168
+00:07:03,360 --> 00:07:07,599
+It's reason to model it that way. Yeah.
+
+169
+00:07:06,080 --> 00:07:10,400
+Okay.
+
+170
+00:07:07,599 --> 00:07:12,880
+Okay. Cool. Um so yeah. So let let's
+
+171
+00:07:10,400 --> 00:07:15,520
+look at the next example that comes from
+
+172
+00:07:12,880 --> 00:07:17,280
+this right sharing application. Um so
+
+173
+00:07:15,520 --> 00:07:19,759
+here you can think of each car as a
+
+174
+00:07:17,280 --> 00:07:22,319
+component and then like if you look at
+
+175
+00:07:19,759 --> 00:07:24,880
+the state it's basically where it is
+
+176
+00:07:22,319 --> 00:07:26,880
+right now and uh whether it's serving
+
+177
+00:07:24,880 --> 00:07:29,360
+like a customer or not and where this
+
+178
+00:07:26,880 --> 00:07:32,080
+customer is going. Okay. So then like
+
+179
+00:07:29,360 --> 00:07:35,199
+given their current states before like
+
+180
+00:07:32,080 --> 00:07:37,520
+you make any other like decisions then
+
+181
+00:07:35,199 --> 00:07:39,919
+each car's behavior is kind of
+
+182
+00:07:37,520 --> 00:07:42,160
+independent from another car right they
+
+183
+00:07:39,919 --> 00:07:44,319
+just go on their different route and
+
+184
+00:07:42,160 --> 00:07:46,560
+assume there's like no strong contection
+
+185
+00:07:44,319 --> 00:07:48,479
+or anything. So it's reasonable to
+
+186
+00:07:46,560 --> 00:07:49,280
+assume they're uh they're independent
+
+187
+00:07:48,479 --> 00:07:50,560
+from each other
+
+188
+00:07:49,280 --> 00:07:52,160
+>> and with the assumption that they are
+
+189
+00:07:50,560 --> 00:07:53,440
+not the primary reasons why contections
+
+190
+00:07:52,160 --> 00:07:57,039
+are happening in the system.
+
+191
+00:07:53,440 --> 00:07:59,280
+>> Yes. Yeah. Let's assume that. Yeah.
+
+192
+00:07:57,039 --> 00:08:01,599
+Maybe one way to think about where where
+
+193
+00:07:59,280 --> 00:08:04,720
+this would break down would be if I
+
+194
+00:08:01,599 --> 00:08:08,000
+think of the state as also capturing the
+
+195
+00:08:04,720 --> 00:08:10,000
+location of different drivers and I
+
+196
+00:08:08,000 --> 00:08:11,520
+incentivize some drivers to be
+
+197
+00:08:10,000 --> 00:08:14,240
+positioned somewhere else but other
+
+198
+00:08:11,520 --> 00:08:17,199
+drivers I don't incentivize to
+
+199
+00:08:14,240 --> 00:08:19,039
+>> and then um that no longer
+
+200
+00:08:17,199 --> 00:08:21,360
+>> that actually doesn't break this because
+
+201
+00:08:19,039 --> 00:08:24,000
+like I'm deliberately saying the
+
+202
+00:08:21,360 --> 00:08:26,720
+transitions are independent given their
+
+203
+00:08:24,000 --> 00:08:28,960
+current state and before you or like
+
+204
+00:08:26,720 --> 00:08:31,199
+given the decisions you've already made
+
+205
+00:08:28,960 --> 00:08:34,000
+like you could look at all the cars and
+
+206
+00:08:31,199 --> 00:08:35,839
+decide okay yeah so yeah in that way
+
+207
+00:08:34,000 --> 00:08:38,080
+yeah so in that way you can see that
+
+208
+00:08:35,839 --> 00:08:40,080
+like there's evolutions are definitely
+
+209
+00:08:38,080 --> 00:08:42,240
+not independent because whenever you
+
+210
+00:08:40,080 --> 00:08:44,560
+make a decision you look at all the car
+
+211
+00:08:42,240 --> 00:08:47,200
+states ideally and then like you make
+
+212
+00:08:44,560 --> 00:08:49,920
+the decision so that like couples the
+
+213
+00:08:47,200 --> 00:08:52,320
+state dynamics together but I'm the only
+
+214
+00:08:49,920 --> 00:08:54,160
+thing I'm pointing out here is like the
+
+215
+00:08:52,320 --> 00:08:56,080
+transitions are independent from each
+
+216
+00:08:54,160 --> 00:09:00,160
+other given the state given the current
+
+217
+00:08:56,080 --> 00:09:02,640
+decisions. Okay. Okay. So I I'll make
+
+218
+00:09:00,160 --> 00:09:04,720
+this more precise. Uh but this is like a
+
+219
+00:09:02,640 --> 00:09:08,320
+high level like where the independence
+
+220
+00:09:04,720 --> 00:09:10,240
+could arise and then like um based on
+
+221
+00:09:08,320 --> 00:09:13,200
+this kind of independence this like a
+
+222
+00:09:10,240 --> 00:09:15,839
+partial independence structure. Um we
+
+223
+00:09:13,200 --> 00:09:17,680
+were able to like uh think about like
+
+224
+00:09:15,839 --> 00:09:20,720
+come up with this approach that we call
+
+225
+00:09:17,680 --> 00:09:23,200
+local to global. Um so here is just a a
+
+226
+00:09:20,720 --> 00:09:24,880
+high level description of it. Um so our
+
+227
+00:09:23,200 --> 00:09:27,040
+goal is to design a decision making
+
+228
+00:09:24,880 --> 00:09:29,519
+policy that like optimizes certain
+
+229
+00:09:27,040 --> 00:09:31,920
+performance and then like it basically
+
+230
+00:09:29,519 --> 00:09:35,920
+has three steps. First we want to
+
+231
+00:09:31,920 --> 00:09:37,920
+decompose the system and um we cannot
+
+232
+00:09:35,920 --> 00:09:40,000
+decompose the original version of the
+
+233
+00:09:37,920 --> 00:09:42,720
+system because like it's not totally
+
+234
+00:09:40,000 --> 00:09:44,080
+independent but we may come up with some
+
+235
+00:09:42,720 --> 00:09:48,640
+average version of it that's
+
+236
+00:09:44,080 --> 00:09:51,120
+decomposible. Okay. Um uh then like next
+
+237
+00:09:48,640 --> 00:09:53,519
+one is like after we decompose it we
+
+238
+00:09:51,120 --> 00:09:57,120
+have separate problems we solve each one
+
+239
+00:09:53,519 --> 00:10:00,000
+we have like individual policy and then
+
+240
+00:09:57,120 --> 00:10:02,880
+like uh in the last step we try to piece
+
+241
+00:10:00,000 --> 00:10:05,040
+together all those policies to form a
+
+242
+00:10:02,880 --> 00:10:07,920
+valid policy for the overall problem
+
+243
+00:10:05,040 --> 00:10:10,080
+with the performance guarantee. Okay. So
+
+244
+00:10:07,920 --> 00:10:11,600
+it's very abstract right now but I'm
+
+245
+00:10:10,080 --> 00:10:16,320
+going to go through some concrete
+
+246
+00:10:11,600 --> 00:10:18,959
+problems. Okay. Okay. So um so uh yeah
+
+247
+00:10:16,320 --> 00:10:22,160
+this is just like u a list of the
+
+248
+00:10:18,959 --> 00:10:24,880
+problems we have uh worked out using
+
+249
+00:10:22,160 --> 00:10:27,680
+this approach. Uh first one is this like
+
+250
+00:10:24,880 --> 00:10:31,279
+beam packing problem uh like described
+
+251
+00:10:27,680 --> 00:10:34,079
+in earlier slide and with this approach
+
+252
+00:10:31,279 --> 00:10:37,600
+we were able to uh capture the resource
+
+253
+00:10:34,079 --> 00:10:40,959
+like usage fluctuation uh uh through uh
+
+254
+00:10:37,600 --> 00:10:43,519
+across time and this was like a main
+
+255
+00:10:40,959 --> 00:10:45,839
+reason for a low utilization of
+
+256
+00:10:43,519 --> 00:10:47,920
+scheduling in some of the uh computing
+
+257
+00:10:45,839 --> 00:10:51,040
+systems and we were able to capture that
+
+258
+00:10:47,920 --> 00:10:52,880
+and work out like optimal asympto
+
+259
+00:10:51,040 --> 00:10:55,600
+optimal policy that maximizes
+
+260
+00:10:52,880 --> 00:10:57,680
+utilization of servers and then like we
+
+261
+00:10:55,600 --> 00:11:01,040
+have this sequence of work on the
+
+262
+00:10:57,680 --> 00:11:03,680
+so-called resistant problem and uh this
+
+263
+00:11:01,040 --> 00:11:07,920
+is one I'm going to focus on uh in the
+
+264
+00:11:03,680 --> 00:11:12,000
+next part okay and u then like there's a
+
+265
+00:11:07,920 --> 00:11:14,959
+generalization of the resided problem um
+
+266
+00:11:12,000 --> 00:11:17,120
+uh it's called a weekly coupled MDP and
+
+267
+00:11:14,959 --> 00:11:19,279
+I'm going to also briefly mention this
+
+268
+00:11:17,120 --> 00:11:23,519
+so I'm going to focus on this and I'm
+
+269
+00:11:19,279 --> 00:11:25,920
+going to briefly mention this Okay.
+
+270
+00:11:23,519 --> 00:11:28,079
+Okay. So maybe yeah. Now let me get into
+
+271
+00:11:25,920 --> 00:11:30,399
+this resist bandit problem and things
+
+272
+00:11:28,079 --> 00:11:33,519
+will become more concrete. Okay. So this
+
+273
+00:11:30,399 --> 00:11:36,000
+is a very classical problem and uh uh
+
+274
+00:11:33,519 --> 00:11:38,720
+but uh first a little bit of disclaimer
+
+275
+00:11:36,000 --> 00:11:41,279
+here because many people are more
+
+276
+00:11:38,720 --> 00:11:43,440
+familiar with the stas multiarm vended
+
+277
+00:11:41,279 --> 00:11:46,160
+problem. So in this problem you have n
+
+278
+00:11:43,440 --> 00:11:48,240
+arms. Each arm doesn't have any state or
+
+279
+00:11:46,160 --> 00:11:50,480
+anything. It's just you pull it. gives
+
+280
+00:11:48,240 --> 00:11:52,640
+you a reward coming from an unknown
+
+281
+00:11:50,480 --> 00:11:54,320
+reward distribution. And then your goal
+
+282
+00:11:52,640 --> 00:11:57,360
+is to try to kind of try different
+
+283
+00:11:54,320 --> 00:11:59,680
+rewards, learn their uh uh expected
+
+284
+00:11:57,360 --> 00:12:02,079
+reward, try different arms, learn their
+
+285
+00:11:59,680 --> 00:12:04,320
+expected reward, and try to pull the
+
+286
+00:12:02,079 --> 00:12:06,399
+best arm as much as possible. So for
+
+287
+00:12:04,320 --> 00:12:08,800
+this problem, it's more like a learning
+
+288
+00:12:06,399 --> 00:12:11,760
+problem. There's this trade-off between
+
+289
+00:12:08,800 --> 00:12:13,680
+exploration and exploitation. Okay. Uh
+
+290
+00:12:11,760 --> 00:12:15,279
+so the restless bendy problem is a
+
+291
+00:12:13,680 --> 00:12:17,519
+little bit different. There's some
+
+292
+00:12:15,279 --> 00:12:19,920
+connection, but I'm not going into that.
+
+293
+00:12:17,519 --> 00:12:22,399
+Uh so it's also called a marovian
+
+294
+00:12:19,920 --> 00:12:26,800
+multi-armmed dependent problem. So for
+
+295
+00:12:22,399 --> 00:12:29,279
+each arm here it c it has a state and uh
+
+296
+00:12:26,800 --> 00:12:31,440
+um when you pull it it will have a state
+
+297
+00:12:29,279 --> 00:12:33,760
+transition following certain transition
+
+298
+00:12:31,440 --> 00:12:36,160
+probabilities and if you don't pull it
+
+299
+00:12:33,760 --> 00:12:37,600
+it can still transit and following maybe
+
+300
+00:12:36,160 --> 00:12:40,800
+a different set of probability
+
+301
+00:12:37,600 --> 00:12:42,399
+distributions. Okay. And we assume so
+
+302
+00:12:40,800 --> 00:12:44,959
+the state could be something like I'm
+
+303
+00:12:42,399 --> 00:12:47,279
+just using numbers to indicate the state
+
+304
+00:12:44,959 --> 00:12:49,440
+and we assume that we know like the
+
+305
+00:12:47,279 --> 00:12:51,279
+transition kernels and the reward
+
+306
+00:12:49,440 --> 00:12:53,200
+parameters. Oh by the way each arm
+
+307
+00:12:51,279 --> 00:12:55,440
+generates a reward depending on its
+
+308
+00:12:53,200 --> 00:12:57,360
+current state and whether you pull it or
+
+309
+00:12:55,440 --> 00:13:00,160
+not. Okay. And then your goal is still
+
+310
+00:12:57,360 --> 00:13:02,959
+to like try to maximize reward but under
+
+311
+00:13:00,160 --> 00:13:05,440
+known like problem parameters. So this
+
+312
+00:13:02,959 --> 00:13:07,680
+is at least like oh another difference
+
+313
+00:13:05,440 --> 00:13:10,560
+is like you can usually pull a fraction
+
+314
+00:13:07,680 --> 00:13:12,560
+of the arms rather than just one arm.
+
+315
+00:13:10,560 --> 00:13:16,000
+Okay. So let's say like alpha is a
+
+316
+00:13:12,560 --> 00:13:18,720
+fraction. Okay. Uh so for this problem
+
+317
+00:13:16,000 --> 00:13:21,360
+as at least so far it is a planning
+
+318
+00:13:18,720 --> 00:13:23,360
+algorithm like a planning problem or
+
+319
+00:13:21,360 --> 00:13:24,880
+like a computational problem. You are
+
+320
+00:13:23,360 --> 00:13:27,519
+given all the parameters. They're just
+
+321
+00:13:24,880 --> 00:13:29,360
+just trying to compute like a policy uh
+
+322
+00:13:27,519 --> 00:13:33,279
+near optimal policy
+
+323
+00:13:29,360 --> 00:13:35,040
+>> here like there where it's a reward is
+
+324
+00:13:33,279 --> 00:13:37,279
+you keep pulling the same arm over and
+
+325
+00:13:35,040 --> 00:13:38,240
+over again ideally if you figure it out.
+
+326
+00:13:37,279 --> 00:13:39,680
+>> Mhm. Yeah.
+
+327
+00:13:38,240 --> 00:13:42,000
+>> You're sort of depending on what you
+
+328
+00:13:39,680 --> 00:13:43,360
+pull transition would happen and that
+
+329
+00:13:42,000 --> 00:13:45,600
+transition would lead to different
+
+330
+00:13:43,360 --> 00:13:47,920
+future reward. So now you're worried
+
+331
+00:13:45,600 --> 00:13:48,959
+about immediate reward or some kind of a
+
+332
+00:13:47,920 --> 00:13:50,639
+discounted.
+
+333
+00:13:48,959 --> 00:13:52,720
+>> Yeah. Right. So yeah I'm going to make
+
+334
+00:13:50,639 --> 00:13:55,200
+it clearer. Okay. we are actually going
+
+335
+00:13:52,720 --> 00:13:57,680
+to use the average reward criteria.
+
+336
+00:13:55,200 --> 00:13:59,120
+Okay. Yeah. But right like this is the
+
+337
+00:13:57,680 --> 00:14:03,199
+thing you are trying to figure out.
+
+338
+00:13:59,120 --> 00:14:06,240
+Okay. Um okay. So um yeah so for this
+
+339
+00:14:03,199 --> 00:14:08,880
+problem like I said like uh oh yeah let
+
+340
+00:14:06,240 --> 00:14:10,959
+me make it more precise. So for each arm
+
+341
+00:14:08,880 --> 00:14:13,360
+you can think of each arm itself as a
+
+342
+00:14:10,959 --> 00:14:16,320
+mark of decision process. It has a state
+
+343
+00:14:13,360 --> 00:14:18,399
+space uh which let's assume is finite
+
+344
+00:14:16,320 --> 00:14:20,160
+and then like the action space is binary
+
+345
+00:14:18,399 --> 00:14:22,720
+because you either pull it or not pull
+
+346
+00:14:20,160 --> 00:14:25,440
+it. Okay. Uh so the active means
+
+347
+00:14:22,720 --> 00:14:27,199
+pulling, passive means not pulling and
+
+348
+00:14:25,440 --> 00:14:29,120
+then we have like a two sets of
+
+349
+00:14:27,199 --> 00:14:31,360
+transition probabilities based on the
+
+350
+00:14:29,120 --> 00:14:32,959
+action. Okay, it's called restless
+
+351
+00:14:31,360 --> 00:14:34,959
+because even if you don't pull it, it
+
+352
+00:14:32,959 --> 00:14:37,199
+could still have like a uh state
+
+353
+00:14:34,959 --> 00:14:40,160
+transitions. Okay, and then there's a
+
+354
+00:14:37,199 --> 00:14:42,720
+reward function uh of state and action.
+
+355
+00:14:40,160 --> 00:14:45,360
+And then like our goal is to maximize
+
+356
+00:14:42,720 --> 00:14:48,720
+the long-term average total reward
+
+357
+00:14:45,360 --> 00:14:51,199
+reward from all the arms. Okay.
+
+358
+00:14:48,720 --> 00:14:52,320
+>> So for all the arms it's the same
+
+359
+00:14:51,199 --> 00:14:55,199
+transition problem.
+
+360
+00:14:52,320 --> 00:14:57,519
+>> Yeah. Yeah. Thank you. Yeah. Let's right
+
+361
+00:14:55,199 --> 00:15:00,320
+now they all have the share the same set
+
+362
+00:14:57,519 --> 00:15:04,720
+of parameters. Okay. It's a homogeneous
+
+363
+00:15:00,320 --> 00:15:06,160
+ARM problem. Okay. Yeah.
+
+364
+00:15:04,720 --> 00:15:08,240
+>> Does the theory depend on like the
+
+365
+00:15:06,160 --> 00:15:09,760
+decoupling of the mark kernels? So like
+
+366
+00:15:08,240 --> 00:15:12,079
+if your state depends on the states of
+
+367
+00:15:09,760 --> 00:15:14,320
+the other arms, does that affect things?
+
+368
+00:15:12,079 --> 00:15:15,680
+>> Oh yeah. Uh sorry I forgot to mention
+
+369
+00:15:14,320 --> 00:15:18,000
+like the state transitions are
+
+370
+00:15:15,680 --> 00:15:20,399
+independent across the different arms.
+
+371
+00:15:18,000 --> 00:15:22,480
+So given the current state and current
+
+372
+00:15:20,399 --> 00:15:26,079
+action the state transitions are
+
+373
+00:15:22,480 --> 00:15:28,240
+independent. Yeah. Okay. But when you
+
+374
+00:15:26,079 --> 00:15:30,639
+make this decision you would look at
+
+375
+00:15:28,240 --> 00:15:33,040
+like all the arm states your policy is
+
+376
+00:15:30,639 --> 00:15:35,199
+basically mapping that comes from that
+
+377
+00:15:33,040 --> 00:15:38,079
+that maps like a joint state of all the
+
+378
+00:15:35,199 --> 00:15:41,279
+arms to like which arms you want to
+
+379
+00:15:38,079 --> 00:15:43,600
+pull. Okay.
+
+380
+00:15:41,279 --> 00:15:44,560
+>> Yeah. Uh how do you initialize the
+
+381
+00:15:43,600 --> 00:15:48,959
+states?
+
+382
+00:15:44,560 --> 00:15:52,560
+>> Um it doesn't matter much here like
+
+383
+00:15:48,959 --> 00:15:54,959
+>> kind of distribution right or is a face
+
+384
+00:15:52,560 --> 00:15:55,920
+>> it does yeah it could either way it
+
+385
+00:15:54,959 --> 00:15:58,160
+doesn't matter that much.
+
+386
+00:15:55,920 --> 00:16:01,440
+>> How do policy consider stoastic in the
+
+387
+00:15:58,160 --> 00:16:03,839
+policy? Um so theoretically speaking you
+
+388
+00:16:01,440 --> 00:16:06,399
+could have you like if you just think
+
+389
+00:16:03,839 --> 00:16:09,279
+about the set of marovian policies it
+
+390
+00:16:06,399 --> 00:16:11,680
+could contain the optimal policy
+
+391
+00:16:09,279 --> 00:16:13,600
+marovian and the stationary policy but
+
+392
+00:16:11,680 --> 00:16:15,199
+we will see that like what our policy
+
+393
+00:16:13,600 --> 00:16:17,839
+looks like okay
+
+394
+00:16:15,199 --> 00:16:20,240
+>> so effectively you got n independent at
+
+395
+00:16:17,839 --> 00:16:20,800
+some level MVPs.
+
+396
+00:16:20,240 --> 00:16:23,279
+>> Mhm.
+
+397
+00:16:20,800 --> 00:16:26,320
+>> Uh and then sort of thing that couples
+
+398
+00:16:23,279 --> 00:16:27,600
+here is what fraction of things that you
+
+399
+00:16:26,320 --> 00:16:28,639
+can activate at any given point.
+
+400
+00:16:27,600 --> 00:16:30,000
+>> Yes. Exactly.
+
+401
+00:16:28,639 --> 00:16:32,079
+>> Make that as a function of sort of
+
+402
+00:16:30,000 --> 00:16:33,519
+depending on what state spaces.
+
+403
+00:16:32,079 --> 00:16:36,079
+>> Right. Right. Yeah. I'm going to give an
+
+404
+00:16:33,519 --> 00:16:38,880
+example here. Okay. So to put to make
+
+405
+00:16:36,079 --> 00:16:40,880
+this more concrete for everybody. Okay.
+
+406
+00:16:38,880 --> 00:16:43,440
+So Oh yeah. Alpha N is called the
+
+407
+00:16:40,880 --> 00:16:45,440
+budget. Okay. Uh so I'm going to give a
+
+408
+00:16:43,440 --> 00:16:48,000
+concrete example. Okay. For everybody to
+
+409
+00:16:45,440 --> 00:16:50,560
+think about. Um so for this problem for
+
+410
+00:16:48,000 --> 00:16:53,920
+every every arm it has like eight
+
+411
+00:16:50,560 --> 00:16:56,320
+states. Okay. So if you are a professor,
+
+412
+00:16:53,920 --> 00:16:59,360
+you can think of each arm as one of your
+
+413
+00:16:56,320 --> 00:17:01,199
+PhD students. Okay? [laughter] And if
+
+414
+00:16:59,360 --> 00:17:03,120
+you're a student, just pretend you are
+
+415
+00:17:01,199 --> 00:17:06,480
+the professor and think about all your
+
+416
+00:17:03,120 --> 00:17:08,640
+students. Okay? And this zero to seven
+
+417
+00:17:06,480 --> 00:17:11,120
+like they're like their academic
+
+418
+00:17:08,640 --> 00:17:13,839
+maturity or something. Okay? And then
+
+419
+00:17:11,120 --> 00:17:16,720
+like your job is to move students from
+
+420
+00:17:13,839 --> 00:17:20,240
+zero to seven basically. And then like
+
+421
+00:17:16,720 --> 00:17:22,559
+if they go to seven then like uh they
+
+422
+00:17:20,240 --> 00:17:24,640
+can graduate and that's when you get a
+
+423
+00:17:22,559 --> 00:17:26,959
+reward and then like you hire a new
+
+424
+00:17:24,640 --> 00:17:29,360
+student you start over. Okay. So that's
+
+425
+00:17:26,959 --> 00:17:32,080
+the only time you are going to receive a
+
+426
+00:17:29,360 --> 00:17:34,799
+reward. Okay. So this is just how the
+
+427
+00:17:32,080 --> 00:17:36,960
+the example is and then like let's see
+
+428
+00:17:34,799 --> 00:17:38,960
+how your action could affect that. So
+
+429
+00:17:36,960 --> 00:17:40,960
+your action could be like the active
+
+430
+00:17:38,960 --> 00:17:43,520
+action is like I'm going to meet with
+
+431
+00:17:40,960 --> 00:17:45,120
+this student today. Okay. the inact the
+
+432
+00:17:43,520 --> 00:17:48,240
+passive one is like I'm not going to
+
+433
+00:17:45,120 --> 00:17:50,400
+meet with them. Okay. So then like yeah
+
+434
+00:17:48,240 --> 00:17:52,240
+um so the students are like you can
+
+435
+00:17:50,400 --> 00:17:55,440
+think of those students with the levels
+
+436
+00:17:52,240 --> 00:17:58,080
+01 to three as more junior students. So
+
+437
+00:17:55,440 --> 00:18:00,080
+for them if you meet with them they tend
+
+438
+00:17:58,080 --> 00:18:02,160
+to like go to the right they tend to
+
+439
+00:18:00,080 --> 00:18:05,600
+progress. Okay. If you don't meet with
+
+440
+00:18:02,160 --> 00:18:07,280
+them they tend to like go back. Okay.
+
+441
+00:18:05,600 --> 00:18:09,760
+However if you look at the senior
+
+442
+00:18:07,280 --> 00:18:12,880
+students the senior students have like
+
+443
+00:18:09,760 --> 00:18:15,520
+very very different mindset. um if you
+
+444
+00:18:12,880 --> 00:18:17,919
+dare to meet with them they are going to
+
+445
+00:18:15,520 --> 00:18:21,440
+go back okay they don't want like
+
+446
+00:18:17,919 --> 00:18:23,760
+meetings okay so and uh if you leave
+
+447
+00:18:21,440 --> 00:18:25,919
+them alone they make good progress and
+
+448
+00:18:23,760 --> 00:18:28,880
+then like they kind of just graduate
+
+449
+00:18:25,919 --> 00:18:31,120
+okay and then like your the problem you
+
+450
+00:18:28,880 --> 00:18:33,600
+are facing every day is like I have
+
+451
+00:18:31,120 --> 00:18:35,760
+those students there in those days who I
+
+452
+00:18:33,600 --> 00:18:39,600
+should meet with today okay suppose you
+
+453
+00:18:35,760 --> 00:18:41,520
+can pick for four out of eight okay so
+
+454
+00:18:39,600 --> 00:18:44,080
+then like there are many reasonable like
+
+455
+00:18:41,520 --> 00:18:45,919
+answers like does anyone want to try to
+
+456
+00:18:44,080 --> 00:18:47,760
+see like what would be a reasonable
+
+457
+00:18:45,919 --> 00:18:49,280
+answer here just for this given state
+
+458
+00:18:47,760 --> 00:18:51,200
+like who do you want to pick to meet
+
+459
+00:18:49,280 --> 00:18:53,760
+with today
+
+460
+00:18:51,200 --> 00:18:54,320
+I do have three options for you actually
+
+461
+00:18:53,760 --> 00:18:56,240
+so
+
+462
+00:18:54,320 --> 00:18:57,840
+>> zero and three ones yeah
+
+463
+00:18:56,240 --> 00:18:59,360
+>> which ones did you pick
+
+464
+00:18:57,840 --> 00:19:01,840
+>> zero and three ones
+
+465
+00:18:59,360 --> 00:19:03,600
+>> zero yeah that's a reasonable answer
+
+466
+00:19:01,840 --> 00:19:05,679
+okay yeah that makes sense right like it
+
+467
+00:19:03,600 --> 00:19:08,160
+seems like junior students want more
+
+468
+00:19:05,679 --> 00:19:12,320
+meetings and there's another answer
+
+469
+00:19:08,160 --> 00:19:13,919
+which is like this okay uh which means
+
+470
+00:19:12,320 --> 00:19:14,240
+better because zero cannot go on the
+
+471
+00:19:13,919 --> 00:19:16,080
+left.
+
+472
+00:19:14,240 --> 00:19:18,240
+>> Yeah, zero cannot get worse. So you may
+
+473
+00:19:16,080 --> 00:19:19,679
+want to prioritize one and two. Okay.
+
+474
+00:19:18,240 --> 00:19:21,840
+And then there's another answer that
+
+475
+00:19:19,679 --> 00:19:23,919
+looks like this which is a little bit
+
+476
+00:19:21,840 --> 00:19:26,080
+hard to see where it comes from. Okay.
+
+477
+00:19:23,919 --> 00:19:28,320
+But it actually comes from our policy.
+
+478
+00:19:26,080 --> 00:19:30,000
+Okay. Okay. So we'll see like which one
+
+479
+00:19:28,320 --> 00:19:33,200
+makes more sense later on. Of course
+
+480
+00:19:30,000 --> 00:19:34,799
+like what you decide to do like at one
+
+481
+00:19:33,200 --> 00:19:36,720
+moment doesn't matter that much. What
+
+482
+00:19:34,799 --> 00:19:39,200
+matters more is your policy, right?
+
+483
+00:19:36,720 --> 00:19:41,120
+Okay. Uh okay. So yeah. So this is like
+
+484
+00:19:39,200 --> 00:19:43,039
+the example you can keep in your head.
+
+485
+00:19:41,120 --> 00:19:45,280
+And then for this problem if you think
+
+486
+00:19:43,039 --> 00:19:48,559
+about the all the end arms together they
+
+487
+00:19:45,280 --> 00:19:51,919
+form like a giant MDP. This space is the
+
+488
+00:19:48,559 --> 00:19:54,559
+joint state of all the arms and uh um
+
+489
+00:19:51,919 --> 00:19:58,640
+yeah so the action space is like also
+
+490
+00:19:54,559 --> 00:20:00,720
+like alpha n out of n ones. Okay. Um so
+
+491
+00:19:58,640 --> 00:20:02,640
+uh if you write it out uh just a little
+
+492
+00:20:00,720 --> 00:20:04,080
+bit notation here. This is like
+
+493
+00:20:02,640 --> 00:20:07,200
+basically you want to find the policy
+
+494
+00:20:04,080 --> 00:20:09,280
+pi. This is the state of arm I at time t
+
+495
+00:20:07,200 --> 00:20:11,520
+under policy pi and this is the action
+
+496
+00:20:09,280 --> 00:20:13,760
+you take and this is the reward and then
+
+497
+00:20:11,520 --> 00:20:16,320
+you sum over all the rewards from all
+
+498
+00:20:13,760 --> 00:20:18,640
+the arms and then you normalize it by n.
+
+499
+00:20:16,320 --> 00:20:20,480
+So we are looking at a reward per arm.
+
+500
+00:20:18,640 --> 00:20:22,160
+Okay. And then this this is a time
+
+501
+00:20:20,480 --> 00:20:24,480
+average notion. So we are looking at the
+
+502
+00:20:22,160 --> 00:20:26,799
+average reward problem here. Okay. And
+
+503
+00:20:24,480 --> 00:20:30,720
+the constraint is every moment of time
+
+504
+00:20:26,799 --> 00:20:32,720
+you can only pull off any of them. Okay.
+
+505
+00:20:30,720 --> 00:20:35,360
+Okay. So hopefully this makes like the
+
+506
+00:20:32,720 --> 00:20:38,000
+setting really clear. Okay. And uh um
+
+507
+00:20:35,360 --> 00:20:40,559
+then like this problem if you just uh uh
+
+508
+00:20:38,000 --> 00:20:42,480
+solve it like a straightforwardly then
+
+509
+00:20:40,559 --> 00:20:44,960
+it's going to be pretty complicated
+
+510
+00:20:42,480 --> 00:20:47,200
+because of the size of the C space and
+
+511
+00:20:44,960 --> 00:20:50,480
+action space. Um so what we are going
+
+512
+00:20:47,200 --> 00:20:52,559
+for is this um this refined goal here
+
+513
+00:20:50,480 --> 00:20:55,840
+where we want to efficiently compute a
+
+514
+00:20:52,559 --> 00:20:59,600
+policy that is asymptoically optimal. So
+
+515
+00:20:55,840 --> 00:21:02,320
+here like uh RNA is the optimal reward
+
+516
+00:20:59,600 --> 00:21:04,799
+when you have in arms. R&I is like the
+
+517
+00:21:02,320 --> 00:21:07,679
+reward under your policy. We want the
+
+518
+00:21:04,799 --> 00:21:10,159
+gap to be to go to zero as you have more
+
+519
+00:21:07,679 --> 00:21:14,400
+and more arms. Okay. So this gap here is
+
+520
+00:21:10,159 --> 00:21:18,200
+called optimality gap. Okay. So is the
+
+521
+00:21:14,400 --> 00:21:18,200
+goal clear to everyone?
+
+522
+00:21:18,240 --> 00:21:23,120
+Okay. Cool. So then like um let's review
+
+523
+00:21:20,960 --> 00:21:26,640
+some of the existing approaches and
+
+524
+00:21:23,120 --> 00:21:29,600
+those approaches are mainly uh um based
+
+525
+00:21:26,640 --> 00:21:31,679
+on index policies or priority policies
+
+526
+00:21:29,600 --> 00:21:34,320
+which makes intuitive sense. So what
+
+527
+00:21:31,679 --> 00:21:37,039
+they do is like basically you assign the
+
+528
+00:21:34,320 --> 00:21:38,480
+states a priority order and uh this
+
+529
+00:21:37,039 --> 00:21:40,080
+might be implicitly what you were
+
+530
+00:21:38,480 --> 00:21:42,080
+thinking when you look at the problem.
+
+531
+00:21:40,080 --> 00:21:44,640
+So for example, if you come up with a
+
+532
+00:21:42,080 --> 00:21:47,840
+priority order like this, then like when
+
+533
+00:21:44,640 --> 00:21:50,320
+you in go to the inarm system, you start
+
+534
+00:21:47,840 --> 00:21:52,080
+with like all the arms with the high
+
+535
+00:21:50,320 --> 00:21:55,039
+like whose states are in the highest
+
+536
+00:21:52,080 --> 00:21:57,440
+priority. For example, here is the state
+
+537
+00:21:55,039 --> 00:22:00,240
+one. So you pull those arms and then you
+
+538
+00:21:57,440 --> 00:22:03,440
+get to the next priority and so on until
+
+539
+00:22:00,240 --> 00:22:05,679
+you use like your off uh budget. So in
+
+540
+00:22:03,440 --> 00:22:08,400
+this case, the next priority is two. you
+
+541
+00:22:05,679 --> 00:22:10,159
+pull one of them and uh you don't have
+
+542
+00:22:08,400 --> 00:22:12,880
+any budget to pull the other one but you
+
+543
+00:22:10,159 --> 00:22:15,120
+just stop there. Okay. So this is like a
+
+544
+00:22:12,880 --> 00:22:18,720
+reasonable answer B like in the previous
+
+545
+00:22:15,120 --> 00:22:21,679
+slide. Okay. Um so yeah so then like if
+
+546
+00:22:18,720 --> 00:22:24,480
+you look at those kind of policies um
+
+547
+00:22:21,679 --> 00:22:26,320
+this one goes back to all the way to uh
+
+548
+00:22:24,480 --> 00:22:29,280
+this policy called the WTO index which
+
+549
+00:22:26,320 --> 00:22:32,000
+is one of those like index policies and
+
+550
+00:22:29,280 --> 00:22:34,880
+people prove that this it is like indeed
+
+551
+00:22:32,000 --> 00:22:37,120
+asotically optimal uh but with some
+
+552
+00:22:34,880 --> 00:22:39,039
+assumptions. So here I'm going to
+
+553
+00:22:37,120 --> 00:22:42,000
+highlight this gap assumption which is
+
+554
+00:22:39,039 --> 00:22:44,640
+called global attractor property. Okay.
+
+555
+00:22:42,000 --> 00:22:47,200
+Um so you will see that like for other
+
+556
+00:22:44,640 --> 00:22:49,679
+policies they require a similar
+
+557
+00:22:47,200 --> 00:22:52,720
+condition and then like people can also
+
+558
+00:22:49,679 --> 00:22:55,280
+show that uh the optimality gap can even
+
+559
+00:22:52,720 --> 00:22:57,679
+be very small uh if you assume more
+
+560
+00:22:55,280 --> 00:23:00,320
+assumptions but also like a stronger
+
+561
+00:22:57,679 --> 00:23:02,400
+version of the gap assumption. Okay. So
+
+562
+00:23:00,320 --> 00:23:04,480
+here I'm only listing like just a couple
+
+563
+00:23:02,400 --> 00:23:08,080
+of work here but restly spend it has
+
+564
+00:23:04,480 --> 00:23:10,080
+like a a huge like body of work and um
+
+565
+00:23:08,080 --> 00:23:12,240
+um just for the flow of the talk I
+
+566
+00:23:10,080 --> 00:23:14,480
+haven't listed those. Okay. People from
+
+567
+00:23:12,240 --> 00:23:17,760
+MIT have done foundational work here.
+
+568
+00:23:14,480 --> 00:23:20,400
+Okay. Okay. So, so for so then the for
+
+569
+00:23:17,760 --> 00:23:24,159
+if you look at here um then like you can
+
+570
+00:23:20,400 --> 00:23:26,720
+see that um everyone like all those like
+
+571
+00:23:24,159 --> 00:23:29,039
+uh guarantees are subject to this gap or
+
+572
+00:23:26,720 --> 00:23:32,480
+u gap condition. Um so what this
+
+573
+00:23:29,039 --> 00:23:35,360
+condition is is basically if n is large
+
+574
+00:23:32,480 --> 00:23:38,240
+then you can use the mean field analysis
+
+575
+00:23:35,360 --> 00:23:40,880
+that approximates the stoastic system
+
+576
+00:23:38,240 --> 00:23:44,240
+using a deterministic system that works
+
+577
+00:23:40,880 --> 00:23:46,720
+like a work uh differential equation in
+
+578
+00:23:44,240 --> 00:23:49,600
+this case is just discrete time. Okay.
+
+579
+00:23:46,720 --> 00:23:52,559
+And then like for that like uh
+
+580
+00:23:49,600 --> 00:23:55,360
+difference equation um you need the
+
+581
+00:23:52,559 --> 00:23:58,080
+system dynamical system to have a unique
+
+582
+00:23:55,360 --> 00:24:02,559
+global attractor and that has to be like
+
+583
+00:23:58,080 --> 00:24:05,360
+a a solution like some like a um uh
+
+584
+00:24:02,559 --> 00:24:08,080
+optimal distribution okay so that you
+
+585
+00:24:05,360 --> 00:24:10,240
+need to assume that okay uh so basic but
+
+586
+00:24:08,080 --> 00:24:11,679
+I wanted to point out that this is a
+
+587
+00:24:10,240 --> 00:24:15,120
+condition that's a little bit hard to
+
+588
+00:24:11,679 --> 00:24:17,440
+certify it's kind of hard to verify uh
+
+589
+00:24:15,120 --> 00:24:20,240
+whether it is satisfied ified like if
+
+590
+00:24:17,440 --> 00:24:22,880
+you are given the instance okay you can
+
+591
+00:24:20,240 --> 00:24:27,039
+certify that is not satisfied but it's
+
+592
+00:24:22,880 --> 00:24:30,080
+hard to certify satisfied okay yeah no
+
+593
+00:24:27,039 --> 00:24:34,080
+>> maybe a classification so why we care
+
+594
+00:24:30,080 --> 00:24:36,240
+about the gap with respect to n so n is
+
+595
+00:24:34,080 --> 00:24:38,880
+the number of the states right
+
+596
+00:24:36,240 --> 00:24:42,282
+>> oh sorry n is the number of arms
+
+597
+00:24:38,880 --> 00:24:43,200
+>> yes for example like if I'm a professor
+
+598
+00:24:42,282 --> 00:24:46,400
+[laughter and clears throat]
+
+599
+00:24:43,200 --> 00:24:48,799
+>> student is kind of like a fixed for me
+
+600
+00:24:46,400 --> 00:24:51,279
+when I I'm sorry I just want to know
+
+601
+00:24:48,799 --> 00:24:53,760
+what's the kind of vacation what I what
+
+602
+00:24:51,279 --> 00:24:57,279
+I really care is that if I have a small
+
+603
+00:24:53,760 --> 00:24:59,360
+budget then how much I will do or if the
+
+604
+00:24:57,279 --> 00:25:01,200
+budget is really large then actually I
+
+605
+00:24:59,360 --> 00:25:03,520
+can do individually optimization for
+
+606
+00:25:01,200 --> 00:25:05,919
+each one so that independent what I care
+
+607
+00:25:03,520 --> 00:25:08,480
+is about if I have a for example if I
+
+608
+00:25:05,919 --> 00:25:09,200
+have a small kind of budget what is the
+
+609
+00:25:08,480 --> 00:25:10,960
+gap right
+
+610
+00:25:09,200 --> 00:25:12,799
+>> so yes so here the setting the
+
+611
+00:25:10,960 --> 00:25:14,799
+background is like I mentioned at the
+
+612
+00:25:12,799 --> 00:25:16,799
+beginning you do have a large scale
+
+613
+00:25:14,799 --> 00:25:18,240
+system. So for example, when you think
+
+614
+00:25:16,799 --> 00:25:21,279
+about the computing system, you have
+
+615
+00:25:18,240 --> 00:25:23,919
+like a large number of servers there and
+
+616
+00:25:21,279 --> 00:25:26,640
+uh uh that is the n here and in the car
+
+617
+00:25:23,919 --> 00:25:28,640
+routing example each car like uh the
+
+618
+00:25:26,640 --> 00:25:32,159
+number of cars is the number of like
+
+619
+00:25:28,640 --> 00:25:34,720
+arms here and uh uh like even like when
+
+620
+00:25:32,159 --> 00:25:37,120
+n is large your budget is although it's
+
+621
+00:25:34,720 --> 00:25:39,120
+proportional to n it's kind of big but
+
+622
+00:25:37,120 --> 00:25:42,720
+still like the alpha there is a limiting
+
+623
+00:25:39,120 --> 00:25:45,360
+factor that can like uh that is a budget
+
+624
+00:25:42,720 --> 00:25:48,080
+constraint. So you you don't really like
+
+625
+00:25:45,360 --> 00:25:49,679
+you cannot afford to use like to pull
+
+626
+00:25:48,080 --> 00:25:52,080
+all the arms at the same time.
+
+627
+00:25:49,679 --> 00:25:53,840
+>> For example, like here the C is it the C
+
+628
+00:25:52,080 --> 00:25:55,679
+depend on alpha or
+
+629
+00:25:53,840 --> 00:25:57,679
+>> Oh yeah, it could depend on alpha and
+
+630
+00:25:55,679 --> 00:26:00,559
+even the state space size. Yeah. But
+
+631
+00:25:57,679 --> 00:26:05,200
+alpha is considered a constant. Yeah.
+
+632
+00:26:00,559 --> 00:26:07,200
+Okay. So alpha n is the budget. Okay.
+
+633
+00:26:05,200 --> 00:26:10,400
+Okay. So then like I'm going to also
+
+634
+00:26:07,200 --> 00:26:12,480
+show you one example like uh to to show
+
+635
+00:26:10,400 --> 00:26:15,440
+you what happens if this like condition
+
+636
+00:26:12,480 --> 00:26:18,559
+is not satisfied. Okay. Um so this is a
+
+637
+00:26:15,440 --> 00:26:21,679
+numerical experiment. The x-axis is the
+
+638
+00:26:18,559 --> 00:26:24,720
+is the time time horizon and then like
+
+639
+00:26:21,679 --> 00:26:27,919
+the y or each row here corresponds to
+
+640
+00:26:24,720 --> 00:26:29,679
+like one state. Okay. Uh so like this is
+
+641
+00:26:27,919 --> 00:26:32,400
+the previous example where we have eight
+
+642
+00:26:29,679 --> 00:26:35,600
+states. Okay. And then like the uh
+
+643
+00:26:32,400 --> 00:26:37,360
+intensity here means like how many AR
+
+644
+00:26:35,600 --> 00:26:40,080
+what's the fraction of arms in that
+
+645
+00:26:37,360 --> 00:26:43,600
+state like this is the simulation with
+
+646
+00:26:40,080 --> 00:26:46,240
+um I've got a lot of arms okay and then
+
+647
+00:26:43,600 --> 00:26:48,559
+like uh you watch like how so for
+
+648
+00:26:46,240 --> 00:26:50,799
+example at each time step if you look at
+
+649
+00:26:48,559 --> 00:26:52,720
+this slice then you'll see like the
+
+650
+00:26:50,799 --> 00:26:55,520
+distribution uh uh the state
+
+651
+00:26:52,720 --> 00:26:57,919
+distribution okay and then like you can
+
+652
+00:26:55,520 --> 00:27:00,640
+look at how it evolves over time and you
+
+653
+00:26:57,919 --> 00:27:02,960
+may observe that like here like it kind
+
+654
+00:27:00,640 --> 00:27:05,120
+of just it gets stuck in this same
+
+655
+00:27:02,960 --> 00:27:07,520
+distribution maybe after like 200
+
+656
+00:27:05,120 --> 00:27:08,799
+something time slots. Okay. And this
+
+657
+00:27:07,520 --> 00:27:11,200
+distribution this particular
+
+658
+00:27:08,799 --> 00:27:13,360
+distribution let me draw it here to to
+
+659
+00:27:11,200 --> 00:27:15,600
+make it even a little bit clearer. It's
+
+660
+00:27:13,360 --> 00:27:18,320
+like a a distribution that concentrates
+
+661
+00:27:15,600 --> 00:27:20,559
+uh just on three states. Okay. And this
+
+662
+00:27:18,320 --> 00:27:22,559
+is like a bad distribution because
+
+663
+00:27:20,559 --> 00:27:24,400
+remember we only have reward if you go
+
+664
+00:27:22,559 --> 00:27:26,400
+from seven to zero. If you don't have
+
+665
+00:27:24,400 --> 00:27:28,960
+anything uh on seven then you won't be
+
+666
+00:27:26,400 --> 00:27:31,919
+able to have any reward. Okay. So this
+
+667
+00:27:28,960 --> 00:27:34,640
+is a um so this shows a case where the
+
+668
+00:27:31,919 --> 00:27:37,200
+distribution is trapped in this like uh
+
+669
+00:27:34,640 --> 00:27:40,480
+this distribution under the previous
+
+670
+00:27:37,200 --> 00:27:42,640
+policy and this is like where the this
+
+671
+00:27:40,480 --> 00:27:46,159
+one this distribution itself is another
+
+672
+00:27:42,640 --> 00:27:49,279
+attractor of the problem. Okay. Um and
+
+673
+00:27:46,159 --> 00:27:52,159
+uh it doesn't satisfy the gap condition.
+
+674
+00:27:49,279 --> 00:27:54,480
+Okay. Yeah.
+
+675
+00:27:52,159 --> 00:27:56,000
+>> Question on whether it matters where you
+
+676
+00:27:54,480 --> 00:28:01,200
+start. Is that is there an
+
+677
+00:27:56,000 --> 00:28:04,159
+interpretation of that here? So um uh so
+
+678
+00:28:01,200 --> 00:28:05,840
+yeah I guess and so for this one uh
+
+679
+00:28:04,159 --> 00:28:07,919
+actually even if you change the star
+
+680
+00:28:05,840 --> 00:28:11,360
+state it would still like get stuck
+
+681
+00:28:07,919 --> 00:28:12,960
+there. Uh so we we tried and uh uh
+
+682
+00:28:11,360 --> 00:28:15,760
+actually here like if you look at here
+
+683
+00:28:12,960 --> 00:28:17,840
+it's a uniform that is like the optimal
+
+684
+00:28:15,760 --> 00:28:20,159
+attractor but it's unstable for this
+
+685
+00:28:17,840 --> 00:28:22,480
+example. Even if you get there you could
+
+686
+00:28:20,159 --> 00:28:24,320
+like just get out of it. So for this
+
+687
+00:28:22,480 --> 00:28:26,880
+particular example it doesn't matter.
+
+688
+00:28:24,320 --> 00:28:31,399
+for some examples it may matter if you
+
+689
+00:28:26,880 --> 00:28:31,399
+use this policy. Okay.
+
+690
+00:28:31,679 --> 00:28:37,279
+Okay. So um so yeah so this is the
+
+691
+00:28:34,399 --> 00:28:40,080
+example and uh uh so then like in our
+
+692
+00:28:37,279 --> 00:28:42,799
+work uh we basically we have like a
+
+693
+00:28:40,080 --> 00:28:45,679
+sequence of work. Uh so first we kind of
+
+694
+00:28:42,799 --> 00:28:47,760
+like uh remove this gap assumption but
+
+695
+00:28:45,679 --> 00:28:50,240
+we replace it with another assumption
+
+696
+00:28:47,760 --> 00:28:52,399
+and that assumption is easier to verify
+
+697
+00:28:50,240 --> 00:28:54,720
+and the previous example you saw
+
+698
+00:28:52,399 --> 00:28:57,279
+satisfies our assumption but not like
+
+699
+00:28:54,720 --> 00:28:59,120
+the gap assumption. Okay but then like
+
+700
+00:28:57,279 --> 00:29:02,240
+later on we actually like totally
+
+701
+00:28:59,120 --> 00:29:06,080
+removed it. Okay. Um yeah there's like
+
+702
+00:29:02,240 --> 00:29:08,080
+this small font like
+
+703
+00:29:06,080 --> 00:29:10,720
+thing here everyone assumes a certain
+
+704
+00:29:08,080 --> 00:29:12,320
+epiotic and uniting assumption. Okay.
+
+705
+00:29:10,720 --> 00:29:14,720
+Okay. And then like later on we were
+
+706
+00:29:12,320 --> 00:29:17,120
+able to make the optimatic gap even
+
+707
+00:29:14,720 --> 00:29:20,880
+smaller under additional assumptions but
+
+708
+00:29:17,120 --> 00:29:23,200
+still no gap assumption. Okay. Okay. And
+
+709
+00:29:20,880 --> 00:29:26,000
+uh here I'm going to focus on basically
+
+710
+00:29:23,200 --> 00:29:29,279
+this work. U we have a class of policies
+
+711
+00:29:26,000 --> 00:29:32,399
+here that we designed. Okay. Okay. So
+
+712
+00:29:29,279 --> 00:29:35,120
+let me uh get started with our approach.
+
+713
+00:29:32,399 --> 00:29:37,440
+So uh like I described early on uh it
+
+714
+00:29:35,120 --> 00:29:39,840
+has three steps. The first step is this
+
+715
+00:29:37,440 --> 00:29:41,919
+decomposition step. If you look at this
+
+716
+00:29:39,840 --> 00:29:44,320
+is this is the original problem within
+
+717
+00:29:41,919 --> 00:29:46,960
+arms and what we are going to do is we
+
+718
+00:29:44,320 --> 00:29:49,520
+are going to relax this condition to a
+
+719
+00:29:46,960 --> 00:29:52,480
+time average like time average
+
+720
+00:29:49,520 --> 00:29:55,440
+constraint. Okay. So once we do that
+
+721
+00:29:52,480 --> 00:29:59,120
+like we can kind of decouple the arms
+
+722
+00:29:55,440 --> 00:30:02,320
+and basically it becomes like n copies
+
+723
+00:29:59,120 --> 00:30:04,399
+of the same single armed problem and the
+
+724
+00:30:02,320 --> 00:30:06,559
+single arm problem you you just have one
+
+725
+00:30:04,399 --> 00:30:09,520
+arm you have this reward function. The
+
+726
+00:30:06,559 --> 00:30:12,320
+constraint is like over time you only
+
+727
+00:30:09,520 --> 00:30:13,840
+pull it for alpha fraction of time.
+
+728
+00:30:12,320 --> 00:30:16,480
+Okay.
+
+729
+00:30:13,840 --> 00:30:18,880
+Okay. So this one this problem now like
+
+730
+00:30:16,480 --> 00:30:21,120
+you have like you decompose this into n
+
+731
+00:30:18,880 --> 00:30:24,480
+identical copies of this problem and
+
+732
+00:30:21,120 --> 00:30:26,480
+then like for this problem um next step
+
+733
+00:30:24,480 --> 00:30:29,919
+is to solve it. It's very easily
+
+734
+00:30:26,480 --> 00:30:32,000
+solvable. Notice that like there's no n
+
+735
+00:30:29,919 --> 00:30:34,960
+anywhere. So the complexity doesn't
+
+736
+00:30:32,000 --> 00:30:37,919
+depend on the number of arms. And then
+
+737
+00:30:34,960 --> 00:30:39,679
+like you can after you solve oh this is
+
+738
+00:30:37,919 --> 00:30:41,840
+solvable through a linear program for
+
+739
+00:30:39,679 --> 00:30:44,320
+example and then like after you solve it
+
+740
+00:30:41,840 --> 00:30:46,240
+you get a policy for single arm it's
+
+741
+00:30:44,320 --> 00:30:49,120
+like if I look at the state of single
+
+742
+00:30:46,240 --> 00:30:51,279
+arm what action should I take okay and
+
+743
+00:30:49,120 --> 00:30:53,200
+you can prove that this like optimal
+
+744
+00:30:51,279 --> 00:30:54,960
+value is upper bound on the original
+
+745
+00:30:53,200 --> 00:30:57,039
+problem. So if you want to upper bound
+
+746
+00:30:54,960 --> 00:30:59,440
+the optimatic gap you can instead upper
+
+747
+00:30:57,039 --> 00:31:01,679
+bound like uh this thing with the
+
+748
+00:30:59,440 --> 00:31:04,480
+optimal reward replaced by like this
+
+749
+00:31:01,679 --> 00:31:06,480
+upper bound. Okay.
+
+750
+00:31:04,480 --> 00:31:09,279
+Okay. So now like we have done the local
+
+751
+00:31:06,480 --> 00:31:12,320
+solution. Uh everything is easy so far.
+
+752
+00:31:09,279 --> 00:31:14,720
+Uh and that LP is like that's linear
+
+753
+00:31:12,320 --> 00:31:17,440
+program I mentioned is the same thing
+
+754
+00:31:14,720 --> 00:31:19,520
+used uh by other policy designs too.
+
+755
+00:31:17,440 --> 00:31:21,679
+Okay. But the things the thing we do
+
+756
+00:31:19,520 --> 00:31:25,120
+differently here is we really think
+
+757
+00:31:21,679 --> 00:31:27,520
+about it as a singlear armed MDP problem
+
+758
+00:31:25,120 --> 00:31:29,919
+and we have the optimal solution for
+
+759
+00:31:27,520 --> 00:31:32,720
+that MDP and then like we are going to
+
+760
+00:31:29,919 --> 00:31:33,600
+use that local solution to construct a
+
+761
+00:31:32,720 --> 00:31:35,279
+global solution.
+
+762
+00:31:33,600 --> 00:31:38,000
+>> For example, in your specific example
+
+763
+00:31:35,279 --> 00:31:41,760
+you gave if alpha is half
+
+764
+00:31:38,000 --> 00:31:45,679
+>> effectively I sort of in some single arm
+
+765
+00:31:41,760 --> 00:31:46,960
+01 23. Yeah, I'm going to show you.
+
+766
+00:31:45,679 --> 00:31:49,760
+>> Yeah, I'm going to show you how it
+
+767
+00:31:46,960 --> 00:31:52,640
+works. And it's like a something like
+
+768
+00:31:49,760 --> 00:31:55,200
+what you said. Okay, so we have we have
+
+769
+00:31:52,640 --> 00:31:57,600
+we call this policy ID policy is one of
+
+770
+00:31:55,200 --> 00:31:59,600
+the policies in the class of policies we
+
+771
+00:31:57,600 --> 00:32:02,559
+designed. So we have this single arm
+
+772
+00:31:59,600 --> 00:32:05,200
+policy and then like for every arm here
+
+773
+00:32:02,559 --> 00:32:07,919
+we're going to sample action using this
+
+774
+00:32:05,200 --> 00:32:10,799
+policy. So in this particular example,
+
+775
+00:32:07,919 --> 00:32:12,960
+this is the previous example. Then like
+
+776
+00:32:10,799 --> 00:32:15,440
+uh we figured out the optimal single arm
+
+777
+00:32:12,960 --> 00:32:17,519
+policy. We sampled those actions but
+
+778
+00:32:15,440 --> 00:32:19,120
+then like they may not be subject to the
+
+779
+00:32:17,519 --> 00:32:21,279
+they may not satisfy the budget
+
+780
+00:32:19,120 --> 00:32:24,080
+constraint the hard budget constraint.
+
+781
+00:32:21,279 --> 00:32:26,640
+Okay. So then what we are going to do is
+
+782
+00:32:24,080 --> 00:32:29,679
+we want to take the actual actions that
+
+783
+00:32:26,640 --> 00:32:33,840
+are very close to those ideal actions
+
+784
+00:32:29,679 --> 00:32:36,240
+but we need a way like to uh to for this
+
+785
+00:32:33,840 --> 00:32:39,760
+procedure and the particular way we do
+
+786
+00:32:36,240 --> 00:32:42,159
+this is that we prioritize smaller ARM
+
+787
+00:32:39,760 --> 00:32:44,320
+ids. So here arm ids are nothing but
+
+788
+00:32:42,159 --> 00:32:46,640
+those numbers you assign to them
+
+789
+00:32:44,320 --> 00:32:48,960
+beforehand. Okay, it's kind of arbitrary
+
+790
+00:32:46,640 --> 00:32:51,440
+but you need to fix them. And once you
+
+791
+00:32:48,960 --> 00:32:54,159
+fix them, you start from the smallest
+
+792
+00:32:51,440 --> 00:32:57,039
+ID. You follow this ideal action. Next
+
+793
+00:32:54,159 --> 00:32:59,679
+one also, next one also here is okay.
+
+794
+00:32:57,039 --> 00:33:01,919
+Our budget is four. So then we are here.
+
+795
+00:32:59,679 --> 00:33:04,799
+We are here. And now like we have four
+
+796
+00:33:01,919 --> 00:33:07,679
+activives like we hit our budget then we
+
+797
+00:33:04,799 --> 00:33:10,240
+have to set like the rest to be passive.
+
+798
+00:33:07,679 --> 00:33:11,679
+>> So choosing your choosing IDs rather
+
+799
+00:33:10,240 --> 00:33:13,919
+than doing at random because you did
+
+800
+00:33:11,679 --> 00:33:16,640
+consistent randomization across entire
+
+801
+00:33:13,919 --> 00:33:19,360
+horizon. Yes. Yes. So if you use like a
+
+802
+00:33:16,640 --> 00:33:22,000
+a complete random like uh type breaking
+
+803
+00:33:19,360 --> 00:33:24,640
+it won't work. We have like a numerical
+
+804
+00:33:22,000 --> 00:33:27,200
+uh uh experiments showing that. Okay.
+
+805
+00:33:24,640 --> 00:33:30,000
+Yeah. Like you said it's because the uh
+
+806
+00:33:27,200 --> 00:33:34,559
+arms are not consistently like following
+
+807
+00:33:30,000 --> 00:33:37,360
+this ideal policy. Okay. Okay. Yeah. So
+
+808
+00:33:34,559 --> 00:33:39,679
+this is uh Yeah. So it's a very it's a
+
+809
+00:33:37,360 --> 00:33:42,559
+very simple policy here. It just like it
+
+810
+00:33:39,679 --> 00:33:44,640
+just works like that. Okay. So now like
+
+811
+00:33:42,559 --> 00:33:46,080
+uh and the guarantee we have is this
+
+812
+00:33:44,640 --> 00:33:48,559
+like one over square root of an
+
+813
+00:33:46,080 --> 00:33:50,480
+optimatic gap that I showed you before.
+
+814
+00:33:48,559 --> 00:33:53,120
+Okay. So now I want to give you a little
+
+815
+00:33:50,480 --> 00:33:56,640
+bit of intuition on why it works.
+
+816
+00:33:53,120 --> 00:33:58,880
+>> Rar so this is deviation.
+
+817
+00:33:56,640 --> 00:34:00,960
+So I could sort of run the policy
+
+818
+00:33:58,880 --> 00:34:03,200
+individually and now with this
+
+819
+00:34:00,960 --> 00:34:05,919
+constraint the implementation for each
+
+820
+00:34:03,200 --> 00:34:07,679
+arm would deviate a little.
+
+821
+00:34:05,919 --> 00:34:08,320
+>> And the point is this deviation is
+
+822
+00:34:07,679 --> 00:34:11,679
+small.
+
+823
+00:34:08,320 --> 00:34:14,720
+>> Yes. Yes. Yes. And uh you you see how
+
+824
+00:34:11,679 --> 00:34:18,240
+exactly it goes here. Okay. And it's not
+
+825
+00:34:14,720 --> 00:34:20,480
+kind of per arm deviation. Okay. So uh
+
+826
+00:34:18,240 --> 00:34:23,280
+so what happens is like this. Okay. So
+
+827
+00:34:20,480 --> 00:34:25,679
+let's think about this example and our
+
+828
+00:34:23,280 --> 00:34:28,399
+budget is half. So we can pull four
+
+829
+00:34:25,679 --> 00:34:31,440
+arms. Okay. So now like if you think
+
+830
+00:34:28,399 --> 00:34:33,359
+about the first half of the arms. Okay.
+
+831
+00:34:31,440 --> 00:34:36,800
+So what do you think will happen to them
+
+832
+00:34:33,359 --> 00:34:39,119
+if we use our policy? We prioritize the
+
+833
+00:34:36,800 --> 00:34:41,440
+smaller IDs like what do you think those
+
+834
+00:34:39,119 --> 00:34:43,040
+arms can do.
+
+835
+00:34:41,440 --> 00:34:45,040
+So
+
+836
+00:34:43,040 --> 00:34:45,520
+>> they'll do what of your individual
+
+837
+00:34:45,040 --> 00:34:46,480
+policy.
+
+838
+00:34:45,520 --> 00:34:48,480
+>> Yeah. They will just follow the
+
+839
+00:34:46,480 --> 00:34:50,399
+individual policies. Exactly. Because
+
+840
+00:34:48,480 --> 00:34:52,720
+there's like nothing constraining them
+
+841
+00:34:50,399 --> 00:34:54,800
+here, right? So they will just follow
+
+842
+00:34:52,720 --> 00:34:57,359
+their ideal actions. They follow those
+
+843
+00:34:54,800 --> 00:34:58,720
+policies and they're like um state
+
+844
+00:34:57,359 --> 00:35:01,359
+distribution would converge to the
+
+845
+00:34:58,720 --> 00:35:03,280
+optimal distribution and then like if
+
+846
+00:35:01,359 --> 00:35:05,119
+they can converge to the optimal
+
+847
+00:35:03,280 --> 00:35:07,359
+distribution. So let's let's call this
+
+848
+00:35:05,119 --> 00:35:09,760
+like the good subset. Okay. And then
+
+849
+00:35:07,359 --> 00:35:12,640
+like if they converge then like by our
+
+850
+00:35:09,760 --> 00:35:16,000
+design each arm is only consuming half
+
+851
+00:35:12,640 --> 00:35:18,079
+of the budget um on average. Okay. So
+
+852
+00:35:16,000 --> 00:35:20,400
+then let's just take that literally if
+
+853
+00:35:18,079 --> 00:35:23,359
+everyone consumes half then like they
+
+854
+00:35:20,400 --> 00:35:26,160
+together consume one quarter of n. Okay.
+
+855
+00:35:23,359 --> 00:35:28,960
+And then like uh you can look at the
+
+856
+00:35:26,160 --> 00:35:31,359
+next one fraction of the arms. Now like
+
+857
+00:35:28,960 --> 00:35:33,760
+the the budget left over is a quarter of
+
+858
+00:35:31,359 --> 00:35:35,839
+n and then again nothing is constraining
+
+859
+00:35:33,760 --> 00:35:38,400
+them. So they can follow their ideal
+
+860
+00:35:35,839 --> 00:35:40,880
+actions and then like we expand this
+
+861
+00:35:38,400 --> 00:35:43,520
+good subset to like one to three/4ers of
+
+862
+00:35:40,880 --> 00:35:46,320
+n. Okay. And then like this goes on and
+
+863
+00:35:43,520 --> 00:35:48,560
+on until like you can kind of keep
+
+864
+00:35:46,320 --> 00:35:50,480
+expanding it but due to the randomness
+
+865
+00:35:48,560 --> 00:35:52,640
+in the problem there's like a square
+
+866
+00:35:50,480 --> 00:35:54,160
+root of n fluctuation there and then
+
+867
+00:35:52,640 --> 00:35:56,800
+that leads to the square root of an
+
+868
+00:35:54,160 --> 00:36:00,240
+optimatic gap. Okay. So back to what you
+
+869
+00:35:56,800 --> 00:36:02,079
+uh commented like the first several arms
+
+870
+00:36:00,240 --> 00:36:04,480
+like they actually don't deviate only
+
+871
+00:36:02,079 --> 00:36:06,160
+the bottom arms will deviate from like
+
+872
+00:36:04,480 --> 00:36:08,960
+the ideal policies.
+
+873
+00:36:06,160 --> 00:36:09,359
+>> You're in worst case so this is fine.
+
+874
+00:36:08,960 --> 00:36:11,760
+Yeah.
+
+875
+00:36:09,359 --> 00:36:15,280
+>> Yeah. Okay.
+
+876
+00:36:11,760 --> 00:36:16,800
+Okay. So um yeah so uh this is like a
+
+877
+00:36:15,280 --> 00:36:19,119
+basic
+
+878
+00:36:16,800 --> 00:36:22,560
+>> you see what an end deviation or it's
+
+879
+00:36:19,119 --> 00:36:23,920
+smaller deviation. Um it's you mean like
+
+880
+00:36:22,560 --> 00:36:25,680
+the gap or
+
+881
+00:36:23,920 --> 00:36:27,280
+>> is the square root of n deviation is the
+
+882
+00:36:25,680 --> 00:36:29,760
+optimal one or is that sort of
+
+883
+00:36:27,280 --> 00:36:31,599
+>> Yeah. For the policy it's probably it.
+
+884
+00:36:29,760 --> 00:36:34,160
+Yeah. For our policy is probably just
+
+885
+00:36:31,599 --> 00:36:35,119
+like really square root of it. Yeah.
+
+886
+00:36:34,160 --> 00:36:37,680
+Okay.
+
+887
+00:36:35,119 --> 00:36:40,960
+>> So this kind of crucially depends on the
+
+888
+00:36:37,680 --> 00:36:42,480
+number of arms you all scaling linearly
+
+889
+00:36:40,960 --> 00:36:43,680
+with the number of total arms.
+
+890
+00:36:42,480 --> 00:36:45,200
+>> Yeah. That depends on that
+
+891
+00:36:43,680 --> 00:36:47,200
+>> number.
+
+892
+00:36:45,200 --> 00:36:49,280
+>> So yeah. So the thing is like if your
+
+893
+00:36:47,200 --> 00:36:52,079
+budget is a constant number of arms then
+
+894
+00:36:49,280 --> 00:36:55,839
+like you there's not much you can do and
+
+895
+00:36:52,079 --> 00:36:58,160
+then like uh uh roughly speaking your
+
+896
+00:36:55,839 --> 00:37:00,000
+optimality gap would be on the constant
+
+897
+00:36:58,160 --> 00:37:02,480
+order because you're only allowed to
+
+898
+00:37:00,000 --> 00:37:05,599
+pull a constant number of arms then your
+
+899
+00:37:02,480 --> 00:37:07,040
+like optimization space is like small
+
+900
+00:37:05,599 --> 00:37:09,839
+okay
+
+901
+00:37:07,040 --> 00:37:12,480
+>> in principle you decomposed into units
+
+902
+00:37:09,839 --> 00:37:14,320
+of arms and thing I could say well maybe
+
+903
+00:37:12,480 --> 00:37:16,000
+I'll decompose them into login bit
+
+904
+00:37:14,320 --> 00:37:18,240
+pieces Yeah, that's it.
+
+905
+00:37:16,000 --> 00:37:20,640
+>> Each each problem I'll solve separately.
+
+906
+00:37:18,240 --> 00:37:24,160
+>> Yes. Yes. Yeah, you can do that. And I
+
+907
+00:37:20,640 --> 00:37:26,960
+think for like for now for this for our
+
+908
+00:37:24,160 --> 00:37:28,960
+particular policy like it it kind of
+
+909
+00:37:26,960 --> 00:37:32,079
+works out to be the same optimality
+
+910
+00:37:28,960 --> 00:37:34,720
+order like optimatic gap. Yeah. Uh but
+
+911
+00:37:32,079 --> 00:37:37,119
+we do see that phenomenon in the another
+
+912
+00:37:34,720 --> 00:37:38,720
+problem where we do need to group them.
+
+913
+00:37:37,119 --> 00:37:40,400
+Yeah.
+
+914
+00:37:38,720 --> 00:37:42,400
+Okay.
+
+915
+00:37:40,400 --> 00:37:44,880
+Okay. So yeah. So basically the
+
+916
+00:37:42,400 --> 00:37:47,119
+algorithmic idea here is to just like
+
+917
+00:37:44,880 --> 00:37:49,680
+drive a smaller set of arms optimatic
+
+918
+00:37:47,119 --> 00:37:53,599
+first and then like try to like expand
+
+919
+00:37:49,680 --> 00:37:56,640
+this set. Okay. So um I think maybe I
+
+920
+00:37:53,599 --> 00:37:58,960
+will skip the proof because of time.
+
+921
+00:37:56,640 --> 00:38:01,599
+Okay. And because I do want to talk
+
+922
+00:37:58,960 --> 00:38:03,680
+about like the generalization um but
+
+923
+00:38:01,599 --> 00:38:07,280
+it's based on this drift method for the
+
+924
+00:38:03,680 --> 00:38:10,720
+upnown functions and it's very closely
+
+925
+00:38:07,280 --> 00:38:14,480
+related like this intuition. Okay. So um
+
+926
+00:38:10,720 --> 00:38:17,200
+so I'm going to skip those and um our
+
+927
+00:38:14,480 --> 00:38:21,680
+construction of the leopno functions. Uh
+
+928
+00:38:17,200 --> 00:38:24,960
+so sorry I'm going to just skip them. Uh
+
+929
+00:38:21,680 --> 00:38:28,400
+okay uh I'm happy to talk offline. Okay.
+
+930
+00:38:24,960 --> 00:38:32,079
+Uh and um so quick summary we designed
+
+931
+00:38:28,400 --> 00:38:34,160
+this new class of policies and uh um so
+
+932
+00:38:32,079 --> 00:38:38,000
+it's not a priority or index based
+
+933
+00:38:34,160 --> 00:38:39,599
+policy and it does use like ARM ids. Um
+
+934
+00:38:38,000 --> 00:38:42,320
+so if you don't like the way it makes
+
+935
+00:38:39,599 --> 00:38:44,640
+use of ARM ids which seems arbitrary, we
+
+936
+00:38:42,320 --> 00:38:47,599
+do have another design which is not
+
+937
+00:38:44,640 --> 00:38:50,079
+based on ARM ids but rather like another
+
+938
+00:38:47,599 --> 00:38:52,320
+way of constructing what we call focus
+
+939
+00:38:50,079 --> 00:38:54,720
+set basically a smaller set where the
+
+940
+00:38:52,320 --> 00:38:56,880
+arms could follow the ideal actions and
+
+941
+00:38:54,720 --> 00:38:59,119
+then try to expand it over time. We
+
+942
+00:38:56,880 --> 00:39:03,200
+explicitly maintains the set like in the
+
+943
+00:38:59,119 --> 00:39:06,079
+algorithm. Okay. Okay. So um then like I
+
+944
+00:39:03,200 --> 00:39:08,880
+do want to go to um a generalization of
+
+945
+00:39:06,079 --> 00:39:12,079
+this. Okay. Uh so for the rest
+
+946
+00:39:08,880 --> 00:39:14,560
+restlessly spended problem uh one like
+
+947
+00:39:12,079 --> 00:39:17,280
+limitation is that you only have binary
+
+948
+00:39:14,560 --> 00:39:20,160
+actions for each arm and you can think
+
+949
+00:39:17,280 --> 00:39:22,720
+that yeah so like there's a quick review
+
+950
+00:39:20,160 --> 00:39:24,079
+here. So the action space is binary but
+
+951
+00:39:22,720 --> 00:39:26,160
+you can imagine that in many
+
+952
+00:39:24,079 --> 00:39:28,240
+applications you may want to take like a
+
+953
+00:39:26,160 --> 00:39:30,240
+multiple actions like when you meet with
+
+954
+00:39:28,240 --> 00:39:33,920
+student it could be one hour, two hours
+
+955
+00:39:30,240 --> 00:39:36,560
+or 10 minutes and so on. Okay. Um so uh
+
+956
+00:39:33,920 --> 00:39:39,280
+yeah so this is the one limitation there
+
+957
+00:39:36,560 --> 00:39:42,720
+and correspondingly like the constraint
+
+958
+00:39:39,280 --> 00:39:45,920
+is kind of goes with this kind of action
+
+959
+00:39:42,720 --> 00:39:48,320
+space. Um so we coupled MDP is a
+
+960
+00:39:45,920 --> 00:39:51,119
+framework that tries to generalize this.
+
+961
+00:39:48,320 --> 00:39:54,160
+So basically here the the action space
+
+962
+00:39:51,119 --> 00:39:57,920
+could be like a arbitrary finite space
+
+963
+00:39:54,160 --> 00:39:59,440
+uh finite set. Okay. And then like uh
+
+964
+00:39:57,920 --> 00:40:01,839
+you still have the transition
+
+965
+00:39:59,440 --> 00:40:04,320
+probabilities. Now it depends on action
+
+966
+00:40:01,839 --> 00:40:05,680
+which is non-binary now and then like
+
+967
+00:40:04,320 --> 00:40:08,000
+you have still have the independent
+
+968
+00:40:05,680 --> 00:40:10,320
+transitions have reward functions
+
+969
+00:40:08,000 --> 00:40:12,240
+depends on both. So those are similar to
+
+970
+00:40:10,320 --> 00:40:14,880
+before but here when you look at the
+
+971
+00:40:12,240 --> 00:40:16,960
+constraints you could define like a cost
+
+972
+00:40:14,880 --> 00:40:19,520
+function that depends on both the state
+
+973
+00:40:16,960 --> 00:40:22,079
+and action and you could have like
+
+974
+00:40:19,520 --> 00:40:25,680
+multiple types of costs and you could
+
+975
+00:40:22,079 --> 00:40:28,160
+have a budget for each. Okay. So um so
+
+976
+00:40:25,680 --> 00:40:30,720
+then like like this is a uh so-called
+
+977
+00:40:28,160 --> 00:40:33,280
+weakly coupled MTP and the goal is the
+
+978
+00:40:30,720 --> 00:40:35,920
+same. You find the policy and uh it's
+
+979
+00:40:33,280 --> 00:40:38,240
+hard when it's big. So you want to uh
+
+980
+00:40:35,920 --> 00:40:40,560
+efficiently compute the policy that has
+
+981
+00:40:38,240 --> 00:40:42,160
+a diminishing optimality gap. Okay.
+
+982
+00:40:40,560 --> 00:40:44,960
+>> So it's the same as before you got
+
+983
+00:40:42,160 --> 00:40:46,800
+multiple NMES. Now they're the same
+
+984
+00:40:44,960 --> 00:40:47,520
+their own evolution,
+
+985
+00:40:46,800 --> 00:40:48,960
+>> right?
+
+986
+00:40:47,520 --> 00:40:50,400
+>> They're homogeneous.
+
+987
+00:40:48,960 --> 00:40:54,160
+>> Yeah, that's the thing I'm getting to
+
+988
+00:40:50,400 --> 00:40:55,200
+next. Yeah. So but yeah. Yeah, they're
+
+989
+00:40:54,160 --> 00:40:57,520
+homogeneous now.
+
+990
+00:40:55,200 --> 00:40:59,440
+>> And then the they're constrained or
+
+991
+00:40:57,520 --> 00:41:00,319
+they're coupled together through a
+
+992
+00:40:59,440 --> 00:41:02,000
+constraint like
+
+993
+00:41:00,319 --> 00:41:06,240
+>> yeah through a set of constraints like
+
+994
+00:41:02,000 --> 00:41:09,040
+this for every moment of time. Okay. And
+
+995
+00:41:06,240 --> 00:41:11,280
+um yeah uh we assume there's a action
+
+996
+00:41:09,040 --> 00:41:12,640
+that like makes the cost always zero
+
+997
+00:41:11,280 --> 00:41:16,720
+otherwise sometimes it's not
+
+998
+00:41:12,640 --> 00:41:19,440
+satisfiable. Okay. Okay. Um yeah. So
+
+999
+00:41:16,720 --> 00:41:21,520
+this is this setting and um the next
+
+1000
+00:41:19,440 --> 00:41:24,319
+limitation I want to bring up which is
+
+1001
+00:41:21,520 --> 00:41:26,880
+even uh more important in my opinion is
+
+1002
+00:41:24,319 --> 00:41:29,040
+this like homogeneous assumption. Okay.
+
+1003
+00:41:26,880 --> 00:41:31,599
+So we assume like all the arms share the
+
+1004
+00:41:29,040 --> 00:41:34,880
+same set of parameters even here. Okay.
+
+1005
+00:41:31,599 --> 00:41:37,520
+Um but like you can imagine like um uh
+
+1006
+00:41:34,880 --> 00:41:40,079
+in practice it could be like arms are
+
+1007
+00:41:37,520 --> 00:41:43,359
+heterogeneous. Okay. So then like here
+
+1008
+00:41:40,079 --> 00:41:45,599
+we actually kind of um like we actually
+
+1009
+00:41:43,359 --> 00:41:47,760
+consider the fully heterogeneous setting
+
+1010
+00:41:45,599 --> 00:41:50,480
+where each arm has its own transition
+
+1011
+00:41:47,760 --> 00:41:53,680
+kernel reward function and like a cost
+
+1012
+00:41:50,480 --> 00:41:56,079
+function. Okay. So this is a place where
+
+1013
+00:41:53,680 --> 00:41:59,200
+uh traditional method would really
+
+1014
+00:41:56,079 --> 00:42:02,240
+struggle like mean field based analysis
+
+1015
+00:41:59,200 --> 00:42:04,800
+like would find it very challenging if
+
+1016
+00:42:02,240 --> 00:42:07,920
+everything is different from each other.
+
+1017
+00:42:04,800 --> 00:42:10,720
+Okay. Um okay so this is this setting
+
+1018
+00:42:07,920 --> 00:42:12,720
+and uh if you look at previous results
+
+1019
+00:42:10,720 --> 00:42:15,520
+uh for the homogeneous setting of weekly
+
+1020
+00:42:12,720 --> 00:42:18,800
+coupled MDPS we have like a papers uh
+
+1021
+00:42:15,520 --> 00:42:21,440
+achieving uh diminishing optimatic gap
+
+1022
+00:42:18,800 --> 00:42:22,960
+um but with no specific order there and
+
+1023
+00:42:21,440 --> 00:42:25,520
+then like there's this type the
+
+1024
+00:42:22,960 --> 00:42:27,920
+heterogeneous setting which says the
+
+1025
+00:42:25,520 --> 00:42:30,240
+arms can be divided into a finite number
+
+1026
+00:42:27,920 --> 00:42:32,400
+of classes which doesn't make it very
+
+1027
+00:42:30,240 --> 00:42:35,599
+different from the homogeneous setting.
+
+1028
+00:42:32,400 --> 00:42:37,760
+Okay. So then like uh and uh um those
+
+1029
+00:42:35,599 --> 00:42:40,880
+papers assume like there's only one
+
+1030
+00:42:37,760 --> 00:42:43,760
+constraint and uh that's why like they
+
+1031
+00:42:40,880 --> 00:42:46,480
+can still define certain index policies.
+
+1032
+00:42:43,760 --> 00:42:48,400
+Okay. Okay. And then like you what we
+
+1033
+00:42:46,480 --> 00:42:50,720
+considered is this fully heterogeneous
+
+1034
+00:42:48,400 --> 00:42:52,400
+setting and the general constraints and
+
+1035
+00:42:50,720 --> 00:42:55,119
+we were able to achieve a one over
+
+1036
+00:42:52,400 --> 00:42:55,520
+square root of an optimatic gap. Okay.
+
+1037
+00:42:55,119 --> 00:42:57,280
+Yeah.
+
+1038
+00:42:55,520 --> 00:43:01,920
+>> Could you clarify again the difference
+
+1039
+00:42:57,280 --> 00:43:04,079
+between the type and a small right?
+
+1040
+00:43:01,920 --> 00:43:06,160
+>> Yeah. So the type heterogeneity is like
+
+1041
+00:43:04,079 --> 00:43:08,960
+you have n arms they are divided into
+
+1042
+00:43:06,160 --> 00:43:12,000
+let's say three types and when you
+
+1043
+00:43:08,960 --> 00:43:14,560
+increase n like the proportion of each
+
+1044
+00:43:12,000 --> 00:43:16,400
+type of arms is fixed like I have oneird
+
+1045
+00:43:14,560 --> 00:43:19,040
+of type one one third of type two one
+
+1046
+00:43:16,400 --> 00:43:20,720
+third of type three okay so then like
+
+1047
+00:43:19,040 --> 00:43:22,480
+it's heterogeneous because you have
+
+1048
+00:43:20,720 --> 00:43:24,880
+different types but if you look at each
+
+1049
+00:43:22,480 --> 00:43:26,720
+type is still like a very large system
+
+1050
+00:43:24,880 --> 00:43:28,960
+so that's why I'm saying it's not too
+
+1051
+00:43:26,720 --> 00:43:29,440
+different from the homogeneous setting
+
+1052
+00:43:28,960 --> 00:43:31,119
+okay
+
+1053
+00:43:29,440 --> 00:43:32,960
+>> fully what happens
+
+1054
+00:43:31,119 --> 00:43:35,280
+>> so the fully header setting every arm
+
+1055
+00:43:32,960 --> 00:43:37,680
+could be different and when we increase
+
+1056
+00:43:35,280 --> 00:43:40,000
+n as long as like we have a condition as
+
+1057
+00:43:37,680 --> 00:43:43,280
+long as that condition is satisfied uh
+
+1058
+00:43:40,000 --> 00:43:46,960
+then like we we kind of we can just keep
+
+1059
+00:43:43,280 --> 00:43:50,880
+adding arms to it. Okay.
+
+1060
+00:43:46,960 --> 00:43:54,079
+Okay. Okay. So uh for uh yeah so then
+
+1061
+00:43:50,880 --> 00:43:56,400
+let's see like our um solution. So we
+
+1062
+00:43:54,079 --> 00:43:58,960
+can first go back to this like restless
+
+1063
+00:43:56,400 --> 00:44:02,240
+bandit setting where we decompose the
+
+1064
+00:43:58,960 --> 00:44:03,760
+problem into single armed mdps and uh uh
+
+1065
+00:44:02,240 --> 00:44:05,599
+as I mentioned they could be solved
+
+1066
+00:44:03,760 --> 00:44:08,160
+through a linear program. This linear
+
+1067
+00:44:05,599 --> 00:44:11,119
+program is basically just the state
+
+1068
+00:44:08,160 --> 00:44:13,920
+action long-term state action frequency
+
+1069
+00:44:11,119 --> 00:44:15,359
+uh for this single armed mdp problem.
+
+1070
+00:44:13,920 --> 00:44:18,480
+That's a fraction of time you are in
+
+1071
+00:44:15,359 --> 00:44:21,200
+state S using action A. Okay. And then
+
+1072
+00:44:18,480 --> 00:44:23,920
+like you can solve this LP you get the
+
+1073
+00:44:21,200 --> 00:44:25,920
+optimal solution which can be converted
+
+1074
+00:44:23,920 --> 00:44:28,160
+to this like optimal single armed
+
+1075
+00:44:25,920 --> 00:44:31,359
+policy. That's what we actually used.
+
+1076
+00:44:28,160 --> 00:44:34,319
+Okay. Um so now like we we are going to
+
+1077
+00:44:31,359 --> 00:44:37,440
+the um we coupled MDPS heterogeneous
+
+1078
+00:44:34,319 --> 00:44:39,760
+setting. Um but we can still first relax
+
+1079
+00:44:37,440 --> 00:44:41,839
+the constraints in the same way. So
+
+1080
+00:44:39,760 --> 00:44:45,359
+basically we replace it with the time
+
+1081
+00:44:41,839 --> 00:44:47,760
+average constraint. Okay. And then like
+
+1082
+00:44:45,359 --> 00:44:50,640
+although it see it looks like the arms
+
+1083
+00:44:47,760 --> 00:44:53,040
+seem to be still like coupled but they
+
+1084
+00:44:50,640 --> 00:44:55,760
+are not like really coupled because if
+
+1085
+00:44:53,040 --> 00:44:58,720
+you write out the linear program form it
+
+1086
+00:44:55,760 --> 00:45:02,079
+shows it more clearly like now we have a
+
+1087
+00:44:58,720 --> 00:45:04,720
+set of action frequency for each arm I
+
+1088
+00:45:02,079 --> 00:45:07,520
+okay because I like it they could each
+
+1089
+00:45:04,720 --> 00:45:10,240
+arm is different okay and then like this
+
+1090
+00:45:07,520 --> 00:45:14,240
+constraint is basically just a linear
+
+1091
+00:45:10,240 --> 00:45:16,720
+constraint on those yi of SAS Okay. So
+
+1092
+00:45:14,240 --> 00:45:20,800
+then you can solve this LP. Now it
+
+1093
+00:45:16,720 --> 00:45:24,480
+depends on N but it depends like in uh
+
+1094
+00:45:20,800 --> 00:45:26,880
+like a polomial way you have N * S * A
+
+1095
+00:45:24,480 --> 00:45:29,680
+like variables and your constraints are
+
+1096
+00:45:26,880 --> 00:45:32,240
+also like polomial in those parameters.
+
+1097
+00:45:29,680 --> 00:45:33,680
+Okay. So you can still solve this and
+
+1098
+00:45:32,240 --> 00:45:35,839
+then like you get those optimal
+
+1099
+00:45:33,680 --> 00:45:37,839
+solutions. What you can cons you can
+
+1100
+00:45:35,839 --> 00:45:41,119
+still prove this is like upper bound for
+
+1101
+00:45:37,839 --> 00:45:43,359
+the original problem and then like what
+
+1102
+00:45:41,119 --> 00:45:46,480
+you get is like in different optimal
+
+1103
+00:45:43,359 --> 00:45:49,920
+single armed policies. Okay just based
+
+1104
+00:45:46,480 --> 00:45:52,480
+on this solution okay so yeah so this is
+
+1105
+00:45:49,920 --> 00:45:55,440
+a local step and then like actually we
+
+1106
+00:45:52,480 --> 00:45:58,400
+use the same like local to global step
+
+1107
+00:45:55,440 --> 00:46:00,400
+here. Okay. So what we do is like now we
+
+1108
+00:45:58,400 --> 00:46:04,400
+call it ID policy. we need one
+
+1109
+00:46:00,400 --> 00:46:06,240
+additional step um which is like not uh
+
+1110
+00:46:04,400 --> 00:46:08,880
+it can be done in many ways it's a
+
+1111
+00:46:06,240 --> 00:46:12,000
+pre-processing we cannot use arbitrary
+
+1112
+00:46:08,880 --> 00:46:15,200
+ids we need ID assignment to satisfy
+
+1113
+00:46:12,000 --> 00:46:17,359
+certain smoothness kind of condition but
+
+1114
+00:46:15,200 --> 00:46:20,000
+it can always be satisfied and we have a
+
+1115
+00:46:17,359 --> 00:46:22,319
+particular way to do this okay and there
+
+1116
+00:46:20,000 --> 00:46:25,119
+may be other ways to do it too okay but
+
+1117
+00:46:22,319 --> 00:46:27,839
+once we fix the IDs it's very similar to
+
+1118
+00:46:25,119 --> 00:46:30,240
+before each arm samples the ideal action
+
+1119
+00:46:27,839 --> 00:46:32,079
+so here the actions could be like I'm
+
+1120
+00:46:30,240 --> 00:46:34,079
+just making up numbers here okay
+
+1121
+00:46:32,079 --> 00:46:36,400
+representing different actions and then
+
+1122
+00:46:34,079 --> 00:46:39,119
+you try to follow those actions starting
+
+1123
+00:46:36,400 --> 00:46:41,839
+from smaller arm ids but remember
+
+1124
+00:46:39,119 --> 00:46:44,000
+there's a cost constraint here and there
+
+1125
+00:46:41,839 --> 00:46:46,480
+are multiple cost constraints here so
+
+1126
+00:46:44,000 --> 00:46:49,040
+you you start from the smallest arm ID
+
+1127
+00:46:46,480 --> 00:46:51,359
+you keep following this until you hit
+
+1128
+00:46:49,040 --> 00:46:53,680
+one of the budget okay then you will
+
+1129
+00:46:51,359 --> 00:46:55,839
+stop as long as one of the budget is
+
+1130
+00:46:53,680 --> 00:46:58,480
+going to be violated you're going to
+
+1131
+00:46:55,839 --> 00:47:00,880
+stop okay so for this particular example
+
+1132
+00:46:58,480 --> 00:47:02,800
+So I think I decided this is the point
+
+1133
+00:47:00,880 --> 00:47:04,640
+like where you hit the budget then you
+
+1134
+00:47:02,800 --> 00:47:06,800
+set like the rest actions to the
+
+1135
+00:47:04,640 --> 00:47:10,720
+non-cost action which is called action
+
+1136
+00:47:06,800 --> 00:47:13,200
+zero here. Okay. Okay. So yeah so this
+
+1137
+00:47:10,720 --> 00:47:16,000
+is pretty much like a very
+
+1138
+00:47:13,200 --> 00:47:18,880
+straightforward generalization of our uh
+
+1139
+00:47:16,000 --> 00:47:21,680
+previous policy and with this we can we
+
+1140
+00:47:18,880 --> 00:47:24,079
+can prove uh the optimatic gap under the
+
+1141
+00:47:21,680 --> 00:47:26,960
+following assumption. So for each like
+
+1142
+00:47:24,079 --> 00:47:29,119
+arm uh after we figure out the optimal
+
+1143
+00:47:26,960 --> 00:47:31,359
+policy we can look it becomes the mark
+
+1144
+00:47:29,119 --> 00:47:33,680
+of chain if you follow that policy. Then
+
+1145
+00:47:31,359 --> 00:47:36,800
+P is the transition probability matrix
+
+1146
+00:47:33,680 --> 00:47:38,800
+and we assume it's a periodic unit chain
+
+1147
+00:47:36,800 --> 00:47:41,839
+and we need to assume that the mixing
+
+1148
+00:47:38,800 --> 00:47:44,720
+time of that arm is upper bounded by a
+
+1149
+00:47:41,839 --> 00:47:46,720
+constant. Okay. So this like if we
+
+1150
+00:47:44,720 --> 00:47:48,880
+increase the number of arms we we need
+
+1151
+00:47:46,720 --> 00:47:50,800
+to make sure this is still satisfied.
+
+1152
+00:47:48,880 --> 00:47:53,920
+Okay.
+
+1153
+00:47:50,800 --> 00:47:55,920
+The number of states are right. So it's
+
+1154
+00:47:53,920 --> 00:47:58,240
+a micro chain on states.
+
+1155
+00:47:55,920 --> 00:48:00,079
+>> Yeah. Yeah. Under on the uh Yeah. Just
+
+1156
+00:47:58,240 --> 00:48:00,640
+like we simply share the same state
+
+1157
+00:48:00,079 --> 00:48:04,079
+space.
+
+1158
+00:48:00,640 --> 00:48:07,359
+>> Yeah. And state space is finite.
+
+1159
+00:48:04,079 --> 00:48:09,119
+>> And so for you to have a uniformly
+
+1160
+00:48:07,359 --> 00:48:11,760
+bounded mixing time in some sense you
+
+1161
+00:48:09,119 --> 00:48:13,599
+want the right sets of uh maybe the
+
+1162
+00:48:11,760 --> 00:48:15,280
+transition kernel with right lower
+
+1163
+00:48:13,599 --> 00:48:17,200
+bounds or something like that, right?
+
+1164
+00:48:15,280 --> 00:48:19,063
+>> Yeah. If it has a lower bound, it can
+
+1165
+00:48:17,200 --> 00:48:20,240
+guarantee this. Yeah. dependence of
+
+1166
+00:48:19,063 --> 00:48:22,000
+[clears throat] of course since it's
+
+1167
+00:48:20,240 --> 00:48:24,640
+independent of n
+
+1168
+00:48:22,000 --> 00:48:27,520
+>> this will always remain true
+
+1169
+00:48:24,640 --> 00:48:28,800
+>> um you mean if there's a gap if there's
+
+1170
+00:48:27,520 --> 00:48:31,200
+like a lower bound on the transition
+
+1171
+00:48:28,800 --> 00:48:33,200
+probabilities yes yes
+
+1172
+00:48:31,200 --> 00:48:34,720
+>> and then [clears throat] the reason only
+
+1173
+00:48:33,200 --> 00:48:36,480
+reason sort of the i would change
+
+1174
+00:48:34,720 --> 00:48:38,480
+because your linear program would change
+
+1175
+00:48:36,480 --> 00:48:39,920
+when you add n and that's why sort of
+
+1176
+00:48:38,480 --> 00:48:40,720
+you want to sort of make sure that that
+
+1177
+00:48:39,920 --> 00:48:42,480
+that's the case
+
+1178
+00:48:40,720 --> 00:48:44,559
+>> yeah right like yeah it kind of needs to
+
+1179
+00:48:42,480 --> 00:48:46,960
+be when you add things this kind needs
+
+1180
+00:48:44,559 --> 00:48:50,160
+to be still uniformly upper bounded by
+
+1181
+00:48:46,960 --> 00:48:51,680
+the same thing Yeah. So for example, if
+
+1182
+00:48:50,160 --> 00:48:53,680
+you are thinking about the typed
+
+1183
+00:48:51,680 --> 00:48:55,680
+heterogeneous case that automatically
+
+1184
+00:48:53,680 --> 00:48:57,760
+satisfies this because no matter how
+
+1185
+00:48:55,680 --> 00:49:00,160
+many you add is like the same upper
+
+1186
+00:48:57,760 --> 00:49:04,079
+bound. Okay.
+
+1187
+00:49:00,160 --> 00:49:07,680
+Okay. Okay. So then like um we have this
+
+1188
+00:49:04,079 --> 00:49:09,440
+um result um and uh uh something I
+
+1189
+00:49:07,680 --> 00:49:11,839
+didn't mention is like if you really
+
+1190
+00:49:09,440 --> 00:49:14,880
+look into the constant here it actually
+
+1191
+00:49:11,839 --> 00:49:16,640
+depends on the uh mixing time u but it
+
+1192
+00:49:14,880 --> 00:49:21,200
+depends on the space size only through
+
+1193
+00:49:16,640 --> 00:49:24,559
+the mixing time. Okay. Okay. So I think
+
+1194
+00:49:21,200 --> 00:49:27,359
+um in the rest um maybe I still have a
+
+1195
+00:49:24,559 --> 00:49:29,280
+couple of minutes or yeah so I actually
+
+1196
+00:49:27,359 --> 00:49:32,319
+yeah maybe let me like talk a little bit
+
+1197
+00:49:29,280 --> 00:49:36,160
+about the proofs and uh uh both proof
+
+1198
+00:49:32,319 --> 00:49:38,559
+follow the same uh uh uh framework and
+
+1199
+00:49:36,160 --> 00:49:41,440
+uh so this framework is like based on
+
+1200
+00:49:38,559 --> 00:49:44,160
+leapno function analysis and uh the
+
+1201
+00:49:41,440 --> 00:49:46,720
+basic idea is is this like you want to
+
+1202
+00:49:44,160 --> 00:49:48,960
+construct a leapno function um that is
+
+1203
+00:49:46,720 --> 00:49:51,680
+first needs to satisfy certain drift
+
+1204
+00:49:48,960 --> 00:49:55,359
+condition. Um so this drift condition
+
+1205
+00:49:51,680 --> 00:49:57,839
+here is basically or the expected value
+
+1206
+00:49:55,359 --> 00:50:00,480
+of the leopno function in the next time
+
+1207
+00:49:57,839 --> 00:50:03,280
+step given the current state needs to
+
+1208
+00:50:00,480 --> 00:50:06,079
+kind of like shrink like it needs to
+
+1209
+00:50:03,280 --> 00:50:08,160
+become smaller. Okay, it needs to have a
+
+1210
+00:50:06,079 --> 00:50:10,800
+negative drift and here we allow some
+
+1211
+00:50:08,160 --> 00:50:13,200
+like slack there. Okay, another way to
+
+1212
+00:50:10,800 --> 00:50:15,040
+write it is like this. Then you can see
+
+1213
+00:50:13,200 --> 00:50:17,839
+theta is like smaller than one. So this
+
+1214
+00:50:15,040 --> 00:50:21,920
+is like a shrinking or roughly like a
+
+1215
+00:50:17,839 --> 00:50:24,400
+contraction over time. Okay. Um so um I
+
+1216
+00:50:21,920 --> 00:50:26,160
+guess yeah so I didn't put it on this
+
+1217
+00:50:24,400 --> 00:50:28,319
+slide. It's it was on the previous slide
+
+1218
+00:50:26,160 --> 00:50:30,240
+but I'm going to just talk through this.
+
+1219
+00:50:28,319 --> 00:50:33,200
+So if you have a drift condition like
+
+1220
+00:50:30,240 --> 00:50:36,000
+this that means you have the upper bound
+
+1221
+00:50:33,200 --> 00:50:38,240
+on the expected value of the the optimal
+
+1222
+00:50:36,000 --> 00:50:40,800
+function in steady state because you can
+
+1223
+00:50:38,240 --> 00:50:42,960
+set you can take expectation on both
+
+1224
+00:50:40,800 --> 00:50:45,200
+sides and then left hand side becomes
+
+1225
+00:50:42,960 --> 00:50:47,280
+zero because it's stationary and then
+
+1226
+00:50:45,200 --> 00:50:49,040
+like right hand side is larger than zero
+
+1227
+00:50:47,280 --> 00:50:51,920
+so you move this to the left then you
+
+1228
+00:50:49,040 --> 00:50:54,160
+have upper bound of the leapno function.
+
+1229
+00:50:51,920 --> 00:50:57,119
+Okay and then like the second condition
+
+1230
+00:50:54,160 --> 00:50:59,040
+is particular to our problem. Um so this
+
+1231
+00:50:57,119 --> 00:51:02,400
+problem because we are trying to upper
+
+1232
+00:50:59,040 --> 00:51:04,880
+bound this optimatic gap. If we can uh
+
+1233
+00:51:02,400 --> 00:51:07,839
+make the leop function be upper bound of
+
+1234
+00:51:04,880 --> 00:51:09,839
+the optimatic gap then like from the
+
+1235
+00:51:07,839 --> 00:51:11,839
+drift condition we have upper bound on
+
+1236
+00:51:09,839 --> 00:51:14,880
+this term which then becomes the upper
+
+1237
+00:51:11,839 --> 00:51:17,119
+bound on the optimality gap. Okay. So
+
+1238
+00:51:14,880 --> 00:51:19,760
+then the key thing here is to come up
+
+1239
+00:51:17,119 --> 00:51:21,520
+with the rightly upn function. Once you
+
+1240
+00:51:19,760 --> 00:51:23,920
+identify the rightly upnote function
+
+1241
+00:51:21,520 --> 00:51:28,240
+then like you have proved the result.
+
+1242
+00:51:23,920 --> 00:51:30,240
+Okay. So in the uh previous um so yeah
+
+1243
+00:51:28,240 --> 00:51:32,480
+this might be a little bit hard to not
+
+1244
+00:51:30,240 --> 00:51:34,079
+have the slide but maybe yeah let me
+
+1245
+00:51:32,480 --> 00:51:37,359
+just show you this. So in the
+
+1246
+00:51:34,079 --> 00:51:39,839
+homogeneous setting we already need like
+
+1247
+00:51:37,359 --> 00:51:43,440
+um a kind of specific construction of
+
+1248
+00:51:39,839 --> 00:51:45,599
+the leopno function. Um this is because
+
+1249
+00:51:43,440 --> 00:51:47,440
+um so if you think about the problem in
+
+1250
+00:51:45,599 --> 00:51:50,559
+the homogeneous setting in the restless
+
+1251
+00:51:47,440 --> 00:51:53,520
+bended setting a natural leapno function
+
+1252
+00:51:50,559 --> 00:51:55,520
+is like you look at the uh state
+
+1253
+00:51:53,520 --> 00:51:58,240
+distribution the empirical distribution
+
+1254
+00:51:55,520 --> 00:52:00,559
+across the arms and you measure how far
+
+1255
+00:51:58,240 --> 00:52:02,559
+away that is from the optimal
+
+1256
+00:52:00,559 --> 00:52:04,160
+distribution. Okay, the optimal
+
+1257
+00:52:02,559 --> 00:52:06,640
+distribution can be obtained through the
+
+1258
+00:52:04,160 --> 00:52:09,280
+single arm the problem. So that's the mu
+
+1259
+00:52:06,640 --> 00:52:11,839
+star here. But if you do that, if you
+
+1260
+00:52:09,280 --> 00:52:15,040
+look at all the arms, this distance may
+
+1261
+00:52:11,839 --> 00:52:17,599
+not shrink over time. Okay, because many
+
+1262
+00:52:15,040 --> 00:52:20,720
+arms may not be able to follow the ideal
+
+1263
+00:52:17,599 --> 00:52:23,599
+actions. So that may not shrink. Okay.
+
+1264
+00:52:20,720 --> 00:52:26,480
+So what we do there is to come up with
+
+1265
+00:52:23,599 --> 00:52:28,800
+this so-called focus set which is a
+
+1266
+00:52:26,480 --> 00:52:30,880
+state like you in the ID policy. It's
+
+1267
+00:52:28,800 --> 00:52:33,760
+computable from all the ARM states.
+
+1268
+00:52:30,880 --> 00:52:36,400
+Okay. Uh but this is a subset of arms
+
+1269
+00:52:33,760 --> 00:52:38,559
+that can really follow the ideal action.
+
+1270
+00:52:36,400 --> 00:52:40,720
+So then like we really we only measure
+
+1271
+00:52:38,559 --> 00:52:42,480
+the distance between the empirical state
+
+1272
+00:52:40,720 --> 00:52:45,359
+distribution and this optimal
+
+1273
+00:52:42,480 --> 00:52:48,319
+distribution within this set. Okay. And
+
+1274
+00:52:45,359 --> 00:52:51,119
+then we add on the size of the uh
+
+1275
+00:52:48,319 --> 00:52:54,079
+non-focus set. Okay. The the the uh size
+
+1276
+00:52:51,119 --> 00:52:56,079
+of the arms outside of this DT set.
+
+1277
+00:52:54,079 --> 00:52:58,160
+Okay. So that's what we did there for
+
+1278
+00:52:56,079 --> 00:52:59,599
+the homogeneous setting. Yeah.
+
+1279
+00:52:58,160 --> 00:53:02,960
+>> Is it okay if I ask question?
+
+1280
+00:52:59,599 --> 00:53:05,440
+>> Sure. Yeah. So st is basically the
+
+1281
+00:53:02,960 --> 00:53:06,400
+vector of length n of which things are
+
+1282
+00:53:05,440 --> 00:53:07,760
+>> right
+
+1283
+00:53:06,400 --> 00:53:10,400
+>> dt is
+
+1284
+00:53:07,760 --> 00:53:11,920
+>> is a subset of arms and
+
+1285
+00:53:10,400 --> 00:53:14,000
+>> which let's say in that example there's
+
+1286
+00:53:11,920 --> 00:53:16,880
+a top top set of arms
+
+1287
+00:53:14,000 --> 00:53:19,119
+>> right and uh it's a stochastic it's yeah
+
+1288
+00:53:16,880 --> 00:53:22,319
+it's determined by the states
+
+1289
+00:53:19,119 --> 00:53:26,160
+>> okay and then of x is
+
+1290
+00:53:22,319 --> 00:53:29,760
+>> yeah x is the like uh you count uh the
+
+1291
+00:53:26,160 --> 00:53:31,760
+number of arms in dt that is in each
+
+1292
+00:53:29,760 --> 00:53:33,760
+state and then you divide it by n like
+
+1293
+00:53:31,760 --> 00:53:35,839
+let's say number of arms in state zero
+
+1294
+00:53:33,760 --> 00:53:36,800
+divide by n number of arms in state one
+
+1295
+00:53:35,839 --> 00:53:39,839
+divided by n
+
+1296
+00:53:36,800 --> 00:53:41,920
+>> and then mu is someh somehow sort of the
+
+1297
+00:53:39,839 --> 00:53:43,119
+corresponding version of that but under
+
+1298
+00:53:41,920 --> 00:53:45,119
+stationary distribution
+
+1299
+00:53:43,119 --> 00:53:47,280
+>> yeah that's like the op stationary
+
+1300
+00:53:45,119 --> 00:53:49,520
+distribution of the optimal single armed
+
+1301
+00:53:47,280 --> 00:53:53,200
+problem
+
+1302
+00:53:49,520 --> 00:53:56,800
+and yeah and shrink it like to match the
+
+1303
+00:53:53,200 --> 00:53:59,040
+size okay so that's for the homogeneous
+
+1304
+00:53:56,800 --> 00:54:01,040
+setting we use this but if you think
+
+1305
+00:53:59,040 --> 00:54:03,839
+about the heterogeneous setting then
+
+1306
+00:54:01,040 --> 00:54:06,400
+this is like no longer doable because
+
+1307
+00:54:03,839 --> 00:54:08,800
+you can no longer just count how many
+
+1308
+00:54:06,400 --> 00:54:10,720
+arms are in each state like arms are
+
+1309
+00:54:08,800 --> 00:54:13,680
+different there's no reason to aggregate
+
+1310
+00:54:10,720 --> 00:54:18,000
+them okay but we still want to capture
+
+1311
+00:54:13,680 --> 00:54:20,160
+this distance to optimality and uh um um
+
+1312
+00:54:18,000 --> 00:54:22,000
+I'm not really not expecting you to read
+
+1313
+00:54:20,160 --> 00:54:25,040
+into this but I just want to show you
+
+1314
+00:54:22,000 --> 00:54:27,520
+the general form of the leavo function
+
+1315
+00:54:25,040 --> 00:54:30,240
+uh so we kind of for each arm we measure
+
+1316
+00:54:27,520 --> 00:54:32,960
+the distance to it optimal distribution
+
+1317
+00:54:30,240 --> 00:54:34,800
+and we measure it to see like kind of
+
+1318
+00:54:32,960 --> 00:54:37,359
+how fast it converges to that
+
+1319
+00:54:34,800 --> 00:54:40,800
+distribution. And then like we kind of
+
+1320
+00:54:37,359 --> 00:54:43,680
+need to project it uh like convert it
+
+1321
+00:54:40,800 --> 00:54:45,760
+into either like distance in re
+
+1322
+00:54:43,680 --> 00:54:49,520
+difference in reward or difference in
+
+1323
+00:54:45,760 --> 00:54:52,240
+costs and u yeah and we take a max or
+
+1324
+00:54:49,520 --> 00:54:55,359
+like it. Yeah. So basically we need to
+
+1325
+00:54:52,240 --> 00:54:57,839
+project the distance into uh translate
+
+1326
+00:54:55,359 --> 00:55:01,440
+that into either cost or reward to be
+
+1327
+00:54:57,839 --> 00:55:04,640
+able to tell the difference. Okay. Okay.
+
+1328
+00:55:01,440 --> 00:55:08,000
+So um yeah. So okay. So then like this
+
+1329
+00:55:04,640 --> 00:55:10,640
+is my last slide uh and uh instead of
+
+1330
+00:55:08,000 --> 00:55:13,280
+doing a conclusion I just want to uh
+
+1331
+00:55:10,640 --> 00:55:15,839
+kind of uh uh advocate this like
+
+1332
+00:55:13,280 --> 00:55:17,920
+approach and I want to encourage you to
+
+1333
+00:55:15,839 --> 00:55:20,160
+find this kind of independent structure
+
+1334
+00:55:17,920 --> 00:55:22,000
+in your problem and see like and try
+
+1335
+00:55:20,160 --> 00:55:23,920
+this local to global approach and see if
+
+1336
+00:55:22,000 --> 00:55:26,128
+it works for you. Okay, with that I'll
+
+1337
+00:55:23,920 --> 00:55:28,148
+just stop here.
+
+1338
+00:55:26,128 --> 00:55:28,148
+[applause]
+

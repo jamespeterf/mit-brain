@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MIT Brain - Transcripts</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; background:#f8f8f8; }
+    .page-wrapper { max-width: 1400px; margin:0 auto; padding: 0 20px 20px 20px; }
+    .panel { background:#fff; padding:16px; margin: 16px 0; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,0.15); }
+    .row { display:flex; gap:16px; }
+    .col { flex:1; }
+    table { width:100%; border-collapse: collapse; }
+    td, th { border-bottom:1px solid #eee; padding:8px; font-size: 14px; }
+    a { color:#0065a4; text-decoration:none; }
+    textarea, input, select { width:100%; padding:8px; font-size:14px; box-sizing:border-box; }
+    textarea { min-height: 220px; }
+    button { padding:10px 14px; margin-right:8px; cursor:pointer; }
+    .small { font-size: 12px; color:#666; }
+    .tagbox { min-height: 70px; }
+    pre { white-space: pre-wrap; background:#fafafa; padding:12px; border-radius:6px; border:1px solid #ddd; }
+    .pill { display:inline-block; padding:2px 8px; border-radius: 999px; background:#eee; font-size:12px; }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="panel">
+      <h1>Transcripts</h1>
+      <div class="small">Dropbox folder: <span class="pill" id="dropboxDirHint">/Transcripts</span></div>
+    </div>
+
+    <div class="panel">
+      <h2>Transcript List</h2>
+      <table>
+        <thead>
+          <tr><th>Name</th><th>Modified</th><th>Size</th></tr>
+        </thead>
+        <tbody id="transcriptsTbody"></tbody>
+      </table>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="panel">
+          <h2>Transcript</h2>
+          <div class="small" id="currentSource"></div>
+          <textarea id="transcriptText" placeholder="Select a transcript..."></textarea>
+          <div style="margin-top:10px;">
+            <button id="summarizeBtn">Summarize + Action Items</button>
+            <button id="saveCaseBtn">Save Case</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Generated Output</h2>
+          <pre id="outputPre">(nothing yet)</pre>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="panel">
+          <h2>Case Metadata</h2>
+
+          <label>Company / Org</label>
+          <input id="company" />
+
+          <div class="row" style="margin-top:10px;">
+            <div class="col">
+              <label>Meeting Type</label>
+              <select id="meetingType">
+                <option value=""></option>
+                <option value="prospect">prospect</option>
+                <option value="member">member</option>
+                <option value="faculty">faculty</option>
+                <option value="internal">internal</option>
+              </select>
+            </div>
+            <div class="col">
+              <label>Goal</label>
+              <select id="goal">
+                <option value=""></option>
+                <option value="ILP_join">ILP_join</option>
+                <option value="renewal">renewal</option>
+                <option value="research_sponsorship">research_sponsorship</option>
+                <option value="campus_visit">campus_visit</option>
+                <option value="pilot_project">pilot_project</option>
+                <option value="faculty_intro">faculty_intro</option>
+                <option value="startup_engagement">startup_engagement</option>
+                <option value="internal_alignment">internal_alignment</option>
+              </select>
+            </div>
+            <div class="col">
+              <label>Stage</label>
+              <select id="stage">
+                <option value=""></option>
+                <option value="lead">lead</option>
+                <option value="discovery">discovery</option>
+                <option value="solution_fit">solution_fit</option>
+                <option value="internal_alignment">internal_alignment</option>
+                <option value="legal_procurement">legal_procurement</option>
+                <option value="closed_won">closed_won</option>
+                <option value="onboarding">onboarding</option>
+              </select>
+            </div>
+          </div>
+
+          <label style="margin-top:10px;">Desired Outcome (1–2 sentences)</label>
+          <textarea id="desiredOutcome" class="tagbox"></textarea>
+
+          <label style="margin-top:10px;">Signals (one per line)</label>
+          <textarea id="signals" class="tagbox" placeholder="e.g., Asked about LOA&#10;Wants campus visit in March"></textarea>
+
+          <label style="margin-top:10px;">Objections / Risks (one per line)</label>
+          <textarea id="objections" class="tagbox" placeholder="e.g., IT approval required&#10;Budget timing"></textarea>
+        </div>
+
+        <div class="panel">
+          <h2>PD Coaching</h2>
+          <label>Insights (one per line)</label>
+          <textarea id="insights" class="tagbox"></textarea>
+
+          <label style="margin-top:10px;">Recommended Moves (one per line)</label>
+          <textarea id="moves" class="tagbox"></textarea>
+
+          <label style="margin-top:10px;">Email Angle (optional)</label>
+          <textarea id="emailAngle" class="tagbox"></textarea>
+
+          <div class="row" style="margin-top:10px;">
+            <div class="col">
+              <label>Confidence</label>
+              <select id="confidence">
+                <option value="low">low</option>
+                <option value="med" selected>med</option>
+                <option value="high">high</option>
+              </select>
+            </div>
+            <div class="col" style="display:flex; align-items:flex-end;">
+              <button id="saveRecBtn">Save PD Recommendation</button>
+            </div>
+          </div>
+
+          <div class="small" id="saveStatus"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="/js/transcripts.js"></script>
+</body>
+</html>

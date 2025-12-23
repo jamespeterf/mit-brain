@@ -1,0 +1,9808 @@
+1
+00:00:04,200 --> 00:00:09,519
+so I will speak about tensor methods for
+
+2
+00:00:06,919 --> 00:00:12,559
+omix data analysis first I want to kind
+
+3
+00:00:09,519 --> 00:00:14,599
+of give them insight into why we in
+
+4
+00:00:12,559 --> 00:00:17,720
+these days come up with very uh
+
+5
+00:00:14,599 --> 00:00:19,600
+complicated uh like fanasy method enters
+
+6
+00:00:17,720 --> 00:00:21,840
+the bioinformatics
+
+7
+00:00:19,600 --> 00:00:24,680
+domain and because now we are in the
+
+8
+00:00:21,840 --> 00:00:27,720
+area of Biotech right so here in the
+
+9
+00:00:24,680 --> 00:00:30,920
+broad Institute also there are uh like
+
+10
+00:00:27,720 --> 00:00:33,640
+um groups and centers actually they are
+
+11
+00:00:30,920 --> 00:00:35,640
+creating a really valuable data set and
+
+12
+00:00:33,640 --> 00:00:38,320
+right they are sharing with public now
+
+13
+00:00:35,640 --> 00:00:40,600
+we are able to generate or access
+
+14
+00:00:38,320 --> 00:00:42,719
+terabytes of data and it suppress the
+
+15
+00:00:40,600 --> 00:00:45,640
+point that we cannot right just look at
+
+16
+00:00:42,719 --> 00:00:48,399
+and try to get insights out of our data
+
+17
+00:00:45,640 --> 00:00:51,520
+so we need principal models to get these
+
+18
+00:00:48,399 --> 00:00:54,680
+complex patterns in our biological data
+
+19
+00:00:51,520 --> 00:00:56,760
+sets so just to give the more insights
+
+20
+00:00:54,680 --> 00:00:59,680
+into I think audience here are very
+
+21
+00:00:56,760 --> 00:01:02,600
+familiar with this stuff insights into
+
+22
+00:00:59,680 --> 00:01:05,080
+how and why now we are able to access
+
+23
+00:01:02,600 --> 00:01:07,320
+that much data set faster than before
+
+24
+00:01:05,080 --> 00:01:10,360
+think about the Human Genome Project to
+
+25
+00:01:07,320 --> 00:01:13,119
+get the first human reference DNA right
+
+26
+00:01:10,360 --> 00:01:16,159
+it took like around 32 years but if you
+
+27
+00:01:13,119 --> 00:01:21,000
+look at uh complete 85% completion for
+
+28
+00:01:16,159 --> 00:01:23,759
+sure it's way earlier right and it costs
+
+29
+00:01:21,000 --> 00:01:25,960
+uh uh like millions of dollars every
+
+30
+00:01:23,759 --> 00:01:28,960
+resource report a different numbers so I
+
+31
+00:01:25,960 --> 00:01:31,280
+prefer not to exactly say but now thanks
+
+32
+00:01:28,960 --> 00:01:33,600
+to the reference we we have and thanks
+
+33
+00:01:31,280 --> 00:01:35,640
+to the new technologies we have
+
+34
+00:01:33,600 --> 00:01:38,200
+sometimes it takes as short as one day
+
+35
+00:01:35,640 --> 00:01:40,399
+and depends on the Technologies you use
+
+36
+00:01:38,200 --> 00:01:43,000
+right it doesn't cost in this case that
+
+37
+00:01:40,399 --> 00:01:45,640
+much now we are able to sequence and we
+
+38
+00:01:43,000 --> 00:01:48,320
+are able to get the data faster but it's
+
+39
+00:01:45,640 --> 00:01:51,240
+not just the quantity of the data is
+
+40
+00:01:48,320 --> 00:01:53,439
+increasing dimensionality and variety of
+
+41
+00:01:51,240 --> 00:01:57,600
+the data is also
+
+42
+00:01:53,439 --> 00:02:00,200
+increasing okay so here I will give a
+
+43
+00:01:57,600 --> 00:02:02,920
+belowed example of the broad Institute
+
+44
+00:02:00,200 --> 00:02:05,719
+most of they use this smti fruit bowl
+
+45
+00:02:02,920 --> 00:02:08,119
+and fruit tart example a lot first time
+
+46
+00:02:05,719 --> 00:02:10,039
+I think I heard from Ab re she was
+
+47
+00:02:08,119 --> 00:02:11,200
+giving this example and I start
+
+48
+00:02:10,039 --> 00:02:14,920
+understanding difference between
+
+49
+00:02:11,200 --> 00:02:17,480
+different Technologies like that so here
+
+50
+00:02:14,920 --> 00:02:18,879
+so we kind of started From bu like for
+
+51
+00:02:17,480 --> 00:02:20,560
+sure there are different Technologies
+
+52
+00:02:18,879 --> 00:02:22,560
+but one of the starting point is like
+
+53
+00:02:20,560 --> 00:02:25,480
+starting from bu genomics when you have
+
+54
+00:02:22,560 --> 00:02:27,480
+a tissue we are looking at average ex
+
+55
+00:02:25,480 --> 00:02:29,239
+gene expression in this tissue they call
+
+56
+00:02:27,480 --> 00:02:31,560
+this like a sumti you know what's
+
+57
+00:02:29,239 --> 00:02:32,760
+happening on average but you don't know
+
+58
+00:02:31,560 --> 00:02:35,400
+you don't have the
+
+59
+00:02:32,760 --> 00:02:38,920
+heterogenity and then when you move the
+
+60
+00:02:35,400 --> 00:02:38,920
+Single Cell right
+
+61
+00:02:42,080 --> 00:02:49,599
+now when you move the Single Cell in
+
+62
+00:02:45,280 --> 00:02:52,200
+this case uh then now we have uh we we
+
+63
+00:02:49,599 --> 00:02:54,319
+have more uh expression for every cell
+
+64
+00:02:52,200 --> 00:02:56,360
+in this case we know like more
+
+65
+00:02:54,319 --> 00:02:58,519
+information about heterogenity in this
+
+66
+00:02:56,360 --> 00:03:00,360
+tissue right in this case it's like you
+
+67
+00:02:58,519 --> 00:03:02,640
+know that you have very
+
+68
+00:03:00,360 --> 00:03:04,519
+right you have like your micro phases
+
+69
+00:03:02,640 --> 00:03:05,879
+you have t sets but you don't know the
+
+70
+00:03:04,519 --> 00:03:08,760
+exact
+
+71
+00:03:05,879 --> 00:03:10,519
+location but now uh some some
+
+72
+00:03:08,760 --> 00:03:11,720
+technologies was also developed here now
+
+73
+00:03:10,519 --> 00:03:13,440
+we have different spatial
+
+74
+00:03:11,720 --> 00:03:15,680
+transcriptomics Technologies with
+
+75
+00:03:13,440 --> 00:03:17,640
+different resolution they C like a fruit
+
+76
+00:03:15,680 --> 00:03:20,440
+tart right you know which kind of styles
+
+77
+00:03:17,640 --> 00:03:22,680
+you have and now we know the locations
+
+78
+00:03:20,440 --> 00:03:24,440
+of these Styles more or less again it
+
+79
+00:03:22,680 --> 00:03:27,959
+depends on the
+
+80
+00:03:24,440 --> 00:03:31,159
+resolution and it's not just this I
+
+81
+00:03:27,959 --> 00:03:33,640
+cannot laser I want people online also
+
+82
+00:03:31,159 --> 00:03:37,760
+try to see the
+
+83
+00:03:33,640 --> 00:03:42,120
+lases anyways let see about it you fix
+
+84
+00:03:37,760 --> 00:03:45,319
+for the next talk and we also have uh is
+
+85
+00:03:42,120 --> 00:03:47,760
+like now uh we can collect multi sample
+
+86
+00:03:45,319 --> 00:03:49,439
+data sets for for example different
+
+87
+00:03:47,760 --> 00:03:51,680
+Patients Group we are looking for
+
+88
+00:03:49,439 --> 00:03:54,159
+different diseases and we can use
+
+89
+00:03:51,680 --> 00:03:56,920
+different om platforms get data on
+
+90
+00:03:54,159 --> 00:04:00,680
+mutation copy number gene expression DNA
+
+91
+00:03:56,920 --> 00:04:03,720
+mulation and actually we get this m data
+
+92
+00:04:00,680 --> 00:04:06,280
+so you have bunch of matrices to analyze
+
+93
+00:04:03,720 --> 00:04:09,640
+right now it's actually if we go more
+
+94
+00:04:06,280 --> 00:04:14,439
+like a data perspective we start from a
+
+95
+00:04:09,640 --> 00:04:16,440
+vector right we start from a vector here
+
+96
+00:04:14,439 --> 00:04:18,880
+uh for a bulk then we are going for
+
+97
+00:04:16,440 --> 00:04:20,880
+Matrix for every tissue then we start
+
+98
+00:04:18,880 --> 00:04:22,919
+collecting omix data from different
+
+99
+00:04:20,880 --> 00:04:25,759
+platforms you have a bunch of matrices
+
+100
+00:04:22,919 --> 00:04:28,759
+to analyze so the dimensionality keeps
+
+101
+00:04:25,759 --> 00:04:32,039
+increasing so for these high dimensional
+
+102
+00:04:28,759 --> 00:04:34,000
+data sets I will introduce the tensors
+
+103
+00:04:32,039 --> 00:04:35,680
+so we will come back these examples and
+
+104
+00:04:34,000 --> 00:04:37,199
+how we will discuss how the tensor
+
+105
+00:04:35,680 --> 00:04:39,720
+methods could be
+
+106
+00:04:37,199 --> 00:04:42,639
+useful okay so what's the tensor again
+
+107
+00:04:39,720 --> 00:04:45,280
+we said we will uh use tensor to
+
+108
+00:04:42,639 --> 00:04:48,479
+represent and analyze multimodal High
+
+109
+00:04:45,280 --> 00:04:50,919
+dimensional data sets and tensors are
+
+110
+00:04:48,479 --> 00:04:54,639
+multi-dimensional array right you can
+
+111
+00:04:50,919 --> 00:04:57,520
+you start from sorry you start from for
+
+112
+00:04:54,639 --> 00:05:00,880
+example scalers uh like scale like
+
+113
+00:04:57,520 --> 00:05:02,600
+scalers like time points and we use most
+
+114
+00:05:00,880 --> 00:05:04,759
+of time vectors what we said for the
+
+115
+00:05:02,600 --> 00:05:07,160
+bulk data time series data we had Tech
+
+116
+00:05:04,759 --> 00:05:09,160
+vectors we went to the matrices so we
+
+117
+00:05:07,160 --> 00:05:11,360
+keep going actually we don't stop and
+
+118
+00:05:09,160 --> 00:05:13,720
+the moment we go like you are putting
+
+119
+00:05:11,360 --> 00:05:16,280
+more dimensions and more variations the
+
+120
+00:05:13,720 --> 00:05:18,120
+simplest case will be three-way tensor
+
+121
+00:05:16,280 --> 00:05:20,840
+and the moment you put more Dimensions
+
+122
+00:05:18,120 --> 00:05:23,960
+it's going to be higher order
+
+123
+00:05:20,840 --> 00:05:25,919
+tensors and we said they are considered
+
+124
+00:05:23,960 --> 00:05:28,400
+generalization of matrices the higher
+
+125
+00:05:25,919 --> 00:05:30,919
+Dimensions so here there's a notation
+
+126
+00:05:28,400 --> 00:05:33,360
+crisis and sometimes I also cause this
+
+127
+00:05:30,919 --> 00:05:37,160
+notation crisis sometimes they say for
+
+128
+00:05:33,360 --> 00:05:39,520
+example for this Cube order three tensor
+
+129
+00:05:37,160 --> 00:05:41,639
+or three the three-way tensor or
+
+130
+00:05:39,520 --> 00:05:44,600
+three-dimensional tensor everybody use
+
+131
+00:05:41,639 --> 00:05:48,280
+this how to say their own notations I
+
+132
+00:05:44,600 --> 00:05:51,520
+will mostly call order three or threeway
+
+133
+00:05:48,280 --> 00:05:54,039
+tensor okay so here the other idea just
+
+134
+00:05:51,520 --> 00:05:55,840
+to give more mathematical details goes
+
+135
+00:05:54,039 --> 00:05:58,039
+to Second talk here it's going to be
+
+136
+00:05:55,840 --> 00:06:00,759
+primary will be more generic and we'll
+
+137
+00:05:58,039 --> 00:06:03,039
+go through the case studies but
+
+138
+00:06:00,759 --> 00:06:05,160
+mathematically what's happening lots of
+
+139
+00:06:03,039 --> 00:06:07,840
+traditional data analysis methods were
+
+140
+00:06:05,160 --> 00:06:10,919
+Matrix based and Matrix correspond to
+
+141
+00:06:07,840 --> 00:06:12,560
+linear Maps we use linear algebra a lot
+
+142
+00:06:10,919 --> 00:06:14,639
+and when you go this High dimensional
+
+143
+00:06:12,560 --> 00:06:16,960
+data analysis methods tensor based
+
+144
+00:06:14,639 --> 00:06:19,479
+tensors are corresponding to multilinear
+
+145
+00:06:16,960 --> 00:06:22,199
+maps and we use multilinear algebra
+
+146
+00:06:19,479 --> 00:06:24,880
+tools my PhD was like in algebraic
+
+147
+00:06:22,199 --> 00:06:26,880
+geometry and multilinear Algebra I work
+
+148
+00:06:24,880 --> 00:06:29,240
+very theoretical then I discover
+
+149
+00:06:26,880 --> 00:06:31,960
+applications during my post and I am so
+
+150
+00:06:29,240 --> 00:06:33,680
+happy it so it's mostly like multilinear
+
+151
+00:06:31,960 --> 00:06:37,160
+algebra
+
+152
+00:06:33,680 --> 00:06:39,120
+tools okay so tensors uh why they start
+
+153
+00:06:37,160 --> 00:06:40,919
+getting popular in different areas of
+
+154
+00:06:39,120 --> 00:06:44,440
+data science they give a compact way to
+
+155
+00:06:40,919 --> 00:06:47,000
+represent multimodal data for example if
+
+156
+00:06:44,440 --> 00:06:49,240
+you think
+
+157
+00:06:47,000 --> 00:06:52,080
+about if you think about the color
+
+158
+00:06:49,240 --> 00:06:55,520
+images we have uh height WID and color
+
+159
+00:06:52,080 --> 00:06:58,720
+channels so this can be represented by a
+
+160
+00:06:55,520 --> 00:07:01,560
+three-way tensor and think about like in
+
+161
+00:06:58,720 --> 00:07:03,800
+theid we can also add the time as a
+
+162
+00:07:01,560 --> 00:07:06,560
+different variation so if you put have
+
+163
+00:07:03,800 --> 00:07:08,360
+the videos it's going to be fourway tens
+
+164
+00:07:06,560 --> 00:07:10,879
+and actually in the computer vision
+
+165
+00:07:08,360 --> 00:07:15,319
+image processing uh the tenser methods
+
+166
+00:07:10,879 --> 00:07:17,039
+are heavily used and uh one of the area
+
+167
+00:07:15,319 --> 00:07:19,840
+I use for multi sample multitissue
+
+168
+00:07:17,039 --> 00:07:21,800
+genomics data you are looking at how
+
+169
+00:07:19,840 --> 00:07:23,280
+gene expression is changing across
+
+170
+00:07:21,800 --> 00:07:25,479
+different tissues for different
+
+171
+00:07:23,280 --> 00:07:27,400
+individuals in this case we are trying
+
+172
+00:07:25,479 --> 00:07:29,520
+to look at the triple interactions
+
+173
+00:07:27,400 --> 00:07:31,560
+multilinear interactions to represent
+
+174
+00:07:29,520 --> 00:07:33,680
+present these ones in a simple case we
+
+175
+00:07:31,560 --> 00:07:35,080
+can use three-way tensors and to analyze
+
+176
+00:07:33,680 --> 00:07:37,599
+this one we will use tensor
+
+177
+00:07:35,080 --> 00:07:39,360
+factorizations which I will introduce
+
+178
+00:07:37,599 --> 00:07:42,639
+and other possible data sets like
+
+179
+00:07:39,360 --> 00:07:45,879
+perturbational data sets in this case
+
+180
+00:07:42,639 --> 00:07:48,000
+you can have so we have a cell line
+
+181
+00:07:45,879 --> 00:07:49,199
+treated with a drug and we are trying to
+
+182
+00:07:48,000 --> 00:07:51,080
+understand what is the effect of this
+
+183
+00:07:49,199 --> 00:07:53,400
+drug right you can look at the change in
+
+184
+00:07:51,080 --> 00:07:56,280
+gene expression so this triple
+
+185
+00:07:53,400 --> 00:07:58,720
+interaction between cell line and drug
+
+186
+00:07:56,280 --> 00:08:00,280
+and genes can be represented by a
+
+187
+00:07:58,720 --> 00:08:02,360
+threeway tens
+
+188
+00:08:00,280 --> 00:08:04,400
+in the simplest case and I will give an
+
+189
+00:08:02,360 --> 00:08:07,000
+example we can use tensor factorization
+
+190
+00:08:04,400 --> 00:08:08,960
+to understand the triple
+
+191
+00:08:07,000 --> 00:08:11,280
+interactions okay there's also other
+
+192
+00:08:08,960 --> 00:08:13,039
+domains like Network learning social
+
+193
+00:08:11,280 --> 00:08:16,199
+competing it was heavily used in
+
+194
+00:08:13,039 --> 00:08:18,800
+chemistry by informatics again it's not
+
+195
+00:08:16,199 --> 00:08:20,919
+very surprising in the in losss of areas
+
+196
+00:08:18,800 --> 00:08:23,639
+we start getting high dimensional data
+
+197
+00:08:20,919 --> 00:08:26,360
+and these tools start being more popular
+
+198
+00:08:23,639 --> 00:08:29,039
+because they are serving to
+
+199
+00:08:26,360 --> 00:08:30,440
+community good so I will give some
+
+200
+00:08:29,039 --> 00:08:32,919
+simple
+
+201
+00:08:30,440 --> 00:08:36,240
+notations is
+
+202
+00:08:32,919 --> 00:08:37,680
+this okay first I want to solve my
+
+203
+00:08:36,240 --> 00:08:41,440
+problem s with the
+
+204
+00:08:37,680 --> 00:08:41,440
+clicker I cannot use
+
+205
+00:08:42,440 --> 00:08:47,760
+it yeah people online will not be able
+
+206
+00:08:44,760 --> 00:08:49,440
+to see this part okay so let's say so
+
+207
+00:08:47,760 --> 00:08:51,640
+the notations I will introduce like
+
+208
+00:08:49,440 --> 00:08:55,640
+similar to Matrix notation let's say x
+
+209
+00:08:51,640 --> 00:08:57,959
+is a d way tensor of size N1 * N2 * n d
+
+210
+00:08:55,640 --> 00:09:00,040
+so N1 correspond the first modality N2
+
+211
+00:08:57,959 --> 00:09:03,720
+correspond the second modality and I
+
+212
+00:09:00,040 --> 00:09:07,399
+will denote the i1 I2 ID to entry by X
+
+213
+00:09:03,720 --> 00:09:10,120
+i1 I2 ID right so if you have a tensor
+
+214
+00:09:07,399 --> 00:09:12,560
+of same size two tens of same size X and
+
+215
+00:09:10,120 --> 00:09:14,800
+Y when I say same size it will have same
+
+216
+00:09:12,560 --> 00:09:17,040
+size in every modality so you can take
+
+217
+00:09:14,800 --> 00:09:19,480
+the inner product of these sensors the
+
+218
+00:09:17,040 --> 00:09:22,160
+inner product will be given as we
+
+219
+00:09:19,480 --> 00:09:25,959
+multiply um entries for corresponding
+
+220
+00:09:22,160 --> 00:09:27,320
+indices and we sum them right actually
+
+221
+00:09:25,959 --> 00:09:28,760
+here I'm not going to be able to go all
+
+222
+00:09:27,320 --> 00:09:30,680
+the details there are lots of like we
+
+223
+00:09:28,760 --> 00:09:32,959
+have Matrix multiplication there is a
+
+224
+00:09:30,680 --> 00:09:35,600
+different way to multiply tensors
+
+225
+00:09:32,959 --> 00:09:38,680
+multiply tensors with matrices but it
+
+226
+00:09:35,600 --> 00:09:41,560
+has its own operations its own way to
+
+227
+00:09:38,680 --> 00:09:44,120
+define rank we will little bit speak
+
+228
+00:09:41,560 --> 00:09:47,120
+lots of think doesn't gen directly
+
+229
+00:09:44,120 --> 00:09:49,399
+generalize the ters and we will Define
+
+230
+00:09:47,120 --> 00:09:51,760
+forbus Norm because we will use it a lot
+
+231
+00:09:49,399 --> 00:09:53,760
+if you just use this inner product you
+
+232
+00:09:51,760 --> 00:09:55,800
+can induce the forbus norm it's the
+
+233
+00:09:53,760 --> 00:09:57,880
+square of the entries we are summing and
+
+234
+00:09:55,800 --> 00:09:59,680
+we take the square root we'll use it a
+
+235
+00:09:57,880 --> 00:10:03,160
+lot
+
+236
+00:09:59,680 --> 00:10:07,040
+okay so I will go
+
+237
+00:10:03,160 --> 00:10:09,120
+ahead there is one more uh like more
+
+238
+00:10:07,040 --> 00:10:11,560
+technical part but most technical Parts
+
+239
+00:10:09,120 --> 00:10:14,279
+go the second talk because I want to
+
+240
+00:10:11,560 --> 00:10:16,200
+speak about rank one tensor first so
+
+241
+00:10:14,279 --> 00:10:20,040
+when we do tensor factorization we will
+
+242
+00:10:16,200 --> 00:10:23,440
+try to look at um rank one tensors in
+
+243
+00:10:20,040 --> 00:10:25,600
+our data then I want to explain why we
+
+244
+00:10:23,440 --> 00:10:27,399
+care about rank one tensors because they
+
+245
+00:10:25,600 --> 00:10:29,360
+will give a unit of an expression
+
+246
+00:10:27,399 --> 00:10:31,800
+pattern and I will give solid examples
+
+247
+00:10:29,360 --> 00:10:35,200
+about it so first let's start from rank
+
+248
+00:10:31,800 --> 00:10:38,560
+one Matrix so if you have vectors u in
+
+249
+00:10:35,200 --> 00:10:40,560
+rn1 and v in rn2 so you can take the
+
+250
+00:10:38,560 --> 00:10:42,760
+other product of these two vectors U
+
+251
+00:10:40,560 --> 00:10:44,600
+other product V it's like U * V
+
+252
+00:10:42,760 --> 00:10:46,800
+transpose in the simplest case so it's
+
+253
+00:10:44,600 --> 00:10:48,480
+going to be rank one Matrix and we do
+
+254
+00:10:46,800 --> 00:10:50,680
+Matrix factorization actually we are
+
+255
+00:10:48,480 --> 00:10:51,880
+trying to write our Matrix as sum of
+
+256
+00:10:50,680 --> 00:10:55,200
+rank one
+
+257
+00:10:51,880 --> 00:10:59,320
+matrices right but you can have like the
+
+258
+00:10:55,200 --> 00:11:01,680
+vectors let's say U1 has uh in rn1 you
+
+259
+00:10:59,320 --> 00:11:04,360
+is rn2 you can take the other product of
+
+260
+00:11:01,680 --> 00:11:07,760
+D vectors and it will give you a d way
+
+261
+00:11:04,360 --> 00:11:09,680
+tensor so this tensor it's simple and
+
+262
+00:11:07,760 --> 00:11:12,760
+the name is also simple tensor and they
+
+263
+00:11:09,680 --> 00:11:16,720
+also call it P tensor so it is called a
+
+264
+00:11:12,760 --> 00:11:19,120
+rank one tensor why it's important so
+
+265
+00:11:16,720 --> 00:11:24,000
+actually if you look at the I can look
+
+266
+00:11:19,120 --> 00:11:27,519
+at the entry T i1 I2 ID right this i1 is
+
+267
+00:11:24,000 --> 00:11:31,959
+from one to N1 I2 is from one to N2 I is
+
+268
+00:11:27,519 --> 00:11:34,279
+from one to ND this uh entry will be you
+
+269
+00:11:31,959 --> 00:11:36,360
+go your first Vector you want and you
+
+270
+00:11:34,279 --> 00:11:39,639
+took you take the I want entry you go
+
+271
+00:11:36,360 --> 00:11:42,600
+second Vector I2 you are getting the I2
+
+272
+00:11:39,639 --> 00:11:45,480
+T and you go your last Vector UD and you
+
+273
+00:11:42,600 --> 00:11:48,440
+are taking ID T so it's separable signal
+
+274
+00:11:45,480 --> 00:11:51,399
+so it represent a separable signal which
+
+275
+00:11:48,440 --> 00:11:54,399
+can be expressed as the combination of
+
+276
+00:11:51,399 --> 00:11:56,639
+independent factors from each mode so it
+
+277
+00:11:54,399 --> 00:11:59,639
+will give us a unit of an expression
+
+278
+00:11:56,639 --> 00:11:59,639
+pattern
+
+279
+00:11:59,800 --> 00:12:02,920
+and just to give little bit
+
+280
+00:12:01,079 --> 00:12:04,760
+probabilistic connections probabilties
+
+281
+00:12:02,920 --> 00:12:06,600
+connection is actually more details but
+
+282
+00:12:04,760 --> 00:12:10,639
+I want to give the simple SK for rank
+
+283
+00:12:06,600 --> 00:12:13,480
+one t let's say you have uh the random
+
+284
+00:12:10,639 --> 00:12:14,920
+variables independent random variables
+
+285
+00:12:13,480 --> 00:12:17,320
+right we are going to look at their
+
+286
+00:12:14,920 --> 00:12:20,160
+joint distribution you can write the
+
+287
+00:12:17,320 --> 00:12:22,480
+joint distributions of these V variables
+
+288
+00:12:20,160 --> 00:12:25,399
+as the product of their marginal
+
+289
+00:12:22,480 --> 00:12:28,680
+distributions right so let's say p
+
+290
+00:12:25,399 --> 00:12:32,360
+probability of X1 is i1 X2 is I2 X3 is
+
+291
+00:12:28,680 --> 00:12:34,720
+ID it can be written as product of
+
+292
+00:12:32,360 --> 00:12:37,639
+separate distributions and I can
+
+293
+00:12:34,720 --> 00:12:40,839
+represent this one with a d way tensor
+
+294
+00:12:37,639 --> 00:12:43,160
+and ti1 ID will give this uh joint
+
+295
+00:12:40,839 --> 00:12:45,040
+distribution and if you look at how we
+
+296
+00:12:43,160 --> 00:12:48,040
+write we separate the marginal
+
+297
+00:12:45,040 --> 00:12:51,440
+distribution it's other product of these
+
+298
+00:12:48,040 --> 00:12:54,000
+distributions actually rank one tens
+
+299
+00:12:51,440 --> 00:12:55,800
+represents a system where each Dimension
+
+300
+00:12:54,000 --> 00:12:57,519
+correspond an independent random
+
+301
+00:12:55,800 --> 00:12:59,760
+variable and the tensor entries
+
+302
+00:12:57,519 --> 00:13:02,399
+represent the product of probability
+
+303
+00:12:59,760 --> 00:13:05,480
+or related measure associated with each
+
+304
+00:13:02,399 --> 00:13:07,480
+independent variable okay I'm not going
+
+305
+00:13:05,480 --> 00:13:09,440
+to go actually higher ranks for respond
+
+306
+00:13:07,480 --> 00:13:10,800
+to conditional independent variables but
+
+307
+00:13:09,440 --> 00:13:12,600
+we're not going to go details but in
+
+308
+00:13:10,800 --> 00:13:18,079
+discussions you can ask more
+
+309
+00:13:12,600 --> 00:13:20,920
+details okay now we kind of spoke about
+
+310
+00:13:18,079 --> 00:13:25,560
+a lot about it and we were going to go
+
+311
+00:13:20,920 --> 00:13:29,120
+why is Xi element of integers upst n so
+
+312
+00:13:25,560 --> 00:13:30,720
+we get this question let me go Okay so
+
+313
+00:13:29,120 --> 00:13:33,839
+so this is a good question it doesn't
+
+314
+00:13:30,720 --> 00:13:36,519
+have to be element of integers up to N I
+
+315
+00:13:33,839 --> 00:13:40,680
+actually yeah it's kind of a labeling
+
+316
+00:13:36,519 --> 00:13:43,399
+mistake it can be uh X1 is U how to say
+
+317
+00:13:40,680 --> 00:13:45,639
+can be represented values let's say uh
+
+318
+00:13:43,399 --> 00:13:48,079
+lower case X1 and it can take different
+
+319
+00:13:45,639 --> 00:13:52,240
+values not necessarily integers from one
+
+320
+00:13:48,079 --> 00:13:54,680
+to ni okay it's my typo thank you for
+
+321
+00:13:52,240 --> 00:13:54,680
+pointing
+
+322
+00:13:55,000 --> 00:14:01,079
+out
+
+323
+00:13:57,480 --> 00:14:03,240
+okay okay so now we have a tensor let's
+
+324
+00:14:01,079 --> 00:14:06,560
+see uh like let's say this is the
+
+325
+00:14:03,240 --> 00:14:08,959
+modalities of genes cell types and
+
+326
+00:14:06,560 --> 00:14:11,240
+samples so we are looking how gene
+
+327
+00:14:08,959 --> 00:14:13,040
+expression is changing across different
+
+328
+00:14:11,240 --> 00:14:16,120
+uh cell types for different samples
+
+329
+00:14:13,040 --> 00:14:19,240
+these samples can correspond to like
+
+330
+00:14:16,120 --> 00:14:21,839
+different donor profiles as well right
+
+331
+00:14:19,240 --> 00:14:24,240
+so here okay what are the traditional
+
+332
+00:14:21,839 --> 00:14:27,000
+approaches so we are more comfortable
+
+333
+00:14:24,240 --> 00:14:29,120
+using Matrix based tools tools and
+
+334
+00:14:27,000 --> 00:14:31,959
+traditional approach is like becoming a
+
+335
+00:14:29,120 --> 00:14:35,320
+data ninja we have our tensor we slice
+
+336
+00:14:31,959 --> 00:14:37,440
+it or we unfolded it but the knowing the
+
+337
+00:14:35,320 --> 00:14:39,000
+slices and unfolding SOS important
+
+338
+00:14:37,440 --> 00:14:41,800
+because it will keep appearing in the
+
+339
+00:14:39,000 --> 00:14:45,079
+optimization part of these algorithms so
+
+340
+00:14:41,800 --> 00:14:47,560
+for example here we can slice this one
+
+341
+00:14:45,079 --> 00:14:50,040
+along the first modality so let's say
+
+342
+00:14:47,560 --> 00:14:52,759
+you have 20,000 je
+
+343
+00:14:50,040 --> 00:14:55,360
+now welcome you have like 20,000
+
+344
+00:14:52,759 --> 00:14:57,000
+matrices to analyze but I think it's a
+
+345
+00:14:55,360 --> 00:14:58,839
+lot of work sometimes people okay they
+
+346
+00:14:57,000 --> 00:15:01,079
+don't go in the gene level but in this
+
+347
+00:14:58,839 --> 00:15:03,519
+case instead of analyzing one one
+
+348
+00:15:01,079 --> 00:15:05,360
+concrete structure right minear
+
+349
+00:15:03,519 --> 00:15:09,040
+structure you may end up with analyzing
+
+350
+00:15:05,360 --> 00:15:11,000
+20,000 matrices okay for sure maybe you
+
+351
+00:15:09,040 --> 00:15:14,360
+can decide okay I'm going to slice this
+
+352
+00:15:11,000 --> 00:15:16,920
+across sample second modality so in this
+
+353
+00:15:14,360 --> 00:15:19,880
+case if you have let's say 100 samples
+
+354
+00:15:16,920 --> 00:15:22,560
+you end up with uh in this case Okay the
+
+355
+00:15:19,880 --> 00:15:24,320
+second modality do cell types sorry if
+
+356
+00:15:22,560 --> 00:15:27,160
+you have 10 cell types you can end up
+
+357
+00:15:24,320 --> 00:15:29,920
+with 10 different matrices and analyze
+
+358
+00:15:27,160 --> 00:15:31,959
+them factorize them and merge all the
+
+359
+00:15:29,920 --> 00:15:34,519
+inter like how to say interpretations
+
+360
+00:15:31,959 --> 00:15:36,319
+you have to merge them and again this is
+
+361
+00:15:34,519 --> 00:15:38,360
+this is like horizontal vertical and
+
+362
+00:15:36,319 --> 00:15:40,519
+lateral slies actually you can do along
+
+363
+00:15:38,360 --> 00:15:42,480
+the third modality this was most a
+
+364
+00:15:40,519 --> 00:15:44,079
+common approach you get the they they
+
+365
+00:15:42,480 --> 00:15:45,759
+get the data and they work on those
+
+366
+00:15:44,079 --> 00:15:48,720
+matrices but we are not going to do like
+
+367
+00:15:45,759 --> 00:15:50,839
+that we are going to keep the Integrity
+
+368
+00:15:48,720 --> 00:15:53,199
+um of the structure of the data the
+
+369
+00:15:50,839 --> 00:15:55,759
+other way most the people do
+
+370
+00:15:53,199 --> 00:15:57,839
+unfoldings so let's look at this one we
+
+371
+00:15:55,759 --> 00:15:59,880
+have bunch of slices for the first
+
+372
+00:15:57,839 --> 00:16:03,199
+modality we kind of put next to each
+
+373
+00:15:59,880 --> 00:16:05,720
+other and form a big Matrix so this
+
+374
+00:16:03,199 --> 00:16:08,440
+becomes gen times number of set times
+
+375
+00:16:05,720 --> 00:16:11,360
+times number of samples and we can do
+
+376
+00:16:08,440 --> 00:16:14,800
+this one for the second modality s types
+
+377
+00:16:11,360 --> 00:16:18,399
+times a long Matrix or samples time long
+
+378
+00:16:14,800 --> 00:16:20,600
+Matrix these are mostly common M common
+
+379
+00:16:18,399 --> 00:16:22,800
+approaches not the tens approaches
+
+380
+00:16:20,600 --> 00:16:25,639
+Matrix B approaches but one thing to
+
+381
+00:16:22,800 --> 00:16:28,480
+notice when you matze the data
+
+382
+00:16:25,639 --> 00:16:30,720
+informations on the interactions uh
+
+383
+00:16:28,480 --> 00:16:33,000
+relation between different modalities is
+
+384
+00:16:30,720 --> 00:16:34,440
+lost so we will have more discussion on
+
+385
+00:16:33,000 --> 00:16:37,279
+that
+
+386
+00:16:34,440 --> 00:16:39,759
+one okay for example just to I will
+
+387
+00:16:37,279 --> 00:16:41,600
+introduce tensor factorization I want to
+
+388
+00:16:39,759 --> 00:16:44,319
+uh make sure I mentioned about Matrix
+
+389
+00:16:41,600 --> 00:16:46,519
+factorization as a foundation so here
+
+390
+00:16:44,319 --> 00:16:48,680
+most of the time let's say we start with
+
+391
+00:16:46,519 --> 00:16:50,959
+this big data and people do Matrix
+
+392
+00:16:48,680 --> 00:16:52,759
+factorizations in here let's say there
+
+393
+00:16:50,959 --> 00:16:54,759
+are different Matrix factorization based
+
+394
+00:16:52,759 --> 00:16:57,279
+on the constraint you you put in your
+
+395
+00:16:54,759 --> 00:16:59,079
+factors orthogonal non- negative most of
+
+396
+00:16:57,279 --> 00:17:01,720
+people prefer non- negative because it's
+
+397
+00:16:59,079 --> 00:17:05,120
+easy interpret the results so here let's
+
+398
+00:17:01,720 --> 00:17:07,400
+say uh you will get genes times factors
+
+399
+00:17:05,120 --> 00:17:09,079
+let's say you are factorizing to rank R
+
+400
+00:17:07,400 --> 00:17:12,120
+is like low rank
+
+401
+00:17:09,079 --> 00:17:15,839
+approximation right and you will have St
+
+402
+00:17:12,120 --> 00:17:18,760
+types over each sample times factors so
+
+403
+00:17:15,839 --> 00:17:21,919
+here what happens when we flatten we are
+
+404
+00:17:18,760 --> 00:17:24,000
+concatenating two variations into one
+
+405
+00:17:21,919 --> 00:17:26,199
+Dimensions if it's actually higher order
+
+406
+00:17:24,000 --> 00:17:29,320
+sensor you will concatenate many
+
+407
+00:17:26,199 --> 00:17:31,480
+variations into one dimension
+
+408
+00:17:29,320 --> 00:17:33,160
+so here Matrix factorization what's
+
+409
+00:17:31,480 --> 00:17:36,160
+happening mathematically I'm writing my
+
+410
+00:17:33,160 --> 00:17:40,160
+Matrix as sum of rank one matrices right
+
+411
+00:17:36,160 --> 00:17:43,840
+I have here Lambda I GI like for example
+
+412
+00:17:40,160 --> 00:17:47,960
+this guy will correspond to G1 times CI
+
+413
+00:17:43,840 --> 00:17:50,520
+right C1 and here Lambda tells me how
+
+414
+00:17:47,960 --> 00:17:53,919
+strong is the signal GI in this case
+
+415
+00:17:50,520 --> 00:17:56,919
+gives the Gen slum Factor CI gives the S
+
+416
+00:17:53,919 --> 00:17:59,280
+typ latent factor for the tensors we
+
+417
+00:17:56,919 --> 00:18:01,600
+will go very deep and we will see okay
+
+418
+00:17:59,280 --> 00:18:03,520
+how we can interpret these factors for
+
+419
+00:18:01,600 --> 00:18:05,400
+example here we are looking which gen
+
+420
+00:18:03,520 --> 00:18:07,520
+are up regulated down regulated what
+
+421
+00:18:05,400 --> 00:18:09,520
+what are the pat ways and then when we
+
+422
+00:18:07,520 --> 00:18:11,039
+go s types over each sample and we are
+
+423
+00:18:09,520 --> 00:18:13,120
+trying to see which side types are
+
+424
+00:18:11,039 --> 00:18:15,480
+active in which samples so it becomes
+
+425
+00:18:13,120 --> 00:18:18,880
+like trying to decode these two
+
+426
+00:18:15,480 --> 00:18:20,520
+Dimensions okay here what we are going
+
+427
+00:18:18,880 --> 00:18:22,520
+to do we are not going to flatten we are
+
+428
+00:18:20,520 --> 00:18:25,240
+not going to slice is there any way to
+
+429
+00:18:22,520 --> 00:18:29,159
+factorize it as it is and
+
+430
+00:18:25,240 --> 00:18:31,440
+yeah oh yeah sure
+
+431
+00:18:29,159 --> 00:18:34,360
+um in the cell type so cell types are
+
+432
+00:18:31,440 --> 00:18:36,640
+mostly categorical in this case right
+
+433
+00:18:34,360 --> 00:18:39,120
+they're categorical data so we have and
+
+434
+00:18:36,640 --> 00:18:41,679
+the you sell neurons different types
+
+435
+00:18:39,120 --> 00:18:43,840
+yeah like T microage yeah so how do you
+
+436
+00:18:41,679 --> 00:18:48,159
+represent them in as a
+
+437
+00:18:43,840 --> 00:18:51,919
+matrix okay so here uh it's actually it
+
+438
+00:18:48,159 --> 00:18:55,840
+start with how we start uh our Matrix so
+
+439
+00:18:51,919 --> 00:18:59,720
+our Matrix is actually it's like a gene
+
+440
+00:18:55,840 --> 00:19:02,559
+expression uh for let's say uh C cell
+
+441
+00:18:59,720 --> 00:19:04,080
+across this s uh across this sample
+
+442
+00:19:02,559 --> 00:19:07,360
+right every time we are speaking about
+
+443
+00:19:04,080 --> 00:19:09,440
+gene expression in setup lating factors
+
+444
+00:19:07,360 --> 00:19:12,480
+right we will discuss this one what
+
+445
+00:19:09,440 --> 00:19:15,400
+happens we are looking at what are the
+
+446
+00:19:12,480 --> 00:19:17,720
+weights for corresponding cell types and
+
+447
+00:19:15,400 --> 00:19:20,039
+for example if T cell has a high weight
+
+448
+00:19:17,720 --> 00:19:23,559
+we will see say that the gene expression
+
+449
+00:19:20,039 --> 00:19:25,159
+program is activated in T Cell right
+
+450
+00:19:23,559 --> 00:19:27,200
+maybe I should have mentioned how I set
+
+451
+00:19:25,159 --> 00:19:29,240
+up my Matrix but in Cas we are looking
+
+452
+00:19:27,200 --> 00:19:32,480
+at gen expression for specific St type
+
+453
+00:19:29,240 --> 00:19:35,400
+for specific samples
+
+454
+00:19:32,480 --> 00:19:37,360
+okay okay so here we are going to look
+
+455
+00:19:35,400 --> 00:19:39,600
+at more generalization of Matrix
+
+456
+00:19:37,360 --> 00:19:41,360
+factorization I will introduce two
+
+457
+00:19:39,600 --> 00:19:43,400
+common tensor decomposition but there
+
+458
+00:19:41,360 --> 00:19:46,240
+are multiple tensor decomposition
+
+459
+00:19:43,400 --> 00:19:47,919
+methods but these are the most popular
+
+460
+00:19:46,240 --> 00:19:49,600
+so we will discuss in the next Talk
+
+461
+00:19:47,919 --> 00:19:52,320
+technical details they are the most
+
+462
+00:19:49,600 --> 00:19:53,799
+popular not because have said they are
+
+463
+00:19:52,320 --> 00:19:56,799
+the best because they were the first
+
+464
+00:19:53,799 --> 00:19:59,200
+ones okay so like Tucker decomposition
+
+465
+00:19:56,799 --> 00:20:01,240
+is one of the most popular and first
+
+466
+00:19:59,200 --> 00:20:03,200
+and let's say again we are looking at
+
+467
+00:20:01,240 --> 00:20:05,080
+how gen expression is changing across
+
+468
+00:20:03,200 --> 00:20:08,600
+different cell types and for different
+
+469
+00:20:05,080 --> 00:20:11,960
+samples so these are data for example t
+
+470
+00:20:08,600 --> 00:20:15,760
+i j k will be expression of gen I at C
+
+471
+00:20:11,960 --> 00:20:18,080
+type G for sample K and let's say the
+
+472
+00:20:15,760 --> 00:20:20,440
+size is number of genes times number of
+
+473
+00:20:18,080 --> 00:20:22,679
+cell types times number of samples so
+
+474
+00:20:20,440 --> 00:20:25,679
+that one can be so big in any case you
+
+475
+00:20:22,679 --> 00:20:27,640
+may start with like around 20,000 genes
+
+476
+00:20:25,679 --> 00:20:29,799
+right so here first thing we will do we
+
+477
+00:20:27,640 --> 00:20:31,880
+will reduce the dimension so most of
+
+478
+00:20:29,799 --> 00:20:33,679
+time we are not really looking at yeah
+
+479
+00:20:31,880 --> 00:20:35,400
+we work with 20,000 genes but we are
+
+480
+00:20:33,679 --> 00:20:37,760
+trying to find metag genes or Gene
+
+481
+00:20:35,400 --> 00:20:40,840
+clusters right we are trying to get this
+
+482
+00:20:37,760 --> 00:20:43,679
+Parts I can uh find gene expression
+
+483
+00:20:40,840 --> 00:20:46,000
+programs so we reduce the dimension here
+
+484
+00:20:43,679 --> 00:20:47,520
+let's say next talk we will discuss how
+
+485
+00:20:46,000 --> 00:20:48,799
+you reduce the dimension and how you can
+
+486
+00:20:47,520 --> 00:20:53,720
+find the Rings to the reduce the
+
+487
+00:20:48,799 --> 00:20:55,679
+dimension we go to R1 * R2 * R3 so here
+
+488
+00:20:53,720 --> 00:20:58,400
+when you do Matrix factorization from
+
+489
+00:20:55,679 --> 00:21:00,559
+one Matrix you get two matrices now we
+
+490
+00:20:58,400 --> 00:21:02,600
+when we do a simple ske three-way tensor
+
+491
+00:21:00,559 --> 00:21:04,679
+decomposition from one tensor we are
+
+492
+00:21:02,600 --> 00:21:07,600
+going to get three matrices one for each
+
+493
+00:21:04,679 --> 00:21:10,000
+modality and we get we will discuss we
+
+494
+00:21:07,600 --> 00:21:12,440
+also have something for tenser I will
+
+495
+00:21:10,000 --> 00:21:15,320
+discuss it first I get Gene factors it
+
+496
+00:21:12,440 --> 00:21:17,840
+is number of genes times R1 R1 is the
+
+497
+00:21:15,320 --> 00:21:20,159
+reduced Dimension it means you have R1
+
+498
+00:21:17,840 --> 00:21:21,720
+latent factors and we will look at what
+
+499
+00:21:20,159 --> 00:21:24,559
+they correspond to they will correspond
+
+500
+00:21:21,720 --> 00:21:27,520
+the gene expression pattern and for
+
+501
+00:21:24,559 --> 00:21:29,919
+samples it can be this is really
+
+502
+00:21:27,520 --> 00:21:32,880
+important I care about it so it's number
+
+503
+00:21:29,919 --> 00:21:35,720
+of samples times artery let's say I have
+
+504
+00:21:32,880 --> 00:21:38,559
+200 patient profiles but at the end
+
+505
+00:21:35,720 --> 00:21:40,640
+there are two subtypes maybe driving the
+
+506
+00:21:38,559 --> 00:21:44,400
+gene expression programs maybe disease
+
+507
+00:21:40,640 --> 00:21:46,679
+non disease right or you can have like
+
+508
+00:21:44,400 --> 00:21:48,799
+uh different subtypes of the cancer that
+
+509
+00:21:46,679 --> 00:21:52,360
+we will discuss so this one will help
+
+510
+00:21:48,799 --> 00:21:54,440
+you to find these main uh I'll say donor
+
+511
+00:21:52,360 --> 00:21:56,240
+variations and actually it will have you
+
+512
+00:21:54,440 --> 00:21:58,720
+the class Discovery with the sample
+
+513
+00:21:56,240 --> 00:22:01,919
+factors and saltating factors will have
+
+514
+00:21:58,720 --> 00:22:04,039
+you to see in which cell types this um
+
+515
+00:22:01,919 --> 00:22:06,559
+gene expression programs was activated
+
+516
+00:22:04,039 --> 00:22:08,880
+so we reduce Dimension there as well for
+
+517
+00:22:06,559 --> 00:22:11,640
+cell type sometimes you not necessarily
+
+518
+00:22:08,880 --> 00:22:14,679
+reduce so there is this thing mostly
+
+519
+00:22:11,640 --> 00:22:17,120
+this R1 R2 R3 is less than number of
+
+520
+00:22:14,679 --> 00:22:20,679
+genes number of cells number of samples
+
+521
+00:22:17,120 --> 00:22:23,039
+it was and for genes definitely but for
+
+522
+00:22:20,679 --> 00:22:26,360
+times sometimes cell types you can even
+
+523
+00:22:23,039 --> 00:22:29,360
+go to a uh R2 can be greater than number
+
+524
+00:22:26,360 --> 00:22:32,039
+of cell types why for for example maybe
+
+525
+00:22:29,360 --> 00:22:34,600
+you have a t- cell it's activated
+
+526
+00:22:32,039 --> 00:22:36,320
+differently for disease condition and
+
+527
+00:22:34,600 --> 00:22:38,039
+you have a te- cell which has a
+
+528
+00:22:36,320 --> 00:22:40,679
+different program for non- disease
+
+529
+00:22:38,039 --> 00:22:43,000
+condition so you put T Cell as one uh
+
+530
+00:22:40,679 --> 00:22:45,320
+variation but you may end up with two t
+
+531
+00:22:43,000 --> 00:22:47,799
+cells program and we will discuss them
+
+532
+00:22:45,320 --> 00:22:49,600
+and C look at the correlation between
+
+533
+00:22:47,799 --> 00:22:51,760
+different factors we will also discuss
+
+534
+00:22:49,600 --> 00:22:53,919
+it more mathematically for the Matrix
+
+535
+00:22:51,760 --> 00:22:56,679
+factorization we have the coefficients
+
+536
+00:22:53,919 --> 00:22:58,880
+it dos how strong is the signal so here
+
+537
+00:22:56,679 --> 00:23:01,840
+we will have the core tensor to say have
+
+538
+00:22:58,880 --> 00:23:04,039
+strong signals between different factors
+
+539
+00:23:01,840 --> 00:23:06,880
+okay let's go
+
+540
+00:23:04,039 --> 00:23:09,279
+here uh what's happening mathematically
+
+541
+00:23:06,880 --> 00:23:12,480
+I have a tensor I'm writing my tensor as
+
+542
+00:23:09,279 --> 00:23:16,760
+some of rank one tensors let's see here
+
+543
+00:23:12,480 --> 00:23:19,760
+this is G JK gives the how strong is the
+
+544
+00:23:16,760 --> 00:23:24,159
+um signal and GI is the gene latent
+
+545
+00:23:19,760 --> 00:23:27,240
+factor CJ setup latent factor and SK
+
+546
+00:23:24,159 --> 00:23:29,679
+will be sample slant Factor K sample
+
+547
+00:23:27,240 --> 00:23:31,840
+slant Factor so this is like a rank one
+
+548
+00:23:29,679 --> 00:23:34,000
+tensor expression pattern and core
+
+549
+00:23:31,840 --> 00:23:35,760
+tensor will tell me how strong is the
+
+550
+00:23:34,000 --> 00:23:39,240
+signal between these
+
+551
+00:23:35,760 --> 00:23:42,000
+factors so here you can have R1
+
+552
+00:23:39,240 --> 00:23:44,760
+different gen latent factor R2 different
+
+553
+00:23:42,000 --> 00:23:48,159
+genes uh setup latent factors and R2
+
+554
+00:23:44,760 --> 00:23:50,760
+different sample latting factor and G ik
+
+555
+00:23:48,159 --> 00:23:53,760
+that's why it's R1 time R2 * R3 it's
+
+556
+00:23:50,760 --> 00:23:55,600
+like a matter of indexing so people
+
+557
+00:23:53,760 --> 00:23:58,320
+summarize this one and show this is cor
+
+558
+00:23:55,600 --> 00:24:00,559
+tensors times Gene factors you put all
+
+559
+00:23:58,320 --> 00:24:02,600
+the the factors next to each other and
+
+560
+00:24:00,559 --> 00:24:05,000
+it becomes column of a bigger Matrix as
+
+561
+00:24:02,600 --> 00:24:09,200
+we discussed and S types factors and
+
+562
+00:24:05,000 --> 00:24:11,120
+Sample factors okay this is one of the
+
+563
+00:24:09,200 --> 00:24:14,640
+most common and I want to quickly
+
+564
+00:24:11,120 --> 00:24:17,039
+introduce another one is um heavily used
+
+565
+00:24:14,640 --> 00:24:19,200
+CP decomposition it's a special case of
+
+566
+00:24:17,039 --> 00:24:21,120
+this one that's why I started from here
+
+567
+00:24:19,200 --> 00:24:24,159
+in CP decomposition everything is
+
+568
+00:24:21,120 --> 00:24:26,600
+oversimplified it says okay ranks over
+
+569
+00:24:24,159 --> 00:24:29,080
+each modalities is same R1 is equal R2
+
+570
+00:24:26,600 --> 00:24:31,240
+is equal R3 sometimes it works perfect
+
+571
+00:24:29,080 --> 00:24:34,080
+and if it doesn't work we go to Tucker
+
+572
+00:24:31,240 --> 00:24:38,080
+actually and in this Cas in this case
+
+573
+00:24:34,080 --> 00:24:39,919
+it's like uh then here you don't need a
+
+574
+00:24:38,080 --> 00:24:42,399
+um core tensor you just need a
+
+575
+00:24:39,919 --> 00:24:44,240
+coefficient here g i j k is not equal
+
+576
+00:24:42,399 --> 00:24:47,240
+zero if and only if I is equal J is
+
+577
+00:24:44,240 --> 00:24:50,640
+equal K so we just end up with Lambda I
+
+578
+00:24:47,240 --> 00:24:53,640
+times g i c i SI I I'm going to
+
+579
+00:24:50,640 --> 00:24:56,000
+introduce more visually this is
+
+580
+00:24:53,640 --> 00:24:58,039
+called actually if I start discussing
+
+581
+00:24:56,000 --> 00:25:01,520
+what is called it would take one hour so
+
+582
+00:24:58,039 --> 00:25:03,399
+every one different research groups they
+
+583
+00:25:01,520 --> 00:25:04,840
+discover this method at different times
+
+584
+00:25:03,399 --> 00:25:06,559
+and they all thought that they are the
+
+585
+00:25:04,840 --> 00:25:09,880
+first one discovering this method there
+
+586
+00:25:06,559 --> 00:25:11,799
+is a long list of names but I'm going to
+
+587
+00:25:09,880 --> 00:25:14,720
+give the most common one canonical
+
+588
+00:25:11,799 --> 00:25:17,159
+decomposition parallel factor analysis
+
+589
+00:25:14,720 --> 00:25:19,480
+they shorten it they say CP but if you
+
+590
+00:25:17,159 --> 00:25:21,200
+see a paper and if you see okay they are
+
+591
+00:25:19,480 --> 00:25:24,279
+calling it in a different way it's not
+
+592
+00:25:21,200 --> 00:25:26,440
+my fault okay I just say what is Comming
+
+593
+00:25:24,279 --> 00:25:28,039
+and most of time they use alternative Le
+
+594
+00:25:26,440 --> 00:25:29,600
+Square to solve these questions which in
+
+595
+00:25:28,039 --> 00:25:31,000
+the next next to we will discuss details
+
+596
+00:25:29,600 --> 00:25:34,320
+that's why they call
+
+597
+00:25:31,000 --> 00:25:36,880
+CPS in CPS just to go quickly I start
+
+598
+00:25:34,320 --> 00:25:39,440
+from my three-way tenser and I'm getting
+
+599
+00:25:36,880 --> 00:25:42,440
+three Factor matrices all of them has
+
+600
+00:25:39,440 --> 00:25:44,279
+the same reduced Rank and mathematically
+
+601
+00:25:42,440 --> 00:25:47,320
+actually I'm writing my tensor as sum of
+
+602
+00:25:44,279 --> 00:25:49,000
+rank one tensors you actually you cannot
+
+603
+00:25:47,320 --> 00:25:50,840
+really write because we are working on
+
+604
+00:25:49,000 --> 00:25:52,760
+noisy data we don't really write as
+
+605
+00:25:50,840 --> 00:25:54,480
+equal we are looking at approximation
+
+606
+00:25:52,760 --> 00:25:57,320
+next talk we will discuss how good is
+
+607
+00:25:54,480 --> 00:25:59,080
+approximation how we can choose rank
+
+608
+00:25:57,320 --> 00:26:01,080
+right and we also have noise we will
+
+609
+00:25:59,080 --> 00:26:02,760
+discuss about okay which kind of
+
+610
+00:26:01,080 --> 00:26:05,240
+assumptions we will have on the noise
+
+611
+00:26:02,760 --> 00:26:09,919
+and on the factors which could work for
+
+612
+00:26:05,240 --> 00:26:12,480
+genomics data okay and now actually in
+
+613
+00:26:09,919 --> 00:26:14,679
+this talk I will mostly go over some
+
+614
+00:26:12,480 --> 00:26:17,080
+case studies there are many applications
+
+615
+00:26:14,679 --> 00:26:18,840
+of cancer factorization in omix data
+
+616
+00:26:17,080 --> 00:26:20,840
+analysis but I will try to give four or
+
+617
+00:26:18,840 --> 00:26:23,480
+five
+
+618
+00:26:20,840 --> 00:26:26,120
+applications but first I keep speaking
+
+619
+00:26:23,480 --> 00:26:28,880
+about rank one tenser let's see what
+
+620
+00:26:26,120 --> 00:26:31,080
+rank one tenser represents so this is
+
+621
+00:26:28,880 --> 00:26:33,919
+more detailed version of this example
+
+622
+00:26:31,080 --> 00:26:37,039
+will be given in our talk it is from our
+
+623
+00:26:33,919 --> 00:26:40,240
+project classical hkin lyoma let's say
+
+624
+00:26:37,039 --> 00:26:42,799
+we have this tensor uh genes times cell
+
+625
+00:26:40,240 --> 00:26:45,880
+types times samples we were working on
+
+626
+00:26:42,799 --> 00:26:51,120
+over 20,000 genes for 10 cell types and
+
+627
+00:26:45,880 --> 00:26:53,279
+40 uh samples like this is um 40 tissues
+
+628
+00:26:51,120 --> 00:26:56,240
+taking from different patient Prof
+
+629
+00:26:53,279 --> 00:26:59,039
+different patients so here one of the
+
+630
+00:26:56,240 --> 00:27:02,679
+rank one tens appeared in the factory
+
+631
+00:26:59,039 --> 00:27:05,240
+ization uh for example here we had again
+
+632
+00:27:02,679 --> 00:27:07,520
+Gene sting Factor setup sting Factor
+
+633
+00:27:05,240 --> 00:27:09,360
+sample sting Factor this a unit of an
+
+634
+00:27:07,520 --> 00:27:12,720
+expression pattern but how does it look
+
+635
+00:27:09,360 --> 00:27:16,760
+like so gen latent factor is has length
+
+636
+00:27:12,720 --> 00:27:18,919
+20,000 and we look at um which genes are
+
+637
+00:27:16,760 --> 00:27:21,080
+up regulated non regulated or which Gene
+
+638
+00:27:18,919 --> 00:27:22,840
+clusters together up regulated non
+
+639
+00:27:21,080 --> 00:27:25,240
+regulated then you can look at the pet W
+
+640
+00:27:22,840 --> 00:27:27,360
+you find the Petway which is J set
+
+641
+00:27:25,240 --> 00:27:29,880
+Petway promotes tumor side proliferation
+
+642
+00:27:27,360 --> 00:27:32,799
+and survival of tumor C so this is the
+
+643
+00:27:29,880 --> 00:27:34,320
+first goal we find un expression program
+
+644
+00:27:32,799 --> 00:27:36,480
+in one shot you can look at all the
+
+645
+00:27:34,320 --> 00:27:38,240
+triple uh triple interaction
+
+646
+00:27:36,480 --> 00:27:40,679
+simultaneously then next question you
+
+647
+00:27:38,240 --> 00:27:42,960
+ask okay this program is activated in
+
+648
+00:27:40,679 --> 00:27:46,559
+which cell types and we go to our cell
+
+649
+00:27:42,960 --> 00:27:48,720
+type factors here okay so the height of
+
+650
+00:27:46,559 --> 00:27:50,360
+corresponding to these different colors
+
+651
+00:27:48,720 --> 00:27:53,039
+correspond to these 10 different cell
+
+652
+00:27:50,360 --> 00:27:56,240
+types the height actually gives what is
+
+653
+00:27:53,039 --> 00:27:58,640
+the uh what is the weight at what is the
+
+654
+00:27:56,240 --> 00:28:01,480
+loading so actually it shows that only
+
+655
+00:27:58,640 --> 00:28:03,679
+tumor C has high loading so we say this
+
+656
+00:28:01,480 --> 00:28:06,760
+gene expression program activated in
+
+657
+00:28:03,679 --> 00:28:09,360
+tumor s which makes sense tumor
+
+658
+00:28:06,760 --> 00:28:11,399
+proliferation right then we look at okay
+
+659
+00:28:09,360 --> 00:28:13,360
+this is activated in which patient
+
+660
+00:28:11,399 --> 00:28:16,679
+groups then you'll go look at your
+
+661
+00:28:13,360 --> 00:28:19,320
+sample slat Factor so here again this
+
+662
+00:28:16,679 --> 00:28:21,960
+height correspond to the loadings and we
+
+663
+00:28:19,320 --> 00:28:24,480
+have three groups uh first group of
+
+664
+00:28:21,960 --> 00:28:26,240
+patients again is unsupervised so we are
+
+665
+00:28:24,480 --> 00:28:30,440
+not really putting labels in our
+
+666
+00:28:26,240 --> 00:28:32,720
+algorithm so it is HK lyoma patients and
+
+667
+00:28:30,440 --> 00:28:35,679
+dark blue ones hkin lyoma patients with
+
+668
+00:28:32,720 --> 00:28:37,880
+ebb virus open blue hkin lyoma patient
+
+669
+00:28:35,679 --> 00:28:40,279
+without ebb virus and orange one
+
+670
+00:28:37,880 --> 00:28:43,200
+reactive lyph patients and this actually
+
+671
+00:28:40,279 --> 00:28:46,399
+says okay this program is activated in
+
+672
+00:28:43,200 --> 00:28:49,279
+hkin Pati so even if you didn't know
+
+673
+00:28:46,399 --> 00:28:51,720
+labels so we know it but we didn't use
+
+674
+00:28:49,279 --> 00:28:54,600
+it that kind of unsupervised method it's
+
+675
+00:28:51,720 --> 00:28:57,039
+already they're able to find the uh how
+
+676
+00:28:54,600 --> 00:28:59,120
+to say stratification of your data donor
+
+677
+00:28:57,039 --> 00:29:01,440
+conditions so that's how we are going to
+
+678
+00:28:59,120 --> 00:29:03,519
+use it and in the applications these
+
+679
+00:29:01,440 --> 00:29:06,480
+patterns this kind of rank one tensors
+
+680
+00:29:03,519 --> 00:29:09,279
+will keep appearing
+
+681
+00:29:06,480 --> 00:29:11,240
+okay let's go just I will have three
+
+682
+00:29:09,279 --> 00:29:13,159
+slides to kind of compare it with couple
+
+683
+00:29:11,240 --> 00:29:15,440
+of some methods but more details will
+
+684
+00:29:13,159 --> 00:29:17,480
+come in the next talk so again we
+
+685
+00:29:15,440 --> 00:29:19,480
+already discussed non- negative Matrix
+
+686
+00:29:17,480 --> 00:29:21,399
+factorization and PCA most of they
+
+687
+00:29:19,480 --> 00:29:23,519
+unfold the data and you can lose the
+
+688
+00:29:21,399 --> 00:29:25,679
+heterogen how to say interactions
+
+689
+00:29:23,519 --> 00:29:28,279
+between different modalities and
+
+690
+00:29:25,679 --> 00:29:30,799
+interpretation becomes very hard you
+
+691
+00:29:28,279 --> 00:29:34,000
+merge the analysis from your multiple
+
+692
+00:29:30,799 --> 00:29:36,039
+unfoldings or multiple slices and non-
+
+693
+00:29:34,000 --> 00:29:40,399
+negative Matrix factorization is not
+
+694
+00:29:36,039 --> 00:29:43,679
+unique here okay I am always in the Tor
+
+695
+00:29:40,399 --> 00:29:45,919
+domain also I create some conflicts most
+
+696
+00:29:43,679 --> 00:29:48,440
+of time when you read tensor methods are
+
+697
+00:29:45,919 --> 00:29:50,760
+unique this is too theoretical so they
+
+698
+00:29:48,440 --> 00:29:53,000
+will say okay one of the I'm both
+
+699
+00:29:50,760 --> 00:29:55,200
+speaking limitations I'm speaking truth
+
+700
+00:29:53,000 --> 00:29:57,000
+they will say okay nmf is not unique but
+
+701
+00:29:55,200 --> 00:29:58,600
+tenser methods are unique first work
+
+702
+00:29:57,000 --> 00:30:01,080
+with the noisy data you will see if it's
+
+703
+00:29:58,600 --> 00:30:03,399
+Unique or not it's Unique theoretically
+
+704
+00:30:01,080 --> 00:30:05,399
+but it's not stable next talk we will go
+
+705
+00:30:03,399 --> 00:30:07,240
+over it but theoretically it's Unique
+
+706
+00:30:05,399 --> 00:30:10,360
+under my the
+
+707
+00:30:07,240 --> 00:30:12,240
+conditions stable here in stable yeah we
+
+708
+00:30:10,360 --> 00:30:14,720
+will discuss it more stable is like when
+
+709
+00:30:12,240 --> 00:30:17,360
+you run the same algorithm you don't
+
+710
+00:30:14,720 --> 00:30:19,399
+always get the same factors because it
+
+711
+00:30:17,360 --> 00:30:21,440
+will be heavily dependent on the initial
+
+712
+00:30:19,399 --> 00:30:23,240
+guess right theoretically it may be
+
+713
+00:30:21,440 --> 00:30:26,120
+unique but it's not going to be stable
+
+714
+00:30:23,240 --> 00:30:28,000
+and we are going to address it and again
+
+715
+00:30:26,120 --> 00:30:30,240
+rank selection is nontrivial for both
+
+716
+00:30:28,000 --> 00:30:32,279
+both of them and for tensors we have a
+
+717
+00:30:30,240 --> 00:30:33,880
+pipeline to discuss and the most
+
+718
+00:30:32,279 --> 00:30:36,720
+important higher Dimension is
+
+719
+00:30:33,880 --> 00:30:39,840
+challenging interpretation for Matrix
+
+720
+00:30:36,720 --> 00:30:41,240
+methods and for deep learning approaches
+
+721
+00:30:39,840 --> 00:30:43,600
+in the Deep learning approaches there
+
+722
+00:30:41,240 --> 00:30:45,320
+are two things one thing it depends like
+
+723
+00:30:43,600 --> 00:30:47,240
+it's devolving but latent space
+
+724
+00:30:45,320 --> 00:30:49,600
+interpretation sometimes is very
+
+725
+00:30:47,240 --> 00:30:51,880
+difficult not even possible here we
+
+726
+00:30:49,600 --> 00:30:54,120
+already discuss our latent space rank
+
+727
+00:30:51,880 --> 00:30:56,519
+one tensor always already was giving us
+
+728
+00:30:54,120 --> 00:30:57,960
+latent factor it's very interpretable
+
+729
+00:30:56,519 --> 00:31:00,120
+other thing for deep learning approach
+
+730
+00:30:57,960 --> 00:31:02,919
+appr es sometimes we have unit thousands
+
+731
+00:31:00,120 --> 00:31:04,880
+of data right unit loss of funding but
+
+732
+00:31:02,919 --> 00:31:06,519
+sometimes we work in some public data or
+
+733
+00:31:04,880 --> 00:31:10,120
+one of the project we work we work on
+
+734
+00:31:06,519 --> 00:31:11,840
+gasta it's not easy to get so much data
+
+735
+00:31:10,120 --> 00:31:14,159
+right you can also work with small
+
+736
+00:31:11,840 --> 00:31:16,559
+numbers of data sets with these methods
+
+737
+00:31:14,159 --> 00:31:19,000
+because in deep learning inference on
+
+738
+00:31:16,559 --> 00:31:21,240
+patterns on a new data set is as good as
+
+739
+00:31:19,000 --> 00:31:23,519
+training data set in the cases you don't
+
+740
+00:31:21,240 --> 00:31:26,120
+have a big training data sets
+
+741
+00:31:23,519 --> 00:31:28,960
+factorization based methods be utilized
+
+742
+00:31:26,120 --> 00:31:31,120
+and the last thing differenti Express
+
+743
+00:31:28,960 --> 00:31:33,279
+expression methods for the differential
+
+744
+00:31:31,120 --> 00:31:36,080
+expression methods for the gene
+
+745
+00:31:33,279 --> 00:31:39,120
+expression you have to give the groups
+
+746
+00:31:36,080 --> 00:31:40,880
+you say group a versus Group B B it's
+
+747
+00:31:39,120 --> 00:31:44,480
+you already know but when you have a new
+
+748
+00:31:40,880 --> 00:31:46,240
+data set and you don't know what is like
+
+749
+00:31:44,480 --> 00:31:47,559
+what is driving the gene expression
+
+750
+00:31:46,240 --> 00:31:50,320
+programs you don't even know the
+
+751
+00:31:47,559 --> 00:31:52,399
+subtypes of cancers in this case
+
+752
+00:31:50,320 --> 00:31:54,159
+unsupervised methods like factorization
+
+753
+00:31:52,399 --> 00:31:56,960
+methods will be more beneficial actually
+
+754
+00:31:54,159 --> 00:31:59,120
+we will have concrete example here for
+
+755
+00:31:56,960 --> 00:32:01,080
+the eods need to give predefined
+
+756
+00:31:59,120 --> 00:32:04,279
+condition and it doesn't consider sample
+
+757
+00:32:01,080 --> 00:32:05,919
+heterogenity maybe I have two patients
+
+758
+00:32:04,279 --> 00:32:07,840
+but they can also have heterogenity
+
+759
+00:32:05,919 --> 00:32:09,919
+between them so it's actually kind of
+
+760
+00:32:07,840 --> 00:32:12,600
+hurting the whole
+
+761
+00:32:09,919 --> 00:32:15,240
+analysis good so I will now give some
+
+762
+00:32:12,600 --> 00:32:18,120
+examples of the application some case
+
+763
+00:32:15,240 --> 00:32:20,240
+studies one of the common example goes
+
+764
+00:32:18,120 --> 00:32:23,399
+with multi sample gene expression data
+
+765
+00:32:20,240 --> 00:32:26,799
+sets and it can be you can consider
+
+766
+00:32:23,399 --> 00:32:28,799
+multiple cell types or multiple tissues
+
+767
+00:32:26,799 --> 00:32:30,919
+here for example we start from a single
+
+768
+00:32:28,799 --> 00:32:34,039
+cell data right you can find the cell
+
+769
+00:32:30,919 --> 00:32:36,840
+types and we may have we it's so similar
+
+770
+00:32:34,039 --> 00:32:38,760
+to what we discussed like a genes gene
+
+771
+00:32:36,840 --> 00:32:39,600
+expression over different cell types for
+
+772
+00:32:38,760 --> 00:32:42,159
+different
+
+773
+00:32:39,600 --> 00:32:44,760
+donors okay so there are actually lots
+
+774
+00:32:42,159 --> 00:32:48,240
+of sources to get this kind of data set
+
+775
+00:32:44,760 --> 00:32:50,600
+gex UK Co cohort illuminate body lab and
+
+776
+00:32:48,240 --> 00:32:53,760
+human tissues for sure tcga cancer
+
+777
+00:32:50,600 --> 00:32:55,799
+genome Atlas right again as we discussed
+
+778
+00:32:53,760 --> 00:32:59,120
+in the previous slides traditional
+
+779
+00:32:55,799 --> 00:33:01,039
+approaches often um assume that gene
+
+780
+00:32:59,120 --> 00:33:03,440
+expression patterns remain consistent
+
+781
+00:33:01,039 --> 00:33:06,200
+across different contexts right or
+
+782
+00:33:03,440 --> 00:33:08,760
+samples are independent or homogeneous
+
+783
+00:33:06,200 --> 00:33:11,120
+but we Al in tensor factorization we
+
+784
+00:33:08,760 --> 00:33:13,320
+respect the heterogenity so if you
+
+785
+00:33:11,120 --> 00:33:16,320
+structure this one as a matrix you have
+
+786
+00:33:13,320 --> 00:33:18,799
+some challenges it may hinder to
+
+787
+00:33:16,320 --> 00:33:21,639
+revealing sat type specific tissue
+
+788
+00:33:18,799 --> 00:33:23,840
+specific or individual specific patterns
+
+789
+00:33:21,639 --> 00:33:27,000
+so we want to really go donor specific
+
+790
+00:33:23,840 --> 00:33:29,440
+or condition specific patterns also you
+
+791
+00:33:27,000 --> 00:33:32,000
+can if you Matrix size you can ignore
+
+792
+00:33:29,440 --> 00:33:33,519
+individual heterogenity and one of the I
+
+793
+00:33:32,000 --> 00:33:35,840
+think next case study they're actually
+
+794
+00:33:33,519 --> 00:33:38,039
+looking at how this gene expression
+
+795
+00:33:35,840 --> 00:33:40,720
+patterns are driven by biological
+
+796
+00:33:38,039 --> 00:33:42,320
+factors like race gender age right you
+
+797
+00:33:40,720 --> 00:33:44,919
+may need some
+
+798
+00:33:42,320 --> 00:33:46,799
+correlations so there are okay this is
+
+799
+00:33:44,919 --> 00:33:49,600
+the main pipeline but it's similar to
+
+800
+00:33:46,799 --> 00:33:51,159
+what we discussed we factorize right and
+
+801
+00:33:49,600 --> 00:33:53,799
+this case maybe I'm not going to go over
+
+802
+00:33:51,159 --> 00:33:56,000
+it again after factorization we are
+
+803
+00:33:53,799 --> 00:33:58,080
+trying to see the meaning of our latent
+
+804
+00:33:56,000 --> 00:34:01,919
+factors so here for example we looking
+
+805
+00:33:58,080 --> 00:34:04,039
+at uh Gene factor three and you so here
+
+806
+00:34:01,919 --> 00:34:06,360
+I just put top 20 genes but for sure you
+
+807
+00:34:04,039 --> 00:34:08,440
+do like a Petway analysis gen set
+
+808
+00:34:06,360 --> 00:34:10,960
+enrichment analysis to find what is the
+
+809
+00:34:08,440 --> 00:34:14,320
+function there and you go to cell types
+
+810
+00:34:10,960 --> 00:34:16,040
+latent factor three to see identify SS
+
+811
+00:34:14,320 --> 00:34:18,960
+with high loading you say this pattern
+
+812
+00:34:16,040 --> 00:34:21,399
+is activated there and you look at your
+
+813
+00:34:18,960 --> 00:34:24,520
+donor conditions like donor latent
+
+814
+00:34:21,399 --> 00:34:27,359
+factor three here you can test for you
+
+815
+00:34:24,520 --> 00:34:30,440
+look at coar effect test for correlation
+
+816
+00:34:27,359 --> 00:34:32,879
+of this donor factors with um whatever
+
+817
+00:34:30,440 --> 00:34:36,679
+clinical information available healthy
+
+818
+00:34:32,879 --> 00:34:39,200
+disease like a gender right this kind of
+
+819
+00:34:36,679 --> 00:34:41,440
+things and this is a case study
+
+820
+00:34:39,200 --> 00:34:43,839
+multicluster I want to also give the
+
+821
+00:34:41,440 --> 00:34:46,359
+some uh like studies so people are more
+
+822
+00:34:43,839 --> 00:34:50,280
+interesting to reading a lot around so
+
+823
+00:34:46,359 --> 00:34:54,399
+it will give a resource second they had
+
+824
+00:34:50,280 --> 00:34:57,200
+uh gex data and they had 544 individuals
+
+825
+00:34:54,399 --> 00:35:00,560
+across 53 human tissues including 133
+
+826
+00:34:57,200 --> 00:35:06,920
+brain sub regions so it's like
+
+827
+00:35:00,560 --> 00:35:10,040
+18,41 * 544 * 53 tenser and they did a
+
+828
+00:35:06,920 --> 00:35:12,800
+tensor decomposition I guess they were
+
+829
+00:35:10,040 --> 00:35:15,760
+um I'm not totally sure they might have
+
+830
+00:35:12,800 --> 00:35:17,400
+just reduced up the 10 main factors
+
+831
+00:35:15,760 --> 00:35:19,680
+right they use something called semi
+
+832
+00:35:17,400 --> 00:35:22,240
+non- negative tensor decomposition is
+
+833
+00:35:19,680 --> 00:35:24,800
+what it means for the tissue latent
+
+834
+00:35:22,240 --> 00:35:27,280
+factor they force non negativity so they
+
+835
+00:35:24,800 --> 00:35:29,119
+can interpret the results easily so
+
+836
+00:35:27,280 --> 00:35:30,960
+means in my application I force non
+
+837
+00:35:29,119 --> 00:35:32,720
+negativity for every Factor so the
+
+838
+00:35:30,960 --> 00:35:35,400
+interpretation is
+
+839
+00:35:32,720 --> 00:35:37,599
+easy okay again they did the same find
+
+840
+00:35:35,400 --> 00:35:39,720
+gin clusters tissue cluster individual
+
+841
+00:35:37,599 --> 00:35:41,800
+clusters and they test the correlations
+
+842
+00:35:39,720 --> 00:35:44,320
+of the individual clusters to clinical
+
+843
+00:35:41,800 --> 00:35:45,560
+attributes they use tenser methods here
+
+844
+00:35:44,320 --> 00:35:49,319
+you can check more details for
+
+845
+00:35:45,560 --> 00:35:52,520
+clustering classification Coit effects
+
+846
+00:35:49,319 --> 00:35:55,640
+for example for clustering um there are
+
+847
+00:35:52,520 --> 00:35:57,680
+multiple groups in this study uh this is
+
+848
+00:35:55,640 --> 00:35:59,839
+in a they do gen clustering tissue
+
+849
+00:35:57,680 --> 00:36:02,480
+clustering with PCA it's one of the
+
+850
+00:35:59,839 --> 00:36:04,359
+cases uh because of loss of heterogenity
+
+851
+00:36:02,480 --> 00:36:06,599
+as well clustering doesn't become very
+
+852
+00:36:04,359 --> 00:36:08,640
+perfect PCA also we will discuss people
+
+853
+00:36:06,599 --> 00:36:11,119
+also as normal distribution it's not
+
+854
+00:36:08,640 --> 00:36:13,720
+totally true for genomics data here the
+
+855
+00:36:11,119 --> 00:36:16,040
+clustering with tensor factors they show
+
+856
+00:36:13,720 --> 00:36:18,880
+it becomes like more you can see your
+
+857
+00:36:16,040 --> 00:36:23,240
+more identified clusters but they also
+
+858
+00:36:18,880 --> 00:36:26,079
+look at different uh different um tasks
+
+859
+00:36:23,240 --> 00:36:28,680
+again you can see theils here and I want
+
+860
+00:36:26,079 --> 00:36:30,680
+to quickly go another application
+
+861
+00:36:28,680 --> 00:36:33,560
+I want to cover at least three four
+
+862
+00:36:30,680 --> 00:36:35,880
+application we can discuss later details
+
+863
+00:36:33,560 --> 00:36:38,079
+another application I really like mics
+
+864
+00:36:35,880 --> 00:36:40,119
+data now we can get data from genomics
+
+865
+00:36:38,079 --> 00:36:41,520
+platform transcriptomics epigenomics
+
+866
+00:36:40,119 --> 00:36:44,000
+prics
+
+867
+00:36:41,520 --> 00:36:45,720
+metabolics I couldn't say it again there
+
+868
+00:36:44,000 --> 00:36:48,680
+are different resources to get this kind
+
+869
+00:36:45,720 --> 00:36:50,440
+of data but now actually we are like
+
+870
+00:36:48,680 --> 00:36:52,839
+okay for one patient I have more and
+
+871
+00:36:50,440 --> 00:36:55,400
+more and more information okay but can
+
+872
+00:36:52,839 --> 00:36:57,000
+we use all this information right now
+
+873
+00:36:55,400 --> 00:36:59,160
+for the tester methods what we are going
+
+874
+00:36:57,000 --> 00:37:01,000
+to do we will try to there are different
+
+875
+00:36:59,160 --> 00:37:03,400
+ways to merge though we will try to
+
+876
+00:37:01,000 --> 00:37:05,200
+merge this data to a big tensor and we
+
+877
+00:37:03,400 --> 00:37:09,359
+will try to do
+
+878
+00:37:05,200 --> 00:37:11,599
+factorization and yeah um so when we get
+
+879
+00:37:09,359 --> 00:37:16,319
+DNA mulation data for example it's
+
+880
+00:37:11,599 --> 00:37:18,440
+usually not on the um not Gene level
+
+881
+00:37:16,319 --> 00:37:21,599
+yeah not gen level right yeah most of
+
+882
+00:37:18,440 --> 00:37:24,160
+the time they do more Gene Centric uh
+
+883
+00:37:21,599 --> 00:37:25,760
+right for example most of the studies
+
+884
+00:37:24,160 --> 00:37:27,520
+Amir we are working on something like
+
+885
+00:37:25,760 --> 00:37:29,760
+that now we are looking at average
+
+886
+00:37:27,520 --> 00:37:32,200
+metalation for Gene level okay so they
+
+887
+00:37:29,760 --> 00:37:34,160
+try to come you try to find the common
+
+888
+00:37:32,200 --> 00:37:36,520
+modality lots of them merging happens
+
+889
+00:37:34,160 --> 00:37:39,520
+Gene level it's a good question thank
+
+890
+00:37:36,520 --> 00:37:39,520
+you
+
+891
+00:37:43,480 --> 00:37:50,119
+yeah points thanks a lot of these data
+
+892
+00:37:47,400 --> 00:37:53,119
+sets have U obvious links between
+
+893
+00:37:50,119 --> 00:37:56,040
+entities like genes proteins metil sites
+
+894
+00:37:53,119 --> 00:38:00,560
+can this be taken into account yeah this
+
+895
+00:37:56,040 --> 00:38:03,760
+can be uh can you ask again they are
+
+896
+00:38:00,560 --> 00:38:06,680
+yeah yeah so you can draw clear links
+
+897
+00:38:03,760 --> 00:38:09,160
+between a gene and a protein for example
+
+898
+00:38:06,680 --> 00:38:12,480
+and then you have measurements in these
+
+899
+00:38:09,160 --> 00:38:14,800
+samples is uh those links something you
+
+900
+00:38:12,480 --> 00:38:16,960
+take into account in the like if for
+
+901
+00:38:14,800 --> 00:38:19,599
+example you can also even give this is
+
+902
+00:38:16,960 --> 00:38:22,280
+more um regularized tensor factorization
+
+903
+00:38:19,599 --> 00:38:24,319
+protein protein interaction networks or
+
+904
+00:38:22,280 --> 00:38:27,040
+other kind of maps you have it can also
+
+905
+00:38:24,319 --> 00:38:29,079
+learn a map but it is um that method
+
+906
+00:38:27,040 --> 00:38:31,119
+little bit more complicated from what I
+
+907
+00:38:29,079 --> 00:38:33,240
+discussed but there are actually methods
+
+908
+00:38:31,119 --> 00:38:35,280
+like that they learn from the like
+
+909
+00:38:33,240 --> 00:38:36,839
+graphs right the relation between
+
+910
+00:38:35,280 --> 00:38:38,920
+different proteins your genes and
+
+911
+00:38:36,839 --> 00:38:42,599
+proteins and they kind of like gives you
+
+912
+00:38:38,920 --> 00:38:46,319
+more inference right thank
+
+913
+00:38:42,599 --> 00:38:48,599
+you okay here uh one of the way again
+
+914
+00:38:46,319 --> 00:38:50,480
+the way you merge it also depends on
+
+915
+00:38:48,599 --> 00:38:52,119
+your data and I will give one example
+
+916
+00:38:50,480 --> 00:38:53,920
+and there are different styles of
+
+917
+00:38:52,119 --> 00:38:55,720
+merging actually now we have this kind
+
+918
+00:38:53,920 --> 00:38:58,960
+of data set and we are trying to merge
+
+919
+00:38:55,720 --> 00:39:01,040
+by ourselves it's like here let's say we
+
+920
+00:38:58,960 --> 00:39:03,359
+are merging these data sets again you
+
+921
+00:39:01,040 --> 00:39:06,359
+get a big tensor but what happens when
+
+922
+00:39:03,359 --> 00:39:09,040
+you factorize we will discuss
+
+923
+00:39:06,359 --> 00:39:11,760
+again again this is like we form a big
+
+924
+00:39:09,040 --> 00:39:14,480
+tenser it's not like you have access to
+
+925
+00:39:11,760 --> 00:39:16,880
+all of them like once you have access
+
+926
+00:39:14,480 --> 00:39:18,839
+then you are trying to find overlapping
+
+927
+00:39:16,880 --> 00:39:21,040
+information for the like for example
+
+928
+00:39:18,839 --> 00:39:22,839
+trying to see okay 20 let's say 2,000
+
+929
+00:39:21,040 --> 00:39:25,560
+genes and express and all the profiles
+
+930
+00:39:22,839 --> 00:39:28,640
+and we try to find overlapping matrices
+
+931
+00:39:25,560 --> 00:39:31,800
+like overlapping modality okay here
+
+932
+00:39:28,640 --> 00:39:34,280
+again we have some donor Matrix right
+
+933
+00:39:31,800 --> 00:39:36,400
+and we have donor latent factors and
+
+934
+00:39:34,280 --> 00:39:41,680
+Gene Matrix Gene factors and omic
+
+935
+00:39:36,400 --> 00:39:44,040
+factors and here we get gr Dr o r and if
+
+936
+00:39:41,680 --> 00:39:46,000
+you look at this rank one t ijk it
+
+937
+00:39:44,040 --> 00:39:49,920
+captures the interaction between the I
+
+938
+00:39:46,000 --> 00:39:52,079
+gen for J donor but K omix platform but
+
+939
+00:39:49,920 --> 00:39:53,960
+I will explain what it can mean and
+
+940
+00:39:52,079 --> 00:39:55,920
+which kind of results we get from it
+
+941
+00:39:53,960 --> 00:40:00,160
+from the case
+
+942
+00:39:55,920 --> 00:40:03,000
+study this a um commonly use case study
+
+943
+00:40:00,160 --> 00:40:06,599
+Monty it's momic non- negative T
+
+944
+00:40:03,000 --> 00:40:08,839
+decomposition for Gene level they go
+
+945
+00:40:06,599 --> 00:40:10,440
+okay for the metalation you you have
+
+946
+00:40:08,839 --> 00:40:12,680
+information based on the promoter but
+
+947
+00:40:10,440 --> 00:40:15,480
+they go to Gene level integrate
+
+948
+00:40:12,680 --> 00:40:19,200
+integrative analysis so they for example
+
+949
+00:40:15,480 --> 00:40:21,240
+had gene expression metalation Mi Mna
+
+950
+00:40:19,200 --> 00:40:24,119
+and they factorized this one and when
+
+951
+00:40:21,240 --> 00:40:27,160
+they factorize actually what they try to
+
+952
+00:40:24,119 --> 00:40:27,839
+find and what they find in this case so
+
+953
+00:40:27,160 --> 00:40:32,319
+they
+
+954
+00:40:27,839 --> 00:40:35,200
+um data has 597 breast cancer 314 colon
+
+955
+00:40:32,319 --> 00:40:37,359
+cancer and 305 stomach cancer actually
+
+956
+00:40:35,200 --> 00:40:40,160
+they form three different tensors for
+
+957
+00:40:37,359 --> 00:40:41,839
+them and work them separately and most
+
+958
+00:40:40,160 --> 00:40:43,640
+importantly for example for breast
+
+959
+00:40:41,839 --> 00:40:44,520
+cancer they are looking for four
+
+960
+00:40:43,640 --> 00:40:46,680
+different
+
+961
+00:40:44,520 --> 00:40:50,119
+subtypes right they have luminal a
+
+962
+00:40:46,680 --> 00:40:52,920
+luminal b her to and basil and Monte in
+
+963
+00:40:50,119 --> 00:40:56,480
+this case was able to detect subtype
+
+964
+00:40:52,920 --> 00:40:57,960
+specific or clinical attributes specific
+
+965
+00:40:56,480 --> 00:41:01,079
+right because we have more information
+
+966
+00:40:57,960 --> 00:41:04,000
+about donors we can later use Gene sets
+
+967
+00:41:01,079 --> 00:41:06,839
+that show strongly regulated by certain
+
+968
+00:41:04,000 --> 00:41:09,560
+omics and it also shows for example it
+
+969
+00:41:06,839 --> 00:41:12,359
+was both strongly regulated uh by
+
+970
+00:41:09,560 --> 00:41:14,839
+metalation and mni expression so you can
+
+971
+00:41:12,359 --> 00:41:17,800
+see also kind of correlation between
+
+972
+00:41:14,839 --> 00:41:20,720
+different omic types they can refer the
+
+973
+00:41:17,800 --> 00:41:23,040
+uh like same type of uh Gene
+
+974
+00:41:20,720 --> 00:41:25,280
+regulation and it's kind of like main
+
+975
+00:41:23,040 --> 00:41:27,920
+conclusion is integrating momic data in
+
+976
+00:41:25,280 --> 00:41:30,119
+a gene centent manner Improv detecting
+
+977
+00:41:27,920 --> 00:41:32,920
+cancer sub type specific features and
+
+978
+00:41:30,119 --> 00:41:35,359
+other clinical features yeah is there a
+
+979
+00:41:32,920 --> 00:41:37,880
+reason why they um construct different
+
+980
+00:41:35,359 --> 00:41:41,119
+sensors for the three types of cancer
+
+981
+00:41:37,880 --> 00:41:44,079
+they can yeah so you can also put all of
+
+982
+00:41:41,119 --> 00:41:47,839
+them together actually then in this case
+
+983
+00:41:44,079 --> 00:41:50,800
+uh it can it's not a lot of data it can
+
+984
+00:41:47,839 --> 00:41:52,560
+find uh breast cancer subtypes colon
+
+985
+00:41:50,800 --> 00:41:54,480
+cancer subtypes and stomach cancer
+
+986
+00:41:52,560 --> 00:41:57,920
+subtypes but maybe when you work in a
+
+987
+00:41:54,480 --> 00:42:00,680
+smaller data set I'm not not sure if
+
+988
+00:41:57,920 --> 00:42:03,440
+like finding subtypes becomes easier but
+
+989
+00:42:00,680 --> 00:42:05,400
+I think the mostly our approach is kind
+
+990
+00:42:03,440 --> 00:42:07,440
+of approach we put all the data together
+
+991
+00:42:05,400 --> 00:42:10,440
+and we first run we will say can the
+
+992
+00:42:07,440 --> 00:42:12,880
+methods tell us right okay this is
+
+993
+00:42:10,440 --> 00:42:15,240
+actually kind of one cancer group second
+
+994
+00:42:12,880 --> 00:42:17,640
+cancer group it's like I think there is
+
+995
+00:42:15,240 --> 00:42:20,640
+no need to actually make three
+
+996
+00:42:17,640 --> 00:42:22,720
+caners but like again it's like a try I
+
+997
+00:42:20,640 --> 00:42:23,960
+would put all of them together but at
+
+998
+00:42:22,720 --> 00:42:26,079
+the same time I would put them
+
+999
+00:42:23,960 --> 00:42:28,920
+separately to make sure am I getting
+
+1000
+00:42:26,079 --> 00:42:30,640
+more information like that or when you
+
+1001
+00:42:28,920 --> 00:42:34,040
+put them all together maybe you can also
+
+1002
+00:42:30,640 --> 00:42:38,359
+put more noise in the data
+
+1003
+00:42:34,040 --> 00:42:40,440
+right okay so I have how many minutes I
+
+1004
+00:42:38,359 --> 00:42:43,760
+don't
+
+1005
+00:42:40,440 --> 00:42:45,599
+know good okay data imputation and we
+
+1006
+00:42:43,760 --> 00:42:47,200
+will have sell interaction sell
+
+1007
+00:42:45,599 --> 00:42:49,200
+interaction will be the last application
+
+1008
+00:42:47,200 --> 00:42:52,400
+but there are more applications here
+
+1009
+00:42:49,200 --> 00:42:55,640
+data imputation so here one of the
+
+1010
+00:42:52,400 --> 00:42:58,240
+projects we work so let's say cmap dep
+
+1011
+00:42:55,640 --> 00:43:01,720
+map you have lots of like uh data for
+
+1012
+00:42:58,240 --> 00:43:04,000
+drug effects right you can have a a drug
+
+1013
+00:43:01,720 --> 00:43:06,359
+a sell line treat with a drug and you
+
+1014
+00:43:04,000 --> 00:43:08,319
+can look at gene expression change
+
+1015
+00:43:06,359 --> 00:43:10,119
+before treatment and after treatment
+
+1016
+00:43:08,319 --> 00:43:11,920
+right then in this case we can seually
+
+1017
+00:43:10,119 --> 00:43:12,599
+what is the effect of this drug so you
+
+1018
+00:43:11,920 --> 00:43:16,079
+have
+
+1019
+00:43:12,599 --> 00:43:19,359
+this uh triple interaction drugs genes
+
+1020
+00:43:16,079 --> 00:43:22,599
+and cells and has lots of missing data
+
+1021
+00:43:19,359 --> 00:43:24,800
+because even developing a drug right so
+
+1022
+00:43:22,599 --> 00:43:27,119
+it takes lots of time lots of funding
+
+1023
+00:43:24,800 --> 00:43:28,520
+sometimes 10 years it should drink Co it
+
+1024
+00:43:27,119 --> 00:43:30,599
+you were really thinking okay drug
+
+1025
+00:43:28,520 --> 00:43:32,119
+repurposing must be really good it's
+
+1026
+00:43:30,599 --> 00:43:33,720
+like we were really giving importance to
+
+1027
+00:43:32,119 --> 00:43:36,079
+direct repurposing sometimes we don't
+
+1028
+00:43:33,720 --> 00:43:38,800
+even have time to develop a need drug so
+
+1029
+00:43:36,079 --> 00:43:41,920
+can we learn the signatures of the other
+
+1030
+00:43:38,800 --> 00:43:44,520
+drugs to infer something about like okay
+
+1031
+00:43:41,920 --> 00:43:46,880
+uh this drug actually in the goal lab I
+
+1032
+00:43:44,520 --> 00:43:49,359
+think stepen Corel had the paper right
+
+1033
+00:43:46,880 --> 00:43:52,240
+he was showing some non uncol drugs can
+
+1034
+00:43:49,359 --> 00:43:54,280
+be used for cancer as well so this is
+
+1035
+00:43:52,240 --> 00:43:56,520
+the main biological goal but it's a
+
+1036
+00:43:54,280 --> 00:43:59,280
+mathematically missing data problem
+
+1037
+00:43:56,520 --> 00:44:02,160
+right so here in this kind of this is a
+
+1038
+00:43:59,280 --> 00:44:03,920
+paper triy this one and in this kind of
+
+1039
+00:44:02,160 --> 00:44:05,359
+missing data problems people try
+
+1040
+00:44:03,920 --> 00:44:07,920
+different things these are kind of
+
+1041
+00:44:05,359 --> 00:44:10,800
+simple methods but one of them actually
+
+1042
+00:44:07,920 --> 00:44:14,040
+you have your tensor can you find your
+
+1043
+00:44:10,800 --> 00:44:16,200
+low rank approximation and use this
+
+1044
+00:44:14,040 --> 00:44:18,839
+approximation latent factor to rebuild
+
+1045
+00:44:16,200 --> 00:44:20,559
+your tensor but I will also discuss
+
+1046
+00:44:18,839 --> 00:44:22,359
+there are multiple limitations in this
+
+1047
+00:44:20,559 --> 00:44:25,760
+approaches as well here they just use
+
+1048
+00:44:22,359 --> 00:44:29,079
+CPD composition it might not be best way
+
+1049
+00:44:25,760 --> 00:44:30,920
+to approach this kind of questions the
+
+1050
+00:44:29,079 --> 00:44:33,160
+self specific prediction and application
+
+1051
+00:44:30,920 --> 00:44:35,520
+of drug indust expression profiles this
+
+1052
+00:44:33,160 --> 00:44:38,079
+is the paper so I will
+
+1053
+00:44:35,520 --> 00:44:41,000
+discuss using low rank approximation
+
+1054
+00:44:38,079 --> 00:44:43,079
+directly might not be best because next
+
+1055
+00:44:41,000 --> 00:44:45,079
+talk we will discuss that CPD
+
+1056
+00:44:43,079 --> 00:44:47,520
+compositions are not convex Also let's
+
+1057
+00:44:45,079 --> 00:44:49,559
+say you have a matrix with totally empty
+
+1058
+00:44:47,520 --> 00:44:51,800
+column when you do factorization this
+
+1059
+00:44:49,559 --> 00:44:53,920
+empty column when you try to inut will
+
+1060
+00:44:51,800 --> 00:44:55,839
+come as one one one one one right you
+
+1061
+00:44:53,920 --> 00:44:57,920
+should try to avoid this kind of like it
+
+1062
+00:44:55,839 --> 00:45:01,359
+will just try to take everything sh
+
+1063
+00:44:57,920 --> 00:45:06,040
+out um just for a reminder was CPD the
+
+1064
+00:45:01,359 --> 00:45:07,720
+one where where the um old equal each
+
+1065
+00:45:06,040 --> 00:45:09,760
+yeah right thank you again this is not
+
+1066
+00:45:07,720 --> 00:45:12,920
+the best one it's the most simple one
+
+1067
+00:45:09,760 --> 00:45:14,640
+it's commonly used right it's like
+
+1068
+00:45:12,920 --> 00:45:16,599
+because people get used to it it's
+
+1069
+00:45:14,640 --> 00:45:19,040
+already transferring from matrices the
+
+1070
+00:45:16,599 --> 00:45:21,599
+tensors took time and transferring from
+
+1071
+00:45:19,040 --> 00:45:23,960
+CP to other metods will take more
+
+1072
+00:45:21,599 --> 00:45:26,640
+time we will discuss in the next talk
+
+1073
+00:45:23,960 --> 00:45:29,079
+what are the limitations of C so now I
+
+1074
+00:45:26,640 --> 00:45:31,599
+will Rego this one like missing data
+
+1075
+00:45:29,079 --> 00:45:33,800
+problems so and I want to give which
+
+1076
+00:45:31,599 --> 00:45:36,200
+kind of research idea which kind of
+
+1077
+00:45:33,800 --> 00:45:37,880
+research is available in tensor methods
+
+1078
+00:45:36,200 --> 00:45:40,280
+one part is actually goes there are
+
+1079
+00:45:37,880 --> 00:45:42,960
+different uh groups one part very
+
+1080
+00:45:40,280 --> 00:45:44,920
+optimization based one part is very
+
+1081
+00:45:42,960 --> 00:45:46,599
+algebraic geometry because this stuff
+
+1082
+00:45:44,920 --> 00:45:49,400
+rank one tens correspond to Second
+
+1083
+00:45:46,599 --> 00:45:53,000
+varieties and stuff right one part also
+
+1084
+00:45:49,400 --> 00:45:54,359
+very data Orient oriented so actually
+
+1085
+00:45:53,000 --> 00:45:56,559
+whatever you are doing is you are
+
+1086
+00:45:54,359 --> 00:46:00,000
+generalizing Concepts from matrices to
+
+1087
+00:45:56,559 --> 00:46:02,599
+high M so if it's always good to start
+
+1088
+00:46:00,000 --> 00:46:05,359
+from matrices for missing data let's see
+
+1089
+00:46:02,599 --> 00:46:08,680
+what they are doing for matrices I have
+
+1090
+00:46:05,359 --> 00:46:11,040
+a x is like data with Miss Missing
+
+1091
+00:46:08,680 --> 00:46:12,480
+entries they do kind of there are
+
+1092
+00:46:11,040 --> 00:46:16,440
+different ways for the Matrix
+
+1093
+00:46:12,480 --> 00:46:19,880
+factorization uh uh base approaches they
+
+1094
+00:46:16,440 --> 00:46:22,680
+do approximation right uh to lower ring
+
+1095
+00:46:19,880 --> 00:46:24,599
+approximation plus and noise but if you
+
+1096
+00:46:22,680 --> 00:46:26,640
+do low rank approximation actually back
+
+1097
+00:46:24,599 --> 00:46:29,119
+in time they were doing minimizing the
+
+1098
+00:46:26,640 --> 00:46:30,960
+rank of the approximation right it will
+
+1099
+00:46:29,119 --> 00:46:34,119
+already have imputed values but this not
+
+1100
+00:46:30,960 --> 00:46:36,079
+a rank is not a convex U how say rank is
+
+1101
+00:46:34,119 --> 00:46:38,920
+not convex so it doesn't give you conx
+
+1102
+00:46:36,079 --> 00:46:41,240
+problem and people were trying different
+
+1103
+00:46:38,920 --> 00:46:43,880
+ways one of the ones they tried and it's
+
+1104
+00:46:41,240 --> 00:46:46,000
+very solid is nuclear Norm so they said
+
+1105
+00:46:43,880 --> 00:46:48,440
+instead of minimizing the rank of the
+
+1106
+00:46:46,000 --> 00:46:50,319
+Matrix they minimize like some of
+
+1107
+00:46:48,440 --> 00:46:53,760
+singular values they minimize the
+
+1108
+00:46:50,319 --> 00:46:55,640
+nuclear Norm of matrices so lots of
+
+1109
+00:46:53,760 --> 00:46:58,480
+theou groups actually they are trying to
+
+1110
+00:46:55,640 --> 00:47:00,040
+do this one for t level right I also
+
+1111
+00:46:58,480 --> 00:47:01,960
+work on this one but nuclear Norm of
+
+1112
+00:47:00,040 --> 00:47:04,280
+tensor is something you can approximate
+
+1113
+00:47:01,960 --> 00:47:06,920
+there is lots of research here we cannot
+
+1114
+00:47:04,280 --> 00:47:09,920
+exactly find it right nuclear Norm
+
+1115
+00:47:06,920 --> 00:47:12,599
+convex Tade of for rank for matrices for
+
+1116
+00:47:09,920 --> 00:47:14,680
+ters as well if you can compute I will
+
+1117
+00:47:12,599 --> 00:47:16,359
+just give like this is a question how
+
+1118
+00:47:14,680 --> 00:47:18,480
+and I will give a case study which use
+
+1119
+00:47:16,359 --> 00:47:21,400
+this definition they try to
+
+1120
+00:47:18,480 --> 00:47:23,599
+approximate nuclear Norm for T SE let's
+
+1121
+00:47:21,400 --> 00:47:25,160
+say you have a three-way tensor you are
+
+1122
+00:47:23,599 --> 00:47:27,920
+factorizing and you are trying to
+
+1123
+00:47:25,160 --> 00:47:32,559
+minimize some of coent this is the CP de
+
+1124
+00:47:27,920 --> 00:47:34,640
+composition Lambda * UI v i w i rank is
+
+1125
+00:47:32,559 --> 00:47:37,440
+equal in each domain so we set I is from
+
+1126
+00:47:34,640 --> 00:47:41,200
+one to R it's like some of R rank on
+
+1127
+00:47:37,440 --> 00:47:45,359
+tensors right every Vector has a norm
+
+1128
+00:47:41,200 --> 00:47:48,800
+one here Norm of UI VI W is equal to one
+
+1129
+00:47:45,359 --> 00:47:51,520
+and we are trying to minimize some of
+
+1130
+00:47:48,800 --> 00:47:53,559
+lambas because they look similar to
+
+1131
+00:47:51,520 --> 00:47:55,319
+singular values of matrices this Al
+
+1132
+00:47:53,559 --> 00:47:57,359
+another domain what could be the
+
+1133
+00:47:55,319 --> 00:47:59,800
+singular value decomposition of 10 aners
+
+1134
+00:47:57,359 --> 00:48:01,520
+can you find autopal decompositions this
+
+1135
+00:47:59,800 --> 00:48:03,920
+actually also different domain to work
+
+1136
+00:48:01,520 --> 00:48:05,359
+as well so this is called nuclear
+
+1137
+00:48:03,920 --> 00:48:07,359
+decomposition and people use
+
+1138
+00:48:05,359 --> 00:48:09,880
+approximations of this one because it
+
+1139
+00:48:07,359 --> 00:48:12,079
+promotes par intensity DEC composition
+
+1140
+00:48:09,880 --> 00:48:14,480
+encorage simpler low rank representation
+
+1141
+00:48:12,079 --> 00:48:16,240
+of multi-dimensional data and it's a big
+
+1142
+00:48:14,480 --> 00:48:19,280
+resource for data
+
+1143
+00:48:16,240 --> 00:48:21,920
+imputation and and for example there is
+
+1144
+00:48:19,280 --> 00:48:25,559
+this study I will go quickly because I
+
+1145
+00:48:21,920 --> 00:48:28,800
+want to speak about last T interactions
+
+1146
+00:48:25,559 --> 00:48:31,319
+they use for uh imputing single sty data
+
+1147
+00:48:28,800 --> 00:48:33,400
+in single sty data we have lots of
+
+1148
+00:48:31,319 --> 00:48:35,720
+missing points because of the Dropout
+
+1149
+00:48:33,400 --> 00:48:38,839
+effect in they use different published
+
+1150
+00:48:35,720 --> 00:48:42,079
+data sets here and they compare their
+
+1151
+00:48:38,839 --> 00:48:45,559
+method for drct impute sa s impute magic
+
+1152
+00:48:42,079 --> 00:48:47,960
+cmf impute this uh is this consense
+
+1153
+00:48:45,559 --> 00:48:50,119
+Matrix factorization here what happens
+
+1154
+00:48:47,960 --> 00:48:52,760
+actually just to go quickly they start
+
+1155
+00:48:50,119 --> 00:48:55,480
+from a single cell data and they get
+
+1156
+00:48:52,760 --> 00:48:57,359
+tensor out of it maybe just go quickly
+
+1157
+00:48:55,480 --> 00:48:59,480
+over it for one cell here they are
+
+1158
+00:48:57,359 --> 00:49:02,760
+looking at here in correlation and they
+
+1159
+00:48:59,480 --> 00:49:05,119
+find K nearest cells and they they get a
+
+1160
+00:49:02,760 --> 00:49:08,000
+matrix for every cell and they look at
+
+1161
+00:49:05,119 --> 00:49:10,680
+different type of so this Matrix they
+
+1162
+00:49:08,000 --> 00:49:13,400
+vectorize every Matrix and they look at
+
+1163
+00:49:10,680 --> 00:49:16,000
+different kind of distances between
+
+1164
+00:49:13,400 --> 00:49:19,400
+these matrices they find the P closest
+
+1165
+00:49:16,000 --> 00:49:23,280
+one so for one cell you have P Matrix K
+
+1166
+00:49:19,400 --> 00:49:25,880
+* m * P right and they do tensor
+
+1167
+00:49:23,280 --> 00:49:28,040
+imputation by approximating the nuclear
+
+1168
+00:49:25,880 --> 00:49:30,920
+Norm it Bec becomes more powerful than
+
+1169
+00:49:28,040 --> 00:49:33,040
+the like classical CPD compositions
+
+1170
+00:49:30,920 --> 00:49:35,200
+because CPD composition based imputation
+
+1171
+00:49:33,040 --> 00:49:38,040
+they just look at the low range and they
+
+1172
+00:49:35,200 --> 00:49:40,079
+integrate and they imput their data on
+
+1173
+00:49:38,040 --> 00:49:43,000
+this uh five different actually there is
+
+1174
+00:49:40,079 --> 00:49:46,240
+more data set and it's uh performing
+
+1175
+00:49:43,000 --> 00:49:49,119
+better than it's kind of 2021 paper all
+
+1176
+00:49:46,240 --> 00:49:53,720
+that methods which were popular at that
+
+1177
+00:49:49,119 --> 00:49:55,680
+time okay I have time or couple okay so
+
+1178
+00:49:53,720 --> 00:49:57,280
+I want to quickly go over in the one of
+
+1179
+00:49:55,680 --> 00:49:59,480
+the last application
+
+1180
+00:49:57,280 --> 00:50:02,119
+but there are more application here I
+
+1181
+00:49:59,480 --> 00:50:04,520
+like putting as uh as the last one so we
+
+1182
+00:50:02,119 --> 00:50:06,680
+will speak about s signaling so we know
+
+1183
+00:50:04,520 --> 00:50:08,839
+that communication is key so I really
+
+1184
+00:50:06,680 --> 00:50:11,720
+like this game of a telephone you start
+
+1185
+00:50:08,839 --> 00:50:14,000
+from some uh words and you whisper then
+
+1186
+00:50:11,720 --> 00:50:16,079
+you whisper sometimes you can start like
+
+1187
+00:50:14,000 --> 00:50:18,079
+a message that I love mango smoothies
+
+1188
+00:50:16,079 --> 00:50:21,160
+that are super sore and you can end up
+
+1189
+00:50:18,079 --> 00:50:23,920
+Mangus give super powers I knew it right
+
+1190
+00:50:21,160 --> 00:50:25,520
+so it can get complicated so we don't uh
+
+1191
+00:50:23,920 --> 00:50:27,240
+we want to understand actually how our
+
+1192
+00:50:25,520 --> 00:50:30,040
+STS are communicating I hope they're not
+
+1193
+00:50:27,240 --> 00:50:31,960
+communicating like that but in some
+
+1194
+00:50:30,040 --> 00:50:34,079
+sometimes when you have diseases or when
+
+1195
+00:50:31,960 --> 00:50:36,799
+you have cancer in the environment maybe
+
+1196
+00:50:34,079 --> 00:50:38,359
+communication actually get blinded right
+
+1197
+00:50:36,799 --> 00:50:40,359
+communication gets problem so it's
+
+1198
+00:50:38,359 --> 00:50:41,960
+really important to understand this um
+
+1199
+00:50:40,359 --> 00:50:45,839
+Li receptor interactions and
+
+1200
+00:50:41,960 --> 00:50:48,119
+communication pway so here quickly so
+
+1201
+00:50:45,839 --> 00:50:50,960
+here it is one of the type of the
+
+1202
+00:50:48,119 --> 00:50:54,359
+communication pattern we have not the
+
+1203
+00:50:50,960 --> 00:50:56,440
+only interactions and our standing cells
+
+1204
+00:50:54,359 --> 00:50:58,160
+send these moleculars which we call
+
+1205
+00:50:56,440 --> 00:51:01,359
+light and our target cells have
+
+1206
+00:50:58,160 --> 00:51:03,240
+receptors right right liant cell and
+
+1207
+00:51:01,359 --> 00:51:05,079
+receptor should meet and how we
+
+1208
+00:51:03,240 --> 00:51:07,319
+understand if these cells have Li
+
+1209
+00:51:05,079 --> 00:51:10,280
+receptor PS we look at gene expression
+
+1210
+00:51:07,319 --> 00:51:12,640
+for corresponding Li and receptor and if
+
+1211
+00:51:10,280 --> 00:51:14,359
+this Li and receptor meet and it creates
+
+1212
+00:51:12,640 --> 00:51:18,119
+a response
+
+1213
+00:51:14,359 --> 00:51:22,839
+right and here I will see quickly case
+
+1214
+00:51:18,119 --> 00:51:24,720
+study uh 2022 paper Tor cell to cell so
+
+1215
+00:51:22,839 --> 00:51:27,280
+this is to understand L and receptor
+
+1216
+00:51:24,720 --> 00:51:29,359
+interactions uh for different context so
+
+1217
+00:51:27,280 --> 00:51:30,960
+they have again their sender side
+
+1218
+00:51:29,359 --> 00:51:33,200
+receiver side they look at the LI
+
+1219
+00:51:30,960 --> 00:51:35,880
+receptor payers again you can look at
+
+1220
+00:51:33,200 --> 00:51:37,280
+every expression for the specific L and
+
+1221
+00:51:35,880 --> 00:51:39,559
+receptor they do also sometimes
+
+1222
+00:51:37,280 --> 00:51:42,040
+geometric means different things to
+
+1223
+00:51:39,559 --> 00:51:44,319
+calculate communication score but think
+
+1224
+00:51:42,040 --> 00:51:46,319
+about you have different standard set
+
+1225
+00:51:44,319 --> 00:51:48,359
+and receiver set and you are looking at
+
+1226
+00:51:46,319 --> 00:51:51,400
+different like receptor payers you have
+
+1227
+00:51:48,359 --> 00:51:53,119
+multiple matrices they form a 3D
+
+1228
+00:51:51,400 --> 00:51:55,599
+communication
+
+1229
+00:51:53,119 --> 00:51:57,200
+tensor and you can also look at
+
+1230
+00:51:55,599 --> 00:51:59,839
+different context
+
+1231
+00:51:57,200 --> 00:52:01,839
+like time points study object body size
+
+1232
+00:51:59,839 --> 00:52:03,880
+disease condition and different context
+
+1233
+00:52:01,839 --> 00:52:06,599
+will give the fourth dimension and
+
+1234
+00:52:03,880 --> 00:52:09,440
+actually they are looking for 4D uh
+
+1235
+00:52:06,599 --> 00:52:12,000
+communication tensor this context aware
+
+1236
+00:52:09,440 --> 00:52:14,839
+communication tensor again they applied
+
+1237
+00:52:12,000 --> 00:52:17,160
+haer the composition in here again I
+
+1238
+00:52:14,839 --> 00:52:19,920
+also have some questions have to say
+
+1239
+00:52:17,160 --> 00:52:21,799
+Improvement suggestions for that and
+
+1240
+00:52:19,920 --> 00:52:24,160
+choice of the rank was not really given
+
+1241
+00:52:21,799 --> 00:52:25,680
+in there and next talk we will decide
+
+1242
+00:52:24,160 --> 00:52:28,480
+okay how to make sure about the rank
+
+1243
+00:52:25,680 --> 00:52:30,079
+stabil factors ation and they assume
+
+1244
+00:52:28,480 --> 00:52:32,440
+normal noise which is not always true
+
+1245
+00:52:30,079 --> 00:52:34,960
+for genomics but they were able to find
+
+1246
+00:52:32,440 --> 00:52:37,520
+Lon receptor payer activated in specific
+
+1247
+00:52:34,960 --> 00:52:39,440
+standard and receptor cells uh for
+
+1248
+00:52:37,520 --> 00:52:40,559
+different context for example what they
+
+1249
+00:52:39,440 --> 00:52:43,799
+were able to
+
+1250
+00:52:40,559 --> 00:52:45,799
+find they identify multiple modules
+
+1251
+00:52:43,799 --> 00:52:49,599
+associated with distant communication
+
+1252
+00:52:45,799 --> 00:52:51,960
+processes like uh Li receptor
+
+1253
+00:52:49,599 --> 00:52:55,520
+interactions linked to sever of Corona
+
+1254
+00:52:51,960 --> 00:52:57,880
+virus disease and autism spetic disorder
+
+1255
+00:52:55,520 --> 00:53:00,640
+and I just want to speak about something
+
+1256
+00:52:57,880 --> 00:53:03,040
+now we also have spal data it could it
+
+1257
+00:53:00,640 --> 00:53:06,440
+can be used in this context so when we
+
+1258
+00:53:03,040 --> 00:53:08,599
+find L receptor pairs we hypothetically
+
+1259
+00:53:06,440 --> 00:53:11,079
+say that okay I think this Li receptor
+
+1260
+00:53:08,599 --> 00:53:13,280
+interaction must be happening but in
+
+1261
+00:53:11,079 --> 00:53:15,119
+some cases right in this cases if these
+
+1262
+00:53:13,280 --> 00:53:17,079
+cells are not close to each other it's
+
+1263
+00:53:15,119 --> 00:53:19,599
+not possible so we have special
+
+1264
+00:53:17,079 --> 00:53:22,480
+transcriptomics data you could also
+
+1265
+00:53:19,599 --> 00:53:25,319
+embed spal maps and you could also make
+
+1266
+00:53:22,480 --> 00:53:27,240
+specially aware algorithm to find Li
+
+1267
+00:53:25,319 --> 00:53:29,480
+receptor pairs it would improved version
+
+1268
+00:53:27,240 --> 00:53:32,440
+of this one I give my research ideas if
+
+1269
+00:53:29,480 --> 00:53:34,200
+you're working on it invite me as well
+
+1270
+00:53:32,440 --> 00:53:36,599
+okay last thing so I couldn't cover
+
+1271
+00:53:34,200 --> 00:53:39,559
+everything so I have a master class in
+
+1272
+00:53:36,599 --> 00:53:41,920
+University of Toronto November 25 to 29
+
+1273
+00:53:39,559 --> 00:53:44,559
+it will be available over Zoom which is
+
+1274
+00:53:41,920 --> 00:53:46,640
+free registration right so if it's like
+
+1275
+00:53:44,559 --> 00:53:48,599
+a 10 lectures it will start from the
+
+1276
+00:53:46,640 --> 00:53:51,079
+basic how we can apply these models it
+
+1277
+00:53:48,599 --> 00:53:52,920
+will use different toolboxes there are
+
+1278
+00:53:51,079 --> 00:53:55,559
+different toolboxes available for tens
+
+1279
+00:53:52,920 --> 00:53:58,280
+methods tly is python based tensor la
+
+1280
+00:53:55,559 --> 00:54:00,640
+forat la package t toolbx for again
+
+1281
+00:53:58,280 --> 00:54:02,520
+Matlab my group is using all three so I
+
+1282
+00:54:00,640 --> 00:54:04,119
+will have to cover all three so we will
+
+1283
+00:54:02,520 --> 00:54:07,400
+go through all these applications on
+
+1284
+00:54:04,119 --> 00:54:09,359
+real data set and our survey paper on
+
+1285
+00:54:07,400 --> 00:54:11,160
+tensor Bas approaching for omix data
+
+1286
+00:54:09,359 --> 00:54:13,160
+analysis application challenges and
+
+1287
+00:54:11,160 --> 00:54:15,160
+future directions coming soon Amir is my
+
+1288
+00:54:13,160 --> 00:54:17,680
+PhD student he's here Daniel was in
+
+1289
+00:54:15,160 --> 00:54:20,640
+broth Institute now he's in upan medical
+
+1290
+00:54:17,680 --> 00:54:20,640
+school thank
+
+1291
+00:54:23,559 --> 00:54:29,160
+you so as promised in the first talk uh
+
+1292
+00:54:26,920 --> 00:54:31,119
+we are going to discuss like limitations
+
+1293
+00:54:29,160 --> 00:54:33,599
+with the some existing methods and I'm
+
+1294
+00:54:31,119 --> 00:54:36,960
+going to uh give a more probabilistic
+
+1295
+00:54:33,599 --> 00:54:38,839
+model consensus ztf which is like stable
+
+1296
+00:54:36,960 --> 00:54:41,000
+tensor factorization which is developed
+
+1297
+00:54:38,839 --> 00:54:43,640
+for zero zero inflated multi-dimensional
+
+1298
+00:54:41,000 --> 00:54:45,200
+data which works perfect for omix data
+
+1299
+00:54:43,640 --> 00:54:48,839
+we give like technical details
+
+1300
+00:54:45,200 --> 00:54:51,319
+development of the algorithm and
+
+1301
+00:54:48,839 --> 00:54:53,280
+applications okay so here we discussed
+
+1302
+00:54:51,319 --> 00:54:55,920
+some tensor methods now it's time to
+
+1303
+00:54:53,280 --> 00:54:58,200
+Rego over it quickly and then discuss
+
+1304
+00:54:55,920 --> 00:55:01,280
+some ch challenges with the existing
+
+1305
+00:54:58,200 --> 00:55:04,520
+beloved methods right so here we
+
+1306
+00:55:01,280 --> 00:55:06,559
+discussed aop paraa just remind of some
+
+1307
+00:55:04,520 --> 00:55:10,000
+people might have missed the first talk
+
+1308
+00:55:06,559 --> 00:55:12,280
+right so let's say we have this tensor
+
+1309
+00:55:10,000 --> 00:55:14,400
+like we are looking at how gen
+
+1310
+00:55:12,280 --> 00:55:17,079
+expression is changing across different
+
+1311
+00:55:14,400 --> 00:55:18,680
+cell types for different donors right it
+
+1312
+00:55:17,079 --> 00:55:20,400
+it could be also across different
+
+1313
+00:55:18,680 --> 00:55:24,480
+tissues and different donors it's like a
+
+1314
+00:55:20,400 --> 00:55:26,559
+multi sample uh gene expression data and
+
+1315
+00:55:24,480 --> 00:55:30,160
+like one of the simple method we use we
+
+1316
+00:55:26,559 --> 00:55:32,520
+said like uh kand par de composition I
+
+1317
+00:55:30,160 --> 00:55:34,960
+will call it CP de composition we are
+
+1318
+00:55:32,520 --> 00:55:37,480
+reducing the ranks you can start working
+
+1319
+00:55:34,960 --> 00:55:39,280
+with 20,000 genes but again what you
+
+1320
+00:55:37,480 --> 00:55:41,200
+care about like metag genes or Gene
+
+1321
+00:55:39,280 --> 00:55:43,319
+cluster gene expression patterns maybe
+
+1322
+00:55:41,200 --> 00:55:45,480
+you have like 10 gene expression main
+
+1323
+00:55:43,319 --> 00:55:48,119
+tangent expression pattern which is D
+
+1324
+00:55:45,480 --> 00:55:50,799
+driven by different s Ty conditions and
+
+1325
+00:55:48,119 --> 00:55:54,400
+donor conditions that's what we try to
+
+1326
+00:55:50,799 --> 00:55:56,880
+find right so we have uh in this case we
+
+1327
+00:55:54,400 --> 00:55:58,920
+will have number of donors times are it
+
+1328
+00:55:56,880 --> 00:56:01,200
+will give us donor factors and we
+
+1329
+00:55:58,920 --> 00:56:05,039
+discuss how we can use donor factors
+
+1330
+00:56:01,200 --> 00:56:07,480
+let's say I have 200 patients but maybe
+
+1331
+00:56:05,039 --> 00:56:09,640
+there are four five condition like for
+
+1332
+00:56:07,480 --> 00:56:13,680
+example disease non disease subtype of
+
+1333
+00:56:09,640 --> 00:56:15,680
+the cancer which drives uh like uh which
+
+1334
+00:56:13,680 --> 00:56:17,440
+drives different kind of gene expression
+
+1335
+00:56:15,680 --> 00:56:20,720
+pattern so that's what we are trying to
+
+1336
+00:56:17,440 --> 00:56:23,839
+find as donor factors uh it will help us
+
+1337
+00:56:20,720 --> 00:56:27,160
+to find subtypes like different donor
+
+1338
+00:56:23,839 --> 00:56:28,240
+conditions and here actually there's a
+
+1339
+00:56:27,160 --> 00:56:32,039
+I
+
+1340
+00:56:28,240 --> 00:56:35,880
+was there's a question on Zoom okay okay
+
+1341
+00:56:32,039 --> 00:56:38,319
+yeah maybe I'll ask it okay okay and
+
+1342
+00:56:35,880 --> 00:56:43,119
+then we will have Gene factors and we we
+
+1343
+00:56:38,319 --> 00:56:45,520
+have donor factors here sat factors and
+
+1344
+00:56:43,119 --> 00:56:47,559
+we give kind of examples how rank one
+
+1345
+00:56:45,520 --> 00:56:49,760
+tens looks like but we will give more
+
+1346
+00:56:47,559 --> 00:56:51,599
+examples when we discuss application of
+
+1347
+00:56:49,760 --> 00:56:53,599
+our method so if people miss the first
+
+1348
+00:56:51,599 --> 00:56:56,039
+talk they will still see like how to
+
+1349
+00:56:53,599 --> 00:56:57,760
+interpret this factorization so again
+
+1350
+00:56:56,039 --> 00:56:59,720
+what what's happening mathematically we
+
+1351
+00:56:57,760 --> 00:57:02,039
+have this tensor and we are writing this
+
+1352
+00:56:59,720 --> 00:57:04,000
+one some of rank one tensor so rank one
+
+1353
+00:57:02,039 --> 00:57:06,640
+tensor we set actually we get this one
+
+1354
+00:57:04,000 --> 00:57:08,960
+like other product of these vectors we
+
+1355
+00:57:06,640 --> 00:57:12,640
+have Gene latent factor if you have
+
+1356
+00:57:08,960 --> 00:57:14,839
+20,000 genes this one has length 20,000
+
+1357
+00:57:12,640 --> 00:57:17,200
+cell typ latent factor if we have 10
+
+1358
+00:57:14,839 --> 00:57:19,039
+cell types this one has length 10 and
+
+1359
+00:57:17,200 --> 00:57:23,000
+every entry is like the loading
+
+1360
+00:57:19,039 --> 00:57:26,200
+significance of the St types for this um
+
+1361
+00:57:23,000 --> 00:57:28,119
+for this profile and like we have some
+
+1362
+00:57:26,200 --> 00:57:33,079
+samples latent factor again if you have
+
+1363
+00:57:28,119 --> 00:57:36,920
+two 200 samples then you have like 200
+
+1364
+00:57:33,079 --> 00:57:39,119
+length Vector here so we have like we
+
+1365
+00:57:36,920 --> 00:57:41,000
+take the other product of these ones
+
+1366
+00:57:39,119 --> 00:57:42,520
+right this becomes unit of an expression
+
+1367
+00:57:41,000 --> 00:57:44,480
+pattern and we are trying to see how
+
+1368
+00:57:42,520 --> 00:57:46,440
+much of these expression patterns we
+
+1369
+00:57:44,480 --> 00:57:49,680
+have we do lower rank
+
+1370
+00:57:46,440 --> 00:57:52,280
+approximation and so here there is again
+
+1371
+00:57:49,680 --> 00:57:55,079
+we actually approximate our tensor is an
+
+1372
+00:57:52,280 --> 00:57:56,880
+approximation plus a noise right we
+
+1373
+00:57:55,079 --> 00:57:59,960
+discussed this one actually it is again
+
+1374
+00:57:56,880 --> 00:58:02,680
+getting three different matrices one for
+
+1375
+00:57:59,960 --> 00:58:05,280
+genes if I take all genes latent factor
+
+1376
+00:58:02,680 --> 00:58:07,680
+together I will form Gene latent factor
+
+1377
+00:58:05,280 --> 00:58:10,119
+if I get all s types latent factors
+
+1378
+00:58:07,680 --> 00:58:14,119
+together I will get a big Matrix of sell
+
+1379
+00:58:10,119 --> 00:58:17,000
+typ latent factors as move okay I need
+
+1380
+00:58:14,119 --> 00:58:19,119
+to learn how to use this it's like and
+
+1381
+00:58:17,000 --> 00:58:22,200
+for the samples as well okay what we
+
+1382
+00:58:19,119 --> 00:58:25,039
+didn't discuss next time here classical
+
+1383
+00:58:22,200 --> 00:58:27,480
+CP decompositions and classical tens
+
+1384
+00:58:25,039 --> 00:58:30,200
+factorization back time it's develop and
+
+1385
+00:58:27,480 --> 00:58:32,760
+it's heavily used in image images but
+
+1386
+00:58:30,200 --> 00:58:35,240
+it's okay to in this case assume Goan
+
+1387
+00:58:32,760 --> 00:58:37,359
+noise but when we are working on like
+
+1388
+00:58:35,240 --> 00:58:39,799
+real word application it's not like we
+
+1389
+00:58:37,359 --> 00:58:41,480
+don't always have a normal noise so here
+
+1390
+00:58:39,799 --> 00:58:45,400
+one of the question we will address in
+
+1391
+00:58:41,480 --> 00:58:47,480
+this call uh talk how to truly
+
+1392
+00:58:45,400 --> 00:58:49,359
+incorporate the distribution of the data
+
+1393
+00:58:47,480 --> 00:58:52,160
+which kind of noise assumptions we can
+
+1394
+00:58:49,359 --> 00:58:54,520
+have right also how to choose the rank
+
+1395
+00:58:52,160 --> 00:58:56,880
+this is a really hard question it's like
+
+1396
+00:58:54,520 --> 00:58:59,280
+because I don't know to start with I I
+
+1397
+00:58:56,880 --> 00:59:01,640
+will have a 10 expression patterns right
+
+1398
+00:58:59,280 --> 00:59:03,440
+how to choose the rank how to test for
+
+1399
+00:59:01,640 --> 00:59:05,640
+you are really choosing like a good
+
+1400
+00:59:03,440 --> 00:59:07,880
+fitting right and which kind of
+
+1401
+00:59:05,640 --> 00:59:10,119
+constraints we apply some people apply
+
+1402
+00:59:07,880 --> 00:59:12,799
+orthogonality but mostly I don't for I
+
+1403
+00:59:10,119 --> 00:59:15,480
+don't want to force Gene spaces to be
+
+1404
+00:59:12,799 --> 00:59:17,720
+orthogonal to each other I mostly assume
+
+1405
+00:59:15,480 --> 00:59:19,880
+non- negativity so that interpretation
+
+1406
+00:59:17,720 --> 00:59:21,680
+is easier but to non- negativity you
+
+1407
+00:59:19,880 --> 00:59:24,240
+should make sure that your data is non
+
+1408
+00:59:21,680 --> 00:59:26,359
+negative I know when you go through scai
+
+1409
+00:59:24,240 --> 00:59:27,920
+right you're normalizing your data you
+
+1410
+00:59:26,359 --> 00:59:29,920
+end up with negative numbers so make
+
+1411
+00:59:27,920 --> 00:59:31,599
+sure it's like if you use non- negative
+
+1412
+00:59:29,920 --> 00:59:36,359
+factorization you have non- negative
+
+1413
+00:59:31,599 --> 00:59:38,599
+entries and uniqueness again so there is
+
+1414
+00:59:36,359 --> 00:59:41,520
+a create big debate in this area so
+
+1415
+00:59:38,599 --> 00:59:43,680
+theoretically tensor decompositions but
+
+1416
+00:59:41,520 --> 00:59:45,559
+again we are not really finding exact
+
+1417
+00:59:43,680 --> 00:59:48,319
+factorization one thing actually we are
+
+1418
+00:59:45,559 --> 00:59:50,359
+finding approximation so theoretically
+
+1419
+00:59:48,319 --> 00:59:53,000
+if you find exact decomposition it's
+
+1420
+00:59:50,359 --> 00:59:54,960
+Unique under milder condition but we are
+
+1421
+00:59:53,000 --> 00:59:57,559
+in the real world we work with noisy
+
+1422
+00:59:54,960 --> 00:59:59,760
+data we find a approximation we will
+
+1423
+00:59:57,559 --> 01:00:01,720
+discuss uniqueness in the next slide
+
+1424
+00:59:59,760 --> 01:00:04,520
+factorization will not be unique and we
+
+1425
+01:00:01,720 --> 01:00:07,280
+will have to address it
+
+1426
+01:00:04,520 --> 01:00:09,640
+okay so here just to see what's
+
+1427
+01:00:07,280 --> 01:00:12,119
+happening in CPD composition so what we
+
+1428
+01:00:09,640 --> 01:00:15,200
+are trying to optimize again there are
+
+1429
+01:00:12,119 --> 01:00:17,039
+different methods for the optimization
+
+1430
+01:00:15,200 --> 01:00:19,720
+lots of optimization groups are trying
+
+1431
+01:00:17,039 --> 01:00:22,640
+to solve in different way I will give um
+
+1432
+01:00:19,720 --> 01:00:24,520
+not necessarily best but most common one
+
+1433
+01:00:22,640 --> 01:00:26,319
+most common again not necessarily best
+
+1434
+01:00:24,520 --> 01:00:27,599
+approach most common approach sometimes
+
+1435
+01:00:26,319 --> 01:00:28,359
+common approaches are common because
+
+1436
+01:00:27,599 --> 01:00:31,480
+they're
+
+1437
+01:00:28,359 --> 01:00:35,280
+simple right so here for CPD compos I
+
+1438
+01:00:31,480 --> 01:00:36,599
+have a tensor okay I have a tensor and
+
+1439
+01:00:35,280 --> 01:00:39,160
+I'm trying
+
+1440
+01:00:36,599 --> 01:00:42,359
+to I cannot use this one approximate
+
+1441
+01:00:39,160 --> 01:00:44,880
+with another tensor right so it's like
+
+1442
+01:00:42,359 --> 01:00:46,960
+we are trying to minimize the error we
+
+1443
+01:00:44,880 --> 01:00:49,240
+are trying to minimize the error right
+
+1444
+01:00:46,960 --> 01:00:51,640
+it's like the we use the forbus norm
+
+1445
+01:00:49,240 --> 01:00:54,400
+what do we introduced in the first talk
+
+1446
+01:00:51,640 --> 01:00:56,000
+it's like square of the entries and
+
+1447
+01:00:54,400 --> 01:00:56,880
+you're summing them and you are taking
+
+1448
+01:00:56,000 --> 01:00:59,319
+square
+
+1449
+01:00:56,880 --> 01:01:01,200
+root and most of the papers they are
+
+1450
+01:00:59,319 --> 01:01:03,319
+looking at explained variance like in
+
+1451
+01:01:01,200 --> 01:01:05,440
+PCA also we look at explained variance
+
+1452
+01:01:03,319 --> 01:01:07,119
+to see if it's is a good fitting
+
+1453
+01:01:05,440 --> 01:01:08,760
+algorithm but we will discuss that this
+
+1454
+01:01:07,119 --> 01:01:11,319
+is not enough we will go through
+
+1455
+01:01:08,760 --> 01:01:13,280
+different metrix as well so they kind of
+
+1456
+01:01:11,319 --> 01:01:16,039
+normalize the distance
+
+1457
+01:01:13,280 --> 01:01:18,799
+here okay normalize the distance and one
+
+1458
+01:01:16,039 --> 01:01:20,799
+minus distance if the fit is one it's a
+
+1459
+01:01:18,799 --> 01:01:22,599
+perfect approximation it means you
+
+1460
+01:01:20,799 --> 01:01:25,119
+recover everything it's hard to find
+
+1461
+01:01:22,599 --> 01:01:26,880
+unless you are working on synthetic data
+
+1462
+01:01:25,119 --> 01:01:28,119
+right we always first test our algorithm
+
+1463
+01:01:26,880 --> 01:01:29,839
+synthetic data is like oh we put
+
+1464
+01:01:28,119 --> 01:01:32,240
+everything and we recover them so
+
+1465
+01:01:29,839 --> 01:01:34,079
+perfect fit is one if you don't put
+
+1466
+01:01:32,240 --> 01:01:36,920
+noise right because it should also
+
+1467
+01:01:34,079 --> 01:01:39,960
+account for the noise and fit is zero
+
+1468
+01:01:36,920 --> 01:01:41,760
+when approximation is awful nothing is
+
+1469
+01:01:39,960 --> 01:01:44,720
+right I mean you wouldn't have zero you
+
+1470
+01:01:41,760 --> 01:01:47,280
+would a 0 point something right okay but
+
+1471
+01:01:44,720 --> 01:01:51,640
+to start with it's like I'm factorizing
+
+1472
+01:01:47,280 --> 01:01:54,880
+T2 three latent factor matrices G CS
+
+1473
+01:01:51,640 --> 01:01:57,559
+with rank is R is not a convex problem
+
+1474
+01:01:54,880 --> 01:01:59,440
+so it can be given as like three and
+
+1475
+01:01:57,559 --> 01:02:01,119
+minimizing so this like we are trying to
+
+1476
+01:01:59,440 --> 01:02:04,359
+minimize distance it can be given as
+
+1477
+01:02:01,119 --> 01:02:06,319
+three convex problems so to understand
+
+1478
+01:02:04,359 --> 01:02:09,119
+this for three way if we have 10 way
+
+1479
+01:02:06,319 --> 01:02:10,839
+it's 10 convex problems so understand
+
+1480
+01:02:09,119 --> 01:02:14,200
+this on we will go back in the primary
+
+1481
+01:02:10,839 --> 01:02:19,119
+we introduce unfoldings for example if I
+
+1482
+01:02:14,200 --> 01:02:22,319
+have a tensor of 10 * 20 * uh 6 I can
+
+1483
+01:02:19,119 --> 01:02:24,799
+write a matrix say 10 times 120 so I'm
+
+1484
+01:02:22,319 --> 01:02:30,039
+writing first mod unfolding then you can
+
+1485
+01:02:24,799 --> 01:02:33,279
+write uh 20 * 60 and this is second mode
+
+1486
+01:02:30,039 --> 01:02:36,440
+unfolding then you can write 6 * 200
+
+1487
+01:02:33,279 --> 01:02:38,559
+third uh right mode unfolding so you get
+
+1488
+01:02:36,440 --> 01:02:43,720
+three matrices unfolding appears in the
+
+1489
+01:02:38,559 --> 01:02:46,640
+optimization steps and so what the
+
+1490
+01:02:43,720 --> 01:02:49,240
+instability will come from so we start
+
+1491
+01:02:46,640 --> 01:02:51,279
+with the initial guess we have an
+
+1492
+01:02:49,240 --> 01:02:53,279
+initial guess for Gene latent factor
+
+1493
+01:02:51,279 --> 01:02:55,839
+sample latent factor so latent factor
+
+1494
+01:02:53,279 --> 01:02:58,240
+for three modality that's how you start
+
+1495
+01:02:55,839 --> 01:02:59,680
+for like alternating list Square here I
+
+1496
+01:02:58,240 --> 01:03:01,960
+fix
+
+1497
+01:02:59,680 --> 01:03:04,400
+CNS okay then I need to so we are going
+
+1498
+01:03:01,960 --> 01:03:07,200
+to solve for G this algorithm and we use
+
+1499
+01:03:04,400 --> 01:03:09,760
+like Leist Square here there is lots of
+
+1500
+01:03:07,200 --> 01:03:11,960
+tensor operations I will introduce this
+
+1501
+01:03:09,760 --> 01:03:14,079
+kind of operation as advertising master
+
+1502
+01:03:11,960 --> 01:03:16,000
+class that I advertised in the first
+
+1503
+01:03:14,079 --> 01:03:19,000
+talk like if you're interested to learn
+
+1504
+01:03:16,000 --> 01:03:21,279
+more about operations you can uh follow
+
+1505
+01:03:19,000 --> 01:03:23,720
+over Zoom I think it might be also
+
+1506
+01:03:21,279 --> 01:03:27,279
+recorded at some point and just posted
+
+1507
+01:03:23,720 --> 01:03:29,559
+so here we have C products it's like
+
+1508
+01:03:27,279 --> 01:03:31,400
+look at these ones these latent factor
+
+1509
+01:03:29,559 --> 01:03:33,200
+matrices they have the same number of
+
+1510
+01:03:31,400 --> 01:03:35,599
+columns because the number of columns is
+
+1511
+01:03:33,200 --> 01:03:38,200
+equal to rank right if the columns are
+
+1512
+01:03:35,599 --> 01:03:41,200
+matching you can take matching column
+
+1513
+01:03:38,200 --> 01:03:43,039
+wise um we call it chronical product
+
+1514
+01:03:41,200 --> 01:03:45,520
+actually you get the other product of
+
+1515
+01:03:43,039 --> 01:03:47,440
+vectors right because I have R column
+
+1516
+01:03:45,520 --> 01:03:50,319
+vectors I can just take the other
+
+1517
+01:03:47,440 --> 01:03:51,400
+products C1 G1 C2 G2 that's how you get
+
+1518
+01:03:50,319 --> 01:03:55,480
+a bigger
+
+1519
+01:03:51,400 --> 01:03:57,720
+Matrix and here we fix for C uh CNS and
+
+1520
+01:03:55,480 --> 01:04:00,520
+we are solving for G then we are fixing
+
+1521
+01:03:57,720 --> 01:04:03,359
+for S and G solving for C it goes like
+
+1522
+01:04:00,520 --> 01:04:05,480
+that until you hit a threshold so most
+
+1523
+01:04:03,359 --> 01:04:08,359
+it says then it goes back and look at
+
+1524
+01:04:05,480 --> 01:04:11,319
+the fit or look at the distance and it
+
+1525
+01:04:08,359 --> 01:04:13,680
+says right as in lot of algorithms okay
+
+1526
+01:04:11,319 --> 01:04:16,200
+if the result is not changing passing a
+
+1527
+01:04:13,680 --> 01:04:18,000
+threshold you stop but this since is not
+
+1528
+01:04:16,200 --> 01:04:20,720
+convex you don't have to go to Global
+
+1529
+01:04:18,000 --> 01:04:22,680
+minimum as well right we will see in
+
+1530
+01:04:20,720 --> 01:04:25,200
+some stable cases actually sometimes you
+
+1531
+01:04:22,680 --> 01:04:26,960
+can get stuck we call it one points so
+
+1532
+01:04:25,200 --> 01:04:29,920
+it may also happen and it's heavily
+
+1533
+01:04:26,960 --> 01:04:32,359
+dependent on the initial guess and there
+
+1534
+01:04:29,920 --> 01:04:34,279
+is a big other area I'm not very active
+
+1535
+01:04:32,359 --> 01:04:36,240
+in that area but I want to be active
+
+1536
+01:04:34,279 --> 01:04:39,559
+what is the good loss function So when
+
+1537
+01:04:36,240 --> 01:04:42,400
+you say two matrices let's say X and Y
+
+1538
+01:04:39,559 --> 01:04:44,920
+how you can uh say distance between
+
+1539
+01:04:42,400 --> 01:04:47,000
+these two Matrix actually same distance
+
+1540
+01:04:44,920 --> 01:04:49,520
+in the same way same similarity how you
+
+1541
+01:04:47,000 --> 01:04:51,720
+can say this Matrix X and Matrix y
+
+1542
+01:04:49,520 --> 01:04:54,720
+similar to each other sometimes people
+
+1543
+01:04:51,720 --> 01:04:57,960
+look at the um ukan Norm is like the
+
+1544
+01:04:54,720 --> 01:05:00,559
+forbus norm the same right squared
+
+1545
+01:04:57,960 --> 01:05:02,480
+errors right mean squared errors but in
+
+1546
+01:05:00,559 --> 01:05:05,520
+this case you are only looking like in
+
+1547
+01:05:02,480 --> 01:05:08,559
+the for minus Norm are they numerically
+
+1548
+01:05:05,520 --> 01:05:10,520
+close to each other right but like we
+
+1549
+01:05:08,559 --> 01:05:12,520
+might also care are they like as a
+
+1550
+01:05:10,520 --> 01:05:15,160
+distribution probabilistic to close each
+
+1551
+01:05:12,520 --> 01:05:17,520
+other right actually when you use a for
+
+1552
+01:05:15,160 --> 01:05:19,559
+minus Norm base CP de composition most
+
+1553
+01:05:17,520 --> 01:05:21,440
+of them you assume Go
+
+1554
+01:05:19,559 --> 01:05:24,160
+distribution right here there are
+
+1555
+01:05:21,440 --> 01:05:26,359
+different loss functions people use K
+
+1556
+01:05:24,160 --> 01:05:29,160
+lier I'm not going to go details but if
+
+1557
+01:05:26,359 --> 01:05:31,559
+you go distance Matrix with tensor uh
+
+1558
+01:05:29,160 --> 01:05:33,240
+tensors actually it's a big topic like
+
+1559
+01:05:31,559 --> 01:05:35,200
+sometimes they use more kernelized
+
+1560
+01:05:33,240 --> 01:05:37,079
+functions right and then they are
+
+1561
+01:05:35,200 --> 01:05:38,760
+looking at the similarity in this level
+
+1562
+01:05:37,079 --> 01:05:40,640
+so it also brings some
+
+1563
+01:05:38,760 --> 01:05:44,119
+nonlinearity just to say all the
+
+1564
+01:05:40,640 --> 01:05:47,079
+decomposition methods I um explained
+
+1565
+01:05:44,119 --> 01:05:49,079
+today they are multilinear because of
+
+1566
+01:05:47,079 --> 01:05:51,640
+also lost functions and structures they
+
+1567
+01:05:49,079 --> 01:05:53,359
+can find Multi linear patterns but with
+
+1568
+01:05:51,640 --> 01:05:57,160
+these ones I discussed today you cannot
+
+1569
+01:05:53,359 --> 01:05:59,240
+find nonlinear patterns yet
+
+1570
+01:05:57,160 --> 01:06:01,400
+so again we will discuss these ones and
+
+1571
+01:05:59,240 --> 01:06:03,279
+before going deeper discussion and I
+
+1572
+01:06:01,400 --> 01:06:04,839
+want to say what are the classical
+
+1573
+01:06:03,279 --> 01:06:07,160
+approaches some people goes through
+
+1574
+01:06:04,839 --> 01:06:09,039
+maximum likelihood approach which is
+
+1575
+01:06:07,160 --> 01:06:11,640
+like as we discussed you are minimizing
+
+1576
+01:06:09,039 --> 01:06:13,680
+a distance and you put some
+
+1577
+01:06:11,640 --> 01:06:16,960
+constraints right in your Factor
+
+1578
+01:06:13,680 --> 01:06:20,119
+matrices you use uh your distance like
+
+1579
+01:06:16,960 --> 01:06:22,200
+most common ones again this for bions
+
+1580
+01:06:20,119 --> 01:06:24,720
+and probabbly sigma K Divergence but
+
+1581
+01:06:22,200 --> 01:06:27,680
+there are also like different groups are
+
+1582
+01:06:24,720 --> 01:06:29,640
+trying more probabilistic distances it's
+
+1583
+01:06:27,680 --> 01:06:31,880
+going to be actually how in the next
+
+1584
+01:06:29,640 --> 01:06:34,960
+year's area will get
+
+1585
+01:06:31,880 --> 01:06:36,319
+shape okay and there is Bean approach
+
+1586
+01:06:34,960 --> 01:06:38,799
+today we will use this kind of
+
+1587
+01:06:36,319 --> 01:06:40,720
+approaches so here most of the methods
+
+1588
+01:06:38,799 --> 01:06:42,680
+actually think that you have a normal
+
+1589
+01:06:40,720 --> 01:06:44,440
+distribution but in the approach I will
+
+1590
+01:06:42,680 --> 01:06:46,720
+follow today in our method I want to
+
+1591
+01:06:44,440 --> 01:06:48,480
+learn from the data what's the
+
+1592
+01:06:46,720 --> 01:06:50,039
+distribution of the data and I want to
+
+1593
+01:06:48,480 --> 01:06:52,400
+incorporate the through distribution of
+
+1594
+01:06:50,039 --> 01:06:55,559
+the data so here given the observe
+
+1595
+01:06:52,400 --> 01:06:58,920
+tensor and we are going to see tensor
+
+1596
+01:06:55,559 --> 01:07:01,720
+approximate ABC is it likely right like
+
+1597
+01:06:58,920 --> 01:07:03,880
+again we are factorizing this one in the
+
+1598
+01:07:01,720 --> 01:07:05,559
+goal in here is the estimate postered
+
+1599
+01:07:03,880 --> 01:07:08,359
+posterior distribution of the factor
+
+1600
+01:07:05,559 --> 01:07:10,880
+matrices given the observed tenser and
+
+1601
+01:07:08,359 --> 01:07:12,839
+any prior information you might have for
+
+1602
+01:07:10,880 --> 01:07:14,680
+single Sal data we have lot of reference
+
+1603
+01:07:12,839 --> 01:07:18,680
+and we have lot of Prior information
+
+1604
+01:07:14,680 --> 01:07:20,720
+about sparity right and prior
+
+1605
+01:07:18,680 --> 01:07:23,079
+information we will specify for the
+
+1606
+01:07:20,720 --> 01:07:25,640
+factor matrices and for our tensor by
+
+1607
+01:07:23,079 --> 01:07:27,920
+kind of imposing some distributions and
+
+1608
+01:07:25,640 --> 01:07:29,720
+we will have a hyper parameter set we
+
+1609
+01:07:27,920 --> 01:07:31,720
+impose the distributions but then we
+
+1610
+01:07:29,720 --> 01:07:33,160
+will actually ask the algorithm learn
+
+1611
+01:07:31,720 --> 01:07:36,240
+about the true
+
+1612
+01:07:33,160 --> 01:07:38,000
+distribution and posterior is this
+
+1613
+01:07:36,240 --> 01:07:39,839
+knowing your tensor and the hyper
+
+1614
+01:07:38,000 --> 01:07:41,960
+parameter set this the prior information
+
+1615
+01:07:39,839 --> 01:07:43,520
+what's the probability when you
+
+1616
+01:07:41,960 --> 01:07:46,480
+factorize your tensor you get this
+
+1617
+01:07:43,520 --> 01:07:48,839
+latting Factor matrices right again not
+
+1618
+01:07:46,480 --> 01:07:50,680
+for say learn from the algorithm
+
+1619
+01:07:48,839 --> 01:07:52,920
+actually uh this is like more
+
+1620
+01:07:50,680 --> 01:07:54,119
+probabilistic approach the posterior
+
+1621
+01:07:52,920 --> 01:07:56,359
+distribution is analytically
+
+1622
+01:07:54,119 --> 01:07:58,880
+interactable people estimate this one
+
+1623
+01:07:56,359 --> 01:08:01,760
+they use techniques like marov chain
+
+1624
+01:07:58,880 --> 01:08:03,480
+Mont Carlo variational inference we use
+
+1625
+01:08:01,760 --> 01:08:05,400
+variational inference maybe I'm not
+
+1626
+01:08:03,480 --> 01:08:07,839
+going to go details I'm going to just
+
+1627
+01:08:05,400 --> 01:08:10,119
+mention about it and with our method in
+
+1628
+01:08:07,839 --> 01:08:11,920
+any case we have the toolbox available
+
+1629
+01:08:10,119 --> 01:08:14,960
+so we will discuss this once
+
+1630
+01:08:11,920 --> 01:08:17,239
+more okay then I want to have a little
+
+1631
+01:08:14,960 --> 01:08:19,480
+bit more discussion on the numerical
+
+1632
+01:08:17,239 --> 01:08:22,000
+instability right why even like we are
+
+1633
+01:08:19,480 --> 01:08:23,239
+trying to uh solve this problem like if
+
+1634
+01:08:22,000 --> 01:08:25,520
+there's no problem there's nothing to
+
+1635
+01:08:23,239 --> 01:08:28,159
+solve right first I want to convince you
+
+1636
+01:08:25,520 --> 01:08:31,080
+there is a problem right one thing to
+
+1637
+01:08:28,159 --> 01:08:32,920
+start is like for the matrices I said
+
+1638
+01:08:31,080 --> 01:08:35,199
+like lots of things from matrices it
+
+1639
+01:08:32,920 --> 01:08:38,159
+doesn't generalize the tensor directly
+
+1640
+01:08:35,199 --> 01:08:40,600
+for example even the rank rank of a
+
+1641
+01:08:38,159 --> 01:08:42,520
+matrix let's say three * 6 it has to be
+
+1642
+01:08:40,600 --> 01:08:45,279
+less than equal three let's say I have a
+
+1643
+01:08:42,520 --> 01:08:47,600
+tensor 3 * 4 * 5 I cannot say rink is
+
+1644
+01:08:45,279 --> 01:08:49,920
+less than equal three but it's way more
+
+1645
+01:08:47,600 --> 01:08:52,159
+complicated and the other thing this
+
+1646
+01:08:49,920 --> 01:08:54,440
+Bard rank issue doesn't appear with
+
+1647
+01:08:52,159 --> 01:08:56,960
+matrices so if you have a rank three
+
+1648
+01:08:54,440 --> 01:08:59,080
+tensor you you cannot approx so rank
+
+1649
+01:08:56,960 --> 01:09:01,719
+three Matrix you cannot approximate this
+
+1650
+01:08:59,080 --> 01:09:03,920
+matrix by rank three matrices there's
+
+1651
+01:09:01,719 --> 01:09:06,480
+nothing like that so border rank is
+
+1652
+01:09:03,920 --> 01:09:09,880
+actually let's say for example I have
+
+1653
+01:09:06,480 --> 01:09:13,440
+this tensor this is 2 by two so actually
+
+1654
+01:09:09,880 --> 01:09:17,000
+first SL is 0110 2 by two by two second
+
+1655
+01:09:13,440 --> 01:09:21,000
+slide is one 0 0 right so it's actually
+
+1656
+01:09:17,000 --> 01:09:23,600
+a nice Cube okay so this has rank three
+
+1657
+01:09:21,000 --> 01:09:28,040
+and you can write this one Su of three
+
+1658
+01:09:23,600 --> 01:09:30,719
+rank one tensor this E1 is z e uh E2 E2
+
+1659
+01:09:28,040 --> 01:09:32,920
+is 01 right it's kind of shown this is
+
+1660
+01:09:30,719 --> 01:09:35,600
+the rank you can find exact approxim not
+
+1661
+01:09:32,920 --> 01:09:38,359
+approxim exact de composition but it can
+
+1662
+01:09:35,600 --> 01:09:40,319
+be approximated by rank two tensors so
+
+1663
+01:09:38,359 --> 01:09:42,199
+these are the r uh rank two tensors if
+
+1664
+01:09:40,319 --> 01:09:44,239
+you get the limit of this it will give
+
+1665
+01:09:42,199 --> 01:09:47,719
+you the T your tensor so it doesn't
+
+1666
+01:09:44,239 --> 01:09:49,920
+appear in Matrix so what happens in this
+
+1667
+01:09:47,719 --> 01:09:51,880
+case when you sometimes run some numbers
+
+1668
+01:09:49,920 --> 01:09:54,560
+because actually you are trying to find
+
+1669
+01:09:51,880 --> 01:09:57,360
+like you know that it's rank T tensor
+
+1670
+01:09:54,560 --> 01:09:59,800
+but it a but rank n can so all the
+
+1671
+01:09:57,360 --> 01:10:01,760
+numbers can explode so it's like don't
+
+1672
+01:09:59,800 --> 01:10:05,199
+worry it's normal it can happen there is
+
+1673
+01:10:01,760 --> 01:10:07,320
+a numerical instability it's not this um
+
+1674
+01:10:05,199 --> 01:10:10,320
+T rank they call not upper
+
+1675
+01:10:07,320 --> 01:10:12,400
+semicontinuous there is a problem there
+
+1676
+01:10:10,320 --> 01:10:14,400
+and one of them is the Border rank other
+
+1677
+01:10:12,400 --> 01:10:16,360
+one we discuss convergence problem after
+
+1678
+01:10:14,400 --> 01:10:19,280
+all is not a convex problem right it
+
+1679
+01:10:16,360 --> 01:10:21,440
+doesn't have to go the minimum uh like
+
+1680
+01:10:19,280 --> 01:10:23,560
+that's a global minimum and dependence
+
+1681
+01:10:21,440 --> 01:10:26,640
+on the initial guess so I want to show
+
+1682
+01:10:23,560 --> 01:10:29,840
+it here here I start from a rank three
+
+1683
+01:10:26,640 --> 01:10:33,840
+tensor synthetically generated three * 4
+
+1684
+01:10:29,840 --> 01:10:36,480
+* 5 so normally right so with little bit
+
+1685
+01:10:33,840 --> 01:10:38,640
+noise it should be very stable right
+
+1686
+01:10:36,480 --> 01:10:40,760
+because I already know the rank so even
+
+1687
+01:10:38,640 --> 01:10:42,760
+in this case I run this sensor
+
+1688
+01:10:40,760 --> 01:10:46,360
+factorization with different initial
+
+1689
+01:10:42,760 --> 01:10:48,800
+guesses 40 time and every time we run it
+
+1690
+01:10:46,360 --> 01:10:50,760
+you can see in some cases we can still
+
+1691
+01:10:48,800 --> 01:10:53,159
+get different fits different fits means
+
+1692
+01:10:50,760 --> 01:10:54,920
+you get different factors So based on
+
+1693
+01:10:53,159 --> 01:10:56,000
+your initial guess your results can
+
+1694
+01:10:54,920 --> 01:10:58,640
+change
+
+1695
+01:10:56,000 --> 01:11:01,159
+but in this case okay so it's not like I
+
+1696
+01:10:58,640 --> 01:11:03,560
+reconstruct my images it's like you know
+
+1697
+01:11:01,159 --> 01:11:06,199
+you work in biological domain I want to
+
+1698
+01:11:03,560 --> 01:11:08,440
+trust my factors I want to say okay I
+
+1699
+01:11:06,199 --> 01:11:10,800
+think I found a really important gene
+
+1700
+01:11:08,440 --> 01:11:12,679
+expression pattern I need more funding I
+
+1701
+01:11:10,800 --> 01:11:15,159
+need like I need to go over it I need to
+
+1702
+01:11:12,679 --> 01:11:18,080
+prove it you should make sure about the
+
+1703
+01:11:15,159 --> 01:11:20,280
+significance of your factorization so
+
+1704
+01:11:18,080 --> 01:11:22,280
+here that's why I was more PE about this
+
+1705
+01:11:20,280 --> 01:11:25,320
+stabilization
+
+1706
+01:11:22,280 --> 01:11:29,120
+here so are you saying that um when you
+
+1707
+01:11:25,320 --> 01:11:32,120
+try to um pick a rank you're not looking
+
+1708
+01:11:29,120 --> 01:11:35,400
+at reconstruction but you're looking at
+
+1709
+01:11:32,120 --> 01:11:37,360
+uh inability of lat yeah so it's a good
+
+1710
+01:11:35,400 --> 01:11:40,080
+question so we will discuss I both look
+
+1711
+01:11:37,360 --> 01:11:42,080
+at reconstruction then I'm also looking
+
+1712
+01:11:40,080 --> 01:11:43,800
+at the stability of factorization both
+
+1713
+01:11:42,080 --> 01:11:46,520
+of them actually we will Define four
+
+1714
+01:11:43,800 --> 01:11:49,440
+metrics to look at to choose the
+
+1715
+01:11:46,520 --> 01:11:51,639
+range okay so kind of limitation we said
+
+1716
+01:11:49,440 --> 01:11:53,560
+the composition is not stable especially
+
+1717
+01:11:51,639 --> 01:11:55,920
+for noise data but can you find
+
+1718
+01:11:53,560 --> 01:11:58,280
+non-noise data it's like convergence is
+
+1719
+01:11:55,920 --> 01:12:01,280
+not guaranteed rank selection is still a
+
+1720
+01:11:58,280 --> 01:12:04,159
+challenge and it's like if you always
+
+1721
+01:12:01,280 --> 01:12:06,600
+say some Goan right you don't explicitly
+
+1722
+01:12:04,159 --> 01:12:09,000
+put the three distribution of the data
+
+1723
+01:12:06,600 --> 01:12:10,440
+and interpretation of latent factors so
+
+1724
+01:12:09,000 --> 01:12:13,480
+it's a
+
+1725
+01:12:10,440 --> 01:12:14,639
+pipeline so here in the first talk we al
+
+1726
+01:12:13,480 --> 01:12:17,920
+already
+
+1727
+01:12:14,639 --> 01:12:20,000
+discussed like T like tensor methods
+
+1728
+01:12:17,920 --> 01:12:21,840
+outperform classical Matrix based
+
+1729
+01:12:20,000 --> 01:12:23,880
+methods now we are going to discuss
+
+1730
+01:12:21,840 --> 01:12:27,159
+actually how to improve this uh
+
+1731
+01:12:23,880 --> 01:12:27,159
+classical tensor methods
+
+1732
+01:12:27,400 --> 01:12:32,719
+okay so first thing I want to address is
+
+1733
+01:12:29,920 --> 01:12:35,880
+like a stability so we kind of develop
+
+1734
+01:12:32,719 --> 01:12:38,600
+consensus based censor factorization
+
+1735
+01:12:35,880 --> 01:12:41,040
+first I will go through this how to make
+
+1736
+01:12:38,600 --> 01:12:42,560
+sure the stability of the factorization
+
+1737
+01:12:41,040 --> 01:12:45,520
+it will also help us to choose the
+
+1738
+01:12:42,560 --> 01:12:48,840
+correct Rank and later we will go
+
+1739
+01:12:45,520 --> 01:12:51,480
+through ban framework how to incorporate
+
+1740
+01:12:48,840 --> 01:12:53,239
+a through distribution of the data right
+
+1741
+01:12:51,480 --> 01:12:54,960
+actually this kind of models can be also
+
+1742
+01:12:53,239 --> 01:12:56,560
+applied actually whatever you develop
+
+1743
+01:12:54,960 --> 01:12:59,159
+for tensors you can also use for
+
+1744
+01:12:56,560 --> 01:13:02,320
+matrices right just right even our
+
+1745
+01:12:59,159 --> 01:13:06,360
+toolbox okay it's okay for tensors of
+
+1746
+01:13:02,320 --> 01:13:06,360
+any Dimensions including two
+
+1747
+01:13:06,440 --> 01:13:13,600
+Dimensions okay so here we have uh let's
+
+1748
+01:13:09,920 --> 01:13:16,280
+say I run this algorithm like 10 CP
+
+1749
+01:13:13,600 --> 01:13:18,360
+decomposition let's say 100 times n
+
+1750
+01:13:16,280 --> 01:13:20,440
+times every time you run you are going
+
+1751
+01:13:18,360 --> 01:13:23,040
+to get a gene latent factor matrices
+
+1752
+01:13:20,440 --> 01:13:25,920
+number of genes times R right so you
+
+1753
+01:13:23,040 --> 01:13:27,880
+have bunch of matrices so I'm running
+
+1754
+01:13:25,920 --> 01:13:30,800
+multiple times now because I want to
+
+1755
+01:13:27,880 --> 01:13:32,840
+make sure the results I'm getting are
+
+1756
+01:13:30,800 --> 01:13:35,400
+they like repeating so if I have a very
+
+1757
+01:13:32,840 --> 01:13:38,199
+significant signal that signal should
+
+1758
+01:13:35,400 --> 01:13:40,120
+keep coming back right for sure if we
+
+1759
+01:13:38,199 --> 01:13:41,840
+are in a stable range so for sure it
+
+1760
+01:13:40,120 --> 01:13:44,040
+will not come as it is it will come with
+
+1761
+01:13:41,840 --> 01:13:47,360
+some noise later we will cluster but it
+
+1762
+01:13:44,040 --> 01:13:49,760
+should keep appearing so here I will see
+
+1763
+01:13:47,360 --> 01:13:51,679
+if these different runs of the
+
+1764
+01:13:49,760 --> 01:13:54,000
+factorization
+
+1765
+01:13:51,679 --> 01:13:56,600
+consistent so are they connected with
+
+1766
+01:13:54,000 --> 01:13:59,239
+each other so first for every uh
+
+1767
+01:13:56,600 --> 01:14:01,239
+factorization run we are uh forming
+
+1768
+01:13:59,239 --> 01:14:03,800
+something called connectivity
+
+1769
+01:14:01,239 --> 01:14:06,520
+Matrix in connectivity Matrix for
+
+1770
+01:14:03,800 --> 01:14:08,840
+example here we have R Gene clusters we
+
+1771
+01:14:06,520 --> 01:14:10,560
+are assigning genes to specific clusters
+
+1772
+01:14:08,840 --> 01:14:13,080
+you can go in different ways based on
+
+1773
+01:14:10,560 --> 01:14:16,040
+maximum loadings is one of them so we
+
+1774
+01:14:13,080 --> 01:14:18,440
+are saying if Gene I and Gene J is
+
+1775
+01:14:16,040 --> 01:14:20,360
+connected if they are assigned to same
+
+1776
+01:14:18,440 --> 01:14:23,199
+cluster right they are going to form a
+
+1777
+01:14:20,360 --> 01:14:26,239
+gene group so in connectivity Matrix is
+
+1778
+01:14:23,199 --> 01:14:28,679
+like I is one if Gene I and g j belong
+
+1779
+01:14:26,239 --> 01:14:31,320
+to the same class and zero otherwise and
+
+1780
+01:14:28,679 --> 01:14:32,920
+for every R we keep repeating it every R
+
+1781
+01:14:31,320 --> 01:14:35,400
+we are looking at connectivity between
+
+1782
+01:14:32,920 --> 01:14:37,800
+different gen and at the end we look at
+
+1783
+01:14:35,400 --> 01:14:41,639
+a consensus Matrix which is the average
+
+1784
+01:14:37,800 --> 01:14:45,080
+of connectivity matrices so think about
+
+1785
+01:14:41,639 --> 01:14:47,120
+if everything is stable some this let's
+
+1786
+01:14:45,080 --> 01:14:49,320
+say we get two genes they should be
+
+1787
+01:14:47,120 --> 01:14:51,040
+always in the same cluster or always not
+
+1788
+01:14:49,320 --> 01:14:53,320
+in the same clusters numbers should be
+
+1789
+01:14:51,040 --> 01:14:55,639
+zeros or one average should be mostly
+
+1790
+01:14:53,320 --> 01:14:58,360
+zeros and one and the moment you have
+
+1791
+01:14:55,639 --> 01:15:00,760
+get dispersion between zero and one then
+
+1792
+01:14:58,360 --> 01:15:03,000
+it means you have instability so we are
+
+1793
+01:15:00,760 --> 01:15:04,840
+trying to see the dispersion so it's
+
+1794
+01:15:03,000 --> 01:15:07,280
+calculated by something called cinetic
+
+1795
+01:15:04,840 --> 01:15:10,159
+correlation it's actually one minus dis
+
+1796
+01:15:07,280 --> 01:15:12,000
+dispersion so one of our way to choose
+
+1797
+01:15:10,159 --> 01:15:14,400
+rank for sure we will use explained
+
+1798
+01:15:12,000 --> 01:15:17,120
+variance still we are going to look at
+
+1799
+01:15:14,400 --> 01:15:18,560
+cinetic correlation so how connected
+
+1800
+01:15:17,120 --> 01:15:21,639
+different
+
+1801
+01:15:18,560 --> 01:15:23,440
+runs and after that it's not like we are
+
+1802
+01:15:21,639 --> 01:15:26,000
+doing to choose the rank we are choosing
+
+1803
+01:15:23,440 --> 01:15:29,000
+initial guess so that when you run the
+
+1804
+01:15:26,000 --> 01:15:31,360
+algorithm it will not change a lot so
+
+1805
+01:15:29,000 --> 01:15:33,280
+here it says actually we when we are
+
+1806
+01:15:31,360 --> 01:15:36,320
+going to concatenate all of them it's
+
+1807
+01:15:33,280 --> 01:15:38,480
+like you normalize every relat Factor so
+
+1808
+01:15:36,320 --> 01:15:41,199
+that Norm is one so they are comparable
+
+1809
+01:15:38,480 --> 01:15:43,679
+with each other you form a big Matrix
+
+1810
+01:15:41,199 --> 01:15:45,880
+but I claim that rank is R so I claim
+
+1811
+01:15:43,679 --> 01:15:48,880
+that there are R gen clusters it means
+
+1812
+01:15:45,880 --> 01:15:51,800
+they have to write cluster together
+
+1813
+01:15:48,880 --> 01:15:54,639
+right for for example as I said yes one
+
+1814
+01:15:51,800 --> 01:15:56,199
+gene latent factor uh will keep coming
+
+1815
+01:15:54,639 --> 01:15:59,320
+it will come with the noise but you can
+
+1816
+01:15:56,199 --> 01:16:01,880
+cluster it so here we will find our
+
+1817
+01:15:59,320 --> 01:16:03,480
+clusters maybe I will also red discuss
+
+1818
+01:16:01,880 --> 01:16:05,920
+one in the next slide we will take the
+
+1819
+01:16:03,480 --> 01:16:08,600
+median maybe I can start from here so we
+
+1820
+01:16:05,920 --> 01:16:11,719
+are in this point let say A1 is our Gene
+
+1821
+01:16:08,600 --> 01:16:14,199
+modality we concatenate all of them Norm
+
+1822
+01:16:11,719 --> 01:16:16,719
+normalized here we are looking are they
+
+1823
+01:16:14,199 --> 01:16:19,880
+clustering first you remove the outliers
+
+1824
+01:16:16,719 --> 01:16:22,800
+it can be sued random this of the
+
+1825
+01:16:19,880 --> 01:16:24,800
+algorithm and we are doing clustering
+
+1826
+01:16:22,800 --> 01:16:26,520
+actually we went so simple K means but
+
+1827
+01:16:24,800 --> 01:16:28,480
+then and different groups they said okay
+
+1828
+01:16:26,520 --> 01:16:31,280
+your method was good so you just went K
+
+1829
+01:16:28,480 --> 01:16:33,480
+but they did more like uh more
+
+1830
+01:16:31,280 --> 01:16:36,040
+theoretical and nicer clustering methods
+
+1831
+01:16:33,480 --> 01:16:38,719
+I can also give this papers as well so
+
+1832
+01:16:36,040 --> 01:16:40,480
+here uh we are taking the median of each
+
+1833
+01:16:38,719 --> 01:16:42,600
+clusters right because it's less
+
+1834
+01:16:40,480 --> 01:16:45,760
+susceptible the outlier and we are
+
+1835
+01:16:42,600 --> 01:16:47,719
+forming our new latent factor Matrix
+
+1836
+01:16:45,760 --> 01:16:49,280
+this is the goal is I want to just count
+
+1837
+01:16:47,719 --> 01:16:51,840
+for the repeating
+
+1838
+01:16:49,280 --> 01:16:54,600
+signals so after you form your latent
+
+1839
+01:16:51,840 --> 01:16:55,360
+factor Matrix like this is for genes you
+
+1840
+01:16:54,600 --> 01:16:57,360
+f
+
+1841
+01:16:55,360 --> 01:17:00,080
+your Gene modality and you are solving
+
+1842
+01:16:57,360 --> 01:17:01,840
+for other two right so you have a fixed
+
+1843
+01:17:00,080 --> 01:17:04,719
+initial guess for genes and you solve
+
+1844
+01:17:01,840 --> 01:17:07,440
+for the other two like in here right is
+
+1845
+01:17:04,719 --> 01:17:11,159
+like I get genin consensus I fix it and
+
+1846
+01:17:07,440 --> 01:17:14,360
+I solve for the samples and cell
+
+1847
+01:17:11,159 --> 01:17:17,239
+types okay so again since it also start
+
+1848
+01:17:14,360 --> 01:17:18,719
+with an initial guess uh for jeans there
+
+1849
+01:17:17,239 --> 01:17:21,360
+is actually you go through different
+
+1850
+01:17:18,719 --> 01:17:23,000
+iteration you can get slightly different
+
+1851
+01:17:21,360 --> 01:17:25,199
+answers but they not they're not going
+
+1852
+01:17:23,000 --> 01:17:26,719
+to be too different but we are going to
+
+1853
+01:17:25,199 --> 01:17:28,719
+measure it it's not going to be just
+
+1854
+01:17:26,719 --> 01:17:31,320
+saying oh it's not too different we have
+
+1855
+01:17:28,719 --> 01:17:33,320
+experiments on it okay we are going to
+
+1856
+01:17:31,320 --> 01:17:35,960
+do some experiments on consensus it's
+
+1857
+01:17:33,320 --> 01:17:39,639
+working or not but uh so our algorithm
+
+1858
+01:17:35,960 --> 01:17:42,600
+is consensus zero inflated um Zer
+
+1859
+01:17:39,639 --> 01:17:45,080
+inflated post intensive factorization so
+
+1860
+01:17:42,600 --> 01:17:47,760
+now I want to cover like zero inflated
+
+1861
+01:17:45,080 --> 01:17:49,679
+po Parts but consensus and Ed eded
+
+1862
+01:17:47,760 --> 01:17:51,880
+consensus approach you can add to any
+
+1863
+01:17:49,679 --> 01:17:53,679
+factorization method right you can
+
+1864
+01:17:51,880 --> 01:17:56,400
+factorize and you can add the consens
+
+1865
+01:17:53,679 --> 01:17:58,920
+part okay okay here for the beian tensor
+
+1866
+01:17:56,400 --> 01:18:02,320
+factorization these are tensor this is
+
+1867
+01:17:58,920 --> 01:18:06,600
+cell types dat Factor cell types samples
+
+1868
+01:18:02,320 --> 01:18:09,480
+and genes so here again I mostly speak
+
+1869
+01:18:06,600 --> 01:18:11,120
+about poon and zero inflated poon but in
+
+1870
+01:18:09,480 --> 01:18:12,760
+our toolbox you can change the
+
+1871
+01:18:11,120 --> 01:18:15,360
+probability assumptions you can use
+
+1872
+01:18:12,760 --> 01:18:18,080
+different distribution it's not just for
+
+1873
+01:18:15,360 --> 01:18:20,960
+poon okay here what's
+
+1874
+01:18:18,080 --> 01:18:22,840
+happening so we approximate our tensor
+
+1875
+01:18:20,960 --> 01:18:27,360
+this is the this is the Assumption with
+
+1876
+01:18:22,840 --> 01:18:30,400
+rank R we are think it's like for gene
+
+1877
+01:18:27,360 --> 01:18:33,040
+expression is like the rate that you are
+
+1878
+01:18:30,400 --> 01:18:35,960
+capturing the genes it mostly follows
+
+1879
+01:18:33,040 --> 01:18:37,280
+poon distribution but people also use
+
+1880
+01:18:35,960 --> 01:18:40,800
+actually negative
+
+1881
+01:18:37,280 --> 01:18:43,760
+binomial but it's very sparse sometimes
+
+1882
+01:18:40,800 --> 01:18:45,639
+like you have more zeros ex excess zeros
+
+1883
+01:18:43,760 --> 01:18:47,840
+that you wouldn't expect from a poon
+
+1884
+01:18:45,639 --> 01:18:50,639
+distribution so I want those account for
+
+1885
+01:18:47,840 --> 01:18:52,520
+The Spar that's why we go zero inflated
+
+1886
+01:18:50,639 --> 01:18:56,360
+but we are having a gate parameter we
+
+1887
+01:18:52,520 --> 01:19:00,960
+will adjust the sparcity so here we say
+
+1888
+01:18:56,360 --> 01:19:04,199
+TI JK like gene expression uh like this
+
+1889
+01:19:00,960 --> 01:19:07,280
+is the entry expression at Gene I for uh
+
+1890
+01:19:04,199 --> 01:19:10,320
+setup J for sample K follow suppos
+
+1891
+01:19:07,280 --> 01:19:13,639
+distribution and the uh mean can be
+
+1892
+01:19:10,320 --> 01:19:17,800
+calculated by using this um I say rank R
+
+1893
+01:19:13,639 --> 01:19:20,600
+de composition and now if you have some
+
+1894
+01:19:17,800 --> 01:19:22,719
+information about like latent factors
+
+1895
+01:19:20,600 --> 01:19:25,440
+the modalities you can put it we put
+
+1896
+01:19:22,719 --> 01:19:28,520
+gamma priors in this part
+
+1897
+01:19:25,440 --> 01:19:30,360
+sparity also makes it easy to interpret
+
+1898
+01:19:28,520 --> 01:19:33,440
+also it makes sense to IND sparsity for
+
+1899
+01:19:30,360 --> 01:19:38,120
+the Gen factors because not every is
+
+1900
+01:19:33,440 --> 01:19:40,280
+active uh in like Petway right so here
+
+1901
+01:19:38,120 --> 01:19:42,679
+we set a gamma prior for the latent
+
+1902
+01:19:40,280 --> 01:19:45,320
+factors but you can adjust the shape and
+
+1903
+01:19:42,679 --> 01:19:48,320
+rate and the algorithm will learn except
+
+1904
+01:19:45,320 --> 01:19:51,159
+shape and rate of the gamma priors this
+
+1905
+01:19:48,320 --> 01:19:53,400
+is for sparity we say R tensor follows
+
+1906
+01:19:51,159 --> 01:19:55,800
+Zer inflated poon mean comes from the
+
+1907
+01:19:53,400 --> 01:19:58,040
+factorization and
+
+1908
+01:19:55,800 --> 01:20:00,360
+it might have but it might have you are
+
+1909
+01:19:58,040 --> 01:20:03,080
+allowed to use or not more zeros than
+
+1910
+01:20:00,360 --> 01:20:05,239
+you expect from poon like it might have
+
+1911
+01:20:03,080 --> 01:20:08,000
+sparity then we have a gate parameter to
+
+1912
+01:20:05,239 --> 01:20:10,280
+adjust for sparsity this gate parameter
+
+1913
+01:20:08,000 --> 01:20:12,520
+gives the excess zeros so what are the
+
+1914
+01:20:10,280 --> 01:20:13,800
+benefits of this uh methods for we will
+
+1915
+01:20:12,520 --> 01:20:16,040
+discuss
+
+1916
+01:20:13,800 --> 01:20:18,280
+applications and first in the synthetic
+
+1917
+01:20:16,040 --> 01:20:22,120
+data we will discuss okay does did it
+
+1918
+01:20:18,280 --> 01:20:24,360
+work how say dual of it and it potential
+
+1919
+01:20:22,120 --> 01:20:26,800
+benefits to uncertainty quantification
+
+1920
+01:20:24,360 --> 01:20:28,679
+in Corporation of more realistic noise
+
+1921
+01:20:26,800 --> 01:20:30,920
+and in a way principled weight includes
+
+1922
+01:20:28,679 --> 01:20:33,639
+prior information again this is based on
+
+1923
+01:20:30,920 --> 01:20:37,320
+poome but you can change the uh your
+
+1924
+01:20:33,639 --> 01:20:39,600
+distribution okay so here I start from
+
+1925
+01:20:37,320 --> 01:20:42,800
+synthetic experiments then I will go to
+
+1926
+01:20:39,600 --> 01:20:45,239
+more genomics data set uh and like I
+
+1927
+01:20:42,800 --> 01:20:47,639
+will discuss like our main projects that
+
+1928
+01:20:45,239 --> 01:20:50,159
+we use this
+
+1929
+01:20:47,639 --> 01:20:52,639
+algorithm okay so first of all to
+
+1930
+01:20:50,159 --> 01:20:56,120
+discuss we have lots of like tensor
+
+1931
+01:20:52,639 --> 01:20:59,719
+based methods as well does it have many
+
+1932
+01:20:56,120 --> 01:21:02,600
+advantage to uh go through like more uh
+
+1933
+01:20:59,719 --> 01:21:04,199
+zero inflated Poston based distribution
+
+1934
+01:21:02,600 --> 01:21:06,679
+so we call it zip
+
+1935
+01:21:04,199 --> 01:21:08,560
+distributions so we have um we have
+
+1936
+01:21:06,679 --> 01:21:11,280
+different examples in the paper one of
+
+1937
+01:21:08,560 --> 01:21:14,800
+them we created 10 times 20 times 300
+
+1938
+01:21:11,280 --> 01:21:17,800
+tenser with rank nine and for the latent
+
+1939
+01:21:14,800 --> 01:21:20,360
+factors we assume gamma distribution
+
+1940
+01:21:17,800 --> 01:21:23,880
+with this uh shape and rate
+
+1941
+01:21:20,360 --> 01:21:27,800
+parameters okay and we are generating a
+
+1942
+01:21:23,880 --> 01:21:30,000
+tensor that mean is given by this rankar
+
+1943
+01:21:27,800 --> 01:21:32,120
+factorization and there is a varying
+
+1944
+01:21:30,000 --> 01:21:34,920
+probabilities of excess zeros we Chang
+
+1945
+01:21:32,120 --> 01:21:37,080
+the uh sparity level right we put
+
+1946
+01:21:34,920 --> 01:21:38,679
+different sparsity levels and we are
+
+1947
+01:21:37,080 --> 01:21:40,560
+looking at explained variance we are
+
+1948
+01:21:38,679 --> 01:21:43,199
+factorizing finding a low rank
+
+1949
+01:21:40,560 --> 01:21:45,960
+proximation and we are looking at how
+
+1950
+01:21:43,199 --> 01:21:48,520
+good is the uh explained variance so we
+
+1951
+01:21:45,960 --> 01:21:52,000
+are using classical non- negative
+
+1952
+01:21:48,520 --> 01:21:54,840
+cpls there is also another method paraa
+
+1953
+01:21:52,000 --> 01:21:57,920
+paraa actually also stands for CP
+
+1954
+01:21:54,840 --> 01:22:02,480
+composition it is uh developed for
+
+1955
+01:21:57,920 --> 01:22:04,800
+sparse uh data they do L1 um L1 Norm
+
+1956
+01:22:02,480 --> 01:22:07,040
+regularization to IND sparcity we also
+
+1957
+01:22:04,800 --> 01:22:09,639
+tried this there is like for example
+
+1958
+01:22:07,040 --> 01:22:11,760
+tranced gashi tensor factorization again
+
+1959
+01:22:09,639 --> 01:22:14,400
+assumes gashi distribution this is the
+
+1960
+01:22:11,760 --> 01:22:17,000
+closest one gamma po tensor
+
+1961
+01:22:14,400 --> 01:22:18,719
+factorization it assumes postum for data
+
+1962
+01:22:17,000 --> 01:22:21,600
+gamma for latent factors but it doesn't
+
+1963
+01:22:18,719 --> 01:22:24,159
+count for excess number of zeros even
+
+1964
+01:22:21,600 --> 01:22:27,239
+that one failed and our ZIP TF Z
+
+1965
+01:22:24,159 --> 01:22:29,199
+inflated Post in tensor factorization so
+
+1966
+01:22:27,239 --> 01:22:32,080
+when the probabilities of xcess Zer are
+
+1967
+01:22:29,199 --> 01:22:35,040
+low all of them performs well but the
+
+1968
+01:22:32,080 --> 01:22:37,040
+moment probability of XX Z is increasing
+
+1969
+01:22:35,040 --> 01:22:39,639
+since our method keeps adjusting the
+
+1970
+01:22:37,040 --> 01:22:42,760
+parameter it stays stable but other
+
+1971
+01:22:39,639 --> 01:22:45,159
+methods their performance keeps going
+
+1972
+01:22:42,760 --> 01:22:46,400
+down here we compare with the tensor
+
+1973
+01:22:45,159 --> 01:22:48,159
+methods then we will also in
+
+1974
+01:22:46,400 --> 01:22:50,440
+applications compare with the Matrix
+
+1975
+01:22:48,159 --> 01:22:52,239
+methods as well here because we like the
+
+1976
+01:22:50,440 --> 01:22:53,159
+idea is like why we are developing a new
+
+1977
+01:22:52,239 --> 01:22:56,120
+tensor
+
+1978
+01:22:53,159 --> 01:22:58,920
+method Okay so here it Justified that we
+
+1979
+01:22:56,120 --> 01:23:01,280
+are going to use zip TF uh but do we
+
+1980
+01:22:58,920 --> 01:23:03,719
+have to use consensus now the next
+
+1981
+01:23:01,280 --> 01:23:05,000
+experiment will be zipf with consensus
+
+1982
+01:23:03,719 --> 01:23:07,120
+and without
+
+1983
+01:23:05,000 --> 01:23:09,719
+consensus what we are trying to do with
+
+1984
+01:23:07,120 --> 01:23:12,040
+consensus with the consensus when you
+
+1985
+01:23:09,719 --> 01:23:14,560
+run your algorithm you want to make sure
+
+1986
+01:23:12,040 --> 01:23:18,040
+that in each run you will get more or
+
+1987
+01:23:14,560 --> 01:23:21,080
+less similar results right so here we
+
+1988
+01:23:18,040 --> 01:23:24,600
+are running the algorithm 100 times here
+
+1989
+01:23:21,080 --> 01:23:27,840
+we are going from 0.6 for sparcity right
+
+1990
+01:23:24,600 --> 01:23:30,719
+right here quite sparse data we run zdf
+
+1991
+01:23:27,840 --> 01:23:32,320
+and C zdf 100 times in every runs we are
+
+1992
+01:23:30,719 --> 01:23:35,360
+looking at the similarity between the
+
+1993
+01:23:32,320 --> 01:23:37,920
+lat factors we look at cosine similarity
+
+1994
+01:23:35,360 --> 01:23:40,679
+I mean ztf is already like more or less
+
+1995
+01:23:37,920 --> 01:23:43,159
+stable for this algorithm but we can see
+
+1996
+01:23:40,679 --> 01:23:45,360
+in C zdf in the green one similarities
+
+1997
+01:23:43,159 --> 01:23:47,920
+are increasing because you are really
+
+1998
+01:23:45,360 --> 01:23:50,159
+finding good initial guess for your Gene
+
+1999
+01:23:47,920 --> 01:23:52,800
+clusters and again this is little bit
+
+2000
+01:23:50,159 --> 01:23:54,560
+Nuance okay the latent factors for
+
+2001
+01:23:52,800 --> 01:23:58,120
+different runs are similar but are they
+
+2002
+01:23:54,560 --> 01:23:59,920
+similar to original signal in this C
+
+2003
+01:23:58,120 --> 01:24:02,440
+figure C we are looking at similar to
+
+2004
+01:23:59,920 --> 01:24:04,639
+original signal consensus ZF actually
+
+2005
+01:24:02,440 --> 01:24:07,639
+gives very similar uh results to
+
+2006
+01:24:04,639 --> 01:24:09,840
+original signal so ztf to count for
+
+2007
+01:24:07,639 --> 01:24:11,480
+distribution consensus approach again
+
+2008
+01:24:09,840 --> 01:24:13,560
+you can take this pipeline put other
+
+2009
+01:24:11,480 --> 01:24:16,280
+methods as well to increase
+
+2010
+01:24:13,560 --> 01:24:18,360
+stability good now this is the last
+
+2011
+01:24:16,280 --> 01:24:21,120
+synthetic data I have then we will go to
+
+2012
+01:24:18,360 --> 01:24:24,360
+lupus and hkin fora the real data
+
+2013
+01:24:21,120 --> 01:24:26,120
+set so we use splatter simulation to
+
+2014
+01:24:24,360 --> 01:24:28,920
+gener at synthetic single cell RNA
+
+2015
+01:24:26,120 --> 01:24:31,040
+sequencing data set this was like a
+
+2016
+01:24:28,920 --> 01:24:35,199
+quick check okay does it work for
+
+2017
+01:24:31,040 --> 01:24:38,920
+genomics data we have 1,000 genes 3,000
+
+2018
+01:24:35,199 --> 01:24:41,239
+cells and six donors and we embedded
+
+2019
+01:24:38,920 --> 01:24:43,760
+five gene expression programs defining
+
+2020
+01:24:41,239 --> 01:24:46,719
+cell type identities cell type specific
+
+2021
+01:24:43,760 --> 01:24:49,639
+gene expression programs and we also
+
+2022
+01:24:46,719 --> 01:24:52,159
+embedded uh three gene expression
+
+2023
+01:24:49,639 --> 01:24:54,440
+programs defining donor activities so we
+
+2024
+01:24:52,159 --> 01:24:56,239
+have eight programs then we will run our
+
+2025
+01:24:54,440 --> 01:24:59,199
+algorithm we will see can we really
+
+2026
+01:24:56,239 --> 01:25:01,040
+recover these eight programs so first
+
+2027
+01:24:59,199 --> 01:25:03,040
+thing for the rank we are looking at
+
+2028
+01:25:01,040 --> 01:25:05,840
+explained variance and cinetic
+
+2029
+01:25:03,040 --> 01:25:09,880
+correlation that we discussed during the
+
+2030
+01:25:05,840 --> 01:25:12,000
+consens approach right so it kind of has
+
+2031
+01:25:09,880 --> 01:25:13,840
+like in eight we have good explained
+
+2032
+01:25:12,000 --> 01:25:17,600
+variance and Co and correlation and we
+
+2033
+01:25:13,840 --> 01:25:21,000
+are looking so we were clustering our
+
+2034
+01:25:17,600 --> 01:25:23,080
+latent factors right uh through
+
+2035
+01:25:21,000 --> 01:25:24,760
+different runs we were looking how good
+
+2036
+01:25:23,080 --> 01:25:27,040
+is this clustering you can can look at
+
+2037
+01:25:24,760 --> 01:25:30,000
+inertia silet scord to see how good is
+
+2038
+01:25:27,040 --> 01:25:32,639
+this clustering we look inertia has to
+
+2039
+01:25:30,000 --> 01:25:35,679
+decrease for inertia and the silette
+
+2040
+01:25:32,639 --> 01:25:37,920
+score at eight also how to say they
+
+2041
+01:25:35,679 --> 01:25:40,480
+agree with each other so rank selection
+
+2042
+01:25:37,920 --> 01:25:42,320
+is eight which is not surprising to be
+
+2043
+01:25:40,480 --> 01:25:44,480
+honest because we have 18 expression
+
+2044
+01:25:42,320 --> 01:25:46,719
+programs plus a
+
+2045
+01:25:44,480 --> 01:25:48,600
+noise okay so we are going to say okay
+
+2046
+01:25:46,719 --> 01:25:50,880
+rank is eight but are we really
+
+2047
+01:25:48,600 --> 01:25:52,880
+recovering what is embedded as a gene
+
+2048
+01:25:50,880 --> 01:25:54,520
+expression program actually I will tell
+
+2049
+01:25:52,880 --> 01:25:56,719
+we also doing with different Lo fa
+
+2050
+01:25:54,520 --> 01:25:58,760
+changes for differential expression from
+
+2051
+01:25:56,719 --> 01:26:01,080
+low to high to see if the results are
+
+2052
+01:25:58,760 --> 01:26:02,960
+getting affected I'm going to discuss it
+
+2053
+01:26:01,080 --> 01:26:05,280
+here for example I have eight latent
+
+2054
+01:26:02,960 --> 01:26:08,880
+factors Gene one gene eight let's say
+
+2055
+01:26:05,280 --> 01:26:11,080
+the g G2 the right Factor two is highly
+
+2056
+01:26:08,880 --> 01:26:13,360
+correlated with ground TR identity gen
+
+2057
+01:26:11,080 --> 01:26:15,719
+expression program one so we are look at
+
+2058
+01:26:13,360 --> 01:26:17,560
+piercing correlation and the right
+
+2059
+01:26:15,719 --> 01:26:20,679
+factor eight is highly correlated with
+
+2060
+01:26:17,560 --> 01:26:23,040
+grandr activity gen expression program
+
+2061
+01:26:20,679 --> 01:26:25,119
+uh one one of them is identity one of
+
+2062
+01:26:23,040 --> 01:26:27,679
+them is activity actually so these are
+
+2063
+01:26:25,119 --> 01:26:30,159
+our right factors this is the activity
+
+2064
+01:26:27,679 --> 01:26:32,679
+programs all the factor correspond to
+
+2065
+01:26:30,159 --> 01:26:35,800
+one activity program so it is able to
+
+2066
+01:26:32,679 --> 01:26:38,600
+recover actually gen expression
+
+2067
+01:26:35,800 --> 01:26:42,119
+programs and again we use suppl
+
+2068
+01:26:38,600 --> 01:26:44,719
+simulation to embed activities and cell
+
+2069
+01:26:42,119 --> 01:26:47,840
+type programs use different differential
+
+2070
+01:26:44,719 --> 01:26:51,400
+expression log fold changes sdle
+
+2071
+01:26:47,840 --> 01:26:55,199
+025 to very high
+
+2072
+01:26:51,400 --> 01:26:57,639
+0.27 0.75 at but like we also have
+
+2073
+01:26:55,199 --> 01:26:59,280
+different levels to see compare
+
+2074
+01:26:57,639 --> 01:27:01,960
+different methods here we compare with
+
+2075
+01:26:59,280 --> 01:27:05,080
+non- negative Matrix factorization a
+
+2076
+01:27:01,960 --> 01:27:07,199
+morti LDA suggested for a reviewer
+
+2077
+01:27:05,080 --> 01:27:09,679
+because it's more de learning base some
+
+2078
+01:27:07,199 --> 01:27:11,080
+meths appear because reviewer wants it
+
+2079
+01:27:09,679 --> 01:27:13,719
+which is actually very good method this
+
+2080
+01:27:11,080 --> 01:27:16,400
+is not negative cpls consensus nmf it's
+
+2081
+01:27:13,719 --> 01:27:20,600
+like nmf they use a different way of
+
+2082
+01:27:16,400 --> 01:27:23,560
+consensus approach and zipf is our model
+
+2083
+01:27:20,600 --> 01:27:25,960
+C zipf our model with consensus seor you
+
+2084
+01:27:23,560 --> 01:27:27,800
+can see it's like in both of them we are
+
+2085
+01:27:25,960 --> 01:27:30,280
+looking at average piercing correlation
+
+2086
+01:27:27,800 --> 01:27:33,119
+between our factors and the truth uh
+
+2087
+01:27:30,280 --> 01:27:35,679
+true factors so it's actually at
+
+2088
+01:27:33,119 --> 01:27:37,360
+performing our other models in here
+
+2089
+01:27:35,679 --> 01:27:41,159
+actually we have more
+
+2090
+01:27:37,360 --> 01:27:43,639
+experiments good now it's like I will
+
+2091
+01:27:41,159 --> 01:27:46,679
+discuss two application one of them will
+
+2092
+01:27:43,639 --> 01:27:49,280
+be lupus and one application I will
+
+2093
+01:27:46,679 --> 01:27:50,719
+discuss In classical hkin in fora to see
+
+2094
+01:27:49,280 --> 01:27:52,280
+actually biologically which kind of
+
+2095
+01:27:50,719 --> 01:27:55,280
+patterns we can
+
+2096
+01:27:52,280 --> 01:27:58,000
+find okay so this one is public data set
+
+2097
+01:27:55,280 --> 01:28:00,800
+classical hcha is the project I start in
+
+2098
+01:27:58,000 --> 01:28:02,920
+golop lab it will be our own data set
+
+2099
+01:28:00,800 --> 01:28:04,679
+but for Lupus we are trying to
+
+2100
+01:28:02,920 --> 01:28:06,239
+unsupervised discover of disease
+
+2101
+01:28:04,679 --> 01:28:08,800
+subgroups and multilinear gene
+
+2102
+01:28:06,239 --> 01:28:11,040
+expression programs in the peripheral
+
+2103
+01:28:08,800 --> 01:28:13,040
+blood of patients with why I am
+
+2104
+01:28:11,040 --> 01:28:16,440
+interested because I have Lupus so I am
+
+2105
+01:28:13,040 --> 01:28:19,840
+interested in lupus studies so it's like
+
+2106
+01:28:16,440 --> 01:28:22,719
+we apply to C zdf to uh Multiplex single
+
+2107
+01:28:19,840 --> 01:28:24,760
+cell RNA sequencing data over 1.2
+
+2108
+01:28:22,719 --> 01:28:27,480
+billion pbmc's
+
+2109
+01:28:24,760 --> 01:28:29,800
+uh from patients with SLE so we have
+
+2110
+01:28:27,480 --> 01:28:33,239
+three groups this is a really good one
+
+2111
+01:28:29,800 --> 01:28:35,560
+right we have eight Lupus patients with
+
+2112
+01:28:33,239 --> 01:28:37,480
+manage right sometimes you have Lupus
+
+2113
+01:28:35,560 --> 01:28:38,880
+but you don't always have active flare
+
+2114
+01:28:37,480 --> 01:28:41,360
+you feel like you're healthy until you
+
+2115
+01:28:38,880 --> 01:28:43,840
+get heat and eight lus patients with
+
+2116
+01:28:41,360 --> 01:28:45,520
+active flare and eight lus eight
+
+2117
+01:28:43,840 --> 01:28:47,960
+patients like healthy controls they
+
+2118
+01:28:45,520 --> 01:28:50,480
+don't have Lupus they're lucky and we
+
+2119
+01:28:47,960 --> 01:28:54,480
+have 10 cell types and we form our data
+
+2120
+01:28:50,480 --> 01:28:56,960
+24 donors five cell types and 13,520
+
+2121
+01:28:54,480 --> 01:28:58,760
+genes and notice that most of the time
+
+2122
+01:28:56,960 --> 01:29:01,360
+when you work on like gene expression
+
+2123
+01:28:58,760 --> 01:29:03,000
+data people are reducing their genes to
+
+2124
+01:29:01,360 --> 01:29:05,639
+highly variable genes here we don't have
+
+2125
+01:29:03,000 --> 01:29:07,560
+to do that sometimes when you have also
+
+2126
+01:29:05,639 --> 01:29:10,000
+rare cells you don't want to do that one
+
+2127
+01:29:07,560 --> 01:29:11,600
+is last so we keep all our genes like
+
+2128
+01:29:10,000 --> 01:29:14,000
+after some
+
+2129
+01:29:11,600 --> 01:29:15,800
+filtering so here we look at the rank
+
+2130
+01:29:14,000 --> 01:29:17,960
+selection you look at explained variance
+
+2131
+01:29:15,800 --> 01:29:20,119
+and cinetic correlation which agrees at
+
+2132
+01:29:17,960 --> 01:29:22,719
+22 and we are looking how good is the
+
+2133
+01:29:20,119 --> 01:29:25,440
+clustering of the factors from different
+
+2134
+01:29:22,719 --> 01:29:28,360
+runs actually we kind of look at inertia
+
+2135
+01:29:25,440 --> 01:29:30,960
+silette score so we kind of agree on 22
+
+2136
+01:29:28,360 --> 01:29:34,199
+I will quickly see like which kind of
+
+2137
+01:29:30,960 --> 01:29:34,199
+important factors we
+
+2138
+01:29:36,000 --> 01:29:42,719
+get okay so here just to say this is the
+
+2139
+01:29:39,199 --> 01:29:45,840
+U map of the cell types so this one
+
+2140
+01:29:42,719 --> 01:29:48,280
+correspond to one rank one tensor so
+
+2141
+01:29:45,840 --> 01:29:50,880
+this column correspond to samples cell
+
+2142
+01:29:48,280 --> 01:29:52,679
+types and this is like genes but I
+
+2143
+01:29:50,880 --> 01:29:55,760
+cannot put all the gene Factor I'm
+
+2144
+01:29:52,679 --> 01:29:59,119
+looking at top 2 significant gen and we
+
+2145
+01:29:55,760 --> 01:30:02,159
+run Petway analysis for example in here
+
+2146
+01:29:59,119 --> 01:30:04,159
+we are finding T Cell like gene
+
+2147
+01:30:02,159 --> 01:30:09,280
+expression program we run this one later
+
+2148
+01:30:04,159 --> 01:30:11,719
+for T cells this is Factor 10 uh then
+
+2149
+01:30:09,280 --> 01:30:14,600
+which is activated in almost all over
+
+2150
+01:30:11,719 --> 01:30:19,119
+patient profiles right we have healthy
+
+2151
+01:30:14,600 --> 01:30:21,760
+black SL flare like blue andle manages
+
+2152
+01:30:19,119 --> 01:30:26,159
+pink again we have another Factor this
+
+2153
+01:30:21,760 --> 01:30:28,639
+is like a uh mon sites program activated
+
+2154
+01:30:26,159 --> 01:30:30,600
+in all over patients actually here we
+
+2155
+01:30:28,639 --> 01:30:34,000
+are finding cell type identity gen
+
+2156
+01:30:30,600 --> 01:30:36,080
+expression programs with this factors
+
+2157
+01:30:34,000 --> 01:30:38,800
+but we want to find something more can
+
+2158
+01:30:36,080 --> 01:30:41,800
+we find condition specific actually we
+
+2159
+01:30:38,800 --> 01:30:43,920
+also have condition specific programs
+
+2160
+01:30:41,800 --> 01:30:46,280
+here these are the conditions like the
+
+2161
+01:30:43,920 --> 01:30:48,880
+um map of the conditions healthy SLE
+
+2162
+01:30:46,280 --> 01:30:51,080
+flare and slle manage so we have some
+
+2163
+01:30:48,880 --> 01:30:53,719
+factors for example Factor 21 one of
+
+2164
+01:30:51,080 --> 01:30:54,560
+them it correspond to patients with SLE
+
+2165
+01:30:53,719 --> 01:30:59,000
+food
+
+2166
+01:30:54,560 --> 01:31:00,800
+there right Factor 21 here and you can
+
+2167
+01:30:59,000 --> 01:31:03,639
+see from the patients profiles it's
+
+2168
+01:31:00,800 --> 01:31:06,159
+really uh has higher weight in patients
+
+2169
+01:31:03,639 --> 01:31:08,440
+with SL flare and when you look at
+
+2170
+01:31:06,159 --> 01:31:10,679
+Factor 21 it's also kind of we do the
+
+2171
+01:31:08,440 --> 01:31:12,719
+Petway analysis it's kind of how to say
+
+2172
+01:31:10,679 --> 01:31:15,199
+what we find as a pet F I cannot move
+
+2173
+01:31:12,719 --> 01:31:18,000
+this one it agrees with the literature
+
+2174
+01:31:15,199 --> 01:31:20,280
+and Factor 21 actually it's like all the
+
+2175
+01:31:18,000 --> 01:31:23,480
+patients too much doesn't matter if it's
+
+2176
+01:31:20,280 --> 01:31:24,880
+flare or not a flare we also have S
+
+2177
+01:31:23,480 --> 01:31:27,280
+patients
+
+2178
+01:31:24,880 --> 01:31:29,239
+uh this Petway actually gives type one
+
+2179
+01:31:27,280 --> 01:31:31,360
+interferent Petway observed in viral
+
+2180
+01:31:29,239 --> 01:31:32,480
+infection which is commonly seen in
+
+2181
+01:31:31,360 --> 01:31:34,600
+Lupus
+
+2182
+01:31:32,480 --> 01:31:36,800
+patients actually it goes even more
+
+2183
+01:31:34,600 --> 01:31:39,360
+detail lopus patients with active flare
+
+2184
+01:31:36,800 --> 01:31:41,520
+has a different program with manage has
+
+2185
+01:31:39,360 --> 01:31:43,840
+a different program so this is important
+
+2186
+01:31:41,520 --> 01:31:46,440
+to know because if we don't know the
+
+2187
+01:31:43,840 --> 01:31:48,520
+again labels of the data we could with
+
+2188
+01:31:46,440 --> 01:31:51,000
+this uh this kind of methods we can find
+
+2189
+01:31:48,520 --> 01:31:53,000
+it right but for differential Express
+
+2190
+01:31:51,000 --> 01:31:56,400
+analysis you cannot find it you have to
+
+2191
+01:31:53,000 --> 01:31:59,159
+know the labels for example so we later
+
+2192
+01:31:56,400 --> 01:32:02,800
+R number of differential expressed genes
+
+2193
+01:31:59,159 --> 01:32:06,719
+was 55 When comparing s patients against
+
+2194
+01:32:02,800 --> 01:32:09,159
+Health donors and it's 120 to when you
+
+2195
+01:32:06,719 --> 01:32:11,600
+compare patients with with active flare
+
+2196
+01:32:09,159 --> 01:32:13,440
+to health donors but if you don't know
+
+2197
+01:32:11,600 --> 01:32:15,760
+this information about the subgroups
+
+2198
+01:32:13,440 --> 01:32:19,119
+your differential expression analysis
+
+2199
+01:32:15,760 --> 01:32:21,239
+wouldn't give uh a lot of information so
+
+2200
+01:32:19,119 --> 01:32:23,199
+the takeaway from here in scenarios
+
+2201
+01:32:21,239 --> 01:32:26,199
+where the source of ingroup heterogenity
+
+2202
+01:32:23,199 --> 01:32:28,360
+is unknown czd can highlight subgroups
+
+2203
+01:32:26,199 --> 01:32:30,199
+based on expression profiles and
+
+2204
+01:32:28,360 --> 01:32:32,000
+identify gene expression programs
+
+2205
+01:32:30,199 --> 01:32:35,159
+driving the heterogenity that may be
+
+2206
+01:32:32,000 --> 01:32:39,920
+missed by supervised uh differential gen
+
+2207
+01:32:35,159 --> 01:32:42,800
+expression analysis and we I still have
+
+2208
+01:32:39,920 --> 01:32:45,440
+time okay so I will go through hkin
+
+2209
+01:32:42,800 --> 01:32:48,600
+infoma so this is going to be it's like
+
+2210
+01:32:45,440 --> 01:32:51,440
+our project with the golop lab and yeah
+
+2211
+01:32:48,600 --> 01:32:54,440
+because I was also post at golop lab so
+
+2212
+01:32:51,440 --> 01:32:56,639
+here actually this um
+
+2213
+01:32:54,440 --> 01:32:58,840
+factorization uh make us aware of
+
+2214
+01:32:56,639 --> 01:33:02,320
+labeling mistakes because some programs
+
+2215
+01:32:58,840 --> 01:33:04,400
+were always some patient factors patient
+
+2216
+01:33:02,320 --> 01:33:06,920
+profiles were keep appearing in
+
+2217
+01:33:04,400 --> 01:33:08,719
+different gen expression programs and we
+
+2218
+01:33:06,920 --> 01:33:10,639
+ask the clinicians I will go over this
+
+2219
+01:33:08,719 --> 01:33:12,560
+example is it a Constance but we figure
+
+2220
+01:33:10,639 --> 01:33:14,360
+out it's a labeling mistake it can't
+
+2221
+01:33:12,560 --> 01:33:16,040
+even find labeling mistakes because it's
+
+2222
+01:33:14,360 --> 01:33:19,560
+totally unsupervised right it's trying
+
+2223
+01:33:16,040 --> 01:33:23,920
+to learn from data okay so
+
+2224
+01:33:19,560 --> 01:33:26,800
+this okay this paper first is like czf
+
+2225
+01:33:23,920 --> 01:33:29,560
+with more applications I work with vesh
+
+2226
+01:33:26,800 --> 01:33:31,840
+in he's in bro Institute in golop lab
+
+2227
+01:33:29,560 --> 01:33:34,920
+Daniel was in golp lab but now he's in
+
+2228
+01:33:31,840 --> 01:33:36,639
+upan medical school so you can um you
+
+2229
+01:33:34,920 --> 01:33:39,480
+can see more applications and more
+
+2230
+01:33:36,639 --> 01:33:42,719
+technical details in the paper and um
+
+2231
+01:33:39,480 --> 01:33:44,840
+all the data all the tutorials
+
+2232
+01:33:42,719 --> 01:33:47,119
+everything is publicly available in
+
+2233
+01:33:44,840 --> 01:33:49,119
+GitHub and again you can also change
+
+2234
+01:33:47,119 --> 01:33:50,119
+your distribution and apply assuming
+
+2235
+01:33:49,119 --> 01:33:53,239
+different
+
+2236
+01:33:50,119 --> 01:33:55,600
+distributions good so next application
+
+2237
+01:33:53,239 --> 01:33:57,880
+this micro environment project actually
+
+2238
+01:33:55,600 --> 01:33:59,880
+it's a very uh bigger project we don't
+
+2239
+01:33:57,880 --> 01:34:02,480
+only use tensor factorization I start
+
+2240
+01:33:59,880 --> 01:34:04,280
+discussing this project in 2020 I was
+
+2241
+01:34:02,480 --> 01:34:06,199
+thinking okay is going to take as long
+
+2242
+01:34:04,280 --> 01:34:09,239
+as like Boston big digging project
+
+2243
+01:34:06,199 --> 01:34:11,119
+remember they were reorienting tunnel
+
+2244
+01:34:09,239 --> 01:34:13,080
+but hopefully it's finishing this month
+
+2245
+01:34:11,119 --> 01:34:15,520
+I'm happy sometimes it can haveen in
+
+2246
+01:34:13,080 --> 01:34:19,000
+Broad you know your have projects takes
+
+2247
+01:34:15,520 --> 01:34:21,320
+forever it's like so we are working on
+
+2248
+01:34:19,000 --> 01:34:23,920
+tumor micro environments tumors are
+
+2249
+01:34:21,320 --> 01:34:26,880
+complex sell ecosystem you have diverse
+
+2250
+01:34:23,920 --> 01:34:29,280
+non malignant cell types and States a T
+
+2251
+01:34:26,880 --> 01:34:31,800
+Cell nature killer cells you have also
+
+2252
+01:34:29,280 --> 01:34:33,639
+diverse malignant cell States here we
+
+2253
+01:34:31,800 --> 01:34:35,639
+have different cell types we really care
+
+2254
+01:34:33,639 --> 01:34:38,400
+different cell States we really also
+
+2255
+01:34:35,639 --> 01:34:40,199
+care about cell cell interactions that
+
+2256
+01:34:38,400 --> 01:34:42,960
+we discussed in the first talk like L
+
+2257
+01:34:40,199 --> 01:34:44,960
+receptor interactions as well so here we
+
+2258
+01:34:42,960 --> 01:34:47,440
+work in classical lymphoma this is a
+
+2259
+01:34:44,960 --> 01:34:50,679
+malignant Vell lymphoma so if you zoom
+
+2260
+01:34:47,440 --> 01:34:53,080
+in you have this agin double nuclei size
+
+2261
+01:34:50,679 --> 01:34:56,040
+they hkin read standard size they
+
+2262
+01:34:53,080 --> 01:34:58,800
+compromise only 1% of the tumor so this
+
+2263
+01:34:56,040 --> 01:35:02,520
+is something unusual are bad guys only
+
+2264
+01:34:58,800 --> 01:35:04,679
+1% 99% good guys but they cannot go kill
+
+2265
+01:35:02,520 --> 01:35:07,080
+them so they are surrounded by immune
+
+2266
+01:35:04,679 --> 01:35:09,520
+cells normal immune cells are supposed
+
+2267
+01:35:07,080 --> 01:35:11,880
+to go and kill tumor cells but actually
+
+2268
+01:35:09,520 --> 01:35:13,639
+in our case immune cells are supporting
+
+2269
+01:35:11,880 --> 01:35:15,119
+the promotion of tumor cells there's a
+
+2270
+01:35:13,639 --> 01:35:17,520
+reprogramming
+
+2271
+01:35:15,119 --> 01:35:19,880
+here so they are difficult to grow in
+
+2272
+01:35:17,520 --> 01:35:22,560
+culture they don't survive in imuno
+
+2273
+01:35:19,880 --> 01:35:24,719
+deficient Mass it means they need their
+
+2274
+01:35:22,560 --> 01:35:26,880
+micro environment so kind of studies
+
+2275
+01:35:24,719 --> 01:35:28,560
+then Works what's happening around this
+
+2276
+01:35:26,880 --> 01:35:30,639
+tissue I'm not going to go over it but
+
+2277
+01:35:28,560 --> 01:35:31,600
+we also use lots of spatial data to see
+
+2278
+01:35:30,639 --> 01:35:34,960
+the
+
+2279
+01:35:31,600 --> 01:35:37,320
+organization so and the other thing main
+
+2280
+01:35:34,960 --> 01:35:41,920
+therapy is very harsh chemotherapy
+
+2281
+01:35:37,320 --> 01:35:44,199
+people survive Homa but then they suffer
+
+2282
+01:35:41,920 --> 01:35:46,320
+uh even if they survive they suffer from
+
+2283
+01:35:44,199 --> 01:35:48,400
+the longterm effect of chemotherapy our
+
+2284
+01:35:46,320 --> 01:35:51,560
+goal was trying to find imy Targets
+
+2285
+01:35:48,400 --> 01:35:55,239
+which we were able to identify finally
+
+2286
+01:35:51,560 --> 01:35:57,520
+before I become 6y old
+
+2287
+01:35:55,239 --> 01:35:59,480
+so again here we are using single
+
+2288
+01:35:57,520 --> 01:36:01,159
+nucleus data we use so many different
+
+2289
+01:35:59,480 --> 01:36:04,719
+data sets I'm going to just presenting
+
+2290
+01:36:01,159 --> 01:36:07,000
+one piece so it is hand 10 hkin for
+
+2291
+01:36:04,719 --> 01:36:09,360
+patients multiple replicates half of
+
+2292
+01:36:07,000 --> 01:36:11,440
+them has abon by virus half of them
+
+2293
+01:36:09,360 --> 01:36:14,760
+doesn't have epon virus there is a
+
+2294
+01:36:11,440 --> 01:36:16,760
+correlation between having epon by virus
+
+2295
+01:36:14,760 --> 01:36:18,320
+and having hutkin lymphoma it's
+
+2296
+01:36:16,760 --> 01:36:21,119
+interesting because it looks very
+
+2297
+01:36:18,320 --> 01:36:25,040
+innocent virus it's not that innocent
+
+2298
+01:36:21,119 --> 01:36:27,239
+right so here we also anot did 15 cell
+
+2299
+01:36:25,040 --> 01:36:30,360
+types right I will give more details
+
+2300
+01:36:27,239 --> 01:36:33,719
+about the data here after some filtering
+
+2301
+01:36:30,360 --> 01:36:36,480
+we end up with 19,000 jeans 15 cell
+
+2302
+01:36:33,719 --> 01:36:39,320
+types and 40 when I say 40 donors 40
+
+2303
+01:36:36,480 --> 01:36:42,159
+samples right because for some donors we
+
+2304
+01:36:39,320 --> 01:36:44,280
+are repeating different tissues as a
+
+2305
+01:36:42,159 --> 01:36:46,800
+different replicates so I didn't want to
+
+2306
+01:36:44,280 --> 01:36:48,920
+also over filter my jeans because hkin
+
+2307
+01:36:46,800 --> 01:36:50,639
+lymphomas are like rare cells in this
+
+2308
+01:36:48,920 --> 01:36:53,280
+group I didn't want to you know
+
+2309
+01:36:50,639 --> 01:36:54,159
+mistakely get them out of the um out of
+
+2310
+01:36:53,280 --> 01:36:57,360
+the
+
+2311
+01:36:54,159 --> 01:37:01,040
+data okay so
+
+2312
+01:36:57,360 --> 01:37:03,239
+here the main goal again unsupervised
+
+2313
+01:37:01,040 --> 01:37:05,360
+stratification of these donors into
+
+2314
+01:37:03,239 --> 01:37:07,560
+subgroups and identification of gene
+
+2315
+01:37:05,360 --> 01:37:08,400
+expression programs that drive this
+
+2316
+01:37:07,560 --> 01:37:10,960
+those
+
+2317
+01:37:08,400 --> 01:37:12,760
+certifications and in one or two weeks
+
+2318
+01:37:10,960 --> 01:37:15,040
+this should be on bioarchive with the
+
+2319
+01:37:12,760 --> 01:37:16,679
+name genome scale spatial mapping of the
+
+2320
+01:37:15,040 --> 01:37:19,360
+hkin informa micro environment
+
+2321
+01:37:16,679 --> 01:37:22,280
+identifies Factor required for tumor
+
+2322
+01:37:19,360 --> 01:37:24,440
+cell survival I think name is very
+
+2323
+01:37:22,280 --> 01:37:26,159
+descriptive I I think we we are keeping
+
+2324
+01:37:24,440 --> 01:37:28,960
+this name but there might be changes but
+
+2325
+01:37:26,159 --> 01:37:31,159
+it's going to be like uh me and vges it
+
+2326
+01:37:28,960 --> 01:37:32,679
+will come from the goal plan and for
+
+2327
+01:37:31,159 --> 01:37:35,080
+sure there are so many people get
+
+2328
+01:37:32,679 --> 01:37:38,159
+involved from
+
+2329
+01:37:35,080 --> 01:37:40,480
+broad okay so here again I I'm just
+
+2330
+01:37:38,159 --> 01:37:43,800
+going to quickly go to results are
+
+2331
+01:37:40,480 --> 01:37:46,000
+metric suggested start in rank 12 okay
+
+2332
+01:37:43,800 --> 01:37:48,599
+what we see in the rank 12 in the rank
+
+2333
+01:37:46,000 --> 01:37:50,560
+12 in the lower ranks actually I want to
+
+2334
+01:37:48,599 --> 01:37:53,080
+give an idea what you what happens if
+
+2335
+01:37:50,560 --> 01:37:55,880
+you go lower or higher ranks for example
+
+2336
+01:37:53,080 --> 01:37:59,280
+let's say this is one again rank one
+
+2337
+01:37:55,880 --> 01:38:01,239
+tenser okay dark blue H virus positive
+
+2338
+01:37:59,280 --> 01:38:04,400
+open blue virus negative and you have
+
+2339
+01:38:01,239 --> 01:38:07,159
+reactive L notes maybe I can quickly go
+
+2340
+01:38:04,400 --> 01:38:10,000
+over it actually it gives this one the
+
+2341
+01:38:07,159 --> 01:38:11,480
+last column last row I took ex as it is
+
+2342
+01:38:10,000 --> 01:38:14,719
+so this is the one we discussed in the
+
+2343
+01:38:11,480 --> 01:38:16,280
+first talk gen L factors give J start
+
+2344
+01:38:14,719 --> 01:38:18,840
+pet way promotes tumor cell
+
+2345
+01:38:16,280 --> 01:38:22,159
+proliferation and survival of tumor STS
+
+2346
+01:38:18,840 --> 01:38:25,800
+activated in tumor again height is based
+
+2347
+01:38:22,159 --> 01:38:27,599
+on the weight and it is activated in we
+
+2348
+01:38:25,800 --> 01:38:30,719
+are looking at the base on the weight
+
+2349
+01:38:27,599 --> 01:38:34,119
+activating hen for patients okay this is
+
+2350
+01:38:30,719 --> 01:38:36,360
+what happens in rank 12 and when you
+
+2351
+01:38:34,119 --> 01:38:39,000
+increase the rank it's so beautiful so
+
+2352
+01:38:36,360 --> 01:38:41,400
+it's I always suggest start from a rank
+
+2353
+01:38:39,000 --> 01:38:44,159
+and try to increase it this signal
+
+2354
+01:38:41,400 --> 01:38:47,560
+divides into two it will divide into
+
+2355
+01:38:44,159 --> 01:38:50,679
+tumor for virus positive tumor for virus
+
+2356
+01:38:47,560 --> 01:38:52,560
+negative we increase the rank and I will
+
+2357
+01:38:50,679 --> 01:38:54,159
+maybe rank 20 I will directly maybe go
+
+2358
+01:38:52,560 --> 01:38:55,320
+to result and what what happen when I
+
+2359
+01:38:54,159 --> 01:38:57,320
+increase the rank there are again
+
+2360
+01:38:55,320 --> 01:38:59,679
+different factors right it's not going
+
+2361
+01:38:57,320 --> 01:39:02,920
+to be just C type identity so it is
+
+2362
+01:38:59,679 --> 01:39:05,880
+going to be condition specific so let me
+
+2363
+01:39:02,920 --> 01:39:08,199
+maybe just speak about this one so here
+
+2364
+01:39:05,880 --> 01:39:10,080
+we have a gene expression program we
+
+2365
+01:39:08,199 --> 01:39:14,440
+actually biologically work on it and
+
+2366
+01:39:10,080 --> 01:39:18,159
+validate it for tumor cells for mostly
+
+2367
+01:39:14,440 --> 01:39:20,119
+hkin lymphoma with uh virus negative
+
+2368
+01:39:18,159 --> 01:39:22,960
+except one donor appears in virus
+
+2369
+01:39:20,119 --> 01:39:26,000
+positive and here we get another gen
+
+2370
+01:39:22,960 --> 01:39:28,080
+expression program tumor SS for virus
+
+2371
+01:39:26,000 --> 01:39:30,320
+positive one donor appears in wirus
+
+2372
+01:39:28,080 --> 01:39:32,800
+negative and we figure out is a labeling
+
+2373
+01:39:30,320 --> 01:39:34,760
+mistake that was the one we like why
+
+2374
+01:39:32,800 --> 01:39:37,040
+this one keeps coming then we foret
+
+2375
+01:39:34,760 --> 01:39:40,159
+actually it's positive it's negative it
+
+2376
+01:39:37,040 --> 01:39:42,840
+was good and actually so there is also
+
+2377
+01:39:40,159 --> 01:39:45,880
+some heterogenity right uh like they
+
+2378
+01:39:42,840 --> 01:39:48,719
+join but in have like different um
+
+2379
+01:39:45,880 --> 01:39:51,880
+different uh ways and actually we double
+
+2380
+01:39:48,719 --> 01:39:54,760
+confirm actually if you use DG test
+
+2381
+01:39:51,880 --> 01:39:56,480
+negative plus was positive like
+
+2382
+01:39:54,760 --> 01:39:58,400
+significant genes you would get it
+
+2383
+01:39:56,480 --> 01:40:00,080
+concur with the genes we find with this
+
+2384
+01:39:58,400 --> 01:40:02,599
+Pro um
+
+2385
+01:40:00,080 --> 01:40:04,639
+factorization and again we find
+
+2386
+01:40:02,599 --> 01:40:06,840
+something this is I just want to go Gen
+
+2387
+01:40:04,639 --> 01:40:09,800
+expression program for fiberblast for
+
+2388
+01:40:06,840 --> 01:40:11,960
+hkin infa patients and fiberblast mostly
+
+2389
+01:40:09,800 --> 01:40:13,960
+for reactive lymph not patients but
+
+2390
+01:40:11,960 --> 01:40:16,520
+there is some heterogenity and this
+
+2391
+01:40:13,960 --> 01:40:18,480
+heterogenic can actually harm
+
+2392
+01:40:16,520 --> 01:40:21,719
+differential expression a differential
+
+2393
+01:40:18,480 --> 01:40:24,080
+Express Gene analysis right and another
+
+2394
+01:40:21,719 --> 01:40:27,920
+Finding again monoy program for HK
+
+2395
+01:40:24,080 --> 01:40:29,639
+formula monoy program mostly appears in
+
+2396
+01:40:27,920 --> 01:40:31,920
+uh reactive n not again this
+
+2397
+01:40:29,639 --> 01:40:34,320
+unsupervised an algorithms able to find
+
+2398
+01:40:31,920 --> 01:40:36,280
+by itself for sure for this project
+
+2399
+01:40:34,320 --> 01:40:37,560
+though okay last thing I want to do
+
+2400
+01:40:36,280 --> 01:40:39,159
+people always ask what happens you
+
+2401
+01:40:37,560 --> 01:40:41,119
+increase the rank colot if you increase
+
+2402
+01:40:39,159 --> 01:40:43,840
+the rank palot you're overfitting you
+
+2403
+01:40:41,119 --> 01:40:45,800
+start finding a program activated in one
+
+2404
+01:40:43,840 --> 01:40:48,560
+specific donor you're not interested in
+
+2405
+01:40:45,800 --> 01:40:51,480
+it so you should find the s balance so
+
+2406
+01:40:48,560 --> 01:40:54,040
+we uh start what the metric suggests but
+
+2407
+01:40:51,480 --> 01:40:56,280
+we kind of look at higher rank as well
+
+2408
+01:40:54,040 --> 01:40:57,840
+so in this paper actually I think couple
+
+2409
+01:40:56,280 --> 01:41:00,000
+of minutes I can say this is more
+
+2410
+01:40:57,840 --> 01:41:02,679
+General than tensor methods we work on
+
+2411
+01:41:00,000 --> 01:41:04,280
+we also use special data cell types and
+
+2412
+01:41:02,679 --> 01:41:06,960
+States within the tumor micro
+
+2413
+01:41:04,280 --> 01:41:09,960
+environment like what is surrounding
+
+2414
+01:41:06,960 --> 01:41:12,760
+these uh malignant cells we use special
+
+2415
+01:41:09,960 --> 01:41:15,119
+data which cells are in reach which cell
+
+2416
+01:41:12,760 --> 01:41:16,840
+States and cell types and what are the
+
+2417
+01:41:15,119 --> 01:41:19,440
+tumor specific survival and growth
+
+2418
+01:41:16,840 --> 01:41:21,760
+signalings and mechanism of immun Evas
+
+2419
+01:41:19,440 --> 01:41:24,480
+because we want to transer uh get
+
+2420
+01:41:21,760 --> 01:41:26,480
+insights for drug res met immunotherapy
+
+2421
+01:41:24,480 --> 01:41:29,560
+response and we are going to suggest uh
+
+2422
+01:41:26,480 --> 01:41:31,960
+some immunotherapy targets work on inter
+
+2423
+01:41:29,560 --> 01:41:33,760
+intrapatient heterogenity cross talks
+
+2424
+01:41:31,960 --> 01:41:36,080
+Petway within tumor micro environment we
+
+2425
+01:41:33,760 --> 01:41:39,280
+use tensor factorization for Li receptor
+
+2426
+01:41:36,080 --> 01:41:41,320
+interaction it was very powerful and
+
+2427
+01:41:39,280 --> 01:41:44,040
+immunotherapy targets and the last but
+
+2428
+01:41:41,320 --> 01:41:46,599
+not least to give more ideas what's
+
+2429
+01:41:44,040 --> 01:41:48,280
+happening in this domain now actually
+
+2430
+01:41:46,599 --> 01:41:50,239
+deep learning approaches are very
+
+2431
+01:41:48,280 --> 01:41:52,679
+effective but Laten space is not
+
+2432
+01:41:50,239 --> 01:41:55,000
+interpretable and tensor approaches are
+
+2433
+01:41:52,679 --> 01:41:57,560
+effective but is multilinear nonlinear
+
+2434
+01:41:55,000 --> 01:42:00,000
+now there is new communities they're
+
+2435
+01:41:57,560 --> 01:42:02,280
+merging these two areas like they do
+
+2436
+01:42:00,000 --> 01:42:05,080
+tens n networks or they use tensor
+
+2437
+01:42:02,280 --> 01:42:06,760
+factorization in these layers so it is
+
+2438
+01:42:05,080 --> 01:42:08,960
+I'm new in this area I'm very excited if
+
+2439
+01:42:06,760 --> 01:42:10,599
+you start working invite me integration
+
+2440
+01:42:08,960 --> 01:42:12,840
+of tensor methods and deep learning
+
+2441
+01:42:10,599 --> 01:42:15,119
+approaches it's a very good promising
+
+2442
+01:42:12,840 --> 01:42:16,800
+area for sure if you're more theoretical
+
+2443
+01:42:15,119 --> 01:42:19,080
+there is always need for theoretical
+
+2444
+01:42:16,800 --> 01:42:20,880
+improvements both theoretically like
+
+2445
+01:42:19,080 --> 01:42:23,040
+optimization and you can find
+
+2446
+01:42:20,880 --> 01:42:24,800
+applications in many different domains I
+
+2447
+01:42:23,040 --> 01:42:26,440
+know here people are most interested in
+
+2448
+01:42:24,800 --> 01:42:28,719
+omix state analysis but like
+
+2449
+01:42:26,440 --> 01:42:32,040
+Neuroscience right and like computer
+
+2450
+01:42:28,719 --> 01:42:34,159
+vision we use a lot of images uh in bro
+
+2451
+01:42:32,040 --> 01:42:38,159
+as well so there are lots of different
+
+2452
+01:42:34,159 --> 01:42:38,159
+applications thanks
+

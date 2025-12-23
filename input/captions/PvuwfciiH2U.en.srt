@@ -1,0 +1,6168 @@
+1
+00:00:10,679 --> 00:00:16,440
+all right uh let's get into it um last
+
+2
+00:00:13,880 --> 00:00:18,400
+lecture of material before the quiz so
+
+3
+00:00:16,440 --> 00:00:20,320
+let's make sure we make the most of it
+
+4
+00:00:18,400 --> 00:00:22,880
+today we're talking about
+
+5
+00:00:20,320 --> 00:00:26,240
+recurrences uh recurrence is a fancy
+
+6
+00:00:22,880 --> 00:00:30,920
+word for saying sequence described by
+
+7
+00:00:26,240 --> 00:00:32,320
+induction uh so it's a sequence
+
+8
+00:00:30,920 --> 00:00:35,320
+um
+
+9
+00:00:32,320 --> 00:00:35,320
+defined
+
+10
+00:00:36,239 --> 00:00:39,680
+inductively and we've seen multiple
+
+11
+00:00:38,280 --> 00:00:43,079
+examples a great example is the
+
+12
+00:00:39,680 --> 00:00:44,320
+Fibonacci numbers um are there two B's
+
+13
+00:00:43,079 --> 00:00:46,520
+uh
+
+14
+00:00:44,320 --> 00:00:50,600
+Fibonacci let's pretend I spelled that
+
+15
+00:00:46,520 --> 00:00:54,520
+right no it's two B's and one n isn't
+
+16
+00:00:50,600 --> 00:00:57,079
+it are there two C's I don't know no
+
+17
+00:00:54,520 --> 00:01:01,440
+one's no one's helping me um doesn't
+
+18
+00:00:57,079 --> 00:01:04,559
+matter um defined by F0 is z
+
+19
+00:01:01,440 --> 00:01:08,759
+fub1 is 1 and the important part is that
+
+20
+00:01:04,559 --> 00:01:11,960
+FN is defined as FN minus1 plus FN minus
+
+21
+00:01:08,759 --> 00:01:13,799
+2 when n is at least two and this is the
+
+22
+00:01:11,960 --> 00:01:15,759
+part where we're describing the sequence
+
+23
+00:01:13,799 --> 00:01:18,240
+inductively once you know the first two
+
+24
+00:01:15,759 --> 00:01:22,560
+terms the next term is the sum of those
+
+25
+00:01:18,240 --> 00:01:26,280
+so F2 is 0 + 1 is 2 F3 is 1 + 2 is 3
+
+26
+00:01:22,560 --> 00:01:29,240
+then 2 + 3 is 5 3 + 5 is 8 then 13 21 34
+
+27
+00:01:26,280 --> 00:01:31,280
+and so on um it's just a sequence
+
+28
+00:01:29,240 --> 00:01:33,479
+defined inductor L that's the idea of a
+
+29
+00:01:31,280 --> 00:01:35,799
+recurrence and these show up all the
+
+30
+00:01:33,479 --> 00:01:37,880
+time when analyzing algorithms for many
+
+31
+00:01:35,799 --> 00:01:40,280
+of the same reasons that summations show
+
+32
+00:01:37,880 --> 00:01:42,680
+up when analyzing algorithms and we need
+
+33
+00:01:40,280 --> 00:01:45,200
+a lot of the same things out of them if
+
+34
+00:01:42,680 --> 00:01:48,000
+we end up with a an algorithm whose
+
+35
+00:01:45,200 --> 00:01:49,960
+runtime we can describe as the Fibonacci
+
+36
+00:01:48,000 --> 00:01:52,920
+numbers or as a similar
+
+37
+00:01:49,960 --> 00:01:55,320
+recurrence well that's not as useful as
+
+38
+00:01:52,920 --> 00:01:58,320
+it could be um a closed form would be a
+
+39
+00:01:55,320 --> 00:02:00,920
+lot more more helpful right um if we
+
+40
+00:01:58,320 --> 00:02:04,000
+could have it uh if we could find it and
+
+41
+00:02:00,920 --> 00:02:07,240
+indeed Fibonacci numbers do have a
+
+42
+00:02:04,000 --> 00:02:09,160
+closed form the nth Fibonacci number is
+
+43
+00:02:07,240 --> 00:02:15,280
+1/ sarek 5
+
+44
+00:02:09,160 --> 00:02:17,519
+Time 1 + < TK 5 / 2 to the N - 1 - < TK
+
+45
+00:02:15,280 --> 00:02:19,920
+5/ 22 to the
+
+46
+00:02:17,519 --> 00:02:23,440
+n and there's a closed form you just
+
+47
+00:02:19,920 --> 00:02:24,959
+take two exponentials um subtract them
+
+48
+00:02:23,440 --> 00:02:26,640
+divide by root 5 and you get the nth
+
+49
+00:02:24,959 --> 00:02:28,720
+Fibonacci number
+
+50
+00:02:26,640 --> 00:02:31,120
+exactly I think this is a really cool
+
+51
+00:02:28,720 --> 00:02:35,480
+formula also non VI how how do we
+
+52
+00:02:31,120 --> 00:02:37,160
+possibly go from this to that um well we
+
+53
+00:02:35,480 --> 00:02:42,040
+have some techniques that might work
+
+54
+00:02:37,160 --> 00:02:44,959
+sometimes and um other times we won't um
+
+55
+00:02:42,040 --> 00:02:46,879
+but certainly once we know this formula
+
+56
+00:02:44,959 --> 00:02:48,599
+if if we believe this formula or want to
+
+57
+00:02:46,879 --> 00:02:50,400
+check whether it's true now that we know
+
+58
+00:02:48,599 --> 00:02:52,239
+the formula we can just try the
+
+59
+00:02:50,400 --> 00:02:55,319
+induction and see if the induction works
+
+60
+00:02:52,239 --> 00:02:56,680
+out um in this case it will work out and
+
+61
+00:02:55,319 --> 00:02:57,879
+then you'll not only know that this is
+
+62
+00:02:56,680 --> 00:03:01,360
+the right formula but you'll have a
+
+63
+00:02:57,879 --> 00:03:04,319
+proof for it so just like with
+
+64
+00:03:01,360 --> 00:03:06,959
+summations if you know a closed
+
+65
+00:03:04,319 --> 00:03:09,200
+form um then usually it's easy to prove
+
+66
+00:03:06,959 --> 00:03:11,480
+it by induction so finding the closed
+
+67
+00:03:09,200 --> 00:03:14,400
+form is the hard part proving it is the
+
+68
+00:03:11,480 --> 00:03:17,440
+easy part so this guess and
+
+69
+00:03:14,400 --> 00:03:20,159
+check guess and
+
+70
+00:03:17,440 --> 00:03:22,640
+check technique that we used for sums
+
+71
+00:03:20,159 --> 00:03:24,239
+works just as well for
+
+72
+00:03:22,640 --> 00:03:27,280
+recurrences all
+
+73
+00:03:24,239 --> 00:03:30,280
+right um now recurrences very often show
+
+74
+00:03:27,280 --> 00:03:33,040
+up um especially when analyzing
+
+75
+00:03:30,280 --> 00:03:35,480
+recursive algorithms so let's talk about
+
+76
+00:03:33,040 --> 00:03:37,560
+recursive algorithms uh and show some
+
+77
+00:03:35,480 --> 00:03:42,360
+examples so let's start with a very
+
+78
+00:03:37,560 --> 00:03:42,360
+Classic Fun example called The Towers of
+
+79
+00:03:49,159 --> 00:03:56,000
+Hanoi so this this comes with its own
+
+80
+00:03:52,280 --> 00:03:57,040
+myth um it was described by Edward lucah
+
+81
+00:03:56,000 --> 00:04:00,640
+in
+
+82
+00:03:57,040 --> 00:04:04,239
+1883 he said there was a temple in anoi
+
+83
+00:04:00,640 --> 00:04:05,840
+that has three large pillars um I have I
+
+84
+00:04:04,239 --> 00:04:08,280
+have some helpers today acting as my
+
+85
+00:04:05,840 --> 00:04:12,360
+pillars we've got Ptown wire and
+
+86
+00:04:08,280 --> 00:04:15,239
+tooro um and on the leftmost pillar are
+
+87
+00:04:12,360 --> 00:04:18,040
+64 golden discs stacked on top of each
+
+88
+00:04:15,239 --> 00:04:19,959
+other getting bigger as you go down uh
+
+89
+00:04:18,040 --> 00:04:23,479
+and the monks there are moving the discs
+
+90
+00:04:19,959 --> 00:04:25,120
+around one at a time um but according to
+
+91
+00:04:23,479 --> 00:04:28,240
+a couple rules you're only allowed to
+
+92
+00:04:25,120 --> 00:04:31,320
+move one disc at a time from the top to
+
+93
+00:04:28,240 --> 00:04:34,199
+some other Peg and you're never allowed
+
+94
+00:04:31,320 --> 00:04:36,639
+to put a big box on top of a small I
+
+95
+00:04:34,199 --> 00:04:37,840
+mean big Golden Disc on top of a small
+
+96
+00:04:36,639 --> 00:04:41,479
+Golden
+
+97
+00:04:37,840 --> 00:04:43,320
+Disc um those are the rules one one peg
+
+98
+00:04:41,479 --> 00:04:46,800
+at a time so I can't pick these both up
+
+99
+00:04:43,320 --> 00:04:49,039
+and move them elsewhere um and always
+
+100
+00:04:46,800 --> 00:04:50,919
+small on top of big never the
+
+101
+00:04:49,039 --> 00:04:54,240
+opposite the
+
+102
+00:04:50,919 --> 00:04:56,199
+goal is if all the discs start over here
+
+103
+00:04:54,240 --> 00:04:57,639
+on the left Peg we want to get them all
+
+104
+00:04:56,199 --> 00:05:00,720
+to a different Peg we want to move them
+
+105
+00:04:57,639 --> 00:05:01,840
+all to the right Peg um by moving one
+
+106
+00:05:00,720 --> 00:05:05,800
+disc at a
+
+107
+00:05:01,840 --> 00:05:05,800
+time so let me write that down
+
+108
+00:05:05,960 --> 00:05:14,080
+quickly so we have let's say n
+
+109
+00:05:10,199 --> 00:05:17,880
+diss on left
+
+110
+00:05:14,080 --> 00:05:17,880
+Peg we have two other
+
+111
+00:05:18,440 --> 00:05:25,440
+pegs and we're going to
+
+112
+00:05:21,840 --> 00:05:25,440
+move one at a
+
+113
+00:05:25,680 --> 00:05:29,919
+time um always
+
+114
+00:05:31,280 --> 00:05:37,039
+keeping uh
+
+115
+00:05:34,039 --> 00:05:37,039
+smaller
+
+116
+00:05:37,120 --> 00:05:41,919
+discs on top of bigger
+
+117
+00:05:42,960 --> 00:05:45,960
+ones
+
+118
+00:05:46,440 --> 00:05:52,919
+goal all
+
+119
+00:05:49,160 --> 00:05:52,919
+discs on the right
+
+120
+00:05:53,000 --> 00:05:58,759
+Peg and as the myth goes when the monks
+
+121
+00:05:56,400 --> 00:06:00,360
+finish when they get all 64 discs over
+
+122
+00:05:58,759 --> 00:06:04,039
+to the the other
+
+123
+00:06:00,360 --> 00:06:05,560
+Peg the universe ends I don't know why
+
+124
+00:06:04,039 --> 00:06:09,680
+that's that's just the story maybe
+
+125
+00:06:05,560 --> 00:06:11,720
+there's a um a weight sensitive um
+
+126
+00:06:09,680 --> 00:06:13,199
+detonation switch over there and you
+
+127
+00:06:11,720 --> 00:06:15,479
+have to get all that weight on there and
+
+128
+00:06:13,199 --> 00:06:18,160
+then then the universe blows up it's a
+
+129
+00:06:15,479 --> 00:06:20,160
+myth you don't need actual answers here
+
+130
+00:06:18,160 --> 00:06:22,599
+um but that's the game uh and the
+
+131
+00:06:20,160 --> 00:06:24,720
+question is how many moves will it take
+
+132
+00:06:22,599 --> 00:06:27,520
+is it even possible how long does the
+
+133
+00:06:24,720 --> 00:06:30,840
+universe have to live do we have a year
+
+134
+00:06:27,520 --> 00:06:33,000
+do we have a a century um let's see if
+
+135
+00:06:30,840 --> 00:06:35,360
+we can figure it out let's see if we can
+
+136
+00:06:33,000 --> 00:06:38,039
+find an algorithm to get all of the the
+
+137
+00:06:35,360 --> 00:06:40,039
+discs from one side to the other are we
+
+138
+00:06:38,039 --> 00:06:43,639
+clear on the
+
+139
+00:06:40,039 --> 00:06:45,479
+game nice let's start small I always
+
+140
+00:06:43,639 --> 00:06:48,000
+recommend starting
+
+141
+00:06:45,479 --> 00:06:50,639
+small what happens if we have just one
+
+142
+00:06:48,000 --> 00:06:54,879
+disc and we need to move it from Ptown
+
+143
+00:06:50,639 --> 00:06:58,199
+to tooro how are we going to do
+
+144
+00:06:54,879 --> 00:07:00,639
+that is that a
+
+145
+00:06:58,199 --> 00:07:02,479
+hand so how how do I move a disc from
+
+146
+00:07:00,639 --> 00:07:03,919
+here to here according to the rules of
+
+147
+00:07:02,479 --> 00:07:06,560
+the game
+
+148
+00:07:03,919 --> 00:07:08,759
+yes you just do it yeah we're allowed to
+
+149
+00:07:06,560 --> 00:07:10,440
+move one disc at a time and there aren't
+
+150
+00:07:08,759 --> 00:07:15,840
+any bigger or smaller discs to get in
+
+151
+00:07:10,440 --> 00:07:19,919
+the way so you just do it in this case
+
+152
+00:07:15,840 --> 00:07:23,000
+um so if we're trying to move um just
+
+153
+00:07:19,919 --> 00:07:25,879
+dis number one from let's say Peg a to
+
+154
+00:07:23,000 --> 00:07:28,919
+Peg C we'll call them the pegs
+
+155
+00:07:25,879 --> 00:07:31,639
+ABC well you do it just by doing it you
+
+156
+00:07:28,919 --> 00:07:35,560
+move you move a disc uh you move dis one
+
+157
+00:07:31,639 --> 00:07:38,919
+from a to c great okay
+
+158
+00:07:35,560 --> 00:07:41,879
+um what if we have two
+
+159
+00:07:38,919 --> 00:07:44,240
+discs here we go how am I going to get
+
+160
+00:07:41,879 --> 00:07:46,759
+both of these from there to there who
+
+161
+00:07:44,240 --> 00:07:50,039
+can help me out yes
+
+162
+00:07:46,759 --> 00:07:52,639
+please small one in the middle second
+
+163
+00:07:50,039 --> 00:07:55,720
+one goes over here small one on the big
+
+164
+00:07:52,639 --> 00:07:59,840
+one absolutely perfect so if we're
+
+165
+00:07:55,720 --> 00:08:02,440
+trying to move discs one and two
+
+166
+00:07:59,840 --> 00:08:05,479
+the two smallest discs again from Peg a
+
+167
+00:08:02,440 --> 00:08:08,199
+to Peg c um as your colleague pointed
+
+168
+00:08:05,479 --> 00:08:12,520
+out um let's move first let's move dis
+
+169
+00:08:08,199 --> 00:08:15,479
+one from A to B then we'll move dis 2
+
+170
+00:08:12,520 --> 00:08:19,639
+from a to c then we'll move dis one from
+
+171
+00:08:15,479 --> 00:08:23,319
+B to C just as we acted out over here
+
+172
+00:08:19,639 --> 00:08:26,599
+next case three
+
+173
+00:08:23,319 --> 00:08:26,599
+boxes now
+
+174
+00:08:26,680 --> 00:08:32,440
+this there we go um this might take a
+
+175
+00:08:29,240 --> 00:08:33,919
+little little bit of planning ahead um
+
+176
+00:08:32,440 --> 00:08:36,039
+and the thing to remember is that at
+
+177
+00:08:33,919 --> 00:08:38,839
+some point we want to be able to make
+
+178
+00:08:36,039 --> 00:08:41,680
+this move where we take the biggest box
+
+179
+00:08:38,839 --> 00:08:43,440
+from the left to the right and so to do
+
+180
+00:08:41,680 --> 00:08:46,080
+that we need the other boxes here in the
+
+181
+00:08:43,440 --> 00:08:49,880
+middle so somewhere along the way we're
+
+182
+00:08:46,080 --> 00:08:51,320
+going to need to go from here to here of
+
+183
+00:08:49,880 --> 00:08:54,279
+course that's not a valid move we can't
+
+184
+00:08:51,320 --> 00:08:56,279
+move two boxes at once who can help me
+
+185
+00:08:54,279 --> 00:09:00,160
+out how are we going to do this first
+
+186
+00:08:56,279 --> 00:09:00,160
+part of the algorithm please
+
+187
+00:09:00,440 --> 00:09:03,120
+small box to the
+
+188
+00:09:03,160 --> 00:09:06,720
+middle we're trying to move move these
+
+189
+00:09:05,480 --> 00:09:11,000
+two to the
+
+190
+00:09:06,720 --> 00:09:11,000
+middle so here to here is our
+
+191
+00:09:15,360 --> 00:09:21,760
+goal small box to the
+
+192
+00:09:19,040 --> 00:09:24,079
+right medium box to the middle small box
+
+193
+00:09:21,760 --> 00:09:25,480
+on top of it perfect does that look
+
+194
+00:09:24,079 --> 00:09:27,880
+familiar to
+
+195
+00:09:25,480 --> 00:09:29,680
+anyone that's kind of exactly what we
+
+196
+00:09:27,880 --> 00:09:32,480
+just described for moving boxes One and
+
+197
+00:09:29,680 --> 00:09:34,000
+Two from one peg to another instead of
+
+198
+00:09:32,480 --> 00:09:35,480
+moving from the left Peg to the right
+
+199
+00:09:34,000 --> 00:09:38,079
+Peg we're moving from the left Peg to
+
+200
+00:09:35,480 --> 00:09:39,839
+the middle Peg but that's the only thing
+
+201
+00:09:38,079 --> 00:09:42,079
+that's changing we can use the same
+
+202
+00:09:39,839 --> 00:09:45,160
+algorithm to move these two boxes from
+
+203
+00:09:42,079 --> 00:09:48,000
+here to here in three moves now we can
+
+204
+00:09:45,160 --> 00:09:50,600
+do this and now we can do the same
+
+205
+00:09:48,000 --> 00:09:53,519
+algorithm again to move these two boxes
+
+206
+00:09:50,600 --> 00:09:57,079
+from here to here and if we think about
+
+207
+00:09:53,519 --> 00:09:59,760
+what that algorithm says it says one
+
+208
+00:09:57,079 --> 00:10:01,839
+2 3
+
+209
+00:09:59,760 --> 00:10:06,519
+let's write that one down as
+
+210
+00:10:01,839 --> 00:10:08,959
+well so if our goal is to
+
+211
+00:10:06,519 --> 00:10:13,079
+move the interval 1 through three so
+
+212
+00:10:08,959 --> 00:10:15,079
+boxes 1 two and three from Peg a to Peg
+
+213
+00:10:13,079 --> 00:10:17,920
+C well then the first thing we're going
+
+214
+00:10:15,079 --> 00:10:18,760
+to do is move boxes one and two from A
+
+215
+00:10:17,920 --> 00:10:21,320
+to
+
+216
+00:10:18,760 --> 00:10:26,360
+B then we're going to move box three on
+
+217
+00:10:21,320 --> 00:10:29,839
+its own from a to c then boxes one and
+
+218
+00:10:26,360 --> 00:10:31,959
+two from B to C and here when I'm saying
+
+219
+00:10:29,839 --> 00:10:34,440
+move two boxes at a time from one peg to
+
+220
+00:10:31,959 --> 00:10:36,480
+another I'm really invoking this
+
+221
+00:10:34,440 --> 00:10:39,680
+strategy we already know how to do it
+
+222
+00:10:36,480 --> 00:10:41,600
+with two boxes so let's use that as the
+
+223
+00:10:39,680 --> 00:10:44,279
+first part of our algorithm then make
+
+224
+00:10:41,600 --> 00:10:45,360
+one move then use that again does that
+
+225
+00:10:44,279 --> 00:10:49,760
+make
+
+226
+00:10:45,360 --> 00:10:49,760
+sense let's do one more example
+
+227
+00:10:53,320 --> 00:10:58,839
+together
+
+228
+00:10:54,839 --> 00:11:02,240
+okay great we have four discs we need to
+
+229
+00:10:58,839 --> 00:11:03,800
+move them from the left to the right um
+
+230
+00:11:02,240 --> 00:11:07,440
+and we're going to follow hey everyone
+
+231
+00:11:03,800 --> 00:11:09,360
+we're going to follow the same idea um
+
+232
+00:11:07,440 --> 00:11:13,519
+somewhere along the way we're going to
+
+233
+00:11:09,360 --> 00:11:13,519
+need to get to this
+
+234
+00:11:14,279 --> 00:11:18,959
+position to this
+
+235
+00:11:16,760 --> 00:11:20,320
+position so that we can move the bigger
+
+236
+00:11:18,959 --> 00:11:22,600
+box over
+
+237
+00:11:20,320 --> 00:11:24,920
+here and then we're going to need to
+
+238
+00:11:22,600 --> 00:11:27,519
+again move these three boxes together
+
+239
+00:11:24,920 --> 00:11:29,560
+somehow with some sequence of moves to
+
+240
+00:11:27,519 --> 00:11:31,079
+finish the job
+
+241
+00:11:29,560 --> 00:11:35,959
+and I claim we have all the tools we
+
+242
+00:11:31,079 --> 00:11:39,279
+need to do exactly that so step
+
+243
+00:11:35,959 --> 00:11:41,880
+one in fact let's write this down
+
+244
+00:11:39,279 --> 00:11:44,440
+first if we're trying to
+
+245
+00:11:41,880 --> 00:11:46,680
+move the interval from one to four so
+
+246
+00:11:44,440 --> 00:11:50,120
+boxes 1 2 3 and
+
+247
+00:11:46,680 --> 00:11:52,959
+four from a to c let's follow the same
+
+248
+00:11:50,120 --> 00:11:55,360
+strategy here let's put the the top
+
+249
+00:11:52,959 --> 00:11:55,360
+three
+
+250
+00:11:55,440 --> 00:11:59,720
+boxes let's move those from A to B
+
+251
+00:11:57,920 --> 00:12:01,800
+somehow
+
+252
+00:11:59,720 --> 00:12:02,760
+then we'll move box four on its own from
+
+253
+00:12:01,800 --> 00:12:06,639
+a to
+
+254
+00:12:02,760 --> 00:12:08,560
+c then we'll move boxes 1 through three
+
+255
+00:12:06,639 --> 00:12:11,240
+from B to
+
+256
+00:12:08,560 --> 00:12:14,760
+C and here where I'm saying move three
+
+257
+00:12:11,240 --> 00:12:17,160
+boxes from one peg to another we have an
+
+258
+00:12:14,760 --> 00:12:20,360
+algorithm for that it's this
+
+259
+00:12:17,160 --> 00:12:22,800
+algorithm yeah so let's let's see what
+
+260
+00:12:20,360 --> 00:12:25,040
+this looks like in practice so first
+
+261
+00:12:22,800 --> 00:12:28,600
+things first we're trying to move these
+
+262
+00:12:25,040 --> 00:12:34,839
+top three boxes from here to here um
+
+263
+00:12:28,600 --> 00:12:36,360
+well we have a to do that that's 1 2 3
+
+264
+00:12:34,839 --> 00:12:41,279
+4
+
+265
+00:12:36,360 --> 00:12:43,240
+5 six seven if we follow the algorithm
+
+266
+00:12:41,279 --> 00:12:46,040
+that's listed there those are the seven
+
+267
+00:12:43,240 --> 00:12:48,560
+moves it says to do and I want to point
+
+268
+00:12:46,040 --> 00:12:51,279
+out one important thing we put this one
+
+269
+00:12:48,560 --> 00:12:54,240
+over here back when we were just working
+
+270
+00:12:51,279 --> 00:12:55,560
+with three boxes we were assuming that
+
+271
+00:12:54,240 --> 00:12:57,000
+all of the pegs were empty that there
+
+272
+00:12:55,560 --> 00:12:58,560
+was nothing else to worry about other
+
+273
+00:12:57,000 --> 00:13:01,120
+than those three boxes but now there's a
+
+274
+00:12:58,560 --> 00:13:02,839
+fourth box in in the way so can we
+
+275
+00:13:01,120 --> 00:13:06,480
+really run our algorithm for the top
+
+276
+00:13:02,839 --> 00:13:09,560
+three boxes even when there's a fourth
+
+277
+00:13:06,480 --> 00:13:12,000
+box and yeah we can thankfully because
+
+278
+00:13:09,560 --> 00:13:13,360
+the fourth box will always be underneath
+
+279
+00:13:12,000 --> 00:13:15,680
+the fourth box doesn't affect the
+
+280
+00:13:13,360 --> 00:13:17,480
+movement of one through three in fact
+
+281
+00:13:15,680 --> 00:13:19,839
+any larger boxes don't affect the
+
+282
+00:13:17,480 --> 00:13:22,959
+movement of boxes 1 through three so we
+
+283
+00:13:19,839 --> 00:13:24,480
+can use our algorithm for three boxes
+
+284
+00:13:22,959 --> 00:13:25,880
+and just temporarily ignore the fact
+
+285
+00:13:24,480 --> 00:13:27,920
+that there's a fourth box it doesn't
+
+286
+00:13:25,880 --> 00:13:30,440
+matter and that's how we were able to
+
+287
+00:13:27,920 --> 00:13:32,680
+get here
+
+288
+00:13:30,440 --> 00:13:34,279
+then we're going to do this and then
+
+289
+00:13:32,680 --> 00:13:36,680
+again we're going to follow our our
+
+290
+00:13:34,279 --> 00:13:42,360
+three box strategy to get these three
+
+291
+00:13:36,680 --> 00:13:45,639
+over to here so that looks like one 2 3
+
+292
+00:13:42,360 --> 00:13:49,399
+4 5
+
+293
+00:13:45,639 --> 00:13:53,399
+6 seven and we've done four
+
+294
+00:13:49,399 --> 00:13:53,399
+boxes yes
+
+295
+00:14:00,000 --> 00:14:04,240
+great question how are we able to claim
+
+296
+00:14:02,360 --> 00:14:07,160
+that this sequence of moves especially
+
+297
+00:14:04,240 --> 00:14:09,959
+with more and more boxes or discs is the
+
+298
+00:14:07,160 --> 00:14:12,199
+optimal algorithm we've we've started
+
+299
+00:14:09,959 --> 00:14:15,720
+describing an algorithm to do it but is
+
+300
+00:14:12,199 --> 00:14:19,480
+it the best uh that's a great question
+
+301
+00:14:15,720 --> 00:14:21,440
+um turns out it is the best um we're not
+
+302
+00:14:19,480 --> 00:14:23,720
+going to prove it right now but it's not
+
+303
+00:14:21,440 --> 00:14:26,120
+much harder than what we've already done
+
+304
+00:14:23,720 --> 00:14:28,600
+um the basic idea
+
+305
+00:14:26,120 --> 00:14:31,199
+is at some point you have to move the
+
+306
+00:14:28,600 --> 00:14:33,920
+smallest at the largest box so at some
+
+307
+00:14:31,199 --> 00:14:37,639
+point you have to get to either this
+
+308
+00:14:33,920 --> 00:14:39,160
+position or this position and that and
+
+309
+00:14:37,639 --> 00:14:40,399
+we know how many steps that takes
+
+310
+00:14:39,160 --> 00:14:42,360
+assuming we're doing some proof by
+
+311
+00:14:40,399 --> 00:14:45,279
+induction or something so we know we
+
+312
+00:14:42,360 --> 00:14:48,079
+have to spend some number of steps for
+
+313
+00:14:45,279 --> 00:14:50,480
+the um for n minus one boxes then we
+
+314
+00:14:48,079 --> 00:14:53,920
+have to make a move and then we have to
+
+315
+00:14:50,480 --> 00:14:58,360
+put these back on top which again
+
+316
+00:14:53,920 --> 00:14:58,360
+takes a land slide
+
+317
+00:15:03,040 --> 00:15:06,639
+so with a with an induction very similar
+
+318
+00:15:05,040 --> 00:15:08,160
+to that you can prove that in fact this
+
+319
+00:15:06,639 --> 00:15:10,160
+is the optimal
+
+320
+00:15:08,160 --> 00:15:13,880
+algorithm
+
+321
+00:15:10,160 --> 00:15:16,120
+um okay but how many moves does it take
+
+322
+00:15:13,880 --> 00:15:21,399
+let's see if we can figure that
+
+323
+00:15:16,120 --> 00:15:23,639
+out um so let's let um T of n be the
+
+324
+00:15:21,399 --> 00:15:27,120
+number of
+
+325
+00:15:23,639 --> 00:15:27,120
+moves with n
+
+326
+00:15:27,680 --> 00:15:34,759
+Diss and we we want to figure out T of n
+
+327
+00:15:31,360 --> 00:15:37,959
+um somehow so here T of one if we're
+
+328
+00:15:34,759 --> 00:15:41,360
+just moving one disc we make one move so
+
+329
+00:15:37,959 --> 00:15:43,759
+T of one is one t of
+
+330
+00:15:41,360 --> 00:15:45,720
+two well T of two is written here it's
+
+331
+00:15:43,759 --> 00:15:47,920
+one two three moves if we're moving two
+
+332
+00:15:45,720 --> 00:15:51,759
+discs we go one two
+
+333
+00:15:47,920 --> 00:15:56,519
+three uh three moves how about t of
+
+334
+00:15:51,759 --> 00:15:59,920
+three uh well it says do the two disk
+
+335
+00:15:56,519 --> 00:16:01,759
+algorithm so that's T of two
+
+336
+00:15:59,920 --> 00:16:04,399
+then do a single
+
+337
+00:16:01,759 --> 00:16:07,639
+move then do the two disk algorithm
+
+338
+00:16:04,399 --> 00:16:09,959
+again so that's plus T of2 again so
+
+339
+00:16:07,639 --> 00:16:12,560
+that's 3 + 1 + 3 is
+
+340
+00:16:09,959 --> 00:16:14,959
+7 likewise T of
+
+341
+00:16:12,560 --> 00:16:16,959
+four is well you do the three disk
+
+342
+00:16:14,959 --> 00:16:19,480
+algorithm that's T of
+
+343
+00:16:16,959 --> 00:16:21,199
+three we do one move then we do the
+
+344
+00:16:19,480 --> 00:16:23,959
+three dis algorithm again that's another
+
+345
+00:16:21,199 --> 00:16:29,560
+T of three so we're looking at two t of
+
+346
+00:16:23,959 --> 00:16:31,160
+3 + 1 which is 14 15
+
+347
+00:16:29,560 --> 00:16:34,480
+and now we've exactly described the
+
+348
+00:16:31,160 --> 00:16:36,920
+number of moves that this algorithm uh
+
+349
+00:16:34,480 --> 00:16:39,319
+takes and just to really be clear about
+
+350
+00:16:36,920 --> 00:16:43,800
+it if we're trying to move diss one
+
+351
+00:16:39,319 --> 00:16:45,120
+through n so n discs together uh from
+
+352
+00:16:43,800 --> 00:16:49,600
+Peg a to Peg
+
+353
+00:16:45,120 --> 00:16:49,600
+C we're going to first
+
+354
+00:16:50,199 --> 00:16:54,079
+move uh the first n minus one discs from
+
+355
+00:16:53,040 --> 00:16:57,319
+A to
+
+356
+00:16:54,079 --> 00:16:59,800
+B then we're going to move uh disk n on
+
+357
+00:16:57,319 --> 00:17:03,800
+its own from a to c
+
+358
+00:16:59,800 --> 00:17:06,039
+then um the remaining n minus one diss
+
+359
+00:17:03,800 --> 00:17:08,799
+from B to C exactly the same strategy
+
+360
+00:17:06,039 --> 00:17:11,199
+we've just we've just described um and
+
+361
+00:17:08,799 --> 00:17:14,400
+this is going to be our general strategy
+
+362
+00:17:11,199 --> 00:17:16,600
+to move n diss we do our n minus one dis
+
+363
+00:17:14,400 --> 00:17:19,319
+algorithm then a move then our n minus
+
+364
+00:17:16,600 --> 00:17:22,679
+one dis algorithm again so now we've
+
+365
+00:17:19,319 --> 00:17:24,640
+described an algorithm by
+
+366
+00:17:22,679 --> 00:17:27,679
+induction and secretly that's all
+
+367
+00:17:24,640 --> 00:17:29,880
+recursion is we're just
+
+368
+00:17:27,679 --> 00:17:34,120
+inducting um
+
+369
+00:17:29,880 --> 00:17:36,520
+but in general the number of moves we
+
+370
+00:17:34,120 --> 00:17:38,799
+take is well however many moves we
+
+371
+00:17:36,520 --> 00:17:42,400
+needed to take for the N minus one dis
+
+372
+00:17:38,799 --> 00:17:44,919
+algorithm + one plus TN minus one again
+
+373
+00:17:42,400 --> 00:17:47,200
+so it's 2 T of n
+
+374
+00:17:44,919 --> 00:17:49,600
+minus1 plus
+
+375
+00:17:47,200 --> 00:17:51,919
+one and this is our sequence this is our
+
+376
+00:17:49,600 --> 00:17:54,000
+recurrence and we're getting to the
+
+377
+00:17:51,919 --> 00:17:55,320
+place where these are in the way so
+
+378
+00:17:54,000 --> 00:17:59,320
+let's move
+
+379
+00:17:55,320 --> 00:17:59,320
+those success
+
+380
+00:17:59,600 --> 00:18:02,760
+okay we've described our algorithm we've
+
+381
+00:18:01,080 --> 00:18:04,880
+described its runtime but like I said
+
+382
+00:18:02,760 --> 00:18:07,559
+earlier closed form would be so much
+
+383
+00:18:04,880 --> 00:18:09,760
+nicer right um I want to know how long
+
+384
+00:18:07,559 --> 00:18:12,679
+the universe takes with 64 discs I don't
+
+385
+00:18:09,760 --> 00:18:14,960
+want to have to compute 64 terms of my
+
+386
+00:18:12,679 --> 00:18:16,000
+sequence so what does this look like
+
+387
+00:18:14,960 --> 00:18:21,480
+well let's
+
+388
+00:18:16,000 --> 00:18:26,320
+see um we have our our numbers 1 3 7 15
+
+389
+00:18:21,480 --> 00:18:30,760
+2 * that + 1 is 31 then 63 then
+
+390
+00:18:26,320 --> 00:18:30,760
+127 uh is anyone starting to see a
+
+391
+00:18:31,559 --> 00:18:34,760
+pattern uh
+
+392
+00:18:35,000 --> 00:18:42,720
+yes uh we have a
+
+393
+00:18:38,320 --> 00:18:47,039
+guess T of n is 2 to the N minus 1 this
+
+394
+00:18:42,720 --> 00:18:49,520
+looks suspiciously like 2 4 8 16 32 64
+
+395
+00:18:47,039 --> 00:18:52,840
+128 um and especially since we really
+
+396
+00:18:49,520 --> 00:18:54,679
+are doubling every time it seems likely
+
+397
+00:18:52,840 --> 00:18:57,200
+that it might be related to powers of
+
+398
+00:18:54,679 --> 00:18:58,600
+two somehow well the good thing about
+
+399
+00:18:57,200 --> 00:19:01,840
+having a guess is that we know what to
+
+400
+00:18:58,600 --> 00:19:04,799
+do with it we check it we try to use it
+
+401
+00:19:01,840 --> 00:19:06,840
+to prove this formula by induction and
+
+402
+00:19:04,799 --> 00:19:09,400
+if it works we have the right formula
+
+403
+00:19:06,840 --> 00:19:09,400
+turns out it
+
+404
+00:19:14,480 --> 00:19:19,840
+works you can prove it with a a pretty
+
+405
+00:19:16,880 --> 00:19:22,520
+straightforward induction um and turns
+
+406
+00:19:19,840 --> 00:19:25,520
+out this is indeed the correct formula
+
+407
+00:19:22,520 --> 00:19:27,159
+so this is a clear example of uh what we
+
+408
+00:19:25,520 --> 00:19:29,240
+said about guess and check if you can
+
+409
+00:19:27,159 --> 00:19:31,679
+guess the formula you check it with
+
+410
+00:19:29,240 --> 00:19:35,559
+induction but we had to recognize that
+
+411
+00:19:31,679 --> 00:19:37,919
+pattern to be able to have something to
+
+412
+00:19:35,559 --> 00:19:39,720
+check okay but finally we can answer our
+
+413
+00:19:37,919 --> 00:19:44,200
+question how long does the universe have
+
+414
+00:19:39,720 --> 00:19:49,200
+left um we it's 64 discs so two to T of
+
+415
+00:19:44,200 --> 00:19:52,000
+64 that's 2 the 64 minus one
+
+416
+00:19:49,200 --> 00:19:53,520
+steps let's assume these uh these monks
+
+417
+00:19:52,000 --> 00:19:54,799
+are really strong and they can move one
+
+418
+00:19:53,520 --> 00:19:58,320
+disc per
+
+419
+00:19:54,799 --> 00:20:01,400
+second um turns out if I flip to the
+
+420
+00:19:58,320 --> 00:20:06,120
+correct page in my notes
+
+421
+00:20:01,400 --> 00:20:08,520
+um that many seconds is about um a half
+
+422
+00:20:06,120 --> 00:20:08,520
+trillion
+
+423
+00:20:11,080 --> 00:20:16,240
+years Universe has got some time
+
+424
+00:20:13,840 --> 00:20:18,840
+left and I find it surprising that with
+
+425
+00:20:16,240 --> 00:20:21,600
+just 64 discs you can get all the way up
+
+426
+00:20:18,840 --> 00:20:22,880
+into the trillions of years uh that's
+
+427
+00:20:21,600 --> 00:20:24,400
+very quick
+
+428
+00:20:22,880 --> 00:20:26,880
+growth
+
+429
+00:20:24,400 --> 00:20:30,039
+um all right any questions about towers
+
+430
+00:20:26,880 --> 00:20:30,039
+of Hanoi
+
+431
+00:20:30,840 --> 00:20:34,840
+awesome I thought the camera in the back
+
+432
+00:20:32,679 --> 00:20:38,280
+was a hand for a second I apologize for
+
+433
+00:20:34,840 --> 00:20:39,600
+that um let's move on to our next
+
+434
+00:20:38,280 --> 00:20:42,280
+recursive
+
+435
+00:20:39,600 --> 00:20:44,080
+algorithm um I promised last time that
+
+436
+00:20:42,280 --> 00:20:46,480
+we would talk about sorting so let's
+
+437
+00:20:44,080 --> 00:20:49,760
+let's talk about sorting uh and before
+
+438
+00:20:46,480 --> 00:20:51,159
+we get to merge sort which is um the the
+
+439
+00:20:49,760 --> 00:20:52,480
+fast algorithm we're going to talk about
+
+440
+00:20:51,159 --> 00:20:56,600
+today let's talk about a simpler
+
+441
+00:20:52,480 --> 00:20:56,600
+algorithm called selection sort
+
+442
+00:20:59,039 --> 00:21:06,360
+um the problem is you have a
+
+443
+00:21:02,880 --> 00:21:11,279
+list of n
+
+444
+00:21:06,360 --> 00:21:15,520
+numbers um and you want to arrange
+
+445
+00:21:11,279 --> 00:21:15,520
+them in increasing
+
+446
+00:21:15,559 --> 00:21:19,960
+order so your list is in whatever order
+
+447
+00:21:18,279 --> 00:21:22,320
+it it's in and you want to figure out
+
+448
+00:21:19,960 --> 00:21:23,559
+the correct increasing order so put them
+
+449
+00:21:22,320 --> 00:21:27,159
+in sorted
+
+450
+00:21:23,559 --> 00:21:31,039
+order um and the idea for selection
+
+451
+00:21:27,159 --> 00:21:34,440
+sort um is a very simple
+
+452
+00:21:31,039 --> 00:21:34,440
+one find the
+
+453
+00:21:34,480 --> 00:21:37,840
+smallest pull it
+
+454
+00:21:41,159 --> 00:21:45,159
+out repeat until
+
+455
+00:21:45,600 --> 00:21:50,279
+done so let's see this in action and I
+
+456
+00:21:48,840 --> 00:21:52,080
+have some helpers today I'm going to
+
+457
+00:21:50,279 --> 00:21:57,159
+need a few more
+
+458
+00:21:52,080 --> 00:21:57,159
+volunteers um thankfully I brought some
+
+459
+00:22:03,440 --> 00:22:11,520
+nice all right so we have a bunch of
+
+460
+00:22:08,559 --> 00:22:14,919
+helper friends and we need
+
+461
+00:22:11,520 --> 00:22:16,559
+to somehow put them in sorted order uh
+
+462
+00:22:14,919 --> 00:22:19,679
+we're going by height
+
+463
+00:22:16,559 --> 00:22:22,559
+here um and for selection
+
+464
+00:22:19,679 --> 00:22:25,440
+sort um we said find the smallest well
+
+465
+00:22:22,559 --> 00:22:27,840
+clearly that's Ptown here um pull them
+
+466
+00:22:25,440 --> 00:22:29,240
+out and then repeat okay who's the
+
+467
+00:22:27,840 --> 00:22:33,200
+smallest left well that's going to be
+
+468
+00:22:29,240 --> 00:22:34,760
+wire who's the smallest left um well
+
+469
+00:22:33,200 --> 00:22:36,279
+it's maybe a little less clear but let's
+
+470
+00:22:34,760 --> 00:22:39,200
+talk more precisely about how we're
+
+471
+00:22:36,279 --> 00:22:40,880
+going to find the smallest every time
+
+472
+00:22:39,200 --> 00:22:42,520
+and we can do this with just a just a
+
+473
+00:22:40,880 --> 00:22:44,960
+bunch of comparisons so let's compare
+
+474
+00:22:42,520 --> 00:22:46,360
+the first two uh between Ralph and wire
+
+475
+00:22:44,960 --> 00:22:49,279
+who's
+
+476
+00:22:46,360 --> 00:22:51,600
+shorter Wire yeah okay so wire is the
+
+477
+00:22:49,279 --> 00:22:55,480
+smallest one we've seen so far between
+
+478
+00:22:51,600 --> 00:22:57,679
+wire and Ptown who's shorter P toown
+
+479
+00:22:55,480 --> 00:22:58,960
+between these two who's shorter still p
+
+480
+00:22:57,679 --> 00:23:02,200
+toown
+
+481
+00:22:58,960 --> 00:23:04,760
+still P toown still P toown still P
+
+482
+00:23:02,200 --> 00:23:06,360
+toown so we got through the end of the
+
+483
+00:23:04,760 --> 00:23:08,600
+list Ptown is the smallest one we've
+
+484
+00:23:06,360 --> 00:23:09,520
+seen so Ptown is our smallest softest
+
+485
+00:23:08,600 --> 00:23:12,559
+roundest
+
+486
+00:23:09,520 --> 00:23:14,480
+boy um and that is how we are going to
+
+487
+00:23:12,559 --> 00:23:17,840
+find the smallest we can do that with
+
+488
+00:23:14,480 --> 00:23:17,840
+just n minus one
+
+489
+00:23:18,200 --> 00:23:23,159
+comparisons we compared the first two
+
+490
+00:23:21,120 --> 00:23:25,080
+then whoever won that we compared to the
+
+491
+00:23:23,159 --> 00:23:26,919
+third then compared that to the fourth
+
+492
+00:23:25,080 --> 00:23:28,760
+then the fifth and so on so n minus one
+
+493
+00:23:26,919 --> 00:23:29,840
+comparisons
+
+494
+00:23:28,760 --> 00:23:32,520
+and then you pull them out and we're
+
+495
+00:23:29,840 --> 00:23:34,080
+going to do it again so now with n minus
+
+496
+00:23:32,520 --> 00:23:36,080
+two comparisons because we have one
+
+497
+00:23:34,080 --> 00:23:38,039
+fewer animal up front we're going to
+
+498
+00:23:36,080 --> 00:23:40,600
+find that wire is the smallest then
+
+499
+00:23:38,039 --> 00:23:44,960
+we're going to find I think it's bubs is
+
+500
+00:23:40,600 --> 00:23:49,120
+the smallest um then todoro then Ralph
+
+501
+00:23:44,960 --> 00:23:51,240
+then Coupe get out of here um then
+
+502
+00:23:49,120 --> 00:23:53,960
+butternut and now we have our sorted
+
+503
+00:23:51,240 --> 00:23:55,679
+list how many comparisons did we have to
+
+504
+00:23:53,960 --> 00:23:58,159
+do to implement
+
+505
+00:23:55,679 --> 00:24:02,080
+that well we've already said that we did
+
+506
+00:23:58,159 --> 00:24:02,080
+n - one comparisons in the first
+
+507
+00:24:02,360 --> 00:24:08,679
+round and then the second round we had n
+
+508
+00:24:05,679 --> 00:24:11,240
+min-2 comparisons the third round n
+
+509
+00:24:08,679 --> 00:24:11,240
+minus three
+
+510
+00:24:11,640 --> 00:24:15,799
+comparisons down to the last round where
+
+511
+00:24:13,880 --> 00:24:18,279
+we had just two animals left we need one
+
+512
+00:24:15,799 --> 00:24:19,640
+comparison to figure out who's shorter
+
+513
+00:24:18,279 --> 00:24:21,480
+and then the last one is just the last
+
+514
+00:24:19,640 --> 00:24:25,200
+one we don't need more comparisons for
+
+515
+00:24:21,480 --> 00:24:32,159
+that um and we've seen this sum before
+
+516
+00:24:25,200 --> 00:24:32,159
+this is n minus1 * n divided by two
+
+517
+00:24:33,279 --> 00:24:41,159
+comparisons so this is um n^2 over two
+
+518
+00:24:38,120 --> 00:24:43,760
+plus change comparisons for selection
+
+519
+00:24:41,159 --> 00:24:46,399
+sort this is not the fast sort that was
+
+520
+00:24:43,760 --> 00:24:49,080
+promised this is still quadratic
+
+521
+00:24:46,399 --> 00:24:50,440
+runtime um it is the easiest thing like
+
+522
+00:24:49,080 --> 00:24:51,919
+when you have a small number of things
+
+523
+00:24:50,440 --> 00:24:53,399
+in front of you and you just sorry for
+
+524
+00:24:51,919 --> 00:24:55,679
+calling you things small number of
+
+525
+00:24:53,399 --> 00:24:57,399
+animals in front of you uh and you just
+
+526
+00:24:55,679 --> 00:24:58,960
+want to sort them like it's very easy to
+
+527
+00:24:57,399 --> 00:25:01,120
+just scan through find the smallest find
+
+528
+00:24:58,960 --> 00:25:03,679
+the smallest that's what I do by hand
+
+529
+00:25:01,120 --> 00:25:05,760
+but for big um for big lists for lots
+
+530
+00:25:03,679 --> 00:25:06,960
+and lots of numbers this is not the way
+
+531
+00:25:05,760 --> 00:25:11,520
+you want to
+
+532
+00:25:06,960 --> 00:25:13,559
+go but um a much better algorithm not
+
+533
+00:25:11,520 --> 00:25:14,799
+the only better algorithm but a much
+
+534
+00:25:13,559 --> 00:25:18,919
+better
+
+535
+00:25:14,799 --> 00:25:22,559
+algorithm is pretty similar to
+
+536
+00:25:18,919 --> 00:25:25,360
+this um and to talk about it first let's
+
+537
+00:25:22,559 --> 00:25:30,320
+talk about the idea of a
+
+538
+00:25:25,360 --> 00:25:30,320
+merch the idea is we have two sort of
+
+539
+00:25:31,279 --> 00:25:35,159
+lists A and
+
+540
+00:25:32,720 --> 00:25:38,360
+B and we
+
+541
+00:25:35,159 --> 00:25:40,840
+want um to combine them into a single
+
+542
+00:25:38,360 --> 00:25:40,840
+sorted
+
+543
+00:25:47,039 --> 00:25:53,240
+list um as an example um so maybe we
+
+544
+00:25:50,760 --> 00:25:56,200
+have these and you know that goes over
+
+545
+00:25:53,240 --> 00:26:02,080
+there
+
+546
+00:25:56,200 --> 00:26:04,440
+um there toor there we go so for example
+
+547
+00:26:02,080 --> 00:26:06,679
+if we have this sorted list which is
+
+548
+00:26:04,440 --> 00:26:08,840
+already in increasing order and this
+
+549
+00:26:06,679 --> 00:26:11,640
+separate sorted list that's already in
+
+550
+00:26:08,840 --> 00:26:14,080
+increasing order let's try to combine
+
+551
+00:26:11,640 --> 00:26:16,200
+them into a single sorted list and let's
+
+552
+00:26:14,080 --> 00:26:18,320
+just do something like selection sort
+
+553
+00:26:16,200 --> 00:26:20,080
+let's find the smallest and just keep
+
+554
+00:26:18,320 --> 00:26:22,399
+finding the smallest until we have our
+
+555
+00:26:20,080 --> 00:26:26,120
+answer so who's the smallest between
+
+556
+00:26:22,399 --> 00:26:26,120
+these two lists where do we have to
+
+557
+00:26:26,520 --> 00:26:32,200
+look well I I saw I saw this was that
+
+558
+00:26:29,760 --> 00:26:32,200
+was that an
+
+559
+00:26:32,240 --> 00:26:36,559
+indication all right so the beginning of
+
+560
+00:26:34,279 --> 00:26:38,559
+here or the beginning of here yeah the
+
+561
+00:26:36,559 --> 00:26:40,640
+smallest on the table is either going to
+
+562
+00:26:38,559 --> 00:26:43,200
+be the smallest on this side or the
+
+563
+00:26:40,640 --> 00:26:44,600
+smallest on this side and we know where
+
+564
+00:26:43,200 --> 00:26:46,880
+the smallest is because the lists are
+
+565
+00:26:44,600 --> 00:26:49,000
+sorted the smallest on this side is wire
+
+566
+00:26:46,880 --> 00:26:51,039
+the smallest on this side is Ptown we
+
+567
+00:26:49,000 --> 00:26:53,520
+just have to look at the first from each
+
+568
+00:26:51,039 --> 00:26:55,679
+of these two sorted lists and with just
+
+569
+00:26:53,520 --> 00:26:59,080
+one comparison we know who the shortest
+
+570
+00:26:55,679 --> 00:27:01,640
+is overall still Ptown
+
+571
+00:26:59,080 --> 00:27:03,320
+um and then we can continue um first
+
+572
+00:27:01,640 --> 00:27:05,799
+over here compared to the first over
+
+573
+00:27:03,320 --> 00:27:09,399
+here wire versus bubs I think I think
+
+574
+00:27:05,799 --> 00:27:12,600
+wire is smaller um now it's bubs versus
+
+575
+00:27:09,399 --> 00:27:16,159
+todoro um and I think bubs is smaller
+
+576
+00:27:12,600 --> 00:27:18,600
+this time now it's Coupe versus tooro
+
+577
+00:27:16,159 --> 00:27:20,679
+tooro uh Coupe versus
+
+578
+00:27:18,600 --> 00:27:22,559
+Ralph Ralph is
+
+579
+00:27:20,679 --> 00:27:24,640
+shorter um and now we get to an
+
+580
+00:27:22,559 --> 00:27:26,279
+interesting point where there is no
+
+581
+00:27:24,640 --> 00:27:29,159
+first over here anymore the side of the
+
+582
+00:27:26,279 --> 00:27:31,880
+table is empty um well that just means
+
+583
+00:27:29,159 --> 00:27:33,279
+that we're done we know this side is
+
+584
+00:27:31,880 --> 00:27:34,799
+already sorted and bigger than
+
+585
+00:27:33,279 --> 00:27:36,320
+everything else we've seen so we don't
+
+586
+00:27:34,799 --> 00:27:38,760
+have to do any more comparisons we just
+
+587
+00:27:36,320 --> 00:27:42,799
+pull them back and we're done so that's
+
+588
+00:27:38,760 --> 00:27:46,960
+the idea of merging two sorted lists the
+
+589
+00:27:42,799 --> 00:27:46,960
+algorithm says we
+
+590
+00:27:47,000 --> 00:27:54,000
+compare smallest in each
+
+591
+00:27:51,880 --> 00:27:57,120
+list um
+
+592
+00:27:54,000 --> 00:28:00,120
+pull out the
+
+593
+00:27:57,120 --> 00:28:00,120
+smallest
+
+594
+00:28:01,440 --> 00:28:09,640
+continue until one list
+
+595
+00:28:06,640 --> 00:28:09,640
+becomes
+
+596
+00:28:11,480 --> 00:28:15,360
+empty and we put the other
+
+597
+00:28:15,440 --> 00:28:18,720
+list at the
+
+598
+00:28:19,200 --> 00:28:24,360
+end right so we got it down to where
+
+599
+00:28:22,559 --> 00:28:27,080
+this list was empty this list had two
+
+600
+00:28:24,360 --> 00:28:28,760
+animals left um and we didn't have to do
+
+601
+00:28:27,080 --> 00:28:30,919
+any more work we just
+
+602
+00:28:28,760 --> 00:28:33,679
+we're just done with those is this
+
+603
+00:28:30,919 --> 00:28:34,640
+algorithm clear does it make sense why
+
+604
+00:28:33,679 --> 00:28:38,919
+it
+
+605
+00:28:34,640 --> 00:28:41,799
+works how many comparisons does it
+
+606
+00:28:38,919 --> 00:28:44,760
+take well each round every time we
+
+607
+00:28:41,799 --> 00:28:47,720
+identify um the next smallest animal
+
+608
+00:28:44,760 --> 00:28:50,919
+we're doing a single
+
+609
+00:28:47,720 --> 00:28:52,600
+comparison yeah in the worst case we're
+
+610
+00:28:50,919 --> 00:28:54,279
+going to have to do that for all of the
+
+611
+00:28:52,600 --> 00:28:58,240
+first n minus one
+
+612
+00:28:54,279 --> 00:29:00,720
+animals um like if it comes down to one
+
+613
+00:28:58,240 --> 00:29:03,120
+on the left versus one on the right then
+
+614
+00:29:00,720 --> 00:29:04,840
+everyone needed a comparison we only got
+
+615
+00:29:03,120 --> 00:29:07,039
+one freebie at the
+
+616
+00:29:04,840 --> 00:29:10,760
+end so worst
+
+617
+00:29:07,039 --> 00:29:15,799
+case um this takes less than or equal to
+
+618
+00:29:10,760 --> 00:29:15,799
+size of a plus size of B minus one
+
+619
+00:29:18,880 --> 00:29:24,840
+comparisons sound
+
+620
+00:29:21,320 --> 00:29:27,720
+good awesome so now that we have this
+
+621
+00:29:24,840 --> 00:29:30,039
+merge algorithm let's talk about merge
+
+622
+00:29:27,720 --> 00:29:30,039
+source
+
+623
+00:29:32,399 --> 00:29:35,559
+so you're given a
+
+624
+00:29:35,880 --> 00:29:41,399
+list with n
+
+625
+00:29:38,480 --> 00:29:43,559
+elements uh and we want to sort
+
+626
+00:29:41,399 --> 00:29:46,200
+it um this list doesn't have any
+
+627
+00:29:43,559 --> 00:29:47,640
+promises it it's not like half sorted or
+
+628
+00:29:46,200 --> 00:29:49,919
+anything like that it's just some random
+
+629
+00:29:47,640 --> 00:29:52,679
+list of random data we want to put it in
+
+630
+00:29:49,919 --> 00:29:55,240
+sorted order um and by the way let's
+
+631
+00:29:52,679 --> 00:29:55,240
+assume for
+
+632
+00:29:56,559 --> 00:30:02,080
+now that n is a power of two so we can
+
+633
+00:30:00,279 --> 00:30:04,080
+just keep cutting in half uh and
+
+634
+00:30:02,080 --> 00:30:05,480
+everything works out nicely we'll remove
+
+635
+00:30:04,080 --> 00:30:07,360
+that assumption later but for now we'll
+
+636
+00:30:05,480 --> 00:30:08,799
+just solve this for lists whose lengths
+
+637
+00:30:07,360 --> 00:30:13,760
+are powers of
+
+638
+00:30:08,799 --> 00:30:18,159
+two uh so uh the first step we are going
+
+639
+00:30:13,760 --> 00:30:20,760
+to sort the first and oh sorry I forgot
+
+640
+00:30:18,159 --> 00:30:20,760
+an important
+
+641
+00:30:21,760 --> 00:30:27,399
+step if n equals 1
+
+642
+00:30:25,200 --> 00:30:30,200
+done if you're sorting a list with just
+
+643
+00:30:27,399 --> 00:30:32,519
+a single element there's nothing to do
+
+644
+00:30:30,200 --> 00:30:36,640
+your list is already sorted so we'll
+
+645
+00:30:32,519 --> 00:30:40,600
+call it done otherwise we're going to
+
+646
+00:30:36,640 --> 00:30:44,399
+sort the first n/2
+
+647
+00:30:40,600 --> 00:30:46,640
+elements somehow we'll we'll get them
+
+648
+00:30:44,399 --> 00:30:48,600
+sorted then we will
+
+649
+00:30:46,640 --> 00:30:51,360
+sort the
+
+650
+00:30:48,600 --> 00:30:53,480
+last n /2
+
+651
+00:30:51,360 --> 00:30:58,320
+elements
+
+652
+00:30:53,480 --> 00:30:58,320
+somehow and then you merge them together
+
+653
+00:30:59,240 --> 00:31:03,200
+so as long as we're somehow able to sort
+
+654
+00:31:01,080 --> 00:31:05,639
+the first half and somehow able to sort
+
+655
+00:31:03,200 --> 00:31:06,679
+the second half the merge step will take
+
+656
+00:31:05,639 --> 00:31:09,399
+care of the
+
+657
+00:31:06,679 --> 00:31:11,880
+rest does this strategy make
+
+658
+00:31:09,399 --> 00:31:14,080
+sense cool and you might ask well how
+
+659
+00:31:11,880 --> 00:31:16,120
+are we going to sort the first the first
+
+660
+00:31:14,080 --> 00:31:18,799
+half and the last half maybe we'll use
+
+661
+00:31:16,120 --> 00:31:20,000
+selection sort turns out if you do that
+
+662
+00:31:18,799 --> 00:31:22,480
+you're still going to get quadratic
+
+663
+00:31:20,000 --> 00:31:25,159
+runtime that's not not the best
+
+664
+00:31:22,480 --> 00:31:27,320
+plan um the strategy I'm going to
+
+665
+00:31:25,159 --> 00:31:29,320
+propose and the way that merge sort is
+
+666
+00:31:27,320 --> 00:31:32,840
+described
+
+667
+00:31:29,320 --> 00:31:36,440
+we're going to sort the first n/2
+
+668
+00:31:32,840 --> 00:31:36,440
+elements using merge
+
+669
+00:31:37,080 --> 00:31:42,679
+sort and we're going to sort the last
+
+670
+00:31:39,120 --> 00:31:46,120
+two last n/2 elements
+
+671
+00:31:42,679 --> 00:31:46,120
+using merge
+
+672
+00:31:47,320 --> 00:31:53,519
+sort okay I claim I have written an
+
+673
+00:31:50,519 --> 00:31:56,039
+algorithm here though it might not be
+
+674
+00:31:53,519 --> 00:31:58,240
+obvious recursion in general is one of
+
+675
+00:31:56,039 --> 00:31:59,799
+those bogeyman topics it's seen is like
+
+676
+00:31:58,240 --> 00:32:02,480
+the bane of all computer science
+
+677
+00:31:59,799 --> 00:32:06,159
+students um woe unto me the end is nigh
+
+678
+00:32:02,480 --> 00:32:08,919
+it's the hardest hardest ever uh topic
+
+679
+00:32:06,159 --> 00:32:12,600
+uh and I am here to tell you it's not
+
+680
+00:32:08,919 --> 00:32:15,120
+some new complicated scary topic it's an
+
+681
+00:32:12,600 --> 00:32:17,799
+old scary top no it's an old familiar
+
+682
+00:32:15,120 --> 00:32:19,320
+topic um it's just induction I claim
+
+683
+00:32:17,799 --> 00:32:21,480
+everything we're doing here is just
+
+684
+00:32:19,320 --> 00:32:25,840
+going to be induction and let's talk
+
+685
+00:32:21,480 --> 00:32:27,360
+about what we mean by that um so let's
+
+686
+00:32:25,840 --> 00:32:29,720
+run through merge sword and see what it
+
+687
+00:32:27,360 --> 00:32:32,760
+looks like so we have our scrambled
+
+688
+00:32:29,720 --> 00:32:34,279
+list um which is a power of
+
+689
+00:32:32,760 --> 00:32:38,639
+two
+
+690
+00:32:34,279 --> 00:32:38,639
+which is not a power of
+
+691
+00:32:40,799 --> 00:32:45,600
+two which is a power of two
+
+692
+00:32:46,039 --> 00:32:50,559
+oops um all right last helper for the
+
+693
+00:32:48,919 --> 00:32:53,039
+day thank you
+
+694
+00:32:50,559 --> 00:32:56,360
+Charlie um now let's scramble this up
+
+695
+00:32:53,039 --> 00:32:59,480
+and see if we can sort them together so
+
+696
+00:32:56,360 --> 00:33:01,440
+here's Butternut over here
+
+697
+00:32:59,480 --> 00:33:05,120
+all
+
+698
+00:33:01,440 --> 00:33:08,360
+right so let's run through our algorithm
+
+699
+00:33:05,120 --> 00:33:11,200
+and see what it tells us to do so merge
+
+700
+00:33:08,360 --> 00:33:11,200
+sort on eight
+
+701
+00:33:11,960 --> 00:33:16,240
+elements so we're calling merge sort on
+
+702
+00:33:14,799 --> 00:33:17,720
+eight elements I'm I'm going to
+
+703
+00:33:16,240 --> 00:33:21,360
+abbreviate over here just to keep track
+
+704
+00:33:17,720 --> 00:33:24,000
+of where we are um and it says the first
+
+705
+00:33:21,360 --> 00:33:26,279
+thing to do is merge sort the first four
+
+706
+00:33:24,000 --> 00:33:28,960
+elements then merge sort the last four
+
+707
+00:33:26,279 --> 00:33:31,919
+elements then merge them together
+
+708
+00:33:28,960 --> 00:33:35,399
+so we're going to merge sort 1 through
+
+709
+00:33:31,919 --> 00:33:39,399
+4 and then we're going to merge sort 5
+
+710
+00:33:35,399 --> 00:33:39,399
+through 8 and then we're going to
+
+711
+00:33:39,440 --> 00:33:43,880
+merge right that's what the algorithm
+
+712
+00:33:41,519 --> 00:33:47,200
+tells us to do so it tells
+
+713
+00:33:43,880 --> 00:33:49,799
+us take these
+
+714
+00:33:47,200 --> 00:33:52,600
+four I did not do a good job scrambling
+
+715
+00:33:49,799 --> 00:33:55,600
+these did I let's let's do a little
+
+716
+00:33:52,600 --> 00:33:55,600
+more
+
+717
+00:33:56,279 --> 00:34:02,320
+um okay we'll pretend we did that um so
+
+718
+00:34:00,720 --> 00:34:04,120
+it tells us to merge sort the first four
+
+719
+00:34:02,320 --> 00:34:06,919
+elements then merge sort the last four
+
+720
+00:34:04,120 --> 00:34:08,679
+elements then merge them together okay
+
+721
+00:34:06,919 --> 00:34:10,280
+well here we're merge sorting the first
+
+722
+00:34:08,679 --> 00:34:12,520
+four
+
+723
+00:34:10,280 --> 00:34:14,679
+elements what does our algorithm tell us
+
+724
+00:34:12,520 --> 00:34:17,919
+to do when we're merge sorting four
+
+725
+00:34:14,679 --> 00:34:21,040
+elements well it
+
+726
+00:34:17,919 --> 00:34:23,560
+says merge sort elements one through two
+
+727
+00:34:21,040 --> 00:34:25,560
+then merge sort elements 3 through four
+
+728
+00:34:23,560 --> 00:34:29,119
+then merge them
+
+729
+00:34:25,560 --> 00:34:30,839
+together yeah I'm just reading the code
+
+730
+00:34:29,119 --> 00:34:33,079
+here and that's what it tells me to do
+
+731
+00:34:30,839 --> 00:34:36,760
+when I call merge sort on these four
+
+732
+00:34:33,079 --> 00:34:39,320
+elements so it tells me to call merge
+
+733
+00:34:36,760 --> 00:34:41,679
+sort on these two then call merge sort
+
+734
+00:34:39,320 --> 00:34:44,000
+on these two then merge these together
+
+735
+00:34:41,679 --> 00:34:47,040
+into a single list a single sorted list
+
+736
+00:34:44,000 --> 00:34:49,760
+of four elements yeah okay well what
+
+737
+00:34:47,040 --> 00:34:55,200
+does merge sort with two elements
+
+738
+00:34:49,760 --> 00:34:57,920
+mean okay um sort the first one element
+
+739
+00:34:55,200 --> 00:34:59,320
+sort the next one element then merge
+
+740
+00:34:57,920 --> 00:35:02,440
+merge sort on two
+
+741
+00:34:59,320 --> 00:35:04,680
+elements well sorting one and one on
+
+742
+00:35:02,440 --> 00:35:06,480
+their own there's nothing to do a sort a
+
+743
+00:35:04,680 --> 00:35:08,599
+list with one element is already sorted
+
+744
+00:35:06,480 --> 00:35:11,560
+so all I have to do is the merge merge
+
+745
+00:35:08,599 --> 00:35:14,359
+this list with that list and who's who's
+
+746
+00:35:11,560 --> 00:35:16,760
+shorter Ptown than bubs okay now this
+
+747
+00:35:14,359 --> 00:35:19,520
+list is sorted merge sort on these two
+
+748
+00:35:16,760 --> 00:35:21,880
+elements next um here's our you're kind
+
+749
+00:35:19,520 --> 00:35:24,400
+of heavy um this one over here this one
+
+750
+00:35:21,880 --> 00:35:26,640
+over here we get to do our merge so
+
+751
+00:35:24,400 --> 00:35:28,320
+who's shorter it's Coupe then it's
+
+752
+00:35:26,640 --> 00:35:30,920
+Charlie
+
+753
+00:35:28,320 --> 00:35:34,200
+so where are we again we've done this
+
+754
+00:35:30,920 --> 00:35:37,640
+and this now we have to merge them I'm
+
+755
+00:35:34,200 --> 00:35:39,760
+just following what the code says to do
+
+756
+00:35:37,640 --> 00:35:42,760
+um we have to merge this list with this
+
+757
+00:35:39,760 --> 00:35:45,320
+list okay between these two who's
+
+758
+00:35:42,760 --> 00:35:48,640
+shorter Ptown between these two who's
+
+759
+00:35:45,320 --> 00:35:51,079
+shorter bubs now one list is empty so
+
+760
+00:35:48,640 --> 00:35:53,040
+the other list just Falls in place and
+
+761
+00:35:51,079 --> 00:35:55,000
+now we have successfully called merge
+
+762
+00:35:53,040 --> 00:35:57,119
+sort on these four
+
+763
+00:35:55,000 --> 00:35:58,520
+elements let's do the same on the other
+
+764
+00:35:57,119 --> 00:36:00,319
+side
+
+765
+00:35:58,520 --> 00:36:04,440
+so split into two and
+
+766
+00:36:00,319 --> 00:36:07,520
+two no better not um split into one and
+
+767
+00:36:04,440 --> 00:36:10,680
+one merge them together toor Row
+
+768
+00:36:07,520 --> 00:36:13,480
+first split into one and one then merge
+
+769
+00:36:10,680 --> 00:36:15,760
+them back together wire then Ralph now
+
+770
+00:36:13,480 --> 00:36:18,079
+we have two versus two that were merging
+
+771
+00:36:15,760 --> 00:36:19,640
+we have wire versus todoro that's wire
+
+772
+00:36:18,079 --> 00:36:22,240
+we have todoro versus Ralph that's
+
+773
+00:36:19,640 --> 00:36:24,800
+todoro oops there we go then Ralph
+
+774
+00:36:22,240 --> 00:36:27,680
+versus Butternut Ralph then butternut
+
+775
+00:36:24,800 --> 00:36:30,680
+and now we have sorted these next four
+
+776
+00:36:27,680 --> 00:36:30,680
+elements as
+
+777
+00:36:31,160 --> 00:36:36,000
+well and the last thing we're supposed
+
+778
+00:36:33,119 --> 00:36:40,040
+to do is merge these four with those
+
+779
+00:36:36,000 --> 00:36:42,880
+four okay we've got these two it's this
+
+780
+00:36:40,040 --> 00:36:45,839
+we've got these two it's this these two
+
+781
+00:36:42,880 --> 00:36:49,440
+I think it's bubs these two todoro these
+
+782
+00:36:45,839 --> 00:36:52,200
+two what was it again I think it's Ralph
+
+783
+00:36:49,440 --> 00:36:54,119
+then these two is Coupe then
+
+784
+00:36:52,200 --> 00:36:56,880
+Butternut then
+
+785
+00:36:54,119 --> 00:36:59,359
+Charlie and so we just ran through merge
+
+786
+00:36:56,880 --> 00:37:01,880
+sort on these eight elements just by
+
+787
+00:36:59,359 --> 00:37:03,880
+following this code and it kind of
+
+788
+00:37:01,880 --> 00:37:06,760
+worked right we we got our answer in the
+
+789
+00:37:03,880 --> 00:37:08,520
+end and it worked but how can we be
+
+790
+00:37:06,760 --> 00:37:10,920
+confident that it's going to
+
+791
+00:37:08,520 --> 00:37:14,800
+work more than that how can we be
+
+792
+00:37:10,920 --> 00:37:17,280
+confident that we've even described an
+
+793
+00:37:14,800 --> 00:37:19,319
+algorithm because like how can we
+
+794
+00:37:17,280 --> 00:37:22,079
+describe the merge sort
+
+795
+00:37:19,319 --> 00:37:23,839
+algorithm using merge sort before we
+
+796
+00:37:22,079 --> 00:37:28,119
+finish describing merge
+
+797
+00:37:23,839 --> 00:37:30,119
+sort how can we know that this recursive
+
+798
+00:37:28,119 --> 00:37:32,560
+call to merge sort correctly sorts our
+
+799
+00:37:30,119 --> 00:37:35,119
+list before we've proven that merge sort
+
+800
+00:37:32,560 --> 00:37:37,520
+correctly sorts your lists this this is
+
+801
+00:37:35,119 --> 00:37:39,160
+the kind of circular thinking that makes
+
+802
+00:37:37,520 --> 00:37:41,240
+recursion hard to think
+
+803
+00:37:39,160 --> 00:37:43,200
+about but
+
+804
+00:37:41,240 --> 00:37:44,960
+thankfully we don't have to think about
+
+805
+00:37:43,200 --> 00:37:48,520
+it in that way we can think about it as
+
+806
+00:37:44,960 --> 00:37:51,160
+just induction we're inducting on the
+
+807
+00:37:48,520 --> 00:37:54,520
+size of the list that we're
+
+808
+00:37:51,160 --> 00:37:56,720
+sorting merge sort on one
+
+809
+00:37:54,520 --> 00:37:59,880
+element we know what it does and We Know
+
+810
+00:37:56,720 --> 00:38:01,680
+It Works it does nothing and it's
+
+811
+00:37:59,880 --> 00:38:04,400
+correct if there if we're sorting one
+
+812
+00:38:01,680 --> 00:38:06,319
+element we're good we're good merge sort
+
+813
+00:38:04,400 --> 00:38:09,000
+on two
+
+814
+00:38:06,319 --> 00:38:11,760
+elements um says we we're just doing
+
+815
+00:38:09,000 --> 00:38:15,040
+that one comparison like we saw this
+
+816
+00:38:11,760 --> 00:38:17,599
+also works merge sort on four
+
+817
+00:38:15,040 --> 00:38:20,200
+elements to describe merge sword on four
+
+818
+00:38:17,599 --> 00:38:21,640
+elements we call merge sort with two
+
+819
+00:38:20,200 --> 00:38:24,119
+elements then merge sort with two
+
+820
+00:38:21,640 --> 00:38:26,960
+elements then merge them together but by
+
+821
+00:38:24,119 --> 00:38:29,319
+the time we're here we already know what
+
+822
+00:38:26,960 --> 00:38:31,240
+it means to merge sort two elements and
+
+823
+00:38:29,319 --> 00:38:33,880
+we know that it does the job
+
+824
+00:38:31,240 --> 00:38:36,040
+correctly so these recursive
+
+825
+00:38:33,880 --> 00:38:37,640
+calls don't think of them as calling
+
+826
+00:38:36,040 --> 00:38:39,599
+back to merge sort which we haven't
+
+827
+00:38:37,640 --> 00:38:41,960
+finished describing yet think of them as
+
+828
+00:38:39,599 --> 00:38:44,560
+calling a previous incarnation of merge
+
+829
+00:38:41,960 --> 00:38:46,280
+sort we're calling a smaller size which
+
+830
+00:38:44,560 --> 00:38:48,280
+we've already constructed because we're
+
+831
+00:38:46,280 --> 00:38:50,240
+building them up inductively starting
+
+832
+00:38:48,280 --> 00:38:54,200
+from the smaller sizes and working
+
+833
+00:38:50,240 --> 00:38:56,280
+bigger so we know that merge sort 2
+
+834
+00:38:54,200 --> 00:38:59,160
+exists and is correct and we use that to
+
+835
+00:38:56,280 --> 00:39:01,480
+prove that merge sort 4 exists and is
+
+836
+00:38:59,160 --> 00:39:03,040
+correct we use that to prove that merge
+
+837
+00:39:01,480 --> 00:39:06,839
+sort
+
+838
+00:39:03,040 --> 00:39:08,280
+8 which is using merge sort 4 both its
+
+839
+00:39:06,839 --> 00:39:10,319
+description and its
+
+840
+00:39:08,280 --> 00:39:12,520
+correctness to make sure that merge sort
+
+841
+00:39:10,319 --> 00:39:14,680
+8 works and is
+
+842
+00:39:12,520 --> 00:39:16,520
+correct once we have once we know how to
+
+843
+00:39:14,680 --> 00:39:17,920
+merge sort eight elements we can use
+
+844
+00:39:16,520 --> 00:39:19,480
+that to know how to merge sort 16
+
+845
+00:39:17,920 --> 00:39:22,119
+elements we can use that to merge sort
+
+846
+00:39:19,480 --> 00:39:24,520
+32 elements so all this circular
+
+847
+00:39:22,119 --> 00:39:27,040
+reasoning we can break that cycle by
+
+848
+00:39:24,520 --> 00:39:28,720
+remembering that the recursive calls are
+
+849
+00:39:27,040 --> 00:39:32,240
+actually your inductive
+
+850
+00:39:28,720 --> 00:39:34,520
+hypothesis we're allowed to assume that
+
+851
+00:39:32,240 --> 00:39:37,359
+that it works for eight elements when
+
+852
+00:39:34,520 --> 00:39:39,560
+we're constructing and proving it for 16
+
+853
+00:39:37,359 --> 00:39:41,000
+elements and so on and so forth does
+
+854
+00:39:39,560 --> 00:39:42,720
+that idea make
+
+855
+00:39:41,000 --> 00:39:46,640
+sense
+
+856
+00:39:42,720 --> 00:39:49,720
+awesome all right um it can be helpful
+
+857
+00:39:46,640 --> 00:39:52,760
+to see it all at once and not with with
+
+858
+00:39:49,720 --> 00:39:54,319
+cute fuzzy helper friends uh so here's a
+
+859
+00:39:52,760 --> 00:39:57,040
+a quick animation that's just running
+
+860
+00:39:54,319 --> 00:39:58,920
+through the whole algorithm um and every
+
+861
+00:39:57,040 --> 00:40:01,200
+time has an unsorted list it's breaking
+
+862
+00:39:58,920 --> 00:40:03,000
+it into two halves and then by the time
+
+863
+00:40:01,200 --> 00:40:05,640
+they come back sorted it's doing the
+
+864
+00:40:03,000 --> 00:40:07,319
+merge uh so we're about to merge 5 seven
+
+865
+00:40:05,640 --> 00:40:09,520
+with one two looks like one is smaller
+
+866
+00:40:07,319 --> 00:40:12,480
+than five then two then five and seven
+
+867
+00:40:09,520 --> 00:40:13,920
+have no friends so they go back in um
+
+868
+00:40:12,480 --> 00:40:16,480
+now we're going to call merge sword on
+
+869
+00:40:13,920 --> 00:40:18,880
+the right half um here we're merging one
+
+870
+00:40:16,480 --> 00:40:21,319
+and one to get two um now we're
+
+871
+00:40:18,880 --> 00:40:25,040
+splitting and now we're merging back uh
+
+872
+00:40:21,319 --> 00:40:28,000
+0 and six now let's merge 34 with 06
+
+873
+00:40:25,040 --> 00:40:30,160
+looks like 01 then three then four is
+
+874
+00:40:28,000 --> 00:40:32,560
+the winner and then six and finally we
+
+875
+00:40:30,160 --> 00:40:35,920
+merge the two sorted Hales with our
+
+876
+00:40:32,560 --> 00:40:39,520
+familiar merge algorithm again uh next
+
+877
+00:40:35,920 --> 00:40:41,560
+three beats five four beats five five
+
+878
+00:40:39,520 --> 00:40:46,560
+beats
+
+879
+00:40:41,560 --> 00:40:48,160
+six then six then seven uh and that is a
+
+880
+00:40:46,560 --> 00:40:50,240
+quick view of merge sort with just eight
+
+881
+00:40:48,160 --> 00:40:52,920
+elements are there any questions on how
+
+882
+00:40:50,240 --> 00:40:52,920
+this algorithm
+
+883
+00:40:53,160 --> 00:40:58,599
+works all right still restricting to
+
+884
+00:40:55,400 --> 00:41:01,680
+just powers of two for now
+
+885
+00:40:58,599 --> 00:41:04,599
+um well how long does it take we have an
+
+886
+00:41:01,680 --> 00:41:04,599
+algorithm I want a
+
+887
+00:41:04,920 --> 00:41:10,880
+runtime uh and just like before we can
+
+888
+00:41:08,000 --> 00:41:13,280
+describe our runtime with a
+
+889
+00:41:10,880 --> 00:41:17,720
+recurrence um let's say let's call it
+
+890
+00:41:13,280 --> 00:41:20,040
+like M of n which is this is the um an
+
+891
+00:41:17,720 --> 00:41:20,040
+upper
+
+892
+00:41:20,680 --> 00:41:25,440
+bound on the number of
+
+893
+00:41:25,480 --> 00:41:29,240
+comparisons when merge sord
+
+894
+00:41:32,240 --> 00:41:34,599
+n
+
+895
+00:41:35,280 --> 00:41:40,760
+elements and we're trying to figure out
+
+896
+00:41:37,319 --> 00:41:43,920
+M of n for now just when N is a power of
+
+897
+00:41:40,760 --> 00:41:47,839
+two um and we have our algorithm it's up
+
+898
+00:41:43,920 --> 00:41:51,520
+here um the runtime for M of n well
+
+899
+00:41:47,839 --> 00:41:55,839
+we're calling the algorithm for n /2 and
+
+900
+00:41:51,520 --> 00:41:59,079
+we're calling it twice so 2 * m of N
+
+901
+00:41:55,839 --> 00:42:02,079
+/2 and then we're merging n/2 elements
+
+902
+00:41:59,079 --> 00:42:03,599
+with n/2 elements and that merge takes
+
+903
+00:42:02,079 --> 00:42:06,640
+at
+
+904
+00:42:03,599 --> 00:42:09,319
+most nus one more
+
+905
+00:42:06,640 --> 00:42:12,079
+comparisons and so M which is described
+
+906
+00:42:09,319 --> 00:42:14,800
+by this recurrence is an upper bound on
+
+907
+00:42:12,079 --> 00:42:17,079
+the number of comparisons we'll need
+
+908
+00:42:14,800 --> 00:42:19,520
+does this make sense how we were able to
+
+909
+00:42:17,079 --> 00:42:20,559
+translate this recursive algorithm into
+
+910
+00:42:19,520 --> 00:42:24,000
+this
+
+911
+00:42:20,559 --> 00:42:26,079
+recurrence um for a bound on the runtime
+
+912
+00:42:24,000 --> 00:42:28,400
+this isn't the exact runtime because
+
+913
+00:42:26,079 --> 00:42:29,359
+like we said um merge sometimes takes
+
+914
+00:42:28,400 --> 00:42:32,280
+fewer
+
+915
+00:42:29,359 --> 00:42:34,200
+comparisons um if one of the lists is
+
+916
+00:42:32,280 --> 00:42:36,040
+entirely smaller than the other lists
+
+917
+00:42:34,200 --> 00:42:37,880
+then you only need n over two
+
+918
+00:42:36,040 --> 00:42:40,160
+comparisons and then the other list
+
+919
+00:42:37,880 --> 00:42:42,640
+falls into place for free so it's going
+
+920
+00:42:40,160 --> 00:42:44,599
+to be somewhere between n/2 comparisons
+
+921
+00:42:42,640 --> 00:42:46,720
+and N minus one comparisons worst case
+
+922
+00:42:44,599 --> 00:42:47,920
+it's going to be n minus one and since
+
+923
+00:42:46,720 --> 00:42:50,680
+we're looking for an upper bound here
+
+924
+00:42:47,920 --> 00:42:53,680
+we'll call it n minus one okay well we
+
+925
+00:42:50,680 --> 00:42:57,200
+have a recurrence um we can compute some
+
+926
+00:42:53,680 --> 00:42:59,559
+terms and aim for a closed form see if
+
+927
+00:42:57,200 --> 00:43:02,880
+we can get an answer there uh and let me
+
+928
+00:42:59,559 --> 00:43:05,760
+write down some terms for us here's n uh
+
+929
+00:43:02,880 --> 00:43:09,720
+here's selection sort uh and here's
+
+930
+00:43:05,760 --> 00:43:09,720
+merge sort just for
+
+931
+00:43:11,359 --> 00:43:19,920
+comparison uh n is 1 2 4 8 16 and
+
+932
+00:43:17,839 --> 00:43:23,400
+32 that should be enough to find a
+
+933
+00:43:19,920 --> 00:43:26,520
+pattern right so for selection sort that
+
+934
+00:43:23,400 --> 00:43:32,000
+was the slow quadratic one um we had
+
+935
+00:43:26,520 --> 00:43:34,480
+zero 1 6 uh 28 120 and
+
+936
+00:43:32,000 --> 00:43:39,680
+496 and we already know the formula for
+
+937
+00:43:34,480 --> 00:43:44,880
+this that's uh n^2 - n /
+
+938
+00:43:39,680 --> 00:43:46,480
+2 uh for merge sort we get 0 1
+
+939
+00:43:44,880 --> 00:43:50,599
+5
+
+940
+00:43:46,480 --> 00:43:54,079
+17 49
+
+941
+00:43:50,599 --> 00:43:56,599
+129 and we don't know this formula yet
+
+942
+00:43:54,079 --> 00:43:58,400
+gratifying to see that it's smaller than
+
+943
+00:43:56,599 --> 00:44:00,760
+selection sort so this looks like an
+
+944
+00:43:58,400 --> 00:44:02,960
+improvement on our algorithm uh can
+
+945
+00:44:00,760 --> 00:44:05,520
+everyone see or is Charlie in the way
+
+946
+00:44:02,960 --> 00:44:05,520
+sorry about
+
+947
+00:44:08,119 --> 00:44:13,240
+this but looking at that I I don't
+
+948
+00:44:10,760 --> 00:44:15,160
+really see the pattern I can't think of
+
+949
+00:44:13,240 --> 00:44:17,680
+a formula that gets me those numbers
+
+950
+00:44:15,160 --> 00:44:20,040
+just by staring at them which brings us
+
+951
+00:44:17,680 --> 00:44:21,640
+to our other technique for trying to
+
+952
+00:44:20,040 --> 00:44:25,119
+find a closed form when we don't know
+
+953
+00:44:21,640 --> 00:44:27,480
+one yet um just like with sums we had
+
+954
+00:44:25,119 --> 00:44:30,240
+the perturbation method um when we were
+
+955
+00:44:27,480 --> 00:44:31,520
+trying to figure out a closed form well
+
+956
+00:44:30,240 --> 00:44:35,760
+here with
+
+957
+00:44:31,520 --> 00:44:37,160
+recurrences uh we have what we call plug
+
+958
+00:44:35,760 --> 00:44:39,640
+and
+
+959
+00:44:37,160 --> 00:44:43,160
+chug not to be confused with guess and
+
+960
+00:44:39,640 --> 00:44:45,440
+check whoever named these I don't like
+
+961
+00:44:43,160 --> 00:44:49,440
+them the names not the people they're
+
+962
+00:44:45,440 --> 00:44:51,800
+fine I assume um we have the plug and
+
+963
+00:44:49,440 --> 00:44:57,599
+chug technique which looks like the
+
+964
+00:44:51,800 --> 00:44:57,599
+following so roughly speaking um
+
+965
+00:44:57,680 --> 00:45:00,920
+substitute the
+
+966
+00:45:05,040 --> 00:45:11,640
+recurrence into itself so we get um
+
+967
+00:45:09,559 --> 00:45:15,200
+expanded and expanded versions of the
+
+968
+00:45:11,640 --> 00:45:17,240
+formula and look for a pattern in that
+
+969
+00:45:15,200 --> 00:45:19,760
+expansion let's see if we can do that
+
+970
+00:45:17,240 --> 00:45:19,760
+with merge
+
+971
+00:45:20,880 --> 00:45:28,800
+sort so we have M of n we know I'm going
+
+972
+00:45:25,760 --> 00:45:31,559
+to put the N minus one first this is n-1
+
+973
+00:45:28,800 --> 00:45:34,440
++ 2 * m of n
+
+974
+00:45:31,559 --> 00:45:38,319
+/2 right that's just our our recurrence
+
+975
+00:45:34,440 --> 00:45:40,480
+exactly as it was um described before
+
+976
+00:45:38,319 --> 00:45:43,480
+but this m of n
+
+977
+00:45:40,480 --> 00:45:46,880
+/2 m still satisfies our recurrence so
+
+978
+00:45:43,480 --> 00:45:49,839
+let's apply this recurrence to n/2 and
+
+979
+00:45:46,880 --> 00:45:53,280
+replace this term with the recurrence
+
+980
+00:45:49,839 --> 00:45:57,920
+version of that so m / n is going to
+
+981
+00:45:53,280 --> 00:46:03,680
+equal nus1 + 2 *
+
+982
+00:45:57,920 --> 00:46:06,800
+n / 2 -1 + 2 * m of n
+
+983
+00:46:03,680 --> 00:46:09,240
+over4 so I applied our recurrence to the
+
+984
+00:46:06,800 --> 00:46:11,640
+input of n/2 and substituted that in
+
+985
+00:46:09,240 --> 00:46:16,359
+here are we clear on how I got from here
+
+986
+00:46:11,640 --> 00:46:19,520
+to here this is the key step um we can
+
+987
+00:46:16,359 --> 00:46:22,599
+expand this out a little bit um so this
+
+988
+00:46:19,520 --> 00:46:25,880
+is n minus one this is 2 * that is going
+
+989
+00:46:22,599 --> 00:46:30,119
+to be n minus 2 and then we have a 2 and
+
+990
+00:46:25,880 --> 00:46:32,760
+a 2 + 4 or M of n /
+
+991
+00:46:30,119 --> 00:46:35,200
+4 all right so we expanded it out one
+
+992
+00:46:32,760 --> 00:46:37,359
+step and now we have this recurrence
+
+993
+00:46:35,200 --> 00:46:40,640
+which still describes the same
+
+994
+00:46:37,359 --> 00:46:42,319
+sequence um and we can do it again let's
+
+995
+00:46:40,640 --> 00:46:49,480
+do it
+
+996
+00:46:42,319 --> 00:46:57,520
+again this is n -1 + N - 2 + 4 * all
+
+997
+00:46:49,480 --> 00:46:57,520
+right n over 4 -1 + 2 * m of n / 8
+
+998
+00:46:57,720 --> 00:47:01,599
+pretty sure I did that right we can
+
+999
+00:46:59,440 --> 00:47:06,280
+expand that out a little
+
+1000
+00:47:01,599 --> 00:47:10,000
+bit uh so M of n is still equal to
+
+1001
+00:47:06,280 --> 00:47:12,440
+nus1 plus nus 2 plus and now we have
+
+1002
+00:47:10,000 --> 00:47:16,599
+four times this which is going to give
+
+1003
+00:47:12,440 --> 00:47:21,599
+us n minus 4 plus there's a four and a
+
+1004
+00:47:16,599 --> 00:47:21,599
+two we have 8 times M of n over
+
+1005
+00:47:22,200 --> 00:47:28,680
+8 all
+
+1006
+00:47:25,160 --> 00:47:30,400
+right and if we keep doing this we can
+
+1007
+00:47:28,680 --> 00:47:32,160
+we can guess at the pattern we're going
+
+1008
+00:47:30,400 --> 00:47:34,359
+to see when we expand this further and
+
+1009
+00:47:32,160 --> 00:47:38,079
+further we can
+
+1010
+00:47:34,359 --> 00:47:44,720
+guess that M of n is going to look like
+
+1011
+00:47:38,079 --> 00:47:46,720
+nus1 plus nus 2 plus N - 4 + N -
+
+1012
+00:47:44,720 --> 00:47:53,240
+8
+
+1013
+00:47:46,720 --> 00:48:01,400
+plus N - 2 to the um T
+
+1014
+00:47:53,240 --> 00:48:05,520
+-1 + 2 the T * M of n / 2
+
+1015
+00:48:01,400 --> 00:48:07,680
+T if we expand this many times it looks
+
+1016
+00:48:05,520 --> 00:48:10,240
+like we're going to end up with
+
+1017
+00:48:07,680 --> 00:48:11,880
+this this was just me sort of guessing
+
+1018
+00:48:10,240 --> 00:48:14,240
+at the formula we're going to get but
+
+1019
+00:48:11,880 --> 00:48:15,920
+informed guessing by how this keeps
+
+1020
+00:48:14,240 --> 00:48:19,000
+expanding
+
+1021
+00:48:15,920 --> 00:48:21,680
+um and remember we're already assuming
+
+1022
+00:48:19,000 --> 00:48:23,280
+that N is a power of two we're assuming
+
+1023
+00:48:21,680 --> 00:48:28,760
+that n is 2 to the
+
+1024
+00:48:23,280 --> 00:48:30,920
+K so what happens if we choose t =
+
+1025
+00:48:28,760 --> 00:48:35,359
+k then M of
+
+1026
+00:48:30,920 --> 00:48:39,720
+n would equal n -1 + N -
+
+1027
+00:48:35,359 --> 00:48:43,240
+2 um plus N -
+
+1028
+00:48:39,720 --> 00:48:50,359
+4 plus N - 2 to the
+
+1029
+00:48:43,240 --> 00:48:53,640
+K-1 plus 2 the k m of n/ 2 the
+
+1030
+00:48:50,359 --> 00:48:57,720
+K okay but 2 to the K is
+
+1031
+00:48:53,640 --> 00:49:03,079
+n and n / 2 to the K is 1
+
+1032
+00:48:57,720 --> 00:49:03,079
+so this term here is n * m of
+
+1033
+00:49:03,960 --> 00:49:09,079
+1
+
+1034
+00:49:06,400 --> 00:49:11,839
+yeah all right let me make sure I'm
+
+1035
+00:49:09,079 --> 00:49:11,839
+still matching my
+
+1036
+00:49:12,960 --> 00:49:19,079
+algebra and then from here we have we
+
+1037
+00:49:15,359 --> 00:49:22,240
+have a sum to deal with um let's take a
+
+1038
+00:49:19,079 --> 00:49:25,440
+look at all of these n terms how many
+
+1039
+00:49:22,240 --> 00:49:27,280
+are there well it's 2 to the 0 up to 2
+
+1040
+00:49:25,440 --> 00:49:29,520
+the K minus one so there should be K of
+
+1041
+00:49:27,280 --> 00:49:29,520
+them
+
+1042
+00:49:32,599 --> 00:49:40,119
+yes instead of
+
+1043
+00:49:35,520 --> 00:49:41,920
+what 2 to the K so 2 to the K is n uh we
+
+1044
+00:49:40,119 --> 00:49:44,960
+were assuming that N is a power of two
+
+1045
+00:49:41,920 --> 00:49:47,760
+and K is that exponent um so um these
+
+1046
+00:49:44,960 --> 00:49:49,240
+two are the same term good question so
+
+1047
+00:49:47,760 --> 00:49:51,440
+let's see what we got how many n's did
+
+1048
+00:49:49,240 --> 00:49:56,280
+we have we have K of
+
+1049
+00:49:51,440 --> 00:49:58,359
+them this is K * n now let's deal with
+
+1050
+00:49:56,280 --> 00:50:05,760
+these parts that are being
+
+1051
+00:49:58,359 --> 00:50:05,760
+subtracted minus 1 + 2 + 4 + up to 2 the
+
+1052
+00:50:06,000 --> 00:50:11,119
+kus1 and then this term here what was M
+
+1053
+00:50:08,680 --> 00:50:11,119
+of one
+
+1054
+00:50:11,400 --> 00:50:17,640
+again yeah I I see someone going like
+
+1055
+00:50:14,040 --> 00:50:19,599
+this excellent zero yeah there's nothing
+
+1056
+00:50:17,640 --> 00:50:21,480
+to do when when we have just one element
+
+1057
+00:50:19,599 --> 00:50:24,000
+M of one is zero so that whole term in
+
+1058
+00:50:21,480 --> 00:50:26,200
+fact disappears and we're just left with
+
+1059
+00:50:24,000 --> 00:50:27,520
+this which has knen and a geometric
+
+1060
+00:50:26,200 --> 00:50:29,079
+series
+
+1061
+00:50:27,520 --> 00:50:31,839
+and we know formulas for geometric
+
+1062
+00:50:29,079 --> 00:50:34,559
+series I'll spare us the the
+
+1063
+00:50:31,839 --> 00:50:40,880
+details uh this is going to be equal
+
+1064
+00:50:34,559 --> 00:50:44,960
+to um KN n minus 2 to the K minus
+
+1065
+00:50:40,880 --> 00:50:50,480
+one and if we remember what K is K is
+
+1066
+00:50:44,960 --> 00:50:53,559
+log 2 of n this is n * log 2 of n that's
+
+1067
+00:50:50,480 --> 00:50:57,400
+this term and then this 2 to the K is
+
+1068
+00:50:53,559 --> 00:50:59,319
+just n so minus n + one
+
+1069
+00:50:57,400 --> 00:51:01,480
+is our
+
+1070
+00:50:59,319 --> 00:51:03,799
+formula and we got that not by looking
+
+1071
+00:51:01,480 --> 00:51:07,400
+at the numbers but by expanding out the
+
+1072
+00:51:03,799 --> 00:51:07,400
+recurrence and looking for a pattern
+
+1073
+00:51:07,599 --> 00:51:13,160
+there of course this is still just a
+
+1074
+00:51:10,000 --> 00:51:15,079
+guess we didn't really explain why this
+
+1075
+00:51:13,160 --> 00:51:17,640
+thing is true we would maybe want to
+
+1076
+00:51:15,079 --> 00:51:19,520
+prove that by induction but easier
+
+1077
+00:51:17,640 --> 00:51:21,799
+option once we have our actual guess
+
+1078
+00:51:19,520 --> 00:51:24,160
+let's just prove this by induction once
+
+1079
+00:51:21,799 --> 00:51:28,079
+we have our guess we can check it and
+
+1080
+00:51:24,160 --> 00:51:29,760
+turns out this is the correct formula
+
+1081
+00:51:28,079 --> 00:51:33,240
+there's your
+
+1082
+00:51:29,760 --> 00:51:35,799
+check questions on that plug-and chug
+
+1083
+00:51:33,240 --> 00:51:39,240
+method really useful method doesn't
+
+1084
+00:51:35,799 --> 00:51:40,960
+always bear fruit um but often does and
+
+1085
+00:51:39,240 --> 00:51:43,240
+it's a a nice tool to have in your back
+
+1086
+00:51:40,960 --> 00:51:45,480
+pocket one bit of advice when using plug
+
+1087
+00:51:43,240 --> 00:51:47,559
+and chug by the way is notice when I had
+
+1088
+00:51:45,480 --> 00:51:49,440
+this n minus one and N minus 2 I didn't
+
+1089
+00:51:47,559 --> 00:51:52,240
+combine them I could have written that
+
+1090
+00:51:49,440 --> 00:51:54,640
+as 2 N minus 3 and then the next one
+
+1091
+00:51:52,240 --> 00:51:57,680
+would have been what 3 n minus
+
+1092
+00:51:54,640 --> 00:51:59,359
+7 um but it's maybe the pattern is less
+
+1093
+00:51:57,680 --> 00:52:01,319
+clear if we did that I tried to keep
+
+1094
+00:51:59,359 --> 00:52:03,480
+terms from the different levels of
+
+1095
+00:52:01,319 --> 00:52:04,960
+recursion separate from each other so I
+
+1096
+00:52:03,480 --> 00:52:08,200
+can keep track of what's coming from
+
+1097
+00:52:04,960 --> 00:52:10,920
+each stage um so when you're doing plug
+
+1098
+00:52:08,200 --> 00:52:13,160
+and trug try not to simplify everything
+
+1099
+00:52:10,920 --> 00:52:15,960
+at the beginning uh it might help you
+
+1100
+00:52:13,160 --> 00:52:19,119
+see the pattern more
+
+1101
+00:52:15,960 --> 00:52:19,119
+readily all
+
+1102
+00:52:19,319 --> 00:52:28,520
+right back to merge sort
+
+1103
+00:52:23,559 --> 00:52:28,520
+finally what if n isn't a power of two
+
+1104
+00:52:39,839 --> 00:52:44,599
+I claim the algorithm works pretty much
+
+1105
+00:52:42,799 --> 00:52:47,480
+as described we don't really need to
+
+1106
+00:52:44,599 --> 00:52:49,359
+change it all that much um at least we
+
+1107
+00:52:47,480 --> 00:52:52,160
+don't have to change the idea just the
+
+1108
+00:52:49,359 --> 00:52:54,520
+measurements uh so we're going
+
+1109
+00:52:52,160 --> 00:52:58,400
+to sort the
+
+1110
+00:52:54,520 --> 00:53:00,359
+first n /2 floor
+
+1111
+00:52:58,400 --> 00:53:06,200
+elements we're going to
+
+1112
+00:53:00,359 --> 00:53:06,200
+sort the last ceiling of n/2
+
+1113
+00:53:08,119 --> 00:53:15,079
+elements and then merge them
+
+1114
+00:53:11,200 --> 00:53:17,920
+together um excuse me so this notation
+
+1115
+00:53:15,079 --> 00:53:20,799
+floor notation this means n/ two rounded
+
+1116
+00:53:17,920 --> 00:53:23,799
+down to the nearest integer so if n was
+
+1117
+00:53:20,799 --> 00:53:26,079
+11 we would be sorting the first five
+
+1118
+00:53:23,799 --> 00:53:27,359
+elements and then sorting the last six
+
+1119
+00:53:26,079 --> 00:53:29,880
+elements
+
+1120
+00:53:27,359 --> 00:53:31,599
+and we again have two sorted lists now
+
+1121
+00:53:29,880 --> 00:53:33,240
+with different sizes but that doesn't
+
+1122
+00:53:31,599 --> 00:53:36,000
+matter merge doesn't care what size the
+
+1123
+00:53:33,240 --> 00:53:38,400
+lists are we can merge them together and
+
+1124
+00:53:36,000 --> 00:53:40,680
+this is our actual implementation of
+
+1125
+00:53:38,400 --> 00:53:43,880
+merge sort no matter what the size
+
+1126
+00:53:40,680 --> 00:53:47,760
+is uh and we can similarly bound its
+
+1127
+00:53:43,880 --> 00:53:50,920
+runtime uh now M of n the run the number
+
+1128
+00:53:47,760 --> 00:53:53,319
+of comparisons when merge sorting n
+
+1129
+00:53:50,920 --> 00:53:54,640
+elements uh or at least an upper bound
+
+1130
+00:53:53,319 --> 00:53:56,599
+on the number of
+
+1131
+00:53:54,640 --> 00:53:58,720
+comparisons um well now we're
+
+1132
+00:53:56,599 --> 00:54:01,079
+recursively calling floor of n/2 and
+
+1133
+00:53:58,720 --> 00:54:04,760
+ceiling of N /2 and then still doing a
+
+1134
+00:54:01,079 --> 00:54:07,040
+merge with n total elements um we can be
+
+1135
+00:54:04,760 --> 00:54:11,280
+conservative and say the number of
+
+1136
+00:54:07,040 --> 00:54:11,280
+comparisons is at most two
+
+1137
+00:54:12,280 --> 00:54:17,280
+times the amount of comparisons it takes
+
+1138
+00:54:14,720 --> 00:54:19,760
+to sort the bigger of the two
+
+1139
+00:54:17,280 --> 00:54:21,760
+halves um if the other half is smaller
+
+1140
+00:54:19,760 --> 00:54:26,040
+then presumably that's even fewer
+
+1141
+00:54:21,760 --> 00:54:27,920
+comparisons um so this this recurrence
+
+1142
+00:54:26,040 --> 00:54:31,280
+and then still
+
+1143
+00:54:27,920 --> 00:54:33,760
+plus n minus1 for the merge at
+
+1144
+00:54:31,280 --> 00:54:36,200
+most so this is a conservative
+
+1145
+00:54:33,760 --> 00:54:39,240
+measurement of how many comparisons we
+
+1146
+00:54:36,200 --> 00:54:40,920
+need in the worst case for n elements
+
+1147
+00:54:39,240 --> 00:54:42,640
+are we okay with how we got
+
+1148
+00:54:40,920 --> 00:54:45,920
+here
+
+1149
+00:54:42,640 --> 00:54:48,040
+nice and now we could try the same thing
+
+1150
+00:54:45,920 --> 00:54:49,640
+we could try to like plug and chug or
+
+1151
+00:54:48,040 --> 00:54:51,119
+something or guess and check and see if
+
+1152
+00:54:49,640 --> 00:54:54,160
+we can get a closed form for this
+
+1153
+00:54:51,119 --> 00:54:56,960
+recurrence here I don't want
+
+1154
+00:54:54,160 --> 00:54:58,920
+to um especially the the floors and SE
+
+1155
+00:54:56,960 --> 00:55:01,280
+or the ceilings rather uh they kind of
+
+1156
+00:54:58,920 --> 00:55:04,400
+get in the way they make it a lot harder
+
+1157
+00:55:01,280 --> 00:55:07,040
+to do something like that um
+
+1158
+00:55:04,400 --> 00:55:11,480
+thankfully we have yet another
+
+1159
+00:55:07,040 --> 00:55:15,480
+tool um turns out algorithms like merge
+
+1160
+00:55:11,480 --> 00:55:17,960
+sort um more generally what we'll call
+
+1161
+00:55:15,480 --> 00:55:22,520
+divide and
+
+1162
+00:55:17,960 --> 00:55:22,520
+conquer recurrences uh sorry
+
+1163
+00:55:24,640 --> 00:55:27,480
+algorithms there are lots of divide and
+
+1164
+00:55:26,640 --> 00:55:30,640
+conquer
+
+1165
+00:55:27,480 --> 00:55:34,319
+algorithms um very similar to merge
+
+1166
+00:55:30,640 --> 00:55:36,680
+merge sort that give runtime recurrences
+
+1167
+00:55:34,319 --> 00:55:39,480
+very similar to merge sort um divide and
+
+1168
+00:55:36,680 --> 00:55:41,319
+conquer means that usually whatever set
+
+1169
+00:55:39,480 --> 00:55:43,240
+of data you have you're dividing it into
+
+1170
+00:55:41,319 --> 00:55:45,920
+smaller groups there might be two there
+
+1171
+00:55:43,240 --> 00:55:48,000
+might be multiple um you're recursively
+
+1172
+00:55:45,920 --> 00:55:50,400
+calling your algorithm on each group
+
+1173
+00:55:48,000 --> 00:55:54,400
+potentially possibly your groups overlap
+
+1174
+00:55:50,400 --> 00:55:56,440
+so you need more recursive calls um and
+
+1175
+00:55:54,400 --> 00:55:59,599
+then after you get information about
+
+1176
+00:55:56,440 --> 00:56:02,359
+each of your subsets you somehow combine
+
+1177
+00:55:59,599 --> 00:56:05,079
+them back together to get your answer
+
+1178
+00:56:02,359 --> 00:56:06,839
+for the full list so merch sword is a
+
+1179
+00:56:05,079 --> 00:56:09,440
+good example there um you'll see some
+
+1180
+00:56:06,839 --> 00:56:12,039
+others in recitation and problem Set uh
+
+1181
+00:56:09,440 --> 00:56:14,119
+for other divide and conquer algorithms
+
+1182
+00:56:12,039 --> 00:56:18,039
+we're not so concerned with algorithm
+
+1183
+00:56:14,119 --> 00:56:20,200
+design in this class um but tools that
+
+1184
+00:56:18,039 --> 00:56:23,319
+will be used for Designing algorithms in
+
+1185
+00:56:20,200 --> 00:56:24,760
+the future uh are very appropriate uh
+
+1186
+00:56:23,319 --> 00:56:26,720
+and I'm I'm singling out divide and
+
+1187
+00:56:24,760 --> 00:56:28,880
+conquer algorithms
+
+1188
+00:56:26,720 --> 00:56:31,880
+because we have a really nice tool that
+
+1189
+00:56:28,880 --> 00:56:34,400
+helps us analyze the runtime of divide
+
+1190
+00:56:31,880 --> 00:56:36,559
+and conquer algorithms like this it's
+
+1191
+00:56:34,400 --> 00:56:39,559
+called The Master
+
+1192
+00:56:36,559 --> 00:56:39,559
+theorem
+
+1193
+00:56:45,280 --> 00:56:50,359
+um it's called The Master theorem and it
+
+1194
+00:56:47,599 --> 00:56:53,480
+looks like that uh it's a lot of text so
+
+1195
+00:56:50,359 --> 00:56:56,359
+I didn't want to write it by hand um
+
+1196
+00:56:53,480 --> 00:56:57,920
+what the heck is going on here well well
+
+1197
+00:56:56,359 --> 00:56:59,039
+the point is the following suppose we
+
+1198
+00:56:57,920 --> 00:57:01,880
+have a
+
+1199
+00:56:59,039 --> 00:57:05,200
+recurrence uh so we'll call it a
+
+1200
+00:57:01,880 --> 00:57:05,200
+divide and
+
+1201
+00:57:07,119 --> 00:57:11,160
+conquer recurrence is going to be one
+
+1202
+00:57:09,520 --> 00:57:11,839
+that looks like this it's going to be T
+
+1203
+00:57:11,160 --> 00:57:16,480
+of
+
+1204
+00:57:11,839 --> 00:57:18,680
+n equals some constant a Time T of the
+
+1205
+00:57:16,480 --> 00:57:22,680
+ceiling of n /
+
+1206
+00:57:18,680 --> 00:57:26,680
+B plus some function f of
+
+1207
+00:57:22,680 --> 00:57:26,680
+n where
+
+1208
+00:57:27,319 --> 00:57:33,079
+um a is let's see what are our
+
+1209
+00:57:29,640 --> 00:57:36,280
+conditions a is at least one and B
+
+1210
+00:57:33,079 --> 00:57:37,680
+is uh greater than one strictly greater
+
+1211
+00:57:36,280 --> 00:57:41,200
+than
+
+1212
+00:57:37,680 --> 00:57:44,319
+one and F of n is some function merge
+
+1213
+00:57:41,200 --> 00:57:46,160
+sort certainly fits this a is 2 B is 2 F
+
+1214
+00:57:44,319 --> 00:57:48,559
+of n is n minus
+
+1215
+00:57:46,160 --> 00:57:50,599
+one and the master theorem says if you
+
+1216
+00:57:48,559 --> 00:57:53,839
+have a divide and conquer recurrence
+
+1217
+00:57:50,599 --> 00:57:56,240
+that looks like this if you check just a
+
+1218
+00:57:53,839 --> 00:57:57,520
+a couple quick conditions on how quickly
+
+1219
+00:57:56,240 --> 00:58:00,400
+F
+
+1220
+00:57:57,520 --> 00:58:03,680
+grows I can use that to tell you a Theta
+
+1221
+00:58:00,400 --> 00:58:05,520
+bound on T it's not giving me an exact
+
+1222
+00:58:03,680 --> 00:58:08,920
+closed form it's giving me an ASM totic
+
+1223
+00:58:05,520 --> 00:58:08,920
+bound it's going to say that t of
+
+1224
+00:58:09,119 --> 00:58:16,160
+n um is in Theta
+
+1225
+00:58:13,119 --> 00:58:17,880
+of something there are three cases where
+
+1226
+00:58:16,160 --> 00:58:20,240
+the master theorem can tell you
+
+1227
+00:58:17,880 --> 00:58:22,520
+explicitly T of n is Theta of this nice
+
+1228
+00:58:20,240 --> 00:58:26,559
+simple
+
+1229
+00:58:22,520 --> 00:58:28,440
+thing all right so that's the idea let's
+
+1230
+00:58:26,559 --> 00:58:31,119
+not prove that right now but let's talk
+
+1231
+00:58:28,440 --> 00:58:33,119
+about what the three cases mean and
+
+1232
+00:58:31,119 --> 00:58:36,799
+where they come from uh and get some
+
+1233
+00:58:33,119 --> 00:58:36,799
+intuition for the master
+
+1234
+00:58:50,400 --> 00:58:54,839
+theorem okay and if we think about a
+
+1235
+00:58:53,000 --> 00:58:57,079
+divide and conquer algorithm like this
+
+1236
+00:58:54,839 --> 00:59:02,520
+it says well at the very top
+
+1237
+00:58:57,079 --> 00:59:04,200
+up um we have n elements in our list um
+
+1238
+00:59:02,520 --> 00:59:06,599
+and we're going to do some work with
+
+1239
+00:59:04,200 --> 00:59:09,079
+recursive calls that's the a * T of
+
+1240
+00:59:06,599 --> 00:59:11,599
+thing term but then we're going to do
+
+1241
+00:59:09,079 --> 00:59:14,400
+some work with these n elements
+
+1242
+00:59:11,599 --> 00:59:17,280
+themselves and that's F of n uh so we're
+
+1243
+00:59:14,400 --> 00:59:19,760
+going to do F of n
+
+1244
+00:59:17,280 --> 00:59:22,559
+work at this node and all the rest will
+
+1245
+00:59:19,760 --> 00:59:25,720
+be done in sort of the children if we're
+
+1246
+00:59:22,559 --> 00:59:27,319
+thinking about this as um the recursive
+
+1247
+00:59:25,720 --> 00:59:30,960
+call stack C
+
+1248
+00:59:27,319 --> 00:59:33,319
+tree um here's where we're dealing with
+
+1249
+00:59:30,960 --> 00:59:35,520
+t of n here's where we're dealing with t
+
+1250
+00:59:33,319 --> 00:59:39,559
+of n/
+
+1251
+00:59:35,520 --> 00:59:41,319
+B and there are a different children in
+
+1252
+00:59:39,559 --> 00:59:43,640
+merge sort we're splitting into two
+
+1253
+00:59:41,319 --> 00:59:45,280
+halves we're making two recursive calls
+
+1254
+00:59:43,640 --> 00:59:47,200
+uh in this example maybe there are three
+
+1255
+00:59:45,280 --> 00:59:50,400
+recursive calls so a is
+
+1256
+00:59:47,200 --> 00:59:51,160
+three uh and at each of these nodes we
+
+1257
+00:59:50,400 --> 00:59:54,880
+are
+
+1258
+00:59:51,160 --> 00:59:58,440
+calling F of n /
+
+1259
+00:59:54,880 --> 01:00:00,240
+B right right and each of these is
+
+1260
+00:59:58,440 --> 01:00:03,760
+making some recursive
+
+1261
+01:00:00,240 --> 01:00:06,160
+calls each of these nodes uh is doing
+
+1262
+01:00:03,760 --> 01:00:11,480
+work F of n over
+
+1263
+01:00:06,160 --> 01:00:14,280
+b^2 then again F of n over B Cubed and
+
+1264
+01:00:11,480 --> 01:00:18,280
+so on all the way down F
+
+1265
+01:00:14,280 --> 01:00:19,880
+of n over B to the H however however
+
+1266
+01:00:18,280 --> 01:00:24,440
+tall this tree
+
+1267
+01:00:19,880 --> 01:00:26,039
+is um so each of these nodes is doing
+
+1268
+01:00:24,440 --> 01:00:27,559
+this amount of work in itself and the
+
+1269
+01:00:26,039 --> 01:00:29,799
+rest of the work is done
+
+1270
+01:00:27,559 --> 01:00:34,039
+recursively how many nodes do we have at
+
+1271
+01:00:29,799 --> 01:00:35,280
+each level well we have one node here a
+
+1272
+01:00:34,039 --> 01:00:39,160
+nodes
+
+1273
+01:00:35,280 --> 01:00:43,319
+here A Squared nodes
+
+1274
+01:00:39,160 --> 01:00:43,319
+here a cubed nodes
+
+1275
+01:00:43,760 --> 01:00:50,960
+here
+
+1276
+01:00:46,200 --> 01:00:53,880
+um a to the H nodes here at the
+
+1277
+01:00:50,960 --> 01:00:56,520
+bottom so we're getting more and more
+
+1278
+01:00:53,880 --> 01:00:58,520
+sub problems but the sizes of those sub
+
+1279
+01:00:56,520 --> 01:01:00,760
+problems are getting smaller and
+
+1280
+01:00:58,520 --> 01:01:04,440
+smaller um to put this in context for
+
+1281
+01:01:00,760 --> 01:01:06,760
+merge sort um at we called merge with n
+
+1282
+01:01:04,440 --> 01:01:08,960
+elements at the very top we had two
+
+1283
+01:01:06,760 --> 01:01:11,119
+cases where we called merge with n/ two
+
+1284
+01:01:08,960 --> 01:01:13,640
+elements four times where we called
+
+1285
+01:01:11,119 --> 01:01:15,240
+merge with n over four elements eight
+
+1286
+01:01:13,640 --> 01:01:18,200
+times we called merge with n over eight
+
+1287
+01:01:15,240 --> 01:01:21,400
+elements and so on and so on does this
+
+1288
+01:01:18,200 --> 01:01:24,039
+idea make sense this is sort of a um a
+
+1289
+01:01:21,400 --> 01:01:26,160
+conceptual view of all of the different
+
+1290
+01:01:24,039 --> 01:01:28,079
+recursive calls in our device divide and
+
+1291
+01:01:26,160 --> 01:01:31,920
+conquer
+
+1292
+01:01:28,079 --> 01:01:35,200
+algorithm and this sum here FN * 1 plus
+
+1293
+01:01:31,920 --> 01:01:37,280
+f n / B * a this time a squ this time a
+
+1294
+01:01:35,200 --> 01:01:38,880
+cubed all the way down to the bottom
+
+1295
+01:01:37,280 --> 01:01:41,119
+this is our
+
+1296
+01:01:38,880 --> 01:01:42,720
+runtime I'm being sketchy here I'm not
+
+1297
+01:01:41,119 --> 01:01:45,400
+dealing with the floors and ceilings
+
+1298
+01:01:42,720 --> 01:01:47,400
+this is this is just intuition anyway um
+
+1299
+01:01:45,400 --> 01:01:48,799
+so I'm I'm going to be a bit sloppy I
+
+1300
+01:01:47,400 --> 01:01:52,680
+apologize in
+
+1301
+01:01:48,799 --> 01:01:54,799
+advance um but this is conceptually our
+
+1302
+01:01:52,680 --> 01:01:57,839
+runtime first of all how tall is this
+
+1303
+01:01:54,799 --> 01:01:57,839
+tree what is this AG
+
+1304
+01:01:58,079 --> 01:02:02,039
+well we're going down until well with
+
+1305
+01:02:00,400 --> 01:02:04,760
+merge sort we're going all the way until
+
+1306
+01:02:02,039 --> 01:02:06,160
+we get a single element we sort a single
+
+1307
+01:02:04,760 --> 01:02:08,720
+element and that's our base case and
+
+1308
+01:02:06,160 --> 01:02:10,440
+we're certainly not going beyond that um
+
+1309
+01:02:08,720 --> 01:02:13,200
+well what does that say here that says n
+
+1310
+01:02:10,440 --> 01:02:17,480
+and B to the H are equal to each
+
+1311
+01:02:13,200 --> 01:02:17,480
+other in other words the height of the
+
+1312
+01:02:18,279 --> 01:02:22,079
+tree is log B of
+
+1313
+01:02:23,039 --> 01:02:26,920
+n all right and now we have the sum and
+
+1314
+01:02:25,559 --> 01:02:30,200
+and this is our
+
+1315
+01:02:26,920 --> 01:02:33,640
+runtime the master theorem says that
+
+1316
+01:02:30,200 --> 01:02:35,880
+this sum often has three familiar forms
+
+1317
+01:02:33,640 --> 01:02:39,880
+one of three familiar
+
+1318
+01:02:35,880 --> 01:02:42,960
+forms um in the first case in case one
+
+1319
+01:02:39,880 --> 01:02:45,440
+of the master theorem it says if FN is
+
+1320
+01:02:42,960 --> 01:02:49,400
+Big O of this thing ignore what this
+
+1321
+01:02:45,440 --> 01:02:51,119
+thing is if FN is Big O if FN is
+
+1322
+01:02:49,400 --> 01:02:54,559
+small
+
+1323
+01:02:51,119 --> 01:02:57,079
+so if F of n is
+
+1324
+01:02:54,559 --> 01:03:00,160
+small imag imagine in the extreme case
+
+1325
+01:02:57,079 --> 01:03:02,680
+FN is just one there's only a single
+
+1326
+01:03:00,160 --> 01:03:06,240
+step to do at each of these
+
+1327
+01:03:02,680 --> 01:03:08,440
+nodes well then our runtime looks like
+
+1328
+01:03:06,240 --> 01:03:14,400
+um
+
+1329
+01:03:08,440 --> 01:03:18,520
+1 plus a + a 2 plus a cubed
+
+1330
+01:03:14,400 --> 01:03:20,720
+cubed plus a to the H if the fs are
+
+1331
+01:03:18,520 --> 01:03:23,680
+insignificant compared to the
+
+1332
+01:03:20,720 --> 01:03:27,279
+A's then our sum is basically
+
+1333
+01:03:23,680 --> 01:03:29,200
+this um and this is a geometric series
+
+1334
+01:03:27,279 --> 01:03:31,559
+which is basically as big as a to the H
+
+1335
+01:03:29,200 --> 01:03:33,160
+itself up to constant factors lower
+
+1336
+01:03:31,559 --> 01:03:34,680
+order terms we have a geometric series
+
+1337
+01:03:33,160 --> 01:03:36,839
+formula for that but basically it's
+
+1338
+01:03:34,680 --> 01:03:40,599
+saying if FN is
+
+1339
+01:03:36,839 --> 01:03:42,319
+small then this last term dominates the
+
+1340
+01:03:40,599 --> 01:03:45,440
+whole
+
+1341
+01:03:42,319 --> 01:03:48,440
+sum right we have these two conflicting
+
+1342
+01:03:45,440 --> 01:03:50,079
+effects where the fs are getting smaller
+
+1343
+01:03:48,440 --> 01:03:52,960
+because the inputs are getting smaller
+
+1344
+01:03:50,079 --> 01:03:55,440
+but the um the powers of a are getting
+
+1345
+01:03:52,960 --> 01:03:58,640
+bigger and so case one is describing the
+
+1346
+01:03:55,440 --> 01:04:00,039
+case where the A's grow faster than the
+
+1347
+01:03:58,640 --> 01:04:02,440
+fs
+
+1348
+01:04:00,039 --> 01:04:05,200
+shrink um and it turns out that in that
+
+1349
+01:04:02,440 --> 01:04:10,000
+case the runtime is basically just a to
+
+1350
+01:04:05,200 --> 01:04:11,680
+the H itself that t to the N is in Theta
+
+1351
+01:04:10,000 --> 01:04:17,039
+of a to the
+
+1352
+01:04:11,680 --> 01:04:18,520
+H which is a to the H is what a to the
+
+1353
+01:04:17,039 --> 01:04:21,920
+log B of
+
+1354
+01:04:18,520 --> 01:04:26,039
+n which by log rules is the same as n to
+
+1355
+01:04:21,920 --> 01:04:27,359
+the log B of A and that's exactly the
+
+1356
+01:04:26,039 --> 01:04:31,319
+result from case
+
+1357
+01:04:27,359 --> 01:04:33,119
+one if the A's overpower the fs then
+
+1358
+01:04:31,319 --> 01:04:34,960
+this last term wins and that basically
+
+1359
+01:04:33,119 --> 01:04:38,960
+gives us our ASM totic
+
+1360
+01:04:34,960 --> 01:04:38,960
+runtime um on the Other
+
+1361
+01:04:40,720 --> 01:04:47,799
+Extreme if F grows fast if f is Big so
+
+1362
+01:04:45,880 --> 01:04:51,520
+it grows really
+
+1363
+01:04:47,799 --> 01:04:54,119
+quickly um then the F terms over here
+
+1364
+01:04:51,520 --> 01:04:56,960
+are going to overpower the a
+
+1365
+01:04:54,119 --> 01:05:00,400
+terms um and we end up getting the
+
+1366
+01:04:56,960 --> 01:05:01,720
+opposite effect where this first term is
+
+1367
+01:05:00,400 --> 01:05:03,760
+the biggest and all the rest don't
+
+1368
+01:05:01,720 --> 01:05:06,760
+really contribute much ASM
+
+1369
+01:05:03,760 --> 01:05:08,920
+totically so if if f is Big then the
+
+1370
+01:05:06,760 --> 01:05:12,599
+first term in our sum dominates and we
+
+1371
+01:05:08,920 --> 01:05:14,119
+end up getting T of n um T of n is in
+
+1372
+01:05:12,599 --> 01:05:18,079
+Theta of
+
+1373
+01:05:14,119 --> 01:05:21,720
+F and that is what case three says so if
+
+1374
+01:05:18,079 --> 01:05:23,680
+F grows really fast then F alone is
+
+1375
+01:05:21,720 --> 01:05:25,319
+where most of the work happens in terms
+
+1376
+01:05:23,680 --> 01:05:27,400
+of our tree that means that the work we
+
+1377
+01:05:25,319 --> 01:05:29,839
+had to do in this top node
+
+1378
+01:05:27,400 --> 01:05:33,440
+FN that's the bulk of it and everything
+
+1379
+01:05:29,839 --> 01:05:37,799
+else we did down here is small in
+
+1380
+01:05:33,440 --> 01:05:40,640
+comparison all right now there's a case
+
+1381
+01:05:37,799 --> 01:05:41,839
+three I want to keep that tree so let's
+
+1382
+01:05:40,640 --> 01:05:44,400
+come over
+
+1383
+01:05:41,839 --> 01:05:47,440
+here sorry there's a case two the middle
+
+1384
+01:05:44,400 --> 01:05:49,319
+case of Master theorem that says what if
+
+1385
+01:05:47,440 --> 01:05:51,520
+these two effects kind of balance each
+
+1386
+01:05:49,319 --> 01:05:51,520
+other
+
+1387
+01:05:54,480 --> 01:06:01,200
+out um um and in this
+
+1388
+01:05:57,599 --> 01:06:04,720
+case um it's basically asking what if
+
+1389
+01:06:01,200 --> 01:06:08,160
+all of these terms so FN * 1 FN over B *
+
+1390
+01:06:04,720 --> 01:06:09,640
+a FN / b^ 2 * a^ 2 all of these terms in
+
+1391
+01:06:08,160 --> 01:06:12,240
+the sum what if they're all basically
+
+1392
+01:06:09,640 --> 01:06:12,240
+equal to each
+
+1393
+01:06:13,160 --> 01:06:16,599
+other so in the
+
+1394
+01:06:19,119 --> 01:06:26,079
+middle all terms of the sum are
+
+1395
+01:06:22,599 --> 01:06:26,079
+basically equal
+
+1396
+01:06:28,000 --> 01:06:34,240
+and so we end up getting that the
+
+1397
+01:06:30,200 --> 01:06:36,799
+sum is well there are H terms here H+
+
+1398
+01:06:34,240 --> 01:06:39,039
+one terms and each of the terms is
+
+1399
+01:06:36,799 --> 01:06:41,559
+basically the same so I'm going to take
+
+1400
+01:06:39,039 --> 01:06:46,240
+this where it's a to the H times Well n
+
+1401
+01:06:41,559 --> 01:06:46,240
+over B to the H is one right so this is
+
+1402
+01:06:46,359 --> 01:06:50,880
+basically well H +
+
+1403
+01:06:48,720 --> 01:06:54,160
+one
+
+1404
+01:06:50,880 --> 01:06:56,599
+times uh what was that last term again a
+
+1405
+01:06:54,160 --> 01:06:59,200
+to the H * f of
+
+1406
+01:06:56,599 --> 01:07:00,880
+one if all the terms are basically equal
+
+1407
+01:06:59,200 --> 01:07:01,920
+then it's just the number of terms times
+
+1408
+01:07:00,880 --> 01:07:05,240
+this last
+
+1409
+01:07:01,920 --> 01:07:08,359
+one right um we're doing astics I don't
+
+1410
+01:07:05,240 --> 01:07:10,760
+care about that plus one uh F of one is
+
+1411
+01:07:08,359 --> 01:07:13,240
+a basic is a constant I don't care about
+
+1412
+01:07:10,760 --> 01:07:16,720
+that uh so this is this ends up being
+
+1413
+01:07:13,240 --> 01:07:18,960
+basically a to the H * H this
+
+1414
+01:07:16,720 --> 01:07:23,079
+is Theta
+
+1415
+01:07:18,960 --> 01:07:25,160
+of and if we remember what H was sorry
+
+1416
+01:07:23,079 --> 01:07:28,960
+if we remember what a to the H was
+
+1417
+01:07:25,160 --> 01:07:31,000
+that's n to the log B of A and if we
+
+1418
+01:07:28,960 --> 01:07:33,079
+remember what H
+
+1419
+01:07:31,000 --> 01:07:36,400
+was
+
+1420
+01:07:33,079 --> 01:07:40,319
+um times another Factor log
+
+1421
+01:07:36,400 --> 01:07:44,279
+B uh sorry yeah log B of
+
+1422
+01:07:40,319 --> 01:07:45,200
+n so a to the H is this power of n h is
+
+1423
+01:07:44,279 --> 01:07:48,039
+log of
+
+1424
+01:07:45,200 --> 01:07:51,240
+n it's basically saying in case two if
+
+1425
+01:07:48,039 --> 01:07:53,480
+things balance out nicely you just incur
+
+1426
+01:07:51,240 --> 01:07:57,440
+an extra factor of log n from what you
+
+1427
+01:07:53,480 --> 01:07:57,440
+would otherwise expect from case one
+
+1428
+01:07:58,359 --> 01:08:03,720
+and turns out merge sort is in that
+
+1429
+01:08:00,480 --> 01:08:03,720
+middle ground it's in case
+
+1430
+01:08:04,359 --> 01:08:12,839
+two um because FN
+
+1431
+01:08:09,079 --> 01:08:16,799
+here is n minus one for merge
+
+1432
+01:08:12,839 --> 01:08:22,400
+sort uh and it's asking is
+
+1433
+01:08:16,799 --> 01:08:24,960
+this Theta of n to the log base 2 of
+
+1434
+01:08:22,400 --> 01:08:27,640
+two that's the condition for case 2 to
+
+1435
+01:08:24,960 --> 01:08:30,880
+apply according to master theorem and
+
+1436
+01:08:27,640 --> 01:08:35,679
+yeah n minus one is in Theta of n this
+
+1437
+01:08:30,880 --> 01:08:35,679
+exponent is one so yes so we're in case
+
+1438
+01:08:35,960 --> 01:08:44,359
+2 and this says that Master theorem of n
+
+1439
+01:08:40,640 --> 01:08:48,880
+is Theta of n to that exponent that
+
+1440
+01:08:44,359 --> 01:08:49,960
+exponent is one times an extra factor of
+
+1441
+01:08:48,880 --> 01:08:52,560
+log
+
+1442
+01:08:49,960 --> 01:08:55,080
+n so that's how we can use the master
+
+1443
+01:08:52,560 --> 01:08:57,080
+theorem just by pattern matching on the
+
+1444
+01:08:55,080 --> 01:09:01,319
+the shape ape of their recurrence a is 2
+
+1445
+01:08:57,080 --> 01:09:03,199
+B is 2 FN is n minus one make sure it
+
+1446
+01:09:01,319 --> 01:09:06,159
+satisfies the condition for case 2 and
+
+1447
+01:09:03,199 --> 01:09:08,159
+in that case we can conclude uh that MN
+
+1448
+01:09:06,159 --> 01:09:11,120
+is Theta of n log
+
+1449
+01:09:08,159 --> 01:09:13,359
+n um which is the formula we found
+
+1450
+01:09:11,120 --> 01:09:17,520
+earlier um at least when we were only
+
+1451
+01:09:13,359 --> 01:09:20,600
+dealing with powers of two we had n log
+
+1452
+01:09:17,520 --> 01:09:23,759
+n plus a linear term minus a linear
+
+1453
+01:09:20,600 --> 01:09:25,640
+term and so this this matches what we
+
+1454
+01:09:23,759 --> 01:09:27,759
+had in general it's less informative
+
+1455
+01:09:25,640 --> 01:09:30,040
+it's only a Theta bound not an exact
+
+1456
+01:09:27,759 --> 01:09:33,199
+formula but it still gives us what we
+
+1457
+01:09:30,040 --> 01:09:35,080
+would expect which is
+
+1458
+01:09:33,199 --> 01:09:37,520
+nice
+
+1459
+01:09:35,080 --> 01:09:42,120
+um last thing I want to say about this
+
+1460
+01:09:37,520 --> 01:09:45,080
+merge sort does have gaps uh sorry not
+
+1461
+01:09:42,120 --> 01:09:48,120
+merge sort Master theorem does have
+
+1462
+01:09:45,080 --> 01:09:49,480
+gaps um if you have a divide and congr
+
+1463
+01:09:48,120 --> 01:09:52,480
+recurrence like
+
+1464
+01:09:49,480 --> 01:09:54,880
+this um you can't always just apply
+
+1465
+01:09:52,480 --> 01:09:57,239
+Master theorem sometimes um you have
+
+1466
+01:09:54,880 --> 01:09:59,480
+cases that don't fall into any of the
+
+1467
+01:09:57,239 --> 01:10:02,360
+three cases of Master theorem case one
+
+1468
+01:09:59,480 --> 01:10:03,880
+two and three are all false U those
+
+1469
+01:10:02,360 --> 01:10:06,239
+conditions are not valid so you can't
+
+1470
+01:10:03,880 --> 01:10:09,679
+apply Master theorem at all so Master
+
+1471
+01:10:06,239 --> 01:10:12,320
+theorem is not um snake oil that will
+
+1472
+01:10:09,679 --> 01:10:14,560
+solve every problem it'll solve many
+
+1473
+01:10:12,320 --> 01:10:16,960
+problems and in 006 in in
+
+1474
+01:10:14,560 --> 01:10:18,880
+6121 um you'll be using it quite a bit
+
+1475
+01:10:16,960 --> 01:10:20,120
+and you'll see how how useful it can be
+
+1476
+01:10:18,880 --> 01:10:22,840
+in
+
+1477
+01:10:20,120 --> 01:10:27,159
+practice final
+
+1478
+01:10:22,840 --> 01:10:29,040
+thought um let's come back and
+
+1479
+01:10:27,159 --> 01:10:33,400
+compare some yeah I'll just use this
+
+1480
+01:10:29,040 --> 01:10:35,640
+compare some of our um recurrences and
+
+1481
+01:10:33,400 --> 01:10:38,840
+the growth rates that they describe so
+
+1482
+01:10:35,640 --> 01:10:43,560
+we had for example Fibonacci numbers uh
+
+1483
+01:10:38,840 --> 01:10:48,320
+FN is FN minus one plus FN minus 2 uh we
+
+1484
+01:10:43,560 --> 01:10:52,000
+had towers of Hanoi where hn was 2 h of
+
+1485
+01:10:48,320 --> 01:10:53,159
+n minus1 + one this was Fibonacci this
+
+1486
+01:10:52,000 --> 01:10:56,880
+was
+
+1487
+01:10:53,159 --> 01:11:02,920
+Hanoi we have merged sort
+
+1488
+01:10:56,880 --> 01:11:05,920
+um merge sort of n which is 2 m of n / 2
+
+1489
+01:11:02,920 --> 01:11:05,920
+plus n minus
+
+1490
+01:11:07,520 --> 01:11:12,360
+one and other divide and conquer
+
+1491
+01:11:09,840 --> 01:11:19,280
+recurrences I'll use D for divide and
+
+1492
+01:11:12,360 --> 01:11:21,640
+conquer this is a * D of n / B plus F of
+
+1493
+01:11:19,280 --> 01:11:24,560
+N and if we take a look at what formulas
+
+1494
+01:11:21,640 --> 01:11:26,040
+we got for these this Fibonacci this was
+
+1495
+01:11:24,560 --> 01:11:30,640
+Theta of
+
+1496
+01:11:26,040 --> 01:11:33,679
+um like 1.6 to the N that 1 plusun 5 all
+
+1497
+01:11:30,640 --> 01:11:36,239
+divided by two to the N the Fibonacci
+
+1498
+01:11:33,679 --> 01:11:38,639
+numbers grow exponentially the towers of
+
+1499
+01:11:36,239 --> 01:11:41,600
+Hanoi grow
+
+1500
+01:11:38,639 --> 01:11:44,120
+exponentially merch sword is very small
+
+1501
+01:11:41,600 --> 01:11:44,120
+n log
+
+1502
+01:11:45,040 --> 01:11:51,159
+n um and the the main difference here is
+
+1503
+01:11:48,840 --> 01:11:53,400
+that in each of these recurrences we're
+
+1504
+01:11:51,159 --> 01:11:56,080
+making recursive calls to smaller
+
+1505
+01:11:53,400 --> 01:11:58,800
+terms but how quickly are those smaller
+
+1506
+01:11:56,080 --> 01:12:00,639
+terms decreasing in merge sort every
+
+1507
+01:11:58,800 --> 01:12:03,040
+time we make a recursive call we cut the
+
+1508
+01:12:00,639 --> 01:12:05,880
+size in half we Cut N in
+
+1509
+01:12:03,040 --> 01:12:08,120
+half so there are only logarithmically
+
+1510
+01:12:05,880 --> 01:12:10,760
+many times that we can cut it in half
+
+1511
+01:12:08,120 --> 01:12:14,080
+before we bought them out um so that's
+
+1512
+01:12:10,760 --> 01:12:16,639
+why our our call tree over there was
+
+1513
+01:12:14,080 --> 01:12:18,280
+only logarithmic height and so the
+
+1514
+01:12:16,639 --> 01:12:19,480
+runtime ends up being pretty small
+
+1515
+01:12:18,280 --> 01:12:22,560
+because there's not much of a tree to
+
+1516
+01:12:19,480 --> 01:12:24,400
+deal with by contrast with Hanoi and
+
+1517
+01:12:22,560 --> 01:12:27,600
+Fibonacci every time we make a recursive
+
+1518
+01:12:24,400 --> 01:12:31,080
+call we're only subtracting one or
+
+1519
+01:12:27,600 --> 01:12:33,840
+two and so we have to do that linearly
+
+1520
+01:12:31,080 --> 01:12:36,239
+many times like n times before we get
+
+1521
+01:12:33,840 --> 01:12:38,199
+down to the bottom and every time we
+
+1522
+01:12:36,239 --> 01:12:40,520
+make this call the tree is getting
+
+1523
+01:12:38,199 --> 01:12:42,920
+exponentially bigger it's doubling every
+
+1524
+01:12:40,520 --> 01:12:44,320
+time we do this basically uh and that's
+
+1525
+01:12:42,920 --> 01:12:46,239
+why in these two cases we're seeing
+
+1526
+01:12:44,320 --> 01:12:47,280
+exponential growth because the the tree
+
+1527
+01:12:46,239 --> 01:12:49,360
+is
+
+1528
+01:12:47,280 --> 01:12:51,320
+huge so just thinking about this
+
+1529
+01:12:49,360 --> 01:12:53,320
+recursive call tree which terms are
+
+1530
+01:12:51,320 --> 01:12:54,960
+calling which other terms and how far
+
+1531
+01:12:53,320 --> 01:12:55,840
+down does that go and how many nodes are
+
+1532
+01:12:54,960 --> 01:12:58,639
+there
+
+1533
+01:12:55,840 --> 01:13:00,360
+is a great way to get intuition um and a
+
+1534
+01:12:58,639 --> 01:13:02,560
+rough idea of how quickly these things
+
+1535
+01:13:00,360 --> 01:13:04,639
+are growing and a great reason why
+
+1536
+01:13:02,560 --> 01:13:07,280
+divide and conquer algorithms in general
+
+1537
+01:13:04,639 --> 01:13:09,320
+are often really good because they
+
+1538
+01:13:07,280 --> 01:13:11,480
+bottom out
+
+1539
+01:13:09,320 --> 01:13:14,000
+quickly that is everything I wanted to
+
+1540
+01:13:11,480 --> 01:13:15,679
+say thank you so much um we'll see you
+
+1541
+01:13:14,000 --> 01:13:19,360
+in recitation tomorrow and good luck
+
+1542
+01:13:15,679 --> 01:13:19,360
+studying for your quiz
+

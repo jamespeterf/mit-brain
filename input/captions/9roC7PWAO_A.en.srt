@@ -1,0 +1,3740 @@
+1
+00:00:00,560 --> 00:00:04,319
+I am excited to introduce today's
+
+2
+00:00:02,399 --> 00:00:06,080
+speaker Courtney Shear is a fourth year
+
+3
+00:00:04,319 --> 00:00:08,120
+PhD student in Deborah marks group at
+
+4
+00:00:06,080 --> 00:00:10,160
+Harvard Medical School she's interested
+
+5
+00:00:08,120 --> 00:00:12,360
+in developing machine learning models to
+
+6
+00:00:10,160 --> 00:00:14,000
+learn from past Evolution present
+
+7
+00:00:12,360 --> 00:00:16,520
+population and future experimental
+
+8
+00:00:14,000 --> 00:00:18,920
+biology sequence data for therapeutic
+
+9
+00:00:16,520 --> 00:00:20,880
+sequence design and predicting clinical
+
+10
+00:00:18,920 --> 00:00:23,880
+variant effects she's going to share
+
+11
+00:00:20,880 --> 00:00:25,119
+with us some exciting uh work today so
+
+12
+00:00:23,880 --> 00:00:27,080
+please if you have any questions feel
+
+13
+00:00:25,119 --> 00:00:28,760
+free to come up to the microphone um or
+
+14
+00:00:27,080 --> 00:00:30,920
+raise your hand if you're online feel
+
+15
+00:00:28,760 --> 00:00:32,880
+free to um raise your hand there or on
+
+16
+00:00:30,920 --> 00:00:34,960
+mute to ask your question or just Ty
+
+17
+00:00:32,880 --> 00:00:37,719
+type it in the chat so thank you again
+
+18
+00:00:34,960 --> 00:00:37,719
+Courtney for joining
+
+19
+00:00:38,160 --> 00:00:44,680
+us can you hear me great okay so the
+
+20
+00:00:42,000 --> 00:00:46,760
+actual title of my talk is can we
+
+21
+00:00:44,680 --> 00:00:51,360
+computationally predict Varian effects
+
+22
+00:00:46,760 --> 00:00:53,199
+so we can do a few experiments um and
+
+23
+00:00:51,360 --> 00:00:55,559
+like we just said you know feel free to
+
+24
+00:00:53,199 --> 00:00:57,640
+come up and ask questions like as you
+
+25
+00:00:55,559 --> 00:00:59,480
+like you don't have to wait till the end
+
+26
+00:00:57,640 --> 00:01:02,399
+you also can wait till the end like
+
+27
+00:00:59,480 --> 00:01:05,040
+whatever you like um so this is like
+
+28
+00:01:02,399 --> 00:01:07,159
+it's more fun if you you know talk and
+
+29
+00:01:05,040 --> 00:01:08,640
+ask questions because the primers are a
+
+30
+00:01:07,159 --> 00:01:10,200
+little bit more of an introductions to
+
+31
+00:01:08,640 --> 00:01:12,960
+the bulk of this talk in the beginning
+
+32
+00:01:10,200 --> 00:01:15,320
+will be truly like oh you know basics of
+
+33
+00:01:12,960 --> 00:01:17,439
+like varing effect prediction and then
+
+34
+00:01:15,320 --> 00:01:21,640
+towards the middle half of the talk I'll
+
+35
+00:01:17,439 --> 00:01:24,560
+go into a couple um specific modeling
+
+36
+00:01:21,640 --> 00:01:26,920
+methodologies that the Marx lab has uh
+
+37
+00:01:24,560 --> 00:01:30,159
+put together over the years so the
+
+38
+00:01:26,920 --> 00:01:33,399
+beginning will feel uh hopefully uh not
+
+39
+00:01:30,159 --> 00:01:35,880
+too um intimidating and certainly uh
+
+40
+00:01:33,399 --> 00:01:39,320
+nice to listen to at 8:30 a.m. in the
+
+41
+00:01:35,880 --> 00:01:41,399
+morning um so with all that the main
+
+42
+00:01:39,320 --> 00:01:43,840
+question we're answering here not to
+
+43
+00:01:41,399 --> 00:01:46,119
+make this over complicated is can we
+
+44
+00:01:43,840 --> 00:01:49,640
+computationally predict uh Varian
+
+45
+00:01:46,119 --> 00:01:49,640
+effects so we can do fewer
+
+46
+00:01:51,240 --> 00:01:57,560
+experiments maybe okay so what's the
+
+47
+00:01:53,840 --> 00:02:00,280
+goal goal here is to learn what variants
+
+48
+00:01:57,560 --> 00:02:02,240
+cause disease and this simple picture I
+
+49
+00:02:00,280 --> 00:02:05,079
+have here we have a DNA strand on the
+
+50
+00:02:02,240 --> 00:02:08,640
+left um and then a individual who has
+
+51
+00:02:05,079 --> 00:02:12,400
+some non-desirable phenotype as depicted
+
+52
+00:02:08,640 --> 00:02:15,440
+by red spots and a um frowning demeanor
+
+53
+00:02:12,400 --> 00:02:17,760
+so how do these variants cause disease
+
+54
+00:02:15,440 --> 00:02:19,440
+that's a uh that's a question we have we
+
+55
+00:02:17,760 --> 00:02:21,760
+always want to know if we do see
+
+56
+00:02:19,440 --> 00:02:23,800
+variance in uh an individual how are
+
+57
+00:02:21,760 --> 00:02:25,360
+they causing this non-desirable or
+
+58
+00:02:23,800 --> 00:02:28,239
+potentially desirable but in this case
+
+59
+00:02:25,360 --> 00:02:30,959
+non-desirable phenotype um things we can
+
+60
+00:02:28,239 --> 00:02:32,519
+use uh to try to assess this we uh
+
+61
+00:02:30,959 --> 00:02:35,720
+classically have used things like
+
+62
+00:02:32,519 --> 00:02:38,599
+genomics epigenetics
+
+63
+00:02:35,720 --> 00:02:41,519
+transcriptomics proteomics and then with
+
+64
+00:02:38,599 --> 00:02:44,920
+all these things we try to um you know
+
+65
+00:02:41,519 --> 00:02:47,360
+understand how these uh molecules might
+
+66
+00:02:44,920 --> 00:02:49,360
+be manifesting and um you know
+
+67
+00:02:47,360 --> 00:02:51,560
+mechanisms and Pathways that ultimately
+
+68
+00:02:49,360 --> 00:02:52,560
+lead to uh the phenotypes we're
+
+69
+00:02:51,560 --> 00:02:55,040
+interested
+
+70
+00:02:52,560 --> 00:02:57,800
+in so how do we think about this
+
+71
+00:02:55,040 --> 00:02:59,519
+variation generally when it comes to I
+
+72
+00:02:57,800 --> 00:03:02,640
+didn't make this I'm not like an artist
+
+73
+00:02:59,519 --> 00:03:05,400
+this is AI generated um so classically
+
+74
+00:03:02,640 --> 00:03:07,280
+we'll think about things um from like a
+
+75
+00:03:05,400 --> 00:03:09,519
+proteome perspective where you have tons
+
+76
+00:03:07,280 --> 00:03:11,799
+of molecules being made I suppose from
+
+77
+00:03:09,519 --> 00:03:13,080
+like um I guess this doesn't show the
+
+78
+00:03:11,799 --> 00:03:15,360
+magnitude of the difference and
+
+79
+00:03:13,080 --> 00:03:17,360
+distributions of the size of the genome
+
+80
+00:03:15,360 --> 00:03:19,519
+that might produce these things but the
+
+81
+00:03:17,360 --> 00:03:22,319
+proteome will produce uh you know
+
+82
+00:03:19,519 --> 00:03:25,000
+proteins and the non-coding genome uh
+
+83
+00:03:22,319 --> 00:03:26,560
+usually won't produce proteins as we
+
+84
+00:03:25,000 --> 00:03:29,360
+tried to Define our
+
+85
+00:03:26,560 --> 00:03:32,760
+annotations um but to get into the types
+
+86
+00:03:29,360 --> 00:03:36,560
+of Vari we might see we'll start with um
+
+87
+00:03:32,760 --> 00:03:39,159
+a simple depiction um here where at the
+
+88
+00:03:36,560 --> 00:03:41,040
+top we have uh you know some reference
+
+89
+00:03:39,159 --> 00:03:43,080
+and I mean I'm sure we've all heard of
+
+90
+00:03:41,040 --> 00:03:45,560
+uh single nucleotide variants which are
+
+91
+00:03:43,080 --> 00:03:48,040
+just single based pair changes they
+
+92
+00:03:45,560 --> 00:03:50,439
+occur approximately in one in every uh
+
+93
+00:03:48,040 --> 00:03:53,480
+kilobase of um sequencing
+
+94
+00:03:50,439 --> 00:03:55,959
+data we can also see things like small
+
+95
+00:03:53,480 --> 00:03:56,760
+insertions and deletions which are a bit
+
+96
+00:03:55,959 --> 00:03:59,560
+more
+
+97
+00:03:56,760 --> 00:04:02,280
+rare and then we'll even start to see
+
+98
+00:03:59,560 --> 00:04:04,319
+like like predicted regions for
+
+99
+00:04:02,280 --> 00:04:08,480
+structural and copy number variants
+
+100
+00:04:04,319 --> 00:04:10,959
+which are supposedly um more rare unless
+
+101
+00:04:08,480 --> 00:04:12,040
+our sequencing data uh isn't good at
+
+102
+00:04:10,959 --> 00:04:16,199
+picking them
+
+103
+00:04:12,040 --> 00:04:19,959
+up um so anyway the types of these uh
+
+104
+00:04:16,199 --> 00:04:22,120
+single nucleotide variants that occur in
+
+105
+00:04:19,959 --> 00:04:24,880
+proteins um you know they have a
+
+106
+00:04:22,120 --> 00:04:28,080
+propensity to disrupt uh codons that
+
+107
+00:04:24,880 --> 00:04:31,039
+will actually um you know be translated
+
+108
+00:04:28,080 --> 00:04:33,360
+and turned into the protein
+
+109
+00:04:31,039 --> 00:04:35,280
+structures um of course we can have
+
+110
+00:04:33,360 --> 00:04:36,800
+variants that are silent having no
+
+111
+00:04:35,280 --> 00:04:40,120
+effect on the protein
+
+112
+00:04:36,800 --> 00:04:42,639
+sequence allegedly um and we can have
+
+113
+00:04:40,120 --> 00:04:44,039
+missense variants which result in an
+
+114
+00:04:42,639 --> 00:04:45,680
+amino acid
+
+115
+00:04:44,039 --> 00:04:48,759
+substitution and then we can have
+
+116
+00:04:45,680 --> 00:04:51,160
+nonsense variants that um substitute a
+
+117
+00:04:48,759 --> 00:04:52,600
+stop codon for an amino acid so all of
+
+118
+00:04:51,160 --> 00:04:54,199
+this is a little bit of refresher keep
+
+119
+00:04:52,600 --> 00:04:57,840
+with me it'll maybe get more exciting
+
+120
+00:04:54,199 --> 00:05:00,160
+for some of you um in addition to the
+
+121
+00:04:57,840 --> 00:05:01,919
+proteome I'm not going to go into any
+
+122
+00:05:00,160 --> 00:05:05,639
+numerical descriptions here but just
+
+123
+00:05:01,919 --> 00:05:09,080
+invite this uh you know uh complex uh
+
+124
+00:05:05,639 --> 00:05:10,560
+interaction system that we might uh view
+
+125
+00:05:09,080 --> 00:05:14,120
+when we're thinking about non-coding
+
+126
+00:05:10,560 --> 00:05:17,160
+variants and just as a speculation this
+
+127
+00:05:14,120 --> 00:05:20,680
+complex architecture is certain to
+
+128
+00:05:17,160 --> 00:05:23,880
+invite disruptions by uh all types of
+
+129
+00:05:20,680 --> 00:05:26,080
+variants of certain sizes but as a you
+
+130
+00:05:23,880 --> 00:05:28,199
+know foreshadowing to the future of what
+
+131
+00:05:26,080 --> 00:05:31,600
+I'll talk about at the end potentially
+
+132
+00:05:28,199 --> 00:05:35,919
+longer um variants might uh be more
+
+133
+00:05:31,600 --> 00:05:39,199
+disruptive than uh single nucleotide
+
+134
+00:05:35,919 --> 00:05:42,039
+variants so how are variant
+
+135
+00:05:39,199 --> 00:05:43,639
+distinguished well a lot of times in uh
+
+136
+00:05:42,039 --> 00:05:45,400
+population genetics literature these are
+
+137
+00:05:43,639 --> 00:05:48,160
+some ways that we like to distinguish
+
+138
+00:05:45,400 --> 00:05:50,240
+how we talk about variants aside from
+
+139
+00:05:48,160 --> 00:05:52,759
+where they are in the genome aside from
+
+140
+00:05:50,240 --> 00:05:55,840
+how big they are we talk about them as
+
+141
+00:05:52,759 --> 00:05:58,400
+reference versus alternate we talk about
+
+142
+00:05:55,840 --> 00:06:00,520
+them as um with respect to their
+
+143
+00:05:58,400 --> 00:06:02,039
+frequency and a population of Interest
+
+144
+00:06:00,520 --> 00:06:03,039
+we might call them the major variant or
+
+145
+00:06:02,039 --> 00:06:06,400
+the minor
+
+146
+00:06:03,039 --> 00:06:08,720
+variant um we might talk about them um
+
+147
+00:06:06,400 --> 00:06:12,560
+in terms of which variant matches the
+
+148
+00:06:08,720 --> 00:06:14,560
+most recent ancestor shared by um a
+
+149
+00:06:12,560 --> 00:06:16,440
+recent species and with respect to
+
+150
+00:06:14,560 --> 00:06:18,720
+humans this might be uh primates or
+
+151
+00:06:16,440 --> 00:06:19,800
+chimps when we might call this ancestral
+
+152
+00:06:18,720 --> 00:06:22,280
+versus
+
+153
+00:06:19,800 --> 00:06:25,440
+derived and we also talk about these
+
+154
+00:06:22,280 --> 00:06:27,599
+variants in terms of their um
+
+155
+00:06:25,440 --> 00:06:29,919
+association with increased uh disease
+
+156
+00:06:27,599 --> 00:06:34,479
+risks so we might call these risk versus
+
+157
+00:06:29,919 --> 00:06:36,800
+non-risk clever um classifying variants
+
+158
+00:06:34,479 --> 00:06:40,360
+um we can also classify these variants
+
+159
+00:06:36,800 --> 00:06:42,039
+further by minor alal frequencies so
+
+160
+00:06:40,360 --> 00:06:44,360
+instead of just thinking about things as
+
+161
+00:06:42,039 --> 00:06:46,479
+minor and major you can start to think
+
+162
+00:06:44,360 --> 00:06:48,919
+about the frequencies of these variants
+
+163
+00:06:46,479 --> 00:06:50,680
+in maybe a spectrum like this where on
+
+164
+00:06:48,919 --> 00:06:53,360
+the far end of the spectrum you have a
+
+165
+00:06:50,680 --> 00:06:56,039
+variant occurring in one person and then
+
+166
+00:06:53,360 --> 00:06:58,240
+on the bottom side of this uh Arrow you
+
+167
+00:06:56,039 --> 00:07:00,199
+can think of these in terms of like you
+
+168
+00:06:58,240 --> 00:07:02,440
+know strict cut offs based on
+
+169
+00:07:00,199 --> 00:07:04,759
+percentages but we also use some of
+
+170
+00:07:02,440 --> 00:07:07,120
+these words at the top such as very rare
+
+171
+00:07:04,759 --> 00:07:10,240
+rare low and
+
+172
+00:07:07,120 --> 00:07:12,319
+common additionally we can expand this
+
+173
+00:07:10,240 --> 00:07:15,199
+on the left a bit and people will talk
+
+174
+00:07:12,319 --> 00:07:18,560
+about variants using language such as
+
+175
+00:07:15,199 --> 00:07:21,199
+the noo if a variant is even part of one
+
+176
+00:07:18,560 --> 00:07:22,240
+person being in a sematic cells as
+
+177
+00:07:21,199 --> 00:07:24,960
+opposed to
+
+178
+00:07:22,240 --> 00:07:27,560
+germline and these are just a few uh you
+
+179
+00:07:24,960 --> 00:07:29,879
+know ways we can begin to describe
+
+180
+00:07:27,560 --> 00:07:31,319
+variants um when we're talking about
+
+181
+00:07:29,879 --> 00:07:33,680
+them in
+
+182
+00:07:31,319 --> 00:07:35,319
+literature so how do we associate these
+
+183
+00:07:33,680 --> 00:07:37,120
+variants with diseases because remember
+
+184
+00:07:35,319 --> 00:07:38,280
+that's our that's our big question
+
+185
+00:07:37,120 --> 00:07:41,599
+that's what we want to know we can
+
+186
+00:07:38,280 --> 00:07:43,440
+describe these variants in many ways um
+
+187
+00:07:41,599 --> 00:07:45,080
+and but we're really concerned about
+
+188
+00:07:43,440 --> 00:07:46,280
+this question you can tell me all the
+
+189
+00:07:45,080 --> 00:07:48,960
+ways you want to describe a variant I
+
+190
+00:07:46,280 --> 00:07:51,560
+don't care I want to know how does the
+
+191
+00:07:48,960 --> 00:07:53,159
+variant affect cause the
+
+192
+00:07:51,560 --> 00:07:58,120
+disease
+
+193
+00:07:53,159 --> 00:08:00,360
+so the bulk of um you know um uh
+
+194
+00:07:58,120 --> 00:08:02,840
+genetics and statistics gentics has kind
+
+195
+00:08:00,360 --> 00:08:05,479
+of looked at this kind of lens of
+
+196
+00:08:02,840 --> 00:08:07,800
+Association where we begin to look at
+
+197
+00:08:05,479 --> 00:08:11,039
+variant again on the bottom here in
+
+198
+00:08:07,800 --> 00:08:12,639
+terms of their um minor Al frequency but
+
+199
+00:08:11,039 --> 00:08:15,479
+we also want to know about their effect
+
+200
+00:08:12,639 --> 00:08:18,199
+size how much an individual variant
+
+201
+00:08:15,479 --> 00:08:21,440
+actually contributes to the phenotype
+
+202
+00:08:18,199 --> 00:08:24,720
+we're interested in and we kind of P
+
+203
+00:08:21,440 --> 00:08:28,360
+classify variants into these broad um
+
+204
+00:08:24,720 --> 00:08:33,440
+you know discreet um regions of this uh
+
+205
+00:08:28,360 --> 00:08:36,440
+two-dimensional um um um um coordinate
+
+206
+00:08:33,440 --> 00:08:39,479
+system and we can say what studies are
+
+207
+00:08:36,440 --> 00:08:42,039
+used to find these causal
+
+208
+00:08:39,479 --> 00:08:43,839
+variants uh we can have variants that
+
+209
+00:08:42,039 --> 00:08:45,600
+are extremely unlikely they're common
+
+210
+00:08:43,839 --> 00:08:48,080
+variants with major effects it's
+
+211
+00:08:45,600 --> 00:08:50,760
+extremely unlikely to find those we have
+
+212
+00:08:48,080 --> 00:08:52,519
+gwa studies which are very good uh
+
+213
+00:08:50,760 --> 00:08:54,720
+allegedly at finding low frequency
+
+214
+00:08:52,519 --> 00:08:56,519
+variants with intermediate effects or
+
+215
+00:08:54,720 --> 00:08:59,120
+common variant with small
+
+216
+00:08:56,519 --> 00:09:01,079
+effects we have rare variant analysis
+
+217
+00:08:59,120 --> 00:09:03,800
+which is is good at finding rare
+
+218
+00:09:01,079 --> 00:09:05,519
+variants with small effect size and then
+
+219
+00:09:03,800 --> 00:09:07,920
+we can use some things like tools like
+
+220
+00:09:05,519 --> 00:09:10,120
+family studies to look for rare variants
+
+221
+00:09:07,920 --> 00:09:11,720
+with major effects and even sometimes
+
+222
+00:09:10,120 --> 00:09:14,160
+grab some of those low frequency
+
+223
+00:09:11,720 --> 00:09:16,560
+variants with intermediate
+
+224
+00:09:14,160 --> 00:09:19,640
+effects so all that is great finding
+
+225
+00:09:16,560 --> 00:09:22,240
+these associations but even if we find
+
+226
+00:09:19,640 --> 00:09:25,920
+them there still is this big question
+
+227
+00:09:22,240 --> 00:09:28,480
+here of can we predict how the variant
+
+228
+00:09:25,920 --> 00:09:30,240
+affect the trait so what about all this
+
+229
+00:09:28,480 --> 00:09:32,079
+stuff in the middle how are we going to
+
+230
+00:09:30,240 --> 00:09:36,079
+get
+
+231
+00:09:32,079 --> 00:09:38,240
+there so we could do this
+
+232
+00:09:36,079 --> 00:09:40,200
+experimentally uh we can use tools to
+
+233
+00:09:38,240 --> 00:09:42,440
+look at the proteome such as deep
+
+234
+00:09:40,200 --> 00:09:46,000
+mutational scans where we basically
+
+235
+00:09:42,440 --> 00:09:48,000
+perturb each um amino acid and see how
+
+236
+00:09:46,000 --> 00:09:52,040
+it changes uh something simple like the
+
+237
+00:09:48,000 --> 00:09:54,680
+protein uh folding or some Downstream um
+
+238
+00:09:52,040 --> 00:09:56,519
+you know assay uh uh that we're
+
+239
+00:09:54,680 --> 00:10:00,160
+interested
+
+240
+00:09:56,519 --> 00:10:02,079
+in uh we can also look at more so I
+
+241
+00:10:00,160 --> 00:10:04,240
+guess as this is called for the
+
+242
+00:10:02,079 --> 00:10:07,959
+non-coding regions we can look at what
+
+243
+00:10:04,240 --> 00:10:10,920
+are called um npas massively parallel
+
+244
+00:10:07,959 --> 00:10:14,279
+reporter assays where we essentially
+
+245
+00:10:10,920 --> 00:10:17,920
+exogenously go in and stuff our variant
+
+246
+00:10:14,279 --> 00:10:21,800
+of Interest into a plasmid and see if we
+
+247
+00:10:17,920 --> 00:10:25,200
+have um potentially expression happening
+
+248
+00:10:21,800 --> 00:10:27,720
+um from some uh gfp Etc or we can even
+
+249
+00:10:25,200 --> 00:10:30,720
+assess things like Star seek we're
+
+250
+00:10:27,720 --> 00:10:33,600
+looking at uh enhancer binding
+
+251
+00:10:30,720 --> 00:10:35,600
+Etc we also can look at things like
+
+252
+00:10:33,600 --> 00:10:38,360
+crisper mutagenesis where we can
+
+253
+00:10:35,600 --> 00:10:41,920
+potentially go and indirectly um you
+
+254
+00:10:38,360 --> 00:10:45,480
+know edit uh regions of the endogenous
+
+255
+00:10:41,920 --> 00:10:48,800
+cell and see how those um edits you know
+
+256
+00:10:45,480 --> 00:10:52,000
+manifest in some Downstream uh cellular
+
+257
+00:10:48,800 --> 00:10:54,000
+phenotype and even further look at those
+
+258
+00:10:52,000 --> 00:10:55,040
+at the organism level but that seems uh
+
+259
+00:10:54,000 --> 00:10:57,360
+fairly
+
+260
+00:10:55,040 --> 00:10:59,760
+expensive so why not do all these
+
+261
+00:10:57,360 --> 00:11:01,959
+experiments seems like a good idea well
+
+262
+00:10:59,760 --> 00:11:04,320
+the human genome has about 20,000
+
+263
+00:11:01,959 --> 00:11:07,880
+protein coating genes average protein
+
+264
+00:11:04,320 --> 00:11:09,959
+length is 470 amino acids Poss amino
+
+265
+00:11:07,880 --> 00:11:12,920
+acid substitutions per position is
+
+266
+00:11:09,959 --> 00:11:15,560
+approximately 19 variance per protein is
+
+267
+00:11:12,920 --> 00:11:18,279
+around that number this leads to a a
+
+268
+00:11:15,560 --> 00:11:20,839
+very large total of possible amino acid
+
+269
+00:11:18,279 --> 00:11:23,560
+uh substitutions just singles um for
+
+270
+00:11:20,839 --> 00:11:25,680
+double mutants this goes up to 15.9
+
+271
+00:11:23,560 --> 00:11:28,040
+trillion combinations and triple
+
+272
+00:11:25,680 --> 00:11:30,320
+mutations becomes
+
+273
+00:11:28,040 --> 00:11:32,120
+astronomical okay well I don't care I'm
+
+274
+00:11:30,320 --> 00:11:34,639
+going to do a low through preny
+
+275
+00:11:32,120 --> 00:11:37,399
+experiment anyway okay so a cloning and
+
+276
+00:11:34,639 --> 00:11:39,320
+DNA preparation might take two days
+
+277
+00:11:37,399 --> 00:11:41,680
+protein expression two to three days
+
+278
+00:11:39,320 --> 00:11:43,920
+functional assays 1 to three days data
+
+279
+00:11:41,680 --> 00:11:45,920
+analysis one day not so bad total time
+
+280
+00:11:43,920 --> 00:11:47,920
+for variance seven days you have a team
+
+281
+00:11:45,920 --> 00:11:50,320
+of five researchers you're going to test
+
+282
+00:11:47,920 --> 00:11:53,560
+your variance in parallel 50 for 50 per
+
+283
+00:11:50,320 --> 00:11:56,399
+week okay it's going to take you about
+
+284
+00:11:53,560 --> 00:11:57,959
+68692 years okay I'm going to do a high
+
+285
+00:11:56,399 --> 00:12:00,560
+throughput experiment low throughput
+
+286
+00:11:57,959 --> 00:12:02,480
+experiments that's old new mes okay I'm
+
+287
+00:12:00,560 --> 00:12:03,959
+going to do 50,000 variants per
+
+288
+00:12:02,480 --> 00:12:06,399
+experiment that's going to take me about
+
+289
+00:12:03,959 --> 00:12:08,279
+a month and then I'm going to do this
+
+290
+00:12:06,399 --> 00:12:11,920
+that's still going to take me about 300
+
+291
+00:12:08,279 --> 00:12:15,519
+years ah dang okay so I should never do
+
+292
+00:12:11,920 --> 00:12:17,480
+an experiment again no you can use
+
+293
+00:12:15,519 --> 00:12:18,920
+prediction from some magical Oracle of
+
+294
+00:12:17,480 --> 00:12:21,279
+tools which I'll try to convince you
+
+295
+00:12:18,920 --> 00:12:23,560
+about next uh for this initial screening
+
+296
+00:12:21,279 --> 00:12:25,240
+of variants you might want to test then
+
+297
+00:12:23,560 --> 00:12:26,320
+you can validate these high impact
+
+298
+00:12:25,240 --> 00:12:28,519
+variants
+
+299
+00:12:26,320 --> 00:12:30,880
+experimentally and then you can do this
+
+300
+00:12:28,519 --> 00:12:32,680
+in a continue feedback loop to improve
+
+301
+00:12:30,880 --> 00:12:35,160
+predictions
+
+302
+00:12:32,680 --> 00:12:37,199
+yes thing I always think about with your
+
+303
+00:12:35,160 --> 00:12:39,399
+previous slide is are you testing it
+
+304
+00:12:37,199 --> 00:12:41,560
+even in the right cell type and so you
+
+305
+00:12:39,399 --> 00:12:43,240
+need to multiply all of those by all of
+
+306
+00:12:41,560 --> 00:12:45,600
+the different cell types and states that
+
+307
+00:12:43,240 --> 00:12:48,199
+ever exist in the human body yeah and we
+
+308
+00:12:45,600 --> 00:12:50,560
+only Define cell types that we Define
+
+309
+00:12:48,199 --> 00:12:52,839
+discreet cell types but of course you
+
+310
+00:12:50,560 --> 00:12:55,800
+know that's a bit
+
+311
+00:12:52,839 --> 00:12:57,360
+artificial so it's entally inflite if
+
+312
+00:12:55,800 --> 00:12:59,639
+you wanted to like time Point any
+
+313
+00:12:57,360 --> 00:13:03,839
+potential cell um
+
+314
+00:12:59,639 --> 00:13:08,360
+as it's uh differentiating okay so maybe
+
+315
+00:13:03,839 --> 00:13:13,279
+you believe me okay so anyway so this is
+
+316
+00:13:08,360 --> 00:13:16,519
+a body of work um from a group of us uh
+
+317
+00:13:13,279 --> 00:13:19,360
+um uh variant effect prediction
+
+318
+00:13:16,519 --> 00:13:21,720
+Association um led by uh Joe
+
+319
+00:13:19,360 --> 00:13:23,360
+Marsh um we put out this guidelines for
+
+320
+00:13:21,720 --> 00:13:25,600
+releasing a variant effect predictor you
+
+321
+00:13:23,360 --> 00:13:28,320
+can check it out if you like has some
+
+322
+00:13:25,600 --> 00:13:30,160
+good um descriptions of what a variant
+
+323
+00:13:28,320 --> 00:13:31,880
+effect predictor would be do but
+
+324
+00:13:30,160 --> 00:13:34,519
+essentially a variant effect predictor
+
+325
+00:13:31,880 --> 00:13:36,839
+it aims to take in data information from
+
+326
+00:13:34,519 --> 00:13:40,839
+maybe these potential modalities on the
+
+327
+00:13:36,839 --> 00:13:42,680
+left um and uh be useful you know for
+
+328
+00:13:40,839 --> 00:13:44,839
+highlighting uh variants with this
+
+329
+00:13:42,680 --> 00:13:46,920
+evidence that you can use the filter
+
+330
+00:13:44,839 --> 00:13:50,880
+down the variants you might want to be
+
+331
+00:13:46,920 --> 00:13:53,079
+testing um to see if they have clinical
+
+332
+00:13:50,880 --> 00:13:54,199
+relevance so what types of models are
+
+333
+00:13:53,079 --> 00:13:55,680
+there what types of variant effect
+
+334
+00:13:54,199 --> 00:13:59,720
+pictures are there how can we think
+
+335
+00:13:55,680 --> 00:14:02,240
+about this we can have supervised models
+
+336
+00:13:59,720 --> 00:14:05,160
+can have unsupervised models we can have
+
+337
+00:14:02,240 --> 00:14:07,079
+Ensemble models supervised models
+
+338
+00:14:05,160 --> 00:14:10,120
+they're great we can learn directly from
+
+339
+00:14:07,079 --> 00:14:12,639
+known disease variants and we get strong
+
+340
+00:14:10,120 --> 00:14:14,560
+performance on wall variant types U
+
+341
+00:14:12,639 --> 00:14:17,560
+requires on requires labels if you have
+
+342
+00:14:14,560 --> 00:14:19,440
+it you have it use it unsupervised
+
+343
+00:14:17,560 --> 00:14:21,880
+models May Advantage no Reliance on
+
+344
+00:14:19,440 --> 00:14:23,759
+disease labels better generalization to
+
+345
+00:14:21,880 --> 00:14:25,199
+unseen variants maybe we can use these
+
+346
+00:14:23,759 --> 00:14:27,519
+to find things we don't already know
+
+347
+00:14:25,199 --> 00:14:28,759
+about and we can utilize evolutionary
+
+348
+00:14:27,519 --> 00:14:31,759
+sequence data in theory you can use
+
+349
+00:14:28,759 --> 00:14:33,079
+other things but in the context of the
+
+350
+00:14:31,759 --> 00:14:35,040
+variant effect prediction models that
+
+351
+00:14:33,079 --> 00:14:37,199
+are out there a lot of them you'll see
+
+352
+00:14:35,040 --> 00:14:40,639
+using evolutionary sequence data right
+
+353
+00:14:37,199 --> 00:14:42,680
+now you can also do a an ensemble model
+
+354
+00:14:40,639 --> 00:14:44,480
+might heard CAD things like this where
+
+355
+00:14:42,680 --> 00:14:47,240
+they aim to combine multiple sources of
+
+356
+00:14:44,480 --> 00:14:50,440
+evidence uh together which can be very
+
+357
+00:14:47,240 --> 00:14:52,480
+powerful um depending on your
+
+358
+00:14:50,440 --> 00:14:53,560
+question for the sake of this talk we're
+
+359
+00:14:52,480 --> 00:14:56,320
+going to continue and we're going to
+
+360
+00:14:53,560 --> 00:14:59,480
+focus on unsupervised models because
+
+361
+00:14:56,320 --> 00:15:02,639
+this seems to be um the next fr frer in
+
+362
+00:14:59,480 --> 00:15:04,480
+terms of like being able to uh
+
+363
+00:15:02,639 --> 00:15:07,000
+potentially say things about variants we
+
+364
+00:15:04,480 --> 00:15:10,560
+don't know things about going into this
+
+365
+00:15:07,000 --> 00:15:13,600
+space of um better General
+
+366
+00:15:10,560 --> 00:15:15,440
+generalization to unseen variant unseen
+
+367
+00:15:13,600 --> 00:15:18,560
+variance I think we've seen all the
+
+368
+00:15:15,440 --> 00:15:21,320
+variants no way so why unsupervised
+
+369
+00:15:18,560 --> 00:15:24,920
+models are gamechanging but this is just
+
+370
+00:15:21,320 --> 00:15:28,240
+a simple analysis looking at um believe
+
+371
+00:15:24,920 --> 00:15:30,120
+uh uh clingen and Nomad what we have is
+
+372
+00:15:28,240 --> 00:15:33,120
+just focusing on this is just focusing
+
+373
+00:15:30,120 --> 00:15:34,600
+on the 3% of the genome that is proteome
+
+374
+00:15:33,120 --> 00:15:37,000
+so you can imagine like if you had a
+
+375
+00:15:34,600 --> 00:15:38,319
+bigger pie chart you know like how much
+
+376
+00:15:37,000 --> 00:15:40,639
+we wouldn't know about the non-coding
+
+377
+00:15:38,319 --> 00:15:43,000
+genome but this is kind of the label
+
+378
+00:15:40,639 --> 00:15:45,040
+data we have so it's pretty awesome to
+
+379
+00:15:43,000 --> 00:15:46,959
+think about the potential for some of
+
+380
+00:15:45,040 --> 00:15:49,720
+these other methods in terms of
+
+381
+00:15:46,959 --> 00:15:52,839
+providing us evidence for going in and
+
+382
+00:15:49,720 --> 00:15:54,600
+um you know learning things about these
+
+383
+00:15:52,839 --> 00:15:56,680
+um variants that we've never seen or
+
+384
+00:15:54,600 --> 00:15:59,240
+been able to characterize
+
+385
+00:15:56,680 --> 00:16:01,160
+before so now we'll go into the part of
+
+386
+00:15:59,240 --> 00:16:02,959
+the talk where I try to sell you some of
+
+387
+00:16:01,160 --> 00:16:05,880
+the models you know that we work on in
+
+388
+00:16:02,959 --> 00:16:07,959
+my lab in the Mark's lab um so these
+
+389
+00:16:05,880 --> 00:16:10,319
+models are particularly interesting
+
+390
+00:16:07,959 --> 00:16:12,880
+because they rely on this assumption
+
+391
+00:16:10,319 --> 00:16:15,440
+that we can use this piece of orthogonal
+
+392
+00:16:12,880 --> 00:16:19,360
+information for uh human genetics that's
+
+393
+00:16:15,440 --> 00:16:21,199
+found in um the 8.7 million species in
+
+394
+00:16:19,360 --> 00:16:23,920
+the biosphere so we can look at
+
+395
+00:16:21,199 --> 00:16:26,759
+evolutionary sequence data where in
+
+396
+00:16:23,920 --> 00:16:29,360
+principle this Evolution has done a ton
+
+397
+00:16:26,759 --> 00:16:33,040
+of experiments for us already to
+
+398
+00:16:29,360 --> 00:16:35,199
+highlight variants that are uh desirable
+
+399
+00:16:33,040 --> 00:16:37,519
+and to tell us stories about variants
+
+400
+00:16:35,199 --> 00:16:40,199
+that maybe weren't desirable and so if
+
+401
+00:16:37,519 --> 00:16:42,440
+we see those variants of either category
+
+402
+00:16:40,199 --> 00:16:44,959
+in the human population maybe we can
+
+403
+00:16:42,440 --> 00:16:48,959
+learn a bit of evidence as to what
+
+404
+00:16:44,959 --> 00:16:48,959
+variant might be more or less
+
+405
+00:16:49,160 --> 00:16:53,600
+desirable so the distribution of
+
+406
+00:16:51,839 --> 00:16:56,360
+sequences across all these organism
+
+407
+00:16:53,600 --> 00:16:57,519
+teaches us a lot about constraint um
+
+408
+00:16:56,360 --> 00:16:59,759
+like I just said here's like a
+
+409
+00:16:57,519 --> 00:17:02,600
+mathematical uh formula of what I just
+
+410
+00:16:59,759 --> 00:17:05,160
+said we can think about uh potentially
+
+411
+00:17:02,600 --> 00:17:07,160
+variants that um are less probable
+
+412
+00:17:05,160 --> 00:17:09,880
+meaning they're less likely to be seen
+
+413
+00:17:07,160 --> 00:17:11,799
+in this like learned uh distribution of
+
+414
+00:17:09,880 --> 00:17:13,919
+sequences we see in evolution they're
+
+415
+00:17:11,799 --> 00:17:15,679
+less probable they're probably less fit
+
+416
+00:17:13,919 --> 00:17:19,240
+and we can create that as like kind of a
+
+417
+00:17:15,679 --> 00:17:22,919
+proxy for deleteriousness a proxy this
+
+418
+00:17:19,240 --> 00:17:25,160
+is not uh 100% this is deleterious this
+
+419
+00:17:22,919 --> 00:17:27,919
+is
+
+420
+00:17:25,160 --> 00:17:30,840
+evidence okay so to go into this a
+
+421
+00:17:27,919 --> 00:17:30,840
+little bit more
+
+422
+00:17:31,640 --> 00:17:36,679
+um deep learning models capture complex
+
+423
+00:17:34,480 --> 00:17:39,760
+conservation patterns which take the
+
+424
+00:17:36,679 --> 00:17:41,200
+full sequence context into account um so
+
+425
+00:17:39,760 --> 00:17:44,039
+looking for patterns and sequence
+
+426
+00:17:41,200 --> 00:17:46,360
+constraints is a relatively old idea
+
+427
+00:17:44,039 --> 00:17:48,640
+until recently only column conservation
+
+428
+00:17:46,360 --> 00:17:50,400
+was considered in this model you say oh
+
+429
+00:17:48,640 --> 00:17:52,440
+I'm going to take all my sequences I'm
+
+430
+00:17:50,400 --> 00:17:54,559
+going to line them up and I'm going to
+
+431
+00:17:52,440 --> 00:17:56,360
+say oh which one happened the most often
+
+432
+00:17:54,559 --> 00:17:59,720
+which one didn't happen the most often
+
+433
+00:17:56,360 --> 00:18:04,559
+that's a very simple idea if only only
+
+434
+00:17:59,720 --> 00:18:07,240
+uh biology was that simple um so um as
+
+435
+00:18:04,559 --> 00:18:10,120
+like a next step on top of that idea we
+
+436
+00:18:07,240 --> 00:18:13,960
+might start to look at pairs so this
+
+437
+00:18:10,120 --> 00:18:15,559
+might be uh best described in proteins
+
+438
+00:18:13,960 --> 00:18:17,919
+when you're seeing pairs because of
+
+439
+00:18:15,559 --> 00:18:20,120
+contacts where if you see residues
+
+440
+00:18:17,919 --> 00:18:22,440
+contact in contact with each other
+
+441
+00:18:20,120 --> 00:18:24,799
+presumably if one has a disruption
+
+442
+00:18:22,440 --> 00:18:28,919
+you're going to see A disruption um in
+
+443
+00:18:24,799 --> 00:18:32,000
+the other one so this is a somewhat uh
+
+444
+00:18:28,919 --> 00:18:33,240
+not I'm GNA say old but like not uh
+
+445
+00:18:32,000 --> 00:18:36,360
+breaking
+
+446
+00:18:33,240 --> 00:18:40,240
+news oh that's nice
+
+447
+00:18:36,360 --> 00:18:41,280
+okay um so some other potential models
+
+448
+00:18:40,240 --> 00:18:45,320
+you might consider you might ask
+
+449
+00:18:41,280 --> 00:18:47,320
+yourself oh well what about Beyond pairs
+
+450
+00:18:45,320 --> 00:18:50,039
+what if there's um more interesting
+
+451
+00:18:47,320 --> 00:18:52,200
+higher dimensional interactions well
+
+452
+00:18:50,039 --> 00:18:54,120
+things like variational autoencoders
+
+453
+00:18:52,200 --> 00:18:56,280
+other types of models they start to
+
+454
+00:18:54,120 --> 00:18:58,880
+address this question of like going into
+
+455
+00:18:56,280 --> 00:19:00,919
+this potentially nonlinear space um
+
+456
+00:18:58,880 --> 00:19:03,039
+mathematically and being able to pull
+
+457
+00:19:00,919 --> 00:19:04,200
+out um you know some of these higher
+
+458
+00:19:03,039 --> 00:19:08,360
+order
+
+459
+00:19:04,200 --> 00:19:10,960
+dependencies um we also see a lot of um
+
+460
+00:19:08,360 --> 00:19:13,720
+models these days you'll see from like
+
+461
+00:19:10,960 --> 00:19:16,559
+protein language models Etc which also
+
+462
+00:19:13,720 --> 00:19:18,000
+use slightly different strategies um
+
+463
+00:19:16,559 --> 00:19:20,720
+they a lot of times they don't
+
+464
+00:19:18,000 --> 00:19:23,159
+necessarily rely on strict alignments of
+
+465
+00:19:20,720 --> 00:19:26,039
+your data and that can be really
+
+466
+00:19:23,159 --> 00:19:28,720
+advantageous especially for proteins if
+
+467
+00:19:26,039 --> 00:19:30,360
+they don't align very well such as uh
+
+468
+00:19:28,720 --> 00:19:33,440
+antibodies which might have
+
+469
+00:19:30,360 --> 00:19:34,960
+hypervariable regions Etc um and then
+
+470
+00:19:33,440 --> 00:19:37,000
+you could imagine how this is even more
+
+471
+00:19:34,960 --> 00:19:39,760
+attractive potentially which I'll get to
+
+472
+00:19:37,000 --> 00:19:41,520
+towards the end if you wanted to look at
+
+473
+00:19:39,760 --> 00:19:43,760
+uh you know non-coding aspects of the
+
+474
+00:19:41,520 --> 00:19:45,640
+genome where you have uh you know less
+
+475
+00:19:43,760 --> 00:19:48,600
+constraint defined by structure that you
+
+476
+00:19:45,640 --> 00:19:52,440
+would see in proteins and they become
+
+477
+00:19:48,600 --> 00:19:52,440
+Less ad meable to alignment based
+
+478
+00:19:54,280 --> 00:19:57,520
+models so how do our models compare with
+
+479
+00:19:56,600 --> 00:20:00,120
+lab
+
+480
+00:19:57,520 --> 00:20:03,000
+experiments uh model predictions to lab
+
+481
+00:20:00,120 --> 00:20:05,120
+experiment yeah okay so Eve predicts uh
+
+482
+00:20:03,000 --> 00:20:08,640
+Eve is one of our models it's this model
+
+483
+00:20:05,120 --> 00:20:10,039
+here the vae so you can think of it as
+
+484
+00:20:08,640 --> 00:20:12,640
+like a deep learning model that's able
+
+485
+00:20:10,039 --> 00:20:15,280
+to pick up on higher order dependencies
+
+486
+00:20:12,640 --> 00:20:17,240
+um in the data so just breaking Beyond
+
+487
+00:20:15,280 --> 00:20:18,679
+uh pairwise dependencies it's still
+
+488
+00:20:17,240 --> 00:20:20,919
+going to get pairwise it's still going
+
+489
+00:20:18,679 --> 00:20:24,480
+to get sitewise but it can be
+
+490
+00:20:20,919 --> 00:20:28,960
+more um and what we published this work
+
+491
+00:20:24,480 --> 00:20:32,000
+back geez like 2021 I think now so like
+
+492
+00:20:28,960 --> 00:20:34,640
+right when I started my PhD um and what
+
+493
+00:20:32,000 --> 00:20:38,720
+we're seeing here is that basically the
+
+494
+00:20:34,640 --> 00:20:42,360
+model um is able to predict um you know
+
+495
+00:20:38,720 --> 00:20:45,440
+if a variant is uh uh benign or
+
+496
+00:20:42,360 --> 00:20:49,000
+pathogenic just as well as if you took
+
+497
+00:20:45,440 --> 00:20:52,480
+some mutational scanning experiment and
+
+498
+00:20:49,000 --> 00:20:54,840
+put that up to the same uh the same task
+
+499
+00:20:52,480 --> 00:20:57,200
+so it does it's as well as experiment so
+
+500
+00:20:54,840 --> 00:20:59,000
+in theory if you never had this model is
+
+501
+00:20:57,200 --> 00:21:00,960
+not trained on the experimental data we
+
+502
+00:20:59,000 --> 00:21:02,919
+made the experiment to confirm this or
+
+503
+00:21:00,960 --> 00:21:05,280
+to find new things so in theory you
+
+504
+00:21:02,919 --> 00:21:06,840
+never needed to do the experiment
+
+505
+00:21:05,280 --> 00:21:08,360
+because we don't do experiments to
+
+506
+00:21:06,840 --> 00:21:11,080
+validate our machine learning models we
+
+507
+00:21:08,360 --> 00:21:13,039
+do them to um well we might do that but
+
+508
+00:21:11,080 --> 00:21:14,720
+we should be doing them to find evidence
+
+509
+00:21:13,039 --> 00:21:17,240
+for clinical
+
+510
+00:21:14,720 --> 00:21:18,760
+variants uh so Eve is good at predicting
+
+511
+00:21:17,240 --> 00:21:21,240
+clinical
+
+512
+00:21:18,760 --> 00:21:23,799
+labels but many variant effect
+
+513
+00:21:21,240 --> 00:21:26,200
+predictors perform well at predicting
+
+514
+00:21:23,799 --> 00:21:29,240
+clinical lab labels and chlorate well
+
+515
+00:21:26,200 --> 00:21:31,760
+with experimental data
+
+516
+00:21:29,240 --> 00:21:34,320
+but they are not designed for comparing
+
+517
+00:21:31,760 --> 00:21:37,080
+uh variants in distinct genes we here on
+
+518
+00:21:34,320 --> 00:21:40,120
+the right originally we have Eve model
+
+519
+00:21:37,080 --> 00:21:42,360
+here that is unable to distinguish its P
+
+520
+00:21:40,120 --> 00:21:45,200
+its uh scores for two different classes
+
+521
+00:21:42,360 --> 00:21:47,120
+of genes the purple one or the one on
+
+522
+00:21:45,200 --> 00:21:49,520
+the top being Hao insufficient genes
+
+523
+00:21:47,120 --> 00:21:51,640
+where you would expect A disruption in
+
+524
+00:21:49,520 --> 00:21:54,200
+that Gene to be uh quite
+
+525
+00:21:51,640 --> 00:21:56,320
+deleterious whereas compared to a loss
+
+526
+00:21:54,200 --> 00:21:59,080
+of function tolerated Gene whereas you
+
+527
+00:21:56,320 --> 00:22:01,240
+had a varant in that Gene you wouldn't
+
+528
+00:21:59,080 --> 00:22:03,880
+expect it to be quite as deleterious as
+
+529
+00:22:01,240 --> 00:22:06,120
+the half loone sufficient Gene so what
+
+530
+00:22:03,880 --> 00:22:08,760
+we did is we said oh what if we could
+
+531
+00:22:06,120 --> 00:22:12,400
+combine this evolutionary information
+
+532
+00:22:08,760 --> 00:22:15,600
+with uh information from um
+
+533
+00:22:12,400 --> 00:22:18,000
+biobanks so we use a two-step uh modular
+
+534
+00:22:15,600 --> 00:22:21,080
+approach for building a whole proteo
+
+535
+00:22:18,000 --> 00:22:22,799
+model um where in this example we're not
+
+536
+00:22:21,080 --> 00:22:24,200
+taking like a single Eve model for a
+
+537
+00:22:22,799 --> 00:22:26,600
+single protein we're going to make
+
+538
+00:22:24,200 --> 00:22:28,640
+models for the whole proteum I don't
+
+539
+00:22:26,600 --> 00:22:32,120
+think we've quite reached 20,000 but
+
+540
+00:22:28,640 --> 00:22:35,400
+we've got a lot um
+
+541
+00:22:32,120 --> 00:22:37,640
+um and with this model we basically have
+
+542
+00:22:35,400 --> 00:22:39,799
+a VAR a variable for an evolutionary
+
+543
+00:22:37,640 --> 00:22:42,799
+score that we're getting from these uh
+
+544
+00:22:39,799 --> 00:22:44,799
+Eve models or other potential um protein
+
+545
+00:22:42,799 --> 00:22:47,720
+language models that might be ensembled
+
+546
+00:22:44,799 --> 00:22:49,320
+in some way and we basic basically uh do
+
+547
+00:22:47,720 --> 00:22:51,720
+a conditional distribution where we're
+
+548
+00:22:49,320 --> 00:22:55,000
+taking the probability of a variant
+
+549
+00:22:51,720 --> 00:22:57,200
+being seen in some um biobank in this
+
+550
+00:22:55,000 --> 00:23:00,200
+case the UK biobank and we're
+
+551
+00:22:57,200 --> 00:23:03,520
+conditioning this on um its evolutionary
+
+552
+00:23:00,200 --> 00:23:06,760
+score and um we can parameterize this as
+
+553
+00:23:03,520 --> 00:23:10,840
+a simple Bly distribution where our
+
+554
+00:23:06,760 --> 00:23:14,919
+prior um our prior uh is a gum process
+
+555
+00:23:10,840 --> 00:23:17,760
+prior and aside from this gum process
+
+556
+00:23:14,919 --> 00:23:20,080
+prior what's cool about this is we also
+
+557
+00:23:17,760 --> 00:23:21,880
+can have some measure of uncertainty in
+
+558
+00:23:20,080 --> 00:23:23,360
+the model so sometimes the model would
+
+559
+00:23:21,880 --> 00:23:24,600
+just give you a score and they'll tell
+
+560
+00:23:23,360 --> 00:23:26,320
+you how to interpret that score and
+
+561
+00:23:24,600 --> 00:23:28,000
+you're like great but wouldn't it be
+
+562
+00:23:26,320 --> 00:23:29,360
+nice to know how uncertain the model is
+
+563
+00:23:28,000 --> 00:23:31,440
+about that score because that might give
+
+564
+00:23:29,360 --> 00:23:34,600
+you an additional piece of evidence as
+
+565
+00:23:31,440 --> 00:23:37,240
+to say like how much can I trust this so
+
+566
+00:23:34,600 --> 00:23:39,760
+parameterizing models like this can be a
+
+567
+00:23:37,240 --> 00:23:43,240
+a powerful technique for giving the
+
+568
+00:23:39,760 --> 00:23:46,799
+researcher more um you
+
+569
+00:23:43,240 --> 00:23:49,600
+know uh more information about what the
+
+570
+00:23:46,799 --> 00:23:52,919
+model is um able to
+
+571
+00:23:49,600 --> 00:23:55,400
+discern um so in this case we see on the
+
+572
+00:23:52,919 --> 00:23:58,159
+top with our Eve model our original Eve
+
+573
+00:23:55,400 --> 00:24:00,520
+model which had no population data and
+
+574
+00:23:58,159 --> 00:24:03,080
+it's a little bit confused about how to
+
+575
+00:24:00,520 --> 00:24:05,279
+score the half insufficient genes versus
+
+576
+00:24:03,080 --> 00:24:08,320
+the loss of function tolerant genes and
+
+577
+00:24:05,279 --> 00:24:12,320
+then we see once we do um train a new
+
+578
+00:24:08,320 --> 00:24:16,799
+model with pop Eve we see um ignore the
+
+579
+00:24:12,320 --> 00:24:18,799
+actual um numerics on the x-axis there
+
+580
+00:24:16,799 --> 00:24:21,080
+it's about the comparison of the two box
+
+581
+00:24:18,799 --> 00:24:23,760
+plots not the actual numbers so what
+
+582
+00:24:21,080 --> 00:24:26,279
+we're seeing here is that the blue box
+
+583
+00:24:23,760 --> 00:24:29,000
+plot is slightly shifted higher meaning
+
+584
+00:24:26,279 --> 00:24:32,559
+it has a higher likelihood happening
+
+585
+00:24:29,000 --> 00:24:35,080
+meaning it's less deleterious versus the
+
+586
+00:24:32,559 --> 00:24:37,480
+purple box it's shifted left meaning
+
+587
+00:24:35,080 --> 00:24:39,440
+it's has a lower likelihood of being
+
+588
+00:24:37,480 --> 00:24:42,159
+seen under the distribution and
+
+589
+00:24:39,440 --> 00:24:45,159
+therefore it is um predicted to be more
+
+590
+00:24:42,159 --> 00:24:45,159
+deleterious
+
+591
+00:24:46,320 --> 00:24:54,000
+yes which Eve or po the eve
+
+592
+00:24:50,760 --> 00:24:56,000
+model it distinguish between the red and
+
+593
+00:24:54,000 --> 00:24:57,880
+the green bonds presumably like Capal
+
+594
+00:24:56,000 --> 00:25:01,200
+sufficient genes would have maybe more
+
+595
+00:24:57,880 --> 00:25:04,080
+like conservation than lolf tolerant
+
+596
+00:25:01,200 --> 00:25:06,679
+genes across species I think it would
+
+597
+00:25:04,080 --> 00:25:09,600
+but it's um you know I think like the
+
+598
+00:25:06,679 --> 00:25:11,799
+hypothesis here is that uh you know
+
+599
+00:25:09,600 --> 00:25:14,360
+you're you're losing some of those like
+
+600
+00:25:11,799 --> 00:25:16,880
+um characteristics are based on the what
+
+601
+00:25:14,360 --> 00:25:19,200
+we've seen in humans and you might want
+
+602
+00:25:16,880 --> 00:25:21,720
+to have more current uh standing
+
+603
+00:25:19,200 --> 00:25:24,320
+variation considered heavily in your
+
+604
+00:25:21,720 --> 00:25:26,799
+model which is why we add the additional
+
+605
+00:25:24,320 --> 00:25:28,720
+information from Human populations to
+
+606
+00:25:26,799 --> 00:25:31,520
+kind of get the model to say okay I'm
+
+607
+00:25:28,720 --> 00:25:34,240
+gonna focus more on the human variation
+
+608
+00:25:31,520 --> 00:25:36,320
+that I'm seeing but also consider some
+
+609
+00:25:34,240 --> 00:25:38,919
+of this evolutionary sequence uh
+
+610
+00:25:36,320 --> 00:25:41,200
+information as a prior that makes sense
+
+611
+00:25:38,919 --> 00:25:44,520
+and this is just like you can see it in
+
+612
+00:25:41,200 --> 00:25:49,039
+the data like that that's true but like
+
+613
+00:25:44,520 --> 00:25:49,039
+that's the intuition yeah
+
+614
+00:25:50,720 --> 00:25:55,960
+yeah
+
+615
+00:25:52,360 --> 00:25:59,200
+okay so you can try out these tools
+
+616
+00:25:55,960 --> 00:26:00,960
+um on the left is Eve
+
+617
+00:25:59,200 --> 00:26:03,679
+and I guess there's no links here for
+
+618
+00:26:00,960 --> 00:26:06,880
+you but you can Google them um for
+
+619
+00:26:03,679 --> 00:26:09,559
+trying out Eve and pop Eve mutation uh
+
+620
+00:26:06,880 --> 00:26:11,080
+portals they're pretty cool they'll also
+
+621
+00:26:09,559 --> 00:26:12,399
+I think I don't know if it's Eve or pop
+
+622
+00:26:11,080 --> 00:26:14,399
+Eve they'll also let you see the
+
+623
+00:26:12,399 --> 00:26:16,840
+mutation like in a three-dimensional
+
+624
+00:26:14,399 --> 00:26:18,440
+structure this is a little bit like
+
+625
+00:26:16,840 --> 00:26:21,279
+short changing them just showing you
+
+626
+00:26:18,440 --> 00:26:23,679
+this like ugly like front door but like
+
+627
+00:26:21,279 --> 00:26:25,840
+it well it's not ugly but it's like not
+
+628
+00:26:23,679 --> 00:26:28,440
+as cool as it could be if you put it in
+
+629
+00:26:25,840 --> 00:26:31,440
+an actual U thing to search there's
+
+630
+00:26:28,440 --> 00:26:34,240
+they're cooler than that I promise you
+
+631
+00:26:31,440 --> 00:26:37,279
+okay um so how can we evaluate these
+
+632
+00:26:34,240 --> 00:26:40,240
+models um so now I'm getting towards the
+
+633
+00:26:37,279 --> 00:26:43,760
+end uh but this is a very cool piece of
+
+634
+00:26:40,240 --> 00:26:46,360
+work that um uh Hillary fukan and others
+
+635
+00:26:43,760 --> 00:26:48,279
+here at the FR have uh worked on where
+
+636
+00:26:46,360 --> 00:26:51,200
+they've basically made uh this
+
+637
+00:26:48,279 --> 00:26:54,640
+collection of benchmarks uh and they
+
+638
+00:26:51,200 --> 00:26:56,080
+call them genetics gym where you know
+
+639
+00:26:54,640 --> 00:26:58,960
+there's a lot of variant effect
+
+640
+00:26:56,080 --> 00:27:01,919
+predictors out there which one do I use
+
+641
+00:26:58,960 --> 00:27:04,080
+for my problem for my variant who knows
+
+642
+00:27:01,919 --> 00:27:08,080
+uh I don't really believe in this world
+
+643
+00:27:04,080 --> 00:27:10,360
+where one model is King I think based on
+
+644
+00:27:08,080 --> 00:27:14,320
+your question and based on the training
+
+645
+00:27:10,360 --> 00:27:17,440
+data of the model you should decide you
+
+646
+00:27:14,320 --> 00:27:20,080
+know which uh pieces of evidence to
+
+647
+00:27:17,440 --> 00:27:22,080
+consider I don't I personally don't
+
+648
+00:27:20,080 --> 00:27:24,559
+believe in this like God model that you
+
+649
+00:27:22,080 --> 00:27:28,720
+can just feed all this data into and
+
+650
+00:27:24,559 --> 00:27:31,640
+it's going to um give you some like
+
+651
+00:27:28,720 --> 00:27:34,240
+crazy answer okay so how can we evaluate
+
+652
+00:27:31,640 --> 00:27:36,520
+these models in this paper I believe
+
+653
+00:27:34,240 --> 00:27:38,880
+they looked at Pop Eve which was the
+
+654
+00:27:36,520 --> 00:27:40,000
+model I just showed you this model
+
+655
+00:27:38,880 --> 00:27:42,240
+called
+
+656
+00:27:40,000 --> 00:27:45,799
+Misfit sorry if I don't know all these
+
+657
+00:27:42,240 --> 00:27:47,559
+models MPC they looked at Alpha mistons
+
+658
+00:27:45,799 --> 00:27:52,600
+which I believe we had a talked about
+
+659
+00:27:47,559 --> 00:27:56,440
+earlier in the year esm 1B primate
+
+660
+00:27:52,600 --> 00:27:58,320
+a3d and the first uh wish that was a
+
+661
+00:27:56,440 --> 00:28:00,640
+little bigger sorry about that and the
+
+662
+00:27:58,320 --> 00:28:03,080
+first uh evaluation they basically
+
+663
+00:28:00,640 --> 00:28:05,159
+looked at denovo mutations and severe
+
+664
+00:28:03,080 --> 00:28:07,200
+disorders um where they're comparing
+
+665
+00:28:05,159 --> 00:28:09,679
+mutations and individuals with
+
+666
+00:28:07,200 --> 00:28:12,080
+developmental disorders Etc versus
+
+667
+00:28:09,679 --> 00:28:15,440
+unaffected controls and for bit this
+
+668
+00:28:12,080 --> 00:28:18,559
+particular case you see um models like
+
+669
+00:28:15,440 --> 00:28:20,159
+pop Eva really shine which is awesome
+
+670
+00:28:18,559 --> 00:28:21,600
+you know we should just go home we
+
+671
+00:28:20,159 --> 00:28:23,919
+solved everything let's not look at
+
+672
+00:28:21,600 --> 00:28:26,559
+anything else we're the winners clap
+
+673
+00:28:23,919 --> 00:28:29,039
+please clap Okay no Okay so now we're
+
+674
+00:28:26,559 --> 00:28:32,440
+going to look at some other evaluation
+
+675
+00:28:29,039 --> 00:28:34,600
+um because you know this is science and
+
+676
+00:28:32,440 --> 00:28:36,600
+we need to not basically Champion our
+
+677
+00:28:34,600 --> 00:28:39,760
+own methods we need to say okay what
+
+678
+00:28:36,600 --> 00:28:41,919
+methods globally would be good um for
+
+679
+00:28:39,760 --> 00:28:44,159
+different questions so for this next
+
+680
+00:28:41,919 --> 00:28:46,720
+question they're looking at very rare
+
+681
+00:28:44,159 --> 00:28:48,159
+variance in psychiatric conditions where
+
+682
+00:28:46,720 --> 00:28:50,480
+you can kind of I didn't mention this
+
+683
+00:28:48,159 --> 00:28:51,840
+sorry but you can kind of think as I go
+
+684
+00:28:50,480 --> 00:28:54,360
+across here you can kind of think of
+
+685
+00:28:51,840 --> 00:28:55,880
+this as a spectrum whereas on the left
+
+686
+00:28:54,360 --> 00:28:57,679
+you might have things that are under the
+
+687
+00:28:55,880 --> 00:28:59,440
+highest constraints such as denovo
+
+688
+00:28:57,679 --> 00:29:00,960
+variant so if you recall back to my
+
+689
+00:28:59,440 --> 00:29:03,640
+beginning of the presentation when I had
+
+690
+00:29:00,960 --> 00:29:05,559
+that Spectrum so the ones all the way on
+
+691
+00:29:03,640 --> 00:29:07,440
+the left would be like variants that
+
+692
+00:29:05,559 --> 00:29:10,360
+under the strongest selection they're
+
+693
+00:29:07,440 --> 00:29:12,360
+not going to occur very often um so pop
+
+694
+00:29:10,360 --> 00:29:13,720
+Eve is very good at picking those up but
+
+695
+00:29:12,360 --> 00:29:15,519
+for the next one we might think of these
+
+696
+00:29:13,720 --> 00:29:17,720
+as being under moderate selection
+
+697
+00:29:15,519 --> 00:29:20,480
+potentially we see other models
+
+698
+00:29:17,720 --> 00:29:24,159
+potentially really shining at
+
+699
+00:29:20,480 --> 00:29:27,039
+this um and I suppose you could read the
+
+700
+00:29:24,159 --> 00:29:29,360
+paper to get more of an expose as to why
+
+701
+00:29:27,039 --> 00:29:30,840
+some of these underlying training datas
+
+702
+00:29:29,360 --> 00:29:34,519
+uh and model architectures are
+
+703
+00:29:30,840 --> 00:29:37,080
+particularly well suited for picking up
+
+704
+00:29:34,519 --> 00:29:41,039
+um uh signal from these different
+
+705
+00:29:37,080 --> 00:29:43,039
+variant classes called genetics gym um
+
+706
+00:29:41,039 --> 00:29:45,000
+so in this next one they're looking at
+
+707
+00:29:43,039 --> 00:29:47,159
+common disease variants which are under
+
+708
+00:29:45,000 --> 00:29:48,919
+weaker selection and they're looking at
+
+709
+00:29:47,159 --> 00:29:51,559
+rare and common variants associated with
+
+710
+00:29:48,919 --> 00:29:55,760
+v various phenotypes different biobank
+
+711
+00:29:51,559 --> 00:29:57,919
+datas like UK biobank engin
+
+712
+00:29:55,760 --> 00:30:00,760
+Etc and in this last one they're looking
+
+713
+00:29:57,919 --> 00:30:04,039
+at at F map variants so they're looking
+
+714
+00:30:00,760 --> 00:30:06,399
+at population genetics validation data
+
+715
+00:30:04,039 --> 00:30:10,320
+uh using newly observed variants and the
+
+716
+00:30:06,399 --> 00:30:12,519
+new Nomad V4 data but not in earlier
+
+717
+00:30:10,320 --> 00:30:14,519
+versions of nomad to independently
+
+718
+00:30:12,519 --> 00:30:17,760
+assess both Gene level and variant level
+
+719
+00:30:14,519 --> 00:30:18,840
+prediction of performance um maybe I
+
+720
+00:30:17,760 --> 00:30:20,200
+should have had that at the beginning
+
+721
+00:30:18,840 --> 00:30:23,720
+but anyway so that's the selection
+
+722
+00:30:20,200 --> 00:30:26,120
+pressure so what you can see here is um
+
+723
+00:30:23,720 --> 00:30:29,760
+these tasks you can kind of conceptually
+
+724
+00:30:26,120 --> 00:30:31,880
+think about them as being more or less
+
+725
+00:30:29,760 --> 00:30:34,840
+um having more or less selection
+
+726
+00:30:31,880 --> 00:30:37,640
+pressure and we can see very nicely here
+
+727
+00:30:34,840 --> 00:30:40,519
+that different models some of them look
+
+728
+00:30:37,640 --> 00:30:42,919
+like rock stars in the beginning um some
+
+729
+00:30:40,519 --> 00:30:47,720
+of them look like rock stars at the end
+
+730
+00:30:42,919 --> 00:30:49,360
+it's really uh um up to us like as um
+
+731
+00:30:47,720 --> 00:30:51,360
+computationalists who want to use these
+
+732
+00:30:49,360 --> 00:30:53,720
+tools build these tools to think
+
+733
+00:30:51,360 --> 00:30:55,880
+critically about what the underlying
+
+734
+00:30:53,720 --> 00:30:58,600
+data is and not blindly jump on the hype
+
+735
+00:30:55,880 --> 00:31:01,000
+train of new model I wonder if this is
+
+736
+00:30:58,600 --> 00:31:03,440
+going to give me the answer like no
+
+737
+00:31:01,000 --> 00:31:06,120
+consider them all think about it look
+
+738
+00:31:03,440 --> 00:31:08,000
+for really well done guideline studies
+
+739
+00:31:06,120 --> 00:31:10,120
+such as this to kind of give you some
+
+740
+00:31:08,000 --> 00:31:12,080
+bearings of how to like interact with
+
+741
+00:31:10,120 --> 00:31:15,200
+the models in these fi in this
+
+742
+00:31:12,080 --> 00:31:17,240
+field um so this is something I'm
+
+743
+00:31:15,200 --> 00:31:18,720
+working on my PhD don't read all this
+
+744
+00:31:17,240 --> 00:31:21,120
+sorry I should have done an animation
+
+745
+00:31:18,720 --> 00:31:22,799
+but basically well you can now say okay
+
+746
+00:31:21,120 --> 00:31:24,840
+what about unsupervise non-coding
+
+747
+00:31:22,799 --> 00:31:26,679
+variant effect prediction I talked a lot
+
+748
+00:31:24,840 --> 00:31:28,600
+about proteins what about non-coding
+
+749
+00:31:26,679 --> 00:31:32,320
+variant effect prediction so this is
+
+750
+00:31:28,600 --> 00:31:35,039
+like a big mess um but people are trying
+
+751
+00:31:32,320 --> 00:31:37,320
+to get out this question we've seen like
+
+752
+00:31:35,039 --> 00:31:39,960
+this year small conference papers such
+
+753
+00:31:37,320 --> 00:31:42,639
+as uh Bend um which one of my
+
+754
+00:31:39,960 --> 00:31:45,200
+collaborators wrote where they basically
+
+755
+00:31:42,639 --> 00:31:46,760
+took all these different some of these
+
+756
+00:31:45,200 --> 00:31:50,559
+different models you see her on the
+
+757
+00:31:46,760 --> 00:31:52,279
+right um that are allegedly training on
+
+758
+00:31:50,559 --> 00:31:54,639
+um non-coding information in an
+
+759
+00:31:52,279 --> 00:31:58,919
+unsupervised way and they're subjecting
+
+760
+00:31:54,639 --> 00:32:00,639
+them to um a lot of different uh t tasks
+
+761
+00:31:58,919 --> 00:32:04,399
+but I highlighted in the red box here
+
+762
+00:32:00,639 --> 00:32:07,039
+this variant effects task and you know
+
+763
+00:32:04,399 --> 00:32:09,279
+there is still a lot of room for
+
+764
+00:32:07,039 --> 00:32:13,720
+improvement on this task where the
+
+765
+00:32:09,279 --> 00:32:17,480
+variant effect here is going from you
+
+766
+00:32:13,720 --> 00:32:20,960
+know uh that beginning DNA sequence all
+
+767
+00:32:17,480 --> 00:32:23,320
+the way to the person with the the red
+
+768
+00:32:20,960 --> 00:32:25,039
+spots on their face so a lot of these
+
+769
+00:32:23,320 --> 00:32:26,559
+tasks also here on the left you can
+
+770
+00:32:25,039 --> 00:32:30,360
+think of them as like oh can I go from
+
+771
+00:32:26,559 --> 00:32:33,519
+sequence to to um you know RNA seek
+
+772
+00:32:30,360 --> 00:32:35,760
+expression can I go from sequence to uh
+
+773
+00:32:33,519 --> 00:32:37,639
+epigenetics like those are all kind of
+
+774
+00:32:35,760 --> 00:32:40,000
+those are good questions but you have to
+
+775
+00:32:37,639 --> 00:32:41,679
+keep in mind uh we don't know always
+
+776
+00:32:40,000 --> 00:32:44,039
+like when we have a change in expression
+
+777
+00:32:41,679 --> 00:32:47,360
+if that's good or if that's bad it just
+
+778
+00:32:44,039 --> 00:32:50,000
+is so um there's very there's a lot of
+
+779
+00:32:47,360 --> 00:32:53,799
+room here for being able to go all the
+
+780
+00:32:50,000 --> 00:32:55,679
+way across um all the way across uh from
+
+781
+00:32:53,799 --> 00:32:58,399
+uh you know molecular genomic
+
+782
+00:32:55,679 --> 00:33:00,679
+information to uh phenotypic information
+
+783
+00:32:58,399 --> 00:33:04,159
+inform um and you can check out I just
+
+784
+00:33:00,679 --> 00:33:07,039
+put a pre-print out um earlier uh I
+
+785
+00:33:04,159 --> 00:33:09,080
+don't know I think last week um on my
+
+786
+00:33:07,039 --> 00:33:12,559
+new model called La leave which is
+
+787
+00:33:09,080 --> 00:33:15,360
+basically trying uh uh to do this um
+
+788
+00:33:12,559 --> 00:33:18,000
+where essentially it uh trains on
+
+789
+00:33:15,360 --> 00:33:22,240
+promoter regions explicitly with uh
+
+790
+00:33:18,000 --> 00:33:24,720
+across Evolution and tandem with um uh
+
+791
+00:33:22,240 --> 00:33:28,080
+uh protein language model embeddings to
+
+792
+00:33:24,720 --> 00:33:31,559
+give you a prediction of uh the
+
+793
+00:33:28,080 --> 00:33:33,039
+delerious or pathogenic effect of indels
+
+794
+00:33:31,559 --> 00:33:34,760
+um and that's kind of all I'll talk
+
+795
+00:33:33,039 --> 00:33:36,880
+about here because it's kind of in the
+
+796
+00:33:34,760 --> 00:33:39,279
+weeds but you can check it out or ask me
+
+797
+00:33:36,880 --> 00:33:42,240
+about it afterwards but um not saying
+
+798
+00:33:39,279 --> 00:33:44,200
+this is solving the problem at all um
+
+799
+00:33:42,240 --> 00:33:47,320
+but it is like trying to get at that
+
+800
+00:33:44,200 --> 00:33:51,159
+question again of if we can do um you
+
+801
+00:33:47,320 --> 00:33:54,000
+know uh find mutations in our genetics
+
+802
+00:33:51,159 --> 00:33:56,399
+they go all the way a phenotype um in
+
+803
+00:33:54,000 --> 00:33:59,080
+the non-coding space so you want to
+
+804
+00:33:56,399 --> 00:34:02,720
+build a very effect prictor too how
+
+805
+00:33:59,080 --> 00:34:05,080
+Noble um so here is a commentary that we
+
+806
+00:34:02,720 --> 00:34:06,399
+just put out from the marks lab uh that
+
+807
+00:34:05,080 --> 00:34:10,320
+you can read I think it came out like
+
+808
+00:34:06,399 --> 00:34:11,960
+two or three days ago um on doing uh on
+
+809
+00:34:10,320 --> 00:34:14,280
+towards trustable use of machine
+
+810
+00:34:11,960 --> 00:34:16,800
+learning models a varant effects in the
+
+811
+00:34:14,280 --> 00:34:20,159
+clinic and this is a very important
+
+812
+00:34:16,800 --> 00:34:21,599
+piece of to read because you know it's
+
+813
+00:34:20,159 --> 00:34:24,359
+gonna highlight some of these questions
+
+814
+00:34:21,599 --> 00:34:26,240
+of like you give it model data and you
+
+815
+00:34:24,359 --> 00:34:28,480
+ask it to Pi something it
+
+816
+00:34:26,240 --> 00:34:29,800
+will but like
+
+817
+00:34:28,480 --> 00:34:32,599
+maybe you should ask the question of
+
+818
+00:34:29,800 --> 00:34:34,919
+what is it training on and then is this
+
+819
+00:34:32,599 --> 00:34:37,040
+like relevant for what I'm interested in
+
+820
+00:34:34,919 --> 00:34:38,599
+you have to ask these questions or else
+
+821
+00:34:37,040 --> 00:34:40,560
+you're you know you know you're blindly
+
+822
+00:34:38,599 --> 00:34:43,200
+trusting something and when it comes to
+
+823
+00:34:40,560 --> 00:34:44,440
+clinical uh clinical problems we can
+
+824
+00:34:43,200 --> 00:34:48,000
+blindly trust
+
+825
+00:34:44,440 --> 00:34:49,879
+nothing all right so thanks uh for your
+
+826
+00:34:48,000 --> 00:34:53,960
+time here's some
+
+827
+00:34:49,879 --> 00:34:55,440
+pictures um thanks to Harvard I think
+
+828
+00:34:53,960 --> 00:34:57,320
+Debbie's also associated with the broad
+
+829
+00:34:55,440 --> 00:35:01,400
+so thanks to the broad um and then
+
+830
+00:34:57,320 --> 00:35:03,040
+thanks to the NSF for funding me um and
+
+831
+00:35:01,400 --> 00:35:05,240
+yeah I'll take any questions if anyone
+
+832
+00:35:03,040 --> 00:35:05,240
+has
+
+833
+00:35:11,680 --> 00:35:15,960
+any thank you Courtney for an amazing
+
+834
+00:35:14,040 --> 00:35:18,000
+presentation uh please if anyone has a
+
+835
+00:35:15,960 --> 00:35:21,160
+question come on up to the
+
+836
+00:35:18,000 --> 00:35:23,240
+microphone do you think that the models
+
+837
+00:35:21,160 --> 00:35:25,720
+can eventually be able to understand
+
+838
+00:35:23,240 --> 00:35:27,400
+interactions between variants because if
+
+839
+00:35:25,720 --> 00:35:30,560
+a person has the dilar variant maybe
+
+840
+00:35:27,400 --> 00:35:32,720
+they have a a variant that compensates
+
+841
+00:35:30,560 --> 00:35:35,880
+and then it's doesn't affect them at all
+
+842
+00:35:32,720 --> 00:35:37,680
+that kind of thing love that question um
+
+843
+00:35:35,880 --> 00:35:41,079
+can they do it now I don't think so but
+
+844
+00:35:37,680 --> 00:35:43,200
+I think um I would like to believe that
+
+845
+00:35:41,079 --> 00:35:45,599
+given the right training Paradigm they
+
+846
+00:35:43,200 --> 00:35:47,839
+could pick that out but I think it's
+
+847
+00:35:45,599 --> 00:35:52,000
+hard to have good validation data for
+
+848
+00:35:47,839 --> 00:35:54,960
+those questions um so that's my answer
+
+849
+00:35:52,000 --> 00:35:57,640
+but I think that is an amazing question
+
+850
+00:35:54,960 --> 00:35:59,480
+that I'm very interested in um because
+
+851
+00:35:57,640 --> 00:36:01,400
+because you could imagine like even some
+
+852
+00:35:59,480 --> 00:36:04,520
+of these protein language models that
+
+853
+00:36:01,400 --> 00:36:07,960
+are predicting clinical effects um even
+
+854
+00:36:04,520 --> 00:36:09,640
+such as flppy vinance whatever okay they
+
+855
+00:36:07,960 --> 00:36:12,720
+predict that this variance is H
+
+856
+00:36:09,640 --> 00:36:14,160
+potentially alterus or pathogenic maybe
+
+857
+00:36:12,720 --> 00:36:16,000
+it's not so bad if there's a
+
+858
+00:36:14,160 --> 00:36:19,200
+compensating variant in a promoter that
+
+859
+00:36:16,000 --> 00:36:21,440
+turns that Gene completely off so I
+
+860
+00:36:19,200 --> 00:36:23,240
+don't know I think those are that's very
+
+861
+00:36:21,440 --> 00:36:25,040
+important for like getting like a global
+
+862
+00:36:23,240 --> 00:36:28,240
+picture of variation in in the
+
+863
+00:36:25,040 --> 00:36:29,720
+individual but um I think that's the
+
+864
+00:36:28,240 --> 00:36:32,560
+question I'm trying to get at maybe with
+
+865
+00:36:29,720 --> 00:36:36,119
+my models by coupling uh promoter
+
+866
+00:36:32,560 --> 00:36:38,119
+regions with um uh the actual protein
+
+867
+00:36:36,119 --> 00:36:40,079
+embeddings is then you could actually
+
+868
+00:36:38,119 --> 00:36:41,960
+ask the model that question like I could
+
+869
+00:36:40,079 --> 00:36:44,839
+ask the model that question right now
+
+870
+00:36:41,960 --> 00:36:47,200
+today would I know if it's right oh I
+
+871
+00:36:44,839 --> 00:36:50,920
+gotta find some good validation data so
+
+872
+00:36:47,200 --> 00:36:50,920
+that's a bit harder
+
+873
+00:36:52,720 --> 00:36:56,599
+yeah I know that there have been many
+
+874
+00:36:54,760 --> 00:36:58,319
+papers that have kind of set out when
+
+875
+00:36:56,599 --> 00:37:00,520
+people are doing function assays what
+
+876
+00:36:58,319 --> 00:37:02,079
+are the characteristics of those assays
+
+877
+00:37:00,520 --> 00:37:05,319
+that make them most amenable to
+
+878
+00:37:02,079 --> 00:37:08,160
+subsequent use in model building um do
+
+879
+00:37:05,319 --> 00:37:09,960
+you have any particular uh favorite
+
+880
+00:37:08,160 --> 00:37:12,800
+traits for those of us who do design
+
+881
+00:37:09,960 --> 00:37:14,520
+functional assays um in terms of either
+
+882
+00:37:12,800 --> 00:37:16,160
+how the experiments are designed or how
+
+883
+00:37:14,520 --> 00:37:19,960
+they're reported that make them more
+
+884
+00:37:16,160 --> 00:37:22,119
+usable for your models um I guess for my
+
+885
+00:37:19,960 --> 00:37:25,200
+particular lens on like non-coding
+
+886
+00:37:22,119 --> 00:37:28,560
+variation I'm always looking for like an
+
+887
+00:37:25,200 --> 00:37:31,240
+endogenous editing because um I want to
+
+888
+00:37:28,560 --> 00:37:33,440
+see how that variant actually manifests
+
+889
+00:37:31,240 --> 00:37:34,960
+in the functions of the cell and I'm
+
+890
+00:37:33,440 --> 00:37:37,599
+always looking for things that are more
+
+891
+00:37:34,960 --> 00:37:40,319
+lended towards growth screens um where
+
+892
+00:37:37,599 --> 00:37:42,400
+you see the cell type growth change over
+
+893
+00:37:40,319 --> 00:37:44,760
+time because I think that's a bit more
+
+894
+00:37:42,400 --> 00:37:48,599
+similar to what we might imagine as like
+
+895
+00:37:44,760 --> 00:37:51,800
+more of the organism level uh change so
+
+896
+00:37:48,599 --> 00:37:53,880
+for me when I think about like going all
+
+897
+00:37:51,800 --> 00:37:57,280
+the way across that Spectrum I want to
+
+898
+00:37:53,880 --> 00:38:00,359
+see things that do that and I'm not as
+
+899
+00:37:57,280 --> 00:38:02,280
+um not that it's not useful but I'm not
+
+900
+00:38:00,359 --> 00:38:06,280
+as interested in like these like
+
+901
+00:38:02,280 --> 00:38:06,280
+intermediate molecular
+
+902
+00:38:13,040 --> 00:38:18,040
+phenotypes oh another
+
+903
+00:38:15,119 --> 00:38:20,960
+one what is the what is the uh like
+
+904
+00:38:18,040 --> 00:38:23,359
+compute cost of running your
+
+905
+00:38:20,960 --> 00:38:25,839
+models well I mean I can't like just
+
+906
+00:38:23,359 --> 00:38:29,480
+tell you like
+
+907
+00:38:25,839 --> 00:38:31,079
+uh you give can give an estimate sure H
+
+908
+00:38:29,480 --> 00:38:34,400
+for pop Eve here's an estimate for we
+
+909
+00:38:31,079 --> 00:38:36,520
+needed like 500 more Eve models within a
+
+910
+00:38:34,400 --> 00:38:39,640
+short period of time and I think that we
+
+911
+00:38:36,520 --> 00:38:42,599
+spent $5,000 on like Google Cloud for
+
+912
+00:38:39,640 --> 00:38:45,280
+that but it can be upwards of like 20 to
+
+913
+00:38:42,599 --> 00:38:46,599
+30,000 if you're doing a lot of models
+
+914
+00:38:45,280 --> 00:38:49,319
+which is why we have some you know
+
+915
+00:38:46,599 --> 00:38:52,480
+industry people like ran a bunch of e
+
+916
+00:38:49,319 --> 00:38:54,280
+models for us and they paid for it yeah
+
+917
+00:38:52,480 --> 00:38:56,680
+they did it wrong there's also I don't
+
+918
+00:38:54,280 --> 00:38:58,920
+know the answer to that because for my
+
+919
+00:38:56,680 --> 00:39:01,560
+models like at Harvard we have like a
+
+920
+00:38:58,920 --> 00:39:03,960
+really nice cluster they built so I have
+
+921
+00:39:01,560 --> 00:39:07,280
+no idea how much that costs but it's
+
+922
+00:39:03,960 --> 00:39:10,040
+free to me but like uh like I was
+
+923
+00:39:07,280 --> 00:39:13,480
+training La leave on like really beefy
+
+924
+00:39:10,040 --> 00:39:16,319
+gpus like um
+
+925
+00:39:13,480 --> 00:39:18,240
+h100s yeah I don't know who paid for it
+
+926
+00:39:16,319 --> 00:39:22,000
+yeah so maybe that's a debie question
+
+927
+00:39:18,240 --> 00:39:25,400
+but like yeah um it's I like to see
+
+928
+00:39:22,000 --> 00:39:28,480
+think it's nominal um compared to
+
+929
+00:39:25,400 --> 00:39:31,040
+experimental costs
+
+930
+00:39:28,480 --> 00:39:31,040
+but maybe I'm
+
+931
+00:39:34,400 --> 00:39:38,440
+not great well thank you so much for
+
+932
+00:39:36,800 --> 00:39:39,880
+such an excellent talk today please go
+
+933
+00:39:38,440 --> 00:39:42,240
+ahead and grab a little more breakfast
+
+934
+00:39:39,880 --> 00:39:46,000
+and then we'll reconvene at 9:30 uh down
+
+935
+00:39:42,240 --> 00:39:46,000
+the hall for MPG
+

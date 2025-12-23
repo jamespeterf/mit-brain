@@ -1,0 +1,6092 @@
+1
+00:00:11,120 --> 00:00:15,920
+Let's get started. So, we're in the home
+
+2
+00:00:13,120 --> 00:00:18,480
+stretch. We've got uh one more of these
+
+3
+00:00:15,920 --> 00:00:20,720
+topics in coding theory. Uh Peter will
+
+4
+00:00:18,480 --> 00:00:22,240
+be covering a related topic next week,
+
+5
+00:00:20,720 --> 00:00:24,960
+but that'll be a bit of a different
+
+6
+00:00:22,240 --> 00:00:27,039
+flavor. So today we're going to cover
+
+7
+00:00:24,960 --> 00:00:29,840
+you know one of the other great results
+
+8
+00:00:27,039 --> 00:00:32,239
+in coding theory which has to do with
+
+9
+00:00:29,840 --> 00:00:34,079
+error correction. So so far we've been
+
+10
+00:00:32,239 --> 00:00:36,320
+exclusively talking about compression.
+
+11
+00:00:34,079 --> 00:00:38,000
+You know how you can take a message and
+
+12
+00:00:36,320 --> 00:00:40,399
+reduce the number of bits you need to
+
+13
+00:00:38,000 --> 00:00:43,440
+transmit in order to reliably be able to
+
+14
+00:00:40,399 --> 00:00:44,879
+recover what was the original message.
+
+15
+00:00:43,440 --> 00:00:47,360
+Now today we're going to talk about a
+
+16
+00:00:44,879 --> 00:00:48,879
+very realistic scenario which is when
+
+17
+00:00:47,360 --> 00:00:52,000
+the way that you're transmitting
+
+18
+00:00:48,879 --> 00:00:54,800
+introduces errors. So there's a very
+
+19
+00:00:52,000 --> 00:00:57,800
+simple model which is a good way to get
+
+20
+00:00:54,800 --> 00:00:57,800
+started
+
+21
+00:00:58,800 --> 00:01:05,360
+which is called the binary symmetric
+
+22
+00:01:02,079 --> 00:01:07,280
+channel or BSC for short. The way that
+
+23
+00:01:05,360 --> 00:01:09,520
+this channel works is that every time
+
+24
+00:01:07,280 --> 00:01:12,400
+you input a bit which is either zero or
+
+25
+00:01:09,520 --> 00:01:15,439
+one then it has some probability of
+
+26
+00:01:12,400 --> 00:01:18,400
+flipping the outcome the output of the
+
+27
+00:01:15,439 --> 00:01:22,000
+bit. So this BSC channel is going to be
+
+28
+00:01:18,400 --> 00:01:24,080
+governed by some parameter P
+
+29
+00:01:22,000 --> 00:01:27,840
+and it's going to have the property that
+
+30
+00:01:24,080 --> 00:01:30,479
+with P probability it ends up flipping
+
+31
+00:01:27,840 --> 00:01:32,240
+the input and output
+
+32
+00:01:30,479 --> 00:01:34,400
+and with the remaining probability 1
+
+33
+00:01:32,240 --> 00:01:37,040
+minus P it just sends through whatever
+
+34
+00:01:34,400 --> 00:01:39,280
+bit you sent along the channel. The
+
+35
+00:01:37,040 --> 00:01:42,400
+trouble is that you don't know when and
+
+36
+00:01:39,280 --> 00:01:43,439
+where these errors have occurred. So the
+
+37
+00:01:42,400 --> 00:01:45,600
+question is, you know, you can think
+
+38
+00:01:43,439 --> 00:01:48,640
+about P just for concreteness as being
+
+39
+00:01:45,600 --> 00:01:50,399
+something like a third. If I'm trying to
+
+40
+00:01:48,640 --> 00:01:52,479
+send a message along the channel to you
+
+41
+00:01:50,399 --> 00:01:54,159
+and I've already done my compression to
+
+42
+00:01:52,479 --> 00:01:56,640
+get it down to the shortest possible
+
+43
+00:01:54,159 --> 00:01:59,680
+string of zeros and ones. Now when I
+
+44
+00:01:56,640 --> 00:02:01,680
+send it along to you and each bit gets
+
+45
+00:01:59,680 --> 00:02:04,000
+flipped independently with probability a
+
+46
+00:02:01,680 --> 00:02:06,719
+third you know what hope do you have of
+
+47
+00:02:04,000 --> 00:02:09,119
+recovering the original message and what
+
+48
+00:02:06,719 --> 00:02:10,640
+are schemes you can design that combat
+
+49
+00:02:09,119 --> 00:02:12,800
+the fact that you're anticipating
+
+50
+00:02:10,640 --> 00:02:14,560
+there'll be errors.
+
+51
+00:02:12,800 --> 00:02:18,080
+So, you know, just to be clear, we're
+
+52
+00:02:14,560 --> 00:02:21,959
+talking about each bit
+
+53
+00:02:18,080 --> 00:02:21,959
+is flipped independently
+
+54
+00:02:24,319 --> 00:02:28,720
+with this probability
+
+55
+00:02:26,879 --> 00:02:31,280
+P.
+
+56
+00:02:28,720 --> 00:02:32,879
+And now we can ask all of the natural
+
+57
+00:02:31,280 --> 00:02:35,040
+questions
+
+58
+00:02:32,879 --> 00:02:37,840
+about communication and the presence of
+
+59
+00:02:35,040 --> 00:02:40,400
+errors. So the main thing we care about
+
+60
+00:02:37,840 --> 00:02:42,640
+which will be what we'll address today
+
+61
+00:02:40,400 --> 00:02:44,879
+is you know is it still possible to
+
+62
+00:02:42,640 --> 00:02:47,879
+transmit
+
+63
+00:02:44,879 --> 00:02:47,879
+information
+
+64
+00:02:49,200 --> 00:02:52,200
+reliably.
+
+65
+00:02:55,599 --> 00:03:00,319
+So you know let's um
+
+66
+00:02:58,480 --> 00:03:03,280
+let's think about you know what this
+
+67
+00:03:00,319 --> 00:03:06,159
+question means uh with some simple ideas
+
+68
+00:03:03,280 --> 00:03:09,360
+for how to combat the errors right. So
+
+69
+00:03:06,159 --> 00:03:11,440
+one simple example you can come up with
+
+70
+00:03:09,360 --> 00:03:13,120
+uh for how to transmit along a noisy
+
+71
+00:03:11,440 --> 00:03:16,680
+channel is to use what are called
+
+72
+00:03:13,120 --> 00:03:16,680
+repetition codes.
+
+73
+00:03:19,280 --> 00:03:25,360
+So here the idea is that I take my
+
+74
+00:03:22,640 --> 00:03:27,920
+original message
+
+75
+00:03:25,360 --> 00:03:30,959
+Let's say it's a string of you know
+
+76
+00:03:27,920 --> 00:03:35,599
+zeros and ones. And what I'm going to do
+
+77
+00:03:30,959 --> 00:03:38,480
+for what I'll transmit along the channel
+
+78
+00:03:35,599 --> 00:03:41,920
+is I'm just going to keep repeating each
+
+79
+00:03:38,480 --> 00:03:43,760
+input bit a certain number of times so
+
+80
+00:03:41,920 --> 00:03:46,480
+that you know even if some of them get
+
+81
+00:03:43,760 --> 00:03:49,040
+corrupted maybe it's okay. So, I'll take
+
+82
+00:03:46,480 --> 00:03:53,280
+my first bit, which is a one, and I'm
+
+83
+00:03:49,040 --> 00:03:55,120
+going to repeat it t times.
+
+84
+00:03:53,280 --> 00:03:57,280
+And I'll do the same thing for my next
+
+85
+00:03:55,120 --> 00:04:00,400
+bit. That's a zero. I'm going to repeat
+
+86
+00:03:57,280 --> 00:04:02,080
+it t times.
+
+87
+00:04:00,400 --> 00:04:05,920
+And I'll do the same thing for all of
+
+88
+00:04:02,080 --> 00:04:07,760
+the bits in my original message. Right?
+
+89
+00:04:05,920 --> 00:04:09,519
+So now you can see that already the way
+
+90
+00:04:07,760 --> 00:04:12,080
+that I'm combating the fact that the
+
+91
+00:04:09,519 --> 00:04:13,920
+channel is introducing errors is that
+
+92
+00:04:12,080 --> 00:04:16,720
+I'm increasing the length of my
+
+93
+00:04:13,920 --> 00:04:19,359
+transmission. I'm padding it with extra
+
+94
+00:04:16,720 --> 00:04:21,919
+information in such a way that hopefully
+
+95
+00:04:19,359 --> 00:04:24,479
+I can detect and correct whatever errors
+
+96
+00:04:21,919 --> 00:04:26,240
+the channel has introduced.
+
+97
+00:04:24,479 --> 00:04:29,040
+So the name of the game you know for
+
+98
+00:04:26,240 --> 00:04:32,160
+today will be what are the best possible
+
+99
+00:04:29,040 --> 00:04:34,479
+schemes for how to pad the extra with
+
+100
+00:04:32,160 --> 00:04:36,639
+extra information in such a way that I
+
+101
+00:04:34,479 --> 00:04:38,720
+can reliably figure out what my original
+
+102
+00:04:36,639 --> 00:04:40,560
+message was.
+
+103
+00:04:38,720 --> 00:04:43,280
+So you know just to think about this
+
+104
+00:04:40,560 --> 00:04:48,400
+right? So let's say that the original
+
+105
+00:04:43,280 --> 00:04:51,199
+message had length K. Then what I can do
+
+106
+00:04:48,400 --> 00:04:53,759
+is I claim a good choice for you know
+
+107
+00:04:51,199 --> 00:04:58,720
+how many times to repeat each message is
+
+108
+00:04:53,759 --> 00:05:02,000
+maybe something like you know 100 log K.
+
+109
+00:04:58,720 --> 00:05:06,720
+So my original message was length K and
+
+110
+00:05:02,000 --> 00:05:08,800
+then each bit I repeat 100 log K times.
+
+111
+00:05:06,720 --> 00:05:11,360
+So intuitively, if I took this
+
+112
+00:05:08,800 --> 00:05:13,600
+transmission and I sent it through the
+
+113
+00:05:11,360 --> 00:05:16,560
+channel, you know, some of these ones
+
+114
+00:05:13,600 --> 00:05:18,479
+get flipped to zeros independently, some
+
+115
+00:05:16,560 --> 00:05:20,000
+of these zeros get flipped to ones
+
+116
+00:05:18,479 --> 00:05:21,840
+independently.
+
+117
+00:05:20,000 --> 00:05:23,680
+How would you try and decode what you
+
+118
+00:05:21,840 --> 00:05:25,919
+receive to figure out what the original
+
+119
+00:05:23,680 --> 00:05:29,240
+message is?
+
+120
+00:05:25,919 --> 00:05:29,240
+Any ideas?
+
+121
+00:05:32,880 --> 00:05:36,479
+And keep in mind, just to be concrete,
+
+122
+00:05:34,880 --> 00:05:38,000
+you can think about the failure, the
+
+123
+00:05:36,479 --> 00:05:41,120
+flip probability as being something like
+
+124
+00:05:38,000 --> 00:05:43,120
+a third. So maybe a bit is, you know,
+
+125
+00:05:41,120 --> 00:05:45,840
+more likely to come through in the clear
+
+126
+00:05:43,120 --> 00:05:48,880
+without being flipped than it is being
+
+127
+00:05:45,840 --> 00:05:51,280
+flipped. So if I sent you this long
+
+128
+00:05:48,880 --> 00:05:53,759
+padded transmission, how do you think
+
+129
+00:05:51,280 --> 00:05:56,639
+I'd figure out what the first symbol is
+
+130
+00:05:53,759 --> 00:05:59,960
+based on what I receive?
+
+131
+00:05:56,639 --> 00:05:59,960
+Any ideas?
+
+132
+00:06:00,479 --> 00:06:02,320
+Yeah,
+
+133
+00:06:01,039 --> 00:06:04,639
+>> the majority of the block.
+
+134
+00:06:02,320 --> 00:06:06,319
+>> Perfect. The majority vote, right?
+
+135
+00:06:04,639 --> 00:06:09,120
+Because intuitively, you know, if I'm
+
+136
+00:06:06,319 --> 00:06:11,440
+repeating this t times, then I would
+
+137
+00:06:09,120 --> 00:06:14,880
+expect that, you know, the number of bit
+
+138
+00:06:11,440 --> 00:06:16,800
+flips that I have is around t over3.
+
+139
+00:06:14,880 --> 00:06:19,120
+And so that means the majority of them
+
+140
+00:06:16,800 --> 00:06:22,319
+should actually correspond to what my
+
+141
+00:06:19,120 --> 00:06:24,639
+original bit was. In fact, what I care
+
+142
+00:06:22,319 --> 00:06:27,840
+about is not just what the expected
+
+143
+00:06:24,639 --> 00:06:30,000
+number of bit flips are, but I care
+
+144
+00:06:27,840 --> 00:06:33,120
+about getting bounds on how likely it is
+
+145
+00:06:30,000 --> 00:06:34,720
+that my decoding rule would fail. So,
+
+146
+00:06:33,120 --> 00:06:36,639
+what kind of tool that we've talked
+
+147
+00:06:34,720 --> 00:06:40,080
+about earlier in class might be relevant
+
+148
+00:06:36,639 --> 00:06:43,039
+here. So, you know, if um I started off
+
+149
+00:06:40,080 --> 00:06:45,120
+with bit flip probability a third and
+
+150
+00:06:43,039 --> 00:06:48,000
+then I sent this bit through the channel
+
+151
+00:06:45,120 --> 00:06:50,960
+with a repetition code. Now, my chance
+
+152
+00:06:48,000 --> 00:06:53,440
+of getting the wrong bit for my majority
+
+153
+00:06:50,960 --> 00:06:56,960
+vote decoding is the chance that the
+
+154
+00:06:53,440 --> 00:06:58,880
+expected number of flips is a third. But
+
+155
+00:06:56,960 --> 00:07:01,520
+really, the true number of flips is much
+
+156
+00:06:58,880 --> 00:07:03,120
+larger because it's larger than a half.
+
+157
+00:07:01,520 --> 00:07:05,599
+That's the only way I would get the
+
+158
+00:07:03,120 --> 00:07:08,319
+wrong decoding for this bit is if I
+
+159
+00:07:05,599 --> 00:07:11,039
+ended up with half errors instead of a
+
+160
+00:07:08,319 --> 00:07:13,199
+third. So what kind of tool that we've
+
+161
+00:07:11,039 --> 00:07:15,280
+covered earlier in class might be useful
+
+162
+00:07:13,199 --> 00:07:17,680
+to get a bound on the failure
+
+163
+00:07:15,280 --> 00:07:21,080
+probability the chance that my decoder
+
+164
+00:07:17,680 --> 00:07:21,080
+fails here.
+
+165
+00:07:21,759 --> 00:07:26,639
+>> Yeahov
+
+166
+00:07:23,599 --> 00:07:28,560
+>> marov would do it. Um so I could
+
+167
+00:07:26,639 --> 00:07:30,479
+certainly use marov. That's an example
+
+168
+00:07:28,560 --> 00:07:32,880
+of a tailbound.
+
+169
+00:07:30,479 --> 00:07:35,199
+Now one problem though is that marov
+
+170
+00:07:32,880 --> 00:07:37,599
+uses very little information about the
+
+171
+00:07:35,199 --> 00:07:40,240
+random variables. So if I did this
+
+172
+00:07:37,599 --> 00:07:43,039
+right, what I care about is like what's
+
+173
+00:07:40,240 --> 00:07:45,440
+the probability that I fail uh you know
+
+174
+00:07:43,039 --> 00:07:48,400
+for this bit what's the probability that
+
+175
+00:07:45,440 --> 00:07:50,960
+I fail for this bit and so on. And it
+
+176
+00:07:48,400 --> 00:07:53,280
+turns out that if you used marov if you
+
+177
+00:07:50,960 --> 00:07:55,520
+wanted to argue that you know with a
+
+178
+00:07:53,280 --> 00:07:58,160
+good chance I fail on none of these bits
+
+179
+00:07:55,520 --> 00:07:59,919
+and I use the union bound I would end up
+
+180
+00:07:58,160 --> 00:08:03,440
+having to pad the length of the message
+
+181
+00:07:59,919 --> 00:08:05,120
+by a factor of k instead of log k. So
+
+182
+00:08:03,440 --> 00:08:07,360
+are there any ideas for how I could hope
+
+183
+00:08:05,120 --> 00:08:10,400
+to get sharper bounds on how much I need
+
+184
+00:08:07,360 --> 00:08:13,360
+to increase the padding by? Yeah, turn
+
+185
+00:08:10,400 --> 00:08:16,160
+off. That's right. So the key point is
+
+186
+00:08:13,360 --> 00:08:19,680
+that you know if I have this repetition
+
+187
+00:08:16,160 --> 00:08:22,240
+code and I do it 100 log K times I can
+
+188
+00:08:19,680 --> 00:08:23,840
+use the turnoff bound.
+
+189
+00:08:22,240 --> 00:08:26,800
+See remember the way to think about the
+
+190
+00:08:23,840 --> 00:08:29,840
+turnoff bound is that the error exponent
+
+191
+00:08:26,800 --> 00:08:31,759
+goes down exponentially in the length in
+
+192
+00:08:29,840 --> 00:08:34,640
+the number of independent samples you're
+
+193
+00:08:31,759 --> 00:08:37,680
+taking. So the probability that I have
+
+194
+00:08:34,640 --> 00:08:40,399
+too many uh you know flips that I was
+
+195
+00:08:37,680 --> 00:08:41,760
+expecting a third flips and I get a half
+
+196
+00:08:40,399 --> 00:08:44,640
+is something that goes down
+
+197
+00:08:41,760 --> 00:08:46,480
+exponentially with log k. So if I choose
+
+198
+00:08:44,640 --> 00:08:48,959
+this constant in front of it the point
+
+199
+00:08:46,480 --> 00:08:51,839
+is that my failure probability is
+
+200
+00:08:48,959 --> 00:08:54,399
+something like 1 over k squ and then I
+
+201
+00:08:51,839 --> 00:08:56,160
+can say that I don't fail on this bit I
+
+202
+00:08:54,399 --> 00:08:57,839
+don't fail on this bit. I don't fail on
+
+203
+00:08:56,160 --> 00:09:00,720
+this bit. I don't fail on any of the
+
+204
+00:08:57,839 --> 00:09:02,720
+bits. So that's exactly right. You know,
+
+205
+00:09:00,720 --> 00:09:06,399
+if we use the churnoff bound, we could
+
+206
+00:09:02,720 --> 00:09:08,959
+then take the majority vote in each one
+
+207
+00:09:06,399 --> 00:09:13,040
+of these blocks and we could show that
+
+208
+00:09:08,959 --> 00:09:15,120
+the majority vote succeeds
+
+209
+00:09:13,040 --> 00:09:17,440
+with probability
+
+210
+00:09:15,120 --> 00:09:19,680
+let's say 1 minus little O of one. So
+
+211
+00:09:17,440 --> 00:09:22,720
+maybe I fail with some probability one
+
+212
+00:09:19,680 --> 00:09:24,560
+over K, something like that. So we're
+
+213
+00:09:22,720 --> 00:09:26,160
+not going to fully prove these things
+
+214
+00:09:24,560 --> 00:09:29,279
+right here because we're going to design
+
+215
+00:09:26,160 --> 00:09:31,279
+a much much better coding scheme. So
+
+216
+00:09:29,279 --> 00:09:33,519
+repetition codes the first time you see
+
+217
+00:09:31,279 --> 00:09:35,839
+this problem of communicating on a noisy
+
+218
+00:09:33,519 --> 00:09:38,240
+channel is the first scheme you come up
+
+219
+00:09:35,839 --> 00:09:40,320
+with. But the big surprise is that you
+
+220
+00:09:38,240 --> 00:09:42,399
+can do way better than just repeating
+
+221
+00:09:40,320 --> 00:09:44,080
+your message. So what I'm going to do
+
+222
+00:09:42,399 --> 00:09:45,920
+right now is I'm going to tell you about
+
+223
+00:09:44,080 --> 00:09:48,560
+you know what are the deserata. So what
+
+224
+00:09:45,920 --> 00:09:50,080
+are the things we want out of our code
+
+225
+00:09:48,560 --> 00:09:52,160
+and then we'll talk about you know
+
+226
+00:09:50,080 --> 00:09:56,000
+Shannon's noisy coding theorem and we'll
+
+227
+00:09:52,160 --> 00:09:58,160
+prove it. Okay. So I claim this code is
+
+228
+00:09:56,000 --> 00:10:00,959
+pretty good but not really the kind of
+
+229
+00:09:58,160 --> 00:10:03,040
+thing that we're aiming for.
+
+230
+00:10:00,959 --> 00:10:05,920
+So let's make precise some of the things
+
+231
+00:10:03,040 --> 00:10:09,519
+that we talked about intuitively. Right?
+
+232
+00:10:05,920 --> 00:10:12,399
+So we can talk about the rate of a code.
+
+233
+00:10:09,519 --> 00:10:15,120
+The rate just describes you know however
+
+234
+00:10:12,399 --> 00:10:17,120
+long my transmission is. How long is
+
+235
+00:10:15,120 --> 00:10:21,279
+that compared to how much information
+
+236
+00:10:17,120 --> 00:10:23,760
+I'm actually transmitting right? So in
+
+237
+00:10:21,279 --> 00:10:27,000
+particular what it is is the length of
+
+238
+00:10:23,760 --> 00:10:27,000
+the message
+
+239
+00:10:29,120 --> 00:10:34,040
+divided by the length of the
+
+240
+00:10:31,040 --> 00:10:34,040
+transmission.
+
+241
+00:10:38,399 --> 00:10:44,120
+So in particular what do we get for
+
+242
+00:10:40,480 --> 00:10:44,120
+repetition codes?
+
+243
+00:10:45,200 --> 00:10:50,160
+How good are they according to this
+
+244
+00:10:46,959 --> 00:10:54,079
+deserata of having a good rate? Well, we
+
+245
+00:10:50,160 --> 00:10:59,839
+can check that the rate that we get is 1
+
+246
+00:10:54,079 --> 00:11:03,120
+over 100 log K, right? Because you know
+
+247
+00:10:59,839 --> 00:11:06,399
+my original length of my message was K.
+
+248
+00:11:03,120 --> 00:11:09,920
+My new length of my message is K * T and
+
+249
+00:11:06,399 --> 00:11:13,120
+I set T to be 100 log K. So I get this 1
+
+250
+00:11:09,920 --> 00:11:16,800
+/ T type of rate. So the trouble with
+
+251
+00:11:13,120 --> 00:11:19,360
+this is that you know this rate if you
+
+252
+00:11:16,800 --> 00:11:22,480
+look at it right as the length of my
+
+253
+00:11:19,360 --> 00:11:25,360
+message K goes to infinity my rate is
+
+254
+00:11:22,480 --> 00:11:27,519
+going to zero so that's the question
+
+255
+00:11:25,360 --> 00:11:30,399
+that's the main question really is is
+
+256
+00:11:27,519 --> 00:11:33,040
+that necessary so when we send longer
+
+257
+00:11:30,399 --> 00:11:36,000
+and longer transmissions does it mean
+
+258
+00:11:33,040 --> 00:11:38,720
+that I'm communicating asmtoically very
+
+259
+00:11:36,000 --> 00:11:40,959
+little negligible information when I'm
+
+260
+00:11:38,720 --> 00:11:43,040
+sending things to you or is it possible
+
+261
+00:11:40,959 --> 00:11:44,560
+to achieve a constant rate that's
+
+262
+00:11:43,040 --> 00:11:46,320
+independent of the length of the
+
+263
+00:11:44,560 --> 00:11:48,399
+message.
+
+264
+00:11:46,320 --> 00:11:50,560
+So this came as a pretty big you know
+
+265
+00:11:48,399 --> 00:11:54,200
+surprise and this is our main guiding
+
+266
+00:11:50,560 --> 00:11:54,200
+question for today.
+
+267
+00:11:54,240 --> 00:12:02,560
+Let's ask can we make
+
+268
+00:11:58,480 --> 00:12:05,040
+the probability of getting an error and
+
+269
+00:12:02,560 --> 00:12:07,440
+what I mean by that is the probability
+
+270
+00:12:05,040 --> 00:12:09,920
+that we don't successfully decode the
+
+271
+00:12:07,440 --> 00:12:14,760
+message we started from. I want the
+
+272
+00:12:09,920 --> 00:12:14,760
+probability of my error going to zero
+
+273
+00:12:14,918 --> 00:12:19,279
+[clears throat]
+
+274
+00:12:16,079 --> 00:12:23,959
+but I want to keep
+
+275
+00:12:19,279 --> 00:12:23,959
+the rate constant
+
+276
+00:12:24,800 --> 00:12:28,880
+and here what I mean by going to zero is
+
+277
+00:12:26,959 --> 00:12:32,399
+we're taking the limit as the length of
+
+278
+00:12:28,880 --> 00:12:34,720
+my input message K is going to infinity
+
+279
+00:12:32,399 --> 00:12:38,399
+so is it possible to do much better than
+
+280
+00:12:34,720 --> 00:12:39,839
+these repetition codes we got you know
+
+281
+00:12:38,399 --> 00:12:42,480
+error probability ility of error was
+
+282
+00:12:39,839 --> 00:12:44,639
+going to zero that's fine but we were
+
+283
+00:12:42,480 --> 00:12:48,040
+transmitting very little information at
+
+284
+00:12:44,639 --> 00:12:48,040
+the end of the day
+
+285
+00:12:48,639 --> 00:12:53,920
+so in fact I need to make some other
+
+286
+00:12:50,800 --> 00:12:56,480
+notions precise too because we have to
+
+287
+00:12:53,920 --> 00:12:59,360
+talk about
+
+288
+00:12:56,480 --> 00:13:00,959
+what is our coding scheme see for the
+
+289
+00:12:59,360 --> 00:13:03,680
+repetition codes I did this all
+
+290
+00:13:00,959 --> 00:13:06,399
+informally right but really what there
+
+291
+00:13:03,680 --> 00:13:08,880
+are there are two pieces to the puzzle
+
+292
+00:13:06,399 --> 00:13:11,200
+one is you know the encoding which is
+
+293
+00:13:08,880 --> 00:13:13,680
+how you go from the message to what you
+
+294
+00:13:11,200 --> 00:13:15,440
+actually transmit along the channel.
+
+295
+00:13:13,680 --> 00:13:17,920
+It's the way that you're encoding the
+
+296
+00:13:15,440 --> 00:13:20,880
+information. Repetition is a very simple
+
+297
+00:13:17,920 --> 00:13:23,040
+way to do that just by repeating myself.
+
+298
+00:13:20,880 --> 00:13:25,760
+And the other piece of the puzzle is the
+
+299
+00:13:23,040 --> 00:13:28,240
+decoding which takes you know whatever
+
+300
+00:13:25,760 --> 00:13:30,320
+is the output of the channel where some
+
+301
+00:13:28,240 --> 00:13:32,000
+of the bits have been flipped and we try
+
+302
+00:13:30,320 --> 00:13:34,880
+to go back to the message we started
+
+303
+00:13:32,000 --> 00:13:37,200
+from. So in our case the encoding was
+
+304
+00:13:34,880 --> 00:13:39,360
+repetition and the decoding was majority
+
+305
+00:13:37,200 --> 00:13:41,440
+vote. But in general we could think
+
+306
+00:13:39,360 --> 00:13:46,079
+about you know very different kinds of
+
+307
+00:13:41,440 --> 00:13:51,320
+schemes right so we'll say that a
+
+308
+00:13:46,079 --> 00:13:51,320
+rn n encoding
+
+309
+00:13:52,160 --> 00:13:55,880
+is a function
+
+310
+00:13:57,600 --> 00:14:05,680
+and which we'll write as ink
+
+311
+00:14:00,959 --> 00:14:11,040
+that goes from 01 to the rn
+
+312
+00:14:05,680 --> 00:14:12,959
+to 01 to the n. So r here represents the
+
+313
+00:14:11,040 --> 00:14:16,079
+rate and it's something that you know
+
+314
+00:14:12,959 --> 00:14:17,600
+for us will be between zero and one and
+
+315
+00:14:16,079 --> 00:14:20,079
+you can see that I'm going from a
+
+316
+00:14:17,600 --> 00:14:22,800
+shorter message. This is my k right here
+
+317
+00:14:20,079 --> 00:14:25,519
+is the RN. This is the input that I want
+
+318
+00:14:22,800 --> 00:14:27,440
+to send to another party. And then I
+
+319
+00:14:25,519 --> 00:14:30,000
+decide how I'm going to transmit it
+
+320
+00:14:27,440 --> 00:14:34,000
+along the channel using a longer
+
+321
+00:14:30,000 --> 00:14:35,839
+message. Right? So it goes from Rn to N.
+
+322
+00:14:34,000 --> 00:14:38,320
+So that's the first part is that this is
+
+323
+00:14:35,839 --> 00:14:41,839
+our encoding and you can see that you
+
+324
+00:14:38,320 --> 00:14:44,560
+know r right here is literally the rate
+
+325
+00:14:41,839 --> 00:14:53,480
+of my code. So that's a parameter I'll
+
+326
+00:14:44,560 --> 00:14:53,480
+care about and moreover a rn n decoding
+
+327
+00:14:54,320 --> 00:14:58,360
+is also a function.
+
+328
+00:14:59,839 --> 00:15:06,480
+All it does is decode goes from a
+
+329
+00:15:03,519 --> 00:15:11,120
+received message RN
+
+330
+00:15:06,480 --> 00:15:13,680
+back to oh sorry N back to what we think
+
+331
+00:15:11,120 --> 00:15:17,320
+the person was transmitting to begin
+
+332
+00:15:13,680 --> 00:15:17,320
+with. Okay.
+
+333
+00:15:17,519 --> 00:15:24,959
+Now the key point is um you know how
+
+334
+00:15:20,160 --> 00:15:27,440
+these two functions encode and decode
+
+335
+00:15:24,959 --> 00:15:29,040
+work in the presence of errors and bit
+
+336
+00:15:27,440 --> 00:15:31,680
+flips like when we send it along the
+
+337
+00:15:29,040 --> 00:15:36,040
+binary symmetric channel. So in
+
+338
+00:15:31,680 --> 00:15:36,040
+particular we'll be interested
+
+339
+00:15:40,000 --> 00:15:46,320
+in the following quantity.
+
+340
+00:15:44,000 --> 00:15:47,839
+This is a bit of a mouthful. So let me
+
+341
+00:15:46,320 --> 00:15:49,279
+write it down and then we'll parse it
+
+342
+00:15:47,839 --> 00:15:51,440
+together.
+
+343
+00:15:49,279 --> 00:15:54,000
+So if you give me two parameters, R,
+
+344
+00:15:51,440 --> 00:15:56,240
+your target rate, and N, which is, you
+
+345
+00:15:54,000 --> 00:15:59,360
+know, how long you want the transmission
+
+346
+00:15:56,240 --> 00:16:04,079
+to be, well, I'm going to look at the
+
+347
+00:15:59,360 --> 00:16:08,240
+min over all RN
+
+348
+00:16:04,079 --> 00:16:11,360
+encoding and decoding functions
+
+349
+00:16:08,240 --> 00:16:16,160
+of the max
+
+350
+00:16:11,360 --> 00:16:21,759
+over messages M which are in 01 to the
+
+351
+00:16:16,160 --> 00:16:25,199
+Rn of the probability ility that m tilda
+
+352
+00:16:21,759 --> 00:16:27,839
+is not equal to m where we think about
+
+353
+00:16:25,199 --> 00:16:30,639
+it according to the following picture.
+
+354
+00:16:27,839 --> 00:16:33,680
+So we start off with our message that
+
+355
+00:16:30,639 --> 00:16:36,320
+gets turned into some transmission which
+
+356
+00:16:33,680 --> 00:16:39,360
+is just the encoding of my message given
+
+357
+00:16:36,320 --> 00:16:43,839
+my encoding function. We send this
+
+358
+00:16:39,360 --> 00:16:46,639
+through the binary symmetric channel
+
+359
+00:16:43,839 --> 00:16:49,680
+and we receive cilda.
+
+360
+00:16:46,639 --> 00:16:52,480
+We pass C tilda into the decoding
+
+361
+00:16:49,680 --> 00:16:55,519
+function to get back what we think was
+
+362
+00:16:52,480 --> 00:16:57,279
+the original message.
+
+363
+00:16:55,519 --> 00:17:00,320
+And the question is, you know, how often
+
+364
+00:16:57,279 --> 00:17:03,279
+do we have the property that m equals m
+
+365
+00:17:00,320 --> 00:17:05,520
+tilda. So this is a lot of notation, but
+
+366
+00:17:03,279 --> 00:17:07,679
+it's really very natural, right? So
+
+367
+00:17:05,520 --> 00:17:10,959
+inside right here, I just care about the
+
+368
+00:17:07,679 --> 00:17:12,880
+probability that I successfully decode
+
+369
+00:17:10,959 --> 00:17:15,439
+the message you were trying to send to
+
+370
+00:17:12,880 --> 00:17:19,199
+me despite the fact that the binary
+
+371
+00:17:15,439 --> 00:17:22,319
+symmetric channel has introduced errors.
+
+372
+00:17:19,199 --> 00:17:24,240
+Now uh I want this probability the
+
+373
+00:17:22,319 --> 00:17:27,280
+probability that I fail to get the
+
+374
+00:17:24,240 --> 00:17:30,000
+correct message to be small uh to be
+
+375
+00:17:27,280 --> 00:17:33,200
+small irrespective of what message
+
+376
+00:17:30,000 --> 00:17:35,919
+you're sending. So I look at how bad the
+
+377
+00:17:33,200 --> 00:17:38,640
+failure probability can be in decoding
+
+378
+00:17:35,919 --> 00:17:41,760
+in the worst case over all of my input
+
+379
+00:17:38,640 --> 00:17:43,760
+messages, right? And then this latter
+
+380
+00:17:41,760 --> 00:17:46,880
+thing is I want to create an encoding
+
+381
+00:17:43,760 --> 00:17:49,679
+and decoding scheme that is good for all
+
+382
+00:17:46,880 --> 00:17:52,000
+possible messages. So I don't want to
+
+383
+00:17:49,679 --> 00:17:54,559
+choose an arbitrary encoding decoding
+
+384
+00:17:52,000 --> 00:17:56,720
+function like these repetition codes but
+
+385
+00:17:54,559 --> 00:18:00,320
+I want to figure out you know what is
+
+386
+00:17:56,720 --> 00:18:02,400
+actually the best encoding decoding pair
+
+387
+00:18:00,320 --> 00:18:05,200
+uh in terms of you fixed what the rate
+
+388
+00:18:02,400 --> 00:18:08,000
+is how small can I get this failure
+
+389
+00:18:05,200 --> 00:18:11,360
+probability to be? If I fix the rate to
+
+390
+00:18:08,000 --> 00:18:13,600
+be a constant like a half or a third can
+
+391
+00:18:11,360 --> 00:18:16,640
+I get the failure probability for all
+
+392
+00:18:13,600 --> 00:18:19,200
+messages to be going to zero as n goes
+
+393
+00:18:16,640 --> 00:18:21,520
+to infinity. So, this is a bit of a
+
+394
+00:18:19,200 --> 00:18:23,360
+mouthful. Uh, let me give you a moment
+
+395
+00:18:21,520 --> 00:18:25,760
+to parse this thing, but are there any
+
+396
+00:18:23,360 --> 00:18:29,280
+questions about the terminology or what
+
+397
+00:18:25,760 --> 00:18:31,760
+I'm asking for here?
+
+398
+00:18:29,280 --> 00:18:33,840
+Give me a thumbs up if this makes sense.
+
+399
+00:18:31,760 --> 00:18:35,919
+Okay, awesome.
+
+400
+00:18:33,840 --> 00:18:38,720
+All right.
+
+401
+00:18:35,919 --> 00:18:42,039
+So, let me tell you Shannon's second
+
+402
+00:18:38,720 --> 00:18:42,039
+main theorem.
+
+403
+00:18:43,600 --> 00:18:50,080
+Shannon's noisy coding theorem
+
+404
+00:18:46,880 --> 00:18:52,400
+also proven around the same time and it
+
+405
+00:18:50,080 --> 00:18:55,280
+asserts two things which are upper and
+
+406
+00:18:52,400 --> 00:18:58,480
+lower bounds that meet.
+
+407
+00:18:55,280 --> 00:19:01,200
+So what I claim is that if the rate that
+
+408
+00:18:58,480 --> 00:19:05,919
+you're trying to hit is larger than one
+
+409
+00:19:01,200 --> 00:19:09,520
+minus entropy of P then what I claim is
+
+410
+00:19:05,919 --> 00:19:11,440
+that lambda star RN
+
+411
+00:19:09,520 --> 00:19:14,400
+the best you can do for encoding and
+
+412
+00:19:11,440 --> 00:19:20,000
+decoding functions that error rate goes
+
+413
+00:19:14,400 --> 00:19:22,240
+to one as n goes to infinity.
+
+414
+00:19:20,000 --> 00:19:24,000
+That's the first part for the theorem.
+
+415
+00:19:22,240 --> 00:19:25,840
+Let me state the other part. We'll talk
+
+416
+00:19:24,000 --> 00:19:28,559
+about you know what this tells us and
+
+417
+00:19:25,840 --> 00:19:32,720
+how to connect it back to our intuition.
+
+418
+00:19:28,559 --> 00:19:37,039
+So on the other side if r is less than 1
+
+419
+00:19:32,720 --> 00:19:41,679
+minus entropy of p then
+
+420
+00:19:37,039 --> 00:19:45,440
+what I claim is that lambda star r n is
+
+421
+00:19:41,679 --> 00:19:47,039
+going to go to zero as n goes to
+
+422
+00:19:45,440 --> 00:19:48,799
+infinity.
+
+423
+00:19:47,039 --> 00:19:50,720
+So let's parse these things together,
+
+424
+00:19:48,799 --> 00:19:52,799
+right? Because to really unwrap what
+
+425
+00:19:50,720 --> 00:19:54,400
+this theorem is stating, we have to go
+
+426
+00:19:52,799 --> 00:19:56,240
+back to this, you know, minax
+
+427
+00:19:54,400 --> 00:19:58,160
+formulation.
+
+428
+00:19:56,240 --> 00:20:00,559
+So you know what this is saying is like
+
+429
+00:19:58,160 --> 00:20:02,880
+think about P as being a third in our
+
+430
+00:20:00,559 --> 00:20:04,880
+binary symmetric channel. H is the
+
+431
+00:20:02,880 --> 00:20:07,360
+binary entropy function. We talked about
+
+432
+00:20:04,880 --> 00:20:12,559
+what that expression is. You know minus
+
+433
+00:20:07,360 --> 00:20:14,720
+P log P plus 1 minus P log 1 minus P. So
+
+434
+00:20:12,559 --> 00:20:17,039
+you can just plug in for P is a 3 and
+
+435
+00:20:14,720 --> 00:20:20,160
+compute numerically what entropy of P
+
+436
+00:20:17,039 --> 00:20:21,919
+is. It's some constant. And now the
+
+437
+00:20:20,160 --> 00:20:26,400
+point is that if you're trying to
+
+438
+00:20:21,919 --> 00:20:28,960
+transmit at a at a at a denser rate than
+
+439
+00:20:26,400 --> 00:20:32,799
+one minus entropy of P, you're going to
+
+440
+00:20:28,960 --> 00:20:35,600
+fail. You're going to fail. Why? Because
+
+441
+00:20:32,799 --> 00:20:39,280
+no matter what encoding decoding pair
+
+442
+00:20:35,600 --> 00:20:41,280
+you choose, there will be messages where
+
+443
+00:20:39,280 --> 00:20:43,520
+the probability that you successfully
+
+444
+00:20:41,280 --> 00:20:46,000
+decode the message is actually going to
+
+445
+00:20:43,520 --> 00:20:48,799
+zero. the probability that mild is not
+
+446
+00:20:46,000 --> 00:20:50,799
+equal to m is going to one.
+
+447
+00:20:48,799 --> 00:20:53,919
+So when you're trying to transmit at too
+
+448
+00:20:50,799 --> 00:20:56,159
+high a rate, you never decode the
+
+449
+00:20:53,919 --> 00:20:59,039
+correct message.
+
+450
+00:20:56,159 --> 00:21:01,039
+And on the other side, if the rate at
+
+451
+00:20:59,039 --> 00:21:03,280
+which you're trying to transmit is less
+
+452
+00:21:01,039 --> 00:21:06,320
+than the same quantity one minus entropy
+
+453
+00:21:03,280 --> 00:21:08,640
+of p, then what this means is that there
+
+454
+00:21:06,320 --> 00:21:10,480
+is a good encoding decoding pair. We'll
+
+455
+00:21:08,640 --> 00:21:13,520
+have to talk about what this pair is and
+
+456
+00:21:10,480 --> 00:21:16,720
+how does it work. that the error
+
+457
+00:21:13,520 --> 00:21:19,679
+probability goes to zero as n goes to
+
+458
+00:21:16,720 --> 00:21:22,720
+infinity. So this is a really striking
+
+459
+00:21:19,679 --> 00:21:25,039
+theorem because usually what you what
+
+460
+00:21:22,720 --> 00:21:30,600
+the the terminology is that you call one
+
+461
+00:21:25,039 --> 00:21:30,600
+minus entropy of p the capacity.
+
+462
+00:21:31,280 --> 00:21:36,400
+It's just some kind of rate that the
+
+463
+00:21:33,760 --> 00:21:39,200
+channel admits for you know how densely
+
+464
+00:21:36,400 --> 00:21:41,120
+you can communicate with someone else.
+
+465
+00:21:39,200 --> 00:21:43,039
+In fact, what's amazing is that, you
+
+466
+00:21:41,120 --> 00:21:44,880
+know, these types of theorems are true
+
+467
+00:21:43,039 --> 00:21:47,360
+not just for the binary symmetric
+
+468
+00:21:44,880 --> 00:21:50,320
+channel. But if you invent, you know,
+
+469
+00:21:47,360 --> 00:21:52,000
+your favorite stochastic channel, you
+
+470
+00:21:50,320 --> 00:21:54,000
+know, something which maybe erases
+
+471
+00:21:52,000 --> 00:21:56,799
+symbols or deletes them or has some
+
+472
+00:21:54,000 --> 00:21:59,600
+hybrid model between these things, they
+
+473
+00:21:56,799 --> 00:22:02,480
+always have a well-defined capacity that
+
+474
+00:21:59,600 --> 00:22:05,360
+if you're above the capacity, your error
+
+475
+00:22:02,480 --> 00:22:07,120
+rate is going to one. If you're below
+
+476
+00:22:05,360 --> 00:22:09,360
+the capacity, you can get the error rate
+
+477
+00:22:07,120 --> 00:22:11,280
+going to zero. But the interesting quirk
+
+478
+00:22:09,360 --> 00:22:13,200
+is that in a lot of cases the channel
+
+479
+00:22:11,280 --> 00:22:15,840
+you write down even though we know there
+
+480
+00:22:13,200 --> 00:22:17,520
+is some line in the sand that you cannot
+
+481
+00:22:15,840 --> 00:22:20,559
+cross. We don't actually know
+
+482
+00:22:17,520 --> 00:22:23,360
+numerically what it is because it turns
+
+483
+00:22:20,559 --> 00:22:25,840
+into an extremely hard math problem to
+
+484
+00:22:23,360 --> 00:22:29,360
+give an explicit characterization the
+
+485
+00:22:25,840 --> 00:22:31,440
+way that we have one here. Okay. So
+
+486
+00:22:29,360 --> 00:22:33,840
+let's um you know this is a lot to
+
+487
+00:22:31,440 --> 00:22:36,559
+digest. Uh let's try and get some
+
+488
+00:22:33,840 --> 00:22:39,200
+intuition for this.
+
+489
+00:22:36,559 --> 00:22:43,559
+So you know I told you h of p is the
+
+490
+00:22:39,200 --> 00:22:43,559
+binary entropy. So recall
+
+491
+00:22:44,240 --> 00:22:54,080
+that the entropy of p is just minus p
+
+492
+00:22:48,159 --> 00:22:57,120
+log base 2 of p min - 1 - p log base 2
+
+493
+00:22:54,080 --> 00:23:00,799
+of 1 - p.
+
+494
+00:22:57,120 --> 00:23:03,280
+Okay. So in particular,
+
+495
+00:23:00,799 --> 00:23:07,360
+you know what this function looks like
+
+496
+00:23:03,280 --> 00:23:09,360
+is if you choose P is a half, right?
+
+497
+00:23:07,360 --> 00:23:12,080
+What's going to happen is that your
+
+498
+00:23:09,360 --> 00:23:15,120
+entropy
+
+499
+00:23:12,080 --> 00:23:17,280
+of P is one.
+
+500
+00:23:15,120 --> 00:23:20,960
+So what you can show is that this binary
+
+501
+00:23:17,280 --> 00:23:22,799
+entropy function it's this nice concave
+
+502
+00:23:20,960 --> 00:23:25,440
+function
+
+503
+00:23:22,799 --> 00:23:29,360
+and it's maximum value corresponds to P
+
+504
+00:23:25,440 --> 00:23:32,000
+is a half at which point it equals the
+
+505
+00:23:29,360 --> 00:23:33,679
+value one.
+
+506
+00:23:32,000 --> 00:23:35,440
+So let's figure out what Shannon is
+
+507
+00:23:33,679 --> 00:23:37,919
+saying here and see if it makes sense.
+
+508
+00:23:35,440 --> 00:23:41,440
+Right? So you know I have my binary
+
+509
+00:23:37,919 --> 00:23:45,200
+symmetric channel and um you know if p
+
+510
+00:23:41,440 --> 00:23:47,600
+is one then I can compute the channel
+
+511
+00:23:45,200 --> 00:23:50,559
+capacity that's 1 minus one so that's
+
+512
+00:23:47,600 --> 00:23:54,480
+zero. So Shannon is telling me that you
+
+513
+00:23:50,559 --> 00:23:56,559
+can't communicate at any positive rate
+
+514
+00:23:54,480 --> 00:24:01,080
+when your flip probability for your
+
+515
+00:23:56,559 --> 00:24:01,080
+binary symmetric channel is a half.
+
+516
+00:24:01,600 --> 00:24:07,679
+Does that make sense?
+
+517
+00:24:05,120 --> 00:24:10,080
+Let's think about that one.
+
+518
+00:24:07,679 --> 00:24:13,039
+So why is that reasonable that when P is
+
+519
+00:24:10,080 --> 00:24:16,320
+a half that I can't actually transmit
+
+520
+00:24:13,039 --> 00:24:19,320
+information to another party?
+
+521
+00:24:16,320 --> 00:24:19,320
+>> Yeah.
+
+522
+00:24:21,919 --> 00:24:25,679
+>> That's right. So if you just look back
+
+523
+00:24:23,760 --> 00:24:28,559
+to my definition of the binary symmetric
+
+524
+00:24:25,679 --> 00:24:30,960
+channel, well one minus P is a half. P
+
+525
+00:24:28,559 --> 00:24:32,640
+is a half. So what that means is you
+
+526
+00:24:30,960 --> 00:24:35,440
+know you sit there and you receive my
+
+527
+00:24:32,640 --> 00:24:37,360
+first symbol which is a zero or one. It
+
+528
+00:24:35,440 --> 00:24:39,520
+has the same probability of being zero
+
+529
+00:24:37,360 --> 00:24:42,320
+and one irrespective of whether you were
+
+530
+00:24:39,520 --> 00:24:44,240
+sending a zero or one to begin with. So
+
+531
+00:24:42,320 --> 00:24:46,640
+literally my channel just doesn't look
+
+532
+00:24:44,240 --> 00:24:48,960
+at the message and it just spits out
+
+533
+00:24:46,640 --> 00:24:53,120
+random bits. Of course there's no way to
+
+534
+00:24:48,960 --> 00:24:55,039
+communicate right when P is a third.
+
+535
+00:24:53,120 --> 00:24:56,799
+Shannon's theorem is telling us that we
+
+536
+00:24:55,039 --> 00:24:59,120
+can do way better than the repetition
+
+537
+00:24:56,799 --> 00:25:01,919
+code because this will be a constant
+
+538
+00:24:59,120 --> 00:25:03,840
+because you know we'll be somewhere here
+
+539
+00:25:01,919 --> 00:25:06,559
+and whatever that value is numerically
+
+540
+00:25:03,840 --> 00:25:09,120
+is the fixed line in the sand. We can
+
+541
+00:25:06,559 --> 00:25:11,039
+communicate at that rate and know better
+
+542
+00:25:09,120 --> 00:25:12,960
+and we don't have something like the
+
+543
+00:25:11,039 --> 00:25:14,720
+repetition code where the rate is going
+
+544
+00:25:12,960 --> 00:25:16,799
+to zero. It's actually a universal
+
+545
+00:25:14,720 --> 00:25:19,840
+constant even though the error
+
+546
+00:25:16,799 --> 00:25:22,320
+probability is going to zero. Right? Let
+
+547
+00:25:19,840 --> 00:25:24,400
+me test your intuition again. Right? See
+
+548
+00:25:22,320 --> 00:25:27,200
+what's interesting is that the you know
+
+549
+00:25:24,400 --> 00:25:30,960
+this entropy function h of p is
+
+550
+00:25:27,200 --> 00:25:33,440
+symmetric around p equals a half right
+
+551
+00:25:30,960 --> 00:25:36,400
+because when I substitute p with 1 minus
+
+552
+00:25:33,440 --> 00:25:38,320
+p it doesn't change the expression so
+
+553
+00:25:36,400 --> 00:25:41,200
+the same thing is true for one minus
+
+554
+00:25:38,320 --> 00:25:44,799
+entropy of p so what shannon's theorem
+
+555
+00:25:41,200 --> 00:25:47,600
+is telling me is that when my bit flip
+
+556
+00:25:44,799 --> 00:25:50,240
+probability is 2/3
+
+557
+00:25:47,600 --> 00:25:52,960
+I can also communicate at some positive
+
+558
+00:25:50,240 --> 00:25:54,559
+rate why is that intuitive
+
+559
+00:25:52,960 --> 00:25:57,360
+You know, if I use something like the
+
+560
+00:25:54,559 --> 00:25:59,600
+major uh the repetition code, majority
+
+561
+00:25:57,360 --> 00:26:02,000
+vote doesn't work anymore, but something
+
+562
+00:25:59,600 --> 00:26:04,799
+else does. What would work if my bit
+
+563
+00:26:02,000 --> 00:26:07,679
+flip probability were two/3s? Yeah,
+
+564
+00:26:04,799 --> 00:26:09,600
+minority. Exactly. All I do is I'm
+
+565
+00:26:07,679 --> 00:26:12,080
+thinking that there'll be two/3 flips
+
+566
+00:26:09,600 --> 00:26:15,679
+here. And so I take the opposite of the
+
+567
+00:26:12,080 --> 00:26:18,080
+majority vote. Okay. So, you know, this
+
+568
+00:26:15,679 --> 00:26:19,440
+theorem is pretty deep. Uh it takes a
+
+569
+00:26:18,080 --> 00:26:22,000
+little bit to you know wrap your head
+
+570
+00:26:19,440 --> 00:26:24,400
+around it but so far it makes sense. P
+
+571
+00:26:22,000 --> 00:26:27,279
+is a half makes sense. The fact that
+
+572
+00:26:24,400 --> 00:26:31,120
+it's symmetric and p interchanging p and
+
+573
+00:26:27,279 --> 00:26:34,559
+one minus p makes sense. Okay. And we're
+
+574
+00:26:31,120 --> 00:26:37,360
+going to prove this theorem today.
+
+575
+00:26:34,559 --> 00:26:42,039
+And uh
+
+576
+00:26:37,360 --> 00:26:42,039
+let me give you the proof right here.
+
+577
+00:26:44,880 --> 00:26:50,080
+I'll put proof in quotes.
+
+578
+00:26:47,840 --> 00:26:51,919
+So really the question is like you know
+
+579
+00:26:50,080 --> 00:26:53,919
+repetition codes didn't work for my
+
+580
+00:26:51,919 --> 00:26:55,520
+encoding function
+
+581
+00:26:53,919 --> 00:26:57,600
+what should I use for my encoding
+
+582
+00:26:55,520 --> 00:26:59,919
+function.
+
+583
+00:26:57,600 --> 00:27:05,720
+So what you do
+
+584
+00:26:59,919 --> 00:27:05,720
+is you let encoding be a random function
+
+585
+00:27:07,679 --> 00:27:12,880
+and that's it. That's the proof. The
+
+586
+00:27:10,400 --> 00:27:15,679
+entire rest of today's lecture will be
+
+587
+00:27:12,880 --> 00:27:17,600
+removing the quotes around this proof
+
+588
+00:27:15,679 --> 00:27:19,360
+because in order to actually analyze
+
+589
+00:27:17,600 --> 00:27:21,200
+what happens when we choose encoding to
+
+590
+00:27:19,360 --> 00:27:22,640
+be a random function, well, we're going
+
+591
+00:27:21,200 --> 00:27:26,000
+to have to get into a lot of tools from
+
+592
+00:27:22,640 --> 00:27:29,120
+the probabilistic method.
+
+593
+00:27:26,000 --> 00:27:32,559
+So, you know, this is our strategy. Uh,
+
+594
+00:27:29,120 --> 00:27:35,200
+let me introduce a bit more about what
+
+595
+00:27:32,559 --> 00:27:38,159
+the strategy is. So what we're going to
+
+596
+00:27:35,200 --> 00:27:41,919
+do is we're going to prove
+
+597
+00:27:38,159 --> 00:27:44,400
+this second statement first which is of
+
+598
+00:27:41,919 --> 00:27:47,440
+course you know the the um positive
+
+599
+00:27:44,400 --> 00:27:50,400
+statement that we really can communicate
+
+600
+00:27:47,440 --> 00:27:52,480
+at some positive rate. So let's prove
+
+601
+00:27:50,400 --> 00:27:54,640
+two first
+
+602
+00:27:52,480 --> 00:27:57,200
+and let me be more precise about what I
+
+603
+00:27:54,640 --> 00:28:00,399
+mean by encode.
+
+604
+00:27:57,200 --> 00:28:03,840
+So I'm going to choose
+
+605
+00:28:00,399 --> 00:28:08,840
+M capital M equals 2
+
+606
+00:28:03,840 --> 00:28:08,840
+times 2 to the Rn strings
+
+607
+00:28:10,080 --> 00:28:17,640
+from
+
+608
+00:28:11,679 --> 00:28:17,640
+my domain 01 to the n uniformly
+
+609
+00:28:18,399 --> 00:28:21,720
+at random.
+
+610
+00:28:22,159 --> 00:28:26,320
+So if you think back to what's going on,
+
+611
+00:28:23,679 --> 00:28:28,559
+right? What is an encoding function?
+
+612
+00:28:26,320 --> 00:28:31,279
+Well, it's mapping each of the possible
+
+613
+00:28:28,559 --> 00:28:35,600
+messages and there are 2 to the Rn of
+
+614
+00:28:31,279 --> 00:28:37,520
+these to strings in 01 to the n. And
+
+615
+00:28:35,600 --> 00:28:40,159
+what I'm doing here, it sort of looks
+
+616
+00:28:37,520 --> 00:28:43,200
+like I'm looking I'm choosing the images
+
+617
+00:28:40,159 --> 00:28:45,919
+of what those messages would be. There's
+
+618
+00:28:43,200 --> 00:28:48,640
+2 to the Rn messages that I could want
+
+619
+00:28:45,919 --> 00:28:52,240
+to encode and I'm just going to encode
+
+620
+00:28:48,640 --> 00:28:54,399
+them with a uniformly random string from
+
+621
+00:28:52,240 --> 00:28:56,480
+01 to the n. For each one of the
+
+622
+00:28:54,399 --> 00:29:00,000
+messages, I just choose the bits in its
+
+623
+00:28:56,480 --> 00:29:02,240
+output completely at random. I have this
+
+624
+00:29:00,000 --> 00:29:05,279
+extra factor of two for reasons that
+
+625
+00:29:02,240 --> 00:29:08,240
+will become clear much later because
+
+626
+00:29:05,279 --> 00:29:10,000
+this scheme by itself won't quite work.
+
+627
+00:29:08,240 --> 00:29:11,919
+We'll have to remove some of these
+
+628
+00:29:10,000 --> 00:29:13,919
+strings to really get by and we'll talk
+
+629
+00:29:11,919 --> 00:29:16,080
+about that later. But that's, you know,
+
+630
+00:29:13,919 --> 00:29:18,880
+at least the intuition.
+
+631
+00:29:16,080 --> 00:29:21,600
+And here I'm going to define the code
+
+632
+00:29:18,880 --> 00:29:23,840
+book script C.
+
+633
+00:29:21,600 --> 00:29:29,279
+That's just all of these different
+
+634
+00:29:23,840 --> 00:29:32,000
+strings that I've chosen. C1 up to CN.
+
+635
+00:29:29,279 --> 00:29:35,919
+All right.
+
+636
+00:29:32,000 --> 00:29:38,399
+So now, uh, [clears throat]
+
+637
+00:29:35,919 --> 00:29:41,919
+let me tell you one more key definition
+
+638
+00:29:38,399 --> 00:29:46,200
+and then we can get to at least the
+
+639
+00:29:41,919 --> 00:29:46,200
+statement of some of the key lemas.
+
+640
+00:29:51,360 --> 00:30:00,520
+So the last key definition I need
+
+641
+00:29:55,200 --> 00:30:00,520
+is the notion of a ring
+
+642
+00:30:00,799 --> 00:30:08,960
+of width gamma around some point C. So C
+
+643
+00:30:05,520 --> 00:30:11,760
+here is a vector in 01 to the N. And I'm
+
+644
+00:30:08,960 --> 00:30:13,679
+going to let this ring be the set of all
+
+645
+00:30:11,760 --> 00:30:15,760
+C tildas
+
+646
+00:30:13,679 --> 00:30:17,520
+such that
+
+647
+00:30:15,760 --> 00:30:19,120
+the Hamming distance I'll tell you what
+
+648
+00:30:17,520 --> 00:30:21,279
+I mean by that in a second in case you
+
+649
+00:30:19,120 --> 00:30:26,960
+haven't seen this term the Hamming
+
+650
+00:30:21,279 --> 00:30:31,360
+distance between C and C tilda minus NP
+
+651
+00:30:26,960 --> 00:30:34,240
+is at most gamma N. All right. So let me
+
+652
+00:30:31,360 --> 00:30:38,679
+be precise. So the Hamming distance is
+
+653
+00:30:34,240 --> 00:30:38,679
+just the number of coordinates
+
+654
+00:30:39,120 --> 00:30:47,760
+I where
+
+655
+00:30:42,799 --> 00:30:50,880
+CI is not equal to C tilda I. So my ring
+
+656
+00:30:47,760 --> 00:30:53,520
+is going to be centered at some vector C
+
+657
+00:30:50,880 --> 00:30:56,880
+and C right here remember is a vector in
+
+658
+00:30:53,520 --> 00:30:59,440
+01 to the N. And my ring is going to be
+
+659
+00:30:56,880 --> 00:31:03,120
+a subset of 01 to the N. It's the set of
+
+660
+00:30:59,440 --> 00:31:06,159
+all C tildas that are the right distance
+
+661
+00:31:03,120 --> 00:31:08,399
+from C. In particular, I look at how
+
+662
+00:31:06,159 --> 00:31:11,760
+many coordinates between C and C tilda
+
+663
+00:31:08,399 --> 00:31:13,120
+are different. NP is maybe the expected
+
+664
+00:31:11,760 --> 00:31:16,080
+number of coordinates where they would
+
+665
+00:31:13,120 --> 00:31:18,640
+be different because I'm sending C along
+
+666
+00:31:16,080 --> 00:31:20,640
+the binary symmetric channel and it
+
+667
+00:31:18,640 --> 00:31:24,000
+flips each bit independently with
+
+668
+00:31:20,640 --> 00:31:26,640
+probability P. So in expectation if c
+
+669
+00:31:24,000 --> 00:31:28,559
+tilda is the output of my channel I
+
+670
+00:31:26,640 --> 00:31:31,679
+would expect the hamming distance to be
+
+671
+00:31:28,559 --> 00:31:33,919
+n * p. And here I just added a bit of
+
+672
+00:31:31,679 --> 00:31:35,600
+slack. You should think of gamma as
+
+673
+00:31:33,919 --> 00:31:38,559
+being something really really tiny
+
+674
+00:31:35,600 --> 00:31:40,720
+that's going to zero. And it just adds a
+
+675
+00:31:38,559 --> 00:31:43,360
+little bit of slack because my ring now
+
+676
+00:31:40,720 --> 00:31:46,080
+just looks like you know not the set of
+
+677
+00:31:43,360 --> 00:31:49,200
+things at some fixed distance but within
+
+678
+00:31:46,080 --> 00:31:51,120
+some tolerance of that distance. So the
+
+679
+00:31:49,200 --> 00:31:52,799
+way to think about it as a you know ring
+
+680
+00:31:51,120 --> 00:31:55,840
+just pictorially is that I have my
+
+681
+00:31:52,799 --> 00:32:00,880
+vector C here and then I'm looking at
+
+682
+00:31:55,840 --> 00:32:02,240
+some you know dis around it of radius PN
+
+683
+00:32:00,880 --> 00:32:03,840
+in terms of you know how many
+
+684
+00:32:02,240 --> 00:32:07,039
+coordinates are difference between C and
+
+685
+00:32:03,840 --> 00:32:10,960
+C tilda and then I fatten this ring a
+
+686
+00:32:07,039 --> 00:32:14,720
+little bit by some width gamma and this
+
+687
+00:32:10,960 --> 00:32:19,120
+shaded region in between them is exactly
+
+688
+00:32:14,720 --> 00:32:21,760
+what the set ring gamma around is so it
+
+689
+00:32:19,120 --> 00:32:25,760
+has a center and it has a thickness.
+
+690
+00:32:21,760 --> 00:32:30,399
+Okay. So any questions about that?
+
+691
+00:32:25,760 --> 00:32:36,279
+This is just the definition. All right.
+
+692
+00:32:30,399 --> 00:32:36,279
+And so now let me tell you the key lema
+
+693
+00:32:39,039 --> 00:32:42,640
+which is going to tell us you know it'll
+
+694
+00:32:40,720 --> 00:32:45,440
+be the key for proving the second part
+
+695
+00:32:42,640 --> 00:32:47,519
+of Shannon's theorem and it'll even tell
+
+696
+00:32:45,440 --> 00:32:49,840
+us you know what the decoding function
+
+697
+00:32:47,519 --> 00:32:51,440
+should be. We'll have to work up towards
+
+698
+00:32:49,840 --> 00:32:54,480
+proving this lema but I can already
+
+699
+00:32:51,440 --> 00:32:57,720
+state the lema right now. So here's the
+
+700
+00:32:54,480 --> 00:32:57,720
+key lema.
+
+701
+00:33:00,320 --> 00:33:05,120
+The probability
+
+702
+00:33:03,039 --> 00:33:09,039
+that
+
+703
+00:33:05,120 --> 00:33:12,559
+if we take C and we send it through our
+
+704
+00:33:09,039 --> 00:33:15,799
+binary symmetric channel and we get out
+
+705
+00:33:12,559 --> 00:33:15,799
+C tilda.
+
+706
+00:33:16,320 --> 00:33:22,559
+We want it to satisfy two conditions. We
+
+707
+00:33:20,320 --> 00:33:27,440
+want it to satisfy the condition one.
+
+708
+00:33:22,559 --> 00:33:33,399
+that C tilda belongs to the ring
+
+709
+00:33:27,440 --> 00:33:33,399
+around CI of some width gamma.
+
+710
+00:33:33,519 --> 00:33:40,000
+And we want that C tilda does not belong
+
+711
+00:33:36,320 --> 00:33:44,240
+to any other ring
+
+712
+00:33:40,000 --> 00:33:48,559
+of with gamma around any other CJ for
+
+713
+00:33:44,240 --> 00:33:52,720
+all J not equal to I. Well, I claim that
+
+714
+00:33:48,559 --> 00:33:54,960
+this is at least
+
+715
+00:33:52,720 --> 00:33:59,840
+1 minus epsilon
+
+716
+00:33:54,960 --> 00:34:02,240
+and this will be true for appropriate
+
+717
+00:33:59,840 --> 00:34:04,640
+choice of gamma and as n goes to
+
+718
+00:34:02,240 --> 00:34:06,720
+infinity. So let's parse this thing.
+
+719
+00:34:04,640 --> 00:34:09,359
+This still requires a lot of you know
+
+720
+00:34:06,720 --> 00:34:11,760
+digestion to understand what's going on.
+
+721
+00:34:09,359 --> 00:34:14,639
+So I'm punting on the question what is
+
+722
+00:34:11,760 --> 00:34:16,960
+gamma? We'll deal with that later. Okay.
+
+723
+00:34:14,639 --> 00:34:19,760
+And all of these things I care about is
+
+724
+00:34:16,960 --> 00:34:22,800
+really you know asmtoically as a
+
+725
+00:34:19,760 --> 00:34:24,480
+function of n. All right.
+
+726
+00:34:22,800 --> 00:34:27,200
+And you know ultimately I'm going to
+
+727
+00:34:24,480 --> 00:34:28,879
+want this epsilon actually to go to zero
+
+728
+00:34:27,200 --> 00:34:30,800
+too. So you should think of epsilon as
+
+729
+00:34:28,879 --> 00:34:32,960
+something that's going to zero as n goes
+
+730
+00:34:30,800 --> 00:34:35,119
+to infinity. So I haven't told you what
+
+731
+00:34:32,960 --> 00:34:39,760
+gamma is. We'll deal with that later.
+
+732
+00:34:35,119 --> 00:34:42,560
+But each of these c's right are uh
+
+733
+00:34:39,760 --> 00:34:45,440
+actually sorry I should say ci here.
+
+734
+00:34:42,560 --> 00:34:49,359
+Each of these CIS are the messages from
+
+735
+00:34:45,440 --> 00:34:52,079
+my code book script C. Remember there's
+
+736
+00:34:49,359 --> 00:34:54,720
+capital M of them. And what I'm saying
+
+737
+00:34:52,079 --> 00:34:58,160
+is when I choose my encoding scheme that
+
+738
+00:34:54,720 --> 00:35:00,800
+way where each of these CIS are a random
+
+739
+00:34:58,160 --> 00:35:03,599
+lengthen string what I'm saying is when
+
+740
+00:35:00,800 --> 00:35:05,520
+I pass that message through the binary
+
+741
+00:35:03,599 --> 00:35:09,599
+symmetric channel and introduce flips
+
+742
+00:35:05,520 --> 00:35:11,200
+and get C tilda well with you know high
+
+743
+00:35:09,599 --> 00:35:14,720
+probability
+
+744
+00:35:11,200 --> 00:35:17,839
+CI belong uh C tilda belongs to CI's
+
+745
+00:35:14,720 --> 00:35:21,200
+ring right and he belongs to no other
+
+746
+00:35:17,839 --> 00:35:22,960
+ring. So if this event really did happen
+
+747
+00:35:21,200 --> 00:35:26,000
+with you know all but vanishing
+
+748
+00:35:22,960 --> 00:35:27,839
+probability I would be in great shape
+
+749
+00:35:26,000 --> 00:35:30,560
+because it would give me my decoding
+
+750
+00:35:27,839 --> 00:35:33,440
+algorithm. So once I've chosen this
+
+751
+00:35:30,560 --> 00:35:36,560
+encoding function where you know each of
+
+752
+00:35:33,440 --> 00:35:40,000
+the messages the two to the Rn of them
+
+753
+00:35:36,560 --> 00:35:42,240
+goes to a random image one of these CIS
+
+754
+00:35:40,000 --> 00:35:44,720
+then all I have to do is I pass my CI
+
+755
+00:35:42,240 --> 00:35:46,640
+through the channel I receive C tilda
+
+756
+00:35:44,720 --> 00:35:49,200
+and my decoder is just going to check
+
+757
+00:35:46,640 --> 00:35:52,480
+one by one each of the messages in my
+
+758
+00:35:49,200 --> 00:35:55,200
+code book you know which ring C tilda
+
+759
+00:35:52,480 --> 00:35:57,119
+belongs to and the point is that the
+
+760
+00:35:55,200 --> 00:35:59,119
+only ring it will belong to is the
+
+761
+00:35:57,119 --> 00:36:02,000
+actual message I started
+
+762
+00:35:59,119 --> 00:36:03,599
+if both of these conditions hold. So
+
+763
+00:36:02,000 --> 00:36:07,040
+that's the main point is that you know
+
+764
+00:36:03,599 --> 00:36:08,960
+if this event happens I'm golden. So
+
+765
+00:36:07,040 --> 00:36:11,440
+does everyone see why decoding would
+
+766
+00:36:08,960 --> 00:36:13,599
+succeed if this happened?
+
+767
+00:36:11,440 --> 00:36:16,599
+Does this make sense?
+
+768
+00:36:13,599 --> 00:36:16,599
+Yeah.
+
+769
+00:36:18,240 --> 00:36:25,680
+I saw less vigorous head nodding.
+
+770
+00:36:21,280 --> 00:36:27,520
+Yes. No. Okay. All right. [laughter]
+
+771
+00:36:25,680 --> 00:36:29,839
+Okay. So, we're going to have to prove
+
+772
+00:36:27,520 --> 00:36:32,320
+this lema. That's uh one of the key
+
+773
+00:36:29,839 --> 00:36:34,000
+things we're going to prove today.
+
+774
+00:36:32,320 --> 00:36:36,880
+A bunch of these things I'm trying to do
+
+775
+00:36:34,000 --> 00:36:41,119
+the calculations in a way that makes
+
+776
+00:36:36,880 --> 00:36:44,880
+them as uh unpainful as possible.
+
+777
+00:36:41,119 --> 00:36:47,440
+Um but there are limits.
+
+778
+00:36:44,880 --> 00:36:49,119
+Um so the first thing I want to do is I
+
+779
+00:36:47,440 --> 00:36:51,440
+want to tell you a back of the envelope
+
+780
+00:36:49,119 --> 00:36:54,000
+calculation you know because all these
+
+781
+00:36:51,440 --> 00:36:56,480
+things like this binary entropy h of p
+
+782
+00:36:54,000 --> 00:36:58,720
+is going to have to show up and somehow
+
+783
+00:36:56,480 --> 00:37:01,760
+it shows up from the cominatorics when
+
+784
+00:36:58,720 --> 00:37:03,760
+we look at the size of these rings. So
+
+785
+00:37:01,760 --> 00:37:05,520
+let me tell you a back of the envelope
+
+786
+00:37:03,760 --> 00:37:07,680
+calculation which will be very useful
+
+787
+00:37:05,520 --> 00:37:11,280
+for us
+
+788
+00:37:07,680 --> 00:37:13,680
+and you can make all of this precise
+
+789
+00:37:11,280 --> 00:37:16,160
+but let's do this a little bit more
+
+790
+00:37:13,680 --> 00:37:19,280
+heristically.
+
+791
+00:37:16,160 --> 00:37:23,680
+So we know from Sterling's approximation
+
+792
+00:37:19,280 --> 00:37:28,560
+that n factorial behaves like n e to the
+
+793
+00:37:23,680 --> 00:37:30,160
+n time square<unk> of 2<unk>i n. Now
+
+794
+00:37:28,560 --> 00:37:32,880
+I'll tell you right now what I want to
+
+795
+00:37:30,160 --> 00:37:35,280
+do is I want to figure out what the size
+
+796
+00:37:32,880 --> 00:37:38,320
+of the rings are. So I want to use
+
+797
+00:37:35,280 --> 00:37:40,000
+Sterling's approximation to figure out
+
+798
+00:37:38,320 --> 00:37:42,240
+uh some sort of expression for a
+
+799
+00:37:40,000 --> 00:37:45,040
+binomial coefficient. And that's where
+
+800
+00:37:42,240 --> 00:37:47,040
+the entropy is going to pop out. Now I
+
+801
+00:37:45,040 --> 00:37:49,200
+can tell you right now that for
+
+802
+00:37:47,040 --> 00:37:51,040
+Sterling's approximation when we apply
+
+803
+00:37:49,200 --> 00:37:53,200
+it to the thing I'm about to do this
+
+804
+00:37:51,040 --> 00:37:54,800
+term doesn't matter. So if you want you
+
+805
+00:37:53,200 --> 00:37:58,160
+can just ignore it. I'll still keep
+
+806
+00:37:54,800 --> 00:38:01,599
+track of it. But you know let's progress
+
+807
+00:37:58,160 --> 00:38:03,520
+right? So let's move on. So what I
+
+808
+00:38:01,599 --> 00:38:08,000
+really care about is understanding the
+
+809
+00:38:03,520 --> 00:38:10,560
+behavior of n choose pn.
+
+810
+00:38:08,000 --> 00:38:13,040
+This makes sense, right? because you
+
+811
+00:38:10,560 --> 00:38:15,359
+know I start off with a message which is
+
+812
+00:38:13,040 --> 00:38:17,119
+say all zeros the let's say that's the
+
+813
+00:38:15,359 --> 00:38:19,920
+transmission that I send along the
+
+814
+00:38:17,119 --> 00:38:23,280
+channel and what I could care about is
+
+815
+00:38:19,920 --> 00:38:27,839
+you know how many outputs are reasonably
+
+816
+00:38:23,280 --> 00:38:29,520
+likely right certainly if my trans uh my
+
+817
+00:38:27,839 --> 00:38:32,079
+flip probability on the channel is a
+
+818
+00:38:29,520 --> 00:38:34,320
+third then I should expect that my
+
+819
+00:38:32,079 --> 00:38:36,320
+output started off with no ones and
+
+820
+00:38:34,320 --> 00:38:39,200
+after I send it through the channel
+
+821
+00:38:36,320 --> 00:38:42,079
+maybe I end up with n over three ones
+
+822
+00:38:39,200 --> 00:38:44,560
+That's just p* n and what I care about
+
+823
+00:38:42,079 --> 00:38:46,240
+is how many you know outputs I'm
+
+824
+00:38:44,560 --> 00:38:48,320
+reasonably likely to get from my
+
+825
+00:38:46,240 --> 00:38:51,440
+channel. So I care about what are the
+
+826
+00:38:48,320 --> 00:38:53,440
+asmtoics of this quantity right and I
+
+827
+00:38:51,440 --> 00:38:56,079
+can use the fact that I can express the
+
+828
+00:38:53,440 --> 00:38:57,680
+binomial as ratios of you know
+
+829
+00:38:56,079 --> 00:38:59,520
+factorials
+
+830
+00:38:57,680 --> 00:39:01,520
+and I'll get out when I plug in
+
+831
+00:38:59,520 --> 00:39:03,599
+sterling's approximation I'll get this
+
+832
+00:39:01,520 --> 00:39:07,760
+you know mess of an expression that I
+
+833
+00:39:03,599 --> 00:39:14,240
+can simplify. So I get n / e to the n. I
+
+834
+00:39:07,760 --> 00:39:19,680
+get n p over e to the np. I get n * 1 -
+
+835
+00:39:14,240 --> 00:39:21,599
+p over e to the n * 1 - p. And then I
+
+836
+00:39:19,680 --> 00:39:23,440
+get some other stuff that I already told
+
+837
+00:39:21,599 --> 00:39:27,240
+you isn't going to matter, but let me
+
+838
+00:39:23,440 --> 00:39:27,240
+keep track of it anyways.
+
+839
+00:39:33,839 --> 00:39:38,400
+Okay.
+
+840
+00:39:36,560 --> 00:39:40,480
+And this is not mysterious, right?
+
+841
+00:39:38,400 --> 00:39:45,040
+Because you know this binomial is just n
+
+842
+00:39:40,480 --> 00:39:47,920
+factorial over pn factorial times 1
+
+843
+00:39:45,040 --> 00:39:49,920
+minus p n factorial. And these are the
+
+844
+00:39:47,920 --> 00:39:52,240
+leading order terms because these are
+
+845
+00:39:49,920 --> 00:39:54,160
+much much smaller.
+
+846
+00:39:52,240 --> 00:39:57,119
+Now what I can do is I can cancel things
+
+847
+00:39:54,160 --> 00:40:01,599
+out because this n the n cancels with
+
+848
+00:39:57,119 --> 00:40:05,040
+the n the np time n the n uh 1 minus one
+
+849
+00:40:01,599 --> 00:40:07,839
+p uh 1 minus p. This e to the n cancels
+
+850
+00:40:05,040 --> 00:40:11,839
+with the e down here. Uh the only thing
+
+851
+00:40:07,839 --> 00:40:19,680
+that'll be left over is I'll get 1 over
+
+852
+00:40:11,839 --> 00:40:21,599
+p to the np * 1 - p to the 1 - pn.
+
+853
+00:40:19,680 --> 00:40:25,280
+And then I can cancel a bunch of these
+
+854
+00:40:21,599 --> 00:40:29,760
+expressions if I want to. This is <unk>2
+
+855
+00:40:25,280 --> 00:40:35,320
+pi n p * 1 minus p. So just some
+
+856
+00:40:29,760 --> 00:40:35,320
+algebra. Nothing fancy so far, right?
+
+857
+00:40:36,079 --> 00:40:40,400
+And now I'm in good shape because I can
+
+858
+00:40:37,920 --> 00:40:43,359
+take this expression and I can take the
+
+859
+00:40:40,400 --> 00:40:49,359
+log and divide by n. So what this tells
+
+860
+00:40:43,359 --> 00:40:51,359
+me is that 1 / n * log of n choose pn.
+
+861
+00:40:49,359 --> 00:40:54,560
+Well, this is exactly where the binary
+
+862
+00:40:51,359 --> 00:41:03,520
+entropy pops out, right? So, I get minus
+
+863
+00:40:54,560 --> 00:41:05,680
+p log p minus 1 - p log 1 minus p and
+
+864
+00:41:03,520 --> 00:41:08,160
+then all the other terms are much
+
+865
+00:41:05,680 --> 00:41:11,760
+smaller order because they behave like
+
+866
+00:41:08,160 --> 00:41:13,839
+log n / n. They're tiny compared to it.
+
+867
+00:41:11,760 --> 00:41:15,520
+So really what's going on is all of the
+
+868
+00:41:13,839 --> 00:41:18,880
+terms that don't cancel when I take
+
+869
+00:41:15,520 --> 00:41:22,240
+their log and divide by n that's exactly
+
+870
+00:41:18,880 --> 00:41:24,319
+where the binary entropy pops out
+
+871
+00:41:22,240 --> 00:41:26,800
+and that's why entropy shows up in
+
+872
+00:41:24,319 --> 00:41:29,680
+Shannon's theorem. So this is really
+
+873
+00:41:26,800 --> 00:41:34,000
+just saying that the limit
+
+874
+00:41:29,680 --> 00:41:38,720
+as n goes to infinity of 1 /n time log
+
+875
+00:41:34,000 --> 00:41:42,640
+of this binomial coefficient n choose pn
+
+876
+00:41:38,720 --> 00:41:46,880
+behaves like the binary entropy of p.
+
+877
+00:41:42,640 --> 00:41:49,040
+So this is a key you know algebraic fact
+
+878
+00:41:46,880 --> 00:41:50,960
+that we're going to appeal to in our
+
+879
+00:41:49,040 --> 00:41:54,560
+proof of correctness and our proof that
+
+880
+00:41:50,960 --> 00:41:56,240
+lema one holds is just this fact. We're
+
+881
+00:41:54,560 --> 00:41:58,079
+going to see a bunch of binomials in
+
+882
+00:41:56,240 --> 00:41:59,920
+there and I'm just going to think about
+
+883
+00:41:58,079 --> 00:42:02,640
+them in terms of the binary entropy
+
+884
+00:41:59,920 --> 00:42:05,280
+instead. Right?
+
+885
+00:42:02,640 --> 00:42:07,520
+All right.
+
+886
+00:42:05,280 --> 00:42:09,839
+So now let's go back to you know this
+
+887
+00:42:07,520 --> 00:42:12,160
+lema one and let me tell you some basic
+
+888
+00:42:09,839 --> 00:42:16,839
+facts that are going to be key
+
+889
+00:42:12,160 --> 00:42:16,839
+ingredients on the proof of lema one.
+
+890
+00:42:28,720 --> 00:42:33,440
+This part is really just calculational
+
+891
+00:42:30,720 --> 00:42:35,280
+to get to the proof of lema one. But
+
+892
+00:42:33,440 --> 00:42:39,680
+let's state, you know, one of our key
+
+893
+00:42:35,280 --> 00:42:41,359
+facts. Fact one. Well, I claim that you
+
+894
+00:42:39,680 --> 00:42:44,480
+know ring
+
+895
+00:42:41,359 --> 00:42:46,720
+gamma of C, the size of it, the number
+
+896
+00:42:44,480 --> 00:42:51,040
+of strings that are contained in this
+
+897
+00:42:46,720 --> 00:42:52,960
+set is bounded by like 2 to the entropy
+
+898
+00:42:51,040 --> 00:42:56,079
+of P
+
+899
+00:42:52,960 --> 00:42:58,720
+plus or minus gamma
+
+900
+00:42:56,079 --> 00:43:01,040
+time N.
+
+901
+00:42:58,720 --> 00:43:03,760
+So all this is is really it's related to
+
+902
+00:43:01,040 --> 00:43:06,640
+this fact, right? Think about the case
+
+903
+00:43:03,760 --> 00:43:08,800
+where you know gamma is zero for our
+
+904
+00:43:06,640 --> 00:43:10,319
+definition of the ring. All that's
+
+905
+00:43:08,800 --> 00:43:15,040
+happening is the number of things that
+
+906
+00:43:10,319 --> 00:43:17,440
+are in our ring is n choose pn.
+
+907
+00:43:15,040 --> 00:43:19,920
+And so our fact tells us that in that
+
+908
+00:43:17,440 --> 00:43:24,400
+case when gamma equals zero it behaves
+
+909
+00:43:19,920 --> 00:43:26,079
+like you know 2 to the entropy of p * n.
+
+910
+00:43:24,400 --> 00:43:28,240
+That's literally what this expression
+
+911
+00:43:26,079 --> 00:43:31,119
+means when I multiply through by n and
+
+912
+00:43:28,240 --> 00:43:34,720
+take you know everything to the uh in
+
+913
+00:43:31,119 --> 00:43:37,040
+the exponent of two. And as I take this
+
+914
+00:43:34,720 --> 00:43:38,560
+thickness gamma to be something but you
+
+915
+00:43:37,040 --> 00:43:41,119
+know ultimately I'm going to care about
+
+916
+00:43:38,560 --> 00:43:43,760
+this thickness going to zero as n goes
+
+917
+00:43:41,119 --> 00:43:46,800
+to infinity. It's only going to be some
+
+918
+00:43:43,760 --> 00:43:49,359
+fudge factor in the exponent. So you can
+
+919
+00:43:46,800 --> 00:43:51,599
+write down this fact more precisely.
+
+920
+00:43:49,359 --> 00:43:53,920
+It's a bit tedious because it involves a
+
+921
+00:43:51,599 --> 00:43:55,680
+lot of algebraic expressions, but this
+
+922
+00:43:53,920 --> 00:43:58,319
+is really how the size of the ring
+
+923
+00:43:55,680 --> 00:44:00,880
+behaves up to some fudge factor that
+
+924
+00:43:58,319 --> 00:44:03,760
+depends on the width of the ring. It's 2
+
+925
+00:44:00,880 --> 00:44:06,560
+to the entropy of P * N. That's our
+
+926
+00:44:03,760 --> 00:44:10,880
+first fact, right?
+
+927
+00:44:06,560 --> 00:44:15,040
+And so now um
+
+928
+00:44:10,880 --> 00:44:16,880
+what I claim is that uh you know we can
+
+929
+00:44:15,040 --> 00:44:19,839
+get into these questions like how should
+
+930
+00:44:16,880 --> 00:44:21,760
+I choose gamma? What I claim is that
+
+931
+00:44:19,839 --> 00:44:24,560
+there
+
+932
+00:44:21,760 --> 00:44:29,200
+is a gamma
+
+933
+00:44:24,560 --> 00:44:34,480
+such that with probability
+
+934
+00:44:29,200 --> 00:44:39,119
+at least 1 - epsilon / 2
+
+935
+00:44:34,480 --> 00:44:41,119
+p minus gamma n
+
+936
+00:44:39,119 --> 00:44:44,640
+and that is a lower bound for the
+
+937
+00:44:41,119 --> 00:44:48,960
+hamming distance between c tilda and c
+
+938
+00:44:44,640 --> 00:44:50,560
+and p plus gamma n is an upper bound.
+
+939
+00:44:48,960 --> 00:44:52,160
+So we can forget about how we're
+
+940
+00:44:50,560 --> 00:44:54,240
+connecting this to coding theory right
+
+941
+00:44:52,160 --> 00:44:57,359
+now. This is a purely probabistic
+
+942
+00:44:54,240 --> 00:44:59,920
+question. I take any message C of length
+
+943
+00:44:57,359 --> 00:45:03,440
+N and I send it along the channel and
+
+944
+00:44:59,920 --> 00:45:05,920
+then I observe C tilda and remember that
+
+945
+00:45:03,440 --> 00:45:08,720
+C tilda just comes from flipping each
+
+946
+00:45:05,920 --> 00:45:10,800
+bit independently with probability P. So
+
+947
+00:45:08,720 --> 00:45:13,359
+I can care about you know how many flips
+
+948
+00:45:10,800 --> 00:45:15,760
+were introduced. This is really just the
+
+949
+00:45:13,359 --> 00:45:19,040
+standard coin flipping question is I
+
+950
+00:45:15,760 --> 00:45:22,160
+want bounds on the probability that the
+
+951
+00:45:19,040 --> 00:45:24,240
+number of times I flipped the bit is
+
+952
+00:45:22,160 --> 00:45:27,359
+larger than its expectation or is
+
+953
+00:45:24,240 --> 00:45:29,839
+smaller than its expectation. And if my
+
+954
+00:45:27,359 --> 00:45:32,400
+gamma is some appropriately chosen
+
+955
+00:45:29,839 --> 00:45:35,440
+slack, then I can guarantee that you're
+
+956
+00:45:32,400 --> 00:45:38,960
+not outside of these bounds with all but
+
+957
+00:45:35,440 --> 00:45:42,800
+some tiny failure probability. Okay. So
+
+958
+00:45:38,960 --> 00:45:44,880
+all this is is this follows
+
+959
+00:45:42,800 --> 00:45:47,680
+because we've proven things very much
+
+960
+00:45:44,880 --> 00:45:50,400
+like this. It follows from you know
+
+961
+00:45:47,680 --> 00:45:53,440
+chebbev [clears throat]
+
+962
+00:45:50,400 --> 00:45:55,760
+or the weak law of large numbers
+
+963
+00:45:53,440 --> 00:45:58,400
+because as n goes to infinity you expect
+
+964
+00:45:55,760 --> 00:46:00,800
+the empirical number of bit flips you
+
+965
+00:45:58,400 --> 00:46:04,160
+get to be very very close to the
+
+966
+00:46:00,800 --> 00:46:06,720
+expected number p * n.
+
+967
+00:46:04,160 --> 00:46:09,920
+So with these two facts, we're now in
+
+968
+00:46:06,720 --> 00:46:11,680
+good shape for trying to prove lema one.
+
+969
+00:46:09,920 --> 00:46:15,400
+So let's put these things together and
+
+970
+00:46:11,680 --> 00:46:15,400
+prove lema one.
+
+971
+00:46:19,920 --> 00:46:26,640
+So how does the proof of lema one go?
+
+972
+00:46:22,880 --> 00:46:32,040
+Our key lema and Shannon's theorem. So
+
+973
+00:46:26,640 --> 00:46:32,040
+first of all, you know from fact two
+
+974
+00:46:35,920 --> 00:46:39,160
+We have
+
+975
+00:46:41,359 --> 00:46:48,880
+the probability that C tilda, how did I
+
+976
+00:46:45,359 --> 00:46:52,240
+write it there? C tilda belongs to the
+
+977
+00:46:48,880 --> 00:46:54,400
+ring for some appropriately chosen gamma
+
+978
+00:46:52,240 --> 00:46:57,359
+around CI
+
+979
+00:46:54,400 --> 00:46:59,760
+is you know at least 1 minus epsilon /
+
+980
+00:46:57,359 --> 00:47:02,160
+2. So my failure probability is at most
+
+981
+00:46:59,760 --> 00:47:04,640
+epsilon over two.
+
+982
+00:47:02,160 --> 00:47:08,200
+And now what we can do is let's bound
+
+983
+00:47:04,640 --> 00:47:08,200
+the other probability.
+
+984
+00:47:11,680 --> 00:47:17,079
+So let's bound the failure probability
+
+985
+00:47:13,520 --> 00:47:17,079
+of the other event
+
+986
+00:47:18,079 --> 00:47:23,200
+namely that C tilda belongs to some
+
+987
+00:47:20,640 --> 00:47:26,800
+other guy's ring.
+
+988
+00:47:23,200 --> 00:47:29,839
+And so what we can do is we can fix
+
+989
+00:47:26,800 --> 00:47:32,800
+J not equal to I. So one of the other
+
+990
+00:47:29,839 --> 00:47:34,880
+code words in our code book
+
+991
+00:47:32,800 --> 00:47:37,200
+and what we can do is you know in that
+
+992
+00:47:34,880 --> 00:47:41,200
+case
+
+993
+00:47:37,200 --> 00:47:47,280
+the probability that C tilda belongs to
+
+994
+00:47:41,200 --> 00:47:49,359
+the ring of some width gamma around CJ.
+
+995
+00:47:47,280 --> 00:47:51,280
+Well I claim that this is the same
+
+996
+00:47:49,359 --> 00:47:53,359
+thing. This is one of the key tricks in
+
+997
+00:47:51,280 --> 00:47:57,200
+here is the same thing as the
+
+998
+00:47:53,359 --> 00:48:01,839
+probability that CJ belongs
+
+999
+00:47:57,200 --> 00:48:03,839
+to the ring of C tilda.
+
+1000
+00:48:01,839 --> 00:48:06,400
+So this looks like a pretty obvious
+
+1001
+00:48:03,839 --> 00:48:09,440
+statement, right? Because this notion of
+
+1002
+00:48:06,400 --> 00:48:12,240
+ring is just symmetric, right? It
+
+1003
+00:48:09,440 --> 00:48:14,720
+doesn't, you know, whether if C tilda
+
+1004
+00:48:12,240 --> 00:48:17,920
+belongs to CI's ring, that's the same
+
+1005
+00:48:14,720 --> 00:48:21,119
+thing as vice versa, right? if CI
+
+1006
+00:48:17,920 --> 00:48:22,960
+belongs to C tilda's ring but what's
+
+1007
+00:48:21,119 --> 00:48:25,200
+going on here is we have to go back to
+
+1008
+00:48:22,960 --> 00:48:28,240
+how exactly we chose the code book to
+
+1009
+00:48:25,200 --> 00:48:30,400
+see why this is important right is that
+
+1010
+00:48:28,240 --> 00:48:33,200
+you know app priori this might seem like
+
+1011
+00:48:30,400 --> 00:48:36,640
+a fairly complicated event to analyze
+
+1012
+00:48:33,200 --> 00:48:38,960
+right because I have you know some um
+
+1013
+00:48:36,640 --> 00:48:41,680
+you know message that's received by my
+
+1014
+00:48:38,960 --> 00:48:43,680
+decoder that's cilda
+
+1015
+00:48:41,680 --> 00:48:47,920
+what's the chance he belongs to some
+
+1016
+00:48:43,680 --> 00:48:50,079
+other ring around CJ J. The key point is
+
+1017
+00:48:47,920 --> 00:48:53,040
+that when I express the probability this
+
+1018
+00:48:50,079 --> 00:48:55,359
+way, remember I chose each of those code
+
+1019
+00:48:53,040 --> 00:48:57,280
+words randomly.
+
+1020
+00:48:55,359 --> 00:49:00,240
+So what I could do is I could run the
+
+1021
+00:48:57,280 --> 00:49:03,440
+whole experiment in my head but be lazy
+
+1022
+00:49:00,240 --> 00:49:06,240
+about when I choose CJ. So you tell me
+
+1023
+00:49:03,440 --> 00:49:07,920
+you're sending CI along the channel.
+
+1024
+00:49:06,240 --> 00:49:11,119
+Fine. You tell me you're sending that
+
+1025
+00:49:07,920 --> 00:49:12,880
+particular message. I fix what CI is. We
+
+1026
+00:49:11,119 --> 00:49:16,960
+send CI through the channel and we
+
+1027
+00:49:12,880 --> 00:49:21,839
+receive C tilda. But only now after I
+
+1028
+00:49:16,960 --> 00:49:24,480
+receive C tilda do I pick what CJ is.
+
+1029
+00:49:21,839 --> 00:49:27,359
+And you know the chance that CJ if it's
+
+1030
+00:49:24,480 --> 00:49:29,680
+a uniformally random string lands in
+
+1031
+00:49:27,359 --> 00:49:32,640
+this particular ring I can bound that
+
+1032
+00:49:29,680 --> 00:49:36,400
+based on the size of the ring. So now I
+
+1033
+00:49:32,640 --> 00:49:38,960
+can appeal to fact one right. So you
+
+1034
+00:49:36,400 --> 00:49:41,680
+know uh we can upperbound this
+
+1035
+00:49:38,960 --> 00:49:45,200
+probability by
+
+1036
+00:49:41,680 --> 00:49:49,760
+you know this 2 to the entropy of p plus
+
+1037
+00:49:45,200 --> 00:49:54,160
+or minus the slack gamma n over 2 to the
+
+1038
+00:49:49,760 --> 00:49:57,119
+n just because that's the size of the
+
+1039
+00:49:54,160 --> 00:50:00,559
+ring c tilda is exactly this quantity
+
+1040
+00:49:57,119 --> 00:50:02,640
+from fact one and we're choosing cj
+
+1041
+00:50:00,559 --> 00:50:05,040
+uniformly at random from all of the
+
+1042
+00:50:02,640 --> 00:50:07,760
+strings of length n that are binary. So
+
+1043
+00:50:05,040 --> 00:50:09,920
+we get exactly this expression.
+
+1044
+00:50:07,760 --> 00:50:14,440
+And so now we're in good shape because
+
+1045
+00:50:09,920 --> 00:50:14,440
+we can appeal to a union bound
+
+1046
+00:50:17,680 --> 00:50:22,480
+because we don't care about this just
+
+1047
+00:50:19,200 --> 00:50:26,160
+for one particular J. We care about it,
+
+1048
+00:50:22,480 --> 00:50:31,559
+you know, for all J not equal to I.
+
+1049
+00:50:26,160 --> 00:50:31,559
+Right? So now by a union bound
+
+1050
+00:50:34,640 --> 00:50:42,319
+the probability
+
+1051
+00:50:36,480 --> 00:50:46,000
+that C tilda belongs to any ring
+
+1052
+00:50:42,319 --> 00:50:47,359
+around a CJ where J is not equal to I.
+
+1053
+00:50:46,000 --> 00:50:50,800
+Okay, the probability that's true for
+
+1054
+00:50:47,359 --> 00:50:53,920
+any J is at most the size of our code
+
+1055
+00:50:50,800 --> 00:50:58,960
+book times this probability 2 to the
+
+1056
+00:50:53,920 --> 00:51:01,520
+entropy of P plus or minus gamma N over
+
+1057
+00:50:58,960 --> 00:51:05,200
+2 to the N. So this is just a simple
+
+1058
+00:51:01,520 --> 00:51:07,839
+union bound right
+
+1059
+00:51:05,200 --> 00:51:10,640
+and now what we can do right uh if you
+
+1060
+00:51:07,839 --> 00:51:15,040
+ignore this gamma what's going on is I
+
+1061
+00:51:10,640 --> 00:51:19,200
+have you know um my code book remember
+
+1062
+00:51:15,040 --> 00:51:20,720
+looks like uh 2 to the 1us entropy of
+
+1063
+00:51:19,200 --> 00:51:26,480
+you know it looks like you know this
+
+1064
+00:51:20,720 --> 00:51:29,040
+code book right here is 2 * 2 to the rn
+
+1065
+00:51:26,480 --> 00:51:32,720
+and we're assuming that r is strictly
+
+1066
+00:51:29,040 --> 00:51:35,920
+less than 1 - entropy of P. What's going
+
+1067
+00:51:32,720 --> 00:51:39,760
+on right here is I have you know 2 the
+
+1068
+00:51:35,920 --> 00:51:41,839
+minus 1us entropy of P. So the point is
+
+1069
+00:51:39,760 --> 00:51:43,440
+that you know once my rate is strictly
+
+1070
+00:51:41,839 --> 00:51:45,839
+smaller than what's happening in the
+
+1071
+00:51:43,440 --> 00:51:48,880
+exponent over here then I'm in good
+
+1072
+00:51:45,839 --> 00:51:53,359
+shape because this probability goes to
+
+1073
+00:51:48,880 --> 00:51:55,440
+zero as n goes to infinity.
+
+1074
+00:51:53,359 --> 00:51:57,599
+So that's the proof of our key lema,
+
+1075
+00:51:55,440 --> 00:52:00,559
+right? It's really just the counting
+
+1076
+00:51:57,599 --> 00:52:03,440
+argument at the end of the day is that
+
+1077
+00:52:00,559 --> 00:52:05,680
+you know my code isn't so large like I
+
+1078
+00:52:03,440 --> 00:52:08,480
+union bound over all of the things in my
+
+1079
+00:52:05,680 --> 00:52:11,119
+code book. I look at the size of each of
+
+1080
+00:52:08,480 --> 00:52:14,400
+these rings compared to the size of the
+
+1081
+00:52:11,119 --> 00:52:16,800
+underlying domain. And as long as the
+
+1082
+00:52:14,400 --> 00:52:18,880
+size of my code book times the size of
+
+1083
+00:52:16,800 --> 00:52:21,760
+the ring is strictly smaller than my
+
+1084
+00:52:18,880 --> 00:52:25,040
+domain even you know asmtoically then
+
+1085
+00:52:21,760 --> 00:52:27,520
+I'm in good shape. Right? So this proves
+
+1086
+00:52:25,040 --> 00:52:29,200
+these two key facts. We know that the
+
+1087
+00:52:27,520 --> 00:52:31,440
+probability you don't belong to the ring
+
+1088
+00:52:29,200 --> 00:52:33,200
+you start with is very small is at most
+
+1089
+00:52:31,440 --> 00:52:35,040
+epsilon over two by the weak law of
+
+1090
+00:52:33,200 --> 00:52:37,440
+large numbers.
+
+1091
+00:52:35,040 --> 00:52:39,440
+And we know by a unionbound an
+
+1092
+00:52:37,440 --> 00:52:41,839
+accounting argument that the probability
+
+1093
+00:52:39,440 --> 00:52:44,800
+that you belong to any other ring is
+
+1094
+00:52:41,839 --> 00:52:46,319
+very small. And the key, you know, step
+
+1095
+00:52:44,800 --> 00:52:49,040
+that we used was really this
+
+1096
+00:52:46,319 --> 00:52:50,960
+transformation right here. That the
+
+1097
+00:52:49,040 --> 00:52:53,839
+probability that C tilda belongs to
+
+1098
+00:52:50,960 --> 00:52:55,760
+another ring because the CJs are chosen
+
+1099
+00:52:53,839 --> 00:52:58,880
+randomly. That's the same as the
+
+1100
+00:52:55,760 --> 00:53:01,520
+probability that my newly sampled CJ
+
+1101
+00:52:58,880 --> 00:53:03,119
+belongs to the ring around C tilda. So
+
+1102
+00:53:01,520 --> 00:53:05,599
+are there any questions about this? This
+
+1103
+00:53:03,119 --> 00:53:08,240
+is one of the key proofs for today is
+
+1104
+00:53:05,599 --> 00:53:11,240
+the proof of this key lema. Any
+
+1105
+00:53:08,240 --> 00:53:11,240
+questions?
+
+1106
+00:53:11,599 --> 00:53:15,760
+Give me a thumbs up.
+
+1107
+00:53:13,119 --> 00:53:18,960
+Good. All right.
+
+1108
+00:53:15,760 --> 00:53:21,040
+So now let's use this lema
+
+1109
+00:53:18,960 --> 00:53:24,079
+and there'll be another trick. It's a
+
+1110
+00:53:21,040 --> 00:53:26,640
+subtle trick, but it's a cool trick. So,
+
+1111
+00:53:24,079 --> 00:53:28,000
+I need a little bit more terminology and
+
+1112
+00:53:26,640 --> 00:53:31,559
+then we're going to be able to prove
+
+1113
+00:53:28,000 --> 00:53:31,559
+Shannon's theorem
+
+1114
+00:53:37,760 --> 00:53:42,400
+because one of the things to think about
+
+1115
+00:53:39,839 --> 00:53:44,800
+is that so far our attempt at proving
+
+1116
+00:53:42,400 --> 00:53:49,440
+Shannon's theorem, we're choosing a
+
+1117
+00:53:44,800 --> 00:53:51,680
+random code book, right?
+
+1118
+00:53:49,440 --> 00:53:53,760
+And that code book then defines you know
+
+1119
+00:53:51,680 --> 00:53:56,240
+what the encoding and the decoding
+
+1120
+00:53:53,760 --> 00:53:57,760
+functions are. Our encoding sends each
+
+1121
+00:53:56,240 --> 00:53:59,839
+message to one of those you know
+
+1122
+00:53:57,760 --> 00:54:02,640
+randomly chosen code words in our code
+
+1123
+00:53:59,839 --> 00:54:05,440
+book. Our decoder just looks at you know
+
+1124
+00:54:02,640 --> 00:54:06,880
+which messages ring you belong to. But
+
+1125
+00:54:05,440 --> 00:54:08,640
+at the end of the day to prove Shannon's
+
+1126
+00:54:06,880 --> 00:54:11,599
+theorem I don't want to argue that a
+
+1127
+00:54:08,640 --> 00:54:13,359
+random code is usually good. I want to
+
+1128
+00:54:11,599 --> 00:54:14,800
+show that there's a code that's always
+
+1129
+00:54:13,359 --> 00:54:16,720
+good.
+
+1130
+00:54:14,800 --> 00:54:18,319
+So that subtlety is really where the
+
+1131
+00:54:16,720 --> 00:54:20,720
+probabilistic method is going to show
+
+1132
+00:54:18,319 --> 00:54:22,800
+up, right? Is because we have to argue
+
+1133
+00:54:20,720 --> 00:54:25,119
+that there actually is one fixed choice
+
+1134
+00:54:22,800 --> 00:54:27,440
+of this random code book that makes
+
+1135
+00:54:25,119 --> 00:54:29,119
+everything small. And this is a little
+
+1136
+00:54:27,440 --> 00:54:30,720
+bit subtle to really prove this
+
+1137
+00:54:29,119 --> 00:54:32,319
+statement. But I need some more
+
+1138
+00:54:30,720 --> 00:54:37,280
+intuition, right? I need some more
+
+1139
+00:54:32,319 --> 00:54:43,559
+notation. So I'm going to let EI of my
+
+1140
+00:54:37,280 --> 00:54:43,559
+code book script C be the event
+
+1141
+00:54:44,720 --> 00:54:51,680
+that everything goes well that you know
+
+1142
+00:54:47,760 --> 00:54:54,160
+I send in my if code word from my code
+
+1143
+00:54:51,680 --> 00:54:56,000
+book through the binary symmetric
+
+1144
+00:54:54,160 --> 00:54:59,200
+channel.
+
+1145
+00:54:56,000 --> 00:55:03,280
+I get out some received message C tilda
+
+1146
+00:54:59,200 --> 00:55:05,599
+I and I have exactly the properties that
+
+1147
+00:55:03,280 --> 00:55:08,160
+are promised to me in this key lema lema
+
+1148
+00:55:05,599 --> 00:55:10,720
+one. I want that my received thing
+
+1149
+00:55:08,160 --> 00:55:13,920
+belongs to the ring
+
+1150
+00:55:10,720 --> 00:55:16,920
+around CI and it belongs to no other
+
+1151
+00:55:13,920 --> 00:55:16,920
+ring
+
+1152
+00:55:20,480 --> 00:55:26,480
+and this is true for all J not equal to
+
+1153
+00:55:22,960 --> 00:55:28,800
+I. So notice that this event now is a
+
+1154
+00:55:26,480 --> 00:55:31,680
+property of the actual code book too,
+
+1155
+00:55:28,800 --> 00:55:34,319
+right? It's a property of what errors
+
+1156
+00:55:31,680 --> 00:55:38,599
+the uh channel introduces and a property
+
+1157
+00:55:34,319 --> 00:55:38,599
+of the choice of the code book.
+
+1158
+00:55:38,800 --> 00:55:45,119
+And what we're going to do is we're
+
+1159
+00:55:40,240 --> 00:55:48,720
+finally going to let lambda I of C
+
+1160
+00:55:45,119 --> 00:55:52,720
+denote one minus the probability that
+
+1161
+00:55:48,720 --> 00:55:55,040
+this event happens.
+
+1162
+00:55:52,720 --> 00:55:57,440
+So it's really the probability that
+
+1163
+00:55:55,040 --> 00:55:59,520
+there's a decoding failure. But notice
+
+1164
+00:55:57,440 --> 00:56:01,920
+that the decoding failure then depends
+
+1165
+00:55:59,520 --> 00:56:04,000
+on what the original that probability
+
+1166
+00:56:01,920 --> 00:56:06,240
+depends on the choice of the code book
+
+1167
+00:56:04,000 --> 00:56:10,160
+and it depends on which message we're
+
+1168
+00:56:06,240 --> 00:56:12,960
+sending. All right.
+
+1169
+00:56:10,160 --> 00:56:15,119
+And so what I claim we just proved
+
+1170
+00:56:12,960 --> 00:56:18,119
+through lema one is the following
+
+1171
+00:56:15,119 --> 00:56:18,119
+statement.
+
+1172
+00:56:25,200 --> 00:56:33,079
+We proved that the average over all of
+
+1173
+00:56:28,960 --> 00:56:33,079
+the possible code books
+
+1174
+00:56:33,599 --> 00:56:39,079
+because we're choosing these code books
+
+1175
+00:56:35,280 --> 00:56:39,079
+uniformly at random.
+
+1176
+00:56:44,000 --> 00:56:50,240
+The average over all of the messages
+
+1177
+00:56:46,880 --> 00:56:55,440
+that we want to send
+
+1178
+00:56:50,240 --> 00:56:57,359
+of having a decoding failure is small.
+
+1179
+00:56:55,440 --> 00:57:00,240
+So what does this thing say? Right?
+
+1180
+00:56:57,359 --> 00:57:02,640
+Let's parse this in English. When I
+
+1181
+00:57:00,240 --> 00:57:05,359
+choose a random code book, this is the
+
+1182
+00:57:02,640 --> 00:57:07,520
+average over a random code book. When I
+
+1183
+00:57:05,359 --> 00:57:10,160
+choose a random message that I want to
+
+1184
+00:57:07,520 --> 00:57:12,319
+encode, the probability that I have a
+
+1185
+00:57:10,160 --> 00:57:14,240
+decoding error for that codebook and
+
+1186
+00:57:12,319 --> 00:57:17,760
+that message on the binary symmetric
+
+1187
+00:57:14,240 --> 00:57:19,599
+channel is at most epsilon. Right? This
+
+1188
+00:57:17,760 --> 00:57:22,319
+is not the same thing as saying that
+
+1189
+00:57:19,599 --> 00:57:24,960
+there exists a code book that's always
+
+1190
+00:57:22,319 --> 00:57:26,720
+good for every message.
+
+1191
+00:57:24,960 --> 00:57:29,359
+And that's exactly what we have to try
+
+1192
+00:57:26,720 --> 00:57:31,440
+and twist the statement into. So we
+
+1193
+00:57:29,359 --> 00:57:33,040
+proved through lema one was this. And we
+
+1194
+00:57:31,440 --> 00:57:37,119
+really need something else that gets rid
+
+1195
+00:57:33,040 --> 00:57:40,240
+of this average over code words, right?
+
+1196
+00:57:37,119 --> 00:57:44,200
+And so what I claim now is you know by
+
+1197
+00:57:40,240 --> 00:57:44,200
+the probabilistic method
+
+1198
+00:57:49,040 --> 00:57:54,720
+we claim that there exists a code book
+
+1199
+00:57:51,920 --> 00:57:58,119
+with the property that the average over
+
+1200
+00:57:54,720 --> 00:57:58,119
+all the messages
+
+1201
+00:58:00,160 --> 00:58:04,799
+of the decoding failure probability is
+
+1202
+00:58:02,079 --> 00:58:06,480
+at most epsilon. So the probabistic
+
+1203
+00:58:04,799 --> 00:58:08,240
+method is one of these things where you
+
+1204
+00:58:06,480 --> 00:58:10,880
+know it looks very natural sometimes
+
+1205
+00:58:08,240 --> 00:58:12,640
+when you state it but other times when
+
+1206
+00:58:10,880 --> 00:58:14,400
+it's happening you know with other
+
+1207
+00:58:12,640 --> 00:58:17,359
+layers of abstraction it's a bit harder
+
+1208
+00:58:14,400 --> 00:58:19,040
+to wrap your head around right so you
+
+1209
+00:58:17,359 --> 00:58:22,240
+know like we use the probabilistic
+
+1210
+00:58:19,040 --> 00:58:24,160
+method to show things like um you know
+
+1211
+00:58:22,240 --> 00:58:26,000
+if we choose that there's a graph that
+
+1212
+00:58:24,160 --> 00:58:27,839
+has no large clique or no large
+
+1213
+00:58:26,000 --> 00:58:31,520
+independent set we'll talk about that I
+
+1214
+00:58:27,839 --> 00:58:33,440
+guess later and um you know here we're
+
+1215
+00:58:31,520 --> 00:58:35,760
+really using the probabistic method the
+
+1216
+00:58:33,440 --> 00:58:38,559
+same way that I know that this
+
+1217
+00:58:35,760 --> 00:58:41,119
+expectation of this quantity inside is
+
+1218
+00:58:38,559 --> 00:58:43,119
+small over a typical code book. So there
+
+1219
+00:58:41,119 --> 00:58:45,760
+must exist one code book where it's
+
+1220
+00:58:43,119 --> 00:58:47,520
+small as well. Right? So does everyone
+
+1221
+00:58:45,760 --> 00:58:49,200
+see how I got from here to here using
+
+1222
+00:58:47,520 --> 00:58:52,000
+the probabistic method. Is that all
+
+1223
+00:58:49,200 --> 00:58:53,520
+right? Yeah.
+
+1224
+00:58:52,000 --> 00:58:56,319
+Okay.
+
+1225
+00:58:53,520 --> 00:58:58,000
+So uh now we're in good shape and I can
+
+1226
+00:58:56,319 --> 00:59:00,960
+tell you you know how to finish the rest
+
+1227
+00:58:58,000 --> 00:59:03,119
+of the argument.
+
+1228
+00:59:00,960 --> 00:59:06,119
+Let's see how much space I need. Not too
+
+1229
+00:59:03,119 --> 00:59:06,119
+much.
+
+1230
+00:59:09,680 --> 00:59:13,760
+So now we're starting to make progress
+
+1231
+00:59:11,520 --> 00:59:16,720
+because instead of saying over a random
+
+1232
+00:59:13,760 --> 00:59:19,920
+code book over a random message our
+
+1233
+00:59:16,720 --> 00:59:22,640
+decoding failure is small, we know that
+
+1234
+00:59:19,920 --> 00:59:25,839
+you know we have a code book where the
+
+1235
+00:59:22,640 --> 00:59:29,119
+average over the messages the decoding
+
+1236
+00:59:25,839 --> 00:59:31,440
+error rate is small, right?
+
+1237
+00:59:29,119 --> 00:59:33,520
+Um, but we really care about back to our
+
+1238
+00:59:31,440 --> 00:59:35,760
+original statement of what we wanted to
+
+1239
+00:59:33,520 --> 00:59:38,799
+prove was we want that there's a code
+
+1240
+00:59:35,760 --> 00:59:42,319
+book so that every message can be
+
+1241
+00:59:38,799 --> 00:59:45,599
+decoded well not a random message. So we
+
+1242
+00:59:42,319 --> 00:59:48,000
+have one remaining expectation that we
+
+1243
+00:59:45,599 --> 00:59:51,040
+want to prune which is this average over
+
+1244
+00:59:48,000 --> 00:59:53,680
+m right and now we're going to do it in
+
+1245
+00:59:51,040 --> 00:59:58,839
+a kind of cool way which is you know I
+
+1246
+00:59:53,680 --> 00:59:58,839
+claim by markoff bound
+
+1247
+01:00:01,680 --> 01:00:06,280
+We know that at least
+
+1248
+01:00:06,480 --> 01:00:12,160
+half
+
+1249
+01:00:09,359 --> 01:00:15,040
+of the eyes
+
+1250
+01:00:12,160 --> 01:00:20,000
+satisfy
+
+1251
+01:00:15,040 --> 01:00:21,839
+the bound that lambda i of c is at most
+
+1252
+01:00:20,000 --> 01:00:24,240
+2 epsilon.
+
+1253
+01:00:21,839 --> 01:00:26,400
+So this is our old friend the marov
+
+1254
+01:00:24,240 --> 01:00:29,280
+bound, right? Because you know we're
+
+1255
+01:00:26,400 --> 01:00:31,040
+looking at random variables that are 01
+
+1256
+01:00:29,280 --> 01:00:32,559
+valued like did you have a decoding
+
+1257
+01:00:31,040 --> 01:00:35,760
+failure
+
+1258
+01:00:32,559 --> 01:00:38,799
+and if the average over these messages
+
+1259
+01:00:35,760 --> 01:00:41,359
+one through m that we want to send has
+
+1260
+01:00:38,799 --> 01:00:44,400
+the decoding failure probability bounded
+
+1261
+01:00:41,359 --> 01:00:47,359
+by epsilon on average we know that for
+
+1262
+01:00:44,400 --> 01:00:49,280
+at least a half of the realizations the
+
+1263
+01:00:47,359 --> 01:00:51,520
+probability that they're larger than 2
+
+1264
+01:00:49,280 --> 01:00:54,880
+epsilon the decoding failure probability
+
+1265
+01:00:51,520 --> 01:00:56,480
+is you know is small right so this is
+
+1266
+01:00:54,880 --> 01:00:58,079
+the usual thing that if this weren't
+
+1267
+01:00:56,480 --> 01:00:59,680
+true then the expectation would be
+
+1268
+01:00:58,079 --> 01:01:02,480
+higher because these are non-gative
+
+1269
+01:00:59,680 --> 01:01:06,160
+random variables. And so now what we can
+
+1270
+01:01:02,480 --> 01:01:11,720
+do is we can let C prime our eventual
+
+1271
+01:01:06,160 --> 01:01:11,720
+code book be the code book
+
+1272
+01:01:12,240 --> 01:01:15,240
+restricted
+
+1273
+01:01:15,359 --> 01:01:22,280
+to just these messages
+
+1274
+01:01:18,400 --> 01:01:22,280
+just these code words
+
+1275
+01:01:23,440 --> 01:01:28,799
+the ones that satisfy this condition
+
+1276
+01:01:25,839 --> 01:01:30,960
+right here that their lambda I for that
+
+1277
+01:01:28,799 --> 01:01:33,040
+particular choice of the code book is at
+
+1278
+01:01:30,960 --> 01:01:34,640
+most two epsilon.
+
+1279
+01:01:33,040 --> 01:01:37,280
+So what does this mean? Just you know
+
+1280
+01:01:34,640 --> 01:01:41,520
+putting this back into English, right?
+
+1281
+01:01:37,280 --> 01:01:46,319
+It means that this new codebook C prime
+
+1282
+01:01:41,520 --> 01:01:49,319
+is itself an R N
+
+1283
+01:01:46,319 --> 01:01:49,319
+encoding.
+
+1284
+01:01:49,839 --> 01:01:55,520
+That's exactly why I started off with my
+
+1285
+01:01:52,160 --> 01:02:01,119
+original code book was on capital M
+
+1286
+01:01:55,520 --> 01:02:04,160
+things where M was equal to 2 * 2 R N
+
+1287
+01:02:01,119 --> 01:02:05,760
+right was exactly this extra factor of
+
+1288
+01:02:04,160 --> 01:02:08,400
+two that I was going to have to give up
+
+1289
+01:02:05,760 --> 01:02:11,040
+when I went from C to C prime. So
+
+1290
+01:02:08,400 --> 01:02:13,040
+whatever's left is still an RN N
+
+1291
+01:02:11,040 --> 01:02:16,559
+encoding because there are two to the RN
+
+1292
+01:02:13,040 --> 01:02:18,799
+things in it. And we know just by
+
+1293
+01:02:16,559 --> 01:02:21,599
+unwrapping the definition of what lambda
+
+1294
+01:02:18,799 --> 01:02:25,839
+IC is. What this means is the
+
+1295
+01:02:21,599 --> 01:02:28,160
+probability that you know C tilda I is
+
+1296
+01:02:25,839 --> 01:02:31,280
+not equal to
+
+1297
+01:02:28,160 --> 01:02:35,680
+uh sorry uh that the probability that M
+
+1298
+01:02:31,280 --> 01:02:38,319
+tilda is not equal to M is at most 2
+
+1299
+01:02:35,680 --> 01:02:40,799
+epsilon because literally the way we
+
+1300
+01:02:38,319 --> 01:02:44,400
+defined this was you know how often we
+
+1301
+01:02:40,799 --> 01:02:46,480
+expect for the given code word to have a
+
+1302
+01:02:44,400 --> 01:02:48,799
+decoding failure probability on that
+
+1303
+01:02:46,480 --> 01:02:50,799
+particular message.
+
+1304
+01:02:48,799 --> 01:02:53,680
+So the only you know code words that
+
+1305
+01:02:50,799 --> 01:02:55,680
+survived were exactly ones who when I
+
+1306
+01:02:53,680 --> 01:02:58,160
+fix the codebook and I fix the message
+
+1307
+01:02:55,680 --> 01:03:00,559
+have a very small failure probability of
+
+1308
+01:02:58,160 --> 01:03:02,799
+getting the wrong decoding.
+
+1309
+01:03:00,559 --> 01:03:04,880
+So this proves you know the the most
+
+1310
+01:03:02,799 --> 01:03:07,520
+interesting part of Shannon's theorem
+
+1311
+01:03:04,880 --> 01:03:09,920
+that we can get positive rate and error
+
+1312
+01:03:07,520 --> 01:03:13,040
+probability going to zero. So we can
+
+1313
+01:03:09,920 --> 01:03:15,680
+drastically improve upon uh you know the
+
+1314
+01:03:13,040 --> 01:03:17,359
+uh repetition code. If you actually work
+
+1315
+01:03:15,680 --> 01:03:18,880
+out the details, what ends up happening
+
+1316
+01:03:17,359 --> 01:03:22,559
+is that it's not just that the
+
+1317
+01:03:18,880 --> 01:03:24,079
+probability of failure goes to zero. The
+
+1318
+01:03:22,559 --> 01:03:26,240
+probability of failure actually goes to
+
+1319
+01:03:24,079 --> 01:03:28,559
+zero exponentially fast, which is really
+
+1320
+01:03:26,240 --> 01:03:30,319
+cool. So it's way better than the
+
+1321
+01:03:28,559 --> 01:03:32,319
+repetition code on a few different
+
+1322
+01:03:30,319 --> 01:03:33,920
+fronts. If I wanted the failure
+
+1323
+01:03:32,319 --> 01:03:36,160
+probability to be exponentially small
+
+1324
+01:03:33,920 --> 01:03:38,400
+for my repetition code, I would have had
+
+1325
+01:03:36,160 --> 01:03:40,960
+to increase it way beyond this log K
+
+1326
+01:03:38,400 --> 01:03:42,559
+blow up. So a bunch of people at the
+
+1327
+01:03:40,960 --> 01:03:44,319
+time really thought that, you know, the
+
+1328
+01:03:42,559 --> 01:03:46,799
+repetition code was optimal. So this
+
+1329
+01:03:44,319 --> 01:03:48,880
+came as quite a surprise uh that this
+
+1330
+01:03:46,799 --> 01:03:52,400
+was not true.
+
+1331
+01:03:48,880 --> 01:03:54,960
+Um I will briefly give you the intuition
+
+1332
+01:03:52,400 --> 01:03:57,200
+behind uh you know the sec the first
+
+1333
+01:03:54,960 --> 01:04:00,680
+part of Shannon's theorem and then we'll
+
+1334
+01:03:57,200 --> 01:04:00,680
+call it a day.
+
+1335
+01:04:00,960 --> 01:04:06,359
+So remember that the first part of
+
+1336
+01:04:02,799 --> 01:04:06,359
+Shannon's theorem
+
+1337
+01:04:07,200 --> 01:04:13,359
+was that you can't communicate at a rate
+
+1338
+01:04:10,880 --> 01:04:16,960
+larger than the capacity 1 minus entropy
+
+1339
+01:04:13,359 --> 01:04:18,559
+of P. If you do the um you know the
+
+1340
+01:04:16,960 --> 01:04:21,599
+probability of getting the correct
+
+1341
+01:04:18,559 --> 01:04:23,680
+message is going to go to zero. Right?
+
+1342
+01:04:21,599 --> 01:04:27,760
+And so let me give you very briefly the
+
+1343
+01:04:23,680 --> 01:04:31,839
+intuition. So let's suppose that we had
+
+1344
+01:04:27,760 --> 01:04:34,480
+a coding scheme where the rate was
+
+1345
+01:04:31,839 --> 01:04:36,640
+larger than the capacity 1 minus entropy
+
+1346
+01:04:34,480 --> 01:04:38,559
+of P.
+
+1347
+01:04:36,640 --> 01:04:42,079
+And let's suppose for the sake of
+
+1348
+01:04:38,559 --> 01:04:44,400
+contradiction that it really wasn't such
+
+1349
+01:04:42,079 --> 01:04:46,480
+a bad coding scheme. Maybe the
+
+1350
+01:04:44,400 --> 01:04:49,440
+probability that it successfully decoded
+
+1351
+01:04:46,480 --> 01:04:53,760
+the message is at least some epsilon
+
+1352
+01:04:49,440 --> 01:04:56,799
+like 0.01 let's say.
+
+1353
+01:04:53,760 --> 01:04:58,720
+Well, what we're going to argue is that
+
+1354
+01:04:56,799 --> 01:05:01,119
+um you know we'll prove a contradiction
+
+1355
+01:04:58,720 --> 01:05:06,599
+that the rate really cannot be this
+
+1356
+01:05:01,119 --> 01:05:06,599
+large. So the main point is that
+
+1357
+01:05:10,000 --> 01:05:15,440
+an epsilon over 2
+
+1358
+01:05:13,200 --> 01:05:18,079
+fraction
+
+1359
+01:05:15,440 --> 01:05:20,720
+of ring
+
+1360
+01:05:18,079 --> 01:05:24,200
+gamma CI
+
+1361
+01:05:20,720 --> 01:05:24,200
+must be decoded
+
+1362
+01:05:26,480 --> 01:05:30,119
+to CI.
+
+1363
+01:05:31,039 --> 01:05:35,200
+So you know here the point is like
+
+1364
+01:05:32,799 --> 01:05:37,760
+originally our decoder was just based on
+
+1365
+01:05:35,200 --> 01:05:40,400
+the ring right but now we have no idea
+
+1366
+01:05:37,760 --> 01:05:43,119
+what the decoder is but the same way
+
+1367
+01:05:40,400 --> 01:05:45,359
+whatever our decoder is we know that you
+
+1368
+01:05:43,119 --> 01:05:47,839
+know when we pass through this
+
+1369
+01:05:45,359 --> 01:05:51,119
+transmission along the channel we're
+
+1370
+01:05:47,839 --> 01:05:52,799
+going to end up in this ring right
+
+1371
+01:05:51,119 --> 01:05:55,760
+because that was you know the first part
+
+1372
+01:05:52,799 --> 01:05:57,839
+of lema one was just that we land in the
+
+1373
+01:05:55,760 --> 01:06:00,640
+ring with all but very small failure
+
+1374
+01:05:57,839 --> 01:06:03,200
+probability and once we're in this ring
+
+1375
+01:06:00,640 --> 01:06:05,680
+because that's always where we land. The
+
+1376
+01:06:03,200 --> 01:06:07,680
+fact that we're successfully decoding
+
+1377
+01:06:05,680 --> 01:06:09,839
+the original message is just saying
+
+1378
+01:06:07,680 --> 01:06:13,760
+that, you know, among these outputs that
+
+1379
+01:06:09,839 --> 01:06:15,920
+we often reach, well, you know, many of
+
+1380
+01:06:13,760 --> 01:06:18,000
+them must be decoded to the correct
+
+1381
+01:06:15,920 --> 01:06:19,359
+message, right? That's just the
+
+1382
+01:06:18,000 --> 01:06:20,799
+definition of that's just the
+
+1383
+01:06:19,359 --> 01:06:22,559
+translation of what this statement
+
+1384
+01:06:20,799 --> 01:06:27,319
+means.
+
+1385
+01:06:22,559 --> 01:06:27,319
+But now the point is that
+
+1386
+01:06:27,359 --> 01:06:33,559
+but the C tildas
+
+1387
+01:06:30,079 --> 01:06:33,559
+that are decoded
+
+1388
+01:06:36,480 --> 01:06:41,079
+to different CIS
+
+1389
+01:06:41,280 --> 01:06:45,480
+must be joint right
+
+1390
+01:06:46,400 --> 01:06:52,319
+because your decoding function has to
+
+1391
+01:06:48,480 --> 01:06:54,240
+map you to a unique original message. So
+
+1392
+01:06:52,319 --> 01:06:55,839
+if I look at you know over all these
+
+1393
+01:06:54,240 --> 01:06:58,400
+different messages which things are
+
+1394
+01:06:55,839 --> 01:07:01,200
+decoded to it is you know each of these
+
+1395
+01:06:58,400 --> 01:07:04,319
+sets are disjoint. And so what does this
+
+1396
+01:07:01,200 --> 01:07:07,119
+mean? Well if we add up just the total
+
+1397
+01:07:04,319 --> 01:07:08,960
+volume of these sets right we know that
+
+1398
+01:07:07,119 --> 01:07:11,760
+they're at least an epsilon over two
+
+1399
+01:07:08,960 --> 01:07:13,520
+fraction of the ring. We know that
+
+1400
+01:07:11,760 --> 01:07:16,319
+there's one of these rings for each of
+
+1401
+01:07:13,520 --> 01:07:21,359
+the code book. We know that the ring has
+
+1402
+01:07:16,319 --> 01:07:23,599
+size 2 to the entropy of p * n. But you
+
+1403
+01:07:21,359 --> 01:07:25,760
+know this cannot be larger than 2 to the
+
+1404
+01:07:23,599 --> 01:07:29,119
+n because that's the number of possible
+
+1405
+01:07:25,760 --> 01:07:31,680
+c tildas there are period right and so
+
+1406
+01:07:29,119 --> 01:07:34,480
+when we rearrange this bound we'll get
+
+1407
+01:07:31,680 --> 01:07:37,440
+exactly the thing we wanted that the
+
+1408
+01:07:34,480 --> 01:07:39,920
+size of my code book is at most
+
+1409
+01:07:37,440 --> 01:07:43,359
+something like you know 2 to the 1 minus
+
+1410
+01:07:39,920 --> 01:07:45,359
+entry of p times n. So this is just
+
+1411
+01:07:43,359 --> 01:07:47,920
+meant as a sketch because really to do
+
+1412
+01:07:45,359 --> 01:07:49,520
+this precisely I would have to prove a
+
+1413
+01:07:47,920 --> 01:07:52,720
+lot of you know the helper lemmas here
+
+1414
+01:07:49,520 --> 01:07:54,400
+and give similar kinds of bounds but you
+
+1415
+01:07:52,720 --> 01:07:56,240
+know the intuition is much simpler and
+
+1416
+01:07:54,400 --> 01:07:58,480
+we're only going to ask you about really
+
+1417
+01:07:56,240 --> 01:08:01,039
+the second part for Shannon's theorem.
+
+1418
+01:07:58,480 --> 01:08:04,319
+So are there any questions
+
+1419
+01:08:01,039 --> 01:08:07,119
+about this?
+
+1420
+01:08:04,319 --> 01:08:09,839
+>> Yeah sorry
+
+1421
+01:08:07,119 --> 01:08:12,400
+>> yeah that's right sure. So what is the
+
+1422
+01:08:09,839 --> 01:08:15,359
+statement saying right here is that at
+
+1423
+01:08:12,400 --> 01:08:18,719
+least an epsilon fraction. So if I look
+
+1424
+01:08:15,359 --> 01:08:20,799
+at you know when I start off with CI
+
+1425
+01:08:18,719 --> 01:08:23,440
+and I look at you know the output after
+
+1426
+01:08:20,799 --> 01:08:25,759
+the binary symmetric channel then at
+
+1427
+01:08:23,440 --> 01:08:29,279
+least an epsilon fraction of those
+
+1428
+01:08:25,759 --> 01:08:32,719
+outputs must be successfully decoded to
+
+1429
+01:08:29,279 --> 01:08:35,520
+the correct original message. Now almost
+
+1430
+01:08:32,719 --> 01:08:37,440
+all of the outputs live in the ring. So
+
+1431
+01:08:35,520 --> 01:08:39,520
+if we just throw out all the things that
+
+1432
+01:08:37,440 --> 01:08:41,279
+aren't in the ring, we're not really
+
+1433
+01:08:39,520 --> 01:08:43,759
+changing, you know, what the output
+
+1434
+01:08:41,279 --> 01:08:45,679
+distribution looks like from our BSC.
+
+1435
+01:08:43,759 --> 01:08:48,560
+And that means that we still must have
+
+1436
+01:08:45,679 --> 01:08:51,440
+at least a large fraction of this ring
+
+1437
+01:08:48,560 --> 01:08:53,040
+must also be successfully decoded. To
+
+1438
+01:08:51,440 --> 01:08:54,960
+fully prove this would be a lot more
+
+1439
+01:08:53,040 --> 01:08:57,120
+work and would be a bit tedious, but
+
+1440
+01:08:54,960 --> 01:08:59,040
+that's the intuition.
+
+1441
+01:08:57,120 --> 01:09:02,040
+Any other questions? Great questions,
+
+1442
+01:08:59,040 --> 01:09:02,040
+though.
+
+1443
+01:09:03,520 --> 01:09:08,640
+Okay, so um let me end with a little bit
+
+1444
+01:09:06,640 --> 01:09:11,920
+of a historical perspective. So this
+
+1445
+01:09:08,640 --> 01:09:14,560
+Shannon theorem is quite amazing. Um
+
+1446
+01:09:11,920 --> 01:09:17,359
+it's actually not uh such a perfectly
+
+1447
+01:09:14,560 --> 01:09:19,440
+ideal scheme. So we have the same kinds
+
+1448
+01:09:17,359 --> 01:09:22,000
+of issues that we had in you know
+
+1449
+01:09:19,440 --> 01:09:24,480
+Shannon's uh noiseless coding theorem
+
+1450
+01:09:22,000 --> 01:09:26,400
+right so we proved Shannon's noless
+
+1451
+01:09:24,480 --> 01:09:29,520
+coding theorem about how well we can
+
+1452
+01:09:26,400 --> 01:09:31,279
+compress a first order source but then
+
+1453
+01:09:29,520 --> 01:09:33,440
+the thing I complained about was the
+
+1454
+01:09:31,279 --> 01:09:36,719
+fact that really if we were to execute
+
+1455
+01:09:33,440 --> 01:09:39,839
+the scheme I would have to write down
+
+1456
+01:09:36,719 --> 01:09:41,600
+the full uh set of you know encodings
+
+1457
+01:09:39,839 --> 01:09:43,359
+and that would be gigantic I'd have to
+
+1458
+01:09:41,600 --> 01:09:45,679
+anticipate everything you could want
+
+1459
+01:09:43,359 --> 01:09:47,359
+ever want to compress and write down
+
+1460
+01:09:45,679 --> 01:09:50,319
+this code book of what to compress it
+
+1461
+01:09:47,359 --> 01:09:52,960
+to. Same problem happens here that you
+
+1462
+01:09:50,319 --> 01:09:55,520
+know choosing this code book uh script C
+
+1463
+01:09:52,960 --> 01:09:57,520
+randomly is very convenient for the
+
+1464
+01:09:55,520 --> 01:10:00,239
+proof because it makes it easier to
+
+1465
+01:09:57,520 --> 01:10:02,320
+reason via the probabilistic method. It
+
+1466
+01:10:00,239 --> 01:10:04,000
+makes it easier to reason about you know
+
+1467
+01:10:02,320 --> 01:10:05,920
+failure probabilities of events because
+
+1468
+01:10:04,000 --> 01:10:08,719
+it boils down to some combinatorics of
+
+1469
+01:10:05,920 --> 01:10:10,400
+the sizes of rings. But the trouble is
+
+1470
+01:10:08,719 --> 01:10:12,960
+that this would be a horrible coding
+
+1471
+01:10:10,400 --> 01:10:15,199
+scheme if I really had to write down
+
+1472
+01:10:12,960 --> 01:10:17,840
+exponentially many things and define my
+
+1473
+01:10:15,199 --> 01:10:21,040
+code book. So what Peter is going to be
+
+1474
+01:10:17,840 --> 01:10:22,880
+talking about on Tuesday is a very
+
+1475
+01:10:21,040 --> 01:10:26,000
+powerful paradigm which is called a
+
+1476
+01:10:22,880 --> 01:10:28,719
+linear code. So instead of explicitly
+
+1477
+01:10:26,000 --> 01:10:31,040
+writing down all of the codes in my code
+
+1478
+01:10:28,719 --> 01:10:33,760
+words in my code book, I can instead
+
+1479
+01:10:31,040 --> 01:10:36,400
+implicitly describe them as matrix
+
+1480
+01:10:33,760 --> 01:10:39,199
+vector products. All of my messages are
+
+1481
+01:10:36,400 --> 01:10:42,159
+vectors and my code book describes a
+
+1482
+01:10:39,199 --> 01:10:44,239
+matrix and when I want to encode some
+
+1483
+01:10:42,159 --> 01:10:46,400
+you know message as you know what it
+
+1484
+01:10:44,239 --> 01:10:48,880
+maps to as the code word I just take the
+
+1485
+01:10:46,400 --> 01:10:51,440
+matrix times the vector. So this now
+
+1486
+01:10:48,880 --> 01:10:53,920
+becomes a much more concise way to you
+
+1487
+01:10:51,440 --> 01:10:57,760
+know define the code book. So he'll tell
+
+1488
+01:10:53,920 --> 01:10:59,360
+you about um you know linear codes.
+
+1489
+01:10:57,760 --> 01:11:02,239
+And then the other thing which you know
+
+1490
+01:10:59,360 --> 01:11:04,159
+that next lecture will touch on is that
+
+1491
+01:11:02,239 --> 01:11:06,960
+right now the crucial assumption that we
+
+1492
+01:11:04,159 --> 01:11:08,800
+used in the proof of the theorems today
+
+1493
+01:11:06,960 --> 01:11:12,560
+was the fact that the binary symmetric
+
+1494
+01:11:08,800 --> 01:11:15,199
+channel introduced flips randomly.
+
+1495
+01:11:12,560 --> 01:11:17,840
+So bit by bit it had a third probability
+
+1496
+01:11:15,199 --> 01:11:20,320
+of introducing a flip. Now it turns out
+
+1497
+01:11:17,840 --> 01:11:21,760
+there are other models for codes where
+
+1498
+01:11:20,320 --> 01:11:24,480
+you could instead think about worst
+
+1499
+01:11:21,760 --> 01:11:27,360
+case. What if sitting on your channel is
+
+1500
+01:11:24,480 --> 01:11:29,120
+an adversary who gets to corrupt a third
+
+1501
+01:11:27,360 --> 01:11:31,760
+of your bits, but they get to choose
+
+1502
+01:11:29,120 --> 01:11:33,679
+when and how to corrupt those bits?
+
+1503
+01:11:31,760 --> 01:11:36,320
+That's called adversarial coding. And we
+
+1504
+01:11:33,679 --> 01:11:38,640
+can get similar semantics there where we
+
+1505
+01:11:36,320 --> 01:11:40,640
+want an encoding and decoding function
+
+1506
+01:11:38,640 --> 01:11:42,800
+that now works even if the channel is
+
+1507
+01:11:40,640 --> 01:11:45,199
+not stochastic but is bounded in terms
+
+1508
+01:11:42,800 --> 01:11:46,880
+of its budget of corruptions. So for
+
+1509
+01:11:45,199 --> 01:11:48,880
+those types of problems in general, we
+
+1510
+01:11:46,880 --> 01:11:51,199
+don't understand such uh tight
+
+1511
+01:11:48,880 --> 01:11:52,719
+trade-offs as we do for Shannon. but
+
+1512
+01:11:51,199 --> 01:11:54,000
+he'll tell you about linear codes and
+
+1513
+01:11:52,719 --> 01:11:56,320
+he'll tell you about adversarial
+
+1514
+01:11:54,000 --> 01:11:57,760
+decoding. And then after Peter's done
+
+1515
+01:11:56,320 --> 01:11:59,679
+with that, I'll tell you about some
+
+1516
+01:11:57,760 --> 01:12:01,920
+other topics it's connected to, namely
+
+1517
+01:11:59,679 --> 01:12:03,679
+cryptography and secret sharing. And
+
+1518
+01:12:01,920 --> 01:12:05,360
+then the semester will be over. So just
+
+1519
+01:12:03,679 --> 01:12:06,800
+to give you a little bit of a preview of
+
+1520
+01:12:05,360 --> 01:12:09,040
+uh what we're going to cover in the
+
+1521
+01:12:06,800 --> 01:12:10,480
+remaining lectures. But let's stop here
+
+1522
+01:12:09,040 --> 01:12:15,080
+and I'll take any questions you guys
+
+1523
+01:12:10,480 --> 01:12:15,080
+have offline. Thanks.
+

@@ -1,0 +1,6128 @@
+1
+00:00:07,520 --> 00:00:12,599
+good morning everybody I'm Sam Madden
+
+2
+00:00:10,719 --> 00:00:16,560
+I'm one of the co-organizers of this
+
+3
+00:00:12,599 --> 00:00:18,320
+event although I know very little about
+
+4
+00:00:16,560 --> 00:00:21,560
+security or cryptography it's like you
+
+5
+00:00:18,320 --> 00:00:24,080
+know the extent of it is you know use a
+
+6
+00:00:21,560 --> 00:00:26,840
+strong password and uh you know keep
+
+7
+00:00:24,080 --> 00:00:29,400
+your keep your Linux installation
+
+8
+00:00:26,840 --> 00:00:32,040
+patched so um there you go that's my
+
+9
+00:00:29,400 --> 00:00:33,920
+security crypto talk for the day uh
+
+10
+00:00:32,040 --> 00:00:35,160
+anyway I'm very happy to be here to
+
+11
+00:00:33,920 --> 00:00:36,760
+introduce this event thank you for
+
+12
+00:00:35,160 --> 00:00:39,559
+coming uh this is a thing we've been
+
+13
+00:00:36,760 --> 00:00:41,320
+doing for the last 2 years to sort of
+
+14
+00:00:39,559 --> 00:00:43,160
+highlight cool things happening in
+
+15
+00:00:41,320 --> 00:00:45,879
+computer science in the College of
+
+16
+00:00:43,160 --> 00:00:48,120
+computing so today is uh security and
+
+17
+00:00:45,879 --> 00:00:49,239
+crypto day or crypto and security day I
+
+18
+00:00:48,120 --> 00:00:51,719
+don't know what is it called something
+
+19
+00:00:49,239 --> 00:00:54,680
+like that um anyway um we have a really
+
+20
+00:00:51,719 --> 00:00:57,520
+awesome series of talks uh a mix of
+
+21
+00:00:54,680 --> 00:00:59,399
+people from MIT and uh from outside uh
+
+22
+00:00:57,520 --> 00:01:02,120
+and a mix of students and faculty uh and
+
+23
+00:00:59,399 --> 00:01:04,839
+we're going to it off with uh one of our
+
+24
+00:01:02,120 --> 00:01:06,960
+esteemed faculty from MIT sh dadas who's
+
+25
+00:01:04,839 --> 00:01:10,159
+going to talk about um some of his work
+
+26
+00:01:06,960 --> 00:01:12,960
+on secure hardware and uh cryptography
+
+27
+00:01:10,159 --> 00:01:16,920
+and Hardware so thanks sh all right
+
+28
+00:01:12,960 --> 00:01:18,680
+thanks Sam um so Sam's now my boss so uh
+
+29
+00:01:16,920 --> 00:01:22,320
+you know make sure you clap a lot after
+
+30
+00:01:18,680 --> 00:01:24,400
+the talk maybe during that's fine too uh
+
+31
+00:01:22,320 --> 00:01:27,600
+uh oh
+
+32
+00:01:24,400 --> 00:01:30,240
+see uh awesome um yeah really excited to
+
+33
+00:01:27,600 --> 00:01:32,280
+be here um I want to tell you about work
+
+34
+00:01:30,240 --> 00:01:35,000
+that's been going on in my group and
+
+35
+00:01:32,280 --> 00:01:37,920
+Daniel Sanchez's group Daniel S Sanchez
+
+36
+00:01:35,000 --> 00:01:41,880
+is a computer architect I pretend to be
+
+37
+00:01:37,920 --> 00:01:45,600
+one um and the two of us um about three
+
+38
+00:01:41,880 --> 00:01:48,119
+years ago uh started thinking about um
+
+39
+00:01:45,600 --> 00:01:50,479
+Hardware acceleration for cryptography
+
+40
+00:01:48,119 --> 00:01:52,600
+and uh there's been a a few Papers
+
+41
+00:01:50,479 --> 00:01:56,119
+written um I want to mention Nicholas
+
+42
+00:01:52,600 --> 00:01:58,520
+amaric who was really the prime mover of
+
+43
+00:01:56,119 --> 00:02:00,840
+most of the work that uh I'm going to be
+
+44
+00:01:58,520 --> 00:02:02,399
+talking about today he's graduated uh
+
+45
+00:02:00,840 --> 00:02:05,079
+but Simon langosi who's one of my
+
+46
+00:02:02,399 --> 00:02:07,280
+students is sitting over there so uh
+
+47
+00:02:05,079 --> 00:02:10,200
+find him or me during the break uh if
+
+48
+00:02:07,280 --> 00:02:12,879
+you're interested in learning more um so
+
+49
+00:02:10,200 --> 00:02:14,560
+um let me parse the title for you um
+
+50
+00:02:12,879 --> 00:02:16,920
+designing hardware for protography I
+
+51
+00:02:14,560 --> 00:02:18,680
+mean that's kind of Fairly obvious uh I
+
+52
+00:02:16,920 --> 00:02:20,800
+mentioned that we were interested in
+
+53
+00:02:18,680 --> 00:02:22,760
+Hardware exploration uh it turns out you
+
+54
+00:02:20,800 --> 00:02:24,840
+can get uh lots of speedups if you're
+
+55
+00:02:22,760 --> 00:02:26,800
+willing to build um build a chip a
+
+56
+00:02:24,840 --> 00:02:28,720
+custom chip uh so I'll tell you about
+
+57
+00:02:26,800 --> 00:02:30,640
+that that's uh about the first half of
+
+58
+00:02:28,720 --> 00:02:32,040
+the talk uh and then the second part
+
+59
+00:02:30,640 --> 00:02:34,480
+which is a little bit more wague but you
+
+60
+00:02:32,040 --> 00:02:37,599
+know vague and exciting are kind of uh
+
+61
+00:02:34,480 --> 00:02:40,040
+synonyms um cryptography for Hardware so
+
+62
+00:02:37,599 --> 00:02:41,879
+as we went through this process we
+
+63
+00:02:40,040 --> 00:02:45,000
+started looking a little more deeply
+
+64
+00:02:41,879 --> 00:02:47,400
+into uh fully homomorphic encryption uh
+
+65
+00:02:45,000 --> 00:02:50,879
+schemes of the specifics of those
+
+66
+00:02:47,400 --> 00:02:53,480
+schemes um zkps which I'll get to also
+
+67
+00:02:50,879 --> 00:02:55,959
+in the talk and I started thinking about
+
+68
+00:02:53,480 --> 00:02:59,519
+how we could kind of massage if you will
+
+69
+00:02:55,959 --> 00:03:00,440
+initially uh these uh algorithms uh to
+
+70
+00:02:59,519 --> 00:03:03,640
+better
+
+71
+00:03:00,440 --> 00:03:05,720
+uh fit Hardware implementation and then
+
+72
+00:03:03,640 --> 00:03:08,040
+we started thinking about code design
+
+73
+00:03:05,720 --> 00:03:10,640
+and so um that's really why I wanted to
+
+74
+00:03:08,040 --> 00:03:12,680
+give this talk here to cryptographers uh
+
+75
+00:03:10,640 --> 00:03:14,640
+the second part of this to get a sense
+
+76
+00:03:12,680 --> 00:03:16,799
+of whether there was a kind of a
+
+77
+00:03:14,640 --> 00:03:20,080
+cooperation and a Synergy that uh could
+
+78
+00:03:16,799 --> 00:03:22,799
+be created uh between the design of
+
+79
+00:03:20,080 --> 00:03:25,640
+Hardware that uh
+
+80
+00:03:22,799 --> 00:03:28,480
+is that's tailored to cryptography and
+
+81
+00:03:25,640 --> 00:03:31,280
+the cryptographic algorithms themselves
+
+82
+00:03:28,480 --> 00:03:34,680
+um so um I want to briefly tell you
+
+83
+00:03:31,280 --> 00:03:38,040
+about a success story um that uh is a
+
+84
+00:03:34,680 --> 00:03:41,400
+hardware for crypto for Hardware success
+
+85
+00:03:38,040 --> 00:03:44,920
+story um and then I tell you about um
+
+86
+00:03:41,400 --> 00:03:46,560
+some work we did uh it started a couple
+
+87
+00:03:44,920 --> 00:03:48,799
+years ago on accelerating fully
+
+88
+00:03:46,560 --> 00:03:52,519
+homeomorphic encryption and designing
+
+89
+00:03:48,799 --> 00:03:54,680
+custom hardware for that um and uh then
+
+90
+00:03:52,519 --> 00:03:58,319
+move on to the second part of the talk
+
+91
+00:03:54,680 --> 00:04:00,519
+which um it turned out um was is more
+
+92
+00:03:58,319 --> 00:04:01,439
+closely related to uh zero knowledge
+
+93
+00:04:00,519 --> 00:04:04,640
+proofs
+
+94
+00:04:01,439 --> 00:04:06,879
+zkps um and accelerating those and then
+
+95
+00:04:04,640 --> 00:04:08,720
+talk about what's next and uh hopefully
+
+96
+00:04:06,879 --> 00:04:10,640
+uh we can have a robust discussion over
+
+97
+00:04:08,720 --> 00:04:12,799
+the break I'm happy to answer questions
+
+98
+00:04:10,640 --> 00:04:14,959
+you know if you raise your hand I'll uh
+
+99
+00:04:12,799 --> 00:04:18,359
+I'll stop in the middle especially
+
+100
+00:04:14,959 --> 00:04:21,560
+clarification questions uh uh but like
+
+101
+00:04:18,359 --> 00:04:23,840
+deep questions about um the specific of
+
+102
+00:04:21,560 --> 00:04:26,880
+algorithms well I don't know the answers
+
+103
+00:04:23,840 --> 00:04:29,000
+to that so ask Simon um when when uh
+
+104
+00:04:26,880 --> 00:04:31,880
+when we're done so uh what is the
+
+105
+00:04:29,000 --> 00:04:34,960
+success story what motivated us right
+
+106
+00:04:31,880 --> 00:04:38,400
+and very simple AES right so what
+
+107
+00:04:34,960 --> 00:04:42,639
+happened was um AES was invented ranell
+
+108
+00:04:38,400 --> 00:04:45,960
+you know decades ago and um it stood the
+
+109
+00:04:42,639 --> 00:04:48,520
+test of time um and then uh Intel and
+
+110
+00:04:45,960 --> 00:04:51,680
+other um Hardware manufacturers decided
+
+111
+00:04:48,520 --> 00:04:54,039
+that U encryption was a good idea um
+
+112
+00:04:51,680 --> 00:04:57,280
+people wanted fast encryption of memory
+
+113
+00:04:54,039 --> 00:05:00,039
+of dis and so on and so forth and so AES
+
+114
+00:04:57,280 --> 00:05:02,360
+got into the hardware and um there were
+
+115
+00:05:00,039 --> 00:05:04,199
+obviously specialized implementations
+
+116
+00:05:02,360 --> 00:05:06,320
+circuit implementations and smart cards
+
+117
+00:05:04,199 --> 00:05:09,400
+and uh microcontrollers and a whole lot
+
+118
+00:05:06,320 --> 00:05:13,000
+of different um uh pieces of Hardware
+
+119
+00:05:09,400 --> 00:05:15,800
+but uh I think the big um Advance was um
+
+120
+00:05:13,000 --> 00:05:18,880
+getting into x86 processors AES and I
+
+121
+00:05:15,800 --> 00:05:22,120
+was put into x86 processors and suddenly
+
+122
+00:05:18,880 --> 00:05:26,360
+um AES encryption and decryption was
+
+123
+00:05:22,120 --> 00:05:28,440
+blazingly fast um and um it was
+
+124
+00:05:26,360 --> 00:05:32,039
+initially put in there because AES was
+
+125
+00:05:28,440 --> 00:05:33,560
+used in TLS for for example um then what
+
+126
+00:05:32,039 --> 00:05:35,639
+happened was the cryptographers
+
+127
+00:05:33,560 --> 00:05:39,600
+discovered that when they were writing
+
+128
+00:05:35,639 --> 00:05:42,479
+software in um uh x86 uh on to run on
+
+129
+00:05:39,600 --> 00:05:45,759
+x86 machines um and generally writing
+
+130
+00:05:42,479 --> 00:05:49,600
+software that AES was actually faster
+
+131
+00:05:45,759 --> 00:05:52,000
+than um specialized and arguably simpler
+
+132
+00:05:49,600 --> 00:05:55,520
+algorithms like uh sudam number
+
+133
+00:05:52,000 --> 00:05:57,360
+generators uh prfs and U more advanced
+
+134
+00:05:55,520 --> 00:05:59,479
+things like U verifiable secret sharing
+
+135
+00:05:57,360 --> 00:06:01,080
+and so on and so forth so I'm teaching
+
+136
+00:05:59,479 --> 00:06:03,720
+this class with the alkai this past
+
+137
+00:06:01,080 --> 00:06:05,919
+semester um and we split the lecture
+
+138
+00:06:03,720 --> 00:06:08,120
+since she was doing the crypto I was
+
+139
+00:06:05,919 --> 00:06:10,240
+doing the security um lectures but
+
+140
+00:06:08,120 --> 00:06:13,960
+during the crypto lectures should
+
+141
+00:06:10,240 --> 00:06:17,599
+constantly um say prf oh think of it as
+
+142
+00:06:13,960 --> 00:06:20,160
+AES right or prg think of it as AES so
+
+143
+00:06:17,599 --> 00:06:22,720
+it really was something where the
+
+144
+00:06:20,160 --> 00:06:25,319
+cryptographers it was crypto uh uh
+
+145
+00:06:22,720 --> 00:06:28,440
+hardware for crypto right as opposed to
+
+146
+00:06:25,319 --> 00:06:30,319
+um uh just accelerating crypto it it
+
+147
+00:06:28,440 --> 00:06:32,479
+made a it made a difference into the way
+
+148
+00:06:30,319 --> 00:06:35,680
+in in the way cryptographers thought
+
+149
+00:06:32,479 --> 00:06:39,240
+about um implementing cryptographic
+
+150
+00:06:35,680 --> 00:06:42,199
+Primitives um and the reason for this at
+
+151
+00:06:39,240 --> 00:06:44,560
+which um I'll repeat um which I think
+
+152
+00:06:42,199 --> 00:06:48,639
+you've guessed at this point um is that
+
+153
+00:06:44,560 --> 00:06:51,599
+um while the prg algorithm perhaps in uh
+
+154
+00:06:48,639 --> 00:06:55,440
+in a simple processor would be faster
+
+155
+00:06:51,599 --> 00:06:58,080
+than AES um written in software the AES
+
+156
+00:06:55,440 --> 00:07:00,160
+Hardware just beats it um and so it's
+
+157
+00:06:58,080 --> 00:07:02,400
+much better to use AES from a
+
+158
+00:07:00,160 --> 00:07:05,240
+performance standpoint and if the proofs
+
+159
+00:07:02,400 --> 00:07:08,800
+go through or based on your assumptions
+
+160
+00:07:05,240 --> 00:07:11,000
+sure go for it so the question is now
+
+161
+00:07:08,800 --> 00:07:13,199
+that we have all this High polluting
+
+162
+00:07:11,000 --> 00:07:16,000
+cryptography that's really out there and
+
+163
+00:07:13,199 --> 00:07:17,400
+it's been amazing over the past decade
+
+164
+00:07:16,000 --> 00:07:19,599
+all of these things have kind of made it
+
+165
+00:07:17,400 --> 00:07:20,720
+into the real world you know well partly
+
+166
+00:07:19,599 --> 00:07:22,840
+because of blockchain and
+
+167
+00:07:20,720 --> 00:07:25,639
+cryptocurrencies uh but because of other
+
+168
+00:07:22,840 --> 00:07:27,560
+things as well um just cloud computing
+
+169
+00:07:25,639 --> 00:07:30,199
+uh the question is you know can we do
+
+170
+00:07:27,560 --> 00:07:31,759
+something like AES for more advanced
+
+171
+00:07:30,199 --> 00:07:34,479
+Primitives which is actually
+
+172
+00:07:31,759 --> 00:07:36,560
+intellectually I'd say more exciting
+
+173
+00:07:34,479 --> 00:07:38,479
+because these algorithms are so
+
+174
+00:07:36,560 --> 00:07:40,800
+sophisticated and they have so many
+
+175
+00:07:38,479 --> 00:07:42,080
+parts you know moving parts to them but
+
+176
+00:07:40,800 --> 00:07:43,720
+then it's also more challenging because
+
+177
+00:07:42,080 --> 00:07:46,680
+we got to pull out a primitive and then
+
+178
+00:07:43,720 --> 00:07:48,240
+convince the hardware people um to go
+
+179
+00:07:46,680 --> 00:07:49,479
+build it right because if you want to
+
+180
+00:07:48,240 --> 00:07:51,360
+get the speed ups that I'm going to talk
+
+181
+00:07:49,479 --> 00:07:53,280
+about uh you got to put it into a
+
+182
+00:07:51,360 --> 00:07:55,879
+silicon right you know kind of directly
+
+183
+00:07:53,280 --> 00:07:58,000
+into silicon um so I want to tell you
+
+184
+00:07:55,879 --> 00:08:01,319
+about U accelerating fully homeomorphic
+
+185
+00:07:58,000 --> 00:08:03,639
+encryption um work um that that we did
+
+186
+00:08:01,319 --> 00:08:04,639
+which we don't quite work on anymore but
+
+187
+00:08:03,639 --> 00:08:08,599
+you know that's because we're doing
+
+188
+00:08:04,639 --> 00:08:10,159
+better things right um so um FHA I mean
+
+189
+00:08:08,599 --> 00:08:12,400
+I don't know how much you know about FHA
+
+190
+00:08:10,159 --> 00:08:14,479
+I'll tell you what you need to know to
+
+191
+00:08:12,400 --> 00:08:16,479
+understand the rest of um the material
+
+192
+00:08:14,479 --> 00:08:18,879
+I'm going to cover but fully homomorphic
+
+193
+00:08:16,479 --> 00:08:20,720
+encryption is crypto magic right it's
+
+194
+00:08:18,879 --> 00:08:23,159
+essentially says you don't need to know
+
+195
+00:08:20,720 --> 00:08:25,759
+what you're Computing on as an untrusted
+
+196
+00:08:23,159 --> 00:08:27,520
+device and you can still do the work and
+
+197
+00:08:25,759 --> 00:08:30,680
+you produce an encrypted result that's
+
+198
+00:08:27,520 --> 00:08:32,519
+basically gobble be um and you end up
+
+199
+00:08:30,680 --> 00:08:35,839
+sending it back and the person who sent
+
+200
+00:08:32,519 --> 00:08:37,839
+you this encrypted data uh now decodes
+
+201
+00:08:35,839 --> 00:08:39,839
+the result deciphers the result decrypts
+
+202
+00:08:37,839 --> 00:08:41,120
+it and uh they get what they wanted you
+
+203
+00:08:39,839 --> 00:08:43,479
+know they figure out how much money they
+
+204
+00:08:41,120 --> 00:08:44,800
+owe the IRS or they figure out you know
+
+205
+00:08:43,479 --> 00:08:48,440
+hopefully they don't have this horrible
+
+206
+00:08:44,800 --> 00:08:50,200
+disease or what have you um so um you
+
+207
+00:08:48,440 --> 00:08:53,279
+take X you encrypt it you send it over
+
+208
+00:08:50,200 --> 00:08:56,240
+to the server server runs for a while
+
+209
+00:08:53,279 --> 00:08:58,839
+actually a long time um and and then you
+
+210
+00:08:56,240 --> 00:09:01,040
+get back encrypted FFX and then when you
+
+211
+00:08:58,839 --> 00:09:02,640
+decrypt it you're often running right
+
+212
+00:09:01,040 --> 00:09:04,320
+and so the this is the Holy Grail of
+
+213
+00:09:02,640 --> 00:09:06,279
+secure Computing because the trusted
+
+214
+00:09:04,320 --> 00:09:08,720
+Computing base um at least from a
+
+215
+00:09:06,279 --> 00:09:10,880
+privacy standpoint is zero there there's
+
+216
+00:09:08,720 --> 00:09:12,959
+no trust and there's an Integrity issue
+
+217
+00:09:10,880 --> 00:09:15,640
+here which uh we probably won't get to
+
+218
+00:09:12,959 --> 00:09:17,760
+in this talk um but um that's something
+
+219
+00:09:15,640 --> 00:09:21,920
+that potentially could be fixed with
+
+220
+00:09:17,760 --> 00:09:22,920
+zkps um so that's perfect security so um
+
+221
+00:09:21,920 --> 00:09:24,360
+I want to tell you a little bit about
+
+222
+00:09:22,920 --> 00:09:27,200
+FHA because we're going to try to
+
+223
+00:09:24,360 --> 00:09:30,560
+accelerate it and um the current fhe
+
+224
+00:09:27,200 --> 00:09:33,320
+schemes um are based on the Assumption
+
+225
+00:09:30,560 --> 00:09:36,440
+of learning with errors and um lwe and
+
+226
+00:09:33,320 --> 00:09:39,480
+ring lwe uh and essentially what happens
+
+227
+00:09:36,440 --> 00:09:41,680
+is you have um a bunch of um PL Tex so
+
+228
+00:09:39,480 --> 00:09:44,959
+those are the M's and in order to get
+
+229
+00:09:41,680 --> 00:09:46,640
+efficiency you pack these um PL Texs and
+
+230
+00:09:44,959 --> 00:09:48,600
+they usually 8 bit value so you have
+
+231
+00:09:46,640 --> 00:09:51,120
+something large and you you break it up
+
+232
+00:09:48,600 --> 00:09:53,760
+and then you you you pack it up again um
+
+233
+00:09:51,120 --> 00:09:56,120
+and so n could be 16,000 okay so that's
+
+234
+00:09:53,760 --> 00:09:58,360
+a a good number to think about so you
+
+235
+00:09:56,120 --> 00:10:00,279
+have um essentially vectors of plain Tex
+
+236
+00:09:58,360 --> 00:10:03,560
+values you add a little bit of noise to
+
+237
+00:10:00,279 --> 00:10:05,560
+them um and so uh and then you uh
+
+238
+00:10:03,560 --> 00:10:06,800
+encrypt it using your secret key and
+
+239
+00:10:05,560 --> 00:10:08,600
+this part we're not actually going to
+
+240
+00:10:06,800 --> 00:10:10,000
+talk about because this is on the client
+
+241
+00:10:08,600 --> 00:10:12,560
+side and we're concerned with
+
+242
+00:10:10,000 --> 00:10:15,040
+accelerating the encrypted computation
+
+243
+00:10:12,560 --> 00:10:18,800
+right so so you end up getting this
+
+244
+00:10:15,040 --> 00:10:20,680
+cybertext polinomial um which um now is
+
+245
+00:10:18,800 --> 00:10:23,200
+is because of the encryption is the
+
+246
+00:10:20,680 --> 00:10:25,279
+giant polinomial where n is 16,000 and
+
+247
+00:10:23,200 --> 00:10:27,079
+then the coefficients are th bits right
+
+248
+00:10:25,279 --> 00:10:28,440
+so now you're multiplying these numbers
+
+249
+00:10:27,079 --> 00:10:29,959
+and you're going oh my God I mean this
+
+250
+00:10:28,440 --> 00:10:32,160
+you know what bit turned into into a
+
+251
+00:10:29,959 --> 00:10:33,720
+million bits and that's kind of the
+
+252
+00:10:32,160 --> 00:10:36,639
+downside of it I mean it's slow as a
+
+253
+00:10:33,720 --> 00:10:40,959
+snail right um it's uh it it's crypto
+
+254
+00:10:36,639 --> 00:10:44,399
+magic but it's it's super slow um now um
+
+255
+00:10:40,959 --> 00:10:47,120
+the operations that you perform um are
+
+256
+00:10:44,399 --> 00:10:48,959
+uh essentially things that would
+
+257
+00:10:47,120 --> 00:10:52,680
+obviously mimic and follow the plain
+
+258
+00:10:48,959 --> 00:10:57,720
+text world and um when you think about a
+
+259
+00:10:52,680 --> 00:11:00,519
+vector um uh addition and uh um and uh
+
+260
+00:10:57,720 --> 00:11:02,120
+Vector uh uh scalar multiplication
+
+261
+00:11:00,519 --> 00:11:04,320
+they're pretty straightforward right so
+
+262
+00:11:02,120 --> 00:11:05,880
+they kind of mimic the the plain text
+
+263
+00:11:04,320 --> 00:11:10,279
+world but when you actually want to
+
+264
+00:11:05,880 --> 00:11:12,600
+multiply to PL text um it's a much more
+
+265
+00:11:10,279 --> 00:11:14,440
+complicated algorithm and it's fairly
+
+266
+00:11:12,600 --> 00:11:17,200
+complex in terms of the cipher text
+
+267
+00:11:14,440 --> 00:11:21,000
+world so you end up doing things with
+
+268
+00:11:17,200 --> 00:11:22,720
+pairs of um cyberx polinomial and so you
+
+269
+00:11:21,000 --> 00:11:25,399
+have the cyberx polinomial which is a
+
+270
+00:11:22,720 --> 00:11:27,200
+pair for x and you have y and now in
+
+271
+00:11:25,399 --> 00:11:30,079
+let's say in the plain text world uh you
+
+272
+00:11:27,200 --> 00:11:32,839
+want to multiply X and Y right um and so
+
+273
+00:11:30,079 --> 00:11:35,920
+you end up having to do polinomial
+
+274
+00:11:32,839 --> 00:11:39,040
+multiplications uh many of them um and
+
+275
+00:11:35,920 --> 00:11:40,639
+um additions to get XY here and this
+
+276
+00:11:39,040 --> 00:11:42,560
+would in this is now in the encrypted
+
+277
+00:11:40,639 --> 00:11:44,880
+world and then on top of that you have
+
+278
+00:11:42,560 --> 00:11:47,560
+these key switch hints that are many
+
+279
+00:11:44,880 --> 00:11:50,000
+megabytes that uh give you efficiency so
+
+280
+00:11:47,560 --> 00:11:53,279
+these things you know were not uh what
+
+281
+00:11:50,000 --> 00:11:55,399
+Gentry U put up you know in 2009 when he
+
+282
+00:11:53,279 --> 00:11:57,360
+invented the first FHA algorithm over
+
+283
+00:11:55,399 --> 00:11:59,440
+the years these algorithms because of
+
+284
+00:11:57,360 --> 00:12:01,440
+efficiency they do the packing they do
+
+285
+00:11:59,440 --> 00:12:03,959
+the cipher Tex you know polinomial the
+
+286
+00:12:01,440 --> 00:12:05,600
+numbers are security parameters n has to
+
+287
+00:12:03,959 --> 00:12:08,040
+be large there's all these other
+
+288
+00:12:05,600 --> 00:12:10,639
+parameters uh that uh need to fit
+
+289
+00:12:08,040 --> 00:12:12,880
+exactly right and so we haven't really
+
+290
+00:12:10,639 --> 00:12:15,480
+done anything with that we just take
+
+291
+00:12:12,880 --> 00:12:17,360
+what uh cryptographers tell us to secure
+
+292
+00:12:15,480 --> 00:12:20,000
+um at this point at least in in in the
+
+293
+00:12:17,360 --> 00:12:22,480
+stock and we try to go and and uh build
+
+294
+00:12:20,000 --> 00:12:24,600
+hardware for it uh the point is um
+
+295
+00:12:22,480 --> 00:12:25,959
+there's a lot of data here Cipher Tex
+
+296
+00:12:24,600 --> 00:12:28,600
+are you know kind of a million times
+
+297
+00:12:25,959 --> 00:12:31,199
+larger than PL Tex and um you are
+
+298
+00:12:28,600 --> 00:12:33,199
+messing around around with these cext
+
+299
+00:12:31,199 --> 00:12:35,399
+not in sort of a linear streaming
+
+300
+00:12:33,199 --> 00:12:37,079
+fashion but you're doing convolutions on
+
+301
+00:12:35,399 --> 00:12:40,480
+them you're doing effectively the
+
+302
+00:12:37,079 --> 00:12:43,000
+equivalent of ffts on them NTTS number
+
+303
+00:12:40,480 --> 00:12:45,360
+theoretic transforms and this is
+
+304
+00:12:43,000 --> 00:12:47,760
+basically what the the most painful
+
+305
+00:12:45,360 --> 00:12:48,880
+operation would be uh this XY well it's
+
+306
+00:12:47,760 --> 00:12:50,440
+actually the second most painful
+
+307
+00:12:48,880 --> 00:12:52,800
+operation I'll get to the most painful
+
+308
+00:12:50,440 --> 00:12:54,800
+one uh a little bit later so you can do
+
+309
+00:12:52,800 --> 00:12:58,000
+X Plus Y and you can do XY therefore you
+
+310
+00:12:54,800 --> 00:13:01,839
+can do encrypted computation um and um
+
+311
+00:12:58,000 --> 00:13:04,600
+you uh can do additions fairly easily um
+
+312
+00:13:01,839 --> 00:13:06,360
+uh XY is much harder and then the other
+
+313
+00:13:04,600 --> 00:13:08,320
+bad thing about multiplication is this
+
+314
+00:13:06,360 --> 00:13:11,079
+noise thing that I talked about is going
+
+315
+00:13:08,320 --> 00:13:13,000
+to explode with multiplication and so uh
+
+316
+00:13:11,079 --> 00:13:16,399
+that's is another problem right so we'll
+
+317
+00:13:13,000 --> 00:13:18,880
+get to that so um as as you saw we often
+
+318
+00:13:16,399 --> 00:13:21,279
+need to multiply polinomial and um this
+
+319
+00:13:18,880 --> 00:13:24,120
+is kind of literally great school stuff
+
+320
+00:13:21,279 --> 00:13:27,120
+which is U for year transforms um the
+
+321
+00:13:24,120 --> 00:13:29,959
+number theory has the NTTS number
+
+322
+00:13:27,120 --> 00:13:32,440
+theoretic transforms uh similar than fft
+
+323
+00:13:29,959 --> 00:13:34,360
+and and um you can do it in N log n
+
+324
+00:13:32,440 --> 00:13:37,800
+versus n square right so I mean there's
+
+325
+00:13:34,360 --> 00:13:40,880
+no way you can handle n Square huge um
+
+326
+00:13:37,800 --> 00:13:41,720
+uh uh difference to n log n so everyone
+
+327
+00:13:40,880 --> 00:13:46,519
+uses
+
+328
+00:13:41,720 --> 00:13:50,079
+NTTS um so the other thing that um we
+
+329
+00:13:46,519 --> 00:13:53,199
+have to U exploit here is uh residue
+
+330
+00:13:50,079 --> 00:13:55,759
+number um systems in residue um
+
+331
+00:13:53,199 --> 00:13:58,199
+arithmetic um and that really comes down
+
+332
+00:13:55,759 --> 00:14:01,680
+to you have these coefficients that are
+
+333
+00:13:58,199 --> 00:14:04,160
+a thousand bits right no one builds
+
+334
+00:14:01,680 --> 00:14:05,880
+thousand bit multipliers right it's just
+
+335
+00:14:04,160 --> 00:14:07,560
+not tenable you know this hasn't been a
+
+336
+00:14:05,880 --> 00:14:11,399
+thousand bit multiplier parallel
+
+337
+00:14:07,560 --> 00:14:14,759
+multiplier built ever um so um RNs is
+
+338
+00:14:11,399 --> 00:14:17,519
+absolutely critical um in um being able
+
+339
+00:14:14,759 --> 00:14:20,360
+to do uh this arithmetic and so
+
+340
+00:14:17,519 --> 00:14:23,560
+essentially what happens is you have um
+
+341
+00:14:20,360 --> 00:14:25,920
+a bunch of um little um 32-bit primes
+
+342
+00:14:23,560 --> 00:14:27,480
+let's say um and there's L of these and
+
+343
+00:14:25,920 --> 00:14:29,240
+then you take these thousand bits and
+
+344
+00:14:27,480 --> 00:14:31,399
+you break them up into let's say 30
+
+345
+00:14:29,240 --> 00:14:33,240
+32-bit numbers and then you're running
+
+346
+00:14:31,399 --> 00:14:37,880
+all of these things in parallel right so
+
+347
+00:14:33,240 --> 00:14:40,480
+you got yet another um um uh uh
+
+348
+00:14:37,880 --> 00:14:42,199
+Dimension here um and so uh that's our
+
+349
+00:14:40,480 --> 00:14:44,720
+primitive data type and so you think
+
+350
+00:14:42,199 --> 00:14:46,800
+about this thousand bit number and for
+
+351
+00:14:44,720 --> 00:14:48,680
+from a cryptographic standpoint or from
+
+352
+00:14:46,800 --> 00:14:50,079
+an algorithmic standpoint you just say
+
+353
+00:14:48,680 --> 00:14:52,720
+oh there's
+
+354
+00:14:50,079 --> 00:14:54,959
+L there's an L Vector here or vector of
+
+355
+00:14:52,720 --> 00:14:56,440
+length L and all of that is happening of
+
+356
+00:14:54,959 --> 00:15:00,120
+course there's another Vector associated
+
+357
+00:14:56,440 --> 00:15:02,000
+with the polinomial uh y y y so all of
+
+358
+00:15:00,120 --> 00:15:04,240
+this stuff you now have to kind of
+
+359
+00:15:02,000 --> 00:15:06,560
+orchestrate and the biggest issue here
+
+360
+00:15:04,240 --> 00:15:08,360
+is data movement you got a th000 bits
+
+361
+00:15:06,560 --> 00:15:10,000
+you got 16,000 coefficients you got a
+
+362
+00:15:08,360 --> 00:15:11,399
+pairs of these polinomial you got to
+
+363
+00:15:10,000 --> 00:15:14,279
+move the stuff onto the chip these
+
+364
+00:15:11,399 --> 00:15:16,240
+things are megabytes uh you know if you
+
+365
+00:15:14,279 --> 00:15:20,279
+do it right you know it'd be fast if you
+
+366
+00:15:16,240 --> 00:15:21,519
+do it wrong takes forever right um so um
+
+367
+00:15:20,279 --> 00:15:23,959
+but the nice thing is that we can get
+
+368
+00:15:21,519 --> 00:15:27,519
+away with 32-bit multipliers okay which
+
+369
+00:15:23,959 --> 00:15:29,880
+is huge um so um I want to give you a
+
+370
+00:15:27,519 --> 00:15:32,160
+sense of um what we can exploit and
+
+371
+00:15:29,880 --> 00:15:34,399
+what's hard right and I gave you a
+
+372
+00:15:32,160 --> 00:15:36,040
+little bit of a sense of what's hard so
+
+373
+00:15:34,399 --> 00:15:38,720
+um I will say that what we want to build
+
+374
+00:15:36,040 --> 00:15:40,199
+here is an F interpreter right we're not
+
+375
+00:15:38,720 --> 00:15:42,440
+interested in doing you know machine
+
+376
+00:15:40,199 --> 00:15:45,600
+learning with FHA or or doing your taxes
+
+377
+00:15:42,440 --> 00:15:47,319
+with FHA we want to accelerate um
+
+378
+00:15:45,600 --> 00:15:50,720
+encrypted computation in broadly
+
+379
+00:15:47,319 --> 00:15:52,959
+speaking so the input is a circuit which
+
+380
+00:15:50,720 --> 00:15:55,199
+is what you want to compute in the
+
+381
+00:15:52,959 --> 00:15:57,079
+unencrypted world except of course now
+
+382
+00:15:55,199 --> 00:15:59,639
+everything is encrypted and you also
+
+383
+00:15:57,079 --> 00:16:01,639
+have the inputs uh that correspond to
+
+384
+00:15:59,639 --> 00:16:03,560
+the the input to the Circuit that uh you
+
+385
+00:16:01,639 --> 00:16:04,959
+wanted to compute and then you want to
+
+386
+00:16:03,560 --> 00:16:06,360
+get the output out so there's two things
+
+387
+00:16:04,959 --> 00:16:07,759
+going on so think of it as an
+
+388
+00:16:06,360 --> 00:16:10,360
+interpreter and we want to accelerate
+
+389
+00:16:07,759 --> 00:16:13,079
+The Interpreter right so um most
+
+390
+00:16:10,360 --> 00:16:14,759
+previous um FHA accelerators pick
+
+391
+00:16:13,079 --> 00:16:16,800
+something specific like a neural network
+
+392
+00:16:14,759 --> 00:16:19,519
+or something and accelerated that but
+
+393
+00:16:16,800 --> 00:16:22,519
+now if the circuit itself is is an input
+
+394
+00:16:19,519 --> 00:16:24,319
+um that's uh it's something where um you
+
+395
+00:16:22,519 --> 00:16:26,600
+have to obviously get a programmable
+
+396
+00:16:24,319 --> 00:16:28,319
+accelerator right um and so I mentioned
+
+397
+00:16:26,600 --> 00:16:30,279
+the big polinomial arithmetic I
+
+398
+00:16:28,319 --> 00:16:32,040
+mentioned the mega gabt so data movement
+
+399
+00:16:30,279 --> 00:16:35,120
+is is really where it's at right you
+
+400
+00:16:32,040 --> 00:16:37,399
+know computation sure I mean CPUs have
+
+401
+00:16:35,120 --> 00:16:39,720
+arithmetic units to gpus have arithm
+
+402
+00:16:37,399 --> 00:16:41,040
+units to what is that Asic going to do
+
+403
+00:16:39,720 --> 00:16:42,600
+for you what is the specialized ship
+
+404
+00:16:41,040 --> 00:16:44,440
+going to do for you well basically the
+
+405
+00:16:42,600 --> 00:16:47,440
+same thing but the movement that goes
+
+406
+00:16:44,440 --> 00:16:50,279
+into these um arithmetic units uh the
+
+407
+00:16:47,440 --> 00:16:52,079
+multipliers and so on that it could be
+
+408
+00:16:50,279 --> 00:16:55,279
+orders of magnitude multiple orders of
+
+409
+00:16:52,079 --> 00:16:57,800
+magnitude slower um on a CPU versus um
+
+410
+00:16:55,279 --> 00:16:59,920
+if you orchestrated it exactly right and
+
+411
+00:16:57,800 --> 00:17:01,959
+everything is static because I mean you
+
+412
+00:16:59,920 --> 00:17:03,519
+don't know squat of what you're doing
+
+413
+00:17:01,959 --> 00:17:05,120
+it's it's all encrypted so you don't
+
+414
+00:17:03,519 --> 00:17:06,400
+know what's underneath so therefore you
+
+415
+00:17:05,120 --> 00:17:07,880
+have to take the if Branch you got to
+
+416
+00:17:06,400 --> 00:17:09,919
+take the then Branch you got to have
+
+417
+00:17:07,880 --> 00:17:14,600
+fixed iteration Loops all of that so you
+
+418
+00:17:09,919 --> 00:17:16,799
+exploit that to the hilt um so the the
+
+419
+00:17:14,600 --> 00:17:19,799
+other part about FH which is kind of the
+
+420
+00:17:16,799 --> 00:17:21,319
+the last you know messy part of it um is
+
+421
+00:17:19,799 --> 00:17:23,400
+that this noise thing right you know
+
+422
+00:17:21,319 --> 00:17:25,480
+this you're going to keep adding noise
+
+423
+00:17:23,400 --> 00:17:26,760
+especially after you multiply and
+
+424
+00:17:25,480 --> 00:17:29,280
+essentially what this means is that
+
+425
+00:17:26,760 --> 00:17:31,280
+resolution goes down so you have th000
+
+426
+00:17:29,280 --> 00:17:33,000
+bits and it gets chopped down to 900
+
+427
+00:17:31,280 --> 00:17:34,880
+bits after to multiply you roughly
+
+428
+00:17:33,000 --> 00:17:36,039
+speaking um and then you know it goes
+
+429
+00:17:34,880 --> 00:17:37,440
+down and down and eventually you're
+
+430
+00:17:36,039 --> 00:17:39,799
+going to run out of bits which means
+
+431
+00:17:37,440 --> 00:17:41,360
+that you've lost functionality right um
+
+432
+00:17:39,799 --> 00:17:43,480
+and so um what happens when the
+
+433
+00:17:41,360 --> 00:17:45,520
+coefficient vid goes to zero well I mean
+
+434
+00:17:43,480 --> 00:17:50,559
+you know happens um you better not
+
+435
+00:17:45,520 --> 00:17:54,760
+go there so you got to stop um and um
+
+436
+00:17:50,559 --> 00:17:58,360
+one way which is you know what that FH
+
+437
+00:17:54,760 --> 00:18:00,159
+schemes got to um evolve initially there
+
+438
+00:17:58,360 --> 00:18:02,360
+were these schemes called leveled fhe
+
+439
+00:18:00,159 --> 00:18:05,400
+schemes right and leveled FHA schemes
+
+440
+00:18:02,360 --> 00:18:07,280
+essentially said um let's go ahead and
+
+441
+00:18:05,400 --> 00:18:09,520
+um when we're running out of room when
+
+442
+00:18:07,280 --> 00:18:12,039
+our coefficients are getting too small
+
+443
+00:18:09,520 --> 00:18:13,960
+let's bail uh let's essentially go you
+
+444
+00:18:12,039 --> 00:18:16,960
+know uh mommy you know let's go back to
+
+445
+00:18:13,960 --> 00:18:19,080
+the client um and then get them to um uh
+
+446
+00:18:16,960 --> 00:18:21,159
+essentially um decrypt and and
+
+447
+00:18:19,080 --> 00:18:22,520
+re-encrypt right so you go back and
+
+448
+00:18:21,159 --> 00:18:24,880
+forth back and forth because the only
+
+449
+00:18:22,520 --> 00:18:26,520
+person who knows the key is the client
+
+450
+00:18:24,880 --> 00:18:29,840
+right so that's those are these leveled
+
+451
+00:18:26,520 --> 00:18:32,600
+FHA schemes and um uh you know this
+
+452
+00:18:29,840 --> 00:18:34,840
+works um it's obviously many rounds of
+
+453
+00:18:32,600 --> 00:18:37,000
+communication and the larger the depth
+
+454
+00:18:34,840 --> 00:18:38,600
+of your circuit uh the more the rounds
+
+455
+00:18:37,000 --> 00:18:41,919
+of communication uh in terms of
+
+456
+00:18:38,600 --> 00:18:45,039
+multipliers uh the more the rounds right
+
+457
+00:18:41,919 --> 00:18:47,520
+so so we ended up saying let's do an
+
+458
+00:18:45,039 --> 00:18:50,280
+acceleration of a leveled FH scheme you
+
+459
+00:18:47,520 --> 00:18:52,200
+know back three years ago and um this
+
+460
+00:18:50,280 --> 00:18:54,440
+was an architecture specialized for fhe
+
+461
+00:18:52,200 --> 00:18:57,120
+and as I mentioned um this was a
+
+462
+00:18:54,440 --> 00:18:59,799
+programmable uh interpreted architecture
+
+463
+00:18:57,120 --> 00:19:03,200
+that could do um any computation as long
+
+464
+00:18:59,799 --> 00:19:04,840
+as the uh it was limited depth right um
+
+465
+00:19:03,200 --> 00:19:07,200
+and so you know I'm not going to bore
+
+466
+00:19:04,840 --> 00:19:08,799
+you with the details of this papers have
+
+467
+00:19:07,200 --> 00:19:11,120
+been written and you can read it uh you
+
+468
+00:19:08,799 --> 00:19:13,400
+can read them um if you want but
+
+469
+00:19:11,120 --> 00:19:16,120
+generally um we had Hardware tailored to
+
+470
+00:19:13,400 --> 00:19:17,840
+FHA operations and um the orchestration
+
+471
+00:19:16,120 --> 00:19:20,400
+of the data movement which I have a
+
+472
+00:19:17,840 --> 00:19:22,640
+compelling example of a little bit later
+
+473
+00:19:20,400 --> 00:19:24,320
+um was was really the the key with
+
+474
+00:19:22,640 --> 00:19:28,080
+respect to getting speedups and the
+
+475
+00:19:24,320 --> 00:19:31,159
+speedups were enormous now I will say um
+
+476
+00:19:28,080 --> 00:19:32,960
+this is a a a design that uh was built
+
+477
+00:19:31,159 --> 00:19:35,760
+as a hardware description language and
+
+478
+00:19:32,960 --> 00:19:39,960
+and um uh there are efforts by Intel for
+
+479
+00:19:35,760 --> 00:19:41,960
+example um to uh build silicon um uh
+
+480
+00:19:39,960 --> 00:19:44,000
+using roughly you know and I'm not
+
+481
+00:19:41,960 --> 00:19:45,960
+taking credit but roughly this type of
+
+482
+00:19:44,000 --> 00:19:49,000
+architecture uh and there startup
+
+483
+00:19:45,960 --> 00:19:50,559
+companies but and the reason they're um
+
+484
+00:19:49,000 --> 00:19:51,760
+actually building Hardware is because
+
+485
+00:19:50,559 --> 00:19:53,919
+you can get three four orders of
+
+486
+00:19:51,760 --> 00:19:56,240
+magnitude right I joke that we've taken
+
+487
+00:19:53,919 --> 00:19:57,840
+the snail and turned it into a tortoise
+
+488
+00:19:56,240 --> 00:20:00,919
+right you know it's not quite you know a
+
+489
+00:19:57,840 --> 00:20:03,480
+hair yet because you still have a few
+
+490
+00:20:00,919 --> 00:20:06,039
+more orders of magnitude to go um with
+
+491
+00:20:03,480 --> 00:20:07,799
+respect to the overhead of computation
+
+492
+00:20:06,039 --> 00:20:11,720
+but you know three orders of magnitude
+
+493
+00:20:07,799 --> 00:20:15,159
+uh you know ain't um
+
+494
+00:20:11,720 --> 00:20:17,280
+um well I mean it's it's not bad right
+
+495
+00:20:15,159 --> 00:20:18,679
+um it's it's it's pretty good um so you
+
+496
+00:20:17,280 --> 00:20:22,520
+can now do things that you could do
+
+497
+00:20:18,679 --> 00:20:24,760
+before if you had this Hardware um and
+
+498
+00:20:22,520 --> 00:20:26,919
+the big issue really um as we got
+
+499
+00:20:24,760 --> 00:20:29,080
+through the first part of the talk um or
+
+500
+00:20:26,919 --> 00:20:32,039
+the first part of this um this research
+
+501
+00:20:29,080 --> 00:20:34,880
+effort was uh you know this level f is
+
+502
+00:20:32,039 --> 00:20:37,640
+sort of not particularly satisfying um
+
+503
+00:20:34,880 --> 00:20:39,320
+and you had this communication cost and
+
+504
+00:20:37,640 --> 00:20:40,640
+um this large communication cost was
+
+505
+00:20:39,320 --> 00:20:42,559
+really going to slow things down if you
+
+506
+00:20:40,640 --> 00:20:46,240
+wanted to do interesting things right
+
+507
+00:20:42,559 --> 00:20:48,640
+like deep neural Nets um and um so
+
+508
+00:20:46,240 --> 00:20:51,799
+people invented bootstrapping um in the
+
+509
+00:20:48,640 --> 00:20:54,080
+F the FHA um researchers and it's an
+
+510
+00:20:51,799 --> 00:20:55,960
+expensive uh procedure to refresh Cipher
+
+511
+00:20:54,080 --> 00:20:57,880
+Tex and this is even more complicated
+
+512
+00:20:55,960 --> 00:20:59,840
+this procedure than multiplication
+
+513
+00:20:57,880 --> 00:21:02,520
+obviously or the the key switching and
+
+514
+00:20:59,840 --> 00:21:04,240
+uses that and the idea is that when
+
+515
+00:21:02,520 --> 00:21:07,640
+before you run out of room you
+
+516
+00:21:04,240 --> 00:21:10,559
+effectively do you have a uh you do a a
+
+517
+00:21:07,640 --> 00:21:13,240
+decryption and and re-encryption in the
+
+518
+00:21:10,559 --> 00:21:16,279
+in the encrypted world it's really you
+
+519
+00:21:13,240 --> 00:21:17,720
+know magical I don't understand it um
+
+520
+00:21:16,279 --> 00:21:19,480
+and you go back and forth you have the
+
+521
+00:21:17,720 --> 00:21:21,360
+saw to thing where you get down to let's
+
+522
+00:21:19,480 --> 00:21:23,840
+say 200 bits and then you rise rise up
+
+523
+00:21:21,360 --> 00:21:29,080
+again to 1,000 bits and uh so on and so
+
+524
+00:21:23,840 --> 00:21:31,200
+forth um and so um as uh we have to um
+
+525
+00:21:29,080 --> 00:21:33,360
+in the even in the level of H you do
+
+526
+00:21:31,200 --> 00:21:34,679
+have to U perform computation at
+
+527
+00:21:33,360 --> 00:21:36,760
+multiple bitwidth and you want to
+
+528
+00:21:34,679 --> 00:21:38,840
+exploit that so uh the nice thing is
+
+529
+00:21:36,760 --> 00:21:42,080
+that RNs allows you to exploit that
+
+530
+00:21:38,840 --> 00:21:44,080
+because you can have fewer 32bit um uh
+
+531
+00:21:42,080 --> 00:21:46,159
+multiplies you know when you have a
+
+532
+00:21:44,080 --> 00:21:47,559
+coefficient that's lay 500 bits versus
+
+533
+00:21:46,159 --> 00:21:49,840
+the th000 bits right so you want to
+
+534
+00:21:47,559 --> 00:21:51,400
+exploit that because there's there's a
+
+535
+00:21:49,840 --> 00:21:54,960
+large Factor there and you don't want to
+
+536
+00:21:51,400 --> 00:21:57,760
+leave um any speed up on the table so um
+
+537
+00:21:54,960 --> 00:22:01,159
+some observations um communication is
+
+538
+00:21:57,760 --> 00:22:02,919
+really hard to Accel because um the uh
+
+539
+00:22:01,159 --> 00:22:04,919
+network cards and the hardware for
+
+540
+00:22:02,919 --> 00:22:07,480
+switches and routers are very hard to
+
+541
+00:22:04,919 --> 00:22:09,720
+change you know they have to conform to
+
+542
+00:22:07,480 --> 00:22:11,799
+standards and uh the physical layer is
+
+543
+00:22:09,720 --> 00:22:13,600
+very hard to accelerate um you know it
+
+544
+00:22:11,799 --> 00:22:15,760
+still takes the same amount of time you
+
+545
+00:22:13,600 --> 00:22:16,679
+know to get across the internet from uh
+
+546
+00:22:15,760 --> 00:22:20,120
+here to
+
+547
+00:22:16,679 --> 00:22:21,960
+California than it did U as as it did um
+
+548
+00:22:20,120 --> 00:22:23,600
+you know 10 years ago obviously
+
+549
+00:22:21,960 --> 00:22:26,279
+computers have gotten more parallel and
+
+550
+00:22:23,600 --> 00:22:27,760
+faster um and the other part of it with
+
+551
+00:22:26,279 --> 00:22:30,480
+respect to computation which I want to
+
+552
+00:22:27,760 --> 00:22:33,200
+stress is is uh uh is om doll's law
+
+553
+00:22:30,480 --> 00:22:34,279
+that's Gene omdal um who uh you know
+
+554
+00:22:33,200 --> 00:22:36,360
+said something that's really you know
+
+555
+00:22:34,279 --> 00:22:38,640
+it's common sense and my interpretation
+
+556
+00:22:36,360 --> 00:22:40,159
+of it would be let's say that you had
+
+557
+00:22:38,640 --> 00:22:44,720
+you wanted to get
+
+558
+00:22:40,159 --> 00:22:47,240
+um a huge speed up of 100x well what
+
+559
+00:22:44,720 --> 00:22:49,080
+that means is you can't even ignore 1%
+
+560
+00:22:47,240 --> 00:22:51,240
+of the computation because if you didn't
+
+561
+00:22:49,080 --> 00:22:53,240
+speed up 1% of the computation then
+
+562
+00:22:51,240 --> 00:22:54,880
+you're limited to to to 100x if you
+
+563
+00:22:53,240 --> 00:22:57,200
+didn't speed up 2% of the computation
+
+564
+00:22:54,880 --> 00:23:00,840
+you're limited to a 50x speed up right
+
+565
+00:22:57,200 --> 00:23:03,159
+so um when uh you design Hardware
+
+566
+00:23:00,840 --> 00:23:04,640
+accelerators and you want a,x speed up
+
+567
+00:23:03,159 --> 00:23:07,320
+it basically says you got to accelerate
+
+568
+00:23:04,640 --> 00:23:09,200
+everything um you know you can't ignore
+
+569
+00:23:07,320 --> 00:23:12,080
+anything right there's no bottl LS I
+
+570
+00:23:09,200 --> 00:23:13,880
+mean everything is a bottl l okay um and
+
+571
+00:23:12,080 --> 00:23:16,200
+so if you look at bootstrap versus
+
+572
+00:23:13,880 --> 00:23:18,880
+leveled FH um and I'll tell you about
+
+573
+00:23:16,200 --> 00:23:21,279
+this second uh processor um uh at least
+
+574
+00:23:18,880 --> 00:23:23,159
+a little bit that that we designed um
+
+575
+00:23:21,279 --> 00:23:25,320
+you you compare them and you say with
+
+576
+00:23:23,159 --> 00:23:27,240
+bootstrap fhe it's very complicated
+
+577
+00:23:25,320 --> 00:23:29,960
+there's a lot of computation but very
+
+578
+00:23:27,240 --> 00:23:32,360
+little communication in leveled FH it's
+
+579
+00:23:29,960 --> 00:23:34,480
+it's it's the other way around so uh
+
+580
+00:23:32,360 --> 00:23:37,640
+Hardware acceleration can give you this
+
+581
+00:23:34,480 --> 00:23:40,200
+picture right it it basically crushes
+
+582
+00:23:37,640 --> 00:23:42,720
+the computation down through uh this
+
+583
+00:23:40,200 --> 00:23:45,159
+Asic design and doesn't touch the
+
+584
+00:23:42,720 --> 00:23:47,640
+communication and so if you had a deep
+
+585
+00:23:45,159 --> 00:23:49,799
+circuit you absolutely need to um
+
+586
+00:23:47,640 --> 00:23:51,240
+accelerate bootstrapping right so that
+
+587
+00:23:49,799 --> 00:23:54,039
+was kind of obvious to us as soon as
+
+588
+00:23:51,240 --> 00:23:56,200
+we've kind of finished the F1 project um
+
+589
+00:23:54,039 --> 00:23:57,400
+and and so then we move to um uh
+
+590
+00:23:56,200 --> 00:23:59,880
+thinking about how to accelerate
+
+591
+00:23:57,400 --> 00:24:02,000
+bootstrapping with which was um and then
+
+592
+00:23:59,880 --> 00:24:03,360
+re red I mean this was designed too so
+
+593
+00:24:02,000 --> 00:24:05,960
+we changed our minds about a bunch of
+
+594
+00:24:03,360 --> 00:24:08,360
+stuff and so this is a vector processor
+
+595
+00:24:05,960 --> 00:24:11,000
+that's a very wide Vector processor and
+
+596
+00:24:08,360 --> 00:24:12,960
+then uh in order to store everything uh
+
+597
+00:24:11,000 --> 00:24:14,520
+on the chip you know and this is a big
+
+598
+00:24:12,960 --> 00:24:17,799
+chip by the way it's it's think of it as
+
+599
+00:24:14,520 --> 00:24:19,679
+a multi-core processor um and uh but
+
+600
+00:24:17,799 --> 00:24:22,840
+these Cipher Tex and these polinomial
+
+601
+00:24:19,679 --> 00:24:25,440
+were all stored on the chip um and so um
+
+602
+00:24:22,840 --> 00:24:27,600
+they the scratch P single level register
+
+603
+00:24:25,440 --> 00:24:29,640
+file is 256 megabytes new functional
+
+604
+00:24:27,600 --> 00:24:32,000
+units and I want to tell you about this
+
+605
+00:24:29,640 --> 00:24:35,200
+data movement and give you a an
+
+606
+00:24:32,000 --> 00:24:38,000
+algorithmic um uh Innovation uh that was
+
+607
+00:24:35,200 --> 00:24:40,480
+due to Nicolas saric associated with
+
+608
+00:24:38,000 --> 00:24:41,880
+this the pipelining of all of these
+
+609
+00:24:40,480 --> 00:24:43,919
+operations that I've told you about
+
+610
+00:24:41,880 --> 00:24:45,919
+namely the polinomial multiplies and the
+
+611
+00:24:43,919 --> 00:24:48,360
+key switching and so on and so forth
+
+612
+00:24:45,919 --> 00:24:50,720
+right so um you have this Vector data
+
+613
+00:24:48,360 --> 00:24:54,600
+path that's 2048 I mean this is just 16
+
+614
+00:24:50,720 --> 00:24:56,880
+here of uh but um it gives you an idea
+
+615
+00:24:54,600 --> 00:24:58,960
+and you can chunk these things um uh so
+
+616
+00:24:56,880 --> 00:25:01,159
+if you have 16,000 remember and you only
+
+617
+00:24:58,960 --> 00:25:02,640
+have 20 48 you do have to chunk there
+
+618
+00:25:01,159 --> 00:25:04,679
+and so this is just a simpler example
+
+619
+00:25:02,640 --> 00:25:07,640
+where you have to do some chunking and
+
+620
+00:25:04,679 --> 00:25:11,279
+in Hardware um if you have a data path
+
+621
+00:25:07,640 --> 00:25:13,840
+data path that's 20 48 Lanes wide Vector
+
+622
+00:25:11,279 --> 00:25:15,760
+ads and multiplies that act coefficient
+
+623
+00:25:13,840 --> 00:25:18,039
+wise are easy because you can just sort
+
+624
+00:25:15,760 --> 00:25:19,559
+of pipe them across you can just sort of
+
+625
+00:25:18,039 --> 00:25:22,559
+have this Lane and you're just piping it
+
+626
+00:25:19,559 --> 00:25:24,960
+across right um so it's easy to pipeline
+
+627
+00:25:22,559 --> 00:25:26,679
+but NTS are convolutions and
+
+628
+00:25:24,960 --> 00:25:29,159
+automorphisms are transposes and
+
+629
+00:25:26,679 --> 00:25:33,080
+permutations so you're picking things
+
+630
+00:25:29,159 --> 00:25:35,799
+from all over the place right um and um
+
+631
+00:25:33,080 --> 00:25:38,279
+this is the reason why gpus and CPUs are
+
+632
+00:25:35,799 --> 00:25:40,880
+really slow right because they have to
+
+633
+00:25:38,279 --> 00:25:43,360
+do this one at a time right so there's
+
+634
+00:25:40,880 --> 00:25:46,120
+sort of this order end you know built in
+
+635
+00:25:43,360 --> 00:25:48,039
+to picking things out because not
+
+636
+00:25:46,120 --> 00:25:50,120
+because necessarily of you can you can
+
+637
+00:25:48,039 --> 00:25:52,120
+break that down with parallelism but the
+
+638
+00:25:50,120 --> 00:25:55,120
+movement that gets the data from the
+
+639
+00:25:52,120 --> 00:25:57,760
+output of one multiply to another um or
+
+640
+00:25:55,120 --> 00:25:59,080
+in these intermediate steps um is is
+
+641
+00:25:57,760 --> 00:26:01,240
+this uh
+
+642
+00:25:59,080 --> 00:26:02,480
+linear computation because you're doing
+
+643
+00:26:01,240 --> 00:26:04,799
+this you know pulling into the register
+
+644
+00:26:02,480 --> 00:26:07,760
+file going back and so on and so forth
+
+645
+00:26:04,799 --> 00:26:10,840
+um so um um you know it'd be it'd be
+
+646
+00:26:07,760 --> 00:26:13,080
+great if um you could do uh things a
+
+647
+00:26:10,840 --> 00:26:14,600
+little bit better and so here's a
+
+648
+00:26:13,080 --> 00:26:17,080
+pattern of uh data movement which is a
+
+649
+00:26:14,600 --> 00:26:19,440
+transpose and CPUs and gpus can do some
+
+650
+00:26:17,080 --> 00:26:22,120
+chunking but effectively think of it as
+
+651
+00:26:19,440 --> 00:26:25,200
+aoan it's the maybe the constant is is
+
+652
+00:26:22,120 --> 00:26:26,960
+is is is smaller than one uh but they're
+
+653
+00:26:25,200 --> 00:26:28,120
+not good at this right and here's
+
+654
+00:26:26,960 --> 00:26:30,320
+something that they're even worse at
+
+655
+00:26:28,120 --> 00:26:33,360
+right right so in FHA you have to do
+
+656
+00:26:30,320 --> 00:26:36,360
+something like for the exponents index *
+
+657
+00:26:33,360 --> 00:26:38,080
+3 more n okay and so now you have to do
+
+658
+00:26:36,360 --> 00:26:42,159
+that what I have here and this is aut n
+
+659
+00:26:38,080 --> 00:26:43,799
+on a CPU or a GPU right so um in CR Lake
+
+660
+00:26:42,159 --> 00:26:45,440
+um it turns out you can do this in
+
+661
+00:26:43,799 --> 00:26:48,520
+constant time right roughly constant
+
+662
+00:26:45,440 --> 00:26:52,440
+time and the reason for that is that um
+
+663
+00:26:48,520 --> 00:26:53,720
+is is Nicola's ideas on um you take uh
+
+664
+00:26:52,440 --> 00:26:56,120
+you want you have a two- dimensional
+
+665
+00:26:53,720 --> 00:26:58,279
+chip so you took that 16 vector and and
+
+666
+00:26:56,120 --> 00:27:00,279
+thought about it as a matrix um and now
+
+667
+00:26:58,279 --> 00:27:03,159
+now you U think of this as you want to
+
+668
+00:27:00,279 --> 00:27:06,080
+transpose this um or you want to do this
+
+669
+00:27:03,159 --> 00:27:07,480
+other automorphism on it and think of
+
+670
+00:27:06,080 --> 00:27:11,520
+this polinomial is spanning the whole
+
+671
+00:27:07,480 --> 00:27:14,240
+ship um and um basically there's a
+
+672
+00:27:11,520 --> 00:27:16,840
+two-level transpose operation which
+
+673
+00:27:14,240 --> 00:27:20,720
+corresponds to local transpose um and
+
+674
+00:27:16,840 --> 00:27:23,039
+then um um a a permutation and both of
+
+675
+00:27:20,720 --> 00:27:26,120
+these things are fixed permutations and
+
+676
+00:27:23,039 --> 00:27:28,799
+it turns out you can U take NTS or
+
+677
+00:27:26,120 --> 00:27:31,240
+automorphisms and decompose them
+
+678
+00:27:28,799 --> 00:27:34,440
+um into these transposes and each of
+
+679
+00:27:31,240 --> 00:27:37,480
+these transposes is two levels in the in
+
+680
+00:27:34,440 --> 00:27:39,760
+in the chip um and you with one per NTT
+
+681
+00:27:37,480 --> 00:27:42,960
+and two per automorphism you can
+
+682
+00:27:39,760 --> 00:27:46,480
+essentially do um the operations that
+
+683
+00:27:42,960 --> 00:27:49,279
+you need for the ckk scheme for example
+
+684
+00:27:46,480 --> 00:27:52,760
+right so suddenly now you went from um
+
+685
+00:27:49,279 --> 00:27:54,760
+order n to essentially order one for
+
+686
+00:27:52,760 --> 00:27:56,799
+this part of the computation right and
+
+687
+00:27:54,760 --> 00:27:58,679
+so you can imagine that uh and similar
+
+688
+00:27:56,799 --> 00:28:00,039
+things happened in F1 as well you can
+
+689
+00:27:58,679 --> 00:28:02,200
+imagine that that's where the speedups
+
+690
+00:28:00,039 --> 00:28:04,760
+came from right so it's not the
+
+691
+00:28:02,200 --> 00:28:06,279
+computation parallelism that that gave
+
+692
+00:28:04,760 --> 00:28:09,000
+you the speedups so that's really
+
+693
+00:28:06,279 --> 00:28:10,559
+essential because CPUs have that uh but
+
+694
+00:28:09,000 --> 00:28:14,159
+it's it's really the data movement that
+
+695
+00:28:10,559 --> 00:28:17,080
+gives you the the big wins um and so um
+
+696
+00:28:14,159 --> 00:28:18,760
+it's 5,000 times faster than a 32 core
+
+697
+00:28:17,080 --> 00:28:20,720
+uh processor so that's goes back to
+
+698
+00:28:18,760 --> 00:28:22,279
+saying that the parallelism W wasn't
+
+699
+00:28:20,720 --> 00:28:24,039
+where it was at with respect to the
+
+700
+00:28:22,279 --> 00:28:26,080
+speedups and you know does better than
+
+701
+00:28:24,039 --> 00:28:27,679
+F1 but here's the bad part of it you
+
+702
+00:28:26,080 --> 00:28:29,159
+know 20 million bucks anyone has 20
+
+703
+00:28:27,679 --> 00:28:31,600
+million bucks handy you know we'll build
+
+704
+00:28:29,159 --> 00:28:32,960
+it for you right but so Intel is
+
+705
+00:28:31,600 --> 00:28:35,600
+building one of these and there's a
+
+706
+00:28:32,960 --> 00:28:37,799
+startup company that uh in probably in
+
+707
+00:28:35,600 --> 00:28:39,640
+Shelt mode in in Europe that's that's
+
+708
+00:28:37,799 --> 00:28:43,360
+building one of these accelerators uh
+
+709
+00:28:39,640 --> 00:28:46,200
+but this is really kind of the rub of U
+
+710
+00:28:43,360 --> 00:28:47,919
+Hardware design which is great you know
+
+711
+00:28:46,200 --> 00:28:49,559
+you motivate people by getting these
+
+712
+00:28:47,919 --> 00:28:51,559
+large speedups no one's going to build
+
+713
+00:28:49,559 --> 00:28:53,519
+Hardware if you tell them that um it's
+
+714
+00:28:51,559 --> 00:28:56,360
+going to be five times 10 times faster
+
+715
+00:28:53,519 --> 00:28:58,519
+than uh the CPU it's just not worth it
+
+716
+00:28:56,360 --> 00:28:59,960
+but so you motivate them by getting
+
+717
+00:28:58,519 --> 00:29:01,799
+these types of speedups but then you got
+
+718
+00:28:59,960 --> 00:29:03,760
+to go build it and it takes years and
+
+719
+00:29:01,799 --> 00:29:07,480
+and so on and so forth right so but
+
+720
+00:29:03,760 --> 00:29:09,279
+that's life um so um that's the story so
+
+721
+00:29:07,480 --> 00:29:11,919
+you know this was about a year two years
+
+722
+00:29:09,279 --> 00:29:14,039
+ago and uh we don't work on this anymore
+
+723
+00:29:11,919 --> 00:29:15,760
+but uh it turns out uh you know the
+
+724
+00:29:14,039 --> 00:29:20,360
+people are continuing to work on it and
+
+725
+00:29:15,760 --> 00:29:22,519
+U Architects have follow-ups um uh on uh
+
+726
+00:29:20,360 --> 00:29:24,880
+on F1 and crat Lake and uh things are a
+
+727
+00:29:22,519 --> 00:29:28,600
+little bit better now uh with respect to
+
+728
+00:29:24,880 --> 00:29:30,360
+the size and um uh and the speed um but
+
+729
+00:29:28,600 --> 00:29:32,640
+I want to move to the second part of my
+
+730
+00:29:30,360 --> 00:29:34,799
+talk which is U really kind of looking
+
+731
+00:29:32,640 --> 00:29:37,080
+more closely I told you I didn't know
+
+732
+00:29:34,799 --> 00:29:39,320
+much about FHA we did this work anyway
+
+733
+00:29:37,080 --> 00:29:41,760
+we knew enough to do the work uh but you
+
+734
+00:29:39,320 --> 00:29:45,000
+know can we do better with in terms of
+
+735
+00:29:41,760 --> 00:29:47,760
+uh making this process um easier because
+
+736
+00:29:45,000 --> 00:29:50,039
+it's the hardware is easier to build uh
+
+737
+00:29:47,760 --> 00:29:53,080
+by tailoring algorithms themselves right
+
+738
+00:29:50,039 --> 00:29:55,799
+so uh um so verifiable computation kind
+
+739
+00:29:53,080 --> 00:29:59,039
+of the analog of U FHA I'm not going to
+
+740
+00:29:55,799 --> 00:30:01,559
+say very much um about um the spe the
+
+741
+00:29:59,039 --> 00:30:04,440
+specifics of this but the basic idea is
+
+742
+00:30:01,559 --> 00:30:06,159
+you want Integrity untrusted device um
+
+743
+00:30:04,440 --> 00:30:08,840
+you want to ensure that it's done the
+
+744
+00:30:06,159 --> 00:30:11,640
+computation correctly now zkps have this
+
+745
+00:30:08,840 --> 00:30:14,720
+additional privacy uh uh property that
+
+746
+00:30:11,640 --> 00:30:18,000
+says that um you have a witness and U
+
+747
+00:30:14,720 --> 00:30:22,159
+you you don't have to give that away um
+
+748
+00:30:18,000 --> 00:30:24,240
+um as U the the approver can um can keep
+
+749
+00:30:22,159 --> 00:30:28,039
+some secrets you know of from the from
+
+750
+00:30:24,240 --> 00:30:29,679
+the verifier um and so um but that's not
+
+751
+00:30:28,039 --> 00:30:32,399
+Central to anything that I'm going to
+
+752
+00:30:29,679 --> 00:30:35,519
+talk about right so think of this as the
+
+753
+00:30:32,399 --> 00:30:40,159
+Integrity analog of FH all right um and
+
+754
+00:30:35,519 --> 00:30:44,039
+so um same problem um super slow if you
+
+755
+00:30:40,159 --> 00:30:46,159
+run it um in uh uh on conventional
+
+756
+00:30:44,039 --> 00:30:49,679
+processors um and so Hardware
+
+757
+00:30:46,159 --> 00:30:52,360
+exploration would be nice right so
+
+758
+00:30:49,679 --> 00:30:55,799
+uh there's a whole bunch of VC schemes
+
+759
+00:30:52,360 --> 00:30:58,000
+right um there's a ton of them um and um
+
+760
+00:30:55,799 --> 00:31:01,360
+the basic idea is that um you want the
+
+761
+00:30:58,000 --> 00:31:04,159
+valuation of f to be um something that
+
+762
+00:31:01,360 --> 00:31:05,320
+you don't want to do for some reason uh
+
+763
+00:31:04,159 --> 00:31:07,080
+because it's going to get much slower
+
+764
+00:31:05,320 --> 00:31:08,639
+when you ask someone else to do it and
+
+765
+00:31:07,080 --> 00:31:10,799
+maybe it's because of the Privacy
+
+766
+00:31:08,639 --> 00:31:12,519
+requirement uh but it may be the case
+
+767
+00:31:10,799 --> 00:31:14,320
+that if the verification time is smaller
+
+768
+00:31:12,519 --> 00:31:17,320
+than the evaluation of F that you rather
+
+769
+00:31:14,320 --> 00:31:19,360
+someone else do it um and of course um
+
+770
+00:31:17,320 --> 00:31:22,480
+the the proving time is going to be uh
+
+771
+00:31:19,360 --> 00:31:24,159
+way um larger than the evaluation of f
+
+772
+00:31:22,480 --> 00:31:26,200
+itself and that's what we'd like to
+
+773
+00:31:24,159 --> 00:31:28,399
+address um I mentioned the zero
+
+774
+00:31:26,200 --> 00:31:30,519
+knowledge and so there's some scenarios
+
+775
+00:31:28,399 --> 00:31:32,799
+where the client can't execute F on its
+
+776
+00:31:30,519 --> 00:31:34,200
+own and so you want to be uh in that
+
+777
+00:31:32,799 --> 00:31:36,320
+situation because that motivates the
+
+778
+00:31:34,200 --> 00:31:37,799
+work right so there's a lot of
+
+779
+00:31:36,320 --> 00:31:40,120
+applications I don't want to get into
+
+780
+00:31:37,799 --> 00:31:42,240
+that uh the gro scheme is the most uh
+
+781
+00:31:40,120 --> 00:31:46,480
+popular and the most used scheme from
+
+782
+00:31:42,240 --> 00:31:49,519
+2016 um and um it's got tiny proof sizes
+
+783
+00:31:46,480 --> 00:31:52,159
+okay um it's basically three uh words or
+
+784
+00:31:49,519 --> 00:31:54,919
+Ian call it a kilobyte um it's a compute
+
+785
+00:31:52,159 --> 00:31:57,399
+bound algorithm um and and it uses
+
+786
+00:31:54,919 --> 00:31:58,519
+elliptic curves um and it turns out you
+
+787
+00:31:57,399 --> 00:32:00,240
+need
+
+788
+00:31:58,519 --> 00:32:01,799
+and this is something that you should
+
+789
+00:32:00,240 --> 00:32:03,039
+look at and go whoa whoa this is a
+
+790
+00:32:01,799 --> 00:32:06,159
+problem because I told you about
+
+791
+00:32:03,039 --> 00:32:09,000
+multipliers it needs 381 bit multipliers
+
+792
+00:32:06,159 --> 00:32:12,120
+nobody builds these right so um so there
+
+793
+00:32:09,000 --> 00:32:13,960
+was one uh piece of work U before um uh
+
+794
+00:32:12,120 --> 00:32:16,399
+the work I'm going to describe to you on
+
+795
+00:32:13,960 --> 00:32:18,480
+accelerating uh zkps and it was called
+
+796
+00:32:16,399 --> 00:32:20,360
+pipe ZK it published an architecture
+
+797
+00:32:18,480 --> 00:32:22,760
+conference and they got five to 10 times
+
+798
+00:32:20,360 --> 00:32:23,760
+speed up and I won't repeat what I said
+
+799
+00:32:22,760 --> 00:32:26,279
+about
+
+800
+00:32:23,760 --> 00:32:28,519
+um minuscule speedups you know not
+
+801
+00:32:26,279 --> 00:32:31,600
+motivating Hardware people uh I guess I
+
+802
+00:32:28,519 --> 00:32:33,039
+just repeated it but uh um but as you
+
+803
+00:32:31,600 --> 00:32:36,960
+can imagine you know this didn't go
+
+804
+00:32:33,039 --> 00:32:39,480
+anywhere uh because of U of of the the
+
+805
+00:32:36,960 --> 00:32:41,600
+small speed up you could use parallelism
+
+806
+00:32:39,480 --> 00:32:44,720
+and uh at maybe at higher level and get
+
+807
+00:32:41,600 --> 00:32:46,720
+this type of uh speed up um and so why
+
+808
+00:32:44,720 --> 00:32:48,480
+right and the main reason is this this
+
+809
+00:32:46,720 --> 00:32:50,799
+multiply and I'll tell you a little bit
+
+810
+00:32:48,480 --> 00:32:53,519
+more uh but um it turns out there's a
+
+811
+00:32:50,799 --> 00:32:56,399
+whole bunch of uh zkp um schemes out
+
+812
+00:32:53,519 --> 00:32:59,240
+there and and things growth is not kind
+
+813
+00:32:56,399 --> 00:33:01,960
+of could fit into this modular zkp
+
+814
+00:32:59,240 --> 00:33:03,840
+Paradigm but uh if you kind of jam it in
+
+815
+00:33:01,960 --> 00:33:06,960
+but in general if you look at the zkp
+
+816
+00:33:03,840 --> 00:33:09,600
+world there's iops and pcss uh so
+
+817
+00:33:06,960 --> 00:33:11,240
+interactive um um Oracle proofs and
+
+818
+00:33:09,600 --> 00:33:13,159
+polinomial commitment schemes and you
+
+819
+00:33:11,240 --> 00:33:15,240
+can kind of plug and play right you can
+
+820
+00:33:13,159 --> 00:33:17,799
+you can pick a an IOP and you can plug
+
+821
+00:33:15,240 --> 00:33:20,240
+it into this PCS or use a PCS for it and
+
+822
+00:33:17,799 --> 00:33:23,120
+and and and vice versa um and so
+
+823
+00:33:20,240 --> 00:33:24,480
+generally you you translate uh iops
+
+824
+00:33:23,120 --> 00:33:26,720
+translate things into polinomial
+
+825
+00:33:24,480 --> 00:33:28,639
+structure and then you commit to uh uh
+
+826
+00:33:26,720 --> 00:33:31,320
+to computation by committing to
+
+827
+00:33:28,639 --> 00:33:33,080
+polinomial um and so that's your zkp
+
+828
+00:33:31,320 --> 00:33:35,679
+right so the PCS Universe there curve
+
+829
+00:33:33,080 --> 00:33:37,720
+based things like Groth um hash based
+
+830
+00:33:35,679 --> 00:33:39,440
+things that uh that U have been around
+
+831
+00:33:37,720 --> 00:33:40,559
+for you know three or four years and
+
+832
+00:33:39,440 --> 00:33:42,120
+then there's Lattis based things that
+
+833
+00:33:40,559 --> 00:33:44,480
+are emerging so if we looked at all of
+
+834
+00:33:42,120 --> 00:33:46,279
+these things um and said okay from a
+
+835
+00:33:44,480 --> 00:33:48,000
+hardware standpoint you know what works
+
+836
+00:33:46,279 --> 00:33:50,320
+right you know what can we so some of it
+
+837
+00:33:48,000 --> 00:33:51,880
+is just choosing things right and then
+
+838
+00:33:50,320 --> 00:33:53,519
+there's actually you know massaging
+
+839
+00:33:51,880 --> 00:33:56,720
+things right so you'll see a little bit
+
+840
+00:33:53,519 --> 00:33:58,880
+of both of those um and so um I want to
+
+841
+00:33:56,720 --> 00:34:01,200
+contrast the uh the first two kinds the
+
+842
+00:33:58,880 --> 00:34:03,080
+curve-based PCS have downsides they have
+
+843
+00:34:01,200 --> 00:34:05,679
+tiny proof sizes uh but they have
+
+844
+00:34:03,080 --> 00:34:08,480
+complicated curve operations like in BLS
+
+845
+00:34:05,679 --> 00:34:10,320
+and um uh you end up having these large
+
+846
+00:34:08,480 --> 00:34:12,560
+multipliers and it turns out there's a
+
+847
+00:34:10,320 --> 00:34:14,200
+lot of data dependent control flow which
+
+848
+00:34:12,560 --> 00:34:16,440
+kind of goes against the grain with
+
+849
+00:34:14,200 --> 00:34:18,079
+respect to pipelining and not having uh
+
+850
+00:34:16,440 --> 00:34:19,720
+pipeline Bubbles and you know changing
+
+851
+00:34:18,079 --> 00:34:21,679
+your mind about what you want to do sort
+
+852
+00:34:19,720 --> 00:34:24,879
+of halfway through and which is a
+
+853
+00:34:21,679 --> 00:34:26,200
+problem in Hardware um hash based PCS is
+
+854
+00:34:24,879 --> 00:34:28,119
+take advantage of fast Hardware
+
+855
+00:34:26,200 --> 00:34:29,839
+operations I mean you know shot 3 right
+
+856
+00:34:28,119 --> 00:34:33,240
+you know have an array of shot 3s and
+
+857
+00:34:29,839 --> 00:34:35,040
+paraly to your heart's content um and um
+
+858
+00:34:33,240 --> 00:34:38,040
+you can also like play around with these
+
+859
+00:34:35,040 --> 00:34:39,760
+modulus moduli and and uh do things
+
+860
+00:34:38,040 --> 00:34:41,560
+right um You have tree and Matrix
+
+861
+00:34:39,760 --> 00:34:43,359
+structures that are easily paralyzable
+
+862
+00:34:41,560 --> 00:34:45,159
+but here's the downside proof sizes are
+
+863
+00:34:43,359 --> 00:34:47,839
+much larger we talking two three orders
+
+864
+00:34:45,159 --> 00:34:49,280
+of magnitude larger right but the nice
+
+865
+00:34:47,839 --> 00:34:52,040
+thing is that you go from kilobytes to
+
+866
+00:34:49,280 --> 00:34:53,960
+megabytes okay big difference from um
+
+867
+00:34:52,040 --> 00:34:56,000
+from going from megabytes to gigabytes
+
+868
+00:34:53,960 --> 00:34:58,200
+okay so constant factors this talk is a
+
+869
+00:34:56,000 --> 00:35:01,079
+lot about constant factors it out where
+
+870
+00:34:58,200 --> 00:35:03,200
+you are um uh in in terms of the kind of
+
+871
+00:35:01,079 --> 00:35:05,320
+the range of constant factors is a big
+
+872
+00:35:03,200 --> 00:35:08,040
+deal so kilobytes to megabytes is okay
+
+873
+00:35:05,320 --> 00:35:10,400
+megabytes to gigabytes is not okay okay
+
+874
+00:35:08,040 --> 00:35:11,960
+um so um so we looked at a bunch of
+
+875
+00:35:10,400 --> 00:35:14,760
+things and then we we zoomed in on
+
+876
+00:35:11,960 --> 00:35:16,720
+Spartan and Orion um and decided that
+
+877
+00:35:14,760 --> 00:35:18,480
+these map best to hardware and we've
+
+878
+00:35:16,720 --> 00:35:21,200
+kind of changed our minds about this but
+
+879
+00:35:18,480 --> 00:35:24,359
+this was about a year ago um and decided
+
+880
+00:35:21,200 --> 00:35:26,480
+to go go go with this right so um so now
+
+881
+00:35:24,359 --> 00:35:27,359
+let's look at um this it's a little bit
+
+882
+00:35:26,480 --> 00:35:28,640
+different from what I've showed you
+
+883
+00:35:27,359 --> 00:35:31,359
+before
+
+884
+00:35:28,640 --> 00:35:33,240
+but here we have Groth 16 and uh it
+
+885
+00:35:31,359 --> 00:35:35,880
+turns out Gro 16 is you know slightly
+
+886
+00:35:33,240 --> 00:35:37,960
+faster on a CPU than the spot in the ran
+
+887
+00:35:35,880 --> 00:35:39,440
+thing um and it also has less
+
+888
+00:35:37,960 --> 00:35:42,880
+communication right so you're kind of
+
+889
+00:35:39,440 --> 00:35:44,400
+going what um it's yeah but it turns out
+
+890
+00:35:42,880 --> 00:35:47,240
+uh because of what I told you about the
+
+891
+00:35:44,400 --> 00:35:49,920
+curves you can absolutely crush the spot
+
+892
+00:35:47,240 --> 00:35:52,440
+in Rion computation you know by 1,000x
+
+893
+00:35:49,920 --> 00:35:54,880
+if you did it right um and so in turns
+
+894
+00:35:52,440 --> 00:35:56,760
+out even from an end to end standpoint
+
+895
+00:35:54,880 --> 00:35:58,560
+uh even though you're paying more partly
+
+896
+00:35:56,760 --> 00:36:00,480
+because of the kilobytes megabytes and
+
+897
+00:35:58,560 --> 00:36:03,200
+and and existing networks which are you
+
+898
+00:36:00,480 --> 00:36:04,720
+know megabytes per second uh you can do
+
+899
+00:36:03,200 --> 00:36:06,440
+better right and I'll give you some
+
+900
+00:36:04,720 --> 00:36:08,800
+specific numbers but this is the basic
+
+901
+00:36:06,440 --> 00:36:10,079
+idea right so again a choice that's
+
+902
+00:36:08,800 --> 00:36:11,880
+perhaps counterintuitive because you
+
+903
+00:36:10,079 --> 00:36:13,960
+were worse in two fronts but when you
+
+904
+00:36:11,880 --> 00:36:15,880
+look at it in a different substrate uh
+
+905
+00:36:13,960 --> 00:36:19,200
+it it's actually the right thing to do
+
+906
+00:36:15,880 --> 00:36:20,720
+right um and so Spartan and Orion have a
+
+907
+00:36:19,200 --> 00:36:23,119
+a bunch of different things inside of
+
+908
+00:36:20,720 --> 00:36:25,200
+them uh sparse Matrix multiply some
+
+909
+00:36:23,119 --> 00:36:27,760
+check protocols polom arithmetic Merkle
+
+910
+00:36:25,200 --> 00:36:29,839
+trees reach solman codes and we got a
+
+911
+00:36:27,760 --> 00:36:33,040
+speed up all of them right uh because of
+
+912
+00:36:29,839 --> 00:36:36,000
+arm doll um and um it turns out um if
+
+913
+00:36:33,040 --> 00:36:38,920
+you um kind of look at a little bit you
+
+914
+00:36:36,000 --> 00:36:41,520
+know inside of it the Spartan IOP uses
+
+915
+00:36:38,920 --> 00:36:43,720
+essentially the spars sparse Matrix
+
+916
+00:36:41,520 --> 00:36:46,280
+vector and then Orion uses the other
+
+917
+00:36:43,720 --> 00:36:49,520
+ones the PCS scheme and um if you look
+
+918
+00:36:46,280 --> 00:36:51,359
+at um these low-level tasks uh there's U
+
+919
+00:36:49,520 --> 00:36:53,960
+basically a small number of functional
+
+920
+00:36:51,359 --> 00:36:55,480
+units which are listed here um that
+
+921
+00:36:53,960 --> 00:36:57,040
+correspond to running all of these
+
+922
+00:36:55,480 --> 00:37:00,960
+things and they're used in many
+
+923
+00:36:57,040 --> 00:37:02,800
+different uh task of Spartan and Orion
+
+924
+00:37:00,960 --> 00:37:04,880
+but that's kind of the mapping right um
+
+925
+00:37:02,800 --> 00:37:07,240
+and so now if you kind of look and you
+
+926
+00:37:04,880 --> 00:37:08,560
+say well you know these things take 2%
+
+927
+00:37:07,240 --> 00:37:10,839
+and you go oh you know in a different
+
+928
+00:37:08,560 --> 00:37:13,000
+world you 2% I don't care right you know
+
+929
+00:37:10,839 --> 00:37:15,200
+98 or 100 look looks pretty good but if
+
+930
+00:37:13,000 --> 00:37:17,040
+you want a,x well you got to speed up to
+
+931
+00:37:15,200 --> 00:37:19,240
+2% right there's there's no two things
+
+932
+00:37:17,040 --> 00:37:21,240
+about it um and so I just wanted to
+
+933
+00:37:19,240 --> 00:37:24,400
+point that out just more concretely than
+
+934
+00:37:21,240 --> 00:37:26,720
+I have uh previously um and so um so
+
+935
+00:37:24,400 --> 00:37:29,119
+this thing U no cap is a design of a
+
+936
+00:37:26,720 --> 00:37:31,640
+programmable acceler erator same thing
+
+937
+00:37:29,119 --> 00:37:33,319
+it you you have your circuit and the
+
+938
+00:37:31,640 --> 00:37:35,839
+circuit is an input and you also have
+
+939
+00:37:33,319 --> 00:37:39,440
+your inputs to your circuit um and it's
+
+940
+00:37:35,839 --> 00:37:40,880
+a a vector processor um that supports
+
+941
+00:37:39,440 --> 00:37:42,240
+Vector modular multiplication and
+
+942
+00:37:40,880 --> 00:37:44,240
+addition one of the things that's
+
+943
+00:37:42,240 --> 00:37:46,800
+interesting that I'll get back to is uh
+
+944
+00:37:44,240 --> 00:37:50,480
+in this hash based World it looks a lot
+
+945
+00:37:46,800 --> 00:37:51,960
+more like the fhe world not exactly than
+
+946
+00:37:50,480 --> 00:37:54,920
+the elliptic curve world would look like
+
+947
+00:37:51,960 --> 00:37:56,560
+the fhe world right so we were looking
+
+948
+00:37:54,920 --> 00:37:58,240
+at this and going oh we've kind of done
+
+949
+00:37:56,560 --> 00:38:02,200
+this before or something similar to this
+
+950
+00:37:58,240 --> 00:38:04,119
+before right um in uh looking at at our
+
+951
+00:38:02,200 --> 00:38:06,599
+thinking back on our work on F1 and Crea
+
+952
+00:38:04,119 --> 00:38:08,359
+Lake um it turns out for the tasks that
+
+953
+00:38:06,599 --> 00:38:10,359
+I mentioned the five tasks that The
+
+954
+00:38:08,359 --> 00:38:12,079
+Primitives that are underneath uh it
+
+955
+00:38:10,359 --> 00:38:14,920
+turns out uh you know they have
+
+956
+00:38:12,079 --> 00:38:16,960
+different uh requirements so uh uh you
+
+957
+00:38:14,920 --> 00:38:19,319
+end up you know wanting to have a very
+
+958
+00:38:16,960 --> 00:38:23,480
+wide Lane processor 2048 which is the
+
+959
+00:38:19,319 --> 00:38:26,079
+same as at cradle Lake um uh in when
+
+960
+00:38:23,480 --> 00:38:27,880
+when you want to do um um uh for example
+
+961
+00:38:26,079 --> 00:38:30,440
+Vector multiplication and addition but
+
+962
+00:38:27,880 --> 00:38:32,319
+when you do want to do hashing and NTS
+
+963
+00:38:30,440 --> 00:38:35,560
+uh you want something that's slightly uh
+
+964
+00:38:32,319 --> 00:38:38,040
+uh that's narrower um static control is
+
+965
+00:38:35,560 --> 00:38:41,079
+a big deal same thing I mean it's h you
+
+966
+00:38:38,040 --> 00:38:43,520
+you have to do things without
+
+967
+00:38:41,079 --> 00:38:46,119
+um knowing what you're working on it's
+
+968
+00:38:43,520 --> 00:38:49,000
+not quite the same as in the encrypted
+
+969
+00:38:46,119 --> 00:38:51,079
+world uh but um since you have to the
+
+970
+00:38:49,000 --> 00:38:53,800
+prover has to produce a proof it's
+
+971
+00:38:51,079 --> 00:38:56,400
+similar in that sense uh so you can do a
+
+972
+00:38:53,800 --> 00:38:57,960
+lot of pref freshing and scheduling um
+
+973
+00:38:56,400 --> 00:39:01,560
+data movement is important
+
+974
+00:38:57,960 --> 00:39:03,880
+so um these pictures are are pretty I
+
+975
+00:39:01,560 --> 00:39:06,720
+don't think they're going to um tell you
+
+976
+00:39:03,880 --> 00:39:08,800
+anything other than the fact that uh uh
+
+977
+00:39:06,720 --> 00:39:11,240
+you actually have two different modes of
+
+978
+00:39:08,800 --> 00:39:13,200
+operation um and the way you want to
+
+979
+00:39:11,240 --> 00:39:15,640
+think about this is that sometimes you
+
+980
+00:39:13,200 --> 00:39:17,760
+want to use 2048 parallelism and you
+
+981
+00:39:15,640 --> 00:39:20,839
+think about these things as all running
+
+982
+00:39:17,760 --> 00:39:22,839
+all these Square Banks uh uh and and U
+
+983
+00:39:20,839 --> 00:39:24,760
+processors running in parallel and
+
+984
+00:39:22,839 --> 00:39:26,359
+sometimes um you uh you're you're
+
+985
+00:39:24,760 --> 00:39:29,240
+running them in series in sort of you
+
+986
+00:39:26,359 --> 00:39:31,760
+know they go pipeline from left to right
+
+987
+00:39:29,240 --> 00:39:33,280
+uh in terms of 16 steps of computation
+
+988
+00:39:31,760 --> 00:39:35,920
+right so those are the kinds of things
+
+989
+00:39:33,280 --> 00:39:38,839
+that you'd have to do in order to uh uh
+
+990
+00:39:35,920 --> 00:39:42,440
+in order to Target the 2% and the 69% or
+
+991
+00:39:38,839 --> 00:39:44,760
+the 18% right so that's that's where
+
+992
+00:39:42,440 --> 00:39:47,880
+it's at so um I just want to give you a
+
+993
+00:39:44,760 --> 00:39:51,720
+sense of U you know one optimization
+
+994
+00:39:47,880 --> 00:39:54,000
+like I gave you for the U transpose unit
+
+995
+00:39:51,720 --> 00:39:55,680
+um that was important here uh let's take
+
+996
+00:39:54,000 --> 00:39:57,760
+a look at the sum check protocol which
+
+997
+00:39:55,680 --> 00:39:59,599
+is a large fraction of the time um it
+
+998
+00:39:57,760 --> 00:40:02,599
+turns out the things that you have to do
+
+999
+00:39:59,599 --> 00:40:03,920
+are you have an input n is large um and
+
+1000
+00:40:02,599 --> 00:40:06,599
+it actually blows up to like something
+
+1001
+00:40:03,920 --> 00:40:09,240
+like 20n or or whatever in this example
+
+1002
+00:40:06,599 --> 00:40:11,839
+um I have 3n and so you're streaming
+
+1003
+00:40:09,240 --> 00:40:13,880
+this input onto the Chip And this is not
+
+1004
+00:40:11,839 --> 00:40:15,599
+going to fit in these register files and
+
+1005
+00:40:13,880 --> 00:40:17,760
+as you're doing this you're Computing
+
+1006
+00:40:15,599 --> 00:40:19,560
+you're reducing um this input and you're
+
+1007
+00:40:17,760 --> 00:40:20,720
+Computing a hash for it right this is
+
+1008
+00:40:19,560 --> 00:40:23,000
+kind of something that happens in the
+
+1009
+00:40:20,720 --> 00:40:25,440
+sum check right you produce R1 you
+
+1010
+00:40:23,000 --> 00:40:27,359
+reduce R1 then what you do is you're
+
+1011
+00:40:25,440 --> 00:40:30,119
+going to try and uh this algorithm is
+
+1012
+00:40:27,359 --> 00:40:33,480
+going to fold this so you actually have
+
+1013
+00:40:30,119 --> 00:40:36,400
+to um uh um take this the 3n that you
+
+1014
+00:40:33,480 --> 00:40:38,480
+computed and you got in the in the naive
+
+1015
+00:40:36,400 --> 00:40:41,359
+algorithm um you're going to stream it
+
+1016
+00:40:38,480 --> 00:40:43,079
+again um and now you're going to use R1
+
+1017
+00:40:41,359 --> 00:40:44,760
+and you're going to fold this into
+
+1018
+00:40:43,079 --> 00:40:46,480
+something that's 3 n / two by
+
+1019
+00:40:44,760 --> 00:40:48,160
+multiplying the first half with R1 that
+
+1020
+00:40:46,480 --> 00:40:49,640
+you computed in the first step and then
+
+1021
+00:40:48,160 --> 00:40:51,760
+multiplying the second half by 1 minus
+
+1022
+00:40:49,640 --> 00:40:54,720
+R1 and then you get an output that's 3n
+
+1023
+00:40:51,760 --> 00:40:55,680
+/ two um and um you're going to reduce
+
+1024
+00:40:54,720 --> 00:40:58,200
+as you're doing that you're going to
+
+1025
+00:40:55,680 --> 00:40:59,200
+compute the R2 hash of the n over two
+
+1026
+00:40:58,200 --> 00:41:01,760
+and then you're going to repeat this
+
+1027
+00:40:59,200 --> 00:41:03,280
+process right so think of n as not
+
+1028
+00:41:01,760 --> 00:41:05,040
+fitting on the chip but you know
+
+1029
+00:41:03,280 --> 00:41:06,560
+something at half of n might fit on the
+
+1030
+00:41:05,040 --> 00:41:08,119
+Chip And what you're working with
+
+1031
+00:41:06,560 --> 00:41:10,079
+initially is maybe like 20 n or
+
+1032
+00:41:08,119 --> 00:41:13,200
+something so you got many levels of this
+
+1033
+00:41:10,079 --> 00:41:16,400
+right um and so um so now let's say um
+
+1034
+00:41:13,200 --> 00:41:19,359
+you have R2 what happens now um well you
+
+1035
+00:41:16,400 --> 00:41:20,480
+got to load um uh the 3 and over two
+
+1036
+00:41:19,359 --> 00:41:23,400
+again because that doesn't fit on the
+
+1037
+00:41:20,480 --> 00:41:25,160
+chip and you got to do this um folding
+
+1038
+00:41:23,400 --> 00:41:26,800
+again and then you get down to 3 n over
+
+1039
+00:41:25,160 --> 00:41:28,079
+four right so at some point you know
+
+1040
+00:41:26,800 --> 00:41:30,280
+everything's going to work out because
+
+1041
+00:41:28,079 --> 00:41:32,680
+everything fits on the chip but I want
+
+1042
+00:41:30,280 --> 00:41:34,359
+to talk a little bit about um the
+
+1043
+00:41:32,680 --> 00:41:36,480
+optimization that we made was that was
+
+1044
+00:41:34,359 --> 00:41:40,040
+fairly important uh not you know super
+
+1045
+00:41:36,480 --> 00:41:42,200
+dramatic that speeds up this part so
+
+1046
+00:41:40,040 --> 00:41:44,160
+essentially it's recomputation it it's
+
+1047
+00:41:42,200 --> 00:41:47,720
+like do the work
+
+1048
+00:41:44,160 --> 00:41:51,359
+again uh uh uh because that allows you
+
+1049
+00:41:47,720 --> 00:41:52,960
+to not store um uh more things right
+
+1050
+00:41:51,359 --> 00:41:54,920
+because you can just generate on the fly
+
+1051
+00:41:52,960 --> 00:41:56,760
+so not a obviously a paradigm that's
+
+1052
+00:41:54,920 --> 00:41:59,200
+been used many times so assume you have
+
+1053
+00:41:56,760 --> 00:42:01,520
+R1 and R2 then the idea is that once
+
+1054
+00:41:59,200 --> 00:42:04,040
+you've gotten R1 and R2 in order to do
+
+1055
+00:42:01,520 --> 00:42:06,640
+this previous thing which is getting the
+
+1056
+00:42:04,040 --> 00:42:09,640
+3 and over four um you go back to the
+
+1057
+00:42:06,640 --> 00:42:12,359
+original input stream that in expand it
+
+1058
+00:42:09,640 --> 00:42:15,440
+on the Fly and then do this computation
+
+1059
+00:42:12,359 --> 00:42:17,960
+right so essentially do pairs so nothing
+
+1060
+00:42:15,440 --> 00:42:19,680
+uh profound here but important from a
+
+1061
+00:42:17,960 --> 00:42:21,079
+data movement standpoint right so that's
+
+1062
+00:42:19,680 --> 00:42:22,520
+why I wanted to point this out so
+
+1063
+00:42:21,079 --> 00:42:24,559
+there's a whole bunch of things that I
+
+1064
+00:42:22,520 --> 00:42:25,960
+won't Bor you with uh that correspond to
+
+1065
+00:42:24,559 --> 00:42:28,559
+things like that I just wanted to give
+
+1066
+00:42:25,960 --> 00:42:30,079
+you one evocative example example so um
+
+1067
+00:42:28,559 --> 00:42:31,640
+in this simplified example you save
+
+1068
+00:42:30,079 --> 00:42:34,520
+traffic you know maybe you get Factor
+
+1069
+00:42:31,640 --> 00:42:37,480
+two um and recursively maybe it's more
+
+1070
+00:42:34,520 --> 00:42:39,280
+right so this is super advantageous to
+
+1071
+00:42:37,480 --> 00:42:43,319
+when the Su check size is large which is
+
+1072
+00:42:39,280 --> 00:42:45,680
+usually the case so um this so we took
+
+1073
+00:42:43,319 --> 00:42:47,359
+the oryan Spartan code Simon took this
+
+1074
+00:42:45,680 --> 00:42:48,800
+code and sped It Up by water refractor
+
+1075
+00:42:47,359 --> 00:42:50,559
+five so we're going to compare against
+
+1076
+00:42:48,800 --> 00:42:53,960
+the sped up version on a CPU for
+
+1077
+00:42:50,559 --> 00:42:56,720
+fairness and um uh you can get about
+
+1078
+00:42:53,960 --> 00:42:59,160
+500x on the proof generation again if
+
+1079
+00:42:56,720 --> 00:43:00,520
+you build this Hardware um but we've
+
+1080
+00:42:59,160 --> 00:43:02,240
+been fairly careful about getting a
+
+1081
+00:43:00,520 --> 00:43:04,119
+hardware description and and and doing
+
+1082
+00:43:02,240 --> 00:43:05,400
+all of those things which are necessary
+
+1083
+00:43:04,119 --> 00:43:07,960
+in the in the world of computer
+
+1084
+00:43:05,400 --> 00:43:10,200
+architecture um I wanted to mention uh
+
+1085
+00:43:07,960 --> 00:43:12,559
+this is just proof generation but um
+
+1086
+00:43:10,200 --> 00:43:15,559
+going back to the trade-offs really it's
+
+1087
+00:43:12,559 --> 00:43:17,480
+about sending the circuit over finding
+
+1088
+00:43:15,559 --> 00:43:19,720
+the uh getting the prover to produce the
+
+1089
+00:43:17,480 --> 00:43:21,440
+proof coming back verifying it well
+
+1090
+00:43:19,720 --> 00:43:23,440
+there's Network Transit here right and
+
+1091
+00:43:21,440 --> 00:43:26,800
+we can't ignore that right but if you
+
+1092
+00:43:23,440 --> 00:43:30,319
+look at um the the proof sizes well it
+
+1093
+00:43:26,800 --> 00:43:32,319
+turns out that you do pay sending a
+
+1094
+00:43:30,319 --> 00:43:33,880
+kilobyte over the Internet is you know
+
+1095
+00:43:32,319 --> 00:43:35,960
+it's not thousand times faster than
+
+1096
+00:43:33,880 --> 00:43:38,160
+sending a megabyte over the Internet um
+
+1097
+00:43:35,960 --> 00:43:40,680
+but you know maybe it's 10x faster right
+
+1098
+00:43:38,160 --> 00:43:42,960
+um and so you you you call you assume
+
+1099
+00:43:40,680 --> 00:43:45,440
+some Network link and um include that
+
+1100
+00:43:42,960 --> 00:43:46,800
+ver uh latency in the verification time
+
+1101
+00:43:45,440 --> 00:43:48,880
+and and you're still like you know 20
+
+1102
+00:43:46,800 --> 00:43:51,400
+times faster so provided you had this
+
+1103
+00:43:48,880 --> 00:43:54,440
+Hardware it's a good idea to go ahead
+
+1104
+00:43:51,400 --> 00:43:56,640
+and go to larger proof sizes okay um and
+
+1105
+00:43:54,440 --> 00:44:00,200
+so that's kind of uh the the the the
+
+1106
+00:43:56,640 --> 00:44:02,079
+lesson we got we learn from it um still
+
+1107
+00:44:00,200 --> 00:44:04,319
+it's a smaller ship than cred Lake but
+
+1108
+00:44:02,079 --> 00:44:06,200
+hey someone has 10 million bucks right
+
+1109
+00:44:04,319 --> 00:44:08,920
+lying around we'll build it for you
+
+1110
+00:44:06,200 --> 00:44:12,920
+right um yeah go ahead
+
+1111
+00:44:08,920 --> 00:44:14,440
+um the one time cost um so yes yes yes
+
+1112
+00:44:12,920 --> 00:44:16,920
+uh so this is the capital cost I'm I'm
+
+1113
+00:44:14,440 --> 00:44:20,599
+talking about the capital cost right um
+
+1114
+00:44:16,920 --> 00:44:21,760
+after now if you now depending on volume
+
+1115
+00:44:20,599 --> 00:44:23,880
+so you know that's a totally different
+
+1116
+00:44:21,760 --> 00:44:25,559
+conversation it's a great question um I
+
+1117
+00:44:23,880 --> 00:44:28,240
+I I I'll I'll give you a better answer
+
+1118
+00:44:25,559 --> 00:44:30,599
+but the short answer um is what I'm
+
+1119
+00:44:28,240 --> 00:44:32,319
+putting up is capital cost and then um
+
+1120
+00:44:30,599 --> 00:44:34,480
+if you were going to sell a billion of
+
+1121
+00:44:32,319 --> 00:44:36,520
+these you know there's a lot of people
+
+1122
+00:44:34,480 --> 00:44:38,440
+who would give you that give you more
+
+1123
+00:44:36,520 --> 00:44:39,520
+right in fact if you just yeah uh that's
+
+1124
+00:44:38,440 --> 00:44:41,680
+right if you claimed you could sell a
+
+1125
+00:44:39,520 --> 00:44:43,440
+billion of these you know um uh you
+
+1126
+00:44:41,680 --> 00:44:46,119
+could do that right so I want to I want
+
+1127
+00:44:43,440 --> 00:44:49,160
+to finish up telling you about um I
+
+1128
+00:44:46,119 --> 00:44:50,680
+think a a level of co-design uh and and
+
+1129
+00:44:49,160 --> 00:44:52,720
+hopefully Intrigue you with you know
+
+1130
+00:44:50,680 --> 00:44:54,920
+thinking about these kinds of problems
+
+1131
+00:44:52,720 --> 00:44:57,359
+uh that we're looking at that uh Simon
+
+1132
+00:44:54,920 --> 00:44:59,440
+um myself Daniel and yupen Zang have
+
+1133
+00:44:57,359 --> 00:45:02,839
+been looking at in terms of what's next
+
+1134
+00:44:59,440 --> 00:45:04,040
+right um and I think uh ven's question
+
+1135
+00:45:02,839 --> 00:45:06,599
+you know may get answered here a little
+
+1136
+00:45:04,040 --> 00:45:09,480
+bit as well so um one of the things that
+
+1137
+00:45:06,599 --> 00:45:11,119
+um helps with Hardware is uh number of
+
+1138
+00:45:09,480 --> 00:45:13,400
+users who want to buy your chip as I
+
+1139
+00:45:11,119 --> 00:45:16,119
+just mentioned to venod and um one of
+
+1140
+00:45:13,400 --> 00:45:17,760
+the things that um that is nice about
+
+1141
+00:45:16,119 --> 00:45:20,280
+the zkp accelerators and the FH
+
+1142
+00:45:17,760 --> 00:45:24,079
+accelerators is this picture right um so
+
+1143
+00:45:20,280 --> 00:45:25,960
+which is essentially that um You' got a
+
+1144
+00:45:24,079 --> 00:45:28,559
+bunch of different schemes that kind of
+
+1145
+00:45:25,960 --> 00:45:30,359
+have similar Primitives right and this
+
+1146
+00:45:28,559 --> 00:45:31,880
+is kind of the game I mean AES Was A
+
+1147
+00:45:30,359 --> 00:45:35,319
+Primitive right it's a very basic
+
+1148
+00:45:31,880 --> 00:45:37,319
+primitive can we discover Primitives uh
+
+1149
+00:45:35,319 --> 00:45:39,040
+that would be useful and then you get
+
+1150
+00:45:37,319 --> 00:45:40,960
+the intels and the amds you go put these
+
+1151
+00:45:39,040 --> 00:45:43,960
+Primitives in there and everyone's happy
+
+1152
+00:45:40,960 --> 00:45:46,640
+right um so if you look at these
+
+1153
+00:45:43,960 --> 00:45:48,559
+checkboxes um you they're well I mean
+
+1154
+00:45:46,640 --> 00:45:51,160
+they're kind of uh similar in the first
+
+1155
+00:45:48,559 --> 00:45:53,079
+three and and and um the the last one
+
+1156
+00:45:51,160 --> 00:45:54,960
+which is the elliptic curves uh is is is
+
+1157
+00:45:53,079 --> 00:45:57,359
+quite different right so this sort of
+
+1158
+00:45:54,960 --> 00:45:58,680
+tells you that that maybe you know if
+
+1159
+00:45:57,359 --> 00:46:00,359
+you want to go build a universal
+
+1160
+00:45:58,680 --> 00:46:02,119
+cryptographic accelerator that you
+
+1161
+00:46:00,359 --> 00:46:04,359
+should be thinking about hashes and and
+
+1162
+00:46:02,119 --> 00:46:07,520
+maybe lates and not as much about
+
+1163
+00:46:04,359 --> 00:46:08,960
+elliptic curves okay um so that's one
+
+1164
+00:46:07,520 --> 00:46:10,240
+thought right you know which is you know
+
+1165
+00:46:08,960 --> 00:46:12,960
+can we do something and we have some
+
+1166
+00:46:10,240 --> 00:46:15,720
+thoughts on it um there's a distribut
+
+1167
+00:46:12,960 --> 00:46:17,480
+distributed zkp world uh where you say
+
+1168
+00:46:15,720 --> 00:46:19,559
+well let me build a chip to handle a
+
+1169
+00:46:17,480 --> 00:46:21,200
+circuit of size s and that's a big chip
+
+1170
+00:46:19,559 --> 00:46:23,240
+and therefore it's super expensive so
+
+1171
+00:46:21,200 --> 00:46:25,079
+it's nonlinear if a chip is twice as
+
+1172
+00:46:23,240 --> 00:46:26,680
+large it's going to cost you Capital
+
+1173
+00:46:25,079 --> 00:46:28,599
+cost is going to cost you twice as much
+
+1174
+00:46:26,680 --> 00:46:30,559
+right I mean even the volume cost would
+
+1175
+00:46:28,599 --> 00:46:33,359
+be about twice as much but the capital
+
+1176
+00:46:30,559 --> 00:46:36,440
+cost is really super linear um so um
+
+1177
+00:46:33,359 --> 00:46:38,839
+pianist is a d zkp distributed zkp
+
+1178
+00:46:36,440 --> 00:46:42,200
+placed on the plon IOP and it does
+
+1179
+00:46:38,839 --> 00:46:45,000
+chunking to go take you know uh go run
+
+1180
+00:46:42,200 --> 00:46:47,319
+stuff on Amazon clusters and so on and
+
+1181
+00:46:45,000 --> 00:46:50,319
+so forth so this is just purely software
+
+1182
+00:46:47,319 --> 00:46:52,520
+um uses a curve-based PCS so um Simon's
+
+1183
+00:46:50,319 --> 00:46:56,400
+been looking at with upang looking at
+
+1184
+00:46:52,520 --> 00:46:57,680
+replacing this U distributed zkp curve
+
+1185
+00:46:56,400 --> 00:47:01,040
+based ZK
+
+1186
+00:46:57,680 --> 00:47:04,200
+curve based PCS with hash based PCS and
+
+1187
+00:47:01,040 --> 00:47:05,920
+it turns out um you um can imagine a
+
+1188
+00:47:04,200 --> 00:47:07,880
+distributed architecture where you have
+
+1189
+00:47:05,920 --> 00:47:09,400
+smaller chips but then you build a board
+
+1190
+00:47:07,880 --> 00:47:12,160
+or a multi-chip module of these smaller
+
+1191
+00:47:09,400 --> 00:47:14,520
+chips uh that may be a tenth of the size
+
+1192
+00:47:12,160 --> 00:47:17,160
+and the big question is um when you go
+
+1193
+00:47:14,520 --> 00:47:18,640
+off chip it's much slower so you don't
+
+1194
+00:47:17,160 --> 00:47:20,400
+have that much bandwidth it also takes a
+
+1195
+00:47:18,640 --> 00:47:23,720
+little bit longer so you have to
+
+1196
+00:47:20,400 --> 00:47:25,359
+structure your algorithm such that the
+
+1197
+00:47:23,720 --> 00:47:27,160
+communication across these things so
+
+1198
+00:47:25,359 --> 00:47:29,160
+this is really going back and redesign
+
+1199
+00:47:27,160 --> 00:47:31,839
+plonk a little bit with respect to the
+
+1200
+00:47:29,160 --> 00:47:33,559
+chunking to essentially say things like
+
+1201
+00:47:31,839 --> 00:47:36,200
+I'm only going to communicate hashes as
+
+1202
+00:47:33,559 --> 00:47:38,559
+opposed to these NTS okay across these
+
+1203
+00:47:36,200 --> 00:47:41,200
+uh chiplets which are much smaller and
+
+1204
+00:47:38,559 --> 00:47:42,559
+so now you know it's much cheaper
+
+1205
+00:47:41,200 --> 00:47:45,400
+because and maybe this is an academic
+
+1206
+00:47:42,559 --> 00:47:47,720
+project where you build a little uh chip
+
+1207
+00:47:45,400 --> 00:47:50,200
+um that is you know a tenth of the size
+
+1208
+00:47:47,720 --> 00:47:52,240
+of this uh bigger one and then you build
+
+1209
+00:47:50,200 --> 00:47:53,520
+a board uh you can get you know 10 of
+
+1210
+00:47:52,240 --> 00:47:55,680
+these back obviously you need you need
+
+1211
+00:47:53,520 --> 00:47:58,880
+10 of these and you build a board and it
+
+1212
+00:47:55,680 --> 00:48:00,920
+only works if the algorithm is such is
+
+1213
+00:47:58,880 --> 00:48:04,119
+structured in such a way that the
+
+1214
+00:48:00,920 --> 00:48:05,680
+communication across these chiplets is
+
+1215
+00:48:04,119 --> 00:48:07,680
+much smaller than the communication
+
+1216
+00:48:05,680 --> 00:48:09,920
+that's required inside of the chiplet
+
+1217
+00:48:07,680 --> 00:48:11,200
+right so that would be a codesign of the
+
+1218
+00:48:09,920 --> 00:48:13,160
+algorithm which is you know kind of
+
+1219
+00:48:11,200 --> 00:48:16,240
+ongoing and and we're happy to tell you
+
+1220
+00:48:13,160 --> 00:48:18,760
+more um so yeah so that's it you know my
+
+1221
+00:48:16,240 --> 00:48:21,119
+final thought is um is there you know
+
+1222
+00:48:18,760 --> 00:48:23,160
+some notion of accelerat ability that
+
+1223
+00:48:21,119 --> 00:48:25,319
+can guide cryptographers you know I've
+
+1224
+00:48:23,160 --> 00:48:28,440
+given you a bunch of interesting you
+
+1225
+00:48:25,319 --> 00:48:30,040
+know ideas hopefully intriguing ideas
+
+1226
+00:48:28,440 --> 00:48:31,960
+but you know I haven't synthesized them
+
+1227
+00:48:30,040 --> 00:48:35,200
+and and I did I promise to well maybe I
+
+1228
+00:48:31,960 --> 00:48:37,359
+did but then I lied um but U um but I
+
+1229
+00:48:35,200 --> 00:48:40,720
+haven't synthesized them into you know a
+
+1230
+00:48:37,359 --> 00:48:42,200
+metric um that essentially takes in you
+
+1231
+00:48:40,720 --> 00:48:45,800
+know the fact that you know going off
+
+1232
+00:48:42,200 --> 00:48:47,200
+jip um uh uh is um is painful uh data
+
+1233
+00:48:45,800 --> 00:48:49,680
+movement is where it's at you know
+
+1234
+00:48:47,200 --> 00:48:51,760
+parallelism is easy uh pipelining is
+
+1235
+00:48:49,680 --> 00:48:54,480
+easy but uh uh certain kinds of
+
+1236
+00:48:51,760 --> 00:48:56,520
+pipelining are hard um and so you know
+
+1237
+00:48:54,480 --> 00:48:59,359
+how would that change you know the way
+
+1238
+00:48:56,520 --> 00:49:00,599
+if if a zkp expert you know uh and we
+
+1239
+00:48:59,359 --> 00:49:03,599
+we're kind of trying to do that with
+
+1240
+00:49:00,599 --> 00:49:05,280
+upang zkp expert you know went went up
+
+1241
+00:49:03,599 --> 00:49:09,440
+from first principles and said I want to
+
+1242
+00:49:05,280 --> 00:49:11,760
+build the optimal hardware and zkp
+
+1243
+00:49:09,440 --> 00:49:16,640
+together right what would we come up
+
+1244
+00:49:11,760 --> 00:49:20,359
+with right and so uh well hopefully U uh
+
+1245
+00:49:16,640 --> 00:49:20,359
+you uh you're intrigued
+
+1246
+00:49:25,079 --> 00:49:32,720
+thanks I had no idea a how long I
+
+1247
+00:49:28,680 --> 00:49:35,119
+took okay right um awesome yeah happy to
+
+1248
+00:49:32,720 --> 00:49:38,040
+take yeah
+
+1249
+00:49:35,119 --> 00:49:40,559
+yeah forgive the 20 million or 10
+
+1250
+00:49:38,040 --> 00:49:42,079
+million forgive okay that's a good word
+
+1251
+00:49:40,559 --> 00:49:46,440
+for
+
+1252
+00:49:42,079 --> 00:49:49,400
+yeah so so now how does how does um you
+
+1253
+00:49:46,440 --> 00:49:52,799
+know how do the online cost ongoing cost
+
+1254
+00:49:49,400 --> 00:49:57,400
+uh compared to doing this uh with an npg
+
+1255
+00:49:52,799 --> 00:50:00,839
+for ah so yeah so
+
+1256
+00:49:57,400 --> 00:50:04,319
+Daniel has um a a
+
+1257
+00:50:00,839 --> 00:50:05,760
+board um that is looks like that um you
+
+1258
+00:50:04,319 --> 00:50:08,240
+know and and each of those things are an
+
+1259
+00:50:05,760 --> 00:50:10,400
+fpga the the the the little squares are
+
+1260
+00:50:08,240 --> 00:50:12,920
+fpgas right he's got I I don't know what
+
+1261
+00:50:10,400 --> 00:50:15,640
+it is so you're absolutely right um so
+
+1262
+00:50:12,920 --> 00:50:19,480
+that's kind of so fbga have issues uh
+
+1263
+00:50:15,640 --> 00:50:21,440
+you pay um a factor of 10 in speed
+
+1264
+00:50:19,480 --> 00:50:24,920
+you're running at 100 mahz as opposed to
+
+1265
+00:50:21,440 --> 00:50:26,920
+a gahz MH and um that that you
+
+1266
+00:50:24,920 --> 00:50:29,760
+definitely pay um the other part that
+
+1267
+00:50:26,920 --> 00:50:31,640
+you pay which is an additional factor is
+
+1268
+00:50:29,760 --> 00:50:35,119
+the amount of stuff that you can put on
+
+1269
+00:50:31,640 --> 00:50:37,880
+an fpga so in some sense you you got a
+
+1270
+00:50:35,119 --> 00:50:40,160
+factor of 10 because of the circuit size
+
+1271
+00:50:37,880 --> 00:50:42,880
+shrinking but you blew up by a factor of
+
+1272
+00:50:40,160 --> 00:50:44,280
+10 because an fpga has lookup tables and
+
+1273
+00:50:42,880 --> 00:50:46,520
+can't do it but that's okay because the
+
+1274
+00:50:44,280 --> 00:50:47,880
+fpj has already been built right and so
+
+1275
+00:50:46,520 --> 00:50:50,240
+you buy that but you know there are
+
+1276
+00:50:47,880 --> 00:50:53,640
+thousands of dollars right so so you can
+
+1277
+00:50:50,240 --> 00:50:56,079
+imagine building um you know big fbga
+
+1278
+00:50:53,640 --> 00:50:58,880
+taking a big fbga and building a board
+
+1279
+00:50:56,079 --> 00:51:02,119
+like this at a 3X3 board like this and
+
+1280
+00:50:58,880 --> 00:51:04,720
+maybe doing this PL thing and now you
+
+1281
+00:51:02,119 --> 00:51:06,720
+you're in good shape your Capital cost
+
+1282
+00:51:04,720 --> 00:51:08,520
+is is in the thousands of doll I mean
+
+1283
+00:51:06,720 --> 00:51:10,400
+tens of thousands of dollars as opposed
+
+1284
+00:51:08,520 --> 00:51:13,119
+to the 20 million um there are some
+
+1285
+00:51:10,400 --> 00:51:16,359
+challenges that are associated with you
+
+1286
+00:51:13,119 --> 00:51:18,359
+know permutation networks um on fbga
+
+1287
+00:51:16,359 --> 00:51:20,079
+unfortunately right so all the one
+
+1288
+00:51:18,359 --> 00:51:21,559
+downside there probably other downsides
+
+1289
+00:51:20,079 --> 00:51:23,559
+but the first thing that comes to mind
+
+1290
+00:51:21,559 --> 00:51:26,000
+is you got these lookup tables and you
+
+1291
+00:51:23,559 --> 00:51:28,839
+got you to structure this stuff um
+
+1292
+00:51:26,000 --> 00:51:30,400
+exactly right right and um and and so
+
+1293
+00:51:28,839 --> 00:51:32,040
+the permutation networks and all of
+
+1294
+00:51:30,400 --> 00:51:34,040
+these things that I talked about they're
+
+1295
+00:51:32,040 --> 00:51:35,160
+not that great on F fgas I mean you know
+
+1296
+00:51:34,040 --> 00:51:37,079
+there's a lot of work that needs to be
+
+1297
+00:51:35,160 --> 00:51:39,400
+done in order to make them um
+
+1298
+00:51:37,079 --> 00:51:41,599
+competitive and you could I mean you
+
+1299
+00:51:39,400 --> 00:51:43,160
+could imagine doing that work but it's a
+
+1300
+00:51:41,599 --> 00:51:44,880
+it's a perfectly reasonable path to
+
+1301
+00:51:43,160 --> 00:51:47,400
+follow and I think from an academic
+
+1302
+00:51:44,880 --> 00:51:50,240
+standpoint I it's uh it's probably the
+
+1303
+00:51:47,400 --> 00:51:52,760
+path to follow okay okay cool one more
+
+1304
+00:51:50,240 --> 00:51:54,280
+question if I may so you know let's
+
+1305
+00:51:52,760 --> 00:51:57,240
+again assume that the 20 million Is
+
+1306
+00:51:54,280 --> 00:52:00,040
+Forgiven right what is the the marginal
+
+1307
+00:51:57,240 --> 00:52:03,319
+cost of building each chip you know oh
+
+1308
+00:52:00,040 --> 00:52:07,200
+um so um is it more like 10K I literally
+
+1309
+00:52:03,319 --> 00:52:11,040
+what you do is you go to a tsmc and you
+
+1310
+00:52:07,200 --> 00:52:12,640
+uh you you you say I want um you know a
+
+1311
+00:52:11,040 --> 00:52:15,280
+billion of these or you want a million
+
+1312
+00:52:12,640 --> 00:52:17,880
+of these MH and um depending on the
+
+1313
+00:52:15,280 --> 00:52:21,160
+number you there's latency with respect
+
+1314
+00:52:17,880 --> 00:52:22,359
+to when you actually get a run right so
+
+1315
+00:52:21,160 --> 00:52:23,640
+that that might take you a while to get
+
+1316
+00:52:22,359 --> 00:52:25,119
+the the chips back because you know they
+
+1317
+00:52:23,640 --> 00:52:27,480
+have other customers and you know
+
+1318
+00:52:25,119 --> 00:52:30,359
+they're filling their pipe too mhm and
+
+1319
+00:52:27,480 --> 00:52:32,000
+um the other part of it is um is is the
+
+1320
+00:52:30,359 --> 00:52:34,760
+is the cost uh and and so if you're
+
+1321
+00:52:32,000 --> 00:52:37,000
+willing to commit you're probably you it
+
+1322
+00:52:34,760 --> 00:52:40,079
+goes down for sure I mean it's I mean AR
+
+1323
+00:52:37,000 --> 00:52:41,960
+AAL you know used to say you know a
+
+1324
+00:52:40,079 --> 00:52:44,079
+million of of anything meaning a million
+
+1325
+00:52:41,960 --> 00:52:45,280
+of any chip is a buck each right you
+
+1326
+00:52:44,079 --> 00:52:46,640
+know that that's what he I mean he used
+
+1327
+00:52:45,280 --> 00:52:48,880
+to say that right but I don't believe
+
+1328
+00:52:46,640 --> 00:52:50,680
+him um but U but you know that's
+
+1329
+00:52:48,880 --> 00:52:53,200
+reasonable I mean obviously I'm quoting
+
+1330
+00:52:50,680 --> 00:52:55,000
+him so it but it's a Pity way of
+
+1331
+00:52:53,200 --> 00:52:58,400
+describing that you know once you get to
+
+1332
+00:52:55,000 --> 00:53:00,559
+volume the the actual ship cost it
+
+1333
+00:52:58,400 --> 00:53:02,880
+really shrinks where you're not worried
+
+1334
+00:53:00,559 --> 00:53:05,640
+about it y so I guess my question really
+
+1335
+00:53:02,880 --> 00:53:10,880
+was about fpga versus A6
+
+1336
+00:53:05,640 --> 00:53:13,640
+oh right so fpga the fpga they have it's
+
+1337
+00:53:10,880 --> 00:53:15,880
+a little bit like gpus V know where you
+
+1338
+00:53:13,640 --> 00:53:17,799
+know there's a there's a margin so if
+
+1339
+00:53:15,880 --> 00:53:20,559
+you want to go buy a fga from xlinks or
+
+1340
+00:53:17,799 --> 00:53:21,760
+gpus you're paying a lot so now if
+
+1341
+00:53:20,559 --> 00:53:23,680
+you're willing to live with that you
+
+1342
+00:53:21,760 --> 00:53:25,880
+know so there I think you know there's
+
+1343
+00:53:23,680 --> 00:53:27,799
+an expansion Factor if you are the chip
+
+1344
+00:53:25,880 --> 00:53:29,839
+designer you could get this Buck right
+
+1345
+00:53:27,799 --> 00:53:31,400
+because you you you actually building it
+
+1346
+00:53:29,839 --> 00:53:33,280
+now of course you're selling it for for
+
+1347
+00:53:31,400 --> 00:53:36,920
+10 so there there's a markup there which
+
+1348
+00:53:33,280 --> 00:53:38,960
+you know uh but I think that's certainly
+
+1349
+00:53:36,920 --> 00:53:42,480
+not as bad as the capital cost okay
+
+1350
+00:53:38,960 --> 00:53:46,119
+great thanks yeah go ahead um yeah
+
+1351
+00:53:42,480 --> 00:53:48,079
+amazing talk so my question is about the
+
+1352
+00:53:46,119 --> 00:53:50,200
+uh the hardware acceleration part so you
+
+1353
+00:53:48,079 --> 00:53:51,680
+mentioned the main problem that is
+
+1354
+00:53:50,200 --> 00:53:54,839
+arising it is because of the data
+
+1355
+00:53:51,680 --> 00:53:58,079
+movement yes so if we were to design
+
+1356
+00:53:54,839 --> 00:53:59,319
+some Hardware accelerators uh for some
+
+1357
+00:53:58,079 --> 00:54:03,040
+uh for all these cryptographic
+
+1358
+00:53:59,319 --> 00:54:05,520
+algorithms and we try to make sure that
+
+1359
+00:54:03,040 --> 00:54:08,200
+this data movement is reduced by what I
+
+1360
+00:54:05,520 --> 00:54:11,559
+mean that is like if you're feeding a
+
+1361
+00:54:08,200 --> 00:54:13,520
+large bitstream into an accelerator I
+
+1362
+00:54:11,559 --> 00:54:15,359
+would want that bitstream to be
+
+1363
+00:54:13,520 --> 00:54:17,079
+processed within the accelerator without
+
+1364
+00:54:15,359 --> 00:54:19,799
+sending it back and forth again and
+
+1365
+00:54:17,079 --> 00:54:22,599
+again yes so can we think of like some
+
+1366
+00:54:19,799 --> 00:54:25,079
+methods in which uh for example as you
+
+1367
+00:54:22,599 --> 00:54:27,040
+mentioned like know like we cannot build
+
+1368
+00:54:25,079 --> 00:54:29,000
+very large multipliers but like can we
+
+1369
+00:54:27,040 --> 00:54:32,040
+think about like some Innovative schemes
+
+1370
+00:54:29,000 --> 00:54:33,960
+in which we can do the multiplication
+
+1371
+00:54:32,040 --> 00:54:38,079
+but without doing this back and forth
+
+1372
+00:54:33,960 --> 00:54:40,520
+again and again I mean well you know
+
+1373
+00:54:38,079 --> 00:54:45,000
+multiple are well researched right you
+
+1374
+00:54:40,520 --> 00:54:46,359
+know so um so I can't imagine that that
+
+1375
+00:54:45,000 --> 00:54:47,920
+well certainly I can't imagine myself
+
+1376
+00:54:46,359 --> 00:54:50,119
+you know coming up with a with a with a
+
+1377
+00:54:47,920 --> 00:54:52,920
+new multiply algorithm uh but I think
+
+1378
+00:54:50,119 --> 00:54:54,599
+that at a level higher than that um is
+
+1379
+00:54:52,920 --> 00:54:57,839
+where we're working right you know which
+
+1380
+00:54:54,599 --> 00:55:01,440
+is which is sequences of multiple I and
+
+1381
+00:54:57,839 --> 00:55:04,200
+um feeding the output of of one multiply
+
+1382
+00:55:01,440 --> 00:55:05,880
+into another and and making sure that if
+
+1383
+00:55:04,200 --> 00:55:08,680
+if it was on the chip and you're right
+
+1384
+00:55:05,880 --> 00:55:11,720
+there you grab it and go right um but if
+
+1385
+00:55:08,680 --> 00:55:13,960
+you needed to move it you know well even
+
+1386
+00:55:11,720 --> 00:55:16,480
+uh to uh a different bank of registers
+
+1387
+00:55:13,960 --> 00:55:19,559
+or a different scratch Pad uh you lost a
+
+1388
+00:55:16,480 --> 00:55:21,520
+little bit and you the game is over um
+
+1389
+00:55:19,559 --> 00:55:25,039
+and and you you you've lost if you have
+
+1390
+00:55:21,520 --> 00:55:27,640
+to move it off chip right so um It's
+
+1391
+00:55:25,039 --> 00:55:30,240
+Complicated enough um that you know I
+
+1392
+00:55:27,640 --> 00:55:32,559
+don't have a handle on kind of this you
+
+1393
+00:55:30,240 --> 00:55:34,400
+know this beautiful scheduling algorithm
+
+1394
+00:55:32,559 --> 00:55:36,240
+um that would do it exactly right
+
+1395
+00:55:34,400 --> 00:55:38,640
+because you know it's very constrained
+
+1396
+00:55:36,240 --> 00:55:40,640
+and and the numbers are important
+
+1397
+00:55:38,640 --> 00:55:43,640
+because you know how much you can store
+
+1398
+00:55:40,640 --> 00:55:46,480
+spilling is bad as I mentioned um but
+
+1399
+00:55:43,640 --> 00:55:47,960
+but that's kind of the the the Crux of
+
+1400
+00:55:46,480 --> 00:55:50,440
+the matter I mean I think that you you
+
+1401
+00:55:47,960 --> 00:55:53,960
+put your finger on exactly the um on
+
+1402
+00:55:50,440 --> 00:55:55,760
+exactly the problem I I I don't a
+
+1403
+00:55:53,960 --> 00:55:57,000
+general purpose algorithm to solve it I
+
+1404
+00:55:55,760 --> 00:56:00,480
+think it's probably
+
+1405
+00:55:57,000 --> 00:56:03,079
+you know feasible now the that algorithm
+
+1406
+00:56:00,480 --> 00:56:04,440
+now is your cost model for this
+
+1407
+00:56:03,079 --> 00:56:06,440
+accelerate ability metric that I
+
+1408
+00:56:04,440 --> 00:56:08,079
+mentioned to you because you want to say
+
+1409
+00:56:06,440 --> 00:56:09,400
+that assuming you had this beautiful
+
+1410
+00:56:08,079 --> 00:56:11,559
+algorithm that would do the scheduling
+
+1411
+00:56:09,400 --> 00:56:12,720
+properly um and then uh you know that
+
+1412
+00:56:11,559 --> 00:56:14,799
+tells you what your cost of data
+
+1413
+00:56:12,720 --> 00:56:17,280
+movement is and now your actual
+
+1414
+00:56:14,799 --> 00:56:18,640
+cryptographic algorithm should use that
+
+1415
+00:56:17,280 --> 00:56:20,680
+right you know as opposed to this order
+
+1416
+00:56:18,640 --> 00:56:21,559
+and square it's like util a and square
+
+1417
+00:56:20,680 --> 00:56:23,240
+it's going to come up with the wrong
+
+1418
+00:56:21,559 --> 00:56:25,640
+thing you tell it that you give it a
+
+1419
+00:56:23,240 --> 00:56:28,240
+better U uh uh metric it's going to come
+
+1420
+00:56:25,640 --> 00:56:30,520
+up with the right actual overall design
+
+1421
+00:56:28,240 --> 00:56:33,839
+right right that's a great Insight so
+
+1422
+00:56:30,520 --> 00:56:35,760
+another related uh question to this is
+
+1423
+00:56:33,839 --> 00:56:39,240
+why don't you go to Iran maybe yeah yeah
+
+1424
+00:56:35,760 --> 00:56:41,960
+well venod got three questions you know
+
+1425
+00:56:39,240 --> 00:56:43,640
+yeah but he's VOD yeah yeah right so
+
+1426
+00:56:41,960 --> 00:56:47,160
+microphone
+
+1427
+00:56:43,640 --> 00:56:48,359
+yeah right so and know some some
+
+1428
+00:56:47,160 --> 00:56:50,039
+cryptographic
+
+1429
+00:56:48,359 --> 00:56:52,799
+algorithms
+
+1430
+00:56:50,039 --> 00:56:56,480
+um have a problem with side Channel
+
+1431
+00:56:52,799 --> 00:56:58,039
+attacks yeah yeah and so are there any
+
+1432
+00:56:56,480 --> 00:57:00,200
+issues with that and either the design
+
+1433
+00:56:58,039 --> 00:57:02,720
+of the hardware or its use great great
+
+1434
+00:57:00,200 --> 00:57:04,680
+question so in the FHA World um we
+
+1435
+00:57:02,720 --> 00:57:07,079
+basically say you know side channels be
+
+1436
+00:57:04,680 --> 00:57:08,960
+damned because um it's Cypher text and
+
+1437
+00:57:07,079 --> 00:57:11,319
+you could you could see the cipher text
+
+1438
+00:57:08,960 --> 00:57:13,760
+right so that's fine in the zkp world
+
+1439
+00:57:11,319 --> 00:57:15,240
+it's it's nuanced because in on the
+
+1440
+00:57:13,760 --> 00:57:17,880
+prover side you got to be a little bit
+
+1441
+00:57:15,240 --> 00:57:20,680
+careful because there's a there's the ZK
+
+1442
+00:57:17,880 --> 00:57:21,880
+part of it um which is the witness right
+
+1443
+00:57:20,680 --> 00:57:23,359
+you know and so you you don't
+
+1444
+00:57:21,880 --> 00:57:24,359
+necessarily want as you're doing it you
+
+1445
+00:57:23,359 --> 00:57:27,599
+don't necessarily want to leak the
+
+1446
+00:57:24,359 --> 00:57:29,960
+witness so um V honestly it's a great
+
+1447
+00:57:27,599 --> 00:57:31,599
+question uh we kind of ignored it um we
+
+1448
+00:57:29,960 --> 00:57:33,680
+and that's why I said don't worry about
+
+1449
+00:57:31,599 --> 00:57:35,280
+the ZK part this is about the integrity
+
+1450
+00:57:33,680 --> 00:57:37,200
+and so you have to kind of look at it a
+
+1451
+00:57:35,280 --> 00:57:39,599
+little bit more carefully uh I think for
+
+1452
+00:57:37,200 --> 00:57:41,640
+the designs that we have the fact that
+
+1453
+00:57:39,599 --> 00:57:43,400
+it's static control the fact that
+
+1454
+00:57:41,640 --> 00:57:45,599
+everything happens kind of the same
+
+1455
+00:57:43,400 --> 00:57:47,039
+regardless of the bits is a huge help
+
+1456
+00:57:45,599 --> 00:57:49,480
+right so that's pretty much all I have
+
+1457
+00:57:47,039 --> 00:57:52,359
+for you right so yeah Iran had a
+
+1458
+00:57:49,480 --> 00:57:53,839
+question yeah thank you well first uh uh
+
+1459
+00:57:52,359 --> 00:57:56,480
+thank you for this talk clearly these
+
+1460
+00:57:53,839 --> 00:57:58,559
+are exciting times for thep graphic
+
+1461
+00:57:56,480 --> 00:58:00,839
+techniques for protecting General
+
+1462
+00:57:58,559 --> 00:58:02,760
+computation and I think that this kind
+
+1463
+00:58:00,839 --> 00:58:04,599
+of acceleration is essential for it to
+
+1464
+00:58:02,760 --> 00:58:07,880
+have the uh to fulfill the Practical
+
+1465
+00:58:04,599 --> 00:58:11,640
+promise um I have a question about um
+
+1466
+00:58:07,880 --> 00:58:15,200
+handling uh faults um as as we know when
+
+1467
+00:58:11,640 --> 00:58:17,480
+vsi design uh making sure that uh fals
+
+1468
+00:58:15,200 --> 00:58:20,599
+fults have low enough probability is a
+
+1469
+00:58:17,480 --> 00:58:23,520
+traditional uh design Criterion in Asic
+
+1470
+00:58:20,599 --> 00:58:25,480
+design um but in some cases you may be
+
+1471
+00:58:23,520 --> 00:58:27,680
+able to afford fults in which case you
+
+1472
+00:58:25,480 --> 00:58:29,520
+can push your clock rate faster or have
+
+1473
+00:58:27,680 --> 00:58:31,079
+more aggressive design roles and
+
+1474
+00:58:29,520 --> 00:58:34,400
+potentially get a lot of
+
+1475
+00:58:31,079 --> 00:58:36,119
+performance um now we know that in some
+
+1476
+00:58:34,400 --> 00:58:39,000
+contexts uh when you have specific
+
+1477
+00:58:36,119 --> 00:58:40,880
+algorithms like the ones for factoring
+
+1478
+00:58:39,000 --> 00:58:42,160
+you can afford mistakes because you can
+
+1479
+00:58:40,880 --> 00:58:45,000
+compensate for them at a higher
+
+1480
+00:58:42,160 --> 00:58:46,880
+algorithmic level and I wonder if we are
+
+1481
+00:58:45,000 --> 00:58:50,359
+looking at that pattern again here for
+
+1482
+00:58:46,880 --> 00:58:52,119
+example in the case of U uh verifiable
+
+1483
+00:58:50,359 --> 00:58:53,640
+computation you may be able to afford
+
+1484
+00:58:52,119 --> 00:58:55,319
+occasional faults as long as you can
+
+1485
+00:58:53,640 --> 00:58:57,799
+catch them through the very mechanism of
+
+1486
+00:58:55,319 --> 00:59:00,039
+verifiable comp ation or in the case of
+
+1487
+00:58:57,799 --> 00:59:01,880
+FH if defaults end up just increasing
+
+1488
+00:59:00,039 --> 00:59:03,359
+the noise that you handle anyway they
+
+1489
+00:59:01,880 --> 00:59:05,319
+may be absorbable have have you looked
+
+1490
+00:59:03,359 --> 00:59:08,119
+at that no no we haven't looked at it
+
+1491
+00:59:05,319 --> 00:59:10,880
+but I think I think um um I I want to
+
+1492
+00:59:08,119 --> 00:59:12,799
+say that um aay josi has been looking at
+
+1493
+00:59:10,880 --> 00:59:14,240
+things that maybe not exactly that but
+
+1494
+00:59:12,799 --> 00:59:15,039
+you know you you you should check in
+
+1495
+00:59:14,240 --> 00:59:18,039
+with
+
+1496
+00:59:15,039 --> 00:59:21,520
+him um and he's he's written some nice
+
+1497
+00:59:18,039 --> 00:59:25,559
+papers on U on um FH acceleration in
+
+1498
+00:59:21,520 --> 00:59:28,599
+particular um um from he's at Buu for
+
+1499
+00:59:25,559 --> 00:59:33,039
+those of you who who don't know him uh
+
+1500
+00:59:28,599 --> 00:59:34,520
+but um yeah so um um I don't I I don't
+
+1501
+00:59:33,039 --> 00:59:38,079
+think I have a great answer for you on
+
+1502
+00:59:34,520 --> 00:59:42,280
+but I will say that um um in the in in
+
+1503
+00:59:38,079 --> 00:59:46,160
+the context of um static control um it
+
+1504
+00:59:42,280 --> 00:59:49,480
+is an exploitable uh mechanism to uh
+
+1505
+00:59:46,160 --> 00:59:51,400
+fall tolerance is easier right in in
+
+1506
+00:59:49,480 --> 00:59:54,799
+Fall tolerance is is really difficult
+
+1507
+00:59:51,400 --> 00:59:58,240
+when particular faults um are much worse
+
+1508
+00:59:54,799 --> 01:00:00,880
+than others um and but maybe they have
+
+1509
+00:59:58,240 --> 01:00:03,160
+less lower probability and it's you know
+
+1510
+01:00:00,880 --> 01:00:05,359
+kind of heterogeneous like that it it
+
+1511
+01:00:03,160 --> 01:00:08,079
+becomes a much harder problem um in the
+
+1512
+01:00:05,359 --> 01:00:10,200
+context of the designs that we have um
+
+1513
+01:00:08,079 --> 01:00:12,000
+it's very homogeneous in the context in
+
+1514
+01:00:10,200 --> 01:00:13,839
+in the sense of false right so it it's
+
+1515
+01:00:12,000 --> 01:00:16,640
+going to be um well you know the
+
+1516
+01:00:13,839 --> 01:00:18,920
+pipeline went through or not you know
+
+1517
+01:00:16,640 --> 01:00:22,760
+and and um it's it's there's no data
+
+1518
+01:00:18,920 --> 01:00:25,000
+dependent control flow um but um going I
+
+1519
+01:00:22,760 --> 01:00:29,319
+think the other part that uh uh perhaps
+
+1520
+01:00:25,000 --> 01:00:32,359
+uh um uh is the more more exciting is is
+
+1521
+01:00:29,319 --> 01:00:33,839
+exploiting the uh well having F tolerant
+
+1522
+01:00:32,359 --> 01:00:36,359
+algorithms themselves right you know
+
+1523
+01:00:33,839 --> 01:00:38,400
+which is uh which I think is kind of a
+
+1524
+01:00:36,359 --> 01:00:39,839
+little bit orthogonal to um to
+
+1525
+01:00:38,400 --> 01:00:42,240
+accelerators in the sense that those
+
+1526
+01:00:39,839 --> 01:00:44,319
+would be useful in the CPU as well uh
+
+1527
+01:00:42,240 --> 01:00:45,760
+and the combination of that I'm hard to
+
+1528
+01:00:44,319 --> 01:00:48,280
+think about but uh it's certainly
+
+1529
+01:00:45,760 --> 01:00:52,440
+something that should be exploited for
+
+1530
+01:00:48,280 --> 01:00:56,599
+sure right thanks all right time so
+
+1531
+01:00:52,440 --> 01:00:59,799
+thanks for I think we have a bre now
+
+1532
+01:00:56,599 --> 01:00:59,799
+thank you
+

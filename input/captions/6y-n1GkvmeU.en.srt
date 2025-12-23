@@ -1,0 +1,3602 @@
+1
+00:00:00,640 --> 00:00:06,400
+Hello everyone. Welcome to those of you
+who are in person with us today. Welcome 
+
+2
+00:00:06,400 --> 00:00:11,920
+also to everyone who is joining us
+online. My name is Daniela Rus. I'm 
+
+3
+00:00:11,920 --> 00:00:15,520
+the director of the Computer Science and
+Artificial Intelligence Laboratory at 
+
+4
+00:00:15,520 --> 00:00:22,400
+MIT and I would like to welcome you to
+the inaugural CSAIL Forum. Uh today we 
+
+5
+00:00:22,400 --> 00:00:29,520
+launch a new platform for rigorous and
+visionary intellectual exchanges at the 
+
+6
+00:00:29,520 --> 00:00:31,920
+frontiers of computer science and
+artificial 
+
+7
+00:00:31,920 --> 00:00:38,240
+intelligence. And our inaugural speaker
+is professor Phillip Isola whose 
+
+8
+00:00:38,240 --> 00:00:43,360
+groundbreaking work uh is at the
+intersection of computer science, 
+
+9
+00:00:43,360 --> 00:00:50,000
+computer vision, machine learning and
+cognitive science. And um this work has 
+
+10
+00:00:50,000 --> 00:00:57,040
+consistently challenged conventional
+thinking and so I am delighted to pass 
+
+11
+00:00:57,040 --> 00:01:02,400
+the microphone uh to Phillip in just a
+second. Okay. Yeah. Thank you for the 
+
+12
+00:01:02,400 --> 00:01:08,640
+introduction. Um and happy to talk about
+uh this work that we've done in my group 
+
+13
+00:01:08,640 --> 00:01:12,880
+recently that we call the platonic
+representation hypothesis. 
+
+14
+00:01:12,880 --> 00:01:18,080
+And this is work with uh Minyoung Huh,
+Brian Cheung, and Tongzhou Wang. They were 
+
+15
+00:01:18,080 --> 00:01:22,320
+the initial authors that we on the paper
+we put out last summer. And then Yulu Gan 
+
+16
+00:01:22,320 --> 00:01:25,440
+and Ivy Zhao who are new students in my
+my group have been following up and 
+
+17
+00:01:25,440 --> 00:01:30,240
+doing more work on this. So um I've
+given this talk a few times. Um but 
+
+18
+00:01:30,240 --> 00:01:33,280
+there'll be some new stuff uh in it as
+well. I'm going to update it with the 
+
+19
+00:01:33,280 --> 00:01:36,960
+last six months of progress as well.
+Okay. 
+
+20
+00:01:36,960 --> 00:01:44,720
+So showing the intro animation that um I
+forgot to press play on that. Okay. 
+
+21
+00:01:44,720 --> 00:01:48,000
+Different ways of looking at the world.
+Okay. So I'll start with this story 
+
+22
+00:01:48,000 --> 00:01:51,600
+which
+is one of the papers I really like from 
+
+23
+00:01:51,600 --> 00:01:57,760
+the last decade. Um this is work from uh
+Antonio and Aude Oliva uh and uh and 
+
+24
+00:01:57,760 --> 00:02:03,520
+others. And what they found is that
+object detectors emerge in deep scene uh 
+
+25
+00:02:03,520 --> 00:02:09,360
+convolutional neural networks. So uh in
+this paper from 2015 they took a neural 
+
+26
+00:02:09,360 --> 00:02:13,120
+network and they tried to probe what
+internally is it representing about the 
+
+27
+00:02:13,120 --> 00:02:17,360
+world. So they trained the network to
+predict the scene label like this is a 
+
+28
+00:02:17,360 --> 00:02:21,520
+dining room and if you then go into the
+network and you probe the neurons you 
+
+29
+00:02:21,520 --> 00:02:25,440
+stick like electrodes virtual electrodes
+in there and you measure what those 
+
+30
+00:02:25,440 --> 00:02:28,880
+neurons respond to. They found that
+there were neurons that would be 
+
+31
+00:02:28,880 --> 00:02:34,160
+activated selectively for certain object
+categories. So there was a neuron that 
+
+32
+00:02:34,160 --> 00:02:38,480
+acted like a dog face detector and
+there's another neuron that acts like a 
+
+33
+00:02:38,480 --> 00:02:43,600
+um robin head detector. That's neuron B
+here. So this is really cool because it 
+
+34
+00:02:43,600 --> 00:02:47,280
+kind of showed that these systems are
+not just uninterpretable black boxes 
+
+35
+00:02:47,280 --> 00:02:49,920
+that you can actually dig into them and
+they have internal structure that kind 
+
+36
+00:02:49,920 --> 00:02:54,080
+of make sense. In order to understand
+what is going on in an image in a scene, 
+
+37
+00:02:54,080 --> 00:02:56,960
+you should first detect the objects and
+then you'll know that it might be like a 
+
+38
+00:02:56,960 --> 00:03:03,600
+park scene outdoors. Okay. So uh we did
+this study a few years ago uh where we 
+
+39
+00:03:03,600 --> 00:03:07,040
+tried to train a network to colorize
+photos just predict the colors in a 
+
+40
+00:03:07,040 --> 00:03:11,600
+black and white image and we ran the
+same uh experiment as they did in the 
+
+41
+00:03:11,600 --> 00:03:15,120
+previous work where we looked internally
+and asked what are the units what are 
+
+42
+00:03:15,120 --> 00:03:20,640
+the neurons uh selective to and the
+really interesting thing is that we find 
+
+43
+00:03:20,640 --> 00:03:25,520
+a similar pattern. So, you might think
+that a network trained to just colorize 
+
+44
+00:03:25,520 --> 00:03:29,360
+photos, like predict the colors in a
+black and white image, would have a very 
+
+45
+00:03:29,360 --> 00:03:33,200
+different internal representation than a
+network that's trained to classify is it 
+
+46
+00:03:33,200 --> 00:03:36,560
+a kitchen or is it a bathroom or is it a
+living room? But it turns out no, 
+
+47
+00:03:36,560 --> 00:03:39,840
+they're actually quite similar. So,
+there is a neuron inside a colorization 
+
+48
+00:03:39,840 --> 00:03:44,000
+network that detects if there's a dog in
+the image and there's another neuron 
+
+49
+00:03:44,000 --> 00:03:47,600
+that detects if there's a flower in the
+image. In order to solve the problem of 
+
+50
+00:03:47,600 --> 00:03:51,440
+just predicting missing colors, you get
+these kind of semantic units. And this 
+
+51
+00:03:51,440 --> 00:03:55,200
+is a story you might have heard before.
+Uh it's it's appeared all over the 
+
+52
+00:03:55,200 --> 00:03:59,680
+place. Uh for very um diverse kinds of
+ways of training your neural networks, 
+
+53
+00:03:59,680 --> 00:04:03,840
+you end up with internal structures that
+uh always kind of look somewhat similar. 
+
+54
+00:04:03,840 --> 00:04:07,600
+They they have face detectors. They have
+edge detectors on the early layers. They 
+
+55
+00:04:07,600 --> 00:04:11,120
+have gabbors and then they go up and
+they create more complicated structures. 
+
+56
+00:04:11,120 --> 00:04:13,920
+Um so there seems to be some kind of
+similarity in the internal 
+
+57
+00:04:13,920 --> 00:04:17,920
+representations in computer vision
+systems across many different models and 
+
+58
+00:04:17,920 --> 00:04:22,240
+ways of training them.
+Okay, so that's led us uh to this point 
+
+59
+00:04:22,240 --> 00:04:26,880
+where we really wanted to uh put a
+hypothesis around that idea and 
+
+60
+00:04:26,880 --> 00:04:32,640
+investigate to what degree is it um
+going to be true. So the hypothesis 
+
+61
+00:04:32,640 --> 00:04:37,280
+we'll investigate in this talk is uh the
+hypothesis that different neural 
+
+62
+00:04:37,280 --> 00:04:40,080
+networks trained on different data with
+different architectures, different 
+
+63
+00:04:40,080 --> 00:04:44,080
+optimization somehow converge to similar
+or maybe even the same way of 
+
+64
+00:04:44,080 --> 00:04:47,440
+representing the world. To what degree
+is that true? 
+
+65
+00:04:48,640 --> 00:04:53,200
+Okay,
+so there's a lot of reasons why that 
+
+66
+00:04:53,200 --> 00:04:56,480
+might be happening and you might already
+have some ideas in your mind like okay 
+
+67
+00:04:56,480 --> 00:04:59,600
+well of course these things learn
+similar structures because they're all 
+
+68
+00:04:59,600 --> 00:05:03,600
+trained on the same data sets right we
+have these standard data sets imageet 
+
+69
+00:05:03,600 --> 00:05:07,920
+and and so forth and now we train all
+our big models on the internet so maybe 
+
+70
+00:05:07,920 --> 00:05:11,760
+it's just the data it's all about the
+data convergence is driven by training 
+
+71
+00:05:11,760 --> 00:05:16,400
+on similar data sets okay also we all
+use the same architecture right we're 
+
+72
+00:05:16,400 --> 00:05:20,400
+all using transformers now could be the
+architecture. Maybe it's the 
+
+73
+00:05:20,400 --> 00:05:25,200
+optimization. We're all using Atom and
+SGD. Uh maybe it's about us. Like I'm 
+
+74
+00:05:25,200 --> 00:05:28,080
+talking to you, I'm telling you how I
+did it. Maybe it's just sociotechnical 
+
+75
+00:05:28,080 --> 00:05:31,600
+like we all converge because we're going
+to the same conferences. We want to 
+
+76
+00:05:31,600 --> 00:05:35,280
+follow the same trends. So I think these
+are all part of it. But I want to argue 
+
+77
+00:05:35,280 --> 00:05:38,560
+that it's something a bit deeper. Uh
+that actually when we train our models 
+
+78
+00:05:38,560 --> 00:05:42,800
+on different data sets systematically,
+they also look like they have similar 
+
+79
+00:05:42,800 --> 00:05:46,480
+internal structure. uh when we change
+the architecture if we don't use a 
+
+80
+00:05:46,480 --> 00:05:50,480
+transformer, it also ends up converging
+to something kind of similar. So I want 
+
+81
+00:05:50,480 --> 00:05:54,080
+to argue that uh it's all about the
+world. We're modeling the world and the 
+
+82
+00:05:54,080 --> 00:05:56,240
+world is ultimately the thing that
+unifies all of these 
+
+83
+00:05:56,240 --> 00:06:00,960
+representations. Okay, so I'll go into a
+lot more detail about exactly what I 
+
+84
+00:06:00,960 --> 00:06:05,920
+mean. I'll talk about these five things.
+So first, evidence of convergence. Uh 
+
+85
+00:06:05,920 --> 00:06:11,920
+second, some ideas for what is driving
+convergence. Uh then a uh a thought on 
+
+86
+00:06:11,920 --> 00:06:15,120
+what we might be converging to. what is
+this ultimate representation that we 
+
+87
+00:06:15,120 --> 00:06:18,960
+might end up with in theory? I'll talk
+about some counterarguments and then 
+
+88
+00:06:18,960 --> 00:06:21,040
+some implications and applications of
+these 
+
+89
+00:06:21,040 --> 00:06:28,080
+ideas. So let's start with evidence of
+convergence. Okay. And at the end I'll 
+
+90
+00:06:28,080 --> 00:06:32,800
+uh try to leave time for uh questions so
+we can have some discussion at the end. 
+
+91
+00:06:32,800 --> 00:06:38,240
+Okay. So I'm going to analyze
+representations in neural nets uh using 
+
+92
+00:06:38,240 --> 00:06:42,240
+kernels. So what I mean by that is we
+will restrict our attention to 
+
+93
+00:06:42,240 --> 00:06:46,080
+representations that are vector
+embeddings. So neural nets that map from 
+
+94
+00:06:46,080 --> 00:06:51,360
+data to vector in Rn. Okay, this isn't
+everything, but this is a very broad 
+
+95
+00:06:51,360 --> 00:06:54,640
+class of
+systems. And we're going to characterize 
+
+96
+00:06:54,640 --> 00:06:59,280
+a representation by how it measures
+distance. Okay, so we do that in terms 
+
+97
+00:06:59,280 --> 00:07:02,400
+of this function we call the kernel.
+It's a standard object in machine 
+
+98
+00:07:02,400 --> 00:07:08,000
+learning. uh it's the inner product
+between the embedding for data point I 
+
+99
+00:07:08,000 --> 00:07:12,560
+and data point
+J. Okay, so this kernel is like the 
+
+100
+00:07:12,560 --> 00:07:15,680
+similarity matrix in the feature space
+of a neural 
+
+101
+00:07:15,680 --> 00:07:21,920
+network. Okay, so here's what the kernel
+might look like for a computer vision 
+
+102
+00:07:21,920 --> 00:07:26,080
+neural network that takes images and
+outputs embeddings. And what this kernel 
+
+103
+00:07:26,080 --> 00:07:30,640
+is saying is it's saying how similar is
+my neural network's representation of 
+
+104
+00:07:30,640 --> 00:07:33,760
+apple to orange and that will be this
+cell here and it will say that's quite 
+
+105
+00:07:33,760 --> 00:07:38,080
+similar uh because maybe this network
+has been trained to understand fruits 
+
+106
+00:07:38,080 --> 00:07:42,880
+and it knows that those are similar
+objects. Uh and orange and elephant will 
+
+107
+00:07:42,880 --> 00:07:46,080
+be considered dissimilar. So this matrix
+is telling me how does the neural 
+
+108
+00:07:46,080 --> 00:07:49,520
+network measure distance and it's one of
+the kind of fundamental structures that 
+
+109
+00:07:49,520 --> 00:07:52,720
+people use to understand internal
+representations in neural networks as 
+
+110
+00:07:52,720 --> 00:07:56,880
+well as other areas of machine learning.
+If we can un if we know the kernel then 
+
+111
+00:07:56,880 --> 00:08:01,120
+we know a lot about the um about the
+representation and what it can do. 
+
+112
+00:08:01,120 --> 00:08:07,840
+Okay. So what we're going to be looking
+at is the similarity between the kernels 
+
+113
+00:08:07,840 --> 00:08:11,520
+uh given by two different models. So
+here's one example of two different 
+
+114
+00:08:11,520 --> 00:08:14,640
+vision models. One is called clip,
+another is called dyno. These are 
+
+115
+00:08:14,640 --> 00:08:18,560
+standard current computer vision models.
+And we're going to ask to what degree 
+
+116
+00:08:18,560 --> 00:08:21,920
+are their kernels the way they measure
+distance uh similar to each other. So 
+
+117
+00:08:21,920 --> 00:08:25,600
+it's a similarity measure between
+similarity structures inside the neural 
+
+118
+00:08:25,600 --> 00:08:30,160
+network. Uh so in this case Dino and
+clip have some minor differences in this 
+
+119
+00:08:30,160 --> 00:08:33,760
+cartoon but they're roughly similar
+kernels. They both think apples and 
+
+120
+00:08:33,760 --> 00:08:36,480
+oranges are quite
+alike. 
+
+121
+00:08:36,480 --> 00:08:41,840
+Okay. So this is the main metric that
+we'll be using to analyze uh to what 
+
+122
+00:08:41,840 --> 00:08:45,840
+degree are different networks finding
+similar representations. And the first 
+
+123
+00:08:45,840 --> 00:08:50,560
+experiment I want to run is looking at
+different vision systems and asking as 
+
+124
+00:08:50,560 --> 00:08:54,960
+vision systems get better and better at
+the task of vision, do they end up 
+
+125
+00:08:54,960 --> 00:08:59,680
+representing the world in similar or
+different ways? So hypothesis one will 
+
+126
+00:08:59,680 --> 00:09:03,760
+be uh no no there's many different
+equally good ways of representing the 
+
+127
+00:09:03,760 --> 00:09:07,840
+visual world and there's no reason why
+you know current state-of-the-art 
+
+128
+00:09:07,840 --> 00:09:11,680
+systems will all choose the same one.
+There could be equally valid uh and 
+
+129
+00:09:11,680 --> 00:09:17,200
+diverse approaches. And hypothesis too
+is um actually no it turns out that all 
+
+130
+00:09:17,200 --> 00:09:20,320
+strong vision representations are
+somehow alike. They all measure distance 
+
+131
+00:09:20,320 --> 00:09:24,480
+in similar ways. Uh and this this has
+been described as kind of an anakinario 
+
+132
+00:09:24,480 --> 00:09:30,240
+anaina scenario uh by bonsel at all um
+in the past. So all strong 
+
+133
+00:09:30,240 --> 00:09:35,040
+representations are
+alike. Okay. So we ran this experiment. 
+
+134
+00:09:35,040 --> 00:09:39,680
+We downloaded 78 different vision
+models. Uh these are contrastive models. 
+
+135
+00:09:39,680 --> 00:09:43,200
+They're recurrent models. They're resnet
+models. They're convolutional models. 
+
+136
+00:09:43,200 --> 00:09:47,040
+They're a bunch of different models and
+they have different architectures, 
+
+137
+00:09:47,040 --> 00:09:51,600
+objectives, and they're trained on
+different types of data. And we grouped 
+
+138
+00:09:51,600 --> 00:09:55,760
+them by their performance on this VTAB
+benchmark, which is meant to be kind of 
+
+139
+00:09:55,760 --> 00:09:59,360
+an assessment of how good is your visual
+representation. You assess how good is 
+
+140
+00:09:59,360 --> 00:10:03,920
+your representation in these models by
+doing transfer learning onto a suite of 
+
+141
+00:10:03,920 --> 00:10:08,240
+downstream
+tasks. Okay, so here's the uh result 
+
+142
+00:10:08,240 --> 00:10:14,880
+that we found. So on the y-axis is how
+similar are the representations to each 
+
+143
+00:10:14,880 --> 00:10:18,080
+other within a bucket of performance and
+the buckets of performance are on the 
+
+144
+00:10:18,080 --> 00:10:23,920
+x-axis. So what you can see is that
+models that perform very well. So they 
+
+145
+00:10:23,920 --> 00:10:30,800
+solve between um they they solve many
+different vtab tasks. Uh they have very 
+
+146
+00:10:30,800 --> 00:10:34,640
+similar representations. So all models
+that solve uh these tasks well have 
+
+147
+00:10:34,640 --> 00:10:38,400
+similar representations. models that
+don't solve very many of the tasks uh 
+
+148
+00:10:38,400 --> 00:10:41,040
+are much more diverse and there's many
+ways you can be wrong but only one way 
+
+149
+00:10:41,040 --> 00:10:44,000
+you can be right in in this particular
+measure of performance called 
+
+150
+00:10:44,000 --> 00:10:49,520
+vab uh we can look at that in a slightly
+different way by just uh making this 
+
+151
+00:10:49,520 --> 00:10:53,840
+kind of dimensionality reduction this um
+visualization of here are all our 
+
+152
+00:10:53,840 --> 00:10:56,560
+different models that we tested and you
+can see they have different symbols for 
+
+153
+00:10:56,560 --> 00:11:00,720
+different types of architecture and
+objective and the color indicates their 
+
+154
+00:11:00,720 --> 00:11:05,280
+performance on the VAB transfer learning
+task and blue means high performance And 
+
+155
+00:11:05,280 --> 00:11:11,760
+you can see that uh the main uh feature
+that uh organizes uh how these models 
+
+156
+00:11:11,760 --> 00:11:15,440
+group together uh which models are cons
+are alike in their representations is 
+
+157
+00:11:15,440 --> 00:11:19,440
+their performance. It's not the
+architecture, it's not the objective uh 
+
+158
+00:11:19,440 --> 00:11:22,400
+it's the performance. So the
+wellperforming models all have similar 
+
+159
+00:11:22,400 --> 00:11:26,880
+internal representations. Okay. So the
+the the conclusion of this experiment is 
+
+160
+00:11:26,880 --> 00:11:31,520
+that the anacrrenina situation is
+seeming to hold here. Uh strong models 
+
+161
+00:11:31,520 --> 00:11:34,160
+are alike, weak models are weak in their
+own way. 
+
+162
+00:11:35,920 --> 00:11:43,760
+Okay. So, I think that that was that's
+an interesting result. Uh but maybe not 
+
+163
+00:11:43,760 --> 00:11:48,400
+too surprising. You know, as we get
+better and better vision systems, 
+
+164
+00:11:48,400 --> 00:11:50,960
+they're going to perform well at the
+same task. So, to perform well at the 
+
+165
+00:11:50,960 --> 00:11:54,800
+same task, of course, they've got to
+somehow, you know, find similar features 
+
+166
+00:11:54,800 --> 00:11:59,760
+and have similar representations. Uh
+we're going to now ask something that's 
+
+167
+00:11:59,760 --> 00:12:04,240
+a little bit less clear which is do you
+also get similarity between different 
+
+168
+00:12:04,240 --> 00:12:08,560
+modalities. So representations of
+language are they becoming more similar 
+
+169
+00:12:08,560 --> 00:12:12,640
+or less similar to representations of
+vision? Okay. Again we'll have a few 
+
+170
+00:12:12,640 --> 00:12:16,720
+hypotheses. So hypothesis one is that
+no. I mean as you get a better and 
+
+171
+00:12:16,720 --> 00:12:19,440
+better language model it becomes a
+language expert. It just gets really 
+
+172
+00:12:19,440 --> 00:12:23,040
+good at syntax and grammar. But why
+would it get better at recognizing cats 
+
+173
+00:12:23,040 --> 00:12:26,560
+and dogs? That doesn't make any sense.
+Okay. Okay, they might even get worse 
+
+174
+00:12:26,560 --> 00:12:30,000
+because they're getting specialized
+specialized to to language. Okay, 
+
+175
+00:12:30,000 --> 00:12:34,320
+hypothesis two is well somehow language
+and vision share common properties and 
+
+176
+00:12:34,320 --> 00:12:38,320
+so actually better language models are
+better vision models and there might be 
+
+177
+00:12:38,320 --> 00:12:41,920
+in like a really strong hypothesis like
+the very best language model is actually 
+
+178
+00:12:41,920 --> 00:12:46,320
+the same as the very best vision model.
+There's some like actual unification um 
+
+179
+00:12:46,320 --> 00:12:52,000
+at the end. Okay, so we're going to run
+um the same experiment but now we're 
+
+180
+00:12:52,000 --> 00:12:55,600
+going to look at crossmodal similarity.
+So we're going to take the kernel for a 
+
+181
+00:12:55,600 --> 00:12:58,960
+vision system and compare it to the
+kernel for a language system. But now 
+
+182
+00:12:58,960 --> 00:13:02,720
+we're cross modalities. So in order to
+ask if the language system is 
+
+183
+00:13:02,720 --> 00:13:06,800
+representing Apple and orange in the
+same way as the vision system is, we're 
+
+184
+00:13:06,800 --> 00:13:11,600
+going to run the language system on the
+captions uh that correspond to the uh 
+
+185
+00:13:11,600 --> 00:13:15,760
+images that we ran the vision system on.
+So we're asking is the word apple 
+
+186
+00:13:15,760 --> 00:13:19,360
+similar to the word orange in the same
+way as the image apple is similar to the 
+
+187
+00:13:19,360 --> 00:13:24,800
+the image
+orange. Okay, just to uh draw that one 
+
+188
+00:13:24,800 --> 00:13:29,040
+more time. What we're asking is if
+they're structured like this, does the 
+
+189
+00:13:29,040 --> 00:13:35,120
+vision model embed apple and orange near
+each other and far from elephant uh in 
+
+190
+00:13:35,120 --> 00:13:38,640
+the same way as the language model
+embeds the word apple and the word 
+
+191
+00:13:38,640 --> 00:13:41,040
+orange near each other and far from
+elephant. So, we're looking at the 
+
+192
+00:13:41,040 --> 00:13:44,640
+distance structure is the same between
+these two modalities. There could be a 
+
+193
+00:13:44,640 --> 00:13:48,160
+rotation or scale transformation. So,
+we're using a metric that's invariant to 
+
+194
+00:13:48,160 --> 00:13:50,720
+those types of changes. We're just
+looking at if if these two 
+
+195
+00:13:50,720 --> 00:13:52,480
+representations measure distance in the
+same 
+
+196
+00:13:52,480 --> 00:13:59,200
+way. Similarity of embedding of apple uh
+and orange is roughly the same as 
+
+197
+00:13:59,200 --> 00:14:02,320
+similarity of of embedding image of
+apple and image of of 
+
+198
+00:14:02,320 --> 00:14:08,160
+orange.
+Okay. So we measured this uh not over 
+
+199
+00:14:08,160 --> 00:14:12,160
+emojis uh we actually downloaded real
+photos and so we used the Wikipedia 
+
+200
+00:14:12,160 --> 00:14:15,600
+image text data set. So we have a lot of
+photos along with their caption and 
+
+201
+00:14:15,600 --> 00:14:21,360
+we're evaluating uh do does the vision
+system represent these photos of Euseite 
+
+202
+00:14:21,360 --> 00:14:24,320
+uh according to the same distance
+function as the language model 
+
+203
+00:14:24,320 --> 00:14:27,120
+represents these captions that describe
+those photos of 
+
+204
+00:14:27,120 --> 00:14:35,840
+Euseite. Okay. So here is the the main
+result. The main result is that we're 
+
+205
+00:14:35,840 --> 00:14:40,320
+going to
+plot alignment to vision. We're g we're 
+
+206
+00:14:40,320 --> 00:14:43,520
+be measuring the alignment between
+different language models and a computer 
+
+207
+00:14:43,520 --> 00:14:46,000
+vision model. Here we're picking one
+computer vision model which is the 
+
+208
+00:14:46,000 --> 00:14:50,480
+Dynino V2 model. And we're going to uh
+measure the alignment to the Dynino V2 
+
+209
+00:14:50,480 --> 00:14:55,120
+model as a function of the language
+models performance at next word 
+
+210
+00:14:55,120 --> 00:14:59,520
+prediction. So as language models get
+better and better along the x-axis at 
+
+211
+00:14:59,520 --> 00:15:03,920
+predicting next word and sentences at
+their basic task, do they end up 
+
+212
+00:15:03,920 --> 00:15:08,560
+becoming more and more alike in their
+kernels to vision models? Okay. Okay. 
+
+213
+00:15:08,560 --> 00:15:13,600
+And so here's the result. So yes, the
+answer is uh uh in within this regime 
+
+214
+00:15:13,600 --> 00:15:19,760
+they do. Uh so this is a small uh vision
+model. And as you look at different 
+
+215
+00:15:19,760 --> 00:15:23,840
+language models ranging from 1 billion
+parameter language models to 65 billion 
+
+216
+00:15:23,840 --> 00:15:28,000
+parameter language models, the bigger
+more performant language models end up 
+
+217
+00:15:28,000 --> 00:15:32,000
+having higher kernel alignment with the
+vision models. So better language models 
+
+218
+00:15:32,000 --> 00:15:36,160
+represent the world in ways that are
+more visual. And the trend goes in the 
+
+219
+00:15:36,160 --> 00:15:41,840
+other way too. So better vision models
+also become more aligned to language 
+
+220
+00:15:41,840 --> 00:15:46,240
+models. So Dino Giant, it's a really big
+computer vision model that's very good 
+
+221
+00:15:46,240 --> 00:15:50,000
+at computer vision tasks, is more
+similar in how it represents the world 
+
+222
+00:15:50,000 --> 00:15:56,640
+to llama, a language model, than Dino
+small is. So it goes both ways. Big 
+
+223
+00:15:56,640 --> 00:16:00,320
+vision models represent the world in a
+similar way as language models do. And 
+
+224
+00:16:00,320 --> 00:16:04,240
+big language models represent the world
+in a similar way as vision models do. It 
+
+225
+00:16:04,240 --> 00:16:06,320
+looks like there really is some
+convergence going on. 
+
+226
+00:16:07,760 --> 00:16:11,360
+Okay. So, is it going to continue? Uh, 
+
+227
+00:16:11,360 --> 00:16:14,800
+maybe. I'll I'll note that the metric
+that we're using, I'm not actually 
+
+228
+00:16:14,800 --> 00:16:18,480
+giving you all the details on that, but
+we're not at saturation. We're at a 
+
+229
+00:16:18,480 --> 00:16:23,520
+point about.16 on a metric that goes
+from 0 to one. Uh, so you could get 
+
+230
+00:16:23,520 --> 00:16:27,040
+better. Uh, maybe it's going to saturate
+or maybe this trend will fall off. It's 
+
+231
+00:16:27,040 --> 00:16:31,280
+just like a spurious correlation and it
+won't it won't uh hold for next year. 
+
+232
+00:16:31,280 --> 00:16:34,960
+And the last time I gave this talk, I I
+I would stop at that point and say 
+
+233
+00:16:34,960 --> 00:16:38,640
+speculation where this will go next. But
+fortunately, just two weeks ago, you 
+
+234
+00:16:38,640 --> 00:16:42,640
+know, some people ran these same
+experiments, but they went up to 7 
+
+235
+00:16:42,640 --> 00:16:47,680
+billion uh scale vision model. So we we
+went up to 1 billion scale vision model 
+
+236
+00:16:47,680 --> 00:16:54,320
+dinov v2 and we had a alignment of.16
+and people at meta went up to 7 billion 
+
+237
+00:16:54,320 --> 00:16:59,040
+a few weeks ago and measured alignment
+as a function of size of vision model 
+
+238
+00:16:59,040 --> 00:17:03,920
+and the trend actually
+continues. So they they had some 
+
+239
+00:17:03,920 --> 00:17:06,640
+interesting nuances in this paper so
+I'll encourage you to look into it if 
+
+240
+00:17:06,640 --> 00:17:10,480
+you're interested. Uh basically they
+found that the trend continues as you 
+
+241
+00:17:10,480 --> 00:17:15,840
+add more data but not necessarily more
+model scale. But big picture uh this 
+
+242
+00:17:15,840 --> 00:17:19,680
+this trend is continuing. It might be
+kind of flattening out a little bit. So 
+
+243
+00:17:19,680 --> 00:17:24,480
+who knows if it will go to uh go to one
+and be perfectly unified. But uh we are 
+
+244
+00:17:24,480 --> 00:17:27,840
+still seeing more alignment increasing
+between vision and language models up to 
+
+245
+00:17:27,840 --> 00:17:35,840
+the year 2025. Philip, do you understand
+why from 1B to um 5B seems to be flat? 
+
+246
+00:17:35,840 --> 00:17:39,840
+Yeah. Um so I need to look into the
+details. The question is do I understand 
+
+247
+00:17:39,840 --> 00:17:44,960
+why this part is flat here? uh 1b to 5B.
+Uh I think the point that they're making 
+
+248
+00:17:44,960 --> 00:17:48,720
+is that just increasing model scale
+without commensurately increasing data 
+
+249
+00:17:48,720 --> 00:17:52,640
+doesn't seem to have an effect on its on
+its own. Uh but if you also then 
+
+250
+00:17:52,640 --> 00:17:56,880
+increase data then you see the effect.
+Um so yeah just adding more parameters 
+
+251
+00:17:56,880 --> 00:18:01,600
+alone doesn't doesn't have the effect.
+Uh but again this is not my work so I'll 
+
+252
+00:18:01,600 --> 00:18:04,000
+need to look into those
+details. 
+
+253
+00:18:04,000 --> 00:18:10,000
+Okay. Um so going back to our work uh we
+didn't just run this on dyno. We ran it 
+
+254
+00:18:10,000 --> 00:18:13,440
+on a bunch of different vision models
+and the trends are the are roughly the 
+
+255
+00:18:13,440 --> 00:18:19,280
+same. So masked autoenccoders and
+imageet classifiers also as you make 
+
+256
+00:18:19,280 --> 00:18:23,840
+better language models they correlate
+more with um vision model performance 
+
+257
+00:18:23,840 --> 00:18:26,720
+and vice
+versa. 
+
+258
+00:18:26,720 --> 00:18:33,120
+Okay. Uh so if
+uh I'm going to now move into some 
+
+259
+00:18:33,120 --> 00:18:36,400
+explanations for why I think this might
+be happening. Uh but if you're 
+
+260
+00:18:36,400 --> 00:18:39,360
+interested in more evidence and more
+measures of convergence and debates 
+
+261
+00:18:39,360 --> 00:18:42,640
+about exactly how to measure
+convergence, uh this is a huge field. It 
+
+262
+00:18:42,640 --> 00:18:45,680
+generally goes under the name
+representational alignment uh there's a 
+
+263
+00:18:45,680 --> 00:18:48,320
+huge community in neuroscience that
+looks at representational alignment 
+
+264
+00:18:48,320 --> 00:18:51,760
+between the brain and neural nets. We're
+looking at just representational 
+
+265
+00:18:51,760 --> 00:18:55,520
+alignment between neural nets and other
+neural nets. Uh and here are two uh 
+
+266
+00:18:55,520 --> 00:18:59,600
+workshops that one of them is happening
+in a few weeks. This realign workshop 
+
+267
+00:18:59,600 --> 00:19:02,320
+and another one happens yearly at
+Nurups. So if you're interested, there's 
+
+268
+00:19:02,320 --> 00:19:04,880
+a lot more material to to get into in
+this community. 
+
+269
+00:19:05,840 --> 00:19:10,800
+uh but maybe suffice it to say uh there
+is a large community that has found that 
+
+270
+00:19:10,800 --> 00:19:14,160
+models are becoming more and more alike
+in their kernel structure and other 
+
+271
+00:19:14,160 --> 00:19:18,640
+types of internal
+organization. Okay. So now I want to 
+
+272
+00:19:18,640 --> 00:19:22,080
+talk about some ideas that we have for
+why this is happening and I'm going to 
+
+273
+00:19:22,080 --> 00:19:25,280
+first talk about some kind of machine
+learning 101 ideas and then I'll I'll 
+
+274
+00:19:25,280 --> 00:19:31,200
+talk about uh kind of a toy model of
+what we might be converging to. Okay. 
+
+275
+00:19:31,200 --> 00:19:36,400
+So, so one idea, what is driving this
+convergence is what we call the 
+
+276
+00:19:36,400 --> 00:19:40,480
+multitask scaling hypothesis. And this
+is saying that if I'm searching for 
+
+277
+00:19:40,480 --> 00:19:45,120
+functions that fit my data or fit my set
+of tasks, well, if I have one task that 
+
+278
+00:19:45,120 --> 00:19:48,880
+I train the model to perform well on or
+one data set I train it to perform well 
+
+279
+00:19:48,880 --> 00:19:54,400
+on, then this is the subspace um a of
+hypothesis space, the subspace of the 
+
+280
+00:19:54,400 --> 00:19:58,560
+set of all possible functions I could
+learn that actually solve the task. And 
+
+281
+00:19:58,560 --> 00:20:02,720
+so gradient descent will find a solution
+within that space. But if I have two 
+
+282
+00:20:02,720 --> 00:20:08,160
+tasks, now I have more constraints and I
+have a strictly smaller subspace of 
+
+283
+00:20:08,160 --> 00:20:12,320
+models that can fit two tasks. And as I
+had more constraints, more data, more 
+
+284
+00:20:12,320 --> 00:20:17,200
+tasks, then I get strictly smaller um
+subspaces of hypothesis space that can 
+
+285
+00:20:17,200 --> 00:20:20,800
+actually fit the data and solve all of
+those tasks. Okay, so we're training 
+
+286
+00:20:20,800 --> 00:20:24,160
+models on more and more data on more and
+more tasks and you should expect that 
+
+287
+00:20:24,160 --> 00:20:28,960
+that will cause some convergence.
+uh this is related to two other ideas 
+
+288
+00:20:28,960 --> 00:20:31,840
+that are out there. One one version of
+this is called the contravarian 
+
+289
+00:20:31,840 --> 00:20:36,000
+principle in neuroscience and then again
+it's an anacreninet principle like all 
+
+290
+00:20:36,000 --> 00:20:41,200
+happy representations uh have to solve
+all the constraints and if you violate 
+
+291
+00:20:41,200 --> 00:20:44,880
+if you you know if you're wrong in one
+way you'll fail on one of the tasks uh 
+
+292
+00:20:44,880 --> 00:20:48,400
+so if you have a lot of pressure to be
+uh correct in all ways then it kind of 
+
+293
+00:20:48,400 --> 00:20:53,680
+causes
+convergence okay 
+
+294
+00:20:53,680 --> 00:20:57,120
+um but I think that's not all there is
+to it I think another condition that's 
+
+295
+00:20:57,120 --> 00:20:58,720
+important is that you have enough
+capacity 
+
+296
+00:20:59,360 --> 00:21:04,160
+that there is a chance that two models
+can actually find the same solution. So 
+
+297
+00:21:04,160 --> 00:21:07,920
+we call this a capacity hypothesis is
+that bigger models are more likely to 
+
+298
+00:21:07,920 --> 00:21:12,080
+converge to a shared representation than
+small models. And the basic idea is 
+
+299
+00:21:12,080 --> 00:21:15,520
+quite simple. It's that if I have two
+small models I go back 10 years in time. 
+
+300
+00:21:15,520 --> 00:21:19,360
+Then the two small models like one is a
+linear model, one is a quadratic model, 
+
+301
+00:21:19,360 --> 00:21:23,760
+one is like a SVM, one is a random
+forest. These things aren't universal. 
+
+302
+00:21:23,760 --> 00:21:28,800
+They they they can only fit certain
+types of functions. And the solution 
+
+303
+00:21:28,800 --> 00:21:33,440
+found by one of the models uh cannot be
+the same as the solution found by the 
+
+304
+00:21:33,440 --> 00:21:39,600
+other model because the hypothesis space
+spaces just don't overlap. Um so let's 
+
+305
+00:21:39,600 --> 00:21:44,000
+say in the ambient space of all possible
+functions the best loss is achieved at 
+
+306
+00:21:44,000 --> 00:21:47,600
+this point in the middle here. But if
+I'm only searching over small model 
+
+307
+00:21:47,600 --> 00:21:51,680
+hypothesis space then the best I can do
+in this model is here that model there. 
+
+308
+00:21:51,680 --> 00:21:55,040
+If I make the models bigger they're
+closer to being universal. there's a a 
+
+309
+00:21:55,040 --> 00:22:00,160
+chance that they'll actually overlap and
+that they'll overlap on the um the 
+
+310
+00:22:00,160 --> 00:22:05,280
+lowest loss solution in the ambient
+space. So as models get bigger um they 
+
+311
+00:22:05,280 --> 00:22:09,120
+overlap more in the set of functions
+they can represent and that gives them 
+
+312
+00:22:09,120 --> 00:22:13,120
+the chance of actual convergence. Okay,
+you have to have enough capacity for 
+
+313
+00:22:13,120 --> 00:22:19,760
+convergence. Um okay and then uh the
+last of these kind of ML 101 type 
+
+314
+00:22:19,760 --> 00:22:24,160
+explanations is the simplicity bias. So
+here we have the set of functions that 
+
+315
+00:22:24,160 --> 00:22:27,520
+actually fits the data and solves all
+the task. That was that kind of 
+
+316
+00:22:27,520 --> 00:22:31,120
+convergent subspace of the hypothesis
+space that I mentioned before. But it 
+
+317
+00:22:31,120 --> 00:22:34,000
+still might be big. This thing is is
+technically called the version space. 
+
+318
+00:22:34,000 --> 00:22:38,560
+And the version space can be a very big
+object. There can be many different um 
+
+319
+00:22:38,560 --> 00:22:42,000
+networks with different parameters that
+equally well explain and fit the data. 
+
+320
+00:22:42,000 --> 00:22:45,920
+But within that in that space of
+solutions that fit the data and solve 
+
+321
+00:22:45,920 --> 00:22:50,960
+the tasks, which one do you find? And
+here comes the idea of regularization or 
+
+322
+00:22:50,960 --> 00:22:55,920
+what I'm calling simplicity bias that
+deep nets are biased to find simple fits 
+
+323
+00:22:55,920 --> 00:22:58,960
+to the data. There's a lot of
+interesting papers on this. Um so I 
+
+324
+00:22:58,960 --> 00:23:02,480
+don't have time to talk about all the
+details. But we think that simplicity 
+
+325
+00:23:02,480 --> 00:23:06,960
+bias and implicit regularization can
+also be helping to explain convergence 
+
+326
+00:23:06,960 --> 00:23:10,800
+that you don't only try to find a
+function that fits all the data and data 
+
+327
+00:23:10,800 --> 00:23:13,760
+scales and that becomes a smaller space
+but you also have this pressure towards 
+
+328
+00:23:13,760 --> 00:23:17,520
+simple fits and so that constrains you
+to an even smaller space. And one of the 
+
+329
+00:23:17,520 --> 00:23:20,800
+interesting results that we and some
+others have is that uh actually bigger 
+
+330
+00:23:20,800 --> 00:23:24,320
+networks have stronger simplicity bias.
+And so you might actually expect that as 
+
+331
+00:23:24,320 --> 00:23:29,120
+models get bigger uh this this
+simplicity um pressure will get even 
+
+332
+00:23:29,120 --> 00:23:33,040
+stronger.
+Okay. 
+
+333
+00:23:33,040 --> 00:23:38,960
+Okay. So as we train bigger models with
+stronger and better regularizers, 
+
+334
+00:23:38,960 --> 00:23:44,640
+they're going to maybe converge to a
+smaller um subspace of solutions. 
+
+335
+00:23:45,440 --> 00:23:50,240
+Uh but what is what's this all going to
+converge to? If could we really we 
+
+336
+00:23:50,240 --> 00:23:53,520
+really get this down to just like a
+single solution like a single 
+
+337
+00:23:53,520 --> 00:23:56,400
+representation that all networks
+converge to and what might that look 
+
+338
+00:23:56,400 --> 00:24:00,720
+like? So I don't know. I think that's a
+long way off. Uh but I'm going to 
+
+339
+00:24:00,720 --> 00:24:03,920
+mention one kind of toy mathematical
+model in which we can actually show 
+
+340
+00:24:03,920 --> 00:24:08,960
+exactly what that would
+be. Um and this is where we really get 
+
+341
+00:24:08,960 --> 00:24:15,200
+to this platonic idea in the title. So
+uh the the basic idea for what I think 
+
+342
+00:24:15,200 --> 00:24:18,400
+that we might be converging to is
+something like Plato imagined with his 
+
+343
+00:24:18,400 --> 00:24:22,160
+allegory of the cave. So he said that uh
+you know this is this is a story that 
+
+344
+00:24:22,160 --> 00:24:27,200
+comes up in machine learning vision all
+the time. But what Plato said is uh 
+
+345
+00:24:27,200 --> 00:24:30,800
+imagine that you know we have prisoners
+in a cave and their only experience of 
+
+346
+00:24:30,800 --> 00:24:34,720
+the outside world is the shadows on the
+cave wall. And it's an allegory because 
+
+347
+00:24:34,720 --> 00:24:38,480
+that's how we behave right. Our only
+experience of the the world around me is 
+
+348
+00:24:38,480 --> 00:24:42,320
+the photons bouncing off the shadows
+like just the projections of the world 
+
+349
+00:24:42,320 --> 00:24:46,320
+onto my retina. I don't have access to
+the real world in any kind of direct 
+
+350
+00:24:46,320 --> 00:24:50,960
+physical sense. I have to infer that
+there's a world out there. Okay, so 
+
+351
+00:24:50,960 --> 00:24:54,400
+we're imagining the same situation.
+There is we think some you know world 
+
+352
+00:24:54,400 --> 00:25:00,000
+out there Z. Uh and it gets projected by
+different observation functions. X is 
+
+353
+00:25:00,000 --> 00:25:05,840
+going to be a camera and Y will be a
+caption that describes the image and uh 
+
+354
+00:25:05,840 --> 00:25:10,320
+you could also have a mapping to the
+text space via not that camera but via 
+
+355
+00:25:10,320 --> 00:25:13,920
+um somebody just having direct
+experience and talking about it. Um and 
+
+356
+00:25:13,920 --> 00:25:17,920
+then if I unimotally train
+representations on either images or on 
+
+357
+00:25:17,920 --> 00:25:20,880
+text, well because there's a common
+cause, there's a common world out there, 
+
+358
+00:25:20,880 --> 00:25:25,920
+the latent variable Z, uh they should
+somehow arrive at both being ultimately 
+
+359
+00:25:25,920 --> 00:25:28,400
+representations of Z. That's the common
+cause. 
+
+360
+00:25:29,360 --> 00:25:33,440
+Okay. So how might that happen
+mathematically in one concrete scenario? 
+
+361
+00:25:33,440 --> 00:25:37,120
+I think this is just one toy model but
+um as a starting point for getting kind 
+
+362
+00:25:37,120 --> 00:25:41,200
+theoretical traction on this thing. U so
+we'll imagine that the world consists of 
+
+363
+00:25:41,200 --> 00:25:46,800
+a sequence of discrete events Z and that
+these events are sampled from uh some 
+
+364
+00:25:46,800 --> 00:25:51,680
+probability distribution over events Z.
+And just like if we want to get a little 
+
+365
+00:25:51,680 --> 00:25:55,600
+philosophical this is what I personally
+think of as like the platonic ideal. 
+
+366
+00:25:55,600 --> 00:25:59,200
+These ideal forms is it's just
+statistics. just a distribution over 
+
+367
+00:25:59,200 --> 00:26:03,520
+events that index into observations.
+It's not necessarily actual physics like 
+
+368
+00:26:03,520 --> 00:26:08,800
+physics is just um something we infer.
+We don't have direct access over it. 
+
+369
+00:26:08,800 --> 00:26:13,280
+Okay. But anyway, all all the data is
+mediated by observation functions like 
+
+370
+00:26:13,280 --> 00:26:17,600
+cameras and people describing the scene.
+Uh and observation functions are 
+
+371
+00:26:17,600 --> 00:26:23,600
+mappings from events to um data X and Y.
+And in this world, we're going to model 
+
+372
+00:26:23,600 --> 00:26:27,200
+model co-occurrences. We'll consider
+that this is a time series over Z. and 
+
+373
+00:26:27,200 --> 00:26:31,840
+we'll model co-occurring observations.
+So at two different adjacent points in 
+
+374
+00:26:31,840 --> 00:26:37,040
+time, uh what was my observation x at
+time one and in time two? And we'll try 
+
+375
+00:26:37,040 --> 00:26:38,800
+to model that distribution of
+co-occurring 
+
+376
+00:26:38,800 --> 00:26:45,200
+observations. And this is uh roughly how
+modern contrastive learning systems work 
+
+377
+00:26:45,200 --> 00:26:49,680
+in computer vision. They try to model
+the co-occurrence distribution over 
+
+378
+00:26:49,680 --> 00:26:53,920
+visual uh observations like like two
+co-occurring patches in an image or two 
+
+379
+00:26:53,920 --> 00:26:58,560
+co-occurring frames in a video. It's
+also something people do in language uh 
+
+380
+00:26:58,560 --> 00:27:03,280
+where they try to learn embeddings that
+will uh model the co-occurrence of two 
+
+381
+00:27:03,280 --> 00:27:06,720
+words in the same sentence. So going
+back to models like word tobec for 
+
+382
+00:27:06,720 --> 00:27:14,240
+example. Okay. So if you do this uh and
+you do contrastive learning with a noise 
+
+383
+00:27:14,240 --> 00:27:17,600
+contrastive estimation objective then
+what you can show and what people have 
+
+384
+00:27:17,600 --> 00:27:21,760
+shown is that this uh the solution to
+this objective the minimizer of that 
+
+385
+00:27:21,760 --> 00:27:25,600
+objective is the uh co-occurrence
+function. It's a pointwise mutual 
+
+386
+00:27:25,600 --> 00:27:30,160
+information function. So it's how often
+do the two observations co-occur divided 
+
+387
+00:27:30,160 --> 00:27:33,120
+by the probability that they would
+co-occur if they were independently 
+
+388
+00:27:33,120 --> 00:27:39,200
+sampled. Okay. So what this math is
+saying is that uh we're going to learn a 
+
+389
+00:27:39,200 --> 00:27:42,800
+representation f that maps data into
+vectors. We're going to measure the uh 
+
+390
+00:27:42,800 --> 00:27:46,080
+similarity between two representations.
+So this is the inner product that gives 
+
+391
+00:27:46,080 --> 00:27:50,640
+me my kernel and the kernel converges to
+embeddings in which similarity in which 
+
+392
+00:27:50,640 --> 00:27:56,400
+the kernel structure is equal to the uh
+normalized co- occurrence rate. So in 
+
+393
+00:27:56,400 --> 00:27:58,000
+particular the pointwise mutual
+information 
+
+394
+00:27:58,000 --> 00:28:03,680
+function. Okay. So that's that's the
+platonic kernel according to this math. 
+
+395
+00:28:03,680 --> 00:28:06,640
+Uh it says that apple and orange will
+embed near each other because they 
+
+396
+00:28:06,640 --> 00:28:11,440
+co-occur a lot together in nature in
+kitchens and elephants don't co-occur as 
+
+397
+00:28:11,440 --> 00:28:15,120
+often with apples and
+oranges. And okay, now here comes the 
+
+398
+00:28:15,120 --> 00:28:19,280
+big assumption of the model because I've
+said that this is what uh your kernel 
+
+399
+00:28:19,280 --> 00:28:24,480
+over images looks like. But what about
+your kernel over text? So if we assume 
+
+400
+00:28:24,480 --> 00:28:29,040
+that the observation is a bjective
+function of the underlying event, so we 
+
+401
+00:28:29,040 --> 00:28:32,000
+don't lose any any information which is
+a huge assumption and not true in 
+
+402
+00:28:32,000 --> 00:28:36,800
+reality. Um and we have discrete random
+variables. then all the probabilities 
+
+403
+00:28:36,800 --> 00:28:41,200
+kind of carry through the observation
+function and the PMI over the 
+
+404
+00:28:41,200 --> 00:28:46,560
+observation observations is equal to the
+PMI over the underlying events and 
+
+405
+00:28:46,560 --> 00:28:54,000
+therefore the PMI over images that's
+learned by the model is equal to the PMI 
+
+406
+00:28:54,000 --> 00:28:57,920
+over words that's learned by the model
+because both of those are equal to the 
+
+407
+00:28:57,920 --> 00:29:03,440
+PMI over events and so it implies that
+the language model and the vision model 
+
+408
+00:29:03,440 --> 00:29:08,000
+trained with a NCE contrast of objective
+will converge to identical kernels. 
+
+409
+00:29:08,000 --> 00:29:11,040
+Okay, so it's a toy model in which that
+will occur. So it just says that the 
+
+410
+00:29:11,040 --> 00:29:15,040
+word apple and the word orange will
+embed near each other uh because those 
+
+411
+00:29:15,040 --> 00:29:18,960
+words co-occur in descriptions of
+kitchens in the same way as those images 
+
+412
+00:29:18,960 --> 00:29:24,640
+co-occur in images of kitchens.
+Okay. So I think this model deviates 
+
+413
+00:29:24,640 --> 00:29:27,360
+from reality in some interesting ways
+like we don't have discrete random 
+
+414
+00:29:27,360 --> 00:29:30,640
+variables. We don't have bjective
+functions but it's a starting point uh 
+
+415
+00:29:30,640 --> 00:29:34,560
+for understanding what that platonic
+kernel that ultimate representation 
+
+416
+00:29:34,560 --> 00:29:41,440
+might look
+like. Okay. So I now want to um go into 
+
+417
+00:29:41,440 --> 00:29:45,520
+the last sections of the talk where I'll
+mention some counterarguments because 
+
+418
+00:29:45,520 --> 00:29:48,720
+you're probably thinking this sounds
+like a little too too farfetched. like 
+
+419
+00:29:48,720 --> 00:29:51,360
+maybe there's some convergence but like
+come on it's not going to get to some 
+
+420
+00:29:51,360 --> 00:29:56,800
+platonic kernel. So let's see some
+counterarguments. Okay so the I think 
+
+421
+00:29:56,800 --> 00:30:00,080
+the most important counterargument um
+and so we talked about this in the 
+
+422
+00:30:00,080 --> 00:30:03,280
+original paper but there's also been
+some follow-ups that go into it in more 
+
+423
+00:30:03,280 --> 00:30:09,360
+detail. Uh I think it's an important
+point is that um hold on there's got to 
+
+424
+00:30:09,360 --> 00:30:14,240
+be unique information in text that's not
+captured in images and vice versa. So 
+
+425
+00:30:14,240 --> 00:30:17,600
+different modalities, how could they
+learn the same representation of the 
+
+426
+00:30:17,600 --> 00:30:21,360
+world if they fundamentally measure
+independent sources of 
+
+427
+00:30:21,360 --> 00:30:26,640
+information? Okay, so in
+vision, you can go and see a solar 
+
+428
+00:30:26,640 --> 00:30:31,120
+eclipse and I think that's just an
+ineffable experience. I don't know how 
+
+429
+00:30:31,120 --> 00:30:34,640
+to put that in writing and convey to
+somebody that that actual experience. 
+
+430
+00:30:34,640 --> 00:30:38,640
+You have to see it for
+yourself. Or in language, there's 
+
+431
+00:30:38,640 --> 00:30:43,280
+abstract concepts
+like freedom of speech. How can you have 
+
+432
+00:30:43,280 --> 00:30:47,280
+a visual experience which captures the
+same meaning as that abstraction freedom 
+
+433
+00:30:47,280 --> 00:30:52,080
+of
+speech? Okay, so these are cases of uh 
+
+434
+00:30:52,080 --> 00:30:56,400
+where you don't have a bjection between
+the underlying events, the underlying 
+
+435
+00:30:56,400 --> 00:30:59,920
+platonic world and the observations in
+vision or language. So language being 
+
+436
+00:30:59,920 --> 00:31:03,120
+abstracted that means you lose
+information or uh you could have a 
+
+437
+00:31:03,120 --> 00:31:05,600
+partial observation like an image
+doesn't actually capture the same 
+
+438
+00:31:05,600 --> 00:31:10,080
+information. Okay, so these are places
+where the mathematical model um falls 
+
+439
+00:31:10,080 --> 00:31:12,400
+apart and so I think this is a real
+limitation to the 
+
+440
+00:31:12,400 --> 00:31:18,880
+analysis. Yet at the same time, some of
+our best computer vision systems are 
+
+441
+00:31:18,880 --> 00:31:24,320
+trained to reduce the world to language.
+So clip is a state-of-the-art computer 
+
+442
+00:31:24,320 --> 00:31:30,000
+vision system that just tries to
+explicitly align images with sentences. 
+
+443
+00:31:30,000 --> 00:31:33,360
+So it's trying to remove all information
+about the world other than that which is 
+
+444
+00:31:33,360 --> 00:31:37,440
+contained in sentences. And so somehow
+our standard engineering practice in 
+
+445
+00:31:37,440 --> 00:31:41,760
+computer vision is to remove unique
+information about vision. Uh maybe 
+
+446
+00:31:41,760 --> 00:31:46,000
+that's a a bad
+idea. Uh I'll I'll point out this 
+
+447
+00:31:46,000 --> 00:31:51,920
+interesting follow-up that uh Paul Leong
+and others did over at MIT um here uh 
+
+448
+00:31:51,920 --> 00:31:58,160
+which goes into this in more detail. So
+uh they're showing that um basically the 
+
+449
+00:31:58,160 --> 00:32:03,760
+platonic hypothesis will hold if you um
+have shared information between two 
+
+450
+00:32:03,760 --> 00:32:07,200
+modalities and everything is you know
+mathematically bjective in the way that 
+
+451
+00:32:07,200 --> 00:32:10,640
+I was describing but in reality that
+might not be the case and you could get 
+
+452
+00:32:10,640 --> 00:32:13,760
+other trends where as you get more
+alignment between modalities you might 
+
+453
+00:32:13,760 --> 00:32:17,280
+get worse performance uh of the models
+or as performance gets better you might 
+
+454
+00:32:17,280 --> 00:32:21,120
+get less alignment. So that there'll be
+an anti-correlation between alignment 
+
+455
+00:32:21,120 --> 00:32:25,600
+and performance on um on certain tasks.
+And they say that this is going to 
+
+456
+00:32:25,600 --> 00:32:30,400
+happen when a task requires the unique
+signal in a modality that's not shared 
+
+457
+00:32:30,400 --> 00:32:33,840
+with the other modality. And they even
+show empirically that on some data sets 
+
+458
+00:32:33,840 --> 00:32:38,320
+you do see that that um as models get
+more and more aligned they actually get 
+
+459
+00:32:38,320 --> 00:32:42,800
+worse in
+performance. Okay. 
+
+460
+00:32:42,800 --> 00:32:49,680
+Uh but but I do think we there's another
+um you know saving grace to this which 
+
+461
+00:32:49,680 --> 00:32:56,720
+is yeah language might not have the same
+information as in a photo but maybe a a 
+
+462
+00:32:56,720 --> 00:32:59,440
+paragraph or a book could have the same
+information as in a photo. You know an 
+
+463
+00:32:59,440 --> 00:33:02,480
+image is worth a thousand words. And so
+we actually ran this this little 
+
+464
+00:33:02,480 --> 00:33:05,920
+experiment where we said let's look at
+the alignment between visual embeddings 
+
+465
+00:33:05,920 --> 00:33:09,840
+and language embeddings but now we're
+going to increase the length of the text 
+
+466
+00:33:09,840 --> 00:33:12,560
+that we're going to embed. So, we're
+going to take captions which are very 
+
+467
+00:33:12,560 --> 00:33:16,000
+long, 30-word captions, and as you
+increase the number of words in your 
+
+468
+00:33:16,000 --> 00:33:19,360
+captions, your embeddings of those
+captions become more and more aligned 
+
+469
+00:33:19,360 --> 00:33:23,520
+with your embeddings of the the images
+those captions describe. So, yeah, I 
+
+470
+00:33:23,520 --> 00:33:28,880
+think maybe in theory if we have really
+really descriptive text, then it might 
+
+471
+00:33:28,880 --> 00:33:32,480
+actually capture the same information as
+in a visual experience, but if we have 
+
+472
+00:33:32,480 --> 00:33:35,360
+short text, then that's not going to
+happen and there'll be a cap to the 
+
+473
+00:33:35,360 --> 00:33:40,640
+alignment that you can
+achieve. Okay. Uh the other big 
+
+474
+00:33:40,640 --> 00:33:44,640
+objection uh which I think is important
+is that a lot of this convergence might 
+
+475
+00:33:44,640 --> 00:33:48,960
+not be platonic in some ideal sense. It
+might be we're converging yes but not 
+
+476
+00:33:48,960 --> 00:33:53,440
+not to reality. We're converging to uh
+biases and we're converging to the 
+
+477
+00:33:53,440 --> 00:33:57,200
+internet's view of reality which is not
+actual reality and we're converging in 
+
+478
+00:33:57,200 --> 00:34:00,240
+bad ways. And this could be due to bias
+in the data. It could be due to 
+
+479
+00:34:00,240 --> 00:34:03,040
+fundamental limitations in the
+transformers and the models that we use 
+
+480
+00:34:03,040 --> 00:34:06,880
+today. And it could be sociotechnical
+that we all kind of compete on the same 
+
+481
+00:34:06,880 --> 00:34:09,520
+benchmarks and that causes us to
+converge but not for a good 
+
+482
+00:34:09,520 --> 00:34:18,240
+reason. Okay. So uh in the last uh few
+minutes I'm going to talk about um some 
+
+483
+00:34:18,240 --> 00:34:21,840
+implications and applications. Okay. So
+this was all a bit philosophical but 
+
+484
+00:34:21,840 --> 00:34:24,240
+what can we actually do? Can we make
+better systems now out of 
+
+485
+00:34:24,240 --> 00:34:29,760
+this? Okay. So I think one important
+implication is that you can share data 
+
+486
+00:34:29,760 --> 00:34:33,920
+between modalities. So if the
+representation if all roads lead to Rome 
+
+487
+00:34:33,920 --> 00:34:38,640
+right if all different ways of modeling
+the world uh lead to the same um you 
+
+488
+00:34:38,640 --> 00:34:42,480
+know ultimate representation then we
+should be able to get there through all 
+
+489
+00:34:42,480 --> 00:34:46,800
+these paths and uh share information
+between the different paths. So it 
+
+490
+00:34:46,800 --> 00:34:50,640
+should be the the case that we can train
+our vision models on language data and 
+
+491
+00:34:50,640 --> 00:34:53,600
+make them do better. We can train our
+language models on vision data. We're 
+
+492
+00:34:53,600 --> 00:34:57,360
+going to look at two experiments here.
+One is can we train better image 
+
+493
+00:34:57,360 --> 00:35:01,760
+generative models, diffusion models by
+aligning them to visual encoders? Uh, 
+
+494
+00:35:01,760 --> 00:35:05,360
+and two, can we train better language
+models by aligning them to to vision 
+
+495
+00:35:05,360 --> 00:35:08,800
+models? So now we're running kind of
+more causal experiments. We're not just 
+
+496
+00:35:08,800 --> 00:35:11,600
+trying to look at trends, but we're
+going to try to actually optimize our 
+
+497
+00:35:11,600 --> 00:35:17,040
+models to be aligned and see what
+happens. Okay, so the first one, um, can 
+
+498
+00:35:17,040 --> 00:35:21,120
+we train diffusion models by aligning
+them to vision models? Uh, this is not 
+
+499
+00:35:21,120 --> 00:35:26,080
+my own work. This is work from signing
+she and others at NYU. And what they 
+
+500
+00:35:26,080 --> 00:35:30,320
+found is that if you do this kernel
+alignment, so you take a diffusion model 
+
+501
+00:35:30,320 --> 00:35:37,280
+that generates images from noise and you
+take a pre-trained uh visual encoder uh 
+
+502
+00:35:37,280 --> 00:35:43,840
+of the kind that I was like clip or dyno
+uh and you simply uh have a additional 
+
+503
+00:35:43,840 --> 00:35:48,400
+loss that says I want my kernel uh
+structure to be the same between the two 
+
+504
+00:35:48,400 --> 00:35:52,720
+models. If I want to uh have my
+diffusion model uh use the kernel 
+
+505
+00:35:52,720 --> 00:35:58,240
+structure inside my pre-trained vision
+model, you'll get a much faster learning 
+
+506
+00:35:58,240 --> 00:36:02,720
+of your image generation. So image
+encoding and image decoding, image 
+
+507
+00:36:02,720 --> 00:36:07,840
+generation uh
+can benefit each other via this uh 
+
+508
+00:36:07,840 --> 00:36:09,840
+kernel structure. They both have similar
+internal 
+
+509
+00:36:09,840 --> 00:36:16,560
+representations. Um okay, here's one
+that we did. This is uh Yulu and and Ivy 
+
+510
+00:36:16,560 --> 00:36:20,560
+um have been doing this recently. uh
+it'll be at this realign workshop this 
+
+511
+00:36:20,560 --> 00:36:26,800
+in a week or two at iClar uh where they
+train a language model to be aligned 
+
+512
+00:36:26,800 --> 00:36:30,000
+with the kernel structure of a vision
+model and the question is do you get a 
+
+513
+00:36:30,000 --> 00:36:33,760
+better language model better at modeling
+you know predicting the next word doing 
+
+514
+00:36:33,760 --> 00:36:38,960
+language reasoning tasks and so it's
+roughly the same idea as on the previous 
+
+515
+00:36:38,960 --> 00:36:42,640
+slide uh the visuals a little different
+but we take our language model we train 
+
+516
+00:36:42,640 --> 00:36:48,000
+it to predict the next word but we also
+extract its kernel on some layer and 
+
+517
+00:36:48,000 --> 00:36:52,000
+align that kernel with the kernel of a
+pre-trained vision model like Dino and 
+
+518
+00:36:52,000 --> 00:36:54,720
+we say does that actually make your
+language model get better when you force 
+
+519
+00:36:54,720 --> 00:36:59,120
+it to represent the world more
+visually and the answer is yes it it 
+
+520
+00:36:59,120 --> 00:37:04,560
+actually works so uh here is your
+baseline language model and if you try 
+
+521
+00:37:04,560 --> 00:37:10,560
+to align it its internal structure the
+kernel to dino small you even get a tiny 
+
+522
+00:37:10,560 --> 00:37:15,360
+boost on this like pretty bad vision
+model this is like a llama like a big 
+
+523
+00:37:15,360 --> 00:37:19,440
+language model so it's
+uh trivial to get a boost and you can 
+
+524
+00:37:19,440 --> 00:37:23,840
+get bigger boost when you align your
+language model to bigger dynino models. 
+
+525
+00:37:23,840 --> 00:37:27,040
+Giant Dynino model does better and then
+interestingly there's some other models 
+
+526
+00:37:27,040 --> 00:37:33,920
+that do do the best on this
+task. Okay, so kernel alignment is not 
+
+527
+00:37:33,920 --> 00:37:37,600
+just a spurious correlation actually
+optimizing for it can improve 
+
+528
+00:37:37,600 --> 00:37:42,720
+performance of language modeling.
+Um, another implication is that 
+
+529
+00:37:42,720 --> 00:37:46,400
+crossmodal learning between at least
+language and vision should be uh 
+
+530
+00:37:46,400 --> 00:37:50,320
+relatively easy because you can use the
+kernel as a bridge. So let's say I have 
+
+531
+00:37:50,320 --> 00:37:56,000
+my uh embedding trained on images to map
+to an image embedding my my model 
+
+532
+00:37:56,000 --> 00:38:01,440
+trained on text to map uh from uh like a
+noise vector to output text. Well then 
+
+533
+00:38:01,440 --> 00:38:05,600
+to learn translation I should just have
+to somehow align these representations. 
+
+534
+00:38:05,600 --> 00:38:09,040
+And if the representations measure
+distance in the same way, then they're 
+
+535
+00:38:09,040 --> 00:38:12,240
+related by an
+isymmetry. They're related by a 
+
+536
+00:38:12,240 --> 00:38:15,840
+transformation that preserves distances.
+And that's a very simple kind of 
+
+537
+00:38:15,840 --> 00:38:22,160
+transformation. Um so recently this has
+been an old kind of goal of can you do 
+
+538
+00:38:22,160 --> 00:38:25,280
+unpaired translation between images and
+text. Uh 
+
+539
+00:38:25,280 --> 00:38:30,080
+and the kind of platonic idea suggests
+that it should be relatively easy 
+
+540
+00:38:30,080 --> 00:38:33,120
+because the kernel can be a bridge
+between those two domains. And recently 
+
+541
+00:38:33,120 --> 00:38:37,520
+these uh there's an interesting paper
+that actually tried this and they found 
+
+542
+00:38:37,520 --> 00:38:41,520
+that okay so if I have a vision model
+that has measured distance the same way 
+
+543
+00:38:41,520 --> 00:38:45,920
+as a language model. So the triangle
+like the uh these distances are all the 
+
+544
+00:38:45,920 --> 00:38:48,880
+same then it's just a rotation to align
+them. It's just an isometric 
+
+545
+00:38:48,880 --> 00:38:53,120
+transformation to align them and they
+can optimize to find this like rotation 
+
+546
+00:38:53,120 --> 00:38:57,040
+or it can also have translation. It can
+have a few things. Uh they can optimize 
+
+547
+00:38:57,040 --> 00:39:00,480
+to find that transformation that will
+align the two modalities without paired 
+
+548
+00:39:00,480 --> 00:39:05,360
+data at all. And it's it works at a
+non-trivial level. It doesn't nail the 
+
+549
+00:39:05,360 --> 00:39:10,480
+problem, but they show
+non-triv results. So you can translate 
+
+550
+00:39:10,480 --> 00:39:14,880
+between text and image uh to a
+non-trivial level with no paired 
+
+551
+00:39:14,880 --> 00:39:18,560
+examples. You just you go to Mars, you
+listen to the Martian speak, you look at 
+
+552
+00:39:18,560 --> 00:39:21,440
+the rocks on Mars. No Martian ever
+points out that this is the word for 
+
+553
+00:39:21,440 --> 00:39:25,760
+rock and yet you can infer that what the
+word for rock is just based on these um 
+
+554
+00:39:25,760 --> 00:39:30,640
+the statistics of the word usage and the
+uh visual observations. That's that's 
+
+555
+00:39:30,640 --> 00:39:35,840
+roughly what they're claiming
+here. Okay. Um there's some interesting 
+
+556
+00:39:35,840 --> 00:39:42,240
+theory work that Lorenzo uh Rosako and
+um and his colleagues have been doing uh 
+
+557
+00:39:42,240 --> 00:39:45,760
+additionally on this idea of you know
+under what theoretical conditions can 
+
+558
+00:39:45,760 --> 00:39:50,160
+you actually learn uh to bridge between
+modalities uh given that the kernels are 
+
+559
+00:39:50,160 --> 00:39:54,560
+aligned. So you can actually bound the
+um ability to stitch between two 
+
+560
+00:39:54,560 --> 00:39:57,440
+different modalities by the kernel
+alignment measures that that I've talked 
+
+561
+00:39:57,440 --> 00:40:01,040
+about in this in this talk. Um, so I'm
+not going to have time to go into this 
+
+562
+00:40:01,040 --> 00:40:03,840
+one, but just another pointer if you're
+interested in a theoretical lens on 
+
+563
+00:40:03,840 --> 00:40:11,040
+this. Um, okay, one last one is I really
+love this old problem called the Molyneu 
+
+564
+00:40:11,040 --> 00:40:15,440
+problem. This, uh, philosopher Molyneu
+wrote a letter to John Lock and he said, 
+
+565
+00:40:15,440 --> 00:40:18,480
+uh, assume a blind man can tell the
+difference between a cube and a sphere 
+
+566
+00:40:18,480 --> 00:40:22,720
+by the way, uh, they feel when he
+touches them. If the man were to be 
+
+567
+00:40:22,720 --> 00:40:27,200
+given sight, could he immediately tell
+uh which is the sphere and which is the 
+
+568
+00:40:27,200 --> 00:40:31,440
+cube simply by looking at them? So, it's
+this scenario. We're doing not touch and 
+
+569
+00:40:31,440 --> 00:40:35,200
+vision, but we're doing vision and
+language. If I have a language model 
+
+570
+00:40:35,200 --> 00:40:42,560
+that knows how to understand this text,
+and I then give my system a camera, can 
+
+571
+00:40:42,560 --> 00:40:46,800
+I immediately learn to map from the
+camera to the um the representation, the 
+
+572
+00:40:46,800 --> 00:40:53,760
+meaning of the text?
+And well if the uh representational 
+
+573
+00:40:53,760 --> 00:40:59,120
+structure of the world uh you know is uh
+if if if language modeling finds the 
+
+574
+00:40:59,120 --> 00:41:02,880
+same representation as visual modeling
+then this should this learning problem 
+
+575
+00:41:02,880 --> 00:41:06,400
+should be relatively easy and if I
+already have that representation I 
+
+576
+00:41:06,400 --> 00:41:09,280
+already have that target that the thing
+would have converged to it should be I 
+
+577
+00:41:09,280 --> 00:41:15,600
+can learn it quite quickly. Um and but
+Vonha and others in BCS have shown that 
+
+578
+00:41:15,600 --> 00:41:19,920
+uh in fact if you do give children uh
+sight who have cataracts and are born uh 
+
+579
+00:41:19,920 --> 00:41:24,240
+blind but you give them sight at a
+certain age uh they can't understand the 
+
+580
+00:41:24,240 --> 00:41:27,360
+visual world immediately but they can
+relatively quickly. It's not like they 
+
+581
+00:41:27,360 --> 00:41:33,440
+have to redevelop uh along the same time
+scale as um an infant would under uh uh 
+
+582
+00:41:33,440 --> 00:41:37,280
+from birth. So new modalities can be
+efficiently scaffolded onto existing 
+
+583
+00:41:37,280 --> 00:41:39,920
+knowledge because they share similar
+representational 
+
+584
+00:41:39,920 --> 00:41:45,600
+structure. Okay. So final implication is
+just if there really is some truth to 
+
+585
+00:41:45,600 --> 00:41:49,120
+this platonic idea and there is some
+representation that can be characterized 
+
+586
+00:41:49,120 --> 00:41:52,160
+and can unify modalities. It seems like
+an important thing. We should seek it 
+
+587
+00:41:52,160 --> 00:41:56,240
+out. We should better characterize it uh
+and see how far that goes. So I'll end 
+
+588
+00:41:56,240 --> 00:42:01,280
+there and thanks to the co-authors and
+all of you. 
+
+589
+00:42:04,160 --> 00:42:08,320
+Thank you so much, Phillip. So, let me
+kick off the Q&amp;A with a couple of 
+
+590
+00:42:08,320 --> 00:42:14,000
+questions. Um, I wonder if you can
+elaborate a bit on the metrics you have 
+
+591
+00:42:14,000 --> 00:42:23,440
+used to decide that alignment and um so
+uh so in particular did you try a lot of 
+
+592
+00:42:23,440 --> 00:42:28,560
+metrics or or how how do you know that
+you got the right one? Yeah. 
+
+593
+00:42:28,560 --> 00:42:36,160
+Um yeah that's a great question. So we
+did try a lot of metrics. So I I uh 
+
+594
+00:42:36,160 --> 00:42:41,760
+essentially the metrics are uh different
+ways of measuring how similar this 
+
+595
+00:42:41,760 --> 00:42:45,040
+kernel is to that kernel. And I could
+just look at like uklidian distance or 
+
+596
+00:42:45,040 --> 00:42:49,440
+something simple. Um the one that we
+ended up using for most of our 
+
+597
+00:42:49,440 --> 00:42:55,680
+experiments is based on uh nearest
+neighbors. So, it's asking are the 
+
+598
+00:42:55,680 --> 00:43:02,320
+nearest neighbors in embedding space to
+an uh are my nearest neighbors of this 
+
+599
+00:43:02,320 --> 00:43:08,000
+image embedded by a vision model
+um the same as my nearest neighbors of 
+
+600
+00:43:08,000 --> 00:43:11,840
+the caption of that image embedded by a
+language model. 
+
+601
+00:43:11,840 --> 00:43:17,600
+Uh so if I embed a photo of euseity are
+the image nearest neighbors eused in the 
+
+602
+00:43:17,600 --> 00:43:21,440
+same way as the text nearest neighbors
+or captions about euseity. So that's the 
+
+603
+00:43:21,440 --> 00:43:24,800
+particular metric we used and why did we
+use that one? Well we tried a bunch and 
+
+604
+00:43:24,800 --> 00:43:28,320
+this one worked the best. So the way I
+would phrase it is that we see 
+
+605
+00:43:28,320 --> 00:43:31,520
+convergence of the kernel structure in
+terms of the local neighborhoods. The 
+
+606
+00:43:31,520 --> 00:43:34,640
+local neighborhoods are converging.
+Maybe the global layout like there could 
+
+607
+00:43:34,640 --> 00:43:39,120
+be scaling global scales that actually
+are not being um converged. But doesn't 
+
+608
+00:43:39,120 --> 00:43:43,600
+this just capture co- occurrence?
+Yes, I think it I think that's kind of 
+
+609
+00:43:43,600 --> 00:43:50,640
+that's kind of the um the theoretical
+model we get to is that uh yeah um this 
+
+610
+00:43:50,640 --> 00:43:54,000
+if two things co-occur the same way in
+two different modalities then these 
+
+611
+00:43:54,000 --> 00:43:59,200
+models will you know that will surface
+in both of these models. 
+
+612
+00:43:59,200 --> 00:44:05,280
+Okay. So I have two quick follow-ups and
+then I will open uh for uh questions. We 
+
+613
+00:44:05,280 --> 00:44:09,040
+have live a live audience. So we'll take
+some questions from the live audience. 
+
+614
+00:44:09,040 --> 00:44:14,320
+Also, if you would like to ask a
+question uh on Zoom, please put your um 
+
+615
+00:44:14,320 --> 00:44:20,320
+question your hand up. Um so my my
+question is about what do we understand 
+
+616
+00:44:20,320 --> 00:44:27,920
+from aligning uh language with vision.
+So um when you in fact this was um in 
+
+617
+00:44:27,920 --> 00:44:33,200
+one of your um most uh your your latest
+uh charts. Yeah. So, if you can put that 
+
+618
+00:44:33,200 --> 00:44:39,840
+back up. Um, this is the Yeah, that next
+one. Next one. Next one. Yeah. So, um, 
+
+619
+00:44:39,840 --> 00:44:46,800
+doesn't that mean that by connecting
+language to uh, uh, to vision, uh, you 
+
+620
+00:44:46,800 --> 00:44:52,480
+are finding some aspects of the physical
+world that you're bringing into a 
+
+621
+00:44:52,480 --> 00:44:58,560
+statistical system that otherwise does
+not have a uh, predefined understanding 
+
+622
+00:44:58,560 --> 00:45:04,400
+of the physical uh, world. Isn't this
+what we're getting from um from this 
+
+623
+00:45:04,400 --> 00:45:10,320
+kind of experiment? Yeah, exactly.
+So um language models I think one of the 
+
+624
+00:45:10,320 --> 00:45:13,920
+critiques right now is that maybe they
+don't have a lot of you know embodied 
+
+625
+00:45:13,920 --> 00:45:19,440
+experience. They don't they're not
+grounded. Um and to some extent they can 
+
+626
+00:45:19,440 --> 00:45:23,680
+learn this from massive data online that
+talks about visual experiences, physical 
+
+627
+00:45:23,680 --> 00:45:28,000
+experiences, but maybe it's not perfect.
+And I think that might be part of the 
+
+628
+00:45:28,000 --> 00:45:33,200
+idea here that you're injecting
+knowledge from another modality uh that 
+
+629
+00:45:33,200 --> 00:45:37,040
+uh is a more sample efficient way of
+collecting that kind of data. But have 
+
+630
+00:45:37,040 --> 00:45:42,880
+you tried um to do this alignment with
+fantastical images that do not obey the 
+
+631
+00:45:42,880 --> 00:45:49,040
+laws of uh oh yeah of uh physics? Um I
+mean if you do it with imageet of course 
+
+632
+00:45:49,040 --> 00:45:53,440
+those are all images taken from the
+physical world. It could be interesting 
+
+633
+00:45:53,440 --> 00:45:58,000
+to create a data set of fantastical
+images to see what happens. I really 
+
+634
+00:45:58,000 --> 00:46:02,080
+like that idea. We have some other work
+on like uh these fantastical random 
+
+635
+00:46:02,080 --> 00:46:07,360
+noise images. Uh this is a collaboration
+with Antonio Teralba and others and um 
+
+636
+00:46:07,360 --> 00:46:11,280
+you can train vision models on those and
+they learn good visual features. They're 
+
+637
+00:46:11,280 --> 00:46:16,560
+like random fractals and blobby images.
+We haven't tried aligning language 
+
+638
+00:46:16,560 --> 00:46:19,440
+models to that kind of data. That would
+be really interesting. But let's work on 
+
+639
+00:46:19,440 --> 00:46:24,480
+that. I also have one more quick
+question. So the fact that uh we see 
+
+640
+00:46:24,480 --> 00:46:29,920
+alignment uh between language models and
+vision models is very interesting to me 
+
+641
+00:46:29,920 --> 00:46:33,680
+that almost suggests that there is a
+ceiling to what we can do with these 
+
+642
+00:46:33,680 --> 00:46:38,560
+models. U your comments please. Yeah. Is
+there just to suggest there's a ceiling? 
+
+643
+00:46:38,560 --> 00:46:42,560
+I I think this Yeah, there's one
+perspective is 
+
+644
+00:46:42,560 --> 00:46:48,640
+um that maybe this is a bit diminishing
+to computer vision like oh if vision 
+
+645
+00:46:48,640 --> 00:46:51,760
+models converge to the same thing as
+language models then it turns out that 
+
+646
+00:46:51,760 --> 00:46:56,080
+there's these models are not actually
+capturing all those like physical 
+
+647
+00:46:56,080 --> 00:47:01,760
+details we thought that they're just
+capturing semantics in the end. Um, and 
+
+648
+00:47:01,760 --> 00:47:05,680
+in some sense that might indicate that
+yeah, our approaches right now do have a 
+
+649
+00:47:05,680 --> 00:47:09,360
+ceiling. Like the ceiling is the types
+of semantics that language is good at 
+
+650
+00:47:09,360 --> 00:47:14,800
+conveying. And um, you could read this
+as evidence for that, I would say. Very 
+
+651
+00:47:14,800 --> 00:47:19,120
+interesting. Um, all right. Any
+questions from uh, the live audience? 
+
+652
+00:47:19,120 --> 00:47:27,360
+Yes, in the back.
+Far. So, if we draw a trend line, how 
+
+653
+00:47:27,360 --> 00:47:34,640
+far are we from 1.0? So I'm these plots
+were um some of them are on log scale so 
+
+654
+00:47:34,640 --> 00:47:41,280
+it's a little bit hard
+to hard to extrapolate uh linearly. Um 
+
+655
+00:47:41,280 --> 00:47:45,600
+but additionally I think that even on a
+log scale they're trailing off. So you 
+
+656
+00:47:45,600 --> 00:47:48,400
+can see over here it starts it looks
+like it's starting to trail off. And 
+
+657
+00:47:48,400 --> 00:47:52,560
+then if I show you the the recent thing
+from the the paper that came out just a 
+
+658
+00:47:52,560 --> 00:47:58,240
+few weeks ago here again you see the
+scale is going to 18 and we're going you 
+
+659
+00:47:58,240 --> 00:48:02,000
+know 10 times bigger model to do that
+and like 10 times more data 
+
+660
+00:48:02,000 --> 00:48:07,200
+approximately. So this is all like power
+law scaling and um I don't think we'll 
+
+661
+00:48:07,200 --> 00:48:11,200
+get to one according to under these
+current trends one will take like the 
+
+662
+00:48:11,200 --> 00:48:14,480
+lifetime of the universe but maybe
+there's a way to you know change the 
+
+663
+00:48:14,480 --> 00:48:20,240
+slope of the scaling law. Uh let's take
+a question uh from the online audience. 
+
+664
+00:48:20,240 --> 00:48:22,160
+Danny, 
+
+665
+00:48:22,160 --> 00:48:26,720
+hi Phillip. Uh can you hear me? Okay.
+Yeah. Excellent. Um thanks for this 
+
+666
+00:48:26,720 --> 00:48:34,000
+talk. Um I wanted to just present a
+slightly alternative philosophical view 
+
+667
+00:48:34,000 --> 00:48:40,480
+and ask if it changes what you think the
+implications of your findings are. Um so 
+
+668
+00:48:40,480 --> 00:48:45,840
+u the kind of victinsteinian view of
+language as you probably know is you 
+
+669
+00:48:45,840 --> 00:48:54,400
+know it it sort of says um uh meaning
+uh there is no platonic meaning in some 
+
+670
+00:48:54,400 --> 00:49:00,000
+sense we're all in the cave uh but we
+have learned to function together in the 
+
+671
+00:49:00,000 --> 00:49:05,440
+cave because of the way we use language
+together and that me meaning arises 
+
+672
+00:49:05,440 --> 00:49:10,480
+through use and I think I think as I
+hear your findings, they're equally 
+
+673
+00:49:10,480 --> 00:49:16,320
+consistent, maybe even more consistent
+with that view that what you're showing, 
+
+674
+00:49:16,320 --> 00:49:23,680
+I think, is that these models are
+learning about what we as human beings 
+
+675
+00:49:23,680 --> 00:49:30,640
+mean with with uh language and images.
+Um, and I'm just curious whether that 
+
+676
+00:49:30,640 --> 00:49:35,120
+changes anything if you kind of give up
+on the Platonic representation and just 
+
+677
+00:49:35,120 --> 00:49:39,600
+say we're we're kind of in the messy
+soup of human language and there's 
+
+678
+00:49:39,600 --> 00:49:47,520
+nothing really below that to find.
+Yeah. Yeah. I think that's a that's um I 
+
+679
+00:49:47,520 --> 00:49:52,160
+I completely agree. Uh we were playing
+with calling it like the Vickenstein 
+
+680
+00:49:52,160 --> 00:49:56,960
+Plato hypothesis, but felt like that was
+a little too too pretentious. Um Right. 
+
+681
+00:49:56,960 --> 00:50:01,200
+So I Yeah. I I think
+that yeah, I don't know enough of the 
+
+682
+00:50:01,200 --> 00:50:08,000
+philosophy here to know really what
+those two meant. Um but to me this this 
+
+683
+00:50:08,000 --> 00:50:14,000
+um you know underlying reality that
+generates things it actually is just a 
+
+684
+00:50:14,000 --> 00:50:18,320
+co-occurrence. It's just a statistical
+distribution over events and that can 
+
+685
+00:50:18,320 --> 00:50:22,640
+come in through observation of the
+statistics of the of the word usage or 
+
+686
+00:50:22,640 --> 00:50:29,040
+the observations of um reality through a
+camera. Uh, and so that might be more 
+
+687
+00:50:29,040 --> 00:50:33,520
+consistent with Vickenstein. Uh, but I I
+think that that's the same as an ideal 
+
+688
+00:50:33,520 --> 00:50:36,640
+form in Plato's language. He just
+thought of he just phrased it 
+
+689
+00:50:36,640 --> 00:50:40,000
+differently. So there's some
+philosophical debate to be had there. 
+
+690
+00:50:40,000 --> 00:50:44,560
+But um yeah, these are all just
+metaphors to try to get us at kind of um 
+
+691
+00:50:44,560 --> 00:50:48,560
+the problem. It may have something to do
+with why these models are on this point. 
+
+692
+00:50:48,560 --> 00:50:55,680
+We have time for one more quick question
+uh from the live audience. Go ahead. 
+
+693
+00:50:59,120 --> 00:51:10,000
+would that imply something about
+uh yeah that I I think can this um tell 
+
+694
+00:51:10,000 --> 00:51:14,160
+us anything about adversarial attacks?
+Does this mean models are robust? Are 
+
+695
+00:51:14,160 --> 00:51:20,480
+they vulnerable? I think that one is
+like a um a pessimistic take would be 
+
+696
+00:51:20,480 --> 00:51:25,120
+well all these models are vulnerable to
+the same attack so there's a danger like 
+
+697
+00:51:25,120 --> 00:51:28,960
+it's like we have a homogeneous
+population and a virus can come in and 
+
+698
+00:51:28,960 --> 00:51:33,200
+take over and and so if these things are
+converging then they might all have the 
+
+699
+00:51:33,200 --> 00:51:37,360
+same vulnerability or maybe the same
+bias and this can be dangerous and a 
+
+700
+00:51:37,360 --> 00:51:42,160
+positive take might be uh would these
+all get better at actually modeling. So 
+
+701
+00:51:42,160 --> 00:51:45,360
+if language models get better at
+modeling the world in a way that is 
+
+702
+00:51:45,360 --> 00:51:48,400
+aligned with vision models and we think
+that vision models are more grounded and 
+
+703
+00:51:48,400 --> 00:51:52,800
+actually are are robust in a way that
+language might not be then it's kind of 
+
+704
+00:51:52,800 --> 00:51:57,120
+a positive that if I just train on more
+language data it'll eventually become 
+
+705
+00:51:57,120 --> 00:52:01,840
+actually grounded in reality. Uh so I
+think you can see it in both ways. Hey 
+
+706
+00:52:01,840 --> 00:52:07,280
+one more quick question from online. Uh
+your improvement in accuracy is 4%. How 
+
+707
+00:52:07,280 --> 00:52:10,400
+are we going to get a lot of
+improvement? 
+
+708
+00:52:11,280 --> 00:52:16,800
+Oh yeah, that's a great question. And I
+think you might even be um are you is 
+
+709
+00:52:16,800 --> 00:52:18,800
+the question referring to if the
+question is referring to this plot, I'll 
+
+710
+00:52:18,800 --> 00:52:22,720
+say it's actually less than 4%. It's
+1.5%. Uh there might be other plots 
+
+711
+00:52:22,720 --> 00:52:28,240
+where we show a bigger improvement. Um
+but yeah I I think 
+
+712
+00:52:28,240 --> 00:52:35,680
+that at a certain scale the models have
+unimotally become quite powerful and 
+
+713
+00:52:35,680 --> 00:52:39,040
+already quite quite aligned and there
+might not be that much more juice to get 
+
+714
+00:52:39,040 --> 00:52:42,240
+by explicitly training them to be
+aligned or explicitly sharing data 
+
+715
+00:52:42,240 --> 00:52:46,000
+between the two domains. So how are we
+going to get you know a massive 
+
+716
+00:52:46,000 --> 00:52:51,360
+improvement by multimodal machine
+learning? uh it might be in the regime 
+
+717
+00:52:51,360 --> 00:52:55,600
+of enough unimodal data you just can't
+because you already have saturated uh 
+
+718
+00:52:55,600 --> 00:52:59,760
+but I would also say the jury's out and
+maybe people will be clever and come up 
+
+719
+00:52:59,760 --> 00:53:05,280
+with you know better techniques.
+Let's thank Phillip once more and thank 
+
+720
+00:53:05,280 --> 00:53:11,520
+you all for joining us. Uh see you next
+week uh at the CSAIL Forum with Yoon 
+
+721
+00:53:11,520 --> 00:53:15,040
+Kim. Thank you.
+

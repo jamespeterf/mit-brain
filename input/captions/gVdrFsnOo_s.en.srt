@@ -1,0 +1,6212 @@
+1
+00:00:10,320 --> 00:00:15,759
+All right, let's get started. Welcome
+
+2
+00:00:12,639 --> 00:00:18,640
+back to 61200. Uh, today we're going to
+
+3
+00:00:15,759 --> 00:00:22,240
+talk about state machines, which is a
+
+4
+00:00:18,640 --> 00:00:24,800
+very cool tool for thinking about uh
+
+5
+00:00:22,240 --> 00:00:26,640
+processes over time. And in because this
+
+6
+00:00:24,800 --> 00:00:27,599
+is math for computer science in
+
+7
+00:00:26,640 --> 00:00:29,679
+particular, we're thinking about
+
+8
+00:00:27,599 --> 00:00:33,200
+analyzing algorithms that do a bunch of
+
+9
+00:00:29,679 --> 00:00:34,960
+steps and the state of the machine uh
+
+10
+00:00:33,200 --> 00:00:37,280
+changes over time like the state of your
+
+11
+00:00:34,960 --> 00:00:39,520
+memory changes and state machines are a
+
+12
+00:00:37,280 --> 00:00:40,879
+nice way to reason about how it's
+
+13
+00:00:39,520 --> 00:00:43,280
+changing. In particular, we'll talk
+
+14
+00:00:40,879 --> 00:00:46,480
+about an idea called invariance
+
+15
+00:00:43,280 --> 00:00:49,120
+uh which you use to prove algorithms and
+
+16
+00:00:46,480 --> 00:00:51,120
+programs correct and you or you will in
+
+17
+00:00:49,120 --> 00:00:54,000
+the future. And so today we're going to
+
+18
+00:00:51,120 --> 00:00:57,120
+formalize that into uh a kind of
+
+19
+00:00:54,000 --> 00:00:59,920
+induction actually. Uh you haven't seen
+
+20
+00:00:57,120 --> 00:01:01,520
+the end of induction yet. Uh so let me
+
+21
+00:00:59,920 --> 00:01:03,680
+tell you a little bit about what state
+
+22
+00:01:01,520 --> 00:01:05,360
+machines are.
+
+23
+00:01:03,680 --> 00:01:08,320
+Then we'll prove some things and apply
+
+24
+00:01:05,360 --> 00:01:11,320
+them to analyzing puzzles and other fun
+
+25
+00:01:08,320 --> 00:01:11,320
+stuff.
+
+26
+00:01:13,280 --> 00:01:19,040
+So a state machine is going to consist
+
+27
+00:01:15,680 --> 00:01:21,200
+of two things
+
+28
+00:01:19,040 --> 00:01:25,320
+uh three things
+
+29
+00:01:21,200 --> 00:01:25,320
+um a set of states
+
+30
+00:01:26,000 --> 00:01:30,400
+and the idea this is just an arbitrary
+
+31
+00:01:28,560 --> 00:01:32,960
+set but the idea is that the state of
+
+32
+00:01:30,400 --> 00:01:35,920
+your machine represents everything that
+
+33
+00:01:32,960 --> 00:01:37,759
+could possibly be in the machine all the
+
+34
+00:01:35,920 --> 00:01:40,799
+information that lets you that that's
+
+35
+00:01:37,759 --> 00:01:44,960
+inside the machine.
+
+36
+00:01:40,799 --> 00:01:48,680
+uh we're going to start in some state
+
+37
+00:01:44,960 --> 00:01:48,680
+which we call Q0
+
+38
+00:01:51,280 --> 00:01:58,360
+that's going to be an element of Q and
+
+39
+00:01:53,360 --> 00:01:58,360
+then we are allowed some transitions.
+
+40
+00:02:09,280 --> 00:02:13,560
+uh and we're going to write
+
+41
+00:02:16,959 --> 00:02:24,760
+a transition as Q arrow R
+
+42
+00:02:20,720 --> 00:02:24,760
+uh for some
+
+43
+00:02:25,360 --> 00:02:29,560
+Q and R that are states.
+
+44
+00:02:31,520 --> 00:02:37,680
+Okay. Uh let me draw you an example very
+
+45
+00:02:35,360 --> 00:02:39,040
+simple example of a state machine so we
+
+46
+00:02:37,680 --> 00:02:41,440
+have some idea of what we're talking
+
+47
+00:02:39,040 --> 00:02:44,440
+about. This is going to be an infinite
+
+48
+00:02:41,440 --> 00:02:44,440
+counter.
+
+49
+00:02:45,519 --> 00:02:49,920
+I'm going to draw it visually first and
+
+50
+00:02:48,160 --> 00:02:53,160
+then we can say what it means with all
+
+51
+00:02:49,920 --> 00:02:53,160
+these sets.
+
+52
+00:02:54,560 --> 00:02:59,319
+Just dot dot dot. Maybe I'll do one
+
+53
+00:02:56,319 --> 00:02:59,319
+more.
+
+54
+00:03:01,920 --> 00:03:06,959
+Okay, so this is a machine. You can
+
+55
+00:03:04,239 --> 00:03:09,200
+think of it as a single uh register on
+
+56
+00:03:06,959 --> 00:03:11,599
+your machine, single variable. It starts
+
+57
+00:03:09,200 --> 00:03:14,400
+at zero. This little notation here means
+
+58
+00:03:11,599 --> 00:03:16,720
+start state.
+
+59
+00:03:14,400 --> 00:03:18,239
+Um there's there's an arrow coming from
+
+60
+00:03:16,720 --> 00:03:20,560
+nowhere. So that's where you start. You
+
+61
+00:03:18,239 --> 00:03:26,800
+start in state called zero. So the set
+
+62
+00:03:20,560 --> 00:03:30,239
+of states here is 0 1 2 3 and so on. In
+
+63
+00:03:26,800 --> 00:03:31,680
+other words, the natural numbers
+
+64
+00:03:30,239 --> 00:03:33,519
+Okay. And then when you're in state
+
+65
+00:03:31,680 --> 00:03:35,040
+zero, the only transition you can do,
+
+66
+00:03:33,519 --> 00:03:37,040
+the only arrow that goes out from there
+
+67
+00:03:35,040 --> 00:03:38,400
+is from zero to one. And once you're in
+
+68
+00:03:37,040 --> 00:03:40,000
+state one, the only thing you can do is
+
+69
+00:03:38,400 --> 00:03:41,200
+go from one to two. At some point, you
+
+70
+00:03:40,000 --> 00:03:42,640
+decide to increment, then you go from
+
+71
+00:03:41,200 --> 00:03:44,720
+two to three. Some point you decide to
+
+72
+00:03:42,640 --> 00:03:46,400
+increment and you go from three to four
+
+73
+00:03:44,720 --> 00:03:47,840
+and so on. So this is a very simple
+
+74
+00:03:46,400 --> 00:03:51,920
+state machine. It turns out it will be
+
+75
+00:03:47,840 --> 00:03:53,680
+interesting for certain reasons. But uh
+
+76
+00:03:51,920 --> 00:03:56,239
+in general, you could imagine having all
+
+77
+00:03:53,680 --> 00:03:58,799
+sorts of arrows. Maybe one has a
+
+78
+00:03:56,239 --> 00:04:00,720
+transition to three for example or maybe
+
+79
+00:03:58,799 --> 00:04:02,319
+three has a transition to one. All of
+
+80
+00:04:00,720 --> 00:04:04,000
+these are possible. You can have one
+
+81
+00:04:02,319 --> 00:04:06,080
+state that has many transitions out of
+
+82
+00:04:04,000 --> 00:04:09,120
+it. You can go in loops. You can do all
+
+83
+00:04:06,080 --> 00:04:11,840
+sorts of crazy things. Uh but let me
+
+84
+00:04:09,120 --> 00:04:16,079
+finish precisely specifying the counter.
+
+85
+00:04:11,840 --> 00:04:18,000
+Okay. So we said uh here Q0 equals the
+
+86
+00:04:16,079 --> 00:04:21,040
+state zero.
+
+87
+00:04:18,000 --> 00:04:26,720
+And uh what are the transitions?
+
+88
+00:04:21,040 --> 00:04:30,240
+transitions are all of the um i to i +
+
+89
+00:04:26,720 --> 00:04:32,960
+one transitions where i is a natural
+
+90
+00:04:30,240 --> 00:04:36,320
+number. May recall this set builder
+
+91
+00:04:32,960 --> 00:04:38,720
+notation from lecture one I think uh
+
+92
+00:04:36,320 --> 00:04:40,880
+where we write an element on the left
+
+93
+00:04:38,720 --> 00:04:43,040
+and we write some condition on the right
+
+94
+00:04:40,880 --> 00:04:46,160
+and so the idea is t is the set of all
+
+95
+00:04:43,040 --> 00:04:50,320
+of these transitions i to i + one for
+
+96
+00:04:46,160 --> 00:04:52,320
+every i that's a natural number.
+
+97
+00:04:50,320 --> 00:04:53,600
+Okay, so that's an example. But in
+
+98
+00:04:52,320 --> 00:04:56,400
+general, we can have all sorts of
+
+99
+00:04:53,600 --> 00:04:58,000
+transitions from any state to any state,
+
+100
+00:04:56,400 --> 00:05:00,560
+but you're only allowed to make the
+
+101
+00:04:58,000 --> 00:05:05,800
+transitions that are in t.
+
+102
+00:05:00,560 --> 00:05:05,800
+So let's uh
+
+103
+00:05:08,000 --> 00:05:13,080
+formalize that with the idea of an
+
+104
+00:05:10,080 --> 00:05:13,080
+execution.
+
+105
+00:05:28,880 --> 00:05:34,080
+It's going to be a sequence of states
+
+106
+00:05:30,639 --> 00:05:35,759
+that uh you can reach by a sequence of
+
+107
+00:05:34,080 --> 00:05:41,120
+transitions.
+
+108
+00:05:35,759 --> 00:05:44,400
+So uh let's write it as Q0 arrow Q1
+
+109
+00:05:41,120 --> 00:05:46,560
+arrow Q2
+
+110
+00:05:44,400 --> 00:05:49,120
+and so on
+
+111
+00:05:46,560 --> 00:05:52,840
+uh
+
+112
+00:05:49,120 --> 00:05:52,840
+maybe up to QN.
+
+113
+00:06:02,560 --> 00:06:08,160
+And importantly, every transition we
+
+114
+00:06:04,639 --> 00:06:11,680
+make for all I qi to qi plus one should
+
+115
+00:06:08,160 --> 00:06:13,840
+be in t, not just any set of states
+
+116
+00:06:11,680 --> 00:06:15,759
+here. We want to start in Q0, our start
+
+117
+00:06:13,840 --> 00:06:18,319
+state. We want to then make a valid
+
+118
+00:06:15,759 --> 00:06:21,759
+transition from Q0 to Q1. Then a valid
+
+119
+00:06:18,319 --> 00:06:24,080
+transition from Q1 to Q2 and so on. So
+
+120
+00:06:21,759 --> 00:06:25,759
+in this example, the executions are very
+
+121
+00:06:24,080 --> 00:06:27,440
+simple. In the in the regular counter
+
+122
+00:06:25,759 --> 00:06:30,720
+without the red lines, the executions
+
+123
+00:06:27,440 --> 00:06:32,880
+are just 0123, that's one execution. 0 1
+
+124
+00:06:30,720 --> 00:06:34,720
+2 3 4 5 That's another execution.
+
+125
+00:06:32,880 --> 00:06:38,240
+There's an infinite execution which is
+
+126
+00:06:34,720 --> 00:06:40,479
+zero all the way out to infinity.
+
+127
+00:06:38,240 --> 00:06:43,199
+Uh that's why I put this in parenthesis.
+
+128
+00:06:40,479 --> 00:06:44,720
+Either it stops at some qn or just or
+
+129
+00:06:43,199 --> 00:06:46,880
+the dot dot dot continues off to
+
+130
+00:06:44,720 --> 00:06:48,880
+infinity. So trying to simultaneously
+
+131
+00:06:46,880 --> 00:06:51,440
+define finite executions where you stop
+
+132
+00:06:48,880 --> 00:06:55,520
+at qn and infinite executions where you
+
+133
+00:06:51,440 --> 00:06:57,360
+go forever. When you write an algorithm
+
+134
+00:06:55,520 --> 00:07:00,000
+or a piece of code, you usually don't
+
+135
+00:06:57,360 --> 00:07:01,919
+want your program to go forever. And so
+
+136
+00:07:00,000 --> 00:07:03,759
+distinguishing between infinite and and
+
+137
+00:07:01,919 --> 00:07:06,400
+finite executions is one of the goals of
+
+138
+00:07:03,759 --> 00:07:08,800
+this lecture. It'll come at the end. The
+
+139
+00:07:06,400 --> 00:07:11,199
+other goal is to show that your program
+
+140
+00:07:08,800 --> 00:07:13,440
+is correct in a certain sense that in
+
+141
+00:07:11,199 --> 00:07:15,919
+any execution it does the things that
+
+142
+00:07:13,440 --> 00:07:19,840
+you want it to do. So that's what we're
+
+143
+00:07:15,919 --> 00:07:22,880
+going to formalize in a moment. But let
+
+144
+00:07:19,840 --> 00:07:26,440
+me first talk about reachable states.
+
+145
+00:07:22,880 --> 00:07:26,440
+The idea of reachability.
+
+146
+00:07:42,560 --> 00:07:48,400
+I'm going to call a state R reachable if
+
+147
+00:07:45,280 --> 00:07:55,280
+there is an execution that starts at the
+
+148
+00:07:48,400 --> 00:07:57,759
+start state Q0 and ends at R.
+
+149
+00:07:55,280 --> 00:07:59,919
+Okay, so in the counter example, every
+
+150
+00:07:57,759 --> 00:08:04,319
+state can be reached. If I pick a state
+
+151
+00:07:59,919 --> 00:08:07,360
+I, I can go 0 1 2 3 up to I. But if I
+
+152
+00:08:04,319 --> 00:08:10,479
+drew some other circle over here like uh
+
+153
+00:08:07,360 --> 00:08:12,479
+bad with no arrows coming into it, you
+
+154
+00:08:10,479 --> 00:08:15,479
+can't reach bad.
+
+155
+00:08:12,479 --> 00:08:15,479
+Okay,
+
+156
+00:08:16,319 --> 00:08:20,160
+so usually we're only interested in the
+
+157
+00:08:18,479 --> 00:08:23,479
+reachable states because you can't get
+
+158
+00:08:20,160 --> 00:08:23,479
+anywhere else.
+
+159
+00:08:25,039 --> 00:08:31,319
+I feel like I should make a reacher
+
+160
+00:08:26,560 --> 00:08:31,319
+joke, but I don't can't think of one.
+
+161
+00:08:35,120 --> 00:08:40,320
+Okay. Um I think
+
+162
+00:08:38,240 --> 00:08:42,640
+at this point I want to talk about a
+
+163
+00:08:40,320 --> 00:08:44,640
+more interesting example and then we
+
+164
+00:08:42,640 --> 00:08:47,680
+will
+
+165
+00:08:44,640 --> 00:08:49,200
+come back to
+
+166
+00:08:47,680 --> 00:08:52,440
+uh
+
+167
+00:08:49,200 --> 00:08:52,440
+the theory.
+
+168
+00:09:00,080 --> 00:09:05,680
+So the interesting example is this uh
+
+169
+00:09:04,080 --> 00:09:10,000
+it's called the eight puzzle. You have a
+
+170
+00:09:05,680 --> 00:09:12,320
+3x3 grid with one hole and one by one
+
+171
+00:09:10,000 --> 00:09:15,519
+pieces in it and you can slide them
+
+172
+00:09:12,320 --> 00:09:18,240
+around. And so this is the solve state.
+
+173
+00:09:15,519 --> 00:09:22,320
+Your goal is to get here. But you start
+
+174
+00:09:18,240 --> 00:09:26,880
+in some random state and you want to
+
+175
+00:09:22,320 --> 00:09:31,600
+move the pieces around to get there.
+
+176
+00:09:26,880 --> 00:09:34,160
+Uh so what we'd like to do is capture uh
+
+177
+00:09:31,600 --> 00:09:35,839
+how to solve this puzzle or actually
+
+178
+00:09:34,160 --> 00:09:38,959
+maybe more interestingly is when it's
+
+179
+00:09:35,839 --> 00:09:43,120
+solvable. So here for example, I'm
+
+180
+00:09:38,959 --> 00:09:46,240
+almost solved 1 2 3 4 65 78. I wanted to
+
+181
+00:09:43,120 --> 00:09:49,040
+get into 1 2 3 4 5 6 7 8. Uh it turns
+
+182
+00:09:46,240 --> 00:09:51,360
+out that puzzle is not solvable. I claim
+
+183
+00:09:49,040 --> 00:09:53,120
+it's impossible to get from here to the
+
+184
+00:09:51,360 --> 00:09:58,760
+goal.
+
+185
+00:09:53,120 --> 00:09:58,760
+So let's talk about the eight puzzle.
+
+186
+00:10:02,880 --> 00:10:07,600
+Uh
+
+187
+00:10:05,120 --> 00:10:11,600
+so I have some examples here. One,
+
+188
+00:10:07,600 --> 00:10:16,120
+three, four, two, five,
+
+189
+00:10:11,600 --> 00:10:16,120
+seven, eight, six.
+
+190
+00:10:17,360 --> 00:10:25,240
+Going to one, two, three, four, five,
+
+191
+00:10:20,800 --> 00:10:25,240
+six, seven, eight.
+
+192
+00:10:25,680 --> 00:10:31,839
+Or
+
+193
+00:10:28,320 --> 00:10:36,880
+this one. One, two, three,
+
+194
+00:10:31,839 --> 00:10:39,760
+four, six, five, seven, eight.
+
+195
+00:10:36,880 --> 00:10:41,120
+Okay,
+
+196
+00:10:39,760 --> 00:10:45,040
+hopefully the rules are clear. We'll
+
+197
+00:10:41,120 --> 00:10:46,640
+formalize them in a second. Um, I claim
+
+198
+00:10:45,040 --> 00:10:49,200
+it is possible to go from this
+
+199
+00:10:46,640 --> 00:10:50,959
+arrangement to this arrangement. It's
+
+200
+00:10:49,200 --> 00:10:52,880
+actually quite easy. You move the three
+
+201
+00:10:50,959 --> 00:10:55,600
+over, you move the two up, you move the
+
+202
+00:10:52,880 --> 00:10:59,440
+five over, you move the six up. Okay, so
+
+203
+00:10:55,600 --> 00:11:02,240
+this is possible. I claim this one is
+
+204
+00:10:59,440 --> 00:11:04,640
+impossible.
+
+205
+00:11:02,240 --> 00:11:08,320
+And one of the goal, our first goal
+
+206
+00:11:04,640 --> 00:11:11,120
+really is to prove that that you cannot
+
+207
+00:11:08,320 --> 00:11:13,279
+swap the five and the six by themselves.
+
+208
+00:11:11,120 --> 00:11:16,440
+Okay, we're going to build up tools to
+
+209
+00:11:13,279 --> 00:11:16,440
+do that.
+
+210
+00:11:17,279 --> 00:11:22,240
+So, let me define let me uh so the
+
+211
+00:11:20,560 --> 00:11:23,600
+counter was a very simple state machine.
+
+212
+00:11:22,240 --> 00:11:28,360
+Let me now define a more interesting
+
+213
+00:11:23,600 --> 00:11:28,360
+state machine which is the eight puzzle.
+
+214
+00:11:39,440 --> 00:11:44,480
+Okay, remember the set of states Q is
+
+215
+00:11:42,399 --> 00:11:47,200
+supposed to encapsulate
+
+216
+00:11:44,480 --> 00:11:49,839
+everything about the puzzle or your
+
+217
+00:11:47,200 --> 00:11:52,480
+system or whatever. Uh, so this is going
+
+218
+00:11:49,839 --> 00:11:56,720
+to be all the different arrangements of
+
+219
+00:11:52,480 --> 00:11:59,839
+the eight pieces plus a blank in a 3x3
+
+220
+00:11:56,720 --> 00:12:03,680
+grid. So I'm just going to write that in
+
+221
+00:11:59,839 --> 00:12:06,680
+words. All possible
+
+222
+00:12:03,680 --> 00:12:06,680
+arrangements
+
+223
+00:12:10,160 --> 00:12:22,920
+of eight I'm going to call them of uh
+
+224
+00:12:15,600 --> 00:12:22,920
+one two three up to eight and the blank
+
+225
+00:12:22,959 --> 00:12:27,360
+in a 3x3.
+
+226
+00:12:25,600 --> 00:12:28,800
+In later parts of the class we'll be
+
+227
+00:12:27,360 --> 00:12:31,279
+able to count how many of these things
+
+228
+00:12:28,800 --> 00:12:32,720
+there are. It's nine factorial, but uh
+
+229
+00:12:31,279 --> 00:12:34,079
+we don't really care how many there are
+
+230
+00:12:32,720 --> 00:12:36,000
+right now. We just want to think about
+
+231
+00:12:34,079 --> 00:12:38,720
+this as a set of all the possible states
+
+232
+00:12:36,000 --> 00:12:42,079
+of this board.
+
+233
+00:12:38,720 --> 00:12:44,639
+Okay, our start state, well, that's
+
+234
+00:12:42,079 --> 00:12:47,680
+either this one or this one depending on
+
+235
+00:12:44,639 --> 00:12:52,720
+where we want to start. Um we're also
+
+236
+00:12:47,680 --> 00:12:56,880
+going to define a final state Q subf and
+
+237
+00:12:52,720 --> 00:13:00,639
+that is uh sorted
+
+238
+00:12:56,880 --> 00:13:00,639
+uh by reading order.
+
+239
+00:13:03,440 --> 00:13:08,560
+So this is Q subf reading order like in
+
+240
+00:13:06,800 --> 00:13:11,200
+English you read the top row, second
+
+241
+00:13:08,560 --> 00:13:13,360
+row, third row with the X at the end.
+
+242
+00:13:11,200 --> 00:13:18,399
+That's always our goal in this puzzle.
+
+243
+00:13:13,360 --> 00:13:21,519
+That's our definition. Uh and then uh
+
+244
+00:13:18,399 --> 00:13:23,519
+what about the transitions?
+
+245
+00:13:21,519 --> 00:13:26,240
+Okay,
+
+246
+00:13:23,519 --> 00:13:30,160
+transitions are going to look like um
+
+247
+00:13:26,240 --> 00:13:33,040
+some Q to R for two states Q and R. And
+
+248
+00:13:30,160 --> 00:13:35,360
+it's when you can get from Q to R by
+
+249
+00:13:33,040 --> 00:13:37,839
+making one slide.
+
+250
+00:13:35,360 --> 00:13:39,920
+I'm just going to write that in words.
+
+251
+00:13:37,839 --> 00:13:45,680
+Can get
+
+252
+00:13:39,920 --> 00:13:49,839
+from state Q that 3x3 grid to state R in
+
+253
+00:13:45,680 --> 00:13:52,880
+one slide. meaning
+
+254
+00:13:49,839 --> 00:13:55,680
+meaning you exchange the blank the X
+
+255
+00:13:52,880 --> 00:13:58,320
+with one of its neighboring cells. So in
+
+256
+00:13:55,680 --> 00:14:02,480
+particular there is at most four
+
+257
+00:13:58,320 --> 00:14:06,040
+different uh transitions
+
+258
+00:14:02,480 --> 00:14:06,040
+from any state.
+
+259
+00:14:07,120 --> 00:14:10,880
+You could move the thing above the blank
+
+260
+00:14:09,360 --> 00:14:12,639
+into the blank. You move the left,
+
+261
+00:14:10,880 --> 00:14:14,240
+right, or below the blank into the
+
+262
+00:14:12,639 --> 00:14:16,800
+blank. But if it's on the boundary, you
+
+263
+00:14:14,240 --> 00:14:18,160
+have fewer than four moves. Okay, so
+
+264
+00:14:16,800 --> 00:14:19,199
+hopefully now I've said it enough times
+
+265
+00:14:18,160 --> 00:14:21,199
+the rules are clear if you haven't
+
+266
+00:14:19,199 --> 00:14:23,199
+played this game before. 15 puzzle is
+
+267
+00:14:21,199 --> 00:14:24,880
+much more common,
+
+268
+00:14:23,199 --> 00:14:27,519
+but eight puzzle is a little easier to
+
+269
+00:14:24,880 --> 00:14:29,279
+think about. Smaller pictures, easier to
+
+270
+00:14:27,519 --> 00:14:34,560
+draw, and I could actually solve it in a
+
+271
+00:14:29,279 --> 00:14:38,519
+reasonable amount of time. Um, okay. So,
+
+272
+00:14:34,560 --> 00:14:38,519
+uh, this is a claim
+
+273
+00:14:39,279 --> 00:14:44,560
+that we want to prove. You cannot get
+
+274
+00:14:42,240 --> 00:14:46,880
+from this state with five and six
+
+275
+00:14:44,560 --> 00:14:48,160
+flipped into this state. And so now
+
+276
+00:14:46,880 --> 00:14:50,800
+we're going to build some some
+
+277
+00:14:48,160 --> 00:14:53,360
+technology to do that. And that
+
+278
+00:14:50,800 --> 00:14:56,399
+technology is an uh first part of it is
+
+279
+00:14:53,360 --> 00:14:58,399
+called a state predicate.
+
+280
+00:14:56,399 --> 00:15:02,440
+So
+
+281
+00:14:58,399 --> 00:15:02,440
+we've seen predicates before.
+
+282
+00:15:05,040 --> 00:15:09,240
+Predicate is just a
+
+283
+00:15:10,240 --> 00:15:13,240
+uh
+
+284
+00:15:13,519 --> 00:15:19,680
+a proposition that's depends on some
+
+285
+00:15:16,880 --> 00:15:22,880
+variable.
+
+286
+00:15:19,680 --> 00:15:25,440
+And here the variable is a state.
+
+287
+00:15:22,880 --> 00:15:27,440
+So p of q is either true or false
+
+288
+00:15:25,440 --> 00:15:30,399
+depending on which state you are looking
+
+289
+00:15:27,440 --> 00:15:32,000
+at. You can also think of this if you're
+
+290
+00:15:30,399 --> 00:15:34,000
+comfortable with functions. We'll talk
+
+291
+00:15:32,000 --> 00:15:38,800
+more about functions later in the class.
+
+292
+00:15:34,000 --> 00:15:41,839
+This is a function from Q to the
+
+293
+00:15:38,800 --> 00:15:43,360
+booleans, true or false.
+
+294
+00:15:41,839 --> 00:15:45,600
+It's an equivalent way to think about
+
+295
+00:15:43,360 --> 00:15:47,279
+it, whatever you're more comfortable
+
+296
+00:15:45,600 --> 00:15:50,720
+with. For every state, we're going to
+
+297
+00:15:47,279 --> 00:15:54,160
+this predicate assigns true or false.
+
+298
+00:15:50,720 --> 00:15:56,160
+Okay. Now, we're going to define uh two
+
+299
+00:15:54,160 --> 00:15:59,519
+types of predicates that are
+
+300
+00:15:56,160 --> 00:16:03,360
+particularly interesting.
+
+301
+00:15:59,519 --> 00:16:06,959
+A predicate is preserved if whenever
+
+302
+00:16:03,360 --> 00:16:14,199
+there's a transition from Q to R,
+
+303
+00:16:06,959 --> 00:16:14,199
+uh, P of Q implies P of R.
+
+304
+00:16:14,399 --> 00:16:19,920
+What does that mean? It means that if I
+
+305
+00:16:17,040 --> 00:16:23,759
+start in some state where P is true and
+
+306
+00:16:19,920 --> 00:16:26,959
+I do a transition, then P remains true.
+
+307
+00:16:23,759 --> 00:16:29,120
+So it's the truth of P is preserved
+
+308
+00:16:26,959 --> 00:16:30,720
+along transitions.
+
+309
+00:16:29,120 --> 00:16:34,000
+Okay, we'll make this concrete in a
+
+310
+00:16:30,720 --> 00:16:36,560
+second. Second important notion
+
+311
+00:16:34,000 --> 00:16:39,440
+is called an invariant or invariant
+
+312
+00:16:36,560 --> 00:16:42,800
+state predicate.
+
+313
+00:16:39,440 --> 00:16:45,759
+If uh P of Q
+
+314
+00:16:42,800 --> 00:16:50,199
+is true
+
+315
+00:16:45,759 --> 00:16:50,199
+for all reachable states Q.
+
+316
+00:16:53,839 --> 00:16:57,279
+Crucially in this definition definition
+
+317
+00:16:55,839 --> 00:16:59,680
+we're only interested in the reachable
+
+318
+00:16:57,279 --> 00:17:01,440
+states.
+
+319
+00:16:59,680 --> 00:17:03,759
+Uh that's kind of important for the
+
+320
+00:17:01,440 --> 00:17:05,280
+eight puzzle because we claim some
+
+321
+00:17:03,759 --> 00:17:06,559
+states are unreachable. Like if I start
+
+322
+00:17:05,280 --> 00:17:07,919
+here the claim is that this one is
+
+323
+00:17:06,559 --> 00:17:10,720
+unreachable. That's what we'd like to
+
+324
+00:17:07,919 --> 00:17:10,720
+prove actually.
+
+325
+00:17:10,880 --> 00:17:18,679
+Uh so this seems useful.
+
+326
+00:17:13,919 --> 00:17:18,679
+Um in particular,
+
+327
+00:17:22,079 --> 00:17:29,760
+let's write this fun fact. Uh if P of Q
+
+328
+00:17:27,439 --> 00:17:33,320
+is invariant, meaning it's true in all
+
+329
+00:17:29,760 --> 00:17:33,320
+reachable states.
+
+330
+00:17:34,320 --> 00:17:38,160
+uh
+
+331
+00:17:36,160 --> 00:17:40,240
+and
+
+332
+00:17:38,160 --> 00:17:42,080
+p of q
+
+333
+00:17:40,240 --> 00:17:45,280
+is false
+
+334
+00:17:42,080 --> 00:17:47,360
+for maybe I'll write p of r here
+
+335
+00:17:45,280 --> 00:17:51,000
+then
+
+336
+00:17:47,360 --> 00:17:51,000
+r is unreachable
+
+337
+00:17:53,760 --> 00:17:57,440
+okay that's pretty much by definition
+
+338
+00:17:55,679 --> 00:17:59,039
+and maybe the contraositive this is
+
+339
+00:17:57,440 --> 00:18:01,440
+saying for uh invariant means that for
+
+340
+00:17:59,039 --> 00:18:03,919
+all reachable states p of q must be true
+
+341
+00:18:01,440 --> 00:18:05,600
+so if I can find a particular state R
+
+342
+00:18:03,919 --> 00:18:07,760
+where P is false. That means you cannot
+
+343
+00:18:05,600 --> 00:18:09,440
+reach it. And that's what we'd like to
+
+344
+00:18:07,760 --> 00:18:12,720
+show, right? We'd like to show this
+
+345
+00:18:09,440 --> 00:18:14,559
+state is unreachable from this one.
+
+346
+00:18:12,720 --> 00:18:16,799
+So maybe we can use these state
+
+347
+00:18:14,559 --> 00:18:19,039
+predicates to do that. And indeed we
+
+348
+00:18:16,799 --> 00:18:22,039
+can.
+
+349
+00:18:19,039 --> 00:18:22,039
+Okay,
+
+350
+00:18:22,880 --> 00:18:27,080
+let me tell you another tool.
+
+351
+00:18:27,120 --> 00:18:33,039
+Uh you know how do we prove that a state
+
+352
+00:18:30,160 --> 00:18:34,799
+predicate is invariant?
+
+353
+00:18:33,039 --> 00:18:36,160
+Uh this seems a little bit tricky
+
+354
+00:18:34,799 --> 00:18:37,760
+because this is talking about all
+
+355
+00:18:36,160 --> 00:18:40,559
+reachable states. Reachable states is
+
+356
+00:18:37,760 --> 00:18:42,240
+like huge. I don't know.
+
+357
+00:18:40,559 --> 00:18:43,760
+Preserved seems relatively easy to
+
+358
+00:18:42,240 --> 00:18:46,559
+prove. This is just saying for each
+
+359
+00:18:43,760 --> 00:18:49,840
+transition something implies something.
+
+360
+00:18:46,559 --> 00:18:51,200
+So I'd like to prove preservedness
+
+361
+00:18:49,840 --> 00:18:52,720
+and I'd like to use that to get
+
+362
+00:18:51,200 --> 00:18:54,559
+invariant.
+
+363
+00:18:52,720 --> 00:18:57,200
+And we're going to do that using
+
+364
+00:18:54,559 --> 00:18:58,799
+induction. But a particular form of
+
+365
+00:18:57,200 --> 00:19:01,799
+induction called the invariant
+
+366
+00:18:58,799 --> 00:19:01,799
+principle.
+
+367
+00:19:10,000 --> 00:19:17,039
+So this is for a state
+
+368
+00:19:14,720 --> 00:19:20,679
+predicate
+
+369
+00:19:17,039 --> 00:19:20,679
+P of Q.
+
+370
+00:19:21,520 --> 00:19:27,960
+If
+
+371
+00:19:23,200 --> 00:19:27,960
+P of Q0 is true
+
+372
+00:19:29,200 --> 00:19:38,600
+and
+
+373
+00:19:32,160 --> 00:19:38,600
+uh P of Q is invariant.
+
+374
+00:19:39,600 --> 00:19:45,000
+Get it right.
+
+375
+00:19:42,000 --> 00:19:45,000
+Observed.
+
+376
+00:19:47,200 --> 00:19:54,919
+then
+
+377
+00:19:49,280 --> 00:19:54,919
+P of Q is invariant.
+
+378
+00:19:57,360 --> 00:20:02,240
+Okay, this is what I said I wanted. Uh
+
+379
+00:19:59,679 --> 00:20:04,960
+on the one hand, invariant seemed hard
+
+380
+00:20:02,240 --> 00:20:06,960
+to argue. Preserve seemed easy to argue.
+
+381
+00:20:04,960 --> 00:20:08,320
+And this is a theorem that connects them
+
+382
+00:20:06,960 --> 00:20:10,480
+in the way that we want. It says if you
+
+383
+00:20:08,320 --> 00:20:12,080
+can prove preserved and you can prove
+
+384
+00:20:10,480 --> 00:20:15,120
+that P is true in the very initial
+
+385
+00:20:12,080 --> 00:20:16,480
+state, then it must be invariant. I
+
+386
+00:20:15,120 --> 00:20:18,799
+think this is intuitive, right? If you
+
+387
+00:20:16,480 --> 00:20:20,960
+start true and preserve says every time
+
+388
+00:20:18,799 --> 00:20:22,240
+you do a transition you stay true then
+
+389
+00:20:20,960 --> 00:20:26,600
+you're always going to be true in any
+
+390
+00:20:22,240 --> 00:20:26,600
+reachable state anywhere you can get.
+
+391
+00:20:27,120 --> 00:20:35,919
+Okay. Uh in fact this is induction in
+
+392
+00:20:30,960 --> 00:20:37,600
+another form. So if you recall
+
+393
+00:20:35,919 --> 00:20:39,679
+in the past which I happen to have right
+
+394
+00:20:37,600 --> 00:20:43,840
+here induction
+
+395
+00:20:39,679 --> 00:20:46,640
+we have regular induction says uh for
+
+396
+00:20:43,840 --> 00:20:48,640
+predicate p of n over natural numbers
+
+397
+00:20:46,640 --> 00:20:50,799
+instead of states
+
+398
+00:20:48,640 --> 00:20:52,960
+uh if p of zero is true and for every
+
+399
+00:20:50,799 --> 00:20:55,280
+natural number p of n implies p of n is
+
+400
+00:20:52,960 --> 00:20:58,159
+n plus one is true then for every
+
+401
+00:20:55,280 --> 00:21:00,559
+natural number p of n is true. Okay,
+
+402
+00:20:58,159 --> 00:21:02,720
+this is saying uh the same thing
+
+403
+00:21:00,559 --> 00:21:06,320
+actually it's exactly the same thing if
+
+404
+00:21:02,720 --> 00:21:07,890
+you apply this invariant principle to
+
+405
+00:21:06,320 --> 00:21:11,039
+this counter
+
+406
+00:21:07,890 --> 00:21:12,960
+[Applause]
+
+407
+00:21:11,039 --> 00:21:15,360
+right in the counter the states are the
+
+408
+00:21:12,960 --> 00:21:19,200
+natural numbers and the transitions are
+
+409
+00:21:15,360 --> 00:21:20,799
+exactly going from i to i + 1 okay so
+
+410
+00:21:19,200 --> 00:21:24,159
+the invariant principle is actually a
+
+411
+00:21:20,799 --> 00:21:26,400
+generalization of the induction axiom
+
+412
+00:21:24,159 --> 00:21:28,320
+uh the special case here where we plug
+
+413
+00:21:26,400 --> 00:21:30,720
+in the counter as a state machine. This
+
+414
+00:21:28,320 --> 00:21:32,159
+is true for all state machines. And if
+
+415
+00:21:30,720 --> 00:21:34,240
+we plug in the counter for our state
+
+416
+00:21:32,159 --> 00:21:37,240
+machine, we get exactly the induction
+
+417
+00:21:34,240 --> 00:21:37,240
+aim.
+
+418
+00:21:37,280 --> 00:21:42,000
+This is our base case in some sense. We
+
+419
+00:21:39,679 --> 00:21:44,159
+prove that uh P is true in the initial
+
+420
+00:21:42,000 --> 00:21:46,080
+state. This is our induction step. It
+
+421
+00:21:44,159 --> 00:21:48,559
+says that if we start at Q and we
+
+422
+00:21:46,080 --> 00:21:50,960
+transition to some other R that's
+
+423
+00:21:48,559 --> 00:21:53,039
+reachable via transition.
+
+424
+00:21:50,960 --> 00:21:56,080
+uh and in the particular case of counter
+
+425
+00:21:53,039 --> 00:21:59,280
+m counter that is going from Q to Q plus
+
+426
+00:21:56,080 --> 00:22:00,960
+one then we get that P of Q is true for
+
+427
+00:21:59,280 --> 00:22:03,039
+all reachable states and in the counter
+
+428
+00:22:00,960 --> 00:22:06,159
+everything is reachable.
+
+429
+00:22:03,039 --> 00:22:08,640
+Okay, so invariant principle implies
+
+430
+00:22:06,159 --> 00:22:11,679
+induction aom.
+
+431
+00:22:08,640 --> 00:22:14,000
+Uh, conversely, we can prove the
+
+432
+00:22:11,679 --> 00:22:16,799
+invariant principle using induction.
+
+433
+00:22:14,000 --> 00:22:20,039
+Maybe it's useful to see
+
+434
+00:22:16,799 --> 00:22:20,039
+that proof.
+
+435
+00:22:23,520 --> 00:22:32,600
+So let's prove the invariant principle
+
+436
+00:22:28,080 --> 00:22:32,600
+uh by induction.
+
+437
+00:22:34,240 --> 00:22:39,280
+So it's not so obvious how exactly but
+
+438
+00:22:36,880 --> 00:22:43,280
+the idea is to specify a particular
+
+439
+00:22:39,280 --> 00:22:49,000
+induction hypothesis which is
+
+440
+00:22:43,280 --> 00:22:49,000
+uh for all length n executions.
+
+441
+00:23:00,400 --> 00:23:06,480
+uh p of qn
+
+442
+00:23:04,159 --> 00:23:10,080
+is true.
+
+443
+00:23:06,480 --> 00:23:12,400
+There should be a colon out here.
+
+444
+00:23:10,080 --> 00:23:13,840
+Uh I think it's intuitive that this is
+
+445
+00:23:12,400 --> 00:23:15,520
+enough, but we'll justify why this is
+
+446
+00:23:13,840 --> 00:23:17,679
+enough. The idea is if you have some
+
+447
+00:23:15,520 --> 00:23:21,039
+state that's reachable, it's reachable
+
+448
+00:23:17,679 --> 00:23:24,240
+by some finite execution of some length.
+
+449
+00:23:21,039 --> 00:23:28,080
+And we're going to prove for all n that
+
+450
+00:23:24,240 --> 00:23:31,280
+all length n executions p of qn is true.
+
+451
+00:23:28,080 --> 00:23:33,440
+And by by inducting over length, we
+
+452
+00:23:31,280 --> 00:23:35,120
+essentially start with short uh
+
+453
+00:23:33,440 --> 00:23:37,600
+executions and then make them gradually
+
+454
+00:23:35,120 --> 00:23:41,840
+longer. That makes this easy to prove.
+
+455
+00:23:37,600 --> 00:23:45,760
+So let's pro let's do a base case
+
+456
+00:23:41,840 --> 00:23:48,480
+uh iH of zero.
+
+457
+00:23:45,760 --> 00:23:51,520
+Well, that's all length zero executions.
+
+458
+00:23:48,480 --> 00:23:54,520
+There's only one length zero execution.
+
+459
+00:23:51,520 --> 00:23:54,520
+uh
+
+460
+00:23:56,880 --> 00:24:03,200
+that is just Q0. You start at Q0 and you
+
+461
+00:23:59,840 --> 00:24:08,000
+stay there. That's length zero. Uh and
+
+462
+00:24:03,200 --> 00:24:09,360
+we claim that P of Q0 Q0 is clearly a
+
+463
+00:24:08,000 --> 00:24:14,000
+reachable state. You get there via
+
+464
+00:24:09,360 --> 00:24:18,840
+length zero execution. Why is it true?
+
+465
+00:24:14,000 --> 00:24:18,840
+this where it's what we assumed
+
+466
+00:24:19,840 --> 00:24:26,400
+it's by one.
+
+467
+00:24:23,600 --> 00:24:27,760
+So that's the base case.
+
+468
+00:24:26,400 --> 00:24:32,720
+Of course, the more interesting one is
+
+469
+00:24:27,760 --> 00:24:34,799
+the induction step. I'm going to assume
+
+470
+00:24:32,720 --> 00:24:36,720
+we get to choose. We could follow this
+
+471
+00:24:34,799 --> 00:24:38,640
+plan. Assume P of N and prove P of N
+
+472
+00:24:36,720 --> 00:24:42,559
+plus one. I find it slightly more
+
+473
+00:24:38,640 --> 00:24:44,720
+intuitive to assume P of N or sorry
+
+474
+00:24:42,559 --> 00:24:46,320
+instead of P it's IH here for induction
+
+475
+00:24:44,720 --> 00:24:50,240
+hypothesis
+
+476
+00:24:46,320 --> 00:24:52,080
+uh IH of N minus one and we're going to
+
+477
+00:24:50,240 --> 00:24:55,840
+prove
+
+478
+00:24:52,080 --> 00:24:58,000
+uh IH of N.
+
+479
+00:24:55,840 --> 00:24:59,760
+Okay, what does it mean to prove IH of
+
+480
+00:24:58,000 --> 00:25:03,120
+N? It says well for all length N
+
+481
+00:24:59,760 --> 00:25:06,000
+executions P of QN is true. Uh so how do
+
+482
+00:25:03,120 --> 00:25:09,520
+we prove a for all? We just take an
+
+483
+00:25:06,000 --> 00:25:11,360
+arbitrary thing in the quantifier. So
+
+484
+00:25:09,520 --> 00:25:14,840
+take any
+
+485
+00:25:11,360 --> 00:25:14,840
+consider any
+
+486
+00:25:16,480 --> 00:25:20,120
+length n execution
+
+487
+00:25:21,840 --> 00:25:27,679
+and then we need to prove the property
+
+488
+00:25:23,840 --> 00:25:31,960
+we want which is p of qn. So let me uh
+
+489
+00:25:27,679 --> 00:25:31,960
+give some notation for that execution.
+
+490
+00:25:32,000 --> 00:25:39,159
+any length n execution q0
+
+491
+00:25:36,159 --> 00:25:39,159
+q1
+
+492
+00:25:39,440 --> 00:25:44,960
+q n minus one
+
+493
+00:25:42,320 --> 00:25:49,360
+qn
+
+494
+00:25:44,960 --> 00:25:51,279
+and what we want to show is that uh p of
+
+495
+00:25:49,360 --> 00:25:52,640
+qn
+
+496
+00:25:51,279 --> 00:25:56,159
+that's our goal right it says for all
+
+497
+00:25:52,640 --> 00:25:57,679
+length executions p of qn is true so we
+
+498
+00:25:56,159 --> 00:26:01,279
+take an arbitrary execution if we can
+
+499
+00:25:57,679 --> 00:26:01,279
+prove p of qn is true then we're
+
+500
+00:26:02,240 --> 00:26:05,760
+Well, somehow we want to use induction
+
+501
+00:26:04,000 --> 00:26:08,640
+here. We've assumed the induction
+
+502
+00:26:05,760 --> 00:26:11,679
+hypothesis for size n minus one. Can you
+
+503
+00:26:08,640 --> 00:26:15,240
+see a length n minus one execution here?
+
+504
+00:26:11,679 --> 00:26:15,240
+That might be interesting.
+
+505
+00:26:18,880 --> 00:26:24,320
+Yeah.
+
+506
+00:26:21,120 --> 00:26:27,039
+>> Q1 to QN. That's a good idea. Does that
+
+507
+00:26:24,320 --> 00:26:29,440
+work?
+
+508
+00:26:27,039 --> 00:26:32,799
+Is that an execution?
+
+509
+00:26:29,440 --> 00:26:36,799
+Let's go back and check. Uh,
+
+510
+00:26:32,799 --> 00:26:38,960
+execution of a state machine
+
+511
+00:26:36,799 --> 00:26:42,799
+is an infinite or a finite sequence
+
+512
+00:26:38,960 --> 00:26:45,520
+starting with Q0 and maybe ending,
+
+513
+00:26:42,799 --> 00:26:47,440
+but it needs to start with Q0. So
+
+514
+00:26:45,520 --> 00:26:49,360
+there's like two natural choices here.
+
+515
+00:26:47,440 --> 00:26:51,919
+One would be starting at Q1 and going to
+
+516
+00:26:49,360 --> 00:26:53,520
+QN, but Q1 might not equal Q0. And so
+
+517
+00:26:51,919 --> 00:26:54,720
+that might not be a valid execution. So
+
+518
+00:26:53,520 --> 00:26:59,120
+we wouldn't be able to apply induction
+
+519
+00:26:54,720 --> 00:27:01,600
+to that. The other obvious choice is q0
+
+520
+00:26:59,120 --> 00:27:04,000
+to qn minus one. That is a valid
+
+521
+00:27:01,600 --> 00:27:07,360
+execution of length one smaller length n
+
+522
+00:27:04,000 --> 00:27:09,440
+minus one because it starts with q0.
+
+523
+00:27:07,360 --> 00:27:12,080
+Okay, a lot of terms here so it's easy
+
+524
+00:27:09,440 --> 00:27:18,480
+to lose track but eventually they will
+
+525
+00:27:12,080 --> 00:27:22,799
+become comfortable. Uh so by uh
+
+526
+00:27:18,480 --> 00:27:25,200
+induction hypothesis of n minus one
+
+527
+00:27:22,799 --> 00:27:28,960
+if we apply it to this execution of
+
+528
+00:27:25,200 --> 00:27:33,559
+length n minus one we learn that p of q
+
+529
+00:27:28,960 --> 00:27:33,559
+n minus one is true.
+
+530
+00:27:34,000 --> 00:27:38,000
+Right? That's what the induction
+
+531
+00:27:35,279 --> 00:27:41,200
+hypothesis says. The last state in your
+
+532
+00:27:38,000 --> 00:27:42,960
+execution is true. So now we know p of
+
+533
+00:27:41,200 --> 00:27:47,120
+this is true. We just need to prove p of
+
+534
+00:27:42,960 --> 00:27:49,919
+this is true. Why is that? Because
+
+535
+00:27:47,120 --> 00:27:52,880
+property two
+
+536
+00:27:49,919 --> 00:27:55,440
+P of Q is preserved which we can unroll
+
+537
+00:27:52,880 --> 00:27:57,200
+over here says for every transition in
+
+538
+00:27:55,440 --> 00:28:03,880
+particular the one from QN minus one to
+
+539
+00:27:57,200 --> 00:28:03,880
+QN P of Q minus one implies P of QN.
+
+540
+00:28:04,480 --> 00:28:09,440
+Okay. So uh
+
+541
+00:28:07,279 --> 00:28:17,120
+by 2
+
+542
+00:28:09,440 --> 00:28:22,320
+uh p of q n minus one uh implies p of qn
+
+543
+00:28:17,120 --> 00:28:26,080
+because this is a transition in t.
+
+544
+00:28:22,320 --> 00:28:29,520
+So p of qn.
+
+545
+00:28:26,080 --> 00:28:34,679
+So that's the end of the induction step.
+
+546
+00:28:29,520 --> 00:28:34,679
+So uh by induction
+
+547
+00:28:35,520 --> 00:28:43,440
+we get for all uh n
+
+548
+00:28:40,000 --> 00:28:49,440
+uh induction hypothesis of n. And the
+
+549
+00:28:43,440 --> 00:28:54,120
+idea is that this uh implies p of q for
+
+550
+00:28:49,440 --> 00:28:54,120
+all reachable states q.
+
+551
+00:28:57,039 --> 00:29:01,520
+Because if you have a reachable state Q,
+
+552
+00:28:59,600 --> 00:29:03,760
+there's by definition of reachable way
+
+553
+00:29:01,520 --> 00:29:06,159
+over on the left, uh there's some
+
+554
+00:29:03,760 --> 00:29:08,559
+execution that gets there and it has
+
+555
+00:29:06,159 --> 00:29:11,279
+some length and so I of that length
+
+556
+00:29:08,559 --> 00:29:13,039
+gives you what you want.
+
+557
+00:29:11,279 --> 00:29:14,960
+So that's how we prove the invariant
+
+558
+00:29:13,039 --> 00:29:17,120
+principle. It's pretty intuitive notion,
+
+559
+00:29:14,960 --> 00:29:21,440
+but maybe nice to see yet another
+
+560
+00:29:17,120 --> 00:29:23,200
+example of an induction proof.
+
+561
+00:29:21,440 --> 00:29:26,960
+Great.
+
+562
+00:29:23,200 --> 00:29:29,279
+So, how do we use this?
+
+563
+00:29:26,960 --> 00:29:32,520
+Let's go
+
+564
+00:29:29,279 --> 00:29:32,520
+over here.
+
+565
+00:29:33,520 --> 00:29:37,320
+Here is a template
+
+566
+00:29:38,559 --> 00:29:43,600
+for proving a theorem
+
+567
+00:29:40,960 --> 00:29:45,760
+which is
+
+568
+00:29:43,600 --> 00:29:47,919
+P of Q
+
+569
+00:29:45,760 --> 00:29:50,399
+is invariant. This is the thing I keep
+
+570
+00:29:47,919 --> 00:29:52,559
+saying is hard to prove
+
+571
+00:29:50,399 --> 00:29:54,320
+or by the definition it seems hard to
+
+572
+00:29:52,559 --> 00:29:56,559
+prove but using this invariant principle
+
+573
+00:29:54,320 --> 00:29:59,279
+it's going to be easy. Here's what a
+
+574
+00:29:56,559 --> 00:30:03,600
+general proof will look like.
+
+575
+00:29:59,279 --> 00:30:05,520
+We can say proof by invariant principle.
+
+576
+00:30:03,600 --> 00:30:08,559
+For the invariant principle to apply we
+
+577
+00:30:05,520 --> 00:30:12,320
+need to prove two things
+
+578
+00:30:08,559 --> 00:30:17,279
+number one and number two.
+
+579
+00:30:12,320 --> 00:30:19,679
+So number one is prove that P of Q0 is
+
+580
+00:30:17,279 --> 00:30:21,919
+true
+
+581
+00:30:19,679 --> 00:30:24,880
+and in a template we just say because
+
+582
+00:30:21,919 --> 00:30:29,440
+reasons which we don't know but we have
+
+583
+00:30:24,880 --> 00:30:31,840
+to fill in. And the second thing is that
+
+584
+00:30:29,440 --> 00:30:34,640
+uh P of Q
+
+585
+00:30:31,840 --> 00:30:36,080
+is preserved.
+
+586
+00:30:34,640 --> 00:30:38,080
+That's the more interesting thing and
+
+587
+00:30:36,080 --> 00:30:41,279
+for this we need to unroll the
+
+588
+00:30:38,080 --> 00:30:44,640
+definition of preserved. says for all Q
+
+589
+00:30:41,279 --> 00:30:49,520
+all transitions Q to R P of Q implies Q
+
+590
+00:30:44,640 --> 00:30:54,440
+of R. So how do we prove that? Uh we
+
+591
+00:30:49,520 --> 00:30:54,440
+just take uh
+
+592
+00:30:56,799 --> 00:31:05,279
+any transition in t q to r
+
+593
+00:31:02,159 --> 00:31:07,440
+and because it's an implication
+
+594
+00:31:05,279 --> 00:31:08,880
+we can assume the left hand if we want
+
+595
+00:31:07,440 --> 00:31:11,039
+to prove an implication we can assume
+
+596
+00:31:08,880 --> 00:31:14,240
+the left part this is a direct proof and
+
+597
+00:31:11,039 --> 00:31:19,279
+prove the right part. So we can assume
+
+598
+00:31:14,240 --> 00:31:21,600
+uh Q P of Q is true
+
+599
+00:31:19,279 --> 00:31:25,120
+and then what we need to do is show that
+
+600
+00:31:21,600 --> 00:31:27,600
+P of R is true.
+
+601
+00:31:25,120 --> 00:31:30,720
+That's the interesting step which we
+
+602
+00:31:27,600 --> 00:31:32,559
+need to fill in.
+
+603
+00:31:30,720 --> 00:31:36,720
+But this is the template we're going to
+
+604
+00:31:32,559 --> 00:31:38,240
+now use to analyze the eight puzzle. Of
+
+605
+00:31:36,720 --> 00:31:41,279
+course I haven't defined what predicate
+
+606
+00:31:38,240 --> 00:31:43,919
+we're analyzing. That's the next step.
+
+607
+00:31:41,279 --> 00:31:45,360
+Uh but once we have a predicate, we'll
+
+608
+00:31:43,919 --> 00:31:48,080
+be able to prove that it's invariant
+
+609
+00:31:45,360 --> 00:31:49,760
+using this simple structure, right? Just
+
+610
+00:31:48,080 --> 00:31:51,600
+check it. It's check that it's initially
+
+611
+00:31:49,760 --> 00:31:52,640
+true and check that if you start from
+
+612
+00:31:51,600 --> 00:31:56,679
+something that's true and you take a
+
+613
+00:31:52,640 --> 00:31:56,679
+transition out of it, it's still true.
+
+614
+00:31:57,039 --> 00:32:02,919
+Great.
+
+615
+00:31:59,919 --> 00:32:02,919
+All right.
+
+616
+00:32:10,399 --> 00:32:17,039
+So let me define a predicate
+
+617
+00:32:13,120 --> 00:32:18,799
+for the a puzzle.
+
+618
+00:32:17,039 --> 00:32:21,799
+I want it closer to these examples
+
+619
+00:32:18,799 --> 00:32:21,799
+actually.
+
+620
+00:32:22,399 --> 00:32:26,120
+Yeah. Let's go
+
+621
+00:32:27,279 --> 00:32:32,440
+here. I think you know definition of a
+
+622
+00:32:29,200 --> 00:32:32,440
+state machine.
+
+623
+00:32:48,320 --> 00:32:54,000
+Okay. So for this uh eight puzzle state
+
+624
+00:32:51,360 --> 00:32:58,840
+machine, I'd like to
+
+625
+00:32:54,000 --> 00:32:58,840
+define a bit of a bizarre predicate.
+
+626
+00:33:20,480 --> 00:33:26,039
+So first I'm going to define the notion
+
+627
+00:33:23,039 --> 00:33:26,039
+of
+
+628
+00:33:27,760 --> 00:33:30,720
+an inverted pair.
+
+629
+00:34:09,839 --> 00:34:13,440
+This is going to depend on what state
+
+630
+00:34:11,280 --> 00:34:16,240
+we're in.
+
+631
+00:34:13,440 --> 00:34:20,599
+Uh so let's do it. Let's look at uh
+
+632
+00:34:16,240 --> 00:34:20,599
+inverted pairs in this example
+
+633
+00:34:20,639 --> 00:34:26,079
+in these three examples.
+
+634
+00:34:23,919 --> 00:34:29,040
+So an inverted pair is a is a two
+
+635
+00:34:26,079 --> 00:34:30,879
+numbers. So not the blank but two
+
+636
+00:34:29,040 --> 00:34:34,079
+numbers between one and eight. And I
+
+637
+00:34:30,879 --> 00:34:38,079
+want I less than J. And yet I want J to
+
+638
+00:34:34,079 --> 00:34:40,399
+appear before I in the reading order.
+
+639
+00:34:38,079 --> 00:34:42,879
+So for example
+
+640
+00:34:40,399 --> 00:34:46,159
+my red chalk
+
+641
+00:34:42,879 --> 00:34:50,079
+uh in in this picture this state two and
+
+642
+00:34:46,159 --> 00:34:52,000
+four are inverted right in reading order
+
+643
+00:34:50,079 --> 00:34:54,639
+four comes before two yet four is
+
+644
+00:34:52,000 --> 00:34:58,159
+greater than two.
+
+645
+00:34:54,639 --> 00:34:58,159
+Uh any others?
+
+646
+00:34:59,440 --> 00:35:05,839
+Eight and six are inverted.
+
+647
+00:35:03,280 --> 00:35:07,359
+Six and seven are inverted.
+
+648
+00:35:05,839 --> 00:35:09,119
+Seven is bigger than six. Eight is
+
+649
+00:35:07,359 --> 00:35:11,520
+bigger than six, but they come earlier
+
+650
+00:35:09,119 --> 00:35:14,079
+than six in the reading order. I think
+
+651
+00:35:11,520 --> 00:35:17,760
+there's one more.
+
+652
+00:35:14,079 --> 00:35:18,720
+Three and two. Thank you. That one's a
+
+653
+00:35:17,760 --> 00:35:20,480
+little trickier because it's on
+
+654
+00:35:18,720 --> 00:35:22,720
+different rows, but in reading order,
+
+655
+00:35:20,480 --> 00:35:24,960
+three comes before two and yet three is
+
+656
+00:35:22,720 --> 00:35:29,359
+greater than two. So there are four
+
+657
+00:35:24,960 --> 00:35:30,640
+inverted pairs in this example. How many
+
+658
+00:35:29,359 --> 00:35:33,040
+inverted pairs are there in this
+
+659
+00:35:30,640 --> 00:35:35,040
+example?
+
+660
+00:35:33,040 --> 00:35:37,760
+Zero.
+
+661
+00:35:35,040 --> 00:35:41,320
+Zero inverted pairs.
+
+662
+00:35:37,760 --> 00:35:41,320
+How about this one?
+
+663
+00:35:43,200 --> 00:35:46,640
+One. Yeah.
+
+664
+00:35:45,440 --> 00:35:48,960
+I thought you were holding up your hand,
+
+665
+00:35:46,640 --> 00:35:51,359
+but you're holding up one finger.
+
+666
+00:35:48,960 --> 00:35:53,359
+Uh, six comes after five. That was the
+
+667
+00:35:51,359 --> 00:35:55,040
+only thing out of order. That's what we
+
+668
+00:35:53,359 --> 00:35:56,480
+we started out with. So if you wanted
+
+669
+00:35:55,040 --> 00:35:59,119
+some, you know, where do you come up
+
+670
+00:35:56,480 --> 00:36:01,440
+with this idea, it just is fundamental.
+
+671
+00:35:59,119 --> 00:36:03,440
+You're supposed to magically
+
+672
+00:36:01,440 --> 00:36:04,640
+uh invent it. But if you fool around
+
+673
+00:36:03,440 --> 00:36:06,480
+with the puzzle enough, it's actually
+
+674
+00:36:04,640 --> 00:36:08,079
+somewhat intuitive and that you can get
+
+675
+00:36:06,480 --> 00:36:10,000
+where it's almost sorted, but there's
+
+676
+00:36:08,079 --> 00:36:11,200
+just one pair that's wrong. So you might
+
+677
+00:36:10,000 --> 00:36:12,800
+think, well, maybe there's something
+
+678
+00:36:11,200 --> 00:36:14,960
+about these inverted pairs. Let's talk
+
+679
+00:36:12,800 --> 00:36:17,280
+about them in general, not just about
+
+680
+00:36:14,960 --> 00:36:19,599
+zero versus one inverted pairs, but
+
+681
+00:36:17,280 --> 00:36:23,200
+let's count them. So over here we had
+
+682
+00:36:19,599 --> 00:36:24,560
+one inverted pair. Here we had zero
+
+683
+00:36:23,200 --> 00:36:26,640
+inverted pairs. Here we had four
+
+684
+00:36:24,560 --> 00:36:28,240
+inverted pairs. And I claim it was
+
+685
+00:36:26,640 --> 00:36:30,640
+possible to go from four inverted pairs
+
+686
+00:36:28,240 --> 00:36:33,520
+to zero but impossible to go from one
+
+687
+00:36:30,640 --> 00:36:36,160
+inverted pair to zero.
+
+688
+00:36:33,520 --> 00:36:39,160
+Why
+
+689
+00:36:36,160 --> 00:36:39,160
+pars
+
+690
+00:36:41,280 --> 00:36:48,640
+par means odd or even.
+
+691
+00:36:44,960 --> 00:36:51,040
+So uh
+
+692
+00:36:48,640 --> 00:36:54,880
+P of Q
+
+693
+00:36:51,040 --> 00:36:58,440
+is going to be uh that the number of
+
+694
+00:36:54,880 --> 00:36:58,440
+inverted pairs
+
+695
+00:37:00,800 --> 00:37:08,000
+in state Q
+
+696
+00:37:04,240 --> 00:37:10,320
+is odd. Turns out to be this proof will
+
+697
+00:37:08,000 --> 00:37:11,839
+work for either one. But if we want to
+
+698
+00:37:10,320 --> 00:37:14,800
+prove this particular impossibility
+
+699
+00:37:11,839 --> 00:37:19,920
+result, odd is what we need.
+
+700
+00:37:14,800 --> 00:37:21,680
+So, uh, P of Q is going to be true for
+
+701
+00:37:19,920 --> 00:37:23,440
+this configuration because it has an odd
+
+702
+00:37:21,680 --> 00:37:26,560
+number of inverted pairs and it's going
+
+703
+00:37:23,440 --> 00:37:30,359
+to be false for these two.
+
+704
+00:37:26,560 --> 00:37:30,359
+Why is that interesting?
+
+705
+00:37:31,920 --> 00:37:34,920
+Because
+
+706
+00:37:34,960 --> 00:37:41,119
+over here
+
+707
+00:37:37,200 --> 00:37:44,079
+we said suppose we can show that P of Q
+
+708
+00:37:41,119 --> 00:37:48,079
+is invariant. I claim that's true. Uh if
+
+709
+00:37:44,079 --> 00:37:49,599
+we start from here where P of Q starts
+
+710
+00:37:48,079 --> 00:37:52,000
+true because the number of inverted
+
+711
+00:37:49,599 --> 00:37:55,200
+pairs starts odd
+
+712
+00:37:52,000 --> 00:37:58,160
+then uh and we find another state where
+
+713
+00:37:55,200 --> 00:37:59,599
+P of R is false
+
+714
+00:37:58,160 --> 00:38:02,400
+because here the number of inverted
+
+715
+00:37:59,599 --> 00:38:04,560
+pairs is even instead of odd then R is
+
+716
+00:38:02,400 --> 00:38:06,400
+unreachable. That means it's impossible
+
+717
+00:38:04,560 --> 00:38:09,040
+to get from this state to this state.
+
+718
+00:38:06,400 --> 00:38:12,320
+That's what we want to prove. Okay. So
+
+719
+00:38:09,040 --> 00:38:15,359
+if we can prove this invariant property,
+
+720
+00:38:12,320 --> 00:38:17,119
+we can plug it into here and get the
+
+721
+00:38:15,359 --> 00:38:18,640
+puzzle impossibility result that we
+
+722
+00:38:17,119 --> 00:38:20,240
+want.
+
+723
+00:38:18,640 --> 00:38:24,800
+Okay, that's where everything's going to
+
+724
+00:38:20,240 --> 00:38:28,480
+come together. So let's prove that
+
+725
+00:38:24,800 --> 00:38:30,960
+uh P of Q is
+
+726
+00:38:28,480 --> 00:38:32,960
+ideally we'd like it to be invariant,
+
+727
+00:38:30,960 --> 00:38:34,240
+but uh to prove invariant, we're going
+
+728
+00:38:32,960 --> 00:38:37,240
+to start with proving that it's
+
+729
+00:38:34,240 --> 00:38:37,240
+preserved.
+
+730
+00:38:57,520 --> 00:39:01,760
+Uh the reason for the eight puzzle that
+
+731
+00:38:59,440 --> 00:39:03,839
+I want to talk about preserved first is
+
+732
+00:39:01,760 --> 00:39:06,480
+to be invariant it depends where you
+
+733
+00:39:03,839 --> 00:39:08,000
+start and that's kind of particular
+
+734
+00:39:06,480 --> 00:39:09,599
+that that's a little arbitrary. There
+
+735
+00:39:08,000 --> 00:39:11,760
+isn't one natural start state for the
+
+736
+00:39:09,599 --> 00:39:13,680
+eight puzzle. You might start here. You
+
+737
+00:39:11,760 --> 00:39:16,640
+might start here. You might start here.
+
+738
+00:39:13,680 --> 00:39:18,800
+That' be a very easy puzzle. Uh and so
+
+739
+00:39:16,640 --> 00:39:20,880
+but preserved is just a general property
+
+740
+00:39:18,800 --> 00:39:23,440
+about the system. So I don't need to
+
+741
+00:39:20,880 --> 00:39:25,040
+assume anything for that.
+
+742
+00:39:23,440 --> 00:39:27,200
+So we want to do this part. We want to
+
+743
+00:39:25,040 --> 00:39:29,839
+prove P of Q is preserved. So we
+
+744
+00:39:27,200 --> 00:39:32,320
+consider any transition Q to R where P
+
+745
+00:39:29,839 --> 00:39:35,599
+of Q is true. We need to prove P of R is
+
+746
+00:39:32,320 --> 00:39:41,599
+true. Okay. So here we plug in the
+
+747
+00:39:35,599 --> 00:39:45,280
+outline of step two there. Um consider
+
+748
+00:39:41,599 --> 00:39:52,320
+any transition Q to R that's valid. It's
+
+749
+00:39:45,280 --> 00:39:58,520
+in T. Uh where P of Q is true.
+
+750
+00:39:52,320 --> 00:39:58,520
+And we want to show P of R is true.
+
+751
+00:39:59,280 --> 00:40:03,520
+Okay. What do transitions look like in
+
+752
+00:40:01,200 --> 00:40:05,040
+this game?
+
+753
+00:40:03,520 --> 00:40:08,400
+Well, relative to reading order, reading
+
+754
+00:40:05,040 --> 00:40:10,560
+order talks about rows. So, um there's
+
+755
+00:40:08,400 --> 00:40:12,320
+really two types of moves we care about.
+
+756
+00:40:10,560 --> 00:40:14,079
+There's horizontal moves left and right,
+
+757
+00:40:12,320 --> 00:40:17,760
+and there's vertical moves up and down.
+
+758
+00:40:14,079 --> 00:40:20,000
+I claim those are the two cases, uh that
+
+759
+00:40:17,760 --> 00:40:22,800
+we need to think about because we're
+
+760
+00:40:20,000 --> 00:40:25,280
+thinking about reading order.
+
+761
+00:40:22,800 --> 00:40:29,520
+So, case one
+
+762
+00:40:25,280 --> 00:40:33,079
+is that this transition Q to R is a
+
+763
+00:40:29,520 --> 00:40:33,079
+horizontal move.
+
+764
+00:40:39,760 --> 00:40:45,680
+horizontal move. So this is like
+
+765
+00:40:42,880 --> 00:40:48,800
+uh we take some number I and next to it
+
+766
+00:40:45,680 --> 00:40:52,800
+there's an X and maybe if we move to the
+
+767
+00:40:48,800 --> 00:40:55,119
+right that would be X I or if we move to
+
+768
+00:40:52,800 --> 00:40:57,599
+the left it would be like that. Okay,
+
+769
+00:40:55,119 --> 00:41:00,079
+it's one of those two transitions. X
+
+770
+00:40:57,599 --> 00:41:03,720
+here means the blank. How does that
+
+771
+00:41:00,079 --> 00:41:03,720
+change reading order?
+
+772
+00:41:05,839 --> 00:41:10,240
+Yeah,
+
+773
+00:41:08,079 --> 00:41:12,160
+nothing. Nothing changes, right? The
+
+774
+00:41:10,240 --> 00:41:13,440
+reading order is the same reading order.
+
+775
+00:41:12,160 --> 00:41:15,920
+When we're talking about reading order,
+
+776
+00:41:13,440 --> 00:41:18,000
+we're only talking about the numbers. We
+
+777
+00:41:15,920 --> 00:41:22,359
+don't care about the x.
+
+778
+00:41:18,000 --> 00:41:22,359
+So, no changes in reading order.
+
+779
+00:41:29,440 --> 00:41:35,520
+or in
+
+780
+00:41:31,599 --> 00:41:37,359
+uh the number of inverted pairs
+
+781
+00:41:35,520 --> 00:41:39,280
+because that's only dependent on reading
+
+782
+00:41:37,359 --> 00:41:46,319
+order.
+
+783
+00:41:39,280 --> 00:41:49,680
+Uh so we have P of R. Case one is easy.
+
+784
+00:41:46,319 --> 00:41:53,480
+Let's prove case two
+
+785
+00:41:49,680 --> 00:41:53,480
+maybe over here.
+
+786
+00:41:55,940 --> 00:41:58,640
+[Applause]
+
+787
+00:41:57,200 --> 00:42:01,040
+Case two is a vertical move here.
+
+788
+00:41:58,640 --> 00:42:04,040
+There's actually something to show more
+
+789
+00:42:01,040 --> 00:42:04,040
+interesting,
+
+790
+00:42:06,640 --> 00:42:10,359
+but not much harder.
+
+791
+00:42:23,440 --> 00:42:30,240
+Okay, I'm going to draw some pictures
+
+792
+00:42:26,079 --> 00:42:33,599
+for intuition. Uh it could be we are
+
+793
+00:42:30,240 --> 00:42:38,160
+moving I down and there's two things to
+
+794
+00:42:33,599 --> 00:42:41,920
+the right of I. Uh it could be uh we're
+
+795
+00:42:38,160 --> 00:42:46,240
+moving I in the middle
+
+796
+00:42:41,920 --> 00:42:48,960
+to here or could be we're moving I
+
+797
+00:42:46,240 --> 00:42:52,440
+on the right
+
+798
+00:42:48,960 --> 00:42:52,440
+down to here.
+
+799
+00:42:53,920 --> 00:42:58,640
+Okay. And uh this is for a down move. Up
+
+800
+00:42:57,280 --> 00:43:01,040
+is going to be symmetric. But maybe
+
+801
+00:42:58,640 --> 00:43:03,760
+let's first think about down moves. So
+
+802
+00:43:01,040 --> 00:43:05,520
+in order to do a down move uh in reading
+
+803
+00:43:03,760 --> 00:43:08,000
+order, there are two items that come
+
+804
+00:43:05,520 --> 00:43:10,079
+after I because we're moving down. There
+
+805
+00:43:08,000 --> 00:43:13,760
+is something after I, right? There's a
+
+806
+00:43:10,079 --> 00:43:16,079
+whole row after I until this X. So if we
+
+807
+00:43:13,760 --> 00:43:19,359
+can move I down, there's two numbers
+
+808
+00:43:16,079 --> 00:43:21,359
+between I and the X in reading order.
+
+809
+00:43:19,359 --> 00:43:24,480
+and I starts before those numbers if
+
+810
+00:43:21,359 --> 00:43:28,240
+we're going down and ends after.
+
+811
+00:43:24,480 --> 00:43:32,280
+So, uh the move here we can think of it
+
+812
+00:43:28,240 --> 00:43:32,280
+as swapping
+
+813
+00:43:32,480 --> 00:43:40,280
+uh we we want to swap I with X. Okay,
+
+814
+00:43:36,160 --> 00:43:40,280
+but this is equivalent to
+
+815
+00:43:41,760 --> 00:43:49,440
+swapping I with
+
+816
+00:43:44,560 --> 00:43:53,280
+uh J first of all and then swapping I
+
+817
+00:43:49,440 --> 00:43:55,599
+with K. Instead of going straight down
+
+818
+00:43:53,280 --> 00:43:57,359
+in another color,
+
+819
+00:43:55,599 --> 00:43:59,760
+I'm going to think of swapping I to
+
+820
+00:43:57,359 --> 00:44:01,839
+first come after J and then come after
+
+821
+00:43:59,760 --> 00:44:04,079
+K. That's the same as the X. And it
+
+822
+00:44:01,839 --> 00:44:06,880
+doesn't matter where we started. could
+
+823
+00:44:04,079 --> 00:44:10,079
+be here and then we go here or could be
+
+824
+00:44:06,880 --> 00:44:12,560
+here we go after J and then we go after
+
+825
+00:44:10,079 --> 00:44:14,880
+K.
+
+826
+00:44:12,560 --> 00:44:16,880
+The point is if we swap if we figure out
+
+827
+00:44:14,880 --> 00:44:20,400
+how to swap two adjacent numbers in
+
+828
+00:44:16,880 --> 00:44:23,599
+reading order and we swap I twice then I
+
+829
+00:44:20,400 --> 00:44:25,839
+gets to where the X is because this is a
+
+830
+00:44:23,599 --> 00:44:28,079
+3x3
+
+831
+00:44:25,839 --> 00:44:31,280
+that's why twice.
+
+832
+00:44:28,079 --> 00:44:35,960
+Okay. So,
+
+833
+00:44:31,280 --> 00:44:35,960
+uh, now what we care about
+
+834
+00:44:36,400 --> 00:44:45,720
+is, uh, what happens
+
+835
+00:44:40,160 --> 00:44:45,720
+when we swap two adjacent items
+
+836
+00:44:55,359 --> 00:45:02,000
+in reading order. So not adjacent in the
+
+837
+00:44:59,119 --> 00:45:03,839
+3x3 grid but adjacent in reading order.
+
+838
+00:45:02,000 --> 00:45:06,480
+That's what we care about. If we can
+
+839
+00:45:03,839 --> 00:45:08,079
+solve this and we do it twice then we
+
+840
+00:45:06,480 --> 00:45:10,160
+will know what happened when we do a
+
+841
+00:45:08,079 --> 00:45:12,480
+vertical move.
+
+842
+00:45:10,160 --> 00:45:14,800
+Okay. So what happens when I swap two
+
+843
+00:45:12,480 --> 00:45:16,000
+numbers I and J? How how does that
+
+844
+00:45:14,800 --> 00:45:18,240
+change the reading order? I mean it
+
+845
+00:45:16,000 --> 00:45:19,920
+swaps I and J. That's all. Everything
+
+846
+00:45:18,240 --> 00:45:22,079
+before I is still before I. Everything
+
+847
+00:45:19,920 --> 00:45:24,000
+after J is still after RJ. The only
+
+848
+00:45:22,079 --> 00:45:26,720
+thing is we're change for if they're
+
+849
+00:45:24,000 --> 00:45:28,240
+adjacent items I and J. We're only
+
+850
+00:45:26,720 --> 00:45:30,800
+flipping
+
+851
+00:45:28,240 --> 00:45:32,319
+whether I J is inverted. Right? If I J
+
+852
+00:45:30,800 --> 00:45:33,760
+was in the correct order before, if I
+
+853
+00:45:32,319 --> 00:45:36,400
+was less than J, then after I do the
+
+854
+00:45:33,760 --> 00:45:38,079
+swap, they're an inverted pair. If they
+
+855
+00:45:36,400 --> 00:45:40,319
+were an inverted pair initially, if I is
+
+856
+00:45:38,079 --> 00:45:43,440
+bigger than J, after I do the swap,
+
+857
+00:45:40,319 --> 00:45:47,520
+they're no longer an inverted pair. So,
+
+858
+00:45:43,440 --> 00:45:53,960
+swapping two adjacent items changes
+
+859
+00:45:47,520 --> 00:45:53,960
+the uh number of inverted pairs.
+
+860
+00:45:56,880 --> 00:46:01,079
+by plus or minus one.
+
+861
+00:46:02,480 --> 00:46:06,720
+If they were inverted before, it
+
+862
+00:46:04,960 --> 00:46:08,480
+decreases the number. If they weren't
+
+863
+00:46:06,720 --> 00:46:11,040
+inverted before, it increases the
+
+864
+00:46:08,480 --> 00:46:13,200
+number, but always by one.
+
+865
+00:46:11,040 --> 00:46:16,160
+Never stays the same. Never changes by
+
+866
+00:46:13,200 --> 00:46:17,760
+seven. Okay?
+
+867
+00:46:16,160 --> 00:46:19,680
+So that when we swap two adjacent pairs,
+
+868
+00:46:17,760 --> 00:46:21,920
+we change by plus or minus one. when we
+
+869
+00:46:19,680 --> 00:46:28,160
+do a vertical move, we do we want to do
+
+870
+00:46:21,920 --> 00:46:32,200
+two of these uh adjacent swaps.
+
+871
+00:46:28,160 --> 00:46:32,200
+So, let's continue over here.
+
+872
+00:46:33,520 --> 00:46:38,040
+So if we do two adjacent swaps,
+
+873
+00:46:41,040 --> 00:46:48,319
+this will change the number of inverted
+
+874
+00:46:44,000 --> 00:46:52,079
+pairs by plus or minus one
+
+875
+00:46:48,319 --> 00:46:53,359
+plus plus or minus one.
+
+876
+00:46:52,079 --> 00:46:55,040
+Okay, where each of these pluses or
+
+877
+00:46:53,359 --> 00:46:58,960
+minuses, we don't know. They could be
+
+878
+00:46:55,040 --> 00:47:01,520
+plus or minus. But uh the point is plus
+
+879
+00:46:58,960 --> 00:47:03,680
+or minus one is an odd number. plus or
+
+880
+00:47:01,520 --> 00:47:08,680
+minus one is an odd number. When I add
+
+881
+00:47:03,680 --> 00:47:08,680
+two odd numbers, this is an even number.
+
+882
+00:47:09,040 --> 00:47:13,280
+Turns out you can draw a little picture.
+
+883
+00:47:11,040 --> 00:47:16,240
+If we start at zero here and we do plus
+
+884
+00:47:13,280 --> 00:47:19,119
+or minus one and then from here we do
+
+885
+00:47:16,240 --> 00:47:21,040
+plus or minus one. From here we do plus
+
+886
+00:47:19,119 --> 00:47:22,880
+or minus one. This is a case analysis of
+
+887
+00:47:21,040 --> 00:47:29,119
+all the things you could do. You either
+
+888
+00:47:22,880 --> 00:47:31,440
+get two or zero or minus two. These
+
+889
+00:47:29,119 --> 00:47:33,599
+three numbers are all even.
+
+890
+00:47:31,440 --> 00:47:36,400
+Okay, but I don't particularly care. It
+
+891
+00:47:33,599 --> 00:47:38,160
+happens to be just these three values.
+
+892
+00:47:36,400 --> 00:47:42,480
+What I care is that this number is even.
+
+893
+00:47:38,160 --> 00:47:45,520
+We started with uh
+
+894
+00:47:42,480 --> 00:47:49,200
+we started with P of Q being true over
+
+895
+00:47:45,520 --> 00:47:50,800
+here. Uh assume that P of Q is true.
+
+896
+00:47:49,200 --> 00:47:53,920
+That means that the number of inverted
+
+897
+00:47:50,800 --> 00:47:57,040
+pairs in state Q is odd. And now we
+
+898
+00:47:53,920 --> 00:48:00,400
+change that number by an even amount.
+
+899
+00:47:57,040 --> 00:48:02,480
+Therefore it will be odd
+
+900
+00:48:00,400 --> 00:48:05,520
+still right? If we take an odd number we
+
+901
+00:48:02,480 --> 00:48:11,119
+add an even number uh it become it stays
+
+902
+00:48:05,520 --> 00:48:14,119
+odd. Therefore uh p of r is true.
+
+903
+00:48:11,119 --> 00:48:14,119
+Question
+
+904
+00:48:17,920 --> 00:48:23,560
+>> uh so question is why is this two swaps?
+
+905
+00:48:20,560 --> 00:48:23,560
+Uh
+
+906
+00:48:23,760 --> 00:48:29,359
+so the the funny thing here you so it's
+
+907
+00:48:26,319 --> 00:48:31,520
+right if I swap I J then let me maybe
+
+908
+00:48:29,359 --> 00:48:33,810
+draw a picture
+
+909
+00:48:31,520 --> 00:48:37,010
+somewhere here.
+
+910
+00:48:33,810 --> 00:48:37,010
+[Applause]
+
+911
+00:48:37,599 --> 00:48:45,839
+Let's just go here. Scratch space. So if
+
+912
+00:48:40,880 --> 00:48:52,079
+we have I J K X and I swap I and J then
+
+913
+00:48:45,839 --> 00:48:57,760
+I get J I K X and then I swap I and K
+
+914
+00:48:52,079 --> 00:49:01,520
+then I get J K I X. And you're right. I
+
+915
+00:48:57,760 --> 00:49:06,880
+is not quite where I want it. Uh this is
+
+916
+00:49:01,520 --> 00:49:10,000
+funny. I'd really want I to be here
+
+917
+00:49:06,880 --> 00:49:12,800
+which I can do.
+
+918
+00:49:10,000 --> 00:49:15,040
+like this. Uh because that doesn't
+
+919
+00:49:12,800 --> 00:49:16,480
+change reading order.
+
+920
+00:49:15,040 --> 00:49:18,480
+Okay, it's good that we spell this out.
+
+921
+00:49:16,480 --> 00:49:25,760
+And also I can do horizontal moves for
+
+922
+00:49:18,480 --> 00:49:27,680
+free. So J, K uh I this is maybe
+
+923
+00:49:25,760 --> 00:49:32,079
+a way to think about it. The point is
+
+924
+00:49:27,680 --> 00:49:34,480
+these three have the same reading order.
+
+925
+00:49:32,079 --> 00:49:38,520
+So those don't really count. But I'm
+
+926
+00:49:34,480 --> 00:49:38,520
+glad you had me spell it out.
+
+927
+00:49:39,520 --> 00:49:42,680
+are not,
+
+928
+00:49:43,680 --> 00:49:48,720
+>> right? These are not valid transitions.
+
+929
+00:49:46,079 --> 00:49:50,400
+Uh, indeed, at the end, we get to
+
+930
+00:49:48,720 --> 00:49:52,400
+something that's a valid transition. So,
+
+931
+00:49:50,400 --> 00:49:54,720
+the transition goes from here directly
+
+932
+00:49:52,400 --> 00:49:56,640
+to here, and we're splitting it up into
+
+933
+00:49:54,720 --> 00:49:58,720
+some sub moves that aren't valid moves
+
+934
+00:49:56,640 --> 00:50:00,400
+by themselves, uh, but easier to
+
+935
+00:49:58,720 --> 00:50:02,400
+analyze. First, we think about what
+
+936
+00:50:00,400 --> 00:50:04,480
+happens when we swap i and j. That
+
+937
+00:50:02,400 --> 00:50:08,559
+changes by plus or minus one. Then, we
+
+938
+00:50:04,480 --> 00:50:10,800
+swap, uh, i and k. that changes these by
+
+939
+00:50:08,559 --> 00:50:12,079
+a plus or minus one. Then we do these
+
+940
+00:50:10,800 --> 00:50:13,839
+horizontal moves which doesn't change
+
+941
+00:50:12,079 --> 00:50:15,920
+anything
+
+942
+00:50:13,839 --> 00:50:19,920
+or kind of horizontal moves. Moving the
+
+943
+00:50:15,920 --> 00:50:23,280
+x uh in reading order doesn't change
+
+944
+00:50:19,920 --> 00:50:25,359
+anything. Cool.
+
+945
+00:50:23,280 --> 00:50:28,359
+All right.
+
+946
+00:50:25,359 --> 00:50:28,359
+Great.
+
+947
+00:50:29,599 --> 00:50:33,000
+Feel like I skipped a bit of a step
+
+948
+00:50:31,520 --> 00:50:36,289
+here, but
+
+949
+00:50:33,000 --> 00:50:36,289
+[Applause]
+
+950
+00:50:38,000 --> 00:50:43,839
+So the point is when we swap when we in
+
+951
+00:50:40,800 --> 00:50:50,240
+case two we do a vertical move
+
+952
+00:50:43,839 --> 00:50:53,599
+uh the uh we started with an odd odd
+
+953
+00:50:50,240 --> 00:50:57,520
+number of inverted pairs
+
+954
+00:50:53,599 --> 00:51:00,640
+and then we add an even number
+
+955
+00:50:57,520 --> 00:51:03,760
+uh and even odd plus even equals odd.
+
+956
+00:51:00,640 --> 00:51:06,720
+Therefore p of r is true. That's the
+
+957
+00:51:03,760 --> 00:51:10,079
+point. Okay. So if we start odd, we will
+
+958
+00:51:06,720 --> 00:51:11,520
+stay odd. If you swap odd and even in
+
+959
+00:51:10,079 --> 00:51:15,280
+this proof, you can also show that if
+
+960
+00:51:11,520 --> 00:51:17,839
+you start even, you stay even.
+
+961
+00:51:15,280 --> 00:51:19,440
+But what we really want is uh for this
+
+962
+00:51:17,839 --> 00:51:22,079
+part
+
+963
+00:51:19,440 --> 00:51:24,480
+here, we want to get uh P of Q to be
+
+964
+00:51:22,079 --> 00:51:26,160
+invariant and find a place where P is
+
+965
+00:51:24,480 --> 00:51:31,000
+false and then conclude that R is
+
+966
+00:51:26,160 --> 00:51:31,000
+unreachable. So let's do that quickly.
+
+967
+00:51:32,079 --> 00:51:40,960
+So uh
+
+968
+00:51:35,760 --> 00:51:46,119
+let's define this state to be Q0.
+
+969
+00:51:40,960 --> 00:51:46,119
+Okay. So for this Q0 we have
+
+970
+00:51:47,440 --> 00:51:55,200
+or maybe let's say if P of Q0
+
+971
+00:51:52,160 --> 00:51:57,599
+is true
+
+972
+00:51:55,200 --> 00:52:01,680
+as in this example because there's an
+
+973
+00:51:57,599 --> 00:52:06,760
+odd number of of inverted pairs then P
+
+974
+00:52:01,680 --> 00:52:06,760
+of Q is invariant
+
+975
+00:52:09,359 --> 00:52:13,599
+and so by this property
+
+976
+00:52:11,920 --> 00:52:18,680
+uh
+
+977
+00:52:13,599 --> 00:52:18,680
+if P of R is false
+
+978
+00:52:18,720 --> 00:52:22,160
+then
+
+979
+00:52:20,480 --> 00:52:25,800
+uh
+
+980
+00:52:22,160 --> 00:52:25,800
+R is unreachable.
+
+981
+00:52:26,720 --> 00:52:34,040
+Oh, so actually what I care about is not
+
+982
+00:52:28,640 --> 00:52:34,040
+P of R but P of the final state QF.
+
+983
+00:52:35,280 --> 00:52:38,319
+Okay, so that's that's exactly the
+
+984
+00:52:36,880 --> 00:52:40,000
+scenario. We start in a state where we
+
+985
+00:52:38,319 --> 00:52:44,240
+have an odd number of transitions. we're
+
+986
+00:52:40,000 --> 00:52:47,599
+trying to get to a state with zero uh
+
+987
+00:52:44,240 --> 00:52:49,680
+inverted pairs and so uh that's not
+
+988
+00:52:47,599 --> 00:52:52,640
+going to be possible because we start
+
+989
+00:52:49,680 --> 00:52:55,680
+with P true and we somehow are trying to
+
+990
+00:52:52,640 --> 00:52:57,760
+reach a state where P is false. Okay,
+
+991
+00:52:55,680 --> 00:53:00,319
+but if we can prove this invariant
+
+992
+00:52:57,760 --> 00:53:01,839
+property
+
+993
+00:53:00,319 --> 00:53:04,319
+and we've basically done all the hard
+
+994
+00:53:01,839 --> 00:53:05,599
+work here. This is just by the invariant
+
+995
+00:53:04,319 --> 00:53:09,720
+principle. So now I'm following the
+
+996
+00:53:05,599 --> 00:53:09,720
+outline over on the left.
+
+997
+00:53:11,839 --> 00:53:19,040
+Step one is or part one is that P of Q0
+
+998
+00:53:15,359 --> 00:53:23,760
+is true. We assume that. Step two is
+
+999
+00:53:19,040 --> 00:53:26,640
+that P of Q uh is preserved
+
+1000
+00:53:23,760 --> 00:53:29,640
+and we just prove that. This is our
+
+1001
+00:53:26,640 --> 00:53:29,640
+theorem.
+
+1002
+00:53:29,760 --> 00:53:33,119
+So maybe you don't know this word
+
+1003
+00:53:30,960 --> 00:53:35,760
+corollary or corollery if you're
+
+1004
+00:53:33,119 --> 00:53:37,280
+Canadian. Corlary means something that
+
+1005
+00:53:35,760 --> 00:53:39,680
+follows. So theorem means something
+
+1006
+00:53:37,280 --> 00:53:41,920
+that's true. Both of these are supposed
+
+1007
+00:53:39,680 --> 00:53:43,599
+to be true. Uh but these are words to
+
+1008
+00:53:41,920 --> 00:53:45,200
+say that okay theorem was sort of the
+
+1009
+00:53:43,599 --> 00:53:46,800
+main thing we wanted to prove and then
+
+1010
+00:53:45,200 --> 00:53:48,319
+corlary is something that follows
+
+1011
+00:53:46,800 --> 00:53:50,079
+immediately from it. It's like almost a
+
+1012
+00:53:48,319 --> 00:53:53,359
+oneline proof here. Once we have the
+
+1013
+00:53:50,079 --> 00:53:55,680
+theorem, the corollary is immediate.
+
+1014
+00:53:53,359 --> 00:53:58,000
+There's some terminology. Okay. So
+
+1015
+00:53:55,680 --> 00:54:00,640
+hopefully you now believe this is
+
+1016
+00:53:58,000 --> 00:54:03,040
+impossible.
+
+1017
+00:54:00,640 --> 00:54:07,240
+Any
+
+1018
+00:54:03,040 --> 00:54:07,240
+questions about the eight puzzle
+
+1019
+00:54:08,559 --> 00:54:13,280
+for fun? Let's solve it one more time.
+
+1020
+00:54:11,119 --> 00:54:15,920
+Uh, I actually didn't have time this
+
+1021
+00:54:13,280 --> 00:54:18,240
+morning to implement the only generate
+
+1022
+00:54:15,920 --> 00:54:19,680
+solvable puzzles. So, I have no idea
+
+1023
+00:54:18,240 --> 00:54:21,119
+whether this will be solvable. It's kind
+
+1024
+00:54:19,680 --> 00:54:24,559
+of exciting. If you can count the
+
+1025
+00:54:21,119 --> 00:54:26,160
+inversions, uh, you'll figure it out,
+
+1026
+00:54:24,559 --> 00:54:28,000
+but I keep moving it, so it's pretty
+
+1027
+00:54:26,160 --> 00:54:30,319
+hard.
+
+1028
+00:54:28,000 --> 00:54:34,520
+And I'm following a particular slow
+
+1029
+00:54:30,319 --> 00:54:34,520
+algorithm for solving this puzzle
+
+1030
+00:54:34,880 --> 00:54:38,319
+which I won't describe but it's on
+
+1031
+00:54:36,800 --> 00:54:40,400
+wikihow if you're interested. Oh, I
+
+1032
+00:54:38,319 --> 00:54:43,440
+solved it. Great. So I must have started
+
+1033
+00:54:40,400 --> 00:54:45,760
+with an even number of inverted pairs.
+
+1034
+00:54:43,440 --> 00:54:47,280
+Uh in a future version I will add that
+
+1035
+00:54:45,760 --> 00:54:51,920
+number.
+
+1036
+00:54:47,280 --> 00:54:54,920
+But there we go. Cool. Uh
+
+1037
+00:54:51,920 --> 00:54:54,920
+question.
+
+1038
+00:55:01,760 --> 00:55:05,920
+Uh so your question is in if in this
+
+1039
+00:55:03,440 --> 00:55:10,359
+state we move six down how many inverted
+
+1040
+00:55:05,920 --> 00:55:10,359
+pairs do we get? Let's draw it.
+
+1041
+00:55:10,880 --> 00:55:18,160
+So that is one two three four five x it
+
+1042
+00:55:16,160 --> 00:55:21,200
+should be two
+
+1043
+00:55:18,160 --> 00:55:23,440
+uh 7 8
+
+1044
+00:55:21,200 --> 00:55:25,760
+how many inverted pairs are there? Seven
+
+1045
+00:55:23,440 --> 00:55:28,720
+is inverted with six. Eight is inverted
+
+1046
+00:55:25,760 --> 00:55:30,640
+with six. And that's it. Okay. So
+
+1047
+00:55:28,720 --> 00:55:32,559
+there's an example in action. Vertical
+
+1048
+00:55:30,640 --> 00:55:35,200
+move changing by two. Sometimes it
+
+1049
+00:55:32,559 --> 00:55:37,119
+changes by zero. Uh if I is sandwiched
+
+1050
+00:55:35,200 --> 00:55:38,720
+in between J and K numerically.
+
+1051
+00:55:37,119 --> 00:55:40,480
+Sometimes it changes by plus or minus
+
+1052
+00:55:38,720 --> 00:55:42,240
+two.
+
+1053
+00:55:40,480 --> 00:55:44,880
+Of course if we do the up move, we
+
+1054
+00:55:42,240 --> 00:55:49,160
+subtract two.
+
+1055
+00:55:44,880 --> 00:55:49,160
+That was another question. Yeah.
+
+1056
+00:55:54,880 --> 00:55:59,599
+Okay, question is explain preserved and
+
+1057
+00:55:58,079 --> 00:56:05,240
+invariant
+
+1058
+00:55:59,599 --> 00:56:05,240
+and where are we using different parts?
+
+1059
+00:56:06,240 --> 00:56:13,280
+If if I can make an induction analogy
+
+1060
+00:56:08,160 --> 00:56:15,040
+for a second. Uh preserved means uh is
+
+1061
+00:56:13,280 --> 00:56:17,440
+like your induction step. It says every
+
+1062
+00:56:15,040 --> 00:56:19,599
+time you do a transition, if P started
+
+1063
+00:56:17,440 --> 00:56:21,680
+true, it remains true.
+
+1064
+00:56:19,599 --> 00:56:23,599
+And invariant is what you get out of the
+
+1065
+00:56:21,680 --> 00:56:26,170
+induction. Let's go over to the
+
+1066
+00:56:23,599 --> 00:56:28,160
+invariant principle here.
+
+1067
+00:56:26,170 --> 00:56:29,839
+[Applause]
+
+1068
+00:56:28,160 --> 00:56:32,160
+The invariant principle basically says
+
+1069
+00:56:29,839 --> 00:56:34,480
+preserved implies invariant except you
+
+1070
+00:56:32,160 --> 00:56:37,119
+also need to check that you start true.
+
+1071
+00:56:34,480 --> 00:56:40,000
+If P starts true and whenever you do a
+
+1072
+00:56:37,119 --> 00:56:42,079
+transition it remains true
+
+1073
+00:56:40,000 --> 00:56:44,240
+uh then it's always true for every
+
+1074
+00:56:42,079 --> 00:56:46,720
+reachable state.
+
+1075
+00:56:44,240 --> 00:56:49,359
+Okay. So crucially in this setup we're
+
+1076
+00:56:46,720 --> 00:56:51,440
+ignoring all the unreachable states.
+
+1077
+00:56:49,359 --> 00:56:53,359
+just talking invariant only talks about
+
+1078
+00:56:51,440 --> 00:56:56,559
+reachable states. It says that every
+
+1079
+00:56:53,359 --> 00:56:59,280
+reachable state P is true. That's what
+
+1080
+00:56:56,559 --> 00:57:00,720
+we're concluding from. We start true and
+
+1081
+00:56:59,280 --> 00:57:03,359
+every time we start in a true state and
+
+1082
+00:57:00,720 --> 00:57:05,680
+we make a transition, we remain true.
+
+1083
+00:57:03,359 --> 00:57:08,480
+Hopefully that's
+
+1084
+00:57:05,680 --> 00:57:11,119
+clear. Takes a little while to get
+
+1085
+00:57:08,480 --> 00:57:12,640
+comfortable with these definitions, but
+
+1086
+00:57:11,119 --> 00:57:14,880
+very important the difference between
+
+1087
+00:57:12,640 --> 00:57:16,960
+preserved and variant. So if you forget,
+
+1088
+00:57:14,880 --> 00:57:19,599
+read the definition.
+
+1089
+00:57:16,960 --> 00:57:20,880
+Uh or just follow this template. This
+
+1090
+00:57:19,599 --> 00:57:22,960
+makes it pretty clear. Usually we just
+
+1091
+00:57:20,880 --> 00:57:25,280
+want a proven variant. And there's a
+
+1092
+00:57:22,960 --> 00:57:27,520
+clear start state. So in fact, the next
+
+1093
+00:57:25,280 --> 00:57:29,760
+example will have a
+
+1094
+00:57:27,520 --> 00:57:30,960
+well no that's not true. But uh if
+
+1095
+00:57:29,760 --> 00:57:32,880
+there's a clear start state, you can
+
+1096
+00:57:30,960 --> 00:57:36,240
+just follow this template. Uh and all
+
+1097
+00:57:32,880 --> 00:57:38,000
+you care about is proving invariant.
+
+1098
+00:57:36,240 --> 00:57:41,520
+Okay,
+
+1099
+00:57:38,000 --> 00:57:44,520
+let's do the next topic, which is
+
+1100
+00:57:41,520 --> 00:57:44,520
+termination.
+
+1101
+00:58:01,440 --> 00:58:07,240
+And maybe I want to start with an
+
+1102
+00:58:04,240 --> 00:58:07,240
+example
+
+1103
+00:58:09,680 --> 00:58:14,079
+which is a simple sorder machine.
+
+1104
+00:58:17,599 --> 00:58:23,839
+This is another state machine
+
+1105
+00:58:20,240 --> 00:58:26,480
+and it sorts and numbers. This is a
+
+1106
+00:58:23,839 --> 00:58:30,839
+problem you study a lot in the follow on
+
+1107
+00:58:26,480 --> 00:58:30,839
+to this class, the algorithms classes.
+
+1108
+00:58:32,880 --> 00:58:38,880
+So suppose we're given a bunch of real
+
+1109
+00:58:34,799 --> 00:58:44,200
+numbers or integers, whatever.
+
+1110
+00:58:38,880 --> 00:58:44,200
+uh want to sort them
+
+1111
+00:58:44,400 --> 00:58:48,359
+in increasing order.
+
+1112
+00:58:53,760 --> 00:58:59,280
+Okay, here is so they're given in some
+
+1113
+00:58:56,799 --> 00:59:01,359
+particular order a1 through a n and I
+
+1114
+00:58:59,280 --> 00:59:03,920
+want to rearrange them so it has exactly
+
+1115
+00:59:01,359 --> 00:59:06,000
+the same set of numbers or exactly the
+
+1116
+00:59:03,920 --> 00:59:08,000
+same numbers but in a different order
+
+1117
+00:59:06,000 --> 00:59:10,160
+and this time increasing order. So I
+
+1118
+00:59:08,000 --> 00:59:13,359
+want a1 to be less than or equal to a2
+
+1119
+00:59:10,160 --> 00:59:17,720
+less than equal to a3 and so on. Here is
+
+1120
+00:59:13,359 --> 00:59:17,720
+a very simple algorithm to do that
+
+1121
+00:59:20,559 --> 00:59:23,799
+which is
+
+1122
+00:59:23,839 --> 00:59:31,280
+while there's some index I where I AI is
+
+1123
+00:59:28,240 --> 00:59:33,200
+bigger than AI + one
+
+1124
+00:59:31,280 --> 00:59:38,640
+swap
+
+1125
+00:59:33,200 --> 00:59:40,559
+AI with AI + one.
+
+1126
+00:59:38,640 --> 00:59:43,440
+Okay, so I'm just looking at consecutive
+
+1127
+00:59:40,559 --> 00:59:45,280
+pairs AI to AI plus one. And if there's
+
+1128
+00:59:43,440 --> 00:59:47,760
+some that's out of order, I is less than
+
+1129
+00:59:45,280 --> 00:59:49,839
+I plus one, but AI is greater than AI
+
+1130
+00:59:47,760 --> 00:59:51,760
+plus one, then I want to swap them in
+
+1131
+00:59:49,839 --> 00:59:53,920
+the right order. We can see this
+
+1132
+00:59:51,760 --> 00:59:56,640
+algorithm in action
+
+1133
+00:59:53,920 --> 01:00:00,079
+for fun. Uh, and then we're going to
+
+1134
+00:59:56,640 --> 01:00:02,480
+convert this algorithm into a state
+
+1135
+01:00:00,079 --> 01:00:04,319
+machine. Okay, so just pretend you
+
+1136
+01:00:02,480 --> 01:00:05,760
+understand algorithms for the second.
+
+1137
+01:00:04,319 --> 01:00:07,359
+Uh, here we have the numbers in a
+
+1138
+01:00:05,760 --> 01:00:09,520
+particular order. Uh the height
+
+1139
+01:00:07,359 --> 01:00:12,160
+corresponds to the value that's written
+
+1140
+01:00:09,520 --> 01:00:14,799
+362541.
+
+1141
+01:00:12,160 --> 01:00:18,000
+And uh we're just going to do uh an
+
+1142
+01:00:14,799 --> 01:00:20,319
+example. U but then we do a swap a swap.
+
+1143
+01:00:18,000 --> 01:00:22,559
+We're always swapping adjacent pairs.
+
+1144
+01:00:20,319 --> 01:00:25,119
+And then Pac-Man comes over to the left
+
+1145
+01:00:22,559 --> 01:00:29,280
+and we get them in sorted order. Okay.
+
+1146
+01:00:25,119 --> 01:00:34,680
+So that is the algorithm. Let's now
+
+1147
+01:00:29,280 --> 01:00:34,680
+analyze it as a state machine.
+
+1148
+01:00:35,200 --> 01:00:42,079
+So first question is what are the states
+
+1149
+01:00:39,040 --> 01:00:43,599
+Q? Well throughout this algorithm so
+
+1150
+01:00:42,079 --> 01:00:46,799
+this is sort of in our head what we're
+
+1151
+01:00:43,599 --> 01:00:49,119
+thinking about doing. Uh and now uh and
+
+1152
+01:00:46,799 --> 01:00:50,400
+we choose I I arbitrarily now we're
+
+1153
+01:00:49,119 --> 01:00:51,760
+going to model as a state machine. This
+
+1154
+01:00:50,400 --> 01:00:53,599
+will make precise what's actually going
+
+1155
+01:00:51,760 --> 01:00:55,839
+on.
+
+1156
+01:00:53,599 --> 01:00:57,599
+Uh as we do this we're we're taking the
+
+1157
+01:00:55,839 --> 01:01:01,040
+original items in some order. We're
+
+1158
+01:00:57,599 --> 01:01:04,079
+always swapping items. So at any moment
+
+1159
+01:01:01,040 --> 01:01:05,920
+in time what we have is some reordering
+
+1160
+01:01:04,079 --> 01:01:09,440
+of the AIS.
+
+1161
+01:01:05,920 --> 01:01:12,319
+Okay, those are our states.
+
+1162
+01:01:09,440 --> 01:01:13,680
+Let's define Q to be all possible
+
+1163
+01:01:12,319 --> 01:01:15,440
+orderings. These may not all be
+
+1164
+01:01:13,680 --> 01:01:18,880
+reachable, but this is the thing that's
+
+1165
+01:01:15,440 --> 01:01:25,079
+easy to define.
+
+1166
+01:01:18,880 --> 01:01:25,079
+All possible orderings of A1 to A.
+
+1167
+01:01:25,920 --> 01:01:31,240
+Okay. Uh this template.
+
+1168
+01:01:42,480 --> 01:01:46,520
+Okay. What are the transitions?
+
+1169
+01:01:58,400 --> 01:02:04,559
+transitions are going to take some ai ai
+
+1170
+01:02:00,880 --> 01:02:07,280
+plus one pair and swap them. So if we
+
+1171
+01:02:04,559 --> 01:02:11,960
+start with them in this order, they're
+
+1172
+01:02:07,280 --> 01:02:11,960
+going to end up in the opposite order.
+
+1173
+01:02:12,000 --> 01:02:19,920
+And we are only allowed to do this when
+
+1174
+01:02:14,000 --> 01:02:22,720
+ai is bigger than ai plus one.
+
+1175
+01:02:19,920 --> 01:02:25,280
+So that's the transitions.
+
+1176
+01:02:22,720 --> 01:02:27,040
+uh implicitly this specifies exactly the
+
+1177
+01:02:25,280 --> 01:02:30,559
+algorithm. The algorithm says take some
+
+1178
+01:02:27,040 --> 01:02:32,799
+i where a i is bigger than i ai plus one
+
+1179
+01:02:30,559 --> 01:02:36,400
+and swap them. That's exactly what the
+
+1180
+01:02:32,799 --> 01:02:38,319
+transitions specify because uh we can
+
+1181
+01:02:36,400 --> 01:02:40,640
+take any transition that's valid from
+
+1182
+01:02:38,319 --> 01:02:43,359
+any state. So with a if we can find any
+
+1183
+01:02:40,640 --> 01:02:45,520
+i where ai is greater than a i plus one
+
+1184
+01:02:43,359 --> 01:02:46,640
+then swapping that pair is a valid
+
+1185
+01:02:45,520 --> 01:02:48,880
+transition. We don't know which one
+
+1186
+01:02:46,640 --> 01:02:51,520
+we'll do. state machine will follow some
+
+1187
+01:02:48,880 --> 01:02:55,040
+execution which will do one of these
+
+1188
+01:02:51,520 --> 01:02:56,559
+until it can't anymore.
+
+1189
+01:02:55,040 --> 01:02:59,559
+Okay,
+
+1190
+01:02:56,559 --> 01:02:59,559
+great.
+
+1191
+01:03:03,200 --> 01:03:11,160
+Can't anymore. Let's define a tool which
+
+1192
+01:03:07,040 --> 01:03:11,160
+is final states.
+
+1193
+01:03:15,680 --> 01:03:22,440
+Let's call a state
+
+1194
+01:03:18,160 --> 01:03:22,440
+Q final
+
+1195
+01:03:23,440 --> 01:03:28,240
+if there's no transition
+
+1196
+01:03:26,720 --> 01:03:31,280
+uh
+
+1197
+01:03:28,240 --> 01:03:34,799
+Q to R in T. If there's no transition
+
+1198
+01:03:31,280 --> 01:03:39,200
+that starts at Q and goes somewhere.
+
+1199
+01:03:34,799 --> 01:03:40,799
+Okay. So, uh in the eight puzzle there
+
+1200
+01:03:39,200 --> 01:03:43,119
+are no final states. You can always make
+
+1201
+01:03:40,799 --> 01:03:44,480
+moves. You never are done. You're done
+
+1202
+01:03:43,119 --> 01:03:46,079
+only when you happen to reach the final
+
+1203
+01:03:44,480 --> 01:03:47,359
+state. But there's nothing in the move
+
+1204
+01:03:46,079 --> 01:03:52,559
+definition that prevents you from
+
+1205
+01:03:47,359 --> 01:03:56,039
+continuing. Uh in this problem, there
+
+1206
+01:03:52,559 --> 01:03:56,039
+are final states.
+
+1207
+01:04:00,559 --> 01:04:04,680
+I claim it's exactly
+
+1208
+01:04:07,119 --> 01:04:13,359
+a z to a n where a1 is less or equal to
+
+1209
+01:04:11,280 --> 01:04:16,000
+a2 is less than or equal to a3 and so on
+
+1210
+01:04:13,359 --> 01:04:18,319
+is less than equal to a n. Namely the
+
+1211
+01:04:16,000 --> 01:04:21,280
+sorted order
+
+1212
+01:04:18,319 --> 01:04:23,839
+why well first of all I claim this state
+
+1213
+01:04:21,280 --> 01:04:26,079
+is final because if you look at any pair
+
+1214
+01:04:23,839 --> 01:04:28,319
+a i ai plus one we have ai is less than
+
+1215
+01:04:26,079 --> 01:04:30,000
+or equal to ai plus one. So we don't
+
+1216
+01:04:28,319 --> 01:04:32,000
+have a transition out of there. So these
+
+1217
+01:04:30,000 --> 01:04:34,240
+states are definitely final. I also
+
+1218
+01:04:32,000 --> 01:04:37,599
+claim that it's all the final states
+
+1219
+01:04:34,240 --> 01:04:40,160
+because if I had some some state where
+
+1220
+01:04:37,599 --> 01:04:42,079
+this is not true,
+
+1221
+01:04:40,160 --> 01:04:44,720
+that means one of these inequalities is
+
+1222
+01:04:42,079 --> 01:04:46,240
+not true. So that means there's some AI
+
+1223
+01:04:44,720 --> 01:04:48,240
+that's greater than AI plus one and then
+
+1224
+01:04:46,240 --> 01:04:51,440
+there's a transition.
+
+1225
+01:04:48,240 --> 01:04:53,039
+Okay, so that was a an argument spoken
+
+1226
+01:04:51,440 --> 01:04:55,680
+argument for why the final states are
+
+1227
+01:04:53,039 --> 01:04:58,720
+exactly this. Uh technically we're
+
+1228
+01:04:55,680 --> 01:05:00,640
+proving uh all of these states are final
+
+1229
+01:04:58,720 --> 01:05:02,079
+and that all final states are of this
+
+1230
+01:05:00,640 --> 01:05:05,039
+form and therefore these are all the
+
+1231
+01:05:02,079 --> 01:05:09,599
+final states.
+
+1232
+01:05:05,039 --> 01:05:12,240
+Okay, cool. Um
+
+1233
+01:05:09,599 --> 01:05:16,960
+so this implies this gives us something
+
+1234
+01:05:12,240 --> 01:05:20,920
+we call uh partially correct.
+
+1235
+01:05:16,960 --> 01:05:20,920
+I'm not going to define this formally.
+
+1236
+01:05:22,400 --> 01:05:29,440
+partially correct machine
+
+1237
+01:05:24,880 --> 01:05:32,160
+is a machine where if it terminates
+
+1238
+01:05:29,440 --> 01:05:35,039
+oh which I haven't defined
+
+1239
+01:05:32,160 --> 01:05:39,240
+uh then
+
+1240
+01:05:35,039 --> 01:05:39,240
+uh gives a correct answer.
+
+1241
+01:05:44,079 --> 01:05:48,039
+What does terminate mean?
+
+1242
+01:06:39,599 --> 01:06:44,559
+Okay. Terminate means uh a state we're
+
+1243
+01:06:43,039 --> 01:06:46,559
+going to say a state machine terminates
+
+1244
+01:06:44,559 --> 01:06:48,319
+or uh really what we're meaning is it
+
+1245
+01:06:46,559 --> 01:06:51,680
+always terminates. No matter how you
+
+1246
+01:06:48,319 --> 01:06:53,760
+execute this machine, it stops. And the
+
+1247
+01:06:51,680 --> 01:06:57,119
+only way it can stop uh is that it
+
+1248
+01:06:53,760 --> 01:06:58,559
+reaches a final state.
+
+1249
+01:06:57,119 --> 01:07:00,559
+If you think about it for a second, the
+
+1250
+01:06:58,559 --> 01:07:03,119
+definition of execution was a sequence
+
+1251
+01:07:00,559 --> 01:07:05,760
+of transitions. And so terminate says
+
+1252
+01:07:03,119 --> 01:07:07,359
+there's no infinite execution. For an
+
+1253
+01:07:05,760 --> 01:07:09,039
+infinite execution, that means every
+
+1254
+01:07:07,359 --> 01:07:12,480
+state qi there's some transition out of
+
+1255
+01:07:09,039 --> 01:07:14,799
+it to qi plus one. Uh so if that's not
+
+1256
+01:07:12,480 --> 01:07:17,599
+possible, that means at some point you
+
+1257
+01:07:14,799 --> 01:07:21,280
+reach a state that's final and from
+
+1258
+01:07:17,599 --> 01:07:22,960
+there there's no uh transition. Okay? So
+
+1259
+01:07:21,280 --> 01:07:25,119
+you could either say it terminates means
+
+1260
+01:07:22,960 --> 01:07:27,440
+there's no infinite execution or every
+
+1261
+01:07:25,119 --> 01:07:31,559
+execution reaches a final state. These
+
+1262
+01:07:27,440 --> 01:07:31,559
+are turn out to be equivalent.
+
+1263
+01:07:32,319 --> 01:07:36,880
+Okay. So now I claim what we've shown is
+
+1264
+01:07:34,720 --> 01:07:38,799
+that for the simple sorter machine it
+
+1265
+01:07:36,880 --> 01:07:42,799
+actually sorts in this partially correct
+
+1266
+01:07:38,799 --> 01:07:44,240
+sense that if the machine terminates
+
+1267
+01:07:42,799 --> 01:07:46,799
+then it will give the correct answer
+
+1268
+01:07:44,240 --> 01:07:50,079
+because if it reaches a final state it's
+
+1269
+01:07:46,799 --> 01:07:52,960
+sorted. That's what we just argued.
+
+1270
+01:07:50,079 --> 01:07:55,200
+Now that's not enough. We also want to
+
+1271
+01:07:52,960 --> 01:07:59,200
+show that it terminates. And so really
+
+1272
+01:07:55,200 --> 01:08:01,200
+the main thing to do
+
+1273
+01:07:59,200 --> 01:08:03,200
+the main thing to do is to prove
+
+1274
+01:08:01,200 --> 01:08:06,920
+termination.
+
+1275
+01:08:03,200 --> 01:08:06,920
+uh and in particular
+
+1276
+01:08:07,599 --> 01:08:11,480
+uh let's say
+
+1277
+01:08:12,079 --> 01:08:18,480
+a machine is correct
+
+1278
+01:08:14,559 --> 01:08:20,799
+uh if it terminates
+
+1279
+01:08:18,480 --> 01:08:24,279
+and produces the right answer which was
+
+1280
+01:08:20,799 --> 01:08:24,279
+partially correct
+
+1281
+01:08:26,080 --> 01:08:29,279
+okay I haven't formally defined right
+
+1282
+01:08:27,600 --> 01:08:31,440
+answer but for the sorting problem it's
+
+1283
+01:08:29,279 --> 01:08:34,000
+clear we want to get them in order so
+
+1284
+01:08:31,440 --> 01:08:36,560
+that this holds
+
+1285
+01:08:34,000 --> 01:08:39,679
+A1 is less than equal to A2 is less than
+
+1286
+01:08:36,560 --> 01:08:41,279
+equal to dot dot dot. Okay, so we've
+
+1287
+01:08:39,679 --> 01:08:44,960
+proved partially correct but we need to
+
+1288
+01:08:41,279 --> 01:08:46,960
+prove correct and uh
+
+1289
+01:08:44,960 --> 01:08:49,040
+in particular we need to show that it
+
+1290
+01:08:46,960 --> 01:08:52,440
+terminates. So we need some tools for
+
+1291
+01:08:49,040 --> 01:08:52,440
+proving termination
+
+1292
+01:08:52,640 --> 01:08:59,400
+for this machine.
+
+1293
+01:08:55,359 --> 01:08:59,400
+Let's go to another board.
+
+1294
+01:09:02,719 --> 01:09:07,199
+We want to make sure that this algorithm
+
+1295
+01:09:05,839 --> 01:09:10,000
+doesn't take forever. It doesn't go in
+
+1296
+01:09:07,199 --> 01:09:13,400
+an infinite loop. Never reaches the
+
+1297
+01:09:10,000 --> 01:09:13,400
+sorted state.
+
+1298
+01:09:20,880 --> 01:09:24,880
+Let me define a general tool for this.
+
+1299
+01:09:23,679 --> 01:09:28,759
+This is how we will always prove
+
+1300
+01:09:24,880 --> 01:09:28,759
+termination in this class.
+
+1301
+01:09:42,640 --> 01:09:48,080
+It's called a derived variable.
+
+1302
+01:09:45,520 --> 01:09:49,520
+Uh this is sort of a reference to random
+
+1303
+01:09:48,080 --> 01:09:51,359
+variables which we will see when we get
+
+1304
+01:09:49,520 --> 01:09:53,520
+to the probability section of the class.
+
+1305
+01:09:51,359 --> 01:09:55,520
+Lots of forward references today. Um
+
+1306
+01:09:53,520 --> 01:10:00,560
+it's very simple. It's just uh for every
+
+1307
+01:09:55,520 --> 01:10:03,120
+state we define a real number x of q
+
+1308
+01:10:00,560 --> 01:10:07,080
+however you want. Okay. In other words,
+
+1309
+01:10:03,120 --> 01:10:07,080
+this is a function
+
+1310
+01:10:08,560 --> 01:10:14,080
+uh from
+
+1311
+01:10:10,640 --> 01:10:15,679
+the set of states to the real numbers.
+
+1312
+01:10:14,080 --> 01:10:17,520
+Okay, in our applications, we're only
+
+1313
+01:10:15,679 --> 01:10:19,199
+going to think of the natural numbers
+
+1314
+01:10:17,520 --> 01:10:21,679
+here, but in general, this could be a
+
+1315
+01:10:19,199 --> 01:10:24,080
+real number.
+
+1316
+01:10:21,679 --> 01:10:28,600
+Okay. And we're going to call it a
+
+1317
+01:10:24,080 --> 01:10:28,600
+derived variable strictly decreasing.
+
+1318
+01:10:34,719 --> 01:10:39,760
+If
+
+1319
+01:10:36,480 --> 01:10:45,679
+uh whenever we have a transition from Q
+
+1320
+01:10:39,760 --> 01:10:49,760
+to R in T, it's a valid transition.
+
+1321
+01:10:45,679 --> 01:10:52,800
+Uh we have x of q is strictly greater
+
+1322
+01:10:49,760 --> 01:10:55,040
+than x of r.
+
+1323
+01:10:52,800 --> 01:10:57,600
+The new value is strictly less than the
+
+1324
+01:10:55,040 --> 01:11:01,960
+old value. That's strictly decreasing.
+
+1325
+01:10:57,600 --> 01:11:01,960
+This is a very strange looking colon.
+
+1326
+01:11:02,080 --> 01:11:05,600
+Okay.
+
+1327
+01:11:03,679 --> 01:11:07,920
+So again this is about a state machine.
+
+1328
+01:11:05,600 --> 01:11:09,679
+So we talk about transitions and every
+
+1329
+01:11:07,920 --> 01:11:11,840
+transition strictly decreases the
+
+1330
+01:11:09,679 --> 01:11:13,520
+derived variable.
+
+1331
+01:11:11,840 --> 01:11:14,800
+Okay. This is going to be our analog to
+
+1332
+01:11:13,520 --> 01:11:17,199
+state predicates and preserved
+
+1333
+01:11:14,800 --> 01:11:20,800
+invariant. State predicates we map to
+
+1334
+01:11:17,199 --> 01:11:22,960
+true and false or zero and one. Now
+
+1335
+01:11:20,800 --> 01:11:25,360
+we're generalizing to allow it to map to
+
+1336
+01:11:22,960 --> 01:11:28,400
+any number, any real number. Okay, but
+
+1337
+01:11:25,360 --> 01:11:32,440
+very similar notion just we're outside
+
+1338
+01:11:28,400 --> 01:11:32,440
+the boolean realm. Now,
+
+1339
+01:11:33,600 --> 01:11:40,800
+uh it's very odd to talk about strictly
+
+1340
+01:11:37,760 --> 01:11:43,520
+decreasing for booleans. And that's we
+
+1341
+01:11:40,800 --> 01:11:49,400
+want we need this.
+
+1342
+01:11:43,520 --> 01:11:49,400
+Okay, here is a wonderful theorem.
+
+1343
+01:11:50,080 --> 01:11:54,480
+It's kind of it'll be obvious once I
+
+1344
+01:11:52,000 --> 01:11:56,320
+state it, but it's very useful for
+
+1345
+01:11:54,480 --> 01:12:00,360
+proving termination. It's how most
+
+1346
+01:11:56,320 --> 01:12:00,360
+termination arguments go.
+
+1347
+01:12:00,480 --> 01:12:05,600
+So it says suppose you have a derived
+
+1348
+01:12:03,840 --> 01:12:09,159
+variable
+
+1349
+01:12:05,600 --> 01:12:09,159
+x of q
+
+1350
+01:12:13,679 --> 01:12:19,719
+uh and suppose it satisfies two
+
+1351
+01:12:16,719 --> 01:12:19,719
+properties.
+
+1352
+01:12:20,880 --> 01:12:28,840
+Property one is it's actually over the
+
+1353
+01:12:24,800 --> 01:12:28,840
+natural numbers not reals.
+
+1354
+01:12:30,480 --> 01:12:38,440
+And property two
+
+1355
+01:12:33,120 --> 01:12:38,440
+is that uh strictly decreasing.
+
+1356
+01:12:47,440 --> 01:12:50,440
+Then
+
+1357
+01:12:50,800 --> 01:12:54,760
+uh state machine terminates.
+
+1358
+01:13:04,320 --> 01:13:09,280
+Okay. So, uh the then is of course what
+
+1359
+01:13:07,520 --> 01:13:11,440
+we want. We want to show that our state
+
+1360
+01:13:09,280 --> 01:13:12,800
+machine terminates. So, a claim this is
+
+1361
+01:13:11,440 --> 01:13:15,280
+all you need to show. You need to
+
+1362
+01:13:12,800 --> 01:13:16,960
+construct some derived variable where
+
+1363
+01:13:15,280 --> 01:13:18,640
+the value is always a natural number.
+
+1364
+01:13:16,960 --> 01:13:21,520
+So, crucially, it's always non- negative
+
+1365
+01:13:18,640 --> 01:13:22,880
+and it's always an integer. That's I I
+
+1366
+01:13:21,520 --> 01:13:24,159
+highlight this instead of putting it in
+
+1367
+01:13:22,880 --> 01:13:26,000
+the definition because this is something
+
+1368
+01:13:24,159 --> 01:13:28,400
+we really need to prove. This theorem is
+
+1369
+01:13:26,000 --> 01:13:31,120
+is false if you allow real numbers. It's
+
+1370
+01:13:28,400 --> 01:13:32,320
+false if you allow negative numbers.
+
+1371
+01:13:31,120 --> 01:13:34,159
+Very important that they're non-
+
+1372
+01:13:32,320 --> 01:13:36,400
+negative integers. So that's something
+
+1373
+01:13:34,159 --> 01:13:38,080
+we need to check. And it's strictly
+
+1374
+01:13:36,400 --> 01:13:39,280
+decreasing.
+
+1375
+01:13:38,080 --> 01:13:42,000
+That's all we need. Then we're
+
+1376
+01:13:39,280 --> 01:13:43,920
+guaranteed the machine will terminate.
+
+1377
+01:13:42,000 --> 01:13:46,560
+Why?
+
+1378
+01:13:43,920 --> 01:13:48,080
+Any guesses why?
+
+1379
+01:13:46,560 --> 01:13:51,080
+Why is this guaranteed that our machine
+
+1380
+01:13:48,080 --> 01:13:51,080
+terminates?
+
+1381
+01:13:51,199 --> 01:13:55,920
+Yeah.
+
+1382
+01:13:52,560 --> 01:13:57,600
+>> Well, when we reach zero, if x is
+
+1383
+01:13:55,920 --> 01:14:00,080
+strictly decreasing, there's nowhere to
+
+1384
+01:13:57,600 --> 01:14:00,880
+decrease. So, there must be no more
+
+1385
+01:14:00,080 --> 01:14:03,120
+transitions.
+
+1386
+01:14:00,880 --> 01:14:04,640
+>> That sounds good. So, when when x of q
+
+1387
+01:14:03,120 --> 01:14:06,480
+reaches zero, I don't know if it does,
+
+1388
+01:14:04,640 --> 01:14:08,000
+but if it reaches zero, you definitely
+
+1389
+01:14:06,480 --> 01:14:09,280
+can't go any farther because there's no
+
+1390
+01:14:08,000 --> 01:14:10,800
+transitions out of zero. You can't
+
+1391
+01:14:09,280 --> 01:14:14,239
+strictly decrease from zero if you're
+
+1392
+01:14:10,800 --> 01:14:17,239
+non- negative. Why do we get to zero?
+
+1393
+01:14:14,239 --> 01:14:17,239
+>> Yeah.
+
+1394
+01:14:19,360 --> 01:14:24,159
+reach a minimum.
+
+1395
+01:14:22,640 --> 01:14:26,000
+>> Okay,
+
+1396
+01:14:24,159 --> 01:14:28,719
+>> we don't necessarily reach zero, but we
+
+1397
+01:14:26,000 --> 01:14:30,640
+get to some minimum. Yeah, I think these
+
+1398
+01:14:28,719 --> 01:14:33,280
+are all in the right direction. I I'll
+
+1399
+01:14:30,640 --> 01:14:35,120
+write down what I would call a sketch.
+
+1400
+01:14:33,280 --> 01:14:36,960
+Uh
+
+1401
+01:14:35,120 --> 01:14:38,560
+that's thinking about it kind of the
+
+1402
+01:14:36,960 --> 01:14:41,120
+other way around. Instead of focusing on
+
+1403
+01:14:38,560 --> 01:14:44,880
+X of Q decreasing,
+
+1404
+01:14:41,120 --> 01:14:47,040
+um I want to think about executions of
+
+1405
+01:14:44,880 --> 01:14:48,640
+this machine, right? We want to prove
+
+1406
+01:14:47,040 --> 01:14:52,159
+that the machine terminates. That means
+
+1407
+01:14:48,640 --> 01:14:54,400
+that there are no infinite sequences. In
+
+1408
+01:14:52,159 --> 01:15:00,440
+other words, all all executions have
+
+1409
+01:14:54,400 --> 01:15:00,440
+finite length. I claim all executions
+
+1410
+01:15:03,520 --> 01:15:12,080
+have length
+
+1411
+01:15:07,280 --> 01:15:14,400
+at most x of q0
+
+1412
+01:15:12,080 --> 01:15:17,199
+because every time I take a step, every
+
+1413
+01:15:14,400 --> 01:15:20,640
+time I do a transition, x decreases by
+
+1414
+01:15:17,199 --> 01:15:23,679
+at least one. If it starts at x of q0,
+
+1415
+01:15:20,640 --> 01:15:25,199
+it can only decrease by one that many
+
+1416
+01:15:23,679 --> 01:15:26,320
+times. At that point it will have to
+
+1417
+01:15:25,199 --> 01:15:29,199
+have reached zero and then it has to
+
+1418
+01:15:26,320 --> 01:15:31,840
+stop. Maybe it stopped earlier. But this
+
+1419
+01:15:29,199 --> 01:15:34,960
+guarantees that it stops. Right? Every
+
+1420
+01:15:31,840 --> 01:15:37,199
+step I make I strictly decrease x of q
+
+1421
+01:15:34,960 --> 01:15:39,840
+by at least one. We start here. We can't
+
+1422
+01:15:37,199 --> 01:15:41,280
+go below zero. So the number of moves is
+
+1423
+01:15:39,840 --> 01:15:43,280
+at most that you can prove this by
+
+1424
+01:15:41,280 --> 01:15:45,520
+induction. Uh but it's kind of
+
+1425
+01:15:43,280 --> 01:15:47,760
+straightforward.
+
+1426
+01:15:45,520 --> 01:15:50,480
+Okay. So you're in the right idea, but
+
+1427
+01:15:47,760 --> 01:15:52,320
+this is a little more precise. Great. So
+
+1428
+01:15:50,480 --> 01:15:55,360
+now let's apply our termination theorem
+
+1429
+01:15:52,320 --> 01:15:58,480
+to the simple sorder machine. Uh but we
+
+1430
+01:15:55,360 --> 01:16:01,710
+need to do that we need to define one of
+
+1431
+01:15:58,480 --> 01:16:05,199
+these derived variables
+
+1432
+01:16:01,710 --> 01:16:08,159
+[Applause]
+
+1433
+01:16:05,199 --> 01:16:11,040
+and
+
+1434
+01:16:08,159 --> 01:16:13,280
+it's actually this one.
+
+1435
+01:16:11,040 --> 01:16:15,679
+I'll be mean and just erase this.
+
+1436
+01:16:13,280 --> 01:16:19,280
+There's our derived variable.
+
+1437
+01:16:15,679 --> 01:16:20,800
+I I'll rewrite it.
+
+1438
+01:16:19,280 --> 01:16:23,280
+So there's a reason these two examples
+
+1439
+01:16:20,800 --> 01:16:26,640
+are in the same lecture. Use the same
+
+1440
+01:16:23,280 --> 01:16:27,840
+idea which is inverted pairs. Oh,
+
+1441
+01:16:26,640 --> 01:16:30,239
+perhaps I shouldn't have erased the
+
+1442
+01:16:27,840 --> 01:16:34,080
+definition of inverted pairs. Sorry. Uh
+
+1443
+01:16:30,239 --> 01:16:38,080
+so back to the simple sorting machine.
+
+1444
+01:16:34,080 --> 01:16:41,520
+Uh we're going to define P of Q to be
+
+1445
+01:16:38,080 --> 01:16:44,480
+the number of inverted
+
+1446
+01:16:41,520 --> 01:16:48,199
+pairs
+
+1447
+01:16:44,480 --> 01:16:48,199
+in state Q.
+
+1448
+01:16:49,440 --> 01:16:53,920
+Okay, that's some number. It's a natural
+
+1449
+01:16:51,760 --> 01:16:56,560
+number, right? It's always greater than
+
+1450
+01:16:53,920 --> 01:16:58,000
+equal to zero. It's always an integer
+
+1451
+01:16:56,560 --> 01:17:01,120
+because inverted pairs were this
+
+1452
+01:16:58,000 --> 01:17:02,640
+discrete object. It was a set I J. Oh,
+
+1453
+01:17:01,120 --> 01:17:04,400
+maybe I need to redefine this a little
+
+1454
+01:17:02,640 --> 01:17:09,040
+bit. Is no longer reading order. So,
+
+1455
+01:17:04,400 --> 01:17:10,960
+what is an inverted pair? This is uh I J
+
+1456
+01:17:09,040 --> 01:17:14,719
+where
+
+1457
+01:17:10,960 --> 01:17:18,239
+uh I is less than J.
+
+1458
+01:17:14,719 --> 01:17:23,360
+uh sorry but
+
+1459
+01:17:18,239 --> 01:17:25,600
+a i is greater than a j so it's a i i i
+
+1460
+01:17:23,360 --> 01:17:29,280
+and j here are indices into this
+
+1461
+01:17:25,600 --> 01:17:32,800
+sequence so in this example uh let's say
+
+1462
+01:17:29,280 --> 01:17:35,040
+uh 62 is inverted because six is to the
+
+1463
+01:17:32,800 --> 01:17:36,640
+left of two but six is greater than two
+
+1464
+01:17:35,040 --> 01:17:38,880
+and that's the opposite of what we want
+
+1465
+01:17:36,640 --> 01:17:41,280
+but also 61 is inverted it's not just
+
+1466
+01:17:38,880 --> 01:17:43,280
+adjacent pairs all the pairs so there's
+
+1467
+01:17:41,280 --> 01:17:45,040
+a bunch of pairs here how many it's
+
+1468
+01:17:43,280 --> 01:17:47,280
+exactly the number of dots in this
+
+1469
+01:17:45,040 --> 01:17:48,880
+diagram. Each dot
+
+1470
+01:17:47,280 --> 01:17:51,120
+which we construct by taking each of
+
+1471
+01:17:48,880 --> 01:17:54,320
+these numbers of the particular height
+
+1472
+01:17:51,120 --> 01:17:56,000
+and drawing a leftward ray a line to the
+
+1473
+01:17:54,320 --> 01:17:57,600
+left and every time we hit another
+
+1474
+01:17:56,000 --> 01:18:00,640
+number that means that number was taller
+
+1475
+01:17:57,600 --> 01:18:01,920
+than I was. So one for example is is
+
+1476
+01:18:00,640 --> 01:18:04,320
+wrong with everybody because it's
+
+1477
+01:18:01,920 --> 01:18:06,560
+supposed to be all the way on the left.
+
+1478
+01:18:04,320 --> 01:18:08,159
+Okay. So with this funny height diagram
+
+1479
+01:18:06,560 --> 01:18:10,320
+you just draw these lines. Those are the
+
+1480
+01:18:08,159 --> 01:18:12,480
+inverted pairs. A nice visualization.
+
+1481
+01:18:10,320 --> 01:18:16,880
+Thanks Zachmore.
+
+1482
+01:18:12,480 --> 01:18:19,120
+and Bmore. Um, so now we think about
+
+1483
+01:18:16,880 --> 01:18:21,440
+what happens when we do a swap. So, for
+
+1484
+01:18:19,120 --> 01:18:23,199
+example, here I swap these two items.
+
+1485
+01:18:21,440 --> 01:18:25,840
+Oh, great. Before six and two were
+
+1486
+01:18:23,199 --> 01:18:27,440
+inverted. Now they're not. And that's
+
+1487
+01:18:25,840 --> 01:18:29,120
+all that changed because we're all in
+
+1488
+01:18:27,440 --> 01:18:32,000
+the algorithm in the transitions, we're
+
+1489
+01:18:29,120 --> 01:18:35,040
+only swapping adjacent pairs. Okay. If I
+
+1490
+01:18:32,000 --> 01:18:36,560
+swap it back, the number uh increases.
+
+1491
+01:18:35,040 --> 01:18:38,080
+Okay. And now if we watch this
+
+1492
+01:18:36,560 --> 01:18:41,520
+algorithm, each time it swaps an
+
+1493
+01:18:38,080 --> 01:18:44,880
+adjacent pair, it decreases
+
+1494
+01:18:41,520 --> 01:18:48,560
+uh by one the number of inverted pairs.
+
+1495
+01:18:44,880 --> 01:18:51,120
+Watch it one more time for fun.
+
+1496
+01:18:48,560 --> 01:18:54,840
+Love this animation.
+
+1497
+01:18:51,120 --> 01:18:54,840
+Okay. So,
+
+1498
+01:19:06,000 --> 01:19:11,520
+I claim this P of Q is strictly
+
+1499
+01:19:07,920 --> 01:19:14,400
+decreasing. Why? because every time I do
+
+1500
+01:19:11,520 --> 01:19:23,560
+a transition from Q to R,
+
+1501
+01:19:14,400 --> 01:19:23,560
+uh, P of R is one smaller than P of Q.
+
+1502
+01:19:25,120 --> 01:19:28,530
+Let's look at the definition of
+
+1503
+01:19:26,560 --> 01:19:31,040
+transition over here.
+
+1504
+01:19:28,530 --> 01:19:32,320
+[Applause]
+
+1505
+01:19:31,040 --> 01:19:34,719
+When I do a transition in this
+
+1506
+01:19:32,320 --> 01:19:36,719
+algorithm, I only swap two adjacent
+
+1507
+01:19:34,719 --> 01:19:39,440
+elements. So the inverted pairs with
+
+1508
+01:19:36,719 --> 01:19:41,679
+everything else doesn't change.
+
+1509
+01:19:39,440 --> 01:19:43,920
+And these guys were guaranteed inverted.
+
+1510
+01:19:41,679 --> 01:19:45,679
+I told you that AI was bigger than AI
+
+1511
+01:19:43,920 --> 01:19:47,440
+plus one whenever I did a transition. So
+
+1512
+01:19:45,679 --> 01:19:51,040
+I decreased by one the number of
+
+1513
+01:19:47,440 --> 01:19:53,040
+inverted pairs here. So uh I strictly
+
+1514
+01:19:51,040 --> 01:19:54,719
+decrease by exactly one every single
+
+1515
+01:19:53,040 --> 01:19:57,120
+time. So in fact the running time of
+
+1516
+01:19:54,719 --> 01:19:59,679
+this algorithm the number of swaps that
+
+1517
+01:19:57,120 --> 01:20:02,480
+we do is exactly the number of inverted
+
+1518
+01:19:59,679 --> 01:20:03,840
+pairs. But in particular it terminates
+
+1519
+01:20:02,480 --> 01:20:05,440
+in finite time. And that's what we get
+
+1520
+01:20:03,840 --> 01:20:08,239
+out of this termination theorem because
+
+1521
+01:20:05,440 --> 01:20:10,159
+we checked uh this function, this
+
+1522
+01:20:08,239 --> 01:20:12,480
+derived variable is non- negative. It's
+
+1523
+01:20:10,159 --> 01:20:14,159
+an integer and it's strictly decreasing.
+
+1524
+01:20:12,480 --> 01:20:17,440
+Therefore, our sorting algorithm
+
+1525
+01:20:14,159 --> 01:20:19,040
+actually terminates. Yay.
+
+1526
+01:20:17,440 --> 01:20:20,239
+Uh
+
+1527
+01:20:19,040 --> 01:20:21,120
+I supposed to do an announcement about
+
+1528
+01:20:20,239 --> 01:20:22,480
+problem sets.
+
+1529
+01:20:21,120 --> 01:20:24,880
+>> Yes,
+
+1530
+01:20:22,480 --> 01:20:26,320
+>> which was
+
+1531
+01:20:24,880 --> 01:20:28,239
+the Oh,
+
+1532
+01:20:26,320 --> 01:20:31,760
+>> yes. We're about to release solutions to
+
+1533
+01:20:28,239 --> 01:20:33,440
+a problem set. Uh problem set one. And
+
+1534
+01:20:31,760 --> 01:20:35,920
+you may recall you can submit your
+
+1535
+01:20:33,440 --> 01:20:38,080
+problem set one anytime between now and
+
+1536
+01:20:35,920 --> 01:20:39,120
+the end of semester. So what do you do?
+
+1537
+01:20:38,080 --> 01:20:41,760
+Are you allowed to look at those
+
+1538
+01:20:39,120 --> 01:20:44,560
+solutions? Yes, you're allowed to look
+
+1539
+01:20:41,760 --> 01:20:46,719
+at the solutions. But you cannot copy
+
+1540
+01:20:44,560 --> 01:20:48,960
+those solutions. You can look at them,
+
+1541
+01:20:46,719 --> 01:20:50,480
+then put them aside, remember the
+
+1542
+01:20:48,960 --> 01:20:52,239
+solution, think about the solution,
+
+1543
+01:20:50,480 --> 01:20:54,320
+write it in your own words how that
+
+1544
+01:20:52,239 --> 01:20:55,600
+solution works, and put at the top of
+
+1545
+01:20:54,320 --> 01:20:57,679
+your document. It says in the
+
+1546
+01:20:55,600 --> 01:21:00,480
+collaboration policy, I looked at the
+
+1547
+01:20:57,679 --> 01:21:02,719
+solutions, but I'm not copying them. If
+
+1548
+01:21:00,480 --> 01:21:05,120
+you copy them, you will be penalized.
+
+1549
+01:21:02,719 --> 01:21:06,800
+Okay? Just
+
+1550
+01:21:05,120 --> 01:21:08,320
+understand how the proof works and then
+
+1551
+01:21:06,800 --> 01:21:10,000
+write down how the proof works in your
+
+1552
+01:21:08,320 --> 01:21:13,560
+own words.
+
+1553
+01:21:10,000 --> 01:21:13,560
+See you next time.
+

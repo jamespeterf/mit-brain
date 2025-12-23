@@ -1,0 +1,552 @@
+1
+00:00:00,840 --> 00:00:06,240
+so now is the time for lightning talks
+
+2
+00:00:03,879 --> 00:00:08,400
+all right so Bowen
+
+3
+00:00:06,240 --> 00:00:10,280
+first okay so uh good morning everyone
+
+4
+00:00:08,400 --> 00:00:12,639
+I'm Bowen I'm a PhD student in computer
+
+5
+00:00:10,280 --> 00:00:15,240
+science here at MIT and in this work we
+
+6
+00:00:12,639 --> 00:00:17,080
+explore the idea of learning a j of
+
+7
+00:00:15,240 --> 00:00:19,039
+model of molecular Dynamics trajectories
+
+8
+00:00:17,080 --> 00:00:21,720
+to further expand the value that can be
+
+9
+00:00:19,039 --> 00:00:24,000
+extracted from simulation data sets so
+
+10
+00:00:21,720 --> 00:00:26,240
+the main idea is here at the top left
+
+11
+00:00:24,000 --> 00:00:27,960
+molecular Dynamics or MD is a very
+
+12
+00:00:26,240 --> 00:00:29,519
+common technique used for studying
+
+13
+00:00:27,960 --> 00:00:31,519
+various molecular phenomenon and it
+
+14
+00:00:29,519 --> 00:00:34,000
+gives us the trajectories which are time
+
+15
+00:00:31,519 --> 00:00:35,320
+series of molecular confirmations now
+
+16
+00:00:34,000 --> 00:00:37,040
+these uh these confirmations are
+
+17
+00:00:35,320 --> 00:00:39,879
+generated sequentially by integrating
+
+18
+00:00:37,040 --> 00:00:41,719
+the equations of motion in this work we
+
+19
+00:00:39,879 --> 00:00:44,680
+explore the idea of learning a surrogate
+
+20
+00:00:41,719 --> 00:00:46,320
+model of MD trajectories um by learning
+
+21
+00:00:44,680 --> 00:00:48,360
+a a joint generative model over the
+
+22
+00:00:46,320 --> 00:00:50,640
+confirmation at each time step so
+
+23
+00:00:48,360 --> 00:00:52,120
+inspired by generative models of videos
+
+24
+00:00:50,640 --> 00:00:54,559
+for example that can create a one minute
+
+25
+00:00:52,120 --> 00:00:57,160
+video from scratch um we train a model
+
+26
+00:00:54,559 --> 00:00:59,039
+to go from a uh a trajectory of Pure
+
+27
+00:00:57,160 --> 00:01:01,600
+Noise and progressively remove this
+
+28
+00:00:59,039 --> 00:01:03,440
+noise um to give us a trajectory now you
+
+29
+00:01:01,600 --> 00:01:04,920
+may ask why do you want to do this joint
+
+30
+00:01:03,440 --> 00:01:06,520
+modeling we know that the underlying
+
+31
+00:01:04,920 --> 00:01:08,000
+equations of motion are Marian there
+
+32
+00:01:06,520 --> 00:01:10,439
+should be no need to learn a joint
+
+33
+00:01:08,000 --> 00:01:12,200
+generative model like I described now
+
+34
+00:01:10,439 --> 00:01:14,360
+typically people learn surrogate models
+
+35
+00:01:12,200 --> 00:01:16,400
+of MD to accelerate the simulation or
+
+36
+00:01:14,360 --> 00:01:17,960
+the sampling in our case however we
+
+37
+00:01:16,400 --> 00:01:19,600
+argue that it is interesting to learn
+
+38
+00:01:17,960 --> 00:01:21,640
+this joint generative model because of
+
+39
+00:01:19,600 --> 00:01:24,159
+the new capabilities The Wider range of
+
+40
+00:01:21,640 --> 00:01:26,200
+capabilities that it unlocks by uh
+
+41
+00:01:24,159 --> 00:01:28,079
+controlling how you condition the model
+
+42
+00:01:26,200 --> 00:01:29,520
+so for example if you condition the
+
+43
+00:01:28,079 --> 00:01:31,159
+model by providing just the first frame
+
+44
+00:01:29,520 --> 00:01:33,280
+and ask to fill in the rest then you get
+
+45
+00:01:31,159 --> 00:01:34,759
+a standard forward simulator if you
+
+46
+00:01:33,280 --> 00:01:36,640
+however provide the first and the last
+
+47
+00:01:34,759 --> 00:01:38,200
+frame the model will try to give you a
+
+48
+00:01:36,640 --> 00:01:40,360
+sequence of confirmational states that
+
+49
+00:01:38,200 --> 00:01:42,520
+Bridges these two frames that is a
+
+50
+00:01:40,360 --> 00:01:45,399
+transition path if you provide say for
+
+51
+00:01:42,520 --> 00:01:47,079
+example every 10 or 100 or 1,000 frames
+
+52
+00:01:45,399 --> 00:01:49,320
+um the model will try to upsample your
+
+53
+00:01:47,079 --> 00:01:51,680
+trajectory to perhaps resolve faster
+
+54
+00:01:49,320 --> 00:01:53,600
+motions that you missed when saving your
+
+55
+00:01:51,680 --> 00:01:56,479
+md trajectory at two course of a time
+
+56
+00:01:53,600 --> 00:01:58,680
+interval and most ambitiously if you
+
+57
+00:01:56,479 --> 00:02:00,240
+mask out part of the molecule and
+
+58
+00:01:58,680 --> 00:02:02,799
+describe what the rest of the mo should
+
+59
+00:02:00,240 --> 00:02:05,079
+be doing then the model will try to impt
+
+60
+00:02:02,799 --> 00:02:07,640
+or design the system to accommodate or
+
+61
+00:02:05,079 --> 00:02:09,440
+induce those motions now I want to be
+
+62
+00:02:07,640 --> 00:02:10,920
+clear that we are far from being able to
+
+63
+00:02:09,440 --> 00:02:13,200
+do what I've just described for large
+
+64
+00:02:10,920 --> 00:02:14,879
+molecular systems like proteins uh for
+
+65
+00:02:13,200 --> 00:02:16,640
+one thing the data to train such a model
+
+66
+00:02:14,879 --> 00:02:18,959
+doesn't exist right there's no YouTube
+
+67
+00:02:16,640 --> 00:02:20,560
+of MD simulations that we can train on
+
+68
+00:02:18,959 --> 00:02:22,920
+uh but what we have done is provided a
+
+69
+00:02:20,560 --> 00:02:25,360
+proof of concept based on training such
+
+70
+00:02:22,920 --> 00:02:28,239
+a model for tetrapeptide systems so very
+
+71
+00:02:25,360 --> 00:02:29,959
+small peptides of four amino acids we've
+
+72
+00:02:28,239 --> 00:02:32,080
+created an extensive data set of Tet
+
+73
+00:02:29,959 --> 00:02:33,280
+peptide simulations train a model on
+
+74
+00:02:32,080 --> 00:02:36,239
+those uh on a subset of those
+
+75
+00:02:33,280 --> 00:02:38,560
+simulations and Sample trajectories for
+
+76
+00:02:36,239 --> 00:02:40,480
+uh unseen peptides and we've validated
+
+77
+00:02:38,560 --> 00:02:42,519
+that our model can accomplish to varying
+
+78
+00:02:40,480 --> 00:02:45,480
+degrees each of the tasks that I've just
+
+79
+00:02:42,519 --> 00:02:47,480
+described so here at the on the right
+
+80
+00:02:45,480 --> 00:02:49,319
+hand side on the top left we see that
+
+81
+00:02:47,480 --> 00:02:51,640
+our model when used as a forward
+
+82
+00:02:49,319 --> 00:02:53,159
+simulator can provide uh quite
+
+83
+00:02:51,640 --> 00:02:55,400
+reasonable and accurate free energy
+
+84
+00:02:53,159 --> 00:02:57,159
+Landscapes of unseen peptides and this
+
+85
+00:02:55,400 --> 00:02:58,800
+can be seen by comparing the MD free
+
+86
+00:02:57,159 --> 00:03:00,280
+energy Landscapes on the left and then
+
+87
+00:02:58,800 --> 00:03:03,000
+our models free energy land Landscapes
+
+88
+00:03:00,280 --> 00:03:04,239
+on the right our model can also resolve
+
+89
+00:03:03,000 --> 00:03:06,519
+to some extent the kinetics of the
+
+90
+00:03:04,239 --> 00:03:08,080
+system um by looking at the recovery of
+
+91
+00:03:06,519 --> 00:03:09,599
+the relaxation time of different
+
+92
+00:03:08,080 --> 00:03:11,720
+torsional Collective
+
+93
+00:03:09,599 --> 00:03:13,560
+variables uh in the middle here we have
+
+94
+00:03:11,720 --> 00:03:16,000
+an example of an interpolation path
+
+95
+00:03:13,560 --> 00:03:18,000
+between two macro States uh on the free
+
+96
+00:03:16,000 --> 00:03:19,840
+energy landscape of a particular
+
+97
+00:03:18,000 --> 00:03:21,840
+tetrapeptide uh we do have some more
+
+98
+00:03:19,840 --> 00:03:23,280
+quantitative assessments of this uh but
+
+99
+00:03:21,840 --> 00:03:25,000
+the explanation of those is a bit too
+
+100
+00:03:23,280 --> 00:03:27,120
+convoluted to put on one
+
+101
+00:03:25,000 --> 00:03:28,840
+slide uh and then on the bottom right
+
+102
+00:03:27,120 --> 00:03:30,920
+here we see that our model one used as
+
+103
+00:03:28,840 --> 00:03:33,120
+an upsampling model uh is able to
+
+104
+00:03:30,920 --> 00:03:35,239
+recover the autocorrelation function uh
+
+105
+00:03:33,120 --> 00:03:37,000
+of various Toral Collective variables
+
+106
+00:03:35,239 --> 00:03:39,120
+some of which have rather non-trivial
+
+107
+00:03:37,000 --> 00:03:41,920
+Behavior at these short time
+
+108
+00:03:39,120 --> 00:03:43,879
+scales as for the uh imp paintingdesign
+
+109
+00:03:41,920 --> 00:03:45,599
+uh we do have some results uh very
+
+110
+00:03:43,879 --> 00:03:47,000
+preliminary results there uh but not
+
+111
+00:03:45,599 --> 00:03:50,040
+quite exciting enough to put on a
+
+112
+00:03:47,000 --> 00:03:51,640
+highlight slide uh so in summary what we
+
+113
+00:03:50,040 --> 00:03:53,599
+want to do in this work is just to
+
+114
+00:03:51,640 --> 00:03:54,959
+introduce this idea and the promise of
+
+115
+00:03:53,599 --> 00:03:57,200
+this kind of framing of generative
+
+116
+00:03:54,959 --> 00:03:58,400
+modeling to the community um but also
+
+117
+00:03:57,200 --> 00:04:00,000
+motivate the development of
+
+118
+00:03:58,400 --> 00:04:01,400
+architectures that can accomplish kind
+
+119
+00:04:00,000 --> 00:04:04,760
+of modeling for larger systems such as
+
+120
+00:04:01,400 --> 00:04:07,120
+proteins and perhaps most uh importantly
+
+121
+00:04:04,760 --> 00:04:10,040
+help motivate the curation of such data
+
+122
+00:04:07,120 --> 00:04:11,400
+sets now one important caveat is that as
+
+123
+00:04:10,040 --> 00:04:12,760
+with any kind of generative modeling
+
+124
+00:04:11,400 --> 00:04:15,000
+there is the risk of
+
+125
+00:04:12,760 --> 00:04:16,759
+hallucinations however unlike people who
+
+126
+00:04:15,000 --> 00:04:19,199
+work on generative modeling in natural
+
+127
+00:04:16,759 --> 00:04:21,120
+language image or video we do actually
+
+128
+00:04:19,199 --> 00:04:23,000
+have access to the ground Truth uh
+
+129
+00:04:21,120 --> 00:04:24,479
+physical model of these systems in so
+
+130
+00:04:23,000 --> 00:04:26,680
+far as you trust the force field that
+
+131
+00:04:24,479 --> 00:04:29,240
+generated the simulations so one very
+
+132
+00:04:26,680 --> 00:04:30,919
+interesting line of work uh will be to
+
+133
+00:04:29,240 --> 00:04:33,520
+see how we can detect and steer away
+
+134
+00:04:30,919 --> 00:04:34,720
+from hallucinations by judiciously using
+
+135
+00:04:33,520 --> 00:04:37,360
+uh these physical stimulators in the
+
+136
+00:04:34,720 --> 00:04:38,880
+generative process uh so with that I I
+
+137
+00:04:37,360 --> 00:04:42,199
+thank you and happy to chat more at the
+
+138
+00:04:38,880 --> 00:04:42,199
+poster session
+

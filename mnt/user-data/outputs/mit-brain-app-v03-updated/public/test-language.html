@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Language Test - MIT News Monitor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      max-width: 800px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px 5px;
+      cursor: pointer;
+      background: #0065a4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #00548a;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 20px;
+      background: #f0f0f0;
+      border-radius: 8px;
+      min-height: 100px;
+    }
+    .success {
+      color: green;
+      font-weight: bold;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+    pre {
+      background: white;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Language Translation Test</h1>
+  
+  <p>Click a button to test if the API can translate to that language:</p>
+  
+  <button onclick="testLanguage('english')">Test English</button>
+  <button onclick="testLanguage('spanish')">Test Spanish</button>
+  <button onclick="testLanguage('portuguese')">Test Portuguese</button>
+  <button onclick="testLanguage('french')">Test French</button>
+  <button onclick="testLanguage('japanese')">Test Japanese</button>
+  <button onclick="testLanguage('korean')">Test Korean</button>
+  <button onclick="testLanguage('hindi')">Test Hindi</button>
+  
+  <div id="result">
+    <p>Click a button to test...</p>
+  </div>
+  
+  <script>
+    async function testLanguage(lang) {
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = '<p>Testing ' + lang + '...</p>';
+      
+      try {
+        const response = await fetch('/api/test-language', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ language: lang })
+        });
+        
+        if (!response.ok) {
+          throw new Error('Server error: ' + response.status);
+        }
+        
+        const data = await response.json();
+        
+        let html = '<h3 class="success">✓ Test Successful</h3>';
+        html += '<p><strong>Language requested:</strong> ' + data.language + '</p>';
+        html += '<p><strong>Target language:</strong> ' + data.targetLang + '</p>';
+        html += '<p><strong>OpenAI Response:</strong></p>';
+        html += '<pre>' + data.response + '</pre>';
+        
+        // Check if response is actually in the target language
+        const hasEnglishWords = /\b(the|and|or|for|with|about|research|MIT)\b/i.test(data.response);
+        if (lang !== 'english' && hasEnglishWords) {
+          html += '<p class="error">⚠️ WARNING: Response contains English words! Translation may not be working.</p>';
+        } else {
+          html += '<p class="success">✓ Language appears correct!</p>';
+        }
+        
+        resultDiv.innerHTML = html;
+        
+        // Also log to console
+        console.log('Test result:', data);
+        
+      } catch (err) {
+        resultDiv.innerHTML = '<h3 class="error">✗ Test Failed</h3><p>' + err.message + '</p>';
+        console.error('Test error:', err);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1800 @@
+1
+00:00:04,961 --> 00:00:15,311
+Daniela Rus: My name is Daniela Rus, I am the Director of CSAIL, and today I am delighted to introduce our speaker, Professor Mohammad Alizadeh.
+
+2
+00:00:15,951 --> 00:00:29,390
+Daniela Rus: Now, Mohammad got his PhD at Stanford, and he worked on revolutionizing computer networks. He has been doing that non-stop since he joined us as a professor at MIT.
+
+3
+00:00:29,671 --> 00:00:41,871
+Daniela Rus: And for this work, he received numerous awards, including a Test of Time Award, which is really remarkable for someone so young in his career.
+
+4
+00:00:42,481 --> 00:00:49,621
+Daniela Rus: Today, Mohammad will talk about human-inspired AI for system design and optimization.
+
+5
+00:00:49,681 --> 00:01:02,170
+Daniela Rus: Now, before I, yield the floor to Mohammad, I would like to ask all of you to please put your name and location in the chat, so we know who you are and where you are.
+
+6
+00:01:02,211 --> 00:01:10,790
+Daniela Rus: And, please be an engaged audience, and put your questions and comments in the chat. And with that, Mohammad, please take it away.
+
+7
+00:01:11,591 --> 00:01:16,011
+Mohammad Alizadeh: All right. Thank you, Daniela, for the introduction, and
+
+8
+00:01:16,331 --> 00:01:24,551
+Mohammad Alizadeh: Thanks so much for inviting me to participate. It's great to be, with you all today. So, I'm excited to share with you
+
+9
+00:01:24,671 --> 00:01:41,030
+Mohammad Alizadeh: this work that we've been doing, really maybe for about a year, year and a half, at most, on a system called Glia, which is a human-inspired AI for system design and optimization.
+
+10
+00:01:42,181 --> 00:01:53,651
+Mohammad Alizadeh: This is, joint work with an exceptional group of graduate students and also, my colleague and friend, Hari Balakrishnan.
+
+11
+00:01:56,881 --> 00:02:00,980
+Mohammad Alizadeh: So, as you all know, AI is booming.
+
+12
+00:02:01,111 --> 00:02:07,391
+Mohammad Alizadeh: And behind this boom is also a boom in AI infrastructure.
+
+13
+00:02:08,651 --> 00:02:14,201
+Mohammad Alizadeh: So what do I mean by infrastructure? Ai is delivered in…
+
+14
+00:02:14,511 --> 00:02:21,730
+Mohammad Alizadeh: Huge data centers that house specialized hardware, such as GPUs, Running complex software systems.
+
+15
+00:02:22,901 --> 00:02:27,410
+Mohammad Alizadeh: And annual spending on AI infrastructure is just massive.
+
+16
+00:02:27,851 --> 00:02:32,231
+Mohammad Alizadeh: It's expected to reach $1.2 trillion by 2030.
+
+17
+00:02:32,801 --> 00:02:37,911
+Mohammad Alizadeh: And in fact, this may be an underestimate. In, you know, doing research for this talk.
+
+18
+00:02:38,031 --> 00:02:43,181
+Mohammad Alizadeh: I found that McKinsey seems to think it's going to be $7 trillion by 2030.
+
+19
+00:02:43,571 --> 00:02:49,931
+Mohammad Alizadeh: Which just sounds like an insane number, but this is, you know, why NVIDIA's the world's most valuable company.
+
+20
+00:02:52,141 --> 00:02:53,800
+Mohammad Alizadeh: But here's the problem.
+
+21
+00:02:54,121 --> 00:02:58,121
+Mohammad Alizadeh: AI is actually outpacing its systems infrastructure.
+
+22
+00:03:00,760 --> 00:03:04,721
+Mohammad Alizadeh: Models scale, and AI applications proliferate.
+
+23
+00:03:05,181 --> 00:03:10,671
+Mohammad Alizadeh: System infrastructure is Increasingly becoming the bottleneck to progress.
+
+24
+00:03:10,921 --> 00:03:14,510
+Mohammad Alizadeh: And we hear this repeatedly from companies.
+
+25
+00:03:14,851 --> 00:03:17,590
+Mohammad Alizadeh: That scaling AI infrastructure is complex.
+
+26
+00:03:18,611 --> 00:03:24,541
+Mohammad Alizadeh: companies dedicate squads of engineers to optimizing AI systems, but
+
+27
+00:03:24,761 --> 00:03:33,770
+Mohammad Alizadeh: Even experts are overwhelmed by the challenge of achieving high performance, doing it cost-effectively, and in the face of rapid change.
+
+28
+00:03:35,071 --> 00:03:41,401
+Mohammad Alizadeh: So our vision and solution to this is a new form of autonomous infrastructure.
+
+29
+00:03:41,981 --> 00:03:45,130
+Mohammad Alizadeh: We're building an AI called Glia.
+
+30
+00:03:45,651 --> 00:03:48,981
+Mohammad Alizadeh: which architects and improves AI systems.
+
+31
+00:03:49,421 --> 00:03:53,110
+Mohammad Alizadeh: Glia understands the characteristics of the workload.
+
+32
+00:03:53,261 --> 00:04:03,801
+Mohammad Alizadeh: Adapts to dynamic environments, and can continuously optimize across multiple layers of the software infrastructure to achieve performance and cost goals.
+
+33
+00:04:05,401 --> 00:04:09,470
+Mohammad Alizadeh: And Glia designs and delivers these optimizations
+
+34
+00:04:09,871 --> 00:04:12,951
+Mohammad Alizadeh: 10 to 100x faster than human experts.
+
+35
+00:04:13,171 --> 00:04:16,951
+Mohammad Alizadeh: Reducing weeks of effort to hours.
+
+36
+00:04:20,891 --> 00:04:26,610
+Mohammad Alizadeh: Glia builds on more than a decade of research in our lab on AI-driven systems.
+
+37
+00:04:27,771 --> 00:04:33,710
+Mohammad Alizadeh: So our group was among the first to apply AI, particularly reinforcement learning approaches.
+
+38
+00:04:33,881 --> 00:04:37,711
+Mohammad Alizadeh: To challenging networking and system design problems.
+
+39
+00:04:38,611 --> 00:04:46,710
+Mohammad Alizadeh: And we build AI-driven systems for many use cases, from video streaming to cluster scheduling, database optimization, and more.
+
+40
+00:04:48,481 --> 00:04:53,330
+Mohammad Alizadeh: Building these systems taught us a lot about applying AI to systems.
+
+41
+00:04:53,721 --> 00:05:05,771
+Mohammad Alizadeh: But these are really point solutions to specific problems, and it still takes a lot of expertise to design, and more importantly, to operate such systems.
+
+42
+00:05:07,251 --> 00:05:10,451
+Mohammad Alizadeh: But now with Glia, our goal is to build…
+
+43
+00:05:10,631 --> 00:05:14,971
+Mohammad Alizadeh: A more general system intelligence, as I'll describe.
+
+44
+00:05:17,971 --> 00:05:32,561
+Mohammad Alizadeh: So to motivate the approach we're taking in this project, let me start by just examining how well language models, can perform just out of the box at designing, systems.
+
+45
+00:05:35,081 --> 00:05:44,441
+Mohammad Alizadeh: And to be concrete, I'm going to use, a specific example in language model serving systems throughout most of this talk.
+
+46
+00:05:45,031 --> 00:05:50,420
+Mohammad Alizadeh: So, LLM serving systems are… Systems that take requests from users.
+
+47
+00:05:51,071 --> 00:05:55,551
+Mohammad Alizadeh: distribute them across GPUs, hosting different language models.
+
+48
+00:05:55,741 --> 00:05:58,301
+Mohammad Alizadeh: And deliver responses back to users.
+
+49
+00:05:59,391 --> 00:06:07,151
+Mohammad Alizadeh: And one of the key components in distributed serving systems is a request router
+
+50
+00:06:07,531 --> 00:06:13,470
+Mohammad Alizadeh: which decides how to distribute these inference requests among the GPUs in the cluster.
+
+51
+00:06:16,121 --> 00:06:19,600
+Mohammad Alizadeh: So, let's take a closer look.
+
+52
+00:06:19,711 --> 00:06:21,370
+Mohammad Alizadeh: At the request router.
+
+53
+00:06:24,051 --> 00:06:29,841
+Mohammad Alizadeh: So the router decides, for each incoming request, which replica to serve it from.
+
+54
+00:06:30,671 --> 00:06:42,161
+Mohammad Alizadeh: And these replicas may be running on heterogeneous hardware, like in this example, where some of these replicas are using, say, H100 GPUs, and some of them are using A100 GPUs.
+
+55
+00:06:44,041 --> 00:06:47,481
+Mohammad Alizadeh: So as requests come in, for everyone, it has to decide
+
+56
+00:06:48,081 --> 00:06:50,390
+Mohammad Alizadeh: Which of these replicas to send it to?
+
+57
+00:06:52,351 --> 00:06:58,120
+Mohammad Alizadeh: And what makes this… Problem, you know, challenging, is that the…
+
+58
+00:06:58,291 --> 00:07:04,791
+Mohammad Alizadeh: Optimal algorithm here really depends on the characteristics of the particular workload that you're dealing with.
+
+59
+00:07:05,151 --> 00:07:07,931
+Mohammad Alizadeh: So, for example, if you take it
+
+60
+00:07:08,031 --> 00:07:12,591
+Mohammad Alizadeh: Take this snapshot of the system, and ask, where should this next request go?
+
+61
+00:07:13,621 --> 00:07:19,590
+Mohammad Alizadeh: A generic algorithm, like, say, least loaded queue.
+
+62
+00:07:19,860 --> 00:07:31,491
+Mohammad Alizadeh: which sends requests to the inference engine, which is the shortest backlog of requests at any point in time, might say that this first request is a… this first replica is a good one.
+
+63
+00:07:32,521 --> 00:07:41,601
+Mohammad Alizadeh: It has the smallest queue out of all the replicas. It's also running on an H100, which should be faster than the A100 GPUs.
+
+64
+00:07:43,431 --> 00:07:52,931
+Mohammad Alizadeh: But the problem is that we don't really know how long the responses to the current requests are going to take to decode.
+
+65
+00:07:53,221 --> 00:08:03,071
+Mohammad Alizadeh: Because we don't really know the response lengths in advance. So it could very well be that this first replica is actually busy, serving some very long requests.
+
+66
+00:08:03,281 --> 00:08:05,871
+Mohammad Alizadeh: And it's gonna turn out to be slower than the others.
+
+67
+00:08:07,021 --> 00:08:19,630
+Mohammad Alizadeh: So now that signal, is something that's going to be very workload-specific, so it's hard to come up with, you know, a one-size-fits-all algorithm that's going to, use signals like this.
+
+68
+00:08:23,171 --> 00:08:28,981
+Mohammad Alizadeh: So… Let me show you this sort of example prompt that we can use
+
+69
+00:08:29,241 --> 00:08:35,550
+Mohammad Alizadeh: To ask a language model to design such a routing or load balancing algorithm
+
+70
+00:08:35,771 --> 00:08:54,471
+Mohammad Alizadeh: For our system. So you can see we're asking it to design a load balancing algorithm. We're giving it a system model which encapsulates our assumptions about the system. So here, you know, we have some number of these, you know, servers, and each inference job has two phases. There's a pre-fill phase and a decode phase.
+
+71
+00:08:54,571 --> 00:08:55,611
+Mohammad Alizadeh: etc.
+
+72
+00:08:56,561 --> 00:09:06,420
+Mohammad Alizadeh: We tell it what the objective of the problem is. Here, we want to design an algorithm that minimizes, you know, average latency across all these requests.
+
+73
+00:09:06,691 --> 00:09:12,151
+Mohammad Alizadeh: And we give it, like, this function template that
+
+74
+00:09:12,271 --> 00:09:15,631
+Mohammad Alizadeh: How's it, you know, how it should produce a solution.
+
+75
+00:09:17,781 --> 00:09:22,780
+Mohammad Alizadeh: So we can then sample solutions, using our favorite language model.
+
+76
+00:09:23,071 --> 00:09:27,071
+Mohammad Alizadeh: Plug those solutions into an evaluation environment,
+
+77
+00:09:27,181 --> 00:09:29,111
+Mohammad Alizadeh: For example, we use a simulator.
+
+78
+00:09:29,671 --> 00:09:32,451
+Mohammad Alizadeh: And score these solutions.
+
+79
+00:09:33,101 --> 00:09:42,541
+Mohammad Alizadeh: So, in this chart, this score is essentially, like, the inverse of the achieved average latency.
+
+80
+00:09:42,881 --> 00:09:46,040
+Mohammad Alizadeh: So, higher scores are better.
+
+81
+00:09:46,221 --> 00:09:51,890
+Mohammad Alizadeh: And you can see the scores for, 3 human design baselines.
+
+82
+00:09:52,171 --> 00:09:56,120
+Mohammad Alizadeh: These algorithms, like round robin or least loaded queue.
+
+83
+00:09:56,521 --> 00:10:02,440
+Mohammad Alizadeh: These are default algorithms that are used in a lot of existing systems.
+
+84
+00:10:02,871 --> 00:10:08,811
+Mohammad Alizadeh: And then… This expert-designed algorithm on top that's,
+
+85
+00:10:09,031 --> 00:10:13,230
+Mohammad Alizadeh: an algorithm that I'll describe a little bit more later, but it's…
+
+86
+00:10:13,361 --> 00:10:19,670
+Mohammad Alizadeh: Tailored design for this particular workload, in this example, and you can see it performs much better.
+
+87
+00:10:21,741 --> 00:10:25,860
+Mohammad Alizadeh: So, if we prompt, say, GPT-4.0,
+
+88
+00:10:26,021 --> 00:10:30,941
+Mohammad Alizadeh: Many times, and plot the distribution of scores, This is what we see.
+
+89
+00:10:32,501 --> 00:10:37,011
+Mohammad Alizadeh: So you can see, you know, it's not bad. It, performs,
+
+90
+00:10:37,141 --> 00:10:43,561
+Mohammad Alizadeh: Many cases, about the same, or a little bit even better than the least loaded queue baseline.
+
+91
+00:10:43,851 --> 00:10:50,230
+Mohammad Alizadeh: But it's still very far from this expert-designed algorithm that was Custom-made for this workload.
+
+92
+00:10:52,201 --> 00:11:01,651
+Mohammad Alizadeh: Stronger, you know, reasoning models are not much better. So this is 04 Mini, for example.
+
+93
+00:11:01,951 --> 00:11:12,681
+Mohammad Alizadeh: And this is the O3 model, which, you know, occasionally finds something a little bit better, but still, it's pretty far from this expert-designed, algorithm.
+
+94
+00:11:13,991 --> 00:11:17,561
+Mohammad Alizadeh: Now, this shouldn't really be that surprising.
+
+95
+00:11:17,781 --> 00:11:31,931
+Mohammad Alizadeh: So even human experts can't really design systems in one shot, the way we're asking here. You know, experts will implement their ideas, run some experiments, look at the results.
+
+96
+00:11:32,031 --> 00:11:39,440
+Mohammad Alizadeh: Get further insight about what ideas are promising, and this iterative experimentation loop is really what lets you improve
+
+97
+00:11:39,601 --> 00:11:46,611
+Mohammad Alizadeh: upon these ideas. So fundamentally, we need a way to learn from, you know, previous experiments.
+
+98
+00:11:49,671 --> 00:11:53,771
+Mohammad Alizadeh: So, one way to achieve this is,
+
+99
+00:11:53,911 --> 00:11:58,390
+Mohammad Alizadeh: This approach called reinforcement Learning Fine Tuning, or RL fine-tuning.
+
+100
+00:11:59,061 --> 00:12:04,620
+Mohammad Alizadeh: So the basic idea is you sample many solutions with a language model.
+
+101
+00:12:05,531 --> 00:12:07,990
+Mohammad Alizadeh: And in tasks like this, where you can score them.
+
+102
+00:12:08,891 --> 00:12:13,771
+Mohammad Alizadeh: You can then use a reinforcement learning algorithm to fine-tune the language model
+
+103
+00:12:13,891 --> 00:12:16,971
+Mohammad Alizadeh: To essentially shift the output distribution
+
+104
+00:12:17,111 --> 00:12:21,080
+Mohammad Alizadeh: Towards these stronger, better scoring solutions.
+
+105
+00:12:21,861 --> 00:12:26,010
+Mohammad Alizadeh: And let me show you, an example of this in action.
+
+106
+00:12:26,311 --> 00:12:33,591
+Mohammad Alizadeh: So, here… We started from this QUEN 2.5, 3 billion parameter model.
+
+107
+00:12:33,981 --> 00:12:38,890
+Mohammad Alizadeh: And, this is a relatively small model, so initially.
+
+108
+00:12:39,371 --> 00:12:50,851
+Mohammad Alizadeh: It's not very effective at this task. You know, most of the initial solutions actually have an error, as you can see here. So these are solutions that, you know, didn't even run properly.
+
+109
+00:12:51,261 --> 00:12:58,911
+Mohammad Alizadeh: But I'm gonna visualize what happens when you do RL fine-tuning in this model.
+
+110
+00:12:59,061 --> 00:13:01,041
+Mohammad Alizadeh: Before I start this.
+
+111
+00:13:01,251 --> 00:13:11,510
+Mohammad Alizadeh: I just want you to kind of see that there's a small mass of solutions that actually are reasonable. You know, they're about the same performance, in this case, as this least loaded queue algorithm.
+
+112
+00:13:11,911 --> 00:13:15,931
+Mohammad Alizadeh: And notice what happens when the RL process starts.
+
+113
+00:13:16,621 --> 00:13:25,180
+Mohammad Alizadeh: So the score distribution will shift, and eventually, these stronger modes will get promoted. So most of the solutions end up being
+
+114
+00:13:25,351 --> 00:13:36,331
+Mohammad Alizadeh: like these strong modes, and as you can see, this is continuing to improve gradually. Every now and then, there's sort of some kind of phase shift where another set of solutions,
+
+115
+00:13:36,341 --> 00:13:46,711
+Mohammad Alizadeh: you know, get promoted. At the end of this, it actually found solutions that, are about the same or even a little bit better than the top human-designed algorithm for this thing.
+
+116
+00:13:48,091 --> 00:13:52,571
+Mohammad Alizadeh: So, this process of RL fine-tuning
+
+117
+00:13:52,731 --> 00:13:57,590
+Mohammad Alizadeh: Was actually able to find good solutions. But if you take a step back.
+
+118
+00:13:57,761 --> 00:14:00,960
+Mohammad Alizadeh: And think about this. The…
+
+119
+00:14:01,671 --> 00:14:04,671
+Mohammad Alizadeh: Process is nothing like what a human would do.
+
+120
+00:14:04,811 --> 00:14:06,490
+Mohammad Alizadeh: You know, for such a problem.
+
+121
+00:14:06,611 --> 00:14:11,911
+Mohammad Alizadeh: So this, exploration that we just did here took 6,000 simulations.
+
+122
+00:14:13,881 --> 00:14:21,821
+Mohammad Alizadeh: Whereas, you know, a human expert working on this problem would probably find a solution in maybe tens of experiments.
+
+123
+00:14:21,921 --> 00:14:25,630
+Mohammad Alizadeh: So this is very inefficient, and…
+
+124
+00:14:25,761 --> 00:14:31,980
+Mohammad Alizadeh: The final results are also often quite brittle, which I'll kind of get into a little bit later.
+
+125
+00:14:35,311 --> 00:14:36,841
+Mohammad Alizadeh: So this motivates.
+
+126
+00:14:36,841 --> 00:14:39,871
+Daniela Rus: Actually, Mohammad, can I… can I ask you something?
+
+127
+00:14:39,921 --> 00:14:45,941
+Mohammad Alizadeh: Of course. Yeah, so with a reinforcement learning solution, you already said the solutions are brittle.
+
+128
+00:14:45,941 --> 00:15:04,411
+Daniela Rus: But, but it's, but reinforcement learning usually looks at the solution in some context, looks at the task in some context, and so if you change the context, you need a new, a new, round of training. So, how do you think about that?
+
+129
+00:15:05,121 --> 00:15:09,321
+Mohammad Alizadeh: Yeah, so, in what we did, I mean, here.
+
+130
+00:15:09,621 --> 00:15:18,161
+Mohammad Alizadeh: This was kind of… the… the tasks were very narrowly defined as to, you know, we're implementing this routing algorithm.
+
+131
+00:15:18,261 --> 00:15:31,081
+Mohammad Alizadeh: a prompt like the one that I showed. And the environments, there's some variations that you can put on there, but it's sort of your RL fine-tuning for something that is trying to solve a particular type of algorithmic problem.
+
+132
+00:15:31,551 --> 00:15:37,960
+Mohammad Alizadeh: And the… What we found is that the…
+
+133
+00:15:38,421 --> 00:15:43,391
+Mohammad Alizadeh: You know, the solutions do tend to overfit to the test scenarios.
+
+134
+00:15:43,751 --> 00:15:46,411
+Mohammad Alizadeh: The training scenarios that you used.
+
+135
+00:15:46,811 --> 00:15:58,750
+Mohammad Alizadeh: So, like, a human would inspect that solution and say, yeah, I kind of understand why it worked here, but there's some assumptions here about, like, certain parameters that are unlikely to hold in other cases.
+
+136
+00:15:59,111 --> 00:16:04,420
+Mohammad Alizadeh: And we've seen that not just with reinforcement learning.
+
+137
+00:16:04,531 --> 00:16:12,880
+Mohammad Alizadeh: We've seen that also, I'll talk about a little bit later, with some of these approaches that use, like, evolutionary-style algorithms for code mutation.
+
+138
+00:16:13,441 --> 00:16:32,621
+Mohammad Alizadeh: And, you know, the… these also, end up, oftentimes with kind of, like, solutions that don't look human-like. You know, they have, like, a lot of if-else statements, or many terms that got added at some point during the process. So what we try to do with Glia
+
+139
+00:16:32,901 --> 00:16:41,330
+Mohammad Alizadeh: Was… the kind of core thing is to ground the exploration in, in better reason.
+
+140
+00:16:41,851 --> 00:17:00,681
+Mohammad Alizadeh: From these experiments. And we found that that actually leads to solutions that tend to generalize a lot better. You know, it's kind of less likely that you will, you know, add, like, some random constraint or some random, you know, parameter into your solution. Everything that the agent tries is grounded.
+
+141
+00:17:00,861 --> 00:17:05,991
+Mohammad Alizadeh: And it has to have a very specific reason for doing it, and that we found to be quite effective.
+
+142
+00:17:09,971 --> 00:17:19,811
+Mohammad Alizadeh: So as I was just saying, Glia is designed to mimic the workflow that a systems engineer or a systems researcher would use.
+
+143
+00:17:19,951 --> 00:17:21,541
+Mohammad Alizadeh: To solve these problems.
+
+144
+00:17:21,961 --> 00:17:29,100
+Mohammad Alizadeh: So, it understands, you know, the codebase, it can read documentation, it can use the web.
+
+145
+00:17:29,291 --> 00:17:36,961
+Mohammad Alizadeh: It can run experiments and analyze the results, and it can use this iterative experimentation loop.
+
+146
+00:17:37,151 --> 00:17:43,201
+Mohammad Alizadeh: To design new systems algorithms that are tailored to particular workloads and environments.
+
+147
+00:17:45,931 --> 00:17:50,361
+Mohammad Alizadeh: So under the hood, Glia is actually a multi-agent system.
+
+148
+00:17:50,851 --> 00:17:57,181
+Mohammad Alizadeh: A supervisor agent… Provides an interface for human interaction.
+
+149
+00:17:57,381 --> 00:18:06,041
+Mohammad Alizadeh: And is also responsible for high-level project planning and giving high-level guidance to some of the other agents in the system.
+
+150
+00:18:08,821 --> 00:18:19,120
+Mohammad Alizadeh: At the core of Glia are these, playgrounds, which are often simulation environments. They could also, in theory, be testbeds, but in many cases, we use simulation environments.
+
+151
+00:18:19,471 --> 00:18:22,411
+Mohammad Alizadeh: And these are used for experimentation.
+
+152
+00:18:22,621 --> 00:18:25,741
+Mohammad Alizadeh: So these playgrounds are,
+
+153
+00:18:26,131 --> 00:18:36,060
+Mohammad Alizadeh: Our vision is that they're created by playground builders, that can calibrate them using telemetry from real infrastructure.
+
+154
+00:18:37,981 --> 00:18:48,940
+Mohammad Alizadeh: And the workhorse of the system is there are these researcher agents, which can essentially perform design space exploration, using these simulation playgrounds.
+
+155
+00:18:50,051 --> 00:19:00,800
+Mohammad Alizadeh: So researcher agents, you know, do their works inside these sandbox playgrounds, but they can also have access to external tools like search engines, or, you know, solvers, and so on.
+
+156
+00:19:04,161 --> 00:19:12,711
+Mohammad Alizadeh: So, let me give you an example of, you know, Glia in action, so you see how this works. I'm going to use the same request routing problem that I talked about.
+
+157
+00:19:13,031 --> 00:19:21,201
+Mohammad Alizadeh: So recall that a lot of existing systems will have a few off-the-shelf algorithms, like round robin or least loaded queue.
+
+158
+00:19:21,651 --> 00:19:28,340
+Mohammad Alizadeh: And these generic algorithms, We'll typically leave a lot of performance on the table.
+
+159
+00:19:28,841 --> 00:19:32,591
+Mohammad Alizadeh: So, in this example that I'm showing here.
+
+160
+00:19:32,731 --> 00:19:36,831
+Mohammad Alizadeh: there's essentially a 30 to 50x increase in
+
+161
+00:19:37,171 --> 00:19:47,331
+Mohammad Alizadeh: latency slowdown, with these schemes when the system is running at high load. So latency slowdown is the latency of each inference request.
+
+162
+00:19:47,841 --> 00:19:51,251
+Mohammad Alizadeh: Normalized to the lowest possible value
+
+163
+00:19:51,511 --> 00:19:55,551
+Mohammad Alizadeh: You know, that that request could take, so normalized to the raw execution time.
+
+164
+00:19:55,831 --> 00:19:57,810
+Mohammad Alizadeh: Of that request on the hardware.
+
+165
+00:19:57,961 --> 00:20:03,991
+Mohammad Alizadeh: So, a slowdown of 1 is optimal, and here you're seeing 30 to 50x increase in slowdown.
+
+166
+00:20:06,251 --> 00:20:15,621
+Mohammad Alizadeh: By contrast, an expert-designed algorithm that's, you know, tailored to this specific scenario Can perform much better.
+
+167
+00:20:16,011 --> 00:20:21,570
+Mohammad Alizadeh: But it takes substantial expertise to come up with these optimizations. I mean, this particular one.
+
+168
+00:20:21,681 --> 00:20:24,831
+Mohammad Alizadeh: is actually something I worked on for about 2 weeks.
+
+169
+00:20:25,031 --> 00:20:38,441
+Mohammad Alizadeh: It took me about 100 simulations. I'll show you what the ideas behind this are in a moment. But this is beyond the reach of most current organizations to sort of come up with ideas like this and validate them.
+
+170
+00:20:40,091 --> 00:20:44,970
+Mohammad Alizadeh: So Glia, actually discovers and,
+
+171
+00:20:45,191 --> 00:20:51,401
+Mohammad Alizadeh: you know, verifies the same idea in simulation in about 2 hours of work.
+
+172
+00:20:51,781 --> 00:21:08,761
+Mohammad Alizadeh: And you can look at this as better performance. You can also look at it as, like, shipping, you know, these sort of AI applications much more cost-effectively. So, for example, this one optimization essentially lets you serve 22% more tokens
+
+173
+00:21:09,341 --> 00:21:14,281
+Mohammad Alizadeh: While meeting the same latency SLAs as the off-the-shelf system.
+
+174
+00:21:16,271 --> 00:21:23,321
+Mohammad Alizadeh: So, let me show you… how this works behind the scenes, so I'm going to switch over…
+
+175
+00:21:24,451 --> 00:21:35,150
+Mohammad Alizadeh: So this is just the front-end UI, you know, that we have for this agent. I'm just gonna start this. And you can see, this is very similar to the prompt that I showed before.
+
+176
+00:21:35,151 --> 00:21:44,881
+Mohammad Alizadeh: We're asking the system to design a request scheduler for distributed LLM surveying, use the simulator in the current working directory to evaluate your ideas.
+
+177
+00:21:46,301 --> 00:21:57,070
+Mohammad Alizadeh: there's a brief overview of the system, you know, we have some number of replicas that can process requests, and the life of a request is as follows. We don't have to say too much, because,
+
+178
+00:21:57,191 --> 00:22:03,451
+Mohammad Alizadeh: The agent will actually Understand how things work by reading the simulation codebase.
+
+179
+00:22:04,321 --> 00:22:15,290
+Mohammad Alizadeh: The primary performance metric and objective, you know, here we're optimizing this global scheduler, which is that request router, and the primary metric is average response time of requests.
+
+180
+00:22:15,491 --> 00:22:20,661
+Mohammad Alizadeh: There's an evaluation benchmark for it to test its ideas, and it's gonna, you know, implement its ideas here.
+
+181
+00:22:21,921 --> 00:22:30,360
+Mohammad Alizadeh: So, as it starts, it sort of starts by, as I said, like, reading the simulation codebase. You can see it's kind of looking through the different folders.
+
+182
+00:22:31,101 --> 00:22:47,761
+Mohammad Alizadeh: And then it starts reading, like, what is this, you know, global scheduler class that I need to go write? What are the baselines, like, round robin, and LLQ, and so on. So… and eventually it's going to start proposing its own solutions to this problem and trying them.
+
+183
+00:22:48,431 --> 00:22:52,341
+Mohammad Alizadeh: This entire process takes about 2 hours.
+
+184
+00:22:52,951 --> 00:22:54,830
+Mohammad Alizadeh: as I mentioned for this task.
+
+185
+00:22:55,141 --> 00:23:00,891
+Mohammad Alizadeh: So, I'm going to actually switch over here and just show you an example trajectory.
+
+186
+00:23:01,801 --> 00:23:09,660
+Mohammad Alizadeh: So, when the system starts, it reads the simulation codebase and runs a bunch of these baselines.
+
+187
+00:23:09,911 --> 00:23:28,530
+Mohammad Alizadeh: To understand how things work. So here, it's testing out the least loaded queue, baseline. It then writes some Python code to process the results, and you can see, you know, mean request end-to-end time is 40 seconds. So that's that horizontal line up there. That's what we're trying to improve by minimizing latency.
+
+188
+00:23:29,541 --> 00:23:36,111
+Mohammad Alizadeh: It runs a second baseline, and eventually it's gonna give us its first attempt at the problem.
+
+189
+00:23:36,551 --> 00:23:48,990
+Mohammad Alizadeh: So, you can see it deletes this placeholder, you know, class for this scheduler that we had, and it implements a new algorithm with a lot of comments about what the idea behind this algorithm is.
+
+190
+00:23:49,091 --> 00:23:58,380
+Mohammad Alizadeh: So, for example, this first one is a simple, you know, algorithm that starts looking at the amount of free memory on the GPUs as an extra signal.
+
+191
+00:23:58,521 --> 00:24:00,360
+Mohammad Alizadeh: To the load balancing decision.
+
+192
+00:24:01,131 --> 00:24:07,331
+Mohammad Alizadeh: So, it goes out and implements that, then runs the simulation, analyzes the results. So that's trial number one.
+
+193
+00:24:07,581 --> 00:24:10,411
+Mohammad Alizadeh: And it's about the same performance as the baseline.
+
+194
+00:24:11,631 --> 00:24:16,260
+Mohammad Alizadeh: And so then the search begins, in this initial phase,
+
+195
+00:24:16,591 --> 00:24:23,110
+Mohammad Alizadeh: It goes through and implements many of the common techniques in the systems literature for this type of problem.
+
+196
+00:24:23,281 --> 00:24:28,150
+Mohammad Alizadeh: So, for example, the second attempt is essentially changing the scheduling order
+
+197
+00:24:28,301 --> 00:24:33,211
+Mohammad Alizadeh: So instead of a first-come, first-served schedule, it prioritizes the shorter
+
+198
+00:24:33,691 --> 00:24:41,250
+Mohammad Alizadeh: You know, the shorter requests, the request with the shorter prompts first, which is kind of a typical trick for improving latency.
+
+199
+00:24:41,601 --> 00:24:48,030
+Mohammad Alizadeh: Implements this, and it turns out it didn't actually work, at least in this first attempt.
+
+200
+00:24:49,001 --> 00:25:01,330
+Mohammad Alizadeh: So on that fast forward, you know, every time you see a patch and, like, in a, you know, a trial up there, these are, again, in its initial phase, a lot of the standard ideas that you might consider for this type of problem.
+
+201
+00:25:01,461 --> 00:25:07,690
+Mohammad Alizadeh: But, as you see on top, none of these actually are really improving upon this 40-second baseline.
+
+202
+00:25:07,911 --> 00:25:14,941
+Mohammad Alizadeh: It turns out this is actually a pretty hard problem, and you need to go beyond these existing ideas.
+
+203
+00:25:15,061 --> 00:25:20,480
+Mohammad Alizadeh: So let me show you how it ends up actually arriving at such a thing. So,
+
+204
+00:25:20,761 --> 00:25:24,951
+Mohammad Alizadeh: You can see we're about 100 actions in, 105 actions in.
+
+205
+00:25:25,101 --> 00:25:30,111
+Mohammad Alizadeh: And this research agent says, I've carefully explored multiple design directions.
+
+206
+00:25:30,271 --> 00:25:35,130
+Mohammad Alizadeh: Memory wear load balancing, prompt length bucketing, shortest prompt first, admission control.
+
+207
+00:25:35,581 --> 00:25:40,290
+Mohammad Alizadeh: Instrumented with the simulator, none of them achieve a consistent improvement over the baseline.
+
+208
+00:25:40,721 --> 00:25:53,231
+Mohammad Alizadeh: So, you know, we didn't, like, prompt it to try these ideas. Again, these LLMs have, like, read more papers than any of us, so these are some of the typical things that you would see in the literature.
+
+209
+00:25:53,461 --> 00:25:56,031
+Mohammad Alizadeh: But here's where it gets interesting.
+
+210
+00:25:56,581 --> 00:26:05,471
+Mohammad Alizadeh: It says, rather than continuing to iterate blindly, I'm going to step back, profile the baseline more rigorously, and derive a model of where time is actually spent.
+
+211
+00:26:05,721 --> 00:26:10,891
+Mohammad Alizadeh: Is it queuing? Is it execution? Is it preemptions? Is it GPU memory pressure?
+
+212
+00:26:11,101 --> 00:26:14,570
+Mohammad Alizadeh: Once that's done, we can target the dominant contributor directly.
+
+213
+00:26:14,731 --> 00:26:28,731
+Mohammad Alizadeh: So this is sort of a very common thing that you would do as a systems, you know, researcher. It's like, measure one level deeper, to see what the, you know, what the actual behavior of the system is, what the potential bottlenecks are.
+
+214
+00:26:28,931 --> 00:26:34,831
+Mohammad Alizadeh: And… That's what it's gonna do here. So, you see it…
+
+215
+00:26:35,011 --> 00:26:49,301
+Mohammad Alizadeh: baseline LLQ run analyze. Here are the headline numbers. Again, the primary performance metric we care about is average end-to-end latency, which is 40 seconds. But you see, it measures a whole bunch of other things, like what is the scheduling delay?
+
+216
+00:26:49,631 --> 00:26:55,810
+Mohammad Alizadeh: what is this thing called restarts? Which is a problem that happens in these systems when
+
+217
+00:26:56,041 --> 00:27:03,250
+Mohammad Alizadeh: GPUs run out of memory, and then the inference engine will have to evict some requests and try them again later.
+
+218
+00:27:04,301 --> 00:27:10,341
+Mohammad Alizadeh: So you see, we noticed that, like, restarts are very high. 26% of requests were affected by restarts.
+
+219
+00:27:10,621 --> 00:27:12,971
+Mohammad Alizadeh: Memory utilization was very high.
+
+220
+00:27:13,231 --> 00:27:21,741
+Mohammad Alizadeh: And from these observations, for the first time, actually, it hints at this idea of maintaining headroom
+
+221
+00:27:21,941 --> 00:27:25,180
+Mohammad Alizadeh: To curb preemptions and restarts.
+
+222
+00:27:26,761 --> 00:27:42,861
+Mohammad Alizadeh: Which ends up being a very key idea, and something that, you know, when I was working on the same problem, after, you know, some amount of time, at least after a few days, I kind of realized that the problem here, there is no load balancing signal that's going to
+
+223
+00:27:42,951 --> 00:27:48,960
+Mohammad Alizadeh: Really improve performance. There are periods where we're overwhelming, you know, GPU memory
+
+224
+00:27:49,491 --> 00:27:52,961
+Mohammad Alizadeh: Almost completely in the cluster, and we need,
+
+225
+00:27:53,161 --> 00:28:04,921
+Mohammad Alizadeh: a different mechanism, which is, essentially, you do congestion control. You know, you stop scheduling and you throttle your rate of requests to match what the system can actually handle.
+
+226
+00:28:05,091 --> 00:28:12,781
+Mohammad Alizadeh: And… That idea is going to emerge… A little bit later,
+
+227
+00:28:12,911 --> 00:28:17,880
+Mohammad Alizadeh: From this interesting interaction between this, like, two agents, this researcher and supervisor.
+
+228
+00:28:18,281 --> 00:28:20,201
+Mohammad Alizadeh: So, you see here.
+
+229
+00:28:20,841 --> 00:28:27,000
+Mohammad Alizadeh: the researcher comes back and says, I implemented a bunch of other things. The best of them is 3% better than least loaded queue.
+
+230
+00:28:28,471 --> 00:28:36,930
+Mohammad Alizadeh: And at this point, the supervisor agent, intervenes and asks this interesting question. You know, it seems we've been unable to reduce the number of restarts
+
+231
+00:28:37,231 --> 00:28:40,860
+Mohammad Alizadeh: Why is that? Is there something structurally wrong about our approach?
+
+232
+00:28:41,081 --> 00:28:44,110
+Mohammad Alizadeh: That is making it difficult to limit the number of restarts.
+
+233
+00:28:44,811 --> 00:28:50,900
+Mohammad Alizadeh: And this is, again, the kind of question that we might ask our PhD students working on a research project.
+
+234
+00:28:51,311 --> 00:28:57,700
+Mohammad Alizadeh: And it leads to this, like, interesting chain of thought about why these restarts persist.
+
+235
+00:28:57,831 --> 00:29:00,130
+Mohammad Alizadeh: And what could actually cut them?
+
+236
+00:29:00,291 --> 00:29:05,351
+Mohammad Alizadeh: And again, you see the first proposal is this idea of reserving headroom in the system.
+
+237
+00:29:06,051 --> 00:29:12,731
+Mohammad Alizadeh: So, for example, for each replica, the GPU utilization was… Kept under 4… 80%.
+
+238
+00:29:12,921 --> 00:29:16,690
+Mohammad Alizadeh: This should eliminate restarts at the cost of some increased queuing.
+
+239
+00:29:17,101 --> 00:29:19,010
+Mohammad Alizadeh: And, and so,
+
+240
+00:29:19,681 --> 00:29:27,690
+Mohammad Alizadeh: what I want to emphasize here is this really, like, human-like systems reasoning that is behind why the agent is trying the things that it's trying.
+
+241
+00:29:27,921 --> 00:29:33,641
+Mohammad Alizadeh: And that is key, that's the thing that leads eventually to this breakthrough.
+
+242
+00:29:34,071 --> 00:29:38,761
+Mohammad Alizadeh: Which is an algorithm that Glia calls Headroom Admission Global Scheduler.
+
+243
+00:29:38,911 --> 00:29:49,461
+Mohammad Alizadeh: you know, I won't go through all the details of this, but it's essentially the same idea that when I was working on this problem, after a while, I found. Actually, Leah's implementation is a little bit cleaner than the one that I did.
+
+244
+00:29:49,571 --> 00:29:57,090
+Mohammad Alizadeh: But it, replaces kind of a load balancer with, you know, something that,
+
+245
+00:29:57,371 --> 00:30:01,581
+Mohammad Alizadeh: We'll actually rate limit requests based on memory pressure in the system.
+
+246
+00:30:03,051 --> 00:30:09,430
+Mohammad Alizadeh: And you can see it tries this idea, and the very first time that it tries it, actually…
+
+247
+00:30:09,841 --> 00:30:13,861
+Mohammad Alizadeh: The performance metric of interest latency, goes up.
+
+248
+00:30:14,261 --> 00:30:17,700
+Mohammad Alizadeh: So, we were at 40 seconds, now we're at 50 seconds.
+
+249
+00:30:18,001 --> 00:30:35,291
+Mohammad Alizadeh: So, like, any kind of black box optimizer might give up, or think that, oh, we made a mistake here. But again, this is very reasoning-driven, like, process, so it actually started measuring restarts in the system, and it sees that that actually plummeted. So that went from, like, 3,000 to 7.
+
+250
+00:30:35,891 --> 00:30:42,870
+Mohammad Alizadeh: And it knows that this means that it's made some progress, so it now starts doing some parameter tuning.
+
+251
+00:30:43,131 --> 00:30:47,860
+Mohammad Alizadeh: And refinement of this algorithm, and finally, that's actually when we have a breakthrough.
+
+252
+00:30:47,981 --> 00:30:51,971
+Mohammad Alizadeh: And for the first time, we're below 40 seconds in terms of latency.
+
+253
+00:30:53,211 --> 00:30:59,130
+Mohammad Alizadeh: And now it's found the right idea, so it kind of continues tuning this, and things get even better.
+
+254
+00:30:59,451 --> 00:31:06,651
+Mohammad Alizadeh: And then finally, it composes this idea with this idea that I tried at the very beginning for prioritizing shorter prompts.
+
+255
+00:31:06,931 --> 00:31:13,370
+Mohammad Alizadeh: And that gets us all the way down to, 23 seconds average end-to-end latency.
+
+256
+00:31:13,741 --> 00:31:20,121
+Mohammad Alizadeh: Which is really about the same performance that, you know, I was able to achieve after 2 weeks… 2 weeks of work on this problem.
+
+257
+00:31:24,321 --> 00:31:27,591
+Mohammad Alizadeh: So let me get back to these… slides.
+
+258
+00:31:28,271 --> 00:31:31,531
+Mohammad Alizadeh: So…
+
+259
+00:31:33,171 --> 00:31:40,450
+Mohammad Alizadeh: This is the final algorithm that Glia discovered, and you can see, you know, it's like 30 lines of Python code.
+
+260
+00:31:40,651 --> 00:31:48,641
+Mohammad Alizadeh: This is something that, you know, an engineer can review and understand exactly what it does and why it works.
+
+261
+00:31:48,981 --> 00:31:59,580
+Mohammad Alizadeh: And again, there are two insights, specific insights in this. One is this idea of prioritizing smaller requests, and one is this admission control approach to,
+
+262
+00:31:59,921 --> 00:32:04,270
+Mohammad Alizadeh: limit, memory exhaustion in the system.
+
+263
+00:32:04,701 --> 00:32:11,441
+Mohammad Alizadeh: And… This algorithm, actually, even though it was discovered in simulation.
+
+264
+00:32:11,971 --> 00:32:17,901
+Mohammad Alizadeh: It translates very well to real hardware, so this is just a side-by-side experiment of
+
+265
+00:32:18,031 --> 00:32:21,041
+Mohammad Alizadeh: The same scenario in simulation versus the cloud.
+
+266
+00:32:21,191 --> 00:32:23,141
+Mohammad Alizadeh: And what you're seeing is the…
+
+267
+00:32:23,561 --> 00:32:27,501
+Mohammad Alizadeh: Performance of this, the latency of these requests, or slowdown.
+
+268
+00:32:27,711 --> 00:32:36,050
+Mohammad Alizadeh: At different levels of load, and you can see the trends all hold really well, from simulation. And again, this is something that
+
+269
+00:32:36,411 --> 00:32:44,531
+Mohammad Alizadeh: Is quite interesting, because a lot of these previous approaches that we worked on, like deep reinforcement learning approaches.
+
+270
+00:32:44,811 --> 00:32:45,821
+Mohammad Alizadeh: when there's…
+
+271
+00:32:46,151 --> 00:32:59,000
+Mohammad Alizadeh: any kind of discrepancy between the simulation environment that you're using for training and the actual deployment scenario, typically they will fail, quite poorly, with DeepRL. But
+
+272
+00:32:59,331 --> 00:33:10,090
+Mohammad Alizadeh: But in this approach, because there's such a strong prior about the space of solutions that this agent will actually produce, it tends not to overfit.
+
+273
+00:33:10,421 --> 00:33:13,951
+Mohammad Alizadeh: to the particular training environments.
+
+274
+00:33:16,931 --> 00:33:18,851
+Mohammad Alizadeh: The other thing that's interesting is that
+
+275
+00:33:19,121 --> 00:33:33,921
+Mohammad Alizadeh: you know, once you have these playgrounds and AI that can do things like this, you can throw them at many kinds of optimizations. So what you saw is this optimization of this request routing algorithm that I've been talking about.
+
+276
+00:33:34,301 --> 00:33:40,070
+Mohammad Alizadeh: But then we asked Glia to, turn to another subcomponent, which is this batch scheduler.
+
+277
+00:33:40,291 --> 00:33:49,430
+Mohammad Alizadeh: Inside these inference engines, and it again found, an interesting algorithm that reduces latency all the way down to 17 seconds.
+
+278
+00:33:49,781 --> 00:34:00,801
+Mohammad Alizadeh: We then ask it to go after the autoscaler, and it comes up with this workload, kind of specific workload-aware autoscaling algorithm that gives us another boost in efficiency.
+
+279
+00:34:01,001 --> 00:34:04,340
+Mohammad Alizadeh: So the end result in this example was that
+
+280
+00:34:04,551 --> 00:34:07,840
+Mohammad Alizadeh: the stack that was optimized using Glia
+
+281
+00:34:08,131 --> 00:34:12,010
+Mohammad Alizadeh: is about 40% more efficient in GPU compute hours
+
+282
+00:34:12,531 --> 00:34:15,791
+Mohammad Alizadeh: To deliver the same latency as an off-the-shelf system.
+
+283
+00:34:20,361 --> 00:34:26,051
+Mohammad Alizadeh: So we also compared Glia to,
+
+284
+00:34:26,281 --> 00:34:31,441
+Mohammad Alizadeh: A number of other recent approaches for using language models,
+
+285
+00:34:31,741 --> 00:34:40,591
+Mohammad Alizadeh: to design algorithms. You know, many of these are evolutionary approaches. So, for example, Open Evolve is a system
+
+286
+00:34:40,921 --> 00:34:43,831
+Mohammad Alizadeh: An open-source system based on the,
+
+287
+00:34:44,061 --> 00:34:50,121
+Mohammad Alizadeh: the Alpha Evolve paper out of Google that essentially uses language models
+
+288
+00:34:50,311 --> 00:34:59,671
+Mohammad Alizadeh: To sample solutions, score them, and then there's this evolutionary algorithm for essentially hill climbing the score function.
+
+289
+00:35:00,221 --> 00:35:17,041
+Mohammad Alizadeh: So the kind of main difference between systems like that and Glia is, again, this, very grounded exploration process that is using learnings from previous experiments to pick the next solution.
+
+290
+00:35:17,231 --> 00:35:20,011
+Mohammad Alizadeh: As opposed to kind of a more black box,
+
+291
+00:35:20,211 --> 00:35:22,980
+Mohammad Alizadeh: Evolutionary method for code mutation.
+
+292
+00:35:23,451 --> 00:35:26,831
+Mohammad Alizadeh: And you can see in this result that,
+
+293
+00:35:26,971 --> 00:35:37,051
+Mohammad Alizadeh: Glia is more effective, so there's a few different variants of glia here. Scg is essentially single context glia.
+
+294
+00:35:37,211 --> 00:35:41,861
+Mohammad Alizadeh: So that's just, like, one thread of exploration, just like what you saw in the demo.
+
+295
+00:35:42,101 --> 00:35:47,341
+Mohammad Alizadeh: And you can see that this single thread is already, about…
+
+296
+00:35:47,721 --> 00:35:51,500
+Mohammad Alizadeh: The same, or maybe even a little bit better than some of these evolutionary approaches.
+
+297
+00:35:51,641 --> 00:36:04,811
+Mohammad Alizadeh: But if you take this and you just run it multiple times, and you do, like, a best-of-end strategy, then very consistently and reliably, you end up with stronger solutions than these evolutionary-style algorithms.
+
+298
+00:36:05,021 --> 00:36:07,130
+Mohammad Alizadeh: And you can take a…
+
+299
+00:36:07,741 --> 00:36:10,570
+Mohammad Alizadeh: you know, a closer look at that. So…
+
+300
+00:36:10,841 --> 00:36:14,750
+Mohammad Alizadeh: This is the trajectory of, performance.
+
+301
+00:36:15,061 --> 00:36:20,070
+Mohammad Alizadeh: Versus the number of experiments that the system ran. And…
+
+302
+00:36:20,591 --> 00:36:24,380
+Mohammad Alizadeh: You know, so what you want is, of course, in as few experiments as possible, you want to…
+
+303
+00:36:24,541 --> 00:36:40,790
+Mohammad Alizadeh: you know, reduce this latency all the way down to this expert level. And if you look at, you know, the Glia curves here, like, for example, this magenta, you can see in after about 40 experiments, it's already pretty much at the expert level performance.
+
+304
+00:36:40,971 --> 00:36:47,171
+Mohammad Alizadeh: Whereas, these evolutionary approaches are, still far from that, even after 100 experiments.
+
+305
+00:36:51,691 --> 00:37:06,431
+Mohammad Alizadeh: We've also tried this on other problems, and other workloads. So here's a, you know, different example where, it's a very different workload that's very, pre-fill heavy.
+
+306
+00:37:06,571 --> 00:37:10,840
+Mohammad Alizadeh: So, what that means is the prompts are now big, and the responses are short.
+
+307
+00:37:11,221 --> 00:37:16,231
+Mohammad Alizadeh: More like a chatbot sort of application. And,
+
+308
+00:37:16,381 --> 00:37:25,520
+Mohammad Alizadeh: In this case, again, Glia finds a new custom algorithm. It's a very different idea than the algorithm that I showed in my demo.
+
+309
+00:37:25,781 --> 00:37:33,041
+Mohammad Alizadeh: And, again, we've tested this on hardware, and then this, gives us a pretty significant improvement in
+
+310
+00:37:33,081 --> 00:37:48,170
+Mohammad Alizadeh: You know, real deployments with H100 GPUs and the NVIDIA Dynamo system, so something like 5x latency improvements and about 15% throughput improvements, compared to, again, an off-the-shelf system for this different workload.
+
+311
+00:37:51,281 --> 00:38:00,991
+Mohammad Alizadeh: So, before I conclude, like, I just want to sort of summarize. I think there's, like, two key enablers, and two requirements for a system like this.
+
+312
+00:38:01,631 --> 00:38:05,841
+Mohammad Alizadeh: One is… The ability to…
+
+313
+00:38:06,011 --> 00:38:15,721
+Mohammad Alizadeh: create these, simulation playgrounds for evaluating AI proposals. And this is actually an interesting challenge in itself, you know, building simulators
+
+314
+00:38:15,891 --> 00:38:21,101
+Mohammad Alizadeh: for these complex systems is difficult. You know, traditionally, simulators
+
+315
+00:38:21,521 --> 00:38:35,950
+Mohammad Alizadeh: have to capture all these low-level details accurately, and then you hope from something that captures all the low-level details, you are able to create a model of the full system, which tends to be very difficult in systems like the one that I'm describing.
+
+316
+00:38:36,991 --> 00:38:43,300
+Mohammad Alizadeh: So, I don't have enough time to go through this in detail, but our approach to simulation is actually quite different.
+
+317
+00:38:43,661 --> 00:38:52,341
+Mohammad Alizadeh: We've developed a number of methods that you can start from this, coarser grain system model.
+
+318
+00:38:52,641 --> 00:38:56,900
+Mohammad Alizadeh: Essentially modeling distributed systems as just networks of queues.
+
+319
+00:38:57,451 --> 00:39:01,341
+Mohammad Alizadeh: And then you use trace data to…
+
+320
+00:39:01,871 --> 00:39:05,080
+Mohammad Alizadeh: Improve the fidelity of these coarse-grained models.
+
+321
+00:39:05,211 --> 00:39:14,051
+Mohammad Alizadeh: So it's like an ML-enabled simulation environment. And, if you're interested, there's a number of papers about this in the last few years, so you can look at those.
+
+322
+00:39:15,821 --> 00:39:24,131
+Mohammad Alizadeh: And the second is, how to build this agentic framework that guides AI exploration.
+
+323
+00:39:24,721 --> 00:39:31,440
+Mohammad Alizadeh: So, as I've been describing, these are difficult tasks. You know, we can't just, like, prompt an LLM and expect it to produce
+
+324
+00:39:31,691 --> 00:39:40,970
+Mohammad Alizadeh: Useful system optimizations, and… The approach we're taking is this white box approach rooted in systems reasoning.
+
+325
+00:39:41,331 --> 00:39:46,580
+Mohammad Alizadeh: Rather than trying to sample solutions blindly with language models.
+
+326
+00:39:46,771 --> 00:39:53,031
+Mohammad Alizadeh: So we designed our, you know, agent scaffolding essentially to try to teach the AI
+
+327
+00:39:53,271 --> 00:40:08,640
+Mohammad Alizadeh: the workflow that we would take to tackle such problems, you know, including what are the right questions to ask at different points in time, how do you design experiments, and as part of that evaluation environment, what are some of the guardrails that we need to
+
+328
+00:40:12,721 --> 00:40:15,671
+Mohammad Alizadeh: So…
+
+329
+00:40:16,041 --> 00:40:26,941
+Mohammad Alizadeh: you know, this is, a very kind of nascent, you know, area. It's early days in this. There's a lot of, research to be done. I've listed just a few of the things that
+
+330
+00:40:27,091 --> 00:40:31,890
+Mohammad Alizadeh: We're actively thinking about, You know, this question of…
+
+331
+00:40:32,031 --> 00:40:41,520
+Mohammad Alizadeh: how do you build playgrounds for AI for such problems is quite interesting. As I mentioned, our vision is that eventually AI should be able to build these systems, playgrounds.
+
+332
+00:40:42,121 --> 00:40:45,951
+Mohammad Alizadeh: Using real telemetry and real data from production systems.
+
+333
+00:40:46,331 --> 00:40:52,430
+Mohammad Alizadeh: And… It's also interesting to think about, like, what are some of the principles for verifying
+
+334
+00:40:52,801 --> 00:40:58,461
+Mohammad Alizadeh: AI-generated solutions, we found in our work that,
+
+335
+00:40:58,931 --> 00:41:03,671
+Mohammad Alizadeh: If, these playgrounds are designed too narrowly, for example.
+
+336
+00:41:04,461 --> 00:41:08,730
+Mohammad Alizadeh: the AI can come up with all kinds of creative ways to cheat.
+
+337
+00:41:09,661 --> 00:41:22,981
+Mohammad Alizadeh: and come up with solutions that look like they perform well, but in reality, they're not going to work. So, for example, you know, caching and memorizing, you know, the input examples, for instance.
+
+338
+00:41:23,381 --> 00:41:33,011
+Mohammad Alizadeh: And so there's a lot more work to be done in combating those and kind of systematically verifying solutions.
+
+339
+00:41:33,591 --> 00:41:37,070
+Mohammad Alizadeh: Eventually, we're going toward these automated systems that
+
+340
+00:41:37,441 --> 00:41:46,081
+Mohammad Alizadeh: are gonna have AI essentially self-evolve, you know, the system based on conditions, and of course, you have to think about robustness and safety.
+
+341
+00:41:46,471 --> 00:41:57,401
+Mohammad Alizadeh: This has been a question for all of these AI-driven systems, you know, work, but, with language models and agents, the, the challenges are kind of…
+
+342
+00:41:58,031 --> 00:42:12,191
+Mohammad Alizadeh: quite different, in my opinion. I mean, we don't have the same kind of overfitting type problems that we tend to see with deep reinforcement learning and those approaches, but we still need,
+
+343
+00:42:12,521 --> 00:42:19,770
+Mohammad Alizadeh: You know, some kind of safeguards and fail-safes for unexpected conditions, like if there's significant workload shifts or there are failures.
+
+344
+00:42:20,891 --> 00:42:26,100
+Mohammad Alizadeh: Human-ai collaboration is a really interesting topic in this area.
+
+345
+00:42:26,211 --> 00:42:41,141
+Mohammad Alizadeh: So one of the strengths of this is really that it's a very explainable approach, and as I've seen, you can inspect what the agent is doing and see if you think it's reasonable, but we really need much better tools to enable human-AI collaboration in these problems, and…
+
+346
+00:42:41,321 --> 00:42:50,430
+Mohammad Alizadeh: You know, by contrast of some of the things that are out there, like coding agents, for example, one of the challenges here is that
+
+347
+00:42:50,551 --> 00:42:56,460
+Mohammad Alizadeh: This process of design exploration is, like, inherently a very,
+
+348
+00:42:56,631 --> 00:43:00,911
+Mohammad Alizadeh: parallel, concurrent process. You might be exploring many ideas at the same time.
+
+349
+00:43:01,221 --> 00:43:02,921
+Mohammad Alizadeh: And how do you even…
+
+350
+00:43:03,971 --> 00:43:17,320
+Mohammad Alizadeh: Visualize that, or kind of give information to a human collaborator so they can have, actually, oversight and guide this complicated, you know, concurrent exploration is very interesting.
+
+351
+00:43:18,701 --> 00:43:26,090
+Mohammad Alizadeh: And then finally, you know, the ultimate, like, North Star here, the vision, is to create, you know, AI systems generalists
+
+352
+00:43:26,231 --> 00:43:30,431
+Mohammad Alizadeh: That, like, top experts can really learn about any system.
+
+353
+00:43:30,911 --> 00:43:39,601
+Mohammad Alizadeh: And start coming up with good insights and ideas about him. And we're not fully there. I mean, the… what… the system that I showed…
+
+354
+00:43:39,761 --> 00:43:54,760
+Mohammad Alizadeh: as I said, we don't prompt it to solve a very specific problem, but it is designed for a class of problems. Like, we're doing resource management-type problems in distributed systems. Whereas, again, a top human expert will be able to,
+
+355
+00:43:54,761 --> 00:44:02,131
+Mohammad Alizadeh: Work across many kinds of different, like, systems and, designing these architectures so that
+
+356
+00:44:02,311 --> 00:44:05,431
+Mohammad Alizadeh: And AI can learn on the go is very interesting.
+
+357
+00:44:07,871 --> 00:44:11,581
+Mohammad Alizadeh: So let me wrap up there,
+
+358
+00:44:12,251 --> 00:44:14,811
+Mohammad Alizadeh: I think it's really time to use AI.
+
+359
+00:44:15,301 --> 00:44:20,320
+Mohammad Alizadeh: to, build AI systems, and AI infrastructure.
+
+360
+00:44:20,431 --> 00:44:24,341
+Mohammad Alizadeh: And, you know, by way of analogy,
+
+361
+00:44:24,641 --> 00:44:30,431
+Mohammad Alizadeh: If you think about hardware design in the 80s, it was really propelled forward by
+
+362
+00:44:31,021 --> 00:44:38,680
+Mohammad Alizadeh: you know, the CAD industry and tools like Magic and Spice that became really fundamental to how we think about hardware design.
+
+363
+00:44:39,191 --> 00:44:46,060
+Mohammad Alizadeh: And I think that we're now at the point where software system design tools with AI, like Glia.
+
+364
+00:44:46,211 --> 00:44:51,431
+Mohammad Alizadeh: could… usher an era of exponential improvements for AI systems.
+
+365
+00:44:52,601 --> 00:44:56,771
+Mohammad Alizadeh: So, I will stop there, and… Thanks, everybody, for your attention.
+
+366
+00:44:57,281 --> 00:45:00,721
+Daniela Rus: Thank you very much. So, I'm excited, we have
+
+367
+00:45:00,791 --> 00:45:07,551
+Daniela Rus: Time for some questions and discussion. And, please stick around at the end of the talk.
+
+368
+00:45:07,551 --> 00:45:23,521
+Daniela Rus: Get ready to unmute so we can give Mohammad a coordinated round of applause. We've been trying to do this at every CSAIL forum, and I look forward to getting it right. Perhaps today's the day. Okay, so we have some questions in the chat.
+
+369
+00:45:23,521 --> 00:45:45,841
+Daniela Rus: And then I also have some questions, Mohammad. So, let me start with a chat. Karen Sollins asks, if I'm understanding this correctly, it seems that Glia is finding and optimizing against a single factor. Does that lead to the possibility of a local optimum? If so, is it possible or feasible to do a multi-factor optimization?
+
+370
+00:45:46,681 --> 00:46:04,451
+Mohammad Alizadeh: Yeah, that's a very good question. So, the… the example I showed is, absolutely, you know, we were… we had a single, objective minimized latency. But the system, is not limited to that. You know, you can…
+
+371
+00:46:04,711 --> 00:46:16,661
+Mohammad Alizadeh: do constrained optimization, you can do multi-criteria. We've done things like that. So, for example, we've done, for this language model serving systems, a very typical optimization problem is
+
+372
+00:46:16,861 --> 00:46:28,411
+Mohammad Alizadeh: you have a constraint on the latency, and then you're trying to maximize throughput, or minimize cost. And, we found that you can just describe that in natural language.
+
+373
+00:46:28,711 --> 00:46:34,251
+Mohammad Alizadeh: And the models reason well enough about that that they know what to measure and how to think about it.
+
+374
+00:46:35,621 --> 00:46:36,451
+Daniela Rus: Okay.
+
+375
+00:46:36,641 --> 00:46:53,260
+Daniela Rus: Okay, Tushar Krishna says, great talk, Mohammad. You brought up simulation fidelity of the underlying system as Glia is searching through its optimizations. I am curious if you ran into scenarios where Glia found solutions
+
+376
+00:46:53,261 --> 00:47:01,791
+Daniela Rus: That worked well in the simulator, but did not work well in an actual deployment, due to the simulation model not being very accurate.
+
+377
+00:47:02,421 --> 00:47:07,441
+Mohammad Alizadeh: Yeah, very good question, Tushar. So, we've…
+
+378
+00:47:08,031 --> 00:47:16,330
+Mohammad Alizadeh: So, this will become a little bit technical, but I'm sure you know this. So, when we look at, like, pre-filled decode disaggregation.
+
+379
+00:47:16,621 --> 00:47:23,421
+Mohammad Alizadeh: Which essentially starts to introduce a lot more network communication. We found that,
+
+380
+00:47:23,891 --> 00:47:43,331
+Mohammad Alizadeh: there could be discrepancies between simulation and the real system. And that can lead to what you said, results that, like, you know, look good in simulation, but don't actually perform well in the real system. It's very interesting that, you know, when we found things like that.
+
+381
+00:47:43,521 --> 00:47:53,300
+Mohammad Alizadeh: We actually think there is a way of, again, calibrating our approach for simulation to those problems, but
+
+382
+00:47:53,901 --> 00:48:02,151
+Mohammad Alizadeh: In a lot of those examples, we've actually found them to be bugs, essentially, performance bugs in the real system, that,
+
+383
+00:48:02,301 --> 00:48:17,720
+Mohammad Alizadeh: you know, once you realize that, like, why that discrepancy exists, it's not clear that you really want your simulator to start modeling those issues. So, we've been kind of looking at, potentially using that… some of, like, extreme discrepancies as…
+
+384
+00:48:17,781 --> 00:48:26,310
+Mohammad Alizadeh: as a bug-finding, you know, tool as well. But, in general, I mean, we have seen examples of what you said.
+
+385
+00:48:26,521 --> 00:48:28,220
+Mohammad Alizadeh: Where, especially…
+
+386
+00:48:28,371 --> 00:48:37,161
+Mohammad Alizadeh: And, you know, I'm a networking guy, so this embarrasses me, but, like, a lot of the unexpected performance things tend to be because of network communication.
+
+387
+00:48:39,231 --> 00:48:45,221
+Daniela Rus: So, you know, I mean, speaking of simulation, I… I just wonder…
+
+388
+00:48:45,411 --> 00:48:57,810
+Daniela Rus: Mohammad, what do you think about, using simulators philosophically? So, most, AI models do not understand
+
+389
+00:48:57,811 --> 00:49:12,691
+Daniela Rus: the tasks nor physical constraints. Is simulation the right way to connect the, the foundational knowledge that's mostly symbolic, into some physical reality?
+
+390
+00:49:13,021 --> 00:49:28,890
+Daniela Rus: And is this something… is this something that, that works in, in… in networking? Should we consider using this approach in other areas? For instance, we've used this successfully in robotics.
+
+391
+00:49:30,401 --> 00:49:38,641
+Mohammad Alizadeh: Yeah, so, you know, simulation, simulation is…
+
+392
+00:49:39,611 --> 00:49:45,061
+Mohammad Alizadeh: I don't think simulation is fundamental to, you know, what,
+
+393
+00:49:46,131 --> 00:49:51,561
+Mohammad Alizadeh: like, an AI system designer, or AI system, researcher.
+
+394
+00:49:51,801 --> 00:49:57,511
+Mohammad Alizadeh: needs. You need some sandboxed playground for a lot of these problems.
+
+395
+00:49:57,681 --> 00:50:17,131
+Mohammad Alizadeh: Simulation just turns out to be a very pragmatic approach for a lot of these things, especially when you're talking about the kind of, like, distributed systems problems that I… that I'm describing here, because building a testbed with a distributed cluster for the purpose of this kind of experimentation just may be
+
+396
+00:50:17,451 --> 00:50:20,141
+Mohammad Alizadeh: You know, not, like, not practical, just too expensive.
+
+397
+00:50:20,321 --> 00:50:34,640
+Mohammad Alizadeh: So it's sort of… that's the primary benefit of simulation, but actually this AI agent that I described, we have done applications where you connect it directly
+
+398
+00:50:34,871 --> 00:50:37,611
+Mohammad Alizadeh: To, to a test bed.
+
+399
+00:50:38,161 --> 00:50:40,201
+Mohammad Alizadeh: And…
+
+400
+00:50:40,501 --> 00:50:53,801
+Mohammad Alizadeh: you end up with some… like, you don't have the fidelity issues, of course, anymore. You end up with some other challenges, like around, for example, the codebases become more complex, so you have to sort of think more…
+
+401
+00:50:53,861 --> 00:51:07,731
+Mohammad Alizadeh: You know, about, like, the best practices for coding agents and all of those things. But I… I don't think, like, any of those stuff is really fundamental. Like, fundamental that you need a sim… you know, you need a simulator. It just is a…
+
+402
+00:51:07,911 --> 00:51:11,400
+Mohammad Alizadeh: It's a very pragmatic approach.
+
+403
+00:51:11,541 --> 00:51:15,171
+Mohammad Alizadeh: Especially for large-scale system optimization problems.
+
+404
+00:51:16,341 --> 00:51:32,740
+Daniela Rus: So, okay, just to follow up on that, how should we think about the role of the human versus the role of the agent versus the role of the sandbox in configuring the algorithms of the future?
+
+405
+00:51:33,491 --> 00:51:36,901
+Daniela Rus: If the… if the…
+
+406
+00:51:37,211 --> 00:51:51,960
+Daniela Rus: AI approach is much better at identifying an algorithm. How do we… how should we think about, what people do in this area? And,
+
+407
+00:51:52,111 --> 00:51:54,560
+Daniela Rus: And how do we get to…
+
+408
+00:51:55,161 --> 00:52:04,380
+Daniela Rus: How do we get to solutions that are task-centric and causal as compared to most of today's solutions?
+
+409
+00:52:05,071 --> 00:52:06,911
+Mohammad Alizadeh: Yeah,
+
+410
+00:52:07,831 --> 00:52:22,351
+Mohammad Alizadeh: So, first of all, I mean, I don't want to give the impression that this right now is going to automate, like, system engineers or system researchers away. I mean, it's limited in scope, right? We're talking about, like.
+
+411
+00:52:22,371 --> 00:52:30,811
+Mohammad Alizadeh: solving, these heuristic, like, design problems. so for example,
+
+412
+00:52:31,291 --> 00:52:37,851
+Mohammad Alizadeh: it is a lot harder to have this AI think about architectural Issues.
+
+413
+00:52:38,271 --> 00:52:45,821
+Mohammad Alizadeh: In the same way, because in many cases, it's actually not even clear that you can express them as, you know, clear, like.
+
+414
+00:52:46,031 --> 00:53:02,251
+Mohammad Alizadeh: optimization problems with, like, verifiable scores or anything like that. There's a lot more involved in, like, making architectural decisions. So that's something that I think, it's very interesting if we can get there, where AI can do it well, but I don't see it yet.
+
+415
+00:53:03,081 --> 00:53:09,111
+Mohammad Alizadeh: And then, even in sort of this kind of, like, performance optimization type problem,
+
+416
+00:53:09,611 --> 00:53:20,531
+Mohammad Alizadeh: there's still, as I was saying at the, sort of my last bullet with, like, this question of general system intelligence, I think we're still far from that. I mean, you still need to give a lot of guidance.
+
+417
+00:53:20,841 --> 00:53:25,321
+Mohammad Alizadeh: You know, the guidance is not in the form of,
+
+418
+00:53:26,701 --> 00:53:30,761
+Mohammad Alizadeh: Like, here's the particular, like, you know, algorithmic idea to try.
+
+419
+00:53:30,921 --> 00:53:42,111
+Mohammad Alizadeh: But the guidance, for example, is in the form of, creating, that, playground that can verify, you know, solutions, knows what are all the properties that it should check.
+
+420
+00:53:42,421 --> 00:53:48,680
+Mohammad Alizadeh: And, pointing, in the, like, the, maybe the general right direction.
+
+421
+00:53:48,991 --> 00:53:54,641
+Mohammad Alizadeh: So I feel like if you think of, like, different prongs of complexity.
+
+422
+00:53:54,841 --> 00:54:06,990
+Mohammad Alizadeh: We are moving up in these prongs, but there's still, like, much higher level problems that humans need to, need to be thinking about, for the foreseeable future.
+
+423
+00:54:08,001 --> 00:54:14,230
+Daniela Rus: So, let me go back to the chat. There is a question from, Shyamal Chandra.
+
+424
+00:54:14,291 --> 00:54:32,190
+Daniela Rus: And this is about, how this work is related to Andrej Karpathy’s talk on Software 2.0 with Program Space. And so, this… there's a reference to a Medium post in… from, 2017.
+
+425
+00:54:32,371 --> 00:54:37,100
+Daniela Rus: before the current onslaught of LLMs and Gen AI and.
+
+426
+00:54:37,301 --> 00:54:42,171
+Mohammad Alizadeh: Yeah, if I remember correctly, I think this is sort of this vision that,
+
+427
+00:54:42,471 --> 00:54:46,981
+Mohammad Alizadeh: You know, software design will become about writing verifiers.
+
+428
+00:54:47,141 --> 00:54:53,470
+Mohammad Alizadeh: not… like, building software will become… if you can verify a solution, then AI can find it.
+
+429
+00:54:53,701 --> 00:55:00,201
+Mohammad Alizadeh: Which is kind of the philosophy that we're taking here. But, you know, with respect to, again,
+
+430
+00:55:00,921 --> 00:55:06,721
+Mohammad Alizadeh: I think that is, like, a very, sort of, long-term vision.
+
+431
+00:55:07,081 --> 00:55:14,221
+Mohammad Alizadeh: For where we are trying to go, and we're trying to do that for, you know, these kind of system design problems, not software engineering, but…
+
+432
+00:55:14,331 --> 00:55:27,071
+Mohammad Alizadeh: But, you know, but system design. But even, you know, in stuff like this, which is kind of, I think, about the state of the art for using LLMs, we're still pretty far from realizing the full potential of that vision.
+
+433
+00:55:28,091 --> 00:55:33,430
+Daniela Rus: All right, final question, from Mahesh Viswanathan.
+
+434
+00:55:33,931 --> 00:55:47,151
+Daniela Rus: Would you consider an AI automated evolutionary supervisor and a black box or random tester approach as a way to get better results? Or is that what you're doing already?
+
+435
+00:55:48,191 --> 00:55:57,121
+Mohammad Alizadeh: No, so we're not… we're not using, an evolutionary algorithm in this system.
+
+436
+00:55:58,631 --> 00:56:03,581
+Mohammad Alizadeh: Again, what we found is that
+
+437
+00:56:04,631 --> 00:56:08,791
+Mohammad Alizadeh: For these problems, you really want the language model
+
+438
+00:56:09,371 --> 00:56:12,401
+Mohammad Alizadeh: To have these coherent sessions of exploration.
+
+439
+00:56:12,981 --> 00:56:20,180
+Mohammad Alizadeh: What I mean by that is that it's very important that you have like, a sequence of…
+
+440
+00:56:20,991 --> 00:56:32,401
+Mohammad Alizadeh: here's the idea that I tried, here's what I saw, here's now what I think about it, and continue. Whereas all these approaches that kind of use the language models
+
+441
+00:56:32,641 --> 00:56:43,201
+Mohammad Alizadeh: in a more narrow way as to, like, sample, like, here's a prompt, here's some existing thing, you know, can you evolve it to make it better? But then you don't create these coherent sessions of exploration.
+
+442
+00:56:43,361 --> 00:56:50,991
+Mohammad Alizadeh: We found them that they can work, but it's sort of the comparison that I showed. You know, their success is a lot more ad hoc.
+
+443
+00:56:51,541 --> 00:56:55,270
+Mohammad Alizadeh: Than, what we were able to achieve in Glia, and then…
+
+444
+00:56:55,321 --> 00:57:14,030
+Mohammad Alizadeh: the quality of the final solutions, even if they… even if they all hill climb your score function, there's a qualitative difference between the kind of solutions that get produced using these methods. So, so even though, again, I think there may be a… definitely a place for a layer of evolutionary, or a layer of kind of, like.
+
+445
+00:57:14,331 --> 00:57:24,170
+Mohammad Alizadeh: some kind of black box optimization on top of what we're doing, I think this ingredient of having coherent sessions of exploration that are grounded in systems reasoning is important.
+
+446
+00:57:24,891 --> 00:57:39,751
+Daniela Rus: Mohammad, thank you so much for sharing your knowledge and wisdom with us. I'd like to ask all of you to please unmute yourselves, so let's try a round of applause, and… so again, please unmute yourself.
+
+447
+00:57:40,961 --> 00:57:47,370
+Daniela Rus: All right, and then on the count of 3, let's all clap. Let's see. 1, 2, 3.
+
+448
+00:57:49,711 --> 00:58:03,140
+Daniela Rus: Okay, it's getting better. Thank you so much. Have a great day, everyone, and this was the last CSAIL Forum of 2025. We will come back with more exciting topics next year.
+
+449
+00:58:03,641 --> 00:58:04,841
+Daniela Rus: Bye-bye!
+
+450
+00:58:04,861 --> 00:58:05,990
+Mohammad Alizadeh: Bye-bye. Thank you.
+

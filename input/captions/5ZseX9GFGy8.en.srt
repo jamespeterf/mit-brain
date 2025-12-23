@@ -1,0 +1,2370 @@
+1
+00:00:03,440 --> 00:00:10,960
+Hello everyone and welcome to today's CSAIL Forum 
+my name is Daniela Rus and I'm the Director of the  
+
+2
+00:00:10,960 --> 00:00:17,200
+Computer Science and Artificial Intelligence 
+Laboratory at MIT and today I am delighted to  
+
+3
+00:00:17,200 --> 00:00:25,680
+host a forum with professor Armando Solar-Lezama 
+uh Armando is a pioneer in programming languages  
+
+4
+00:00:25,680 --> 00:00:33,920
+especially in probabilistic languages and the 
+use of AI uh for programming and Armando is also  
+
+5
+00:00:33,920 --> 00:00:40,640
+the Associate Director of CSAIL so I have had the 
+pleasure of working with him for several years now  
+
+6
+00:00:40,640 --> 00:00:48,560
+and uh you are in for a treat but before I pass 
+it over to Armando I would like to ask all of you  
+
+7
+00:00:48,560 --> 00:00:56,560
+to please be an engaged audience Please start by 
+putting your name and your location in the chat  
+
+8
+00:00:56,560 --> 00:01:02,480
+and then please contribute at least one comment 
+and one question uh throughout the talk at the end  
+
+9
+00:01:02,480 --> 00:01:10,400
+of the talk we will have a chance to do Q&A with 
+Armando and uh with that Armando please take it  
+
+10
+00:01:10,400 --> 00:01:18,320
+away thank you thank you very much i'm very happy 
+to be here and uh thanks to all of you for joining  
+
+11
+00:01:18,320 --> 00:01:28,160
+us here on our uh uh webcast so today I want to 
+talk about this very fundamental question of how  
+
+12
+00:01:28,160 --> 00:01:35,280
+do we tell machines what we want them to do this 
+is a question that goes back to the very earliest  
+
+13
+00:01:35,280 --> 00:01:43,920
+days of computing there is this very interesting 
+text from Alan Turing that goes back to 1945 where  
+
+14
+00:01:43,920 --> 00:01:50,960
+he's pondering how people are going to program 
+these new computing machines that are all the  
+
+15
+00:01:50,960 --> 00:01:58,560
+rage at uh at this point and he talks about how uh 
+you know there's going to be this class of people  
+
+16
+00:01:58,560 --> 00:02:05,360
+he thinks of them as mathematicians who have 
+certain puzzle solving ability and they're the  
+
+17
+00:02:05,360 --> 00:02:10,400
+ones who are going to be telling these machines 
+what to do and he talks about how this process of  
+
+18
+00:02:10,400 --> 00:02:17,200
+constructing instruction tables is never really 
+going to be boring because anytime any part of  
+
+19
+00:02:17,200 --> 00:02:22,560
+this process becomes boring then we're just going 
+to automate that so that people are going to be  
+
+20
+00:02:22,560 --> 00:02:29,680
+able to go back and focus on the stuff that's not 
+boring on the fun and exciting and novel things  
+
+21
+00:02:29,680 --> 00:02:37,920
+and so you know this uh this was many many years 
+ago and you could say that we've done pretty well  
+
+22
+00:02:37,920 --> 00:02:47,680
+by um Alan Touring's uh idea here right today we 
+have these wonderful technologies that actually  
+
+23
+00:02:47,680 --> 00:02:54,000
+have people wondering like are we actually 
+going to still need to learn how to program are  
+
+24
+00:02:54,000 --> 00:03:02,320
+programmers going to be obsolete um I think as as 
+time goes by we're starting to see that uh these  
+
+25
+00:03:02,320 --> 00:03:09,120
+tools are going to play a very important role even 
+if they don't uh replace uh programmers but we are  
+
+26
+00:03:09,120 --> 00:03:17,680
+seeing this explosion in the number of tools that 
+are available to help people create programs write  
+
+27
+00:03:17,680 --> 00:03:25,280
+code and so programming is doing pretty well uh 
+and there's all these different ways in which we  
+
+28
+00:03:25,280 --> 00:03:34,640
+can get help in telling the machine what we want 
+to do but today programming is not the only way  
+
+29
+00:03:34,640 --> 00:03:41,280
+we tell machines what to do right and and in fact 
+you could say that the reason why we have all of  
+
+30
+00:03:41,280 --> 00:03:48,000
+these amazing tools is because of a revolution in 
+machine learning that has been happening over the  
+
+31
+00:03:48,000 --> 00:03:56,400
+last uh uh decade or so that has made it so that 
+we can teach machines how to do things purely by  
+
+32
+00:03:56,400 --> 00:04:03,920
+examples right so for example if we have you know 
+some little uh robot critter we want to train it  
+
+33
+00:04:03,920 --> 00:04:09,920
+to navigate some kind of environment we don't 
+actually have to go and write the code that is  
+
+34
+00:04:09,920 --> 00:04:16,240
+going to tell us exactly how to move each leg one 
+step at a time we can use datadriven techniques  
+
+35
+00:04:16,240 --> 00:04:22,080
+to learn how to do this from scratch and that's 
+part of the reason why we've been able to build  
+
+36
+00:04:22,080 --> 00:04:28,480
+these amazing programming tools because we didn't 
+have to teach them explicitly were able to have  
+
+37
+00:04:28,480 --> 00:04:38,560
+them learn by example however there's a lot to be 
+said for the traditional way of writing programs  
+
+38
+00:04:38,560 --> 00:04:46,400
+that these more data-driven approaches fail to 
+capture right for example generalization uh when  
+
+39
+00:04:46,400 --> 00:04:54,560
+we write code we might test it on uh you know 
+large set of examples but we expect it to work  
+
+40
+00:04:54,560 --> 00:05:02,320
+on much beyond just the things that we tested it 
+uh you know people kind of make fun of engineers  
+
+41
+00:05:02,320 --> 00:05:08,320
+induction where you say well you know I tested 
+it for n equals 1 and I tested it for n equals 2  
+
+42
+00:05:08,320 --> 00:05:14,240
+and n equals 3 therefore it works for all n but 
+the fact of the matter is a lot of our software  
+
+43
+00:05:14,240 --> 00:05:22,480
+generalizes really well despite the fact that it 
+wasn't uh proven to to do so another thing that  
+
+44
+00:05:22,480 --> 00:05:29,280
+we really like about programming is modularity 
+and encapsulation this ability to take pieces  
+
+45
+00:05:29,280 --> 00:05:40,160
+of functionality that are very uh that are very 
+complex and hide them under simple interfaces such  
+
+46
+00:05:40,160 --> 00:05:45,440
+that we don't need to master all the complexity 
+of the underlying piece of code to be able to  
+
+47
+00:05:45,440 --> 00:05:50,880
+use it in different contexts and what this also 
+means is that different parts of the code have  
+
+48
+00:05:50,880 --> 00:05:58,800
+well-defined responsibilities if something fails 
+we know roughly where in the code to look for that  
+
+49
+00:05:58,800 --> 00:06:06,640
+failure and to fix it we can localize these 
+behaviors to individual parts of the code and  
+
+50
+00:06:06,640 --> 00:06:13,840
+this also means that we can develop functionality 
+incrementally uh software uh gains functionality  
+
+51
+00:06:13,840 --> 00:06:21,600
+becomes more complex over time and we can have a 
+certain amount of confidence that when we add some  
+
+52
+00:06:21,600 --> 00:06:27,920
+functionality that other pieces of functionality 
+are going to be okay they're not going to just  
+
+53
+00:06:27,920 --> 00:06:36,480
+uh uh catastrophically forget how to do uh some 
+particular functionality and so all of these are  
+
+54
+00:06:36,480 --> 00:06:44,960
+things that we like about programming that when we 
+are in this fully datadriven mode where we're just  
+
+55
+00:06:44,960 --> 00:06:54,240
+letting the data um tell the system how we want it 
+to behave we might not get all of these features  
+
+56
+00:06:54,240 --> 00:07:00,000
+on the other hand uh deep learning for example 
+has this amazing property that it's able to just  
+
+57
+00:07:00,000 --> 00:07:06,400
+turn data into functions completely automatically 
+without the need for prior knowledge uh there's  
+
+58
+00:07:06,400 --> 00:07:13,520
+this phrase that you see and you hear often in the 
+machine learning community let the data speak for  
+
+59
+00:07:13,520 --> 00:07:19,840
+itself let's not try to go in with all our biases 
+and all our wrong ideas about how to do things  
+
+60
+00:07:19,840 --> 00:07:27,840
+let's just gather lots of data and let the data 
+speak for itself so both of these worlds have  
+
+61
+00:07:27,840 --> 00:07:35,040
+their advantages and one of the big questions that 
+we've been asking in the past few years is how can  
+
+62
+00:07:35,040 --> 00:07:44,320
+we bring both of them together to get a lot of the 
+benefits from the datadriven approach but also get  
+
+63
+00:07:44,320 --> 00:07:52,240
+a lot of the benefits of traditional software 
+and it turns out that these capability to have  
+
+64
+00:07:52,240 --> 00:08:00,240
+machines write code for us uh this capability 
+of program synthesis can actually be a really  
+
+65
+00:08:00,240 --> 00:08:10,720
+important uh step in that direction so how might 
+that look like so in my group we've done a lot of  
+
+66
+00:08:10,720 --> 00:08:17,600
+work precisely on this problem how do we actually 
+leverage the ability of machines to write code in  
+
+67
+00:08:17,600 --> 00:08:23,680
+order to attack problems that in principle 
+are learning problems and in principle they  
+
+68
+00:08:23,680 --> 00:08:30,560
+are problems where you're trying to turn data 
+into functions but where you want to get many  
+
+69
+00:08:30,560 --> 00:08:39,200
+of the benefits of traditional software so how 
+might that look like let me give you an example  
+
+70
+00:08:39,200 --> 00:08:47,760
+this is from a paper that was led by uh my former 
+student uh Kevin Ellis who was co-advised by Joshu  
+
+71
+00:08:47,760 --> 00:08:56,080
+Tennenbound this is a paper where uh it's as far 
+from software engineering as you might imagine  
+
+72
+00:08:56,080 --> 00:09:04,880
+right in this case the idea was that we want to 
+build a tool to help linguists better understand  
+
+73
+00:09:04,880 --> 00:09:11,040
+language and in particular they want to be able 
+to better understand language uh morphology for  
+
+74
+00:09:11,040 --> 00:09:17,520
+example these are the kind of rules that tell you 
+that if you want the past tense of the word open  
+
+75
+00:09:17,520 --> 00:09:25,680
+then you put a d at the end so that you get opened 
+as well as phology rules for example these are the  
+
+76
+00:09:25,680 --> 00:09:34,720
+rules that tell you that when you want to get the 
+past tense of walk it's not just walked with a d  
+
+77
+00:09:34,720 --> 00:09:39,920
+sound at the end but you have more of a t sound 
+at the end right walked and it turns out there  
+
+78
+00:09:39,920 --> 00:09:46,720
+are rules in the uh the language that tell you 
+when you do these kind of conversions and being  
+
+79
+00:09:46,720 --> 00:09:52,480
+able to take a language and extracting from it 
+those rules that tell you about the mechanics  
+
+80
+00:09:52,480 --> 00:09:58,880
+of how this language works can enable lots of 
+really interesting linguistic work for example  
+
+81
+00:09:58,880 --> 00:10:06,640
+if you want to uh study a particular dialect and 
+study what changed between that dialect and the  
+
+82
+00:10:06,640 --> 00:10:16,000
+original source uh language if you have this kind 
+of representation uh you can actually uh explain  
+
+83
+00:10:16,000 --> 00:10:24,560
+those differences in a very systematic way so this 
+is a uh this is a very important capability and  
+
+84
+00:10:24,560 --> 00:10:30,720
+the way linguists traditionally have created those 
+rules is just by hand right some linguist goes and  
+
+85
+00:10:30,720 --> 00:10:39,040
+listens to the language over uh the course of many 
+months tries to extract these rules that explain  
+
+86
+00:10:39,040 --> 00:10:46,800
+how the language work well it turns out you can 
+actually frame this as a program synthesis problem  
+
+87
+00:10:46,800 --> 00:10:54,800
+the idea here is that what you have is this set of 
+rules that you can think of them as a program that  
+
+88
+00:10:54,800 --> 00:11:02,800
+given the stem of some word it's going to give 
+you as output the new form of the word uh together  
+
+89
+00:11:02,800 --> 00:11:08,560
+with its meaning for example knowing that it's 
+the past tense or knowings that it's the future  
+
+90
+00:11:08,560 --> 00:11:14,240
+tense and it turns out that all of these rules 
+you can think of them as a little program that  
+
+91
+00:11:14,240 --> 00:11:24,320
+is transforming these syntactic form representing 
+these words and the sounds behind those words into  
+
+92
+00:11:24,320 --> 00:11:32,000
+these new uh forms that is a program synthesis 
+problem for which as it turns out the program  
+
+93
+00:11:32,000 --> 00:11:38,960
+synthesis tools that we have available to us can 
+allow us to actually solve this problem even for  
+
+94
+00:11:38,960 --> 00:11:45,920
+uh real languages that people speak across 
+the world now I'm personally not a linguist  
+
+95
+00:11:45,920 --> 00:11:54,480
+my expertise is in the area of program synthesis 
+um so I have to trust my linguist colleagues that  
+
+96
+00:11:54,480 --> 00:12:03,920
+this is actually a uh description about some 
+of the rules behind Somali and how different  
+
+97
+00:12:03,920 --> 00:12:11,920
+um stems are transformed into the different forms 
+of these words but what's exciting is that by  
+
+98
+00:12:11,920 --> 00:12:19,840
+framing this as a program synthesis problem we 
+don't just learn from the data but we're able to  
+
+99
+00:12:19,840 --> 00:12:26,720
+capture those formalisms that linguists know and 
+understand and are familiar with and we're able  
+
+100
+00:12:26,720 --> 00:12:37,520
+to generate this very clear clean representations 
+of the knowledge that we're extracting from these  
+
+101
+00:12:37,520 --> 00:12:44,640
+corpus of words so this is an example of the 
+kind of benefits that you can get when you  
+
+102
+00:12:44,640 --> 00:12:53,440
+treat what in principle is just a uh problem of 
+learning from data as a program synthesis problem  
+
+103
+00:12:53,440 --> 00:12:59,840
+but there's a broader class of techniques that 
+you can bring to the table to really get this  
+
+104
+00:12:59,840 --> 00:13:06,480
+full combination between the kind of symbolic 
+reasoning that is embodied in something like the  
+
+105
+00:13:06,480 --> 00:13:14,720
+example that I just showed and the deep learning 
+that makes many of these things possible and in  
+
+106
+00:13:14,720 --> 00:13:22,640
+fact even in tasks where your final goal is simply 
+to learn some neural network to perform a task  
+
+107
+00:13:22,640 --> 00:13:28,480
+bringing in some of these insights from how we 
+create software bringing in this insights from  
+
+108
+00:13:28,480 --> 00:13:34,880
+the programming world can actually allow you to 
+do some really interesting things so let me show  
+
+109
+00:13:34,880 --> 00:13:42,080
+you a couple of examples of how this can look like 
+and I'm going to be focusing in particular on this  
+
+110
+00:13:42,080 --> 00:13:51,360
+problem of modularity how do we learn models 
+that have modular structure and why might you  
+
+111
+00:13:51,360 --> 00:14:02,000
+actually want to do this so I'm going to start by 
+this uh work this is uh and this was led by uh my  
+
+112
+00:14:02,000 --> 00:14:09,760
+graduate student uh Megan uh co-advised in in this 
+case with my colleague and collaborator Vochic uh  
+
+113
+00:14:09,760 --> 00:14:19,440
+Matusk so the idea here was that we were taking 
+as the starting point these um actually really  
+
+114
+00:14:19,440 --> 00:14:30,720
+cool uh uh paper that u um uh Voyek uh had uh had 
+been working on from before of these uh rubber and  
+
+115
+00:14:30,720 --> 00:14:39,920
+being able to learn these little uh uh modular 
+robots that are built from uh different parts to  
+
+116
+00:14:39,920 --> 00:14:47,280
+accomplish simple tasks and so one of the problems 
+that you have is let's say that you have here this  
+
+117
+00:14:47,280 --> 00:14:53,280
+uh this little four-legged robot and you've 
+learned using reinforcement learning a controller  
+
+118
+00:14:53,280 --> 00:15:00,800
+for this robot but then you decide that for the 
+task that you're trying to accomplish two legs are  
+
+119
+00:15:00,800 --> 00:15:09,040
+not enough right you actually uh four legs are not 
+enough you need six legs and the problem is that  
+
+120
+00:15:09,040 --> 00:15:15,360
+this controller was specifically made for this 
+four-legged robot right if you try to use it for  
+
+121
+00:15:15,360 --> 00:15:21,760
+the six-legged robot it doesn't even type check 
+it doesn't even have outputs for all the legs  
+
+122
+00:15:21,760 --> 00:15:29,760
+on the other hand if we could break down this 
+controller into these modular controllers that  
+
+123
+00:15:29,760 --> 00:15:36,640
+can control each of these robot segments 
+and then have simply this higher level  
+
+124
+00:15:36,640 --> 00:15:44,480
+uh control that coordinates the behavior of these 
+two modules then expanding to these new robots  
+
+125
+00:15:44,480 --> 00:15:50,000
+would be relatively simple we would be able to 
+reuse the learned controllers that we have for  
+
+126
+00:15:50,000 --> 00:15:55,040
+each of these assemblies we would now have three 
+copies instead of two and the only thing we would  
+
+127
+00:15:55,040 --> 00:16:02,000
+have to learn is the new coordination mechanism 
+for these three set of legs right and the idea  
+
+128
+00:16:02,000 --> 00:16:08,080
+is that by reducing this functionality we can 
+train this new version of the robot with a lot  
+
+129
+00:16:08,080 --> 00:16:14,800
+less effort than what it would take to train from 
+scratch what's the challenge well the challenge  
+
+130
+00:16:14,800 --> 00:16:21,520
+is that deep learning and deep neural networks 
+don't really like to be told what to do what do  
+
+131
+00:16:21,520 --> 00:16:30,560
+I mean by that i can decide that I want each of 
+these uh modules to take care of the behavior of  
+
+132
+00:16:30,560 --> 00:16:38,480
+the legs and that this controller is going to 
+be uh only doing very high level orchestration  
+
+133
+00:16:38,480 --> 00:16:45,120
+of the motion and coordination between these two 
+modules and the sensors but in reality if I don't  
+
+134
+00:16:45,120 --> 00:16:50,080
+have any control over the learning process then 
+there's no guarantee that that's actually what  
+
+135
+00:16:50,080 --> 00:16:56,960
+I'm going to learn and in particular there's going 
+to be two important failure modes here maybe I end  
+
+136
+00:16:56,960 --> 00:17:04,800
+up with a global controller that does too much 
+right maybe these control all it's doing is just  
+
+137
+00:17:04,800 --> 00:17:12,000
+passing the signal through that this controller 
+had to figure out completely from scratch and not  
+
+138
+00:17:12,000 --> 00:17:18,400
+doing anything actually useful that would be 
+kind of a problem because the whole scheme is  
+
+139
+00:17:18,400 --> 00:17:24,720
+based on the fact that learning only the global 
+coordination should be easier than learning the  
+
+140
+00:17:24,720 --> 00:17:30,240
+whole thing from scratch but if these modules 
+are not actually doing anything useful then  
+
+141
+00:17:30,240 --> 00:17:37,920
+this is just going to be learning everything from 
+scratch with extra steps it's not what we want uh  
+
+142
+00:17:37,920 --> 00:17:43,520
+on the other hand we could also be in a situation 
+where these modules are so over specialized for  
+
+143
+00:17:43,520 --> 00:17:48,080
+this particular configuration that they're not 
+even listening to anything that this module says  
+
+144
+00:17:48,080 --> 00:17:54,240
+they're just each doing their thing and happens to 
+work for this particular situation but it doesn't  
+
+145
+00:17:54,240 --> 00:18:00,800
+generalize when we try to port it to a different 
+geometry or even to a different task turns out  
+
+146
+00:18:00,800 --> 00:18:06,000
+that this second problem is a little bit easier 
+to address by controlling how much visibility  
+
+147
+00:18:06,000 --> 00:18:15,520
+each one of these mod modules has to um sensors 
+that are controlling the the robot but the real  
+
+148
+00:18:15,520 --> 00:18:22,640
+issue that we have to contend with is this first 
+issue right how do we enforce a good partition  
+
+149
+00:18:22,640 --> 00:18:30,640
+so that these modules are actually forced to do 
+something and the idea here is that by enforcing  
+
+150
+00:18:30,640 --> 00:18:39,200
+that we want the signal to effectively be a 
+lowdimensional signal we force these modules to  
+
+151
+00:18:39,200 --> 00:18:48,160
+actually be uh taking responsibility for a lot of 
+the complexity in the behavior of these assembly  
+
+152
+00:18:48,160 --> 00:18:55,440
+and so one way to think about this is that there 
+is this interface between these two modules where  
+
+153
+00:18:55,440 --> 00:19:04,400
+you have some latent space some set of vectors 
+that are um that represent the different uh  
+
+154
+00:19:04,400 --> 00:19:11,360
+configurations and then you have the action space 
+where the that actually captures the signals that  
+
+155
+00:19:11,360 --> 00:19:20,080
+are being given to each of the actuators in the 
+robot right and so what you want is that this  
+
+156
+00:19:20,080 --> 00:19:26,800
+latent space which has to be highdimensional uh in 
+order to get good training efficiency nevertheless  
+
+157
+00:19:26,800 --> 00:19:36,480
+should have the property that it only maps to a 
+very lowdimensional manifold in the action space  
+
+158
+00:19:36,480 --> 00:19:43,440
+uh because what we want is the that module that 
+is doing the mapping from this latent space to the  
+
+159
+00:19:43,440 --> 00:19:53,200
+action space to actually learn how to constrain 
+the behavior of those um of those legs or of those  
+
+160
+00:19:53,200 --> 00:19:59,040
+uh robot parts right so uh to view it a different 
+way suppose that you have this little uh robot arm  
+
+161
+00:19:59,040 --> 00:20:09,200
+with lots of segments and so you want a mapping 
+from these latent space to the uh space uh of each  
+
+162
+00:20:09,200 --> 00:20:18,160
+one of these actuators you want this mapping to be 
+such that if I move these uh these points a little  
+
+163
+00:20:18,160 --> 00:20:25,520
+bit I'm going to get you know a slightly different 
+position for these actuators but it's not going to  
+
+164
+00:20:25,520 --> 00:20:31,600
+do something completely crazy right it's not 
+going to just give me completely different  
+
+165
+00:20:31,600 --> 00:20:39,280
+um uh behavior for for the arm because we want to 
+force we want this module to actually learn how to  
+
+166
+00:20:39,280 --> 00:20:45,840
+keep the behavior within the space of reasonable 
+behaviors for those legs and it turns out that  
+
+167
+00:20:45,840 --> 00:20:52,320
+the way we can do that is by directly enforcing 
+this property that small perturvations are going  
+
+168
+00:20:52,320 --> 00:21:01,520
+to have a small effect on the behavior of uh of 
+this robot and it turns out that if we look at the  
+
+169
+00:21:01,520 --> 00:21:07,200
+effect that that has on learning it's actually 
+quite uh quite substantial so here for example  
+
+170
+00:21:07,200 --> 00:21:15,280
+we see some transfer experiments where in this 
+case we go from um six legs to 12 legs in this  
+
+171
+00:21:15,280 --> 00:21:22,720
+case we go from uh six legs to 10 legs we even 
+have an experiment with a claw where we go from  
+
+172
+00:21:22,720 --> 00:21:29,920
+four fingers to five fingers and we can see that 
+the red line here shows the performance if you're  
+
+173
+00:21:29,920 --> 00:21:36,640
+just trying to train a controller from scratch 
+compared to the purple line using our approach  
+
+174
+00:21:36,640 --> 00:21:43,760
+where you're seeing the effect of relying on these 
+model on these modules that have been pre-trained  
+
+175
+00:21:43,760 --> 00:21:51,760
+in this way and so just like in software we can 
+take our reusable modules in in a program and  
+
+176
+00:21:51,760 --> 00:21:57,760
+use them in a new context and expect them to uh 
+work we see that by doing this we can actually  
+
+177
+00:21:57,760 --> 00:22:06,800
+train these modules in order to do uh good job 
+when they get transferred to a new situation  
+
+178
+00:22:06,800 --> 00:22:12,720
+what is really exciting though to me is that the 
+same idea that you can use to you know get some  
+
+179
+00:22:12,720 --> 00:22:18,880
+training efficiency when you're transferring 
+from one robot to another can also help us  
+
+180
+00:22:18,880 --> 00:22:29,840
+actually understand how cells process RNA this 
+is uh this is really exciting and uh this is a  
+
+181
+00:22:29,840 --> 00:22:38,720
+joint project with our collaborators uh at uh the 
+biology department here at MIT chris Burge and  
+
+182
+00:22:38,720 --> 00:22:45,360
+uh Phil uh Sharp are the faculty members and 
+they uh we started collaborating with them  
+
+183
+00:22:45,360 --> 00:22:53,040
+because they were very interested in this problem 
+of how RNA splicing works so basically in your in  
+
+184
+00:22:53,040 --> 00:23:05,200
+every single cell in your body you have your DNA 
+that then gets copied into a sequence of RNA and  
+
+185
+00:23:05,200 --> 00:23:12,960
+but before that sequence of RNA goes and leaves 
+the nucleus and it's used to uh produce a protein  
+
+186
+00:23:12,960 --> 00:23:19,680
+there are these segments of the RNA sequence that 
+are called introns that are just removed so the  
+
+187
+00:23:19,680 --> 00:23:28,560
+RNA sequence is divided into this parts of the 
+RNA sequence called exxons that are maintained and  
+
+188
+00:23:28,560 --> 00:23:36,320
+these parts of the sequence that are removed and 
+this is a process that is common to all ukarots  
+
+189
+00:23:36,320 --> 00:23:45,680
+to all u cells that have uh nuclei and it's really 
+important helping cells produce the wide variety  
+
+190
+00:23:45,680 --> 00:23:52,320
+of proteins that they need in order to live but 
+one of the big questions in biology is exactly  
+
+191
+00:23:52,320 --> 00:23:59,920
+how does the mechanism work the mechanism that 
+identifies the exact points where this sequence  
+
+192
+00:23:59,920 --> 00:24:07,520
+has to be cut and where the pieces that have to 
+be removed in order to construct a new sequence  
+
+193
+00:24:07,520 --> 00:24:17,520
+so back in 2019 there was a big breakthrough when 
+uh there was this uh paper published in uh cell  
+
+194
+00:24:17,520 --> 00:24:26,800
+that showed that you could train a uh a deep uh 
+convolutional neural network to predict with over  
+
+195
+00:24:26,800 --> 00:24:36,960
+90% accuracy just given a sequence of DNA or uh 
+given a sequence of RNA all the places where these  
+
+196
+00:24:36,960 --> 00:24:44,640
+sequence was going to be uh spliced and um 
+you know this uh this was a pretty significant  
+
+197
+00:24:44,640 --> 00:24:52,640
+uh breakthrough but it came with a little 
+bit of a caveat right and the caveat is that  
+
+198
+00:24:52,640 --> 00:24:59,840
+uh the model is making these predictions but 
+we don't actually know what it is that it's  
+
+199
+00:24:59,840 --> 00:25:06,800
+looking at in making the predictions so maybe 
+the neural network has figured out splicing but  
+
+200
+00:25:06,800 --> 00:25:12,320
+we have not figured out splicing right and you 
+might say well who cares right if the model is  
+
+201
+00:25:12,320 --> 00:25:17,840
+really good at making these predictions who cares 
+that it can't explain it to us right we know that  
+
+202
+00:25:17,840 --> 00:25:23,200
+biology is very complicated anyway so maybe even 
+if it tried to explain it we couldn't understand  
+
+203
+00:25:23,200 --> 00:25:29,760
+it so why bother with explanability but it 
+turns out that in this domain explanability  
+
+204
+00:25:29,760 --> 00:25:36,800
+is actually really important and to understand why 
+we need to understand a little bit about how this  
+
+205
+00:25:36,800 --> 00:25:43,760
+process works right so you have this sequence 
+of RNA and you have these two locations where  
+
+206
+00:25:43,760 --> 00:25:50,240
+it has to be spliced where it has to be uh cut 
+and so it turns out that there are these very  
+
+207
+00:25:50,240 --> 00:25:58,880
+distinctive motifs these very distinctive little 
+sequences of RNA that are identified by these um  
+
+208
+00:25:58,880 --> 00:26:08,800
+molecular machinery that binds to those locations 
+and helps cut the RNA the problem though is that  
+
+209
+00:26:08,800 --> 00:26:15,200
+these sequences are a little bit distinctive 
+but not fully distinctive and so in particular  
+
+210
+00:26:15,200 --> 00:26:22,880
+you have lots of other locations where the exact 
+same sequences show up but they are not actually  
+
+211
+00:26:22,880 --> 00:26:29,360
+splice sites right people call them cryptic sply 
+sites so how does the cell know which ones are the  
+
+212
+00:26:29,360 --> 00:26:35,680
+real ones where those u molecules are supposed 
+to attach and which ones are the fake ones that  
+
+213
+00:26:35,680 --> 00:26:42,560
+simply have to be ignored and the answer is that 
+there is this whole molecular machinery of other  
+
+214
+00:26:42,560 --> 00:26:51,440
+RNA binding proteins that either uh prevent 
+splicing to happen at these locations or help  
+
+215
+00:26:51,440 --> 00:26:58,320
+splicing happening at other locations and so 
+by the interaction of all of these proteins the  
+
+216
+00:26:58,320 --> 00:27:07,680
+cell is able to decide where to splice and so this 
+brings us back to the question of interpretability  
+
+217
+00:27:07,680 --> 00:27:13,680
+right why do we care about interpretability 
+well the problem is that this pure deep learning  
+
+218
+00:27:13,680 --> 00:27:22,160
+model knows nothing about these proteins it knows 
+nothing about what's special about these different  
+
+219
+00:27:22,160 --> 00:27:31,360
+uh sites it knows nothing about all the uh 
+uh decades of painstaking work in biology to  
+
+220
+00:27:31,360 --> 00:27:39,200
+characterize all those different proteins and the 
+regions where they bind and having a model that  
+
+221
+00:27:39,200 --> 00:27:45,280
+explains splicing in terms of these proteins would 
+be extremely useful because it would give us for  
+
+222
+00:27:45,280 --> 00:27:52,080
+example targets for therapeutics right um it would 
+be able to explain not just that a particular  
+
+223
+00:27:52,080 --> 00:27:58,960
+mutation is going to cause problems with splicing 
+but it will explain why and in explaining why it  
+
+224
+00:27:58,960 --> 00:28:07,520
+will uh open the door potentially to therapeutics 
+to help uh mitigate the effects of that mutation  
+
+225
+00:28:07,520 --> 00:28:15,120
+so we want explanability and a pure deep learning 
+model is not going to give it to us right and  
+
+226
+00:28:15,120 --> 00:28:22,960
+so this is where once again we go back to the 
+whole motif of this talk and the whole idea of  
+
+227
+00:28:22,960 --> 00:28:29,360
+modularity as a tool that is very important in 
+the context of programs and that we would like  
+
+228
+00:28:29,360 --> 00:28:36,880
+to have in the context of this deep learning model 
+approach so in this case what we want is something  
+
+229
+00:28:36,880 --> 00:28:42,640
+actually very simple we want to have instead of 
+just one monolithic model we want two models one  
+
+230
+00:28:42,640 --> 00:28:48,480
+model that takes care of motif identification 
+of labeling the sequence with all the different  
+
+231
+00:28:48,480 --> 00:28:56,480
+places where these RNA binding proteins are 
+going to attach and then a separate model that  
+
+232
+00:28:56,480 --> 00:29:03,440
+is able to predict how these different RNA binding 
+proteins are going to interact with each other and  
+
+233
+00:29:03,440 --> 00:29:13,520
+how they're going to lead to finally giving us our 
+splicing locations now given that biologists have  
+
+234
+00:29:13,520 --> 00:29:20,960
+spent decades characterizing these RNA binding 
+proteins you would imagine that what we could  
+
+235
+00:29:20,960 --> 00:29:29,760
+do is just take those motifs that have already 
+been characterized through uh these existing  
+
+236
+00:29:29,760 --> 00:29:39,760
+um uh these existing data sets and simply plug 
+them in treat the output of those models that  
+
+237
+00:29:39,760 --> 00:29:45,840
+tell you where different proteins are going to 
+bind as the input to the actual learned model  
+
+238
+00:29:45,840 --> 00:29:50,960
+so in this case we don't really need modularity 
+we just need to train one model that instead of  
+
+239
+00:29:50,960 --> 00:29:57,120
+taking as input the original sequence only takes 
+as input this information about what binds where  
+
+240
+00:29:57,120 --> 00:30:04,080
+it turns out though that if you do that instead 
+of getting the over 90% accuracy that the pure  
+
+241
+00:30:04,080 --> 00:30:12,560
+neural model gets you you only get 67% accuracy 
+so that tells us that there's something missing  
+
+242
+00:30:12,560 --> 00:30:21,760
+here in the information about where these proteins 
+bind right and after some experimentation we found  
+
+243
+00:30:21,760 --> 00:30:29,040
+that part of the problem is that these models have 
+a lot of room for improvement right and that if we  
+
+244
+00:30:29,040 --> 00:30:35,920
+can replace them by modules that are anchored by 
+that original knowledge but that have the ability  
+
+245
+00:30:35,920 --> 00:30:45,440
+to learn and to improve based on the data we can 
+improve that performance from uh the middle 60%  
+
+246
+00:30:45,440 --> 00:30:54,800
+to 79% accuracy it's not quite at the level of the 
+90% although we have some evidence that that 90%  
+
+247
+00:30:54,800 --> 00:31:03,520
+is partly due to the model using information that 
+is not actually costly related to uh splicing but  
+
+248
+00:31:03,520 --> 00:31:10,320
+79% is still much better than the models that 
+are being used before but this raises a really  
+
+249
+00:31:10,320 --> 00:31:17,280
+important question which is okay so we allowed 
+learning to improve each one of these individual  
+
+250
+00:31:17,280 --> 00:31:24,080
+uh models of protein uh binding but how do we 
+know that we've actually learned something real  
+
+251
+00:31:24,080 --> 00:31:34,400
+how do we know that uh our improvement in this 
+model reflect a real uh biology and not simply  
+
+252
+00:31:34,400 --> 00:31:41,920
+these now learned modules figuring out how to 
+sneak information down to this model in a way  
+
+253
+00:31:41,920 --> 00:31:50,880
+that is not really uh biologically uh feasible 
+well it turns out that uh that we can actually  
+
+254
+00:31:50,880 --> 00:32:03,280
+do that and um and we actually have a series of 
+experiments where we were able to show um that uh  
+
+255
+00:32:03,280 --> 00:32:10,560
+that indeed these models are doing better not just 
+at giving us that end to-end performance but at  
+
+256
+00:32:10,560 --> 00:32:17,840
+predicting other kinds of experimental data about 
+the binding properties of these molecules right so  
+
+257
+00:32:17,840 --> 00:32:27,760
+just to summarize there are these big data sets 
+uh for these RNA bind and seek experiments that  
+
+258
+00:32:27,760 --> 00:32:35,840
+capture a lot of information about the specific 
+sequences that each one of these uh proteins  
+
+259
+00:32:35,840 --> 00:32:44,560
+binds to and so we have this initial set of raw 
+data from which these motifs were trained and now  
+
+260
+00:32:44,560 --> 00:32:50,800
+the way our approach works is that it starts it 
+takes this as a starting point combines them with  
+
+261
+00:32:50,800 --> 00:32:59,200
+end to end data about the splicing mechanism and 
+from that you get this adjusted motifs that then  
+
+262
+00:32:59,200 --> 00:33:06,000
+um when the output of these is passed to this uh 
+aggregator that computes the interactions between  
+
+263
+00:33:06,000 --> 00:33:13,040
+these molecules we get a prediction about those 
+splicing locations so one of the questions to ask  
+
+264
+00:33:13,040 --> 00:33:21,840
+is what if we now compare these adjusted models 
+against the original models on these initial  
+
+265
+00:33:21,840 --> 00:33:29,280
+data the data that was used to train this initial 
+set of models and what we find is that there is  
+
+266
+00:33:29,280 --> 00:33:36,880
+essentially no impact on how well these models 
+match these data relative to these in other  
+
+267
+00:33:36,880 --> 00:33:43,920
+words what we're seeing here is that just this 
+data was not rich enough to fully pin down the  
+
+268
+00:33:43,920 --> 00:33:50,560
+binding behavior of these models because what we 
+have here is two different models that match these  
+
+269
+00:33:50,560 --> 00:33:58,560
+data equally well and yet one of them is giving us 
+significantly better endtoend performance than the  
+
+270
+00:33:58,560 --> 00:34:07,360
+other but the real test is what happens when we 
+take data from a very different set of experiments  
+
+271
+00:34:07,360 --> 00:34:15,680
+collected with completely different experimental 
+methodology that still aims to capture the binding  
+
+272
+00:34:15,680 --> 00:34:24,160
+behavior of these molecules and suddenly what we 
+see is that the models that were adjusted with the  
+
+273
+00:34:24,160 --> 00:34:33,200
+end-to-end splicing data actually perform um uh 
+significantly better on these particular set of  
+
+274
+00:34:33,200 --> 00:34:41,680
+experimental data compared to the original motifs 
+right so this gives us stronger evidence that the  
+
+275
+00:34:41,680 --> 00:34:48,880
+improvements that we're seeing here are really due 
+to better characterizing the binding behavior of  
+
+276
+00:34:48,880 --> 00:34:58,400
+these molecules relative to the original models 
+that um that were used by uh by the biologist  
+
+277
+00:34:58,400 --> 00:35:06,800
+so this is an example of how by bringing in some 
+of these insights that started out from how do we  
+
+278
+00:35:06,800 --> 00:35:14,880
+make learning a little bit more like programming 
+uh can actually help us in identifying some of  
+
+279
+00:35:14,880 --> 00:35:24,480
+these places where uh by learning a model that 
+has some of these modularity properties we can  
+
+280
+00:35:24,480 --> 00:35:32,080
+get some of these benefits of interpretability 
+for example in this case that in turn can help  
+
+281
+00:35:32,080 --> 00:35:44,880
+us gain a better understanding of a biological uh 
+system and so what we see here is really just the  
+
+282
+00:35:44,880 --> 00:35:56,160
+beginning of how we might uh walk towards these 
+uh synergy between traditional programming and  
+
+283
+00:35:56,160 --> 00:36:03,120
+the kind of ideas and techniques that we have 
+uh built up through traditional programming that  
+
+284
+00:36:03,120 --> 00:36:14,960
+enable us to build uh complex programs and complex 
+uh applications and how we can apply them to these  
+
+285
+00:36:14,960 --> 00:36:21,920
+broader class of problems where our interest 
+is not necessarily on software engineering our  
+
+286
+00:36:21,920 --> 00:36:31,200
+interest is on getting a robot um to do a task 
+our interest is in understanding these mechanisms  
+
+287
+00:36:31,200 --> 00:36:41,120
+inside each of our uh cells so you know going back 
+to the very beginning of uh of the talk automation  
+
+288
+00:36:41,120 --> 00:36:50,800
+has really gone a very long way from where it was 
+at the time when Alan Turing gave uh his quote and  
+
+289
+00:36:50,800 --> 00:36:58,880
+yet we can see the spirit of his quote very much 
+alive here lots of aspects of programming that  
+
+290
+00:36:58,880 --> 00:37:05,920
+over the years have been very very uh tedious have 
+been automated away and we're seeing yet another  
+
+291
+00:37:05,920 --> 00:37:16,000
+iteration of this big wave of automation coming 
+our uh way and yet um the challenge of for example  
+
+292
+00:37:16,000 --> 00:37:24,400
+deciding what our software will do is not going 
+to go away right and what we'll see is programming  
+
+293
+00:37:24,400 --> 00:37:30,960
+will evolve But it won't be eliminated and in 
+fact many of the ideas and many of the concepts  
+
+294
+00:37:30,960 --> 00:37:39,600
+that make our uh software engineering world uh 
+work can actually find interesting and powerful  
+
+295
+00:37:39,600 --> 00:37:47,760
+uses in other domains and in other settings where 
+the goal is very far from software engineering  
+
+296
+00:37:47,760 --> 00:37:58,720
+and so with that I want to u open up to 
+uh answer questions from the audience
+
+297
+00:37:58,720 --> 00:38:08,080
+armando thank you so much that was really um 
+a tool the force um so let me start by asking  
+
+298
+00:38:08,080 --> 00:38:16,560
+um let me start by asking uh some um some broad 
+questions so how is the programming paradigm  
+
+299
+00:38:16,560 --> 00:38:23,280
+changing so can you can you summarize for us so 
+we've seen a very interesting example in robotics  
+
+300
+00:38:23,280 --> 00:38:32,640
+we saw a very interesting example um in um biology 
+how should we think about this changing paradigm  
+
+301
+00:38:32,640 --> 00:38:40,080
+of uh programming if I I'm in a different field 
+or even if I'm in computer science and I want to  
+
+302
+00:38:40,080 --> 00:38:48,000
+uh I want to write a program for my class or for 
+a for for the so for a software engineering task  
+
+303
+00:38:48,000 --> 00:38:53,600
+what yeah so so that's a very good question I 
+think one of the things that is going to one of  
+
+304
+00:38:53,600 --> 00:39:01,280
+the things that is going to happen and and we're 
+already seeing uh some of these is we have these  
+
+305
+00:39:01,280 --> 00:39:07,680
+huge variety of tools that we can bring to bear 
+for these uh for these programming problems and  
+
+306
+00:39:07,680 --> 00:39:14,640
+each of these tools has different strengths they 
+have different uh weaknesses there's going to be  
+
+307
+00:39:14,640 --> 00:39:24,320
+a lot of programming that we do today that is 
+fairly uh tedious and fairly routine and that  
+
+308
+00:39:24,320 --> 00:39:33,040
+can be pretty easily automated away with a lot of 
+these uh a lot of these uh uh very powerful models  
+
+309
+00:39:33,040 --> 00:39:39,680
+that we have available to us there's also going 
+to be the kind of programming that is very unique  
+
+310
+00:39:39,680 --> 00:39:48,320
+and very specialized and that looks very different 
+from anything that anybody has done uh before and  
+
+311
+00:39:48,320 --> 00:39:57,360
+where you're solving challenging programming tasks 
+that potentially people might not even be able  
+
+312
+00:39:57,360 --> 00:40:04,480
+to solve manually uh themselves and I think for 
+those kinds of problems programming is now going  
+
+313
+00:40:04,480 --> 00:40:11,520
+to be about how do we orchestrate these enormous 
+amount of computing power that we have available  
+
+314
+00:40:11,520 --> 00:40:20,320
+to us right how do we set things up so that the 
+machines can actually help us um uh brute force  
+
+315
+00:40:20,320 --> 00:40:27,600
+our way through the parts of the problem that are 
+aminable to brute force but also leveraging higher  
+
+316
+00:40:27,600 --> 00:40:36,960
+level insights about what's automatable what's 
+not automatable and where um we need to uh come in  
+
+317
+00:40:36,960 --> 00:40:45,280
+there's also going to be and there already 
+is a lot of uh teaching by example right  
+
+318
+00:40:45,280 --> 00:40:53,520
+where a big part of it is less about how do we um 
+deal with the low-level nuts and bolts of of what  
+
+319
+00:40:53,520 --> 00:40:59,680
+we're trying to do and more about how do we get 
+all the right uh data but also how do we set up  
+
+320
+00:40:59,680 --> 00:41:07,360
+the training process so that we can learn what we 
+need to learn efficiently and um without wasting  
+
+321
+00:41:07,360 --> 00:41:16,080
+enormous amounts of um of resources so I think 
+what we're going to see is uh many different forms  
+
+322
+00:41:16,080 --> 00:41:25,520
+of programming that are all at their core going to 
+h rely on very much the same foundational computer  
+
+323
+00:41:25,520 --> 00:41:33,840
+science skills that um we rely on today but that 
+are going to be able to take much better advantage  
+
+324
+00:41:33,840 --> 00:41:40,400
+of vast amounts of of computing power and of these 
+very powerful models that we have available to
+
+325
+00:41:44,880 --> 00:41:53,760
+So um following in this um in this line I wonder 
+if we if we go back to the robotics example so  
+
+326
+00:41:53,760 --> 00:42:01,120
+in the robotics example what you have argued 
+is that um now if we understand what uh what  
+
+327
+00:42:01,120 --> 00:42:07,600
+some of the primitives for the robot might be 
+then we can kind of train those primitives and  
+
+328
+00:42:07,600 --> 00:42:18,240
+then we can compose them to create a higher level 
+uh program correct um yeah so um and and so you  
+
+329
+00:42:18,240 --> 00:42:24,400
+have shown a very interesting example for legged 
+locomotion but how should I think about that if  
+
+330
+00:42:24,400 --> 00:42:31,440
+I want locomotion but my robot doesn't have legs 
+if my robot has is a snake or is um so should we  
+
+331
+00:42:31,440 --> 00:42:40,480
+think about it um according to architectural 
+templates or according to tasks so that's a  
+
+332
+00:42:40,480 --> 00:42:50,320
+really good question and I think the answer is uh 
+you know just like in software engineering a core  
+
+333
+00:42:50,320 --> 00:42:58,240
+aspect of software engineering is how do I uh what 
+is the right level of modularity for my task right  
+
+334
+00:42:58,240 --> 00:43:06,000
+and what are the right reusable abstractions that 
+I should build my um system around I think we're  
+
+335
+00:43:06,000 --> 00:43:11,280
+going to want to start thinking about some of 
+these learning tasks in similar ways um what are  
+
+336
+00:43:11,280 --> 00:43:19,120
+the right uh reusable components and and reusable 
+abstractions i want to go back to this uh video  
+
+337
+00:43:19,120 --> 00:43:28,000
+that I had in the beginning that I didn't really 
+have a chance to um talk very much about this is a  
+
+338
+00:43:28,000 --> 00:43:35,440
+um this is from a different project but with 
+similar goals where what we're trying to learn in  
+
+339
+00:43:35,440 --> 00:43:44,720
+this case are actually modular environment models 
+that allow you to uh train this little robot in  
+
+340
+00:43:44,720 --> 00:43:53,520
+this hybrid environment that combines in this 
+case water and land and have the model uh have  
+
+341
+00:43:53,520 --> 00:44:00,480
+the system learn a model of the environ ment that 
+is explicitly modular that explicitly separates  
+
+342
+00:44:00,480 --> 00:44:07,120
+the water model from the land model without having 
+to teach it oh this is water this is land simply  
+
+343
+00:44:07,120 --> 00:44:15,840
+by having it explore the environment and so it 
+turns out that in uh in a context like this having  
+
+344
+00:44:15,840 --> 00:44:23,600
+those modular environment models can help you 
+uh very easily adapt to to different environment  
+
+345
+00:44:23,600 --> 00:44:30,960
+configurations because you don't have to learn um 
+the environment uh from scratch you can uh you can  
+
+346
+00:44:30,960 --> 00:44:40,480
+actually rely on these pre-learned uh models very 
+very um efficiently so I think there's still a lot  
+
+347
+00:44:40,480 --> 00:44:48,640
+to explore and a lot to learn about exactly how we 
+leverage these ability to learn uh in a modular uh  
+
+348
+00:44:48,640 --> 00:44:55,120
+way what I've shown here are just some examples 
+of how you might be able to uh leverage that so  
+
+349
+00:44:55,120 --> 00:45:03,280
+the human is the designer is still in charge of 
+um of specifying the uh the abstractions and the  
+
+350
+00:45:03,280 --> 00:45:12,080
+modular the modules and then the idea is for um 
+for the system to take each of those abstractions  
+
+351
+00:45:12,080 --> 00:45:19,920
+and map it onto some solution that could then be 
+um could then be generalized to slightly different  
+
+352
+00:45:19,920 --> 00:45:30,640
+geometry but also with some limits um to how much 
+generalization there can be correct yes exactly so  
+
+353
+00:45:30,640 --> 00:45:40,240
+um okay well everyone please put your questions in 
+the chat or raise your um uh your virtual hand and  
+
+354
+00:45:40,240 --> 00:45:46,960
+uh let's see we have some questions from the 
+audience how does this relate to neuroeolution  
+
+355
+00:45:46,960 --> 00:45:55,200
+to the neuroeolution algorithm so uh Bavesh 
+Nikra is asking this question so there has  
+
+356
+00:45:55,200 --> 00:46:02,640
+been a lot of work over the years on uh 
+using evolutionary algorithms to evolve  
+
+357
+00:46:02,640 --> 00:46:11,440
+um to evolve neural networks in in some ways the 
+the idea there is that the evolutionary algorithm  
+
+358
+00:46:11,440 --> 00:46:18,640
+is just another optimization algorithm that has 
+different performance characteristics relative to  
+
+359
+00:46:18,640 --> 00:46:29,440
+the standard um relative to the standard uh deep 
+learning uh uh toolkit um in this case though what  
+
+360
+00:46:29,440 --> 00:46:38,240
+we have here is um a little bit different 
+from that in that we are uh we are actually  
+
+361
+00:46:38,240 --> 00:46:46,000
+doing for the optimization just very standard uh 
+gradientbased um optimization but we're finding  
+
+362
+00:46:46,000 --> 00:46:55,600
+other ways of introducing structure into the 
+uh into the process um you could argue that uh  
+
+363
+00:46:55,600 --> 00:47:01,120
+evolutionary algorithms for example could play an 
+important uh role given also their their ability  
+
+364
+00:47:01,120 --> 00:47:10,880
+to deal with these combinations of uh continuous 
+and discrete um uh optimization for example but  
+
+365
+00:47:10,880 --> 00:47:18,880
+I think it's orthogonal to the idea of introducing 
+modularity and structure into the learning process
+
+366
+00:47:21,920 --> 00:47:28,400
+okay uh Daniel Windam is asking "As 
+AI capabilities progress what kinds  
+
+367
+00:47:28,400 --> 00:47:34,320
+of design decisions do you predict will 
+be effectively deferred to AI versus  
+
+368
+00:47:34,320 --> 00:47:42,880
+uh will rely on human engineering collaborators 
+and why?" So that's a very good question um one  
+
+369
+00:47:42,880 --> 00:47:51,920
+of the things that at least uh at the moment 
+seems to be a uh pretty significant difference  
+
+370
+00:47:51,920 --> 00:48:02,720
+between AI models and humans is the way in 
+which they can take in brand new knowledge  
+
+371
+00:48:02,720 --> 00:48:10,800
+and incorporate that brand new knowledge into 
+um into what uh what they're doing right so the  
+
+372
+00:48:10,800 --> 00:48:19,040
+models right now are very very good at the sorts 
+of tasks that come straight from their training  
+
+373
+00:48:19,040 --> 00:48:25,280
+corpus right and for which they have enormous 
+amounts of training data in their corpus the  
+
+374
+00:48:25,280 --> 00:48:34,560
+moment you leave the bounds of the kinds of tasks 
+that they've been trained very extensively on  
+
+375
+00:48:34,560 --> 00:48:43,360
+uh now you're having to rely on in context 
+learning you're having to rely on uh you know  
+
+376
+00:48:43,360 --> 00:48:51,360
+uh uh prompting and suddenly their ability to 
+incorporate that new knowledge that comes from  
+
+377
+00:48:51,360 --> 00:49:00,720
+uh the prompt is severely diminished compared to 
+um compared to what people uh can do so in general  
+
+378
+00:49:00,720 --> 00:49:08,400
+tasks that rely on assembling lots of different 
+knowledge that is not publicly available and that  
+
+379
+00:49:08,400 --> 00:49:17,360
+was not uh present when when the models were 
+trained I think are less likely to be easily  
+
+380
+00:49:17,360 --> 00:49:26,320
+uh and taken over by um taken over by by the 
+models that's that's just one uh dimension right  
+
+381
+00:49:26,320 --> 00:49:35,840
+now on the other hand some of the things that 
+they bring to the table is lots of knowledge about  
+
+382
+00:49:35,840 --> 00:49:43,840
+um the world right and lots of knowledge 
+about the um uh literature for example in  
+
+383
+00:49:43,840 --> 00:49:52,560
+uh in a wide variety of uh of tasks and I think 
+finding ways to leverage that knowledge deal with  
+
+384
+00:49:52,560 --> 00:50:00,480
+some of the uh flakiness that uh with which 
+they're sometimes um uh coming i think this  
+
+385
+00:50:00,480 --> 00:50:09,840
+is a really important uh area in terms of uh 
+really getting the most out of these models
+
+386
+00:50:09,840 --> 00:50:15,920
+uh Armando while uh while our audience 
+uh is thinking about more questions uh  
+
+387
+00:50:15,920 --> 00:50:24,080
+I'm also wondering how does this how 
+should we tie this into vibe coding
+
+388
+00:50:26,160 --> 00:50:33,440
+so I think again if if you're dealing with the 
+kind of task that is very easy to check with  
+
+389
+00:50:33,440 --> 00:50:44,880
+the kind of task that is very um um routine uh 
+that looks a lot like things that other people  
+
+390
+00:50:44,880 --> 00:50:57,200
+have done uh before then you can get a very high 
+degree of automation and um you can actually do uh  
+
+391
+00:50:57,200 --> 00:51:05,680
+do pretty well right it's it's when you're dealing 
+with the tasks where for example establishing the  
+
+392
+00:51:05,680 --> 00:51:12,880
+uh the correctness requires more than simple 
+uh test suites for example the kind of tasks  
+
+393
+00:51:12,880 --> 00:51:21,360
+that require uh uh specialized uh knowledge 
+and especially the kind of tasks that require  
+
+394
+00:51:21,360 --> 00:51:29,360
+knowledge that is not publicly available 
+out on the uh the internet that's where  
+
+395
+00:51:29,360 --> 00:51:37,440
+you really have to uh that's where the 
+models uh really uh stop being as useful  
+
+396
+00:51:38,240 --> 00:51:45,760
+we actually have um we actually have a new 
+survey that we just put out uh last month  
+
+397
+00:51:45,760 --> 00:51:52,720
+uh where we discuss the broad landscape 
+of AI tools for software engineering and  
+
+398
+00:51:52,720 --> 00:52:01,200
+identify some of the remaining gaps around some 
+of the things that uh are still very much open  
+
+399
+00:52:01,200 --> 00:52:09,920
+questions in terms of really fulfilling the 
+promise of automation that uh we think these  
+
+400
+00:52:09,920 --> 00:52:17,760
+uh these tools can can eventually fulfill 
+thank you Armando so Bob Blazer asks um the  
+
+401
+00:52:17,760 --> 00:52:25,120
+chart showing reduced training considered examples 
+from four or more components to larger numbers but  
+
+402
+00:52:25,120 --> 00:52:31,920
+to have reached four coordinated components the 
+controller must have already been well modularized  
+
+403
+00:52:31,920 --> 00:52:39,760
+does the same technique work in generalizing from 
+one or two controllers to three or four that's a  
+
+404
+00:52:39,760 --> 00:52:46,320
+very good question so the the smaller the number 
+of controllers that you initially start with the  
+
+405
+00:52:46,320 --> 00:52:53,200
+harder it's going to be for these uh these to 
+generalize right and and I should emphasize there  
+
+406
+00:52:53,200 --> 00:53:04,720
+has been prior work around learning uh modular 
+uh control that has achieved this by training  
+
+407
+00:53:04,720 --> 00:53:13,840
+these models on many different contexts and with 
+many different configurations with uh very large  
+
+408
+00:53:13,840 --> 00:53:20,880
+uh numbers of copies of these components the 
+more you have uh the more context where you  
+
+409
+00:53:20,880 --> 00:53:27,520
+use these components the easier it's going to be 
+to generalize and one of the challenges that we  
+
+410
+00:53:27,520 --> 00:53:36,640
+uh tackle in this particular paper is to see how 
+far can we push in terms of starting from very  
+
+411
+00:53:36,640 --> 00:53:45,200
+very from essentially a single example of a single 
+robot with very small number of instances of these  
+
+412
+00:53:45,200 --> 00:53:51,200
+uh of these controllers right because this is 
+the kind of task that you're going to run into if  
+
+413
+00:53:51,200 --> 00:53:58,320
+you know you don't have a whole stable of robots 
+that that you've trained on but you just finished  
+
+414
+00:53:58,320 --> 00:54:06,080
+building and training your robot and you just want 
+to make the small adjustments to them amazing um  
+
+415
+00:54:06,080 --> 00:54:13,920
+well uh Armando with these words of wisdom uh I 
+just want to ask you one more question should we  
+
+416
+00:54:13,920 --> 00:54:22,240
+still learn how to program yes in fact um one of 
+the things you could argue is that programming  
+
+417
+00:54:22,240 --> 00:54:30,160
+is going to become significantly more useful in 
+in the future right um you know in the past one  
+
+418
+00:54:30,160 --> 00:54:35,680
+of the things uh we've told people uh as to 
+why they should learn to program is not just  
+
+419
+00:54:35,680 --> 00:54:41,040
+the fact that you know there's plenty of software 
+engineering jobs out there but also the fact that  
+
+420
+00:54:41,040 --> 00:54:46,720
+anytime you're interacting with a computer right 
+knowing how to program gives you the possibility  
+
+421
+00:54:46,720 --> 00:54:53,680
+of automating things that you would otherwise have 
+to do by hand now in practice that hasn't been so  
+
+422
+00:54:53,680 --> 00:55:00,800
+true all along right the pain of writing code and 
+debugging it and getting it right it's often such  
+
+423
+00:55:00,800 --> 00:55:07,120
+that for many things for which you could write the 
+program you just don't it's too painful it's too  
+
+424
+00:55:07,120 --> 00:55:17,040
+hard but now suddenly that the barrier has lowered 
+um it uh that possibility becomes significantly  
+
+425
+00:55:17,040 --> 00:55:24,880
+more useful however uh programming languages are 
+going to remain the most precise way that we have  
+
+426
+00:55:24,880 --> 00:55:33,680
+for describing computation and so any time that 
+we have to have precision we're going to have  
+
+427
+00:55:33,680 --> 00:55:41,120
+to have a programming language somewhere in there 
+in the middle and whether it's written by a human  
+
+428
+00:55:41,120 --> 00:55:48,400
+or whether it's written in collaboration with a 
+machine that skill of being able to reason about  
+
+429
+00:55:48,400 --> 00:55:59,280
+uh code is going to and to be able to think 
+in terms of code is going to remain essential
+
+430
+00:55:59,280 --> 00:56:07,120
+okay everyone so uh let's go back to our our 
+coding lessons um what uh what languages should  
+
+431
+00:56:07,120 --> 00:56:14,800
+we learn or like what what do you think um 
+we we need to know at this point in time  
+
+432
+00:56:15,520 --> 00:56:24,480
+i think the language the specific language is 
+a lot less uh a lot less essential than uh you  
+
+433
+00:56:24,480 --> 00:56:32,320
+know just having a language that that you know so 
+well that you can think in terms of this language  
+
+434
+00:56:32,320 --> 00:56:39,600
+and where you can internalize some of those 
+abstractions and you can and you don't uh you  
+
+435
+00:56:39,600 --> 00:56:45,520
+don't have to translate in your head between your 
+thoughts and uh and the programming language in  
+
+436
+00:56:45,520 --> 00:56:50,800
+fact one of the one of the things that for which 
+I think these models are probably going to get  
+
+437
+00:56:50,800 --> 00:56:57,360
+much better in the near future is actually going 
+to be translating from one language to u uh to the  
+
+438
+00:56:57,360 --> 00:57:05,440
+other so the notion of writing a prototype in one 
+language and then uh scaling it up in in another  
+
+439
+00:57:05,440 --> 00:57:14,960
+one is probably going to become much more uh 
+feasible in uh in the near uh future so I I can't  
+
+440
+00:57:14,960 --> 00:57:22,160
+let this go i'm sorry i um I'm having too much 
+fun we It used to be that uh the early programmers  
+
+441
+00:57:22,160 --> 00:57:29,120
+learned machine language and then we went to 
+assembly and then we went to um what we used  
+
+442
+00:57:29,120 --> 00:57:38,400
+to call as highle programming languages and now we 
+have all the AI languages and ultimately we want  
+
+443
+00:57:38,400 --> 00:57:46,240
+to speak with a machine in natural language so um 
+so where's the so so how do you see this path how  
+
+444
+00:57:46,240 --> 00:57:56,480
+do you see the gap from being able to um talk to 
+our machines in natural language um as a way of  
+
+445
+00:57:56,480 --> 00:58:03,600
+um of sketching the um the outline of the program 
+and and really getting the program then we can do  
+
+446
+00:58:03,600 --> 00:58:11,040
+some of that with vibe coding but uh in a kind 
+of a limited way right well so one of the things  
+
+447
+00:58:11,040 --> 00:58:20,240
+about natural language is that it's actually 
+very ills suited for thinking at scale right  
+
+448
+00:58:20,240 --> 00:58:26,480
+uh natural language is great when we're having 
+a conversation and we want to uh you know convey  
+
+449
+00:58:26,480 --> 00:58:34,640
+some ideas quickly uh between us but uh you know 
+if you think about for example law is a pretty  
+
+450
+00:58:34,640 --> 00:58:44,160
+good example of a setting where you have to do 
+language at scale and it really breaks down right  
+
+451
+00:58:44,160 --> 00:58:52,320
+uh legal ease is uh uh you know it kind of looks 
+like English but it's not really English right and  
+
+452
+00:58:52,320 --> 00:58:59,520
+it's uh it's its own different language because 
+you have this such uh extreme uh precision that is  
+
+453
+00:58:59,520 --> 00:59:10,320
+required and even that is pretty awful compared to 
+the programming languages that uh that we have now  
+
+454
+00:59:10,320 --> 00:59:15,920
+one of the ways in which programming languages 
+have gotten very good over the years is their  
+
+455
+00:59:15,920 --> 00:59:23,840
+ability to build reusable uh abstractions right 
+and their ability to take uh functionality and  
+
+456
+00:59:23,840 --> 00:59:32,800
+package it up and uh deploy it in uh in ways that 
+basically mean that you only have to write things  
+
+457
+00:59:32,800 --> 00:59:44,000
+once uh that is already something that makes uh 
+modern programming very uh very powerful now the  
+
+458
+00:59:44,000 --> 00:59:49,200
+question one of the things that is challenging 
+about existing programming languages and where  
+
+459
+00:59:49,200 --> 00:59:59,600
+I think the models can really help is that before 
+uh we had this models programming languages had to  
+
+460
+00:59:59,600 --> 01:00:06,880
+serve two purposes right they had to help you 
+write but they also had to help you read and  
+
+461
+01:00:06,880 --> 01:00:14,000
+these two had very uh uh different uh constraints 
+right when you're writing you want something that  
+
+462
+01:00:14,000 --> 01:00:23,920
+is brief and succinct and um that um you know you 
+can get through lots of code very very quickly um  
+
+463
+01:00:23,920 --> 01:00:29,920
+by contrast when you're reading you want to have 
+all the information uh there and you don't want  
+
+464
+01:00:29,920 --> 01:00:38,400
+to have to jump around all over the place in order 
+to understand how a piece of code uh works i think  
+
+465
+01:00:38,400 --> 01:00:46,320
+with these models we have an opportunity to break 
+the connection between these uh these two things  
+
+466
+01:00:46,320 --> 01:00:53,440
+right to to write in ways that are quick and dirty 
+and simple and then have the model help us expand  
+
+467
+01:00:53,440 --> 01:01:00,720
+and make that thing readable and uh and make it 
+so that five years down the road when somebody  
+
+468
+01:01:00,720 --> 01:01:08,080
+else is trying to understand what this code 
+is doing it's actually uh understandable so  
+
+469
+01:01:08,080 --> 01:01:18,560
+I think there's there's a lot that the models 
+can do uh for us without necessarily having to  
+
+470
+01:01:18,560 --> 01:01:31,520
+uh change the the underlying um uh representation 
+that uh that we rely on today in terms of of code
+
+471
+01:01:31,520 --> 01:01:38,400
+thank you so much Armando uh we will keep 
+this wisdom in the back of our minds uh I  
+
+472
+01:01:38,400 --> 01:01:45,440
+will still aspire to be able to speak 
+in natural language to my computer and  
+
+473
+01:01:45,440 --> 01:01:51,280
+um and uh I want to talk with you more 
+about that with that let's thank Armando and  
+
+474
+01:01:51,280 --> 01:02:00,960
+um see you at the next CSAIL Forum have a great 
+afternoon everyone bye-bye thank you everyone bye
+

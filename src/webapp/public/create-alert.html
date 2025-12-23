@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Smart Alert - MIT Brain</title>
+  <link rel="stylesheet" href="css/alert-creator.css">
+</head>
+<body>
+  <!-- Navigation Header -->
+  <nav style="position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); padding: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.2); z-index: 1000;">
+    <div style="max-width: 1400px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; justify-content: space-between;">
+      <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: white; padding: 15px 0;">
+        <span style="font-size: 1.8em;">🧠</span>
+        <div>
+          <div style="font-size: 1.3em; font-weight: 700; line-height: 1;">MIT Brain</div>
+          <div style="font-size: 0.75em; color: rgba(255,255,255,0.8); margin-top: 2px;">Corporate Relations Intelligence</div>
+        </div>
+      </a>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <a href="/" style="padding: 8px 16px; color: white; text-decoration: none; border-radius: 6px; transition: all 0.2s; display: flex; align-items: center; gap: 6px; font-size: 0.95em; min-width: 90px; justify-content: center;">
+          🏠 <span>Home</span>
+        </a>
+        <a href="/alerts-dashboard.html" style="padding: 8px 16px; color: white; text-decoration: none; border-radius: 6px; transition: all 0.2s; display: flex; align-items: center; gap: 6px; font-size: 0.95em; min-width: 90px; justify-content: center;">
+          🔔 <span>Alerts</span>
+        </a>
+        <a href="/create-alert.html" style="padding: 8px 16px; background: rgba(230, 126, 34, 0.3); color: white; text-decoration: none; border-radius: 6px; transition: all 0.2s; display: flex; align-items: center; gap: 6px; font-size: 0.95em; font-weight: 600; border: 2px solid #e67e22; min-width: 130px; justify-content: center;">
+          ➕ <span>Create Alert</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Spacer for fixed nav -->
+  <div style="height: 80px;"></div>
+
+  <div class="page-container">
+    <div class="alert-creator">
+      <!-- Header -->
+      <div class="alert-header">
+        <h2>🔔 Create Smart Alert</h2>
+        <p>Get notified when new MIT content matches your interests</p>
+      </div>
+
+      <form id="alertForm">
+        <!-- 1. Basic Info Section -->
+        <div class="form-section">
+          <h3>1. Alert Basics</h3>
+          
+          <div class="form-group">
+            <label for="alertName">
+              Alert Name
+              <span class="required">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="alertName" 
+              name="alertName" 
+              placeholder="e.g., Quantum Computing for IBM"
+              required
+            />
+            <div class="help-text">Give your alert a descriptive name</div>
+          </div>
+
+          <div class="form-group">
+            <label for="memberSelect">
+              Company/Member
+              <span class="required">*</span>
+            </label>
+            <select id="memberSelect" name="memberName" required>
+              <option value="">Select a company...</option>
+            </select>
+            <div class="help-text">Choose which company this alert is for</div>
+          </div>
+        </div>
+
+        <!-- 2. Search Criteria Section -->
+        <div class="form-section">
+          <h3>2. Search Criteria</h3>
+          
+          <div class="form-group">
+            <label for="searchPhrase">
+              Search Keywords
+              <span class="required">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="searchPhrase" 
+              name="phrase" 
+              placeholder="e.g., quantum computing OR quantum algorithms"
+              required
+            />
+            <div class="help-text">
+              Use AND/OR for complex queries (e.g., "machine learning AND healthcare")
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="minScore">Minimum Relevance Score</label>
+            <select id="minScore" name="minScore">
+              <option value="0">Any relevance (0+)</option>
+              <option value="0.5">Somewhat relevant (0.5+)</option>
+              <option value="1.0" selected>Good match (1.0+)</option>
+              <option value="1.5">Strong match (1.5+)</option>
+              <option value="2.0">Excellent match (2.0+)</option>
+            </select>
+            <div class="help-text">Filter out low-relevance matches</div>
+          </div>
+
+          <!-- AUTO DATE INFO (not fields!) -->
+          <div class="info-box success">
+            <strong>📅 Automatic Date Filtering</strong>
+            <p>
+              This alert automatically checks content published <strong>today</strong>. 
+              No manual date management needed!
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label>Content Types</label>
+            <div class="content-types-grid">
+              <label class="content-type-checkbox">
+                <input type="checkbox" name="contentTypes" value="news" checked />
+                <span>📰 News</span>
+              </label>
+              <label class="content-type-checkbox">
+                <input type="checkbox" name="contentTypes" value="paper" checked />
+                <span>📄 Papers</span>
+              </label>
+              <label class="content-type-checkbox">
+                <input type="checkbox" name="contentTypes" value="video" checked />
+                <span>🎥 Videos</span>
+              </label>
+              <label class="content-type-checkbox">
+                <input type="checkbox" name="contentTypes" value="event" checked />
+                <span>📅 Events</span>
+              </label>
+              <label class="content-type-checkbox">
+                <input type="checkbox" name="contentTypes" value="startup" checked />
+                <span>🚀 Startups</span>
+              </label>
+            </div>
+            <div class="help-text">Select which types of content to monitor</div>
+          </div>
+        </div>
+
+        <!-- 3. Smart Match Section -->
+        <div class="form-section">
+          <h3>3. Smart Filtering</h3>
+          
+          <label class="smart-match-toggle active" id="smartMatchToggle">
+            <input type="checkbox" name="useSmartMatch" id="useSmartMatch" checked />
+            <div class="toggle-content">
+              <strong>
+                🤖 Use Smart Match AI
+                <span class="badge recommended">RECOMMENDED</span>
+              </strong>
+              <p>
+                AI selects the most relevant matches based on company interests. 
+                Without this, you'll get ALL matching items.
+              </p>
+            </div>
+          </label>
+
+          <div class="info-box warning" id="smartMatchWarning" style="display: none;">
+            <strong>⚠️ Warning: Smart Match Disabled</strong>
+            <p>
+              Without Smart Match, you may receive many low-relevance items. 
+              This can result in hundreds of matches per day.
+            </p>
+          </div>
+        </div>
+
+        <!-- 4. Email Settings Section -->
+        <div class="form-section">
+          <h3>4. Email Settings</h3>
+          
+          <div class="form-group">
+            <label for="recipientEmail">
+              Email Address
+              <span class="required">*</span>
+            </label>
+            <input 
+              type="email" 
+              id="recipientEmail" 
+              name="recipientEmail" 
+              placeholder="your.email@example.com"
+              required
+            />
+            <div class="help-text">Where should we send the daily digest?</div>
+          </div>
+
+          <div class="form-group">
+            <label for="frequency">Delivery Schedule</label>
+            <select id="frequency" name="frequency">
+              <option value="daily" selected>Daily (9:00 AM)</option>
+            </select>
+            <div class="help-text">Weekly and monthly options coming soon</div>
+          </div>
+
+          <!-- CONSOLIDATED EMAIL INFO -->
+          <div class="info-box">
+            <strong>📧 Consolidated Daily Digest</strong>
+            <p>
+              All your alerts are combined into <strong>one email per day</strong>. 
+              No more inbox overload! Each alert appears as a separate section in the digest.
+            </p>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            ✅ Create Alert
+          </button>
+          <button type="button" class="btn btn-secondary" id="cancelBtn">
+            Cancel
+          </button>
+          <button type="button" class="btn btn-test" id="testAlertBtn" style="margin-left: auto;">
+            🧪 Test Alert
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="loading-spinner"></div>
+    <p>Creating alert...</p>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header success">
+        <h3>✅ Alert Created Successfully!</h3>
+      </div>
+      <div class="modal-body">
+        <p>Your alert has been set up and will start monitoring MIT content.</p>
+        <ul>
+          <li>First digest email: <strong>Tomorrow at 9:00 AM</strong></li>
+          <li>Frequency: <strong>Daily</strong></li>
+          <li>Auto-filters: <strong>Today's content only</strong></li>
+        </ul>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="viewAlertsBtn">View All Alerts</button>
+        <button class="btn btn-secondary" id="createAnotherBtn">Create Another</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/alert-creator.js"></script>
+</body>
+</html>

@@ -1,0 +1,9052 @@
+1
+00:00:12,880 --> 00:00:18,359
+together with Alexandro we will present
+
+2
+00:00:15,519 --> 00:00:21,119
+now diffusion for molecule
+
+3
+00:00:18,359 --> 00:00:24,320
+generation. So now what is going to
+
+4
+00:00:21,119 --> 00:00:27,359
+happen? First I will have a introduction
+
+5
+00:00:24,320 --> 00:00:29,760
+with uh why and how molecule generation
+
+6
+00:00:27,359 --> 00:00:33,200
+is done and then I will go through
+
+7
+00:00:29,760 --> 00:00:36,239
+kerality and isometric groups very
+
+8
+00:00:33,200 --> 00:00:39,399
+important concepts and then I will have
+
+9
+00:00:36,239 --> 00:00:42,480
+a brief diffusion
+
+10
+00:00:39,399 --> 00:00:46,320
+basics and then uh diffusion on point
+
+11
+00:00:42,480 --> 00:00:49,600
+clouds and then last of my part will be
+
+12
+00:00:46,320 --> 00:00:52,079
+problems with E3 invariance.
+
+13
+00:00:49,600 --> 00:00:55,480
+And then Alexandro will take the latter
+
+14
+00:00:52,079 --> 00:00:58,879
+part uh and talk talk
+
+15
+00:00:55,480 --> 00:01:01,600
+about how to actually use fields and new
+
+16
+00:00:58,879 --> 00:01:04,239
+representation for molecules and then
+
+17
+00:01:01,600 --> 00:01:07,680
+talk about the challenges and solutions,
+
+18
+00:01:04,239 --> 00:01:11,439
+how to handle these and then empirically
+
+19
+00:01:07,680 --> 00:01:14,360
+confirm these results that uh that uh
+
+20
+00:01:11,439 --> 00:01:18,640
+the theory I will present here
+
+21
+00:01:14,360 --> 00:01:21,920
+first. Okay. So why molecule generation?
+
+22
+00:01:18,640 --> 00:01:24,799
+So we want to make some molecules for
+
+23
+00:01:21,920 --> 00:01:27,080
+medicine and historically those have
+
+24
+00:01:24,799 --> 00:01:30,720
+been found from
+
+25
+00:01:27,080 --> 00:01:35,200
+nature. But now we can use generative
+
+26
+00:01:30,720 --> 00:01:38,000
+models to generate an initial set that
+
+27
+00:01:35,200 --> 00:01:40,360
+we can then in silico filter and then
+
+28
+00:01:38,000 --> 00:01:43,520
+further filter in the wet
+
+29
+00:01:40,360 --> 00:01:46,799
+lab and then we can furthermore do
+
+30
+00:01:43,520 --> 00:01:49,600
+conditional modeling. So taking some
+
+31
+00:01:46,799 --> 00:01:53,280
+condition like a binding pocket and have
+
+32
+00:01:49,600 --> 00:01:56,799
+a better initial set and using this kind
+
+33
+00:01:53,280 --> 00:02:00,320
+of automated pipeline could give uh a
+
+34
+00:01:56,799 --> 00:02:03,719
+lot of savings because because drug
+
+35
+00:02:00,320 --> 00:02:06,719
+discovery is extremely
+
+36
+00:02:03,719 --> 00:02:08,160
+expensive. But first the models need to
+
+37
+00:02:06,719 --> 00:02:09,759
+actually generate some sensible
+
+38
+00:02:08,160 --> 00:02:11,760
+molecules.
+
+39
+00:02:09,759 --> 00:02:14,560
+So they need to adhere to basic
+
+40
+00:02:11,760 --> 00:02:17,599
+chemistry rules like the octed rule and
+
+41
+00:02:14,560 --> 00:02:20,239
+then they need to be stereochemically
+
+42
+00:02:17,599 --> 00:02:24,319
+feasible. So the 3D confirmation has to
+
+43
+00:02:20,239 --> 00:02:27,000
+be something that can actually exist and
+
+44
+00:02:24,319 --> 00:02:29,840
+the models need to scale to larger
+
+45
+00:02:27,000 --> 00:02:32,160
+compounds both computationally but also
+
+46
+00:02:29,840 --> 00:02:36,160
+when larger compounds they are more
+
+47
+00:02:32,160 --> 00:02:37,840
+complex. So the models need to also know
+
+48
+00:02:36,160 --> 00:02:39,519
+how to model these more complex
+
+49
+00:02:37,840 --> 00:02:43,599
+molecules.
+
+50
+00:02:39,519 --> 00:02:47,040
+So for this the as Martin tell told that
+
+51
+00:02:43,599 --> 00:02:50,560
+these molecules has to be represented in
+
+52
+00:02:47,040 --> 00:02:56,040
+some good ways. So so that the model
+
+53
+00:02:50,560 --> 00:02:59,120
+model can actually use uh important
+
+54
+00:02:56,040 --> 00:03:02,080
+features. So uh a little bit like just
+
+55
+00:02:59,120 --> 00:03:04,800
+Martin said that this miles which is
+
+56
+00:03:02,080 --> 00:03:07,519
+this string representation it kind of
+
+57
+00:03:04,800 --> 00:03:11,640
+doesn't make sense because there is no
+
+58
+00:03:07,519 --> 00:03:14,760
+natural start and end or ordering of
+
+59
+00:03:11,640 --> 00:03:17,680
+molecules and also in the smiles
+
+60
+00:03:14,760 --> 00:03:20,239
+representation one molecule can have
+
+61
+00:03:17,680 --> 00:03:23,200
+many different very different smiles. So
+
+62
+00:03:20,239 --> 00:03:25,360
+the model would have a hard time adding
+
+63
+00:03:23,200 --> 00:03:27,120
+both of those representations to the
+
+64
+00:03:25,360 --> 00:03:30,080
+same molecule.
+
+65
+00:03:27,120 --> 00:03:34,040
+Then also graphs are kind of good but
+
+66
+00:03:30,080 --> 00:03:36,879
+these do not consider the 3D
+
+67
+00:03:34,040 --> 00:03:40,400
+confirmation. So there is also a
+
+68
+00:03:36,879 --> 00:03:42,640
+deficiency there. And then we have point
+
+69
+00:03:40,400 --> 00:03:46,000
+clouds. So these are quite good. So
+
+70
+00:03:42,640 --> 00:03:50,920
+these are just points living in the 3D
+
+71
+00:03:46,000 --> 00:03:53,599
+space. So these can handle the 3D
+
+72
+00:03:50,920 --> 00:03:56,159
+confirmations and then the the bonds can
+
+73
+00:03:53,599 --> 00:03:58,640
+be either modeled directly or then
+
+74
+00:03:56,159 --> 00:04:01,000
+inferred from the distances of the
+
+75
+00:03:58,640 --> 00:04:04,400
+points that can be
+
+76
+00:04:01,000 --> 00:04:06,120
+atoms. Then lastly we will have fields
+
+77
+00:04:04,400 --> 00:04:09,439
+and this is
+
+78
+00:04:06,120 --> 00:04:12,280
+uh amazing and Alexander will present
+
+79
+00:04:09,439 --> 00:04:15,200
+more of the fields
+
+80
+00:04:12,280 --> 00:04:18,000
+approach. So then you can actually for
+
+81
+00:04:15,200 --> 00:04:20,400
+the generation of these molecules you
+
+82
+00:04:18,000 --> 00:04:23,040
+can given a graph generate the atoms for
+
+83
+00:04:20,400 --> 00:04:26,320
+the graph and get a molecule or you can
+
+84
+00:04:23,040 --> 00:04:28,080
+generate fractions instead of atoms or
+
+85
+00:04:26,320 --> 00:04:31,320
+then you can just create the
+
+86
+00:04:28,080 --> 00:04:34,479
+connectivity graph connect different
+
+87
+00:04:31,320 --> 00:04:38,240
+atoms but the thing we will consider
+
+88
+00:04:34,479 --> 00:04:40,400
+most here is to generate molecular graph
+
+89
+00:04:38,240 --> 00:04:43,040
+and the 3D structure. So the the full
+
+90
+00:04:40,400 --> 00:04:48,080
+molecule
+
+91
+00:04:43,040 --> 00:04:50,479
+And now one important thing is parality.
+
+92
+00:04:48,080 --> 00:04:54,160
+So this is handedness and this is a
+
+93
+00:04:50,479 --> 00:04:58,240
+special property that the mirror image
+
+94
+00:04:54,160 --> 00:05:00,040
+of a molecule cannot be superposed on
+
+95
+00:04:58,240 --> 00:05:04,000
+the original
+
+96
+00:05:00,040 --> 00:05:06,479
+one. So so it's exactly like your right
+
+97
+00:05:04,000 --> 00:05:10,240
+and left hand. You cannot rotate your
+
+98
+00:05:06,479 --> 00:05:12,000
+right hand or translate right translate
+
+99
+00:05:10,240 --> 00:05:15,560
+and rotate your right hand to get your
+
+100
+00:05:12,000 --> 00:05:18,639
+left hand. You actually have to have a
+
+101
+00:05:15,560 --> 00:05:21,440
+reflection and kality is quite important
+
+102
+00:05:18,639 --> 00:05:25,199
+in biology.
+
+103
+00:05:21,440 --> 00:05:29,120
+uh for example like the metabolization
+
+104
+00:05:25,199 --> 00:05:32,800
+is dependent on on the on the kyal
+
+105
+00:05:29,120 --> 00:05:35,160
+nantomer and also here the ibuprofen is
+
+106
+00:05:32,800 --> 00:05:39,560
+only effective in one of the
+
+107
+00:05:35,160 --> 00:05:42,479
+nantiomers. So kality is is an important
+
+108
+00:05:39,560 --> 00:05:45,440
+feature and kind of related are the
+
+109
+00:05:42,479 --> 00:05:47,600
+mathematical isometric groups where we
+
+110
+00:05:45,440 --> 00:05:50,160
+have the ukidian group which is
+
+111
+00:05:47,600 --> 00:05:54,520
+rotations translations and reflections.
+
+112
+00:05:50,160 --> 00:05:58,160
+So if some function is invariant to to
+
+113
+00:05:54,520 --> 00:06:00,360
+E3 then it cannot distinguish between
+
+114
+00:05:58,160 --> 00:06:03,919
+the two
+
+115
+00:06:00,360 --> 00:06:07,840
+enant. So kind of a better way is the
+
+116
+00:06:03,919 --> 00:06:09,319
+have se pre-invariant methods so that
+
+117
+00:06:07,840 --> 00:06:12,720
+rotations and
+
+118
+00:06:09,319 --> 00:06:14,280
+translations do not make a different but
+
+119
+00:06:12,720 --> 00:06:17,199
+then reflections
+
+120
+00:06:14,280 --> 00:06:19,639
+do. So this this would be like really
+
+121
+00:06:17,199 --> 00:06:23,039
+nice for all these molecular
+
+122
+00:06:19,639 --> 00:06:24,759
+generation methods. We will I will come
+
+123
+00:06:23,039 --> 00:06:28,160
+back to back to this
+
+124
+00:06:24,759 --> 00:06:31,360
+later. So first I will show some
+
+125
+00:06:28,160 --> 00:06:35,840
+diffusion basics. So diffusion is well
+
+126
+00:06:31,360 --> 00:06:39,360
+quite a good generative uh approach used
+
+127
+00:06:35,840 --> 00:06:42,680
+quite a lot. So uh we want to model some
+
+128
+00:06:39,360 --> 00:06:46,240
+data distribution of interest
+
+129
+00:06:42,680 --> 00:06:48,639
+and and uh more specifically we want to
+
+130
+00:06:46,240 --> 00:06:51,440
+sample more from it. So how do we do
+
+131
+00:06:48,639 --> 00:06:54,080
+this? We we take a noise distribution
+
+132
+00:06:51,440 --> 00:06:57,000
+here a Gaussian and then we want to
+
+133
+00:06:54,080 --> 00:07:01,400
+couple these
+
+134
+00:06:57,000 --> 00:07:03,759
+distributions. So going from the uh
+
+135
+00:07:01,400 --> 00:07:07,199
+interest distribution of interest or the
+
+136
+00:07:03,759 --> 00:07:10,000
+data to the easy distribution is quite
+
+137
+00:07:07,199 --> 00:07:12,840
+easy. We can just gradually add Gaussian
+
+138
+00:07:10,000 --> 00:07:15,520
+noise. This is called the forward
+
+139
+00:07:12,840 --> 00:07:17,680
+process. So here we can we can choose
+
+140
+00:07:15,520 --> 00:07:23,039
+that do we add a lot of noise in the
+
+141
+00:07:17,680 --> 00:07:25,039
+beginning or middle or end and then uh
+
+142
+00:07:23,039 --> 00:07:26,960
+to what sort of gaussian we come. So
+
+143
+00:07:25,039 --> 00:07:29,000
+this is kind of the noising schedule
+
+144
+00:07:26,960 --> 00:07:32,479
+that we can
+
+145
+00:07:29,000 --> 00:07:35,599
+choose and then eventually we want to
+
+146
+00:07:32,479 --> 00:07:39,840
+learn the reverse process. So to take
+
+147
+00:07:35,599 --> 00:07:42,560
+noise and then make this back into the
+
+148
+00:07:39,840 --> 00:07:42,560
+distribution of
+
+149
+00:07:43,319 --> 00:07:52,880
+interest and yeah for example
+
+150
+00:07:48,039 --> 00:07:56,319
+images this is uh quite uh quite uh
+
+151
+00:07:52,880 --> 00:07:59,000
+basic application and uh we we are using
+
+152
+00:07:56,319 --> 00:08:02,160
+the the DDPM
+
+153
+00:07:59,000 --> 00:08:05,520
+formulation and and here we have X0
+
+154
+00:08:02,160 --> 00:08:09,599
+which is the clean data point and x1 is
+
+155
+00:08:05,520 --> 00:08:13,680
+the is the total noise data point and
+
+156
+00:08:09,599 --> 00:08:15,919
+here q denotes the forward process. So
+
+157
+00:08:13,680 --> 00:08:18,160
+the noising process this is defined by
+
+158
+00:08:15,919 --> 00:08:22,560
+our noising schedule. So we know this
+
+159
+00:08:18,160 --> 00:08:24,879
+this is as gaussian and the the the p uh
+
+160
+00:08:22,560 --> 00:08:27,360
+is the the reverse and this is something
+
+161
+00:08:24,879 --> 00:08:27,360
+we want to
+
+162
+00:08:27,479 --> 00:08:35,120
+learn. So at any time point now between
+
+163
+00:08:31,520 --> 00:08:37,919
+between the zero and one we would like
+
+164
+00:08:35,120 --> 00:08:41,200
+to have the same distribution if we go
+
+165
+00:08:37,919 --> 00:08:43,919
+from the forward and go for backward. So
+
+166
+00:08:41,200 --> 00:08:46,959
+one could simply take now the the
+
+167
+00:08:43,919 --> 00:08:49,320
+forward here and the backward and then
+
+168
+00:08:46,959 --> 00:08:51,920
+match them. But this would be kind of
+
+169
+00:08:49,320 --> 00:08:54,720
+computationally unfeasible because you
+
+170
+00:08:51,920 --> 00:08:56,959
+would need to have a two v random
+
+171
+00:08:54,720 --> 00:08:59,120
+variables and make a montal estimate of
+
+172
+00:08:56,959 --> 00:09:01,760
+that.
+
+173
+00:08:59,120 --> 00:09:05,839
+So instead you can match it to the
+
+174
+00:09:01,760 --> 00:09:09,040
+posterior of the forward and you using a
+
+175
+00:09:05,839 --> 00:09:12,000
+clean clean data point and this this
+
+176
+00:09:09,040 --> 00:09:15,320
+will then also be tractable the
+
+177
+00:09:12,000 --> 00:09:18,959
+posterior and now we can
+
+178
+00:09:15,320 --> 00:09:22,080
+actually match this which in a
+
+179
+00:09:18,959 --> 00:09:22,080
+computationally feasible
+
+180
+00:09:23,720 --> 00:09:29,920
+way and the the reverse process can then
+
+181
+00:09:27,120 --> 00:09:32,560
+be parameterized by taking the the
+
+182
+00:09:29,920 --> 00:09:36,240
+posterior and instead of a actual clean
+
+183
+00:09:32,560 --> 00:09:40,519
+image we take a neural network and
+
+184
+00:09:36,240 --> 00:09:43,600
+predict a clean image based on the noisy
+
+185
+00:09:40,519 --> 00:09:46,399
+image. And now we can have a variational
+
+186
+00:09:43,600 --> 00:09:49,440
+lower bound and make a loss. And now the
+
+187
+00:09:46,399 --> 00:09:52,080
+the main part of this loss would be the
+
+188
+00:09:49,440 --> 00:09:54,399
+matching of the the posterior and the
+
+189
+00:09:52,080 --> 00:09:56,519
+reverse. And these would be then
+
+190
+00:09:54,399 --> 00:10:00,040
+Gaussians with the same standard
+
+191
+00:09:56,519 --> 00:10:04,399
+deviation. Uh so we can further simplify
+
+192
+00:10:00,040 --> 00:10:07,440
+this this loss to just a squared error.
+
+193
+00:10:04,399 --> 00:10:10,560
+And then also in practice it is easier
+
+194
+00:10:07,440 --> 00:10:10,560
+to learn just
+
+195
+00:10:11,080 --> 00:10:17,360
+noise data point. So this is kind of
+
+196
+00:10:14,399 --> 00:10:20,320
+mathematically equivalent but it's in
+
+197
+00:10:17,360 --> 00:10:20,320
+practice a lot
+
+198
+00:10:21,000 --> 00:10:28,160
+better. Yeah. I think I'll skip this but
+
+199
+00:10:24,800 --> 00:10:31,000
+this there is a neat way of doing uh
+
+200
+00:10:28,160 --> 00:10:33,519
+conditioning for
+
+201
+00:10:31,000 --> 00:10:34,360
+diffusion and this that was classifier
+
+202
+00:10:33,519 --> 00:10:37,440
+free
+
+203
+00:10:34,360 --> 00:10:40,560
+guidance but yeah okay so diffusion on
+
+204
+00:10:37,440 --> 00:10:42,720
+point clouds so there is this EDM which
+
+205
+00:10:40,560 --> 00:10:46,000
+is like a seminal work for this E3
+
+206
+00:10:42,720 --> 00:10:48,880
+equariant molecule generations so these
+
+207
+00:10:46,000 --> 00:10:52,720
+are then using point clouds so points in
+
+208
+00:10:48,880 --> 00:10:56,240
+in in in 3D space and This is then
+
+209
+00:10:52,720 --> 00:11:00,240
+parameterized by a graph neural network
+
+210
+00:10:56,240 --> 00:11:00,240
+that takes distances as
+
+211
+00:11:00,680 --> 00:11:06,720
+input and then then yes this 3D
+
+212
+00:11:04,079 --> 00:11:10,480
+coordinates are are then then diffused
+
+213
+00:11:06,720 --> 00:11:14,640
+and modeled and based on on the on the
+
+214
+00:11:10,480 --> 00:11:17,839
+clean uh positions of the atoms then you
+
+215
+00:11:14,640 --> 00:11:22,040
+can determine the bonds. So here it's uh
+
+216
+00:11:17,839 --> 00:11:26,880
+it's important to note that both the the
+
+217
+00:11:22,040 --> 00:11:30,560
+positions and those also the the bonds
+
+218
+00:11:26,880 --> 00:11:34,560
+and also the types of the of the atoms
+
+219
+00:11:30,560 --> 00:11:36,720
+can be changed basically at every time.
+
+220
+00:11:34,560 --> 00:11:38,440
+So you can never know that this is for
+
+221
+00:11:36,720 --> 00:11:41,519
+sure a
+
+222
+00:11:38,440 --> 00:11:45,800
+carbon. Yeah. Here is a illustration of
+
+223
+00:11:41,519 --> 00:11:45,800
+of the den noising process.
+
+224
+00:11:47,560 --> 00:11:52,680
+Okay.
+
+225
+00:11:49,240 --> 00:11:55,320
+Now, now the the those
+
+226
+00:11:52,680 --> 00:11:58,720
+are those are this is actually
+
+227
+00:11:55,320 --> 00:12:00,440
+like kind of nice this uh point clouds
+
+228
+00:11:58,720 --> 00:12:03,760
+having the
+
+229
+00:12:00,440 --> 00:12:06,959
+E3 invariance because of the rotations
+
+230
+00:12:03,760 --> 00:12:12,440
+and translations. But uh there is this
+
+231
+00:12:06,959 --> 00:12:16,320
+problem that if we have a a E3 invariant
+
+232
+00:12:12,440 --> 00:12:17,959
+distribution then the enant will appear
+
+233
+00:12:16,320 --> 00:12:20,639
+at the same
+
+234
+00:12:17,959 --> 00:12:24,240
+probability. So this is quite bad. For
+
+235
+00:12:20,639 --> 00:12:27,519
+example, if you want to model a data set
+
+236
+00:12:24,240 --> 00:12:32,440
+of highly metabolizable molecules and
+
+237
+00:12:27,519 --> 00:12:35,120
+this is very dependent on on the kyal
+
+238
+00:12:32,440 --> 00:12:37,680
+configuration. This is actually not good
+
+239
+00:12:35,120 --> 00:12:41,120
+if we have a E3 invariant method because
+
+240
+00:12:37,680 --> 00:12:43,959
+then it was just randomly 50/50 choose
+
+241
+00:12:41,120 --> 00:12:48,959
+which Nantium will come
+
+242
+00:12:43,959 --> 00:12:51,880
+out and actually so this GNN in EDM and
+
+243
+00:12:48,959 --> 00:12:56,519
+many other point clouds is E3
+
+244
+00:12:51,880 --> 00:12:58,440
+invariant. So this also makes the
+
+245
+00:12:56,519 --> 00:13:02,480
+conditional
+
+246
+00:12:58,440 --> 00:13:05,200
+equivariant and furthermore this will
+
+247
+00:13:02,480 --> 00:13:08,839
+make given that the prior is invariant
+
+248
+00:13:05,200 --> 00:13:12,079
+this will also make the the probability
+
+249
+00:13:08,839 --> 00:13:14,040
+distribution that you generate invariant
+
+250
+00:13:12,079 --> 00:13:17,959
+and and this means that
+
+251
+00:13:14,040 --> 00:13:21,040
+yeah it cannot consider the
+
+252
+00:13:17,959 --> 00:13:23,279
+kality the the current uh point cloud
+
+253
+00:13:21,040 --> 00:13:27,120
+methods
+
+254
+00:13:23,279 --> 00:13:28,760
+Okay. So now can we fix this and make it
+
+255
+00:13:27,120 --> 00:13:32,000
+SC3
+
+256
+00:13:28,760 --> 00:13:34,360
+invariant? So now we can take a function
+
+257
+00:13:32,000 --> 00:13:38,000
+that is SE3
+
+258
+00:13:34,360 --> 00:13:42,000
+invariant. And if we actually have a
+
+259
+00:13:38,000 --> 00:13:46,240
+function that takes an object of m
+
+260
+00:13:42,000 --> 00:13:50,079
+uh n dimensional vectors but m is less
+
+261
+00:13:46,240 --> 00:13:52,760
+or equal to n then actually the function
+
+262
+00:13:50,079 --> 00:13:55,600
+output will be e3
+
+263
+00:13:52,760 --> 00:13:58,399
+invariant and yeah just to remind that
+
+264
+00:13:55,600 --> 00:14:00,120
+yeah we can do any rotation and the
+
+265
+00:13:58,399 --> 00:14:03,360
+function will be
+
+266
+00:14:00,120 --> 00:14:05,519
+same but now actually because the
+
+267
+00:14:03,360 --> 00:14:08,800
+dimensionality
+
+268
+00:14:05,519 --> 00:14:12,240
+uh any reflection can also be formulated
+
+269
+00:14:08,800 --> 00:14:15,680
+as this rotation and we can look at this
+
+270
+00:14:12,240 --> 00:14:19,120
+example in in 3D space where we have
+
+271
+00:14:15,680 --> 00:14:23,680
+these three points
+
+272
+00:14:19,120 --> 00:14:26,720
+uh and we we can reflect them but we're
+
+273
+00:14:23,680 --> 00:14:28,560
+reflecting on this this yellow plane but
+
+274
+00:14:26,720 --> 00:14:32,639
+the reflection is actually exactly the
+
+275
+00:14:28,560 --> 00:14:34,600
+same thing as the rotation around now
+
+276
+00:14:32,639 --> 00:14:41,560
+the line L
+
+277
+00:14:34,600 --> 00:14:43,399
+here. So, so now if the function is is
+
+278
+00:14:41,560 --> 00:14:46,760
+SE three
+
+279
+00:14:43,399 --> 00:14:49,639
+invariant, it will all also be E3
+
+280
+00:14:46,760 --> 00:14:53,600
+invariant for these three
+
+281
+00:14:49,639 --> 00:14:55,760
+points. So, so this means that that if
+
+282
+00:14:53,600 --> 00:15:01,320
+we have just three points, you cannot
+
+283
+00:14:55,760 --> 00:15:01,320
+get an SE3 invariant feature.
+
+284
+00:15:03,399 --> 00:15:11,839
+Okay, but we still want this. So if we
+
+285
+00:15:08,160 --> 00:15:14,680
+have now E3 invariant features and a
+
+286
+00:15:11,839 --> 00:15:18,880
+function that eats those
+
+287
+00:15:14,680 --> 00:15:21,560
+features, then it cannot be anything
+
+288
+00:15:18,880 --> 00:15:24,560
+else than E3
+
+289
+00:15:21,560 --> 00:15:28,320
+invariant. But okay, so how how can we
+
+290
+00:15:24,560 --> 00:15:31,600
+get something that is SE3 invariant but
+
+291
+00:15:28,320 --> 00:15:34,800
+not E3 invariant? So we have one
+
+292
+00:15:31,600 --> 00:15:37,680
+suggestion uh which is the determinant.
+
+293
+00:15:34,800 --> 00:15:40,800
+So we have four points and we subtract
+
+294
+00:15:37,680 --> 00:15:44,079
+one of the points from rest of the three
+
+295
+00:15:40,800 --> 00:15:46,079
+ones and then we take the determinant.
+
+296
+00:15:44,079 --> 00:15:50,399
+So the terminant will will have the
+
+297
+00:15:46,079 --> 00:15:52,759
+value and the sign of the the volume and
+
+298
+00:15:50,399 --> 00:15:55,519
+the sign of the volume of of this
+
+299
+00:15:52,759 --> 00:16:00,160
+tetraedron and and the sign will
+
+300
+00:15:55,519 --> 00:16:00,160
+actually tell the the the kyal
+
+301
+00:16:01,320 --> 00:16:07,680
+nant. And then actually if we have two
+
+302
+00:16:04,639 --> 00:16:09,639
+of these function outputs if we do not
+
+303
+00:16:07,680 --> 00:16:12,320
+have the same four
+
+304
+00:16:09,639 --> 00:16:15,360
+points they will actually be independent
+
+305
+00:16:12,320 --> 00:16:15,360
+of each other.
+
+306
+00:16:15,759 --> 00:16:23,360
+And then now we we say that okay if we
+
+307
+00:16:21,279 --> 00:16:25,920
+want to have one of those point clouds
+
+308
+00:16:23,360 --> 00:16:29,600
+that for any time point we actually
+
+309
+00:16:25,920 --> 00:16:32,639
+cannot know what the atom type is and
+
+310
+00:16:29,600 --> 00:16:35,519
+also the exact connectivity then we need
+
+311
+00:16:32,639 --> 00:16:38,560
+to have O to the N to the power of four
+
+312
+00:16:35,519 --> 00:16:42,519
+of these features and this is kind of
+
+313
+00:16:38,560 --> 00:16:45,680
+bad meaning that it's kind of hard to
+
+314
+00:16:42,519 --> 00:16:48,480
+actually create this uh point client
+
+315
+00:16:45,680 --> 00:16:51,199
+point cloud method
+
+316
+00:16:48,480 --> 00:16:53,360
+uh that would actually be SE3 but not E3
+
+317
+00:16:51,199 --> 00:16:53,360
+in
+
+318
+00:16:54,440 --> 00:17:02,480
+variant and that's that's what I wanted
+
+319
+00:16:57,440 --> 00:17:06,480
+to say. So now Alexandra will will
+
+320
+00:17:02,480 --> 00:17:06,480
+present uh a
+
+321
+00:17:10,600 --> 00:17:18,720
+solution. Um hello. Yep. I am Alexander
+
+322
+00:17:14,679 --> 00:17:21,679
+Ditresco and I will continue by
+
+323
+00:17:18,720 --> 00:17:25,600
+presenting one of our recent works uh
+
+324
+00:17:21,679 --> 00:17:28,319
+published this year at Icleair entitled
+
+325
+00:17:25,600 --> 00:17:30,919
+E3 equivariant models cannot learnity
+
+326
+00:17:28,319 --> 00:17:34,000
+field based molecular
+
+327
+00:17:30,919 --> 00:17:36,480
+generation. So I will briefly recap what
+
+328
+00:17:34,000 --> 00:17:41,919
+Danny said.
+
+329
+00:17:36,480 --> 00:17:44,640
+We want to uh present uh generative drug
+
+330
+00:17:41,919 --> 00:17:48,400
+like molecules uh generative models for
+
+331
+00:17:44,640 --> 00:17:50,160
+drug like molecules uh because uh this
+
+332
+00:17:48,400 --> 00:17:52,559
+can be a means of more efficiently
+
+333
+00:17:50,160 --> 00:17:55,200
+exploring the vast space of molecules
+
+334
+00:17:52,559 --> 00:17:57,559
+and this might help us in the near
+
+335
+00:17:55,200 --> 00:18:00,240
+future to accelerate drug
+
+336
+00:17:57,559 --> 00:18:02,080
+discovery. And then we know that the
+
+337
+00:18:00,240 --> 00:18:03,720
+efficiency of drugs is highly dependent
+
+338
+00:18:02,080 --> 00:18:06,080
+on their three-dimensional
+
+339
+00:18:03,720 --> 00:18:08,000
+confirmations. And therefore much of the
+
+340
+00:18:06,080 --> 00:18:10,799
+prior work has focused on these point
+
+341
+00:18:08,000 --> 00:18:12,520
+clouds that uh model directly the atom
+
+342
+00:18:10,799 --> 00:18:15,600
+coordinates and atom
+
+343
+00:18:12,520 --> 00:18:18,080
+types and that they are predominantly
+
+344
+00:18:15,600 --> 00:18:20,559
+free invariant. So invariant to any
+
+345
+00:18:18,080 --> 00:18:22,840
+global translations, rotations or uh
+
+346
+00:18:20,559 --> 00:18:25,520
+reflections of the
+
+347
+00:18:22,840 --> 00:18:27,360
+molecules and there is this problem that
+
+348
+00:18:25,520 --> 00:18:30,720
+kyal molecules are not reflection
+
+349
+00:18:27,360 --> 00:18:32,960
+invariant and that reflections of
+
+350
+00:18:30,720 --> 00:18:34,720
+molecules that contain chyal centers
+
+351
+00:18:32,960 --> 00:18:36,799
+will create an antim pairs which have
+
+352
+00:18:34,720 --> 00:18:41,400
+distinguishing properties and that if
+
+353
+00:18:36,799 --> 00:18:45,280
+invariant methods cannot capture or
+
+354
+00:18:41,400 --> 00:18:48,240
+distinguish. And so furthermore, we also
+
+355
+00:18:45,280 --> 00:18:51,120
+argue how parallel adaptations are quite
+
+356
+00:18:48,240 --> 00:18:53,520
+challenging to develop uh while keeping
+
+357
+00:18:51,120 --> 00:18:56,640
+rotational invariance. And then here is
+
+358
+00:18:53,520 --> 00:18:59,320
+the uh same image with ibuba that is
+
+359
+00:18:56,640 --> 00:19:02,840
+only efficient in its s
+
+360
+00:18:59,320 --> 00:19:06,760
+form. So we propose diffusion models on
+
+361
+00:19:02,840 --> 00:19:09,919
+fields and concretely we define scalar
+
+362
+00:19:06,760 --> 00:19:13,679
+fields in the threedimensional space for
+
+363
+00:19:09,919 --> 00:19:17,039
+each atom and coalent bond type
+
+364
+00:19:13,679 --> 00:19:20,240
+uh which have the following form. So
+
+365
+00:19:17,039 --> 00:19:24,160
+they are sort of uh unnormalized gausian
+
+366
+00:19:20,240 --> 00:19:27,679
+balls with specific uh field parameters
+
+367
+00:19:24,160 --> 00:19:29,440
+uh gamma and standard deviations and
+
+368
+00:19:27,679 --> 00:19:33,440
+they of course depend on the atom
+
+369
+00:19:29,440 --> 00:19:37,760
+positions m and kind of a depiction of
+
+370
+00:19:33,440 --> 00:19:40,240
+these continuous uh fields uh is on the
+
+371
+00:19:37,760 --> 00:19:42,000
+right hand side where we present this
+
+372
+00:19:40,240 --> 00:19:44,559
+benzene which is a planner molecule and
+
+373
+00:19:42,000 --> 00:19:47,200
+therefore we can only show a z equals
+
+374
+00:19:44,559 --> 00:19:49,679
+zero section. of the field. So the field
+
+375
+00:19:47,200 --> 00:19:51,480
+is 3D but now we only look at the
+
+376
+00:19:49,679 --> 00:19:54,960
+section of
+
+377
+00:19:51,480 --> 00:19:58,400
+it. Uh we form our inputs by evaluating
+
+378
+00:19:54,960 --> 00:20:00,480
+these fields at specific locations G and
+
+379
+00:19:58,400 --> 00:20:01,720
+uh we do this for both the atoms and
+
+380
+00:20:00,480 --> 00:20:04,480
+bond
+
+381
+00:20:01,720 --> 00:20:07,760
+fields and we select equally spaced
+
+382
+00:20:04,480 --> 00:20:11,799
+locations G. uh therefore uh creating
+
+383
+00:20:07,760 --> 00:20:15,200
+fields like this image.
+
+384
+00:20:11,799 --> 00:20:17,760
+Uh and then yes so the final input
+
+385
+00:20:15,200 --> 00:20:21,520
+representation is the concatenated
+
+386
+00:20:17,760 --> 00:20:25,280
+uh evaluated fields for every atom
+
+387
+00:20:21,520 --> 00:20:29,200
+channel and every coalent bond channel.
+
+388
+00:20:25,280 --> 00:20:31,559
+Alexandro how are atoms and bond fields
+
+389
+00:20:29,200 --> 00:20:35,280
+coupled? Obviously one is heavily
+
+390
+00:20:31,559 --> 00:20:37,200
+dependent one on another.
+
+391
+00:20:35,280 --> 00:20:39,280
+uh right so I'm not exactly sure what
+
+392
+00:20:37,200 --> 00:20:43,320
+you mean by coupled but uh I guess they
+
+393
+00:20:39,280 --> 00:20:46,159
+are separate fields but they of course
+
+394
+00:20:43,320 --> 00:20:48,640
+uh influence the neural network
+
+395
+00:20:46,159 --> 00:20:50,159
+activation. So the neural network I will
+
+396
+00:20:48,640 --> 00:20:52,559
+describe later how the neural network
+
+397
+00:20:50,159 --> 00:20:54,440
+works but the neural network sees both
+
+398
+00:20:52,559 --> 00:20:58,000
+fields and atoms at the same time and
+
+399
+00:20:54,440 --> 00:21:00,080
+should hopefully learn to create
+
+400
+00:20:58,000 --> 00:21:04,000
+reasonable molecules and as we will see
+
+401
+00:21:00,080 --> 00:21:06,600
+later to a good degree they are
+
+402
+00:21:04,000 --> 00:21:09,600
+so the neural network in other words
+
+403
+00:21:06,600 --> 00:21:12,159
+learns you cannot have a bond if you
+
+404
+00:21:09,600 --> 00:21:15,840
+don't have two atoms right on the right
+
+405
+00:21:12,159 --> 00:21:18,880
+positions. Yeah. So it is considered to
+
+406
+00:21:15,840 --> 00:21:22,159
+have been better than at least that. So
+
+407
+00:21:18,880 --> 00:21:25,320
+it's it's never generating bonds at
+
+408
+00:21:22,159 --> 00:21:28,640
+where where there aren't atoms.
+
+409
+00:21:25,320 --> 00:21:31,120
+Yep. Okay. So now we will go through the
+
+410
+00:21:28,640 --> 00:21:34,720
+architecture and the invariances of our
+
+411
+00:21:31,120 --> 00:21:37,760
+architecture. So since we have equally
+
+412
+00:21:34,720 --> 00:21:39,440
+spaced grid locations G uh we can use
+
+413
+00:21:37,760 --> 00:21:42,400
+the three-dimensional adaptation of a
+
+414
+00:21:39,440 --> 00:21:44,960
+unit and just briefly describing what
+
+415
+00:21:42,400 --> 00:21:48,400
+this does. Uh so we have multiple
+
+416
+00:21:44,960 --> 00:21:50,880
+downscale and upscale layers for various
+
+417
+00:21:48,400 --> 00:21:55,360
+resolution levels and then we have sort
+
+418
+00:21:50,880 --> 00:21:58,559
+of similar to a skip connection uh
+
+419
+00:21:55,360 --> 00:22:00,320
+layers that concatenate the downscale
+
+420
+00:21:58,559 --> 00:22:01,840
+hidden representations to the upscale
+
+421
+00:22:00,320 --> 00:22:04,159
+hidden representations. And the
+
+422
+00:22:01,840 --> 00:22:06,720
+intuition on this is that the
+
+423
+00:22:04,159 --> 00:22:08,480
+architecture can capture both the the
+
+424
+00:22:06,720 --> 00:22:12,720
+global features of the molecule as well
+
+425
+00:22:08,480 --> 00:22:15,159
+as the local features for the low and
+
+426
+00:22:12,720 --> 00:22:17,280
+then high resolution levels
+
+427
+00:22:15,159 --> 00:22:19,760
+respectively. In terms of the ify
+
+428
+00:22:17,280 --> 00:22:22,799
+invariances, we have good translational
+
+429
+00:22:19,760 --> 00:22:24,760
+invariance inductive biases because this
+
+430
+00:22:22,799 --> 00:22:27,200
+uh this
+
+431
+00:22:24,760 --> 00:22:30,000
+architecture has most of its parameters
+
+432
+00:22:27,200 --> 00:22:32,000
+in convolutional neural networks.
+
+433
+00:22:30,000 --> 00:22:34,480
+then we have no reflection invariance
+
+434
+00:22:32,000 --> 00:22:36,640
+which is of course a good thing as we
+
+435
+00:22:34,480 --> 00:22:38,360
+can distinguish an antiimer but we do
+
+436
+00:22:36,640 --> 00:22:41,039
+not have rotational
+
+437
+00:22:38,360 --> 00:22:45,480
+invariance. So what we propose to
+
+438
+00:22:41,039 --> 00:22:49,520
+mitigate this issue is that uh we
+
+439
+00:22:45,480 --> 00:22:52,400
+define reference rotations as rotations
+
+440
+00:22:49,520 --> 00:22:54,720
+about their principal components and
+
+441
+00:22:52,400 --> 00:22:58,120
+again again the same benzene molecule is
+
+442
+00:22:54,720 --> 00:22:58,120
+depicted here.
+
+443
+00:22:58,640 --> 00:23:03,760
+uh now going through the diffusion
+
+444
+00:23:00,880 --> 00:23:06,080
+noising process. So we use a variance
+
+445
+00:23:03,760 --> 00:23:08,080
+preserving noising process defined by
+
+446
+00:23:06,080 --> 00:23:10,720
+some alpha parameter that gradually
+
+447
+00:23:08,080 --> 00:23:15,440
+removes the signal you not which is the
+
+448
+00:23:10,720 --> 00:23:17,520
+clean uh input field and then the noise
+
+449
+00:23:15,440 --> 00:23:20,080
+added at each time step is directly
+
+450
+00:23:17,520 --> 00:23:26,080
+defined by the alpha t schedule which
+
+451
+00:23:20,080 --> 00:23:30,080
+defines how fast the signal is removed.
+
+452
+00:23:26,080 --> 00:23:33,360
+For alpha t we use an generalization of
+
+453
+00:23:30,080 --> 00:23:35,799
+the cosine noising schedule uh with with
+
+454
+00:23:33,360 --> 00:23:39,120
+this new
+
+455
+00:23:35,799 --> 00:23:40,120
+parameter and setting new equal to 1 and
+
+456
+00:23:39,120 --> 00:23:44,240
+u equal to
+
+457
+00:23:40,120 --> 00:23:49,880
+1.5 will result in generating bonds
+
+458
+00:23:44,240 --> 00:23:53,360
+faster or equivalently destroying atoms
+
+459
+00:23:49,880 --> 00:23:58,000
+faster. And this is an example of a
+
+460
+00:23:53,360 --> 00:24:00,799
+generated uh generated molecule. So here
+
+461
+00:23:58,000 --> 00:24:04,400
+we show 200 highest values across all
+
+462
+00:24:00,799 --> 00:24:07,039
+the bonds and atom type uh atom type
+
+463
+00:24:04,400 --> 00:24:09,120
+channels respectively. And you can see
+
+464
+00:24:07,039 --> 00:24:11,400
+probably also related to the question
+
+465
+00:24:09,120 --> 00:24:14,159
+earlier that they are sort
+
+466
+00:24:11,400 --> 00:24:17,840
+of even though we don't restrict the
+
+467
+00:24:14,159 --> 00:24:19,840
+model to generate specifically bonds at
+
+468
+00:24:17,840 --> 00:24:24,760
+locations where there are atoms or vice
+
+469
+00:24:19,840 --> 00:24:30,000
+versa then of course these are
+
+470
+00:24:24,760 --> 00:24:30,000
+still reasonably well coupled in in a
+
+471
+00:24:30,120 --> 00:24:35,679
+sense. Then uh after we have generated
+
+472
+00:24:33,039 --> 00:24:37,360
+the fields themselves, of course we just
+
+473
+00:24:35,679 --> 00:24:40,880
+have some values in the field
+
+474
+00:24:37,360 --> 00:24:44,320
+dimensional space, we we would like to
+
+475
+00:24:40,880 --> 00:24:45,799
+actually retrieve the molecular graphs
+
+476
+00:24:44,320 --> 00:24:49,120
+from those
+
+477
+00:24:45,799 --> 00:24:52,120
+fields. And first uh to do this we look
+
+478
+00:24:49,120 --> 00:24:54,799
+at the atom
+
+479
+00:24:52,120 --> 00:24:58,559
+fields and we detect field locations
+
+480
+00:24:54,799 --> 00:25:02,000
+that have high enough peaks and assign
+
+481
+00:24:58,559 --> 00:25:04,440
+the number of atoms and rough locations
+
+482
+00:25:02,000 --> 00:25:08,880
+m for each atom
+
+483
+00:25:04,440 --> 00:25:11,840
+type based on threshold based algorithm
+
+484
+00:25:08,880 --> 00:25:13,640
+which is a very efficient relatively
+
+485
+00:25:11,840 --> 00:25:16,880
+simple
+
+486
+00:25:13,640 --> 00:25:18,720
+algorithm. After this our rough initial
+
+487
+00:25:16,880 --> 00:25:20,720
+atom positions of course are not good
+
+488
+00:25:18,720 --> 00:25:23,600
+enough. We want to actually optimize
+
+489
+00:25:20,720 --> 00:25:26,480
+them. So what we do is essentially we we
+
+490
+00:25:23,600 --> 00:25:29,440
+fit the functional form of the atom
+
+491
+00:25:26,480 --> 00:25:35,799
+fields to the generated values. So the
+
+492
+00:25:29,440 --> 00:25:38,480
+bolded UAX here is the or represent the
+
+493
+00:25:35,799 --> 00:25:41,200
+generated generated field values at
+
+494
+00:25:38,480 --> 00:25:43,279
+locations X and G. And we would want to
+
+495
+00:25:41,200 --> 00:25:49,640
+minimize the square error loss to the
+
+496
+00:25:43,279 --> 00:25:53,360
+functional form of UA M of X for all the
+
+497
+00:25:49,640 --> 00:25:56,440
+locations for all the atom locations M.
+
+498
+00:25:53,360 --> 00:26:00,080
+So we optimize the atom locations
+
+499
+00:25:56,440 --> 00:26:03,039
+here. Then uh to initially extract bonds
+
+500
+00:26:00,080 --> 00:26:05,919
+this is quite a bit easier. We simply
+
+501
+00:26:03,039 --> 00:26:08,960
+can look at only the mid positions
+
+502
+00:26:05,919 --> 00:26:11,919
+between any two atoms. So, MI plus MJ by
+
+503
+00:26:08,960 --> 00:26:15,279
+2 and determine whether or not a high
+
+504
+00:26:11,919 --> 00:26:19,039
+enough value is within that region. And
+
+505
+00:26:15,279 --> 00:26:21,360
+for each MI plus MJ by two value which
+
+506
+00:26:19,039 --> 00:26:25,039
+is high enough we assign assign some
+
+507
+00:26:21,360 --> 00:26:27,720
+component gamma J. And then this time we
+
+508
+00:26:25,039 --> 00:26:31,559
+optimize for the gamma values.
+
+509
+00:26:27,720 --> 00:26:34,559
+So you can see a very similar uh
+
+510
+00:26:31,559 --> 00:26:37,039
+optimization function here. So the arc
+
+511
+00:26:34,559 --> 00:26:39,679
+mean over the gamma this time.
+
+512
+00:26:37,039 --> 00:26:41,279
+which u which also minimizes the square
+
+513
+00:26:39,679 --> 00:26:44,640
+direct loss between the functional form
+
+514
+00:26:41,279 --> 00:26:45,960
+of the bond fields and the generated
+
+515
+00:26:44,640 --> 00:26:49,279
+bolded
+
+516
+00:26:45,960 --> 00:26:53,440
+UBX. And on the right hand side image we
+
+517
+00:26:49,279 --> 00:26:56,799
+have an example of a QM9 molecule with
+
+518
+00:26:53,440 --> 00:26:58,559
+noised out fields. So the procedure is
+
+519
+00:26:56,799 --> 00:27:01,039
+generally robust enough that if you
+
+520
+00:26:58,559 --> 00:27:05,679
+don't actually add noise to the fields
+
+521
+00:27:01,039 --> 00:27:07,360
+of a data molecule, the extraction will
+
+522
+00:27:05,679 --> 00:27:10,159
+just be correct. So here we also added
+
+523
+00:27:07,360 --> 00:27:12,880
+on top of the original field some noise.
+
+524
+00:27:10,159 --> 00:27:15,440
+And then we we can see that the wand
+
+525
+00:27:12,880 --> 00:27:17,120
+marked with X should not be there. It
+
+526
+00:27:15,440 --> 00:27:20,000
+should not be there because there are no
+
+527
+00:27:17,120 --> 00:27:22,799
+actual Gaussian picss at the at that
+
+528
+00:27:20,000 --> 00:27:25,120
+specific location. And correspondingly
+
+529
+00:27:22,799 --> 00:27:27,840
+after optimizing for the gamma values we
+
+530
+00:27:25,120 --> 00:27:30,240
+see that one gamma has a much lower
+
+531
+00:27:27,840 --> 00:27:33,120
+value than the rest meaning that that
+
+532
+00:27:30,240 --> 00:27:34,840
+specific location does not contain uh a
+
+533
+00:27:33,120 --> 00:27:39,120
+gshian uh
+
+534
+00:27:34,840 --> 00:27:39,120
+u for for the bone
+
+535
+00:27:40,440 --> 00:27:48,159
+fields and uh yes
+
+536
+00:27:43,320 --> 00:27:50,799
+so here is roughly how how the bones
+
+537
+00:27:48,159 --> 00:27:53,039
+look they are depicted here with some
+
+538
+00:27:50,799 --> 00:27:55,440
+sticks of different colors for different
+
+539
+00:27:53,039 --> 00:27:56,600
+coalent bond types and the field values
+
+540
+00:27:55,440 --> 00:27:59,600
+at their
+
+541
+00:27:56,600 --> 00:28:01,039
+centers and this is finally the the
+
+542
+00:27:59,600 --> 00:28:02,440
+complete molecular graph which has been
+
+543
+00:28:01,039 --> 00:28:06,000
+extracted by this
+
+544
+00:28:02,440 --> 00:28:09,039
+procedure. So yeah the the full pipeline
+
+545
+00:28:06,000 --> 00:28:11,000
+is sort of you generate these field
+
+546
+00:28:09,039 --> 00:28:13,760
+values at specific locations that you
+
+547
+00:28:11,000 --> 00:28:15,120
+predefine and uh after the values have
+
+548
+00:28:13,760 --> 00:28:16,559
+been generated then you need to extract
+
+549
+00:28:15,120 --> 00:28:18,399
+the molecular graph in this kind of
+
+550
+00:28:16,559 --> 00:28:21,360
+complicated way but not not really that
+
+551
+00:28:18,399 --> 00:28:23,840
+complicated. So there are two sort of
+
+552
+00:28:21,360 --> 00:28:26,640
+deterministic optim extraction phases
+
+553
+00:28:23,840 --> 00:28:29,440
+and then subsequent optimization phases
+
+554
+00:28:26,640 --> 00:28:32,000
+that happen here to extract the the
+
+555
+00:28:29,440 --> 00:28:33,919
+molecular graph. Um could you explain
+
+556
+00:28:32,000 --> 00:28:36,080
+how you like initialize the whole
+
+557
+00:28:33,919 --> 00:28:38,640
+process like with the atoms and the
+
+558
+00:28:36,080 --> 00:28:41,120
+bonds in this field like let's say you
+
+559
+00:28:38,640 --> 00:28:44,240
+want I don't know a molecule with like
+
+560
+00:28:41,120 --> 00:28:45,240
+six carbons and 12 hydrogens like how do
+
+561
+00:28:44,240 --> 00:28:48,080
+you
+
+562
+00:28:45,240 --> 00:28:50,240
+actually initialize the bond in the atom
+
+563
+00:28:48,080 --> 00:28:53,919
+feel to get something that sort of looks
+
+564
+00:28:50,240 --> 00:28:55,760
+yeah so are you now talking about uh the
+
+565
+00:28:53,919 --> 00:28:58,320
+generation phase where I'm actually
+
+566
+00:28:55,760 --> 00:29:02,080
+generating the fields or are you talking
+
+567
+00:28:58,320 --> 00:29:02,080
+about the graph extraction phase
+
+568
+00:29:02,640 --> 00:29:08,320
+first. Okay. So the first starts as any
+
+569
+00:29:05,440 --> 00:29:11,039
+other diffusion model you just simply
+
+570
+00:29:08,320 --> 00:29:12,799
+have random noise. So each location in
+
+571
+00:29:11,039 --> 00:29:14,399
+the three dimensional space is
+
+572
+00:29:12,799 --> 00:29:18,159
+considered to be isotropic normal
+
+573
+00:29:14,399 --> 00:29:20,399
+gshion. So the initialization is simply
+
+574
+00:29:18,159 --> 00:29:22,559
+throwing a sample from a randomizotropic
+
+575
+00:29:20,399 --> 00:29:24,640
+gion putting that into the neural
+
+576
+00:29:22,559 --> 00:29:26,880
+network that does many time steps of
+
+577
+00:29:24,640 --> 00:29:29,120
+dnoising and then you arrive at a clean
+
+578
+00:29:26,880 --> 00:29:30,640
+field or hopefully clean enough field
+
+579
+00:29:29,120 --> 00:29:34,080
+and based on that you extract a
+
+580
+00:29:30,640 --> 00:29:37,520
+molecular graph here. So you cannot also
+
+581
+00:29:34,080 --> 00:29:41,360
+enforce the model to generate six atoms.
+
+582
+00:29:37,520 --> 00:29:43,360
+It will generate some number of atoms.
+
+583
+00:29:41,360 --> 00:29:46,559
+So there there's no way to like
+
+584
+00:29:43,360 --> 00:29:49,279
+condition it to sort of yeah so you can
+
+585
+00:29:46,559 --> 00:29:52,039
+use classifier free guidance which Danny
+
+586
+00:29:49,279 --> 00:29:54,559
+has very briefly mentioned.
+
+587
+00:29:52,039 --> 00:29:56,320
+Uh so yeah I mean you can do conditional
+
+588
+00:29:54,559 --> 00:29:58,840
+generation. It's a conditional
+
+589
+00:29:56,320 --> 00:30:01,120
+generative modeling
+
+590
+00:29:58,840 --> 00:30:04,000
+problem. You can also condition on the
+
+591
+00:30:01,120 --> 00:30:07,600
+atom types with atom counts which we do
+
+592
+00:30:04,000 --> 00:30:09,760
+but it's not necessary I guess.
+
+593
+00:30:07,600 --> 00:30:13,120
+um is another way to condition it just
+
+594
+00:30:09,760 --> 00:30:15,679
+like how you train the model. So if you
+
+595
+00:30:13,120 --> 00:30:18,320
+I don't know choose a certain class of
+
+596
+00:30:15,679 --> 00:30:20,799
+molecules to train on then it's going to
+
+597
+00:30:18,320 --> 00:30:23,120
+spit out things in in that class I would
+
+598
+00:30:20,799 --> 00:30:25,679
+assume. Yes, of course. Yeah. So it
+
+599
+00:30:23,120 --> 00:30:29,159
+should model the distribution that
+
+600
+00:30:25,679 --> 00:30:34,000
+you're training on. Yes.
+
+601
+00:30:29,159 --> 00:30:36,799
+Okay. Uh sorry. Yeah. So right here I'm
+
+602
+00:30:34,000 --> 00:30:38,559
+at exactly I guess that point which is
+
+603
+00:30:36,799 --> 00:30:40,840
+classifier free guidance which is one
+
+604
+00:30:38,559 --> 00:30:43,600
+method to actually define
+
+605
+00:30:40,840 --> 00:30:45,760
+um conditional generation for diffusion
+
+606
+00:30:43,600 --> 00:30:48,200
+models in general not necessarily for
+
+607
+00:30:45,760 --> 00:30:50,039
+this but in general it has been
+
+608
+00:30:48,200 --> 00:30:52,799
+defined.
+
+609
+00:30:50,039 --> 00:30:54,720
+So since many evaluated metrics are
+
+610
+00:30:52,799 --> 00:30:58,000
+highly correlated with atom counts we
+
+611
+00:30:54,720 --> 00:31:00,720
+also consider actually conditioning the
+
+612
+00:30:58,000 --> 00:31:02,960
+the generated fields on specific atom
+
+613
+00:31:00,720 --> 00:31:05,440
+counts. So now we actually try to
+
+614
+00:31:02,960 --> 00:31:08,799
+enforce to a degree a continuous degree
+
+615
+00:31:05,440 --> 00:31:10,880
+by some parameter beta that the fields
+
+616
+00:31:08,799 --> 00:31:12,679
+will generate specifically some number
+
+617
+00:31:10,880 --> 00:31:18,240
+of
+
+618
+00:31:12,679 --> 00:31:21,360
+atoms. Um and yes as as we have seen uh
+
+619
+00:31:18,240 --> 00:31:23,000
+point cloud methods are restricted to
+
+620
+00:31:21,360 --> 00:31:25,520
+have a
+
+621
+00:31:23,000 --> 00:31:27,120
+prespecified number of atoms n which
+
+622
+00:31:25,520 --> 00:31:30,919
+they can move in space and den noiseise
+
+623
+00:31:27,120 --> 00:31:35,440
+to some atom types and to kind of
+
+624
+00:31:30,919 --> 00:31:39,120
+um to kind of determine how how much the
+
+625
+00:31:35,440 --> 00:31:40,480
+atom counts conditioning is or how how
+
+626
+00:31:39,120 --> 00:31:42,320
+important this conditioning is to
+
+627
+00:31:40,480 --> 00:31:44,880
+various metrics. We also consider this
+
+628
+00:31:42,320 --> 00:31:48,080
+classifier free guidance. atom counts
+
+629
+00:31:44,880 --> 00:31:51,840
+and we define specifically some variable
+
+630
+00:31:48,080 --> 00:31:53,519
+Z which are bean atom counts where each
+
+631
+00:31:51,840 --> 00:31:56,240
+bean contains roughly the same number of
+
+632
+00:31:53,519 --> 00:31:59,760
+molecules in the data set and these
+
+633
+00:31:56,240 --> 00:32:01,200
+beans somehow resemble the the number
+
+634
+00:31:59,760 --> 00:32:04,960
+rough number of atoms that should be
+
+635
+00:32:01,200 --> 00:32:08,480
+generated and the beta controls the the
+
+636
+00:32:04,960 --> 00:32:10,799
+uh the guidance amount that we require.
+
+637
+00:32:08,480 --> 00:32:12,399
+So how much do we want the generated
+
+638
+00:32:10,799 --> 00:32:14,720
+fields to adhere to the correct number
+
+639
+00:32:12,399 --> 00:32:17,399
+of atoms that we condition on can be
+
+640
+00:32:14,720 --> 00:32:20,080
+specified by the parameter
+
+641
+00:32:17,399 --> 00:32:23,279
+beta. Okay. So briefly for the
+
+642
+00:32:20,080 --> 00:32:26,720
+benchmarking data that have been used.
+
+643
+00:32:23,279 --> 00:32:29,360
+First the smaller data set QM9 which
+
+644
+00:32:26,720 --> 00:32:32,559
+contains molecules of nine heavy atoms
+
+645
+00:32:29,360 --> 00:32:35,039
+or at most 27 atoms including hydrogen
+
+646
+00:32:32,559 --> 00:32:38,880
+and there are four five atom types and
+
+647
+00:32:35,039 --> 00:32:41,799
+about 130,000 molecules and one example
+
+648
+00:32:38,880 --> 00:32:46,320
+of a molecule is depicted
+
+649
+00:32:41,799 --> 00:32:49,360
+here then uh GM drugs it's a
+
+650
+00:32:46,320 --> 00:32:51,919
+considerably larger data set this data
+
+651
+00:32:49,360 --> 00:32:54,240
+set contains many confirmations of
+
+652
+00:32:51,919 --> 00:32:56,960
+various energies for each molecular
+
+653
+00:32:54,240 --> 00:32:59,519
+graph. And therefore this number of
+
+654
+00:32:56,960 --> 00:33:03,440
+confirmation is a lot larger than the
+
+655
+00:32:59,519 --> 00:33:05,000
+number of 300,000 unique about 300,000
+
+656
+00:33:03,440 --> 00:33:07,080
+unique molecular
+
+657
+00:33:05,000 --> 00:33:11,039
+graphs and
+
+658
+00:33:07,080 --> 00:33:15,039
+uh yeah up to 181 atoms I think if you
+
+659
+00:33:11,039 --> 00:33:18,399
+include hydrogen and probably the
+
+660
+00:33:15,039 --> 00:33:20,080
+average is about 40 atoms and about 27%
+
+661
+00:33:18,399 --> 00:33:24,080
+of those molecules are actually also
+
+662
+00:33:20,080 --> 00:33:24,080
+chyro so containing some chyro
+
+663
+00:33:25,360 --> 00:33:32,159
+Briefly uh we go now through some
+
+664
+00:33:28,200 --> 00:33:34,480
+experiments. First of all, the atom and
+
+665
+00:33:32,159 --> 00:33:36,640
+molecule neutrality defined as the
+
+666
+00:33:34,480 --> 00:33:38,720
+percentage of generated molecules that
+
+667
+00:33:36,640 --> 00:33:41,760
+are neutral and the percentage of
+
+668
+00:33:38,720 --> 00:33:43,480
+generated atoms that are neutral. So the
+
+669
+00:33:41,760 --> 00:33:46,080
+the molecule neutrality is defined
+
+670
+00:33:43,480 --> 00:33:48,159
+slightly differently in that it
+
+671
+00:33:46,080 --> 00:33:50,880
+considers a molecule to be neutral if
+
+672
+00:33:48,159 --> 00:33:52,720
+only all of its atoms are neutral. And
+
+673
+00:33:50,880 --> 00:33:54,960
+then validity checks only that the
+
+674
+00:33:52,720 --> 00:33:57,279
+molecules can be parsed by artic which
+
+675
+00:33:54,960 --> 00:33:59,559
+generally checks for valency and whether
+
+676
+00:33:57,279 --> 00:34:03,360
+the molecule can be
+
+677
+00:33:59,559 --> 00:34:06,080
+calculized. Okay. So on the on the
+
+678
+00:34:03,360 --> 00:34:08,399
+lowest row we have the data kind of
+
+679
+00:34:06,080 --> 00:34:11,839
+showing that on the QM9 the easier data
+
+680
+00:34:08,399 --> 00:34:14,960
+set roughly 100% of the molecules are
+
+681
+00:34:11,839 --> 00:34:17,280
+neutral and valid. So meaning that
+
+682
+00:34:14,960 --> 00:34:21,079
+larger numbers are just better on this
+
+683
+00:34:17,280 --> 00:34:23,800
+data set and uh yeah we obtain very good
+
+684
+00:34:21,079 --> 00:34:26,000
+performance. So uh
+
+685
+00:34:23,800 --> 00:34:27,000
+outperforming pretty much I guess all of
+
+686
+00:34:26,000 --> 00:34:31,280
+the other
+
+687
+00:34:27,000 --> 00:34:34,079
+methods and then for the GM drugs uh
+
+688
+00:34:31,280 --> 00:34:37,760
+here there are many many caveats that
+
+689
+00:34:34,079 --> 00:34:40,480
+need to be explained. I guess any one
+
+690
+00:34:37,760 --> 00:34:44,560
+method in this table cannot be compared
+
+691
+00:34:40,480 --> 00:34:46,079
+strictly or reliably to any other method
+
+692
+00:34:44,560 --> 00:34:48,720
+almost
+
+693
+00:34:46,079 --> 00:34:50,960
+um on on this specific data set because
+
+694
+00:34:48,720 --> 00:34:53,879
+there are very many settings that have
+
+695
+00:34:50,960 --> 00:34:57,599
+been used. So some models generate
+
+696
+00:34:53,879 --> 00:35:00,400
+explicitly the uh the aromatic bond
+
+697
+00:34:57,599 --> 00:35:02,880
+types. Some other models use only five
+
+698
+00:35:00,400 --> 00:35:06,720
+lowest confirmation energies. We used 30
+
+699
+00:35:02,880 --> 00:35:10,800
+lowest as some of the first works on on
+
+700
+00:35:06,720 --> 00:35:13,440
+on this and some even used the lowest
+
+701
+00:35:10,800 --> 00:35:16,320
+kind of creating hugely different
+
+702
+00:35:13,440 --> 00:35:19,200
+numbers of training molecules
+
+703
+00:35:16,320 --> 00:35:21,560
+um which of course makes the the
+
+704
+00:35:19,200 --> 00:35:25,119
+comparison not
+
+705
+00:35:21,560 --> 00:35:25,119
+super not super
+
+706
+00:35:25,160 --> 00:35:31,680
+reliable. Then we look at a few molecule
+
+707
+00:35:28,400 --> 00:35:34,720
+uh quality properties. So for this we
+
+708
+00:35:31,680 --> 00:35:36,560
+define the total variation between the
+
+709
+00:35:34,720 --> 00:35:38,400
+count distributions of various atom
+
+710
+00:35:36,560 --> 00:35:40,160
+types and convolent B types. So the
+
+711
+00:35:38,400 --> 00:35:42,320
+total variation is just some distance
+
+712
+00:35:40,160 --> 00:35:44,440
+metrics metric between distributions
+
+713
+00:35:42,320 --> 00:35:47,760
+between uh probability
+
+714
+00:35:44,440 --> 00:35:50,560
+distributions and then um we also have
+
+715
+00:35:47,760 --> 00:35:54,240
+the MSD defined as the maximum
+
+716
+00:35:50,560 --> 00:35:57,040
+similarity test. So we take the tanimo
+
+717
+00:35:54,240 --> 00:35:59,280
+tanimoto similarity between the morgon
+
+718
+00:35:57,040 --> 00:36:01,520
+fingerprints between the generated
+
+719
+00:35:59,280 --> 00:36:04,400
+molecules and the test data molecules.
+
+720
+00:36:01,520 --> 00:36:07,440
+So there is a subset of the data that is
+
+721
+00:36:04,400 --> 00:36:12,119
+considered that's the test and then
+
+722
+00:36:07,440 --> 00:36:13,640
+uh based on uh based on the most similar
+
+723
+00:36:12,119 --> 00:36:18,160
+fingerprint
+
+724
+00:36:13,640 --> 00:36:20,400
+we which is yeah between zero and one we
+
+725
+00:36:18,160 --> 00:36:22,640
+we measure the average maximum
+
+726
+00:36:20,400 --> 00:36:24,960
+similarity to test of the generated
+
+727
+00:36:22,640 --> 00:36:27,359
+molecules. Could you briefly elaborate
+
+728
+00:36:24,960 --> 00:36:29,440
+what you mean with similarity here again
+
+729
+00:36:27,359 --> 00:36:35,960
+and how you would measure this or score
+
+730
+00:36:29,440 --> 00:36:38,480
+this? What's the metric? Yes. So um so I
+
+731
+00:36:35,960 --> 00:36:40,160
+guess it's the tanimoto similarity
+
+732
+00:36:38,480 --> 00:36:42,160
+between Morgan fingerprints where the
+
+733
+00:36:40,160 --> 00:36:46,720
+tanimoto if I remember correctly it's
+
+734
+00:36:42,160 --> 00:36:51,040
+the just the intersection over union
+
+735
+00:36:46,720 --> 00:36:52,839
+uh of the exact same uh fingerprints
+
+736
+00:36:51,040 --> 00:36:56,720
+that are
+
+737
+00:36:52,839 --> 00:36:58,640
+some more yeah some some representation
+
+738
+00:36:56,720 --> 00:37:00,560
+of molecules. a very a very very
+
+739
+00:36:58,640 --> 00:37:02,560
+simplistic representation of molecules
+
+740
+00:37:00,560 --> 00:37:04,560
+and then we take all of the generated
+
+741
+00:37:02,560 --> 00:37:06,880
+molecules and compare them across all of
+
+742
+00:37:04,560 --> 00:37:09,160
+the test data molecules and then kind of
+
+743
+00:37:06,880 --> 00:37:12,240
+match to the best
+
+744
+00:37:09,160 --> 00:37:14,880
+match. So in a perfect scenario I guess
+
+745
+00:37:12,240 --> 00:37:19,520
+you would assume that this number should
+
+746
+00:37:14,880 --> 00:37:21,920
+go to one or very close to one.
+
+747
+00:37:19,520 --> 00:37:24,560
+Does uh some of these metrics also cover
+
+748
+00:37:21,920 --> 00:37:27,599
+how well you cover the landscape of all
+
+749
+00:37:24,560 --> 00:37:29,920
+the molecules points? Yes.
+
+750
+00:37:27,599 --> 00:37:31,440
+So especially TVA and TVB and then there
+
+751
+00:37:29,920 --> 00:37:33,920
+are a couple of other metrics I guess in
+
+752
+00:37:31,440 --> 00:37:37,440
+the data set that consider uh mode
+
+753
+00:37:33,920 --> 00:37:42,079
+coverage but the idea is that they also
+
+754
+00:37:37,440 --> 00:37:43,920
+consider as Martin said um not only how
+
+755
+00:37:42,079 --> 00:37:46,960
+high quality the molecules are but
+
+756
+00:37:43,920 --> 00:37:48,839
+whether you cover the whole distribution
+
+757
+00:37:46,960 --> 00:37:52,880
+that you are training
+
+758
+00:37:48,839 --> 00:37:52,880
+on. So that was a good
+
+759
+00:37:53,000 --> 00:38:00,320
+point. Okay. So here we obtained roughly
+
+760
+00:37:57,440 --> 00:38:02,520
+competitive performance except with a
+
+761
+00:38:00,320 --> 00:38:07,839
+big exception on the total variation of
+
+762
+00:38:02,520 --> 00:38:10,480
+atoms. Uh and then we yeah we we
+
+763
+00:38:07,839 --> 00:38:13,040
+reiterate how essentially point clouds
+
+764
+00:38:10,480 --> 00:38:16,240
+are are constrained to generate a
+
+765
+00:38:13,040 --> 00:38:19,119
+specific number of atom atoms for each
+
+766
+00:38:16,240 --> 00:38:21,760
+molecule. Uh so because of this you can
+
+767
+00:38:19,119 --> 00:38:24,359
+of course trivially match the atom
+
+768
+00:38:21,760 --> 00:38:27,520
+counts of the data and then of course
+
+769
+00:38:24,359 --> 00:38:30,320
+the various atom type atom counts will
+
+770
+00:38:27,520 --> 00:38:32,599
+probably have like a much better EVA.
+
+771
+00:38:30,320 --> 00:38:37,240
+But this is yeah kind
+
+772
+00:38:32,599 --> 00:38:42,079
+of just some some property of point
+
+773
+00:38:37,240 --> 00:38:44,240
+clouds and then similarly on GM but yes
+
+774
+00:38:42,079 --> 00:38:45,680
+again with all the caveats that have
+
+775
+00:38:44,240 --> 00:38:47,000
+been mentioned with different data
+
+776
+00:38:45,680 --> 00:38:49,520
+settings
+
+777
+00:38:47,000 --> 00:38:51,440
+different bond representations and so
+
+778
+00:38:49,520 --> 00:38:53,599
+on.
+
+779
+00:38:51,440 --> 00:38:55,079
+So yeah, the conclusion would be that
+
+780
+00:38:53,599 --> 00:38:58,640
+the method
+
+781
+00:38:55,079 --> 00:39:01,359
+is having quite high performance and
+
+782
+00:38:58,640 --> 00:39:03,680
+then as we will see later can also
+
+783
+00:39:01,359 --> 00:39:06,560
+nicely capture viral molecules or
+
+784
+00:39:03,680 --> 00:39:08,599
+distinguish an antimic pairs which is
+
+785
+00:39:06,560 --> 00:39:11,280
+quite
+
+786
+00:39:08,599 --> 00:39:13,280
+nice. Okay. Now before that I will
+
+787
+00:39:11,280 --> 00:39:15,040
+briefly go through confirmations. So
+
+788
+00:39:13,280 --> 00:39:17,760
+before the parality part I will briefly
+
+789
+00:39:15,040 --> 00:39:20,480
+go through the confirmation metrics. So
+
+790
+00:39:17,760 --> 00:39:22,000
+the first one is quite easy. It's the
+
+791
+00:39:20,480 --> 00:39:24,320
+distribution of the generated bone
+
+792
+00:39:22,000 --> 00:39:26,400
+lengths and this we measure in pometers
+
+793
+00:39:24,320 --> 00:39:29,280
+because the models are generally so good
+
+794
+00:39:26,400 --> 00:39:31,119
+in generating confirmations that yeah
+
+795
+00:39:29,280 --> 00:39:34,560
+you you actually need to measure them in
+
+796
+00:39:31,119 --> 00:39:38,119
+pometers and notstrom which is the the
+
+797
+00:39:34,560 --> 00:39:41,599
+scale that you usually use for bond
+
+798
+00:39:38,119 --> 00:39:43,440
+distances and then yeah we we just
+
+799
+00:39:41,599 --> 00:39:45,839
+achieve surprisingly good performance
+
+800
+00:39:43,440 --> 00:39:48,079
+even though we don't directly model the
+
+801
+00:39:45,839 --> 00:39:50,160
+coordinates we are still able to to
+
+802
+00:39:48,079 --> 00:39:53,680
+achieve really really
+
+803
+00:39:50,160 --> 00:39:56,520
+Verstein distance which is well another
+
+804
+00:39:53,680 --> 00:40:00,520
+um another metric
+
+805
+00:39:56,520 --> 00:40:02,640
+for or distances between two probability
+
+806
+00:40:00,520 --> 00:40:04,920
+distributions and the same for bond
+
+807
+00:40:02,640 --> 00:40:08,480
+angles now measured in degrees. So on
+
+808
+00:40:04,920 --> 00:40:11,599
+QM9 about one vasstein distance measured
+
+809
+00:40:08,480 --> 00:40:14,640
+in degrees it's looking quite good and
+
+810
+00:40:11,599 --> 00:40:17,599
+similarly for GM it doesn't it doesn't
+
+811
+00:40:14,640 --> 00:40:19,359
+become that much worse with with the
+
+812
+00:40:17,599 --> 00:40:21,839
+bond length and bond angles. So those
+
+813
+00:40:19,359 --> 00:40:23,760
+were the simpler metrics and then we
+
+814
+00:40:21,839 --> 00:40:26,320
+also look at energies confirmational
+
+815
+00:40:23,760 --> 00:40:28,480
+energies and the first one is molec
+
+816
+00:40:26,320 --> 00:40:31,280
+molecular field force field energies
+
+817
+00:40:28,480 --> 00:40:33,800
+which directly or explicitly consider
+
+818
+00:40:31,280 --> 00:40:36,400
+coalent bond types and since many of the
+
+819
+00:40:33,800 --> 00:40:39,480
+methods explicitly consider coalent bond
+
+820
+00:40:36,400 --> 00:40:43,160
+types we we
+
+821
+00:40:39,480 --> 00:40:46,720
+we also include this this
+
+822
+00:40:43,160 --> 00:40:49,520
+metric for field uh for confirmational
+
+823
+00:40:46,720 --> 00:40:53,200
+energies. And then finally XTB
+
+824
+00:40:49,520 --> 00:40:55,520
+vaserstein distance. Uh so energy is
+
+825
+00:40:53,200 --> 00:40:58,960
+computed with the same tool that has
+
+826
+00:40:55,520 --> 00:41:00,560
+been used to optimize or the same yeah
+
+827
+00:40:58,960 --> 00:41:03,119
+same tool that has been used to optimize
+
+828
+00:41:00,560 --> 00:41:06,079
+the the confirmations of the data that
+
+829
+00:41:03,119 --> 00:41:08,960
+we are actually using for the training.
+
+830
+00:41:06,079 --> 00:41:13,720
+So again roughly very good confirmations
+
+831
+00:41:08,960 --> 00:41:16,880
+given that uh no explicit
+
+832
+00:41:13,720 --> 00:41:20,160
+um no explicit there is no explicitly
+
+833
+00:41:16,880 --> 00:41:20,160
+modeling the atom
+
+834
+00:41:20,760 --> 00:41:26,520
+coordinates. Yep. So this was the point.
+
+835
+00:41:24,240 --> 00:41:29,760
+Okay. So now the kality
+
+836
+00:41:26,520 --> 00:41:33,520
+experiment we look at a very simple uh
+
+837
+00:41:29,760 --> 00:41:35,760
+small 48 molecule data set where all of
+
+838
+00:41:33,520 --> 00:41:39,359
+the molecules are kyal. So that they
+
+839
+00:41:35,760 --> 00:41:41,200
+have a K center and we specifically have
+
+840
+00:41:39,359 --> 00:41:42,760
+a carbon connected to another carbon,
+
+841
+00:41:41,200 --> 00:41:44,440
+nitrogen, oxygen and
+
+842
+00:41:42,760 --> 00:41:48,280
+hydrogen. And
+
+843
+00:41:44,440 --> 00:41:51,359
+then the the way the hyality can be
+
+844
+00:41:48,280 --> 00:41:54,560
+determined as Danny presented earlier is
+
+845
+00:41:51,359 --> 00:41:58,160
+with some function f uh which is the
+
+846
+00:41:54,560 --> 00:42:00,560
+determinant of the kind of well it's the
+
+847
+00:41:58,160 --> 00:42:03,680
+signed volume of a of a of a
+
+848
+00:42:00,560 --> 00:42:05,359
+tetrahedrin. So the tetrahedrin if you
+
+849
+00:42:03,680 --> 00:42:08,040
+look at the signed volume you can
+
+850
+00:42:05,359 --> 00:42:10,720
+actually strictly determine the kyal
+
+851
+00:42:08,040 --> 00:42:12,480
+configuration well that coupled with the
+
+852
+00:42:10,720 --> 00:42:14,560
+atom types and the residue types
+
+853
+00:42:12,480 --> 00:42:17,760
+essentially can tell you directly what
+
+854
+00:42:14,560 --> 00:42:20,079
+the kality is but what this experiment
+
+855
+00:42:17,760 --> 00:42:21,839
+shows is that on a skewed data so the
+
+856
+00:42:20,079 --> 00:42:24,000
+data is shown in blue the data
+
+857
+00:42:21,839 --> 00:42:26,599
+distribution is shown in blue it's
+
+858
+00:42:24,000 --> 00:42:29,839
+skewed towards one of the anantimer
+
+859
+00:42:26,599 --> 00:42:31,720
+configurations and we try to find which
+
+860
+00:42:29,839 --> 00:42:36,560
+med methods can capture
+
+861
+00:42:31,720 --> 00:42:38,800
+this uh and first in orange we we simply
+
+862
+00:42:36,560 --> 00:42:41,200
+have an empirical confirmation that
+
+863
+00:42:38,800 --> 00:42:43,520
+essentially the a molecule and its
+
+864
+00:42:41,200 --> 00:42:46,480
+reflected counterpart would be will have
+
+865
+00:42:43,520 --> 00:42:50,240
+an equal probability. So you can say the
+
+866
+00:42:46,480 --> 00:42:51,560
+the equal uh equal probability on the
+
+867
+00:42:50,240 --> 00:42:54,640
+two
+
+868
+00:42:51,560 --> 00:42:56,400
+modes and yeah this essentially just
+
+869
+00:42:54,640 --> 00:42:58,960
+confirms that the anantimer are
+
+870
+00:42:56,400 --> 00:43:00,200
+non-distinguishable for if invariant
+
+871
+00:42:58,960 --> 00:43:02,640
+neuronet network
+
+872
+00:43:00,200 --> 00:43:05,760
+parameterizations. Then we actually
+
+873
+00:43:02,640 --> 00:43:07,680
+surprisingly look at GDM which is a non
+
+874
+00:43:05,760 --> 00:43:09,359
+EA invariant point cloud method and it
+
+875
+00:43:07,680 --> 00:43:13,680
+seems that point cloud methods still
+
+876
+00:43:09,359 --> 00:43:16,079
+seem to suffer uh on uh on on a kyal
+
+877
+00:43:13,680 --> 00:43:18,960
+data set. So even though now clearly the
+
+878
+00:43:16,079 --> 00:43:21,440
+model distinguishes the two anantimer
+
+879
+00:43:18,960 --> 00:43:24,160
+there's some difference in the generated
+
+880
+00:43:21,440 --> 00:43:26,319
+distribution for one of the anantimer.
+
+881
+00:43:24,160 --> 00:43:29,040
+So the left one has fewer which is
+
+882
+00:43:26,319 --> 00:43:31,599
+correct and the right one has more
+
+883
+00:43:29,040 --> 00:43:34,560
+generated molecules. Still the middle uh
+
+884
+00:43:31,599 --> 00:43:36,720
+there is a middle zero volume
+
+885
+00:43:34,560 --> 00:43:38,160
+tetrahedrron that are generated which
+
+886
+00:43:36,720 --> 00:43:40,640
+are of course are unnatural
+
+887
+00:43:38,160 --> 00:43:45,359
+confirmations and they seem to have this
+
+888
+00:43:40,640 --> 00:43:48,800
+this sort of problem when when directly
+
+889
+00:43:45,359 --> 00:43:50,640
+modeling specifically I data set and
+
+890
+00:43:48,800 --> 00:43:53,760
+then we finally have fields which seem
+
+891
+00:43:50,640 --> 00:43:56,720
+to be quite appropriate for for this
+
+892
+00:43:53,760 --> 00:44:00,599
+task where FMG in red captures this
+
+893
+00:43:56,720 --> 00:44:00,599
+distribution quite well.
+
+894
+00:44:00,800 --> 00:44:04,800
+Okay,
+
+895
+00:44:02,200 --> 00:44:08,079
+so I will now briefly go through
+
+896
+00:44:04,800 --> 00:44:10,480
+conditional generation where we consider
+
+897
+00:44:08,079 --> 00:44:13,680
+two different properties and the setting
+
+898
+00:44:10,480 --> 00:44:16,560
+is that we have 50% of the Q9 data as
+
+899
+00:44:13,680 --> 00:44:19,200
+the training data and 50% as a training
+
+900
+00:44:16,560 --> 00:44:20,560
+data for a discriminative models for
+
+901
+00:44:19,200 --> 00:44:22,680
+discriminative model for the same
+
+902
+00:44:20,560 --> 00:44:26,240
+property that we train the generative
+
+903
+00:44:22,680 --> 00:44:28,480
+model and uh these are the two models
+
+904
+00:44:26,240 --> 00:44:31,920
+for alpha polarizability and delta
+
+905
+00:44:28,480 --> 00:44:33,920
+epsilon the homolumo gap for the orbital
+
+906
+00:44:31,920 --> 00:44:35,079
+energies and then we correspondingly
+
+907
+00:44:33,920 --> 00:44:37,599
+have two
+
+908
+00:44:35,079 --> 00:44:40,720
+classifiers determining what
+
+909
+00:44:37,599 --> 00:44:42,839
+polarizability and homol gap the
+
+910
+00:44:40,720 --> 00:44:45,400
+molecule a molecule
+
+911
+00:44:42,839 --> 00:44:48,720
+has and then we measure how well the
+
+912
+00:44:45,400 --> 00:44:54,280
+molecules adhere to the property y that
+
+913
+00:44:48,720 --> 00:44:58,079
+we use uh to condition using the fi y is
+
+914
+00:44:54,280 --> 00:45:00,480
+either alpha or delta epsilon
+
+915
+00:44:58,079 --> 00:45:03,000
+And what we find is generally a
+
+916
+00:45:00,480 --> 00:45:06,880
+reasonable adherence to the conditioning
+
+917
+00:45:03,000 --> 00:45:11,839
+property. Uh but mentioning here that
+
+918
+00:45:06,880 --> 00:45:14,240
+the model seems to trade kind of this
+
+919
+00:45:11,839 --> 00:45:16,319
+rough measure of stability on the QMline
+
+920
+00:45:14,240 --> 00:45:19,200
+data set which is neutrality for
+
+921
+00:45:16,319 --> 00:45:22,920
+adherence to the conditioning property.
+
+922
+00:45:19,200 --> 00:45:25,680
+But in general uh quite reasonable and
+
+923
+00:45:22,920 --> 00:45:28,359
+then it's also quite nice here to
+
+924
+00:45:25,680 --> 00:45:30,720
+mention that since we do not need to
+
+925
+00:45:28,359 --> 00:45:32,480
+explicitly generate a specific number of
+
+926
+00:45:30,720 --> 00:45:34,640
+atoms this would probably be quite
+
+927
+00:45:32,480 --> 00:45:38,160
+useful in general for conditional
+
+928
+00:45:34,640 --> 00:45:40,400
+generating conditional generation uh of
+
+929
+00:45:38,160 --> 00:45:42,720
+of molecules with with some specific
+
+930
+00:45:40,400 --> 00:45:45,839
+properties. So if we want to have many
+
+931
+00:45:42,720 --> 00:45:48,000
+properties to condition on a uh so to
+
+932
+00:45:45,839 --> 00:45:49,839
+generate gen gener conditionally
+
+933
+00:45:48,000 --> 00:45:51,760
+generate molecules on a vector of
+
+934
+00:45:49,839 --> 00:45:53,520
+multiple properties that vector of
+
+935
+00:45:51,760 --> 00:45:55,520
+multiple properties in point point
+
+936
+00:45:53,520 --> 00:45:57,920
+clouds would have previously needed this
+
+937
+00:45:55,520 --> 00:46:00,000
+joint distribution of the properties and
+
+938
+00:45:57,920 --> 00:46:02,640
+the atom counts which of course cannot
+
+939
+00:46:00,000 --> 00:46:05,520
+necessarily be so easy to determine
+
+940
+00:46:02,640 --> 00:46:07,440
+based on a b based on some data set but
+
+941
+00:46:05,520 --> 00:46:10,480
+here yeah you don't need this and then
+
+942
+00:46:07,440 --> 00:46:13,040
+we show this so beta equals z fg beta
+
+943
+00:46:10,480 --> 00:46:16,800
+equals Z is a model that is not
+
+944
+00:46:13,040 --> 00:46:19,319
+conditioned on atom counts and can still
+
+945
+00:46:16,800 --> 00:46:22,079
+uh conditionally generate
+
+946
+00:46:19,319 --> 00:46:24,160
+some some molecules.
+
+947
+00:46:22,079 --> 00:46:26,599
+Could you briefly say again which data
+
+948
+00:46:24,160 --> 00:46:29,880
+has been used here and in terms of
+
+949
+00:46:26,599 --> 00:46:33,119
+absolute abundance or absolute number of
+
+950
+00:46:29,880 --> 00:46:36,079
+inputs roughly estimate how big was your
+
+951
+00:46:33,119 --> 00:46:39,119
+training and test data set? Yeah. So
+
+952
+00:46:36,079 --> 00:46:42,079
+it's GM9 and I believe it's the training
+
+953
+00:46:39,119 --> 00:46:44,480
+subset which is 100,000 split into equal
+
+954
+00:46:42,079 --> 00:46:46,480
+parts. So 50,000 for training the
+
+955
+00:46:44,480 --> 00:46:50,079
+generative model and 50,000 for training
+
+956
+00:46:46,480 --> 00:46:52,400
+the discriminative models. So the test
+
+957
+00:46:50,079 --> 00:46:54,400
+here is the discriminative model telling
+
+958
+00:46:52,400 --> 00:46:56,560
+whether the generated molecule is
+
+959
+00:46:54,400 --> 00:47:00,880
+correctly generating according to the
+
+960
+00:46:56,560 --> 00:47:00,880
+conditional distribution power.
+
+961
+00:47:02,200 --> 00:47:08,760
+Yeah. Okay. Now
+
+962
+00:47:05,079 --> 00:47:13,680
+we okay we briefly show some
+
+963
+00:47:08,760 --> 00:47:16,960
+uh ablations um so some of the design
+
+964
+00:47:13,680 --> 00:47:19,280
+choices that make our performance
+
+965
+00:47:16,960 --> 00:47:21,200
+competitive. So we first look at
+
+966
+00:47:19,280 --> 00:47:24,000
+removing the reference rotations which
+
+967
+00:47:21,200 --> 00:47:25,760
+have been presented as a as a way of
+
+968
+00:47:24,000 --> 00:47:27,040
+mitigating the rotational invariance
+
+969
+00:47:25,760 --> 00:47:29,119
+problems and then or the lack of
+
+970
+00:47:27,040 --> 00:47:32,800
+rotational invariance problems and then
+
+971
+00:47:29,119 --> 00:47:34,880
+uh FMG is a model that receives randomly
+
+972
+00:47:32,800 --> 00:47:36,960
+rotated molecules as training input. So
+
+973
+00:47:34,880 --> 00:47:40,800
+before we create the field we randomly
+
+974
+00:47:36,960 --> 00:47:42,880
+rotate the molecule and then this for
+
+975
+00:47:40,800 --> 00:47:44,160
+instance has a molecule neutrality at
+
+976
+00:47:42,880 --> 00:47:47,280
+82.6
+
+977
+00:47:44,160 --> 00:47:50,319
+Whereas adding the adding the reference
+
+978
+00:47:47,280 --> 00:47:53,680
+rotation so fng beta equals 0 the number
+
+979
+00:47:50,319 --> 00:47:56,160
+becomes 92.2. This is by far the most
+
+980
+00:47:53,680 --> 00:47:59,280
+important design choice. And then we
+
+981
+00:47:56,160 --> 00:48:02,640
+also have the atom count conditioning
+
+982
+00:47:59,280 --> 00:48:05,200
+which is quite important for TVA but
+
+983
+00:48:02,640 --> 00:48:07,599
+roughly doesn't change that much any
+
+984
+00:48:05,200 --> 00:48:10,680
+other metrics. So other than atom count
+
+985
+00:48:07,599 --> 00:48:14,960
+metrics of course conditioning on atom
+
+986
+00:48:10,680 --> 00:48:17,200
+counts doesn't doesn't change uh the the
+
+987
+00:48:14,960 --> 00:48:19,440
+quality of the molecules as much. And
+
+988
+00:48:17,200 --> 00:48:22,000
+then finally this is sort of an
+
+989
+00:48:19,440 --> 00:48:24,400
+empirical confirmation of how nice our
+
+990
+00:48:22,000 --> 00:48:27,119
+confirmations are. So even when
+
+991
+00:48:24,400 --> 00:48:29,200
+detecting bonds based solely on the atom
+
+992
+00:48:27,119 --> 00:48:34,960
+distances we are able to achieve a
+
+993
+00:48:29,200 --> 00:48:38,760
+nutality of 91%. So the the bonds here
+
+994
+00:48:34,960 --> 00:48:42,400
+are detected based on some some
+
+995
+00:48:38,760 --> 00:48:45,440
+um intervals uh some reasonable
+
+996
+00:48:42,400 --> 00:48:47,119
+intervals where equivalent type b one
+
+997
+00:48:45,440 --> 00:48:53,000
+type one for instance between carbon and
+
+998
+00:48:47,119 --> 00:48:57,200
+nitrogen uh should be and uh
+
+999
+00:48:53,000 --> 00:48:59,200
+yeah so I was going to go a bit through
+
+1000
+00:48:57,200 --> 00:49:01,200
+scaling but I don't think there is that
+
+1001
+00:48:59,200 --> 00:49:04,160
+much time I
+
+1002
+00:49:01,200 --> 00:49:06,640
+The bottom line bottom line here is that
+
+1003
+00:49:04,160 --> 00:49:10,480
+uh it is probably about three to four
+
+1004
+00:49:06,640 --> 00:49:12,240
+times slower during training compared to
+
+1005
+00:49:10,480 --> 00:49:17,160
+the one of the simpler point load
+
+1006
+00:49:12,240 --> 00:49:20,240
+methods EDM. Um but then
+
+1007
+00:49:17,160 --> 00:49:22,160
+u but then still manageable especially
+
+1008
+00:49:20,240 --> 00:49:25,200
+in terms of memory and then the
+
+1009
+00:49:22,160 --> 00:49:28,079
+generation speed is on par if not even
+
+1010
+00:49:25,200 --> 00:49:31,839
+better for very large molecules. So
+
+1011
+00:49:28,079 --> 00:49:36,480
+molecules of 180 atoms or so. And then
+
+1012
+00:49:31,839 --> 00:49:39,240
+yeah to summarize uh yeah fields provide
+
+1013
+00:49:36,480 --> 00:49:42,480
+a pretty promising molecular
+
+1014
+00:49:39,240 --> 00:49:45,359
+representation. And then we have seen
+
+1015
+00:49:42,480 --> 00:49:48,079
+how point clouds are unable to
+
+1016
+00:49:45,359 --> 00:49:50,000
+distinguish between an anti-mer variant.
+
+1017
+00:49:48,079 --> 00:49:52,640
+And furthermore adaptations that are
+
+1018
+00:49:50,000 --> 00:49:55,359
+paralleware are arguably pro
+
+1019
+00:49:52,640 --> 00:49:56,960
+prohibitive. And then surprisingly point
+
+1020
+00:49:55,359 --> 00:50:01,119
+clouds in general might have problems
+
+1021
+00:49:56,960 --> 00:50:02,520
+with Cality. And then that uh their
+
+1022
+00:50:01,119 --> 00:50:04,960
+flexibility
+
+1023
+00:50:02,520 --> 00:50:07,280
+allows allows conditional generation
+
+1024
+00:50:04,960 --> 00:50:08,200
+without restricting or requiring the
+
+1025
+00:50:07,280 --> 00:50:10,960
+atom
+
+1026
+00:50:08,200 --> 00:50:12,960
+counts. Reference rotations keep our
+
+1027
+00:50:10,960 --> 00:50:15,599
+performance highly competitive. So this
+
+1028
+00:50:12,960 --> 00:50:18,720
+is a very important design choice. And
+
+1029
+00:50:15,599 --> 00:50:22,960
+for future directions uh the main point
+
+1030
+00:50:18,720 --> 00:50:26,000
+is the size of U which we consider to
+
+1031
+00:50:22,960 --> 00:50:28,800
+further optimize through various
+
+1032
+00:50:26,000 --> 00:50:32,720
+u there are various options here. So the
+
+1033
+00:50:28,800 --> 00:50:35,359
+first idea we we have is to perhaps have
+
+1034
+00:50:32,720 --> 00:50:37,920
+sparse or uneven set of points G uh
+
+1035
+00:50:35,359 --> 00:50:39,119
+where we evaluate our fields and of
+
+1036
+00:50:37,920 --> 00:50:40,880
+course it was this would probably
+
+1037
+00:50:39,119 --> 00:50:42,400
+require a different parameterization.
+
+1038
+00:50:40,880 --> 00:50:45,200
+For instance, attention parameterization
+
+1039
+00:50:42,400 --> 00:50:46,359
+is quite well suited in this case. a
+
+1040
+00:50:45,200 --> 00:50:50,000
+more coarse
+
+1041
+00:50:46,359 --> 00:50:52,319
+resolution. The latest kind of results
+
+1042
+00:50:50,000 --> 00:50:54,640
+or experiments showcase that it's
+
+1043
+00:50:52,319 --> 00:50:56,640
+probably possible to create an even more
+
+1044
+00:50:54,640 --> 00:50:58,960
+coarse resolution and have the fields
+
+1045
+00:50:56,640 --> 00:51:00,480
+become smaller, thus allowing deeper
+
+1046
+00:50:58,960 --> 00:51:02,240
+neural network architectures and
+
+1047
+00:51:00,480 --> 00:51:05,280
+probably better performance in fitting
+
+1048
+00:51:02,240 --> 00:51:08,400
+our data sets or latent diffusion.
+
+1049
+00:51:05,280 --> 00:51:10,480
+representing the fields as uh as some
+
+1050
+00:51:08,400 --> 00:51:12,640
+latent representation that is of much
+
+1051
+00:51:10,480 --> 00:51:14,280
+lower dimensionality and then creating
+
+1052
+00:51:12,640 --> 00:51:18,000
+the diffusion model in that
+
+1053
+00:51:14,280 --> 00:51:20,000
+space. Uh and then conditioning on
+
+1054
+00:51:18,000 --> 00:51:21,920
+multiple variables is probably a very
+
+1055
+00:51:20,000 --> 00:51:23,359
+nice experiment and probably quite
+
+1056
+00:51:21,920 --> 00:51:26,000
+difficult to do in point clouds since
+
+1057
+00:51:23,359 --> 00:51:28,040
+they require the atom counts. And
+
+1058
+00:51:26,000 --> 00:51:31,760
+finally pocket conditioning which
+
+1059
+00:51:28,040 --> 00:51:33,920
+is which is probably possible uh as
+
+1060
+00:51:31,760 --> 00:51:35,520
+opposed to for instance protein
+
+1061
+00:51:33,920 --> 00:51:37,720
+conditioning. So full protein
+
+1062
+00:51:35,520 --> 00:51:40,160
+conditioning in fields is probably
+
+1063
+00:51:37,720 --> 00:51:42,319
+prohibitive but pocket conditioning
+
+1064
+00:51:40,160 --> 00:51:44,640
+given that if we want to generate bind
+
+1065
+00:51:42,319 --> 00:51:47,280
+binders for a specific pockets pocket
+
+1066
+00:51:44,640 --> 00:51:49,839
+that would be quite quite interesting
+
+1067
+00:51:47,280 --> 00:51:53,000
+especially given the kyal sensitivity of
+
+1068
+00:51:49,839 --> 00:51:53,000
+the model.
+
+1069
+00:51:54,720 --> 00:52:00,640
+My talk focuses on on latent variable
+
+1070
+00:51:58,119 --> 00:52:03,359
+models and and the goal is to give a
+
+1071
+00:52:00,640 --> 00:52:05,040
+kind of an overview that how structured
+
+1072
+00:52:03,359 --> 00:52:07,440
+variance of of those latent variable
+
+1073
+00:52:05,040 --> 00:52:10,119
+models can be used for quite many
+
+1074
+00:52:07,440 --> 00:52:14,160
+different prediction and optimization
+
+1075
+00:52:10,119 --> 00:52:16,640
+tasks. So Disan Alexander's uh
+
+1076
+00:52:14,160 --> 00:52:19,200
+presentation focused on on generation
+
+1077
+00:52:16,640 --> 00:52:21,280
+using diff diffusion models. I have a
+
+1078
+00:52:19,200 --> 00:52:24,720
+little bit more on sort of a modeling
+
+1079
+00:52:21,280 --> 00:52:27,119
+focus in in in my talk not just
+
+1080
+00:52:24,720 --> 00:52:28,800
+generation. Before I start I just very
+
+1081
+00:52:27,119 --> 00:52:31,440
+briefly listed what our research group
+
+1082
+00:52:28,800 --> 00:52:33,119
+really does. So o overall the work is
+
+1083
+00:52:31,440 --> 00:52:35,200
+divided into sort of a probabilistic
+
+1084
+00:52:33,119 --> 00:52:37,520
+machine learning computational biology
+
+1085
+00:52:35,200 --> 00:52:39,280
+and and then applications and the talk
+
+1086
+00:52:37,520 --> 00:52:42,960
+that I have prepared for today sort of
+
+1087
+00:52:39,280 --> 00:52:42,960
+covers many of of these
+
+1088
+00:52:43,079 --> 00:52:48,240
+topics and and we are really focusing on
+
+1089
+00:52:45,680 --> 00:52:49,839
+nonlinear or deep latent variable models
+
+1090
+00:52:48,240 --> 00:52:52,319
+which are generative models of of this
+
+1091
+00:52:49,839 --> 00:52:54,640
+type. So we have a latent variable
+
+1092
+00:52:52,319 --> 00:52:57,599
+generated from some base distribution
+
+1093
+00:52:54,640 --> 00:52:59,520
+typically a goian in standard uh models
+
+1094
+00:52:57,599 --> 00:53:01,520
+and and then the actual data item
+
+1095
+00:52:59,520 --> 00:53:03,359
+conditional or the latent from some
+
+1096
+00:53:01,520 --> 00:53:05,839
+other distribution which is typically
+
+1097
+00:53:03,359 --> 00:53:07,599
+from the exponential family. The
+
+1098
+00:53:05,839 --> 00:53:09,359
+specific feature of of these models is
+
+1099
+00:53:07,599 --> 00:53:12,119
+is that the parameters of the
+
+1100
+00:53:09,359 --> 00:53:15,920
+exponential family are obtained by a
+
+1101
+00:53:12,119 --> 00:53:17,319
+nonlinear mapping D which takes the
+
+1102
+00:53:15,920 --> 00:53:21,240
+latent as the
+
+1103
+00:53:17,319 --> 00:53:25,520
+in standard uh deep latent variable
+
+1104
+00:53:21,240 --> 00:53:27,839
+model. Once we observe data why we we
+
+1105
+00:53:25,520 --> 00:53:30,280
+become interested in in the posterior of
+
+1106
+00:53:27,839 --> 00:53:32,800
+the unknowns which are the latent
+
+1107
+00:53:30,280 --> 00:53:34,400
+variables or if we don't know the model
+
+1108
+00:53:32,800 --> 00:53:36,640
+yet we would like to use maybe the
+
+1109
+00:53:34,400 --> 00:53:39,280
+evidence or the marginal likelihood for
+
+1110
+00:53:36,640 --> 00:53:41,640
+training the model. Unfortunately both
+
+1111
+00:53:39,280 --> 00:53:45,119
+of these quantities are are
+
+1112
+00:53:41,640 --> 00:53:47,839
+interactable. So in in machine learning
+
+1113
+00:53:45,119 --> 00:53:49,839
+uh field a common approach is to use the
+
+1114
+00:53:47,839 --> 00:53:52,000
+autoenccoding variational bas which
+
+1115
+00:53:49,839 --> 00:53:54,000
+means using variational amortized
+
+1116
+00:53:52,000 --> 00:53:56,480
+variational inference. So we estimate
+
+1117
+00:53:54,000 --> 00:53:59,040
+the the true posterior distribution of
+
+1118
+00:53:56,480 --> 00:54:02,079
+the unknowns with some parametric uh
+
+1119
+00:53:59,040 --> 00:54:05,359
+distribution Q and an amortization means
+
+1120
+00:54:02,079 --> 00:54:08,319
+that we have a another mapping called
+
+1121
+00:54:05,359 --> 00:54:10,599
+encoder function that maps the data item
+
+1122
+00:54:08,319 --> 00:54:13,079
+into the parameters of the various
+
+1123
+00:54:10,599 --> 00:54:15,760
+approximation and and if these
+
+1124
+00:54:13,079 --> 00:54:18,520
+mappings FMC are neural networks then we
+
+1125
+00:54:15,760 --> 00:54:21,599
+are talking about the
+
+1126
+00:54:18,520 --> 00:54:23,760
+VAE all right and then to make these
+
+1127
+00:54:21,599 --> 00:54:26,160
+models a little bit more useful in
+
+1128
+00:54:23,760 --> 00:54:29,520
+practice. We are primarily focusing on
+
+1129
+00:54:26,160 --> 00:54:31,760
+conditional gener models. So we always
+
+1130
+00:54:29,520 --> 00:54:34,960
+condition the generation with some
+
+1131
+00:54:31,760 --> 00:54:36,800
+coariates x both the generation of the
+
+1132
+00:54:34,960 --> 00:54:38,200
+latent and and then the generation of
+
+1133
+00:54:36,800 --> 00:54:40,640
+the actual
+
+1134
+00:54:38,200 --> 00:54:43,040
+data and and then the amortized
+
+1135
+00:54:40,640 --> 00:54:45,520
+inference also sort of have access to
+
+1136
+00:54:43,040 --> 00:54:48,319
+these conditioning var sort of the sort
+
+1137
+00:54:45,520 --> 00:54:49,880
+of same same setup but now we at the
+
+1138
+00:54:48,319 --> 00:54:52,880
+conditioning terms as
+
+1139
+00:54:49,880 --> 00:54:55,200
+well and then there are different uh
+
+1140
+00:54:52,880 --> 00:54:57,760
+parameterizations for the conditional uh
+
+1141
+00:54:55,200 --> 00:54:59,839
+modeling. So we can define the model
+
+1142
+00:54:57,760 --> 00:55:03,240
+such such that the both the prior and
+
+1143
+00:54:59,839 --> 00:55:05,680
+and the decoding likelihood see the
+
+1144
+00:55:03,240 --> 00:55:07,839
+coariates or or such that only the
+
+1145
+00:55:05,680 --> 00:55:09,599
+likelihood or only the prior is the
+
+1146
+00:55:07,839 --> 00:55:12,880
+coaras and we are primarily focusing on
+
+1147
+00:55:09,599 --> 00:55:12,880
+on the last
+
+1148
+00:55:13,160 --> 00:55:18,640
+parameterization. All right. So I I'll
+
+1149
+00:55:15,520 --> 00:55:20,960
+try to cover three topics which sort of
+
+1150
+00:55:18,640 --> 00:55:23,839
+address the limitations or in in some
+
+1151
+00:55:20,960 --> 00:55:26,880
+case also possibilities of these VAEs
+
+1152
+00:55:23,839 --> 00:55:28,960
+and conditional VAS. The first focus is
+
+1153
+00:55:26,880 --> 00:55:30,880
+on on uh on on the fact that the data
+
+1154
+00:55:28,960 --> 00:55:32,839
+samples are completely independent in
+
+1155
+00:55:30,880 --> 00:55:35,920
+the standard
+
+1156
+00:55:32,839 --> 00:55:37,760
+models and why correlations are
+
+1157
+00:55:35,920 --> 00:55:39,280
+important and I I thought about maybe
+
+1158
+00:55:37,760 --> 00:55:41,520
+highlighting the longitudinal or
+
+1159
+00:55:39,280 --> 00:55:43,520
+temporal data as an example case because
+
+1160
+00:55:41,520 --> 00:55:46,400
+that's sort of the most obvious reason
+
+1161
+00:55:43,520 --> 00:55:49,040
+why bother modeling correlations. So
+
+1162
+00:55:46,400 --> 00:55:51,359
+longitudinal designs are are specific
+
+1163
+00:55:49,040 --> 00:55:54,319
+type of time series data sets that
+
+1164
+00:55:51,359 --> 00:55:56,400
+consist of multiple subjects and each
+
+1165
+00:55:54,319 --> 00:55:58,880
+subject is then measured repeatedly over
+
+1166
+00:55:56,400 --> 00:56:01,359
+time as as sort of illustrated here. And
+
+1167
+00:55:58,880 --> 00:56:04,640
+then this experimental design sort of
+
+1168
+00:56:01,359 --> 00:56:08,559
+implies that there are correlations both
+
+1169
+00:56:04,640 --> 00:56:11,200
+within a subject over time as well as uh
+
+1170
+00:56:08,559 --> 00:56:12,799
+correlations across multiple subjects.
+
+1171
+00:56:11,200 --> 00:56:14,960
+And then if we want to use these kind of
+
+1172
+00:56:12,799 --> 00:56:16,960
+a latent variable models for for this
+
+1173
+00:56:14,960 --> 00:56:19,000
+type of data, we would like to be able
+
+1174
+00:56:16,960 --> 00:56:21,559
+to model these correlations because
+
+1175
+00:56:19,000 --> 00:56:24,079
+otherwise yeah it's a kind of a
+
+1176
+00:56:21,559 --> 00:56:26,400
+nonsense. There are many ways to
+
+1177
+00:56:24,079 --> 00:56:28,319
+implement the correlations in in these
+
+1178
+00:56:26,400 --> 00:56:30,799
+models.
+
+1179
+00:56:28,319 --> 00:56:32,240
+uh on the probabilistic modeling side I
+
+1180
+00:56:30,799 --> 00:56:34,960
+think the gossian process approach is
+
+1181
+00:56:32,240 --> 00:56:36,559
+probably the most commonly used and and
+
+1182
+00:56:34,960 --> 00:56:38,319
+what it means is that the we simply
+
+1183
+00:56:36,559 --> 00:56:42,160
+assign the L- dimensional latent
+
+1184
+00:56:38,319 --> 00:56:45,079
+variable Z to have a multi output coium
+
+1185
+00:56:42,160 --> 00:56:48,559
+process prior sort of a kind of a
+
+1186
+00:56:45,079 --> 00:56:51,040
+technically we can say that Z is now
+
+1187
+00:56:48,559 --> 00:56:53,440
+defined as a function of X coverates
+
+1188
+00:56:51,040 --> 00:56:55,880
+inputs and and then we assign this F
+
+1189
+00:56:53,440 --> 00:56:58,480
+function a Gaussian process
+
+1190
+00:56:55,880 --> 00:57:00,880
+prior and this cosian process prior
+
+1191
+00:56:58,480 --> 00:57:02,720
+typically has a zero mean and then it
+
+1192
+00:57:00,880 --> 00:57:04,720
+has in this multi- output case a cross
+
+1193
+00:57:02,720 --> 00:57:07,160
+coariance function which measures the
+
+1194
+00:57:04,720 --> 00:57:10,760
+smoothness of the correlations and
+
+1195
+00:57:07,160 --> 00:57:13,440
+dependencies in the latent
+
+1196
+00:57:10,760 --> 00:57:16,000
+arrive and and then what this means in
+
+1197
+00:57:13,440 --> 00:57:18,319
+practice is is that now if we take any
+
+1198
+00:57:16,000 --> 00:57:21,040
+finite collection of inputs let's say n
+
+1199
+00:57:18,319 --> 00:57:23,119
+data points or n prediction variables
+
+1200
+00:57:21,040 --> 00:57:26,240
+then the corresponding latents have a
+
+1201
+00:57:23,119 --> 00:57:29,760
+joint cosian uh distribution correlated
+
+1202
+00:57:26,240 --> 00:57:34,400
+cosian distribution so The latent across
+
+1203
+00:57:29,760 --> 00:57:36,880
+these n inputs then have a joint coian
+
+1204
+00:57:34,400 --> 00:57:39,040
+in this case a zero mean and and then a
+
+1205
+00:57:36,880 --> 00:57:41,520
+full coariance matrix defined by the
+
+1206
+00:57:39,040 --> 00:57:44,240
+cross coariance of the cosian process
+
+1207
+00:57:41,520 --> 00:57:47,040
+prior and then the s of the intuition is
+
+1208
+00:57:44,240 --> 00:57:48,880
+that the uh crossarian function sort of
+
+1209
+00:57:47,040 --> 00:57:51,839
+defines that how strongly the different
+
+1210
+00:57:48,880 --> 00:57:53,599
+data points are coupled. So for those
+
+1211
+00:57:51,839 --> 00:57:56,559
+data points where the inputs are close
+
+1212
+00:57:53,599 --> 00:57:59,200
+by then the correlation is high. For
+
+1213
+00:57:56,559 --> 00:58:01,000
+those inputs where the for those data
+
+1214
+00:57:59,200 --> 00:58:03,359
+points where the inputs are far away the
+
+1215
+00:58:01,000 --> 00:58:05,359
+correlation and then of course that
+
+1216
+00:58:03,359 --> 00:58:07,680
+strength of the correlation also learned
+
+1217
+00:58:05,359 --> 00:58:07,680
+from the
+
+1218
+00:58:07,799 --> 00:58:12,160
+data. So this has been proposed already
+
+1219
+00:58:10,400 --> 00:58:14,720
+a while ago. What we have been primarily
+
+1220
+00:58:12,160 --> 00:58:17,000
+using is is is this kind of a additive
+
+1221
+00:58:14,720 --> 00:58:20,160
+variant of of the model. So that the
+
+1222
+00:58:17,000 --> 00:58:23,920
+latent variable is is defined to be sort
+
+1223
+00:58:20,160 --> 00:58:27,160
+of a sum of of GP briers as as denoted
+
+1224
+00:58:23,920 --> 00:58:29,680
+by here. Uh such that each of these
+
+1225
+00:58:27,160 --> 00:58:31,599
+functions as a separate cosian process
+
+1226
+00:58:29,680 --> 00:58:33,839
+drive and kind of the benefit of this
+
+1227
+00:58:31,599 --> 00:58:35,760
+kind of approach is that it it sort of
+
+1228
+00:58:33,839 --> 00:58:37,680
+allows us to have some sort of
+
+1229
+00:58:35,760 --> 00:58:39,520
+interpretability of the latent variables
+
+1230
+00:58:37,680 --> 00:58:42,720
+because we can now automatically factor
+
+1231
+00:58:39,520 --> 00:58:47,119
+them in into additive terms much like in
+
+1232
+00:58:42,720 --> 00:58:47,119
+in linear mixed modeling approach.
+
+1233
+00:58:48,799 --> 00:58:52,480
+And then then the the conditional
+
+1234
+00:58:50,400 --> 00:58:55,200
+generative model becomes the following.
+
+1235
+00:58:52,480 --> 00:58:57,440
+So now the latent variable it doesn't
+
+1236
+00:58:55,200 --> 00:59:00,319
+have the standard IID cosian instead it
+
+1237
+00:58:57,440 --> 00:59:03,520
+has the Gaussian process prior which
+
+1238
+00:59:00,319 --> 00:59:05,920
+implies correlations but again remember
+
+1239
+00:59:03,520 --> 00:59:09,280
+that this is in in in real life this is
+
+1240
+00:59:05,920 --> 00:59:11,520
+a normal distribution correlated and
+
+1241
+00:59:09,280 --> 00:59:14,480
+then the the uh distribution for the
+
+1242
+00:59:11,520 --> 00:59:18,799
+data items remains the same uh decoder
+
+1243
+00:59:14,480 --> 00:59:21,520
+based exponential family distribution.
+
+1244
+00:59:18,799 --> 00:59:24,480
+Are the multiple uh kernel functions
+
+1245
+00:59:21,520 --> 00:59:27,200
+here operating on different dimensions
+
+1246
+00:59:24,480 --> 00:59:29,040
+of the coariantss? Yes. Yes. Yeah.
+
+1247
+00:59:27,200 --> 00:59:30,640
+Thanks Martin. So indeed the way we
+
+1248
+00:59:29,040 --> 00:59:33,040
+typically implement these models is is
+
+1249
+00:59:30,640 --> 00:59:35,200
+such that each function depends only on
+
+1250
+00:59:33,040 --> 00:59:38,359
+on a subset of the coariates and and
+
+1251
+00:59:35,200 --> 00:59:41,200
+then that provides the
+
+1252
+00:59:38,359 --> 00:59:43,359
+interpretation and then I use again the
+
+1253
+00:59:41,200 --> 00:59:44,960
+longitudinal data as an example. So
+
+1254
+00:59:43,359 --> 00:59:47,839
+because now much of the sort of the
+
+1255
+00:59:44,960 --> 00:59:50,799
+magic of these techniques builds on on
+
+1256
+00:59:47,839 --> 00:59:53,040
+the choice of the coariance functions
+
+1257
+00:59:50,799 --> 00:59:55,440
+and for example in in in the case of
+
+1258
+00:59:53,040 --> 00:59:57,760
+modeling long material data we can use
+
+1259
+00:59:55,440 --> 01:00:01,400
+for for example the exponentiated
+
+1260
+00:59:57,760 --> 01:00:05,119
+quadratic kernel to model uh shared
+
+1261
+01:00:01,400 --> 01:00:08,000
+effects shared across all the subsets.
+
+1262
+01:00:05,119 --> 01:00:11,040
+uh category effects we can model maybe
+
+1263
+01:00:08,000 --> 01:00:14,720
+using a product kernel of the zero sum
+
+1264
+01:00:11,040 --> 01:00:17,319
+and and then uh the EQ kernel and and
+
+1265
+01:00:14,720 --> 01:00:21,040
+then we can also have non-stationary uh
+
+1266
+01:00:17,319 --> 01:00:24,319
+effects uh such as one may expect in the
+
+1267
+01:00:21,040 --> 01:00:28,000
+case of rapidly happening kind of
+
+1268
+01:00:24,319 --> 01:00:31,200
+happening uh events like disease onset
+
+1269
+01:00:28,000 --> 01:00:34,920
+and and then we can have uh ID specific
+
+1270
+01:00:31,200 --> 01:00:38,240
+random variation using
+
+1271
+01:00:34,920 --> 01:00:40,960
+uh the the product of the ID and and
+
+1272
+01:00:38,240 --> 01:00:43,680
+then the EQ kernel again and then we we
+
+1273
+01:00:40,960 --> 01:00:45,280
+sum them up. So again this is just a one
+
+1274
+01:00:43,680 --> 01:00:47,280
+dimension of the latent space. Of course
+
+1275
+01:00:45,280 --> 01:00:49,920
+the latent space has many dimensions for
+
+1276
+01:00:47,280 --> 01:00:52,400
+visualization purposes. I'm only saw one
+
+1277
+01:00:49,920 --> 01:00:54,480
+and when we add the kernels or the
+
+1278
+01:00:52,400 --> 01:00:56,319
+latent corresponding latent variables
+
+1279
+01:00:54,480 --> 01:00:58,160
+this is then the the final latent
+
+1280
+01:00:56,319 --> 01:01:00,160
+variable that we have but now we can
+
+1281
+01:00:58,160 --> 01:01:04,680
+automatically decompose it into these
+
+1282
+01:01:00,160 --> 01:01:07,680
+interpretable terms via the additive
+
+1283
+01:01:04,680 --> 01:01:09,839
+feature. Okay. And then a couple of more
+
+1284
+01:01:07,680 --> 01:01:11,599
+details before I I'll show how how these
+
+1285
+01:01:09,839 --> 01:01:15,200
+things work. So let's say that we have
+
+1286
+01:01:11,599 --> 01:01:18,240
+data set XY size N. So we have n many
+
+1287
+01:01:15,200 --> 01:01:20,640
+data points. the the coariates or the
+
+1288
+01:01:18,240 --> 01:01:22,400
+inputs, the corresponding data items and
+
+1289
+01:01:20,640 --> 01:01:23,640
+and then the latent variables which we
+
+1290
+01:01:22,400 --> 01:01:26,799
+never
+
+1291
+01:01:23,640 --> 01:01:28,559
+observe and and then we are primarily
+
+1292
+01:01:26,799 --> 01:01:30,480
+first interested in the in the marginal
+
+1293
+01:01:28,559 --> 01:01:32,640
+likelihood because we we want to have
+
+1294
+01:01:30,480 --> 01:01:35,040
+some sort of object
+
+1295
+01:01:32,640 --> 01:01:37,640
+uh or objective to train the model. So
+
+1296
+01:01:35,040 --> 01:01:39,599
+we can choose the parameters and
+
+1297
+01:01:37,640 --> 01:01:42,720
+hyperparameters so that the marginal
+
+1298
+01:01:39,599 --> 01:01:44,400
+likelihood is is maximized and and
+
+1299
+01:01:42,720 --> 01:01:46,400
+exactly the same way as for the standard
+
+1300
+01:01:44,400 --> 01:01:48,160
+models we we just integrate out the
+
+1301
+01:01:46,400 --> 01:01:50,079
+latent variables to get the marginal
+
+1302
+01:01:48,160 --> 01:01:52,720
+likelihood. And the only difference here
+
+1303
+01:01:50,079 --> 01:01:55,280
+is that now the the while while while
+
+1304
+01:01:52,720 --> 01:01:56,720
+the likelihood term factorizes then the
+
+1305
+01:01:55,280 --> 01:01:58,880
+prior does not because we have
+
+1306
+01:01:56,720 --> 01:02:03,240
+constructed it in a way that it catches
+
+1307
+01:01:58,880 --> 01:02:03,240
+the correlations that we want to model.
+
+1308
+01:02:04,359 --> 01:02:10,480
+Okay. And and then again these models
+
+1309
+01:02:07,920 --> 01:02:12,799
+are are really not tractable. We don't
+
+1310
+01:02:10,480 --> 01:02:16,200
+have analytical solutions. So we need to
+
+1311
+01:02:12,799 --> 01:02:19,839
+rely on on autoenccodoring variational
+
+1312
+01:02:16,200 --> 01:02:21,920
+base. So we have a we we approximate the
+
+1313
+01:02:19,839 --> 01:02:25,119
+true posterior of the latent variables
+
+1314
+01:02:21,920 --> 01:02:27,319
+with the variational family. uh in in
+
+1315
+01:02:25,119 --> 01:02:29,599
+most of the work we are using mean field
+
+1316
+01:02:27,319 --> 01:02:31,920
+approximation where we have a encoder
+
+1317
+01:02:29,599 --> 01:02:33,760
+that maps each data item into the
+
+1318
+01:02:31,920 --> 01:02:36,319
+corresponding parameters of the mean and
+
+1319
+01:02:33,760 --> 01:02:38,480
+variance of the latent variables and
+
+1320
+01:02:36,319 --> 01:02:42,280
+then then these functions muan and sigma
+
+1321
+01:02:38,480 --> 01:02:45,040
+the typical neural network encoder
+
+1322
+01:02:42,280 --> 01:02:48,559
+models and then we can use for example
+
+1323
+01:02:45,040 --> 01:02:51,720
+the elbow objective to to to have a
+
+1324
+01:02:48,559 --> 01:02:54,240
+lower bound for the uh margin
+
+1325
+01:02:51,720 --> 01:02:56,079
+likelihood and and then Again, it has
+
+1326
+01:02:54,240 --> 01:02:58,200
+the same form as as the elbow typically
+
+1327
+01:02:56,079 --> 01:03:01,760
+has. I have written it here in in a
+
+1328
+01:02:58,200 --> 01:03:04,559
+typical two-part uh way. So that the
+
+1329
+01:03:01,760 --> 01:03:06,599
+first part shows the reconstruction loss
+
+1330
+01:03:04,559 --> 01:03:08,880
+and then the second part shows the
+
+1331
+01:03:06,599 --> 01:03:10,640
+regularization scale divergence term.
+
+1332
+01:03:08,880 --> 01:03:14,640
+The first part is easy to compute
+
+1333
+01:03:10,640 --> 01:03:16,880
+because these uh elements factoriize
+
+1334
+01:03:14,640 --> 01:03:18,480
+according to the data points. The second
+
+1335
+01:03:16,880 --> 01:03:20,559
+part does not because we have
+
+1336
+01:03:18,480 --> 01:03:23,119
+constructed it in a way that it contains
+
+1337
+01:03:20,559 --> 01:03:25,039
+the correlations that we want to model.
+
+1338
+01:03:23,119 --> 01:03:27,680
+This has a closed form solution because
+
+1339
+01:03:25,039 --> 01:03:29,599
+everything is gaussian. If you just have
+
+1340
+01:03:27,680 --> 01:03:31,440
+million data points, then it's million
+
+1341
+01:03:29,599 --> 01:03:33,760
+times million matrix. So this can be
+
+1342
+01:03:31,440 --> 01:03:36,240
+slow to compute. So we have some
+
+1343
+01:03:33,760 --> 01:03:40,559
+theoretical results from earlier work
+
+1344
+01:03:36,240 --> 01:03:44,079
+where we proposed a provably tighter
+
+1345
+01:03:40,559 --> 01:03:47,440
+evidence lower bound for the uh evidence
+
+1346
+01:03:44,079 --> 01:03:49,440
+for a longit longitudinal or additive CP
+
+1347
+01:03:47,440 --> 01:03:52,000
+models and then that provides us an
+
+1348
+01:03:49,440 --> 01:03:54,079
+upper bound for the KL term here. so
+
+1349
+01:03:52,000 --> 01:03:56,480
+that we have a objective against which
+
+1350
+01:03:54,079 --> 01:03:58,200
+we can train these models and then we
+
+1351
+01:03:56,480 --> 01:04:03,079
+also have a kind of a no mini patch
+
+1352
+01:03:58,200 --> 01:04:03,079
+compatible scale h upper bound.
+
+1353
+01:04:04,640 --> 01:04:10,640
+Okay, I'll show first one simulated data
+
+1354
+01:04:08,400 --> 01:04:12,520
+set and then the point is to sort of
+
+1355
+01:04:10,640 --> 01:04:16,000
+demonstrate that what these models can
+
+1356
+01:04:12,520 --> 01:04:18,079
+do and we we took the emnest images
+
+1357
+01:04:16,000 --> 01:04:21,440
+thousand different digits those now
+
+1358
+01:04:18,079 --> 01:04:23,039
+represent our patients and then 20
+
+1359
+01:04:21,440 --> 01:04:24,559
+different time points are obtained by
+
+1360
+01:04:23,039 --> 01:04:27,520
+rotating and shifting the image
+
+1361
+01:04:24,559 --> 01:04:30,319
+according to the coar associated to each
+
+1362
+01:04:27,520 --> 01:04:34,400
+subject or bas and then we have a
+
+1363
+01:04:30,319 --> 01:04:36,640
+additional 100 test subjects such that
+
+1364
+01:04:34,400 --> 01:04:39,400
+we are given the initial data points and
+
+1365
+01:04:36,640 --> 01:04:41,520
+and then the goal is to predict the
+
+1366
+01:04:39,400 --> 01:04:43,079
+remaining time points that we have not
+
+1367
+01:04:41,520 --> 01:04:45,520
+seen for the test
+
+1368
+01:04:43,079 --> 01:04:48,359
+subset and and this is an illustration
+
+1369
+01:04:45,520 --> 01:04:51,920
+what for example our model can
+
+1370
+01:04:48,359 --> 01:04:54,000
+do and and we have compared our model
+
+1371
+01:04:51,920 --> 01:04:55,920
+against many competing techniques some
+
+1372
+01:04:54,000 --> 01:04:59,599
+of which use also gossian process based
+
+1373
+01:04:55,920 --> 01:05:02,480
+techniques some use RNNs some use GANs
+
+1374
+01:04:59,599 --> 01:05:05,760
+and and in in many cases it seems that
+
+1375
+01:05:02,480 --> 01:05:07,799
+the our additives CB based VA model is
+
+1376
+01:05:05,760 --> 01:05:09,839
+is is a good choice and how highly
+
+1377
+01:05:07,799 --> 01:05:13,480
+performed. I'll show you a couple of
+
+1378
+01:05:09,839 --> 01:05:16,720
+examples for real data sets a bit later
+
+1379
+01:05:13,480 --> 01:05:18,079
+uh for for real electronic health record
+
+1380
+01:05:16,720 --> 01:05:21,119
+data sets. But then I I thought that
+
+1381
+01:05:18,079 --> 01:05:24,000
+maybe I saw this sort of a um
+
+1382
+01:05:21,119 --> 01:05:26,720
+preliminary results uh from time series
+
+1383
+01:05:24,000 --> 01:05:29,839
+single cell RNA sequencing data set that
+
+1384
+01:05:26,720 --> 01:05:32,160
+we have been working on. So as you all
+
+1385
+01:05:29,839 --> 01:05:33,680
+know sorry can I ask a question just on
+
+1386
+01:05:32,160 --> 01:05:37,039
+the previous slide? So when you did the
+
+1387
+01:05:33,680 --> 01:05:40,160
+simulation like how did you decide what
+
+1388
+01:05:37,039 --> 01:05:42,359
+correlation structure to use
+
+1389
+01:05:40,160 --> 01:05:44,960
+uh across I guess the time points and
+
+1390
+01:05:42,359 --> 01:05:48,880
+these patients who are just spitting out
+
+1391
+01:05:44,960 --> 01:05:50,720
+I guess numbers and then does the
+
+1392
+01:05:48,880 --> 01:05:53,200
+complexity or simplicity of the
+
+1393
+01:05:50,720 --> 01:05:56,240
+correlation structure change how much
+
+1394
+01:05:53,200 --> 01:05:58,319
+data you need to train a model. Uh so so
+
+1395
+01:05:56,240 --> 01:05:59,920
+the first part of the question was that
+
+1396
+01:05:58,319 --> 01:06:02,720
+how how we choose the correlation
+
+1397
+01:05:59,920 --> 01:06:04,480
+structure. So uh I I think in this this
+
+1398
+01:06:02,720 --> 01:06:06,559
+case we we can't really interpret the
+
+1399
+01:06:04,480 --> 01:06:08,480
+model as a as a just black box but we
+
+1400
+01:06:06,559 --> 01:06:10,799
+need to make some modeling choices and
+
+1401
+01:06:08,480 --> 01:06:12,720
+and then I I think a natural way to do
+
+1402
+01:06:10,799 --> 01:06:15,119
+this modeling choices is is based on the
+
+1403
+01:06:12,720 --> 01:06:16,400
+coariates that one has available. So we
+
+1404
+01:06:15,119 --> 01:06:19,200
+are modeling the effects of the
+
+1405
+01:06:16,400 --> 01:06:21,200
+coariates in the latent space and in in
+
+1406
+01:06:19,200 --> 01:06:25,359
+this case I don't remember exactly but I
+
+1407
+01:06:21,200 --> 01:06:28,720
+I suppose we had six or maybe a bit more
+
+1408
+01:06:25,359 --> 01:06:28,720
+effects in the latent
+
+1409
+01:06:28,760 --> 01:06:31,920
+space. Okay. Okay. So I guess that
+
+1410
+01:06:30,640 --> 01:06:33,440
+answers my other question which is just
+
+1411
+01:06:31,920 --> 01:06:37,599
+like you have more coariants you just
+
+1412
+01:06:33,440 --> 01:06:37,599
+need more data I guess to uh yes
+
+1413
+01:06:37,760 --> 01:06:43,000
+maybe also related to that but um in the
+
+1414
+01:06:40,640 --> 01:06:45,200
+modeling how is that affected by
+
+1415
+01:06:43,000 --> 01:06:47,440
+multiolinearity so for example if you
+
+1416
+01:06:45,200 --> 01:06:49,280
+have age and blood pressure or something
+
+1417
+01:06:47,440 --> 01:06:51,920
+like this you would already assume that
+
+1418
+01:06:49,280 --> 01:06:53,440
+those um correlate with each other and
+
+1419
+01:06:51,920 --> 01:06:55,280
+so how how would you deal with that?
+
+1420
+01:06:53,440 --> 01:06:57,440
+Yeah. Well, I I I don't really have a
+
+1421
+01:06:55,280 --> 01:07:00,640
+good answer, but I I I agree that it
+
+1422
+01:06:57,440 --> 01:07:02,319
+would complicate things and then
+
+1423
+01:07:00,640 --> 01:07:04,079
+obviously one can do some sort of a
+
+1424
+01:07:02,319 --> 01:07:05,839
+coverage selection that which are really
+
+1425
+01:07:04,079 --> 01:07:07,839
+important, but we haven't really gone to
+
+1426
+01:07:05,839 --> 01:07:08,680
+that direction. That's a good good
+
+1427
+01:07:07,839 --> 01:07:11,280
+question
+
+1428
+01:07:08,680 --> 01:07:14,160
+though. So another application is
+
+1429
+01:07:11,280 --> 01:07:17,359
+modeling time series uh single cell RNA
+
+1430
+01:07:14,160 --> 01:07:19,280
+sequencing data. And so what this kind
+
+1431
+01:07:17,359 --> 01:07:23,200
+of experiment gives is a large number of
+
+1432
+01:07:19,280 --> 01:07:25,839
+highdimensional observations YT of
+
+1433
+01:07:23,200 --> 01:07:29,640
+individual cells C at different time
+
+1434
+01:07:25,839 --> 01:07:32,240
+points T and then the the kind of the
+
+1435
+01:07:29,640 --> 01:07:33,839
+key feature of this modeling technology
+
+1436
+01:07:32,240 --> 01:07:36,799
+is that you can measure one cell only
+
+1437
+01:07:33,839 --> 01:07:38,160
+once and then then what we see is is
+
+1438
+01:07:36,799 --> 01:07:41,119
+only the sort of a marginal
+
+1439
+01:07:38,160 --> 01:07:42,640
+distributions at different time. But
+
+1440
+01:07:41,119 --> 01:07:45,599
+nonetheless, we we thought that we we
+
+1441
+01:07:42,640 --> 01:07:48,160
+want to try this uh our models on on
+
+1442
+01:07:45,599 --> 01:07:50,559
+this type of data as well. We we can't
+
+1443
+01:07:48,160 --> 01:07:52,640
+really apply the models directly as we
+
+1444
+01:07:50,559 --> 01:07:54,480
+as I explained a couple of slides ago.
+
+1445
+01:07:52,640 --> 01:07:56,079
+But what what is typically done in the
+
+1446
+01:07:54,480 --> 01:07:58,319
+field is is to use some sort of earth
+
+1447
+01:07:56,079 --> 01:08:00,400
+moving distance or style distance to
+
+1448
+01:07:58,319 --> 01:08:02,799
+match the predictions model based
+
+1449
+01:08:00,400 --> 01:08:06,559
+predictions with the data. So we we have
+
+1450
+01:08:02,799 --> 01:08:08,720
+the uh data points in many cells at at
+
+1451
+01:08:06,559 --> 01:08:11,200
+certain time points corresponding
+
+1452
+01:08:08,720 --> 01:08:12,760
+predictions and and then we can use the
+
+1453
+01:08:11,200 --> 01:08:15,520
+uh squared
+
+1454
+01:08:12,760 --> 01:08:18,400
+ukidian uh loss to to get the vaserstein
+
+1455
+01:08:15,520 --> 01:08:22,080
+two type of a distance measure between
+
+1456
+01:08:18,400 --> 01:08:24,640
+the predictions and the the data points.
+
+1457
+01:08:22,080 --> 01:08:27,040
+So what we what we can then do is to
+
+1458
+01:08:24,640 --> 01:08:29,120
+train the kind of model that I explained
+
+1459
+01:08:27,040 --> 01:08:31,679
+earlier but replace the reconstruction
+
+1460
+01:08:29,120 --> 01:08:34,480
+loss in the evidence lower bound with
+
+1461
+01:08:31,679 --> 01:08:38,000
+the corresponding waserstein such that
+
+1462
+01:08:34,480 --> 01:08:40,799
+we we still get the predictions from the
+
+1463
+01:08:38,000 --> 01:08:42,799
+uh kind of estimated latent variables
+
+1464
+01:08:40,799 --> 01:08:45,199
+but we match the predictions with the
+
+1465
+01:08:42,799 --> 01:08:48,520
+data only via the baserstein matching
+
+1466
+01:08:45,199 --> 01:08:51,279
+between the individual
+
+1467
+01:08:48,520 --> 01:08:53,359
+cells and this is something which is
+
+1468
+01:08:51,279 --> 01:08:54,799
+finished but I I thought that it's kind
+
+1469
+01:08:53,359 --> 01:08:56,560
+of interesting. I I wanted to present
+
+1470
+01:08:54,799 --> 01:08:58,640
+that anyway and we we we have tested
+
+1471
+01:08:56,560 --> 01:09:02,719
+this on on a couple of different data
+
+1472
+01:08:58,640 --> 01:09:04,640
+sets. Uh so here are are some data sets
+
+1473
+01:09:02,719 --> 01:09:08,279
+used in in other computational works
+
+1474
+01:09:04,640 --> 01:09:11,040
+earlier from SR Josephine and then
+
+1475
+01:09:08,279 --> 01:09:13,040
+mouse this many cells this many time
+
+1476
+01:09:11,040 --> 01:09:14,640
+points and and then we we can try to
+
+1477
+01:09:13,040 --> 01:09:16,520
+evaluate that how well these kind of
+
+1478
+01:09:14,640 --> 01:09:19,120
+latent variable models are able to
+
+1479
+01:09:16,520 --> 01:09:21,600
+interpolate between the time points. So
+
+1480
+01:09:19,120 --> 01:09:23,359
+we kind of intentionally leave one of
+
+1481
+01:09:21,600 --> 01:09:25,719
+the time points out and and then see how
+
+1482
+01:09:23,359 --> 01:09:29,759
+well we can reconstruct the missing time
+
+1483
+01:09:25,719 --> 01:09:31,839
+points use using our models and seems to
+
+1484
+01:09:29,759 --> 01:09:34,239
+perform relatively well at least against
+
+1485
+01:09:31,839 --> 01:09:37,359
+the previously proposed models which are
+
+1486
+01:09:34,239 --> 01:09:39,839
+mostly using neural OD type of
+
+1487
+01:09:37,359 --> 01:09:41,920
+techniques for the modeling and then
+
+1488
+01:09:39,839 --> 01:09:44,239
+here are the corresponding
+
+1489
+01:09:41,920 --> 01:09:46,719
+uh prediction. So this is the the data
+
+1490
+01:09:44,239 --> 01:09:49,040
+colorcoded uh according to time points
+
+1491
+01:09:46,719 --> 01:09:52,239
+and and then these are the uh
+
+1492
+01:09:49,040 --> 01:09:55,480
+predictions from from our model in again
+
+1493
+01:09:52,239 --> 01:09:58,320
+2D embedding
+
+1494
+01:09:55,480 --> 01:10:00,239
+space. Okay, before going into this
+
+1495
+01:09:58,320 --> 01:10:02,320
+electronic health record type of
+
+1496
+01:10:00,239 --> 01:10:04,239
+analysis I I just want to mention that
+
+1497
+01:10:02,320 --> 01:10:07,239
+many real world data sets contain
+
+1498
+01:10:04,239 --> 01:10:09,679
+missing values. So any any subset of the
+
+1499
+01:10:07,239 --> 01:10:11,920
+features or the coverates may be missing
+
+1500
+01:10:09,679 --> 01:10:14,719
+completely at random. it's sort of
+
+1501
+01:10:11,920 --> 01:10:16,640
+trivial to handle the uh uh completely
+
+1502
+01:10:14,719 --> 01:10:18,840
+random missingness from the from the
+
+1503
+01:10:16,640 --> 01:10:21,280
+features but less so from the from the
+
+1504
+01:10:18,840 --> 01:10:24,159
+coariates and and then the goal is to
+
+1505
+01:10:21,280 --> 01:10:26,080
+learn conditional va
+
+1506
+01:10:24,159 --> 01:10:28,239
+uh from partially observed data sets
+
+1507
+01:10:26,080 --> 01:10:31,000
+that contain missingness also in these
+
+1508
+01:10:28,239 --> 01:10:35,679
+predictor variables
+
+1509
+01:10:31,000 --> 01:10:38,800
+x and we we we do that by by augmenting
+
+1510
+01:10:35,679 --> 01:10:41,280
+the the general model with the prior for
+
+1511
+01:10:38,800 --> 01:10:43,760
+the coariates as well. such that the
+
+1512
+01:10:41,280 --> 01:10:47,480
+joint distribution for the data latent
+
+1513
+01:10:43,760 --> 01:10:49,760
+and and coariates factorizes
+
+1514
+01:10:47,480 --> 01:10:52,239
+according and and then I I just note
+
+1515
+01:10:49,760 --> 01:10:54,560
+that in in this case the coariates
+
+1516
+01:10:52,239 --> 01:10:56,560
+contain both discrete and and continuous
+
+1517
+01:10:54,560 --> 01:10:59,199
+variables. So it's not quite exactly the
+
+1518
+01:10:56,560 --> 01:11:01,800
+same as as typical VA setting where
+
+1519
+01:10:59,199 --> 01:11:06,000
+everything is continuous in
+
+1520
+01:11:01,800 --> 01:11:08,159
+latency and I I will not go into details
+
+1521
+01:11:06,000 --> 01:11:10,719
+but but the concept is sort of quite
+
+1522
+01:11:08,159 --> 01:11:13,520
+quite simple. So we we extend the
+
+1523
+01:11:10,719 --> 01:11:17,199
+amortized variational approximation also
+
+1524
+01:11:13,520 --> 01:11:19,120
+for the unobserved co variates x and and
+
+1525
+01:11:17,199 --> 01:11:21,120
+then we maximize the evidence lower
+
+1526
+01:11:19,120 --> 01:11:25,040
+bound such that we simultaneously
+
+1527
+01:11:21,120 --> 01:11:26,440
+marginalize out any uncertainty in this
+
+1528
+01:11:25,040 --> 01:11:29,440
+unobserved
+
+1529
+01:11:26,440 --> 01:11:31,600
+cover and in in in terms of elboy it
+
+1530
+01:11:29,440 --> 01:11:32,600
+leads into this kind of objective where
+
+1531
+01:11:31,600 --> 01:11:36,640
+we have
+
+1532
+01:11:32,600 --> 01:11:39,520
+the typical reconstruction loss and and
+
+1533
+01:11:36,640 --> 01:11:42,000
+then the k diver divergence the scale
+
+1534
+01:11:39,520 --> 01:11:44,880
+divergence just happens to have now is a
+
+1535
+01:11:42,000 --> 01:11:46,480
+two-part expression one for the missing
+
+1536
+01:11:44,880 --> 01:11:50,719
+coariates and and then one for the
+
+1537
+01:11:46,480 --> 01:11:50,719
+latent variables which involves analysis
+
+1538
+01:11:50,920 --> 01:11:55,600
+expectation and and here is one example
+
+1539
+01:11:53,199 --> 01:11:58,480
+how this kind of a model works so we
+
+1540
+01:11:55,600 --> 01:12:01,280
+took the some observational longitudinal
+
+1541
+01:11:58,480 --> 01:12:04,800
+data uh focusing on on Parkinson's
+
+1542
+01:12:01,280 --> 01:12:08,159
+disease follow up about five years 500
+
+1543
+01:12:04,800 --> 01:12:09,920
+patients uh about 3,000 samples
+
+1544
+01:12:08,159 --> 01:12:14,320
+relatively low dimensionally in this
+
+1545
+01:12:09,920 --> 01:12:17,120
+case 42 features observed seven covers
+
+1546
+01:12:14,320 --> 01:12:18,640
+available but now it's a real world data
+
+1547
+01:12:17,120 --> 01:12:20,800
+set so missing missingness in the
+
+1548
+01:12:18,640 --> 01:12:24,960
+coverage is something between two and
+
+1549
+01:12:20,800 --> 01:12:27,360
+and 32 so quite quite high missing and
+
+1550
+01:12:24,960 --> 01:12:29,440
+then we apply these uh techniques that
+
+1551
+01:12:27,360 --> 01:12:31,840
+try to handle the missingness in the
+
+1552
+01:12:29,440 --> 01:12:34,520
+predict prediction variables as as well
+
+1553
+01:12:31,840 --> 01:12:38,320
+and then evaluate
+
+1554
+01:12:34,520 --> 01:12:40,400
+using future prediction task. So we are
+
+1555
+01:12:38,320 --> 01:12:43,120
+given a data set and then additional
+
+1556
+01:12:40,400 --> 01:12:44,800
+test subjects such that we have the
+
+1557
+01:12:43,120 --> 01:12:46,400
+initial trajectories of the test
+
+1558
+01:12:44,800 --> 01:12:50,560
+subjects and then we would like to
+
+1559
+01:12:46,400 --> 01:12:54,800
+predict the future uh y values given the
+
+1560
+01:12:50,560 --> 01:12:57,040
+the partially observed coariates x0 star
+
+1561
+01:12:54,800 --> 01:12:58,800
+and I I don't have a comparison ac
+
+1562
+01:12:57,040 --> 01:13:01,040
+across many different techniques and I'm
+
+1563
+01:12:58,800 --> 01:13:02,640
+just showing that how this kind of a
+
+1564
+01:13:01,040 --> 01:13:05,040
+technique that handles the missingness
+
+1565
+01:13:02,640 --> 01:13:06,800
+in the coariates performs. So the red
+
+1566
+01:13:05,040 --> 01:13:09,040
+bar is is something where we just don't
+
+1567
+01:13:06,800 --> 01:13:13,040
+care. We press enter and and hope for
+
+1568
+01:13:09,040 --> 01:13:15,040
+the best. Uh the the orange bar shows
+
+1569
+01:13:13,040 --> 01:13:16,719
+the performance using the commonly used
+
+1570
+01:13:15,040 --> 01:13:18,880
+mean imputation for the coverage. This
+
+1571
+01:13:16,719 --> 01:13:21,199
+is KN&N imputation. And then this is our
+
+1572
+01:13:18,880 --> 01:13:24,600
+approach that handles the the missing
+
+1573
+01:13:21,199 --> 01:13:29,760
+coariates variationally as
+
+1574
+01:13:24,600 --> 01:13:32,159
+well. Okay. and and then so now our
+
+1575
+01:13:29,760 --> 01:13:34,840
+models can handle completely at random
+
+1576
+01:13:32,159 --> 01:13:36,880
+missingness in the features and the
+
+1577
+01:13:34,840 --> 01:13:39,760
+coariates. So we have the partially
+
+1578
+01:13:36,880 --> 01:13:42,120
+observed coverates correlated latent
+
+1579
+01:13:39,760 --> 01:13:44,880
+variables and then partially observed
+
+1580
+01:13:42,120 --> 01:13:47,440
+observations. We can easily extend them
+
+1581
+01:13:44,880 --> 01:13:49,760
+to handle structured missingness which
+
+1582
+01:13:47,440 --> 01:13:51,360
+is missing at random or missing not at
+
+1583
+01:13:49,760 --> 01:13:54,320
+random.
+
+1584
+01:13:51,360 --> 01:13:56,719
+quite a realistic uh assumption in in uh
+
+1585
+01:13:54,320 --> 01:13:58,719
+in medical data sets for example and
+
+1586
+01:13:56,719 --> 01:14:00,560
+then that happens by adding an
+
+1587
+01:13:58,719 --> 01:14:03,360
+additional latent variable that models
+
+1588
+01:14:00,560 --> 01:14:06,239
+the missingness pattern as such and then
+
+1589
+01:14:03,360 --> 01:14:08,640
+connect that to the missingness mask
+
+1590
+01:14:06,239 --> 01:14:10,440
+which then implies that which uh data
+
+1591
+01:14:08,640 --> 01:14:13,679
+values are are
+
+1592
+01:14:10,440 --> 01:14:16,880
+used. We can also extend the models such
+
+1593
+01:14:13,679 --> 01:14:19,679
+that they they uh model the marked point
+
+1594
+01:14:16,880 --> 01:14:22,800
+process. So also the measurement time
+
+1595
+01:14:19,679 --> 01:14:26,159
+points are random variables and then we
+
+1596
+01:14:22,800 --> 01:14:29,520
+can do that using uh this
+
+1597
+01:14:26,159 --> 01:14:32,400
+uh nonhomogeneous point processes or or
+
+1598
+01:14:29,520 --> 01:14:35,280
+self exciting box processes or whatever
+
+1599
+01:14:32,400 --> 01:14:37,840
+we want to choose use and then that
+
+1600
+01:14:35,280 --> 01:14:40,719
+happens before the the actual modeling
+
+1601
+01:14:37,840 --> 01:14:43,679
+of of the of the of the high dimensional
+
+1602
+01:14:40,719 --> 01:14:47,600
+data. the play diagrams looks a little
+
+1603
+01:14:43,679 --> 01:14:49,600
+bit more complicated but still sort of a
+
+1604
+01:14:47,600 --> 01:14:50,880
+straightforward. I will not go into into
+
+1605
+01:14:49,600 --> 01:14:52,480
+details of how how these are
+
+1606
+01:14:50,880 --> 01:14:55,280
+implemented. I just want to illustrate
+
+1607
+01:14:52,480 --> 01:14:57,440
+that what these models can do. So this
+
+1608
+01:14:55,280 --> 01:15:00,159
+is again a simulated data set for for
+
+1609
+01:14:57,440 --> 01:15:03,120
+simplicity. This is a kind of a real
+
+1610
+01:15:00,159 --> 01:15:05,600
+data set. Again, the emnest type of
+
+1611
+01:15:03,120 --> 01:15:08,159
+longitudinal data. And then this black
+
+1612
+01:15:05,600 --> 01:15:10,800
+box now denotes the missingness mask
+
+1613
+01:15:08,159 --> 01:15:13,040
+which we we can model separately. And
+
+1614
+01:15:10,800 --> 01:15:14,719
+then some of the missingness patterns
+
+1615
+01:15:13,040 --> 01:15:16,800
+also depends on the strength of the
+
+1616
+01:15:14,719 --> 01:15:19,120
+underlying signal. So the stronger the
+
+1617
+01:15:16,800 --> 01:15:21,280
+signal in in the digit tree, the higher
+
+1618
+01:15:19,120 --> 01:15:24,640
+probability that the the pixel values
+
+1619
+01:15:21,280 --> 01:15:27,920
+are also missing.
+
+1620
+01:15:24,640 --> 01:15:30,760
+Um now I skip the the empirical
+
+1621
+01:15:27,920 --> 01:15:33,760
+evaluation but it it performs really
+
+1622
+01:15:30,760 --> 01:15:37,120
+well. Okay so that's the part one. So I
+
+1623
+01:15:33,760 --> 01:15:39,040
+I tried to illustrate uh how these
+
+1624
+01:15:37,120 --> 01:15:41,800
+structured meaning correlated latent
+
+1625
+01:15:39,040 --> 01:15:44,719
+variables can be useful for longitudinal
+
+1626
+01:15:41,800 --> 01:15:47,040
+modeling and and illustrated that using
+
+1627
+01:15:44,719 --> 01:15:49,920
+uh electronic health records type of
+
+1628
+01:15:47,040 --> 01:15:52,159
+data and then uh also something for the
+
+1629
+01:15:49,920 --> 01:15:54,320
+time series uh single cell RNA
+
+1630
+01:15:52,159 --> 01:15:56,880
+sequencing. We have also used this for
+
+1631
+01:15:54,320 --> 01:15:59,440
+survival modeling in in in a
+
+1632
+01:15:56,880 --> 01:16:02,239
+longitudinal setting. We have also
+
+1633
+01:15:59,440 --> 01:16:05,159
+changed the CP prior with the linear mix
+
+1634
+01:16:02,239 --> 01:16:07,440
+model prior to get a sort of a similar
+
+1635
+01:16:05,159 --> 01:16:09,679
+performance. And then we have a some
+
+1636
+01:16:07,440 --> 01:16:12,320
+work which sort of tries to improve the
+
+1637
+01:16:09,679 --> 01:16:16,480
+underlying methodology so that the the
+
+1638
+01:16:12,320 --> 01:16:19,040
+the um the the performance improves
+
+1639
+01:16:16,480 --> 01:16:22,400
+across all these methods. But it's still
+
+1640
+01:16:19,040 --> 01:16:25,280
+sort of unpublished.
+
+1641
+01:16:22,400 --> 01:16:29,280
+Maybe one question about the intuition
+
+1642
+01:16:25,280 --> 01:16:31,920
+here. So it used to be so that in the
+
+1643
+01:16:29,280 --> 01:16:34,880
+old days we use this simple imputation
+
+1644
+01:16:31,920 --> 01:16:38,800
+methods just to be able to use more data
+
+1645
+01:16:34,880 --> 01:16:40,719
+in our models. But it seems here uh that
+
+1646
+01:16:38,800 --> 01:16:43,280
+also modeling these intermediate
+
+1647
+01:16:40,719 --> 01:16:45,760
+relations between the coariantss has
+
+1648
+01:16:43,280 --> 01:16:48,560
+some sort of benefit on uh your
+
+1649
+01:16:45,760 --> 01:16:51,360
+downstream tasks of of interest. Is that
+
+1650
+01:16:48,560 --> 01:16:53,760
+the correct way to think about exactly
+
+1651
+01:16:51,360 --> 01:16:56,640
+correct? Yes. So I I would claim that uh
+
+1652
+01:16:53,760 --> 01:16:59,520
+in in most real data sets there is some
+
+1653
+01:16:56,640 --> 01:17:01,760
+correlation between the missingness and
+
+1654
+01:16:59,520 --> 01:17:07,080
+and the the the statistical properties
+
+1655
+01:17:01,760 --> 01:17:07,080
+of the model. That's the way it's done.
+
+1656
+01:17:07,280 --> 01:17:11,760
+Okay, the second part will be a little
+
+1657
+01:17:09,120 --> 01:17:16,280
+bit shorter but focuses on on on using
+
+1658
+01:17:11,760 --> 01:17:19,520
+these latent variable models for basian
+
+1659
+01:17:16,280 --> 01:17:22,640
+optimization and you may be familiar
+
+1660
+01:17:19,520 --> 01:17:25,199
+with the concept of latent space uh
+
+1661
+01:17:22,640 --> 01:17:27,080
+basian optimization. So it's a kind of a
+
+1662
+01:17:25,199 --> 01:17:29,679
+way to do blackbox
+
+1663
+01:17:27,080 --> 01:17:33,280
+optimization of highdimensional or
+
+1664
+01:17:29,679 --> 01:17:35,679
+structural structured objects. Why? by
+
+1665
+01:17:33,280 --> 01:17:37,640
+combining latent variable modeling
+
+1666
+01:17:35,679 --> 01:17:39,840
+typically variational
+
+1667
+01:17:37,640 --> 01:17:44,400
+autoenccoder as well as basian
+
+1668
+01:17:39,840 --> 01:17:47,679
+optimization for some specific feature C
+
+1669
+01:17:44,400 --> 01:17:50,239
+using GP srogate in the latencies and
+
+1670
+01:17:47,679 --> 01:17:52,800
+this is a figure from one of these early
+
+1671
+01:17:50,239 --> 01:17:56,159
+studies where they used exactly this
+
+1672
+01:17:52,800 --> 01:17:58,040
+technique for for optimizing molecules.
+
+1673
+01:17:56,159 --> 01:18:03,239
+So you can sort of think about the the
+
+1674
+01:17:58,040 --> 01:18:05,440
+molecule being encoded into latent base
+
+1675
+01:18:03,239 --> 01:18:07,440
+representation and then do you do that
+
+1676
+01:18:05,440 --> 01:18:10,640
+for for many molecules and implement
+
+1677
+01:18:07,440 --> 01:18:12,640
+then the uh CB based surrogate basian
+
+1678
+01:18:10,640 --> 01:18:14,480
+optimization in the latent space. use
+
+1679
+01:18:12,640 --> 01:18:17,199
+some acquisition function to choose
+
+1680
+01:18:14,480 --> 01:18:19,440
+which molecule to to quantify next and
+
+1681
+01:18:17,199 --> 01:18:20,679
+then do the experiment and feed the data
+
+1682
+01:18:19,440 --> 01:18:23,520
+back in and
+
+1683
+01:18:20,679 --> 01:18:25,440
+continue and then obviously the the the
+
+1684
+01:18:23,520 --> 01:18:28,080
+actual molecule that you want to
+
+1685
+01:18:25,440 --> 01:18:30,679
+generate next is is then obtained via
+
+1686
+01:18:28,080 --> 01:18:34,320
+the decoder from the
+
+1687
+01:18:30,679 --> 01:18:37,679
+latency and our hypothesis is that u
+
+1688
+01:18:34,320 --> 01:18:40,640
+maybe these conditional latent variable
+
+1689
+01:18:37,679 --> 01:18:43,280
+models go process prior VAS in
+
+1690
+01:18:40,640 --> 01:18:45,360
+particular can provide provide a better
+
+1691
+01:18:43,280 --> 01:18:47,440
+structured latent space for basian
+
+1692
+01:18:45,360 --> 01:18:50,960
+optimization.
+
+1693
+01:18:47,440 --> 01:18:53,280
+So our approach is is something where we
+
+1694
+01:18:50,960 --> 01:18:55,719
+uh do latent variable modeling using a
+
+1695
+01:18:53,280 --> 01:18:58,000
+conditional CP prior
+
+1696
+01:18:55,719 --> 01:19:00,719
+VAE where we have let's say the
+
+1697
+01:18:58,000 --> 01:19:03,440
+molecules Y generated from the latent
+
+1698
+01:19:00,719 --> 01:19:06,560
+variable Z but now the latent variable
+
+1699
+01:19:03,440 --> 01:19:09,440
+would not be independent but depend on
+
+1700
+01:19:06,560 --> 01:19:12,239
+on exactly the uh feature that we would
+
+1701
+01:19:09,440 --> 01:19:14,800
+like to optimize as well as possible
+
+1702
+01:19:12,239 --> 01:19:17,440
+additional features that we know of
+
+1703
+01:19:14,800 --> 01:19:19,520
+these molecules as an example.
+
+1704
+01:19:17,440 --> 01:19:21,040
+and and then apply the standard basian
+
+1705
+01:19:19,520 --> 01:19:23,880
+optimization in the latence space that
+
+1706
+01:19:21,040 --> 01:19:27,280
+we obtained from this kind of a
+
+1707
+01:19:23,880 --> 01:19:29,520
+model. And one one needs to keep in mind
+
+1708
+01:19:27,280 --> 01:19:32,000
+that in in this kind of a setting the
+
+1709
+01:19:29,520 --> 01:19:33,920
+the coverates are then only partially
+
+1710
+01:19:32,000 --> 01:19:35,920
+observed in a in a typical basian
+
+1711
+01:19:33,920 --> 01:19:38,560
+optimization setting. You have only a
+
+1712
+01:19:35,920 --> 01:19:40,960
+handful of data items for which you know
+
+1713
+01:19:38,560 --> 01:19:45,040
+you know the quantity that you you would
+
+1714
+01:19:40,960 --> 01:19:47,520
+like to maximize or minimize. So this is
+
+1715
+01:19:45,040 --> 01:19:49,840
+only available for a typically a small
+
+1716
+01:19:47,520 --> 01:19:53,360
+number of data points that that that you
+
+1717
+01:19:49,840 --> 01:19:56,120
+want to do the modeling. And another
+
+1718
+01:19:53,360 --> 01:19:59,760
+special feature is that
+
+1719
+01:19:56,120 --> 01:20:02,280
+uh we we may have additional properties
+
+1720
+01:19:59,760 --> 01:20:05,440
+known of these data
+
+1721
+01:20:02,280 --> 01:20:07,040
+items called X in in in real world
+
+1722
+01:20:05,440 --> 01:20:09,199
+applications. This is typically a kind
+
+1723
+01:20:07,040 --> 01:20:11,280
+of an approach which is not really
+
+1724
+01:20:09,199 --> 01:20:14,560
+commonly used in in basian optimization
+
+1725
+01:20:11,280 --> 01:20:16,719
+but I I I think one should because
+
+1726
+01:20:14,560 --> 01:20:19,040
+there's possibly information in these x
+
+1727
+01:20:16,719 --> 01:20:20,520
+values that tells something about the c
+
+1728
+01:20:19,040 --> 01:20:23,199
+as
+
+1729
+01:20:20,520 --> 01:20:26,640
+well. So this is sort of the approach
+
+1730
+01:20:23,199 --> 01:20:28,800
+that we have we have proposed. So now
+
+1731
+01:20:26,640 --> 01:20:31,360
+illustrated in the context of molecule
+
+1732
+01:20:28,800 --> 01:20:33,199
+optimization. So the sort of the middle
+
+1733
+01:20:31,360 --> 01:20:36,560
+part is is similar with the existing
+
+1734
+01:20:33,199 --> 01:20:38,239
+techniques except that uh when when we
+
+1735
+01:20:36,560 --> 01:20:40,960
+represent the the molecules in the
+
+1736
+01:20:38,239 --> 01:20:44,000
+latent space we do that by assigning a
+
+1737
+01:20:40,960 --> 01:20:45,520
+latent variable this correlated prior.
+
+1738
+01:20:44,000 --> 01:20:48,800
+This correlated prior is the same
+
+1739
+01:20:45,520 --> 01:20:51,280
+additive CP that I I used earlier such
+
+1740
+01:20:48,800 --> 01:20:54,400
+that now it depends on on the features
+
+1741
+01:20:51,280 --> 01:20:56,480
+that we may have partially available
+
+1742
+01:20:54,400 --> 01:20:59,120
+from from different molecules and and
+
+1743
+01:20:56,480 --> 01:21:01,280
+the hope is that now the latent space is
+
+1744
+01:20:59,120 --> 01:21:04,800
+automatically saved according to these
+
+1745
+01:21:01,280 --> 01:21:07,040
+predictor variables C and X and and then
+
+1746
+01:21:04,800 --> 01:21:10,320
+hopefully it makes it easier to to
+
+1747
+01:21:07,040 --> 01:21:15,239
+predict the X or optimize sorry optimize
+
+1748
+01:21:10,320 --> 01:21:20,560
+the C once the patent landscape
+
+1749
+01:21:15,239 --> 01:21:20,560
+is shaped in an hopefully optimal
+
+1750
+01:21:21,080 --> 01:21:26,480
+way. Okay. So the pod algorithm is is
+
+1751
+01:21:24,480 --> 01:21:30,400
+something that we we train a GP prior
+
+1752
+01:21:26,480 --> 01:21:32,640
+VAE with partially observed coariates. C
+
+1753
+01:21:30,400 --> 01:21:34,960
+and X may or may not be partially
+
+1754
+01:21:32,640 --> 01:21:37,480
+observed. Y values are are fully
+
+1755
+01:21:34,960 --> 01:21:41,600
+observed. We obtain the latent
+
+1756
+01:21:37,480 --> 01:21:43,120
+embeddings Z for these data items. We we
+
+1757
+01:21:41,600 --> 01:21:45,280
+carry out the basian optimization in the
+
+1758
+01:21:43,120 --> 01:21:46,960
+latent space. We have been using the the
+
+1759
+01:21:45,280 --> 01:21:49,280
+expected improvement acquisition
+
+1760
+01:21:46,960 --> 01:21:52,159
+function. One can use also other
+
+1761
+01:21:49,280 --> 01:21:54,639
+acquisition functions. Then we we decode
+
+1762
+01:21:52,159 --> 01:21:57,920
+the chosen data point Z prime to an
+
+1763
+01:21:54,639 --> 01:22:00,560
+actual data item Y prime. Evaluate the
+
+1764
+01:21:57,920 --> 01:22:03,440
+blackbox function to get the C C prime
+
+1765
+01:22:00,560 --> 01:22:05,520
+and maybe also X prime if if that is
+
+1766
+01:22:03,440 --> 01:22:08,880
+available. feed that again back to the
+
+1767
+01:22:05,520 --> 01:22:08,880
+basin optimization loop and
+
+1768
+01:22:09,480 --> 01:22:14,639
+continue and here are a couple of
+
+1769
+01:22:11,679 --> 01:22:16,560
+examples how how this works. So uh the
+
+1770
+01:22:14,639 --> 01:22:19,280
+first focus is on generating molecules
+
+1771
+01:22:16,560 --> 01:22:20,120
+using the jungry VAE. This is probably
+
+1772
+01:22:19,280 --> 01:22:22,960
+not the
+
+1773
+01:22:20,120 --> 01:22:24,560
+state-of-the-art technique for for
+
+1774
+01:22:22,960 --> 01:22:27,440
+molecules anymore but it doesn't really
+
+1775
+01:22:24,560 --> 01:22:30,080
+matter. We we are giving the all models
+
+1776
+01:22:27,440 --> 01:22:32,239
+the same VA architecture and then only
+
+1777
+01:22:30,080 --> 01:22:34,960
+changing the changing the way we we
+
+1778
+01:22:32,239 --> 01:22:39,120
+treat the latent variables. Uh the data
+
+1779
+01:22:34,960 --> 01:22:41,600
+is from this zinc 250K and we assume
+
+1780
+01:22:39,120 --> 01:22:44,560
+that only 1% of those have been
+
+1781
+01:22:41,600 --> 01:22:47,520
+observed. So we have uh the and and the
+
+1782
+01:22:44,560 --> 01:22:49,360
+goal is to optimize the uh soal
+
+1783
+01:22:47,520 --> 01:22:53,080
+penalized lock b quantity of these
+
+1784
+01:22:49,360 --> 01:22:56,719
+molecules and then uh only 1% of the
+
+1785
+01:22:53,080 --> 01:23:00,639
+molecules has this feature known we are
+
+1786
+01:22:56,719 --> 01:23:03,120
+using the this lo penalized lo p as one
+
+1787
+01:23:00,639 --> 01:23:05,040
+hour of cover rates as well as
+
+1788
+01:23:03,120 --> 01:23:07,280
+additional five features which we can
+
+1789
+01:23:05,040 --> 01:23:09,600
+easily compute from the molecules that
+
+1790
+01:23:07,280 --> 01:23:11,920
+we are we are modeling and then this is
+
+1791
+01:23:09,600 --> 01:23:14,800
+sort of the party which is now
+
+1792
+01:23:11,920 --> 01:23:16,040
+hopefully giving us a benefit in in this
+
+1793
+01:23:14,800 --> 01:23:18,320
+basian
+
+1794
+01:23:16,040 --> 01:23:21,280
+optimization and and here is a
+
+1795
+01:23:18,320 --> 01:23:23,120
+comparison of of different techniques
+
+1796
+01:23:21,280 --> 01:23:25,120
+uh over the number of basian
+
+1797
+01:23:23,120 --> 01:23:27,199
+optimization steps that we we we take
+
+1798
+01:23:25,120 --> 01:23:30,000
+and and then the penalized lo score on
+
+1799
+01:23:27,199 --> 01:23:34,080
+on the y-axis and the purple line is is
+
+1800
+01:23:30,000 --> 01:23:36,960
+the performance of of our model. So um
+
+1801
+01:23:34,080 --> 01:23:38,400
+may maybe not u outperforming but I
+
+1802
+01:23:36,960 --> 01:23:41,239
+would say that the competitive
+
+1803
+01:23:38,400 --> 01:23:44,080
+performance relative to the other
+
+1804
+01:23:41,239 --> 01:23:46,560
+techniques. Another example using
+
+1805
+01:23:44,080 --> 01:23:48,800
+generating single variable mathematical
+
+1806
+01:23:46,560 --> 01:23:51,199
+expressions using grammar VA. So
+
+1807
+01:23:48,800 --> 01:23:52,960
+something kind of a maybe complicated if
+
+1808
+01:23:51,199 --> 01:23:55,679
+you think think about optimization in
+
+1809
+01:23:52,960 --> 01:23:57,040
+continuous domain but again the the VA
+
+1810
+01:23:55,679 --> 01:23:59,679
+architecture gives us the latent
+
+1811
+01:23:57,040 --> 01:24:02,120
+variables and and then the the basin
+
+1812
+01:23:59,679 --> 01:24:05,679
+optimization is implemented in latence
+
+1813
+01:24:02,120 --> 01:24:07,840
+base. So the target is is to find this
+
+1814
+01:24:05,679 --> 01:24:12,080
+kind of expression and then the
+
+1815
+01:24:07,840 --> 01:24:15,840
+objective is the MSC of this function in
+
+1816
+01:24:12,080 --> 01:24:18,560
+in a certain range of inputs X. And then
+
+1817
+01:24:15,840 --> 01:24:21,600
+sort of the the key innovation of our
+
+1818
+01:24:18,560 --> 01:24:24,000
+technique is is to use this C value as
+
+1819
+01:24:21,600 --> 01:24:26,320
+one of our partially observed coariates
+
+1820
+01:24:24,000 --> 01:24:28,320
+as well as other coariates that we can
+
+1821
+01:24:26,320 --> 01:24:30,760
+easily sort of obtain from these
+
+1822
+01:24:28,320 --> 01:24:35,840
+expressions that we are we are
+
+1823
+01:24:30,760 --> 01:24:37,920
+modeling. And again uh uh uh many
+
+1824
+01:24:35,840 --> 01:24:41,760
+different techniques compared the the
+
+1825
+01:24:37,920 --> 01:24:45,199
+purple one being here our model that
+
+1826
+01:24:41,760 --> 01:24:45,199
+again performs quite
+
+1827
+01:24:49,880 --> 01:24:55,040
+competitive. All right. So that was the
+
+1828
+01:24:51,920 --> 01:24:56,960
+part two. That's the only sort of
+
+1829
+01:24:55,040 --> 01:25:00,000
+uh finalized work that we have been able
+
+1830
+01:24:56,960 --> 01:25:01,920
+to uh put together for the high high
+
+1831
+01:25:00,000 --> 01:25:04,159
+dimensional basin optimization but
+
+1832
+01:25:01,920 --> 01:25:06,080
+there's a sort of more in in sort of a
+
+1833
+01:25:04,159 --> 01:25:08,719
+planning at the moment will be also
+
+1834
+01:25:06,080 --> 01:25:10,800
+presented after a couple of weeks
+
+1835
+01:25:08,719 --> 01:25:13,239
+together with Alexanders and done his
+
+1836
+01:25:10,800 --> 01:25:16,120
+work the
+
+1837
+01:25:13,239 --> 01:25:19,040
+same and then then the final
+
+1838
+01:25:16,120 --> 01:25:21,199
+part I think I still have time for that
+
+1839
+01:25:19,040 --> 01:25:22,960
+uh focuses on on on the fact that these
+
+1840
+01:25:21,199 --> 01:25:26,520
+latent variable models cannot really
+
+1841
+01:25:22,960 --> 01:25:28,800
+model temporal or dynamical
+
+1842
+01:25:26,520 --> 01:25:30,400
+systems. Although it it turns out that
+
+1843
+01:25:28,800 --> 01:25:31,400
+they are of course easy to extend the
+
+1844
+01:25:30,400 --> 01:25:34,239
+direction as
+
+1845
+01:25:31,400 --> 01:25:36,080
+well. And and the problem setting is is
+
+1846
+01:25:34,239 --> 01:25:39,840
+something that uh we have high
+
+1847
+01:25:36,080 --> 01:25:43,280
+dimensional observations why
+
+1848
+01:25:39,840 --> 01:25:45,600
+uh of of dynamical systems of of a
+
+1849
+01:25:43,280 --> 01:25:47,760
+dynamical system at arbitrary time
+
+1850
+01:25:45,600 --> 01:25:51,120
+points and across many many
+
+1851
+01:25:47,760 --> 01:25:52,800
+trajectories. So time points arbitrary
+
+1852
+01:25:51,120 --> 01:25:54,159
+and and then the corresponding
+
+1853
+01:25:52,800 --> 01:25:56,080
+measurements and then the measurements
+
+1854
+01:25:54,159 --> 01:25:59,639
+in this case could be for example images
+
+1855
+01:25:56,080 --> 01:26:02,960
+or or or single cell data as an
+
+1856
+01:25:59,639 --> 01:26:05,360
+example and and the goal is to model the
+
+1857
+01:26:02,960 --> 01:26:07,840
+data using a continuous time dynamics in
+
+1858
+01:26:05,360 --> 01:26:11,800
+a in a low dimensional space. Now the
+
+1859
+01:26:07,840 --> 01:26:16,320
+the latent spaces here is denoted by by
+
+1860
+01:26:11,800 --> 01:26:18,239
+X and and the the um the the latent
+
+1861
+01:26:16,320 --> 01:26:20,800
+space dynamics are now illustrated by
+
+1862
+01:26:18,239 --> 01:26:22,320
+this uh line in in in two dimensional
+
+1863
+01:26:20,800 --> 01:26:23,840
+space and and these are the high
+
+1864
+01:26:22,320 --> 01:26:26,480
+dimension observations. This is
+
+1865
+01:26:23,840 --> 01:26:28,080
+something that we would like to achieve.
+
+1866
+01:26:26,480 --> 01:26:30,159
+Of course there are many different
+
+1867
+01:26:28,080 --> 01:26:32,480
+techniques available already which can
+
+1868
+01:26:30,159 --> 01:26:35,280
+do that. We are we are using the latent
+
+1869
+01:26:32,480 --> 01:26:38,239
+neural OD as our sort of starting point
+
+1870
+01:26:35,280 --> 01:26:40,400
+where the initial state in the latent
+
+1871
+01:26:38,239 --> 01:26:42,679
+space is sampled from some prior
+
+1872
+01:26:40,400 --> 01:26:45,040
+distribution. We sample the
+
+1873
+01:26:42,679 --> 01:26:47,080
+parameters of the dynamics model
+
+1874
+01:26:45,040 --> 01:26:49,199
+assuming that they also modeled uh
+
+1875
+01:26:47,080 --> 01:26:52,560
+probabilistically and and then we solve
+
+1876
+01:26:49,199 --> 01:26:55,040
+the intermediate or uh later time points
+
+1877
+01:26:52,560 --> 01:26:56,600
+by solving the initial value problem of
+
+1878
+01:26:55,040 --> 01:26:59,360
+the of
+
+1879
+01:26:56,600 --> 01:27:01,679
+the dynamical system. essentially
+
+1880
+01:26:59,360 --> 01:27:03,280
+numerically solving the the OD system in
+
+1881
+01:27:01,679 --> 01:27:05,199
+the latence space starting from the
+
+1882
+01:27:03,280 --> 01:27:08,320
+initial state all the way to the later
+
+1883
+01:27:05,199 --> 01:27:10,320
+time points DI for each of the
+
+1884
+01:27:08,320 --> 01:27:16,400
+measurement time points we then decode
+
+1885
+01:27:10,320 --> 01:27:18,400
+the data using the decoder function uh
+
+1886
+01:27:16,400 --> 01:27:20,159
+with samples from the exponential family
+
+1887
+01:27:18,400 --> 01:27:22,960
+distribution. So the concept is shown
+
+1888
+01:27:20,159 --> 01:27:26,800
+here on the right. Initial state sample
+
+1889
+01:27:22,960 --> 01:27:29,239
+from from some base distribution. Then
+
+1890
+01:27:26,800 --> 01:27:32,760
+we solve the initial value
+
+1891
+01:27:29,239 --> 01:27:36,239
+problem or numerically integrate the OD
+
+1892
+01:27:32,760 --> 01:27:39,040
+system decode the the latent days into
+
+1893
+01:27:36,239 --> 01:27:39,040
+the uh
+
+1894
+01:27:39,639 --> 01:27:44,400
+data. Okay. So that has that was
+
+1895
+01:27:42,560 --> 01:27:48,239
+actually proposed already at the time of
+
+1896
+01:27:44,400 --> 01:27:50,239
+the neural OD paper 2018 and and then
+
+1897
+01:27:48,239 --> 01:27:51,239
+follow-up papers focusing on this latent
+
+1898
+01:27:50,239 --> 01:27:54,560
+neural
+
+1899
+01:27:51,239 --> 01:27:56,159
+ODS. Uh but what is challenging with
+
+1900
+01:27:54,560 --> 01:27:59,120
+with these techniques is that the
+
+1901
+01:27:56,159 --> 01:28:01,159
+training on on long trajectories can be
+
+1902
+01:27:59,120 --> 01:28:03,920
+really slow and and unfortunately
+
+1903
+01:28:01,159 --> 01:28:05,920
+unstable. So there's theoretical work
+
+1904
+01:28:03,920 --> 01:28:08,360
+for the discrete time systems saying
+
+1905
+01:28:05,920 --> 01:28:11,679
+that the the the sort of
+
+1906
+01:28:08,360 --> 01:28:14,520
+the objective uh function in terms of
+
+1907
+01:28:11,679 --> 01:28:17,040
+the liic constant can kind of grow
+
+1908
+01:28:14,520 --> 01:28:20,480
+exponentially in in terms of the length
+
+1909
+01:28:17,040 --> 01:28:22,800
+of the trajectory uh and and that's sort
+
+1910
+01:28:20,480 --> 01:28:26,400
+of demonstrated here in in this uh
+
+1911
+01:28:22,800 --> 01:28:30,719
+empirical evaluation. So the the plot at
+
+1912
+01:28:26,400 --> 01:28:32,719
+the top shows the train loss uh over the
+
+1913
+01:28:30,719 --> 01:28:34,800
+iterations of the training procedure
+
+1914
+01:28:32,719 --> 01:28:38,000
+where we double the length of the
+
+1915
+01:28:34,800 --> 01:28:40,719
+trajectory every 3,000 iterations. So we
+
+1916
+01:28:38,000 --> 01:28:43,440
+optimize first double the length of the
+
+1917
+01:28:40,719 --> 01:28:45,360
+tra trajectory and optimize and then
+
+1918
+01:28:43,440 --> 01:28:47,040
+suddenly after certain time point the
+
+1919
+01:28:45,360 --> 01:28:50,880
+optimization doesn't really work anymore
+
+1920
+01:28:47,040 --> 01:28:54,400
+at all. Demonstrating that the the the
+
+1921
+01:28:50,880 --> 01:28:57,400
+uh optimization simply becomes unstable.
+
+1922
+01:28:54,400 --> 01:29:01,360
+mo most likely due to to unstable
+
+1923
+01:28:57,400 --> 01:29:03,480
+gradients of this model. The bottom
+
+1924
+01:29:01,360 --> 01:29:08,000
+figures illustrate
+
+1925
+01:29:03,480 --> 01:29:10,560
+the what the loss landscape looks like
+
+1926
+01:29:08,000 --> 01:29:12,639
+at these optimized positions. And then
+
+1927
+01:29:10,560 --> 01:29:14,520
+this is obviously just a onedimensional
+
+1928
+01:29:12,639 --> 01:29:17,360
+projection of really high dimensional
+
+1929
+01:29:14,520 --> 01:29:20,719
+optimization landscape but sort of a
+
+1930
+01:29:17,360 --> 01:29:23,280
+nicely uh agreeing with the intuition
+
+1931
+01:29:20,719 --> 01:29:25,600
+that uh with longer trajectories the
+
+1932
+01:29:23,280 --> 01:29:29,239
+optimization landscape becomes highly
+
+1933
+01:29:25,600 --> 01:29:29,239
+highly multimodal.
+
+1934
+01:29:29,840 --> 01:29:33,840
+So we have been proposing these kind of
+
+1935
+01:29:31,600 --> 01:29:35,679
+a multiple suiting based approaches
+
+1936
+01:29:33,840 --> 01:29:38,480
+where we split the lat and trajectories
+
+1937
+01:29:35,679 --> 01:29:40,880
+into into short segments and that's not
+
+1938
+01:29:38,480 --> 01:29:42,960
+a novel idea either. We would like to do
+
+1939
+01:29:40,880 --> 01:29:44,320
+that probabilistically though so that we
+
+1940
+01:29:42,960 --> 01:29:46,960
+can still sort of train these
+
+1941
+01:29:44,320 --> 01:29:48,520
+probabilistic genative models and and
+
+1942
+01:29:46,960 --> 01:29:51,320
+for that purpose we we have been
+
+1943
+01:29:48,520 --> 01:29:54,800
+proposing this auxiliary suiting
+
+1944
+01:29:51,320 --> 01:29:56,719
+variables s variables which are these uh
+
+1945
+01:29:54,800 --> 01:30:00,480
+suiting points here in the in the latent
+
+1946
+01:29:56,719 --> 01:30:02,560
+space and and then a reasonable prior
+
+1947
+01:30:00,480 --> 01:30:05,360
+for these suiting variables which has
+
+1948
+01:30:02,560 --> 01:30:07,239
+this kind of a first order marovian
+
+1949
+01:30:05,360 --> 01:30:10,400
+structure such that
+
+1950
+01:30:07,239 --> 01:30:13,679
+the next suiting point is always close
+
+1951
+01:30:10,400 --> 01:30:16,880
+to the end point of the OD solution that
+
+1952
+01:30:13,679 --> 01:30:16,880
+we obtained from the previous
+
+1953
+01:30:17,560 --> 01:30:22,320
+time and and then the generality model
+
+1954
+01:30:20,080 --> 01:30:25,280
+becomes something as as shown here. So
+
+1955
+01:30:22,320 --> 01:30:27,199
+again we sample the dynamics parameters
+
+1956
+01:30:25,280 --> 01:30:28,800
+the decoder parameters from from the
+
+1957
+01:30:27,199 --> 01:30:31,520
+corresponding distributions. We we
+
+1958
+01:30:28,800 --> 01:30:33,840
+sample the suiting states from this
+
+1959
+01:30:31,520 --> 01:30:36,159
+continuity prior from the previous slide
+
+1960
+01:30:33,840 --> 01:30:40,120
+and then always solve the intermediate
+
+1961
+01:30:36,159 --> 01:30:42,880
+points using the initial value
+
+1962
+01:30:40,120 --> 01:30:44,400
+uh solution of the corresponding OD
+
+1963
+01:30:42,880 --> 01:30:46,159
+system such that we start from the
+
+1964
+01:30:44,400 --> 01:30:49,120
+suiting variable and then integrate
+
+1965
+01:30:46,159 --> 01:30:51,679
+forward in the lat and then decode the
+
+1966
+01:30:49,120 --> 01:30:54,080
+the latent uh sorry the the data items
+
+1967
+01:30:51,679 --> 01:30:56,400
+from the corresponding latent variables
+
+1968
+01:30:54,080 --> 01:30:58,719
+that's sort of demonstrated here on the
+
+1969
+01:30:56,400 --> 01:30:58,719
+on the
+
+1970
+01:31:00,400 --> 01:31:04,880
+again difficult to handle anything
+
+1971
+01:31:02,400 --> 01:31:07,360
+analytically. So we are relying on on
+
+1972
+01:31:04,880 --> 01:31:09,760
+amortized variational inference. So the
+
+1973
+01:31:07,360 --> 01:31:12,159
+target is is this uh joint distribution
+
+1974
+01:31:09,760 --> 01:31:14,639
+of the dynamics and decoder parameters
+
+1975
+01:31:12,159 --> 01:31:17,280
+as well as the shooting states given the
+
+1976
+01:31:14,639 --> 01:31:19,440
+observations of the trajectory and and
+
+1977
+01:31:17,280 --> 01:31:21,159
+then that is now approximated by a
+
+1978
+01:31:19,440 --> 01:31:25,960
+variational
+
+1979
+01:31:21,159 --> 01:31:29,800
+distribution which uh is factorizes into
+
+1980
+01:31:25,960 --> 01:31:32,560
+uh components corresponding to the model
+
+1981
+01:31:29,800 --> 01:31:36,600
+parameters and and then amortized part
+
+1982
+01:31:32,560 --> 01:31:36,600
+for the suiting states.
+
+1983
+01:31:36,800 --> 01:31:42,480
+Um and then if you think about it sort
+
+1984
+01:31:38,800 --> 01:31:45,360
+of in terms of a VAE uh language here is
+
+1985
+01:31:42,480 --> 01:31:48,719
+our generality model and and then now
+
+1986
+01:31:45,360 --> 01:31:50,719
+the the uh in variational inference of
+
+1987
+01:31:48,719 --> 01:31:55,040
+the suiting variables then gives you the
+
+1988
+01:31:50,719 --> 01:31:55,040
+kind of encoder structure for for your
+
+1989
+01:31:55,320 --> 01:31:58,800
+model. Okay.
+
+1990
+01:31:59,000 --> 01:32:05,360
+Um so then the second important aspect
+
+1991
+01:32:02,639 --> 01:32:07,840
+is is the specific type of attention
+
+1992
+01:32:05,360 --> 01:32:11,120
+model uh attention based encoder model
+
+1993
+01:32:07,840 --> 01:32:13,360
+to to be able to uh implement this both
+
+1994
+01:32:11,120 --> 01:32:16,400
+efficiently and accurately. And we have
+
+1995
+01:32:13,360 --> 01:32:17,719
+been proposing the the uh encoder which
+
+1996
+01:32:16,400 --> 01:32:21,120
+is
+
+1997
+01:32:17,719 --> 01:32:24,159
+u flexible and and efficient such that
+
+1998
+01:32:21,120 --> 01:32:26,320
+it uh handles irregular time grids. So
+
+1999
+01:32:24,159 --> 01:32:28,880
+the time points can be arbitrary in in
+
+2000
+01:32:26,320 --> 01:32:31,520
+your measurements such that the encoder
+
+2001
+01:32:28,880 --> 01:32:34,199
+generalizes to new time grids at test
+
+2002
+01:32:31,520 --> 01:32:36,600
+time. It can handle long
+
+2003
+01:32:34,199 --> 01:32:39,280
+trajectories. It allows us to do
+
+2004
+01:32:36,600 --> 01:32:41,280
+parallelization as I'll show a bit later
+
+2005
+01:32:39,280 --> 01:32:43,239
+and then handle noisy and partially
+
+2006
+01:32:41,280 --> 01:32:46,719
+observed
+
+2007
+01:32:43,239 --> 01:32:50,159
+data. and and the the encoder has this
+
+2008
+01:32:46,719 --> 01:32:54,000
+kind of a three-step uh structure where
+
+2009
+01:32:50,159 --> 01:32:55,679
+the first part compresses the high
+
+2010
+01:32:54,000 --> 01:32:57,760
+dimensional data into some lower
+
+2011
+01:32:55,679 --> 01:32:59,840
+dimensional representation. The
+
+2012
+01:32:57,760 --> 01:33:01,920
+aggregation part is implemented by a
+
+2013
+01:32:59,840 --> 01:33:04,159
+stack of attention layers using a
+
+2014
+01:33:01,920 --> 01:33:06,480
+specific type of attention technique and
+
+2015
+01:33:04,159 --> 01:33:10,080
+then then the the last part simply sort
+
+2016
+01:33:06,480 --> 01:33:11,320
+of reads the parameters of the of the
+
+2017
+01:33:10,080 --> 01:33:14,560
+varian
+
+2018
+01:33:11,320 --> 01:33:16,480
+approximation. And if I have time I I'll
+
+2019
+01:33:14,560 --> 01:33:18,639
+just try to quickly illustrate that how
+
+2020
+01:33:16,480 --> 01:33:20,639
+this specific type of attention encoder
+
+2021
+01:33:18,639 --> 01:33:22,880
+works. So the what is shown on the left
+
+2022
+01:33:20,639 --> 01:33:26,080
+is the standard dot product attention
+
+2023
+01:33:22,880 --> 01:33:29,000
+technique where we take the dot product
+
+2024
+01:33:26,080 --> 01:33:32,400
+of the uh curies and
+
+2025
+01:33:29,000 --> 01:33:34,880
+keys and then the corresponding softmax
+
+2026
+01:33:32,400 --> 01:33:37,199
+to to get the weights for the values. We
+
+2027
+01:33:34,880 --> 01:33:39,280
+we have been proposing a a time where
+
+2028
+01:33:37,199 --> 01:33:42,639
+attention such that we are only looking
+
+2029
+01:33:39,280 --> 01:33:44,239
+at a kind of a reasonable window around
+
+2030
+01:33:42,639 --> 01:33:47,320
+the current time point that we are we
+
+2031
+01:33:44,239 --> 01:33:51,360
+are modeling using a a time where
+
+2032
+01:33:47,320 --> 01:33:53,440
+attention mechanism defined by by uh
+
+2033
+01:33:51,360 --> 01:33:57,280
+this this formula which is illustrated
+
+2034
+01:33:53,440 --> 01:33:59,679
+here. So that allows us to uh such that
+
+2035
+01:33:57,280 --> 01:34:01,920
+the the attention model doesn't grow
+
+2036
+01:33:59,679 --> 01:34:05,679
+arbitrarily large while the the length
+
+2037
+01:34:01,920 --> 01:34:08,639
+of the trajectory uh increases.
+
+2038
+01:34:05,679 --> 01:34:10,719
+We have also replaced the uh standard
+
+2039
+01:34:08,639 --> 01:34:13,440
+positional encodings with continuous
+
+2040
+01:34:10,719 --> 01:34:16,000
+relative positional encodings so that
+
+2041
+01:34:13,440 --> 01:34:17,920
+the encoding of the position is now
+
+2042
+01:34:16,000 --> 01:34:20,639
+positioned at the time point that we are
+
+2043
+01:34:17,920 --> 01:34:20,639
+interested in in
+
+2044
+01:34:21,080 --> 01:34:27,600
+modeling and and then again uh evidence
+
+2045
+01:34:25,120 --> 01:34:29,120
+lower bound based uh training of the
+
+2046
+01:34:27,600 --> 01:34:31,199
+model. You don't need to care about the
+
+2047
+01:34:29,120 --> 01:34:34,239
+complicated expression. The point that I
+
+2048
+01:34:31,199 --> 01:34:36,960
+wanted to make is that again it has the
+
+2049
+01:34:34,239 --> 01:34:38,639
+same structure. The first two parts
+
+2050
+01:34:36,960 --> 01:34:41,920
+correspond to the reconstruction of the
+
+2051
+01:34:38,639 --> 01:34:44,600
+data from the latence and then the four
+
+2052
+01:34:41,920 --> 01:34:47,760
+remaining parts uh implement the
+
+2053
+01:34:44,600 --> 01:34:51,120
+regularization. The parts which are uh
+
+2054
+01:34:47,760 --> 01:34:52,840
+highlighted in in red involve the
+
+2055
+01:34:51,120 --> 01:34:57,440
+dynamics in the latent
+
+2056
+01:34:52,840 --> 01:34:59,960
+space and and uh together with the
+
+2057
+01:34:57,440 --> 01:35:02,960
+multiple suiting and the factorized
+
+2058
+01:34:59,960 --> 01:35:05,920
+approximation for the for the uh suiting
+
+2059
+01:35:02,960 --> 01:35:08,960
+variables we can solve all these or
+
+2060
+01:35:05,920 --> 01:35:10,880
+these two terms in parallel which sort
+
+2061
+01:35:08,960 --> 01:35:12,400
+of increases the efficiency quite a lot.
+
+2062
+01:35:10,880 --> 01:35:14,800
+If you have a long trajectory, you you
+
+2063
+01:35:12,400 --> 01:35:17,400
+just chunk it in into small parts and
+
+2064
+01:35:14,800 --> 01:35:21,760
+and then the optimization of the entire
+
+2065
+01:35:17,400 --> 01:35:21,760
+trajectory can be run in in
+
+2066
+01:35:22,520 --> 01:35:29,760
+parallel and couple of simple toy cases
+
+2067
+01:35:27,199 --> 01:35:32,760
+first to illustrate that how this works.
+
+2068
+01:35:29,760 --> 01:35:35,920
+So pendulum is the first
+
+2069
+01:35:32,760 --> 01:35:38,960
+example bouncing balls in a box. So the
+
+2070
+01:35:35,920 --> 01:35:41,000
+the dynamics are defined by real physics
+
+2071
+01:35:38,960 --> 01:35:43,600
+and then the observations are these
+
+2072
+01:35:41,000 --> 01:35:46,639
+highdimensional image based observations
+
+2073
+01:35:43,600 --> 01:35:49,719
+and then then the rotating am as a as a
+
+2074
+01:35:46,639 --> 01:35:51,239
+a second additional
+
+2075
+01:35:49,719 --> 01:35:55,120
+benchmark.
+
+2076
+01:35:51,239 --> 01:35:58,560
+Uh and then this is just a quick note
+
+2077
+01:35:55,120 --> 01:36:00,800
+that how well this our model can can
+
+2078
+01:35:58,560 --> 01:36:03,360
+make the future predictions compared to
+
+2079
+01:36:00,800 --> 01:36:05,520
+some existing neural OD processes or OD
+
+2080
+01:36:03,360 --> 01:36:08,960
+to VA models. And then the blue one
+
+2081
+01:36:05,520 --> 01:36:11,000
+seems to perform quite well across these
+
+2082
+01:36:08,960 --> 01:36:13,440
+uh synthetic
+
+2083
+01:36:11,000 --> 01:36:15,520
+benchmarks. And then this is sort of
+
+2084
+01:36:13,440 --> 01:36:19,159
+effectively what the what model tries to
+
+2085
+01:36:15,520 --> 01:36:20,719
+do. So this is the data high dimensional
+
+2086
+01:36:19,159 --> 01:36:23,679
+trajectories. These are the
+
+2087
+01:36:20,719 --> 01:36:23,679
+corresponding
+
+2088
+01:36:24,440 --> 01:36:30,080
+predictions and and then we we can also
+
+2089
+01:36:27,040 --> 01:36:31,920
+use these uh to to somehow quantify the
+
+2090
+01:36:30,080 --> 01:36:34,199
+uncert kind of the amount of uncertainty
+
+2091
+01:36:31,920 --> 01:36:37,280
+in the latent variables.
+
+2092
+01:36:34,199 --> 01:36:39,840
+So, so this is now the the uh mockup
+
+2093
+01:36:37,280 --> 01:36:42,239
+data from the Kaki Melon University
+
+2094
+01:36:39,840 --> 01:36:44,719
+where where a person is wearing about
+
+2095
+01:36:42,239 --> 01:36:46,480
+100 sensors at the joints and then then
+
+2096
+01:36:44,719 --> 01:36:49,119
+it measures the 3D position of the
+
+2097
+01:36:46,480 --> 01:36:51,119
+sensors and then the goal is then to
+
+2098
+01:36:49,119 --> 01:36:53,360
+model the dynamics and obviously that's
+
+2099
+01:36:51,119 --> 01:36:55,280
+difficult to do using parametric models.
+
+2100
+01:36:53,360 --> 01:36:58,400
+So, but it can be easily done in in
+
+2101
+01:36:55,280 --> 01:37:01,679
+latent space dynamics models. In this
+
+2102
+01:36:58,400 --> 01:37:05,040
+case, the visualization is is done for
+
+2103
+01:37:01,679 --> 01:37:07,840
+by using a 3D uh latent space where we
+
+2104
+01:37:05,040 --> 01:37:11,520
+implement the the kind of a latent
+
+2105
+01:37:07,840 --> 01:37:14,080
+neural OD system that I I I I proposed
+
+2106
+01:37:11,520 --> 01:37:17,520
+and and then starting from the initial
+
+2107
+01:37:14,080 --> 01:37:19,600
+state, we we sample the parameters and
+
+2108
+01:37:17,520 --> 01:37:23,199
+initial states multiple times and and
+
+2109
+01:37:19,600 --> 01:37:26,000
+then you can interpret these uh lines as
+
+2110
+01:37:23,199 --> 01:37:27,520
+a samples from the posterior. sort of
+
+2111
+01:37:26,000 --> 01:37:29,760
+demonstrating how the amount of
+
+2112
+01:37:27,520 --> 01:37:32,800
+uncertainty increases while the person
+
+2113
+01:37:29,760 --> 01:37:34,840
+walks further to the future and then
+
+2114
+01:37:32,800 --> 01:37:39,040
+this is the corresponding then
+
+2115
+01:37:34,840 --> 01:37:39,040
+reconstruction in in the actual data
+
+2116
+01:37:39,719 --> 01:37:46,480
+space. Okay. And then
+
+2117
+01:37:43,400 --> 01:37:48,719
+then now moving back to molecular
+
+2118
+01:37:46,480 --> 01:37:50,800
+biology examples. So the the same kind
+
+2119
+01:37:48,719 --> 01:37:53,679
+of a setting that I already explained.
+
+2120
+01:37:50,800 --> 01:37:55,840
+So modeling now transcription dynamics
+
+2121
+01:37:53,679 --> 01:37:58,000
+using single cell RNA sequencing the
+
+2122
+01:37:55,840 --> 01:38:00,480
+setup is exactly the same that that you
+
+2123
+01:37:58,000 --> 01:38:02,960
+are very well familiar with. So high
+
+2124
+01:38:00,480 --> 01:38:04,719
+dimensional observations YTC of the
+
+2125
+01:38:02,960 --> 01:38:08,320
+individual cells at individual time
+
+2126
+01:38:04,719 --> 01:38:08,320
+points and each cell is measured only
+
+2127
+01:38:09,000 --> 01:38:15,199
+once. And so we can't really use the
+
+2128
+01:38:11,840 --> 01:38:18,400
+models directly as I explained but again
+
+2129
+01:38:15,199 --> 01:38:20,520
+the kind of earth moving distance based
+
+2130
+01:38:18,400 --> 01:38:23,520
+measures to to to
+
+2131
+01:38:20,520 --> 01:38:27,520
+to kind of connect the predictions with
+
+2132
+01:38:23,520 --> 01:38:27,520
+the data are are really
+
+2133
+01:38:28,840 --> 01:38:31,840
+useful
+
+2134
+01:38:33,320 --> 01:38:39,600
+and motivated by by actually many of the
+
+2135
+01:38:37,040 --> 01:38:42,480
+existing techniques. We we just wanted
+
+2136
+01:38:39,600 --> 01:38:44,760
+to test that how how how well our models
+
+2137
+01:38:42,480 --> 01:38:46,760
+would would perform in in these kind of
+
+2138
+01:38:44,760 --> 01:38:50,639
+tests by by
+
+2139
+01:38:46,760 --> 01:38:53,520
+training the the our latent neural OD
+
+2140
+01:38:50,639 --> 01:38:55,679
+using the signal cell uh data and and
+
+2141
+01:38:53,520 --> 01:38:59,280
+now changing the loss to be completely
+
+2142
+01:38:55,679 --> 01:39:01,760
+based on the process based loss in in
+
+2143
+01:38:59,280 --> 01:39:04,400
+the data space as well as in in the
+
+2144
+01:39:01,760 --> 01:39:07,040
+latent space. So this is also something
+
+2145
+01:39:04,400 --> 01:39:09,280
+that is not finished yet but I'll just
+
+2146
+01:39:07,040 --> 01:39:12,000
+show you the kind of pre preliminary
+
+2147
+01:39:09,280 --> 01:39:13,520
+results and this is visually what what
+
+2148
+01:39:12,000 --> 01:39:16,400
+is happening. This is not exactly
+
+2149
+01:39:13,520 --> 01:39:18,400
+correct but uh the the predictions are
+
+2150
+01:39:16,400 --> 01:39:20,080
+now the individual cells at different
+
+2151
+01:39:18,400 --> 01:39:23,400
+time points which we connect to the
+
+2152
+01:39:20,080 --> 01:39:26,080
+actual observations using thestein to
+
+2153
+01:39:23,400 --> 01:39:28,159
+measure. We implement the same
+
+2154
+01:39:26,080 --> 01:39:30,000
+waserstein loss also in the latent space
+
+2155
+01:39:28,159 --> 01:39:31,040
+but I was not able to put that in in
+
+2156
+01:39:30,000 --> 01:39:33,520
+this figure.
+
+2157
+01:39:31,040 --> 01:39:36,239
+Sorry, sorry for that.
+
+2158
+01:39:33,520 --> 01:39:38,719
+And and then we took a couple of uh data
+
+2159
+01:39:36,239 --> 01:39:42,000
+sets from mouse and and and zebra fish
+
+2160
+01:39:38,719 --> 01:39:44,360
+and and then simply compared our
+
+2161
+01:39:42,000 --> 01:39:47,600
+modeling tool with one of
+
+2162
+01:39:44,360 --> 01:39:51,280
+the I think state-of-the-art
+
+2163
+01:39:47,600 --> 01:39:55,199
+uh um models called SC node and then
+
+2164
+01:39:51,280 --> 01:39:57,280
+these are the uh the the time distances
+
+2165
+01:39:55,199 --> 01:39:59,440
+for later time points in this time
+
+2166
+01:39:57,280 --> 01:40:01,520
+series given the initial part of the
+
+2167
+01:39:59,440 --> 01:40:04,560
+data and then how well we can predict
+
+2168
+01:40:01,520 --> 01:40:10,000
+the population at at later times and and
+
+2169
+01:40:04,560 --> 01:40:10,000
+measure the the performance via the time
+
+2170
+01:40:11,159 --> 01:40:16,119
+distance. What
+
+2171
+01:40:12,920 --> 01:40:18,960
+um trade off to these multiple shooting
+
+2172
+01:40:16,119 --> 01:40:19,800
+points bring because let's say we want
+
+2173
+01:40:18,960 --> 01:40:23,600
+to
+
+2174
+01:40:19,800 --> 01:40:26,719
+model the dynamics all the way to X5
+
+2175
+01:40:23,600 --> 01:40:28,639
+starting to starting from X1 but do we
+
+2176
+01:40:26,719 --> 01:40:30,639
+need this as intermediate measurements
+
+2177
+01:40:28,639 --> 01:40:32,320
+that we need to take? Yeah, that that's
+
+2178
+01:40:30,639 --> 01:40:35,360
+a really good question and and then I I
+
+2179
+01:40:32,320 --> 01:40:37,600
+think that in this particular uh example
+
+2180
+01:40:35,360 --> 01:40:39,840
+case maybe the multiple shooting is is
+
+2181
+01:40:37,600 --> 01:40:42,000
+not the key determinant of the
+
+2182
+01:40:39,840 --> 01:40:44,080
+performance but we have been also trying
+
+2183
+01:40:42,000 --> 01:40:47,040
+a kind of a different variance where we
+
+2184
+01:40:44,080 --> 01:40:49,920
+we where we model both the sort of
+
+2185
+01:40:47,040 --> 01:40:51,520
+indirectly the splicing as as well which
+
+2186
+01:40:49,920 --> 01:40:54,440
+seems to further improve the the
+
+2187
+01:40:51,520 --> 01:40:56,840
+performance a bit using the inronic
+
+2188
+01:40:54,440 --> 01:40:59,679
+uh reads as
+
+2189
+01:40:56,840 --> 01:41:02,239
+well. Yes, depending on the length of
+
+2190
+01:40:59,679 --> 01:41:04,880
+the trajectory, the the importance of
+
+2191
+01:41:02,239 --> 01:41:07,679
+the multiple shooting becomes more or
+
+2192
+01:41:04,880 --> 01:41:08,760
+less significant. And and here is the
+
+2193
+01:41:07,679 --> 01:41:12,400
+kind of the
+
+2194
+01:41:08,760 --> 01:41:13,920
+illustration for what the uh true data
+
+2195
+01:41:12,400 --> 01:41:15,840
+looks like when the data points are
+
+2196
+01:41:13,920 --> 01:41:18,880
+colorcoded by the time points and then
+
+2197
+01:41:15,840 --> 01:41:21,360
+the predictions and and then for the
+
+2198
+01:41:18,880 --> 01:41:24,719
+mouse data it's seems to be performing
+
+2199
+01:41:21,360 --> 01:41:28,000
+visually better whereas for the zro is
+
+2200
+01:41:24,719 --> 01:41:30,080
+less. So but again this is not yet
+
+2201
+01:41:28,000 --> 01:41:32,480
+finalized. So something that we are
+
+2202
+01:41:30,080 --> 01:41:35,840
+still working. I want to conclude with a
+
+2203
+01:41:32,480 --> 01:41:38,239
+really quick note that we have been also
+
+2204
+01:41:35,840 --> 01:41:40,800
+extending these techniques to to spatial
+
+2205
+01:41:38,239 --> 01:41:43,360
+temporal processes. So the dynamical
+
+2206
+01:41:40,800 --> 01:41:46,400
+systems do not need to depend only on
+
+2207
+01:41:43,360 --> 01:41:48,000
+time but maybe also on space and and
+
+2208
+01:41:46,400 --> 01:41:49,080
+then we are talking about partial
+
+2209
+01:41:48,000 --> 01:41:51,679
+differential
+
+2210
+01:41:49,080 --> 01:41:54,719
+equations and uh we have been extending
+
+2211
+01:41:51,679 --> 01:41:58,199
+these latent variable models to to sort
+
+2212
+01:41:54,719 --> 01:42:02,000
+of a learn space-time continuous neural
+
+2213
+01:41:58,199 --> 01:42:04,880
+PDS again from partially observed states
+
+2214
+01:42:02,000 --> 01:42:06,960
+and here are some sort of a
+
+2215
+01:42:04,880 --> 01:42:09,040
+illustrations of the physics systems
+
+2216
+01:42:06,960 --> 01:42:11,760
+that that we have been considering. We
+
+2217
+01:42:09,040 --> 01:42:15,760
+have also tested these techniques on on
+
+2218
+01:42:11,760 --> 01:42:16,679
+some uh uh spatial trans transcrytoics
+
+2219
+01:42:15,760 --> 01:42:19,920
+data
+
+2220
+01:42:16,679 --> 01:42:22,159
+sets but maybe I can't really report
+
+2221
+01:42:19,920 --> 01:42:25,840
+anything on those yet.
+
+2222
+01:42:22,159 --> 01:42:27,440
+uh and then then kind of the last uh
+
+2223
+01:42:25,840 --> 01:42:29,920
+model variant is is that we have been
+
+2224
+01:42:27,440 --> 01:42:33,280
+also extending these to kind of really
+
+2225
+01:42:29,920 --> 01:42:34,920
+extreme cases where the where the we are
+
+2226
+01:42:33,280 --> 01:42:37,840
+we are interested in modeling
+
+2227
+01:42:34,920 --> 01:42:40,719
+spatiotemporal dynamics as well as point
+
+2228
+01:42:37,840 --> 01:42:43,119
+poser point process observations. So in
+
+2229
+01:42:40,719 --> 01:42:45,280
+a typical setting when one talks about
+
+2230
+01:42:43,119 --> 01:42:47,760
+the spia temporal modeling the
+
+2231
+01:42:45,280 --> 01:42:50,080
+measurements come from a some sort of a
+
+2232
+01:42:47,760 --> 01:42:52,800
+fixed grid but we we have been
+
+2233
+01:42:50,080 --> 01:42:54,880
+considering a case where where the
+
+2234
+01:42:52,800 --> 01:42:57,119
+measurement time points as well as the
+
+2235
+01:42:54,880 --> 01:43:00,280
+locations are also random variables and
+
+2236
+01:42:57,119 --> 01:43:02,320
+they depend on the underlying uh
+
+2237
+01:43:00,280 --> 01:43:05,520
+dynamics and then this is something that
+
+2238
+01:43:02,320 --> 01:43:08,719
+Valerie will also present after two
+
+2239
+01:43:05,520 --> 01:43:11,840
+weeks in the same context.
+
+2240
+01:43:08,719 --> 01:43:14,159
+So that was the part three. So we have
+
+2241
+01:43:11,840 --> 01:43:17,520
+been working quite a long time on on
+
+2242
+01:43:14,159 --> 01:43:20,199
+these latent variable neural or cosian
+
+2243
+01:43:17,520 --> 01:43:23,440
+process difference equation
+
+2244
+01:43:20,199 --> 01:43:26,639
+models and and then lately being also
+
+2245
+01:43:23,440 --> 01:43:28,199
+focusing on on modeling transcription
+
+2246
+01:43:26,639 --> 01:43:30,719
+and dynamics using these kind of
+
+2247
+01:43:28,199 --> 01:43:32,320
+techniques both using dynamics model as
+
+2248
+01:43:30,719 --> 01:43:34,000
+well as the correlation models that I
+
+2249
+01:43:32,320 --> 01:43:36,639
+explained earlier and we would be happy
+
+2250
+01:43:34,000 --> 01:43:40,080
+to discuss more about those if you are
+
+2251
+01:43:36,639 --> 01:43:42,239
+interested in and then extended these
+
+2252
+01:43:40,080 --> 01:43:44,080
+techniques to go to partial differential
+
+2253
+01:43:42,239 --> 01:43:46,800
+equation type of systems. Would be
+
+2254
+01:43:44,080 --> 01:43:49,840
+really cool to to try this on on spatial
+
+2255
+01:43:46,800 --> 01:43:51,960
+transtomics if you have a temporal data
+
+2256
+01:43:49,840 --> 01:43:56,000
+on from those kind of
+
+2257
+01:43:51,960 --> 01:43:58,239
+systems and and then ultimately we would
+
+2258
+01:43:56,000 --> 01:43:59,920
+be interested in in controlling these
+
+2259
+01:43:58,239 --> 01:44:03,119
+systems. But this is something that we
+
+2260
+01:43:59,920 --> 01:44:05,760
+haven't really had time or success so
+
+2261
+01:44:03,119 --> 01:44:07,600
+far. But this is the the only
+
+2262
+01:44:05,760 --> 01:44:11,320
+publication that we have been able to
+
+2263
+01:44:07,600 --> 01:44:11,320
+put together so far.
+

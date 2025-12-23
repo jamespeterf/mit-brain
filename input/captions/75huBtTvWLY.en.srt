@@ -1,0 +1,2860 @@
+1
+00:00:07,120 --> 00:00:11,200
+All right. So, thanks very much for uh
+
+2
+00:00:09,679 --> 00:00:14,320
+inviting me to come and talk to you
+
+3
+00:00:11,200 --> 00:00:16,880
+folks. Um, so, okay. So, I'm interested
+
+4
+00:00:14,320 --> 00:00:19,039
+in robots and in particular, I want to
+
+5
+00:00:16,880 --> 00:00:21,119
+make robots that are completely general
+
+6
+00:00:19,039 --> 00:00:23,519
+purpose, that are as good as you at
+
+7
+00:00:21,119 --> 00:00:25,680
+doing everything that you do every day.
+
+8
+00:00:23,519 --> 00:00:28,160
+So, I want to understand how do we make
+
+9
+00:00:25,680 --> 00:00:30,880
+general purpose intelligent robots? And
+
+10
+00:00:28,160 --> 00:00:32,320
+it's really hard. And it's hard because
+
+11
+00:00:30,880 --> 00:00:34,559
+if you think about it, there's an
+
+12
+00:00:32,320 --> 00:00:36,960
+enormous amount of variability in the
+
+13
+00:00:34,559 --> 00:00:39,680
+situations that you might encounter uh
+
+14
+00:00:36,960 --> 00:00:41,760
+in a in a day or a week or a month. The
+
+15
+00:00:39,680 --> 00:00:43,920
+state space if you think about it is
+
+16
+00:00:41,760 --> 00:00:46,160
+huge. Lots of objects, enormous amounts
+
+17
+00:00:43,920 --> 00:00:48,960
+of space and you might have to really
+
+18
+00:00:46,160 --> 00:00:51,600
+plan or reason out over a very long time
+
+19
+00:00:48,960 --> 00:00:55,199
+horizon. So super hard but important
+
+20
+00:00:51,600 --> 00:00:58,480
+problem. Um the current paradigm in
+
+21
+00:00:55,199 --> 00:01:00,640
+robot learning is roughly this. uh we
+
+22
+00:00:58,480 --> 00:01:02,079
+build a bunch of simulators of the
+
+23
+00:01:00,640 --> 00:01:04,559
+environments we want the robot to work
+
+24
+00:01:02,079 --> 00:01:06,720
+in. We make a very general purpose
+
+25
+00:01:04,559 --> 00:01:08,560
+algorithm for learning to behave in
+
+26
+00:01:06,720 --> 00:01:10,159
+those environments. We make a big
+
+27
+00:01:08,560 --> 00:01:11,840
+instance of the learning algorithm and a
+
+28
+00:01:10,159 --> 00:01:13,680
+giant instance of the simulators and we
+
+29
+00:01:11,840 --> 00:01:16,400
+run for a long time until it achieves
+
+30
+00:01:13,680 --> 00:01:18,320
+general intelligence.
+
+31
+00:01:16,400 --> 00:01:20,960
+Okay, so I don't know. So that seems
+
+32
+00:01:18,320 --> 00:01:22,400
+cool and beautiful. It's a lovely story.
+
+33
+00:01:20,960 --> 00:01:24,080
+Uh, I think that there's an argument
+
+34
+00:01:22,400 --> 00:01:26,880
+that maybe evolution did something like
+
+35
+00:01:24,080 --> 00:01:29,680
+this for you over really a pretty long
+
+36
+00:01:26,880 --> 00:01:32,240
+time horizon, but me personally, I don't
+
+37
+00:01:29,680 --> 00:01:34,560
+actually think that that can scale. So,
+
+38
+00:01:32,240 --> 00:01:37,759
+um, I'm a bit of a contrarian, so I'm
+
+39
+00:01:34,560 --> 00:01:39,520
+going to tell you a contrarian story.
+
+40
+00:01:37,759 --> 00:01:40,799
+Okay. So, first of all, I believe in the
+
+41
+00:01:39,520 --> 00:01:42,159
+external physical world. I don't know
+
+42
+00:01:40,799 --> 00:01:43,680
+about you, but I do like I'm standing
+
+43
+00:01:42,159 --> 00:01:47,200
+here on a stage and I think we can take
+
+44
+00:01:43,680 --> 00:01:50,000
+advantage of that. uh I think that what
+
+45
+00:01:47,200 --> 00:01:52,000
+we have learned from computer science is
+
+46
+00:01:50,000 --> 00:01:54,000
+that if you can divide your problem into
+
+47
+00:01:52,000 --> 00:01:55,360
+substructure and solve sub problems and
+
+48
+00:01:54,000 --> 00:01:58,079
+use those to solve the whole problem
+
+49
+00:01:55,360 --> 00:02:00,960
+then things go better and that's true in
+
+50
+00:01:58,079 --> 00:02:03,840
+reasoning it's true in learning and in
+
+51
+00:02:00,960 --> 00:02:06,719
+particular that learning at some kind of
+
+52
+00:02:03,840 --> 00:02:09,759
+moderately deep and causal level how
+
+53
+00:02:06,719 --> 00:02:11,360
+your actions affect the world state is
+
+54
+00:02:09,759 --> 00:02:14,160
+really good really powerful and it'll
+
+55
+00:02:11,360 --> 00:02:15,760
+give us better generalization so my
+
+56
+00:02:14,160 --> 00:02:18,720
+approach which is to try to engineer
+
+57
+00:02:15,760 --> 00:02:20,959
+general purpose robots. We start with
+
+58
+00:02:18,720 --> 00:02:22,959
+builtin fundamental learning and
+
+59
+00:02:20,959 --> 00:02:24,879
+inference algorithms. We build and
+
+60
+00:02:22,959 --> 00:02:28,080
+train. We take advantage of all the
+
+61
+00:02:24,879 --> 00:02:31,840
+awesome offline pre-trained enormous
+
+62
+00:02:28,080 --> 00:02:33,360
+models. But in the robot's own lifetime,
+
+63
+00:02:31,840 --> 00:02:37,200
+it learns more about how the world
+
+64
+00:02:33,360 --> 00:02:40,720
+works. Um, and then it thinks about how
+
+65
+00:02:37,200 --> 00:02:42,400
+to behave. So that's my maybe contrarian
+
+66
+00:02:40,720 --> 00:02:45,120
+recipe for making general purpose
+
+67
+00:02:42,400 --> 00:02:46,560
+rational robots. So, and it may be that
+
+68
+00:02:45,120 --> 00:02:48,080
+doing this I think it might work better
+
+69
+00:02:46,560 --> 00:02:49,599
+as an engineering strategy. It might
+
+70
+00:02:48,080 --> 00:02:51,680
+also make systems that are easier for
+
+71
+00:02:49,599 --> 00:02:53,120
+humans to understand and it may be more
+
+72
+00:02:51,680 --> 00:02:54,560
+like the way that humans work which
+
+73
+00:02:53,120 --> 00:02:56,800
+could be interesting from a scientific
+
+74
+00:02:54,560 --> 00:02:59,040
+perspective as well.
+
+75
+00:02:56,800 --> 00:03:01,120
+So, I'm going to talk I had to prune the
+
+76
+00:02:59,040 --> 00:03:03,280
+talk down. So, although I have 5k ideas
+
+77
+00:03:01,120 --> 00:03:05,360
+I'll tell you about four of them but um
+
+78
+00:03:03,280 --> 00:03:07,920
+I'll be h happy to answer questions at
+
+79
+00:03:05,360 --> 00:03:09,680
+the end. So, the first thing is about
+
+80
+00:03:07,920 --> 00:03:10,959
+the external physical reality. So, it
+
+81
+00:03:09,680 --> 00:03:12,319
+used to be that computer vision was
+
+82
+00:03:10,959 --> 00:03:13,680
+terrible and you could hardly get any
+
+83
+00:03:12,319 --> 00:03:16,720
+useful information out of computer
+
+84
+00:03:13,680 --> 00:03:18,720
+vision. But that's really changed. And
+
+85
+00:03:16,720 --> 00:03:20,800
+what I want to do is talk to you about a
+
+86
+00:03:18,720 --> 00:03:22,400
+system that we made in our group by
+
+87
+00:03:20,800 --> 00:03:24,239
+assembling
+
+88
+00:03:22,400 --> 00:03:26,080
+some existing pre-trained models. And by
+
+89
+00:03:24,239 --> 00:03:27,920
+now it's out of date and the you know
+
+90
+00:03:26,080 --> 00:03:30,799
+there's there are better things but I'll
+
+91
+00:03:27,920 --> 00:03:34,560
+just show you uh some movies. So this
+
+92
+00:03:30,799 --> 00:03:36,879
+system works from a single RGBD image.
+
+93
+00:03:34,560 --> 00:03:40,400
+So one image so like the picture of that
+
+94
+00:03:36,879 --> 00:03:42,400
+scene there. And our goal is to come up
+
+95
+00:03:40,400 --> 00:03:44,080
+with a 3D model of the world that we can
+
+96
+00:03:42,400 --> 00:03:46,239
+reason about, that the robot can reason
+
+97
+00:03:44,080 --> 00:03:48,959
+about interacting with. So it needs to
+
+98
+00:03:46,239 --> 00:03:51,680
+be segmented. We need to have a guess at
+
+99
+00:03:48,959 --> 00:03:53,519
+the 3D shapes of objects and so on. And
+
+100
+00:03:51,680 --> 00:03:55,360
+I just want you to marvel. I mean, I
+
+101
+00:03:53,519 --> 00:03:57,439
+marvel at this even though I, you know,
+
+102
+00:03:55,360 --> 00:04:00,879
+kind of participated in making it like
+
+103
+00:03:57,439 --> 00:04:03,200
+the robot from one view
+
+104
+00:04:00,879 --> 00:04:05,439
+can. So it the actual signal it gets is
+
+105
+00:04:03,200 --> 00:04:07,920
+the one that you see rotating there. But
+
+106
+00:04:05,439 --> 00:04:10,480
+then it can fill it in and build a
+
+107
+00:04:07,920 --> 00:04:12,640
+pretty decent model of what's going on.
+
+108
+00:04:10,480 --> 00:04:14,879
+And by having a pretty decent model in
+
+109
+00:04:12,640 --> 00:04:17,519
+its head of what the world is like, it
+
+110
+00:04:14,879 --> 00:04:19,280
+can plan and behave much better than it
+
+111
+00:04:17,519 --> 00:04:21,759
+could if it were really kind of
+
+112
+00:04:19,280 --> 00:04:24,400
+operating from a a much more superficial
+
+113
+00:04:21,759 --> 00:04:26,000
+perspective. So there's a a ton to talk
+
+114
+00:04:24,400 --> 00:04:28,800
+about there, but I just want to say that
+
+115
+00:04:26,000 --> 00:04:31,520
+that gives me hope and faith that we can
+
+116
+00:04:28,800 --> 00:04:33,759
+actually understand perceptually what's
+
+117
+00:04:31,520 --> 00:04:35,759
+going on in the world.
+
+118
+00:04:33,759 --> 00:04:38,160
+Okay. So now I want to talk about how to
+
+119
+00:04:35,759 --> 00:04:39,840
+design a rational robot. And I'll talk
+
+120
+00:04:38,160 --> 00:04:43,360
+about this system a little bit. It's an
+
+121
+00:04:39,840 --> 00:04:45,919
+older system, but it's uh the the
+
+122
+00:04:43,360 --> 00:04:47,600
+messages are still good. So first of
+
+123
+00:04:45,919 --> 00:04:48,960
+all, when people talk about a robot
+
+124
+00:04:47,600 --> 00:04:51,040
+controller, right, they often talk about
+
+125
+00:04:48,960 --> 00:04:53,600
+a policy, right? And a policy
+
+126
+00:04:51,040 --> 00:04:55,840
+fundamentally is a mapping from the
+
+127
+00:04:53,600 --> 00:04:57,840
+current image or a history of images
+
+128
+00:04:55,840 --> 00:04:59,520
+into low-level control actions for the
+
+129
+00:04:57,840 --> 00:05:01,199
+robot. And often we think of what goes
+
+130
+00:04:59,520 --> 00:05:05,199
+in the box between the image and the
+
+131
+00:05:01,199 --> 00:05:06,560
+control as one big old neural network.
+
+132
+00:05:05,199 --> 00:05:08,000
+But I want to think of it as something
+
+133
+00:05:06,560 --> 00:05:09,520
+different. And so I'm going to make a
+
+134
+00:05:08,000 --> 00:05:11,520
+box that goes between images and
+
+135
+00:05:09,520 --> 00:05:13,039
+control. But it's going to go like this.
+
+136
+00:05:11,520 --> 00:05:15,680
+It's going to first go through a system
+
+137
+00:05:13,039 --> 00:05:17,600
+like the one I showed you to produce a
+
+138
+00:05:15,680 --> 00:05:19,199
+kind of mental model that the robot has
+
+139
+00:05:17,600 --> 00:05:20,479
+of the world that says, "Oh, there's
+
+140
+00:05:19,199 --> 00:05:22,160
+some objects in the world and the
+
+141
+00:05:20,479 --> 00:05:23,919
+objects I can estimate their properties.
+
+142
+00:05:22,160 --> 00:05:26,400
+I can estimate their shape or their mass
+
+143
+00:05:23,919 --> 00:05:29,440
+or their friction or whatever."
+
+144
+00:05:26,400 --> 00:05:31,199
+A human gives me a goal. Here it's shown
+
+145
+00:05:29,440 --> 00:05:32,400
+written in logic, but really what we do
+
+146
+00:05:31,199 --> 00:05:33,840
+is you can talk to it in natural
+
+147
+00:05:32,400 --> 00:05:36,240
+language and we can convert it into some
+
+148
+00:05:33,840 --> 00:05:39,280
+internal representation. We call a
+
+149
+00:05:36,240 --> 00:05:40,479
+planning algorithm which says okay given
+
+150
+00:05:39,280 --> 00:05:42,800
+the what I know about the world and
+
+151
+00:05:40,479 --> 00:05:44,639
+given what the human told me they wanted
+
+152
+00:05:42,800 --> 00:05:45,840
+I try to come up with a set of actions a
+
+153
+00:05:44,639 --> 00:05:48,080
+sequence of actions for the robot to
+
+154
+00:05:45,840 --> 00:05:52,400
+execute. I execute the first one. I see
+
+155
+00:05:48,080 --> 00:05:54,080
+what happens. I re-evaluate and I either
+
+156
+00:05:52,400 --> 00:05:56,160
+make a new plan or I continue on the one
+
+157
+00:05:54,080 --> 00:06:00,080
+I had before. So I'll just show you this
+
+158
+00:05:56,160 --> 00:06:01,919
+now by example. I go on a Okay. One
+
+159
+00:06:00,080 --> 00:06:03,199
+thing that's important to know about the
+
+160
+00:06:01,919 --> 00:06:05,440
+system that I showed you before and
+
+161
+00:06:03,199 --> 00:06:07,199
+therefore this one is that the objects
+
+162
+00:06:05,440 --> 00:06:09,120
+don't have to be known in advance. They
+
+163
+00:06:07,199 --> 00:06:11,600
+could be anything. They they don't have
+
+164
+00:06:09,120 --> 00:06:13,919
+to be recognizable. They just it's just
+
+165
+00:06:11,600 --> 00:06:16,479
+stuff on the table.
+
+166
+00:06:13,919 --> 00:06:18,960
+Okay. So, here's an example where we ask
+
+167
+00:06:16,479 --> 00:06:20,560
+the robot
+
+168
+00:06:18,960 --> 00:06:24,000
+uh to put all the objects on the blue
+
+169
+00:06:20,560 --> 00:06:25,600
+map and uh so it looks at the scene and
+
+170
+00:06:24,000 --> 00:06:27,759
+from its perspective it can only see the
+
+171
+00:06:25,600 --> 00:06:30,720
+box. The other ones are oluded by the
+
+172
+00:06:27,759 --> 00:06:32,080
+box. So, it makes a plan to put what it
+
+173
+00:06:30,720 --> 00:06:34,479
+thinks are all the objects on the blue
+
+174
+00:06:32,080 --> 00:06:35,520
+mat. So, it has to take a minute to
+
+175
+00:06:34,479 --> 00:06:38,240
+think about what to do. And then it
+
+176
+00:06:35,520 --> 00:06:39,440
+says, "Okay, I will put all the objects
+
+177
+00:06:38,240 --> 00:06:41,199
+on the blue mat." And then it takes
+
+178
+00:06:39,440 --> 00:06:43,120
+another look and it says, "Oh, snap.
+
+179
+00:06:41,199 --> 00:06:45,120
+There are actually other objects." So,
+
+180
+00:06:43,120 --> 00:06:46,479
+now I have to do something else. But,
+
+181
+00:06:45,120 --> 00:06:48,639
+okay, but it's smart. Like, it
+
+182
+00:06:46,479 --> 00:06:51,199
+understands geometry. And so, it can
+
+183
+00:06:48,639 --> 00:06:53,039
+reason about how to put all the objects
+
+184
+00:06:51,199 --> 00:06:54,639
+on the blue mat. So, it just moved the
+
+185
+00:06:53,039 --> 00:06:57,360
+one out of the way and then it put them
+
+186
+00:06:54,639 --> 00:06:59,599
+all back. Okay. So that's that's like
+
+187
+00:06:57,360 --> 00:07:01,840
+smart, right? So here's an oh uh here's
+
+188
+00:06:59,599 --> 00:07:03,680
+another one. We told it put each object
+
+189
+00:07:01,840 --> 00:07:05,680
+in the bowl of the closest color. It's
+
+190
+00:07:03,680 --> 00:07:07,919
+never done this problem before. It's
+
+191
+00:07:05,680 --> 00:07:10,000
+never seen these objects before. It
+
+192
+00:07:07,919 --> 00:07:11,759
+doesn't always work exactly right, but
+
+193
+00:07:10,000 --> 00:07:13,280
+you know, it's kind of not terrible. And
+
+194
+00:07:11,759 --> 00:07:15,840
+it can do this because it understands
+
+195
+00:07:13,280 --> 00:07:17,759
+the world that it's in.
+
+196
+00:07:15,840 --> 00:07:19,039
+Uh this one I think is funny. Put all
+
+197
+00:07:17,759 --> 00:07:20,639
+the objects on the blue mat. I don't
+
+198
+00:07:19,039 --> 00:07:23,280
+know. Somehow this thing will just come
+
+199
+00:07:20,639 --> 00:07:24,960
+apart into lots of pieces and it will
+
+200
+00:07:23,280 --> 00:07:27,599
+eventually put all the pieces on the
+
+201
+00:07:24,960 --> 00:07:29,360
+blue mat. So, uh, you know, it's a
+
+202
+00:07:27,599 --> 00:07:30,560
+little maybe frustrating. If the robot
+
+203
+00:07:29,360 --> 00:07:34,240
+could be frustrated, it's probably
+
+204
+00:07:30,560 --> 00:07:36,800
+frustrated now, but it'll persist. Okay.
+
+205
+00:07:34,240 --> 00:07:38,479
+So, and and oh, and and it doesn't
+
+206
+00:07:36,800 --> 00:07:39,759
+matter what robot you work on, right?
+
+207
+00:07:38,479 --> 00:07:42,639
+Because once you understand the
+
+208
+00:07:39,759 --> 00:07:44,720
+kinematics of your robot, you can plan
+
+209
+00:07:42,639 --> 00:07:45,840
+to do stuff. You don't have to retrain.
+
+210
+00:07:44,720 --> 00:07:47,360
+There's no learning. Actually, there's
+
+211
+00:07:45,840 --> 00:07:50,000
+no learning in the system at all except
+
+212
+00:07:47,360 --> 00:07:53,360
+in the perception, right? So, whatever
+
+213
+00:07:50,000 --> 00:07:56,319
+it that it just kind of works.
+
+214
+00:07:53,360 --> 00:07:59,280
+Okay. So that was an argument that said
+
+215
+00:07:56,319 --> 00:08:01,120
+uh if we know how the world works and if
+
+216
+00:07:59,280 --> 00:08:03,599
+we have a way of reasoning about how to
+
+217
+00:08:01,120 --> 00:08:05,680
+behave we can do a lot. So now the
+
+218
+00:08:03,599 --> 00:08:07,199
+question is that world model that thing
+
+219
+00:08:05,680 --> 00:08:09,520
+that says how do the how does the world
+
+220
+00:08:07,199 --> 00:08:10,879
+work? How should we learn that right?
+
+221
+00:08:09,520 --> 00:08:13,120
+What what and in particular what
+
+222
+00:08:10,879 --> 00:08:14,879
+representation should we use? So there's
+
+223
+00:08:13,120 --> 00:08:16,479
+a lot of world models. People talk a lot
+
+224
+00:08:14,879 --> 00:08:18,720
+about world models and they're often at
+
+225
+00:08:16,479 --> 00:08:20,400
+this point now these incredible
+
+226
+00:08:18,720 --> 00:08:22,879
+beautiful world models that'll make a
+
+227
+00:08:20,400 --> 00:08:25,120
+whole like movie of a thing that you ask
+
+228
+00:08:22,879 --> 00:08:27,520
+for. So movies are awesome if you want
+
+229
+00:08:25,120 --> 00:08:29,039
+to look at them, but I would argue that
+
+230
+00:08:27,520 --> 00:08:31,840
+they're not awesome for reasoning
+
+231
+00:08:29,039 --> 00:08:34,159
+necessarily. Um, and that we have to
+
+232
+00:08:31,840 --> 00:08:36,880
+think about learning representations of
+
+233
+00:08:34,159 --> 00:08:39,279
+the way the world works that let us
+
+234
+00:08:36,880 --> 00:08:41,360
+learn them efficiently, that let us
+
+235
+00:08:39,279 --> 00:08:42,399
+learn them incrementally. Right? So, I
+
+236
+00:08:41,360 --> 00:08:44,880
+don't know, there's probably someone in
+
+237
+00:08:42,399 --> 00:08:46,560
+this room who's never soldered before. I
+
+238
+00:08:44,880 --> 00:08:48,480
+could teach them to solder. And in
+
+239
+00:08:46,560 --> 00:08:50,959
+learning to solder, it wouldn't mess up
+
+240
+00:08:48,480 --> 00:08:52,320
+their dancing ability, right? Okay. So,
+
+241
+00:08:50,959 --> 00:08:53,680
+that's really important. You really want
+
+242
+00:08:52,320 --> 00:08:56,080
+to be able to have a system that that
+
+243
+00:08:53,680 --> 00:08:58,399
+learns incrementally and kind of in a
+
+244
+00:08:56,080 --> 00:09:00,240
+compositional way and you want to be
+
+245
+00:08:58,399 --> 00:09:04,000
+able to reason efficiently from the data
+
+246
+00:09:00,240 --> 00:09:05,920
+that you have. So, this is too much and
+
+247
+00:09:04,000 --> 00:09:07,839
+too little I understand to communicate
+
+248
+00:09:05,920 --> 00:09:10,560
+to you. But roughly what happens is that
+
+249
+00:09:07,839 --> 00:09:13,440
+we learn these models that are neuros
+
+250
+00:09:10,560 --> 00:09:15,279
+symbolic. They have some aspects that
+
+251
+00:09:13,440 --> 00:09:17,680
+are kind of symbolic that talk about
+
+252
+00:09:15,279 --> 00:09:19,680
+objects that abstract over the objects
+
+253
+00:09:17,680 --> 00:09:21,360
+and that give structure in the model and
+
+254
+00:09:19,680 --> 00:09:23,920
+then they have some components that are
+
+255
+00:09:21,360 --> 00:09:26,080
+neural that describe how you actually
+
+256
+00:09:23,920 --> 00:09:27,839
+perceive something or how the position
+
+257
+00:09:26,080 --> 00:09:30,080
+of something will in fact change as I
+
+258
+00:09:27,839 --> 00:09:32,880
+behave. So we're able to learn these
+
+259
+00:09:30,080 --> 00:09:34,720
+models that mix discrete and continuous
+
+260
+00:09:32,880 --> 00:09:37,279
+stuff
+
+261
+00:09:34,720 --> 00:09:38,560
+and uh we have a strategy about
+
+262
+00:09:37,279 --> 00:09:40,320
+continual learning which I'm not going
+
+263
+00:09:38,560 --> 00:09:42,640
+to talk about. Okay. So let's look at
+
+264
+00:09:40,320 --> 00:09:45,279
+how we can learn these operators. This
+
+265
+00:09:42,640 --> 00:09:48,320
+is this is learning from demonstration
+
+266
+00:09:45,279 --> 00:09:51,200
+uh by Nishant. Um and we're not learning
+
+267
+00:09:48,320 --> 00:09:53,600
+actually what to do here but we're
+
+268
+00:09:51,200 --> 00:09:56,000
+learning the consequences of some
+
+269
+00:09:53,600 --> 00:09:58,399
+operations. Right? So we're learning
+
+270
+00:09:56,000 --> 00:10:00,640
+those causal models. So this is a I
+
+271
+00:09:58,399 --> 00:10:04,480
+don't know another demonstration. Okay.
+
+272
+00:10:00,640 --> 00:10:06,959
+Um and the idea is that from some simple
+
+273
+00:10:04,480 --> 00:10:09,680
+demonstrations a very few simple
+
+274
+00:10:06,959 --> 00:10:11,600
+demonstrations we can learn these
+
+275
+00:10:09,680 --> 00:10:14,880
+neurosy symbolic models of how the world
+
+276
+00:10:11,600 --> 00:10:17,440
+works and then we can generalize to
+
+277
+00:10:14,880 --> 00:10:20,160
+totally new situations like a situation
+
+278
+00:10:17,440 --> 00:10:23,200
+where now the actor is this robot. It's
+
+279
+00:10:20,160 --> 00:10:25,440
+a different table. It's different stuff.
+
+280
+00:10:23,200 --> 00:10:27,760
+But because it's operating at a suitable
+
+281
+00:10:25,440 --> 00:10:30,560
+kind of symbolic level of abstraction,
+
+282
+00:10:27,760 --> 00:10:32,880
+it can generalize from what it saw to
+
+283
+00:10:30,560 --> 00:10:35,200
+really a much different circumstance.
+
+284
+00:10:32,880 --> 00:10:37,279
+Um, the details of how we do this I'm
+
+285
+00:10:35,200 --> 00:10:39,360
+not going to talk about, but let me show
+
+286
+00:10:37,279 --> 00:10:42,800
+you another demonstration. So, six
+
+287
+00:10:39,360 --> 00:10:46,399
+demonstrations of how this world works.
+
+288
+00:10:42,800 --> 00:10:48,240
+The robot comes in and its job is to
+
+289
+00:10:46,399 --> 00:10:51,279
+let's see it's to put the coke can in
+
+290
+00:10:48,240 --> 00:10:54,959
+the recycling to have the table cleaned
+
+291
+00:10:51,279 --> 00:10:57,200
+off and to have the eraser in the bin.
+
+292
+00:10:54,959 --> 00:11:01,519
+So it comes in and it kind of looks
+
+293
+00:10:57,200 --> 00:11:04,720
+around and it'll make a plan
+
+294
+00:11:01,519 --> 00:11:07,200
+if I advance the movie.
+
+295
+00:11:04,720 --> 00:11:08,800
+Okay.
+
+296
+00:11:07,200 --> 00:11:10,399
+Okay. Yeah. All right. So that was that
+
+297
+00:11:08,800 --> 00:11:13,120
+was the goal. Okay. Okay. So, it comes
+
+298
+00:11:10,399 --> 00:11:15,519
+in, looks around, picks up the can, puts
+
+299
+00:11:13,120 --> 00:11:17,360
+it in the bin. That's good. It needs to
+
+300
+00:11:15,519 --> 00:11:18,880
+erase the table, but it also needs to
+
+301
+00:11:17,360 --> 00:11:20,240
+have the eraser in the bin. But it's
+
+302
+00:11:18,880 --> 00:11:22,880
+smart enough to know that even though
+
+303
+00:11:20,240 --> 00:11:27,519
+the eraser is in the bin, uh Oh, yeah.
+
+304
+00:11:22,880 --> 00:11:30,800
+Um, it has to has to dump it out. Uh,
+
+305
+00:11:27,519 --> 00:11:33,680
+pick up the eraser, go over, it'll erase
+
+306
+00:11:30,800 --> 00:11:35,600
+the table. Yay. And put the eraser back
+
+307
+00:11:33,680 --> 00:11:40,320
+in the bin.
+
+308
+00:11:35,600 --> 00:11:43,600
+Um, and if you take this much data and
+
+309
+00:11:40,320 --> 00:11:47,600
+try to use some other existing model,
+
+310
+00:11:43,600 --> 00:11:49,600
+uh, you know, this is a a a a vision
+
+311
+00:11:47,600 --> 00:11:52,320
+language model trying to do imitation
+
+312
+00:11:49,600 --> 00:11:54,959
+learning. Um,
+
+313
+00:11:52,320 --> 00:11:57,040
+it it it okay, I don't know. It picked
+
+314
+00:11:54,959 --> 00:11:58,640
+up the trash can and it put it back
+
+315
+00:11:57,040 --> 00:12:01,279
+down. And then it tried to get the Coke
+
+316
+00:11:58,640 --> 00:12:03,360
+can, but it didn't get it. Then it tried
+
+317
+00:12:01,279 --> 00:12:06,720
+to do this. And then it says, "Oh, I
+
+318
+00:12:03,360 --> 00:12:08,240
+have to erase the table." Okay, good.
+
+319
+00:12:06,720 --> 00:12:12,000
+All right. So, we shouldn't really make
+
+320
+00:12:08,240 --> 00:12:13,839
+fun of that. But um uh but this applies
+
+321
+00:12:12,000 --> 00:12:15,279
+in surprising ways. Like Nishant, the
+
+322
+00:12:13,839 --> 00:12:17,200
+student said, "Can I get a juicer? I
+
+323
+00:12:15,279 --> 00:12:20,000
+want to train the robot to do juicing."
+
+324
+00:12:17,200 --> 00:12:22,079
+Like, okay. Uh so, you know, he does
+
+325
+00:12:20,000 --> 00:12:25,760
+demonstrations of putting a fruit in the
+
+326
+00:12:22,079 --> 00:12:27,839
+top of the juicer and uh the juicer has
+
+327
+00:12:25,760 --> 00:12:29,440
+to has these cups under the spigots. The
+
+328
+00:12:27,839 --> 00:12:31,760
+juice comes out one side and the pulp
+
+329
+00:12:29,440 --> 00:12:34,399
+comes out a different side. So he does
+
+330
+00:12:31,760 --> 00:12:37,040
+this demo and we learned from the
+
+331
+00:12:34,399 --> 00:12:39,040
+demonstration that he does an
+
+332
+00:12:37,040 --> 00:12:41,760
+abstraction of how the world works. It's
+
+333
+00:12:39,040 --> 00:12:43,360
+not perfect, but it roughly says the
+
+334
+00:12:41,760 --> 00:12:44,720
+containers need to be empty and they
+
+335
+00:12:43,360 --> 00:12:47,440
+need to be in an appropriate place and
+
+336
+00:12:44,720 --> 00:12:49,440
+the lid needs to be closed and then if
+
+337
+00:12:47,440 --> 00:12:52,320
+you push the juice button the you'll get
+
+338
+00:12:49,440 --> 00:12:54,880
+juice in your cup. And we can then apply
+
+339
+00:12:52,320 --> 00:12:56,800
+it in a in a new situation. Right? So
+
+340
+00:12:54,880 --> 00:13:00,800
+this is a different place, different
+
+341
+00:12:56,800 --> 00:13:04,480
+cups. It is the same juicer. uh and that
+
+342
+00:13:00,800 --> 00:13:07,680
+same uh strategy of reasoning given the
+
+343
+00:13:04,480 --> 00:13:09,120
+learn model lets it perform this problem
+
+344
+00:13:07,680 --> 00:13:11,600
+in a really completely different
+
+345
+00:13:09,120 --> 00:13:18,000
+situation.
+
+346
+00:13:11,600 --> 00:13:20,000
+Okay. So uh I have talked about how
+
+347
+00:13:18,000 --> 00:13:22,800
+right how we can learn models of how the
+
+348
+00:13:20,000 --> 00:13:25,519
+world works and how we can compose those
+
+349
+00:13:22,800 --> 00:13:28,959
+models really to abstract and to solve
+
+350
+00:13:25,519 --> 00:13:30,160
+totally new problems. Um, one thing that
+
+351
+00:13:28,959 --> 00:13:33,120
+I'm not going to talk about in detail,
+
+352
+00:13:30,160 --> 00:13:34,959
+but I'll just say a word about is that
+
+353
+00:13:33,120 --> 00:13:36,240
+learning can make planning better. So, a
+
+354
+00:13:34,959 --> 00:13:37,760
+lot of people are worried about planning
+
+355
+00:13:36,240 --> 00:13:39,680
+as a thing that you would have inside
+
+356
+00:13:37,760 --> 00:13:42,320
+the robot or inside your head, but
+
+357
+00:13:39,680 --> 00:13:45,519
+you're all used to the phenomenon that
+
+358
+00:13:42,320 --> 00:13:46,639
+uh if you do something repeatedly at the
+
+359
+00:13:45,519 --> 00:13:48,079
+beginning, you have to think about it.
+
+360
+00:13:46,639 --> 00:13:49,600
+Like, you probably had to think about
+
+361
+00:13:48,079 --> 00:13:51,440
+which way to turn the turn signal in
+
+362
+00:13:49,600 --> 00:13:54,079
+your car at the beginning, but now it's
+
+363
+00:13:51,440 --> 00:13:57,120
+just autonomous, right? You just do it.
+
+364
+00:13:54,079 --> 00:13:59,360
+And so a lot of our work also focuses on
+
+365
+00:13:57,120 --> 00:14:01,440
+how you can take a system that once it
+
+366
+00:13:59,360 --> 00:14:04,399
+understands how the world works and it
+
+367
+00:14:01,440 --> 00:14:06,160
+can make plans to behave, it can make it
+
+368
+00:14:04,399 --> 00:14:08,880
+can learn to make the planning faster by
+
+369
+00:14:06,160 --> 00:14:11,040
+just by having more experience and by
+
+370
+00:14:08,880 --> 00:14:13,040
+caching little partial pieces of
+
+371
+00:14:11,040 --> 00:14:15,040
+information. The kinds of pieces of
+
+372
+00:14:13,040 --> 00:14:17,519
+information that help you like walk
+
+373
+00:14:15,040 --> 00:14:18,959
+straight home from work even in those
+
+374
+00:14:17,519 --> 00:14:21,199
+cases where maybe that's not what you
+
+375
+00:14:18,959 --> 00:14:23,199
+were intending to do.
+
+376
+00:14:21,199 --> 00:14:24,720
+Okay. So then another thing I want to
+
+377
+00:14:23,199 --> 00:14:26,160
+talk about so so learning can make
+
+378
+00:14:24,720 --> 00:14:29,360
+planning better right because we can
+
+379
+00:14:26,160 --> 00:14:32,240
+learn to plan more efficiently and
+
+380
+00:14:29,360 --> 00:14:34,079
+planning can also make learning better.
+
+381
+00:14:32,240 --> 00:14:35,839
+So I want to talk through this thing in
+
+382
+00:14:34,079 --> 00:14:38,560
+some a little bit of detail and leave
+
+383
+00:14:35,839 --> 00:14:40,800
+five minutes for questions. Okay. So uh
+
+384
+00:14:38,560 --> 00:14:42,560
+so this is a system that a couple of my
+
+385
+00:14:40,800 --> 00:14:44,160
+students did uh in conjunction with
+
+386
+00:14:42,560 --> 00:14:48,560
+people at the Boston Dynamics AI
+
+387
+00:14:44,160 --> 00:14:50,240
+Institute. Um so here are the ideas. The
+
+388
+00:14:48,560 --> 00:14:51,760
+robot has a set of skills. Let's say we
+
+389
+00:14:50,240 --> 00:14:53,279
+just delivered the robot to your house.
+
+390
+00:14:51,760 --> 00:14:55,920
+So it has some set of things that it
+
+391
+00:14:53,279 --> 00:14:58,639
+knows how to do
+
+392
+00:14:55,920 --> 00:15:00,639
+and you've asked it to do some things
+
+393
+00:14:58,639 --> 00:15:02,000
+today, you know, on its first day. So it
+
+394
+00:15:00,639 --> 00:15:05,519
+knows the kind of distribution of things
+
+395
+00:15:02,000 --> 00:15:08,399
+that matters to you, but it's not yet
+
+396
+00:15:05,519 --> 00:15:09,680
+tuned up for your house, right? It maybe
+
+397
+00:15:08,399 --> 00:15:11,120
+it doesn't know how things work in your
+
+398
+00:15:09,680 --> 00:15:13,199
+house. It doesn't it's not familiar with
+
+399
+00:15:11,120 --> 00:15:14,880
+your vacuum cleaner, whatever. And it
+
+400
+00:15:13,199 --> 00:15:16,720
+has some free time. So, you know, the
+
+401
+00:15:14,880 --> 00:15:18,959
+people have now gone to sleep. The robot
+
+402
+00:15:16,720 --> 00:15:21,920
+is free downstairs.
+
+403
+00:15:18,959 --> 00:15:24,399
+um and it decides to practice.
+
+404
+00:15:21,920 --> 00:15:26,480
+So it says ah I have to actually
+
+405
+00:15:24,399 --> 00:15:29,199
+explicitly work on getting better at
+
+406
+00:15:26,480 --> 00:15:32,075
+doing these things in this place. So it
+
+407
+00:15:29,199 --> 00:15:34,800
+says to itself okay which of my skills
+
+408
+00:15:32,075 --> 00:15:37,680
+[snorts] are a important for the jobs
+
+409
+00:15:34,800 --> 00:15:42,079
+that the person asked me to do and b am
+
+410
+00:15:37,680 --> 00:15:44,560
+I not very good at and it plans
+
+411
+00:15:42,079 --> 00:15:47,680
+using what it knows about about how to
+
+412
+00:15:44,560 --> 00:15:49,040
+operate in the world. uh it plans it
+
+413
+00:15:47,680 --> 00:15:50,880
+figures out which skills are important
+
+414
+00:15:49,040 --> 00:15:54,800
+and it sets up the environment so that
+
+415
+00:15:50,880 --> 00:15:56,560
+it can practice the skill. So uh it also
+
+416
+00:15:54,800 --> 00:15:58,320
+one more thing for something to practice
+
+417
+00:15:56,560 --> 00:16:00,959
+if it practices it for a long time and
+
+418
+00:15:58,320 --> 00:16:02,959
+it really isn't getting anywhere. It'll
+
+419
+00:16:00,959 --> 00:16:04,560
+also quit practicing because it's like I
+
+420
+00:16:02,959 --> 00:16:08,959
+don't know I guess I you know I just
+
+421
+00:16:04,560 --> 00:16:12,880
+can't do this. So I'll talk through now
+
+422
+00:16:08,959 --> 00:16:15,759
+this in a simple case. Um, so here's a
+
+423
+00:16:12,880 --> 00:16:17,360
+situation where uh I don't know, there's
+
+424
+00:16:15,759 --> 00:16:19,360
+some toys on the table. There's a kind
+
+425
+00:16:17,360 --> 00:16:22,480
+of a chair that's in the way. There's a
+
+426
+00:16:19,360 --> 00:16:25,360
+bin. There's a kind of a push broom
+
+427
+00:16:22,480 --> 00:16:28,800
+thing. And the robot is asked to put the
+
+428
+00:16:25,360 --> 00:16:31,040
+toys in the bin. So, it uses its planner
+
+429
+00:16:28,800 --> 00:16:32,639
+and it has a reasonably good highle
+
+430
+00:16:31,040 --> 00:16:33,839
+model of how its actions work. And it's
+
+431
+00:16:32,639 --> 00:16:34,959
+good at picking things up and putting
+
+432
+00:16:33,839 --> 00:16:36,560
+them down. So, it comes over here and
+
+433
+00:16:34,959 --> 00:16:38,560
+moves the chair out of the way. So, that
+
+434
+00:16:36,560 --> 00:16:40,240
+part's good. And it goes over, it
+
+435
+00:16:38,560 --> 00:16:43,360
+figures it might as well sweep all the
+
+436
+00:16:40,240 --> 00:16:45,120
+objects off the table in one go.
+
+437
+00:16:43,360 --> 00:16:46,959
+So it comes over here, sweeps the
+
+438
+00:16:45,120 --> 00:16:48,480
+objects,
+
+439
+00:16:46,959 --> 00:16:50,320
+but you know, it doesn't know its own
+
+440
+00:16:48,480 --> 00:16:54,079
+strength or the table is more slippery
+
+441
+00:16:50,320 --> 00:16:56,880
+than it expected. And so now the people
+
+442
+00:16:54,079 --> 00:16:58,560
+have gone to bed. And in this particular
+
+443
+00:16:56,880 --> 00:17:00,399
+example, it's just practicing this one
+
+444
+00:16:58,560 --> 00:17:03,040
+skill. So it's like, man, I have to get
+
+445
+00:17:00,399 --> 00:17:05,039
+better at the sweeping thing. So I'm
+
+446
+00:17:03,040 --> 00:17:07,600
+going to try to sweep. Oh no, still not
+
+447
+00:17:05,039 --> 00:17:09,520
+very good. So, it has inside a little
+
+448
+00:17:07,600 --> 00:17:10,959
+generative model for some parameters for
+
+449
+00:17:09,520 --> 00:17:13,679
+how to do the sweeping, and it's going
+
+450
+00:17:10,959 --> 00:17:16,959
+to tune that generative model up. But
+
+451
+00:17:13,679 --> 00:17:18,799
+notice that it's setting the world up
+
+452
+00:17:16,959 --> 00:17:21,600
+all by itself. So, this is totally
+
+453
+00:17:18,799 --> 00:17:25,360
+autonomous. It ran for like three hours
+
+454
+00:17:21,600 --> 00:17:27,120
+with only battery changes, but no code,
+
+455
+00:17:25,360 --> 00:17:28,640
+you know, and so it's just it's like
+
+456
+00:17:27,120 --> 00:17:30,000
+it's pretty determined. The people
+
+457
+00:17:28,640 --> 00:17:31,440
+upstairs are having trouble sleeping
+
+458
+00:17:30,000 --> 00:17:33,907
+because the robots down here are making
+
+459
+00:17:31,440 --> 00:17:33,919
+a ruckus, but that's okay.
+
+460
+00:17:33,907 --> 00:17:38,640
+>> [snorts]
+
+461
+00:17:33,919 --> 00:17:40,240
+>> Um so okay so it practices
+
+462
+00:17:38,640 --> 00:17:42,880
+uh
+
+463
+00:17:40,240 --> 00:17:44,960
+all right enough good
+
+464
+00:17:42,880 --> 00:17:48,720
+um and now you know it's the next
+
+465
+00:17:44,960 --> 00:17:51,520
+morning uh it it's got the same setup
+
+466
+00:17:48,720 --> 00:17:54,320
+but now it's this is where we really are
+
+467
+00:17:51,520 --> 00:17:56,640
+wondering has it figured out what it
+
+468
+00:17:54,320 --> 00:18:01,520
+needed to figure out and it comes over
+
+469
+00:17:56,640 --> 00:18:04,480
+here and it goes to do the sweeping and
+
+470
+00:18:01,520 --> 00:18:07,760
+yay. Okay, so it gets objects in the
+
+471
+00:18:04,480 --> 00:18:10,160
+bin. So spot learns something overnight.
+
+472
+00:18:07,760 --> 00:18:12,559
+But what's also important is that the
+
+473
+00:18:10,160 --> 00:18:14,880
+ability to plan and observe the world
+
+474
+00:18:12,559 --> 00:18:17,840
+and replan when things don't go the way
+
+475
+00:18:14,880 --> 00:18:20,880
+you expected is also crucial. And so
+
+476
+00:18:17,840 --> 00:18:23,679
+here's a situation where uh Nishant the
+
+477
+00:18:20,880 --> 00:18:27,039
+grelin comes
+
+478
+00:18:23,679 --> 00:18:28,640
+uh and messes up the robot. Okay, so
+
+479
+00:18:27,039 --> 00:18:30,559
+it's supposed to get both toys in the
+
+480
+00:18:28,640 --> 00:18:32,960
+bin. Now the bin is moved, the toy is
+
+481
+00:18:30,559 --> 00:18:34,400
+moved. It's like, "Okay, that broom
+
+482
+00:18:32,960 --> 00:18:36,320
+strategy is not going to work here
+
+483
+00:18:34,400 --> 00:18:38,320
+anymore. I need to pick the thing up,
+
+484
+00:18:36,320 --> 00:18:41,440
+but it's too tall. It can't reach up on
+
+485
+00:18:38,320 --> 00:18:45,120
+that shelf." But in previous times, it's
+
+486
+00:18:41,440 --> 00:18:46,640
+learned how to operate this platform.
+
+487
+00:18:45,120 --> 00:18:48,799
+So, it goes against the platform and
+
+488
+00:18:46,640 --> 00:18:50,559
+says, "Cool. I can I can go get the
+
+489
+00:18:48,799 --> 00:18:53,840
+toy."
+
+490
+00:18:50,559 --> 00:18:56,320
+Right? So, you know, zero shot, right?
+
+491
+00:18:53,840 --> 00:18:58,799
+It never used that platform to solve
+
+492
+00:18:56,320 --> 00:19:01,039
+this problem, but it understands the
+
+493
+00:18:58,799 --> 00:19:03,679
+effects that it can have on the world
+
+494
+00:19:01,039 --> 00:19:08,080
+and the way those effects enable it to
+
+495
+00:19:03,679 --> 00:19:11,600
+do other things. So that's my message is
+
+496
+00:19:08,080 --> 00:19:15,200
+that we can get really general purpose
+
+497
+00:19:11,600 --> 00:19:16,960
+robots by building in some fundamental
+
+498
+00:19:15,200 --> 00:19:20,000
+algorithms
+
+499
+00:19:16,960 --> 00:19:23,039
+using all the foundation models we can
+
+500
+00:19:20,000 --> 00:19:24,400
+to build stuff uh in the factory, right?
+
+501
+00:19:23,039 --> 00:19:25,919
+Take advantage of the perception, take
+
+502
+00:19:24,400 --> 00:19:28,240
+advantage of language understanding, all
+
+503
+00:19:25,919 --> 00:19:30,880
+of that. Make sure that we can
+
+504
+00:19:28,240 --> 00:19:32,960
+continually and compositionally augment
+
+505
+00:19:30,880 --> 00:19:35,520
+these models. Here I showed you
+
+506
+00:19:32,960 --> 00:19:37,840
+improving some skills it already had as
+
+507
+00:19:35,520 --> 00:19:39,280
+well as learning some models of some
+
+508
+00:19:37,840 --> 00:19:41,600
+skills. We're also working on learning
+
+509
+00:19:39,280 --> 00:19:44,320
+the skills online at the same time too.
+
+510
+00:19:41,600 --> 00:19:48,240
+And then reason to pick your actions. So
+
+511
+00:19:44,320 --> 00:19:50,720
+I think that we can do better, go
+
+512
+00:19:48,240 --> 00:19:53,440
+farther by using actually all the tools
+
+513
+00:19:50,720 --> 00:19:56,080
+that we have in the AI toolbox in order
+
+514
+00:19:53,440 --> 00:19:57,840
+to build these systems. So with that, I
+
+515
+00:19:56,080 --> 00:19:59,840
+will thank my students and colleagues
+
+516
+00:19:57,840 --> 00:20:03,958
+and then I have left five minutes for
+
+517
+00:19:59,840 --> 00:20:03,958
+questions. So thank you. [applause]
+
+518
+00:20:06,080 --> 00:20:11,280
+So that's a question I don't answer.
+
+519
+00:20:08,000 --> 00:20:13,039
+Sorry, I have no idea. And everybody in
+
+520
+00:20:11,280 --> 00:20:14,559
+AI has been in hot water since the
+
+521
+00:20:13,039 --> 00:20:17,960
+beginning of AI by trying to answer that
+
+522
+00:20:14,559 --> 00:20:17,960
+question. So
+
+523
+00:20:18,400 --> 00:20:21,679
+okay, in the first demo, the robot moved
+
+524
+00:20:20,000 --> 00:20:23,440
+the cup without tipping it. Does it
+
+525
+00:20:21,679 --> 00:20:26,880
+understand the concept of orientation?
+
+526
+00:20:23,440 --> 00:20:28,880
+No. So that's a very good question. Um,
+
+527
+00:20:26,880 --> 00:20:32,720
+in that particular example, I can't
+
+528
+00:20:28,880 --> 00:20:34,320
+honestly tell you, but it's certainly in
+
+529
+00:20:32,720 --> 00:20:36,480
+various versions of systems that we
+
+530
+00:20:34,320 --> 00:20:37,760
+build. Uh, when you're doing motion
+
+531
+00:20:36,480 --> 00:20:39,520
+planning, right? So motion planning
+
+532
+00:20:37,760 --> 00:20:41,919
+says, "Oh, you should move from here to
+
+533
+00:20:39,520 --> 00:20:43,360
+there." Generally speaking, you can add
+
+534
+00:20:41,919 --> 00:20:44,799
+constraints. We always have the
+
+535
+00:20:43,360 --> 00:20:46,159
+constraint or almost always have the
+
+536
+00:20:44,799 --> 00:20:47,919
+constraint that we shouldn't crash into
+
+537
+00:20:46,159 --> 00:20:49,760
+anything, but we can also add
+
+538
+00:20:47,919 --> 00:20:51,840
+constraints about the orientation of the
+
+539
+00:20:49,760 --> 00:20:55,080
+cup. And that's easy and not a problem.
+
+540
+00:20:51,840 --> 00:20:55,080
+So yeah,
+
+541
+00:20:56,320 --> 00:21:00,480
+robots making the biggest impact.
+
+542
+00:20:59,039 --> 00:21:02,000
+That's a really good question. Not the
+
+543
+00:21:00,480 --> 00:21:03,840
+part of the space that I'm working on,
+
+544
+00:21:02,000 --> 00:21:07,039
+right? So I'm working not at least not
+
+545
+00:21:03,840 --> 00:21:10,159
+in not not first, right? Um, I think the
+
+546
+00:21:07,039 --> 00:21:11,840
+things that are working right now are
+
+547
+00:21:10,159 --> 00:21:14,799
+cases where the robot needs to do
+
+548
+00:21:11,840 --> 00:21:16,400
+something a little bit repetitive, but
+
+549
+00:21:14,799 --> 00:21:18,159
+where there's some variation in the
+
+550
+00:21:16,400 --> 00:21:21,120
+world, right? If there's no variation in
+
+551
+00:21:18,159 --> 00:21:23,200
+the world, then we just program the ABV
+
+552
+00:21:21,120 --> 00:21:25,440
+robot to keep doing the thing. Okay, we
+
+553
+00:21:23,200 --> 00:21:27,200
+know how to do that. If there's enormous
+
+554
+00:21:25,440 --> 00:21:28,720
+variation in the world, I don't know,
+
+555
+00:21:27,200 --> 00:21:30,559
+that's the space that I work in and we
+
+556
+00:21:28,720 --> 00:21:33,919
+are not ready for prime time. But
+
+557
+00:21:30,559 --> 00:21:36,400
+there's there are cases where we have to
+
+558
+00:21:33,919 --> 00:21:41,039
+I don't know maybe use the same coffee
+
+559
+00:21:36,400 --> 00:21:42,880
+machine over and over again or uh fold
+
+560
+00:21:41,039 --> 00:21:45,600
+napkins is an example that somebody is
+
+561
+00:21:42,880 --> 00:21:47,360
+doing right now to good effect. So I
+
+562
+00:21:45,600 --> 00:21:49,919
+think cases that are more variable than
+
+563
+00:21:47,360 --> 00:21:53,039
+the factory robots can handle but not
+
+564
+00:21:49,919 --> 00:21:54,640
+like AGI that's where the impact will
+
+565
+00:21:53,039 --> 00:21:58,440
+happen and there's probably lots of
+
+566
+00:21:54,640 --> 00:21:58,440
+opportunities for that.
+
+567
+00:21:59,039 --> 00:22:04,799
+Choosy Selena. Huh?
+
+568
+00:22:02,400 --> 00:22:06,960
+Oh, could we do this in communitydriven
+
+569
+00:22:04,799 --> 00:22:11,360
+practice? That's an interesting
+
+570
+00:22:06,960 --> 00:22:12,799
+question. Um, I I think so, although
+
+571
+00:22:11,360 --> 00:22:15,840
+we'd have to solve a bunch of other
+
+572
+00:22:12,799 --> 00:22:16,880
+problems first, right? Like, uh, but but
+
+573
+00:22:15,840 --> 00:22:18,240
+I don't think that they're out of the
+
+574
+00:22:16,880 --> 00:22:21,600
+question, but you know, how does the
+
+575
+00:22:18,240 --> 00:22:23,280
+robot interact with and negotiate with a
+
+576
+00:22:21,600 --> 00:22:26,640
+person? And we decide that we're going
+
+577
+00:22:23,280 --> 00:22:28,880
+to go practice tennis now. Um, so that
+
+578
+00:22:26,640 --> 00:22:31,360
+seems like it's there's two aspects of
+
+579
+00:22:28,880 --> 00:22:34,080
+this that are hard. One is just is the
+
+580
+00:22:31,360 --> 00:22:35,840
+is the negotiation part, which isn't
+
+581
+00:22:34,080 --> 00:22:37,360
+even robot specific, right? That would
+
+582
+00:22:35,840 --> 00:22:39,840
+come up in the case that you have agents
+
+583
+00:22:37,360 --> 00:22:42,480
+that aren't physical. And then there's
+
+584
+00:22:39,840 --> 00:22:45,280
+some other part, which is being sure
+
+585
+00:22:42,480 --> 00:22:48,559
+that you're safe to interact in close
+
+586
+00:22:45,280 --> 00:22:50,159
+proximity with a human. And you know,
+
+587
+00:22:48,559 --> 00:22:52,159
+that's something that robotics people
+
+588
+00:22:50,159 --> 00:22:53,760
+worry about to some degree, but it's a
+
+589
+00:22:52,159 --> 00:22:55,280
+serious problem. And right now lots of
+
+590
+00:22:53,760 --> 00:22:58,880
+people are making humanoid robots that
+
+591
+00:22:55,280 --> 00:23:00,799
+are a little not safe to be next to. So
+
+592
+00:22:58,880 --> 00:23:02,640
+we have to work a lot on that before we
+
+593
+00:23:00,799 --> 00:23:07,000
+can send robots into people's houses or
+
+594
+00:23:02,640 --> 00:23:07,000
+or or close to them in the world.
+
+595
+00:23:07,039 --> 00:23:11,440
+How would I encode non-visible effects?
+
+596
+00:23:08,960 --> 00:23:13,679
+Oh yeah, absolutely. Oh, wind. Wind is
+
+597
+00:23:11,440 --> 00:23:15,360
+interesting. Super cool. Okay. So, one
+
+598
+00:23:13,679 --> 00:23:17,360
+of the things I care deeply about, two
+
+599
+00:23:15,360 --> 00:23:20,080
+of the things I care deeply about, which
+
+600
+00:23:17,360 --> 00:23:24,480
+I didn't really show you here, are
+
+601
+00:23:20,080 --> 00:23:26,240
+memory and uncertainty. Okay. So, uh
+
+602
+00:23:24,480 --> 00:23:30,240
+we'll start with memory, right? So, the
+
+603
+00:23:26,240 --> 00:23:32,720
+fact is the majority of robot technology
+
+604
+00:23:30,240 --> 00:23:35,679
+right now that people are building is
+
+605
+00:23:32,720 --> 00:23:38,320
+completely stateless. That is to say,
+
+606
+00:23:35,679 --> 00:23:40,400
+the robot has a view of whatever it's
+
+607
+00:23:38,320 --> 00:23:42,880
+doing and it maps what it sees at the
+
+608
+00:23:40,400 --> 00:23:46,480
+moment to what it should do next.
+
+609
+00:23:42,880 --> 00:23:48,159
+Um but that can't be right. And and the
+
+610
+00:23:46,480 --> 00:23:50,240
+some of these later robots I showed you
+
+611
+00:23:48,159 --> 00:23:51,840
+are not like that. They remember things.
+
+612
+00:23:50,240 --> 00:23:54,480
+You need to remember things about the
+
+613
+00:23:51,840 --> 00:23:56,320
+space around you. You need to remember,
+
+614
+00:23:54,480 --> 00:23:58,960
+you know, how to get back to your car.
+
+615
+00:23:56,320 --> 00:24:00,559
+You need to remember roughly where the
+
+616
+00:23:58,960 --> 00:24:02,080
+stuff is on the stage so that I don't
+
+617
+00:24:00,559 --> 00:24:03,760
+when I'm waving my arms, I don't whack
+
+618
+00:24:02,080 --> 00:24:05,600
+into the podium. All that kind of
+
+619
+00:24:03,760 --> 00:24:08,559
+remembering. You need to remember things
+
+620
+00:24:05,600 --> 00:24:10,080
+about the objects, right? Uh where did I
+
+621
+00:24:08,559 --> 00:24:11,440
+put my car keys? I'm not sure. I could
+
+622
+00:24:10,080 --> 00:24:12,880
+ask you where your favorite coffee cup
+
+623
+00:24:11,440 --> 00:24:15,039
+is. You could think about it and tell me
+
+624
+00:24:12,880 --> 00:24:16,640
+something about that. So there's a bunch
+
+625
+00:24:15,039 --> 00:24:18,480
+of questions about memory that are
+
+626
+00:24:16,640 --> 00:24:21,760
+really underststudied I think and that
+
+627
+00:24:18,480 --> 00:24:23,760
+is that are very important. Um but wind
+
+628
+00:24:21,760 --> 00:24:26,320
+is pretty interesting because for
+
+629
+00:24:23,760 --> 00:24:28,640
+instance you can't see wind but you can
+
+630
+00:24:26,320 --> 00:24:31,919
+see wind's effects right so if you have
+
+631
+00:24:28,640 --> 00:24:35,760
+memory and observation you could say huh
+
+632
+00:24:31,919 --> 00:24:38,320
+I put my empty paper cup down over here
+
+633
+00:24:35,760 --> 00:24:40,480
+and now it's over there and if I have a
+
+634
+00:24:38,320 --> 00:24:42,240
+causal model for instance of of what
+
+635
+00:24:40,480 --> 00:24:43,760
+wind does I might be able to infer that
+
+636
+00:24:42,240 --> 00:24:45,760
+it's windy and I might be able to infer
+
+637
+00:24:43,760 --> 00:24:47,279
+furthermore that if I put another I
+
+638
+00:24:45,760 --> 00:24:50,000
+shouldn't maybe put another empty cup
+
+639
+00:24:47,279 --> 00:24:52,720
+down because it's going to blow away. So
+
+640
+00:24:50,000 --> 00:24:54,159
+this is a good example where reasoning
+
+641
+00:24:52,720 --> 00:24:56,159
+can help you estimate physical
+
+642
+00:24:54,159 --> 00:24:58,720
+properties of the world or of your
+
+643
+00:24:56,159 --> 00:25:01,120
+objects, right? It could be that I think
+
+644
+00:24:58,720 --> 00:25:03,360
+um you know that that that remote over
+
+645
+00:25:01,120 --> 00:25:05,440
+there uh I could pick it up but then it
+
+646
+00:25:03,360 --> 00:25:07,039
+turns out it's velcroed to the table.
+
+647
+00:25:05,440 --> 00:25:08,559
+All right, I can't see that but as a
+
+648
+00:25:07,039 --> 00:25:11,679
+result of taking an action I can update
+
+649
+00:25:08,559 --> 00:25:13,600
+my belief. um uncertainty I think is
+
+650
+00:25:11,679 --> 00:25:16,320
+also important and a thing that we study
+
+651
+00:25:13,600 --> 00:25:19,279
+a lot right so in our actual
+
+652
+00:25:16,320 --> 00:25:21,279
+implementations of things we have not
+
+653
+00:25:19,279 --> 00:25:23,520
+maybe a single estimate of the shape of
+
+654
+00:25:21,279 --> 00:25:25,360
+an object but a a you could think of it
+
+655
+00:25:23,520 --> 00:25:26,960
+almost as a distributional estimate we
+
+656
+00:25:25,360 --> 00:25:28,720
+we say well it's at least this big but
+
+657
+00:25:26,960 --> 00:25:30,320
+it might be that big and we can take
+
+658
+00:25:28,720 --> 00:25:33,440
+that information into account in our
+
+659
+00:25:30,320 --> 00:25:35,039
+planning and in particular we can reason
+
+660
+00:25:33,440 --> 00:25:36,880
+that the robot should go gather more
+
+661
+00:25:35,039 --> 00:25:39,279
+information just like you saw this very
+
+662
+00:25:36,880 --> 00:25:41,360
+last robot reasoning that it should go
+
+663
+00:25:39,279 --> 00:25:43,840
+gather more information. So knowing what
+
+664
+00:25:41,360 --> 00:25:46,080
+you don't know is critical
+
+665
+00:25:43,840 --> 00:25:48,080
+so that you can use your resources to go
+
+666
+00:25:46,080 --> 00:25:50,240
+gather information either about how to
+
+667
+00:25:48,080 --> 00:25:53,200
+do something or about the state of the
+
+668
+00:25:50,240 --> 00:25:55,039
+world.
+
+669
+00:25:53,200 --> 00:25:57,360
+How can a corporation run the shown
+
+670
+00:25:55,039 --> 00:25:59,919
+experiment and apply the robot to
+
+671
+00:25:57,360 --> 00:26:02,320
+production and operation? Oh, okay.
+
+672
+00:25:59,919 --> 00:26:08,400
+Well, okay. So, you know, we did this
+
+673
+00:26:02,320 --> 00:26:11,520
+once in a lab. Um the question is
+
+674
+00:26:08,400 --> 00:26:13,600
+for production and operation
+
+675
+00:26:11,520 --> 00:26:16,000
+would you want the robot to be doing
+
+676
+00:26:13,600 --> 00:26:18,720
+that kind of experimentation. So I think
+
+677
+00:26:16,000 --> 00:26:20,640
+you really have to think a lot about the
+
+678
+00:26:18,720 --> 00:26:25,120
+application situation that you're going
+
+679
+00:26:20,640 --> 00:26:26,799
+into. If you know a lot about the world,
+
+680
+00:26:25,120 --> 00:26:28,159
+if you know a lot about the the
+
+681
+00:26:26,799 --> 00:26:30,480
+distribution of problems that the
+
+682
+00:26:28,159 --> 00:26:33,919
+robot's going to face and it's not too
+
+683
+00:26:30,480 --> 00:26:36,640
+highly variable, then you could train it
+
+684
+00:26:33,919 --> 00:26:38,799
+a lot offline, right? You could train it
+
+685
+00:26:36,640 --> 00:26:40,480
+in the in the in the factory, right?
+
+686
+00:26:38,799 --> 00:26:41,679
+Right. I mean, you before so before
+
+687
+00:26:40,480 --> 00:26:43,520
+putting it out in the world, they could
+
+688
+00:26:41,679 --> 00:26:47,440
+you could just try to to train it up a
+
+689
+00:26:43,520 --> 00:26:50,000
+lot, but to get it to actually maybe
+
+690
+00:26:47,440 --> 00:26:53,120
+practice its own stuff and set things
+
+691
+00:26:50,000 --> 00:26:55,200
+up, uh, I think you would only do that
+
+692
+00:26:53,120 --> 00:26:56,960
+when you were in the world where you
+
+693
+00:26:55,200 --> 00:26:59,679
+couldn't anticipate in advance very much
+
+694
+00:26:56,960 --> 00:27:01,039
+about what was going on. So, uh, what
+
+695
+00:26:59,679 --> 00:27:03,520
+capabilities would you need? You would
+
+696
+00:27:01,039 --> 00:27:05,679
+need better perception than we have. You
+
+697
+00:27:03,520 --> 00:27:08,480
+would need probably some more robust
+
+698
+00:27:05,679 --> 00:27:10,159
+controllers and so on. But I think it's
+
+699
+00:27:08,480 --> 00:27:13,840
+not out of the question that we could do
+
+700
+00:27:10,159 --> 00:27:15,919
+that. Yeah.
+
+701
+00:27:13,840 --> 00:27:18,159
+Can the representation layer encode
+
+702
+00:27:15,919 --> 00:27:19,520
+community level constraints? Oh, so the
+
+703
+00:27:18,159 --> 00:27:23,039
+robot's not negotiating with a person,
+
+704
+00:27:19,520 --> 00:27:24,480
+but negotiating with a distri How do you
+
+705
+00:27:23,039 --> 00:27:26,000
+I don't know how you negotiate with a
+
+706
+00:27:24,480 --> 00:27:29,120
+distribution.
+
+707
+00:27:26,000 --> 00:27:30,559
+I've never done that. I mean, uh I guess
+
+708
+00:27:29,120 --> 00:27:32,799
+maybe that's what I'm doing right now.
+
+709
+00:27:30,559 --> 00:27:34,320
+You guys are represent a distribution of
+
+710
+00:27:32,799 --> 00:27:38,320
+the world and I'm negotiating with you
+
+711
+00:27:34,320 --> 00:27:39,520
+about I don't know. Um, so I'm not I'm
+
+712
+00:27:38,320 --> 00:27:40,799
+not exactly sure how to do that. I'm
+
+713
+00:27:39,520 --> 00:27:42,880
+sorry. I think I'm gonna have to pass on
+
+714
+00:27:40,799 --> 00:27:47,559
+that one. Okay. And it looks like we are
+
+715
+00:27:42,880 --> 00:27:47,559
+done. Okay. So, thanks very much.
+

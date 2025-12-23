@@ -1,0 +1,5032 @@
+1
+00:00:10,840 --> 00:00:14,679
+hello can people hear me are we good in
+
+2
+00:00:13,719 --> 00:00:17,480
+the
+
+3
+00:00:14,679 --> 00:00:20,920
+back are we good can can people hear me
+
+4
+00:00:17,480 --> 00:00:23,400
+good good good okay so today we are
+
+5
+00:00:20,920 --> 00:00:25,800
+going to uh move on from counting and
+
+6
+00:00:23,400 --> 00:00:28,439
+start the last unit on
+
+7
+00:00:25,800 --> 00:00:30,000
+probability uh probability is uh you
+
+8
+00:00:28,439 --> 00:00:31,320
+know very important it's one of the most
+
+9
+00:00:30,000 --> 00:00:33,120
+important disciplines you know not just
+
+10
+00:00:31,320 --> 00:00:35,280
+in computer science but like in in all
+
+11
+00:00:33,120 --> 00:00:36,879
+of the Sciences uh please don't tell
+
+12
+00:00:35,280 --> 00:00:39,480
+your other you know science instructors
+
+13
+00:00:36,879 --> 00:00:41,719
+that I said this um you know you use it
+
+14
+00:00:39,480 --> 00:00:44,879
+in like we've already seen it uh in this
+
+15
+00:00:41,719 --> 00:00:46,640
+class uh with the Miller Ren algorithm
+
+16
+00:00:44,879 --> 00:00:48,120
+uh you also see it in like you know
+
+17
+00:00:46,640 --> 00:00:52,320
+other randomized algorithms that you'll
+
+18
+00:00:48,120 --> 00:00:54,800
+see later in 61210 1220 5220 if you take
+
+19
+00:00:52,320 --> 00:00:56,960
+that uh we see it in Game Theory
+
+20
+00:00:54,800 --> 00:00:59,079
+information Theory signal processing
+
+21
+00:00:56,960 --> 00:01:00,440
+cryptography uh machine learning
+
+22
+00:00:59,079 --> 00:01:02,879
+medicine Stu
+
+23
+00:01:00,440 --> 00:01:05,600
+forensics uh you know the list goes on
+
+24
+00:01:02,879 --> 00:01:07,720
+and on uh but unfortunately it's also
+
+25
+00:01:05,600 --> 00:01:10,680
+one of the least understood
+
+26
+00:01:07,720 --> 00:01:13,680
+disciplines uh so there's a a pretty
+
+27
+00:01:10,680 --> 00:01:15,880
+famous quote attributed to uh Mark Twain
+
+28
+00:01:13,680 --> 00:01:18,680
+Benjamin Dy you know several other
+
+29
+00:01:15,880 --> 00:01:21,520
+people uh there are three kinds of lies
+
+30
+00:01:18,680 --> 00:01:23,680
+right there are lies there are damned
+
+31
+00:01:21,520 --> 00:01:26,680
+lies and
+
+32
+00:01:23,680 --> 00:01:28,200
+statistics uh so like you know you can
+
+33
+00:01:26,680 --> 00:01:29,640
+kind of lie with probability and
+
+34
+00:01:28,200 --> 00:01:31,280
+statistics by you know saying things
+
+35
+00:01:29,640 --> 00:01:32,439
+that are true that are you know also
+
+36
+00:01:31,280 --> 00:01:35,840
+very
+
+37
+00:01:32,439 --> 00:01:38,240
+misleading uh common sense is often very
+
+38
+00:01:35,840 --> 00:01:40,439
+demonstrably you know completely
+
+39
+00:01:38,240 --> 00:01:42,720
+unreliable uh which you know we'll see
+
+40
+00:01:40,439 --> 00:01:44,159
+in a in a moment uh there are many
+
+41
+00:01:42,720 --> 00:01:46,280
+graduate students like even in our
+
+42
+00:01:44,159 --> 00:01:48,799
+department uh again don't tell people
+
+43
+00:01:46,280 --> 00:01:50,360
+they said this uh you know that they can
+
+44
+00:01:48,799 --> 00:01:51,399
+they can do all sorts of exciting maths
+
+45
+00:01:50,360 --> 00:01:52,759
+but you know you give them a basic
+
+46
+00:01:51,399 --> 00:01:53,920
+probability question and you know they
+
+47
+00:01:52,759 --> 00:01:56,640
+don't know where to
+
+48
+00:01:53,920 --> 00:01:58,119
+start uh there are many garbage papers
+
+49
+00:01:56,640 --> 00:02:00,079
+that are you know based on faulty
+
+50
+00:01:58,119 --> 00:02:03,320
+understanding of probability uh even
+
+51
+00:02:00,079 --> 00:02:05,640
+some of our colleagues um have some uh
+
+52
+00:02:03,320 --> 00:02:08,759
+let's say issues
+
+53
+00:02:05,640 --> 00:02:11,000
+um today we are going to look at uh an
+
+54
+00:02:08,759 --> 00:02:12,200
+example um who who is sort of the Monty
+
+55
+00:02:11,000 --> 00:02:16,599
+Hall
+
+56
+00:02:12,200 --> 00:02:20,000
+problem oh nice decent number of people
+
+57
+00:02:16,599 --> 00:02:21,319
+okay um so yeah well we'll basically try
+
+58
+00:02:20,000 --> 00:02:23,440
+and use the Monty Hall problem to
+
+59
+00:02:21,319 --> 00:02:25,080
+illustrate that you know it's it's
+
+60
+00:02:23,440 --> 00:02:27,360
+really best to just kind of throw away
+
+61
+00:02:25,080 --> 00:02:31,319
+your intuition and just fall back on
+
+62
+00:02:27,360 --> 00:02:34,920
+rigorous step-by-step analyses okay
+
+63
+00:02:31,319 --> 00:02:38,560
+so uh the the Monty Hall problem uh it
+
+64
+00:02:34,920 --> 00:02:40,840
+kind of became famous in 1990 when uh
+
+65
+00:02:38,560 --> 00:02:44,040
+this this magazine columnist named uh
+
+66
+00:02:40,840 --> 00:02:45,920
+Marilyn vos Sant uh received a letter
+
+67
+00:02:44,040 --> 00:02:49,599
+from a Craig
+
+68
+00:02:45,920 --> 00:02:51,800
+Whitaker uh which read as follows
+
+69
+00:02:49,599 --> 00:02:54,519
+suppose you're on a game show and you're
+
+70
+00:02:51,800 --> 00:02:57,440
+given the choice of three doors behind
+
+71
+00:02:54,519 --> 00:03:00,920
+one door is a car and behind the others
+
+72
+00:02:57,440 --> 00:03:02,760
+goats you pick a door say number one and
+
+73
+00:03:00,920 --> 00:03:05,200
+the host who knows what's behind the
+
+74
+00:03:02,760 --> 00:03:08,280
+doors opens a different door say number
+
+75
+00:03:05,200 --> 00:03:11,040
+three which has a goat he says to do you
+
+76
+00:03:08,280 --> 00:03:14,040
+want to pick door number two now the
+
+77
+00:03:11,040 --> 00:03:18,319
+question is is it to your advantage to
+
+78
+00:03:14,040 --> 00:03:20,280
+switch okay and uh who thinks who thinks
+
+79
+00:03:18,319 --> 00:03:22,760
+yes it is advantageous to
+
+80
+00:03:20,280 --> 00:03:24,799
+switch who thinks no who thinks you're
+
+81
+00:03:22,760 --> 00:03:27,799
+better off sticking with your original
+
+82
+00:03:24,799 --> 00:03:32,000
+choice who thinks it doesn't
+
+83
+00:03:27,799 --> 00:03:34,080
+matter okay so it looks like most people
+
+84
+00:03:32,000 --> 00:03:36,720
+think that it's advantageous to switch
+
+85
+00:03:34,080 --> 00:03:38,159
+uh we've had a few extensions uh I'm
+
+86
+00:03:36,720 --> 00:03:39,120
+going to I'm going to count those as it
+
+87
+00:03:38,159 --> 00:03:42,239
+doesn't
+
+88
+00:03:39,120 --> 00:03:45,239
+matter uh so Marilyn replied that it's
+
+89
+00:03:42,239 --> 00:03:47,080
+indeed advantageous to switch uh if the
+
+90
+00:03:45,239 --> 00:03:48,840
+car is behind the originally picked door
+
+91
+00:03:47,080 --> 00:03:51,360
+then you lose by switching but if it's
+
+92
+00:03:48,840 --> 00:03:52,599
+not which is twice as likely then you
+
+93
+00:03:51,360 --> 00:03:55,000
+win by
+
+94
+00:03:52,599 --> 00:03:57,280
+switching uh and you know of course she
+
+95
+00:03:55,000 --> 00:03:58,360
+soon received a torrent of hate mail uh
+
+96
+00:03:57,280 --> 00:03:59,879
+including from professional
+
+97
+00:03:58,360 --> 00:04:01,720
+mathematicians
+
+98
+00:03:59,879 --> 00:04:04,280
+adamantly asserting that she was wrong
+
+99
+00:04:01,720 --> 00:04:05,680
+okay uh so the the hypo that was
+
+100
+00:04:04,280 --> 00:04:08,599
+described in this letter became known as
+
+101
+00:04:05,680 --> 00:04:11,319
+the Monty Hall problem uh you know after
+
+102
+00:04:08,599 --> 00:04:13,760
+the the host Monty Hall of the game show
+
+103
+00:04:11,319 --> 00:04:16,400
+which you know had games like
+
+104
+00:04:13,760 --> 00:04:18,160
+this uh where where you know contestants
+
+105
+00:04:16,400 --> 00:04:20,720
+faced very similar
+
+106
+00:04:18,160 --> 00:04:22,960
+situations uh so today we're going to
+
+107
+00:04:20,720 --> 00:04:24,960
+analyze it but first can I get uh a
+
+108
+00:04:22,960 --> 00:04:26,720
+handful of volunteers to come play Let's
+
+109
+00:04:24,960 --> 00:04:30,039
+Make a
+
+110
+00:04:26,720 --> 00:04:31,639
+Deal okay so empirically at least it
+
+111
+00:04:30,039 --> 00:04:33,720
+looks like it's better to switch right
+
+112
+00:04:31,639 --> 00:04:35,240
+like you know most people uh switched
+
+113
+00:04:33,720 --> 00:04:37,720
+and you know most people won the prize
+
+114
+00:04:35,240 --> 00:04:38,759
+when they did that uh so you know even
+
+115
+00:04:37,720 --> 00:04:40,960
+though there's only one door with the
+
+116
+00:04:38,759 --> 00:04:43,560
+prize it it seems to be pretty promising
+
+117
+00:04:40,960 --> 00:04:46,720
+right so let's see if we can analyze
+
+118
+00:04:43,560 --> 00:04:49,280
+this mathematically okay so we're going
+
+119
+00:04:46,720 --> 00:04:51,960
+to solve the Monty Hall problem using
+
+120
+00:04:49,280 --> 00:04:55,720
+what we call it the the tree method
+
+121
+00:04:51,960 --> 00:04:57,600
+which is a very simple and Elementary uh
+
+122
+00:04:55,720 --> 00:04:59,000
+approach uh that doesn't rely on
+
+123
+00:04:57,600 --> 00:05:01,639
+intuition it's just going to rely on
+
+124
+00:04:59,000 --> 00:05:01,639
+mathematical break
+
+125
+00:05:02,080 --> 00:05:10,520
+okay so the tree method uses 4ish steps
+
+126
+00:05:09,320 --> 00:05:11,720
+uh we used to call it the four step
+
+127
+00:05:10,520 --> 00:05:13,240
+method but like I couldn't for the life
+
+128
+00:05:11,720 --> 00:05:14,600
+of me tell you what the four steps are
+
+129
+00:05:13,240 --> 00:05:17,039
+if if uh you know they weren't written
+
+130
+00:05:14,600 --> 00:05:20,240
+in front of me uh so you know I prefer
+
+131
+00:05:17,039 --> 00:05:22,319
+to call it the tree method uh oh I can't
+
+132
+00:05:20,240 --> 00:05:25,199
+even count it kind of has five steps
+
+133
+00:05:22,319 --> 00:05:25,199
+we've got like a Step
+
+134
+00:05:25,639 --> 00:05:30,919
+Zero before you even start right you
+
+135
+00:05:29,199 --> 00:05:32,160
+really want to make sure that you are
+
+136
+00:05:30,919 --> 00:05:35,360
+like you know what question you're
+
+137
+00:05:32,160 --> 00:05:35,360
+trying to answer
+
+138
+00:05:39,160 --> 00:05:44,639
+okay so before we can even think about
+
+139
+00:05:42,199 --> 00:05:47,840
+uh solving a mathematical problem we we
+
+140
+00:05:44,639 --> 00:05:50,440
+need to know what the problem is okay uh
+
+141
+00:05:47,840 --> 00:05:51,759
+we we we need to to understand the setup
+
+142
+00:05:50,440 --> 00:05:53,800
+make sure we know what we're trying to
+
+143
+00:05:51,759 --> 00:05:57,319
+ask uh you know before we can start
+
+144
+00:05:53,800 --> 00:06:00,600
+analyzing it so the the letter from from
+
+145
+00:05:57,319 --> 00:06:02,759
+this uh Mr Whitaker was not entirely
+
+146
+00:06:00,600 --> 00:06:05,360
+precise Okay so we've got to kind of
+
+147
+00:06:02,759 --> 00:06:10,560
+figure out what axium we're working with
+
+148
+00:06:05,360 --> 00:06:10,560
+okay so we're going to assume the
+
+149
+00:06:10,680 --> 00:06:17,360
+following
+
+150
+00:06:12,199 --> 00:06:17,360
+uh prize is equally
+
+151
+00:06:19,840 --> 00:06:25,319
+likely to
+
+152
+00:06:21,639 --> 00:06:25,319
+be in any
+
+153
+00:06:25,680 --> 00:06:29,759
+box
+
+154
+00:06:27,199 --> 00:06:31,639
+okay so you know in principle it's
+
+155
+00:06:29,759 --> 00:06:33,880
+possible that uh you know Monty Hall
+
+156
+00:06:31,639 --> 00:06:35,560
+tries to be tricky and you know tries to
+
+157
+00:06:33,880 --> 00:06:36,639
+you know get into the contestants Minds
+
+158
+00:06:35,560 --> 00:06:37,639
+figure out what box they're going to
+
+159
+00:06:36,639 --> 00:06:39,800
+pick and like put the price somewhere
+
+160
+00:06:37,639 --> 00:06:41,039
+else or you know alternatively put the
+
+161
+00:06:39,800 --> 00:06:44,000
+pricee somewhere where they will pick it
+
+162
+00:06:41,039 --> 00:06:45,440
+because it's an exciting game show um
+
+163
+00:06:44,000 --> 00:06:46,919
+but you know we're going to assume that
+
+164
+00:06:45,440 --> 00:06:49,039
+you know Monty is just you know picking
+
+165
+00:06:46,919 --> 00:06:50,840
+the boxes randomly okay so the the prize
+
+166
+00:06:49,039 --> 00:06:53,240
+is going to go into into a randomly
+
+167
+00:06:50,840 --> 00:06:56,080
+selected box like completely uniform and
+
+168
+00:06:53,240 --> 00:06:58,800
+then the other two will have the goats
+
+169
+00:06:56,080 --> 00:07:01,160
+okay we're also going to assume that
+
+170
+00:06:58,800 --> 00:07:03,080
+Marilyn
+
+171
+00:07:01,160 --> 00:07:07,479
+or you know your colleagues whoever is
+
+172
+00:07:03,080 --> 00:07:07,479
+is doing the picking is equally
+
+173
+00:07:11,120 --> 00:07:15,960
+likely to
+
+174
+00:07:13,160 --> 00:07:19,039
+pick any
+
+175
+00:07:15,960 --> 00:07:21,240
+ebx okay so for the for the first pick
+
+176
+00:07:19,039 --> 00:07:22,759
+okay uh she doesn't know anything about
+
+177
+00:07:21,240 --> 00:07:24,080
+what Monty is doing she's just going to
+
+178
+00:07:22,759 --> 00:07:26,120
+you know toss some random coins in her
+
+179
+00:07:24,080 --> 00:07:27,879
+head and you know uniformly at random
+
+180
+00:07:26,120 --> 00:07:29,039
+she'll just pick one of the boxes it
+
+181
+00:07:27,879 --> 00:07:30,960
+doesn't really matter where the where
+
+182
+00:07:29,039 --> 00:07:36,759
+the price is
+
+183
+00:07:30,960 --> 00:07:39,479
+okay now after Marilyn picks her her box
+
+184
+00:07:36,759 --> 00:07:39,479
+right
+
+185
+00:07:40,120 --> 00:07:45,000
+Monty
+
+186
+00:07:42,560 --> 00:07:48,440
+must
+
+187
+00:07:45,000 --> 00:07:48,440
+reveal a non
+
+188
+00:07:49,120 --> 00:07:56,479
+prise okay and moreover it cannot be in
+
+189
+00:07:52,960 --> 00:07:56,479
+Maryland's box
+
+190
+00:08:03,240 --> 00:08:09,360
+okay so you know all that all that Mr
+
+191
+00:08:06,400 --> 00:08:11,240
+Whitaker said was right Monty did reveal
+
+192
+00:08:09,360 --> 00:08:13,759
+a non prize that wasn't uh you know
+
+193
+00:08:11,240 --> 00:08:16,720
+behind the chosen door uh it's not
+
+194
+00:08:13,759 --> 00:08:18,520
+entirely clear that this must happen and
+
+195
+00:08:16,720 --> 00:08:21,479
+in fact I believe on the game show there
+
+196
+00:08:18,520 --> 00:08:24,639
+were instances where you know he didn't
+
+197
+00:08:21,479 --> 00:08:27,680
+right um so we're just going to assume
+
+198
+00:08:24,639 --> 00:08:29,680
+that you know Monty is going to reveal a
+
+199
+00:08:27,680 --> 00:08:31,639
+prize you know regardless of whether
+
+200
+00:08:29,680 --> 00:08:34,440
+picked the correct uh correct box to
+
+201
+00:08:31,639 --> 00:08:34,440
+begin with
+
+202
+00:08:35,120 --> 00:08:41,120
+okay and
+
+203
+00:08:37,279 --> 00:08:41,120
+lastly if Monty has a
+
+204
+00:08:45,680 --> 00:08:49,120
+choice he picks
+
+205
+00:08:53,720 --> 00:09:00,640
+randomly okay so if Marilyn has you know
+
+206
+00:08:58,200 --> 00:09:02,959
+picked a non-price to begin with right
+
+207
+00:09:00,640 --> 00:09:05,839
+there's only one other non priz so so
+
+208
+00:09:02,959 --> 00:09:08,760
+Monty has to reveal that one but if
+
+209
+00:09:05,839 --> 00:09:11,640
+Marilyn has picked the the prize box to
+
+210
+00:09:08,760 --> 00:09:13,440
+begin with then Monty could in principle
+
+211
+00:09:11,640 --> 00:09:16,640
+open either of the other two boxes that
+
+212
+00:09:13,440 --> 00:09:18,120
+would still follow this role okay so
+
+213
+00:09:16,640 --> 00:09:19,360
+when Monty has a choice like this we're
+
+214
+00:09:18,120 --> 00:09:21,320
+going to say that you know he tosses a
+
+215
+00:09:19,360 --> 00:09:25,000
+coin and he's going to you know open one
+
+216
+00:09:21,320 --> 00:09:25,000
+of them at random
+
+217
+00:09:25,440 --> 00:09:32,640
+okay so note that these are all axioms
+
+218
+00:09:30,320 --> 00:09:36,640
+okay we are just you know taking them on
+
+219
+00:09:32,640 --> 00:09:38,440
+faith they may or may not have Merit but
+
+220
+00:09:36,640 --> 00:09:40,440
+if you accept them then you also have to
+
+221
+00:09:38,440 --> 00:09:44,040
+accept whatever conclusions we draw uh
+
+222
+00:09:40,440 --> 00:09:45,560
+from them okay uh but you know I should
+
+223
+00:09:44,040 --> 00:09:46,839
+point out that there are other perfectly
+
+224
+00:09:45,560 --> 00:09:48,600
+reasonable sets of
+
+225
+00:09:46,839 --> 00:09:50,320
+axioms uh that would lead us to
+
+226
+00:09:48,600 --> 00:09:53,480
+different conclusions right like maybe
+
+227
+00:09:50,320 --> 00:09:56,760
+Monty is you know very rude and if
+
+228
+00:09:53,480 --> 00:09:58,880
+Marilyn has you know uh has picked the
+
+229
+00:09:56,760 --> 00:10:00,079
+prize then he offers her the option to
+
+230
+00:09:58,880 --> 00:10:02,760
+switch
+
+231
+00:10:00,079 --> 00:10:04,200
+and if Marilyn has not picked the prize
+
+232
+00:10:02,760 --> 00:10:06,880
+then he forces her to go with whatever
+
+233
+00:10:04,200 --> 00:10:09,920
+she picked okay you know like this this
+
+234
+00:10:06,880 --> 00:10:11,640
+is you know a totally reasonable uh
+
+235
+00:10:09,920 --> 00:10:14,480
+interpretation uh and that would lead us
+
+236
+00:10:11,640 --> 00:10:15,839
+to to a different conclusion okay or you
+
+237
+00:10:14,480 --> 00:10:18,079
+know conversely maybe as benevolent
+
+238
+00:10:15,839 --> 00:10:19,959
+maybe if Marilyn uh maybe if Marilyn
+
+239
+00:10:18,079 --> 00:10:21,920
+didn't pick the prize initially he'll
+
+240
+00:10:19,959 --> 00:10:24,160
+always you know try and encourage her to
+
+241
+00:10:21,920 --> 00:10:25,440
+switch uh but if she picked the prize
+
+242
+00:10:24,160 --> 00:10:29,519
+he'll just be like nope you got to stick
+
+243
+00:10:25,440 --> 00:10:29,519
+with that okay
+
+244
+00:10:31,680 --> 00:10:36,160
+so now that we've got these
+
+245
+00:10:33,519 --> 00:10:39,959
+axioms we can now pose the mathematical
+
+246
+00:10:36,160 --> 00:10:39,959
+question uh what is the
+
+247
+00:10:46,040 --> 00:10:54,959
+probability that
+
+248
+00:10:50,440 --> 00:10:54,959
+Marilyn wins by switching
+
+249
+00:11:00,399 --> 00:11:05,720
+so uh yes um this is why I I singled you
+
+250
+00:11:04,279 --> 00:11:08,560
+out I I don't know where where you've
+
+251
+00:11:05,720 --> 00:11:11,480
+gone um you your colleague who who did
+
+252
+00:11:08,560 --> 00:11:13,240
+not switch uh you know we're trying to
+
+253
+00:11:11,480 --> 00:11:15,000
+analyze this probability which is which
+
+254
+00:11:13,240 --> 00:11:16,519
+is why single you want so I apologize
+
+255
+00:11:15,000 --> 00:11:19,079
+for that but you know it's for the
+
+256
+00:11:16,519 --> 00:11:21,480
+mouths don't take it
+
+257
+00:11:19,079 --> 00:11:23,160
+personally uh
+
+258
+00:11:21,480 --> 00:11:25,760
+okay
+
+259
+00:11:23,160 --> 00:11:28,760
+so now we have you know a well- defined
+
+260
+00:11:25,760 --> 00:11:31,639
+question right so now we can analyze it
+
+261
+00:11:28,760 --> 00:11:31,639
+using the four step
+
+262
+00:11:33,800 --> 00:11:39,240
+method the first of our four steps well
+
+263
+00:11:36,959 --> 00:11:42,200
+the tree method which has four
+
+264
+00:11:39,240 --> 00:11:44,959
+steps uh we need to figure out what we
+
+265
+00:11:42,200 --> 00:11:44,959
+call the sample
+
+266
+00:11:54,360 --> 00:11:59,320
+space
+
+267
+00:11:56,440 --> 00:12:02,680
+okay uh so whenever we're thinking about
+
+268
+00:11:59,320 --> 00:12:05,040
+a probability problem uh underlying it
+
+269
+00:12:02,680 --> 00:12:07,959
+is always what we call a probability
+
+270
+00:12:05,040 --> 00:12:10,680
+space okay and a probability space
+
+271
+00:12:07,959 --> 00:12:10,680
+consists of two
+
+272
+00:12:25,880 --> 00:12:33,680
+things uh these two elements are a set
+
+273
+00:12:29,880 --> 00:12:33,680
+right which we call the sample
+
+274
+00:12:42,120 --> 00:12:47,199
+space okay and you know for the purposes
+
+275
+00:12:45,480 --> 00:12:49,000
+of this class we're we're only going to
+
+276
+00:12:47,199 --> 00:12:52,839
+be looking at discrete probability
+
+277
+00:12:49,000 --> 00:12:56,880
+spaces so uh s is going to be a
+
+278
+00:12:52,839 --> 00:12:58,440
+non-empty and countable or finite uh set
+
+279
+00:12:56,880 --> 00:13:01,079
+we're not going to look at sets like r
+
+280
+00:12:58,440 --> 00:13:03,959
+or something like that okay so you know
+
+281
+00:13:01,079 --> 00:13:05,560
+this could be uh you know a set of three
+
+282
+00:13:03,959 --> 00:13:06,959
+boxes or it could be you know the
+
+283
+00:13:05,560 --> 00:13:10,000
+natural numbers something like that
+
+284
+00:13:06,959 --> 00:13:14,320
+something that's you know discret and
+
+285
+00:13:10,000 --> 00:13:16,480
+countable uh and then we also have a
+
+286
+00:13:14,320 --> 00:13:18,000
+function which we're going to denote by
+
+287
+00:13:16,480 --> 00:13:20,680
+the letters PR
+
+288
+00:13:18,000 --> 00:13:24,880
+R which Maps
+
+289
+00:13:20,680 --> 00:13:27,760
+s into the unit interval 0 to
+
+290
+00:13:24,880 --> 00:13:32,120
+one
+
+291
+00:13:27,760 --> 00:13:32,120
+okay so this this is going to be a total
+
+292
+00:13:36,279 --> 00:13:39,279
+function
+
+293
+00:13:42,279 --> 00:13:47,279
+with uh probably shouldn't use S here
+
+294
+00:13:44,720 --> 00:13:47,279
+let's call it
+
+295
+00:13:49,639 --> 00:13:54,480
+X
+
+296
+00:13:51,240 --> 00:13:55,920
+okay uh and you know slightly oddly when
+
+297
+00:13:54,480 --> 00:13:57,920
+we're talking about probabilities we use
+
+298
+00:13:55,920 --> 00:14:01,399
+square brackets instead of uh
+
+299
+00:13:57,920 --> 00:14:05,560
+parenthesis uh to enclose the argument
+
+300
+00:14:01,399 --> 00:14:07,519
+um but uh you know this is just a
+
+301
+00:14:05,560 --> 00:14:10,560
+function you can think of it as like
+
+302
+00:14:07,519 --> 00:14:12,560
+PR of X
+
+303
+00:14:10,560 --> 00:14:16,240
+okay uh so we're going to have the
+
+304
+00:14:12,560 --> 00:14:19,519
+requirement that if you sum up PR of X
+
+305
+00:14:16,240 --> 00:14:22,360
+over all of the X in your sample space
+
+306
+00:14:19,519 --> 00:14:25,680
+you should get one okay that's what it
+
+307
+00:14:22,360 --> 00:14:25,680
+means for this to be a probability
+
+308
+00:14:27,480 --> 00:14:31,040
+function okay
+
+309
+00:14:32,440 --> 00:14:36,519
+oh actually why don't we leave both of
+
+310
+00:14:35,360 --> 00:14:40,279
+these
+
+311
+00:14:36,519 --> 00:14:40,279
+up and move on to this
+
+312
+00:14:45,040 --> 00:14:51,279
+board
+
+313
+00:14:46,560 --> 00:14:51,279
+okay so this is called our probability
+
+314
+00:14:55,440 --> 00:15:04,279
+function and uh elements of s are what
+
+315
+00:15:00,120 --> 00:15:04,279
+uh we're going to call those outcomes
+
+316
+00:15:09,920 --> 00:15:14,680
+Okay
+
+317
+00:15:11,639 --> 00:15:17,120
+Okay so we've got a sample space s which
+
+318
+00:15:14,680 --> 00:15:19,399
+is a set of outcomes and we've got a
+
+319
+00:15:17,120 --> 00:15:22,600
+probability function which Maps each
+
+320
+00:15:19,399 --> 00:15:24,880
+outcome to a number between Z and one
+
+321
+00:15:22,600 --> 00:15:26,839
+okay and it should be the case that all
+
+322
+00:15:24,880 --> 00:15:30,720
+of those probabilities should sum to
+
+323
+00:15:26,839 --> 00:15:33,639
+one does that make sense to everybody
+
+324
+00:15:30,720 --> 00:15:37,079
+people people reasonably happy with this
+
+325
+00:15:33,639 --> 00:15:37,079
+questions comments
+
+326
+00:15:37,480 --> 00:15:40,480
+concerns
+
+327
+00:15:41,600 --> 00:15:46,880
+okay so our first objective is going to
+
+328
+00:15:44,720 --> 00:15:49,480
+be to figure out what our sample space
+
+329
+00:15:46,880 --> 00:15:52,480
+should be
+
+330
+00:15:49,480 --> 00:15:56,959
+okay so we're going to do that using
+
+331
+00:15:52,480 --> 00:15:56,959
+what we call a tree diagram
+
+332
+00:16:01,639 --> 00:16:06,279
+okay so for the moment we're going to
+
+333
+00:16:04,519 --> 00:16:09,440
+disregard the probability function and
+
+334
+00:16:06,279 --> 00:16:10,959
+just focus on S okay and then once we
+
+335
+00:16:09,440 --> 00:16:12,720
+figured out what s is we can figure out
+
+336
+00:16:10,959 --> 00:16:16,959
+how to assign probabilities to
+
+337
+00:16:12,720 --> 00:16:18,399
+everything okay so the tree diagram you
+
+338
+00:16:16,959 --> 00:16:21,199
+know as you might expect it's going to
+
+339
+00:16:18,399 --> 00:16:24,800
+be a diagram in the shape of a tree
+
+340
+00:16:21,199 --> 00:16:27,519
+where each level of the tree represents
+
+341
+00:16:24,800 --> 00:16:29,759
+some step in the random process we're
+
+342
+00:16:27,519 --> 00:16:33,600
+trying to model
+
+343
+00:16:29,759 --> 00:16:37,160
+okay so in the case of the Monty Hall
+
+344
+00:16:33,600 --> 00:16:39,600
+problem what might be the first
+
+345
+00:16:37,160 --> 00:16:41,759
+step like what's what's the first thing
+
+346
+00:16:39,600 --> 00:16:44,959
+that happens in the Monty Hall problem
+
+347
+00:16:41,759 --> 00:16:47,959
+the the first like source of
+
+348
+00:16:44,959 --> 00:16:47,959
+Randomness
+
+349
+00:16:49,000 --> 00:16:53,079
+yeah uh okay there's there's something
+
+350
+00:16:51,440 --> 00:16:56,880
+random that happens even before that the
+
+351
+00:16:53,079 --> 00:16:56,880
+answer was you pick a door
+
+352
+00:16:57,279 --> 00:17:03,800
+yeah yeah so the the first random thing
+
+353
+00:17:00,319 --> 00:17:06,640
+that happens right is I or or Monty
+
+354
+00:17:03,800 --> 00:17:08,559
+picks which store the prize uh the priz
+
+355
+00:17:06,640 --> 00:17:10,520
+is behind Okay so that's going to be the
+
+356
+00:17:08,559 --> 00:17:13,360
+first level of our tree
+
+357
+00:17:10,520 --> 00:17:15,000
+diagram okay so let's start drawing out
+
+358
+00:17:13,360 --> 00:17:19,079
+our tree diagram we're going to have our
+
+359
+00:17:15,000 --> 00:17:23,559
+root here and let's label this with you
+
+360
+00:17:19,079 --> 00:17:23,559
+know Monty hides
+
+361
+00:17:24,720 --> 00:17:28,720
+price okay
+
+362
+00:17:29,880 --> 00:17:35,080
+and we're going to have three edges
+
+363
+00:17:33,000 --> 00:17:38,080
+which go to you know the three
+
+364
+00:17:35,080 --> 00:17:41,000
+possibilities for what happens here okay
+
+365
+00:17:38,080 --> 00:17:42,480
+so it could be in door a door B actually
+
+366
+00:17:41,000 --> 00:17:45,960
+why don't I call these you know purple
+
+367
+00:17:42,480 --> 00:17:45,960
+gold and silver uh where's the
+
+368
+00:17:46,960 --> 00:17:50,360
+Eraser here we
+
+369
+00:17:52,400 --> 00:18:00,799
+go Okay so we've got our purple box our
+
+370
+00:17:56,280 --> 00:18:00,799
+gold box and our Silver Box
+
+371
+00:18:01,600 --> 00:18:06,240
+okay uh what's the next random thing
+
+372
+00:18:04,080 --> 00:18:06,240
+that
+
+373
+00:18:09,760 --> 00:18:15,919
+happens
+
+374
+00:18:11,840 --> 00:18:17,840
+yeah yeah yeah so as as your colleague
+
+375
+00:18:15,919 --> 00:18:19,600
+said last time you know the the next
+
+376
+00:18:17,840 --> 00:18:24,120
+random thing that happens is Marilyn or
+
+377
+00:18:19,600 --> 00:18:28,919
+you know the contestant picks a door
+
+378
+00:18:24,120 --> 00:18:31,320
+okay so um oh dear Monty and Marlin both
+
+379
+00:18:28,919 --> 00:18:33,840
+begin with the same letter okay let's
+
+380
+00:18:31,320 --> 00:18:33,840
+just call this
+
+381
+00:18:36,960 --> 00:18:43,400
+student okay so now each of
+
+382
+00:18:40,760 --> 00:18:46,960
+these is going to split into you know
+
+383
+00:18:43,400 --> 00:18:49,960
+three more possibilities okay so you
+
+384
+00:18:46,960 --> 00:18:53,919
+know our contestant can pick purple gold
+
+385
+00:18:49,960 --> 00:18:55,520
+or silver okay for each of these these
+
+386
+00:18:53,919 --> 00:18:57,640
+three things right regardless of where
+
+387
+00:18:55,520 --> 00:19:00,960
+Monty has hidden the prize the
+
+388
+00:18:57,640 --> 00:19:00,960
+contestant can pick you
+
+389
+00:19:03,880 --> 00:19:08,200
+know any of the uh any of the
+
+390
+00:19:09,080 --> 00:19:12,080
+doors
+
+391
+00:19:21,240 --> 00:19:25,559
+okay okay what's the next random thing
+
+392
+00:19:23,640 --> 00:19:29,559
+that could
+
+393
+00:19:25,559 --> 00:19:29,559
+happen yeah
+
+394
+00:19:31,320 --> 00:19:36,360
+were you raising your
+
+395
+00:19:33,000 --> 00:19:36,360
+hand oh no
+
+396
+00:19:38,240 --> 00:19:43,360
+no
+
+397
+00:19:40,480 --> 00:19:45,240
+okay yeah so if Monty has a choice of of
+
+398
+00:19:43,360 --> 00:19:47,480
+door to reveal then he picks one of the
+
+399
+00:19:45,240 --> 00:19:50,640
+one of the two remaining doors randomly
+
+400
+00:19:47,480 --> 00:19:53,760
+okay so so far we've got three branches
+
+401
+00:19:50,640 --> 00:19:53,760
+where that could happen
+
+402
+00:19:53,840 --> 00:20:00,640
+right we've got uh you know both Monty
+
+403
+00:19:57,080 --> 00:20:02,679
+and and uh Marilyn picked door P okay so
+
+404
+00:20:00,640 --> 00:20:05,960
+in that case Monty can reveal either G
+
+405
+00:20:02,679 --> 00:20:05,960
+or S
+
+406
+00:20:06,039 --> 00:20:12,840
+okay so let's uh you know make uh make a
+
+407
+00:20:10,240 --> 00:20:14,919
+branch for that uh similarly if they
+
+408
+00:20:12,840 --> 00:20:18,840
+both pick
+
+409
+00:20:14,919 --> 00:20:19,960
+G we could have either P or S and if
+
+410
+00:20:18,840 --> 00:20:24,840
+they both pick
+
+411
+00:20:19,960 --> 00:20:27,280
+s then here we could have either P or
+
+412
+00:20:24,840 --> 00:20:31,080
+G
+
+413
+00:20:27,280 --> 00:20:34,159
+okay now for the remaining ones right
+
+414
+00:20:31,080 --> 00:20:36,440
+like we we could you know say that uh
+
+415
+00:20:34,159 --> 00:20:38,280
+there's a random process there where
+
+416
+00:20:36,440 --> 00:20:40,000
+Monti is you know randomly picking from
+
+417
+00:20:38,280 --> 00:20:41,520
+a single element set so you know it's
+
+418
+00:20:40,000 --> 00:20:43,320
+always going to be the same thing we
+
+419
+00:20:41,520 --> 00:20:49,080
+could consider it a random outcome
+
+420
+00:20:43,320 --> 00:20:49,080
+though so we can also draw these arrows
+
+421
+00:20:50,559 --> 00:20:53,559
+here
+
+422
+00:20:57,440 --> 00:21:04,080
+okay uh uh kind of running out of space
+
+423
+00:21:01,520 --> 00:21:07,320
+here so let's
+
+424
+00:21:04,080 --> 00:21:11,440
+uh put this up
+
+425
+00:21:07,320 --> 00:21:13,679
+here let's label it on this board
+
+426
+00:21:11,440 --> 00:21:16,279
+so
+
+427
+00:21:13,679 --> 00:21:18,880
+Monty
+
+428
+00:21:16,279 --> 00:21:21,960
+reveals a
+
+429
+00:21:18,880 --> 00:21:24,240
+zon so this is the uh technical term for
+
+430
+00:21:21,960 --> 00:21:26,760
+a non prize I think the uh the non
+
+431
+00:21:24,240 --> 00:21:28,159
+prizes on Monty's show were called zonks
+
+432
+00:21:26,760 --> 00:21:29,880
+uh that they weren't always goats you
+
+433
+00:21:28,159 --> 00:21:31,559
+know some times it was uh you know
+
+434
+00:21:29,880 --> 00:21:34,200
+something some other sort of ridiculous
+
+435
+00:21:31,559 --> 00:21:36,400
+prize like a garbage can or a potato or
+
+436
+00:21:34,200 --> 00:21:37,440
+something um but yeah they were just
+
+437
+00:21:36,400 --> 00:21:41,279
+called
+
+438
+00:21:37,440 --> 00:21:41,279
+songs uh
+
+439
+00:21:44,120 --> 00:21:51,240
+okay so now are we done is there any
+
+440
+00:21:47,840 --> 00:21:51,240
+other Randomness that we haven't modeled
+
+441
+00:21:54,200 --> 00:22:01,080
+yet who thinks yes
+
+442
+00:21:58,679 --> 00:22:03,000
+oh okay so what are we missing
+
+443
+00:22:01,080 --> 00:22:05,120
+then everybody seems to think we're
+
+444
+00:22:03,000 --> 00:22:07,080
+missing somebody or are we just asleep
+
+445
+00:22:05,120 --> 00:22:08,840
+it is very early in the morning I
+
+446
+00:22:07,080 --> 00:22:11,320
+understand
+
+447
+00:22:08,840 --> 00:22:14,919
+uh are we missing
+
+448
+00:22:11,320 --> 00:22:19,200
+anything who thinks we're not missing
+
+449
+00:22:14,919 --> 00:22:20,640
+anything few hands okay uh well yeah
+
+450
+00:22:19,200 --> 00:22:24,880
+turns out that this is all of the all of
+
+451
+00:22:20,640 --> 00:22:27,600
+the randomness um you know you could
+
+452
+00:22:24,880 --> 00:22:29,559
+think about uh a different problem right
+
+453
+00:22:27,600 --> 00:22:31,840
+where where Marilyn has a random
+
+454
+00:22:29,559 --> 00:22:34,279
+strategy but for now we're just you know
+
+455
+00:22:31,840 --> 00:22:35,200
+our question right is you know Marilyn's
+
+456
+00:22:34,279 --> 00:22:37,679
+always going to switch what's the
+
+457
+00:22:35,200 --> 00:22:40,240
+probability that she wins okay so this
+
+458
+00:22:37,679 --> 00:22:43,559
+is all the randomness that we've
+
+459
+00:22:40,240 --> 00:22:43,559
+got so
+
+460
+00:22:44,120 --> 00:22:49,960
+now now that we have our tree structure
+
+461
+00:22:47,480 --> 00:22:51,919
+we can label our outcomes okay and
+
+462
+00:22:49,960 --> 00:22:55,480
+that'll tell us what the set s
+
+463
+00:22:51,919 --> 00:22:56,960
+is so the set s is just going to be the
+
+464
+00:22:55,480 --> 00:22:59,080
+set of leaves of our
+
+465
+00:22:56,960 --> 00:23:03,279
+tree okay
+
+466
+00:22:59,080 --> 00:23:05,440
+each you know path right corresponds to
+
+467
+00:23:03,279 --> 00:23:07,480
+you know some way that the random
+
+468
+00:23:05,440 --> 00:23:08,400
+process could turn out right those are
+
+469
+00:23:07,480 --> 00:23:10,000
+going to be our
+
+470
+00:23:08,400 --> 00:23:13,720
+outcomes
+
+471
+00:23:10,000 --> 00:23:18,200
+okay so formally we could label these as
+
+472
+00:23:13,720 --> 00:23:21,600
+tuples so let's say that this one's
+
+473
+00:23:18,200 --> 00:23:24,120
+PPG right so that represents you know
+
+474
+00:23:21,600 --> 00:23:26,320
+Monty hides the prize behind door P
+
+475
+00:23:24,120 --> 00:23:31,320
+Marilyn picks door p and then Monty
+
+476
+00:23:26,320 --> 00:23:34,400
+reveals a zon behind uh door G okay this
+
+477
+00:23:31,320 --> 00:23:38,520
+one's going to be
+
+478
+00:23:34,400 --> 00:23:40,919
+PPS this one's going to be
+
+479
+00:23:38,520 --> 00:23:45,039
+PG and now I haven't actually labeled
+
+480
+00:23:40,919 --> 00:23:48,640
+The Edge uh but you know if Monty hides
+
+481
+00:23:45,039 --> 00:23:50,480
+the the prize behind door p and then uh
+
+482
+00:23:48,640 --> 00:23:54,520
+Marilyn picks door
+
+483
+00:23:50,480 --> 00:23:54,520
+G where is Monty revealing the
+
+484
+00:23:56,520 --> 00:24:00,440
+zon s yeah
+
+485
+00:24:00,600 --> 00:24:08,320
+so let's uh label that okay and you know
+
+486
+00:24:04,600 --> 00:24:08,320
+we can continue all the way down
+
+487
+00:24:08,919 --> 00:24:14,000
+okay so
+
+488
+00:24:11,400 --> 00:24:15,039
+s oh I've just realized that I've
+
+489
+00:24:14,000 --> 00:24:17,520
+overloaded
+
+490
+00:24:15,039 --> 00:24:20,559
+it it's it's a script DES in my notes
+
+491
+00:24:17,520 --> 00:24:24,520
+and so it looks different I'm I'm I'm
+
+492
+00:24:20,559 --> 00:24:27,159
+sorry uh okay so our squiggly s is going
+
+493
+00:24:24,520 --> 00:24:29,039
+to be the set of all
+
+494
+00:24:27,159 --> 00:24:31,919
+tuples uh
+
+495
+00:24:29,039 --> 00:24:33,679
+so x y
+
+496
+00:24:31,919 --> 00:24:36,039
+z
+
+497
+00:24:33,679 --> 00:24:40,279
+in uh
+
+498
+00:24:36,039 --> 00:24:42,960
+PG s uh
+
+499
+00:24:40,279 --> 00:24:47,240
+oops cubed right so it's going to be
+
+500
+00:24:42,960 --> 00:24:53,799
+triples of you know PG and S such
+
+501
+00:24:47,240 --> 00:24:56,679
+that uh Z is not equal to X and Zed is
+
+502
+00:24:53,799 --> 00:25:00,320
+not equal to
+
+503
+00:24:56,679 --> 00:25:00,320
+Y okay
+
+504
+00:25:02,159 --> 00:25:04,760
+so that's how we're you know
+
+505
+00:25:03,320 --> 00:25:08,640
+mathematically going to represent our
+
+506
+00:25:04,760 --> 00:25:11,600
+sample space okay so X is the door that
+
+507
+00:25:08,640 --> 00:25:13,279
+that Monty hides the the prize behind Y
+
+508
+00:25:11,600 --> 00:25:15,640
+is the door that Marilyn initially
+
+509
+00:25:13,279 --> 00:25:17,360
+chooses and then Z is going to be the
+
+510
+00:25:15,640 --> 00:25:20,880
+the door that Monty reveals which has a
+
+511
+00:25:17,360 --> 00:25:22,600
+goat and by our rule that door cannot be
+
+512
+00:25:20,880 --> 00:25:25,440
+either of the first
+
+513
+00:25:22,600 --> 00:25:28,440
+two okay but anything else is a valid
+
+514
+00:25:25,440 --> 00:25:28,440
+outcome
+
+515
+00:25:32,320 --> 00:25:37,919
+okay do we have any questions about the
+
+516
+00:25:33,720 --> 00:25:37,919
+sample space and and how we computed
+
+517
+00:25:43,080 --> 00:25:48,399
+it okay so our next
+
+518
+00:25:50,240 --> 00:25:55,240
+step now that we've got our sample space
+
+519
+00:25:53,840 --> 00:25:58,240
+we want to figure out our probability
+
+520
+00:25:55,240 --> 00:25:58,240
+function
+
+521
+00:26:09,559 --> 00:26:15,000
+okay so we'd like to figure out what the
+
+522
+00:26:12,000 --> 00:26:19,080
+probability of each of these outcomes
+
+523
+00:26:15,000 --> 00:26:21,600
+is okay so to do this we're going to
+
+524
+00:26:19,080 --> 00:26:23,360
+assign a probability to every Edge that
+
+525
+00:26:21,600 --> 00:26:26,760
+we've got in our tree
+
+526
+00:26:23,360 --> 00:26:28,360
+diagram okay uh and so that's that's
+
+527
+00:26:26,760 --> 00:26:30,559
+just going to be the probability that
+
+528
+00:26:28,360 --> 00:26:32,320
+you know if we get to the source of that
+
+529
+00:26:30,559 --> 00:26:34,600
+edge you know what's the probability
+
+530
+00:26:32,320 --> 00:26:39,039
+that we uh you know proceed along that
+
+531
+00:26:34,600 --> 00:26:41,600
+edge okay so at the very beginning right
+
+532
+00:26:39,039 --> 00:26:41,600
+if we're at the
+
+533
+00:26:42,080 --> 00:26:46,799
+root what's the probability that you
+
+534
+00:26:44,760 --> 00:26:51,640
+know given that we're at the start Monty
+
+535
+00:26:46,799 --> 00:26:51,640
+hides the uh the prize behind door uh
+
+536
+00:26:51,919 --> 00:26:57,640
+P yeah one3
+
+537
+00:26:55,320 --> 00:27:00,200
+yeah so we're going to label this with
+
+538
+00:26:57,640 --> 00:27:03,039
+one3
+
+539
+00:27:00,200 --> 00:27:04,679
+okay what about G what's the probability
+
+540
+00:27:03,039 --> 00:27:06,919
+that Monty hides the uh prize behind
+
+541
+00:27:04,679 --> 00:27:06,919
+door
+
+542
+00:27:09,720 --> 00:27:12,720
+G
+
+543
+00:27:15,600 --> 00:27:21,240
+anybody okay I mean yeah arithmetic is
+
+544
+00:27:18,520 --> 00:27:24,279
+pretty difficult but uh I I'll just do
+
+545
+00:27:21,240 --> 00:27:26,919
+it for you it's also 1/3
+
+546
+00:27:24,279 --> 00:27:29,039
+okay and uh the probability that Monty
+
+547
+00:27:26,919 --> 00:27:32,840
+hide sit behind door s
+
+548
+00:27:29,039 --> 00:27:32,840
+also a third okay yeah
+
+549
+00:27:33,480 --> 00:27:39,200
+question yeah that's a great observation
+
+550
+00:27:36,720 --> 00:27:42,399
+so all of these three
+
+551
+00:27:39,200 --> 00:27:44,919
+probabilities should add up to one right
+
+552
+00:27:42,399 --> 00:27:48,760
+because if we're at this this uh vertex
+
+553
+00:27:44,919 --> 00:27:52,399
+here we should proceed somewhere
+
+554
+00:27:48,760 --> 00:27:53,600
+right uh so like you know it it wouldn't
+
+555
+00:27:52,399 --> 00:27:55,760
+make a whole lot of sense to have like
+
+556
+00:27:53,600 --> 00:27:58,399
+you know probability 1/3 probability 2/3
+
+557
+00:27:55,760 --> 00:28:00,519
+and probability one right because then
+
+558
+00:27:58,399 --> 00:28:01,880
+you're like like you have to proceed
+
+559
+00:28:00,519 --> 00:28:03,880
+down this path but then you also have to
+
+560
+00:28:01,880 --> 00:28:08,039
+proceed down one of the others like it's
+
+561
+00:28:03,880 --> 00:28:09,799
+it's a bit sticky okay so given that
+
+562
+00:28:08,039 --> 00:28:11,919
+you're at this this vertex you've got to
+
+563
+00:28:09,799 --> 00:28:13,960
+reach a leaf somehow you you've got to
+
+564
+00:28:11,919 --> 00:28:17,440
+get to some outcome so you've got to
+
+565
+00:28:13,960 --> 00:28:20,760
+proceed okay so you know all of these
+
+566
+00:28:17,440 --> 00:28:22,960
+edges should uh should sum up to
+
+567
+00:28:20,760 --> 00:28:25,200
+one great
+
+568
+00:28:22,960 --> 00:28:26,720
+observation uh it's not quite true
+
+569
+00:28:25,200 --> 00:28:28,600
+though that that holds for the entire
+
+570
+00:28:26,720 --> 00:28:30,760
+column
+
+571
+00:28:28,600 --> 00:28:31,880
+okay so what happens if we look at the
+
+572
+00:28:30,760 --> 00:28:34,519
+next
+
+573
+00:28:31,880 --> 00:28:36,880
+column so given that Monty hides the
+
+574
+00:28:34,519 --> 00:28:40,360
+prize behind door P what's the
+
+575
+00:28:36,880 --> 00:28:40,360
+probability that Marilyn then picks
+
+576
+00:28:42,799 --> 00:28:49,360
+DP any
+
+577
+00:28:45,600 --> 00:28:52,120
+ideas yeah one3
+
+578
+00:28:49,360 --> 00:28:54,399
+yeah so Marilyn picks this with
+
+579
+00:28:52,120 --> 00:28:56,279
+probability 1/3 right like Marilyn
+
+580
+00:28:54,399 --> 00:28:59,279
+doesn't know or care what's going on
+
+581
+00:28:56,279 --> 00:29:00,519
+with where the prize actually is
+
+582
+00:28:59,279 --> 00:29:04,360
+she's just picking each door with
+
+583
+00:29:00,519 --> 00:29:05,519
+probability 1/3 you know regardless Okay
+
+584
+00:29:04,360 --> 00:29:07,159
+so we've kind of got the same thing
+
+585
+00:29:05,519 --> 00:29:09,600
+going on
+
+586
+00:29:07,159 --> 00:29:11,000
+here each of these three edges has
+
+587
+00:29:09,600 --> 00:29:14,679
+probability
+
+588
+00:29:11,000 --> 00:29:17,240
+1/3 but now the same holds true for this
+
+589
+00:29:14,679 --> 00:29:19,679
+Branch right if Monty has hidden the
+
+590
+00:29:17,240 --> 00:29:21,519
+door or hidden the prize behind door G
+
+591
+00:29:19,679 --> 00:29:23,519
+you know the same logic applies right
+
+592
+00:29:21,519 --> 00:29:24,480
+Marilyn's still picking each door with
+
+593
+00:29:23,519 --> 00:29:28,799
+probability
+
+594
+00:29:24,480 --> 00:29:32,039
+1/3 Okay so we've also got 1/3 here 1/3
+
+595
+00:29:28,799 --> 00:29:34,399
+here 1/3 here okay so it's not quite
+
+596
+00:29:32,039 --> 00:29:36,519
+that all of the uh edges in a column add
+
+597
+00:29:34,399 --> 00:29:39,360
+up to one but all of the edges coming
+
+598
+00:29:36,519 --> 00:29:43,279
+out of a single vertex add up to one
+
+599
+00:29:39,360 --> 00:29:43,279
+okay and same thing for this bottom
+
+600
+00:29:45,880 --> 00:29:52,360
+Branch
+
+601
+00:29:48,399 --> 00:29:52,360
+okay now what about the last
+
+602
+00:29:52,600 --> 00:29:56,360
+column if Monty has hidden the prize
+
+603
+00:29:54,720 --> 00:29:58,679
+behind door p and Marilyn has also
+
+604
+00:29:56,360 --> 00:30:00,720
+picked door p
+
+605
+00:29:58,679 --> 00:30:03,320
+what's the probability that we get to
+
+606
+00:30:00,720 --> 00:30:03,320
+outcome
+
+607
+00:30:04,039 --> 00:30:09,120
+PPG
+
+608
+00:30:05,919 --> 00:30:11,120
+yeah one half that's
+
+609
+00:30:09,120 --> 00:30:14,559
+right
+
+610
+00:30:11,120 --> 00:30:16,919
+okay and it's also half whoops that's
+
+611
+00:30:14,559 --> 00:30:19,640
+not a two that's a three there we go 1
+
+612
+00:30:16,919 --> 00:30:22,360
+half okay so probability one half for
+
+613
+00:30:19,640 --> 00:30:24,679
+each of them okay we've got probability
+
+614
+00:30:22,360 --> 00:30:26,000
+one/ half that uh that the zon behind G
+
+615
+00:30:24,679 --> 00:30:28,720
+is revealed probability one half that
+
+616
+00:30:26,000 --> 00:30:32,200
+the zon behind s is revealed
+
+617
+00:30:28,720 --> 00:30:34,279
+okay and as we were saying before uh if
+
+618
+00:30:32,200 --> 00:30:37,760
+Monty hides the prize behind p and
+
+619
+00:30:34,279 --> 00:30:39,279
+Marilyn picks G Monty now has no choice
+
+620
+00:30:37,760 --> 00:30:41,360
+okay
+
+621
+00:30:39,279 --> 00:30:42,440
+so we're just going to say that this is
+
+622
+00:30:41,360 --> 00:30:45,440
+probability
+
+623
+00:30:42,440 --> 00:30:48,000
+one okay and same with this one this one
+
+624
+00:30:45,440 --> 00:30:49,840
+also has one uh
+
+625
+00:30:48,000 --> 00:30:52,039
+PSG
+
+626
+00:30:49,840 --> 00:30:56,480
+okay and similarly for the other three
+
+627
+00:30:52,039 --> 00:30:59,919
+branches so we've got one 1/2 1/2 one
+
+628
+00:30:56,480 --> 00:30:59,919
+one one 1/2
+
+629
+00:31:02,200 --> 00:31:05,200
+and2
+
+630
+00:31:10,240 --> 00:31:14,919
+okay so did these Edge probabilities
+
+631
+00:31:12,399 --> 00:31:14,919
+make sense to
+
+632
+00:31:23,159 --> 00:31:29,840
+everybody okay so now remember what the
+
+633
+00:31:26,600 --> 00:31:35,600
+probability function was right right uh
+
+634
+00:31:29,840 --> 00:31:39,279
+we have to assign a probability to every
+
+635
+00:31:35,600 --> 00:31:41,679
+outcome okay the outcomes right are the
+
+636
+00:31:39,279 --> 00:31:45,159
+leaves of our tree not the
+
+637
+00:31:41,679 --> 00:31:49,279
+edges okay so what is the
+
+638
+00:31:45,159 --> 00:31:53,080
+probability that we end up with outcome
+
+639
+00:31:49,279 --> 00:31:53,080
+PPG for instance
+
+640
+00:32:01,360 --> 00:32:06,200
+yeah 1 18th and how are you getting
+
+641
+00:32:06,480 --> 00:32:12,880
+that yeah 1/3 * 1/3 *
+
+642
+00:32:10,360 --> 00:32:14,399
+1/3 okay we're going to multiply
+
+643
+00:32:12,880 --> 00:32:16,399
+together all of the
+
+644
+00:32:14,399 --> 00:32:18,679
+probabilities along the path from the
+
+645
+00:32:16,399 --> 00:32:22,440
+route to that to that
+
+646
+00:32:18,679 --> 00:32:24,519
+leaf okay so Monty hides the prize
+
+647
+00:32:22,440 --> 00:32:26,720
+behind door p with probability
+
+648
+00:32:24,519 --> 00:32:28,399
+1/3 and then you know conditioned on
+
+649
+00:32:26,720 --> 00:32:30,159
+that happening
+
+650
+00:32:28,399 --> 00:32:32,279
+Marilyn then picks door p with
+
+651
+00:32:30,159 --> 00:32:34,600
+probability 1/3 so then there's
+
+652
+00:32:32,279 --> 00:32:36,240
+probability 1 nth that we make it to
+
+653
+00:32:34,600 --> 00:32:39,039
+this vertex
+
+654
+00:32:36,240 --> 00:32:44,080
+here and now that one ninth is split
+
+655
+00:32:39,039 --> 00:32:46,279
+again among these two outcomes okay does
+
+656
+00:32:44,080 --> 00:32:48,720
+that make sense to
+
+657
+00:32:46,279 --> 00:32:52,760
+everybody so if we do that for every
+
+658
+00:32:48,720 --> 00:32:55,519
+outcome we've got uh oops 1/ 18th not
+
+659
+00:32:52,760 --> 00:32:59,840
+1/8 another 1/ 18th for
+
+660
+00:32:55,519 --> 00:32:59,840
+PPS then what about pgs
+
+661
+00:33:02,960 --> 00:33:07,919
+yeah yeah it's just one
+
+662
+00:33:06,120 --> 00:33:10,760
+nth
+
+663
+00:33:07,919 --> 00:33:12,240
+okay so same deal for the first two
+
+664
+00:33:10,760 --> 00:33:13,639
+layers but then in the last layer we've
+
+665
+00:33:12,240 --> 00:33:15,159
+just got a probability of one we don't
+
+666
+00:33:13,639 --> 00:33:16,600
+have to split again so it's it remains
+
+667
+00:33:15,159 --> 00:33:18,399
+at 1
+
+668
+00:33:16,600 --> 00:33:20,639
+nth
+
+669
+00:33:18,399 --> 00:33:24,960
+okay and you know once again we can
+
+670
+00:33:20,639 --> 00:33:29,760
+continue we've got uh 1 nth here 11
+
+671
+00:33:24,960 --> 00:33:29,760
+18th 11 18th 1 n
+
+672
+00:33:30,159 --> 00:33:32,639
+and we can
+
+673
+00:33:32,840 --> 00:33:35,840
+continue
+
+674
+00:33:36,760 --> 00:33:42,480
+okay so we're going to justify this more
+
+675
+00:33:39,519 --> 00:33:44,080
+formally later but uh you know for now
+
+676
+00:33:42,480 --> 00:33:46,639
+just take it on faith that in order to
+
+677
+00:33:44,080 --> 00:33:48,799
+get the uh probability of an outcome uh
+
+678
+00:33:46,639 --> 00:33:52,159
+you multiply together the probabilities
+
+679
+00:33:48,799 --> 00:33:53,840
+along the path to that outcome okay like
+
+680
+00:33:52,159 --> 00:33:56,480
+hopefully it at least makes intuitive
+
+681
+00:33:53,840 --> 00:33:59,720
+sense uh but you know we'll we'll reason
+
+682
+00:33:56,480 --> 00:33:59,720
+about it more formally later
+
+683
+00:34:02,120 --> 00:34:05,480
+okay so
+
+684
+00:34:09,280 --> 00:34:14,280
+now we have our sample space we have our
+
+685
+00:34:12,320 --> 00:34:15,800
+probability function so we've got the
+
+686
+00:34:14,280 --> 00:34:18,679
+entire probability space that we're that
+
+687
+00:34:15,800 --> 00:34:23,800
+we're trying to reason about
+
+688
+00:34:18,679 --> 00:34:23,800
+okay uh the next thing that we want
+
+689
+00:34:28,000 --> 00:34:33,240
+we want to figure out what what we call
+
+690
+00:34:30,839 --> 00:34:36,240
+events we care
+
+691
+00:34:33,240 --> 00:34:36,240
+about
+
+692
+00:34:40,520 --> 00:34:49,440
+okay so an event is simply a
+
+693
+00:34:45,720 --> 00:34:49,440
+subset of our sample
+
+694
+00:34:56,359 --> 00:35:01,920
+space okay
+
+695
+00:34:58,839 --> 00:35:01,920
+so it's it's a set of
+
+696
+00:35:03,079 --> 00:35:06,839
+outcomes
+
+697
+00:35:04,170 --> 00:35:10,720
+[Music]
+
+698
+00:35:06,839 --> 00:35:13,760
+so up here right we could think about
+
+699
+00:35:10,720 --> 00:35:15,480
+the event that Marilyn
+
+700
+00:35:13,760 --> 00:35:22,400
+wins
+
+701
+00:35:15,480 --> 00:35:22,400
+okay so what is that formally as a set
+
+702
+00:35:38,240 --> 00:35:47,280
+yeah yeah exactly so the answer was it's
+
+703
+00:35:43,280 --> 00:35:47,280
+the subset of events where X and Y are
+
+704
+00:35:52,880 --> 00:35:57,319
+different so the notation that we
+
+705
+00:35:54,880 --> 00:35:58,880
+usually use for events is is the
+
+706
+00:35:57,319 --> 00:36:01,200
+following
+
+707
+00:35:58,880 --> 00:36:04,000
+okay we you know put the description of
+
+708
+00:36:01,200 --> 00:36:04,000
+the event in square
+
+709
+00:36:04,599 --> 00:36:11,240
+brackets so this is just going to be the
+
+710
+00:36:07,040 --> 00:36:11,240
+set right
+
+711
+00:36:12,680 --> 00:36:17,440
+pgs
+
+712
+00:36:14,440 --> 00:36:17,440
+PS
+
+713
+00:36:17,720 --> 00:36:21,520
+g g
+
+714
+00:36:21,720 --> 00:36:24,720
+PS
+
+715
+00:36:25,960 --> 00:36:29,560
+GSP uh s
+
+716
+00:36:30,359 --> 00:36:37,119
+GP s
+
+717
+00:36:34,119 --> 00:36:37,119
+PG
+
+718
+00:36:37,440 --> 00:36:44,400
+okay so the six outcomes right where uh
+
+719
+00:36:42,560 --> 00:36:46,560
+Marilyn and Monty originally pick
+
+720
+00:36:44,400 --> 00:36:49,839
+different doors and then Monty is forced
+
+721
+00:36:46,560 --> 00:36:49,839
+to reveal the uh the last
+
+722
+00:36:50,560 --> 00:36:54,920
+one
+
+723
+00:36:52,319 --> 00:36:58,359
+okay similarly we could also Define you
+
+724
+00:36:54,920 --> 00:37:01,000
+know other events like uh you know
+
+725
+00:36:58,359 --> 00:37:01,000
+uh Monty
+
+726
+00:37:03,160 --> 00:37:08,400
+opens uh door
+
+727
+00:37:06,000 --> 00:37:12,079
+P
+
+728
+00:37:08,400 --> 00:37:16,160
+okay so this is going to be the
+
+729
+00:37:12,079 --> 00:37:20,440
+Set uh g g
+
+730
+00:37:16,160 --> 00:37:22,800
+p uh s s
+
+731
+00:37:20,440 --> 00:37:25,760
+p
+
+732
+00:37:22,800 --> 00:37:29,520
+uh
+
+733
+00:37:25,760 --> 00:37:29,520
+GSP and
+
+734
+00:37:30,920 --> 00:37:35,640
+SGP
+
+735
+00:37:33,359 --> 00:37:38,200
+okay so does this make sense to
+
+736
+00:37:35,640 --> 00:37:40,520
+everybody like any subset of
+
+737
+00:37:38,200 --> 00:37:41,839
+events uh or sorry any subset of
+
+738
+00:37:40,520 --> 00:37:44,400
+outcomes is called an
+
+739
+00:37:41,839 --> 00:37:46,440
+event uh we can kind of take our English
+
+740
+00:37:44,400 --> 00:37:50,280
+description and then look at which
+
+741
+00:37:46,440 --> 00:37:53,280
+actual outcomes uh this corresponds
+
+742
+00:37:50,280 --> 00:37:53,280
+to
+
+743
+00:37:55,280 --> 00:38:02,680
+okay so what we want to do now
+
+744
+00:37:58,599 --> 00:38:06,800
+is figure out what event we care about
+
+745
+00:38:02,680 --> 00:38:10,400
+or possibly what events okay so what are
+
+746
+00:38:06,800 --> 00:38:10,400
+the events that we care about for this
+
+747
+00:38:14,079 --> 00:38:18,079
+problem anybody
+
+748
+00:38:28,640 --> 00:38:32,720
+what was the probability that we're
+
+749
+00:38:29,839 --> 00:38:32,720
+trying to compute
+
+750
+00:38:34,640 --> 00:38:39,280
+yeah
+
+751
+00:38:36,960 --> 00:38:41,640
+pardon yeah so that the events Marilyn
+
+752
+00:38:39,280 --> 00:38:46,319
+wins and Marilyn loses right these are
+
+753
+00:38:41,640 --> 00:38:47,359
+the events we care about okay so uh you
+
+754
+00:38:46,319 --> 00:38:50,880
+know we could
+
+755
+00:38:47,359 --> 00:38:50,880
+say Marilyn
+
+756
+00:38:53,160 --> 00:38:58,720
+loses is you
+
+757
+00:38:55,960 --> 00:39:00,960
+know the compx
+
+758
+00:38:58,720 --> 00:39:02,079
+of Maryland WIS which we denote with an
+
+759
+00:39:00,960 --> 00:39:04,720
+over
+
+760
+00:39:02,079 --> 00:39:09,520
+bar
+
+761
+00:39:04,720 --> 00:39:09,520
+okay so these are the two events we care
+
+762
+00:39:13,800 --> 00:39:16,800
+about
+
+763
+00:39:19,720 --> 00:39:24,480
+okay so the final step
+
+764
+00:39:32,800 --> 00:39:38,440
+is to compute the answer okay we've
+
+765
+00:39:36,000 --> 00:39:40,880
+identified the event that we care
+
+766
+00:39:38,440 --> 00:39:44,000
+about okay so now we want to figure out
+
+767
+00:39:40,880 --> 00:39:44,000
+the probability that that event
+
+768
+00:39:44,280 --> 00:39:51,839
+occurs okay so we can extend the
+
+769
+00:39:48,040 --> 00:39:51,839
+probability function to
+
+770
+00:39:53,079 --> 00:39:58,839
+events so if e is an event right we can
+
+771
+00:39:57,400 --> 00:40:00,079
+think about the probability of an event
+
+772
+00:39:58,839 --> 00:40:01,480
+just as we think about the probability
+
+773
+00:40:00,079 --> 00:40:03,560
+of
+
+774
+00:40:01,480 --> 00:40:05,119
+outcomes and we're going to Define this
+
+775
+00:40:03,560 --> 00:40:08,359
+to
+
+776
+00:40:05,119 --> 00:40:08,359
+be the
+
+777
+00:40:08,400 --> 00:40:16,079
+sum over all outcomes Omega and
+
+778
+00:40:12,000 --> 00:40:16,079
+E of the probability of
+
+779
+00:40:20,599 --> 00:40:25,079
+Omega
+
+780
+00:40:22,480 --> 00:40:28,040
+okay so you know hopefully intuitively
+
+781
+00:40:25,079 --> 00:40:30,960
+that makes sense right like all of these
+
+782
+00:40:28,040 --> 00:40:33,520
+outcomes uh you know exactly one outcome
+
+783
+00:40:30,960 --> 00:40:35,440
+is is going to happen so if we're trying
+
+784
+00:40:33,520 --> 00:40:38,160
+to figure out the probability that you
+
+785
+00:40:35,440 --> 00:40:39,560
+know one of a set of outcomes happens
+
+786
+00:40:38,160 --> 00:40:41,079
+it's just going to be you know the the
+
+787
+00:40:39,560 --> 00:40:42,800
+sum of the probabilities that that each
+
+788
+00:40:41,079 --> 00:40:46,359
+individual one
+
+789
+00:40:42,800 --> 00:40:48,040
+occurs okay so we know the probabilities
+
+790
+00:40:46,359 --> 00:40:49,800
+of each of the outcomes right that's
+
+791
+00:40:48,040 --> 00:40:52,800
+what we just
+
+792
+00:40:49,800 --> 00:40:52,800
+computed
+
+793
+00:40:52,880 --> 00:40:57,760
+here so now we can use that to compute
+
+794
+00:40:55,599 --> 00:40:59,480
+the probability of the events we just
+
+795
+00:40:57,760 --> 00:41:01,400
+uh we just talked
+
+796
+00:40:59,480 --> 00:41:03,760
+about
+
+797
+00:41:01,400 --> 00:41:06,160
+okay so what is the probability that
+
+798
+00:41:03,760 --> 00:41:06,160
+Marilyn
+
+799
+00:41:19,640 --> 00:41:28,920
+wins so we have our set of outcomes
+
+800
+00:41:23,880 --> 00:41:28,920
+here what's the probability of each one
+
+801
+00:41:42,920 --> 00:41:45,599
+oh what's what's the probability of
+
+802
+00:41:44,280 --> 00:41:49,280
+outcome
+
+803
+00:41:45,599 --> 00:41:52,079
+pgs yeah one n yeah that one's written
+
+804
+00:41:49,280 --> 00:41:52,079
+up up there
+
+805
+00:41:54,680 --> 00:41:59,240
+explicitly uh what about the probability
+
+806
+00:41:56,720 --> 00:41:59,240
+of PSV
+
+807
+00:42:01,400 --> 00:42:04,240
+same 1
+
+808
+00:42:05,480 --> 00:42:12,839
+nth okay what about the probability of
+
+809
+00:42:09,720 --> 00:42:13,880
+GPS also a nth right like you know all
+
+810
+00:42:12,839 --> 00:42:16,880
+of these are
+
+811
+00:42:13,880 --> 00:42:16,880
+symmetric
+
+812
+00:42:22,559 --> 00:42:28,000
+okay what's that
+
+813
+00:42:25,960 --> 00:42:31,040
+2/3 okay
+
+814
+00:42:28,000 --> 00:42:33,280
+so we've got six events or six outcomes
+
+815
+00:42:31,040 --> 00:42:35,559
+Each of which occurs with probability 1
+
+816
+00:42:33,280 --> 00:42:37,119
+nth so if you add those all together you
+
+817
+00:42:35,559 --> 00:42:39,839
+get
+
+818
+00:42:37,119 --> 00:42:40,920
+2/3 okay so this seems to support you
+
+819
+00:42:39,839 --> 00:42:43,559
+know what we found
+
+820
+00:42:40,920 --> 00:42:45,040
+empirically right Marilyn wins with
+
+821
+00:42:43,559 --> 00:42:47,920
+better than probability
+
+822
+00:42:45,040 --> 00:42:52,079
+1/2 right the probability that she loses
+
+823
+00:42:47,920 --> 00:42:52,079
+is going to be the complement of this
+
+824
+00:43:00,440 --> 00:43:04,680
+okay so it's going to be the uh sum of
+
+825
+00:43:03,520 --> 00:43:07,040
+the probabilities of all of the other
+
+826
+00:43:04,680 --> 00:43:09,079
+outcomes right and we said that all
+
+827
+00:43:07,040 --> 00:43:10,520
+probabilities uh should add to one so
+
+828
+00:43:09,079 --> 00:43:13,040
+this is going to be you know the
+
+829
+00:43:10,520 --> 00:43:16,800
+complement with respect to
+
+830
+00:43:13,040 --> 00:43:19,200
+one okay so as it turns out Marilyn was
+
+831
+00:43:16,800 --> 00:43:21,240
+correct okay we didn't have to rely on
+
+832
+00:43:19,200 --> 00:43:24,280
+Intuition or anything like that no
+
+833
+00:43:21,240 --> 00:43:27,640
+ingenious analogies Etc it's just you
+
+834
+00:43:24,280 --> 00:43:29,280
+know arithmetic over Q okay and I think
+
+835
+00:43:27,640 --> 00:43:31,800
+the the hardest part of this for many
+
+836
+00:43:29,280 --> 00:43:33,760
+people is resisting the temptation to
+
+837
+00:43:31,800 --> 00:43:36,559
+jump jump to some sort of like obvious
+
+838
+00:43:33,760 --> 00:43:38,760
+conclusion right like you know it might
+
+839
+00:43:36,559 --> 00:43:40,480
+be tempting to you know get to the end
+
+840
+00:43:38,760 --> 00:43:42,319
+of the tree diagram and be like oh we've
+
+841
+00:43:40,480 --> 00:43:44,559
+got six outcomes where Marilyn wins six
+
+842
+00:43:42,319 --> 00:43:49,000
+where she loses so probably you know 6
+
+843
+00:43:44,559 --> 00:43:50,920
+over 12 is2 right so if we actually you
+
+844
+00:43:49,000 --> 00:43:53,359
+know set all of that you know intuition
+
+845
+00:43:50,920 --> 00:43:54,880
+aside go through everything formally
+
+846
+00:43:53,359 --> 00:43:57,359
+it's all you know quite simple and
+
+847
+00:43:54,880 --> 00:44:00,720
+straightforward
+
+848
+00:43:57,359 --> 00:44:00,720
+okay so that makes sense to
+
+849
+00:44:04,920 --> 00:44:08,920
+everybody okay so let's move on to a
+
+850
+00:44:07,720 --> 00:44:10,880
+different
+
+851
+00:44:08,920 --> 00:44:15,040
+example
+
+852
+00:44:10,880 --> 00:44:18,839
+suppose I have three strange dice okay
+
+853
+00:44:15,040 --> 00:44:21,680
+so excuse my
+
+854
+00:44:18,839 --> 00:44:26,079
+drawing whoops nothing
+
+855
+00:44:21,680 --> 00:44:28,119
+there okay so I've got one die that has
+
+856
+00:44:26,079 --> 00:44:31,640
+two written on two of the faces so you
+
+857
+00:44:28,119 --> 00:44:34,200
+know top and bottom uh six written on
+
+858
+00:44:31,640 --> 00:44:37,720
+you know these two faces and seven
+
+859
+00:44:34,200 --> 00:44:41,280
+written on those two faces okay
+
+860
+00:44:37,720 --> 00:44:44,000
+hopefully that you know looks vaguely
+
+861
+00:44:41,280 --> 00:44:46,200
+cubical okay I've got a second ey which
+
+862
+00:44:44,000 --> 00:44:46,200
+is
+
+863
+00:44:46,319 --> 00:44:53,000
+similar uh but instead of 2 six and
+
+864
+00:44:48,520 --> 00:44:56,520
+seven I've got 1 5 and nine then I've
+
+865
+00:44:53,000 --> 00:44:56,520
+got a third one
+
+866
+00:44:57,720 --> 00:45:03,720
+which has three four and
+
+867
+00:45:01,280 --> 00:45:08,400
+eight
+
+868
+00:45:03,720 --> 00:45:13,640
+okay so consider the following game
+
+869
+00:45:08,400 --> 00:45:15,240
+okay uh I pick a die right now you pick
+
+870
+00:45:13,640 --> 00:45:18,880
+one of the uh other
+
+871
+00:45:15,240 --> 00:45:23,400
+dies after or dice after seeing what I
+
+872
+00:45:18,880 --> 00:45:25,760
+pick and we each roll our dice okay and
+
+873
+00:45:23,400 --> 00:45:27,839
+whoever gets the higher number
+
+874
+00:45:25,760 --> 00:45:29,680
+wins okay
+
+875
+00:45:27,839 --> 00:45:31,760
+who should win should I win or should
+
+876
+00:45:29,680 --> 00:45:35,280
+you
+
+877
+00:45:31,760 --> 00:45:35,280
+win who thinks I
+
+878
+00:45:36,440 --> 00:45:40,720
+win okay who thinks you
+
+879
+00:45:42,640 --> 00:45:47,119
+win who thinks we should just uh you
+
+880
+00:45:45,000 --> 00:45:51,160
+know do the tree diagram and figure it
+
+881
+00:45:47,119 --> 00:45:52,960
+out yeah good call okay so let's let's
+
+882
+00:45:51,160 --> 00:45:58,040
+call these dice like
+
+883
+00:45:52,960 --> 00:46:00,559
+r g and B okay
+
+884
+00:45:58,040 --> 00:46:02,359
+so yeah let's let's draw out our tree
+
+885
+00:46:00,559 --> 00:46:06,559
+diagram
+
+886
+00:46:02,359 --> 00:46:11,200
+okay so what happens if say I pick the
+
+887
+00:46:06,559 --> 00:46:14,760
+red D and uh you pick the green
+
+888
+00:46:11,200 --> 00:46:18,559
+Dy okay who should win let's let's
+
+889
+00:46:14,760 --> 00:46:20,960
+see so we've
+
+890
+00:46:18,559 --> 00:46:24,280
+got when I roll my die right there are
+
+891
+00:46:20,960 --> 00:46:28,920
+three possibilities I could either get a
+
+892
+00:46:24,280 --> 00:46:28,920
+two a six or a seven
+
+893
+00:46:29,119 --> 00:46:35,680
+and now you roll the green D and you
+
+894
+00:46:31,599 --> 00:46:39,160
+could have either a one a five or a
+
+895
+00:46:35,680 --> 00:46:43,119
+nine not minus 5 five
+
+896
+00:46:39,160 --> 00:46:44,839
+1 5 9
+
+897
+00:46:43,119 --> 00:46:47,839
+1
+
+898
+00:46:44,839 --> 00:46:47,839
+five
+
+899
+00:46:48,119 --> 00:46:53,400
+9
+
+900
+00:46:49,960 --> 00:46:55,400
+okay and now what is the probability or
+
+901
+00:46:53,400 --> 00:46:57,440
+sorry what what are the uh what are the
+
+902
+00:46:55,400 --> 00:47:00,079
+outcomes
+
+903
+00:46:57,440 --> 00:47:04,079
+we have nine leaves so nine
+
+904
+00:47:00,079 --> 00:47:04,079
+outcomes how are we going to represent
+
+905
+00:47:14,640 --> 00:47:18,760
+them well we can do it basically the
+
+906
+00:47:16,800 --> 00:47:21,680
+same as how we uh represented them up
+
+907
+00:47:18,760 --> 00:47:27,319
+here right we can uh just look at a
+
+908
+00:47:21,680 --> 00:47:32,520
+tupal of uh Edge labels okay so our some
+
+909
+00:47:27,319 --> 00:47:32,520
+space is going to be the Set uh
+
+910
+00:47:34,160 --> 00:47:44,040
+267 uh cartisian product with uh
+
+911
+00:47:40,319 --> 00:47:45,960
+159 okay so this is going to be ordered
+
+912
+00:47:44,040 --> 00:47:47,200
+pairs where the first element is one of
+
+913
+00:47:45,960 --> 00:47:50,200
+these three things and the second is one
+
+914
+00:47:47,200 --> 00:47:54,040
+of these three things okay so this one
+
+915
+00:47:50,200 --> 00:47:57,960
+for instance is 2 comma 1 this one is 2A
+
+916
+00:47:54,040 --> 00:47:57,960
+5 Etc
+
+917
+00:47:59,839 --> 00:48:04,160
+okay now what are the probabilities on
+
+918
+00:48:01,960 --> 00:48:04,160
+each
+
+919
+00:48:06,720 --> 00:48:13,440
+Edge yeah 1
+
+920
+00:48:09,800 --> 00:48:18,079
+nth uh so those are the uh probabilities
+
+921
+00:48:13,440 --> 00:48:21,079
+on the outcomes yeah one3 on each
+
+922
+00:48:18,079 --> 00:48:21,079
+Edge
+
+923
+00:48:21,640 --> 00:48:26,880
+right okay so when I roll my die I've
+
+924
+00:48:25,000 --> 00:48:29,240
+got a one3 chance each of getting two
+
+925
+00:48:26,880 --> 00:48:33,599
+six or seven when you roll yours you've
+
+926
+00:48:29,240 --> 00:48:35,160
+got a 1/3 chance each of getting five or
+
+927
+00:48:33,599 --> 00:48:37,000
+n
+
+928
+00:48:35,160 --> 00:48:38,200
+okay and you know it's going to be the
+
+929
+00:48:37,000 --> 00:48:40,400
+same for the other two
+
+930
+00:48:38,200 --> 00:48:43,559
+branches so when we multiply together
+
+931
+00:48:40,400 --> 00:48:48,720
+the probabilities uh along paths to
+
+932
+00:48:43,559 --> 00:48:51,559
+leaves we get 1 nth for every
+
+933
+00:48:48,720 --> 00:48:54,079
+outcome
+
+934
+00:48:51,559 --> 00:48:57,559
+okay so when you have a probability
+
+935
+00:48:54,079 --> 00:48:59,040
+space like this that's particularly nice
+
+936
+00:48:57,559 --> 00:49:01,319
+this is what we call a uniform
+
+937
+00:48:59,040 --> 00:49:03,160
+probability
+
+938
+00:49:01,319 --> 00:49:05,920
+space
+
+939
+00:49:03,160 --> 00:49:10,119
+uh so let's
+
+940
+00:49:05,920 --> 00:49:14,240
+say s comma p r so this is our
+
+941
+00:49:10,119 --> 00:49:14,240
+probability space is
+
+942
+00:49:16,599 --> 00:49:21,400
+uniform if uh PR is
+
+943
+00:49:24,599 --> 00:49:28,599
+constant okay so in this this case it's
+
+944
+00:49:27,119 --> 00:49:31,200
+a constant function that Maps every
+
+945
+00:49:28,599 --> 00:49:33,760
+outcome to a probability of 1 nth okay
+
+946
+00:49:31,200 --> 00:49:38,359
+so it's a uniform probability
+
+947
+00:49:33,760 --> 00:49:39,960
+space okay and uh uniform spaces are
+
+948
+00:49:38,359 --> 00:49:40,920
+particularly nice because you know we
+
+949
+00:49:39,960 --> 00:49:42,839
+don't even have to worry about the
+
+950
+00:49:40,920 --> 00:49:44,799
+addition that we were doing before like
+
+951
+00:49:42,839 --> 00:49:47,559
+in order to figure out probabilities of
+
+952
+00:49:44,799 --> 00:49:49,000
+uh of events you just count up how many
+
+953
+00:49:47,559 --> 00:49:51,119
+outcomes are in the event and then
+
+954
+00:49:49,000 --> 00:49:54,040
+divide by the total number of
+
+955
+00:49:51,119 --> 00:49:57,480
+outcomes okay so it just becomes a
+
+956
+00:49:54,040 --> 00:49:57,480
+counting problem
+
+957
+00:49:59,960 --> 00:50:05,480
+so using that what's the probability
+
+958
+00:50:03,160 --> 00:50:05,480
+that red
+
+959
+00:50:10,799 --> 00:50:17,000
+wins
+
+960
+00:50:12,480 --> 00:50:17,000
+yeah 5 9ths
+
+961
+00:50:22,760 --> 00:50:28,000
+yeah so let's break this down a bit so
+
+962
+00:50:26,079 --> 00:50:29,640
+we're looking at the probability of the
+
+963
+00:50:28,000 --> 00:50:35,359
+set
+
+964
+00:50:29,640 --> 00:50:40,920
+right 2 comma 1 red wins 6165 red wins
+
+965
+00:50:35,359 --> 00:50:43,559
+and 7175 red wins
+
+966
+00:50:40,920 --> 00:50:47,240
+okay so
+
+967
+00:50:43,559 --> 00:50:47,240
+21 uh
+
+968
+00:50:47,720 --> 00:50:53,160
+61
+
+969
+00:50:50,720 --> 00:50:55,640
+65
+
+970
+00:50:53,160 --> 00:50:58,040
+71
+
+971
+00:50:55,640 --> 00:50:59,880
+75 we have five of
+
+972
+00:50:58,040 --> 00:51:04,799
+these so
+
+973
+00:50:59,880 --> 00:51:04,799
+that's 5 over 9
+
+974
+00:51:17,079 --> 00:51:25,400
+okay now what if instead we had red
+
+975
+00:51:20,799 --> 00:51:25,400
+versus blue instead of red versus green
+
+976
+00:51:31,119 --> 00:51:36,280
+so if instead of red versus green we
+
+977
+00:51:32,640 --> 00:51:41,440
+have red versus blue this column now
+
+978
+00:51:36,280 --> 00:51:41,440
+gets replaced with 348 instead of
+
+979
+00:51:42,720 --> 00:51:46,760
+159
+
+980
+00:51:44,559 --> 00:51:48,640
+okay so our tree diagram is going to
+
+981
+00:51:46,760 --> 00:51:52,880
+look like the
+
+982
+00:51:48,640 --> 00:51:58,839
+following so we've still got uh 267
+
+983
+00:51:52,880 --> 00:51:58,839
+here but this time this is going to be 3
+
+984
+00:52:00,359 --> 00:52:03,359
+48
+
+985
+00:52:04,599 --> 00:52:09,760
+348 3
+
+986
+00:52:06,880 --> 00:52:11,920
+48
+
+987
+00:52:09,760 --> 00:52:13,400
+okay and I'm going to omit the
+
+988
+00:52:11,920 --> 00:52:14,960
+probabilities because we just
+
+989
+00:52:13,400 --> 00:52:17,359
+established it's uniform so it's just a
+
+990
+00:52:14,960 --> 00:52:17,359
+counting
+
+991
+00:52:23,640 --> 00:52:28,400
+problem but let's write down the
+
+992
+00:52:25,400 --> 00:52:28,400
+outcomes
+
+993
+00:52:40,559 --> 00:52:46,119
+okay so in how many of these outcomes
+
+994
+00:52:43,720 --> 00:52:46,119
+does red
+
+995
+00:52:47,720 --> 00:52:56,599
+win well not this one right not this one
+
+996
+00:52:53,240 --> 00:53:00,520
+not this one okay so if red rolls two
+
+997
+00:52:56,599 --> 00:53:02,160
+right all of Blue's uh all of Blue's uh
+
+998
+00:53:00,520 --> 00:53:06,280
+numbers are going to be higher so blue
+
+999
+00:53:02,160 --> 00:53:09,119
+is always going to win uh if red rolls
+
+1000
+00:53:06,280 --> 00:53:13,079
+six uh red wins if blue Rolls three or
+
+1001
+00:53:09,119 --> 00:53:15,520
+four loses if uh blue Rolls eight and
+
+1002
+00:53:13,079 --> 00:53:15,520
+same for
+
+1003
+00:53:16,880 --> 00:53:23,440
+seven
+
+1004
+00:53:18,799 --> 00:53:23,440
+okay so we have
+
+1005
+00:53:23,680 --> 00:53:30,160
+uh four outcomes where red wins so red
+
+1006
+00:53:27,200 --> 00:53:30,160
+wins with probability four
+
+1007
+00:53:31,559 --> 00:53:36,640
+nths
+
+1008
+00:53:33,720 --> 00:53:41,400
+okay
+
+1009
+00:53:36,640 --> 00:53:41,400
+so we just saw that uh red beats
+
+1010
+00:53:42,400 --> 00:53:47,319
+Green but loses to
+
+1011
+00:53:45,319 --> 00:53:49,440
+Blue what does that tell us about blue
+
+1012
+00:53:47,319 --> 00:53:49,440
+and
+
+1013
+00:53:49,720 --> 00:53:54,280
+green if I pick blue and you pick Green
+
+1014
+00:53:52,119 --> 00:53:54,280
+what
+
+1015
+00:53:54,559 --> 00:53:58,440
+happens who wins
+
+1016
+00:54:01,079 --> 00:54:05,079
+yeah Green
+
+1017
+00:54:05,960 --> 00:54:13,559
+why okay so green Beats red
+
+1018
+00:54:10,920 --> 00:54:16,680
+uh so I think we just established that
+
+1019
+00:54:13,559 --> 00:54:16,680
+red beats screen
+
+1020
+00:54:20,000 --> 00:54:26,599
+right so here we've got you know red
+
+1021
+00:54:23,319 --> 00:54:31,079
+beat screen
+
+1022
+00:54:26,599 --> 00:54:31,079
+here we've got red loses to
+
+1023
+00:54:32,880 --> 00:54:38,680
+Blue so if we
+
+1024
+00:54:35,280 --> 00:54:40,839
+have uh green and blue who thinks that
+
+1025
+00:54:38,680 --> 00:54:44,319
+green should
+
+1026
+00:54:40,839 --> 00:54:46,799
+win who thinks that blue should win who
+
+1027
+00:54:44,319 --> 00:54:48,720
+has absolutely no idea who wants to do
+
+1028
+00:54:46,799 --> 00:54:51,200
+the tree
+
+1029
+00:54:48,720 --> 00:54:52,240
+diagram oh still pretty enthusiastic
+
+1030
+00:54:51,200 --> 00:54:53,799
+about that even though we've got some
+
+1031
+00:54:52,240 --> 00:54:58,640
+intuition that's
+
+1032
+00:54:53,799 --> 00:54:58,640
+great intuition is bad dis SC the
+
+1033
+00:54:59,880 --> 00:55:05,200
+intuition okay so if we've got green
+
+1034
+00:55:02,880 --> 00:55:08,160
+versus
+
+1035
+00:55:05,200 --> 00:55:11,359
+blue so this can be the uh green roll
+
+1036
+00:55:08,160 --> 00:55:17,240
+here we've got uh
+
+1037
+00:55:11,359 --> 00:55:17,240
+159 blue roll can be uh 3
+
+1038
+00:55:17,319 --> 00:55:20,799
+48 3
+
+1039
+00:55:21,160 --> 00:55:26,760
+48 3
+
+1040
+00:55:24,039 --> 00:55:29,920
+48 okay
+
+1041
+00:55:26,760 --> 00:55:31,880
+uh so in which of these does green win
+
+1042
+00:55:29,920 --> 00:55:34,960
+well if green rolls one then you know
+
+1043
+00:55:31,880 --> 00:55:36,839
+Green is screwed so all of these are bad
+
+1044
+00:55:34,960 --> 00:55:39,359
+for
+
+1045
+00:55:36,839 --> 00:55:41,880
+green uh if green rolls
+
+1046
+00:55:39,359 --> 00:55:44,880
+five well five will beat three and four
+
+1047
+00:55:41,880 --> 00:55:48,640
+but not eight
+
+1048
+00:55:44,880 --> 00:55:50,640
+so green wins these two and if green
+
+1049
+00:55:48,640 --> 00:55:54,240
+rolles nine then green Beats you know
+
+1050
+00:55:50,640 --> 00:55:54,240
+whatever blue rolls
+
+1051
+00:55:54,920 --> 00:55:58,280
+okay okay
+
+1052
+00:55:56,960 --> 00:56:00,640
+so it looks like green is winning in
+
+1053
+00:55:58,280 --> 00:56:00,640
+five of
+
+1054
+00:56:08,280 --> 00:56:11,280
+these
+
+1055
+00:56:13,359 --> 00:56:19,799
+okay so this should
+
+1056
+00:56:16,559 --> 00:56:19,799
+be like
+
+1057
+00:56:22,319 --> 00:56:28,160
+that
+
+1058
+00:56:24,440 --> 00:56:30,200
+okay so red beats green green Beats blue
+
+1059
+00:56:28,160 --> 00:56:33,640
+and blue Beats
+
+1060
+00:56:30,200 --> 00:56:33,640
+red what's gone
+
+1061
+00:56:39,920 --> 00:56:42,920
+wrong
+
+1062
+00:56:43,880 --> 00:56:46,880
+yeah
+
+1063
+00:56:47,920 --> 00:56:53,480
+pardon yeah so nothing's gone wrong all
+
+1064
+00:56:51,520 --> 00:56:54,960
+that's gone wrong is uh you know I I
+
+1065
+00:56:53,480 --> 00:56:57,599
+kind of expected that there would be a
+
+1066
+00:56:54,960 --> 00:56:59,160
+linear order on them right right like uh
+
+1067
+00:56:57,599 --> 00:57:01,160
+you know if red beats green and green
+
+1068
+00:56:59,160 --> 00:57:04,799
+Beats blue it kind of intuitively makes
+
+1069
+00:57:01,160 --> 00:57:08,319
+sense that red should beat blue right
+
+1070
+00:57:04,799 --> 00:57:11,160
+no no no intuition just do the tree
+
+1071
+00:57:08,319 --> 00:57:13,799
+diagram uh so yeah this is perfectly
+
+1072
+00:57:11,160 --> 00:57:16,799
+fine right and in fact it gets even
+
+1073
+00:57:13,799 --> 00:57:19,440
+weirder right
+
+1074
+00:57:16,799 --> 00:57:21,960
+uh what do you think happens if uh we
+
+1075
+00:57:19,440 --> 00:57:25,280
+each choose two dice or sorry we each
+
+1076
+00:57:21,960 --> 00:57:25,280
+roll twice
+
+1077
+00:57:27,559 --> 00:57:33,359
+so what if uh you know what if I pick
+
+1078
+00:57:30,799 --> 00:57:35,000
+the red dy I roll it twice you pick the
+
+1079
+00:57:33,359 --> 00:57:38,720
+green Dy you roll it
+
+1080
+00:57:35,000 --> 00:57:40,520
+twice right red probably beats Green so
+
+1081
+00:57:38,720 --> 00:57:44,200
+is it true that two red rolls probably
+
+1082
+00:57:40,520 --> 00:57:44,200
+beat two green rolls like if we sum them
+
+1083
+00:57:47,119 --> 00:57:52,240
+up who thinks
+
+1084
+00:57:50,079 --> 00:57:54,720
+yes who thinks
+
+1085
+00:57:52,240 --> 00:58:00,559
+no who wants to draw the tree
+
+1086
+00:57:54,720 --> 00:58:00,559
+diagram oh wow so eager I don't
+
+1087
+00:58:00,680 --> 00:58:05,920
+um like uh what is the tree diagram
+
+1088
+00:58:04,039 --> 00:58:08,400
+going to look like if we if we do
+
+1089
+00:58:05,920 --> 00:58:10,960
+that like I'm rolling twice you're
+
+1090
+00:58:08,400 --> 00:58:13,760
+rolling twice each roll can have you
+
+1091
+00:58:10,960 --> 00:58:15,920
+know three possible uh uh three
+
+1092
+00:58:13,760 --> 00:58:19,280
+possibilities right so we're going to
+
+1093
+00:58:15,920 --> 00:58:21,520
+end up with a pretty massive
+
+1094
+00:58:19,280 --> 00:58:22,680
+tree I I don't want to draw that at
+
+1095
+00:58:21,520 --> 00:58:24,640
+least not on the
+
+1096
+00:58:22,680 --> 00:58:27,240
+board does somebody else want to come up
+
+1097
+00:58:24,640 --> 00:58:31,720
+and do it
+
+1098
+00:58:27,240 --> 00:58:33,839
+please no nobody okay well instead of
+
+1099
+00:58:31,720 --> 00:58:35,720
+drawing out the entire tree diagram
+
+1100
+00:58:33,839 --> 00:58:38,319
+let's kind of start drawing it and see
+
+1101
+00:58:35,720 --> 00:58:38,319
+if we can find a
+
+1102
+00:58:40,640 --> 00:58:51,079
+pattern okay so this is uh R2 versus
+
+1103
+00:58:48,079 --> 00:58:51,079
+G2
+
+1104
+00:58:51,119 --> 00:58:53,720
+okay
+
+1105
+00:58:52,330 --> 00:58:56,559
+[Music]
+
+1106
+00:58:53,720 --> 00:59:00,760
+so let's start by
+
+1107
+00:58:56,559 --> 00:59:05,119
+know drawing as we did before okay so my
+
+1108
+00:59:00,760 --> 00:59:10,000
+first roll as was red could be 2 six or
+
+1109
+00:59:05,119 --> 00:59:10,000
+7 second rle could also be 2 six or
+
+1110
+00:59:17,280 --> 00:59:22,920
+7
+
+1111
+00:59:20,280 --> 00:59:26,920
+okay now for
+
+1112
+00:59:22,920 --> 00:59:26,920
+green right
+
+1113
+00:59:27,440 --> 00:59:31,280
+we're basically just going to be drawing
+
+1114
+00:59:28,920 --> 00:59:32,200
+the same tree nine times so you know
+
+1115
+00:59:31,280 --> 00:59:37,839
+let's
+
+1116
+00:59:32,200 --> 00:59:37,839
+not so green could roll you know
+
+1117
+00:59:39,000 --> 00:59:45,559
+159 and then can also roll
+
+1118
+00:59:42,000 --> 00:59:45,559
+159 for the second
+
+1119
+00:59:49,520 --> 00:59:53,559
+roll
+
+1120
+00:59:51,200 --> 00:59:56,680
+okay and rather than duplicating this
+
+1121
+00:59:53,559 --> 00:59:58,920
+three nine times I'm just going to leave
+
+1122
+00:59:56,680 --> 01:00:01,200
+this as it is and you know we can see if
+
+1123
+00:59:58,920 --> 01:00:03,319
+we can find a
+
+1124
+01:00:01,200 --> 01:00:07,079
+pattern
+
+1125
+01:00:03,319 --> 01:00:07,079
+okay does that make sense to
+
+1126
+01:00:12,079 --> 01:00:18,880
+everybody so an outcome now is going to
+
+1127
+01:00:15,960 --> 01:00:22,240
+be a four tupal right instead of a
+
+1128
+01:00:18,880 --> 01:00:26,799
+pair and in some sense we can kind of
+
+1129
+01:00:22,240 --> 01:00:30,039
+think of it as combining a leaf of this
+
+1130
+01:00:26,799 --> 01:00:31,599
+tree with a leaf of this tree okay we're
+
+1131
+01:00:30,039 --> 01:00:34,039
+going to take a red leaf and a green
+
+1132
+01:00:31,599 --> 01:00:37,520
+leaf a question or
+
+1133
+01:00:34,039 --> 01:00:37,520
+no no
+
+1134
+01:00:39,119 --> 01:00:42,860
+okay
+
+1135
+01:00:41,680 --> 01:00:44,440
+okay
+
+1136
+01:00:42,860 --> 01:00:47,280
+[Music]
+
+1137
+01:00:44,440 --> 01:00:50,400
+so we can then abbreviate it even
+
+1138
+01:00:47,280 --> 01:00:52,119
+further right instead of looking at the
+
+1139
+01:00:50,400 --> 01:00:54,680
+pair of numbers that we've that we've
+
+1140
+01:00:52,119 --> 01:00:57,599
+rolled let's instead look at you know
+
+1141
+01:00:54,680 --> 01:01:01,319
+just the SU
+
+1142
+01:00:57,599 --> 01:01:05,680
+okay so if red rolls two tws we've got
+
+1143
+01:01:01,319 --> 01:01:08,520
+four here 2 and six is eight 2 and 7 is
+
+1144
+01:01:05,680 --> 01:01:13,000
+N9 uh 6 2 is
+
+1145
+01:01:08,520 --> 01:01:18,440
+8 uh 66 is not 9 that's 12 ever trust me
+
+1146
+01:01:13,000 --> 01:01:22,119
+to do arithmetic uh 67 is 13 72 is 9 76
+
+1147
+01:01:18,440 --> 01:01:22,119
+is 13 77 is
+
+1148
+01:01:22,480 --> 01:01:27,000
+14
+
+1149
+01:01:24,520 --> 01:01:34,480
+okay and if we do do the same thing for
+
+1150
+01:01:27,000 --> 01:01:39,520
+uh green we have 2 6 10 6 10
+
+1151
+01:01:34,480 --> 01:01:39,520
+14 10 14
+
+1152
+01:01:42,079 --> 01:01:49,160
+18
+
+1153
+01:01:44,640 --> 01:01:51,880
+okay so now we can start counting
+
+1154
+01:01:49,160 --> 01:01:53,960
+outcomes if we take this Leaf of the red
+
+1155
+01:01:51,880 --> 01:01:55,960
+tree how many outcomes are there where
+
+1156
+01:01:53,960 --> 01:01:59,480
+red wins
+
+1157
+01:01:55,960 --> 01:02:02,720
+if red rolls four in total the only way
+
+1158
+01:01:59,480 --> 01:02:06,599
+that red wins is if green gets Snake
+
+1159
+01:02:02,720 --> 01:02:06,599
+Eyes Okay so we've just got
+
+1160
+01:02:08,920 --> 01:02:13,400
+one if red rules eight which could be
+
+1161
+01:02:12,000 --> 01:02:15,839
+either of these
+
+1162
+01:02:13,400 --> 01:02:17,119
+two how many outcomes are there where
+
+1163
+01:02:15,839 --> 01:02:20,039
+red
+
+1164
+01:02:17,119 --> 01:02:25,400
+wins well we've got a two here a six
+
+1165
+01:02:20,039 --> 01:02:25,400
+here and a six here so we've got three
+
+1166
+01:02:26,039 --> 01:02:31,440
+and we've got uh two red leaves that
+
+1167
+01:02:28,760 --> 01:02:33,559
+have eight uh what about nine it looks
+
+1168
+01:02:31,440 --> 01:02:36,599
+like we've got two more that have
+
+1169
+01:02:33,559 --> 01:02:39,799
+nine same deal right we don't have any
+
+1170
+01:02:36,599 --> 01:02:39,799
+eights or nines over on this
+
+1171
+01:02:41,240 --> 01:02:46,720
+side
+
+1172
+01:02:42,799 --> 01:02:48,240
+okay uh what else do we have
+
+1173
+01:02:46,720 --> 01:02:51,880
+12
+
+1174
+01:02:48,240 --> 01:02:55,000
+okay well if red rolls 12 then red is
+
+1175
+01:02:51,880 --> 01:03:00,760
+good if blue Rolls 2 6 10 but not 14 or
+
+1176
+01:02:55,000 --> 01:03:00,760
+18 so we've got 1 2 3 4 five six
+
+1177
+01:03:01,160 --> 01:03:06,480
+outcomes and we have one red leaf where
+
+1178
+01:03:04,960 --> 01:03:09,880
+red has
+
+1179
+01:03:06,480 --> 01:03:15,880
+12 okay then same thing for 13 there are
+
+1180
+01:03:09,880 --> 01:03:15,880
+no 12 or 13s over here and we have two
+
+1181
+01:03:18,799 --> 01:03:22,200
+13s now what about
+
+1182
+01:03:22,359 --> 01:03:27,279
+14 well if red rolls 14 then you know
+
+1183
+01:03:26,279 --> 01:03:31,599
+same
+
+1184
+01:03:27,279 --> 01:03:31,599
+deal but we've got these two ties
+
+1185
+01:03:33,680 --> 01:03:38,480
+here okay so red
+
+1186
+01:03:39,599 --> 01:03:47,839
+winds draw we've just got two and then
+
+1187
+01:03:43,720 --> 01:03:47,839
+red loses is going to be the complement
+
+1188
+01:03:58,599 --> 01:04:05,000
+okay so has anybody added all of these
+
+1189
+01:04:01,440 --> 01:04:05,000
+up yet I
+
+1190
+01:04:06,279 --> 01:04:13,599
+haven't 5
+
+1191
+01:04:08,920 --> 01:04:13,599
+30 42 43 is that
+
+1192
+01:04:22,520 --> 01:04:27,160
+right
+
+1193
+01:04:24,119 --> 01:04:30,160
+so 43 outcomes for red
+
+1194
+01:04:27,160 --> 01:04:30,160
+wins
+
+1195
+01:04:38,480 --> 01:04:42,640
+uh had something wrong this doesn't
+
+1196
+01:04:41,039 --> 01:04:45,160
+match my
+
+1197
+01:04:42,640 --> 01:04:47,039
+notes
+
+1198
+01:04:45,160 --> 01:04:52,200
+uh let's
+
+1199
+01:04:47,039 --> 01:04:55,799
+see so we've got one for this sub tree
+
+1200
+01:04:52,200 --> 01:04:57,240
+for each of these we have three
+
+1201
+01:04:55,799 --> 01:05:01,680
+for each of the
+
+1202
+01:04:57,240 --> 01:05:04,960
+nines we also have three so that's those
+
+1203
+01:05:01,680 --> 01:05:04,960
+12 13 and
+
+1204
+01:05:06,200 --> 01:05:11,559
+13 oh do I just have too many terms I
+
+1205
+01:05:08,960 --> 01:05:11,559
+just have too many
+
+1206
+01:05:12,359 --> 01:05:16,559
+terms okay not 43 it should be
+
+1207
+01:05:16,640 --> 01:05:23,039
+37 is that
+
+1208
+01:05:19,039 --> 01:05:26,039
+right yeah are 12 13 13 and 14 each have
+
+1209
+01:05:23,039 --> 01:05:26,039
+six
+
+1210
+01:05:27,319 --> 01:05:33,039
+okay okay uh yeah never trust me to do
+
+1211
+01:05:30,440 --> 01:05:36,279
+arithmetic it's always a bad plan uh
+
+1212
+01:05:33,039 --> 01:05:39,000
+okay so red wins in 37 of the outcomes
+
+1213
+01:05:36,279 --> 01:05:42,000
+right there's a draw in two of them and
+
+1214
+01:05:39,000 --> 01:05:42,000
+how many outcomes are there in
+
+1215
+01:05:46,039 --> 01:05:54,400
+total
+
+1216
+01:05:48,079 --> 01:05:56,279
+yeah1 yeah 81 so red loses in 81 - 37 -
+
+1217
+01:05:54,400 --> 01:06:01,480
+2
+
+1218
+01:05:56,279 --> 01:06:01,480
+which is that 42 I think that's
+
+1219
+01:06:02,000 --> 01:06:08,520
+42 okay
+
+1220
+01:06:05,240 --> 01:06:11,960
+so because this is uniform space we have
+
+1221
+01:06:08,520 --> 01:06:14,480
+37 over 81 42 over
+
+1222
+01:06:11,960 --> 01:06:16,400
+81 which is going to be well actually
+
+1223
+01:06:14,480 --> 01:06:17,440
+let's not reduce it it's easier to see
+
+1224
+01:06:16,400 --> 01:06:20,640
+like
+
+1225
+01:06:17,440 --> 01:06:26,160
+that and two out of 81 for a
+
+1226
+01:06:20,640 --> 01:06:27,839
+draw okay so if we only had one role
+
+1227
+01:06:26,160 --> 01:06:30,559
+red had the advantage right red wins
+
+1228
+01:06:27,839 --> 01:06:33,279
+with probability 5 9ths if we have two
+
+1229
+01:06:30,559 --> 01:06:34,960
+roles right the probability that red
+
+1230
+01:06:33,279 --> 01:06:37,799
+wins is smaller than the probability
+
+1231
+01:06:34,960 --> 01:06:39,160
+that red loses so now suddenly green has
+
+1232
+01:06:37,799 --> 01:06:41,119
+the advantage
+
+1233
+01:06:39,160 --> 01:06:46,599
+instead
+
+1234
+01:06:41,119 --> 01:06:48,839
+okay and um as it turns out you know the
+
+1235
+01:06:46,599 --> 01:06:53,599
+same thing happens with all three pairs
+
+1236
+01:06:48,839 --> 01:06:56,039
+of dice right so uh you know red beats
+
+1237
+01:06:53,599 --> 01:06:58,520
+Green with with one roll green Beats
+
+1238
+01:06:56,039 --> 01:06:59,720
+blue with one roll but Blue Beats Green
+
+1239
+01:06:58,520 --> 01:07:02,559
+with two
+
+1240
+01:06:59,720 --> 01:07:06,760
+rolls right and Blue Beats red with with
+
+1241
+01:07:02,559 --> 01:07:09,720
+one roll but red beats blue with two
+
+1242
+01:07:06,760 --> 01:07:12,520
+rolls and
+
+1243
+01:07:09,720 --> 01:07:14,319
+uh yeah so the the the dice continue to
+
+1244
+01:07:12,520 --> 01:07:17,480
+you know not have this transitivity
+
+1245
+01:07:14,319 --> 01:07:22,359
+property but like every time it's
+
+1246
+01:07:17,480 --> 01:07:25,359
+switched okay and as it turns out uh you
+
+1247
+01:07:22,359 --> 01:07:28,000
+know you can even you know extend this
+
+1248
+01:07:25,359 --> 01:07:30,359
+right right like if you have more dice
+
+1249
+01:07:28,000 --> 01:07:31,880
+with different numbers you can get like
+
+1250
+01:07:30,359 --> 01:07:35,880
+all sorts of weird things that are that
+
+1251
+01:07:31,880 --> 01:07:38,520
+are that that could happen um so there's
+
+1252
+01:07:35,880 --> 01:07:40,160
+a a link to a to a a rather interesting
+
+1253
+01:07:38,520 --> 01:07:45,400
+paper on archive if you if you want to
+
+1254
+01:07:40,160 --> 01:07:46,640
+see it uh in the lecture notes um but uh
+
+1255
+01:07:45,400 --> 01:07:48,480
+yeah for now I think that's all we have
+
+1256
+01:07:46,640 --> 01:07:50,960
+time for feel free to uh come up if you
+
+1257
+01:07:48,480 --> 01:07:54,240
+have questions and otherwise we will see
+
+1258
+01:07:50,960 --> 01:07:54,240
+you on Thursday
+

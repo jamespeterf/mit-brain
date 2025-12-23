@@ -1,0 +1,5748 @@
+1
+00:00:00,120 --> 00:00:05,040
+fairly broad title but I'm actually
+
+2
+00:00:02,360 --> 00:00:08,360
+going to work through several case
+
+3
+00:00:05,040 --> 00:00:11,840
+studies to try to uh give you a flavor
+
+4
+00:00:08,360 --> 00:00:15,040
+of the um the ideas that I would like to
+
+5
+00:00:11,840 --> 00:00:17,800
+convey so I don't need to introduce
+
+6
+00:00:15,040 --> 00:00:20,119
+distributed Cooperative Network control
+
+7
+00:00:17,800 --> 00:00:23,160
+I think most of the audience is familiar
+
+8
+00:00:20,119 --> 00:00:27,039
+with the variety of applications uh I
+
+9
+00:00:23,160 --> 00:00:28,840
+want to talk about uh underlying sort of
+
+10
+00:00:27,039 --> 00:00:31,480
+fundamental limitations in control
+
+11
+00:00:28,840 --> 00:00:35,160
+design so I'm going to have uh two
+
+12
+00:00:31,480 --> 00:00:37,840
+themes uh throughout the talk uh and the
+
+13
+00:00:35,160 --> 00:00:39,480
+First theme is going to be that uh I'm
+
+14
+00:00:37,840 --> 00:00:44,120
+going to think about spatially
+
+15
+00:00:39,480 --> 00:00:47,039
+distributed systems uh which involve uh
+
+16
+00:00:44,120 --> 00:00:48,920
+networked uh and Cooperative systems
+
+17
+00:00:47,039 --> 00:00:50,719
+over networks and I'm going to talk
+
+18
+00:00:48,920 --> 00:00:52,600
+about distributed parameter systems
+
+19
+00:00:50,719 --> 00:00:56,280
+which people normally think of as
+
+20
+00:00:52,600 --> 00:00:58,480
+control of pdes in the same breath and
+
+21
+00:00:56,280 --> 00:01:00,120
+the way I want to connect them is that I
+
+22
+00:00:58,480 --> 00:01:03,039
+want to think about these this problem
+
+23
+00:01:00,120 --> 00:01:05,400
+over Continuum space and problems over
+
+24
+00:01:03,039 --> 00:01:09,200
+graphs and networks as I think about the
+
+25
+00:01:05,400 --> 00:01:11,439
+graph as dist discretized space but
+
+26
+00:01:09,200 --> 00:01:13,799
+discretize in in terms of the graph
+
+27
+00:01:11,439 --> 00:01:16,720
+structure which can be fairly
+
+28
+00:01:13,799 --> 00:01:20,079
+complex um we're familiar with this sort
+
+29
+00:01:16,720 --> 00:01:22,240
+of maybe in uh when you do pdes and you
+
+30
+00:01:20,079 --> 00:01:24,880
+do numerical methods you get typically
+
+31
+00:01:22,240 --> 00:01:27,040
+differential equations over typically
+
+32
+00:01:24,880 --> 00:01:29,360
+regular graphs but if your meshes are
+
+33
+00:01:27,040 --> 00:01:32,479
+not regular then you get more General
+
+34
+00:01:29,360 --> 00:01:34,880
+graphs and when you have discrete
+
+35
+00:01:32,479 --> 00:01:36,840
+systems or sort of particle methods with
+
+36
+00:01:34,880 --> 00:01:39,520
+a large number of particles you often
+
+37
+00:01:36,840 --> 00:01:41,479
+look at the equivalent pdes that come
+
+38
+00:01:39,520 --> 00:01:43,320
+from Continuum models so this is not an
+
+39
+00:01:41,479 --> 00:01:47,479
+unusual point of view but I want to
+
+40
+00:01:43,320 --> 00:01:50,399
+adopt that for control design as well um
+
+41
+00:01:47,479 --> 00:01:54,000
+because space over arbitrary graphs can
+
+42
+00:01:50,399 --> 00:01:55,560
+actually be quite different from say
+
+43
+00:01:54,000 --> 00:01:57,280
+going between discrete time and
+
+44
+00:01:55,560 --> 00:02:00,240
+continuous time and time is a
+
+45
+00:01:57,280 --> 00:02:03,280
+one-dimensional ordered set while
+
+46
+00:02:00,240 --> 00:02:05,360
+discretized space can have a much richer
+
+47
+00:02:03,280 --> 00:02:07,560
+structure we'll see that there's much
+
+48
+00:02:05,360 --> 00:02:09,560
+richer phenomenology or differences
+
+49
+00:02:07,560 --> 00:02:11,800
+between the discrete and the Continuum
+
+50
+00:02:09,560 --> 00:02:15,480
+so that will be one theme the other
+
+51
+00:02:11,800 --> 00:02:18,160
+theme is going to be uh about
+
+52
+00:02:15,480 --> 00:02:20,879
+constrained uh control design over
+
+53
+00:02:18,160 --> 00:02:24,120
+networks uh where the constraints are
+
+54
+00:02:20,879 --> 00:02:26,560
+coming from the a priori uh restrictions
+
+55
+00:02:24,120 --> 00:02:27,920
+placed on the controller architecture
+
+56
+00:02:26,560 --> 00:02:30,319
+and those are really the important
+
+57
+00:02:27,920 --> 00:02:33,160
+questions I want to address
+
+58
+00:02:30,319 --> 00:02:36,160
+um so it is generally a very difficult
+
+59
+00:02:33,160 --> 00:02:38,120
+problem to do optimal con constraint
+
+60
+00:02:36,160 --> 00:02:41,760
+control design think about decentralized
+
+61
+00:02:38,120 --> 00:02:43,840
+control or various other uh restrictions
+
+62
+00:02:41,760 --> 00:02:47,360
+the problems are typically non-convex
+
+63
+00:02:43,840 --> 00:02:51,440
+non-scalable Etc um on the other hand if
+
+64
+00:02:47,360 --> 00:02:53,560
+you think about multi-agent systems uh
+
+65
+00:02:51,440 --> 00:02:55,680
+there are many effective algorithms
+
+66
+00:02:53,560 --> 00:02:57,239
+proposed for multi-agent systems that
+
+67
+00:02:55,680 --> 00:02:59,720
+are not necessarily optimal but they're
+
+68
+00:02:57,239 --> 00:03:02,920
+provably correct or have certain levels
+
+69
+00:02:59,720 --> 00:03:05,799
+of of performance by Design uh so why
+
+70
+00:03:02,920 --> 00:03:08,799
+worry about optimality at all since it's
+
+71
+00:03:05,799 --> 00:03:11,760
+so difficult and I want to argue is that
+
+72
+00:03:08,799 --> 00:03:14,560
+optimality really is kind of a way to
+
+73
+00:03:11,760 --> 00:03:17,200
+think about co-design of the plant and
+
+74
+00:03:14,560 --> 00:03:19,000
+the controller together it's about
+
+75
+00:03:17,200 --> 00:03:22,200
+understanding how controllable the plant
+
+76
+00:03:19,000 --> 00:03:24,200
+is rather than trying to just design an
+
+77
+00:03:22,200 --> 00:03:27,519
+optimal controller and I hope to make
+
+78
+00:03:24,200 --> 00:03:30,519
+that point uh with the following example
+
+79
+00:03:27,519 --> 00:03:34,239
+that may be uh familiar to some of you
+
+80
+00:03:30,519 --> 00:03:37,840
+so uh this is an unstable airplane and
+
+81
+00:03:34,239 --> 00:03:40,040
+this was made famous in the CDC body
+
+82
+00:03:37,840 --> 00:03:42,280
+lecture by Gunter Stein I want to talk
+
+83
+00:03:40,040 --> 00:03:43,879
+about another problem very briefly to
+
+84
+00:03:42,280 --> 00:03:45,519
+make the point out I want to make
+
+85
+00:03:43,879 --> 00:03:50,200
+throughout the talk so think about a
+
+86
+00:03:45,519 --> 00:03:53,159
+rear steering bike so that is a a bike
+
+87
+00:03:50,200 --> 00:03:55,560
+where the steering uh wheel is actually
+
+88
+00:03:53,159 --> 00:03:58,120
+in the rear and you're not trying to be
+
+89
+00:03:55,560 --> 00:04:00,760
+fooled so when you turn the handlebar
+
+90
+00:03:58,120 --> 00:04:03,079
+right eventually the bike will go right
+
+91
+00:04:00,760 --> 00:04:06,360
+and vice versa okay this is a
+
+92
+00:04:03,079 --> 00:04:08,040
+fundamentally difficult bike to control
+
+93
+00:04:06,360 --> 00:04:11,200
+in other words it's fundamentally
+
+94
+00:04:08,040 --> 00:04:13,040
+difficult to ride um and there's a very
+
+95
+00:04:11,200 --> 00:04:15,799
+nice paper that I recommend to all of
+
+96
+00:04:13,040 --> 00:04:18,000
+you uh by Carl asan company that
+
+97
+00:04:15,799 --> 00:04:21,000
+explains all the details I'm going to
+
+98
+00:04:18,000 --> 00:04:24,160
+just talk about one aspect of this very
+
+99
+00:04:21,000 --> 00:04:26,040
+quickly um so you can understand how
+
+100
+00:04:24,160 --> 00:04:28,960
+difficult this bike is to ride if you
+
+101
+00:04:26,040 --> 00:04:32,240
+look at the linearized Dynamics between
+
+102
+00:04:28,960 --> 00:04:35,960
+uh the actuation is The Handlebar angle
+
+103
+00:04:32,240 --> 00:04:39,080
+and the output is the Tilt angle of the
+
+104
+00:04:35,960 --> 00:04:42,000
+bike uh and so that these are the only
+
+105
+00:04:39,080 --> 00:04:44,120
+inputs and outputs uh considered here
+
+106
+00:04:42,000 --> 00:04:46,800
+and you can think about the fundamental
+
+107
+00:04:44,120 --> 00:04:47,960
+limitation on the sensitivity function
+
+108
+00:04:46,800 --> 00:04:51,440
+over all
+
+109
+00:04:47,960 --> 00:04:53,880
+controllers uh you can find a lower
+
+110
+00:04:51,440 --> 00:04:55,680
+bound on this in terms of a right half
+
+111
+00:04:53,880 --> 00:04:59,160
+plane and pole and a right half plane
+
+112
+00:04:55,680 --> 00:05:01,440
+zero that these Dynamics have okay so
+
+113
+00:04:59,160 --> 00:05:03,199
+this is a not only an unstable system
+
+114
+00:05:01,440 --> 00:05:05,280
+but it also is a non-minimum phase
+
+115
+00:05:03,199 --> 00:05:08,919
+system with a right half plane zero and
+
+116
+00:05:05,280 --> 00:05:11,440
+the sensitivity cannot be made any lower
+
+117
+00:05:08,919 --> 00:05:13,479
+than this quantity so in particular you
+
+118
+00:05:11,440 --> 00:05:15,680
+can see that the distance between the
+
+119
+00:05:13,479 --> 00:05:18,080
+right half flame pole and zero the
+
+120
+00:05:15,680 --> 00:05:19,639
+smaller it is the larger this quantity
+
+121
+00:05:18,080 --> 00:05:21,919
+is in fact when they're on top of each
+
+122
+00:05:19,639 --> 00:05:24,199
+other the system is not
+
+123
+00:05:21,919 --> 00:05:26,639
+stabilizable so but even when they're
+
+124
+00:05:24,199 --> 00:05:30,039
+not on top of each other but close the
+
+125
+00:05:26,639 --> 00:05:32,479
+system has very very high sensitivity
+
+126
+00:05:30,039 --> 00:05:36,120
+now you can relate in this paper that's
+
+127
+00:05:32,479 --> 00:05:37,919
+uh uh it's laid out in detail how the um
+
+128
+00:05:36,120 --> 00:05:40,000
+the right half plane pole doesn't depend
+
+129
+00:05:37,919 --> 00:05:42,600
+on velocity but the right half plane
+
+130
+00:05:40,000 --> 00:05:44,720
+zero depends on the velocity the Nom
+
+131
+00:05:42,600 --> 00:05:47,560
+remember this is linearized Dynamics
+
+132
+00:05:44,720 --> 00:05:50,960
+around a particular velocity so for High
+
+133
+00:05:47,560 --> 00:05:54,160
+Velocity it's uh it goes out further to
+
+134
+00:05:50,960 --> 00:05:56,919
+the to the right uh this is this is less
+
+135
+00:05:54,160 --> 00:05:58,840
+sensitivity than low velocity and in
+
+136
+00:05:56,919 --> 00:06:01,199
+fact this is the only way you could
+
+137
+00:05:58,840 --> 00:06:03,039
+write this bike the people who have been
+
+138
+00:06:01,199 --> 00:06:06,560
+able to ride this bike I tried but I
+
+139
+00:06:03,039 --> 00:06:08,840
+couldn't several times is you run along
+
+140
+00:06:06,560 --> 00:06:10,599
+with the bike at a certain velocity and
+
+141
+00:06:08,840 --> 00:06:13,319
+then you jump on it and you start
+
+142
+00:06:10,599 --> 00:06:14,960
+pedling like crazy and and you could if
+
+143
+00:06:13,319 --> 00:06:18,440
+you're if you're good enough you could
+
+144
+00:06:14,960 --> 00:06:19,800
+sort of maintain decent control but you
+
+145
+00:06:18,440 --> 00:06:21,919
+when you get to the end of the road you
+
+146
+00:06:19,800 --> 00:06:23,680
+have to slow down and you can see this
+
+147
+00:06:21,919 --> 00:06:26,560
+repeatedly when people trying to ride
+
+148
+00:06:23,680 --> 00:06:29,680
+this bike as the velocity decreases you
+
+149
+00:06:26,560 --> 00:06:33,440
+kind of lose control and you fall off so
+
+150
+00:06:29,680 --> 00:06:36,280
+in a way this tells you roughly the um
+
+151
+00:06:33,440 --> 00:06:38,039
+performance limitations now the
+
+152
+00:06:36,280 --> 00:06:40,360
+distances between the pole and the zero
+
+153
+00:06:38,039 --> 00:06:44,520
+and so on are related to the geometry of
+
+154
+00:06:40,360 --> 00:06:47,759
+the bike uh for example it is U so here
+
+155
+00:06:44,520 --> 00:06:50,039
+let me see so it is related to the fork
+
+156
+00:06:47,759 --> 00:06:53,039
+angle the center where the center of
+
+157
+00:06:50,039 --> 00:06:55,000
+gravity is and so on So based on those
+
+158
+00:06:53,039 --> 00:06:58,639
+relations which are fairly easy to
+
+159
+00:06:55,000 --> 00:07:01,680
+derive what you could do is you could
+
+160
+00:06:58,639 --> 00:07:04,400
+redesign rear steering work this is a
+
+161
+00:07:01,680 --> 00:07:06,960
+redesigned rear steering bike looks very
+
+162
+00:07:04,400 --> 00:07:09,520
+funny uh in fact the higher the center
+
+163
+00:07:06,960 --> 00:07:11,840
+of gravity the further are the distances
+
+164
+00:07:09,520 --> 00:07:14,240
+between the pole and zero uh and the
+
+165
+00:07:11,840 --> 00:07:17,360
+further to the front that center of
+
+166
+00:07:14,240 --> 00:07:19,360
+gravity is again the further the
+
+167
+00:07:17,360 --> 00:07:21,280
+distance between the pole and zero So
+
+168
+00:07:19,360 --> 00:07:25,160
+based on these
+
+169
+00:07:21,280 --> 00:07:27,919
+relations uh and the limitations on the
+
+170
+00:07:25,160 --> 00:07:30,280
+sensitivity you can actually redesign
+
+171
+00:07:27,919 --> 00:07:32,879
+the bike to be more easy easily
+
+172
+00:07:30,280 --> 00:07:35,560
+controllable so the optimal control
+
+173
+00:07:32,879 --> 00:07:37,199
+design or the limitations on performance
+
+174
+00:07:35,560 --> 00:07:40,039
+were useful not in designing the
+
+175
+00:07:37,199 --> 00:07:43,319
+controller but in redesigning the plant
+
+176
+00:07:40,039 --> 00:07:45,479
+so that it is more easy to control right
+
+177
+00:07:43,319 --> 00:07:50,159
+so now you don't have to be very skilled
+
+178
+00:07:45,479 --> 00:07:52,280
+to ride this bike okay so again so this
+
+179
+00:07:50,159 --> 00:07:53,960
+is you know this is well known to
+
+180
+00:07:52,280 --> 00:07:56,759
+overcome these limitations you can add
+
+181
+00:07:53,960 --> 00:07:58,639
+sensors and actuators but here this is
+
+182
+00:07:56,759 --> 00:08:00,400
+an example of actually redesigning the
+
+183
+00:07:58,639 --> 00:08:03,520
+plant
+
+184
+00:08:00,400 --> 00:08:06,039
+so uh so this is kind of a an
+
+185
+00:08:03,520 --> 00:08:09,599
+interesting point to ponder in the
+
+186
+00:08:06,039 --> 00:08:12,080
+current ERA of data driven control and
+
+187
+00:08:09,599 --> 00:08:15,639
+model predictive control reinforcement
+
+188
+00:08:12,080 --> 00:08:18,440
+learning Etc what seems to be happening
+
+189
+00:08:15,639 --> 00:08:20,599
+one way to understand it is that the
+
+190
+00:08:18,440 --> 00:08:23,159
+controller design itself you give me a
+
+191
+00:08:20,599 --> 00:08:25,599
+plant and then I design the controller
+
+192
+00:08:23,159 --> 00:08:27,840
+that process is being automated through
+
+193
+00:08:25,599 --> 00:08:31,120
+data driven techniques or model
+
+194
+00:08:27,840 --> 00:08:33,159
+predictive control and so on uh so what
+
+195
+00:08:31,120 --> 00:08:36,880
+is the utility of optimal or robust
+
+196
+00:08:33,159 --> 00:08:39,320
+control and you know this was a a point
+
+197
+00:08:36,880 --> 00:08:41,800
+that was kind of known in the 80s and
+
+198
+00:08:39,320 --> 00:08:43,720
+90s but seems to be not fully
+
+199
+00:08:41,800 --> 00:08:46,160
+appreciated in the in the networks
+
+200
+00:08:43,720 --> 00:08:49,040
+literature is that you really use
+
+201
+00:08:46,160 --> 00:08:52,240
+optimal control to characterize when is
+
+202
+00:08:49,040 --> 00:08:55,440
+a good what is a good plant easy to
+
+203
+00:08:52,240 --> 00:08:57,360
+control when is it easy to control once
+
+204
+00:08:55,440 --> 00:08:59,480
+you use those techniques to design a
+
+205
+00:08:57,360 --> 00:09:01,560
+good plant like I did with the uh like
+
+206
+00:08:59,480 --> 00:09:04,480
+like it was done with the bicycle
+
+207
+00:09:01,560 --> 00:09:06,640
+example then essentially any good
+
+208
+00:09:04,480 --> 00:09:08,839
+controller any well-designed controller
+
+209
+00:09:06,640 --> 00:09:11,640
+does not have to be optimal will work
+
+210
+00:09:08,839 --> 00:09:15,600
+well so optimal control really should
+
+211
+00:09:11,640 --> 00:09:17,800
+you should be thought of as a way to re
+
+212
+00:09:15,600 --> 00:09:18,920
+sort of doing co-design of the plant and
+
+213
+00:09:17,800 --> 00:09:21,440
+the controller but actually more
+
+214
+00:09:18,920 --> 00:09:23,519
+importantly the plant itself and then
+
+215
+00:09:21,440 --> 00:09:26,160
+any decent controller will work on a
+
+216
+00:09:23,519 --> 00:09:27,760
+well-designed plant all right so this
+
+217
+00:09:26,160 --> 00:09:31,320
+actually John Doyle used to say this all
+
+218
+00:09:27,760 --> 00:09:33,079
+the time uh B basically design use
+
+219
+00:09:31,320 --> 00:09:36,160
+optimal and robust control tools to
+
+220
+00:09:33,079 --> 00:09:38,279
+design a good plant and then a p ID say
+
+221
+00:09:36,160 --> 00:09:41,120
+controller will work well reasonably any
+
+222
+00:09:38,279 --> 00:09:43,920
+reasonably designed controller
+
+223
+00:09:41,120 --> 00:09:47,000
+so uh that's the point I would like to
+
+224
+00:09:43,920 --> 00:09:49,079
+make about these constrained distributed
+
+225
+00:09:47,000 --> 00:09:52,079
+optimal control problems which are hard
+
+226
+00:09:49,079 --> 00:09:54,120
+and and non-convex you use them to
+
+227
+00:09:52,079 --> 00:09:56,560
+characterize when is a network easy to
+
+228
+00:09:54,120 --> 00:09:59,720
+control so this is a question of network
+
+229
+00:09:56,560 --> 00:10:02,360
+controllability that may be addressable
+
+230
+00:09:59,720 --> 00:10:05,320
+by looking at constrained distributed
+
+231
+00:10:02,360 --> 00:10:07,120
+optimal control uh in engineered systems
+
+232
+00:10:05,320 --> 00:10:10,600
+it tells you how to design the network
+
+233
+00:10:07,120 --> 00:10:13,120
+structures and maybe in natural networks
+
+234
+00:10:10,600 --> 00:10:14,720
+it can tell you why the network evolved
+
+235
+00:10:13,120 --> 00:10:17,480
+to have that structure in the first
+
+236
+00:10:14,720 --> 00:10:19,079
+place so this is very ambitious I'm not
+
+237
+00:10:17,480 --> 00:10:21,279
+going to be able to answer this question
+
+238
+00:10:19,079 --> 00:10:24,000
+in general but I'm going to give you uh
+
+239
+00:10:21,279 --> 00:10:26,200
+three different manifestations of this
+
+240
+00:10:24,000 --> 00:10:27,720
+kind of thinking uh I'm going to talk
+
+241
+00:10:26,200 --> 00:10:30,480
+about architectural features and
+
+242
+00:10:27,720 --> 00:10:32,240
+distributed control that come for free
+
+243
+00:10:30,480 --> 00:10:33,839
+uh and then I'm going to talk about
+
+244
+00:10:32,240 --> 00:10:37,160
+constraints that can be tractivity
+
+245
+00:10:33,839 --> 00:10:39,639
+imposed meaning lead to convex problems
+
+246
+00:10:37,160 --> 00:10:41,480
+uh and those give some insights and then
+
+247
+00:10:39,639 --> 00:10:44,440
+I'm going to talk about large scale
+
+248
+00:10:41,480 --> 00:10:46,639
+networks and architectures that have
+
+249
+00:10:44,440 --> 00:10:48,839
+fragility which means you need to do
+
+250
+00:10:46,639 --> 00:10:51,519
+something about that architecture change
+
+251
+00:10:48,839 --> 00:10:54,360
+it to introduce easy of ease of
+
+252
+00:10:51,519 --> 00:10:56,600
+controlability okay so that's so these
+
+253
+00:10:54,360 --> 00:10:58,839
+are going to be particular case studies
+
+254
+00:10:56,600 --> 00:11:01,000
+not an overarching Theory but I think
+
+255
+00:10:58,839 --> 00:11:03,079
+kind of lead maybe to the directions
+
+256
+00:11:01,000 --> 00:11:06,079
+You' want to go if you want to form an
+
+257
+00:11:03,079 --> 00:11:08,639
+overarching Theory so let me go back to
+
+258
+00:11:06,079 --> 00:11:12,320
+theme one which is the analogies between
+
+259
+00:11:08,639 --> 00:11:15,720
+networks and pdes so this is the
+
+260
+00:11:12,320 --> 00:11:17,160
+standard consensus algorithm on a graph
+
+261
+00:11:15,720 --> 00:11:19,360
+I don't think I think I don't need to
+
+262
+00:11:17,160 --> 00:11:23,399
+describe that to this audience but this
+
+263
+00:11:19,360 --> 00:11:26,360
+is the laian uh Matrix of a network uh
+
+264
+00:11:23,399 --> 00:11:28,240
+that is the so here's an example of this
+
+265
+00:11:26,360 --> 00:11:30,800
+you start with a quantity at some node
+
+266
+00:11:28,240 --> 00:11:33,040
+and it diffuses over the network this is
+
+267
+00:11:30,800 --> 00:11:34,399
+effectively the network version of the
+
+268
+00:11:33,040 --> 00:11:37,680
+diffusion
+
+269
+00:11:34,399 --> 00:11:40,880
+equation um when you have consensus in
+
+270
+00:11:37,680 --> 00:11:43,480
+directed networks under some assumptions
+
+271
+00:11:40,880 --> 00:11:46,120
+no Cycles Etc you can think about this
+
+272
+00:11:43,480 --> 00:11:47,200
+as a combination of advection defusion
+
+273
+00:11:46,120 --> 00:11:49,000
+on a
+
+274
+00:11:47,200 --> 00:11:52,600
+network
+
+275
+00:11:49,000 --> 00:11:55,240
+um so you could also have which is some
+
+276
+00:11:52,600 --> 00:11:56,760
+people uh look at consensus with
+
+277
+00:11:55,240 --> 00:11:59,839
+additive
+
+278
+00:11:56,760 --> 00:12:02,200
+noise uh in you know that corresponds to
+
+279
+00:11:59,839 --> 00:12:04,760
+the diffusion equation with random
+
+280
+00:12:02,200 --> 00:12:07,399
+Fields time varying and spatially
+
+281
+00:12:04,760 --> 00:12:09,800
+varying random Fields uh in physics this
+
+282
+00:12:07,399 --> 00:12:12,680
+is called the Edwards Wilkinson equation
+
+283
+00:12:09,800 --> 00:12:16,160
+which in 1D describes the Dynamics of a
+
+284
+00:12:12,680 --> 00:12:18,320
+long polymer chain in sort of in L ofan
+
+285
+00:12:16,160 --> 00:12:20,800
+forces uh you can think of this as
+
+286
+00:12:18,320 --> 00:12:23,279
+additive uncertainty now you can think
+
+287
+00:12:20,800 --> 00:12:25,600
+about a uh consensus for example with
+
+288
+00:12:23,279 --> 00:12:26,839
+random link failures where the structure
+
+289
+00:12:25,600 --> 00:12:29,519
+of the network is changing
+
+290
+00:12:26,839 --> 00:12:32,000
+stochastically in time the counter part
+
+291
+00:12:29,519 --> 00:12:35,440
+of that would be uh diffusion in a
+
+292
+00:12:32,000 --> 00:12:37,839
+medium whose diffusion constant could be
+
+293
+00:12:35,440 --> 00:12:39,720
+time varying and spatially varying so in
+
+294
+00:12:37,839 --> 00:12:40,880
+physics this is called diffusion in
+
+295
+00:12:39,720 --> 00:12:45,000
+disordered
+
+296
+00:12:40,880 --> 00:12:48,079
+media um and you can
+
+297
+00:12:45,000 --> 00:12:50,639
+combine uh sort of media disorder
+
+298
+00:12:48,079 --> 00:12:52,160
+together with additive uncertainty uh
+
+299
+00:12:50,639 --> 00:12:54,760
+and you can think of it you know the
+
+300
+00:12:52,160 --> 00:12:57,120
+Continuum version of that is this uh
+
+301
+00:12:54,760 --> 00:12:59,880
+this kind of this kind of Dynamics even
+
+302
+00:12:57,120 --> 00:13:01,720
+though it looks uh a little bit looks
+
+303
+00:12:59,880 --> 00:13:03,720
+simple it's linear but with random
+
+304
+00:13:01,720 --> 00:13:07,680
+coefficients can actually have extremely
+
+305
+00:13:03,720 --> 00:13:10,800
+rich Behavior so nikolia and and Wang
+
+306
+00:13:07,680 --> 00:13:14,560
+and and others have shown that even when
+
+307
+00:13:10,800 --> 00:13:16,480
+this uncertainty is gaussian you can
+
+308
+00:13:14,560 --> 00:13:19,560
+have behavior that leads to heavy tals
+
+309
+00:13:16,480 --> 00:13:21,360
+and Levy flights and so on uh so it has
+
+310
+00:13:19,560 --> 00:13:25,760
+a very rich
+
+311
+00:13:21,360 --> 00:13:29,320
+phenomenology um another set of examples
+
+312
+00:13:25,760 --> 00:13:32,959
+this is the famous sort of V strings
+
+313
+00:13:29,320 --> 00:13:35,600
+otherwise people call them vular platoon
+
+314
+00:13:32,959 --> 00:13:37,240
+but since these days I'm allergic to all
+
+315
+00:13:35,600 --> 00:13:40,800
+military metaphors I'm going to call
+
+316
+00:13:37,240 --> 00:13:44,079
+them military strings instead uh so
+
+317
+00:13:40,800 --> 00:13:47,480
+sorry I mean vehicle strings uh so here
+
+318
+00:13:44,079 --> 00:13:49,519
+let's say you have a a string of
+
+319
+00:13:47,480 --> 00:13:52,720
+vehicles on a freeway the objective is
+
+320
+00:13:49,519 --> 00:13:55,440
+to go at a constant velocity trajectory
+
+321
+00:13:52,720 --> 00:13:57,680
+and you want to you say do velocity
+
+322
+00:13:55,440 --> 00:13:59,800
+position and velocity feedback and if
+
+323
+00:13:57,680 --> 00:14:02,160
+you close the loop on velocity and
+
+324
+00:13:59,800 --> 00:14:05,279
+position feedback you get a model that
+
+325
+00:14:02,160 --> 00:14:07,920
+looks like this where the matrices K and
+
+326
+00:14:05,279 --> 00:14:09,839
+F are the feedbacks on all velocities
+
+327
+00:14:07,920 --> 00:14:11,759
+and positions and they kind of look they
+
+328
+00:14:09,839 --> 00:14:13,399
+look like Lans and I'll talk about this
+
+329
+00:14:11,759 --> 00:14:16,199
+in a little bit more
+
+330
+00:14:13,399 --> 00:14:18,560
+detail you can also have the problem of
+
+331
+00:14:16,199 --> 00:14:21,040
+phas synchronization in transmission
+
+332
+00:14:18,560 --> 00:14:23,079
+networks and the model looks very Sim
+
+333
+00:14:21,040 --> 00:14:25,600
+similar like this this is the linearized
+
+334
+00:14:23,079 --> 00:14:27,839
+swing equations of power networks they
+
+335
+00:14:25,600 --> 00:14:30,759
+have a very similar structure to this
+
+336
+00:14:27,839 --> 00:14:33,880
+equation um the analogy here is with the
+
+337
+00:14:30,759 --> 00:14:35,759
+wave equation so here this is the wave
+
+338
+00:14:33,880 --> 00:14:38,880
+equation with what's called Kelvin V
+
+339
+00:14:35,759 --> 00:14:41,360
+damping and this is the uh for the case
+
+340
+00:14:38,880 --> 00:14:43,279
+we're here the damping term is constant
+
+341
+00:14:41,360 --> 00:14:46,240
+times the identity this is kind of
+
+342
+00:14:43,279 --> 00:14:49,240
+viscous damping uh but again these
+
+343
+00:14:46,240 --> 00:14:50,920
+Systems Support wav like phenomena and
+
+344
+00:14:49,240 --> 00:14:54,199
+so it's not surprising that they are
+
+345
+00:14:50,920 --> 00:14:58,279
+analogous to the wave equation all
+
+346
+00:14:54,199 --> 00:14:59,920
+right uh so let me talk about um uh
+
+347
+00:14:58,279 --> 00:15:02,480
+these three different different uh
+
+348
+00:14:59,920 --> 00:15:04,959
+aspects of the problem so I'll talk
+
+349
+00:15:02,480 --> 00:15:06,680
+about uh architecture features that come
+
+350
+00:15:04,959 --> 00:15:09,079
+for free and how you could use them
+
+351
+00:15:06,680 --> 00:15:11,240
+maybe to characterize limits of
+
+352
+00:15:09,079 --> 00:15:12,440
+performance so let's look at a very
+
+353
+00:15:11,240 --> 00:15:15,079
+simple
+
+354
+00:15:12,440 --> 00:15:18,120
+example uh I want to do distributed
+
+355
+00:15:15,079 --> 00:15:20,800
+control of diffusion so think about a
+
+356
+00:15:18,120 --> 00:15:23,920
+bar that is being where the temperature
+
+357
+00:15:20,800 --> 00:15:26,680
+is being controlled by a heat input
+
+358
+00:15:23,920 --> 00:15:28,680
+which is your control U of XT uh this is
+
+359
+00:15:26,680 --> 00:15:30,440
+an idealization of course just to
+
+360
+00:15:28,680 --> 00:15:32,759
+understand limits of performance often
+
+361
+00:15:30,440 --> 00:15:36,199
+you don't have that many
+
+362
+00:15:32,759 --> 00:15:39,040
+actuators um and the performance
+
+363
+00:15:36,199 --> 00:15:41,560
+objective may be something like lqr so
+
+364
+00:15:39,040 --> 00:15:43,720
+here you would integrate in both space
+
+365
+00:15:41,560 --> 00:15:46,199
+and time and you can think about this as
+
+366
+00:15:43,720 --> 00:15:50,040
+an inner product in the space L2 over
+
+367
+00:15:46,199 --> 00:15:53,160
+over space uh and then integral in time
+
+368
+00:15:50,040 --> 00:15:56,279
+0 to Infinity uh so one of the things
+
+369
+00:15:53,160 --> 00:15:59,639
+that are easy to show is that if in an
+
+370
+00:15:56,279 --> 00:16:01,759
+lqr problem you're a b q and r operators
+
+371
+00:15:59,639 --> 00:16:03,800
+are translation invariant here
+
+372
+00:16:01,759 --> 00:16:07,319
+translation invariant with respect to
+
+373
+00:16:03,800 --> 00:16:10,839
+space then necessarily the solutions of
+
+374
+00:16:07,319 --> 00:16:12,639
+the uh R operator radi equation for this
+
+375
+00:16:10,839 --> 00:16:13,800
+problem is will also inherit that
+
+376
+00:16:12,639 --> 00:16:17,000
+spatial
+
+377
+00:16:13,800 --> 00:16:18,920
+invariance um here's an example so so
+
+378
+00:16:17,000 --> 00:16:23,600
+then the optimal
+
+379
+00:16:18,920 --> 00:16:27,160
+control is an integral in space uh at
+
+380
+00:16:23,600 --> 00:16:30,000
+each time so it's memoryless in time and
+
+381
+00:16:27,160 --> 00:16:33,440
+in space it's given by say a a kernel
+
+382
+00:16:30,000 --> 00:16:35,959
+that represents the spatial action on
+
+383
+00:16:33,440 --> 00:16:39,000
+the state to produce the control by the
+
+384
+00:16:35,959 --> 00:16:43,120
+way in in throughout this talk the state
+
+385
+00:16:39,000 --> 00:16:45,440
+is denoted by sigh not x x is a
+
+386
+00:16:43,120 --> 00:16:49,680
+positioned coordinate so that's
+
+387
+00:16:45,440 --> 00:16:51,639
+important to keep in mind um so uh
+
+388
+00:16:49,680 --> 00:16:53,720
+transition invariance means that the
+
+389
+00:16:51,639 --> 00:16:56,079
+integral kernel of this operator is
+
+390
+00:16:53,720 --> 00:17:00,319
+toets so it has the structure that is
+
+391
+00:16:56,079 --> 00:17:03,360
+shown here um and
+
+392
+00:17:00,319 --> 00:17:05,919
+and so what that means is that the
+
+393
+00:17:03,360 --> 00:17:08,199
+control for this at this particular
+
+394
+00:17:05,919 --> 00:17:11,079
+location is given by a convolution
+
+395
+00:17:08,199 --> 00:17:13,319
+kernel because a toets operator acting
+
+396
+00:17:11,079 --> 00:17:16,439
+as an integral kernel is equivalent to a
+
+397
+00:17:13,319 --> 00:17:19,199
+convolution in space so the control at
+
+398
+00:17:16,439 --> 00:17:21,880
+this point takes the state everywhere
+
+399
+00:17:19,199 --> 00:17:24,480
+and convolves it the control over here
+
+400
+00:17:21,880 --> 00:17:26,640
+has the same convolution kernel acting
+
+401
+00:17:24,480 --> 00:17:28,960
+on a shifted version of the state so
+
+402
+00:17:26,640 --> 00:17:30,360
+that's the implication of the uh
+
+403
+00:17:28,960 --> 00:17:33,000
+translation in
+
+404
+00:17:30,360 --> 00:17:35,679
+variance uh you can this is quite
+
+405
+00:17:33,000 --> 00:17:37,640
+General so if you have a sort of a
+
+406
+00:17:35,679 --> 00:17:40,080
+homogeneous medium with an actuator
+
+407
+00:17:37,640 --> 00:17:43,600
+sensus array that's has some regular
+
+408
+00:17:40,080 --> 00:17:45,640
+pattern you can describe that as sort of
+
+409
+00:17:43,600 --> 00:17:48,880
+equivariance with respect to a group
+
+410
+00:17:45,640 --> 00:17:51,760
+action and then the first architectural
+
+411
+00:17:48,880 --> 00:17:55,480
+feature that you can show about this is
+
+412
+00:17:51,760 --> 00:17:58,840
+that the optimal controller will inherit
+
+413
+00:17:55,480 --> 00:18:01,240
+that spatial invariance or this the equ
+
+414
+00:17:58,840 --> 00:18:04,039
+facial equivariance more accurately and
+
+415
+00:18:01,240 --> 00:18:05,280
+so the controller can also have a very
+
+416
+00:18:04,039 --> 00:18:08,080
+special
+
+417
+00:18:05,280 --> 00:18:10,559
+structure and which is related to the
+
+418
+00:18:08,080 --> 00:18:13,080
+equivalent structure of the medium that
+
+419
+00:18:10,559 --> 00:18:16,880
+you're trying to control uh this is not
+
+420
+00:18:13,080 --> 00:18:19,960
+too difficult to show but um but the
+
+421
+00:18:16,880 --> 00:18:24,679
+point of this is let's forget about the
+
+422
+00:18:19,960 --> 00:18:26,120
+proof once you realize this then you
+
+423
+00:18:24,679 --> 00:18:29,039
+don't have to actually Implement an
+
+424
+00:18:26,120 --> 00:18:30,760
+optimal controller you can implement the
+
+425
+00:18:29,039 --> 00:18:34,120
+same sort of convolution structure with
+
+426
+00:18:30,760 --> 00:18:37,320
+pids for example okay and that is sort
+
+427
+00:18:34,120 --> 00:18:39,360
+of something that uh this sort of the
+
+428
+00:18:37,320 --> 00:18:41,840
+this architectural feature enables you
+
+429
+00:18:39,360 --> 00:18:43,640
+to do
+
+430
+00:18:41,840 --> 00:18:46,520
+right
+
+431
+00:18:43,640 --> 00:18:48,240
+uh so you can also do this in bonded
+
+432
+00:18:46,520 --> 00:18:50,400
+domains let me let me skip that because
+
+433
+00:18:48,240 --> 00:18:52,400
+I have a lot of material to get through
+
+434
+00:18:50,400 --> 00:18:55,200
+uh so this is not restricted to only
+
+435
+00:18:52,400 --> 00:18:57,400
+infinite domains over groups it's it's
+
+436
+00:18:55,200 --> 00:18:59,200
+it's a little more General but there's
+
+437
+00:18:57,400 --> 00:19:02,559
+another architectural feature with which
+
+438
+00:18:59,200 --> 00:19:05,159
+is very important and that's the uh
+
+439
+00:19:02,559 --> 00:19:08,520
+these the Decay properties of these
+
+440
+00:19:05,159 --> 00:19:10,760
+kernels so again uh let me tell you how
+
+441
+00:19:08,520 --> 00:19:13,960
+this is solved uh and it's very very
+
+442
+00:19:10,760 --> 00:19:16,320
+simple uh so because of the translation
+
+443
+00:19:13,960 --> 00:19:18,400
+in variance in space take a for
+
+444
+00:19:16,320 --> 00:19:21,200
+transform in space and now you have a
+
+445
+00:19:18,400 --> 00:19:23,960
+differential equation in time uh that is
+
+446
+00:19:21,200 --> 00:19:26,720
+algebraic in space Lambda is the spatial
+
+447
+00:19:23,960 --> 00:19:28,840
+wave number so that's spatial frequency
+
+448
+00:19:26,720 --> 00:19:30,919
+so this is a very simple parameterized
+
+449
+00:19:28,840 --> 00:19:33,679
+family of first order
+
+450
+00:19:30,919 --> 00:19:35,960
+equations uh you can do the same thing
+
+451
+00:19:33,679 --> 00:19:37,919
+with the performance objective and then
+
+452
+00:19:35,960 --> 00:19:40,600
+your ratti equation becomes a
+
+453
+00:19:37,919 --> 00:19:43,080
+parameterized family in this case of
+
+454
+00:19:40,600 --> 00:19:45,960
+scalar uh Rat equation which is a
+
+455
+00:19:43,080 --> 00:19:47,960
+quadratic equation which back in middle
+
+456
+00:19:45,960 --> 00:19:50,400
+school you all learned is solved by the
+
+457
+00:19:47,960 --> 00:19:52,120
+quadratic formula so that's quite easy
+
+458
+00:19:50,400 --> 00:19:55,520
+to do at every Lambda so you get a
+
+459
+00:19:52,120 --> 00:19:58,159
+parameterized family now in fua space of
+
+460
+00:19:55,520 --> 00:20:02,159
+the ratti equation solution as well as
+
+461
+00:19:58,159 --> 00:20:05,880
+the feedback back uh gain
+
+462
+00:20:02,159 --> 00:20:07,640
+now this the feedback gain in Fier space
+
+463
+00:20:05,880 --> 00:20:09,440
+spatial Fu space is an irrational
+
+464
+00:20:07,640 --> 00:20:12,080
+function so it doesn't correspond to a
+
+465
+00:20:09,440 --> 00:20:15,120
+PD operator but rather an convolution
+
+466
+00:20:12,080 --> 00:20:16,919
+operator and then the key question is
+
+467
+00:20:15,120 --> 00:20:20,480
+what is
+
+468
+00:20:16,919 --> 00:20:23,720
+that oh come on okay that's that's that
+
+469
+00:20:20,480 --> 00:20:26,840
+was an important uh figure that it's not
+
+470
+00:20:23,720 --> 00:20:29,280
+uh rendering but I'll try to describe it
+
+471
+00:20:26,840 --> 00:20:31,120
+um
+
+472
+00:20:29,280 --> 00:20:36,200
+so you could
+
+473
+00:20:31,120 --> 00:20:38,000
+um you could here um take this uh Fier
+
+474
+00:20:36,200 --> 00:20:43,000
+symbol and you can extend it into the
+
+475
+00:20:38,000 --> 00:20:45,720
+complex plane the over through a extend
+
+476
+00:20:43,000 --> 00:20:47,760
+it to a strip around the imaginary axis
+
+477
+00:20:45,720 --> 00:20:49,640
+and the extent of the strip tells you
+
+478
+00:20:47,760 --> 00:20:53,120
+the Decay rate in space of the
+
+479
+00:20:49,640 --> 00:20:54,720
+convolution kernel yes so if I
+
+480
+00:20:53,120 --> 00:20:57,080
+understand this correctly related to
+
+481
+00:20:54,720 --> 00:20:58,799
+what the with the topic was at the
+
+482
+00:20:57,080 --> 00:21:00,440
+beginning you're saying that the of
+
+483
+00:20:58,799 --> 00:21:05,240
+controlling this problem is related to
+
+484
+00:21:00,440 --> 00:21:08,200
+the spatial dependence that the system
+
+485
+00:21:05,240 --> 00:21:13,159
+has uh what I'm trying to say is that
+
+486
+00:21:08,200 --> 00:21:13,159
+the um if you think about this kernel
+
+487
+00:21:13,760 --> 00:21:20,120
+here right the the Decay rate away from
+
+488
+00:21:16,720 --> 00:21:21,720
+the diagonal uh determines how far you
+
+489
+00:21:20,120 --> 00:21:24,400
+should look for how far you should do
+
+490
+00:21:21,720 --> 00:21:26,960
+state feedback so if it's very small you
+
+491
+00:21:24,400 --> 00:21:30,159
+can kind of truncate it and and be local
+
+492
+00:21:26,960 --> 00:21:32,799
+so the Decay rate is a proxy for how
+
+493
+00:21:30,159 --> 00:21:34,840
+localized the optimal centralized
+
+494
+00:21:32,799 --> 00:21:37,159
+controller is that's something you get
+
+495
+00:21:34,840 --> 00:21:39,080
+for free right and I'm going to show you
+
+496
+00:21:37,159 --> 00:21:43,600
+the dependence on the various system
+
+497
+00:21:39,080 --> 00:21:45,240
+parameters of that right so that's why
+
+498
+00:21:43,600 --> 00:21:48,360
+characterizing the Decay rate is
+
+499
+00:21:45,240 --> 00:21:50,440
+important but in this particular case uh
+
+500
+00:21:48,360 --> 00:21:53,039
+again because of this analytic extension
+
+501
+00:21:50,440 --> 00:21:55,480
+idea the the Decay rate of course is
+
+502
+00:21:53,039 --> 00:21:58,919
+related to the abscissa of these Branch
+
+503
+00:21:55,480 --> 00:22:00,640
+Cuts related to the square root and so
+
+504
+00:21:58,919 --> 00:22:01,840
+you can characterize it in terms of the
+
+505
+00:22:00,640 --> 00:22:03,880
+system
+
+506
+00:22:01,840 --> 00:22:06,240
+parameters here because it's very easy
+
+507
+00:22:03,880 --> 00:22:09,640
+to find the branch cuts of this square
+
+508
+00:22:06,240 --> 00:22:11,400
+root uh so this is this is quite General
+
+509
+00:22:09,640 --> 00:22:13,880
+you don't need special invariance for
+
+510
+00:22:11,400 --> 00:22:15,919
+this uh this is a much more general
+
+511
+00:22:13,880 --> 00:22:18,320
+property about the natural decay of
+
+512
+00:22:15,919 --> 00:22:20,320
+centralized controllers but this kind of
+
+513
+00:22:18,320 --> 00:22:22,720
+characterization in terms of system
+
+514
+00:22:20,320 --> 00:22:25,600
+parameters is something that you only
+
+515
+00:22:22,720 --> 00:22:28,080
+get with spatially invariant and this F
+
+516
+00:22:25,600 --> 00:22:29,880
+technique Fu transform technique and I'm
+
+517
+00:22:28,080 --> 00:22:32,159
+this is an important point I want to
+
+518
+00:22:29,880 --> 00:22:35,840
+make so let's look at what happens to
+
+519
+00:22:32,159 --> 00:22:38,159
+the Decay rate uh for example it's
+
+520
+00:22:35,840 --> 00:22:41,360
+related to this quantity so if this goes
+
+521
+00:22:38,159 --> 00:22:43,440
+to Infinity uh you get very rapid Decay
+
+522
+00:22:41,360 --> 00:22:46,559
+and if it goes to zero you get a very
+
+523
+00:22:43,440 --> 00:22:50,520
+fat kernel so that requires information
+
+524
+00:22:46,559 --> 00:22:52,679
+from far away uh special cases uh if you
+
+525
+00:22:50,520 --> 00:22:55,320
+look at Q over R going to Infinity which
+
+526
+00:22:52,679 --> 00:22:59,200
+is the cheap control case it tells you
+
+527
+00:22:55,320 --> 00:23:02,039
+that your K is almost decentralized
+
+528
+00:22:59,200 --> 00:23:04,600
+so if you have cheap control which means
+
+529
+00:23:02,039 --> 00:23:07,320
+you can tolerate large control signals
+
+530
+00:23:04,600 --> 00:23:10,840
+you don't need to look far away but
+
+531
+00:23:07,320 --> 00:23:13,240
+alternatively if control is expensive uh
+
+532
+00:23:10,840 --> 00:23:15,200
+then the kernel is highly centralized
+
+533
+00:23:13,240 --> 00:23:17,600
+which means the optimal controller wants
+
+534
+00:23:15,200 --> 00:23:19,559
+to gather information from far away
+
+535
+00:23:17,600 --> 00:23:23,720
+that's how it compensates for the lack
+
+536
+00:23:19,559 --> 00:23:28,080
+of local actuator Authority
+
+537
+00:23:23,720 --> 00:23:29,840
+um so but you can actually uh look at do
+
+538
+00:23:28,080 --> 00:23:32,600
+a little bit further analysis and look
+
+539
+00:23:29,840 --> 00:23:34,400
+at the uh the role the plant plant
+
+540
+00:23:32,600 --> 00:23:38,120
+Dynamics also Play Because here I
+
+541
+00:23:34,400 --> 00:23:41,760
+assumed Alpha and beta be uh to be one
+
+542
+00:23:38,120 --> 00:23:44,480
+and let's just step back for a minute um
+
+543
+00:23:41,760 --> 00:23:46,720
+in other areas of engineering you use
+
+544
+00:23:44,480 --> 00:23:49,279
+these sort of non-dimensional Quant
+
+545
+00:23:46,720 --> 00:23:51,520
+numbers like the rolds number or you
+
+546
+00:23:49,279 --> 00:23:54,120
+look for various length scales in the
+
+547
+00:23:51,520 --> 00:23:56,600
+problem to give you insight for example
+
+548
+00:23:54,120 --> 00:23:59,000
+the rolds number allows you to
+
+549
+00:23:56,600 --> 00:24:02,919
+understand the phenomenology of a LGE
+
+550
+00:23:59,000 --> 00:24:06,279
+ship uh by doing a lab scale model that
+
+551
+00:24:02,919 --> 00:24:09,440
+are matched to the same renals number
+
+552
+00:24:06,279 --> 00:24:11,799
+and that's extremely useful uh so you
+
+553
+00:24:09,440 --> 00:24:14,000
+finding these non-dimensional numbers is
+
+554
+00:24:11,799 --> 00:24:15,600
+very important in addition you also look
+
+555
+00:24:14,000 --> 00:24:18,039
+for characteristic length and time
+
+556
+00:24:15,600 --> 00:24:19,840
+scales that characterize your problem so
+
+557
+00:24:18,039 --> 00:24:21,240
+we don't do that very much in controls
+
+558
+00:24:19,840 --> 00:24:24,720
+but I think it's very useful as I'll
+
+559
+00:24:21,240 --> 00:24:27,320
+show you in a in a second so for example
+
+560
+00:24:24,720 --> 00:24:29,279
+signal to noise ratio is one such
+
+561
+00:24:27,320 --> 00:24:31,919
+non-dimensional number that is extremely
+
+562
+00:24:29,279 --> 00:24:34,799
+useful right
+
+563
+00:24:31,919 --> 00:24:37,440
+uh so I'm going to do this very quickly
+
+564
+00:24:34,799 --> 00:24:40,480
+but you could do some sort of uh unit
+
+565
+00:24:37,440 --> 00:24:43,320
+analysis of the lqr problem and bring in
+
+566
+00:24:40,480 --> 00:24:46,440
+the roles of Alpha and B in this case
+
+567
+00:24:43,320 --> 00:24:48,640
+but basically it boils down to this your
+
+568
+00:24:46,440 --> 00:24:51,919
+uh controller's characteristic length
+
+569
+00:24:48,640 --> 00:24:55,240
+scale that is how far the kernel uh uh
+
+570
+00:24:51,919 --> 00:24:56,960
+is spread is actually depending on one
+
+571
+00:24:55,240 --> 00:25:00,080
+over this number which has to do with
+
+572
+00:24:56,960 --> 00:25:02,960
+the actuator of Authority rate divided
+
+573
+00:25:00,080 --> 00:25:06,760
+by the diffusion rate and so if
+
+574
+00:25:02,960 --> 00:25:08,840
+diffusion is fast and you also have high
+
+575
+00:25:06,760 --> 00:25:11,360
+actuator Authority that gives you the
+
+576
+00:25:08,840 --> 00:25:14,159
+sort of the same length scale so both
+
+577
+00:25:11,360 --> 00:25:16,279
+the speed of diffusion as well as the
+
+578
+00:25:14,159 --> 00:25:19,640
+actuator Authority both play a role in
+
+579
+00:25:16,279 --> 00:25:21,840
+determining the um the renal number the
+
+580
+00:25:19,640 --> 00:25:24,279
+not the renal number the length scale so
+
+581
+00:25:21,840 --> 00:25:26,360
+fast open loop diffusion gives you more
+
+582
+00:25:24,279 --> 00:25:28,600
+centralized kernel because the Dynamics
+
+583
+00:25:26,360 --> 00:25:30,880
+of the plant are spreading information
+
+584
+00:25:28,600 --> 00:25:33,080
+disturbances very quickly and so the
+
+585
+00:25:30,880 --> 00:25:35,799
+controller has to gather information
+
+586
+00:25:33,080 --> 00:25:38,320
+from far away and high actuator
+
+587
+00:25:35,799 --> 00:25:39,960
+Authority makes you more localized but
+
+588
+00:25:38,320 --> 00:25:41,919
+both of these have to be taken into
+
+589
+00:25:39,960 --> 00:25:46,080
+account and the length scale depends on
+
+590
+00:25:41,919 --> 00:25:48,480
+the ratio of both okay uh you could do
+
+591
+00:25:46,080 --> 00:25:50,159
+the same thing for the wave equation so
+
+592
+00:25:48,480 --> 00:25:52,840
+you might imagine that this is actually
+
+593
+00:25:50,159 --> 00:25:54,080
+quite useful for understanding how to
+
+594
+00:25:52,840 --> 00:25:56,760
+size your
+
+595
+00:25:54,080 --> 00:25:59,440
+actuators uh for a particular problem
+
+596
+00:25:56,760 --> 00:26:01,960
+like this there's another version of
+
+597
+00:25:59,440 --> 00:26:05,720
+this that was done by hunal arales who
+
+598
+00:26:01,960 --> 00:26:09,279
+was a student here two years ago uh of
+
+599
+00:26:05,720 --> 00:26:11,600
+Ali jbai and pekos soy and she looked at
+
+600
+00:26:09,279 --> 00:26:13,720
+the calman filter version of this
+
+601
+00:26:11,600 --> 00:26:16,480
+problem and the calman filter is
+
+602
+00:26:13,720 --> 00:26:20,000
+characterized by both the process noise
+
+603
+00:26:16,480 --> 00:26:21,919
+and the measurement noise and uh and
+
+604
+00:26:20,000 --> 00:26:22,640
+then you know you could do the same sort
+
+605
+00:26:21,919 --> 00:26:27,200
+of
+
+606
+00:26:22,640 --> 00:26:30,559
+analysis uh and you can find a a length
+
+607
+00:26:27,200 --> 00:26:32,679
+scale for the filter uh for example if
+
+608
+00:26:30,559 --> 00:26:34,880
+you have fast open loop diffusion you
+
+609
+00:26:32,679 --> 00:26:37,520
+have a more centralized skur this is the
+
+610
+00:26:34,880 --> 00:26:40,240
+this is the cman gain this is the kernel
+
+611
+00:26:37,520 --> 00:26:42,120
+of the cman gain in The Observer and so
+
+612
+00:26:40,240 --> 00:26:45,039
+that requ that tells you how far the
+
+613
+00:26:42,120 --> 00:26:47,399
+cman filter needs to gather information
+
+614
+00:26:45,039 --> 00:26:50,720
+to give you estimate of your local
+
+615
+00:26:47,399 --> 00:26:54,159
+state um and then if you distrust the
+
+616
+00:26:50,720 --> 00:26:56,640
+model for example large process noise
+
+617
+00:26:54,159 --> 00:26:58,399
+then your kernel gets localized it's not
+
+618
+00:26:56,640 --> 00:26:59,640
+useful to gather information from far
+
+619
+00:26:58,399 --> 00:27:02,320
+away because your model could actually
+
+620
+00:26:59,640 --> 00:27:04,000
+be quite wrong so your estimate of the
+
+621
+00:27:02,320 --> 00:27:06,000
+local state may not benefit from
+
+622
+00:27:04,000 --> 00:27:09,120
+information from far away since their
+
+623
+00:27:06,000 --> 00:27:12,159
+model is is quite different uh again you
+
+624
+00:27:09,120 --> 00:27:14,279
+could uh and you could sort of do a
+
+625
+00:27:12,159 --> 00:27:16,120
+branch Locus analysis similar to what I
+
+626
+00:27:14,279 --> 00:27:18,559
+showed you to determine analyticity
+
+627
+00:27:16,120 --> 00:27:21,559
+regions and determine the spread of the
+
+628
+00:27:18,559 --> 00:27:24,919
+cernal uh and in in that case uh you get
+
+629
+00:27:21,559 --> 00:27:27,240
+some interesting observations that Kunal
+
+630
+00:27:24,919 --> 00:27:30,760
+made uh so for example there's a
+
+631
+00:27:27,240 --> 00:27:32,840
+particular set of parameters where the
+
+632
+00:27:30,760 --> 00:27:34,640
+common filter is completely
+
+633
+00:27:32,840 --> 00:27:37,520
+decentralized its performance is
+
+634
+00:27:34,640 --> 00:27:40,320
+actually quite bad but the optimal thing
+
+635
+00:27:37,520 --> 00:27:43,399
+is completely decentralized in that case
+
+636
+00:27:40,320 --> 00:27:46,000
+the the measurement noise is spatially
+
+637
+00:27:43,399 --> 00:27:49,080
+correlated and it kind of conspires with
+
+638
+00:27:46,000 --> 00:27:51,480
+the pl Dynamics so that neighboring
+
+639
+00:27:49,080 --> 00:27:54,440
+measurements can only make your estimate
+
+640
+00:27:51,480 --> 00:27:56,320
+worse which is kind of an interesting
+
+641
+00:27:54,440 --> 00:27:58,159
+observation that we didn't really see
+
+642
+00:27:56,320 --> 00:27:59,960
+before doing this kind of non
+
+643
+00:27:58,159 --> 00:28:03,960
+dimensional
+
+644
+00:27:59,960 --> 00:28:07,640
+analysis all right so um again these are
+
+645
+00:28:03,960 --> 00:28:08,679
+very useful exercises in terms of
+
+646
+00:28:07,640 --> 00:28:12,679
+understanding the performance
+
+647
+00:28:08,679 --> 00:28:17,519
+limitations of your optimal centralized
+
+648
+00:28:12,679 --> 00:28:20,679
+estimator um so here are um so now the
+
+649
+00:28:17,519 --> 00:28:23,159
+second um and I'm going to this is okay
+
+650
+00:28:20,679 --> 00:28:25,039
+I'm going to try to skip through this
+
+651
+00:28:23,159 --> 00:28:26,440
+I'm just going to mention one important
+
+652
+00:28:25,039 --> 00:28:29,840
+aspect of
+
+653
+00:28:26,440 --> 00:28:31,720
+this uh so I want to do constrained
+
+654
+00:28:29,840 --> 00:28:33,919
+controller design so what I told you
+
+655
+00:28:31,720 --> 00:28:36,399
+before are the features that come from
+
+656
+00:28:33,919 --> 00:28:39,080
+free the centralized controller the
+
+657
+00:28:36,399 --> 00:28:41,240
+centralized estimator has these
+
+658
+00:28:39,080 --> 00:28:44,279
+properties what if I want to impose
+
+659
+00:28:41,240 --> 00:28:47,120
+properties now so I want the uh
+
+660
+00:28:44,279 --> 00:28:49,760
+estimator or the controller to have uh
+
+661
+00:28:47,120 --> 00:28:51,840
+constraints on the spatial information
+
+662
+00:28:49,760 --> 00:28:54,399
+of spatial spread of
+
+663
+00:28:51,840 --> 00:28:56,480
+information um so one thing that is
+
+664
+00:28:54,399 --> 00:28:59,039
+quite common to do is to look at a sort
+
+665
+00:28:56,480 --> 00:29:01,159
+of a standard problem of robust control
+
+666
+00:28:59,039 --> 00:29:05,080
+after the Ula parameterization becomes a
+
+667
+00:29:01,159 --> 00:29:07,799
+model matching problem and the question
+
+668
+00:29:05,080 --> 00:29:10,559
+would be now since the model matching
+
+669
+00:29:07,799 --> 00:29:12,880
+problem involves the Ula parameter Q you
+
+670
+00:29:10,559 --> 00:29:15,679
+can ask if I impose constraints on the
+
+671
+00:29:12,880 --> 00:29:18,000
+controller say controller only looks at
+
+672
+00:29:15,679 --> 00:29:20,519
+in a network problem only to the
+
+673
+00:29:18,000 --> 00:29:22,960
+neighbors uh does that correspond to
+
+674
+00:29:20,519 --> 00:29:26,000
+nice constraints on Q and the answer is
+
+675
+00:29:22,960 --> 00:29:27,720
+generally no but there are special cases
+
+676
+00:29:26,000 --> 00:29:29,559
+I want to talk about one of them because
+
+677
+00:29:27,720 --> 00:29:32,760
+that's kind of
+
+678
+00:29:29,559 --> 00:29:35,919
+insightful uh another area that's become
+
+679
+00:29:32,760 --> 00:29:38,480
+common today is related to what's called
+
+680
+00:29:35,919 --> 00:29:42,159
+what I would call closed loop synthesis
+
+681
+00:29:38,480 --> 00:29:46,360
+so it was known um you know since the
+
+682
+00:29:42,159 --> 00:29:50,640
+80s that if you look at the um input
+
+683
+00:29:46,360 --> 00:29:52,760
+output uh closed loop and you look at
+
+684
+00:29:50,640 --> 00:29:54,640
+stabilizing controllers then you get
+
+685
+00:29:52,760 --> 00:29:57,760
+these aine constraints the set of
+
+686
+00:29:54,640 --> 00:30:00,320
+stabilized closed Loops is an aine set
+
+687
+00:29:57,760 --> 00:30:02,039
+but the constraints the aine constraints
+
+688
+00:30:00,320 --> 00:30:04,799
+that describe it are really kind of
+
+689
+00:30:02,039 --> 00:30:07,159
+horrible they involve in the myo case
+
+690
+00:30:04,799 --> 00:30:09,200
+interpolation constraints with right
+
+691
+00:30:07,159 --> 00:30:11,760
+zero directions and left zero directions
+
+692
+00:30:09,200 --> 00:30:15,679
+and so on so recently a new framework
+
+693
+00:30:11,760 --> 00:30:18,519
+was proposed uh by nuc matney John Dole
+
+694
+00:30:15,679 --> 00:30:20,799
+and wank uh which they call system level
+
+695
+00:30:18,519 --> 00:30:23,200
+synthesis uh which is not in my opinion
+
+696
+00:30:20,799 --> 00:30:25,120
+a very descriptive name but really it's
+
+697
+00:30:23,200 --> 00:30:28,200
+a it's a variation on closed loop
+
+698
+00:30:25,120 --> 00:30:29,880
+synthesis where the rather than putting
+
+699
+00:30:28,200 --> 00:30:33,600
+the constraints on the full closed loop
+
+700
+00:30:29,880 --> 00:30:35,320
+put the constraints on a portion of it
+
+701
+00:30:33,600 --> 00:30:38,360
+and then the constraints become these
+
+702
+00:30:35,320 --> 00:30:40,640
+very nice sort of apine constraints that
+
+703
+00:30:38,360 --> 00:30:42,320
+don't involve right half plane PS in
+
+704
+00:30:40,640 --> 00:30:44,559
+zeros and zero directions so they're
+
+705
+00:30:42,320 --> 00:30:46,880
+much more simple to implement
+
+706
+00:30:44,559 --> 00:30:48,440
+numerically so that's one aspect of it
+
+707
+00:30:46,880 --> 00:30:50,320
+and there's another aspect in the two
+
+708
+00:30:48,440 --> 00:30:53,279
+are independent of each other even
+
+709
+00:30:50,320 --> 00:30:56,120
+though often they're discussed in tandem
+
+710
+00:30:53,279 --> 00:30:58,639
+is that the once you design the closed
+
+711
+00:30:56,120 --> 00:31:01,480
+loop that now satisfies the certain
+
+712
+00:30:58,639 --> 00:31:03,519
+structural constraints say again nearest
+
+713
+00:31:01,480 --> 00:31:06,080
+neighbor for the closed loop you can
+
+714
+00:31:03,519 --> 00:31:09,120
+then get a controller implementation
+
+715
+00:31:06,080 --> 00:31:11,200
+that also satisfies that same con uh
+
+716
+00:31:09,120 --> 00:31:13,120
+it's not optimal it's a relaxation in
+
+717
+00:31:11,200 --> 00:31:15,320
+general unless you look at certain
+
+718
+00:31:13,120 --> 00:31:19,799
+classes of problems but it is a way to
+
+719
+00:31:15,320 --> 00:31:22,320
+get you constrained controllers from uh
+
+720
+00:31:19,799 --> 00:31:23,720
+in a convex manner I'm not going to talk
+
+721
+00:31:22,320 --> 00:31:25,399
+about this I'm going to talk briefly
+
+722
+00:31:23,720 --> 00:31:28,639
+about uh this
+
+723
+00:31:25,399 --> 00:31:30,919
+problem so
+
+724
+00:31:28,639 --> 00:31:33,720
+so this actually uh goes back to the
+
+725
+00:31:30,919 --> 00:31:33,720
+work of petus
+
+726
+00:31:34,320 --> 00:31:40,559
+vulgaris who are the student at Lids
+
+727
+00:31:36,760 --> 00:31:43,320
+back back in the um in the 80s actually
+
+728
+00:31:40,559 --> 00:31:46,039
+uh and then the the idea is that if if
+
+729
+00:31:43,320 --> 00:31:49,600
+if I look at the set of constraints on
+
+730
+00:31:46,039 --> 00:31:51,519
+K and that set was closed under
+
+731
+00:31:49,600 --> 00:31:53,600
+additions compositions and
+
+732
+00:31:51,519 --> 00:31:55,240
+inversions uh then it's closed under
+
+733
+00:31:53,600 --> 00:31:58,399
+feedback and if you think about the ula
+
+734
+00:31:55,240 --> 00:32:00,559
+parameterization in the stable case that
+
+735
+00:31:58,399 --> 00:32:04,679
+means I can go back and forth between K
+
+736
+00:32:00,559 --> 00:32:08,600
+and Q and uh by in by additions and
+
+737
+00:32:04,679 --> 00:32:12,960
+inversions uh and products and so the
+
+738
+00:32:08,600 --> 00:32:15,720
+same set of constraints apply on K and Q
+
+739
+00:32:12,960 --> 00:32:18,360
+if and only if and so the problem
+
+740
+00:32:15,720 --> 00:32:20,240
+becomes uh uh in some sense if I have
+
+741
+00:32:18,360 --> 00:32:22,480
+convex constraints on K then I get
+
+742
+00:32:20,240 --> 00:32:24,720
+convex constraints on Q and then the
+
+743
+00:32:22,480 --> 00:32:27,519
+model matching problem is is linear iine
+
+744
+00:32:24,720 --> 00:32:30,639
+and so the problem is convex uh so for
+
+745
+00:32:27,519 --> 00:32:33,600
+example is lower triangular MOS systems
+
+746
+00:32:30,639 --> 00:32:35,960
+uh symmetric Etc but an important
+
+747
+00:32:33,600 --> 00:32:38,440
+counter example which you want is banded
+
+748
+00:32:35,960 --> 00:32:40,679
+a banded controller which for example in
+
+749
+00:32:38,440 --> 00:32:42,679
+a linear chain would be nearest neighbor
+
+750
+00:32:40,679 --> 00:32:45,519
+that's not closed under these
+
+751
+00:32:42,679 --> 00:32:48,960
+constraints so that doesn't uh it's not
+
+752
+00:32:45,519 --> 00:32:52,240
+in this class nonetheless uh this is
+
+753
+00:32:48,960 --> 00:32:54,080
+interesting then riten provided a
+
+754
+00:32:52,240 --> 00:32:56,919
+generalization of this where you don't
+
+755
+00:32:54,080 --> 00:32:59,559
+really need closure under products but
+
+756
+00:32:56,919 --> 00:33:02,799
+closure under this sort of quadratic uh
+
+757
+00:32:59,559 --> 00:33:05,399
+form and they called it quadratic
+
+758
+00:33:02,799 --> 00:33:07,639
+invariance uh you could do the unstable
+
+759
+00:33:05,399 --> 00:33:09,840
+case of course it follows uh but let me
+
+760
+00:33:07,639 --> 00:33:11,480
+show you what it means in for spatial
+
+761
+00:33:09,840 --> 00:33:12,919
+temporal systems because that gives you
+
+762
+00:33:11,480 --> 00:33:15,000
+a little bit of
+
+763
+00:33:12,919 --> 00:33:17,840
+insight so let's look at the wave
+
+764
+00:33:15,000 --> 00:33:20,120
+equation again with an input U and the
+
+765
+00:33:17,840 --> 00:33:22,880
+output is s the state and that's the
+
+766
+00:33:20,120 --> 00:33:24,760
+wave equation with wave speed C if you
+
+767
+00:33:22,880 --> 00:33:27,519
+look at its impulse response or this
+
+768
+00:33:24,760 --> 00:33:30,519
+spatial tempor impulse response you get
+
+769
+00:33:27,519 --> 00:33:33,639
+an input output description uh of the
+
+770
+00:33:30,519 --> 00:33:35,120
+system from U to Y and basically it's a
+
+771
+00:33:33,639 --> 00:33:37,120
+spatial tempor
+
+772
+00:33:35,120 --> 00:33:39,559
+convolution and if you think about the
+
+773
+00:33:37,120 --> 00:33:42,039
+spatial temporal impulse response H it
+
+774
+00:33:39,559 --> 00:33:44,760
+tells you something about how an input
+
+775
+00:33:42,039 --> 00:33:46,200
+will spread out in space and time and
+
+776
+00:33:44,760 --> 00:33:48,519
+the impulse response for the wave
+
+777
+00:33:46,200 --> 00:33:51,480
+equation looks like this looks like a
+
+778
+00:33:48,519 --> 00:33:53,720
+cone right and that tells you so
+
+779
+00:33:51,480 --> 00:33:56,000
+disturbance comes in it doesn't show up
+
+780
+00:33:53,720 --> 00:33:57,919
+in s until a certain time determined by
+
+781
+00:33:56,000 --> 00:34:00,480
+the wave speed
+
+782
+00:33:57,919 --> 00:34:03,320
+so an important quantity to look at is
+
+783
+00:34:00,480 --> 00:34:07,279
+the support set of this spatial temporal
+
+784
+00:34:03,320 --> 00:34:10,760
+impulse response and here you have uh
+
+785
+00:34:07,279 --> 00:34:14,320
+con causality for the wave equation and
+
+786
+00:34:10,760 --> 00:34:17,280
+then think about uh systems whose spal
+
+787
+00:34:14,320 --> 00:34:20,040
+temporal impulse response belong in a
+
+788
+00:34:17,280 --> 00:34:22,599
+funnel a funnel meaning that it's made
+
+789
+00:34:20,040 --> 00:34:26,280
+up of two functions both of which are
+
+790
+00:34:22,599 --> 00:34:29,440
+concave uh and then one can show that
+
+791
+00:34:26,280 --> 00:34:31,679
+this class is closed under compositions
+
+792
+00:34:29,440 --> 00:34:34,079
+inversions and feed compositions
+
+793
+00:34:31,679 --> 00:34:36,240
+feedback and additions and so we call
+
+794
+00:34:34,079 --> 00:34:37,879
+this funnel causality and what it really
+
+795
+00:34:36,240 --> 00:34:41,159
+means is the
+
+796
+00:34:37,879 --> 00:34:44,440
+following if you want to let's say
+
+797
+00:34:41,159 --> 00:34:46,919
+control a system where the plant the has
+
+798
+00:34:44,440 --> 00:34:48,520
+a certain support set for its spatial
+
+799
+00:34:46,919 --> 00:34:50,679
+temperary impulse response what that
+
+800
+00:34:48,520 --> 00:34:52,960
+means is that if a disturbance comes
+
+801
+00:34:50,679 --> 00:34:56,359
+into somewhere in the plant it takes a
+
+802
+00:34:52,960 --> 00:34:58,560
+certain speed before it gets to a
+
+803
+00:34:56,359 --> 00:35:02,680
+location another location in the plant
+
+804
+00:34:58,560 --> 00:35:05,280
+determined by that speed right um if the
+
+805
+00:35:02,680 --> 00:35:08,400
+controller funnel contains the plant
+
+806
+00:35:05,280 --> 00:35:09,880
+funnel so I use a controller that in
+
+807
+00:35:08,400 --> 00:35:13,320
+which the information within the
+
+808
+00:35:09,880 --> 00:35:16,400
+controller travels faster than the
+
+809
+00:35:13,320 --> 00:35:18,000
+disturbances travel in the plant then
+
+810
+00:35:16,400 --> 00:35:22,240
+that's a convex
+
+811
+00:35:18,000 --> 00:35:24,520
+problem okay so that tells you I mean it
+
+812
+00:35:22,240 --> 00:35:26,880
+it tells you that the problem is convex
+
+813
+00:35:24,520 --> 00:35:28,400
+maybe it's more tractable and so that
+
+814
+00:35:26,880 --> 00:35:30,720
+tells you kind of an architectural
+
+815
+00:35:28,400 --> 00:35:33,280
+limitation on the controller that you
+
+816
+00:35:30,720 --> 00:35:35,040
+need to have a tractable problem you
+
+817
+00:35:33,280 --> 00:35:37,040
+need the information passing within the
+
+818
+00:35:35,040 --> 00:35:39,560
+controller to be faster than the
+
+819
+00:35:37,040 --> 00:35:40,480
+disturbance propagation through through
+
+820
+00:35:39,560 --> 00:35:43,400
+the
+
+821
+00:35:40,480 --> 00:35:47,200
+plant uh you can you know there are
+
+822
+00:35:43,400 --> 00:35:52,640
+generalizations of this over graphs uh
+
+823
+00:35:47,200 --> 00:35:54,640
+that was a done by Randy kogal um but
+
+824
+00:35:52,640 --> 00:35:57,280
+it's not quite satisfactory right
+
+825
+00:35:54,640 --> 00:35:59,280
+because compared to the formulas I
+
+826
+00:35:57,280 --> 00:36:01,160
+showed you for the Decay rate which gave
+
+827
+00:35:59,280 --> 00:36:04,160
+you a lot of insight what I really would
+
+828
+00:36:01,160 --> 00:36:06,319
+like is an a formula for uh like the
+
+829
+00:36:04,160 --> 00:36:09,079
+controller speed divided by the pl plant
+
+830
+00:36:06,319 --> 00:36:11,119
+speed as a kind of a Reynolds number or
+
+831
+00:36:09,079 --> 00:36:13,400
+a non-dimensional number that
+
+832
+00:36:11,119 --> 00:36:15,359
+characterizes how difficult the problem
+
+833
+00:36:13,400 --> 00:36:17,079
+is and we don't really have an explicit
+
+834
+00:36:15,359 --> 00:36:19,640
+formula for that we just know that the
+
+835
+00:36:17,079 --> 00:36:24,359
+problem is convex when this ratio is
+
+836
+00:36:19,640 --> 00:36:26,560
+larger than one yeah okay so I'm going
+
+837
+00:36:24,359 --> 00:36:31,520
+to skip this because I'm running out of
+
+838
+00:36:26,560 --> 00:36:33,800
+time and I want to move to this uh the
+
+839
+00:36:31,520 --> 00:36:36,839
+third and last topic which I think is is
+
+840
+00:36:33,800 --> 00:36:36,839
+more recent and more
+
+841
+00:36:38,359 --> 00:36:42,319
+interesting and I want to look at the
+
+842
+00:36:40,319 --> 00:36:45,800
+scalability of
+
+843
+00:36:42,319 --> 00:36:47,640
+certain uh Network control problems over
+
+844
+00:36:45,800 --> 00:36:50,560
+larger
+
+845
+00:36:47,640 --> 00:36:53,040
+networks um so I'm going to talk briefly
+
+846
+00:36:50,560 --> 00:36:55,280
+about consensus and vular formations and
+
+847
+00:36:53,040 --> 00:36:59,480
+then some new work uh related to this
+
+848
+00:36:55,280 --> 00:37:02,599
+phenomenon called Anderson localization
+
+849
+00:36:59,480 --> 00:37:04,640
+um so I'm going to mention physics a lot
+
+850
+00:37:02,599 --> 00:37:08,079
+uh and so the subject of condensed
+
+851
+00:37:04,640 --> 00:37:10,920
+matter physics is really the study of
+
+852
+00:37:08,079 --> 00:37:14,000
+large systems of interacting atoms and
+
+853
+00:37:10,920 --> 00:37:16,760
+molecules um it is not that surprising
+
+854
+00:37:14,000 --> 00:37:18,760
+that this is related to large scale
+
+855
+00:37:16,760 --> 00:37:21,880
+Network control problems because there
+
+856
+00:37:18,760 --> 00:37:24,319
+we're studying large numbers of
+
+857
+00:37:21,880 --> 00:37:26,079
+interacting Dynamic systems they're not
+
+858
+00:37:24,319 --> 00:37:28,839
+molecules and atoms they're macro
+
+859
+00:37:26,079 --> 00:37:31,520
+systems but the certain mathematical
+
+860
+00:37:28,839 --> 00:37:34,319
+patterns are common between the two
+
+861
+00:37:31,520 --> 00:37:36,119
+Fields uh so here's one problem from
+
+862
+00:37:34,319 --> 00:37:37,680
+statistical mechanics that's that's
+
+863
+00:37:36,119 --> 00:37:40,000
+interesting and seems to be and it is
+
+864
+00:37:37,680 --> 00:37:42,319
+related to the vular strings problem as
+
+865
+00:37:40,000 --> 00:37:45,119
+I'll show you in a second uh so this is
+
+866
+00:37:42,319 --> 00:37:48,680
+called the problem of harmonic solids so
+
+867
+00:37:45,119 --> 00:37:50,480
+you you model Atomic luses uh as balls
+
+868
+00:37:48,680 --> 00:37:53,960
+and springs so this is a completely
+
+869
+00:37:50,480 --> 00:37:58,119
+classical model of the vibrations within
+
+870
+00:37:53,960 --> 00:38:01,400
+a an atomic uh an a crystal lce say
+
+871
+00:37:58,119 --> 00:38:04,680
+um the terms they used in physics as
+
+872
+00:38:01,400 --> 00:38:07,560
+short range interactions the atoms are
+
+873
+00:38:04,680 --> 00:38:09,480
+uh interacting with neighbors only uh if
+
+874
+00:38:07,560 --> 00:38:11,720
+you think about a network operative
+
+875
+00:38:09,480 --> 00:38:14,079
+control system think about that is only
+
+876
+00:38:11,720 --> 00:38:17,119
+local feedback okay so that's the
+
+877
+00:38:14,079 --> 00:38:20,720
+equivalent term uh the question that
+
+878
+00:38:17,119 --> 00:38:23,240
+arises is is uh when do you get long
+
+879
+00:38:20,720 --> 00:38:24,480
+range order so what does that mean in a
+
+880
+00:38:23,240 --> 00:38:28,079
+crystal
+
+881
+00:38:24,480 --> 00:38:30,440
+lce the position of an atom here is
+
+882
+00:38:28,079 --> 00:38:32,560
+correlated with the position of an atom
+
+883
+00:38:30,440 --> 00:38:35,839
+billions of SES away that's what it
+
+884
+00:38:32,560 --> 00:38:41,119
+means to have a solid Crystal otherwise
+
+885
+00:38:35,839 --> 00:38:44,079
+it's a fluid or a gas so uh in terms of
+
+886
+00:38:41,119 --> 00:38:47,760
+formation of vehicles or you know uh
+
+887
+00:38:44,079 --> 00:38:49,839
+schools of fish swimming or uh flocks of
+
+888
+00:38:47,760 --> 00:38:51,240
+birds this could be thought of as the
+
+889
+00:38:49,839 --> 00:38:53,160
+rigidity of the
+
+890
+00:38:51,240 --> 00:38:55,760
+formation and then the question in
+
+891
+00:38:53,160 --> 00:38:58,319
+physics is how come short range
+
+892
+00:38:55,760 --> 00:39:01,800
+interactions lead to Long long range
+
+893
+00:38:58,319 --> 00:39:02,960
+order okay in which structures does this
+
+894
+00:39:01,800 --> 00:39:05,960
+is this
+
+895
+00:39:02,960 --> 00:39:10,079
+possible so what is known is that if you
+
+896
+00:39:05,960 --> 00:39:13,599
+look at uh Crystal lates or regular lses
+
+897
+00:39:10,079 --> 00:39:16,119
+like basically uh Z to the D in
+
+898
+00:39:13,599 --> 00:39:18,359
+dimension one and two short range
+
+899
+00:39:16,119 --> 00:39:21,040
+interaction cannot lead to long range
+
+900
+00:39:18,359 --> 00:39:24,480
+order but in dimensions three and and
+
+901
+00:39:21,040 --> 00:39:27,040
+higher uh long range order is possible
+
+902
+00:39:24,480 --> 00:39:28,480
+and so as they like to say only solids
+
+903
+00:39:27,040 --> 00:39:33,640
+can only form in
+
+904
+00:39:28,480 --> 00:39:35,599
+3D um so similar things appear to hold
+
+905
+00:39:33,640 --> 00:39:38,520
+in control problems even though control
+
+906
+00:39:35,599 --> 00:39:41,760
+problems are not really about atoms and
+
+907
+00:39:38,520 --> 00:39:45,480
+and molecules but let let me show you
+
+908
+00:39:41,760 --> 00:39:48,200
+the the results for luses so you can
+
+909
+00:39:45,480 --> 00:39:52,079
+study consensus first order consensus in
+
+910
+00:39:48,200 --> 00:39:53,920
+this case in the presence of random
+
+911
+00:39:52,079 --> 00:39:55,720
+disturbances now you don't reach
+
+912
+00:39:53,920 --> 00:39:58,720
+consensus what you what the best you can
+
+913
+00:39:55,720 --> 00:40:01,560
+hope for is that all the St wobble
+
+914
+00:39:58,720 --> 00:40:03,839
+together around some Network mean and
+
+915
+00:40:01,560 --> 00:40:07,520
+then the variance of this wobble is kind
+
+916
+00:40:03,839 --> 00:40:09,800
+of the your proxy for rigidity and now
+
+917
+00:40:07,520 --> 00:40:11,599
+you can Define you know the details you
+
+918
+00:40:09,800 --> 00:40:13,680
+don't have to pass through this this is
+
+919
+00:40:11,599 --> 00:40:16,240
+basically average deviation from Network
+
+920
+00:40:13,680 --> 00:40:18,920
+average at a steady state uh you can
+
+921
+00:40:16,240 --> 00:40:20,880
+show that that's the 1/ N times the
+
+922
+00:40:18,920 --> 00:40:24,280
+trace of the pseudo inverse of this
+
+923
+00:40:20,880 --> 00:40:26,599
+lassan and so it's this quantity which
+
+924
+00:40:24,280 --> 00:40:27,839
+is one over the all the igen values of
+
+925
+00:40:26,599 --> 00:40:30,319
+the plin
+
+926
+00:40:27,839 --> 00:40:31,880
+reciprocals except for the one at zero
+
+927
+00:40:30,319 --> 00:40:33,920
+of course so it's kind of like the
+
+928
+00:40:31,880 --> 00:40:36,480
+center of mass of the reciprocal of the
+
+929
+00:40:33,920 --> 00:40:40,359
+igen values all right so that's easy to
+
+930
+00:40:36,480 --> 00:40:42,480
+show and then you can calculate them ASM
+
+931
+00:40:40,359 --> 00:40:45,240
+totically as n goes to Infinity for
+
+932
+00:40:42,480 --> 00:40:47,240
+luses and you see that they scale like
+
+933
+00:40:45,240 --> 00:40:50,319
+this so in dimension one it scales
+
+934
+00:40:47,240 --> 00:40:52,680
+unboundedly with the size of the network
+
+935
+00:40:50,319 --> 00:40:55,560
+in dimension two also unbounded but with
+
+936
+00:40:52,680 --> 00:40:58,520
+log of n much more slowly but in
+
+937
+00:40:55,560 --> 00:41:00,000
+dimension three and higher it is bounded
+
+938
+00:40:58,520 --> 00:41:03,520
+okay
+
+939
+00:41:00,000 --> 00:41:06,640
+so uh this is very much related to many
+
+940
+00:41:03,520 --> 00:41:09,760
+other well-known problems like effective
+
+941
+00:41:06,640 --> 00:41:12,560
+resistance in resistor lates uh random
+
+942
+00:41:09,760 --> 00:41:15,400
+walks the return uh possibility of a
+
+943
+00:41:12,560 --> 00:41:18,760
+random walk in D dimensional luses they
+
+944
+00:41:15,400 --> 00:41:21,040
+always involve calculating a quantity
+
+945
+00:41:18,760 --> 00:41:24,440
+like this and you can think about this
+
+946
+00:41:21,040 --> 00:41:27,119
+quantity as basically kind of the
+
+947
+00:41:24,440 --> 00:41:30,599
+density of igen values or the reciprocal
+
+948
+00:41:27,119 --> 00:41:32,760
+of the igen values near zero right
+
+949
+00:41:30,599 --> 00:41:34,280
+that's really what's important it's a in
+
+950
+00:41:32,760 --> 00:41:37,359
+the physics they call that the density
+
+951
+00:41:34,280 --> 00:41:41,400
+of States uh and you can calculate that
+
+952
+00:41:37,359 --> 00:41:44,599
+in D dimensional luses this uh quantity
+
+953
+00:41:41,400 --> 00:41:48,200
+ASM totically behaves like the uh the
+
+954
+00:41:44,599 --> 00:41:50,480
+total mass over a ball with density one
+
+955
+00:41:48,200 --> 00:41:53,680
+over r s so the density has a
+
+956
+00:41:50,480 --> 00:41:55,960
+singularity at zero but the total mass
+
+957
+00:41:53,680 --> 00:41:58,480
+is actually bounded in dimensions three
+
+958
+00:41:55,960 --> 00:42:00,480
+and higher but in dimension one and two
+
+959
+00:41:58,480 --> 00:42:01,880
+it is not and that's really the basic
+
+960
+00:42:00,480 --> 00:42:05,400
+all of the different mathematical
+
+961
+00:42:01,880 --> 00:42:07,280
+arguments boil down to this right so
+
+962
+00:42:05,400 --> 00:42:08,560
+that's why it's common in all all of
+
+963
+00:42:07,280 --> 00:42:11,760
+these other
+
+964
+00:42:08,560 --> 00:42:13,760
+areas you could do the same thing for uh
+
+965
+00:42:11,760 --> 00:42:15,440
+for platoon now this is second order
+
+966
+00:42:13,760 --> 00:42:17,280
+consensus and I'll just tell you quickly
+
+967
+00:42:15,440 --> 00:42:21,359
+what the answer is so what happens in
+
+968
+00:42:17,280 --> 00:42:23,839
+platoon is that if you only have local
+
+969
+00:42:21,359 --> 00:42:26,440
+uh measurements say you have ranging
+
+970
+00:42:23,839 --> 00:42:28,200
+devices measuring the distance and the
+
+971
+00:42:26,440 --> 00:42:31,520
+relative Rel distance a relative
+
+972
+00:42:28,200 --> 00:42:34,000
+velocity to the Vehicles near you uh but
+
+973
+00:42:31,520 --> 00:42:38,280
+you don't have any absolute measurements
+
+974
+00:42:34,000 --> 00:42:40,480
+then as you simulate a very large uh
+
+975
+00:42:38,280 --> 00:42:42,680
+well-designed controlled
+
+976
+00:42:40,480 --> 00:42:44,720
+formation subject to stochastic
+
+977
+00:42:42,680 --> 00:42:46,880
+disturbances it wobbles like an
+
+978
+00:42:44,720 --> 00:42:49,359
+accordion as it's moving down the
+
+979
+00:42:46,880 --> 00:42:51,800
+freeway and this is sort of a depiction
+
+980
+00:42:49,359 --> 00:42:53,880
+of that for a 100 vehicles and you can't
+
+981
+00:42:51,800 --> 00:42:55,720
+get rid of that unless you introduce
+
+982
+00:42:53,880 --> 00:42:58,760
+something like everybody knows their
+
+983
+00:42:55,720 --> 00:43:01,599
+distance to the leader some absolute uh
+
+984
+00:42:58,760 --> 00:43:04,119
+measurement and so you can you can
+
+985
+00:43:01,599 --> 00:43:05,119
+analyze this uh and there's a mechanical
+
+986
+00:43:04,119 --> 00:43:08,079
+model
+
+987
+00:43:05,119 --> 00:43:12,839
+equivalent and basically the problem
+
+988
+00:43:08,079 --> 00:43:14,720
+becomes this so here I have a an example
+
+989
+00:43:12,839 --> 00:43:17,200
+but this is it's more General than this
+
+990
+00:43:14,720 --> 00:43:18,880
+example where my feedback law at each
+
+991
+00:43:17,200 --> 00:43:20,599
+vehicle is related to the relative
+
+992
+00:43:18,880 --> 00:43:23,720
+distance and relative velocities ahead
+
+993
+00:43:20,599 --> 00:43:26,079
+and behind but if I have a speedometer
+
+994
+00:43:23,720 --> 00:43:28,599
+in this system then I can compare my
+
+995
+00:43:26,079 --> 00:43:31,680
+velocity to the agreed upon velocity and
+
+996
+00:43:28,599 --> 00:43:33,720
+I can use that for feedback if I know my
+
+997
+00:43:31,680 --> 00:43:36,160
+distance in an absolute frame of
+
+998
+00:43:33,720 --> 00:43:38,319
+reference uh then I can use that
+
+999
+00:43:36,160 --> 00:43:40,680
+feedback so I'm calling these absolute
+
+1000
+00:43:38,319 --> 00:43:44,440
+measurements and these are relative
+
+1001
+00:43:40,680 --> 00:43:48,400
+measurements and so it turns out that if
+
+1002
+00:43:44,440 --> 00:43:51,359
+you add these in uh these green K andf
+
+1003
+00:43:48,400 --> 00:43:54,000
+are standard llans that have an igen
+
+1004
+00:43:51,359 --> 00:43:56,880
+value at zero and as n goes to Infinity
+
+1005
+00:43:54,000 --> 00:43:59,240
+the igen values accumulate towards zero
+
+1006
+00:43:56,880 --> 00:44:02,720
+but but the absolute measurements shift
+
+1007
+00:43:59,240 --> 00:44:05,079
+that Spectrum away from zero and then it
+
+1008
+00:44:02,720 --> 00:44:07,480
+gives you the scalings that you will see
+
+1009
+00:44:05,079 --> 00:44:10,040
+here so if I have absolute position
+
+1010
+00:44:07,480 --> 00:44:13,720
+absolute velocity that sort of accordian
+
+1011
+00:44:10,040 --> 00:44:16,280
+motion goes away but if I only have
+
+1012
+00:44:13,720 --> 00:44:19,480
+relative position absolute velocity then
+
+1013
+00:44:16,280 --> 00:44:22,440
+the some proxy for that accordion motion
+
+1014
+00:44:19,480 --> 00:44:24,880
+will scale as n
+
+1015
+00:44:22,440 --> 00:44:27,240
+unboundedly and if I have a set a flying
+
+1016
+00:44:24,880 --> 00:44:29,240
+formation for which getting absolute
+
+1017
+00:44:27,240 --> 00:44:32,920
+velocity is not possible then the
+
+1018
+00:44:29,240 --> 00:44:36,400
+scalings are much worse okay and so what
+
+1019
+00:44:32,920 --> 00:44:38,440
+that means is that the the Splatoon
+
+1020
+00:44:36,400 --> 00:44:41,079
+problem or the vehicle strings in 1D
+
+1021
+00:44:38,440 --> 00:44:42,760
+vehicles on a highway is fundamentally
+
+1022
+00:44:41,079 --> 00:44:46,000
+difficult because of the combination of
+
+1023
+00:44:42,760 --> 00:44:47,200
+two things the 1D topology and this
+
+1024
+00:44:46,000 --> 00:44:49,760
+relative
+
+1025
+00:44:47,200 --> 00:44:52,800
+feedback the inability to have these
+
+1026
+00:44:49,760 --> 00:44:56,079
+absolute measurements now this is useful
+
+1027
+00:44:52,800 --> 00:44:57,599
+because it allows you to okay if this is
+
+1028
+00:44:56,079 --> 00:45:01,000
+going to be the problem
+
+1029
+00:44:57,599 --> 00:45:03,160
+okay you can't change the topology right
+
+1030
+00:45:01,000 --> 00:45:05,960
+you're on a lane on a freeway there's
+
+1031
+00:45:03,160 --> 00:45:08,079
+not much you can do about that right but
+
+1032
+00:45:05,960 --> 00:45:09,680
+you can maybe do something about this
+
+1033
+00:45:08,079 --> 00:45:12,079
+this is a thing you want to do something
+
+1034
+00:45:09,680 --> 00:45:14,040
+about maybe Institute a communication
+
+1035
+00:45:12,079 --> 00:45:17,319
+systems basically line of sight
+
+1036
+00:45:14,040 --> 00:45:20,319
+Communications and Cascade the the the
+
+1037
+00:45:17,319 --> 00:45:21,960
+measure distances to various Vehicles
+
+1038
+00:45:20,319 --> 00:45:24,720
+there are many ways you can think about
+
+1039
+00:45:21,960 --> 00:45:28,400
+ameliorating that but but that really is
+
+1040
+00:45:24,720 --> 00:45:32,240
+what this analysis is useful for
+
+1041
+00:45:28,400 --> 00:45:34,920
+okay um all right so uh let me skip
+
+1042
+00:45:32,240 --> 00:45:38,000
+through all of this
+
+1043
+00:45:34,920 --> 00:45:41,960
+um and I want to talk I want to end by
+
+1044
+00:45:38,000 --> 00:45:44,079
+talking about uh this question where uh
+
+1045
+00:45:41,960 --> 00:45:45,880
+I've discussed these additive
+
+1046
+00:45:44,079 --> 00:45:46,880
+disturbances in harmonic solars and
+
+1047
+00:45:45,880 --> 00:45:49,280
+vehicular
+
+1048
+00:45:46,880 --> 00:45:51,160
+platoon uh I want to talk about the role
+
+1049
+00:45:49,280 --> 00:45:52,680
+of multiplicative disturbances
+
+1050
+00:45:51,160 --> 00:45:55,359
+multiplicative
+
+1051
+00:45:52,680 --> 00:45:57,480
+stochasticity right um and this is
+
+1052
+00:45:55,359 --> 00:45:59,480
+related to another physics problem uh
+
+1053
+00:45:57,480 --> 00:46:01,960
+which goes by the name of Anderson
+
+1054
+00:45:59,480 --> 00:46:03,880
+localization so let me describe the
+
+1055
+00:46:01,960 --> 00:46:06,640
+problem of Anderson localization in the
+
+1056
+00:46:03,880 --> 00:46:09,440
+simplest mathematical model this is an
+
+1057
+00:46:06,640 --> 00:46:12,200
+experiment you can all do in mat laab in
+
+1058
+00:46:09,440 --> 00:46:17,359
+uh with very little
+
+1059
+00:46:12,200 --> 00:46:19,839
+effort so consider this Matrix which is
+
+1060
+00:46:17,359 --> 00:46:23,599
+kind of the lassan of the 1D heat
+
+1061
+00:46:19,839 --> 00:46:25,880
+equation if you do finite difference
+
+1062
+00:46:23,599 --> 00:46:29,079
+discretization uh and consider
+
+1063
+00:46:25,880 --> 00:46:32,119
+perturbing it with a diagonal Randomness
+
+1064
+00:46:29,079 --> 00:46:34,680
+like this right and I want to think
+
+1065
+00:46:32,119 --> 00:46:37,040
+about and these are IID random variables
+
+1066
+00:46:34,680 --> 00:46:39,400
+and considering large matrices and I
+
+1067
+00:46:37,040 --> 00:46:42,240
+must look at the effect of adding this
+
+1068
+00:46:39,400 --> 00:46:44,000
+Randomness on the igen vectors of this
+
+1069
+00:46:42,240 --> 00:46:46,599
+Matrix so and look at the igen vectors
+
+1070
+00:46:44,000 --> 00:46:49,520
+of Matrix before the randomness and
+
+1071
+00:46:46,599 --> 00:46:52,079
+after before the randomness the igen
+
+1072
+00:46:49,520 --> 00:46:55,079
+vectors here this is a matrix of size
+
+1073
+00:46:52,079 --> 00:46:56,920
+10,000 and I'm plotting the igen vectors
+
+1074
+00:46:55,079 --> 00:46:59,160
+they are as you would expect the sign
+
+1075
+00:46:56,920 --> 00:46:59,160
+dinos
+
+1076
+00:46:59,400 --> 00:47:05,200
+SWS if I add a little bit of Randomness
+
+1077
+00:47:02,880 --> 00:47:08,000
+this is what the igen vectors look
+
+1078
+00:47:05,200 --> 00:47:12,200
+like this is on a standard scale and
+
+1079
+00:47:08,000 --> 00:47:15,200
+this is on a semilog scale so they this
+
+1080
+00:47:12,200 --> 00:47:18,200
+is the first five igen vectors so
+
+1081
+00:47:15,200 --> 00:47:20,520
+they're Peak they Peak they're very
+
+1082
+00:47:18,200 --> 00:47:22,960
+narrowly supported they're actually
+
+1083
+00:47:20,520 --> 00:47:24,520
+supported everywhere as you can see here
+
+1084
+00:47:22,960 --> 00:47:26,960
+they're very narrowly supported and they
+
+1085
+00:47:24,520 --> 00:47:28,720
+occur at random locations
+
+1086
+00:47:26,960 --> 00:47:30,200
+and if you look at a semilog scale you
+
+1087
+00:47:28,720 --> 00:47:32,319
+see that they actually have this
+
+1088
+00:47:30,200 --> 00:47:35,119
+characteristic exponential decay away
+
+1089
+00:47:32,319 --> 00:47:37,119
+from the peak so they're highly what's
+
+1090
+00:47:35,119 --> 00:47:41,200
+called
+
+1091
+00:47:37,119 --> 00:47:45,119
+localized um almost surely as n goes to
+
+1092
+00:47:41,200 --> 00:47:47,800
+Infinity uh localized and so for very
+
+1093
+00:47:45,119 --> 00:47:51,599
+large matrices it takes almost no amount
+
+1094
+00:47:47,800 --> 00:47:55,680
+of Randomness to change the nature of
+
+1095
+00:47:51,599 --> 00:47:58,559
+the igen vectors from this to this so
+
+1096
+00:47:55,680 --> 00:48:01,400
+the nature of the vectors is very
+
+1097
+00:47:58,559 --> 00:48:03,240
+fragile so here they're delocalized as
+
+1098
+00:48:01,400 --> 00:48:08,359
+they're called or they have white
+
+1099
+00:48:03,240 --> 00:48:08,359
+support and here they're very localized
+
+1100
+00:48:15,680 --> 00:48:22,440
+yes
+
+1101
+00:48:17,760 --> 00:48:24,480
+um okay you're you're um uh I can answer
+
+1102
+00:48:22,440 --> 00:48:27,280
+this because if you do the same thing in
+
+1103
+00:48:24,480 --> 00:48:29,680
+3D and those matrices also have igen
+
+1104
+00:48:27,280 --> 00:48:32,160
+values close to zero this doesn't
+
+1105
+00:48:29,680 --> 00:48:34,760
+happen I'll explain this in a minute
+
+1106
+00:48:32,160 --> 00:48:36,559
+yeah so it's it's really related to the
+
+1107
+00:48:34,760 --> 00:48:39,359
+structure of the Matrix more so than its
+
+1108
+00:48:36,559 --> 00:48:41,280
+igen values I can produce another Matrix
+
+1109
+00:48:39,359 --> 00:48:42,559
+with the same igen values with a
+
+1110
+00:48:41,280 --> 00:48:44,240
+different structure for which this
+
+1111
+00:48:42,559 --> 00:48:47,960
+phenomenon does not
+
+1112
+00:48:44,240 --> 00:48:51,599
+occur okay all right so so this is a
+
+1113
+00:48:47,960 --> 00:48:53,480
+fragility phenomenon now uh the physics
+
+1114
+00:48:51,599 --> 00:48:56,839
+interpretation of this just to give you
+
+1115
+00:48:53,480 --> 00:49:00,319
+the historical context is as follows uh
+
+1116
+00:48:56,839 --> 00:49:03,079
+so if you think about H not as the um
+
+1117
+00:49:00,319 --> 00:49:05,400
+the hamiltonian of a of a say in the
+
+1118
+00:49:03,079 --> 00:49:07,119
+shortener equation and then you add a
+
+1119
+00:49:05,400 --> 00:49:09,000
+little bit of Randomness that's adding a
+
+1120
+00:49:07,119 --> 00:49:12,480
+little bit of Randomness to the in the
+
+1121
+00:49:09,000 --> 00:49:15,920
+potential so the think this is the uh
+
+1122
+00:49:12,480 --> 00:49:18,839
+wave function of an electron in a medium
+
+1123
+00:49:15,920 --> 00:49:22,079
+which has slight Randomness in the uh
+
+1124
+00:49:18,839 --> 00:49:26,119
+potential so Randomness in the material
+
+1125
+00:49:22,079 --> 00:49:31,440
+property and um what Anderson showed uh
+
+1126
+00:49:26,119 --> 00:49:33,599
+in 19 58 is that in dimension one uh any
+
+1127
+00:49:31,440 --> 00:49:36,640
+Randomness with arbitrarily small
+
+1128
+00:49:33,599 --> 00:49:38,720
+variance will shift the wave function
+
+1129
+00:49:36,640 --> 00:49:41,040
+from being delocalized meaning the
+
+1130
+00:49:38,720 --> 00:49:43,760
+electron can be anywhere in the medium
+
+1131
+00:49:41,040 --> 00:49:46,280
+to this localized which means the
+
+1132
+00:49:43,760 --> 00:49:49,160
+electron is pinned and sometimes this is
+
+1133
+00:49:46,280 --> 00:49:51,760
+called the metal insulator
+
+1134
+00:49:49,160 --> 00:49:54,640
+transition however in dimensions three
+
+1135
+00:49:51,760 --> 00:49:57,040
+and higher you need a certain threshold
+
+1136
+00:49:54,640 --> 00:49:58,760
+of the randomness before you see this
+
+1137
+00:49:57,040 --> 00:50:01,599
+phenomenon of
+
+1138
+00:49:58,760 --> 00:50:04,079
+localization and so that is again a
+
+1139
+00:50:01,599 --> 00:50:05,880
+manifestation of the role that the
+
+1140
+00:50:04,079 --> 00:50:08,000
+dimension or the connectivity of the
+
+1141
+00:50:05,880 --> 00:50:10,559
+network plays and this happens both in
+
+1142
+00:50:08,000 --> 00:50:12,920
+discrete networks in Continuum space
+
+1143
+00:50:10,559 --> 00:50:15,520
+that that's it happens in all of them
+
+1144
+00:50:12,920 --> 00:50:18,880
+but this is a phenomena of the fragility
+
+1145
+00:50:15,520 --> 00:50:22,880
+of the igen vectors of a large
+
+1146
+00:50:18,880 --> 00:50:26,839
+Matrix okay um so so why is this
+
+1147
+00:50:22,880 --> 00:50:29,119
+important for us uh well this is still
+
+1148
+00:50:26,839 --> 00:50:32,160
+very active area of research to this day
+
+1149
+00:50:29,119 --> 00:50:34,559
+because the the phenomenology here in
+
+1150
+00:50:32,160 --> 00:50:38,440
+various Dimensions various types of uh
+
+1151
+00:50:34,559 --> 00:50:41,319
+uh a um Pro potentials is actually quite
+
+1152
+00:50:38,440 --> 00:50:43,760
+wide um in semiconductor physics this is
+
+1153
+00:50:41,319 --> 00:50:47,960
+really a very important current research
+
+1154
+00:50:43,760 --> 00:50:50,319
+problem um but more interestingly for us
+
+1155
+00:50:47,960 --> 00:50:52,839
+recently it's been discovered that
+
+1156
+00:50:50,319 --> 00:50:55,920
+localization happens without
+
+1157
+00:50:52,839 --> 00:50:59,640
+Randomness and so uh so I've just
+
+1158
+00:50:55,920 --> 00:51:03,160
+discussed random Ness in media um but
+
+1159
+00:50:59,640 --> 00:51:05,880
+you can have Randomness due to Geometry
+
+1160
+00:51:03,160 --> 00:51:07,440
+if you will complex geometry and I don't
+
+1161
+00:51:05,880 --> 00:51:08,960
+like to use the word complex because it
+
+1162
+00:51:07,440 --> 00:51:11,720
+just means that you don't really know
+
+1163
+00:51:08,960 --> 00:51:14,359
+what's going on um but which is true in
+
+1164
+00:51:11,720 --> 00:51:16,599
+this case and I you'll see in a minute
+
+1165
+00:51:14,359 --> 00:51:18,920
+uh but for lack of a better name it's
+
+1166
+00:51:16,599 --> 00:51:22,160
+it's uh it will happen over non-lattice
+
+1167
+00:51:18,920 --> 00:51:23,520
+networks with no Randomness but it have
+
+1168
+00:51:22,160 --> 00:51:27,119
+provided they have a sufficiently
+
+1169
+00:51:23,520 --> 00:51:29,040
+complex geometry and I'll show you uh a
+
+1170
+00:51:27,119 --> 00:51:30,880
+an example of this this is currently a
+
+1171
+00:51:29,040 --> 00:51:33,480
+very active area of research there's a
+
+1172
+00:51:30,880 --> 00:51:35,640
+Simon collaboration on localization of
+
+1173
+00:51:33,480 --> 00:51:38,440
+waves people are discovering this in
+
+1174
+00:51:35,640 --> 00:51:40,000
+Acoustics they're discovering it in in
+
+1175
+00:51:38,440 --> 00:51:43,680
+various other areas I'm going to show
+
+1176
+00:51:40,000 --> 00:51:46,520
+you a fascinating example uh in uh
+
+1177
+00:51:43,680 --> 00:51:49,200
+molecular vibrations in enzymes and then
+
+1178
+00:51:46,520 --> 00:51:51,520
+I'm going to relate that to uh something
+
+1179
+00:51:49,200 --> 00:51:55,200
+like the swing equations for Power
+
+1180
+00:51:51,520 --> 00:51:57,799
+Systems so so here's a model so this is
+
+1181
+00:51:55,200 --> 00:52:01,240
+actually a very interesting paper from
+
+1182
+00:51:57,799 --> 00:52:04,880
+2019 that describes this so you could
+
+1183
+00:52:01,240 --> 00:52:07,119
+take a uh enzymes are catalysts and
+
+1184
+00:52:04,880 --> 00:52:10,680
+they're these very large
+
+1185
+00:52:07,119 --> 00:52:13,960
+biomolecules um they have a there many
+
+1186
+00:52:10,680 --> 00:52:17,280
+of them have a known 3D structure
+
+1187
+00:52:13,960 --> 00:52:19,559
+through x-ray crystallography and so the
+
+1188
+00:52:17,280 --> 00:52:22,559
+exact 3D structure the positions of all
+
+1189
+00:52:19,559 --> 00:52:25,400
+the atoms is well known uh you can have
+
+1190
+00:52:22,559 --> 00:52:27,559
+a model for how this uh molecule
+
+1191
+00:52:25,400 --> 00:52:30,160
+vibrates CL classical model we just
+
+1192
+00:52:27,559 --> 00:52:32,400
+think of it again as balls and springs
+
+1193
+00:52:30,160 --> 00:52:34,640
+and the strength of the Springs are
+
+1194
+00:52:32,400 --> 00:52:38,040
+related to the interaction between
+
+1195
+00:52:34,640 --> 00:52:40,799
+different uh atoms so what this work had
+
+1196
+00:52:38,040 --> 00:52:43,280
+with this paper had done is to take this
+
+1197
+00:52:40,799 --> 00:52:46,040
+model of a molecule as a as a collection
+
+1198
+00:52:43,280 --> 00:52:49,760
+of masses and springs in
+
+1199
+00:52:46,040 --> 00:52:53,359
+3D the uh an enzyme starts out as a
+
+1200
+00:52:49,760 --> 00:52:55,680
+chain it's encoded in in DNA so it
+
+1201
+00:52:53,359 --> 00:52:59,319
+started out as a chain of amino acids
+
+1202
+00:52:55,680 --> 00:53:01,680
+and you can label each element of the
+
+1203
+00:52:59,319 --> 00:53:04,880
+Chain by the original one-dimensional
+
+1204
+00:53:01,680 --> 00:53:08,160
+order from which it arose before it
+
+1205
+00:53:04,880 --> 00:53:11,640
+folds and based on that you can come up
+
+1206
+00:53:08,160 --> 00:53:14,640
+with a lassan matrix depicted here
+
+1207
+00:53:11,640 --> 00:53:18,040
+graphically which shows the so the
+
+1208
+00:53:14,640 --> 00:53:22,079
+dimension here is the index along the
+
+1209
+00:53:18,040 --> 00:53:24,400
+chain of the different amino acids and
+
+1210
+00:53:22,079 --> 00:53:26,119
+blue dots means there's a spring of
+
+1211
+00:53:24,400 --> 00:53:28,720
+substanti of sort of above a certain
+
+1212
+00:53:26,119 --> 00:53:31,440
+Thresh strength and white means there's
+
+1213
+00:53:28,720 --> 00:53:33,920
+no connection in this 3D structure so
+
+1214
+00:53:31,440 --> 00:53:37,640
+this is the lassan Matrix of the
+
+1215
+00:53:33,920 --> 00:53:41,160
+vibrations classical vibrations in 3D of
+
+1216
+00:53:37,640 --> 00:53:44,880
+this large set of masses and
+
+1217
+00:53:41,160 --> 00:53:47,599
+springs now you can look at the modes of
+
+1218
+00:53:44,880 --> 00:53:50,640
+vibration both the igen values and the
+
+1219
+00:53:47,599 --> 00:53:52,240
+igen vectors of this llan Matrix gives
+
+1220
+00:53:50,640 --> 00:53:54,720
+you the vibrational modes and their
+
+1221
+00:53:52,240 --> 00:53:56,880
+temporal frequencies and what you
+
+1222
+00:53:54,720 --> 00:53:59,040
+discover is that what they have
+
+1223
+00:53:56,880 --> 00:54:00,920
+discovered is that at the top of the
+
+1224
+00:53:59,040 --> 00:54:03,280
+spectrum meaning at the very high
+
+1225
+00:54:00,920 --> 00:54:07,359
+frequency of vibrations which in this
+
+1226
+00:54:03,280 --> 00:54:10,040
+case are in the range of 2.8 to 3 terz
+
+1227
+00:54:07,359 --> 00:54:11,920
+the um the this is a depiction of the
+
+1228
+00:54:10,040 --> 00:54:15,000
+vibrational modes again along the chain
+
+1229
+00:54:11,920 --> 00:54:18,319
+here you have about 600 elements you the
+
+1230
+00:54:15,000 --> 00:54:21,040
+igen vectors have peaky locations they
+
+1231
+00:54:18,319 --> 00:54:23,160
+have very large amplitudes of vibrations
+
+1232
+00:54:21,040 --> 00:54:24,960
+here but this doesn't tell you very much
+
+1233
+00:54:23,160 --> 00:54:27,319
+unless you until you look at the 3D
+
+1234
+00:54:24,960 --> 00:54:29,359
+structure and what you see so these are
+
+1235
+00:54:27,319 --> 00:54:31,720
+these are localized igen vectors because
+
+1236
+00:54:29,359 --> 00:54:34,000
+they're peaked very sharply peaked at
+
+1237
+00:54:31,720 --> 00:54:36,280
+different locations when you look at the
+
+1238
+00:54:34,000 --> 00:54:39,079
+3D structure you discover that these all
+
+1239
+00:54:36,280 --> 00:54:42,359
+of these Peaks are gathered together in
+
+1240
+00:54:39,079 --> 00:54:45,520
+roughly a small location in this
+
+1241
+00:54:42,359 --> 00:54:47,240
+molecule and remarkably what so what
+
+1242
+00:54:45,520 --> 00:54:49,319
+that what does that mean that means at
+
+1243
+00:54:47,240 --> 00:54:50,559
+the very high frequencies top of the
+
+1244
+00:54:49,319 --> 00:54:54,319
+spectrum of
+
+1245
+00:54:50,559 --> 00:54:57,040
+vibrations uh the only a certain portion
+
+1246
+00:54:54,319 --> 00:54:58,839
+of this enzyme that one site
+
+1247
+00:54:57,040 --> 00:55:00,799
+is vibrating with large amplitude and
+
+1248
+00:54:58,839 --> 00:55:03,520
+the rest of the molecule is basically
+
+1249
+00:55:00,799 --> 00:55:06,359
+not moving at that frequency so
+
+1250
+00:55:03,520 --> 00:55:09,799
+remarkably those frequencies and those
+
+1251
+00:55:06,359 --> 00:55:13,480
+locations are found to be responsible
+
+1252
+00:55:09,799 --> 00:55:17,280
+for the rate promoting function of the
+
+1253
+00:55:13,480 --> 00:55:19,640
+enzyme so this molecule was designed so
+
+1254
+00:55:17,280 --> 00:55:22,520
+that only those sites which are rat
+
+1255
+00:55:19,640 --> 00:55:25,079
+promoting when which which play the
+
+1256
+00:55:22,520 --> 00:55:28,599
+catalytic function are the ones that
+
+1257
+00:55:25,079 --> 00:55:30,400
+have the large uh amplitude oscillations
+
+1258
+00:55:28,599 --> 00:55:31,720
+at the frequencies that are chemically
+
+1259
+00:55:30,400 --> 00:55:34,839
+relevant for
+
+1260
+00:55:31,720 --> 00:55:37,599
+catalysis and so here localization is
+
+1261
+00:55:34,839 --> 00:55:40,400
+occurring not because of Randomness
+
+1262
+00:55:37,599 --> 00:55:42,319
+there's no Randomness in the structure
+
+1263
+00:55:40,400 --> 00:55:44,559
+right this is a fixed structure it's
+
+1264
+00:55:42,319 --> 00:55:48,359
+happening because of a complex
+
+1265
+00:55:44,559 --> 00:55:50,920
+geometry right and this and so they've
+
+1266
+00:55:48,359 --> 00:55:52,920
+done this for a large number of enzymes
+
+1267
+00:55:50,920 --> 00:55:55,240
+this is not as surprising here's a
+
+1268
+00:55:52,920 --> 00:55:57,480
+mathematical sort of abstract
+
+1269
+00:55:55,240 --> 00:56:00,160
+mathematical explanation for why this
+
+1270
+00:55:57,480 --> 00:56:02,680
+might happen so if you take theasian
+
+1271
+00:56:00,160 --> 00:56:06,000
+over a reg irregular domain with a very
+
+1272
+00:56:02,680 --> 00:56:07,400
+irregular boundary that's my proxy for
+
+1273
+00:56:06,000 --> 00:56:09,880
+uh complex
+
+1274
+00:56:07,400 --> 00:56:12,640
+geometry but the Lain itself has no
+
+1275
+00:56:09,880 --> 00:56:15,240
+Randomness in it it's just constant
+
+1276
+00:56:12,640 --> 00:56:17,760
+coefficient you do a transformation a
+
+1277
+00:56:15,240 --> 00:56:19,799
+domain transformation of this complex
+
+1278
+00:56:17,760 --> 00:56:22,400
+geometry say to the unit
+
+1279
+00:56:19,799 --> 00:56:25,480
+ball and then you look at the transform
+
+1280
+00:56:22,400 --> 00:56:28,200
+PD operator the complexity of the
+
+1281
+00:56:25,480 --> 00:56:30,680
+geometry is then reflected into the
+
+1282
+00:56:28,200 --> 00:56:32,559
+complexity of the diffusion coefficient
+
+1283
+00:56:30,680 --> 00:56:34,839
+so you end up with an equivalent problem
+
+1284
+00:56:32,559 --> 00:56:37,240
+on a very nice symmetric region with no
+
+1285
+00:56:34,839 --> 00:56:38,799
+complexity in its geometry but the
+
+1286
+00:56:37,240 --> 00:56:41,280
+complexity is all in the diffusion
+
+1287
+00:56:38,799 --> 00:56:44,359
+coefficient now so that's appr proxy for
+
+1288
+00:56:41,280 --> 00:56:46,319
+the randomness of the media so that's
+
+1289
+00:56:44,359 --> 00:56:49,440
+why complex geometry can be thought of
+
+1290
+00:56:46,319 --> 00:56:52,880
+as actually a kind of a complexity in
+
+1291
+00:56:49,440 --> 00:56:55,760
+the um or this Randomness in the medium
+
+1292
+00:56:52,880 --> 00:56:57,599
+so we wanted to think about okay I just
+
+1293
+00:56:55,760 --> 00:57:00,799
+need five more minutes and and I'll be
+
+1294
+00:56:57,599 --> 00:57:02,160
+done so this is the the most important
+
+1295
+00:57:00,799 --> 00:57:05,480
+part of the talk I think because this is
+
+1296
+00:57:02,160 --> 00:57:08,480
+really current work uh we wanted to look
+
+1297
+00:57:05,480 --> 00:57:11,559
+at simp what is the simplest example of
+
+1298
+00:57:08,480 --> 00:57:13,960
+an nwork uh for which this localization
+
+1299
+00:57:11,559 --> 00:57:16,000
+phenomena of igen vectors occurs and
+
+1300
+00:57:13,960 --> 00:57:18,480
+does it have implications for
+
+1301
+00:57:16,000 --> 00:57:20,640
+robustness okay so here's a simple
+
+1302
+00:57:18,480 --> 00:57:23,240
+example this is an by the way this is
+
+1303
+00:57:20,640 --> 00:57:25,720
+not a circle this is the the the those
+
+1304
+00:57:23,240 --> 00:57:28,319
+two nodes are not connected uh but the
+
+1305
+00:57:25,720 --> 00:57:31,000
+connectivity here is is increasing and
+
+1306
+00:57:28,319 --> 00:57:33,240
+then it's constant and then decreasing
+
+1307
+00:57:31,000 --> 00:57:36,319
+this is the what the laian Matrix looks
+
+1308
+00:57:33,240 --> 00:57:38,920
+like very simple here are the igen
+
+1309
+00:57:36,319 --> 00:57:42,520
+vectors plotted this is a network of
+
+1310
+00:57:38,920 --> 00:57:45,760
+size 200 so I'm this is the igen vector
+
+1311
+00:57:42,520 --> 00:57:48,200
+in increasing IG value so indexed by
+
+1312
+00:57:45,760 --> 00:57:51,000
+increasing IG value this is this is
+
+1313
+00:57:48,200 --> 00:57:53,480
+space so that's the site number and you
+
+1314
+00:57:51,000 --> 00:57:57,440
+see the first 80 roughly the first 80
+
+1315
+00:57:53,480 --> 00:58:00,280
+igen vectors are peaky they're localized
+
+1316
+00:57:57,440 --> 00:58:02,359
+and the remainder are kind of not really
+
+1317
+00:58:00,280 --> 00:58:05,319
+they're spread out over a certain
+
+1318
+00:58:02,359 --> 00:58:08,160
+region uh here's uh here's what the igen
+
+1319
+00:58:05,319 --> 00:58:11,520
+values uh look like and I've labeled
+
+1320
+00:58:08,160 --> 00:58:13,240
+them by inspection of the ones that are
+
+1321
+00:58:11,520 --> 00:58:16,000
+peaky versus the ones are not so here's
+
+1322
+00:58:13,240 --> 00:58:18,760
+an example of a peaky igen vector it
+
+1323
+00:58:16,000 --> 00:58:21,200
+Peaks very sharply this is IG Vector
+
+1324
+00:58:18,760 --> 00:58:23,599
+number 20 here's a
+
+1325
+00:58:21,200 --> 00:58:26,520
+semilog to show you the exponential
+
+1326
+00:58:23,599 --> 00:58:29,359
+decay rate and here's an example of a
+
+1327
+00:58:26,520 --> 00:58:31,680
+non Pagen Vector that has a mass that is
+
+1328
+00:58:29,359 --> 00:58:34,599
+spread uh throughout the region of the
+
+1329
+00:58:31,680 --> 00:58:36,839
+network so I labeled this with blue and
+
+1330
+00:58:34,599 --> 00:58:39,200
+label the localized ones the red that we
+
+1331
+00:58:36,839 --> 00:58:40,920
+have some understanding about why they
+
+1332
+00:58:39,200 --> 00:58:43,000
+the difference because these have larger
+
+1333
+00:58:40,920 --> 00:58:46,400
+gaps which are you can relate to the
+
+1334
+00:58:43,000 --> 00:58:50,720
+Decay rate anyway uh here's another
+
+1335
+00:58:46,400 --> 00:58:50,720
+example this is another
+
+1336
+00:58:51,000 --> 00:58:55,559
+Network where now the localized igen
+
+1337
+00:58:54,200 --> 00:58:57,520
+vectors are actually towards the top of
+
+1338
+00:58:55,559 --> 00:58:59,640
+the spectrum rather than the bottom and
+
+1339
+00:58:57,520 --> 00:59:02,799
+you can come up with many other
+
+1340
+00:58:59,640 --> 00:59:05,960
+examples so our question is does this
+
+1341
+00:59:02,799 --> 00:59:08,920
+localization of igen vectors have an
+
+1342
+00:59:05,960 --> 00:59:11,319
+implication for robustness again
+
+1343
+00:59:08,920 --> 00:59:13,880
+motivated by the Anderson localization
+
+1344
+00:59:11,319 --> 00:59:18,200
+problem which is a fragility phenomenon
+
+1345
+00:59:13,880 --> 00:59:20,720
+and so you can you know this I'm going
+
+1346
+00:59:18,200 --> 00:59:24,760
+to uh try to look at this problem in
+
+1347
+00:59:20,720 --> 00:59:27,160
+terms of the so-call pseudo Spectrum so
+
+1348
+00:59:24,760 --> 00:59:30,400
+uh the standard Spectrum by the way this
+
+1349
+00:59:27,160 --> 00:59:32,880
+is a very nice book by Lloyd trathan on
+
+1350
+00:59:30,400 --> 00:59:36,680
+Spectra and P Spectra this is basically
+
+1351
+00:59:32,880 --> 00:59:39,440
+robust control uh in the language of
+
+1352
+00:59:36,680 --> 00:59:41,720
+numerical analysts and and physicists
+
+1353
+00:59:39,440 --> 00:59:45,079
+where they study this thicken spectrum
+
+1354
+00:59:41,720 --> 00:59:48,319
+of a matrix with the perturbation having
+
+1355
+00:59:45,079 --> 00:59:49,839
+Norm less than Epsilon you can look they
+
+1356
+00:59:48,319 --> 00:59:51,599
+don't really look at it this way but
+
+1357
+00:59:49,839 --> 00:59:53,400
+here we're going to look at it this way
+
+1358
+00:59:51,599 --> 00:59:55,720
+which is a kind of a compressed pudos
+
+1359
+00:59:53,400 --> 00:59:58,799
+Spectrum uh this object should be very
+
+1360
+00:59:55,720 --> 01:00:01,640
+familiar familar to those of you who uh
+
+1361
+00:59:58,799 --> 01:00:04,720
+took do you do you teach robust control
+
+1362
+01:00:01,640 --> 01:00:09,039
+still here so we submitted this paper
+
+1363
+01:00:04,720 --> 01:00:11,039
+and two reviewers out of uh four uh did
+
+1364
+01:00:09,039 --> 01:00:13,400
+not understand that this is the same as
+
+1365
+01:00:11,039 --> 01:00:16,359
+the super level set of the res of the
+
+1366
+01:00:13,400 --> 01:00:18,960
+transfer function uh
+
+1367
+01:00:16,359 --> 01:00:21,480
+anyway do it's good to teach robust
+
+1368
+01:00:18,960 --> 01:00:23,839
+control so we're going to look at this
+
+1369
+01:00:21,480 --> 01:00:27,359
+thick and S Spectrum for for this
+
+1370
+01:00:23,839 --> 01:00:29,400
+network which now
+
+1371
+01:00:27,359 --> 01:00:31,680
+uh I'm going to put this Lan as the
+
+1372
+01:00:29,400 --> 01:00:34,440
+lloan say of the Swing equations of a
+
+1373
+01:00:31,680 --> 01:00:37,480
+power Network I'm going to perturb a
+
+1374
+01:00:34,440 --> 01:00:39,760
+node with the Delta whose Norm is less
+
+1375
+01:00:37,480 --> 01:00:43,880
+than Epsilon and I'm going to look at
+
+1376
+01:00:39,760 --> 01:00:46,200
+the Spectrum of this uh operator so this
+
+1377
+01:00:43,880 --> 01:00:49,960
+is a uh if you look at the Spectrum here
+
+1378
+01:00:46,200 --> 01:00:51,760
+it's with a small beta it's sled up uh
+
+1379
+01:00:49,960 --> 01:00:53,480
+along the very to the left of the
+
+1380
+01:00:51,760 --> 01:00:56,680
+imaginary
+
+1381
+01:00:53,480 --> 01:00:59,440
+axis if this EI is just the Vector with
+
+1382
+01:00:56,680 --> 01:01:02,920
+just one in the I position and zero
+
+1383
+01:00:59,440 --> 01:01:06,640
+everywhere if I place that in a for a
+
+1384
+01:01:02,920 --> 01:01:09,280
+node in this region so I'm perturbing
+
+1385
+01:01:06,640 --> 01:01:11,480
+the Dynamics of that generator in this
+
+1386
+01:01:09,280 --> 01:01:14,359
+region in the localized region and I
+
+1387
+01:01:11,480 --> 01:01:16,640
+look at the resulting Pudo Spectrum it's
+
+1388
+01:01:14,359 --> 01:01:18,079
+uh here you see a zoomed area it in this
+
+1389
+01:01:16,640 --> 01:01:19,880
+particular set of parameters it's
+
+1390
+01:01:18,079 --> 01:01:22,440
+perturbed it goes into the right half
+
+1391
+01:01:19,880 --> 01:01:24,839
+plane on the other hand if I perturb
+
+1392
+01:01:22,440 --> 01:01:28,280
+with the same value of perturbation a
+
+1393
+01:01:24,839 --> 01:01:29,480
+node in the delocalized region it barely
+
+1394
+01:01:28,280 --> 01:01:33,599
+has any
+
+1395
+01:01:29,480 --> 01:01:36,039
+effect so in this network oops in this
+
+1396
+01:01:33,599 --> 01:01:38,240
+network a small perturbation in the
+
+1397
+01:01:36,039 --> 01:01:40,599
+Dynamics of a node in this region has a
+
+1398
+01:01:38,240 --> 01:01:42,960
+huge effect compared to perturbation of
+
+1399
+01:01:40,599 --> 01:01:46,520
+a node in the delocalized region so
+
+1400
+01:01:42,960 --> 01:01:48,839
+another manifestation of this fragility
+
+1401
+01:01:46,520 --> 01:01:51,760
+phenomenon that's due to the
+
+1402
+01:01:48,839 --> 01:01:55,520
+localization of the igen vectors of
+
+1403
+01:01:51,760 --> 01:01:57,720
+aasum right there's no um in some sense
+
+1404
+01:01:55,520 --> 01:02:00,079
+here the the disorder is not throughout
+
+1405
+01:01:57,720 --> 01:02:02,799
+the domain the disorder really is
+
+1406
+01:02:00,079 --> 01:02:05,200
+Randomness in the Dynamics and and
+
+1407
+01:02:02,799 --> 01:02:08,119
+similar things can be shown I'm not
+
+1408
+01:02:05,200 --> 01:02:10,039
+showing them here for Edge uh dynamical
+
+1409
+01:02:08,119 --> 01:02:13,319
+Edge perturbation so I assume the link
+
+1410
+01:02:10,039 --> 01:02:15,640
+between two nodes can have a dynamic
+
+1411
+01:02:13,319 --> 01:02:18,359
+perturbation a Delta that is dynamic
+
+1412
+01:02:15,640 --> 01:02:20,240
+with Norm less than Epsilon that link if
+
+1413
+01:02:18,359 --> 01:02:22,839
+it's in the delocalized it's sorry if
+
+1414
+01:02:20,240 --> 01:02:24,799
+it's in a localized region is has a much
+
+1415
+01:02:22,839 --> 01:02:26,920
+bigger effect and those Effects by the
+
+1416
+01:02:24,799 --> 01:02:29,079
+way the contrast between
+
+1417
+01:02:26,920 --> 01:02:31,400
+uh the this perturbation this
+
+1418
+01:02:29,079 --> 01:02:33,880
+perturbation increases as I increase the
+
+1419
+01:02:31,400 --> 01:02:38,000
+network size so this is another
+
+1420
+01:02:33,880 --> 01:02:42,920
+fragility phenomenon uh that is due to
+
+1421
+01:02:38,000 --> 01:02:44,480
+something new not uh uh not really the
+
+1422
+01:02:42,920 --> 01:02:48,160
+lattice structure because these are not
+
+1423
+01:02:44,480 --> 01:02:50,640
+lce networks these are networks with in
+
+1424
+01:02:48,160 --> 01:02:53,000
+quotes complex structure but as you can
+
+1425
+01:02:50,640 --> 01:02:53,960
+see I don't have to make the structure
+
+1426
+01:02:53,000 --> 01:02:57,440
+too
+
+1427
+01:02:53,960 --> 01:02:59,920
+complex uh to to to begin to see this
+
+1428
+01:02:57,440 --> 01:03:02,440
+phenomenon um so this is something we're
+
+1429
+01:02:59,920 --> 01:03:06,680
+studying currently it has obvious
+
+1430
+01:03:02,440 --> 01:03:08,480
+implications for Power Systems um
+
+1431
+01:03:06,680 --> 01:03:10,079
+basically here the network topology
+
+1432
+01:03:08,480 --> 01:03:12,039
+determines the limits of performance
+
+1433
+01:03:10,079 --> 01:03:15,079
+again but now limits of performance is
+
+1434
+01:03:12,039 --> 01:03:18,319
+in terms of fragility and robustness
+
+1435
+01:03:15,079 --> 01:03:22,279
+okay so uh sorry I went over time but I
+
+1436
+01:03:18,319 --> 01:03:27,640
+really wanted to get through that and uh
+
+1437
+01:03:22,279 --> 01:03:27,640
+yeah I've I've said all that yes thank
+

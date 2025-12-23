@@ -1,0 +1,6288 @@
+1
+00:00:10,480 --> 00:00:14,759
+good morning good afternoon welcome to
+
+2
+00:00:13,280 --> 00:00:19,320
+lecture
+
+3
+00:00:14,759 --> 00:00:20,800
+six um today we will be um finishing up
+
+4
+00:00:19,320 --> 00:00:22,640
+our discussion of summations that
+
+5
+00:00:20,800 --> 00:00:25,840
+binmore started for us last time and
+
+6
+00:00:22,640 --> 00:00:27,599
+then moving on to uh asymptotic notation
+
+7
+00:00:25,840 --> 00:00:30,240
+which is one of the bread and butter
+
+8
+00:00:27,599 --> 00:00:32,120
+topics of algorithm analysis it's a
+
+9
+00:00:30,240 --> 00:00:34,079
+really useful uh language and
+
+10
+00:00:32,120 --> 00:00:36,079
+terminology that we can use to talk
+
+11
+00:00:34,079 --> 00:00:37,559
+about algorithms and compare algorithms
+
+12
+00:00:36,079 --> 00:00:40,239
+without getting bogged down in all the
+
+13
+00:00:37,559 --> 00:00:41,920
+details but before we do that let's talk
+
+14
+00:00:40,239 --> 00:00:43,239
+about sums and before we do that let's
+
+15
+00:00:41,920 --> 00:00:45,960
+play with
+
+16
+00:00:43,239 --> 00:00:47,840
+blocks um so here is a very cool
+
+17
+00:00:45,960 --> 00:00:49,520
+question I have a stack of blocks you
+
+18
+00:00:47,840 --> 00:00:52,399
+could imagine it's even taller than this
+
+19
+00:00:49,520 --> 00:00:55,559
+I just grabbed six for now um and what I
+
+20
+00:00:52,399 --> 00:00:59,280
+want to do is sort of lean them out over
+
+21
+00:00:55,559 --> 00:01:02,079
+the table and well okay don't want them
+
+22
+00:00:59,280 --> 00:01:05,320
+to fall that's that's Criterion one what
+
+23
+00:01:02,079 --> 00:01:08,880
+I'm hoping for is to get this top block
+
+24
+00:01:05,320 --> 00:01:11,000
+all the way off of this table um so none
+
+25
+00:01:08,880 --> 00:01:14,040
+of the block is over the table so
+
+26
+00:01:11,000 --> 00:01:17,080
+currently I'm not quite there we can see
+
+27
+00:01:14,040 --> 00:01:23,040
+there's like an inch half an inch left
+
+28
+00:01:17,080 --> 00:01:25,720
+um so seems possible maybe um so the
+
+29
+00:01:23,040 --> 00:01:27,520
+rules are we can only have one block per
+
+30
+00:01:25,720 --> 00:01:29,479
+layer we can't double up we can't do
+
+31
+00:01:27,520 --> 00:01:31,159
+weird angles and whatnot it's just slide
+
+32
+00:01:29,479 --> 00:01:34,240
+these left and right until you're happy
+
+33
+00:01:31,159 --> 00:01:37,680
+and hopefully it doesn't fall um are we
+
+34
+00:01:34,240 --> 00:01:40,240
+clear on the game nice who thinks it's
+
+35
+00:01:37,680 --> 00:01:41,560
+possible raise your hand who thinks it's
+
+36
+00:01:40,240 --> 00:01:44,520
+not
+
+37
+00:01:41,560 --> 00:01:47,759
+possible all right well let's try
+
+38
+00:01:44,520 --> 00:01:50,320
+hopefully I don't hurt myself um all
+
+39
+00:01:47,759 --> 00:01:52,479
+right so I'm going to follow a nice
+
+40
+00:01:50,320 --> 00:01:53,719
+greedy strategy so I'm going to start
+
+41
+00:01:52,479 --> 00:01:56,320
+from the top and then I'm just going to
+
+42
+00:01:53,719 --> 00:01:58,600
+keep sliding left as much as I can until
+
+43
+00:01:56,320 --> 00:02:00,520
+it's about to fall over so if I go past
+
+44
+00:01:58,600 --> 00:02:02,280
+the center of mass it's going to fall
+
+45
+00:02:00,520 --> 00:02:04,320
+over so I'm going to go right up until
+
+46
+00:02:02,280 --> 00:02:06,360
+that edge and stop and don't worry about
+
+47
+00:02:04,320 --> 00:02:08,520
+the physics we're not here to talk about
+
+48
+00:02:06,360 --> 00:02:10,440
+physics um but I'm going to do the same
+
+49
+00:02:08,520 --> 00:02:12,599
+so let's freeze the top two layers and
+
+50
+00:02:10,440 --> 00:02:16,120
+try again let's slide this over until
+
+51
+00:02:12,599 --> 00:02:19,000
+it's just about to fall it feels right
+
+52
+00:02:16,120 --> 00:02:21,840
+around there all right let's keep
+
+53
+00:02:19,000 --> 00:02:25,319
+going all
+
+54
+00:02:21,840 --> 00:02:27,680
+right yep okay it leaned a little bit
+
+55
+00:02:25,319 --> 00:02:31,560
+I'm getting worried but we'll make it
+
+56
+00:02:27,680 --> 00:02:34,360
+work let's see uh
+
+57
+00:02:31,560 --> 00:02:36,959
+yeah okay and I think I might already be
+
+58
+00:02:34,360 --> 00:02:40,200
+off the table which was my goal but
+
+59
+00:02:36,959 --> 00:02:44,200
+let's let's go a little further why not
+
+60
+00:02:40,200 --> 00:02:47,560
+uh yes okay and
+
+61
+00:02:44,200 --> 00:02:50,519
+finally right around okay that's as far
+
+62
+00:02:47,560 --> 00:02:53,519
+as I'm willing to go I
+
+63
+00:02:50,519 --> 00:02:59,360
+think that is off the
+
+64
+00:02:53,519 --> 00:02:59,360
+table it's possible yes thank you
+
+65
+00:03:01,400 --> 00:03:04,879
+I cheated I put little marks on the back
+
+66
+00:03:03,120 --> 00:03:07,799
+so I knew how far to
+
+67
+00:03:04,879 --> 00:03:10,159
+go um but it is possible and now we can
+
+68
+00:03:07,799 --> 00:03:12,640
+raise the question how far can we go can
+
+69
+00:03:10,159 --> 00:03:14,799
+we get two lengths out here's what that
+
+70
+00:03:12,640 --> 00:03:18,080
+would look like two lengths out can we
+
+71
+00:03:14,799 --> 00:03:19,560
+get five lengths out 10 lengths out
+
+72
+00:03:18,080 --> 00:03:22,879
+let's stop at 10 who thinks we can get
+
+73
+00:03:19,560 --> 00:03:26,000
+10 lengths out over the table who thinks
+
+74
+00:03:22,879 --> 00:03:29,920
+10 is possible who thinks 10 is not
+
+75
+00:03:26,000 --> 00:03:33,159
+possible all right you're both right
+
+76
+00:03:29,920 --> 00:03:35,280
+um I'll explain why in a second uh let's
+
+77
+00:03:33,159 --> 00:03:37,720
+not have an accident during lecture
+
+78
+00:03:35,280 --> 00:03:39,439
+there we go so turns out I'm not going
+
+79
+00:03:37,720 --> 00:03:42,319
+to prove this now but turns out that
+
+80
+00:03:39,439 --> 00:03:44,760
+greedy strategy I just used is the best
+
+81
+00:03:42,319 --> 00:03:47,080
+you can do uh it's not too hard to prove
+
+82
+00:03:44,760 --> 00:03:48,840
+it's in the textbook if you're curious
+
+83
+00:03:47,080 --> 00:03:52,000
+um but let me tell you what that greedy
+
+84
+00:03:48,840 --> 00:03:53,599
+strategy ends up looking like um if I
+
+85
+00:03:52,000 --> 00:03:56,720
+have some chalk here we
+
+86
+00:03:53,599 --> 00:03:59,959
+go so as you might imagine this first
+
+87
+00:03:56,720 --> 00:04:01,879
+block sticks out half a unit over the
+
+88
+00:03:59,959 --> 00:04:05,200
+next block so its Center of mass is
+
+89
+00:04:01,879 --> 00:04:07,879
+right here on the edge um by the way I'm
+
+90
+00:04:05,200 --> 00:04:12,439
+I'm imagining these blocks are one unit
+
+91
+00:04:07,879 --> 00:04:14,439
+wide um the next one right here that's a
+
+92
+00:04:12,439 --> 00:04:16,160
+quarter unit because that's what it
+
+93
+00:04:14,439 --> 00:04:19,040
+takes to put the center of mass of these
+
+94
+00:04:16,160 --> 00:04:21,959
+two blocks combined right over the edge
+
+95
+00:04:19,040 --> 00:04:25,120
+of the third block turns out this right
+
+96
+00:04:21,959 --> 00:04:27,440
+here is a sixth this right here is an
+
+97
+00:04:25,120 --> 00:04:30,039
+eighth and all the way down until the
+
+98
+00:04:27,440 --> 00:04:31,720
+very n until the the it is the the very
+
+99
+00:04:30,039 --> 00:04:36,120
+n the nth
+
+100
+00:04:31,720 --> 00:04:40,160
+block has a gap of 1 over 2 N so this is
+
+101
+00:04:36,120 --> 00:04:42,560
+block 1 2 3 four five all the way to n
+
+102
+00:04:40,160 --> 00:04:44,240
+turns out this is the best you can do
+
+103
+00:04:42,560 --> 00:04:46,680
+which means the distance you can get
+
+104
+00:04:44,240 --> 00:04:46,680
+with n
+
+105
+00:04:47,440 --> 00:04:54,360
+blocks is 12 plus a 4 plus a 6 up to 1
+
+106
+00:04:53,280 --> 00:04:57,120
+over 2
+
+107
+00:04:54,360 --> 00:05:00,080
+N which let's factor out the 1/2 just
+
+108
+00:04:57,120 --> 00:05:02,280
+because that's cleaner that's the sum K
+
+109
+00:05:00,080 --> 00:05:05,759
+= 1 to n of 1 over
+
+110
+00:05:02,280 --> 00:05:10,080
+K this is also known as 1 12
+
+111
+00:05:05,759 --> 00:05:10,080
+time the N harmonic
+
+112
+00:05:10,800 --> 00:05:13,800
+number
+
+113
+00:05:14,400 --> 00:05:18,639
+harmonic
+
+114
+00:05:16,199 --> 00:05:20,800
+number this is a standard name for this
+
+115
+00:05:18,639 --> 00:05:22,000
+sum 1 plus a half plus a thir plus a 4th
+
+116
+00:05:20,800 --> 00:05:26,360
+up to 1/
+
+117
+00:05:22,000 --> 00:05:27,880
+n um and half of that is exactly as far
+
+118
+00:05:26,360 --> 00:05:31,600
+as we can get with n
+
+119
+00:05:27,880 --> 00:05:34,080
+blocks right so now the question is how
+
+120
+00:05:31,600 --> 00:05:36,000
+how big does this get if I have a
+
+121
+00:05:34,080 --> 00:05:37,319
+thousand blocks how far can I get if I
+
+122
+00:05:36,000 --> 00:05:39,360
+have a million blocks if I have an
+
+123
+00:05:37,319 --> 00:05:42,400
+unlimited number of blocks how far can I
+
+124
+00:05:39,360 --> 00:05:45,440
+get which means we're asking about this
+
+125
+00:05:42,400 --> 00:05:47,800
+sum this harmonic number I want to know
+
+126
+00:05:45,440 --> 00:05:49,919
+about that sum do we have a closed form
+
+127
+00:05:47,800 --> 00:05:52,639
+for it no not
+
+128
+00:05:49,919 --> 00:05:54,560
+really but as we saw last time we don't
+
+129
+00:05:52,639 --> 00:05:56,880
+especially need a closed form if all we
+
+130
+00:05:54,560 --> 00:06:00,680
+care about is approximation so let's
+
+131
+00:05:56,880 --> 00:06:00,680
+approximate that sum
+
+132
+00:06:01,360 --> 00:06:10,080
+so we have our sum hn which is defined
+
+133
+00:06:07,400 --> 00:06:12,199
+as the sum of the first n
+
+134
+00:06:10,080 --> 00:06:13,840
+reciprocals and we want to approximate
+
+135
+00:06:12,199 --> 00:06:16,919
+it and can someone remind me what tool
+
+136
+00:06:13,840 --> 00:06:21,240
+we have to approximate sums like
+
+137
+00:06:16,919 --> 00:06:25,039
+this yes the integral method absolutely
+
+138
+00:06:21,240 --> 00:06:27,199
+so this function 1/x is a decreasing
+
+139
+00:06:25,039 --> 00:06:29,759
+function and so we have our integral
+
+140
+00:06:27,199 --> 00:06:31,479
+method our integral bound that says that
+
+141
+00:06:29,759 --> 00:06:35,560
+sum
+
+142
+00:06:31,479 --> 00:06:35,560
+hn is between the
+
+143
+00:06:37,080 --> 00:06:42,479
+integral plus the last term in this case
+
+144
+00:06:40,080 --> 00:06:44,039
+the last term is sorry plus the first
+
+145
+00:06:42,479 --> 00:06:49,199
+term
+
+146
+00:06:44,039 --> 00:06:52,680
+one and the integral 1 to n of 1x DX
+
+147
+00:06:49,199 --> 00:06:57,280
+plus the last term which is 1
+
+148
+00:06:52,680 --> 00:07:00,000
+n so this bound is integral plus F of n
+
+149
+00:06:57,280 --> 00:07:02,720
+less equal to the sum is less equal to
+
+150
+00:07:00,000 --> 00:07:05,360
+the integral plus F of
+
+151
+00:07:02,720 --> 00:07:08,639
+one and I claim this bound is really
+
+152
+00:07:05,360 --> 00:07:10,800
+easy to remember um like I plus FN I
+
+153
+00:07:08,639 --> 00:07:14,440
+plus F1 are pretty simple things and
+
+154
+00:07:10,800 --> 00:07:15,800
+also if you if if you're dealing with an
+
+155
+00:07:14,440 --> 00:07:18,039
+increasing function instead of a
+
+156
+00:07:15,800 --> 00:07:20,400
+decreasing function it's the same two
+
+157
+00:07:18,039 --> 00:07:22,280
+bounds but they're on the other side
+
+158
+00:07:20,400 --> 00:07:23,919
+just because if it's increasing then FN
+
+159
+00:07:22,280 --> 00:07:25,800
+is going to be bigger than F1 so
+
+160
+00:07:23,919 --> 00:07:29,360
+certainly FN should be on the bigger
+
+161
+00:07:25,800 --> 00:07:31,199
+side but this is a really clean bound um
+
+162
+00:07:29,360 --> 00:07:34,800
+and and we can write out what this what
+
+163
+00:07:31,199 --> 00:07:38,520
+this says integral from one of 1 /x DX
+
+164
+00:07:34,800 --> 00:07:41,479
+from 1 to n that's Ln of n let's assume
+
+165
+00:07:38,520 --> 00:07:43,919
+we can do that um without writing it
+
+166
+00:07:41,479 --> 00:07:45,879
+down I you don't want to see me
+
+167
+00:07:43,919 --> 00:07:49,840
+integrate live that will go
+
+168
+00:07:45,879 --> 00:07:54,440
+poorly um but what this says is that um
+
+169
+00:07:49,840 --> 00:07:57,120
+Ln of n + 1 n is less equal to hn is
+
+170
+00:07:54,440 --> 00:08:01,199
+less equal to Ln of
+
+171
+00:07:57,120 --> 00:08:02,000
+n + one
+
+172
+00:08:01,199 --> 00:08:05,520
+all
+
+173
+00:08:02,000 --> 00:08:10,240
+right which is a pretty nice
+
+174
+00:08:05,520 --> 00:08:13,319
+bound um but we're really interested
+
+175
+00:08:10,240 --> 00:08:16,240
+in well first let's answer our question
+
+176
+00:08:13,319 --> 00:08:19,039
+um if we want to get 10 blocks out then
+
+177
+00:08:16,240 --> 00:08:21,280
+we're asking for hn to be about
+
+178
+00:08:19,039 --> 00:08:23,000
+20 which means we're asking for these
+
+179
+00:08:21,280 --> 00:08:25,599
+bounds these bounds are kind of
+
+180
+00:08:23,000 --> 00:08:27,560
+basically Ln of n right the one over n
+
+181
+00:08:25,599 --> 00:08:31,720
+and and the one don't affect things all
+
+182
+00:08:27,560 --> 00:08:32,680
+that much so really hn is basically Ln
+
+183
+00:08:31,720 --> 00:08:36,000
+of
+
+184
+00:08:32,680 --> 00:08:37,560
+n yeah this is I'm being imprecise here
+
+185
+00:08:36,000 --> 00:08:40,440
+but we'll be more precise about it in a
+
+186
+00:08:37,560 --> 00:08:43,760
+bit but for now it's about Ln of n which
+
+187
+00:08:40,440 --> 00:08:43,760
+means to get 10 blocks
+
+188
+00:08:43,920 --> 00:08:51,279
+out we need hn equals 20 because the
+
+189
+00:08:48,519 --> 00:08:55,000
+distance was half hn uh which means we
+
+190
+00:08:51,279 --> 00:08:57,519
+need n is approximately e to the
+
+191
+00:08:55,000 --> 00:09:03,040
+20 we need that many
+
+192
+00:08:57,519 --> 00:09:03,040
+blocks uh we need about four 400 billion
+
+193
+00:09:04,120 --> 00:09:09,320
+blocks to get 10 blocks away from the
+
+194
+00:09:06,640 --> 00:09:12,720
+table um each one is about an inch and a
+
+195
+00:09:09,320 --> 00:09:16,000
+half thick so that gets us to carry the
+
+196
+00:09:12,720 --> 00:09:19,160
+one 40 times the distance to the
+
+197
+00:09:16,000 --> 00:09:21,040
+Moon um probably going to run into some
+
+198
+00:09:19,160 --> 00:09:24,240
+other issues before you're able to stack
+
+199
+00:09:21,040 --> 00:09:26,600
+something that tall um so mathematically
+
+200
+00:09:24,240 --> 00:09:28,760
+yes we can get 10 blocks over the table
+
+201
+00:09:26,600 --> 00:09:30,800
+physically not so much that's why you're
+
+202
+00:09:28,760 --> 00:09:34,320
+both right
+
+203
+00:09:30,800 --> 00:09:38,440
+um but all of this was really an excuse
+
+204
+00:09:34,320 --> 00:09:40,839
+to get us here hn is approximately Ln of
+
+205
+00:09:38,440 --> 00:09:43,839
+n plus some smaller
+
+206
+00:09:40,839 --> 00:09:46,480
+terms um and let's try to make that a
+
+207
+00:09:43,839 --> 00:09:48,200
+little more precise what do we mean by
+
+208
+00:09:46,480 --> 00:09:50,640
+that what do we mean by hn is
+
+209
+00:09:48,200 --> 00:09:52,360
+approximately Ln of n well let me give
+
+210
+00:09:50,640 --> 00:09:56,110
+us a definition
+
+211
+00:09:52,360 --> 00:09:56,110
+[Applause]
+
+212
+00:10:01,399 --> 00:10:10,040
+let's write that F of n that's a Tilda F
+
+213
+00:10:05,880 --> 00:10:13,040
+of n is Tia of G of n so this
+
+214
+00:10:10,040 --> 00:10:13,040
+is
+
+215
+00:10:13,200 --> 00:10:16,200
+asymptotically
+
+216
+00:10:16,680 --> 00:10:23,920
+equivalent so f and g are ASM totically
+
+217
+00:10:20,800 --> 00:10:28,680
+equivalent if and only if the
+
+218
+00:10:23,920 --> 00:10:30,480
+limit of FN over G of n as n goes to
+
+219
+00:10:28,680 --> 00:10:31,399
+Infinity
+
+220
+00:10:30,480 --> 00:10:33,640
+is
+
+221
+00:10:31,399 --> 00:10:36,240
+one if you divide them and get a limit
+
+222
+00:10:33,640 --> 00:10:38,720
+of one then these functions are ASM
+
+223
+00:10:36,240 --> 00:10:38,720
+totically
+
+224
+00:10:40,519 --> 00:10:44,480
+equivalent and in this case well we have
+
+225
+00:10:42,760 --> 00:10:46,959
+these nice bounds on
+
+226
+00:10:44,480 --> 00:10:50,839
+hn well let's take that inequality let's
+
+227
+00:10:46,959 --> 00:10:52,519
+divide all three sides U by Ln of n what
+
+228
+00:10:50,839 --> 00:10:57,800
+are we going to get we're going to get 1
+
+229
+00:10:52,519 --> 00:11:02,040
++ 1 over n Ln of n is less equal to hn
+
+230
+00:10:57,800 --> 00:11:04,040
+over Ln of n is less equal to 1 + 1 / Ln
+
+231
+00:11:02,040 --> 00:11:09,240
+of
+
+232
+00:11:04,040 --> 00:11:12,560
+N and as we take the limit as n goes to
+
+233
+00:11:09,240 --> 00:11:14,240
+Infinity the left side looks like one
+
+234
+00:11:12,560 --> 00:11:15,920
+this thing in the denominator gets big
+
+235
+00:11:14,240 --> 00:11:18,200
+so one over that gets small the left
+
+236
+00:11:15,920 --> 00:11:23,279
+side goes to
+
+237
+00:11:18,200 --> 00:11:26,079
+one limb n goes to Infinity of hn over
+
+238
+00:11:23,279 --> 00:11:29,360
+Ln of N and on the right side we have
+
+239
+00:11:26,079 --> 00:11:32,839
+one plus something that goes to zero cuz
+
+240
+00:11:29,360 --> 00:11:32,839
+that denominator gets arbitrarily
+
+241
+00:11:34,320 --> 00:11:39,720
+big so the limit equals
+
+242
+00:11:37,320 --> 00:11:42,120
+one I learned this in high school as the
+
+243
+00:11:39,720 --> 00:11:43,959
+squeeze theorem if you can bound your
+
+244
+00:11:42,120 --> 00:11:46,839
+limit between two things that are the
+
+245
+00:11:43,959 --> 00:11:48,560
+same then the limit is that thing um but
+
+246
+00:11:46,839 --> 00:11:52,720
+what we've concluded here is that hn
+
+247
+00:11:48,560 --> 00:11:55,880
+ided Ln of n limits to one as n goes to
+
+248
+00:11:52,720 --> 00:11:55,880
+infinity and
+
+249
+00:11:57,920 --> 00:12:06,320
+therefore uh sorry hn over Ln of n
+
+250
+00:12:02,160 --> 00:12:07,480
+equals 1 which implies that hn is ASM
+
+251
+00:12:06,320 --> 00:12:10,079
+totically
+
+252
+00:12:07,480 --> 00:12:13,440
+equivalent to Ln of
+
+253
+00:12:10,079 --> 00:12:16,079
+n so when I wrote approximately Ln of n
+
+254
+00:12:13,440 --> 00:12:18,560
+up there probably what I meant was this
+
+255
+00:12:16,079 --> 00:12:20,199
+much more precise thing that these are
+
+256
+00:12:18,560 --> 00:12:23,880
+approximately equal in the sense that
+
+257
+00:12:20,199 --> 00:12:25,839
+their ratio limits to one does that make
+
+258
+00:12:23,880 --> 00:12:27,680
+sense
+
+259
+00:12:25,839 --> 00:12:30,120
+nice all
+
+260
+00:12:27,680 --> 00:12:34,000
+right um
+
+261
+00:12:30,120 --> 00:12:35,920
+now before moving on to ASM totic fully
+
+262
+00:12:34,000 --> 00:12:37,639
+uh there's one other topic in summations
+
+263
+00:12:35,920 --> 00:12:40,760
+that I want to talk about which is not
+
+264
+00:12:37,639 --> 00:12:40,760
+summations at all but
+
+265
+00:12:43,000 --> 00:12:48,519
+products um and really what I want to
+
+266
+00:12:46,399 --> 00:12:51,360
+say about products is that often you can
+
+267
+00:12:48,519 --> 00:12:55,920
+analyze products as if they were
+
+268
+00:12:51,360 --> 00:12:58,760
+sums turn into
+
+269
+00:12:55,920 --> 00:13:00,279
+sums for example if we care about n
+
+270
+00:12:58,760 --> 00:13:04,279
+factorial
+
+271
+00:13:00,279 --> 00:13:05,399
+which is uh here 1 * 2 * 3 all the way
+
+272
+00:13:04,279 --> 00:13:07,760
+up to
+
+273
+00:13:05,399 --> 00:13:09,920
+n who can tell me how to turn this into
+
+274
+00:13:07,760 --> 00:13:09,920
+a
+
+275
+00:13:14,600 --> 00:13:19,760
+sum it's something written on this
+
+276
+00:13:18,199 --> 00:13:23,240
+board
+
+277
+00:13:19,760 --> 00:13:24,880
+yes yeah take logs perfect what happens
+
+278
+00:13:23,240 --> 00:13:28,720
+if we take the log of both
+
+279
+00:13:24,880 --> 00:13:31,000
+sides so log of n factorial uh here
+
+280
+00:13:28,720 --> 00:13:33,320
+let's let's be precise we'll call it Ln
+
+281
+00:13:31,000 --> 00:13:34,480
+of n factorial the natural log so log
+
+282
+00:13:33,320 --> 00:13:36,800
+base
+
+283
+00:13:34,480 --> 00:13:39,279
+e well remember when you take logs
+
+284
+00:13:36,800 --> 00:13:43,199
+products turn to sums in this sense this
+
+285
+00:13:39,279 --> 00:13:47,360
+becomes Ln of one plus Ln of 2 plus Ln
+
+286
+00:13:43,199 --> 00:13:49,680
+of 3 plus Ln of
+
+287
+00:13:47,360 --> 00:13:51,160
+n so if we want to understand n
+
+288
+00:13:49,680 --> 00:13:52,959
+factorial we could just as well
+
+289
+00:13:51,160 --> 00:13:54,959
+understand its log and its log is the
+
+290
+00:13:52,959 --> 00:13:56,720
+sum of a bunch of other logs and now we
+
+291
+00:13:54,959 --> 00:13:59,720
+have a sum and we can use all of our
+
+292
+00:13:56,720 --> 00:14:01,680
+summation uh tools on this sum to get
+
+293
+00:13:59,720 --> 00:14:04,399
+information about n
+
+294
+00:14:01,680 --> 00:14:07,800
+factorial for example we could use the
+
+295
+00:14:04,399 --> 00:14:09,160
+integral bound Ln of X is an increasing
+
+296
+00:14:07,800 --> 00:14:10,839
+function this time so we use the
+
+297
+00:14:09,160 --> 00:14:13,720
+increasing version of the
+
+298
+00:14:10,839 --> 00:14:19,440
+bound uh which says
+
+299
+00:14:13,720 --> 00:14:25,959
+that uh here we go so Ln of one plus the
+
+300
+00:14:19,440 --> 00:14:29,839
+integral from 1 to n of Ln of X DX is
+
+301
+00:14:25,959 --> 00:14:33,920
+less equal to the sum of Ln of K
+
+302
+00:14:29,839 --> 00:14:36,560
+K = 1 to n Which is less equal to Ln of
+
+303
+00:14:33,920 --> 00:14:38,920
+n plus the same
+
+304
+00:14:36,560 --> 00:14:40,160
+integral and if we do out that integral
+
+305
+00:14:38,920 --> 00:14:42,880
+like I said you don't want to see me
+
+306
+00:14:40,160 --> 00:14:45,279
+integrate live I will get it wrong um
+
+307
+00:14:42,880 --> 00:14:50,000
+but if we trust my notes this integral
+
+308
+00:14:45,279 --> 00:14:54,279
+comes out to um n Ln of
+
+309
+00:14:50,000 --> 00:14:58,759
+n um minus n +
+
+310
+00:14:54,279 --> 00:15:01,040
+1 Ln of one is zero thankfully keeps
+
+311
+00:14:58,759 --> 00:15:06,560
+things simple and so what we end up
+
+312
+00:15:01,040 --> 00:15:09,600
+finding is that n Ln of nus n + 1 is
+
+313
+00:15:06,560 --> 00:15:12,720
+less equal to this sum which as we know
+
+314
+00:15:09,600 --> 00:15:16,639
+is Ln of n factorial Which is less equal
+
+315
+00:15:12,720 --> 00:15:22,320
+to this same integral plus another Ln of
+
+316
+00:15:16,639 --> 00:15:24,880
+n n + one Ln of nus n +
+
+317
+00:15:22,320 --> 00:15:27,079
+1 so we were able to translate this
+
+318
+00:15:24,880 --> 00:15:29,480
+product into a sum and then use our
+
+319
+00:15:27,079 --> 00:15:32,000
+summation tool um to get get us a bound
+
+320
+00:15:29,480 --> 00:15:33,920
+on Ln of N and if we want to bound on N
+
+321
+00:15:32,000 --> 00:15:37,079
+factor sorry Ln of n factorial I
+
+322
+00:15:33,920 --> 00:15:38,720
+misspoke if we want to bound on Ln I
+
+323
+00:15:37,079 --> 00:15:41,600
+misspoke again apologies if we want to
+
+324
+00:15:38,720 --> 00:15:44,720
+bound on N factorial itself we can just
+
+325
+00:15:41,600 --> 00:15:48,279
+undo the log by exponentiating all three
+
+326
+00:15:44,720 --> 00:15:49,920
+of these take e to this e to this e to
+
+327
+00:15:48,279 --> 00:15:51,880
+this that preserves our
+
+328
+00:15:49,920 --> 00:15:54,160
+inequalities and what we'll end up
+
+329
+00:15:51,880 --> 00:15:58,519
+getting after we simplify it a bit is
+
+330
+00:15:54,160 --> 00:16:01,560
+that n the N over e to the N minus1 is
+
+331
+00:15:58,519 --> 00:16:03,279
+less equ to n factorial is less equal to
+
+332
+00:16:01,560 --> 00:16:07,399
+n n
+
+333
+00:16:03,279 --> 00:16:07,399
++1 over e
+
+334
+00:16:08,759 --> 00:16:13,880
+nus1 so same denominator on both sides
+
+335
+00:16:11,360 --> 00:16:15,360
+we have n the N versus n the N plus one
+
+336
+00:16:13,880 --> 00:16:18,720
+on the two sides so the two bounds are
+
+337
+00:16:15,360 --> 00:16:22,160
+off by a factor of n not as good as we
+
+338
+00:16:18,720 --> 00:16:25,920
+had last time we are off by an additive
+
+339
+00:16:22,160 --> 00:16:27,959
+one less than that even but a factor of
+
+340
+00:16:25,920 --> 00:16:30,480
+n isn't bad for a number as big as n
+
+341
+00:16:27,959 --> 00:16:33,440
+factorial this isn't a bad
+
+342
+00:16:30,480 --> 00:16:34,680
+bound um is everyone clear on how we got
+
+343
+00:16:33,440 --> 00:16:38,000
+to this
+
+344
+00:16:34,680 --> 00:16:39,920
+bound wonderful it's not the best bound
+
+345
+00:16:38,000 --> 00:16:45,399
+we have
+
+346
+00:16:39,920 --> 00:16:48,279
+ow um let me tell you uh two better ones
+
+347
+00:16:45,399 --> 00:16:50,480
+oh sorry before that is this bound
+
+348
+00:16:48,279 --> 00:16:54,680
+enough to say that n factorial is ASM
+
+349
+00:16:50,480 --> 00:16:57,759
+totically equivalent to one side or the
+
+350
+00:16:54,680 --> 00:17:00,839
+other I see some head shakes can someone
+
+351
+00:16:57,759 --> 00:17:00,839
+tell me why
+
+352
+00:17:07,360 --> 00:17:12,000
+that's all right I'm tired
+
+353
+00:17:09,079 --> 00:17:13,799
+too um these two bounds are too far
+
+354
+00:17:12,000 --> 00:17:17,319
+apart from each other they're a factor
+
+355
+00:17:13,799 --> 00:17:20,640
+of n apart and so we can't say that this
+
+356
+00:17:17,319 --> 00:17:22,480
+divided by this limits to one or this
+
+357
+00:17:20,640 --> 00:17:24,799
+divided by this limits to one because we
+
+358
+00:17:22,480 --> 00:17:27,280
+have an N range in there to account for
+
+359
+00:17:24,799 --> 00:17:29,919
+and N grows to Infinity so we don't know
+
+360
+00:17:27,280 --> 00:17:32,679
+where in this range and factorial lies
+
+361
+00:17:29,919 --> 00:17:34,799
+and so we can't pin down that limit
+
+362
+00:17:32,679 --> 00:17:37,400
+going to a specific value so this isn't
+
+363
+00:17:34,799 --> 00:17:40,480
+tight enough to say that n factorial is
+
+364
+00:17:37,400 --> 00:17:44,120
+ASM totically equivalent to
+
+365
+00:17:40,480 --> 00:17:46,960
+something um but that's where Sterling's
+
+366
+00:17:44,120 --> 00:17:46,960
+approximation comes
+
+367
+00:17:53,600 --> 00:17:59,840
+in um Sterling's approximation says that
+
+368
+00:17:56,360 --> 00:18:08,159
+n factorial is ASM totically equivalent
+
+369
+00:17:59,840 --> 00:18:10,280
+to theun of 2 piun n * n e to the
+
+370
+00:18:08,159 --> 00:18:11,880
+end we're not going to prove that but
+
+371
+00:18:10,280 --> 00:18:13,400
+it's really useful you should write it
+
+372
+00:18:11,880 --> 00:18:15,120
+down you might end up using it in the
+
+373
+00:18:13,400 --> 00:18:17,799
+problem set hint
+
+374
+00:18:15,120 --> 00:18:20,360
+hint um extremely
+
+375
+00:18:17,799 --> 00:18:22,360
+useful um but remember this is this is
+
+376
+00:18:20,360 --> 00:18:25,280
+just saying that n factorial divided by
+
+377
+00:18:22,360 --> 00:18:27,440
+this limits to one so when n is really
+
+378
+00:18:25,280 --> 00:18:29,600
+really big the quotient of these two
+
+379
+00:18:27,440 --> 00:18:31,440
+things is close to one
+
+380
+00:18:29,600 --> 00:18:34,200
+what it doesn't tell us is what happens
+
+381
+00:18:31,440 --> 00:18:36,440
+for smaller values of n what if n is
+
+382
+00:18:34,200 --> 00:18:38,120
+just 10 can we use this to approximate
+
+383
+00:18:36,440 --> 00:18:40,240
+10
+
+384
+00:18:38,120 --> 00:18:41,400
+factorial how about 100 how about a
+
+385
+00:18:40,240 --> 00:18:43,080
+thousand I don't know this doesn't
+
+386
+00:18:41,400 --> 00:18:45,559
+really tell us it doesn't tell us how
+
+387
+00:18:43,080 --> 00:18:48,600
+good an approximation this is all it
+
+388
+00:18:45,559 --> 00:18:51,120
+says is that it's good in the
+
+389
+00:18:48,600 --> 00:18:52,760
+limit um so let me tell you an even
+
+390
+00:18:51,120 --> 00:18:55,320
+stronger
+
+391
+00:18:52,760 --> 00:18:58,080
+bound uh I don't know who to credit this
+
+392
+00:18:55,320 --> 00:18:59,480
+bound to but it's even more precise than
+
+393
+00:18:58,080 --> 00:19:02,159
+this one
+
+394
+00:18:59,480 --> 00:19:03,320
+uh it says that n factorial divided by
+
+395
+00:19:02,159 --> 00:19:08,600
+this
+
+396
+00:19:03,320 --> 00:19:11,320
+Thing 2 pi n n / e to the N so this is a
+
+397
+00:19:08,600 --> 00:19:13,600
+thing that Sterling tells us limits to
+
+398
+00:19:11,320 --> 00:19:17,960
+one and now we have some bounds on how
+
+399
+00:19:13,600 --> 00:19:22,840
+quickly it does that e to 1 over
+
+400
+00:19:17,960 --> 00:19:25,840
+12n e to 1 over 12n +
+
+401
+00:19:22,840 --> 00:19:28,159
+1 so not only does this limit to one it
+
+402
+00:19:25,840 --> 00:19:29,760
+does so very very fast exponentially
+
+403
+00:19:28,159 --> 00:19:31,520
+fast
+
+404
+00:19:29,760 --> 00:19:33,679
+and this we can plug in specific values
+
+405
+00:19:31,520 --> 00:19:35,919
+of N and see okay how close is this
+
+406
+00:19:33,679 --> 00:19:38,280
+approximation to n factorial this is an
+
+407
+00:19:35,919 --> 00:19:39,919
+effective bound one we can get actual
+
+408
+00:19:38,280 --> 00:19:42,600
+approximations out of this is just a
+
+409
+00:19:39,919 --> 00:19:44,159
+limiting bound but of course this is a
+
+410
+00:19:42,600 --> 00:19:45,799
+lot more complicated sometimes we don't
+
+411
+00:19:44,159 --> 00:19:48,360
+want to deal with all these details and
+
+412
+00:19:45,799 --> 00:19:50,640
+this is enough sometimes even that's too
+
+413
+00:19:48,360 --> 00:19:52,799
+much and that's enough so pick your
+
+414
+00:19:50,640 --> 00:19:55,159
+level of granularity as you need
+
+415
+00:19:52,799 --> 00:19:57,520
+it we're also not going to prove this
+
+416
+00:19:55,159 --> 00:20:01,000
+bound um that's even harder than
+
+417
+00:19:57,520 --> 00:20:03,600
+Sterling um but it's true and useful
+
+418
+00:20:01,000 --> 00:20:03,600
+questions on
+
+419
+00:20:04,720 --> 00:20:09,679
+that all right so that's everything I
+
+420
+00:20:07,280 --> 00:20:12,679
+wanted to say about summations and now
+
+421
+00:20:09,679 --> 00:20:15,200
+let's jump back to astics we already
+
+422
+00:20:12,679 --> 00:20:16,120
+started talking about astics with um ASM
+
+423
+00:20:15,200 --> 00:20:19,039
+totic
+
+424
+00:20:16,120 --> 00:20:22,120
+equivalents um and let's do an
+
+425
+00:20:19,039 --> 00:20:24,000
+experiment uh let's do an exercise um
+
+426
+00:20:22,120 --> 00:20:27,320
+we've already seen a sorting algorithm
+
+427
+00:20:24,000 --> 00:20:29,880
+we saw swap sort um in lecture four
+
+428
+00:20:27,320 --> 00:20:31,960
+where you you have a you want to put it
+
+429
+00:20:29,880 --> 00:20:34,039
+in sorted order and you do that by
+
+430
+00:20:31,960 --> 00:20:35,600
+finding a pair that's out of order and
+
+431
+00:20:34,039 --> 00:20:37,640
+next to each other and changing their
+
+432
+00:20:35,600 --> 00:20:39,400
+order and you keep doing that keep
+
+433
+00:20:37,640 --> 00:20:41,159
+finding pairs that are next to each
+
+434
+00:20:39,400 --> 00:20:42,080
+other and out of order until the whole
+
+435
+00:20:41,159 --> 00:20:44,640
+thing is
+
+436
+00:20:42,080 --> 00:20:47,320
+sorted uh and we saw so I'm going to
+
+437
+00:20:44,640 --> 00:20:47,320
+call that swap
+
+438
+00:20:47,520 --> 00:20:53,080
+sort we saw that the the number of swaps
+
+439
+00:20:50,760 --> 00:20:54,080
+that you'll need to make is exactly
+
+440
+00:20:53,080 --> 00:20:56,440
+equal
+
+441
+00:20:54,080 --> 00:20:59,720
+to number of
+
+442
+00:20:56,440 --> 00:21:02,240
+swaps is exactly equal to the number of
+
+443
+00:20:59,720 --> 00:21:02,240
+inverted
+
+444
+00:21:03,320 --> 00:21:08,600
+pairs so the number of pairs of two
+
+445
+00:21:06,080 --> 00:21:11,120
+numbers in our list where the big one is
+
+446
+00:21:08,600 --> 00:21:12,679
+somewhere to the left of the small one
+
+447
+00:21:11,120 --> 00:21:14,840
+so they're in the wrong order and we'll
+
+448
+00:21:12,679 --> 00:21:17,880
+eventually need to change
+
+449
+00:21:14,840 --> 00:21:20,640
+order um and well how many inverted
+
+450
+00:21:17,880 --> 00:21:22,919
+pairs could there be in the worst case
+
+451
+00:21:20,640 --> 00:21:25,600
+well in the worst case every pair is
+
+452
+00:21:22,919 --> 00:21:29,600
+inverted one the number one is is
+
+453
+00:21:25,600 --> 00:21:31,400
+inverted with 2 through n
+
+454
+00:21:29,600 --> 00:21:33,080
+and two is inverted well it's already
+
+455
+00:21:31,400 --> 00:21:35,480
+inverted through one we already counted
+
+456
+00:21:33,080 --> 00:21:36,960
+that but two would be inverted with
+
+457
+00:21:35,480 --> 00:21:40,039
+three through
+
+458
+00:21:36,960 --> 00:21:42,880
+n those are new in inversions that we
+
+459
+00:21:40,039 --> 00:21:45,880
+haven't counted yet uh three is inverted
+
+460
+00:21:42,880 --> 00:21:45,880
+with everything after
+
+461
+00:21:46,640 --> 00:21:53,080
+it plus one so this is the worst case
+
+462
+00:21:49,400 --> 00:21:55,320
+number of swaps we'll have to make um
+
+463
+00:21:53,080 --> 00:21:58,880
+and as we as we've seen we know how to
+
+464
+00:21:55,320 --> 00:22:03,039
+compute this sum this is n minus one * n
+
+465
+00:21:58,880 --> 00:22:05,760
+/ two also known as n ^2 over 2us n
+
+466
+00:22:03,039 --> 00:22:09,240
+/2 and this I'm going to
+
+467
+00:22:05,760 --> 00:22:12,520
+call S of n we have our function s of n
+
+468
+00:22:09,240 --> 00:22:14,840
+s being reminiscent of swap sort it's a
+
+469
+00:22:12,520 --> 00:22:16,120
+function describing the worst case
+
+470
+00:22:14,840 --> 00:22:18,000
+number of swaps we'll need to make in
+
+471
+00:22:16,120 --> 00:22:20,679
+swap
+
+472
+00:22:18,000 --> 00:22:24,559
+sort on Thursday we're going to see
+
+473
+00:22:20,679 --> 00:22:24,559
+another sorting algorithm called merge
+
+474
+00:22:26,400 --> 00:22:30,080
+sort uh I'll describe it then I'm not
+
+475
+00:22:28,559 --> 00:22:32,440
+not going to describe it now that's we
+
+476
+00:22:30,080 --> 00:22:34,919
+don't need to know what it does or how
+
+477
+00:22:32,440 --> 00:22:36,720
+uh we just need to know how fast it runs
+
+478
+00:22:34,919 --> 00:22:39,159
+how many comparisons does it have to
+
+479
+00:22:36,720 --> 00:22:44,080
+make um so let's
+
+480
+00:22:39,159 --> 00:22:48,840
+define M of n this is going to be n log
+
+481
+00:22:44,080 --> 00:22:52,000
+2 of n minus n + one uh and on Thursday
+
+482
+00:22:48,840 --> 00:22:55,159
+we'll see that uh that merge sort takes
+
+483
+00:22:52,000 --> 00:22:57,840
+at most this many steps to
+
+484
+00:22:55,159 --> 00:22:59,039
+complete and now I want to know between
+
+485
+00:22:57,840 --> 00:23:01,360
+these two function
+
+486
+00:22:59,039 --> 00:23:04,760
+between these two algorithms which one
+
+487
+00:23:01,360 --> 00:23:07,200
+is a better choice for sorting lots of
+
+488
+00:23:04,760 --> 00:23:09,240
+numbers if these are the two algorithms
+
+489
+00:23:07,200 --> 00:23:16,039
+I have to pick from and I know their run
+
+490
+00:23:09,240 --> 00:23:18,919
+times they're n^2 / 2 - n / 2 versus n
+
+491
+00:23:16,039 --> 00:23:22,240
+log 2 N - n +
+
+492
+00:23:18,919 --> 00:23:24,640
+1 this is s this is
+
+493
+00:23:22,240 --> 00:23:28,240
+M which one's the better
+
+494
+00:23:24,640 --> 00:23:30,799
+choice um and sorry that was rhetorical
+
+495
+00:23:28,240 --> 00:23:32,840
+um let's talk through it um let's do
+
+496
+00:23:30,799 --> 00:23:34,760
+sort of an eye tracker to see which
+
+497
+00:23:32,840 --> 00:23:37,240
+parts of the various formulas we look at
+
+498
+00:23:34,760 --> 00:23:40,200
+when making this comparison uh and just
+
+499
+00:23:37,240 --> 00:23:41,840
+to emphasize I'm I'm most worried about
+
+500
+00:23:40,200 --> 00:23:44,080
+what happens with lots and lots and lots
+
+501
+00:23:41,840 --> 00:23:47,080
+of numbers I'm trying to sort a million
+
+502
+00:23:44,080 --> 00:23:49,159
+a billion a trillion numbers um so I'm
+
+503
+00:23:47,080 --> 00:23:51,120
+interested in what happens in the limit
+
+504
+00:23:49,159 --> 00:23:52,919
+as n gets really really big if we're
+
+505
+00:23:51,120 --> 00:23:55,559
+trying to sort 10 numbers well I don't
+
+506
+00:23:52,919 --> 00:23:59,840
+care that's what however you want to do
+
+507
+00:23:55,559 --> 00:24:02,600
+it is fine 10 is small um but with big
+
+508
+00:23:59,840 --> 00:24:07,400
+data no one uses that term anymore I
+
+509
+00:24:02,600 --> 00:24:10,080
+don't know why um with lots and lots of
+
+510
+00:24:07,400 --> 00:24:12,080
+data these these differences matter so
+
+511
+00:24:10,080 --> 00:24:14,240
+let's see how we make this comparison
+
+512
+00:24:12,080 --> 00:24:16,679
+what are we going to look at well the
+
+513
+00:24:14,240 --> 00:24:20,039
+first thing my eye goes
+
+514
+00:24:16,679 --> 00:24:21,960
+to is this right here which is to say
+
+515
+00:24:20,039 --> 00:24:25,480
+that's the last place my eye goes I
+
+516
+00:24:21,960 --> 00:24:28,840
+don't care about that term the n^2 over
+
+517
+00:24:25,480 --> 00:24:31,799
+two is much more important
+
+518
+00:24:28,840 --> 00:24:34,200
+um by the time we're up into the N squar
+
+519
+00:24:31,799 --> 00:24:37,039
+it's an a little measly n / two doesn't
+
+520
+00:24:34,200 --> 00:24:38,960
+really make much of a difference right
+
+521
+00:24:37,039 --> 00:24:41,440
+intuitively anyway I haven't made this
+
+522
+00:24:38,960 --> 00:24:42,840
+precise but the first thing that I do
+
+523
+00:24:41,440 --> 00:24:46,080
+when looking at this is I just
+
+524
+00:24:42,840 --> 00:24:48,640
+completely ignore that N /2 I don't care
+
+525
+00:24:46,080 --> 00:24:52,039
+likewise I don't care about this n minus
+
+526
+00:24:48,640 --> 00:24:55,679
+one that we're subtracting the N log n
+
+527
+00:24:52,039 --> 00:24:57,279
+grows faster than that uh so with big n
+
+528
+00:24:55,679 --> 00:24:59,320
+this is going to dominate and this is
+
+529
+00:24:57,279 --> 00:25:00,880
+just going to be a rounding eror
+
+530
+00:24:59,320 --> 00:25:01,919
+so that's the first thing I do ignore
+
+531
+00:25:00,880 --> 00:25:04,799
+the lower
+
+532
+00:25:01,919 --> 00:25:06,120
+terms now I'm just comparing n^2 2
+
+533
+00:25:04,799 --> 00:25:09,279
+versus n log
+
+534
+00:25:06,120 --> 00:25:11,880
+n the next thing I
+
+535
+00:25:09,279 --> 00:25:14,279
+ignore is this over
+
+536
+00:25:11,880 --> 00:25:16,600
+two I don't really
+
+537
+00:25:14,279 --> 00:25:20,919
+care I don't care that we're dividing by
+
+538
+00:25:16,600 --> 00:25:25,279
+two if this had been n^2 divided a th if
+
+539
+00:25:20,919 --> 00:25:26,440
+this had been a million time n log n is
+
+540
+00:25:25,279 --> 00:25:29,039
+that really going to change my
+
+541
+00:25:26,440 --> 00:25:31,159
+determination
+
+542
+00:25:29,039 --> 00:25:33,000
+for small n values yeah those constants
+
+543
+00:25:31,159 --> 00:25:35,600
+matter those lower terms matter for that
+
+544
+00:25:33,000 --> 00:25:37,200
+matter when n is small but in the limit
+
+545
+00:25:35,600 --> 00:25:40,080
+as n gets bigger and
+
+546
+00:25:37,200 --> 00:25:41,679
+bigger that that extra factor of n is
+
+547
+00:25:40,080 --> 00:25:43,600
+going to overtake that extra factor of
+
+548
+00:25:41,679 --> 00:25:46,000
+log n no matter what constants we throw
+
+549
+00:25:43,600 --> 00:25:48,880
+in there
+
+550
+00:25:46,000 --> 00:25:51,159
+right so I don't really care about those
+
+551
+00:25:48,880 --> 00:25:51,919
+as well really all I'm focusing on is
+
+552
+00:25:51,159 --> 00:25:56,559
+the
+
+553
+00:25:51,919 --> 00:25:59,240
+N2 versus the N log n does that make
+
+554
+00:25:56,559 --> 00:26:01,320
+sense um every everything I just did was
+
+555
+00:25:59,240 --> 00:26:04,080
+completely informal I haven't Justified
+
+556
+00:26:01,320 --> 00:26:06,399
+any of that but we will um but first we
+
+557
+00:26:04,080 --> 00:26:10,640
+need to motivate it and there's one
+
+558
+00:26:06,399 --> 00:26:13,840
+other reason uh one other motivation for
+
+559
+00:26:10,640 --> 00:26:16,399
+not really caring about this constant
+
+560
+00:26:13,840 --> 00:26:17,679
+Factor uh with swap sort we were
+
+561
+00:26:16,399 --> 00:26:19,679
+counting what were we counting the
+
+562
+00:26:17,679 --> 00:26:22,520
+number of actual swaps we
+
+563
+00:26:19,679 --> 00:26:23,919
+make um we didn't say how you're finding
+
+564
+00:26:22,520 --> 00:26:25,559
+those swaps but there are there are
+
+565
+00:26:23,919 --> 00:26:27,799
+clean ways to do it so that the number
+
+566
+00:26:25,559 --> 00:26:30,520
+of steps you take um in the whole
+
+567
+00:26:27,799 --> 00:26:34,679
+algorithm is about n^2 over
+
+568
+00:26:30,520 --> 00:26:36,960
+two um but wait we have to do more steps
+
+569
+00:26:34,679 --> 00:26:40,200
+than just the swaps right we have to
+
+570
+00:26:36,960 --> 00:26:42,520
+like read numbers from memory we have to
+
+571
+00:26:40,200 --> 00:26:44,840
+um compare them we have to write numbers
+
+572
+00:26:42,520 --> 00:26:46,840
+to memory we have to increment our index
+
+573
+00:26:44,840 --> 00:26:49,360
+we have lots and lots of instructions
+
+574
+00:26:46,840 --> 00:26:51,480
+that we have to do during this algorithm
+
+575
+00:26:49,360 --> 00:26:53,120
+so maybe it's just those four
+
+576
+00:26:51,480 --> 00:26:57,080
+instructions every time we make a swap
+
+577
+00:26:53,120 --> 00:27:00,080
+so it's really four times n^2 over two
+
+578
+00:26:57,080 --> 00:27:00,080
+instructions
+
+579
+00:27:00,240 --> 00:27:03,679
+right instead of counting swaps we're
+
+580
+00:27:01,520 --> 00:27:07,440
+now counting instructions and I'm being
+
+581
+00:27:03,679 --> 00:27:10,360
+very loose about that but doesn't matter
+
+582
+00:27:07,440 --> 00:27:13,840
+um okay well not all instructions are
+
+583
+00:27:10,360 --> 00:27:16,720
+are created equal um every instruction
+
+584
+00:27:13,840 --> 00:27:21,279
+on your CPU happens on a a fixed regular
+
+585
+00:27:16,720 --> 00:27:23,840
+clock um and maybe ads
+
+586
+00:27:21,279 --> 00:27:26,760
+take when we have to increment our index
+
+587
+00:27:23,840 --> 00:27:28,720
+maybe that takes I don't know five
+
+588
+00:27:26,760 --> 00:27:33,360
+Cycles uh and
+
+589
+00:27:28,720 --> 00:27:36,919
+comparisons take 15 cycles and
+
+590
+00:27:33,360 --> 00:27:39,880
+read and write to memory take I don't
+
+591
+00:27:36,919 --> 00:27:41,960
+know 200 Cycles because memory is a lot
+
+592
+00:27:39,880 --> 00:27:43,760
+slower than arithmetic I made up these
+
+593
+00:27:41,960 --> 00:27:47,480
+numbers by the way these aren't real
+
+594
+00:27:43,760 --> 00:27:49,960
+don't trust me on that um but in this
+
+595
+00:27:47,480 --> 00:27:51,919
+fiction if we're counting Cycles instead
+
+596
+00:27:49,960 --> 00:27:55,760
+of instructions we're doing like one of
+
+597
+00:27:51,919 --> 00:27:58,360
+each of these per per round or something
+
+598
+00:27:55,760 --> 00:28:01,320
+um so really we're doing if I did my
+
+599
+00:27:58,360 --> 00:28:04,320
+math right about 210 *
+
+600
+00:28:01,320 --> 00:28:04,320
+n^2
+
+601
+00:28:04,880 --> 00:28:09,279
+Cycles okay so we're changing our unit
+
+602
+00:28:07,039 --> 00:28:11,000
+we're measuring different things um
+
+603
+00:28:09,279 --> 00:28:15,640
+let's measure something else say we're
+
+604
+00:28:11,000 --> 00:28:18,960
+on a 2.4 gigahertz processor 2.4
+
+605
+00:28:15,640 --> 00:28:21,960
+gigahertz processor how long does this
+
+606
+00:28:18,960 --> 00:28:27,080
+take in in real life time well it takes
+
+607
+00:28:21,960 --> 00:28:27,080
+about 210 divided 2.4
+
+608
+00:28:27,120 --> 00:28:33,279
+billion seconds uh sorry times n^ 2
+
+609
+00:28:34,240 --> 00:28:38,279
+seconds right so if we change what we're
+
+610
+00:28:36,480 --> 00:28:41,039
+measuring if we change our units
+
+611
+00:28:38,279 --> 00:28:43,919
+instructions Cycles
+
+612
+00:28:41,039 --> 00:28:45,679
+seconds the thing that stays is the N
+
+613
+00:28:43,919 --> 00:28:48,840
+squared the constant
+
+614
+00:28:45,679 --> 00:28:54,240
+changes but it's always proportional to
+
+615
+00:28:48,840 --> 00:28:56,600
+n^2 get a better um CPU um higher
+
+616
+00:28:54,240 --> 00:28:58,200
+throughput your time decreases but only
+
+617
+00:28:56,600 --> 00:28:59,320
+by a constant factor it's still
+
+618
+00:28:58,200 --> 00:29:01,760
+proportional to
+
+619
+00:28:59,320 --> 00:29:03,519
+n^2 this is another reason that it's
+
+620
+00:29:01,760 --> 00:29:06,080
+useful to be able to just ignore that
+
+621
+00:29:03,519 --> 00:29:08,760
+constant I don't care what it is because
+
+622
+00:29:06,080 --> 00:29:09,960
+I don't really care specifically what
+
+623
+00:29:08,760 --> 00:29:12,679
+units we're
+
+624
+00:29:09,960 --> 00:29:14,799
+measuring um I just care that it's
+
+625
+00:29:12,679 --> 00:29:17,880
+proportional to the right
+
+626
+00:29:14,799 --> 00:29:20,320
+answer does that kind of make sense why
+
+627
+00:29:17,880 --> 00:29:23,080
+we might want to throw away information
+
+628
+00:29:20,320 --> 00:29:25,720
+like this because it's easier to think
+
+629
+00:29:23,080 --> 00:29:27,840
+about n squ is easier to think about
+
+630
+00:29:25,720 --> 00:29:29,159
+than all this other junk cluttering it
+
+631
+00:29:27,840 --> 00:29:32,000
+up
+
+632
+00:29:29,159 --> 00:29:34,480
+um one more one more motivating example
+
+633
+00:29:32,000 --> 00:29:38,000
+what's the population of the
+
+634
+00:29:34,480 --> 00:29:41,000
+US does anyone know just off the top
+
+635
+00:29:38,000 --> 00:29:43,159
+yes about 330 million
+
+636
+00:29:41,000 --> 00:29:46,679
+absolutely about
+
+637
+00:29:43,159 --> 00:29:49,679
+335 um what is it um I wrote it down
+
+638
+00:29:46,679 --> 00:29:49,679
+893,00
+
+639
+00:30:00,039 --> 00:30:04,120
+is that more useful than what your
+
+640
+00:30:02,039 --> 00:30:07,080
+colleague said 330
+
+641
+00:30:04,120 --> 00:30:09,720
+million I don't get any more information
+
+642
+00:30:07,080 --> 00:30:12,440
+out of that in in my measly little brain
+
+643
+00:30:09,720 --> 00:30:14,320
+330 is I already have trouble conceiving
+
+644
+00:30:12,440 --> 00:30:16,320
+of a number that large I don't need all
+
+645
+00:30:14,320 --> 00:30:18,840
+the extra detail
+
+646
+00:30:16,320 --> 00:30:20,919
+right same for algorithm analysis I want
+
+647
+00:30:18,840 --> 00:30:23,720
+to be able to just focus in on the parts
+
+648
+00:30:20,919 --> 00:30:26,399
+that matter and have the option to strip
+
+649
+00:30:23,720 --> 00:30:29,240
+off the parts that don't so that's our
+
+650
+00:30:26,399 --> 00:30:32,480
+motivation we want to be able to to
+
+651
+00:30:29,240 --> 00:30:34,279
+communicate less information about the
+
+652
+00:30:32,480 --> 00:30:35,080
+run times of our algorithms or about
+
+653
+00:30:34,279 --> 00:30:36,720
+other
+
+654
+00:30:35,080 --> 00:30:38,279
+functions while still being
+
+655
+00:30:36,720 --> 00:30:41,600
+mathematically precise about it and
+
+656
+00:30:38,279 --> 00:30:43,320
+making sure we know what what was lost
+
+657
+00:30:41,600 --> 00:30:45,679
+what information are we retaining and
+
+658
+00:30:43,320 --> 00:30:48,559
+what information are we losing never to
+
+659
+00:30:45,679 --> 00:30:50,440
+to get again because
+
+660
+00:30:48,559 --> 00:30:52,600
+sometimes you need that extra
+
+661
+00:30:50,440 --> 00:30:55,519
+information throwing away all this stuff
+
+662
+00:30:52,600 --> 00:30:58,559
+is a great like broad Strokes way to
+
+663
+00:30:55,519 --> 00:31:00,039
+compare um certain algorithms but if we
+
+664
+00:30:58,559 --> 00:31:02,519
+have two algorithms that are both
+
+665
+00:31:00,039 --> 00:31:04,039
+proportional to n log n oh well now that
+
+666
+00:31:02,519 --> 00:31:06,279
+constant Factor really matters and we
+
+667
+00:31:04,039 --> 00:31:08,720
+better go and figure out what it is
+
+668
+00:31:06,279 --> 00:31:10,720
+likewise if we're comparing the US
+
+669
+00:31:08,720 --> 00:31:13,639
+population between this year and last
+
+670
+00:31:10,720 --> 00:31:16,600
+year well last year it was also about
+
+671
+00:31:13,639 --> 00:31:19,279
+330 million in change so if all we know
+
+672
+00:31:16,600 --> 00:31:20,880
+is 330 330 we can't compare them we
+
+673
+00:31:19,279 --> 00:31:23,600
+don't know if it went up or down or by
+
+674
+00:31:20,880 --> 00:31:25,279
+how much um turns out last year it was
+
+675
+00:31:23,600 --> 00:31:29,360
+about
+
+676
+00:31:25,279 --> 00:31:31,880
+334 um2 million
+
+677
+00:31:29,360 --> 00:31:31,880
+um
+
+678
+00:31:32,200 --> 00:31:36,559
+million so now we had a reason that we
+
+679
+00:31:34,639 --> 00:31:38,320
+wanted more information wanted more
+
+680
+00:31:36,559 --> 00:31:40,039
+precise measurements of the population
+
+681
+00:31:38,320 --> 00:31:42,559
+than just 330
+
+682
+00:31:40,039 --> 00:31:44,760
+million um but wait until you have that
+
+683
+00:31:42,559 --> 00:31:47,519
+reason let's let's do the broad stroke
+
+684
+00:31:44,760 --> 00:31:50,600
+stuff first and often that'll be
+
+685
+00:31:47,519 --> 00:31:52,760
+enough does that make sense as a
+
+686
+00:31:50,600 --> 00:31:55,880
+motivation for why we want to throw away
+
+687
+00:31:52,760 --> 00:31:58,440
+information about our functions
+
+688
+00:31:55,880 --> 00:32:00,200
+nice so
+
+689
+00:31:58,440 --> 00:32:02,799
+let's talk about how to do
+
+690
+00:32:00,200 --> 00:32:07,000
+that uh and the the main one we're going
+
+691
+00:32:02,799 --> 00:32:07,000
+to talk about is called Big O
+
+692
+00:32:10,480 --> 00:32:15,080
+notation the idea this is not yet a
+
+693
+00:32:12,840 --> 00:32:18,360
+definition still an idea uh we're going
+
+694
+00:32:15,080 --> 00:32:19,120
+to say that F of n belongs to Big O of G
+
+695
+00:32:18,360 --> 00:32:22,480
+of
+
+696
+00:32:19,120 --> 00:32:26,159
+n weird notation but you'll get used to
+
+697
+00:32:22,480 --> 00:32:28,679
+it um
+
+698
+00:32:26,159 --> 00:32:31,600
+when well roughly
+
+699
+00:32:28,679 --> 00:32:36,880
+F of n is less equal to G of
+
+700
+00:32:31,600 --> 00:32:38,720
+n roughly if we say f is Big O of G what
+
+701
+00:32:36,880 --> 00:32:42,200
+we're saying is that an algorithm with
+
+702
+00:32:38,720 --> 00:32:44,760
+runtime f ofn is at least as fast maybe
+
+703
+00:32:42,200 --> 00:32:46,279
+maybe much faster than an algorithm with
+
+704
+00:32:44,760 --> 00:32:49,080
+runtime G of
+
+705
+00:32:46,279 --> 00:32:52,279
+n with some
+
+706
+00:32:49,080 --> 00:32:52,279
+caveats with
+
+707
+00:32:52,799 --> 00:32:59,279
+caveats first of all let's throw away
+
+708
+00:32:55,840 --> 00:32:59,279
+constant factors
+
+709
+00:33:08,240 --> 00:33:14,159
+if we have to scale G up by 10 and now G
+
+710
+00:33:10,679 --> 00:33:16,320
+is bigger that's fine that's still Big O
+
+711
+00:33:14,159 --> 00:33:18,559
+uh and likewise we're going to ignore I
+
+712
+00:33:16,320 --> 00:33:21,559
+don't care what happens for small
+
+713
+00:33:18,559 --> 00:33:21,559
+numbers
+
+714
+00:33:22,559 --> 00:33:27,600
+ignoring small n don't need them I care
+
+715
+00:33:25,679 --> 00:33:30,279
+about what happens in the limit what are
+
+716
+00:33:27,600 --> 00:33:34,080
+the trends when n gets bigger and bigger
+
+717
+00:33:30,279 --> 00:33:37,080
+so these are my intuitions um
+
+718
+00:33:34,080 --> 00:33:37,080
+also
+
+719
+00:33:37,600 --> 00:33:41,279
+ignoring lower order
+
+720
+00:33:41,559 --> 00:33:45,720
+terms I still haven't defined that
+
+721
+00:33:43,840 --> 00:33:48,080
+either by the way but we talked about
+
+722
+00:33:45,720 --> 00:33:49,960
+them over here like the N /2 was a lower
+
+723
+00:33:48,080 --> 00:33:51,799
+order term compared to n^2 over two I
+
+724
+00:33:49,960 --> 00:33:55,519
+want to be able to ignore things like
+
+725
+00:33:51,799 --> 00:33:57,840
+that so this is still not precise let's
+
+726
+00:33:55,519 --> 00:33:59,360
+finally finally make it precise after
+
+727
+00:33:57,840 --> 00:34:02,399
+this question
+
+728
+00:33:59,360 --> 00:34:03,919
+yes oh no I want to give the definition
+
+729
+00:34:02,399 --> 00:34:07,960
+thank
+
+730
+00:34:03,919 --> 00:34:10,480
+you uh okay so our definition our actual
+
+731
+00:34:07,960 --> 00:34:15,520
+final definition of Big O is the
+
+732
+00:34:10,480 --> 00:34:17,399
+following um f of n is in Big O of G of
+
+733
+00:34:15,520 --> 00:34:18,960
+N
+
+734
+00:34:17,399 --> 00:34:22,879
+means
+
+735
+00:34:18,960 --> 00:34:27,119
+okay there exists a number greater than
+
+736
+00:34:22,879 --> 00:34:28,839
+zero and there exists a natural number
+
+737
+00:34:27,119 --> 00:34:33,320
+and not
+
+738
+00:34:28,839 --> 00:34:37,800
+such that for all n greater or equal to
+
+739
+00:34:33,320 --> 00:34:40,399
+n f of n is less equal to C
+
+740
+00:34:37,800 --> 00:34:44,800
+* G of
+
+741
+00:34:40,399 --> 00:34:46,399
+n um and if we're not being if we're not
+
+742
+00:34:44,800 --> 00:34:47,800
+restricting to positive functions
+
+743
+00:34:46,399 --> 00:34:50,119
+sometimes we put an absolute value in
+
+744
+00:34:47,800 --> 00:34:51,320
+there that's less important the other
+
+745
+00:34:50,119 --> 00:34:54,359
+parts of the formula are the more
+
+746
+00:34:51,320 --> 00:34:58,560
+important parts there exists a constant
+
+747
+00:34:54,359 --> 00:35:03,200
+factor C so that f is less equal to C *
+
+748
+00:34:58,560 --> 00:35:06,960
+G that's this ignoring constant
+
+749
+00:35:03,200 --> 00:35:09,400
+factors um there exists an N so that all
+
+750
+00:35:06,960 --> 00:35:12,720
+n greater than n greater than or equal
+
+751
+00:35:09,400 --> 00:35:14,880
+to n so there's some starting point so
+
+752
+00:35:12,720 --> 00:35:17,520
+that after that starting point this this
+
+753
+00:35:14,880 --> 00:35:19,760
+inequality is always true and I don't
+
+754
+00:35:17,520 --> 00:35:21,320
+care what happens before n
+
+755
+00:35:19,760 --> 00:35:24,599
+knot
+
+756
+00:35:21,320 --> 00:35:27,240
+um so that's this point here ignoring
+
+757
+00:35:24,599 --> 00:35:30,960
+small n small n are the ones smaller
+
+758
+00:35:27,240 --> 00:35:35,079
+than n then n not um n Subzero is
+
+759
+00:35:30,960 --> 00:35:38,280
+sometimes pronounced n not n a u g
+
+760
+00:35:35,079 --> 00:35:38,280
+HT uh
+
+761
+00:35:40,079 --> 00:35:47,359
+question oh gosh yes thank
+
+762
+00:35:43,320 --> 00:35:50,119
+you uh G of
+
+763
+00:35:47,359 --> 00:35:53,000
+n not the line I wanted to mess up today
+
+764
+00:35:50,119 --> 00:35:56,200
+thank you so much yes F of n is in bigo
+
+765
+00:35:53,000 --> 00:35:57,280
+of G of N means roughly that g is bigger
+
+766
+00:35:56,200 --> 00:35:59,680
+if you're allowed to scale it by a
+
+767
+00:35:57,280 --> 00:36:04,000
+constant and throw away small
+
+768
+00:35:59,680 --> 00:36:04,000
+values all right
+
+769
+00:36:04,280 --> 00:36:08,359
+yes yeah um
+
+770
+00:36:08,560 --> 00:36:14,240
+so
+
+771
+00:36:10,599 --> 00:36:18,480
+um FN is in bigo of g ofn means that
+
+772
+00:36:14,240 --> 00:36:21,720
+there's some positive value C and some
+
+773
+00:36:18,480 --> 00:36:24,560
+starting point n KN so that for all
+
+774
+00:36:21,720 --> 00:36:28,880
+input values that are bigger than n not
+
+775
+00:36:24,560 --> 00:36:31,599
+or equal FN is less or equal to C * G of
+
+776
+00:36:28,880 --> 00:36:34,400
+n uh so this is extending our intuition
+
+777
+00:36:31,599 --> 00:36:36,920
+that FN is small that f is smaller than
+
+778
+00:36:34,400 --> 00:36:38,760
+G but you're allowed to put in a
+
+779
+00:36:36,920 --> 00:36:41,400
+constant Factor if you need to before
+
+780
+00:36:38,760 --> 00:36:41,400
+that's true
+
+781
+00:36:44,319 --> 00:36:49,640
+yes um yeah so why are the question was
+
+782
+00:36:47,720 --> 00:36:51,000
+why are we putting in a constant Factor
+
+783
+00:36:49,640 --> 00:36:54,880
+when the whole point was to ignore the
+
+784
+00:36:51,000 --> 00:36:57,200
+constant Factor we ignore it by saying
+
+785
+00:36:54,880 --> 00:37:00,040
+that there exists a constant factor and
+
+786
+00:36:57,200 --> 00:37:02,280
+I don't care what it is as long as some
+
+787
+00:37:00,040 --> 00:37:04,960
+constant exists that makes this formula
+
+788
+00:37:02,280 --> 00:37:10,520
+true then f is Big O of
+
+789
+00:37:04,960 --> 00:37:15,560
+G um so we put it in so that we can not
+
+790
+00:37:10,520 --> 00:37:17,920
+care what its value is um yes can the
+
+791
+00:37:15,560 --> 00:37:19,839
+Conant between Z and one can the
+
+792
+00:37:17,920 --> 00:37:22,359
+constant be between zero and one good
+
+793
+00:37:19,839 --> 00:37:24,119
+question sure why not um if you want to
+
+794
+00:37:22,359 --> 00:37:26,200
+make G smaller and it's still bigger
+
+795
+00:37:24,119 --> 00:37:29,079
+than F go for
+
+796
+00:37:26,200 --> 00:37:30,920
+it no problems there all right let's do
+
+797
+00:37:29,079 --> 00:37:33,359
+some examples hopefully some concrete
+
+798
+00:37:30,920 --> 00:37:35,599
+examples will make this a bit
+
+799
+00:37:33,359 --> 00:37:41,359
+clearer um let's
+
+800
+00:37:35,599 --> 00:37:46,599
+say F of n is n g of n is n
+
+801
+00:37:41,359 --> 00:37:46,599
+2 is f of n in Big O of G of
+
+802
+00:37:47,040 --> 00:37:53,720
+n so is n in Big O of n
+
+803
+00:37:51,000 --> 00:37:56,359
+squ well if this is supposed to say that
+
+804
+00:37:53,720 --> 00:37:58,040
+the thing on the right is bigger then
+
+805
+00:37:56,359 --> 00:38:02,560
+hopefully we would want n squ to be
+
+806
+00:37:58,040 --> 00:38:05,040
+bigger than n and thankfully it is um in
+
+807
+00:38:02,560 --> 00:38:07,720
+this case we don't need the C to help us
+
+808
+00:38:05,040 --> 00:38:09,400
+f is already smaller than g n is already
+
+809
+00:38:07,720 --> 00:38:13,480
+smaller than
+
+810
+00:38:09,400 --> 00:38:18,680
+n^2 n is less equal to 1 * n^
+
+811
+00:38:13,480 --> 00:38:22,319
+2 for all n for all natural numbers n so
+
+812
+00:38:18,680 --> 00:38:26,040
+this would be our n value of zero and
+
+813
+00:38:22,319 --> 00:38:28,240
+this would be our C value of one all we
+
+814
+00:38:26,040 --> 00:38:31,160
+have to do is show that some not exists
+
+815
+00:38:28,240 --> 00:38:31,160
+and some C
+
+816
+00:38:31,520 --> 00:38:36,319
+exists to make this statement true and
+
+817
+00:38:34,520 --> 00:38:39,720
+then we're able to conclude that n is
+
+818
+00:38:36,319 --> 00:38:39,720
+Big O of n^ s
+
+819
+00:38:46,079 --> 00:38:51,920
+question um ah good question um don't we
+
+820
+00:38:49,440 --> 00:38:53,920
+need n not to be one because this
+
+821
+00:38:51,920 --> 00:38:58,119
+inequality is false when n is between
+
+822
+00:38:53,920 --> 00:39:00,480
+zero and one um excellent point um
+
+823
+00:38:58,119 --> 00:39:02,440
+I'm going to give two fixes for that
+
+824
+00:39:00,480 --> 00:39:06,960
+first of all we could change this to one
+
+825
+00:39:02,440 --> 00:39:09,480
+absolutely that's fine um the other
+
+826
+00:39:06,960 --> 00:39:12,839
+change is that let's go ahead and assume
+
+827
+00:39:09,480 --> 00:39:15,079
+that f and g are mapping the natural
+
+828
+00:39:12,839 --> 00:39:18,359
+numbers to the real
+
+829
+00:39:15,079 --> 00:39:20,680
+numbers so the inputs are just 0 1 2 3
+
+830
+00:39:18,359 --> 00:39:22,520
+and not all the real numbers in between
+
+831
+00:39:20,680 --> 00:39:24,160
+often that's what we use when we're
+
+832
+00:39:22,520 --> 00:39:27,760
+analyzing algorithms because we don't
+
+833
+00:39:24,160 --> 00:39:29,880
+have fractional inputs to to algorithms
+
+834
+00:39:27,760 --> 00:39:32,000
+um you could absolutely do all of this
+
+835
+00:39:29,880 --> 00:39:34,640
+analysis and all these definitions if
+
+836
+00:39:32,000 --> 00:39:37,720
+your domain was the reals
+
+837
+00:39:34,640 --> 00:39:42,640
+instead um but let's let's deal with
+
+838
+00:39:37,720 --> 00:39:44,640
+Naturals great uh great point also in
+
+839
+00:39:42,640 --> 00:39:48,000
+fact why don't we go ahead and assume
+
+840
+00:39:44,640 --> 00:39:50,920
+that all our functions are positive
+
+841
+00:39:48,000 --> 00:39:52,839
+valued um then we won't need that weird
+
+842
+00:39:50,920 --> 00:39:55,040
+absolute value you can still do a lot of
+
+843
+00:39:52,839 --> 00:39:57,599
+this um if you allow some of your
+
+844
+00:39:55,040 --> 00:39:59,280
+functions to be zero or negative but but
+
+845
+00:39:57,599 --> 00:40:00,560
+let's not clutter our minds with that
+
+846
+00:39:59,280 --> 00:40:03,000
+today let's go ahead and assume that all
+
+847
+00:40:00,560 --> 00:40:07,200
+of our functions map the natural numbers
+
+848
+00:40:03,000 --> 00:40:07,200
+to positive real values
+
+849
+00:40:13,280 --> 00:40:19,280
+yes um the question was is this
+
+850
+00:40:16,880 --> 00:40:21,920
+statement equivalent to saying that f is
+
+851
+00:40:19,280 --> 00:40:24,119
+ASM totically equivalent to some
+
+852
+00:40:21,920 --> 00:40:26,240
+constant multiple of G that's a great
+
+853
+00:40:24,119 --> 00:40:29,319
+question the answer is no uh and I'll
+
+854
+00:40:26,240 --> 00:40:29,319
+challenge you to think about why
+
+855
+00:40:29,880 --> 00:40:36,520
+um let's do a few more examples uh
+
+856
+00:40:33,240 --> 00:40:36,520
+actually I want to come back over
+
+857
+00:40:49,240 --> 00:41:01,680
+here all right F of n is n
+
+858
+00:40:54,720 --> 00:41:01,680
+s g of n is n F of n in Big O of G of
+
+859
+00:41:02,599 --> 00:41:09,720
+n is n s smaller than n if you're
+
+860
+00:41:06,800 --> 00:41:12,400
+allowed to scale by a
+
+861
+00:41:09,720 --> 00:41:15,480
+constant and this time the answer is
+
+862
+00:41:12,400 --> 00:41:18,440
+no um an algorithm that takes n s time
+
+863
+00:41:15,480 --> 00:41:20,359
+certainly wants to look slower take
+
+864
+00:41:18,440 --> 00:41:23,000
+longer than an algorithm that takes n
+
+865
+00:41:20,359 --> 00:41:25,079
+time so if Big O is going to be useful
+
+866
+00:41:23,000 --> 00:41:28,960
+for algorithm
+
+867
+00:41:25,079 --> 00:41:31,240
+comparison we hope that this would be f
+
+868
+00:41:28,960 --> 00:41:32,079
+and thankfully it is and let's talk
+
+869
+00:41:31,240 --> 00:41:38,240
+about
+
+870
+00:41:32,079 --> 00:41:39,319
+why um so if n s were in Big O of n we
+
+871
+00:41:38,240 --> 00:41:42,079
+would
+
+872
+00:41:39,319 --> 00:41:43,280
+need there exists a c and there exists
+
+873
+00:41:42,079 --> 00:41:47,440
+an
+
+874
+00:41:43,280 --> 00:41:53,599
+N so that for all n greater equal to n
+
+875
+00:41:47,440 --> 00:41:56,240
+KN uh let's see n^2 is less equal to C *
+
+876
+00:41:53,599 --> 00:41:58,119
+n right I just wrote out the
+
+877
+00:41:56,240 --> 00:41:59,920
+definition so we would need to be able
+
+878
+00:41:58,119 --> 00:42:03,119
+to pick some constant and some starting
+
+879
+00:41:59,920 --> 00:42:05,440
+point so that after that starting point
+
+880
+00:42:03,119 --> 00:42:08,079
+n^2 is always less equal to that fixed
+
+881
+00:42:05,440 --> 00:42:09,440
+constant times n but no matter what
+
+882
+00:42:08,079 --> 00:42:12,599
+constant we
+
+883
+00:42:09,440 --> 00:42:14,240
+pick when n gets big enough this
+
+884
+00:42:12,599 --> 00:42:17,200
+inequality is always
+
+885
+00:42:14,240 --> 00:42:19,720
+false we can't pick a constant big
+
+886
+00:42:17,200 --> 00:42:23,720
+enough so that this remains true for all
+
+887
+00:42:19,720 --> 00:42:26,359
+n for all big n if we pick C is a th
+
+888
+00:42:23,720 --> 00:42:28,119
+then from a th and one on this
+
+889
+00:42:26,359 --> 00:42:30,000
+inequality is going to be be false if C
+
+890
+00:42:28,119 --> 00:42:32,040
+is a million then from a million and one
+
+891
+00:42:30,000 --> 00:42:33,960
+on this inequality is false no matter
+
+892
+00:42:32,040 --> 00:42:35,599
+what C we pick the left side will
+
+893
+00:42:33,960 --> 00:42:39,040
+overtake the right
+
+894
+00:42:35,599 --> 00:42:40,119
+side right and increasing n not doesn't
+
+895
+00:42:39,040 --> 00:42:43,760
+help with
+
+896
+00:42:40,119 --> 00:42:46,520
+that even if we ignore more small values
+
+897
+00:42:43,760 --> 00:42:48,079
+all the big values fail you can't ignore
+
+898
+00:42:46,520 --> 00:42:50,160
+all the values
+
+899
+00:42:48,079 --> 00:42:52,160
+so
+
+900
+00:42:50,160 --> 00:42:56,760
+um can't
+
+901
+00:42:52,160 --> 00:42:56,760
+choose c big enough
+
+902
+00:42:59,680 --> 00:43:06,359
+all right so thankfully n^2 is not Big O
+
+903
+00:43:02,240 --> 00:43:12,720
+of n uh let's do another example uh is
+
+904
+00:43:06,359 --> 00:43:15,040
+n^2 + 3 n + 7 is that Big O of
+
+905
+00:43:12,720 --> 00:43:18,359
+n^2 we said we wanted to be able to
+
+906
+00:43:15,040 --> 00:43:19,680
+ignore lower order terms ignore things
+
+907
+00:43:18,359 --> 00:43:22,240
+that look
+
+908
+00:43:19,680 --> 00:43:24,880
+smaller um
+
+909
+00:43:22,240 --> 00:43:28,400
+well this one ends up being true and
+
+910
+00:43:24,880 --> 00:43:30,920
+let's see why well we can write right
+
+911
+00:43:28,400 --> 00:43:32,520
+there are lots of ways to prove this um
+
+912
+00:43:30,920 --> 00:43:36,800
+I'm going to be extremely wasteful and
+
+913
+00:43:32,520 --> 00:43:42,280
+do the following n^2 + 3 n + 7 is less
+
+914
+00:43:36,800 --> 00:43:45,559
+equal to n^2 + 3 n^ 2 + 7 n^
+
+915
+00:43:42,280 --> 00:43:47,480
+2 all I'm doing is saying this n is less
+
+916
+00:43:45,559 --> 00:43:51,920
+equal to n s this
+
+917
+00:43:47,480 --> 00:43:54,960
+seven uh this seven is less equal to 7 n
+
+918
+00:43:51,920 --> 00:43:59,040
+2 right and this
+
+919
+00:43:54,960 --> 00:43:59,040
+equals 11 N2
+
+920
+00:43:59,440 --> 00:44:05,079
+and so we've we were able to show that
+
+921
+00:44:01,839 --> 00:44:07,160
+this function is less equal to 11 * this
+
+922
+00:44:05,079 --> 00:44:13,000
+function for all
+
+923
+00:44:07,160 --> 00:44:15,240
+n so we can take n equals z and C is 11
+
+924
+00:44:13,000 --> 00:44:19,319
+and we're
+
+925
+00:44:15,240 --> 00:44:21,559
+done so lower order terms like this at
+
+926
+00:44:19,319 --> 00:44:23,760
+most Force us to pick a bigger C if we
+
+927
+00:44:21,559 --> 00:44:25,880
+want but again we don't care about the
+
+928
+00:44:23,760 --> 00:44:28,800
+specific value of C as long as such a
+
+929
+00:44:25,880 --> 00:44:31,000
+value exists so we can always swallow up
+
+930
+00:44:28,800 --> 00:44:35,319
+these these smaller terms just absorb
+
+931
+00:44:31,000 --> 00:44:35,319
+them into that c constant
+
+932
+00:44:44,400 --> 00:44:48,240
+yes good question what if we didn't know
+
+933
+00:44:46,960 --> 00:44:50,520
+whether one function is bigger than
+
+934
+00:44:48,240 --> 00:44:53,240
+another function just by looking at it
+
+935
+00:44:50,520 --> 00:44:54,760
+um well that is that is our task um
+
+936
+00:44:53,240 --> 00:44:56,359
+we're trying to compare these functions
+
+937
+00:44:54,760 --> 00:44:57,599
+and if we don't know which one's bigger
+
+938
+00:44:56,359 --> 00:44:58,760
+then we better figure figure that out
+
+939
+00:44:57,599 --> 00:45:01,839
+before we get our
+
+940
+00:44:58,760 --> 00:45:06,760
+answer so I don't have a general way to
+
+941
+00:45:01,839 --> 00:45:06,760
+do that um I'm I can just say that it's
+
+942
+00:45:07,040 --> 00:45:16,440
+necessary um let's do another example 3
+
+943
+00:45:11,760 --> 00:45:18,240
+n is that Big O of n minus 4 we were
+
+944
+00:45:16,440 --> 00:45:21,559
+also saying we'd like to be able to
+
+945
+00:45:18,240 --> 00:45:24,400
+ignore lower order terms on the right
+
+946
+00:45:21,559 --> 00:45:26,440
+hand side and intuitively that n minus 4
+
+947
+00:45:24,400 --> 00:45:27,520
+that minus 4 term doesn't really change
+
+948
+00:45:26,440 --> 00:45:30,839
+anything
+
+949
+00:45:27,520 --> 00:45:35,599
+this should still look like Big O of
+
+950
+00:45:30,839 --> 00:45:40,160
+n right and we can make that precise um
+
+951
+00:45:35,599 --> 00:45:43,520
+nus 4 is greater than or equal to n
+
+952
+00:45:40,160 --> 00:45:43,520
+minus well n
+
+953
+00:45:45,640 --> 00:45:51,119
+/2 when n is at least
+
+954
+00:45:48,839 --> 00:45:53,920
+eight all we're saying is that the N
+
+955
+00:45:51,119 --> 00:45:56,400
+function overtakes the four
+
+956
+00:45:53,920 --> 00:45:57,640
+function excuse me so this four we can
+
+957
+00:45:56,400 --> 00:45:59,880
+pretend it's a
+
+958
+00:45:57,640 --> 00:46:02,319
+n/2 we've lost a lot but it doesn't
+
+959
+00:45:59,880 --> 00:46:04,359
+matter because this is still a
+
+960
+00:46:02,319 --> 00:46:06,480
+constant time
+
+961
+00:46:04,359 --> 00:46:09,760
+n so this
+
+962
+00:46:06,480 --> 00:46:13,160
+function is bigger than a constant time
+
+963
+00:46:09,760 --> 00:46:18,920
+n and we can use that to do our proof um
+
+964
+00:46:13,160 --> 00:46:23,359
+3n let's see 3 n is less equal to 6 * 12
+
+965
+00:46:18,920 --> 00:46:28,920
+n Which is less equal to 6
+
+966
+00:46:23,359 --> 00:46:28,920
+* um that's that so nus 4
+
+967
+00:46:29,880 --> 00:46:34,839
+when n is at least
+
+968
+00:46:31,760 --> 00:46:37,599
+eight and so now we have our
+
+969
+00:46:34,839 --> 00:46:41,200
+C and we have our
+
+970
+00:46:37,599 --> 00:46:43,400
+n 3n is less equal to a constant times n
+
+971
+00:46:41,200 --> 00:46:46,359
+minus 4 which is the function we care
+
+972
+00:46:43,400 --> 00:46:48,520
+about so in the same way we can ignore
+
+973
+00:46:46,359 --> 00:46:50,920
+lower order terms on the right again by
+
+974
+00:46:48,520 --> 00:46:52,280
+just swallowing them into the constant C
+
+975
+00:46:50,920 --> 00:46:55,079
+at the cost of a slightly higher
+
+976
+00:46:52,280 --> 00:46:57,960
+constant C does that make
+
+977
+00:46:55,079 --> 00:46:59,880
+sense nice now some of you might
+
+978
+00:46:57,960 --> 00:47:02,359
+recognize the definition of Big O is
+
+979
+00:46:59,880 --> 00:47:05,000
+looking a lot like Epsilon Delta
+
+980
+00:47:02,359 --> 00:47:06,400
+definitions of limits and you if you
+
+981
+00:47:05,000 --> 00:47:09,680
+haven't seen those that's fine don't
+
+982
+00:47:06,400 --> 00:47:12,920
+worry it doesn't matter but um they are
+
+983
+00:47:09,680 --> 00:47:16,440
+similar Concepts and we have a useful
+
+984
+00:47:12,920 --> 00:47:20,400
+fact that um compares the two that I
+
+985
+00:47:16,440 --> 00:47:20,400
+will write down now
+
+986
+00:47:22,680 --> 00:47:28,839
+theorem so we're assuming that f and g
+
+987
+00:47:25,440 --> 00:47:28,839
+are functions from
+
+988
+00:47:29,119 --> 00:47:36,040
+n to r+ to the positive
+
+989
+00:47:33,760 --> 00:47:41,119
+reals
+
+990
+00:47:36,040 --> 00:47:42,960
+if the limit of f of n over G of n as n
+
+991
+00:47:41,119 --> 00:47:45,960
+goes to
+
+992
+00:47:42,960 --> 00:47:45,960
+Infinity
+
+993
+00:47:48,119 --> 00:47:54,319
+exists and equals
+
+994
+00:47:50,640 --> 00:47:56,839
+infinity so if F over G gets arbitrarily
+
+995
+00:47:54,319 --> 00:48:00,359
+big then there's no constant you can
+
+996
+00:47:56,839 --> 00:48:04,880
+choose to bring G back up to F because F
+
+997
+00:48:00,359 --> 00:48:08,520
+gets um bigger and bigger compared to
+
+998
+00:48:04,880 --> 00:48:11,119
+G then f is not
+
+999
+00:48:08,520 --> 00:48:13,240
+in Big O of
+
+1000
+00:48:11,119 --> 00:48:17,839
+G
+
+1001
+00:48:13,240 --> 00:48:17,839
+likewise if the limit
+
+1002
+00:48:17,960 --> 00:48:23,000
+exists and is less than
+
+1003
+00:48:24,640 --> 00:48:30,280
+infinity then f is
+
+1004
+00:48:28,359 --> 00:48:33,480
+in Big O of
+
+1005
+00:48:30,280 --> 00:48:33,480
+G and
+
+1006
+00:48:33,760 --> 00:48:38,720
+finally if the limit does not
+
+1007
+00:48:42,119 --> 00:48:48,680
+exist inconclusive F might be Big O of g
+
+1008
+00:48:45,800 --> 00:48:50,280
+f might not be Big O of G if the limit
+
+1009
+00:48:48,680 --> 00:48:51,520
+doesn't exist the limit doesn't help us
+
+1010
+00:48:50,280 --> 00:48:54,720
+get an
+
+1011
+00:48:51,520 --> 00:48:57,240
+answer but if the limit does exist it
+
+1012
+00:48:54,720 --> 00:49:01,240
+tells us the answer if the limit exists
+
+1013
+00:48:57,240 --> 00:49:04,359
+it tells us yes in this case no in that
+
+1014
+00:49:01,240 --> 00:49:06,480
+case so this is a one-sided test if the
+
+1015
+00:49:04,359 --> 00:49:08,799
+limit exists you're golden if the limit
+
+1016
+00:49:06,480 --> 00:49:10,599
+doesn't exist you have to fall back to
+
+1017
+00:49:08,799 --> 00:49:13,760
+the more complicated
+
+1018
+00:49:10,599 --> 00:49:16,040
+definition all right uh I'm not going to
+
+1019
+00:49:13,760 --> 00:49:17,559
+prove that it's uh not difficult to
+
+1020
+00:49:16,040 --> 00:49:20,839
+prove it's in the notes if you want to
+
+1021
+00:49:17,559 --> 00:49:27,680
+read about it but let's use it uh let's
+
+1022
+00:49:20,839 --> 00:49:27,680
+see is n^2 in Big O of a million
+
+1023
+00:49:31,319 --> 00:49:37,520
+n well how do we test that let let's use
+
+1024
+00:49:34,440 --> 00:49:43,520
+this limit test we can look at the limit
+
+1025
+00:49:37,520 --> 00:49:46,760
+of f over G of n^2 over a million n as n
+
+1026
+00:49:43,520 --> 00:49:50,640
+goes to Infinity n^2 over a constant
+
+1027
+00:49:46,760 --> 00:49:53,160
+time n that's
+
+1028
+00:49:50,640 --> 00:49:55,520
+infinity and so the limit exists it
+
+1029
+00:49:53,160 --> 00:49:58,640
+equals infinity and that tells us that f
+
+1030
+00:49:55,520 --> 00:49:58,640
+is not Big O of
+
+1031
+00:50:02,799 --> 00:50:06,040
+so very often if you're working with
+
+1032
+00:50:04,359 --> 00:50:07,960
+actual functions and you can actually
+
+1033
+00:50:06,040 --> 00:50:10,559
+take the limit and the limit actually
+
+1034
+00:50:07,960 --> 00:50:12,160
+exists you get your answer much faster
+
+1035
+00:50:10,559 --> 00:50:15,760
+than if you were trying to think through
+
+1036
+00:50:12,160 --> 00:50:15,760
+the C's and the nend knots and
+
+1037
+00:50:16,040 --> 00:50:23,559
+whatnot um another example is a thousand
+
+1038
+00:50:20,839 --> 00:50:23,559
+in Big O of
+
+1039
+00:50:24,359 --> 00:50:29,119
+n^2 what the heck do I even mean by that
+
+1040
+00:50:27,680 --> 00:50:30,359
+a thousand isn't a function of N I
+
+1041
+00:50:29,119 --> 00:50:31,119
+thought we were talking about functions
+
+1042
+00:50:30,359 --> 00:50:33,200
+of
+
+1043
+00:50:31,119 --> 00:50:36,079
+n
+
+1044
+00:50:33,200 --> 00:50:38,240
+right well it is a function of n if you
+
+1045
+00:50:36,079 --> 00:50:40,599
+want to think of it that way let me plot
+
+1046
+00:50:38,240 --> 00:50:40,599
+it for
+
+1047
+00:50:40,760 --> 00:50:48,720
+you let let me plot the N
+
+1048
+00:50:44,079 --> 00:50:50,480
+SAR this is uh n s and let me plot the
+
+1049
+00:50:48,720 --> 00:50:53,319
+function that takes every n and sends it
+
+1050
+00:50:50,480 --> 00:50:53,319
+to the value a
+
+1051
+00:50:55,480 --> 00:51:01,880
+th right right so this is f of n which
+
+1052
+00:50:59,319 --> 00:51:04,160
+is defined as no matter what your input
+
+1053
+00:51:01,880 --> 00:51:06,400
+is ignore it and spit out a thousand
+
+1054
+00:51:04,160 --> 00:51:08,599
+it's the constant function that spits
+
+1055
+00:51:06,400 --> 00:51:10,280
+out a thousand so when you see something
+
+1056
+00:51:08,599 --> 00:51:13,520
+like this when you see a constant in one
+
+1057
+00:51:10,280 --> 00:51:15,359
+of these ASM totic uh notations it's
+
+1058
+00:51:13,520 --> 00:51:17,680
+really talking about the constant
+
+1059
+00:51:15,359 --> 00:51:19,880
+function that sends every n to that
+
+1060
+00:51:17,680 --> 00:51:22,559
+value and in that
+
+1061
+00:51:19,880 --> 00:51:25,160
+sense now we can ask is this constant
+
+1062
+00:51:22,559 --> 00:51:27,559
+function Big O of
+
+1063
+00:51:25,160 --> 00:51:29,119
+n^2 and we can answer it the same way as
+
+1064
+00:51:27,559 --> 00:51:34,559
+before by looking at the limmit of f
+
+1065
+00:51:29,119 --> 00:51:37,640
+over G the limit of f which is a th over
+
+1066
+00:51:34,559 --> 00:51:42,440
+G which is N2 2 as n goes to
+
+1067
+00:51:37,640 --> 00:51:46,319
+Infinity that limit is zero so
+
+1068
+00:51:42,440 --> 00:51:48,799
+yes yes a th is Big O of n^2 when the
+
+1069
+00:51:46,319 --> 00:51:52,040
+limit exists it's great we're very
+
+1070
+00:51:48,799 --> 00:51:52,040
+happy more
+
+1071
+00:51:54,799 --> 00:52:00,839
+examples we're trying to be permissive
+
+1072
+00:51:57,240 --> 00:52:06,359
+with constant factors right
+
+1073
+00:52:00,839 --> 00:52:08,960
+so is it true that 3 to the N is Big O
+
+1074
+00:52:06,359 --> 00:52:08,960
+of 2 to the
+
+1075
+00:52:09,480 --> 00:52:14,440
+N if constant factors don't matter then
+
+1076
+00:52:12,000 --> 00:52:15,799
+maybe I maybe I should be able to change
+
+1077
+00:52:14,440 --> 00:52:17,799
+this constant to a different constant
+
+1078
+00:52:15,799 --> 00:52:20,640
+and it won't really change according to
+
+1079
+00:52:17,799 --> 00:52:23,599
+Big O is this
+
+1080
+00:52:20,640 --> 00:52:26,640
+true and this time it's not because we
+
+1081
+00:52:23,599 --> 00:52:29,359
+can try our limit test the limit of f
+
+1082
+00:52:26,640 --> 00:52:33,760
+over G that's 3 the N over 2 the
+
+1083
+00:52:29,359 --> 00:52:35,799
+N that's the limit of 1.5 to the
+
+1084
+00:52:33,760 --> 00:52:39,520
+N which is
+
+1085
+00:52:35,799 --> 00:52:41,640
+infinity so the answer is no changing
+
+1086
+00:52:39,520 --> 00:52:43,599
+this two to a three isn't changing by a
+
+1087
+00:52:41,640 --> 00:52:45,359
+constant factor it's changing by a
+
+1088
+00:52:43,599 --> 00:52:48,760
+constant Factor n
+
+1089
+00:52:45,359 --> 00:52:50,319
+times and that n um gets bigger and
+
+1090
+00:52:48,760 --> 00:52:54,319
+bigger so the difference between the two
+
+1091
+00:52:50,319 --> 00:52:57,119
+sides gets bigger and bigger so this is
+
+1092
+00:52:54,319 --> 00:52:59,640
+uh this is a no
+
+1093
+00:52:57,119 --> 00:53:01,520
+all right um some quick
+
+1094
+00:52:59,640 --> 00:53:06,720
+notation I've been
+
+1095
+00:53:01,520 --> 00:53:06,720
+writing F of n is in Big O of G of
+
+1096
+00:53:06,799 --> 00:53:12,720
+n um and this is my preferred notation
+
+1097
+00:53:09,720 --> 00:53:15,599
+this is set notation f ofn is an element
+
+1098
+00:53:12,720 --> 00:53:17,680
+of this set so big O of G of n is really
+
+1099
+00:53:15,599 --> 00:53:19,079
+a set of all the functions that have the
+
+1100
+00:53:17,680 --> 00:53:21,160
+relationship we
+
+1101
+00:53:19,079 --> 00:53:23,240
+described this I think is the clearest
+
+1102
+00:53:21,160 --> 00:53:25,680
+notation it's what I it's what I
+
+1103
+00:53:23,240 --> 00:53:28,440
+encourage you to use but you're going to
+
+1104
+00:53:25,680 --> 00:53:31,400
+see some other not ations for example
+
+1105
+00:53:28,440 --> 00:53:34,760
+you're going to see F of n equals Big O
+
+1106
+00:53:31,400 --> 00:53:37,079
+of G of n which is just super confusing
+
+1107
+00:53:34,760 --> 00:53:39,520
+I don't like it I don't recommend using
+
+1108
+00:53:37,079 --> 00:53:41,160
+it but it is pretty standard in the math
+
+1109
+00:53:39,520 --> 00:53:43,720
+community so you are going to see it so
+
+1110
+00:53:41,160 --> 00:53:48,040
+I have to warn you
+
+1111
+00:53:43,720 --> 00:53:51,640
+um you're also going to see f ofn is
+
+1112
+00:53:48,040 --> 00:53:54,680
+less equal to Big O of G of
+
+1113
+00:53:51,640 --> 00:53:56,920
+n this is again an an abuse of notation
+
+1114
+00:53:54,680 --> 00:53:59,440
+FN is a function this thing on the right
+
+1115
+00:53:56,920 --> 00:54:01,720
+is a set but it's communicating the same
+
+1116
+00:53:59,440 --> 00:54:04,760
+idea in fact it's emphasizing that same
+
+1117
+00:54:01,720 --> 00:54:07,559
+idea Big O means that g is bigger than F
+
+1118
+00:54:04,760 --> 00:54:10,200
+roughly and so this less equal sign is
+
+1119
+00:54:07,559 --> 00:54:12,280
+just a reminder of that so this is also
+
+1120
+00:54:10,200 --> 00:54:13,200
+good notation I recommend it if you want
+
+1121
+00:54:12,280 --> 00:54:18,079
+to use
+
+1122
+00:54:13,200 --> 00:54:21,920
+it um you're also going to see f ofn is
+
+1123
+00:54:18,079 --> 00:54:25,200
+Big O G of n instead of is an element of
+
+1124
+00:54:21,920 --> 00:54:26,960
+Big O of G of n that's also fine um
+
+1125
+00:54:25,200 --> 00:54:29,040
+pretty clear unambiguous
+
+1126
+00:54:26,960 --> 00:54:30,960
+all of these mean exactly the same
+
+1127
+00:54:29,040 --> 00:54:34,359
+thing sound
+
+1128
+00:54:30,960 --> 00:54:37,520
+good all right what you should not write
+
+1129
+00:54:34,359 --> 00:54:41,040
+ever um so we were
+
+1130
+00:54:37,520 --> 00:54:47,920
+saying uh for example we know that merge
+
+1131
+00:54:41,040 --> 00:54:50,359
+merge sort MN is less equal to Big O of
+
+1132
+00:54:47,920 --> 00:54:52,880
+uh swap swort of n those two functions
+
+1133
+00:54:50,359 --> 00:54:55,319
+we looked at earlier the n s one and the
+
+1134
+00:54:52,880 --> 00:54:58,319
+N log N1 so this is a true statement
+
+1135
+00:54:55,319 --> 00:55:00,079
+right the one was smaller if we want to
+
+1136
+00:54:58,319 --> 00:55:02,599
+say that the S is
+
+1137
+00:55:00,079 --> 00:55:05,880
+bigger should we say that SN is greater
+
+1138
+00:55:02,599 --> 00:55:05,880
+or equal to Big O of M of
+
+1139
+00:55:06,839 --> 00:55:12,200
+N and from the way I'm phrasing the
+
+1140
+00:55:09,240 --> 00:55:13,799
+question the answer is probably no um no
+
+1141
+00:55:12,200 --> 00:55:17,160
+we should not write this that's like
+
+1142
+00:55:13,799 --> 00:55:19,640
+saying you must be at least 60 in or
+
+1143
+00:55:17,160 --> 00:55:23,480
+less to ride this
+
+1144
+00:55:19,640 --> 00:55:28,039
+ride how tall do I need to be
+
+1145
+00:55:23,480 --> 00:55:31,440
+6 it's not correct um Big O is functions
+
+1146
+00:55:28,039 --> 00:55:33,680
+that are smaller than M of N and if
+
+1147
+00:55:31,440 --> 00:55:35,720
+we're supposed to be bigger than some
+
+1148
+00:55:33,680 --> 00:55:39,079
+functions that are smaller than M of n
+
+1149
+00:55:35,720 --> 00:55:40,720
+it doesn't make sense don't write that
+
+1150
+00:55:39,079 --> 00:55:43,720
+however this is still an idea that we
+
+1151
+00:55:40,720 --> 00:55:46,760
+often want to communicate s is bigger
+
+1152
+00:55:43,720 --> 00:55:48,799
+than M we want to emphasize that s is
+
+1153
+00:55:46,760 --> 00:55:51,319
+bigger than M instead of emphasizing
+
+1154
+00:55:48,799 --> 00:55:53,599
+that m is smaller than S and we have
+
+1155
+00:55:51,319 --> 00:55:57,440
+different notation for that instead of a
+
+1156
+00:55:53,599 --> 00:55:58,960
+big O we use S is
+
+1157
+00:55:57,440 --> 00:56:02,400
+big
+
+1158
+00:55:58,960 --> 00:56:05,640
+Omega of M of M of
+
+1159
+00:56:02,400 --> 00:56:08,760
+n so big Omega is just the the reverse
+
+1160
+00:56:05,640 --> 00:56:13,960
+of Big O U we have our
+
+1161
+00:56:08,760 --> 00:56:18,839
+definition f is in big Omega of g
+
+1162
+00:56:13,960 --> 00:56:20,280
+means that g is in Big O of f let's take
+
+1163
+00:56:18,839 --> 00:56:22,119
+that as our
+
+1164
+00:56:20,280 --> 00:56:23,799
+definition and we're getting lots of
+
+1165
+00:56:22,119 --> 00:56:27,960
+symbols around here so let's see if we
+
+1166
+00:56:23,799 --> 00:56:27,960
+can compile them into a table
+
+1167
+00:56:29,960 --> 00:56:34,240
+so we started with f is ASM totically
+
+1168
+00:56:33,039 --> 00:56:38,640
+equivalent to
+
+1169
+00:56:34,240 --> 00:56:43,520
+G um the definition is that the limit as
+
+1170
+00:56:38,640 --> 00:56:44,720
+n goes to Infinity of f of n over G of n
+
+1171
+00:56:43,520 --> 00:56:49,160
+equals
+
+1172
+00:56:44,720 --> 00:56:50,680
+1 the idea the intuition is that f is
+
+1173
+00:56:49,160 --> 00:56:58,240
+equivalent to
+
+1174
+00:56:50,680 --> 00:56:58,240
+G um up to lower order terms lower order
+
+1175
+00:56:59,039 --> 00:57:05,200
+terms that was our
+
+1176
+00:57:01,119 --> 00:57:06,319
+intuition then we had Big O F is in Big
+
+1177
+00:57:05,200 --> 00:57:09,440
+O of
+
+1178
+00:57:06,319 --> 00:57:13,799
+G the definition this time was there
+
+1179
+00:57:09,440 --> 00:57:17,520
+exists C greater Z there exists uh n KN
+
+1180
+00:57:13,799 --> 00:57:18,960
+greater equal zero so that for all n
+
+1181
+00:57:17,520 --> 00:57:24,359
+greater equal to
+
+1182
+00:57:18,960 --> 00:57:26,720
+n uh F of n is less equal to C * G of
+
+1183
+00:57:24,359 --> 00:57:27,640
+n so that's our definition
+
+1184
+00:57:26,720 --> 00:57:31,240
+our
+
+1185
+00:57:27,640 --> 00:57:36,599
+intuition is that f is less equal to
+
+1186
+00:57:31,240 --> 00:57:40,319
+G up to constant values up to constant
+
+1187
+00:57:36,599 --> 00:57:43,200
+factors and I'll say lower order
+
+1188
+00:57:40,319 --> 00:57:44,640
+terms and ignoring small numbers but
+
+1189
+00:57:43,200 --> 00:57:47,400
+that one does that
+
+1190
+00:57:44,640 --> 00:57:48,200
+too please don't confuse the intuition
+
+1191
+00:57:47,400 --> 00:57:50,200
+with the
+
+1192
+00:57:48,200 --> 00:57:52,480
+definition and please don't use the
+
+1193
+00:57:50,200 --> 00:57:54,640
+intuition language in your proofs use
+
+1194
+00:57:52,480 --> 00:57:57,160
+the the definition language in your
+
+1195
+00:57:54,640 --> 00:57:58,359
+proofs so think about it this way but
+
+1196
+00:57:57,160 --> 00:58:01,280
+write it this
+
+1197
+00:57:58,359 --> 00:58:04,799
+way and we Justus
+
+1198
+00:58:01,280 --> 00:58:08,640
+defined f is in big Omega of
+
+1199
+00:58:04,799 --> 00:58:13,280
+g means the definition is that
+
+1200
+00:58:08,640 --> 00:58:13,280
+g uh is in Big O of
+
+1201
+00:58:14,839 --> 00:58:21,599
+F and the idea is that uh G is greater
+
+1202
+00:58:20,480 --> 00:58:25,119
+sorry is
+
+1203
+00:58:21,599 --> 00:58:28,559
+that f is greater equal to
+
+1204
+00:58:25,119 --> 00:58:32,319
+G up two
+
+1205
+00:58:28,559 --> 00:58:32,319
+constants and lower order
+
+1206
+00:58:32,760 --> 00:58:37,160
+terms right so we have a a more
+
+1207
+00:58:35,480 --> 00:58:38,799
+permissive version of less equal that's
+
+1208
+00:58:37,160 --> 00:58:41,440
+Big O A more permissive version of
+
+1209
+00:58:38,799 --> 00:58:44,000
+greater equal that's big
+
+1210
+00:58:41,440 --> 00:58:46,760
+Omega questions about
+
+1211
+00:58:44,000 --> 00:58:49,920
+that all
+
+1212
+00:58:46,760 --> 00:58:52,319
+right um what did I want to say about
+
+1213
+00:58:49,920 --> 00:58:56,559
+that let me Define one more while I'm
+
+1214
+00:58:52,319 --> 00:58:58,839
+over here f is in Theta
+
+1215
+00:58:56,559 --> 00:59:03,119
+of G that's a capital Greek
+
+1216
+00:58:58,839 --> 00:59:06,200
+Theta um and this is going to mean
+
+1217
+00:59:03,119 --> 00:59:10,520
+roughly uh f equals
+
+1218
+00:59:06,200 --> 00:59:14,039
+g sorry f is approximately equal to
+
+1219
+00:59:10,520 --> 00:59:17,760
+G up to
+
+1220
+00:59:14,039 --> 00:59:21,039
+constants and lower order
+
+1221
+00:59:17,760 --> 00:59:23,760
+terms and the definition is just
+
+1222
+00:59:21,039 --> 00:59:28,839
+f is in Big O of
+
+1223
+00:59:23,760 --> 00:59:28,839
+G and G is in in Big O of
+
+1224
+00:59:30,599 --> 00:59:38,039
+f so f and g are roughly within constant
+
+1225
+00:59:33,760 --> 00:59:38,039
+factors of each other in both
+
+1226
+00:59:39,280 --> 00:59:43,480
+directions uh and I want to call
+
+1227
+00:59:41,039 --> 00:59:44,559
+attention to this first one versus this
+
+1228
+00:59:43,480 --> 00:59:47,799
+last
+
+1229
+00:59:44,559 --> 00:59:49,599
+one ASM totic equivalence said that f
+
+1230
+00:59:47,799 --> 00:59:50,839
+and g were roughly equal up to lower
+
+1231
+00:59:49,599 --> 00:59:53,920
+order
+
+1232
+00:59:50,839 --> 00:59:56,480
+terms Theta says that f and g are
+
+1233
+00:59:53,920 --> 00:59:58,920
+approximately equal up to con constant
+
+1234
+00:59:56,480 --> 01:00:02,359
+factors and lower order
+
+1235
+00:59:58,920 --> 01:00:05,480
+terms Theta is more permissive than
+
+1236
+01:00:02,359 --> 01:00:09,520
+Tilda um where did I leave off on the
+
+1237
+01:00:05,480 --> 01:00:13,079
+boards over here yeah over
+
+1238
+01:00:09,520 --> 01:00:16,079
+[Applause]
+
+1239
+01:00:13,079 --> 01:00:16,079
+here
+
+1240
+01:00:18,640 --> 01:00:23,960
+B so we can say that our our s of n
+
+1241
+01:00:21,960 --> 01:00:27,440
+function our our swap sort our simple
+
+1242
+01:00:23,960 --> 01:00:31,520
+sort function n^2 over two and junk
+
+1243
+01:00:27,440 --> 01:00:31,520
+uh is in Theta of
+
+1244
+01:00:31,839 --> 01:00:39,000
+n^2 it's both greater than um n^2 and
+
+1245
+01:00:36,319 --> 01:00:40,760
+less than n^2 if you're allowed to put
+
+1246
+01:00:39,000 --> 01:00:42,920
+constants in
+
+1247
+01:00:40,760 --> 01:00:47,920
+there all
+
+1248
+01:00:42,920 --> 01:00:51,039
+right um what's not
+
+1249
+01:00:47,920 --> 01:00:54,079
+true is SN is ASM totically equivalent
+
+1250
+01:00:51,039 --> 01:00:56,799
+to N2 this is
+
+1251
+01:00:54,079 --> 01:00:58,440
+false um because if you if you take this
+
+1252
+01:00:56,799 --> 01:01:02,720
+and divide by that and take the limit
+
+1253
+01:00:58,440 --> 01:01:05,480
+you get two not one that n^2 over two
+
+1254
+01:01:02,720 --> 01:01:09,119
+matters um so this cares what that
+
+1255
+01:01:05,480 --> 01:01:10,839
+constant factor is this doesn't um this
+
+1256
+01:01:09,119 --> 01:01:13,520
+would be a true statement if you put the
+
+1257
+01:01:10,839 --> 01:01:13,520
+one/ half in
+
+1258
+01:01:13,960 --> 01:01:19,119
+there so the ASM totic equivalence does
+
+1259
+01:01:17,200 --> 01:01:21,799
+single out that constant Factor whereas
+
+1260
+01:01:19,119 --> 01:01:26,200
+Theta ignores that constant
+
+1261
+01:01:21,799 --> 01:01:26,200
+Factor was there a question
+
+1262
+01:01:33,599 --> 01:01:40,839
+um okay so the question was um similar
+
+1263
+01:01:36,880 --> 01:01:43,319
+to your previous question um does f in
+
+1264
+01:01:40,839 --> 01:01:46,599
+Theta of g
+
+1265
+01:01:43,319 --> 01:01:50,920
+mean that there exists a
+
+1266
+01:01:46,599 --> 01:01:53,319
+constant such that f is Tilda of C time
+
+1267
+01:01:50,920 --> 01:01:56,880
+G that's a really good
+
+1268
+01:01:53,319 --> 01:02:00,480
+question um
+
+1269
+01:01:56,880 --> 01:02:02,240
+and the answer I will tell you um is
+
+1270
+01:02:00,480 --> 01:02:04,920
+actually the other
+
+1271
+01:02:02,240 --> 01:02:08,079
+way if there's a constant factor between
+
+1272
+01:02:04,920 --> 01:02:10,599
+them and then the limit goes to one uh
+
+1273
+01:02:08,079 --> 01:02:12,880
+then absolutely they are Theta of each
+
+1274
+01:02:10,599 --> 01:02:15,119
+other but there doesn't have to be that
+
+1275
+01:02:12,880 --> 01:02:18,680
+constant factor and let's look at an
+
+1276
+01:02:15,119 --> 01:02:18,680
+example of that
+
+1277
+01:02:27,000 --> 01:02:33,039
+let's see 3 + sin of
+
+1278
+01:02:30,079 --> 01:02:36,240
+n is that
+
+1279
+01:02:33,039 --> 01:02:36,240
+Theta of
+
+1280
+01:02:37,319 --> 01:02:42,039
+one 3 + S of n we want to know is it
+
+1281
+01:02:40,880 --> 01:02:45,680
+Theta of
+
+1282
+01:02:42,039 --> 01:02:49,160
+one so is it bounded below and bounded
+
+1283
+01:02:45,680 --> 01:02:54,000
+above by some constant times
+
+1284
+01:02:49,160 --> 01:02:57,640
+one and in this case yes it is because 2
+
+1285
+01:02:54,000 --> 01:03:00,160
+is less equal to 3 + s of n Which is
+
+1286
+01:02:57,640 --> 01:03:00,160
+less equal to
+
+1287
+01:03:00,760 --> 01:03:05,720
+four so there's we can scale this by a
+
+1288
+01:03:03,599 --> 01:03:07,880
+constant and it's always smaller than
+
+1289
+01:03:05,720 --> 01:03:09,119
+our function we can scale this by a
+
+1290
+01:03:07,880 --> 01:03:11,559
+different constant and it's always
+
+1291
+01:03:09,119 --> 01:03:13,720
+bigger than our function and that's the
+
+1292
+01:03:11,559 --> 01:03:17,039
+condition we needed for Big O on both
+
+1293
+01:03:13,720 --> 01:03:19,119
+sides so yes this is
+
+1294
+01:03:17,039 --> 01:03:22,119
+true however you're never going to find
+
+1295
+01:03:19,119 --> 01:03:24,799
+a constant where 3 + sin of
+
+1296
+01:03:22,119 --> 01:03:27,200
+n is ASM totically equivalent to that
+
+1297
+01:03:24,799 --> 01:03:29,799
+constant * 1
+
+1298
+01:03:27,200 --> 01:03:33,079
+because that ratio isn't going to have a
+
+1299
+01:03:29,799 --> 01:03:39,359
+limit this is an example where the
+
+1300
+01:03:33,079 --> 01:03:41,680
+limit of 3 + sin of n over
+
+1301
+01:03:39,359 --> 01:03:43,960
+one does not
+
+1302
+01:03:41,680 --> 01:03:45,599
+exist the function just keeps doing this
+
+1303
+01:03:43,960 --> 01:03:46,760
+forever and never settles down and picks
+
+1304
+01:03:45,599 --> 01:03:48,960
+a single
+
+1305
+01:03:46,760 --> 01:03:51,279
+value so this is an example where the
+
+1306
+01:03:48,960 --> 01:03:54,119
+limit between them does not
+
+1307
+01:03:51,279 --> 01:03:57,119
+exist but still they are Big O of each
+
+1308
+01:03:54,119 --> 01:03:57,119
+other
+
+1309
+01:03:57,440 --> 01:04:01,799
+right um in fact in both directions we
+
+1310
+01:04:00,359 --> 01:04:04,720
+mentioned earlier that if the limit
+
+1311
+01:04:01,799 --> 01:04:07,319
+doesn't exist sometimes um they are not
+
+1312
+01:04:04,720 --> 01:04:10,400
+Big O of each other can anyone think of
+
+1313
+01:04:07,319 --> 01:04:13,359
+an example of that two functions uh
+
+1314
+01:04:10,400 --> 01:04:17,640
+whose ratio does not have a limit where
+
+1315
+01:04:13,359 --> 01:04:17,640
+f is not Big O of G
+
+1316
+01:04:31,880 --> 01:04:35,960
+little
+
+1317
+01:04:32,960 --> 01:04:39,039
+tricky uh let me give Let me Give an
+
+1318
+01:04:35,960 --> 01:04:41,000
+example uh let's say that F of
+
+1319
+01:04:39,039 --> 01:04:46,400
+n is
+
+1320
+01:04:41,000 --> 01:04:50,640
+n and G of n is one when n is
+
+1321
+01:04:46,400 --> 01:04:50,640
+odd and n^ S when n is
+
+1322
+01:04:53,119 --> 01:05:03,000
+even so if we plot
+
+1323
+01:04:57,079 --> 01:05:06,799
+F of n is just n g of n um is following
+
+1324
+01:05:03,000 --> 01:05:10,799
+one or n s depending where you are and
+
+1325
+01:05:06,799 --> 01:05:10,799
+it's sort of zigzagging between the
+
+1326
+01:05:11,960 --> 01:05:17,400
+two if you scale G by a constant you'll
+
+1327
+01:05:15,000 --> 01:05:19,720
+never be able to make it bigger or
+
+1328
+01:05:17,400 --> 01:05:22,799
+smaller than
+
+1329
+01:05:19,720 --> 01:05:24,799
+n um because the the ratio is is too
+
+1330
+01:05:22,799 --> 01:05:26,720
+much depending whether you're looking at
+
+1331
+01:05:24,799 --> 01:05:28,079
+the odds or the evens
+
+1332
+01:05:26,720 --> 01:05:32,599
+um you can't scale it in either
+
+1333
+01:05:28,079 --> 01:05:38,599
+direction so F in Big O of G is
+
+1334
+01:05:32,599 --> 01:05:38,599
+false and G in Big O of f is also
+
+1335
+01:05:38,839 --> 01:05:43,400
+false um and it was specially
+
+1336
+01:05:41,240 --> 01:05:47,279
+constructed so that
+
+1337
+01:05:43,400 --> 01:05:50,640
+limit of f over G as n goes to
+
+1338
+01:05:47,279 --> 01:05:53,640
+Infinity um does not
+
+1339
+01:05:50,640 --> 01:05:56,400
+exist because on the odds F overg grows
+
+1340
+01:05:53,640 --> 01:05:58,599
+really big and on the evens f over G is
+
+1341
+01:05:56,400 --> 01:05:58,599
+really
+
+1342
+01:05:58,680 --> 01:06:04,480
+small sound good
+
+1343
+01:06:01,799 --> 01:06:07,000
+nice all
+
+1344
+01:06:04,480 --> 01:06:10,119
+right speaking of getting really big and
+
+1345
+01:06:07,000 --> 01:06:12,119
+really small um there are two more ASM
+
+1346
+01:06:10,119 --> 01:06:15,000
+totic symbols that we need to add to our
+
+1347
+01:06:12,119 --> 01:06:19,160
+table uh and those are the last two I
+
+1348
+01:06:15,000 --> 01:06:19,160
+promise um the first one I want to
+
+1349
+01:06:20,119 --> 01:06:26,039
+Define is
+
+1350
+01:06:22,720 --> 01:06:29,520
+called little o
+
+1351
+01:06:26,039 --> 01:06:33,039
+so f is in little o of
+
+1352
+01:06:29,520 --> 01:06:35,240
+G the definition is going to be that the
+
+1353
+01:06:33,039 --> 01:06:39,839
+limit as n goes to
+
+1354
+01:06:35,240 --> 01:06:44,039
+Infinity of f of n over G of
+
+1355
+01:06:39,839 --> 01:06:47,240
+n equals z and the
+
+1356
+01:06:44,039 --> 01:06:49,960
+intuition is that f is much much much
+
+1357
+01:06:47,240 --> 01:06:52,680
+smaller than
+
+1358
+01:06:49,960 --> 01:06:55,720
+G if we want to say that f is
+
+1359
+01:06:52,680 --> 01:06:56,880
+insignificant compared to G
+
+1360
+01:06:55,720 --> 01:06:59,279
+that's just saying that the limit
+
+1361
+01:06:56,880 --> 01:07:02,359
+between them goes to
+
+1362
+01:06:59,279 --> 01:07:05,079
+zero right so that's our that's going to
+
+1363
+01:07:02,359 --> 01:07:07,960
+be our definition of little O notation
+
+1364
+01:07:05,079 --> 01:07:10,079
+wise little o and Big O look
+
+1365
+01:07:07,960 --> 01:07:13,119
+similar um so when you're writing those
+
+1366
+01:07:10,079 --> 01:07:14,440
+by hand please try to exaggerate uh I I
+
+1367
+01:07:13,119 --> 01:07:17,520
+like to write My Little O's really
+
+1368
+01:07:14,440 --> 01:07:20,079
+really small um like even smaller than
+
+1369
+01:07:17,520 --> 01:07:23,119
+other lowercase letters and I like to
+
+1370
+01:07:20,079 --> 01:07:25,880
+write my Big O really really big not
+
+1371
+01:07:23,119 --> 01:07:27,599
+like hilariously big but noticeably big
+
+1372
+01:07:25,880 --> 01:07:28,559
+so no one's going to confuse it for a
+
+1373
+01:07:27,599 --> 01:07:30,200
+little
+
+1374
+01:07:28,559 --> 01:07:32,920
+o
+
+1375
+01:07:30,200 --> 01:07:35,640
+um annoying notation that those look
+
+1376
+01:07:32,920 --> 01:07:38,839
+similar so just be aware and uh try to
+
+1377
+01:07:35,640 --> 01:07:43,520
+correct for it um and there's the
+
+1378
+01:07:38,839 --> 01:07:45,799
+reverse f is in little Omega of G that's
+
+1379
+01:07:43,520 --> 01:07:48,720
+the lowercase Omega compared to the
+
+1380
+01:07:45,799 --> 01:07:51,480
+capital Omega up there means the
+
+1381
+01:07:48,720 --> 01:07:57,319
+opposite that the limit as n goes to
+
+1382
+01:07:51,480 --> 01:07:59,520
+Infinity of f of n over G of n equals
+
+1383
+01:07:57,319 --> 01:08:04,200
+infinity
+
+1384
+01:07:59,520 --> 01:08:04,200
+AKA G is in little o of
+
+1385
+01:08:04,520 --> 01:08:11,720
+f so if we want to stress that f is much
+
+1386
+01:08:08,480 --> 01:08:13,039
+much bigger than G we can use the little
+
+1387
+01:08:11,720 --> 01:08:18,199
+Omega
+
+1388
+01:08:13,039 --> 01:08:19,839
+notation that f is much much bigger than
+
+1389
+01:08:18,199 --> 01:08:22,040
+G all
+
+1390
+01:08:19,839 --> 01:08:24,120
+right and these are
+
+1391
+01:08:22,040 --> 01:08:25,199
+useful I mean for the same reasons the
+
+1392
+01:08:24,120 --> 01:08:28,279
+other things are useful they're giving
+
+1393
+01:08:25,199 --> 01:08:32,199
+us more vocabulary to compare functions
+
+1394
+01:08:28,279 --> 01:08:34,239
+um in ways that let us think about only
+
+1395
+01:08:32,199 --> 01:08:39,839
+a small amount of information about each
+
+1396
+01:08:34,239 --> 01:08:43,319
+function um but little o is sort of
+
+1397
+01:08:39,839 --> 01:08:45,679
+exactly what we meant by lower order
+
+1398
+01:08:43,319 --> 01:08:48,359
+term uh
+
+1399
+01:08:45,679 --> 01:08:51,759
+claim uh that f is going to be ASM
+
+1400
+01:08:48,359 --> 01:08:55,560
+totically equivalent to f plus
+
+1401
+01:08:51,759 --> 01:08:58,719
+h if and only if
+
+1402
+01:08:55,560 --> 01:09:01,679
+H is in little o of
+
+1403
+01:08:58,719 --> 01:09:05,679
+f if and only
+
+1404
+01:09:01,679 --> 01:09:09,520
+if the limit of H over f is
+
+1405
+01:09:05,679 --> 01:09:12,400
+zero h of n over F of n as n goes to
+
+1406
+01:09:09,520 --> 01:09:14,640
+Infinity so lower order term just means
+
+1407
+01:09:12,400 --> 01:09:17,199
+the ratio goes to zero in the
+
+1408
+01:09:14,640 --> 01:09:19,120
+limit uh and that's consistent with what
+
+1409
+01:09:17,199 --> 01:09:21,239
+we've been saying with lower order terms
+
+1410
+01:09:19,120 --> 01:09:23,759
+all throughout today lower order term
+
+1411
+01:09:21,239 --> 01:09:26,400
+just means limit goes to zero and we
+
+1412
+01:09:23,759 --> 01:09:29,640
+have a special notation for that
+
+1413
+01:09:26,400 --> 01:09:33,080
+o um f is ASM totically equivalent to f
+
+1414
+01:09:29,640 --> 01:09:35,359
+plus h means that according to ASM totic
+
+1415
+01:09:33,080 --> 01:09:38,600
+equivalence the H didn't change
+
+1416
+01:09:35,359 --> 01:09:39,960
+anything the H was insignificant so
+
+1417
+01:09:38,600 --> 01:09:42,520
+that's another way to think about what
+
+1418
+01:09:39,960 --> 01:09:44,319
+we mean by lower order
+
+1419
+01:09:42,520 --> 01:09:46,120
+term make
+
+1420
+01:09:44,319 --> 01:09:51,199
+sense
+
+1421
+01:09:46,120 --> 01:09:56,040
+nice um cool last thing I want to do
+
+1422
+01:09:51,199 --> 01:09:56,040
+today is a big old warning
+
+1423
+01:10:03,239 --> 01:10:06,920
+Asim totic
+
+1424
+01:10:10,360 --> 01:10:13,640
+notation and
+
+1425
+01:10:14,719 --> 01:10:19,400
+induction don't mix
+
+1426
+01:10:21,320 --> 01:10:27,000
+easily if you're ever doing astics and
+
+1427
+01:10:24,400 --> 01:10:30,480
+induction in the same same
+
+1428
+01:10:27,000 --> 01:10:33,080
+breadth step back take care let's see
+
+1429
+01:10:30,480 --> 01:10:33,080
+what can go
+
+1430
+01:10:39,880 --> 01:10:43,880
+wrong all right so
+
+1431
+01:10:44,600 --> 01:10:52,000
+theorem question
+
+1432
+01:10:46,760 --> 01:10:54,640
+mark 2 to the N is Big O of
+
+1433
+01:10:52,000 --> 01:10:57,080
+one now we really really hope this isn't
+
+1434
+01:10:54,640 --> 01:10:59,280
+true in algorithm terms this is an
+
+1435
+01:10:57,080 --> 01:11:00,960
+algorithm that takes exponential time
+
+1436
+01:10:59,280 --> 01:11:03,080
+this is an algorithm that takes constant
+
+1437
+01:11:00,960 --> 01:11:05,679
+time certainly this one's supposed to be
+
+1438
+01:11:03,080 --> 01:11:09,679
+the smaller one so 2 to the N should
+
+1439
+01:11:05,679 --> 01:11:13,719
+absolutely not be in Big O of one but
+
+1440
+01:11:09,679 --> 01:11:13,719
+let's prove it anyway proof by
+
+1441
+01:11:16,239 --> 01:11:24,280
+induction let's do our base
+
+1442
+01:11:19,719 --> 01:11:25,800
+case n equals z so 2 to the 0o is in Big
+
+1443
+01:11:24,280 --> 01:11:27,640
+O of one
+
+1444
+01:11:25,800 --> 01:11:30,159
+that's just that's saying that one is
+
+1445
+01:11:27,640 --> 01:11:34,000
+Big O of one which it certainly
+
+1446
+01:11:30,159 --> 01:11:34,000
+is all right inductive
+
+1447
+01:11:37,520 --> 01:11:47,840
+step uh assume n is at least
+
+1448
+01:11:41,320 --> 01:11:47,840
+zero and that 2 to the N is in Big O of
+
+1449
+01:11:48,480 --> 01:11:54,040
+one want to show 2 the n + 1 is in Big O
+
+1450
+01:11:52,719 --> 01:11:55,800
+of
+
+1451
+01:11:54,040 --> 01:12:00,880
+one but
+
+1452
+01:11:55,800 --> 01:12:03,000
+but well 2 the n + 1 that's 2 the n + 2
+
+1453
+01:12:00,880 --> 01:12:03,000
+the
+
+1454
+01:12:03,360 --> 01:12:09,280
+N which is Big O of one plus Big O of
+
+1455
+01:12:07,080 --> 01:12:13,880
+one by our inductive
+
+1456
+01:12:09,280 --> 01:12:16,920
+assumption and that is Big O of
+
+1457
+01:12:13,880 --> 01:12:18,000
+one so 2 the N plus one is Big O of one
+
+1458
+01:12:16,920 --> 01:12:21,600
+and we're
+
+1459
+01:12:18,000 --> 01:12:21,600
+done we proved our
+
+1460
+01:12:21,960 --> 01:12:26,880
+induction what the heck went wrong
+
+1461
+01:12:31,360 --> 01:12:37,840
+yes 2 the N plus 1 is not equal to 2 the
+
+1462
+01:12:34,400 --> 01:12:41,600
+N plus 2 the N um it is 2 the N plus 1
+
+1463
+01:12:37,840 --> 01:12:43,719
+is just 2 * 2 the N um which I can write
+
+1464
+01:12:41,600 --> 01:12:47,280
+as two copies of two to the UN added
+
+1465
+01:12:43,719 --> 01:12:50,280
+together um I will tell you the mistake
+
+1466
+01:12:47,280 --> 01:12:53,159
+isn't in this line at all I know I did
+
+1467
+01:12:50,280 --> 01:12:55,560
+something really sketchy right here what
+
+1468
+01:12:53,159 --> 01:12:58,040
+do I mean by o of one plus o of one
+
+1469
+01:12:55,560 --> 01:13:01,480
+that's a set and that's a set why am I
+
+1470
+01:12:58,040 --> 01:13:03,840
+able to add them also I accidentally Ed
+
+1471
+01:13:01,480 --> 01:13:05,400
+that when I meant set membership instead
+
+1472
+01:13:03,840 --> 01:13:07,560
+of
+
+1473
+01:13:05,400 --> 01:13:09,800
+equality but actually this is kind of
+
+1474
+01:13:07,560 --> 01:13:11,920
+fine this is an abusive notation we
+
+1475
+01:13:09,800 --> 01:13:16,600
+didn't really Define what this
+
+1476
+01:13:11,920 --> 01:13:20,080
+means but all we mean by it um o of f
+
+1477
+01:13:16,600 --> 01:13:22,840
+plus o of G this is just the set of
+
+1478
+01:13:20,080 --> 01:13:29,960
+functions um a plus
+
+1479
+01:13:22,840 --> 01:13:29,960
+b where a is in o of F and B is in O of
+
+1480
+01:13:30,120 --> 01:13:35,040
+G this just means the set of things you
+
+1481
+01:13:32,520 --> 01:13:36,560
+can form by taking a one function from
+
+1482
+01:13:35,040 --> 01:13:38,120
+this side and one function from that
+
+1483
+01:13:36,560 --> 01:13:41,199
+side and adding them
+
+1484
+01:13:38,120 --> 01:13:43,159
+together um and it is true that in this
+
+1485
+01:13:41,199 --> 01:13:46,440
+case o of one plus o of one equals o of
+
+1486
+01:13:43,159 --> 01:13:51,040
+one as sets so that's fine that's not
+
+1487
+01:13:46,440 --> 01:13:51,040
+the mistake yes
+
+1488
+01:13:57,159 --> 01:14:02,199
+all right um so let me reiterate um I
+
+1489
+01:13:59,239 --> 01:14:04,800
+proved that every number two to the N is
+
+1490
+01:14:02,199 --> 01:14:08,440
+Big O of one itself but I didn't prove
+
+1491
+01:14:04,800 --> 01:14:11,080
+the function 2 to the N is Big O of one
+
+1492
+01:14:08,440 --> 01:14:16,080
+that's exactly the idea so let's see
+
+1493
+01:14:11,080 --> 01:14:16,080
+what we actually proved here this
+
+1494
+01:14:16,400 --> 01:14:24,080
+here is a correct proof by
+
+1495
+01:14:20,560 --> 01:14:27,159
+induction but what is it proving it it's
+
+1496
+01:14:24,080 --> 01:14:29,880
+a proof of what we what we really proved
+
+1497
+01:14:27,159 --> 01:14:32,639
+is that two to the is is that one is in
+
+1498
+01:14:29,880 --> 01:14:35,760
+Big O of one that was our base case we
+
+1499
+01:14:32,639 --> 01:14:38,880
+proved that two is in Big O of one four
+
+1500
+01:14:35,760 --> 01:14:41,840
+is in Big O of one eight is in Big O of
+
+1501
+01:14:38,880 --> 01:14:44,760
+one 16 is in Big O of
+
+1502
+01:14:41,840 --> 01:14:49,639
+one we proved that each individual power
+
+1503
+01:14:44,760 --> 01:14:53,520
+of two when considered as a constant
+
+1504
+01:14:49,639 --> 01:14:55,560
+function is Big O of one so every
+
+1505
+01:14:53,520 --> 01:14:58,159
+constant function is Big O of one yeah
+
+1506
+01:14:55,560 --> 01:15:00,719
+that's true we proved it by induction
+
+1507
+01:14:58,159 --> 01:15:03,520
+that has absolutely nothing to do with
+
+1508
+01:15:00,719 --> 01:15:06,159
+the two to the N function has absolutely
+
+1509
+01:15:03,520 --> 01:15:08,840
+nothing to do with the definition of 2
+
+1510
+01:15:06,159 --> 01:15:11,320
+to the N being in Big O of
+
+1511
+01:15:08,840 --> 01:15:13,560
+one so we didn't prove the right theorem
+
+1512
+01:15:11,320 --> 01:15:17,000
+we proved something completely
+
+1513
+01:15:13,560 --> 01:15:20,400
+irrelevant does that make
+
+1514
+01:15:17,000 --> 01:15:23,040
+sense so this is why induction and
+
+1515
+01:15:20,400 --> 01:15:26,679
+astics don't mix when you see a function
+
+1516
+01:15:23,040 --> 01:15:29,280
+of n you can't break that function
+
+1517
+01:15:26,679 --> 01:15:31,360
+into individual constant functions one
+
+1518
+01:15:29,280 --> 01:15:32,960
+for each n value you can't induct on N
+
+1519
+01:15:31,360 --> 01:15:35,280
+you have to treat that function
+
+1520
+01:15:32,960 --> 01:15:38,280
+holistically as a single
+
+1521
+01:15:35,280 --> 01:15:42,239
+function sound
+
+1522
+01:15:38,280 --> 01:15:46,760
+good all right um does anyone have any
+
+1523
+01:15:42,239 --> 01:15:46,760
+questions about anything we talked about
+
+1524
+01:15:53,520 --> 01:16:01,840
+yes excellent question does little o
+
+1525
+01:15:57,159 --> 01:16:03,520
+imply Big O uh so if we know that f o
+
+1526
+01:16:01,840 --> 01:16:04,239
+sorry if we know that f is in little o
+
+1527
+01:16:03,520 --> 01:16:09,520
+of
+
+1528
+01:16:04,239 --> 01:16:13,239
+G does that imply that f is in Big O of
+
+1529
+01:16:09,520 --> 01:16:16,080
+G yeah yeah absolutely um and let's
+
+1530
+01:16:13,239 --> 01:16:21,040
+let's think about why this so little o
+
+1531
+01:16:16,080 --> 01:16:25,480
+is defined by uh let's see f um sorry F
+
+1532
+01:16:21,040 --> 01:16:27,880
+over G that limit equals zero
+
+1533
+01:16:25,480 --> 01:16:29,400
+but remember we already said early on
+
+1534
+01:16:27,880 --> 01:16:31,560
+that if the limit
+
+1535
+01:16:29,400 --> 01:16:34,080
+exists then it tells you whether or not
+
+1536
+01:16:31,560 --> 01:16:37,520
+it's Big O and in this case the limit is
+
+1537
+01:16:34,080 --> 01:16:41,440
+zero so it tells us yes we are Big
+
+1538
+01:16:37,520 --> 01:16:45,239
+O yep so little o is absolutely stronger
+
+1539
+01:16:41,440 --> 01:16:47,159
+than Big O it implies Big O um we we
+
+1540
+01:16:45,239 --> 01:16:50,800
+certainly don't go the other
+
+1541
+01:16:47,159 --> 01:16:53,600
+way um likewise
+
+1542
+01:16:50,800 --> 01:16:56,040
+um uh let's see there are lots of other
+
+1543
+01:16:53,600 --> 01:17:00,080
+implications between this between these
+
+1544
+01:16:56,040 --> 01:17:03,679
+so um Theta if f is a Theta of G well
+
+1545
+01:17:00,080 --> 01:17:07,000
+that certainly implies Big O and big
+
+1546
+01:17:03,679 --> 01:17:11,080
+Omega because that's how we Define Theta
+
+1547
+01:17:07,000 --> 01:17:13,000
+and in turn these also imply little o
+
+1548
+01:17:11,080 --> 01:17:15,760
+and little
+
+1549
+01:17:13,000 --> 01:17:18,360
+Omega um because Big O implies little o
+
+1550
+01:17:15,760 --> 01:17:19,920
+as we just saw which means big Omega
+
+1551
+01:17:18,360 --> 01:17:21,120
+implies little Omega because we're just
+
+1552
+01:17:19,920 --> 01:17:23,520
+swapping the
+
+1553
+01:17:21,120 --> 01:17:25,960
+order uh so yeah so we have lots of
+
+1554
+01:17:23,520 --> 01:17:27,280
+implications like this um let me write
+
+1555
+01:17:25,960 --> 01:17:31,040
+it this
+
+1556
+01:17:27,280 --> 01:17:32,320
+way this implies little o and this
+
+1557
+01:17:31,040 --> 01:17:37,480
+implies little
+
+1558
+01:17:32,320 --> 01:17:39,679
+Omega uh and as we already saw ASM totic
+
+1559
+01:17:37,480 --> 01:17:44,520
+equivalence implies
+
+1560
+01:17:39,679 --> 01:17:47,520
+Theta which in turn implies all the
+
+1561
+01:17:44,520 --> 01:17:47,520
+others
+
+1562
+01:17:47,760 --> 01:17:52,639
+yes I got these arrows wrong thank you
+
+1563
+01:17:51,320 --> 01:17:55,199
+no
+
+1564
+01:17:52,639 --> 01:17:57,920
+I'm see I I shouldn't add live at the
+
+1565
+01:17:55,199 --> 01:18:00,440
+board I'm always going to get it wrong
+
+1566
+01:17:57,920 --> 01:18:03,000
+um yeah I apologize Theta implies the
+
+1567
+01:18:00,440 --> 01:18:05,480
+big ones not the little ones um the
+
+1568
+01:18:03,000 --> 01:18:08,080
+little one implies the big one not the
+
+1569
+01:18:05,480 --> 01:18:11,840
+not the other way around sorry for the
+
+1570
+01:18:08,080 --> 01:18:11,840
+confusion um one more
+
+1571
+01:18:15,320 --> 01:18:21,360
+question all right thanks everyone we'll
+
+1572
+01:18:17,520 --> 01:18:21,360
+see you tomorrow at recitation
+

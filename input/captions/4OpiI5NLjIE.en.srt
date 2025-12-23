@@ -1,0 +1,5868 @@
+1
+00:00:11,519 --> 00:00:15,519
+Um these are fairly challenging topics
+
+2
+00:00:14,160 --> 00:00:18,320
+because you know we're really just going
+
+3
+00:00:15,519 --> 00:00:20,000
+to be proving one theorem today. But
+
+4
+00:00:18,320 --> 00:00:22,240
+this theorem which is called Shannon's
+
+5
+00:00:20,000 --> 00:00:23,760
+noiseless coding theorem will involve a
+
+6
+00:00:22,240 --> 00:00:26,000
+lot of the probabilistic tools that
+
+7
+00:00:23,760 --> 00:00:27,519
+we've developed earlier in the class.
+
+8
+00:00:26,000 --> 00:00:30,000
+Uh, so I'll give you an introduction to
+
+9
+00:00:27,519 --> 00:00:32,320
+what data compression is and really how
+
+10
+00:00:30,000 --> 00:00:34,800
+Shannon's work put this on a rigorous
+
+11
+00:00:32,320 --> 00:00:36,559
+mathematical foundation. One of the cool
+
+12
+00:00:34,800 --> 00:00:38,559
+historical facts about what I'm going to
+
+13
+00:00:36,559 --> 00:00:40,960
+be teaching you about today is that it
+
+14
+00:00:38,559 --> 00:00:42,399
+literally happened in this building, you
+
+15
+00:00:40,960 --> 00:00:43,920
+know, pre the renovation, but the
+
+16
+00:00:42,399 --> 00:00:46,800
+theorems I'm going to tell you were all
+
+17
+00:00:43,920 --> 00:00:48,640
+laid out, you know, right here, not down
+
+18
+00:00:46,800 --> 00:00:50,399
+the hall in a different building,
+
+19
+00:00:48,640 --> 00:00:52,960
+literally right here in building two. So
+
+20
+00:00:50,399 --> 00:00:54,879
+this will be cool. So, let me start off
+
+21
+00:00:52,960 --> 00:00:57,680
+by giving you some historical context
+
+22
+00:00:54,879 --> 00:01:02,000
+for the leadin for this, right? Um, so
+
+23
+00:00:57,680 --> 00:01:03,600
+how many people here use text messages?
+
+24
+00:01:02,000 --> 00:01:05,920
+Okay, should be everyone. You're all
+
+25
+00:01:03,600 --> 00:01:07,520
+paying attention. That's good. Um, you
+
+26
+00:01:05,920 --> 00:01:09,439
+know, of course, when we're texting each
+
+27
+00:01:07,520 --> 00:01:12,320
+other, we use short forms like, you
+
+28
+00:01:09,439 --> 00:01:14,159
+know, BRB, right? Uh, in fact, every
+
+29
+00:01:12,320 --> 00:01:16,240
+once in a while, I'll see a crazy, you
+
+30
+00:01:14,159 --> 00:01:18,960
+know, acronym that I don't know, but
+
+31
+00:01:16,240 --> 00:01:20,720
+maybe you guys know, right? And so you
+
+32
+00:01:18,960 --> 00:01:22,159
+can think uh that the acronyms, you
+
+33
+00:01:20,720 --> 00:01:23,840
+know, especially as you get older and
+
+34
+00:01:22,159 --> 00:01:25,200
+you stop being as plugged into it, at
+
+35
+00:01:23,840 --> 00:01:26,560
+some point they're just, you know, you
+
+36
+00:01:25,200 --> 00:01:29,040
+have no idea what people are talking
+
+37
+00:01:26,560 --> 00:01:31,280
+about anymore. But, you know, this isn't
+
+38
+00:01:29,040 --> 00:01:35,400
+even a new phenomena. So, let me give
+
+39
+00:01:31,280 --> 00:01:35,400
+you some historical context.
+
+40
+00:01:36,720 --> 00:01:42,240
+Back in the day, long long time ago, you
+
+41
+00:01:40,320 --> 00:01:45,360
+know, the way that people used to send
+
+42
+00:01:42,240 --> 00:01:47,600
+messages was through telegrams.
+
+43
+00:01:45,360 --> 00:01:50,560
+And the problem with telegrams was that
+
+44
+00:01:47,600 --> 00:01:53,360
+they cost a lot of money. So we're
+
+45
+00:01:50,560 --> 00:01:55,759
+talking about they cost a dollar per
+
+46
+00:01:53,360 --> 00:01:57,840
+word. So people wanted to send each
+
+47
+00:01:55,759 --> 00:02:00,240
+other telegrams. But you know the same
+
+48
+00:01:57,840 --> 00:02:02,320
+way that when we have text messages we
+
+49
+00:02:00,240 --> 00:02:04,079
+have you know common phrases and strings
+
+50
+00:02:02,320 --> 00:02:06,880
+that we say over and over again. So we
+
+51
+00:02:04,079 --> 00:02:08,800
+figure out the short form. Well here you
+
+52
+00:02:06,880 --> 00:02:12,000
+know they would create some sort of code
+
+53
+00:02:08,800 --> 00:02:13,520
+book to compress communication.
+
+54
+00:02:12,000 --> 00:02:15,280
+And some of these things were pretty
+
+55
+00:02:13,520 --> 00:02:17,280
+obscure things. You can go back through
+
+56
+00:02:15,280 --> 00:02:20,000
+and look at the telegram books from way
+
+57
+00:02:17,280 --> 00:02:22,879
+back in the day and you can find lots of
+
+58
+00:02:20,000 --> 00:02:25,760
+gems in these code books. Like if you
+
+59
+00:02:22,879 --> 00:02:29,120
+send someone a telegram that had this
+
+60
+00:02:25,760 --> 00:02:32,400
+word which I can't pronounce, uh what it
+
+61
+00:02:29,120 --> 00:02:35,440
+meant was it translated to the phrase
+
+62
+00:02:32,400 --> 00:02:38,239
+has not been
+
+63
+00:02:35,440 --> 00:02:41,200
+reinsured.
+
+64
+00:02:38,239 --> 00:02:44,160
+That's a pretty technical concept.
+
+65
+00:02:41,200 --> 00:02:48,640
+Uh they also had another one you know a
+
+66
+00:02:44,160 --> 00:02:51,120
+z kh e. This word if you sent it through
+
+67
+00:02:48,640 --> 00:02:56,720
+a telegram back in the day this would
+
+68
+00:02:51,120 --> 00:02:58,959
+get translated to clean bill of health.
+
+69
+00:02:56,720 --> 00:03:00,560
+So all of these phrases are saving you
+
+70
+00:02:58,959 --> 00:03:03,040
+money because you know instead of
+
+71
+00:03:00,560 --> 00:03:04,560
+sending uh this many words in this
+
+72
+00:03:03,040 --> 00:03:07,440
+phrase I'm getting away with sending
+
+73
+00:03:04,560 --> 00:03:09,519
+just a single word for a single dollar.
+
+74
+00:03:07,440 --> 00:03:11,440
+Uh some of these really you know go off
+
+75
+00:03:09,519 --> 00:03:12,879
+the rails. So, this is my favorite one
+
+76
+00:03:11,440 --> 00:03:14,480
+when I look through these Telegram
+
+77
+00:03:12,879 --> 00:03:18,560
+books.
+
+78
+00:03:14,480 --> 00:03:22,720
+Uh, NBET. So, what did this mean? This
+
+79
+00:03:18,560 --> 00:03:24,480
+meant captain is insane.
+
+80
+00:03:22,720 --> 00:03:27,120
+Hopefully, that one doesn't come up that
+
+81
+00:03:24,480 --> 00:03:29,120
+often, but uh that really was one of the
+
+82
+00:03:27,120 --> 00:03:31,519
+phrases in these code books from way
+
+83
+00:03:29,120 --> 00:03:33,760
+back when. So, we're going to talk about
+
+84
+00:03:31,519 --> 00:03:36,400
+today is really the mathematical
+
+85
+00:03:33,760 --> 00:03:38,480
+foundation of what it means to compress
+
+86
+00:03:36,400 --> 00:03:40,640
+data. And even better, we're going to
+
+87
+00:03:38,480 --> 00:03:43,280
+talk about what it means to find the
+
+88
+00:03:40,640 --> 00:03:44,799
+best compression for data. So, I'm going
+
+89
+00:03:43,280 --> 00:03:46,239
+to give you some examples. I'll give you
+
+90
+00:03:44,799 --> 00:03:47,760
+some definitions, and we'll think
+
+91
+00:03:46,239 --> 00:03:49,920
+intuitively about what a good
+
+92
+00:03:47,760 --> 00:03:51,280
+compression ought to look like. And
+
+93
+00:03:49,920 --> 00:03:52,640
+we're going to be working up to this
+
+94
+00:03:51,280 --> 00:03:55,040
+beautiful theorem, which is called
+
+95
+00:03:52,640 --> 00:03:57,040
+Shannon's noless coding theorem. That's
+
+96
+00:03:55,040 --> 00:03:59,840
+going to tell us the best possible way
+
+97
+00:03:57,040 --> 00:04:02,720
+to do data compression.
+
+98
+00:03:59,840 --> 00:04:04,959
+So let's start off with um you know the
+
+99
+00:04:02,720 --> 00:04:07,200
+key definition
+
+100
+00:04:04,959 --> 00:04:09,599
+at least that kicks it off and as I
+
+101
+00:04:07,200 --> 00:04:13,439
+mentioned you know this happened all in
+
+102
+00:04:09,599 --> 00:04:17,239
+this building. So in 1948 in this
+
+103
+00:04:13,439 --> 00:04:17,239
+building Claude Shannon
+
+104
+00:04:17,600 --> 00:04:23,000
+founded the field of information theory
+
+105
+00:04:24,160 --> 00:04:28,400
+and this field you can take whole
+
+106
+00:04:26,240 --> 00:04:32,000
+graduate seminars on it. It's a
+
+107
+00:04:28,400 --> 00:04:33,919
+beautiful, rich, thriving field.
+
+108
+00:04:32,000 --> 00:04:36,400
+He's really one of the mathematical
+
+109
+00:04:33,919 --> 00:04:38,080
+heroes of this entire area of modern
+
+110
+00:04:36,400 --> 00:04:39,680
+research.
+
+111
+00:04:38,080 --> 00:04:42,160
+And we're going to tell you about his
+
+112
+00:04:39,680 --> 00:04:45,919
+first beautiful theorem
+
+113
+00:04:42,160 --> 00:04:47,680
+uh in the lecture on Tuesday. I'm going
+
+114
+00:04:45,919 --> 00:04:50,720
+to tell you about an amazing result that
+
+115
+00:04:47,680 --> 00:04:53,280
+was proved by a graduate student here on
+
+116
+00:04:50,720 --> 00:04:56,240
+an exam. So you guys all took an exam on
+
+117
+00:04:53,280 --> 00:04:57,840
+Thursday. And it turns out that uh the
+
+118
+00:04:56,240 --> 00:05:00,560
+theorem I'm going to tell you about on
+
+119
+00:04:57,840 --> 00:05:02,720
+Tuesday was proved by a graduate student
+
+120
+00:05:00,560 --> 00:05:04,880
+who was given a question for his uh
+
+121
+00:05:02,720 --> 00:05:06,560
+project and he invented you know
+
+122
+00:05:04,880 --> 00:05:08,880
+something that we still teach to this
+
+123
+00:05:06,560 --> 00:05:10,160
+day. It's amazing and beautiful. And
+
+124
+00:05:08,880 --> 00:05:11,759
+then in the third lecture we're going to
+
+125
+00:05:10,160 --> 00:05:15,199
+talk about Shannon's second main
+
+126
+00:05:11,759 --> 00:05:19,360
+theorem. So first let's define what we
+
+127
+00:05:15,199 --> 00:05:22,000
+mean by our data source.
+
+128
+00:05:19,360 --> 00:05:24,800
+You know this is the source of what we
+
+129
+00:05:22,000 --> 00:05:27,360
+want to compress. And you can consider
+
+130
+00:05:24,800 --> 00:05:30,080
+much more complicated sources you know
+
+131
+00:05:27,360 --> 00:05:33,280
+um but let's keep it simple for today.
+
+132
+00:05:30,080 --> 00:05:35,759
+So a first order source is described by
+
+133
+00:05:33,280 --> 00:05:38,639
+the following things. So first of all
+
+134
+00:05:35,759 --> 00:05:40,400
+there's an alphabet
+
+135
+00:05:38,639 --> 00:05:42,639
+which is just a set of all possible
+
+136
+00:05:40,400 --> 00:05:47,199
+symbols and we'll denote that by capital
+
+137
+00:05:42,639 --> 00:05:51,280
+a and the individual symbols are a1 a2
+
+138
+00:05:47,199 --> 00:05:53,360
+all the way up to a k. Okay.
+
+139
+00:05:51,280 --> 00:05:57,039
+And then the other component we have is
+
+140
+00:05:53,360 --> 00:06:00,639
+that we have a distribution
+
+141
+00:05:57,039 --> 00:06:03,120
+which is going to be a distribution P on
+
+142
+00:06:00,639 --> 00:06:04,960
+the alphabet. So it'll tell you the
+
+143
+00:06:03,120 --> 00:06:06,240
+probability of the first symbol. It'll
+
+144
+00:06:04,960 --> 00:06:09,600
+tell you the probability of the second
+
+145
+00:06:06,240 --> 00:06:12,639
+symbol all the way up to the kth symbol.
+
+146
+00:06:09,600 --> 00:06:16,880
+So all this first order source is is
+
+147
+00:06:12,639 --> 00:06:19,280
+it's a ksided unfair die. you roll the
+
+148
+00:06:16,880 --> 00:06:21,759
+dieice and whatever symbol from your
+
+149
+00:06:19,280 --> 00:06:24,479
+alphabet comes up on top, that's your
+
+150
+00:06:21,759 --> 00:06:26,240
+next symbol in your message. So what
+
+151
+00:06:24,479 --> 00:06:28,400
+happens is that the first order source
+
+152
+00:06:26,240 --> 00:06:31,520
+is going to define a long string that we
+
+153
+00:06:28,400 --> 00:06:33,199
+just take by taking iid samples. And so
+
+154
+00:06:31,520 --> 00:06:35,520
+the way that this works is it's going to
+
+155
+00:06:33,199 --> 00:06:39,400
+generate
+
+156
+00:06:35,520 --> 00:06:39,400
+length n strings
+
+157
+00:06:42,000 --> 00:06:46,680
+where each symbol
+
+158
+00:06:46,880 --> 00:06:51,600
+is iid from this associated
+
+159
+00:06:49,600 --> 00:06:54,319
+distribution. So the way that I'm
+
+160
+00:06:51,600 --> 00:06:57,520
+constructing a long phrase is I take my
+
+161
+00:06:54,319 --> 00:07:00,720
+k-sided die that's unfair. I roll it n
+
+162
+00:06:57,520 --> 00:07:03,520
+times and then I just concatenate all of
+
+163
+00:07:00,720 --> 00:07:05,199
+those letters in my alphabet together
+
+164
+00:07:03,520 --> 00:07:07,360
+keeping track the order in which I
+
+165
+00:07:05,199 --> 00:07:10,160
+rolled them. Now you can think about the
+
+166
+00:07:07,360 --> 00:07:11,520
+alphabet as being composed of letters.
+
+167
+00:07:10,160 --> 00:07:13,680
+But really you could think about it as
+
+168
+00:07:11,520 --> 00:07:15,919
+being composed of words too, right?
+
+169
+00:07:13,680 --> 00:07:18,160
+Maybe the way that I create a sentence
+
+170
+00:07:15,919 --> 00:07:19,759
+is by creating, you know, rolling my
+
+171
+00:07:18,160 --> 00:07:21,280
+dieice and getting my first word,
+
+172
+00:07:19,759 --> 00:07:24,319
+rolling my die and getting my second
+
+173
+00:07:21,280 --> 00:07:26,479
+word. This would be a terrible model for
+
+174
+00:07:24,319 --> 00:07:28,400
+English language. And there are a lot
+
+175
+00:07:26,479 --> 00:07:30,639
+richer models you can do, things like
+
+176
+00:07:28,400 --> 00:07:32,639
+Markov chains where a lot of this theory
+
+177
+00:07:30,639 --> 00:07:34,319
+is going to carry over, but we're going
+
+178
+00:07:32,639 --> 00:07:37,199
+to keep it simple and just talk about
+
+179
+00:07:34,319 --> 00:07:39,199
+this as our data source. So, I'm trying
+
+180
+00:07:37,199 --> 00:07:41,440
+to send a message through a telegram to
+
+181
+00:07:39,199 --> 00:07:43,919
+someone else. And the way I decide on
+
+182
+00:07:41,440 --> 00:07:46,240
+what message I want to send is I use my
+
+183
+00:07:43,919 --> 00:07:48,479
+first order source to generate it. And
+
+184
+00:07:46,240 --> 00:07:51,280
+then I care about how short I can make
+
+185
+00:07:48,479 --> 00:07:53,840
+my communication be to transmit that
+
+186
+00:07:51,280 --> 00:07:55,440
+message from my source. So are there any
+
+187
+00:07:53,840 --> 00:07:57,759
+questions about the setup? Do people
+
+188
+00:07:55,440 --> 00:08:00,160
+understand what a first order source is
+
+189
+00:07:57,759 --> 00:08:02,400
+and what the communication problem is?
+
+190
+00:08:00,160 --> 00:08:04,000
+Okay.
+
+191
+00:08:02,400 --> 00:08:06,000
+So you know as I mentioned there are
+
+192
+00:08:04,000 --> 00:08:09,840
+more complex sources like Markoff
+
+193
+00:08:06,000 --> 00:08:13,599
+chains. But now let me define precisely
+
+194
+00:08:09,840 --> 00:08:16,000
+what I mean by a code book and a coding
+
+195
+00:08:13,599 --> 00:08:18,160
+scheme. So what is a strategy for
+
+196
+00:08:16,000 --> 00:08:21,520
+compressing communication? This will be
+
+197
+00:08:18,160 --> 00:08:25,919
+our second key definition. So we'll say
+
+198
+00:08:21,520 --> 00:08:30,639
+that a coding function
+
+199
+00:08:25,919 --> 00:08:34,159
+fi it's a function that maps
+
+200
+00:08:30,639 --> 00:08:35,680
+symbols of length n from my alphabet,
+
+201
+00:08:34,159 --> 00:08:40,159
+right? which are just things generated
+
+202
+00:08:35,680 --> 00:08:41,839
+from my first order source. Two 01
+
+203
+00:08:40,159 --> 00:08:43,519
+strings.
+
+204
+00:08:41,839 --> 00:08:45,839
+Now, if you haven't seen this notation
+
+205
+00:08:43,519 --> 00:08:49,120
+before, this notation star here means
+
+206
+00:08:45,839 --> 00:08:51,680
+that I can take any length I want. So,
+
+207
+00:08:49,120 --> 00:08:54,880
+I'm mapping anything that my first order
+
+208
+00:08:51,680 --> 00:08:57,120
+source generates to a string of a
+
+209
+00:08:54,880 --> 00:08:59,519
+variable length, but it's composed of
+
+210
+00:08:57,120 --> 00:09:02,240
+zeros and ones. So, maybe one of my
+
+211
+00:08:59,519 --> 00:09:04,800
+message gets mapped to the 00 string.
+
+212
+00:09:02,240 --> 00:09:08,000
+Maybe one of my messages gets mapped the
+
+213
+00:09:04,800 --> 00:09:10,160
+111 string. So in fact, the length of
+
+214
+00:09:08,000 --> 00:09:12,320
+the output doesn't need to be fixed
+
+215
+00:09:10,160 --> 00:09:14,720
+across the different messages. And
+
+216
+00:09:12,320 --> 00:09:16,800
+that's exactly where we're going to win
+
+217
+00:09:14,720 --> 00:09:19,760
+because somehow the intuition is that
+
+218
+00:09:16,800 --> 00:09:23,200
+more frequent messages should be mapped
+
+219
+00:09:19,760 --> 00:09:25,440
+to shorter strings. Now, first of all, I
+
+220
+00:09:23,200 --> 00:09:28,320
+need not just that, you know, this
+
+221
+00:09:25,440 --> 00:09:30,800
+coding function maps uh every message to
+
+222
+00:09:28,320 --> 00:09:32,399
+an output string because that wouldn't
+
+223
+00:09:30,800 --> 00:09:34,800
+help me. Like what if I mapped
+
+224
+00:09:32,399 --> 00:09:37,200
+everything to the string zero or
+
+225
+00:09:34,800 --> 00:09:39,120
+everything to the string the empty set?
+
+226
+00:09:37,200 --> 00:09:41,760
+That wouldn't help me decode and figure
+
+227
+00:09:39,120 --> 00:09:45,920
+out what the original message is. So we
+
+228
+00:09:41,760 --> 00:09:48,800
+need the property
+
+229
+00:09:45,920 --> 00:09:51,600
+that we can successfully decode. In
+
+230
+00:09:48,800 --> 00:09:55,680
+particular, what we want is that for any
+
+231
+00:09:51,600 --> 00:09:58,560
+pair of different messages that are
+
+232
+00:09:55,680 --> 00:10:01,279
+generated by my first order source, we
+
+233
+00:09:58,560 --> 00:10:04,240
+want that their image under this mapping
+
+234
+00:10:01,279 --> 00:10:06,560
+is not the same.
+
+235
+00:10:04,240 --> 00:10:08,399
+So that's the key property because what
+
+236
+00:10:06,560 --> 00:10:10,240
+this really means is just that we can
+
+237
+00:10:08,399 --> 00:10:13,240
+decode.
+
+238
+00:10:10,240 --> 00:10:13,240
+Okay,
+
+239
+00:10:18,000 --> 00:10:22,560
+so this part is a little bit subtle,
+
+240
+00:10:19,680 --> 00:10:24,640
+right? Um, you know, later on when we
+
+241
+00:10:22,560 --> 00:10:26,880
+talk about, you know, Huffman codes on
+
+242
+00:10:24,640 --> 00:10:29,120
+Tuesday next week, we're going to have
+
+243
+00:10:26,880 --> 00:10:31,360
+some constraints which are called prefix
+
+244
+00:10:29,120 --> 00:10:33,200
+free constraints that we're really going
+
+245
+00:10:31,360 --> 00:10:35,279
+to talk about, you know, a coding
+
+246
+00:10:33,200 --> 00:10:38,240
+function that maps, you know, symbol to
+
+247
+00:10:35,279 --> 00:10:40,320
+symbol, right? But, uh, symbol to
+
+248
+00:10:38,240 --> 00:10:42,959
+sequence. But here the way we're
+
+249
+00:10:40,320 --> 00:10:45,760
+thinking about it is n is gigantic and
+
+250
+00:10:42,959 --> 00:10:49,200
+it's fixed and then what happens is I
+
+251
+00:10:45,760 --> 00:10:51,440
+decide on my coding function fi and I'm
+
+252
+00:10:49,200 --> 00:10:53,680
+just going to oneshot transmit some
+
+253
+00:10:51,440 --> 00:10:56,079
+variable length message and at the end
+
+254
+00:10:53,680 --> 00:10:59,360
+of the message we say end termination
+
+255
+00:10:56,079 --> 00:11:01,360
+over and then the key point is just that
+
+256
+00:10:59,360 --> 00:11:03,600
+um you know things which are different
+
+257
+00:11:01,360 --> 00:11:06,160
+get mapped to different outputs and we
+
+258
+00:11:03,600 --> 00:11:08,560
+see where the actual thing ends and then
+
+259
+00:11:06,160 --> 00:11:10,959
+we want that we can recover X and Y from
+
+260
+00:11:08,560 --> 00:11:12,880
+this. So, are there any questions about
+
+261
+00:11:10,959 --> 00:11:15,600
+what a first order source is or what a
+
+262
+00:11:12,880 --> 00:11:17,680
+coding function is? Does this make
+
+263
+00:11:15,600 --> 00:11:21,760
+sense?
+
+264
+00:11:17,680 --> 00:11:24,399
+Yeah. Okay. All right. So, let's do an
+
+265
+00:11:21,760 --> 00:11:26,560
+example, right? And really our main
+
+266
+00:11:24,399 --> 00:11:28,160
+question is going to be this question
+
+267
+00:11:26,560 --> 00:11:33,279
+we're going to address at the end with
+
+268
+00:11:28,160 --> 00:11:36,760
+Shannon's theorem. So what is the best
+
+269
+00:11:33,279 --> 00:11:36,760
+coding function?
+
+270
+00:11:38,560 --> 00:11:44,560
+And I even have to define what I mean by
+
+271
+00:11:40,800 --> 00:11:46,880
+best here. But let's do an example to
+
+272
+00:11:44,560 --> 00:11:49,360
+make all of this explicit. Let's say
+
+273
+00:11:46,880 --> 00:11:53,200
+that our first order source has two
+
+274
+00:11:49,360 --> 00:11:56,480
+letters. So our alphabet is of size two.
+
+275
+00:11:53,200 --> 00:12:01,680
+And these two letters are A1 and A2. and
+
+276
+00:11:56,480 --> 00:12:05,760
+we're going to have P1 is equal to 7/8
+
+277
+00:12:01,680 --> 00:12:08,720
+and P2 is equal to 1/8. So already here
+
+278
+00:12:05,760 --> 00:12:11,120
+there's a huge asymmetry because the
+
+279
+00:12:08,720 --> 00:12:14,639
+first letter in my alphabet is way more
+
+280
+00:12:11,120 --> 00:12:17,440
+likely than my second letter, right? And
+
+281
+00:12:14,639 --> 00:12:19,600
+you know I'm going to set n equals 2.
+
+282
+00:12:17,440 --> 00:12:22,399
+So, I'm looking at, you know, length two
+
+283
+00:12:19,600 --> 00:12:25,040
+messages from my first order source. And
+
+284
+00:12:22,399 --> 00:12:27,920
+what are all of the messages that I
+
+285
+00:12:25,040 --> 00:12:33,839
+could want to transmit to someone? I
+
+286
+00:12:27,920 --> 00:12:38,240
+could want to transmit A1 A1, A1 A2, A2
+
+287
+00:12:33,839 --> 00:12:40,399
+A1, and A2 A2.
+
+288
+00:12:38,240 --> 00:12:44,000
+Each of these messages has a different
+
+289
+00:12:40,399 --> 00:12:45,519
+probability. Like A1 A1 is much more
+
+290
+00:12:44,000 --> 00:12:49,600
+likely than the others. It has
+
+291
+00:12:45,519 --> 00:12:51,120
+probability 49 over 64. This is 7 over
+
+292
+00:12:49,600 --> 00:12:55,920
+64,
+
+293
+00:12:51,120 --> 00:12:58,320
+7 over 64 and finally 1 over 64. So the
+
+294
+00:12:55,920 --> 00:13:01,440
+chance that I get a2 A2 is very
+
+295
+00:12:58,320 --> 00:13:04,639
+unlikely, right? And now what we can do
+
+296
+00:13:01,440 --> 00:13:07,680
+is we can think about candidate code
+
+297
+00:13:04,639 --> 00:13:09,920
+books and coding functions. So let's do
+
+298
+00:13:07,680 --> 00:13:12,480
+the naive thing first and see how good
+
+299
+00:13:09,920 --> 00:13:16,320
+the naive thing is. So the naive thing
+
+300
+00:13:12,480 --> 00:13:19,760
+is just to map the symbol a1 to zero and
+
+301
+00:13:16,320 --> 00:13:22,320
+a2 to one. So in this case when I get my
+
+302
+00:13:19,760 --> 00:13:24,880
+code it's just going to output 0 0
+
+303
+00:13:22,320 --> 00:13:27,680
+because I literally do it just you know
+
+304
+00:13:24,880 --> 00:13:31,040
+symbol by symbol. A1 gets replaced with
+
+305
+00:13:27,680 --> 00:13:33,760
+zero. A2 gets replaced with one. My code
+
+306
+00:13:31,040 --> 00:13:36,959
+would be 0 one here one zero here and
+
+307
+00:13:33,760 --> 00:13:40,480
+one one. And now I should define what I
+
+308
+00:13:36,959 --> 00:13:43,519
+mean by the best coding scheme. What we
+
+309
+00:13:40,480 --> 00:13:46,160
+care about is how much money I pay on
+
+310
+00:13:43,519 --> 00:13:49,760
+average with this coding scheme and the
+
+311
+00:13:46,160 --> 00:13:52,000
+cost of you know uh my transmission the
+
+312
+00:13:49,760 --> 00:13:54,480
+same way it is you know for things like
+
+313
+00:13:52,000 --> 00:13:57,519
+telegrams it'll be some amount you know
+
+314
+00:13:54,480 --> 00:14:01,959
+per symbol in this case not per word. So
+
+315
+00:13:57,519 --> 00:14:01,959
+we can compute the expected length
+
+316
+00:14:03,760 --> 00:14:08,560
+of this particular encoding. Notice that
+
+317
+00:14:06,240 --> 00:14:11,199
+the expected length is a property of the
+
+318
+00:14:08,560 --> 00:14:14,160
+first order source and the choice of the
+
+319
+00:14:11,199 --> 00:14:17,199
+coding function. Right? So what is the
+
+320
+00:14:14,160 --> 00:14:19,760
+expected length? Well, we can do this.
+
+321
+00:14:17,199 --> 00:14:21,440
+This is a very easy computation. What's
+
+322
+00:14:19,760 --> 00:14:23,360
+the probability I output the first
+
+323
+00:14:21,440 --> 00:14:25,360
+symbol and then I output, you know, a
+
+324
+00:14:23,360 --> 00:14:27,920
+length two message? What's the
+
+325
+00:14:25,360 --> 00:14:30,639
+probability I have the second message
+
+326
+00:14:27,920 --> 00:14:32,800
+and again I output a length two message?
+
+327
+00:14:30,639 --> 00:14:34,399
+What's the probability I output the
+
+328
+00:14:32,800 --> 00:14:37,360
+third message from my first order
+
+329
+00:14:34,399 --> 00:14:39,839
+source? and so on.
+
+330
+00:14:37,360 --> 00:14:42,720
+So this is a very easy computation to do
+
+331
+00:14:39,839 --> 00:14:44,720
+because it's just two. No matter you
+
+332
+00:14:42,720 --> 00:14:47,839
+know what my first order source outputs,
+
+333
+00:14:44,720 --> 00:14:50,560
+I always pay two symbols.
+
+334
+00:14:47,839 --> 00:14:54,240
+Okay.
+
+335
+00:14:50,560 --> 00:14:58,360
+So I claim this is not optimal.
+
+336
+00:14:54,240 --> 00:14:58,360
+So you know can we do better?
+
+337
+00:15:03,199 --> 00:15:07,040
+Anyone have any intuition for how I
+
+338
+00:15:05,120 --> 00:15:09,279
+could design a better codebook for this
+
+339
+00:15:07,040 --> 00:15:11,120
+particular sequence?
+
+340
+00:15:09,279 --> 00:15:14,639
+This one's not too bad because there's
+
+341
+00:15:11,120 --> 00:15:17,040
+really one dominant event, right? Which
+
+342
+00:15:14,639 --> 00:15:19,760
+is the event that my first order source
+
+343
+00:15:17,040 --> 00:15:22,320
+outputs A1 A1.
+
+344
+00:15:19,760 --> 00:15:26,240
+So originally when that happened, I
+
+345
+00:15:22,320 --> 00:15:31,440
+output I outputed a length to code.
+
+346
+00:15:26,240 --> 00:15:33,839
+I want to do better. So any ideas?
+
+347
+00:15:31,440 --> 00:15:36,959
+>> Yeah. output one.
+
+348
+00:15:33,839 --> 00:15:38,959
+>> Yeah, like zero for example. Right. So
+
+349
+00:15:36,959 --> 00:15:41,959
+in this case, for example, my new code
+
+350
+00:15:38,959 --> 00:15:41,959
+book.
+
+351
+00:15:42,320 --> 00:15:53,120
+Well, I'll have my message, you know, A1
+
+352
+00:15:45,040 --> 00:15:56,560
+A1 A1 A2 A2 A1 A2 A2. In this case, I
+
+353
+00:15:53,120 --> 00:15:59,759
+could output zero, right?
+
+354
+00:15:56,560 --> 00:16:01,920
+But now uh you know what I need is I
+
+355
+00:15:59,759 --> 00:16:03,440
+need to I could do let's just do
+
+356
+00:16:01,920 --> 00:16:08,560
+something else for this, right? I could
+
+357
+00:16:03,440 --> 00:16:10,959
+do 1 0 1 1 0 and then 1 one. I'm not
+
+358
+00:16:08,560 --> 00:16:13,680
+trying to get optimality yet. I'm just
+
+359
+00:16:10,959 --> 00:16:18,600
+trying to get an improvement and we can
+
+360
+00:16:13,680 --> 00:16:18,600
+calculate the new expected length.
+
+361
+00:16:23,920 --> 00:16:29,040
+And now with this, you know, very large
+
+362
+00:16:26,160 --> 00:16:32,240
+probability that I output the first
+
+363
+00:16:29,040 --> 00:16:36,160
+message. Well, I'm only paying one with
+
+364
+00:16:32,240 --> 00:16:38,880
+this, I can add up, you know, 7 over 64,
+
+365
+00:16:36,160 --> 00:16:42,000
+I'm still paying two. And then on these
+
+366
+00:16:38,880 --> 00:16:45,839
+other messages, I'm losing, right?
+
+367
+00:16:42,000 --> 00:16:47,759
+Because now this third message, A2 A1,
+
+368
+00:16:45,839 --> 00:16:50,160
+instead of its length being two, its
+
+369
+00:16:47,759 --> 00:16:52,160
+length is three. And on this last
+
+370
+00:16:50,160 --> 00:16:54,880
+message, I'm losing again because it
+
+371
+00:16:52,160 --> 00:16:56,800
+used to be two and now it's three. But
+
+372
+00:16:54,880 --> 00:17:00,880
+if you work it out, what this works out
+
+373
+00:16:56,800 --> 00:17:04,000
+to be is 87 over 64, which indeed is
+
+374
+00:17:00,880 --> 00:17:06,000
+less than two. Right? So this was an
+
+375
+00:17:04,000 --> 00:17:08,079
+example where the naive encoding we
+
+376
+00:17:06,000 --> 00:17:10,079
+could improve upon.
+
+377
+00:17:08,079 --> 00:17:12,160
+And we showed that we could do better.
+
+378
+00:17:10,079 --> 00:17:15,360
+But really the question now is what's
+
+379
+00:17:12,160 --> 00:17:17,039
+the best that we can do?
+
+380
+00:17:15,360 --> 00:17:19,520
+So it turns out that there's a very
+
+381
+00:17:17,039 --> 00:17:23,439
+clean and elegant answer to what's the
+
+382
+00:17:19,520 --> 00:17:25,600
+best we can do and it's related to you
+
+383
+00:17:23,439 --> 00:17:27,919
+know really the first key notion from
+
+384
+00:17:25,600 --> 00:17:30,559
+information theory which is called the
+
+385
+00:17:27,919 --> 00:17:33,200
+entropy. So let me just define what this
+
+386
+00:17:30,559 --> 00:17:34,559
+is and then we'll talk about
+
+387
+00:17:33,200 --> 00:17:39,280
+Shannon's theorem that we're going to
+
+388
+00:17:34,559 --> 00:17:42,799
+prove. So the binary entropy
+
+389
+00:17:39,280 --> 00:17:44,720
+of a distribution
+
+390
+00:17:42,799 --> 00:17:48,240
+in our case P which is given by
+
+391
+00:17:44,720 --> 00:17:53,440
+probabilities P1 P2 up to PK well we
+
+392
+00:17:48,240 --> 00:17:55,280
+write it as H of P1 up to PK and it's
+
+393
+00:17:53,440 --> 00:18:00,640
+the following expression it's the
+
+394
+00:17:55,280 --> 00:18:06,559
+negative sum from I= 1 to K
+
+395
+00:18:00,640 --> 00:18:08,080
+of PI log PI. Okay.
+
+396
+00:18:06,559 --> 00:18:10,080
+So in particular, you know, you have to
+
+397
+00:18:08,080 --> 00:18:13,280
+be careful with the negative signs here.
+
+398
+00:18:10,080 --> 00:18:15,600
+So this log is base 2. This pi is less
+
+399
+00:18:13,280 --> 00:18:17,760
+than one. So this term inside here is
+
+400
+00:18:15,600 --> 00:18:20,160
+negative, but we're fixing it with the
+
+401
+00:18:17,760 --> 00:18:23,840
+negative outside. So the entropy is
+
+402
+00:18:20,160 --> 00:18:26,000
+something that's non- negative. Okay?
+
+403
+00:18:23,840 --> 00:18:27,919
+And what I claim is that this simple
+
+404
+00:18:26,000 --> 00:18:30,400
+definition right here is the key to
+
+405
+00:18:27,919 --> 00:18:32,559
+understanding what is possible in terms
+
+406
+00:18:30,400 --> 00:18:34,799
+of data compression and what the optimal
+
+407
+00:18:32,559 --> 00:18:38,320
+scheme is. And we're going to unravel
+
+408
+00:18:34,799 --> 00:18:43,240
+that as we prove Shannon's theorem. So
+
+409
+00:18:38,320 --> 00:18:43,240
+let me now tell you Shannon's theorem.
+
+410
+00:18:48,160 --> 00:18:55,840
+It comes in two parts.
+
+411
+00:18:50,720 --> 00:18:59,600
+So we fix a first order source
+
+412
+00:18:55,840 --> 00:19:01,440
+exactly as we've been doing.
+
+413
+00:18:59,600 --> 00:19:05,559
+And let's say that this first order
+
+414
+00:19:01,440 --> 00:19:05,559
+source has entropy
+
+415
+00:19:05,600 --> 00:19:10,080
+H. We just plug in whatever our
+
+416
+00:19:08,240 --> 00:19:12,799
+probabilities are that define the first
+
+417
+00:19:10,080 --> 00:19:15,120
+order source into this binary entropy
+
+418
+00:19:12,799 --> 00:19:16,960
+function that I defined right here. And
+
+419
+00:19:15,120 --> 00:19:20,080
+let's say that the result we get is this
+
+420
+00:19:16,960 --> 00:19:24,720
+numerical value H. That's some constant,
+
+421
+00:19:20,080 --> 00:19:27,919
+right? And what I claim is that for any
+
+422
+00:19:24,720 --> 00:19:30,400
+coding function, no matter how clever
+
+423
+00:19:27,919 --> 00:19:33,760
+you try to be,
+
+424
+00:19:30,400 --> 00:19:38,240
+any valid coding function fi, we have
+
+425
+00:19:33,760 --> 00:19:40,160
+the property that the expected length.
+
+426
+00:19:38,240 --> 00:19:42,160
+And what I mean by this is this is the
+
+427
+00:19:40,160 --> 00:19:48,080
+length
+
+428
+00:19:42,160 --> 00:19:51,200
+of phi of x1 up to xn where this x1 up
+
+429
+00:19:48,080 --> 00:19:54,160
+to xn comes from our first order source.
+
+430
+00:19:51,200 --> 00:19:59,120
+I claim that this is at least the
+
+431
+00:19:54,160 --> 00:20:01,280
+entropy h * n minus little o of n. So
+
+432
+00:19:59,120 --> 00:20:04,160
+just to make sure you guys may not have
+
+433
+00:20:01,280 --> 00:20:05,919
+all seen asmtoic notation before. What
+
+434
+00:20:04,160 --> 00:20:08,480
+this expression means right here, little
+
+435
+00:20:05,919 --> 00:20:11,919
+O of N, just means that it's a function
+
+436
+00:20:08,480 --> 00:20:15,120
+that grows smaller than N. So you should
+
+437
+00:20:11,919 --> 00:20:17,760
+think about like N over log N or root N.
+
+438
+00:20:15,120 --> 00:20:20,960
+So the main point is that as n becomes
+
+439
+00:20:17,760 --> 00:20:24,080
+large, this is the term that dominates
+
+440
+00:20:20,960 --> 00:20:27,039
+and h is the answer to what the per
+
+441
+00:20:24,080 --> 00:20:29,760
+symbol length is that we pay in our
+
+442
+00:20:27,039 --> 00:20:32,000
+encoding function. So this bound only
+
+443
+00:20:29,760 --> 00:20:34,400
+kicks in when n is large because when n
+
+444
+00:20:32,000 --> 00:20:36,400
+is small this term might actually be you
+
+445
+00:20:34,400 --> 00:20:38,559
+know more significant than this right
+
+446
+00:20:36,400 --> 00:20:40,559
+here. But what we're saying is that at
+
+447
+00:20:38,559 --> 00:20:44,480
+least in the limit we can understand
+
+448
+00:20:40,559 --> 00:20:48,480
+what is the best possible coding scheme.
+
+449
+00:20:44,480 --> 00:20:51,120
+Okay. So this is one part of Shannon's
+
+450
+00:20:48,480 --> 00:20:52,799
+uh noiseless coding theorem. Let me
+
+451
+00:20:51,120 --> 00:20:55,280
+state the other part which is just the
+
+452
+00:20:52,799 --> 00:20:58,799
+natural converse that you can actually
+
+453
+00:20:55,280 --> 00:21:01,919
+achieve it. So moreover
+
+454
+00:20:58,799 --> 00:21:05,400
+this really is the answer. So there is a
+
+455
+00:21:01,919 --> 00:21:05,400
+coding function
+
+456
+00:21:06,400 --> 00:21:13,360
+phi with the property that its expected
+
+457
+00:21:09,760 --> 00:21:17,280
+length L is defined the same way as at
+
+458
+00:21:13,360 --> 00:21:20,960
+most the entropy time N plus little O of
+
+459
+00:21:17,280 --> 00:21:23,919
+N. So up to this plus minus little O of
+
+460
+00:21:20,960 --> 00:21:26,960
+N. we've resolved what the right answer
+
+461
+00:21:23,919 --> 00:21:29,360
+is for the best possible coding scheme
+
+462
+00:21:26,960 --> 00:21:32,320
+and amazingly this kind of mysterious
+
+463
+00:21:29,360 --> 00:21:33,760
+function called the entropy pops out and
+
+464
+00:21:32,320 --> 00:21:36,559
+that's really the thing that governs
+
+465
+00:21:33,760 --> 00:21:38,720
+what the best you can do is. So are
+
+466
+00:21:36,559 --> 00:21:41,440
+there any questions about the definition
+
+467
+00:21:38,720 --> 00:21:43,039
+so far? Um you know we've talked about
+
+468
+00:21:41,440 --> 00:21:45,280
+coding functions, we've talked about the
+
+469
+00:21:43,039 --> 00:21:46,720
+binary entropy function and now we have
+
+470
+00:21:45,280 --> 00:21:49,360
+this key theorem that we're going to
+
+471
+00:21:46,720 --> 00:21:51,520
+prove today.
+
+472
+00:21:49,360 --> 00:21:54,559
+Does this make sense?
+
+473
+00:21:51,520 --> 00:21:57,520
+Yeah. Okay. Good.
+
+474
+00:21:54,559 --> 00:21:59,520
+All right. Uh, and just to be clear, I
+
+475
+00:21:57,520 --> 00:22:03,039
+said this in words, but you know what
+
+476
+00:21:59,520 --> 00:22:07,039
+Shannon's theorem is telling us is that
+
+477
+00:22:03,039 --> 00:22:10,159
+H is the best
+
+478
+00:22:07,039 --> 00:22:13,520
+per symbol
+
+479
+00:22:10,159 --> 00:22:16,320
+from our alphabet length that you can do
+
+480
+00:22:13,520 --> 00:22:18,559
+for a coding scheme.
+
+481
+00:22:16,320 --> 00:22:21,120
+So you know before we prove this theorem
+
+482
+00:22:18,559 --> 00:22:24,120
+let's work up to it with some intuition
+
+483
+00:22:21,120 --> 00:22:24,120
+first.
+
+484
+00:22:27,919 --> 00:22:32,520
+So, let me ask you to test your
+
+485
+00:22:29,520 --> 00:22:32,520
+intuition
+
+486
+00:22:37,200 --> 00:22:42,415
+now that we have now that we know what
+
+487
+00:22:39,200 --> 00:22:44,435
+target we're shooting for.
+
+488
+00:22:42,415 --> 00:22:44,435
+[clears throat]
+
+489
+00:22:47,679 --> 00:22:51,320
+So, what distribution
+
+490
+00:22:55,200 --> 00:23:01,440
+P on K symbols. We're still fixing our
+
+491
+00:22:58,559 --> 00:23:05,640
+alphabet size
+
+492
+00:23:01,440 --> 00:23:05,640
+requires the longest encoding.
+
+493
+00:23:14,799 --> 00:23:19,200
+This just for intuition sake, right?
+
+494
+00:23:17,280 --> 00:23:21,600
+because we already know what the answer
+
+495
+00:23:19,200 --> 00:23:22,960
+is for the best possible per symbol
+
+496
+00:23:21,600 --> 00:23:25,120
+length. We know it's the entropy
+
+497
+00:23:22,960 --> 00:23:27,919
+function. So you can think about this
+
+498
+00:23:25,120 --> 00:23:31,200
+question mathematically. If I have, you
+
+499
+00:23:27,919 --> 00:23:33,120
+know, any distribution P on K things,
+
+500
+00:23:31,200 --> 00:23:35,200
+what distribution on K things is going
+
+501
+00:23:33,120 --> 00:23:37,200
+to maximize that binary entropy
+
+502
+00:23:35,200 --> 00:23:39,840
+function. That's one way to think about
+
+503
+00:23:37,200 --> 00:23:41,360
+mathematically what I'm asking here. But
+
+504
+00:23:39,840 --> 00:23:44,559
+maybe the better way to think about it
+
+505
+00:23:41,360 --> 00:23:46,480
+is to go back to your intuition. So if I
+
+506
+00:23:44,559 --> 00:23:47,840
+just started off with this, right, and I
+
+507
+00:23:46,480 --> 00:23:49,600
+told you that there were first order
+
+508
+00:23:47,840 --> 00:23:52,720
+sources and that we're looking at coding
+
+509
+00:23:49,600 --> 00:23:55,120
+functions, intuitively, what kind of
+
+510
+00:23:52,720 --> 00:23:58,000
+first order source would be the hardest
+
+511
+00:23:55,120 --> 00:24:00,000
+to compress?
+
+512
+00:23:58,000 --> 00:24:02,480
+If you think back to this example we had
+
+513
+00:24:00,000 --> 00:24:05,600
+right here, you know, how were we able
+
+514
+00:24:02,480 --> 00:24:08,559
+to win over the naive coding scheme? was
+
+515
+00:24:05,600 --> 00:24:11,039
+we exploited the fact that you know the
+
+516
+00:24:08,559 --> 00:24:14,159
+probabilities were very different
+
+517
+00:24:11,039 --> 00:24:17,039
+because there was this uh message A1 a1
+
+518
+00:24:14,159 --> 00:24:19,279
+which was so much more likely so we
+
+519
+00:24:17,039 --> 00:24:21,600
+could encode that very frequent outcome
+
+520
+00:24:19,279 --> 00:24:24,000
+with a very short string but maybe
+
+521
+00:24:21,600 --> 00:24:25,520
+that's not always possible so you can
+
+522
+00:24:24,000 --> 00:24:27,679
+think about this thing mathematically in
+
+523
+00:24:25,520 --> 00:24:28,960
+terms of the binary entropy function or
+
+524
+00:24:27,679 --> 00:24:31,600
+you can think about it from first
+
+525
+00:24:28,960 --> 00:24:33,919
+principles just from your guess instead
+
+526
+00:24:31,600 --> 00:24:34,960
+of doing the calculus
+
+527
+00:24:33,919 --> 00:24:37,200
+Yeah,
+
+528
+00:24:34,960 --> 00:24:37,919
+>> like all all PS are uniform
+
+529
+00:24:37,200 --> 00:24:40,480
+distribution.
+
+530
+00:24:37,919 --> 00:24:43,520
+>> That's exactly right. That is completely
+
+531
+00:24:40,480 --> 00:24:46,240
+correct. So in fact the answer to this
+
+532
+00:24:43,520 --> 00:24:47,840
+question is what you'd expect what you
+
+533
+00:24:46,240 --> 00:24:52,360
+could have guessed even before class
+
+534
+00:24:47,840 --> 00:24:52,360
+started the uniform distribution.
+
+535
+00:24:53,840 --> 00:25:00,799
+So the uniform distribution P1 equals P2
+
+536
+00:24:58,080 --> 00:25:03,679
+all the way up to PK is all equal to 1
+
+537
+00:25:00,799 --> 00:25:06,640
+over K. In this case, what does the
+
+538
+00:25:03,679 --> 00:25:14,159
+entropy look like? Well, it's minus the
+
+539
+00:25:06,640 --> 00:25:16,799
+sum of i = 1 to k of pi log pi, which is
+
+540
+00:25:14,159 --> 00:25:20,799
+the same thing as
+
+541
+00:25:16,799 --> 00:25:23,679
+log k, right? And what this corresponds
+
+542
+00:25:20,799 --> 00:25:25,919
+to is this corresponds to the naive
+
+543
+00:25:23,679 --> 00:25:28,960
+encoding
+
+544
+00:25:25,919 --> 00:25:32,640
+at least if k is a power of two because
+
+545
+00:25:28,960 --> 00:25:35,600
+one of the things I can do is I can just
+
+546
+00:25:32,640 --> 00:25:40,480
+take my first
+
+547
+00:25:35,600 --> 00:25:44,720
+uh you know symbol let's say it's uh ai
+
+548
+00:25:40,480 --> 00:25:46,720
+and I can encode this using log k bits
+
+549
+00:25:44,720 --> 00:25:50,240
+because you can tell me which of the k
+
+550
+00:25:46,720 --> 00:25:53,120
+symbols it is and I take the second
+
+551
+00:25:50,240 --> 00:25:54,799
+symbol and encode it using log k bits.
+
+552
+00:25:53,120 --> 00:25:57,279
+So in fact this is an example the
+
+553
+00:25:54,799 --> 00:26:00,000
+uniform distribution where the naive
+
+554
+00:25:57,279 --> 00:26:01,679
+encoding cannot be beaten. One of the
+
+555
+00:26:00,000 --> 00:26:03,279
+ways you can prove that this really is
+
+556
+00:26:01,679 --> 00:26:05,520
+the answer at least once we have
+
+557
+00:26:03,279 --> 00:26:08,559
+Shannon's theorem is you can solve the
+
+558
+00:26:05,520 --> 00:26:10,640
+calculus problem you know which pi which
+
+559
+00:26:08,559 --> 00:26:13,360
+is a distribution and has non- negative
+
+560
+00:26:10,640 --> 00:26:15,120
+entries that sum to one has the property
+
+561
+00:26:13,360 --> 00:26:17,279
+that it maximize the entropy function.
+
+562
+00:26:15,120 --> 00:26:18,960
+you'll find out that this is the answer.
+
+563
+00:26:17,279 --> 00:26:21,279
+But it really corresponds to this
+
+564
+00:26:18,960 --> 00:26:22,559
+intuitive fact that you know when
+
+565
+00:26:21,279 --> 00:26:25,120
+there's no discrepancy in the
+
+566
+00:26:22,559 --> 00:26:27,600
+probabilities you can't have any win in
+
+567
+00:26:25,120 --> 00:26:30,159
+terms of making uh more common things
+
+568
+00:26:27,600 --> 00:26:32,400
+shorter code words.
+
+569
+00:26:30,159 --> 00:26:36,240
+Okay, good.
+
+570
+00:26:32,400 --> 00:26:38,559
+So uh we have our intuition. Uh let's
+
+571
+00:26:36,240 --> 00:26:41,840
+work towards proving the first part of
+
+572
+00:26:38,559 --> 00:26:45,120
+Shannon's theorem.
+
+573
+00:26:41,840 --> 00:26:47,600
+So let me state one of the key lemas
+
+574
+00:26:45,120 --> 00:26:52,279
+which really corresponds to this uh
+
+575
+00:26:47,600 --> 00:26:52,279
+thing that you have intuition for. Now,
+
+576
+00:27:08,640 --> 00:27:14,600
+so what I claim is that any coding
+
+577
+00:27:11,600 --> 00:27:14,600
+function
+
+578
+00:27:18,159 --> 00:27:22,279
+for the uniform distribution
+
+579
+00:27:25,600 --> 00:27:29,240
+on k symbols.
+
+580
+00:27:30,559 --> 00:27:36,080
+It has the expected length
+
+581
+00:27:34,000 --> 00:27:39,919
+being at least
+
+582
+00:27:36,080 --> 00:27:41,919
+log k minus some constant. So o of one
+
+583
+00:27:39,919 --> 00:27:44,559
+is some constant. You'll see in the
+
+584
+00:27:41,919 --> 00:27:46,240
+proof why this constant shows up. It
+
+585
+00:27:44,559 --> 00:27:48,880
+really comes from the fact that you know
+
+586
+00:27:46,240 --> 00:27:51,440
+for my coding function I still can
+
+587
+00:27:48,880 --> 00:27:53,919
+encode you know some of my symbols using
+
+588
+00:27:51,440 --> 00:27:56,480
+very short strings and then I can fill
+
+589
+00:27:53,919 --> 00:27:58,000
+out things with longer strings too. So
+
+590
+00:27:56,480 --> 00:28:00,000
+there is some you know slight
+
+591
+00:27:58,000 --> 00:28:01,600
+improvement you can get but for reasons
+
+592
+00:28:00,000 --> 00:28:04,480
+that we'll get into that'll come out in
+
+593
+00:28:01,600 --> 00:28:06,720
+the wash. So you know the sketch for
+
+594
+00:28:04,480 --> 00:28:08,880
+this
+
+595
+00:28:06,720 --> 00:28:12,320
+is the following. You know all of these
+
+596
+00:28:08,880 --> 00:28:18,120
+symbols are interchangeable right? So we
+
+597
+00:28:12,320 --> 00:28:18,120
+can look at um you know we can think of
+
+598
+00:28:20,240 --> 00:28:28,279
+fi as mapping symbols
+
+599
+00:28:24,320 --> 00:28:28,279
+each of these k symbols
+
+600
+00:28:30,799 --> 00:28:37,159
+to nodes
+
+601
+00:28:32,960 --> 00:28:37,159
+in a binary tree.
+
+602
+00:28:38,880 --> 00:28:43,120
+So in particular, I can start with this
+
+603
+00:28:40,880 --> 00:28:45,360
+binary tree where the root is the empty
+
+604
+00:28:43,120 --> 00:28:47,360
+set because I output nothing. There are
+
+605
+00:28:45,360 --> 00:28:50,399
+no zeros and ones. My message just says
+
+606
+00:28:47,360 --> 00:28:52,480
+end. And then maybe down here I output
+
+607
+00:28:50,399 --> 00:28:56,480
+the symbol zero. Down here I output the
+
+608
+00:28:52,480 --> 00:29:03,080
+symbol one. Down here I output the code
+
+609
+00:28:56,480 --> 00:29:03,080
+0 0 1 and so on. Right?
+
+610
+00:29:03,840 --> 00:29:10,480
+So my constraint that fi is a code is a
+
+611
+00:29:06,960 --> 00:29:14,240
+valid code is just the constraint that I
+
+612
+00:29:10,480 --> 00:29:16,799
+map each of my symbols to distinct nodes
+
+613
+00:29:14,240 --> 00:29:18,399
+in this binary tree. I can't have any
+
+614
+00:29:16,799 --> 00:29:20,080
+collisions.
+
+615
+00:29:18,399 --> 00:29:23,039
+As long as there are no collisions and I
+
+616
+00:29:20,080 --> 00:29:25,360
+meet the definition of being a valid
+
+617
+00:29:23,039 --> 00:29:27,279
+coding function. And now the intuition
+
+618
+00:29:25,360 --> 00:29:29,120
+is you know you want to minimize the
+
+619
+00:29:27,279 --> 00:29:30,960
+expected length for you know what the
+
+620
+00:29:29,120 --> 00:29:34,080
+depth is of the symbol you're searching
+
+621
+00:29:30,960 --> 00:29:35,520
+for wherever you map it in the street.
+
+622
+00:29:34,080 --> 00:29:38,480
+So what should you do for your first
+
+623
+00:29:35,520 --> 00:29:40,960
+symbol? Maybe you would map it to the
+
+624
+00:29:38,480 --> 00:29:43,279
+empty set because you know that's pretty
+
+625
+00:29:40,960 --> 00:29:44,960
+shallow. Maybe your next symbol you
+
+626
+00:29:43,279 --> 00:29:47,360
+would map somewhere here and then you'd
+
+627
+00:29:44,960 --> 00:29:49,520
+map here and you'd map here. And
+
+628
+00:29:47,360 --> 00:29:52,559
+basically you'd fill out the levels of
+
+629
+00:29:49,520 --> 00:29:55,200
+this tree in order. you'd fill out all
+
+630
+00:29:52,559 --> 00:29:57,440
+previous things uh because all these
+
+631
+00:29:55,200 --> 00:29:59,760
+symbols are all equivalent, right? And
+
+632
+00:29:57,440 --> 00:30:01,760
+this will minimize the expected length.
+
+633
+00:29:59,760 --> 00:30:03,760
+And you can check that you know most of
+
+634
+00:30:01,760 --> 00:30:06,559
+the symbols are going to get mapped down
+
+635
+00:30:03,760 --> 00:30:09,679
+here where their length of the message
+
+636
+00:30:06,559 --> 00:30:11,840
+will be log K. And maybe you're off by
+
+637
+00:30:09,679 --> 00:30:13,120
+some constant factor that you know
+
+638
+00:30:11,840 --> 00:30:15,279
+depends on the fact that there are
+
+639
+00:30:13,120 --> 00:30:17,120
+symbols before it. But if you work out
+
+640
+00:30:15,279 --> 00:30:19,919
+the details, this is you know what you
+
+641
+00:30:17,120 --> 00:30:21,760
+can show explicitly. It's just this lema
+
+642
+00:30:19,919 --> 00:30:24,000
+that for the uniform distribution for a
+
+643
+00:30:21,760 --> 00:30:28,080
+coding function, you can't do better
+
+644
+00:30:24,000 --> 00:30:29,760
+than log K minus some constant. Okay,
+
+645
+00:30:28,080 --> 00:30:31,760
+but now we're going to use this simple
+
+646
+00:30:29,760 --> 00:30:34,720
+lema and we're going to appeal to it in
+
+647
+00:30:31,760 --> 00:30:36,480
+powerful ways. So let's do a thought
+
+648
+00:30:34,720 --> 00:30:39,760
+experiment before we get to the first
+
+649
+00:30:36,480 --> 00:30:41,760
+part of Shannon's theorem.
+
+650
+00:30:39,760 --> 00:30:44,159
+And let me ask a sort of simpler
+
+651
+00:30:41,760 --> 00:30:48,279
+sounding question which is going to be
+
+652
+00:30:44,159 --> 00:30:48,279
+the heart of the lower bound.
+
+653
+00:30:48,559 --> 00:30:53,919
+So what if I made your life easier?
+
+654
+00:30:51,919 --> 00:30:56,000
+You know, you're trying to encode a
+
+655
+00:30:53,919 --> 00:30:58,399
+general message from this first order
+
+656
+00:30:56,000 --> 00:31:00,559
+source, but what if I made your life
+
+657
+00:30:58,399 --> 00:31:02,720
+easier by promising you something
+
+658
+00:31:00,559 --> 00:31:06,240
+structurally about the message you're
+
+659
+00:31:02,720 --> 00:31:09,799
+encoding that gave you more information?
+
+660
+00:31:06,240 --> 00:31:09,799
+So, what if
+
+661
+00:31:09,840 --> 00:31:13,080
+you know
+
+662
+00:31:13,679 --> 00:31:17,080
+there are
+
+663
+00:31:17,840 --> 00:31:22,279
+N1 occurrences
+
+664
+00:31:23,679 --> 00:31:28,000
+of the symbol a1
+
+665
+00:31:26,159 --> 00:31:30,000
+n2
+
+666
+00:31:28,000 --> 00:31:35,120
+occurrences
+
+667
+00:31:30,000 --> 00:31:37,200
+of a2 and so on. Okay, so I'm making
+
+668
+00:31:35,120 --> 00:31:40,240
+your life easier because instead of
+
+669
+00:31:37,200 --> 00:31:43,120
+having to worry about a general message
+
+670
+00:31:40,240 --> 00:31:44,640
+from your first order source, what if I
+
+671
+00:31:43,120 --> 00:31:47,120
+told you something about that message
+
+672
+00:31:44,640 --> 00:31:49,919
+and promised you? I'm not going to tell
+
+673
+00:31:47,120 --> 00:31:51,840
+you where these symbols of A1 appear,
+
+674
+00:31:49,919 --> 00:31:53,919
+but I'm telling you they're exactly N1
+
+675
+00:31:51,840 --> 00:31:55,679
+of them. I'm not going to tell you where
+
+676
+00:31:53,919 --> 00:31:58,080
+these symbols A2 occur, but they're
+
+677
+00:31:55,679 --> 00:32:00,720
+exactly N2 of them. What if I told you
+
+678
+00:31:58,080 --> 00:32:03,919
+for this for each different symbol type?
+
+679
+00:32:00,720 --> 00:32:07,200
+I told you exactly what their count was.
+
+680
+00:32:03,919 --> 00:32:10,240
+So now you know what we can do is we can
+
+681
+00:32:07,200 --> 00:32:15,240
+ask first of all how many
+
+682
+00:32:10,240 --> 00:32:15,240
+such sequences are there?
+
+683
+00:32:16,240 --> 00:32:20,640
+If I promise you that this condition
+
+684
+00:32:18,159 --> 00:32:22,320
+holds, then I can ask a counting
+
+685
+00:32:20,640 --> 00:32:24,559
+question, which is how many possible
+
+686
+00:32:22,320 --> 00:32:27,039
+messages could there be under this
+
+687
+00:32:24,559 --> 00:32:28,640
+promise that I'm giving you. You can see
+
+688
+00:32:27,039 --> 00:32:31,440
+now this will connect back to a lot of
+
+689
+00:32:28,640 --> 00:32:34,799
+the topics we did earlier in the class.
+
+690
+00:32:31,440 --> 00:32:38,320
+So the key is really the multinnomial,
+
+691
+00:32:34,799 --> 00:32:40,080
+right? If we had only two symbols and I
+
+692
+00:32:38,320 --> 00:32:42,960
+told you how many ones there are. I told
+
+693
+00:32:40,080 --> 00:32:45,200
+you there were kes out of n things, the
+
+694
+00:32:42,960 --> 00:32:48,000
+answer for how many strings there could
+
+695
+00:32:45,200 --> 00:32:51,440
+be would be n choose k. But in general,
+
+696
+00:32:48,000 --> 00:32:52,799
+if I have k larger than two, when I tell
+
+697
+00:32:51,440 --> 00:32:53,919
+you all of those types, what you're
+
+698
+00:32:52,799 --> 00:32:55,760
+going to get is you're going to get this
+
+699
+00:32:53,919 --> 00:33:00,640
+multinnomial
+
+700
+00:32:55,760 --> 00:33:03,679
+which is called n choose n1, n2 all the
+
+701
+00:33:00,640 --> 00:33:06,559
+way up to n k. And it's defined, we've
+
+702
+00:33:03,679 --> 00:33:12,080
+seen it before, it's just n factorial
+
+703
+00:33:06,559 --> 00:33:14,720
+over n1 factorial, n2 factorial all the
+
+704
+00:33:12,080 --> 00:33:16,720
+way up to n k factorial. That just
+
+705
+00:33:14,720 --> 00:33:20,080
+counts the number of ways of, you know,
+
+706
+00:33:16,720 --> 00:33:22,720
+coloring a set of integers from 1 to n
+
+707
+00:33:20,080 --> 00:33:25,440
+with k different colors once. I promise
+
+708
+00:33:22,720 --> 00:33:28,799
+you that there are n1 reds, n2 blues,
+
+709
+00:33:25,440 --> 00:33:31,279
+and so on. Okay? So let's just denote
+
+710
+00:33:28,799 --> 00:33:33,919
+this quantity as M because this will be
+
+711
+00:33:31,279 --> 00:33:37,200
+important for us. And now we can get to
+
+712
+00:33:33,919 --> 00:33:38,960
+a key observation. Right? So it sounds
+
+713
+00:33:37,200 --> 00:33:40,240
+like so far in proving Shannon's
+
+714
+00:33:38,960 --> 00:33:42,640
+theorem, we've only thought about
+
+715
+00:33:40,240 --> 00:33:44,640
+special cases. We talked about the case
+
+716
+00:33:42,640 --> 00:33:47,840
+where we had the uniform distribution on
+
+717
+00:33:44,640 --> 00:33:49,279
+K symbols. But what I claim here is that
+
+718
+00:33:47,840 --> 00:33:51,679
+now we're back to the case of the
+
+719
+00:33:49,279 --> 00:33:54,880
+uniform distribution. So we know how
+
+720
+00:33:51,679 --> 00:33:59,159
+many sequences there are. And moreover,
+
+721
+00:33:54,880 --> 00:33:59,159
+each of these sequences
+
+722
+00:33:59,679 --> 00:34:06,159
+has the same probability.
+
+723
+00:34:02,960 --> 00:34:10,320
+So the probability that they have is P1
+
+724
+00:34:06,159 --> 00:34:14,639
+N to the N1 P2 to the N2
+
+725
+00:34:10,320 --> 00:34:17,280
+times PK to the NK. So there are a ton
+
+726
+00:34:14,639 --> 00:34:20,320
+of possible sequences, but each
+
+727
+00:34:17,280 --> 00:34:22,560
+particular sequence you give me. Well,
+
+728
+00:34:20,320 --> 00:34:24,800
+every time I see a symbol of, you know,
+
+729
+00:34:22,560 --> 00:34:27,919
+A1, the probability that happened was
+
+730
+00:34:24,800 --> 00:34:30,399
+P1. So I multiply by P1. Every time I
+
+731
+00:34:27,919 --> 00:34:33,599
+see a symbol of type A2, I multiply by
+
+732
+00:34:30,399 --> 00:34:36,159
+P2. So what this means is we're back in
+
+733
+00:34:33,599 --> 00:34:38,960
+the uniform distribution setting because
+
+734
+00:34:36,159 --> 00:34:40,800
+when I made you this promise
+
+735
+00:34:38,960 --> 00:34:44,079
+about the number of counts of each type
+
+736
+00:34:40,800 --> 00:34:46,720
+of symbol, well, I know how many
+
+737
+00:34:44,079 --> 00:34:48,639
+messages there are and I know that it's
+
+738
+00:34:46,720 --> 00:34:50,639
+the uniform distribution on those
+
+739
+00:34:48,639 --> 00:34:52,879
+possible messages.
+
+740
+00:34:50,639 --> 00:34:56,320
+So the intuition behind the first part
+
+741
+00:34:52,879 --> 00:34:58,640
+of Shannon's theorem really comes from,
+
+742
+00:34:56,320 --> 00:35:00,880
+you know, two parts, right? We're going
+
+743
+00:34:58,640 --> 00:35:01,760
+to expand what's happening with this
+
+744
+00:35:00,880 --> 00:35:04,240
+expression. We're going to use
+
+745
+00:35:01,760 --> 00:35:06,960
+Sterling's approximation and the binary
+
+746
+00:35:04,240 --> 00:35:08,640
+entropy function will pop out, right?
+
+747
+00:35:06,960 --> 00:35:11,599
+But then it'll turn out that we can
+
+748
+00:35:08,640 --> 00:35:14,320
+remove this assumption because when we
+
+749
+00:35:11,599 --> 00:35:16,640
+think back to tail bounds, right? You
+
+750
+00:35:14,320 --> 00:35:18,480
+know, if I had a first order source
+
+751
+00:35:16,640 --> 00:35:20,240
+where the probability was P1 for the
+
+752
+00:35:18,480 --> 00:35:23,280
+first symbol and P2 for the second
+
+753
+00:35:20,240 --> 00:35:27,760
+symbol and really that's a coin that has
+
+754
+00:35:23,280 --> 00:35:30,240
+bias P1 and I flip it n times, what we
+
+755
+00:35:27,760 --> 00:35:33,119
+know is that the empirical number of
+
+756
+00:35:30,240 --> 00:35:36,560
+times we see heads is going to converge
+
+757
+00:35:33,119 --> 00:35:39,440
+very quickly to P1 as a fraction. So in
+
+758
+00:35:36,560 --> 00:35:42,560
+fact this assumption that you know what
+
+759
+00:35:39,440 --> 00:35:44,960
+n1, n2 and all the way up to nk are is
+
+760
+00:35:42,560 --> 00:35:47,280
+not really such a big assumption just
+
+761
+00:35:44,960 --> 00:35:49,200
+because of large deviation principles I
+
+762
+00:35:47,280 --> 00:35:51,920
+should approximately know the number of
+
+763
+00:35:49,200 --> 00:35:53,280
+symbols of each type anyways and that's
+
+764
+00:35:51,920 --> 00:35:54,880
+the way that we're going to piece this
+
+765
+00:35:53,280 --> 00:35:58,079
+all together. So that's the preview of
+
+766
+00:35:54,880 --> 00:36:00,320
+the argument but let's do it. Okay
+
+767
+00:35:58,079 --> 00:36:03,720
+so now what we can do is you know from
+
+768
+00:36:00,320 --> 00:36:03,720
+lema one
+
+769
+00:36:07,920 --> 00:36:13,760
+We know that the expected length of my
+
+770
+00:36:10,720 --> 00:36:16,720
+encoding even if I condition on telling
+
+771
+00:36:13,760 --> 00:36:19,200
+you the information that there are n1
+
+772
+00:36:16,720 --> 00:36:23,440
+occurrences
+
+773
+00:36:19,200 --> 00:36:27,440
+of a1 n2 occurrences of a2 and so on. We
+
+774
+00:36:23,440 --> 00:36:31,680
+know by the first lema that the expected
+
+775
+00:36:27,440 --> 00:36:34,720
+length must be log m minus maybe some
+
+776
+00:36:31,680 --> 00:36:37,760
+constant. So here this constant isn't so
+
+777
+00:36:34,720 --> 00:36:39,440
+bad right because you know log m is a
+
+778
+00:36:37,760 --> 00:36:42,320
+really gigantic thing. You should think
+
+779
+00:36:39,440 --> 00:36:45,839
+of it as being like exponential in n and
+
+780
+00:36:42,320 --> 00:36:47,920
+this other o of one is just a constant.
+
+781
+00:36:45,839 --> 00:36:51,520
+So now the entire name of the game is
+
+782
+00:36:47,920 --> 00:36:52,960
+just to figure out what log m is. And
+
+783
+00:36:51,520 --> 00:36:56,920
+this is where the binary entropy
+
+784
+00:36:52,960 --> 00:36:56,920
+function is going to pop out.
+
+785
+00:36:59,280 --> 00:37:03,000
+So let's do that.
+
+786
+00:37:03,599 --> 00:37:08,720
+So we can just plug in for our
+
+787
+00:37:05,680 --> 00:37:11,680
+expression for m this multinnomial
+
+788
+00:37:08,720 --> 00:37:13,520
+uh expression we wrote down. And then
+
+789
+00:37:11,680 --> 00:37:16,800
+we're going to use Sterling's formula to
+
+790
+00:37:13,520 --> 00:37:20,000
+group together terms and simplify.
+
+791
+00:37:16,800 --> 00:37:23,680
+So plugging in the multinnomial we get
+
+792
+00:37:20,000 --> 00:37:29,040
+that log m is equal to log of n
+
+793
+00:37:23,680 --> 00:37:34,240
+factorial minus the sum from i = 1 to k
+
+794
+00:37:29,040 --> 00:37:37,119
+of log n i factorial and then I have my
+
+795
+00:37:34,240 --> 00:37:39,920
+constant sitting right here uh which is
+
+796
+00:37:37,119 --> 00:37:41,839
+the slack in this expression.
+
+797
+00:37:39,920 --> 00:37:43,359
+So this is just using the multinnomial
+
+798
+00:37:41,839 --> 00:37:44,880
+expression and using properties of the
+
+799
+00:37:43,359 --> 00:37:48,000
+log.
+
+800
+00:37:44,880 --> 00:37:51,000
+And now what I can do is I can use
+
+801
+00:37:48,000 --> 00:37:51,000
+sterling.
+
+802
+00:37:51,200 --> 00:37:56,880
+So sterling's formula gives us an
+
+803
+00:37:55,280 --> 00:38:00,960
+expression
+
+804
+00:37:56,880 --> 00:38:07,200
+that n factorial behaves like
+
+805
+00:38:00,960 --> 00:38:10,000
+square<unk> of 2<unk> n * n e to the n.
+
+806
+00:38:07,200 --> 00:38:11,920
+Okay. And really this part isn't going
+
+807
+00:38:10,000 --> 00:38:13,920
+to matter because I'm taking the log of
+
+808
+00:38:11,920 --> 00:38:15,760
+all of these expressions. That's just
+
+809
+00:38:13,920 --> 00:38:18,160
+going to get thrown into the constant.
+
+810
+00:38:15,760 --> 00:38:20,800
+The important thing is this n over e to
+
+811
+00:38:18,160 --> 00:38:22,800
+the n. So when we plug that in, we're
+
+812
+00:38:20,800 --> 00:38:25,440
+going to get a very nice expression. So
+
+813
+00:38:22,800 --> 00:38:28,880
+let's use sterling. Well, we'll get that
+
+814
+00:38:25,440 --> 00:38:31,680
+the expected length is at least
+
+815
+00:38:28,880 --> 00:38:40,079
+uh
+
+816
+00:38:31,680 --> 00:38:42,480
+n log n minus the sum i= 1 to k n i log
+
+817
+00:38:40,079 --> 00:38:45,040
+n i and I'll have some more expressions
+
+818
+00:38:42,480 --> 00:38:48,000
+right here. All I'm doing is I'm pulling
+
+819
+00:38:45,040 --> 00:38:50,160
+out this n the n term. So when I have
+
+820
+00:38:48,000 --> 00:38:54,000
+you know n factorial behaves like n the
+
+821
+00:38:50,160 --> 00:38:57,599
+n I get n log n. This behaves like ni to
+
+822
+00:38:54,000 --> 00:38:59,359
+the ni. So I get n i log ni. But now I
+
+823
+00:38:57,599 --> 00:39:02,000
+have to deal with all of these e to the
+
+824
+00:38:59,359 --> 00:39:08,320
+n correction terms. So I'm going to have
+
+825
+00:39:02,000 --> 00:39:15,119
+a minus n log of e and then a plus sum
+
+826
+00:39:08,320 --> 00:39:18,960
+from i= 1 to k of n i log e. And then
+
+827
+00:39:15,119 --> 00:39:22,320
+I'll have my o of uh one sitting in
+
+828
+00:39:18,960 --> 00:39:24,960
+here. Right? So this is my expression.
+
+829
+00:39:22,320 --> 00:39:29,040
+But now life is good because I claim
+
+830
+00:39:24,960 --> 00:39:32,560
+that this expression just goes away,
+
+831
+00:39:29,040 --> 00:39:37,040
+right? So this is n log e and this is
+
+832
+00:39:32,560 --> 00:39:41,520
+the sum over i from 1 to k of n i log e.
+
+833
+00:39:37,040 --> 00:39:44,720
+So what is the sum of all of the n i's?
+
+834
+00:39:41,520 --> 00:39:48,079
+N. Why?
+
+835
+00:39:44,720 --> 00:39:50,880
+>> Because like that's the total number of
+
+836
+00:39:48,079 --> 00:39:52,400
+each I guess. Perfect. So the important
+
+837
+00:39:50,880 --> 00:39:55,040
+point is just to not forget what the
+
+838
+00:39:52,400 --> 00:39:57,839
+NI's are. They count the symbols of type
+
+839
+00:39:55,040 --> 00:39:59,760
+I. And the total number of symbols of
+
+840
+00:39:57,839 --> 00:40:01,200
+you know type I when we sum over I is
+
+841
+00:39:59,760 --> 00:40:04,640
+just the total number of symbols which
+
+842
+00:40:01,200 --> 00:40:06,240
+is N. So this part completely goes away.
+
+843
+00:40:04,640 --> 00:40:08,160
+And now we're in good shape because we
+
+844
+00:40:06,240 --> 00:40:11,040
+can start to see where the entropy
+
+845
+00:40:08,160 --> 00:40:12,880
+function comes in. Right? So you know
+
+846
+00:40:11,040 --> 00:40:15,359
+how can we think about this in terms of
+
+847
+00:40:12,880 --> 00:40:17,920
+the entropy function? Well, we can
+
+848
+00:40:15,359 --> 00:40:22,560
+rewrite this expression right here as
+
+849
+00:40:17,920 --> 00:40:25,440
+the sum from i= 1 to k of n i log n,
+
+850
+00:40:22,560 --> 00:40:27,200
+right? Because then it's just the ni
+
+851
+00:40:25,440 --> 00:40:29,920
+that's varying. I'm just splitting n up
+
+852
+00:40:27,200 --> 00:40:33,680
+into the sum of the ni's. And then when
+
+853
+00:40:29,920 --> 00:40:36,000
+I you know uh arrange these expressions
+
+854
+00:40:33,680 --> 00:40:40,640
+what I'm going to get so this part right
+
+855
+00:40:36,000 --> 00:40:47,280
+here is you know the sum from i = 1 to k
+
+856
+00:40:40,640 --> 00:40:49,119
+of n i and then I have uh
+
+857
+00:40:47,280 --> 00:40:53,680
+log
+
+858
+00:40:49,119 --> 00:40:56,640
+n over n i right
+
+859
+00:40:53,680 --> 00:41:00,960
+and when I put a minus in front of this
+
+860
+00:40:56,640 --> 00:41:04,160
+I can switch these 2
+
+861
+00:41:00,960 --> 00:41:06,960
+and then I'll have my minus O of 1
+
+862
+00:41:04,160 --> 00:41:09,680
+sitting here. Right? So in fact now what
+
+863
+00:41:06,960 --> 00:41:13,599
+I can do is I can divide through by N.
+
+864
+00:41:09,680 --> 00:41:15,920
+Right? And what I'll get is N I over N.
+
+865
+00:41:13,599 --> 00:41:18,160
+That looks like you know a probability.
+
+866
+00:41:15,920 --> 00:41:20,720
+So it'll be equal this expression right
+
+867
+00:41:18,160 --> 00:41:23,200
+here to the binary entropy function of
+
+868
+00:41:20,720 --> 00:41:28,160
+n1 overn
+
+869
+00:41:23,200 --> 00:41:32,800
+n2 over n all the way up to n k overn
+
+870
+00:41:28,160 --> 00:41:36,400
+and I still now I have my um uh little o
+
+871
+00:41:32,800 --> 00:41:40,240
+of actually n term here.
+
+872
+00:41:36,400 --> 00:41:42,640
+So I'm in good shape right? So you can
+
+873
+00:41:40,240 --> 00:41:45,520
+see that when I expect each of these
+
+874
+00:41:42,640 --> 00:41:48,160
+ni's, you know, the ni overn to behave
+
+875
+00:41:45,520 --> 00:41:50,800
+like pi, that I'm pulling out this
+
+876
+00:41:48,160 --> 00:41:53,359
+binary entropy function. And this is the
+
+877
+00:41:50,800 --> 00:41:56,160
+first part of Shannon's theorem. Right?
+
+878
+00:41:53,359 --> 00:41:58,160
+This gives us our valid lower bound.
+
+879
+00:41:56,160 --> 00:42:01,119
+It's actually almost there. Let me just
+
+880
+00:41:58,160 --> 00:42:04,160
+clean up the proof. Right? So you know
+
+881
+00:42:01,119 --> 00:42:06,640
+what this tells us really is that even
+
+882
+00:42:04,160 --> 00:42:10,079
+if you were given the promise that there
+
+883
+00:42:06,640 --> 00:42:12,880
+are NI symbols of type I then you can't
+
+884
+00:42:10,079 --> 00:42:14,880
+do better than this expression. But in
+
+885
+00:42:12,880 --> 00:42:17,920
+principle the thing you might be worried
+
+886
+00:42:14,880 --> 00:42:20,400
+about is you know maybe every
+
+887
+00:42:17,920 --> 00:42:24,000
+configuration of the NI symbols is very
+
+888
+00:42:20,400 --> 00:42:26,319
+unlikely. Right? So now let's turn this
+
+889
+00:42:24,000 --> 00:42:28,880
+lower bound into an actual lower bound
+
+890
+00:42:26,319 --> 00:42:33,720
+for Shannon's theorem.
+
+891
+00:42:28,880 --> 00:42:33,720
+Uh, let's see. I can do it over here.
+
+892
+00:42:44,240 --> 00:42:49,839
+So, let me just reiterate, you know, why
+
+893
+00:42:46,079 --> 00:42:51,760
+I'm not quite done yet, right? So, I
+
+894
+00:42:49,839 --> 00:42:53,839
+claim that, you know, what we've done so
+
+895
+00:42:51,760 --> 00:42:56,839
+far doesn't quite prove what we're
+
+896
+00:42:53,839 --> 00:42:56,839
+after.
+
+897
+00:43:01,440 --> 00:43:04,960
+Because you know the thing we could be
+
+898
+00:43:03,119 --> 00:43:08,160
+worried about
+
+899
+00:43:04,960 --> 00:43:11,960
+is that
+
+900
+00:43:08,160 --> 00:43:11,960
+there might not be
+
+901
+00:43:15,440 --> 00:43:18,760
+any choice
+
+902
+00:43:19,520 --> 00:43:26,200
+of Ni's
+
+903
+00:43:22,480 --> 00:43:26,200
+that's very common.
+
+904
+00:43:28,800 --> 00:43:32,640
+So let's pop up a level. Right? So what
+
+905
+00:43:31,040 --> 00:43:34,960
+I'm saying here in this proof, you know,
+
+906
+00:43:32,640 --> 00:43:38,079
+the way the proof is structured is I'm
+
+907
+00:43:34,960 --> 00:43:39,760
+saying, aha, even if I told you that,
+
+908
+00:43:38,079 --> 00:43:43,440
+you know, NI is the number of
+
+909
+00:43:39,760 --> 00:43:45,359
+occurrences of symbol type I. Well, in
+
+910
+00:43:43,440 --> 00:43:48,400
+that case, you can't beat the binary
+
+911
+00:43:45,359 --> 00:43:50,240
+entropy function. The trouble is that it
+
+912
+00:43:48,400 --> 00:43:52,240
+might be very unlikely that that
+
+913
+00:43:50,240 --> 00:43:54,079
+configuration of Ni's is really what
+
+914
+00:43:52,240 --> 00:43:55,760
+happens. So you might tell me, all
+
+915
+00:43:54,079 --> 00:43:57,520
+right, when that happens, I'm dead.
+
+916
+00:43:55,760 --> 00:44:00,160
+You're right. I have to pay the binary
+
+917
+00:43:57,520 --> 00:44:03,280
+entropy function. But maybe I just never
+
+918
+00:44:00,160 --> 00:44:04,720
+have to that situation never arises. So
+
+919
+00:44:03,280 --> 00:44:06,160
+that's the last part of the proof that
+
+920
+00:44:04,720 --> 00:44:08,480
+we have to worry about is we have to
+
+921
+00:44:06,160 --> 00:44:10,560
+argue why these NI at least some
+
+922
+00:44:08,480 --> 00:44:13,920
+suitable choice of them is actually
+
+923
+00:44:10,560 --> 00:44:15,359
+quite likely, right? And so the key for
+
+924
+00:44:13,920 --> 00:44:17,920
+this is you know the following
+
+925
+00:44:15,359 --> 00:44:20,960
+definition and then we'll connect it to
+
+926
+00:44:17,920 --> 00:44:24,319
+our earlier discussions of tail bounds.
+
+927
+00:44:20,960 --> 00:44:28,079
+So we'll say that a string
+
+928
+00:44:24,319 --> 00:44:31,920
+is epsilon typical
+
+929
+00:44:28,079 --> 00:44:34,960
+if we have the following property
+
+930
+00:44:31,920 --> 00:44:38,560
+for all i you know for all of the
+
+931
+00:44:34,960 --> 00:44:41,200
+symbols uh in our alphabet. Well we take
+
+932
+00:44:38,560 --> 00:44:43,280
+that string and we look at what its ni
+
+933
+00:44:41,200 --> 00:44:46,319
+is. So what is its count of symbol type
+
+934
+00:44:43,280 --> 00:44:49,520
+I? We divide it by N. And I want this to
+
+935
+00:44:46,319 --> 00:44:52,480
+be very close to PI. In fact, I want it
+
+936
+00:44:49,520 --> 00:44:54,800
+to be epsilon close. So this is what I
+
+937
+00:44:52,480 --> 00:44:56,480
+was alluding to before was that this is
+
+938
+00:44:54,800 --> 00:44:58,960
+the type of thing we proved for tail
+
+939
+00:44:56,480 --> 00:45:01,520
+bounds. You know, when K equals 2, when
+
+940
+00:44:58,960 --> 00:45:04,480
+we just have heads or tails, we want the
+
+941
+00:45:01,520 --> 00:45:06,960
+empirical number of heads in our string
+
+942
+00:45:04,480 --> 00:45:09,440
+to be very close to the true bias of my
+
+943
+00:45:06,960 --> 00:45:11,920
+coin. I want it to be close up to an
+
+944
+00:45:09,440 --> 00:45:13,440
+additive epsilon. And this is the same
+
+945
+00:45:11,920 --> 00:45:15,200
+thing. It's just saying that the
+
+946
+00:45:13,440 --> 00:45:17,440
+empirical average of the number of times
+
+947
+00:45:15,200 --> 00:45:20,400
+we actually roll a particular side for
+
+948
+00:45:17,440 --> 00:45:23,520
+our die is epsilon close to the true
+
+949
+00:45:20,400 --> 00:45:25,920
+probability. So we'll say that a string
+
+950
+00:45:23,520 --> 00:45:27,839
+from our first order source is epsilon
+
+951
+00:45:25,920 --> 00:45:30,000
+typical if this condition holds for all
+
+952
+00:45:27,839 --> 00:45:32,400
+i.
+
+953
+00:45:30,000 --> 00:45:36,599
+And now you know the main part is really
+
+954
+00:45:32,400 --> 00:45:36,599
+that we can come back to chbashev.
+
+955
+00:45:37,839 --> 00:45:46,040
+Remember that we used tools like
+
+956
+00:45:40,480 --> 00:45:46,040
+chebbesev churnoff inequality and so on
+
+957
+00:45:46,800 --> 00:45:50,960
+to [clears throat] prove that the
+
+958
+00:45:48,720 --> 00:45:53,520
+empirical number of heads converges very
+
+959
+00:45:50,960 --> 00:45:55,280
+quickly to the expected number of heads
+
+960
+00:45:53,520 --> 00:45:58,240
+and this works you know even when we
+
+961
+00:45:55,280 --> 00:46:00,160
+have a ksided die instead. So what I
+
+962
+00:45:58,240 --> 00:46:02,560
+claim is really the consequence of what
+
+963
+00:46:00,160 --> 00:46:05,119
+we proved by Chebesev's inequality quite
+
+964
+00:46:02,560 --> 00:46:08,160
+a few lectures ago at this point is that
+
+965
+00:46:05,119 --> 00:46:11,119
+the probability that a random string
+
+966
+00:46:08,160 --> 00:46:14,079
+from our first order source is epsilon
+
+967
+00:46:11,119 --> 00:46:20,079
+typical is actually quite large. It's
+
+968
+00:46:14,079 --> 00:46:21,440
+like one minus maybe k over epsilon^ 2n.
+
+969
+00:46:20,079 --> 00:46:24,640
+So the point was that when we had
+
+970
+00:46:21,440 --> 00:46:27,200
+chbachev, we could argue that as n was
+
+971
+00:46:24,640 --> 00:46:29,359
+going to infinity, you know, because the
+
+972
+00:46:27,200 --> 00:46:31,520
+variances behaved nicely for the sum of
+
+973
+00:46:29,359 --> 00:46:33,440
+independent random variables that the
+
+974
+00:46:31,520 --> 00:46:35,599
+probability being far away from our
+
+975
+00:46:33,440 --> 00:46:39,040
+expectation was going down rapidly with
+
+976
+00:46:35,599 --> 00:46:40,720
+n at a one overn kind of rate. And then
+
+977
+00:46:39,040 --> 00:46:42,640
+maybe I have to do some kind of union
+
+978
+00:46:40,720 --> 00:46:44,960
+bound over each of these different k
+
+979
+00:46:42,640 --> 00:46:48,000
+sides for the die. You know, any one of
+
+980
+00:46:44,960 --> 00:46:49,440
+those goes wrong, I fail typicality. But
+
+981
+00:46:48,000 --> 00:46:51,680
+at the end of the day, the point is, you
+
+982
+00:46:49,440 --> 00:46:55,040
+know, when you look at this expression,
+
+983
+00:46:51,680 --> 00:46:57,520
+K and epsilon are fixed, right? So K is
+
+984
+00:46:55,040 --> 00:46:59,119
+fixed by our first order source. And you
+
+985
+00:46:57,520 --> 00:47:01,680
+should think of epsilon as being your
+
+986
+00:46:59,119 --> 00:47:03,839
+target accuracy in Shannon's theorem.
+
+987
+00:47:01,680 --> 00:47:07,280
+Maybe I want to get up to optimality up
+
+988
+00:47:03,839 --> 00:47:09,280
+to a 0.01 or a 0.001.
+
+989
+00:47:07,280 --> 00:47:11,760
+The point is just that if you take n
+
+990
+00:47:09,280 --> 00:47:14,720
+large enough, then this term is still
+
+991
+00:47:11,760 --> 00:47:17,280
+going to zero. So you're almost always
+
+992
+00:47:14,720 --> 00:47:18,480
+typical. So one of the hard parts about
+
+993
+00:47:17,280 --> 00:47:20,000
+you know the results we're doing in
+
+994
+00:47:18,480 --> 00:47:22,160
+coding theory is keeping all the
+
+995
+00:47:20,000 --> 00:47:23,520
+parameters straight in your head in
+
+996
+00:47:22,160 --> 00:47:26,079
+terms of what's the order in which
+
+997
+00:47:23,520 --> 00:47:28,720
+things go to infinity. So k is some
+
+998
+00:47:26,079 --> 00:47:31,760
+fixed thing epsilon is merely tiny and
+
+999
+00:47:28,720 --> 00:47:34,480
+then n can be gigantic in relation to
+
+1000
+00:47:31,760 --> 00:47:35,920
+things like one over epsilon.
+
+1001
+00:47:34,480 --> 00:47:37,760
+Any questions about this statement that
+
+1002
+00:47:35,920 --> 00:47:39,520
+I'm asserting right here? This makes
+
+1003
+00:47:37,760 --> 00:47:41,839
+sense and it seems to jive with the
+
+1004
+00:47:39,520 --> 00:47:44,880
+things we covered for tail bounds. Yeah.
+
+1005
+00:47:41,839 --> 00:47:48,640
+Okay. So now uh let's put this all
+
+1006
+00:47:44,880 --> 00:47:51,640
+together, right? So uh putting this all
+
+1007
+00:47:48,640 --> 00:47:51,640
+together.
+
+1008
+00:47:53,119 --> 00:47:57,000
+Let's see what we have.
+
+1009
+00:48:03,920 --> 00:48:09,280
+So you give me some coding function and
+
+1010
+00:48:07,680 --> 00:48:12,319
+I want to argue that that coding
+
+1011
+00:48:09,280 --> 00:48:14,000
+function cannot do super duper well. I
+
+1012
+00:48:12,319 --> 00:48:16,800
+care about the expected length of your
+
+1013
+00:48:14,000 --> 00:48:20,560
+coding function. And we can break this
+
+1014
+00:48:16,800 --> 00:48:23,280
+up into two parts using the law of total
+
+1015
+00:48:20,560 --> 00:48:27,280
+expectation. Right? We can look at the
+
+1016
+00:48:23,280 --> 00:48:30,720
+expected length given that the string is
+
+1017
+00:48:27,280 --> 00:48:34,960
+epsilon typical times the probability
+
+1018
+00:48:30,720 --> 00:48:38,960
+that it's epsilon typical.
+
+1019
+00:48:34,960 --> 00:48:45,960
+And we can add in the expected length
+
+1020
+00:48:38,960 --> 00:48:45,960
+given that it's not epsilon typical
+
+1021
+00:48:46,079 --> 00:48:52,640
+times the probability that it's not
+
+1022
+00:48:49,119 --> 00:48:54,720
+epsilon typical. So all I'm doing is I'm
+
+1023
+00:48:52,640 --> 00:48:57,760
+using the law of total expectation to
+
+1024
+00:48:54,720 --> 00:48:59,680
+break up my computation because what we
+
+1025
+00:48:57,760 --> 00:49:02,559
+know how to reason about is really this
+
+1026
+00:48:59,680 --> 00:49:04,559
+part right here. Right? when we have a
+
+1027
+00:49:02,559 --> 00:49:07,119
+typical sequence, we can reason through
+
+1028
+00:49:04,559 --> 00:49:10,319
+like this log of the multinnomial what
+
+1029
+00:49:07,119 --> 00:49:11,599
+the expected length must be. So what I
+
+1030
+00:49:10,319 --> 00:49:13,200
+can do is I can just, you know, I'm
+
+1031
+00:49:11,599 --> 00:49:15,920
+interested in a lower bound. So I can
+
+1032
+00:49:13,200 --> 00:49:19,440
+just drop this term. So this entire
+
+1033
+00:49:15,920 --> 00:49:21,520
+thing is at least, you know, 1 minus k
+
+1034
+00:49:19,440 --> 00:49:24,000
+over epsilon^ 2 n because that's my
+
+1035
+00:49:21,520 --> 00:49:26,480
+probability of being typical. And then
+
+1036
+00:49:24,000 --> 00:49:28,160
+I'm going to use this fact that I had
+
+1037
+00:49:26,480 --> 00:49:31,440
+about how it relates to the binary
+
+1038
+00:49:28,160 --> 00:49:37,359
+entropy function. So I'll put in you
+
+1039
+00:49:31,440 --> 00:49:40,559
+know minus n sum from i = 1 to k of p i
+
+1040
+00:49:37,359 --> 00:49:45,839
+plus or minus epsilon
+
+1041
+00:49:40,559 --> 00:49:48,240
+log of p i plus or minus epsilon
+
+1042
+00:49:45,839 --> 00:49:52,160
+and then the entire thing will be you
+
+1043
+00:49:48,240 --> 00:49:54,240
+know minus some little o of n. So here
+
+1044
+00:49:52,160 --> 00:49:56,319
+I'm being slightly sloppy because you
+
+1045
+00:49:54,240 --> 00:49:59,440
+know the way that I reasoned about here
+
+1046
+00:49:56,319 --> 00:50:02,240
+was I gave you what n1 n2 all the way up
+
+1047
+00:49:59,440 --> 00:50:05,680
+to n k were and then I talked about log
+
+1048
+00:50:02,240 --> 00:50:08,480
+of capital m being the lower bound. So
+
+1049
+00:50:05,680 --> 00:50:11,680
+here really epsilon typicality is not
+
+1050
+00:50:08,480 --> 00:50:14,160
+any one configuration of the ni's. a
+
+1051
+00:50:11,680 --> 00:50:17,119
+range of configurations for those ni.
+
+1052
+00:50:14,160 --> 00:50:19,680
+But I know that each of those ni are
+
+1053
+00:50:17,119 --> 00:50:22,559
+equal to, you know, ni over n is equal
+
+1054
+00:50:19,680 --> 00:50:24,079
+to pi plus or minus epsilon because
+
+1055
+00:50:22,559 --> 00:50:26,559
+that's the thing we plug into the binary
+
+1056
+00:50:24,079 --> 00:50:28,880
+entropy function. But the point is that
+
+1057
+00:50:26,559 --> 00:50:31,040
+this expression right here, it doesn't
+
+1058
+00:50:28,880 --> 00:50:33,599
+actually vary that much as you range
+
+1059
+00:50:31,040 --> 00:50:36,640
+epsilon over some tiny, you know,
+
+1060
+00:50:33,599 --> 00:50:40,720
+subconstant. So in particular if I take
+
+1061
+00:50:36,640 --> 00:50:43,359
+this expression and I look at epsilon
+
+1062
+00:50:40,720 --> 00:50:45,040
+which is little o of one. So it's
+
+1063
+00:50:43,359 --> 00:50:47,920
+something that's actually going to zero
+
+1064
+00:50:45,040 --> 00:50:50,160
+as the length of my code increases the
+
+1065
+00:50:47,920 --> 00:50:52,400
+length of my message. Then what I'm
+
+1066
+00:50:50,160 --> 00:50:55,040
+going to get here is that this behaves
+
+1067
+00:50:52,400 --> 00:50:58,559
+basically like the entropy function at
+
+1068
+00:50:55,040 --> 00:51:00,800
+pi up to some small slack. So what this
+
+1069
+00:50:58,559 --> 00:51:03,839
+will give me is what I was after that
+
+1070
+00:51:00,800 --> 00:51:07,520
+this is equal to N * entropy minus
+
+1071
+00:51:03,839 --> 00:51:08,720
+little O of N. Okay. So really this
+
+1072
+00:51:07,520 --> 00:51:10,720
+proof, you know, putting it all
+
+1073
+00:51:08,720 --> 00:51:12,240
+together, it mimics what I did in the
+
+1074
+00:51:10,720 --> 00:51:14,800
+special case where I promised you what
+
+1075
+00:51:12,240 --> 00:51:16,160
+the NI's are, but it just uses the fact
+
+1076
+00:51:14,800 --> 00:51:17,680
+that maybe I don't want to tell you the
+
+1077
+00:51:16,160 --> 00:51:20,000
+NI's. I just want to tell you it's
+
+1078
+00:51:17,680 --> 00:51:21,680
+epsilon typical. And then I want to use
+
+1079
+00:51:20,000 --> 00:51:24,240
+the fact that the binary entropy
+
+1080
+00:51:21,680 --> 00:51:26,319
+function doesn't vary much as long as
+
+1081
+00:51:24,240 --> 00:51:28,240
+the pis are, you know, what they're
+
+1082
+00:51:26,319 --> 00:51:30,800
+supposed to be plus or minus some little
+
+1083
+00:51:28,240 --> 00:51:32,240
+O of one. So these are all computations
+
+1084
+00:51:30,800 --> 00:51:34,640
+you can do, but this is just the
+
+1085
+00:51:32,240 --> 00:51:36,480
+intuition for where it is. And this
+
+1086
+00:51:34,640 --> 00:51:39,119
+gives us the first part of Shannon's
+
+1087
+00:51:36,480 --> 00:51:41,680
+theorem. We have our bonafiday lower
+
+1088
+00:51:39,119 --> 00:51:43,359
+bound on the best possible coding
+
+1089
+00:51:41,680 --> 00:51:45,200
+function. So are there any questions
+
+1090
+00:51:43,359 --> 00:51:47,680
+about the proof of the first part of
+
+1091
+00:51:45,200 --> 00:51:51,559
+Shannon's theorem?
+
+1092
+00:51:47,680 --> 00:51:51,559
+This was a lot of ingredients.
+
+1093
+00:51:51,839 --> 00:51:55,200
+Yeah.
+
+1094
+00:51:53,680 --> 00:51:56,800
+>> But can you explain again why we don't
+
+1095
+00:51:55,200 --> 00:52:00,000
+need the why we don't need to consider
+
+1096
+00:51:56,800 --> 00:52:02,880
+the root n
+
+1097
+00:52:00,000 --> 00:52:05,680
+>> the the square root 2 pi n? Yeah. Well,
+
+1098
+00:52:02,880 --> 00:52:07,839
+okay. So here what's going to happen is
+
+1099
+00:52:05,680 --> 00:52:10,319
+that uh
+
+1100
+00:52:07,839 --> 00:52:13,280
+all of these things I'm really plugging
+
+1101
+00:52:10,319 --> 00:52:16,079
+sterling in into this expression. So
+
+1102
+00:52:13,280 --> 00:52:17,680
+when I take log of this expression, you
+
+1103
+00:52:16,079 --> 00:52:20,319
+know, I'm going to have these giant
+
+1104
+00:52:17,680 --> 00:52:23,119
+terms in here. You know, log of n to the
+
+1105
+00:52:20,319 --> 00:52:24,800
+n looks like n login. I'm going to add
+
+1106
+00:52:23,119 --> 00:52:26,960
+in some other terms. You're right. I
+
+1107
+00:52:24,800 --> 00:52:29,839
+could worry about what happens here and
+
+1108
+00:52:26,960 --> 00:52:31,359
+that would be a login term, right? But
+
+1109
+00:52:29,839 --> 00:52:33,520
+the point is that at the end of the day
+
+1110
+00:52:31,359 --> 00:52:36,559
+the thing that I want is this little O
+
+1111
+00:52:33,520 --> 00:52:39,200
+of N. So all of those login are just
+
+1112
+00:52:36,559 --> 00:52:40,880
+tiny by comparison. So even though by
+
+1113
+00:52:39,200 --> 00:52:43,119
+this vantage point that looks like a
+
+1114
+00:52:40,880 --> 00:52:45,760
+serious term. It's a root end sitting in
+
+1115
+00:52:43,119 --> 00:52:47,760
+there. But after I take the logs really
+
+1116
+00:52:45,760 --> 00:52:50,079
+the action is all happening in this part
+
+1117
+00:52:47,760 --> 00:52:51,520
+right here. But good question. So that's
+
+1118
+00:52:50,079 --> 00:52:53,680
+what makes some of these you know coding
+
+1119
+00:52:51,520 --> 00:52:55,040
+theorems a bit tricky is that you know I
+
+1120
+00:52:53,680 --> 00:52:57,200
+promised you when we did things like
+
+1121
+00:52:55,040 --> 00:52:58,880
+probability and counting that we would
+
+1122
+00:52:57,200 --> 00:53:01,839
+see ways that these tools would come up
+
+1123
+00:52:58,880 --> 00:53:03,520
+in very complicated things. This uses a
+
+1124
+00:53:01,839 --> 00:53:05,440
+lot of material from earlier in the
+
+1125
+00:53:03,520 --> 00:53:08,319
+class, right? If you just think about
+
+1126
+00:53:05,440 --> 00:53:11,119
+what all has happened, we used tail
+
+1127
+00:53:08,319 --> 00:53:13,680
+bounds to argue about typicality. We
+
+1128
+00:53:11,119 --> 00:53:15,760
+used combinotaurics to understand what
+
+1129
+00:53:13,680 --> 00:53:18,160
+exactly this multinnomial works out to
+
+1130
+00:53:15,760 --> 00:53:19,920
+be. And then we used Sterling's formula
+
+1131
+00:53:18,160 --> 00:53:22,319
+in order to massage it into something
+
+1132
+00:53:19,920 --> 00:53:23,839
+which has the binary entropy function.
+
+1133
+00:53:22,319 --> 00:53:25,760
+And all of these things required a lot
+
+1134
+00:53:23,839 --> 00:53:27,839
+of estimates about what the error terms
+
+1135
+00:53:25,760 --> 00:53:29,839
+are and how they add up. But the
+
+1136
+00:53:27,839 --> 00:53:33,680
+intuition at its core really comes down
+
+1137
+00:53:29,839 --> 00:53:36,240
+to this idea that you're encoding um if
+
+1138
+00:53:33,680 --> 00:53:38,480
+it works you know I mean typicality is a
+
+1139
+00:53:36,240 --> 00:53:40,000
+common thing that happens and in that
+
+1140
+00:53:38,480 --> 00:53:42,640
+case the probabilities of the different
+
+1141
+00:53:40,000 --> 00:53:44,880
+outcomes are very close to each other so
+
+1142
+00:53:42,640 --> 00:53:47,760
+then you can't really beat log of the
+
+1143
+00:53:44,880 --> 00:53:49,680
+number of strings so at the core this
+
+1144
+00:53:47,760 --> 00:53:52,000
+lower bound in Shannon first part of
+
+1145
+00:53:49,680 --> 00:53:54,240
+Shannon's theorem is exactly this kind
+
+1146
+00:53:52,000 --> 00:53:56,319
+of statement that we all had intuition
+
+1147
+00:53:54,240 --> 00:53:58,800
+for that you can't beat the naive
+
+1148
+00:53:56,319 --> 00:54:00,720
+encoding for the uniform distribution
+
+1149
+00:53:58,800 --> 00:54:02,880
+and we're just reasoning about why this
+
+1150
+00:54:00,720 --> 00:54:05,440
+holds even when it's merely close to the
+
+1151
+00:54:02,880 --> 00:54:08,240
+uniform distribution. All right, so this
+
+1152
+00:54:05,440 --> 00:54:10,559
+was a challenging proof. Uh, you know,
+
+1153
+00:54:08,240 --> 00:54:13,760
+Tuesday's lecture will be an easier
+
+1154
+00:54:10,559 --> 00:54:16,400
+proof. Thursday's lecture will make this
+
+1155
+00:54:13,760 --> 00:54:19,599
+look like a cakewalk. I'm sorry, but
+
+1156
+00:54:16,400 --> 00:54:21,040
+it's true. So, let me pause. Any other
+
+1157
+00:54:19,599 --> 00:54:23,280
+questions about this? Does this make
+
+1158
+00:54:21,040 --> 00:54:26,559
+sense? You guys all comfortable with it?
+
+1159
+00:54:23,280 --> 00:54:29,599
+Yeah. All right. So the good news is
+
+1160
+00:54:26,559 --> 00:54:31,280
+that uh now we're in a position where we
+
+1161
+00:54:29,599 --> 00:54:34,000
+can prove the other side of Shannon's
+
+1162
+00:54:31,280 --> 00:54:35,839
+theorem very easily. So the second part
+
+1163
+00:54:34,000 --> 00:54:38,319
+actually follows from roughly the same
+
+1164
+00:54:35,839 --> 00:54:39,920
+kind of argument. In fact, the way that
+
+1165
+00:54:38,319 --> 00:54:41,839
+I'm going to write it is really as a
+
+1166
+00:54:39,920 --> 00:54:45,359
+block diagram for this what this
+
+1167
+00:54:41,839 --> 00:54:49,960
+encoding function looks like.
+
+1168
+00:54:45,359 --> 00:54:49,960
+So let's prove the second part
+
+1169
+00:54:50,160 --> 00:54:54,040
+of Shannon's theorem.
+
+1170
+00:55:12,079 --> 00:55:16,720
+So let me ask a question first which
+
+1171
+00:55:14,000 --> 00:55:20,079
+will get us started.
+
+1172
+00:55:16,720 --> 00:55:23,280
+Okay. How many
+
+1173
+00:55:20,079 --> 00:55:27,079
+epsilon typical
+
+1174
+00:55:23,280 --> 00:55:27,079
+sequences are there?
+
+1175
+00:55:32,480 --> 00:55:37,119
+Well, let's just work it out. Let's do
+
+1176
+00:55:34,160 --> 00:55:39,440
+the combinatorics.
+
+1177
+00:55:37,119 --> 00:55:42,720
+So, what I claim is that the answer is a
+
+1178
+00:55:39,440 --> 00:55:48,960
+sum over signatures. you know all of
+
+1179
+00:55:42,720 --> 00:55:51,960
+these n1 n2 up to n k that are epsilon
+
+1180
+00:55:48,960 --> 00:55:51,960
+typical
+
+1181
+00:55:52,319 --> 00:55:58,079
+right
+
+1182
+00:55:53,839 --> 00:56:03,440
+and uh we have this multinnomial here n
+
+1183
+00:55:58,079 --> 00:56:06,000
+choose n1 n2 all the way up to n k so
+
+1184
+00:56:03,440 --> 00:56:08,079
+this is just by definition the answer I
+
+1185
+00:56:06,000 --> 00:56:10,720
+sum over all of the signatures that meet
+
+1186
+00:56:08,079 --> 00:56:12,880
+my definition of epsilon typicality and
+
+1187
+00:56:10,720 --> 00:56:14,400
+I count the number things that meet that
+
+1188
+00:56:12,880 --> 00:56:16,079
+signature.
+
+1189
+00:56:14,400 --> 00:56:18,079
+Okay,
+
+1190
+00:56:16,079 --> 00:56:19,839
+but let's get an upper bound on what
+
+1191
+00:56:18,079 --> 00:56:22,079
+this is.
+
+1192
+00:56:19,839 --> 00:56:23,920
+So, you know, first of all, I can think
+
+1193
+00:56:22,079 --> 00:56:26,160
+about this expression. I'll still be a
+
+1194
+00:56:23,920 --> 00:56:28,079
+bit sloppy here. the same way I was last
+
+1195
+00:56:26,160 --> 00:56:31,200
+time where I'm going to think about this
+
+1196
+00:56:28,079 --> 00:56:39,040
+multinnomial as really being you know p
+
+1197
+00:56:31,200 --> 00:56:43,359
+i uh p1 plus or minus epsilon * n p 2
+
+1198
+00:56:39,040 --> 00:56:44,880
+plus or minus epsilon * n and so on. So
+
+1199
+00:56:43,359 --> 00:56:48,319
+I don't know what these [clears throat]
+
+1200
+00:56:44,880 --> 00:56:51,520
+n1 n2s are but certainly I could choose
+
+1201
+00:56:48,319 --> 00:56:53,680
+whatever choices that are close to pi
+
+1202
+00:56:51,520 --> 00:56:56,000
+that maximize this expression and I
+
+1203
+00:56:53,680 --> 00:56:58,799
+could use it as an upper bound for every
+
+1204
+00:56:56,000 --> 00:57:01,200
+term that shows up in the sum. So the
+
+1205
+00:56:58,799 --> 00:57:03,760
+same way I used my uh used this notation
+
+1206
+00:57:01,200 --> 00:57:05,760
+earlier just to think about all possible
+
+1207
+00:57:03,760 --> 00:57:07,280
+values that meet this condition of being
+
+1208
+00:57:05,760 --> 00:57:09,280
+close to the pis I'm doing the same
+
+1209
+00:57:07,280 --> 00:57:11,119
+thing here. But now I have to worry
+
+1210
+00:57:09,280 --> 00:57:13,440
+about how many terms there are in the
+
+1211
+00:57:11,119 --> 00:57:17,680
+sum. And this is where we get a huge
+
+1212
+00:57:13,440 --> 00:57:19,920
+win. So you know what how many how many
+
+1213
+00:57:17,680 --> 00:57:21,440
+uh times does the sum execute? You know
+
+1214
+00:57:19,920 --> 00:57:23,920
+how many things are we summing over for
+
+1215
+00:57:21,440 --> 00:57:26,720
+this multinnomial? It's actually not
+
+1216
+00:57:23,920 --> 00:57:28,400
+exponential in n. That's the key point,
+
+1217
+00:57:26,720 --> 00:57:30,160
+right?
+
+1218
+00:57:28,400 --> 00:57:32,799
+So in fact, you know, how many different
+
+1219
+00:57:30,160 --> 00:57:35,760
+signatures meet the condition of being
+
+1220
+00:57:32,799 --> 00:57:37,760
+epsilon typical? Well, I could just
+
+1221
+00:57:35,760 --> 00:57:39,839
+ignore the constraint that it's epsilon
+
+1222
+00:57:37,760 --> 00:57:42,400
+typical. And just look at all of the
+
+1223
+00:57:39,839 --> 00:57:44,480
+possible signatures. You know, how many
+
+1224
+00:57:42,400 --> 00:57:46,720
+choices are there for n1? There's n
+
+1225
+00:57:44,480 --> 00:57:49,440
+possibilities. How many choices are
+
+1226
+00:57:46,720 --> 00:57:52,319
+there for n2? There's n possibilities.
+
+1227
+00:57:49,440 --> 00:57:53,839
+And so on. So I get n to the k. So this
+
+1228
+00:57:52,319 --> 00:57:55,359
+term right here, remember that we're
+
+1229
+00:57:53,839 --> 00:57:57,760
+going to be taking the log of all of
+
+1230
+00:57:55,359 --> 00:58:00,240
+these expressions. So this term right
+
+1231
+00:57:57,760 --> 00:58:02,400
+here has the same property that it's not
+
+1232
+00:58:00,240 --> 00:58:05,839
+exponentially large in n. And that's a
+
+1233
+00:58:02,400 --> 00:58:07,920
+huge win for reasons we'll see.
+
+1234
+00:58:05,839 --> 00:58:10,319
+So I'm going to call this term right
+
+1235
+00:58:07,920 --> 00:58:12,400
+here m prime even though it's really a
+
+1236
+00:58:10,319 --> 00:58:15,280
+function of you know whatever I jitter
+
+1237
+00:58:12,400 --> 00:58:17,280
+these pis to be. But now I promised you
+
+1238
+00:58:15,280 --> 00:58:21,480
+that really our proof is in essence
+
+1239
+00:58:17,280 --> 00:58:21,480
+going to be a block diagram.
+
+1240
+00:58:22,079 --> 00:58:28,000
+So let's prove it.
+
+1241
+00:58:25,599 --> 00:58:30,559
+Let's explicitly come up with a good
+
+1242
+00:58:28,000 --> 00:58:34,760
+coding scheme
+
+1243
+00:58:30,559 --> 00:58:34,760
+uh for this first order source.
+
+1244
+00:58:46,960 --> 00:58:53,520
+So we start off with our message, right?
+
+1245
+00:58:51,520 --> 00:58:57,920
+And then in my block diagram, I'm first
+
+1246
+00:58:53,520 --> 00:58:59,839
+going to ask is the message epsilon
+
+1247
+00:58:57,920 --> 00:59:01,520
+typical.
+
+1248
+00:58:59,839 --> 00:59:04,559
+Okay,
+
+1249
+00:59:01,520 --> 00:59:06,720
+you give me the message. Uh I can
+
+1250
+00:59:04,559 --> 00:59:08,160
+certainly compute what all the ni are
+
+1251
+00:59:06,720 --> 00:59:09,599
+and I can plug it into the expression
+
+1252
+00:59:08,160 --> 00:59:13,280
+and decide whether it meets my
+
+1253
+00:59:09,599 --> 00:59:17,680
+definition for some value of epsilon.
+
+1254
+00:59:13,280 --> 00:59:21,119
+Now in the case where the answer is yes,
+
+1255
+00:59:17,680 --> 00:59:25,440
+how am I going to encode this message?
+
+1256
+00:59:21,119 --> 00:59:29,119
+The first thing that I'm going to do is
+
+1257
+00:59:25,440 --> 00:59:33,760
+I'm going to ask you what is n1 up to n
+
+1258
+00:59:29,119 --> 00:59:37,400
+k. Right? And then I can ask you what
+
+1259
+00:59:33,760 --> 00:59:37,400
+string is it.
+
+1260
+00:59:41,200 --> 00:59:45,920
+Let's worry about the no branch later.
+
+1261
+00:59:43,760 --> 00:59:49,680
+But let's compute the number of bits
+
+1262
+00:59:45,920 --> 00:59:52,480
+that this coding scheme uses. Right? So
+
+1263
+00:59:49,680 --> 00:59:54,079
+how long is my transmission? Well, I
+
+1264
+00:59:52,480 --> 00:59:56,319
+have to tell you whether the answer is
+
+1265
+00:59:54,079 --> 00:59:58,240
+yes or no. That's one bit. I tell you
+
+1266
+00:59:56,319 --> 01:00:00,880
+yes or no.
+
+1267
+00:59:58,240 --> 01:00:04,319
+What about you know telling you what the
+
+1268
+01:00:00,880 --> 01:00:06,640
+signature n1 up to nk is? How many bits
+
+1269
+01:00:04,319 --> 01:00:09,799
+is that?
+
+1270
+01:00:06,640 --> 01:00:09,799
+At most.
+
+1271
+01:00:14,079 --> 01:00:20,640
+>> Yeah. K login.
+
+1272
+01:00:15,440 --> 01:00:22,480
+>> Perfect. k log n because I only pay
+
+1273
+01:00:20,640 --> 01:00:24,079
+the log of the number of possibilities.
+
+1274
+01:00:22,480 --> 01:00:25,680
+I just have to write out a binary string
+
+1275
+01:00:24,079 --> 01:00:28,799
+that tells me which of the possibilities
+
+1276
+01:00:25,680 --> 01:00:31,520
+it is. So this is a huge win because all
+
+1277
+01:00:28,799 --> 01:00:33,680
+of these questions the answer to them is
+
+1278
+01:00:31,520 --> 01:00:36,720
+really hidden in this little o of n term
+
+1279
+01:00:33,680 --> 01:00:38,400
+because it's not linear in n. The only p
+
+1280
+01:00:36,720 --> 01:00:40,880
+place where I'm going to pay linear in n
+
+1281
+01:00:38,400 --> 01:00:44,079
+is this last part right here which is
+
+1282
+01:00:40,880 --> 01:00:47,599
+what is the string? This right here will
+
+1283
+01:00:44,079 --> 01:00:49,680
+get me log of you know m prime and what
+
+1284
+01:00:47,599 --> 01:00:52,319
+we just argued was that you know log of
+
+1285
+01:00:49,680 --> 01:00:54,319
+m prime even when I maximize over you
+
+1286
+01:00:52,319 --> 01:00:56,960
+know what p prime i to put in here
+
+1287
+01:00:54,319 --> 01:01:00,400
+that's epsilon close to pi I'm going to
+
+1288
+01:00:56,960 --> 01:01:03,520
+get something you know the log of m i is
+
+1289
+01:01:00,400 --> 01:01:06,480
+going to behave like the binary entropy
+
+1290
+01:01:03,520 --> 01:01:09,760
+function time n up to some lower order
+
+1291
+01:01:06,480 --> 01:01:12,319
+terms. So now down this entire branch
+
+1292
+01:01:09,760 --> 01:01:14,720
+I'm only paying exactly what Shannon
+
+1293
+01:01:12,319 --> 01:01:16,960
+wants me to pay. I'm paying up to
+
+1294
+01:01:14,720 --> 01:01:18,720
+leading order the binary entropy times
+
+1295
+01:01:16,960 --> 01:01:20,720
+n.
+
+1296
+01:01:18,720 --> 01:01:22,799
+Now you guys can help me out with you
+
+1297
+01:01:20,720 --> 01:01:25,920
+know what happens in the rest of the
+
+1298
+01:01:22,799 --> 01:01:27,599
+way. So you know here I could pay plus
+
+1299
+01:01:25,920 --> 01:01:31,440
+one bit because I have to tell you no
+
+1300
+01:01:27,599 --> 01:01:34,640
+it's not epsilon typical right. Uh and
+
+1301
+01:01:31,440 --> 01:01:36,319
+here what I can do as it turns out any
+
+1302
+01:01:34,640 --> 01:01:39,040
+guesses what I can do down this no
+
+1303
+01:01:36,319 --> 01:01:42,680
+branch
+
+1304
+01:01:39,040 --> 01:01:42,680
+anyone have any intuition
+
+1305
+01:01:47,119 --> 01:01:53,680
+so let me ask a leading question
+
+1306
+01:01:50,240 --> 01:01:59,200
+you know see uh Shannon's theorem I have
+
+1307
+01:01:53,680 --> 01:02:01,359
+the slack built in little O of N right
+
+1308
+01:01:59,200 --> 01:02:03,440
+uh what's the probability ability that I
+
+1309
+01:02:01,359 --> 01:02:05,760
+go down this branch at least if I set
+
+1310
+01:02:03,440 --> 01:02:08,160
+parameters correctly. What do I want it
+
+1311
+01:02:05,760 --> 01:02:11,040
+to be? Do I want it to be a half
+
+1312
+01:02:08,160 --> 01:02:13,359
+probability? Something closer to one,
+
+1313
+01:02:11,040 --> 01:02:16,000
+something tiny,
+
+1314
+01:02:13,359 --> 01:02:17,839
+maybe little O of one.
+
+1315
+01:02:16,000 --> 01:02:20,799
+So if I set these parameters the right
+
+1316
+01:02:17,839 --> 01:02:23,359
+way, the probability that I fail and the
+
+1317
+01:02:20,799 --> 01:02:25,520
+thing is not epsilon typical is little O
+
+1318
+01:02:23,359 --> 01:02:29,200
+of one because remember it was this K
+
+1319
+01:02:25,520 --> 01:02:31,119
+over epsilon^ 2 N for my chbash bound.
+
+1320
+01:02:29,200 --> 01:02:34,799
+So if I set the parameters right, that's
+
+1321
+01:02:31,119 --> 01:02:38,079
+tiny. And if this is little of one, the
+
+1322
+01:02:34,799 --> 01:02:39,760
+probability I go down this branch, I can
+
+1323
+01:02:38,079 --> 01:02:43,680
+actually afford to do something really
+
+1324
+01:02:39,760 --> 01:02:46,559
+dumb here. So what could I do is I could
+
+1325
+01:02:43,680 --> 01:02:50,280
+just output
+
+1326
+01:02:46,559 --> 01:02:50,280
+the trivial encoding.
+
+1327
+01:02:52,160 --> 01:02:58,720
+So how much does this trivial encoding
+
+1328
+01:02:54,079 --> 01:03:02,000
+pay? it pays a constant x n maybe a 100
+
+1329
+01:02:58,720 --> 01:03:04,160
+x n but so what it only happens with
+
+1330
+01:03:02,000 --> 01:03:06,400
+probability 1 over login that we go down
+
+1331
+01:03:04,160 --> 01:03:08,480
+this branch so it doesn't actually
+
+1332
+01:03:06,400 --> 01:03:10,960
+prevent me from proving Shannon's second
+
+1333
+01:03:08,480 --> 01:03:12,720
+theorem so this is very unlikely so I
+
+1334
+01:03:10,960 --> 01:03:15,760
+can just give up whenever that happens
+
+1335
+01:03:12,720 --> 01:03:17,839
+and do the naive thing so you know let's
+
+1336
+01:03:15,760 --> 01:03:19,520
+analyze this and just write down what
+
+1337
+01:03:17,839 --> 01:03:24,240
+the expression is even though this block
+
+1338
+01:03:19,520 --> 01:03:27,359
+diagram really uh does the trick right
+
+1339
+01:03:24,240 --> 01:03:30,480
+so let's compute the expected length.
+
+1340
+01:03:27,359 --> 01:03:32,319
+So the expected length I always have to
+
+1341
+01:03:30,480 --> 01:03:35,280
+tell you the answer to the question
+
+1342
+01:03:32,319 --> 01:03:37,520
+that's yes or no. Is it epsilon typical?
+
+1343
+01:03:35,280 --> 01:03:40,799
+If it's epsilon typical which happens
+
+1344
+01:03:37,520 --> 01:03:44,000
+with you know 1 minus little o of one
+
+1345
+01:03:40,799 --> 01:03:47,200
+probability because this n is gigantic
+
+1346
+01:03:44,000 --> 01:03:52,720
+compared to k and 1 over epsilon squar
+
+1347
+01:03:47,200 --> 01:03:56,240
+in that case I pay this k log n plus
+
+1348
+01:03:52,720 --> 01:04:00,319
+this log m prime
+
+1349
+01:03:56,240 --> 01:04:03,760
+and otherwise I pay this k over epsilon^
+
+1350
+01:04:00,319 --> 01:04:08,319
+2 n all times
+
+1351
+01:04:03,760 --> 01:04:10,400
+maybe log K * N because this is my
+
+1352
+01:04:08,319 --> 01:04:12,240
+trivial encoding is that for each symbol
+
+1353
+01:04:10,400 --> 01:04:14,799
+I just tell you which particular symbol
+
+1354
+01:04:12,240 --> 01:04:17,920
+it is but the point is that you know
+
+1355
+01:04:14,799 --> 01:04:20,640
+once I tell you what K is maybe it's 10
+
+1356
+01:04:17,920 --> 01:04:22,880
+once I fix my target accuracy maybe it's
+
+1357
+01:04:20,640 --> 01:04:25,039
+0.001 O1
+
+1358
+01:04:22,880 --> 01:04:27,839
+n can be large enough so that this term
+
+1359
+01:04:25,039 --> 01:04:29,520
+becomes arbitrarily small
+
+1360
+01:04:27,839 --> 01:04:31,920
+and then it's multiplied by something
+
+1361
+01:04:29,520 --> 01:04:34,400
+linear in n but then it becomes much
+
+1362
+01:04:31,920 --> 01:04:37,280
+much smaller you know any constant times
+
+1363
+01:04:34,400 --> 01:04:41,039
+n I can make it as small as I want so
+
+1364
+01:04:37,280 --> 01:04:43,520
+this is the proof of uh Shannon's uh
+
+1365
+01:04:41,039 --> 01:04:46,839
+second main theorem
+
+1366
+01:04:43,520 --> 01:04:46,839
+any questions
+
+1367
+01:04:50,079 --> 01:04:54,119
+you guys should have some questions.
+
+1368
+01:04:59,200 --> 01:05:02,880
+So you know just to summarize really you
+
+1369
+01:05:01,520 --> 01:05:04,960
+know the way that all of this fit
+
+1370
+01:05:02,880 --> 01:05:07,039
+together was a bit magical but it's
+
+1371
+01:05:04,960 --> 01:05:09,440
+really based on this block diagram is
+
+1372
+01:05:07,039 --> 01:05:11,359
+that even though appriori we were
+
+1373
+01:05:09,440 --> 01:05:13,039
+worried about how do I encode an
+
+1374
+01:05:11,359 --> 01:05:15,680
+arbitrary thing that could come out of
+
+1375
+01:05:13,039 --> 01:05:17,599
+my first order source. The point is that
+
+1376
+01:05:15,680 --> 01:05:19,599
+there's this event that happens that
+
+1377
+01:05:17,599 --> 01:05:22,400
+makes it a lot easier to reason about.
+
+1378
+01:05:19,599 --> 01:05:25,119
+This event almost always happens and
+
+1379
+01:05:22,400 --> 01:05:27,280
+once it's epsilon typical then the
+
+1380
+01:05:25,119 --> 01:05:30,400
+problem behaves like the uniform
+
+1381
+01:05:27,280 --> 01:05:32,720
+distribution on some universe and we
+
+1382
+01:05:30,400 --> 01:05:35,440
+just care about how big is that universe
+
+1383
+01:05:32,720 --> 01:05:37,440
+m prime that's a multinnomial and when
+
+1384
+01:05:35,440 --> 01:05:40,240
+we use sterling's approximation the
+
+1385
+01:05:37,440 --> 01:05:42,319
+binary entropy pops out but this block
+
+1386
+01:05:40,240 --> 01:05:44,799
+diagram is really how the proof goes
+
+1387
+01:05:42,319 --> 01:05:47,200
+both for the upper and the lower bounds.
+
+1388
+01:05:44,799 --> 01:05:48,480
+Okay, so we're probably going to finish
+
+1389
+01:05:47,200 --> 01:05:51,680
+a couple minutes early, but let me tell
+
+1390
+01:05:48,480 --> 01:05:54,559
+you where uh we're headed for this. So,
+
+1391
+01:05:51,680 --> 01:05:56,480
+you know, this theorem looks amazing,
+
+1392
+01:05:54,559 --> 01:05:58,400
+right? We started off with this, you
+
+1393
+01:05:56,480 --> 01:06:01,039
+know, question about what is the best
+
+1394
+01:05:58,400 --> 01:06:03,599
+encoding. We saw that there were naive
+
+1395
+01:06:01,039 --> 01:06:05,599
+encodings that we could improve upon and
+
+1396
+01:06:03,599 --> 01:06:07,599
+then we figured out what is the natural
+
+1397
+01:06:05,599 --> 01:06:09,760
+limit in terms of what's the best that
+
+1398
+01:06:07,599 --> 01:06:11,680
+we could ever hope for at least in the
+
+1399
+01:06:09,760 --> 01:06:14,160
+asmtoic regime where n is going to
+
+1400
+01:06:11,680 --> 01:06:15,760
+infinity. But this coding scheme would
+
+1401
+01:06:14,160 --> 01:06:18,880
+actually be pretty terrible from a
+
+1402
+01:06:15,760 --> 01:06:21,760
+practical standpoint
+
+1403
+01:06:18,880 --> 01:06:23,200
+if this were all there would be. So if
+
+1404
+01:06:21,760 --> 01:06:25,200
+you think about it, right, you know,
+
+1405
+01:06:23,200 --> 01:06:28,720
+when I defined what a coding function
+
+1406
+01:06:25,200 --> 01:06:31,920
+was, a coding function is just a mapping
+
+1407
+01:06:28,720 --> 01:06:34,960
+from a possible message to what I'm
+
+1408
+01:06:31,920 --> 01:06:36,880
+going to encode it as the code book. But
+
+1409
+01:06:34,960 --> 01:06:39,280
+in principle, you know, as n becomes
+
+1410
+01:06:36,880 --> 01:06:41,359
+gigantic, you know, how large is that
+
+1411
+01:06:39,280 --> 01:06:43,200
+codebook? it's becoming exponentially
+
+1412
+01:06:41,359 --> 01:06:45,760
+large in n because there are all kinds
+
+1413
+01:06:43,200 --> 01:06:47,760
+of messages. So, this would be terrible
+
+1414
+01:06:45,760 --> 01:06:51,039
+if I had to do this because I would have
+
+1415
+01:06:47,760 --> 01:06:54,240
+to preg
+
+1416
+01:06:51,039 --> 01:06:56,480
+anyone would ever want to send and fix
+
+1417
+01:06:54,240 --> 01:06:58,799
+what is I'm going to transmit along the
+
+1418
+01:06:56,480 --> 01:07:00,720
+channel. That would be a really bad way
+
+1419
+01:06:58,799 --> 01:07:03,680
+to do things because it's not an
+
+1420
+01:07:00,720 --> 01:07:05,920
+efficient way to do the encoding, let
+
+1421
+01:07:03,680 --> 01:07:08,880
+alone the decoding. you know, if I
+
+1422
+01:07:05,920 --> 01:07:10,240
+actually receive some message, then how
+
+1423
+01:07:08,880 --> 01:07:11,839
+in the world am I going to figure out
+
+1424
+01:07:10,240 --> 01:07:14,000
+what was the original thing you started
+
+1425
+01:07:11,839 --> 01:07:17,039
+from other than looking at everything
+
+1426
+01:07:14,000 --> 01:07:18,559
+and figuring out what its image was?
+
+1427
+01:07:17,039 --> 01:07:20,559
+So, what we're going to cover on Tuesday
+
+1428
+01:07:18,559 --> 01:07:21,839
+is a really amazing scheme which is
+
+1429
+01:07:20,559 --> 01:07:24,079
+going to give us a different way to
+
+1430
+01:07:21,839 --> 01:07:25,280
+think about compression. And it's a
+
+1431
+01:07:24,079 --> 01:07:26,880
+scheme that has a lot of beautiful
+
+1432
+01:07:25,280 --> 01:07:28,799
+cominatorics. It's called the Huffman
+
+1433
+01:07:26,880 --> 01:07:30,799
+code. And what'll be great about the
+
+1434
+01:07:28,799 --> 01:07:32,799
+Huffman code is that it'll naturally
+
+1435
+01:07:30,799 --> 01:07:35,440
+give us efficient encodings and
+
+1436
+01:07:32,799 --> 01:07:37,839
+decodings. So that'll be the Tuesday
+
+1437
+01:07:35,440 --> 01:07:39,359
+lecture and then on Thursday what we're
+
+1438
+01:07:37,839 --> 01:07:42,720
+going to talk about is you know the
+
+1439
+01:07:39,359 --> 01:07:44,079
+other big uh result of Shannon was you
+
+1440
+01:07:42,720 --> 01:07:46,480
+know it's not just about data
+
+1441
+01:07:44,079 --> 01:07:48,880
+compression but when you're transmitting
+
+1442
+01:07:46,480 --> 01:07:50,799
+messages you know at long distances
+
+1443
+01:07:48,880 --> 01:07:53,200
+inevitably there are errors in your
+
+1444
+01:07:50,799 --> 01:07:55,200
+transmission. So what happens you know
+
+1445
+01:07:53,200 --> 01:07:57,920
+when some of the symbols that you're
+
+1446
+01:07:55,200 --> 01:08:01,280
+sending along the telephone wire get
+
+1447
+01:07:57,920 --> 01:08:03,920
+corrupted? Is there a way to recover and
+
+1448
+01:08:01,280 --> 01:08:06,079
+decode what was the original thing you'd
+
+1449
+01:08:03,920 --> 01:08:08,480
+meant to send? It'll turn out that you
+
+1450
+01:08:06,079 --> 01:08:10,319
+can do amazing things. These are really
+
+1451
+01:08:08,480 --> 01:08:11,839
+the building blocks of, you know, the
+
+1452
+01:08:10,319 --> 01:08:14,160
+starting point of what's called coding
+
+1453
+01:08:11,839 --> 01:08:16,719
+theory. That has a lot of applications
+
+1454
+01:08:14,160 --> 01:08:18,239
+in other areas of computer science. And
+
+1455
+01:08:16,719 --> 01:08:19,839
+in fact, you know, one of the biggest
+
+1456
+01:08:18,239 --> 01:08:21,920
+challenges for things like quantum
+
+1457
+01:08:19,839 --> 01:08:24,560
+computation is really how do we do these
+
+1458
+01:08:21,920 --> 01:08:27,440
+schemes in quantum computers too. So,
+
+1459
+01:08:24,560 --> 01:08:29,359
+we'll stop early and uh you know, as I
+
+1460
+01:08:27,440 --> 01:08:32,000
+told you in the beginning, come to
+
+1461
+01:08:29,359 --> 01:08:33,759
+office hours, ask questions. We're here.
+
+1462
+01:08:32,000 --> 01:08:35,440
+Don't take your foot off the gas pedal
+
+1463
+01:08:33,759 --> 01:08:37,600
+quite yet because there's still a lot of
+
+1464
+01:08:35,440 --> 01:08:39,440
+course work to go. But otherwise, I'll
+
+1465
+01:08:37,600 --> 01:08:41,279
+see you next week where we'll continue
+
+1466
+01:08:39,440 --> 01:08:45,719
+our coding theory and information theory
+
+1467
+01:08:41,279 --> 01:08:45,719
+units. So, see you then.
+

@@ -1,0 +1,6236 @@
+1
+00:00:01,079 --> 00:00:06,040
+welcome back after the summer to um our
+
+2
+00:00:04,000 --> 00:00:09,599
+colloquium series which we're very very
+
+3
+00:00:06,040 --> 00:00:12,160
+excited to start off here with Dave Bly
+
+4
+00:00:09,599 --> 00:00:14,320
+um so as you know you know you've seen
+
+5
+00:00:12,160 --> 00:00:16,960
+like talks here where it goes either
+
+6
+00:00:14,320 --> 00:00:19,039
+from machine learning into important um
+
+7
+00:00:16,960 --> 00:00:20,680
+biomedical applications or the other way
+
+8
+00:00:19,039 --> 00:00:22,279
+around from applications to actually
+
+9
+00:00:20,680 --> 00:00:24,400
+developing foundations of machine
+
+10
+00:00:22,279 --> 00:00:27,720
+learning and today uh we're definitely
+
+11
+00:00:24,400 --> 00:00:30,039
+going to be more on that route um and I
+
+12
+00:00:27,720 --> 00:00:32,239
+know Dave will also tell us how this can
+
+13
+00:00:30,039 --> 00:00:33,920
+also be applied and give pointers to
+
+14
+00:00:32,239 --> 00:00:35,640
+different things that are also ongoing
+
+15
+00:00:33,920 --> 00:00:38,120
+or that have motivated the type of work
+
+16
+00:00:35,640 --> 00:00:40,840
+that he's going to talk about um so I'm
+
+17
+00:00:38,120 --> 00:00:42,600
+sure we all know Dave blee um so he's a
+
+18
+00:00:40,840 --> 00:00:45,039
+professor in statistics and computer
+
+19
+00:00:42,600 --> 00:00:47,320
+science at Colombia um university got
+
+20
+00:00:45,039 --> 00:00:49,199
+his PhD in Berkeley um and then was at
+
+21
+00:00:47,320 --> 00:00:52,239
+Princeton for some years before moving
+
+22
+00:00:49,199 --> 00:00:54,600
+to Colombia has um had a lot of
+
+23
+00:00:52,239 --> 00:00:56,640
+different Awards um particular a lot of
+
+24
+00:00:54,600 --> 00:01:00,519
+test of time Awards which I find always
+
+25
+00:00:56,640 --> 00:01:03,160
+like very impressive at newps at icml k
+
+26
+00:01:00,519 --> 00:01:07,080
+and you know Simon's investigator fellow
+
+27
+00:01:03,160 --> 00:01:09,799
+of the IMs etc etc um so his research is
+
+28
+00:01:07,080 --> 00:01:12,200
+mainly um in the field of ban statistics
+
+29
+00:01:09,799 --> 00:01:14,080
+um and machine learning and really
+
+30
+00:01:12,200 --> 00:01:16,000
+thinking very heavily about you know
+
+31
+00:01:14,080 --> 00:01:17,920
+starting from many different types of
+
+32
+00:01:16,000 --> 00:01:21,280
+applications and then going to really
+
+33
+00:01:17,920 --> 00:01:23,320
+principled methods um I'm sure we you're
+
+34
+00:01:21,280 --> 00:01:26,119
+all familiar with a lot of work in topic
+
+35
+00:01:23,320 --> 00:01:27,600
+modeling um and then now more and more
+
+36
+00:01:26,119 --> 00:01:29,119
+also in causality and that's what you're
+
+37
+00:01:27,600 --> 00:01:31,079
+going to talk about today on
+
+38
+00:01:29,119 --> 00:01:33,360
+hierarchical CA pule models so I'm very
+
+39
+00:01:31,079 --> 00:01:35,600
+very excited to see that so thank you
+
+40
+00:01:33,360 --> 00:01:38,439
+Dave for being here and very excited
+
+41
+00:01:35,600 --> 00:01:40,759
+about your talk thanks thanks Caroline
+
+42
+00:01:38,439 --> 00:01:43,200
+thanks so much for inviting me um yeah
+
+43
+00:01:40,759 --> 00:01:45,079
+I'm uh Dave blly I'm going to talk about
+
+44
+00:01:43,200 --> 00:01:47,479
+hierarchical causal models and thanks
+
+45
+00:01:45,079 --> 00:01:50,079
+for such a nice introduction um I
+
+46
+00:01:47,479 --> 00:01:52,280
+remember I did win a test of time award
+
+47
+00:01:50,079 --> 00:01:54,399
+for work I did when I was a postto and I
+
+48
+00:01:52,280 --> 00:01:56,200
+called my postto adviser John La I said
+
+49
+00:01:54,399 --> 00:01:58,039
+good news we won this test of time award
+
+50
+00:01:56,200 --> 00:02:01,840
+for our paper and he said you know what
+
+51
+00:01:58,039 --> 00:02:01,840
+that means Dave it means you're old
+
+52
+00:02:02,399 --> 00:02:07,320
+um anyway he was right and that was a
+
+53
+00:02:04,119 --> 00:02:08,879
+lot of years ago so um I want to talk
+
+54
+00:02:07,320 --> 00:02:11,000
+about hierarchical causal models and I'm
+
+55
+00:02:08,879 --> 00:02:14,720
+going to I'll I'll I'll mention biology
+
+56
+00:02:11,000 --> 00:02:16,400
+I know you are all focused on biology um
+
+57
+00:02:14,720 --> 00:02:17,920
+but the tutorial example is going to be
+
+58
+00:02:16,400 --> 00:02:20,040
+more in the social sciences but
+
+59
+00:02:17,920 --> 00:02:21,360
+hopefully it will still help you um
+
+60
+00:02:20,040 --> 00:02:23,400
+understand the idea and you'll see the
+
+61
+00:02:21,360 --> 00:02:26,040
+connections to the kind of questions
+
+62
+00:02:23,400 --> 00:02:28,560
+that you want to answer so let's just
+
+63
+00:02:26,040 --> 00:02:30,440
+start with a question suppose you are a
+
+64
+00:02:28,560 --> 00:02:32,879
+superintendent of schools there's a
+
+65
+00:02:30,440 --> 00:02:35,440
+bunch of schools in your district and
+
+66
+00:02:32,879 --> 00:02:37,239
+you want to know how tutoring affects
+
+67
+00:02:35,440 --> 00:02:38,760
+test performance okay so people in the
+
+68
+00:02:37,239 --> 00:02:40,680
+different schools they get different
+
+69
+00:02:38,760 --> 00:02:42,599
+numbers of hours of tutoring and then
+
+70
+00:02:40,680 --> 00:02:44,159
+they all take a standardized test and
+
+71
+00:02:42,599 --> 00:02:46,040
+here are some different schools in your
+
+72
+00:02:44,159 --> 00:02:49,239
+district and you want to know how
+
+73
+00:02:46,040 --> 00:02:53,159
+tutoring affects test performance uh in
+
+74
+00:02:49,239 --> 00:02:54,440
+this uh in this world um your data
+
+75
+00:02:53,159 --> 00:02:56,480
+you're the superintendence you get all
+
+76
+00:02:54,440 --> 00:02:58,959
+the data you want your data is the
+
+77
+00:02:56,480 --> 00:03:00,640
+average tutoring hours and test
+
+78
+00:02:58,959 --> 00:03:02,840
+performance for many many schools okay
+
+79
+00:03:00,640 --> 00:03:04,599
+so each of these schools you get the
+
+80
+00:03:02,840 --> 00:03:06,680
+average number of tutoring hours at the
+
+81
+00:03:04,599 --> 00:03:08,519
+Springfield Elementary School average
+
+82
+00:03:06,680 --> 00:03:10,519
+number of tutoring hours here at I guess
+
+83
+00:03:08,519 --> 00:03:12,519
+is my wife's High School average number
+
+84
+00:03:10,519 --> 00:03:17,120
+of tutoring hours at my high school and
+
+85
+00:03:12,519 --> 00:03:18,360
+at um uh The Buffy High School and um
+
+86
+00:03:17,120 --> 00:03:19,959
+then you get the average test
+
+87
+00:03:18,360 --> 00:03:22,280
+performance of the students at all these
+
+88
+00:03:19,959 --> 00:03:23,799
+schools now here you're going to draw a
+
+89
+00:03:22,280 --> 00:03:26,760
+causal graphical model because you're a
+
+90
+00:03:23,799 --> 00:03:29,040
+pretty sophisticated superintendent and
+
+91
+00:03:26,760 --> 00:03:31,040
+um and so here's the model you would
+
+92
+00:03:29,040 --> 00:03:33,400
+draw where you have average tutoring
+
+93
+00:03:31,040 --> 00:03:36,120
+hours average test performance and you
+
+94
+00:03:33,400 --> 00:03:38,439
+want to estimate the expectation of
+
+95
+00:03:36,120 --> 00:03:41,400
+average test performance in a world
+
+96
+00:03:38,439 --> 00:03:43,599
+where I intervene on tutoring hours and
+
+97
+00:03:41,400 --> 00:03:45,439
+set it equal to H right that's when you
+
+98
+00:03:43,599 --> 00:03:46,879
+mathematically ask what we mean by a
+
+99
+00:03:45,439 --> 00:03:48,400
+causal inference we're asking a question
+
+100
+00:03:46,879 --> 00:03:49,560
+about an intervention so there's their
+
+101
+00:03:48,400 --> 00:03:51,920
+your intervention I'm going to give
+
+102
+00:03:49,560 --> 00:03:52,920
+everybody 10 tutoring hours H is 10
+
+103
+00:03:51,920 --> 00:03:54,560
+what's going to happen to test
+
+104
+00:03:52,920 --> 00:03:56,480
+performance what's the expected average
+
+105
+00:03:54,560 --> 00:04:00,079
+test score if I set the average tutoring
+
+106
+00:03:56,480 --> 00:04:02,400
+hours to H now the problem is there an
+
+107
+00:04:00,079 --> 00:04:05,200
+unmeasured confounder in your graph okay
+
+108
+00:04:02,400 --> 00:04:08,040
+so for example the school's budget some
+
+109
+00:04:05,200 --> 00:04:10,319
+schools are are well funded some are not
+
+110
+00:04:08,040 --> 00:04:12,400
+affects both how many tutoring hours you
+
+111
+00:04:10,319 --> 00:04:14,319
+deliver but also is going to affect the
+
+112
+00:04:12,400 --> 00:04:17,120
+general quality of the school and so
+
+113
+00:04:14,319 --> 00:04:18,639
+affect the test scores as well okay and
+
+114
+00:04:17,120 --> 00:04:21,880
+you don't have the school's budget in
+
+115
+00:04:18,639 --> 00:04:23,199
+your um in your data I mean you would if
+
+116
+00:04:21,880 --> 00:04:24,680
+you were the real superintendent but
+
+117
+00:04:23,199 --> 00:04:27,680
+let's say you don't and there might be
+
+118
+00:04:24,680 --> 00:04:29,400
+other Compounders too and so if you know
+
+119
+00:04:27,680 --> 00:04:32,520
+about causal graphs you can see from
+
+120
+00:04:29,400 --> 00:04:34,960
+this graph that the causal es demand the
+
+121
+00:04:32,520 --> 00:04:36,880
+expectation of average tutoring hours in
+
+122
+00:04:34,960 --> 00:04:38,400
+a world where I intervene sorry
+
+123
+00:04:36,880 --> 00:04:39,840
+expectation of test performance in a
+
+124
+00:04:38,400 --> 00:04:42,560
+world where I intervene on tutoring
+
+125
+00:04:39,840 --> 00:04:43,919
+hours is not identifiable you can't even
+
+126
+00:04:42,560 --> 00:04:45,639
+if you had an infinite number of schools
+
+127
+00:04:43,919 --> 00:04:49,000
+you'd never be able to figure it
+
+128
+00:04:45,639 --> 00:04:51,280
+out okay but what if we observed the
+
+129
+00:04:49,000 --> 00:04:53,840
+students themselves within the schools
+
+130
+00:04:51,280 --> 00:04:55,039
+okay so we observe not just the average
+
+131
+00:04:53,840 --> 00:04:57,000
+number of tutoring hours in test
+
+132
+00:04:55,039 --> 00:04:59,919
+performance but we get to know each of
+
+133
+00:04:57,000 --> 00:05:02,039
+the individual people's uh number of
+
+134
+00:04:59,919 --> 00:05:04,639
+tutoring hours and test scores for all
+
+135
+00:05:02,039 --> 00:05:07,479
+the different schools
+
+136
+00:05:04,639 --> 00:05:09,680
+okay then it turns out we can estimate
+
+137
+00:05:07,479 --> 00:05:11,840
+the causal effect of tutoring hours okay
+
+138
+00:05:09,680 --> 00:05:14,360
+this is well-known stuff um but we're
+
+139
+00:05:11,840 --> 00:05:15,479
+going to generalize it um and so let me
+
+140
+00:05:14,360 --> 00:05:19,319
+just show you
+
+141
+00:05:15,479 --> 00:05:21,080
+how so here is now a new causal model
+
+142
+00:05:19,319 --> 00:05:23,240
+this is the subject of today's talk this
+
+143
+00:05:21,080 --> 00:05:26,000
+is a hierarchical causal model it's a
+
+144
+00:05:23,240 --> 00:05:28,080
+causal model with an inner plate inner
+
+145
+00:05:26,000 --> 00:05:31,360
+plate this box means replication of
+
+146
+00:05:28,080 --> 00:05:34,520
+variables inside the main unit of
+
+147
+00:05:31,360 --> 00:05:37,199
+analysis um and in this case it's
+
+148
+00:05:34,520 --> 00:05:39,080
+students nested inside schools okay so
+
+149
+00:05:37,199 --> 00:05:41,160
+here I have my compounder but now
+
+150
+00:05:39,080 --> 00:05:43,000
+instead of average tutoring hours I have
+
+151
+00:05:41,160 --> 00:05:46,039
+ai J the number of tutoring hours that
+
+152
+00:05:43,000 --> 00:05:48,560
+student J and school I received and Y IJ
+
+153
+00:05:46,039 --> 00:05:51,560
+which is the test perform performance of
+
+154
+00:05:48,560 --> 00:05:54,160
+student J in school I and I still want
+
+155
+00:05:51,560 --> 00:05:55,759
+to measure the expectation of test
+
+156
+00:05:54,160 --> 00:05:57,960
+performance in a world where I intervene
+
+157
+00:05:55,759 --> 00:06:01,840
+on tutoring hours
+
+158
+00:05:57,960 --> 00:06:04,919
+but um now now I'm going to show you how
+
+159
+00:06:01,840 --> 00:06:07,000
+you can estimate that causal you can
+
+160
+00:06:04,919 --> 00:06:08,680
+identify that causal estimand even
+
+161
+00:06:07,000 --> 00:06:10,840
+though there's still the an unobserved
+
+162
+00:06:08,680 --> 00:06:12,639
+confounder and what's important here is
+
+163
+00:06:10,840 --> 00:06:14,560
+that the unobserved confounder is at the
+
+164
+00:06:12,639 --> 00:06:16,840
+school level budget okay so this
+
+165
+00:06:14,560 --> 00:06:20,440
+unobserved confounder is the same value
+
+166
+00:06:16,840 --> 00:06:22,759
+for all the students in each school okay
+
+167
+00:06:20,440 --> 00:06:24,440
+um but just this kind of graph is what
+
+168
+00:06:22,759 --> 00:06:26,599
+we're going to be talking about
+
+169
+00:06:24,440 --> 00:06:29,800
+today all right so let me first just
+
+170
+00:06:26,599 --> 00:06:32,720
+show you how you can identify it so um
+
+171
+00:06:29,800 --> 00:06:34,319
+um first we'll write the intervention
+
+172
+00:06:32,720 --> 00:06:39,280
+expectation of why in a world where I
+
+173
+00:06:34,319 --> 00:06:42,880
+intervene on tutoring hours as a
+
+174
+00:06:39,280 --> 00:06:44,680
+um conditional given the unobserved U
+
+175
+00:06:42,880 --> 00:06:47,880
+okay so this is just backd door
+
+176
+00:06:44,680 --> 00:06:50,520
+adjustment where I condition on the
+
+177
+00:06:47,880 --> 00:06:53,400
+unobserved confounder expectation of Y
+
+178
+00:06:50,520 --> 00:06:55,400
+given aals H and U equals u p of U du
+
+179
+00:06:53,400 --> 00:06:58,240
+this is back door adjustment to get at
+
+180
+00:06:55,400 --> 00:07:00,520
+this es demand and
+
+181
+00:06:58,240 --> 00:07:02,840
+um don't worry about the fact that we
+
+182
+00:07:00,520 --> 00:07:04,560
+don't observe it yet and now I'm going
+
+183
+00:07:02,840 --> 00:07:07,360
+to approximate that integral with Monte
+
+184
+00:07:04,560 --> 00:07:09,720
+Carlo so I take an average over schools
+
+185
+00:07:07,360 --> 00:07:13,479
+of the expectation of test performance
+
+186
+00:07:09,720 --> 00:07:14,720
+given H tutoring hours and U equal to UI
+
+187
+00:07:13,479 --> 00:07:18,319
+the budget of that
+
+188
+00:07:14,720 --> 00:07:20,400
+school and the and here's the here's
+
+189
+00:07:18,319 --> 00:07:23,879
+where we can do what we couldn't do
+
+190
+00:07:20,400 --> 00:07:25,720
+before even though we don't observe you
+
+191
+00:07:23,879 --> 00:07:28,560
+UI itself we don't know the budget of
+
+192
+00:07:25,720 --> 00:07:30,039
+each school we can estimate this
+
+193
+00:07:28,560 --> 00:07:33,560
+conditional expectation
+
+194
+00:07:30,039 --> 00:07:36,080
+without explicitly observing it okay and
+
+195
+00:07:33,560 --> 00:07:39,000
+all we need to do to do that is take the
+
+196
+00:07:36,080 --> 00:07:40,680
+data sets from each school so here's the
+
+197
+00:07:39,000 --> 00:07:43,199
+let me see where is that here's the data
+
+198
+00:07:40,680 --> 00:07:44,720
+set for school I it's for each student
+
+199
+00:07:43,199 --> 00:07:47,080
+how much they were tutored and what
+
+200
+00:07:44,720 --> 00:07:49,840
+their test performance was we take that
+
+201
+00:07:47,080 --> 00:07:52,919
+data we fit some kind of model of
+
+202
+00:07:49,840 --> 00:07:56,479
+expectation of Y given tutoring hours
+
+203
+00:07:52,919 --> 00:07:58,599
+and notice that when I take the data set
+
+204
+00:07:56,479 --> 00:08:00,159
+from Springfield Elementary and I take
+
+205
+00:07:58,599 --> 00:08:02,199
+all those students I estimate that
+
+206
+00:08:00,159 --> 00:08:04,680
+regression function let's say it's a
+
+207
+00:08:02,199 --> 00:08:06,879
+regression then essentially in that
+
+208
+00:08:04,680 --> 00:08:08,319
+regression function U equals UI for
+
+209
+00:08:06,879 --> 00:08:09,759
+whatever the budget is for Springfield
+
+210
+00:08:08,319 --> 00:08:11,360
+Elementary even though I never really
+
+211
+00:08:09,759 --> 00:08:12,960
+observed it right it's always going to
+
+212
+00:08:11,360 --> 00:08:15,159
+be equal to that for that for all those
+
+213
+00:08:12,960 --> 00:08:17,639
+students and so I've effectively
+
+214
+00:08:15,159 --> 00:08:21,080
+estimated this conditional expectation
+
+215
+00:08:17,639 --> 00:08:23,319
+from each of the schools data sets Okay
+
+216
+00:08:21,080 --> 00:08:26,240
+and since I've gotten that right you hat
+
+217
+00:08:23,319 --> 00:08:28,159
+I is a regression fit to each to school
+
+218
+00:08:26,240 --> 00:08:30,919
+I and I have a regression fit to each of
+
+219
+00:08:28,159 --> 00:08:33,320
+the schools I then substitute that in
+
+220
+00:08:30,919 --> 00:08:36,519
+for my expectation of Y given AAL H and
+
+221
+00:08:33,320 --> 00:08:38,080
+U equal UI in my formula here right here
+
+222
+00:08:36,519 --> 00:08:40,120
+I here are my fitted regressions for
+
+223
+00:08:38,080 --> 00:08:42,279
+each school I take the average of those
+
+224
+00:08:40,120 --> 00:08:46,160
+fitted regressions evaluated at H
+
+225
+00:08:42,279 --> 00:08:48,399
+tutoring hours and Presto I've
+
+226
+00:08:46,160 --> 00:08:52,279
+estimated this expectation even though I
+
+227
+00:08:48,399 --> 00:08:55,480
+didn't get to observe those budgets okay
+
+228
+00:08:52,279 --> 00:08:58,600
+is that all clear
+
+229
+00:08:55,480 --> 00:09:01,800
+good so here we just ran it as a
+
+230
+00:08:58,600 --> 00:09:04,640
+simulation just for no other reason than
+
+231
+00:09:01,800 --> 00:09:07,480
+to make the slide and so you can see
+
+232
+00:09:04,640 --> 00:09:10,200
+that it's um uh it's accurately
+
+233
+00:09:07,480 --> 00:09:12,000
+estimating the treatment effect um even
+
+234
+00:09:10,200 --> 00:09:14,079
+though it doesn't observe the budgets
+
+235
+00:09:12,000 --> 00:09:16,760
+okay whereas if I just ran a naive
+
+236
+00:09:14,079 --> 00:09:18,680
+regression of the schools on on um of
+
+237
+00:09:16,760 --> 00:09:20,920
+the tutoring hours on test performance
+
+238
+00:09:18,680 --> 00:09:22,959
+in the simulated setting I'd be biased
+
+239
+00:09:20,920 --> 00:09:25,200
+because of those
+
+240
+00:09:22,959 --> 00:09:28,040
+budgets okay
+
+241
+00:09:25,200 --> 00:09:29,760
+so what happened first of all I want to
+
+242
+00:09:28,040 --> 00:09:32,560
+emphasize again what I just showed you
+
+243
+00:09:29,760 --> 00:09:35,120
+has been well known for a long time um
+
+244
+00:09:32,560 --> 00:09:37,160
+but it was just a point of curiosity for
+
+245
+00:09:35,120 --> 00:09:41,399
+us that
+
+246
+00:09:37,160 --> 00:09:43,519
+somehow in this flat model we could not
+
+247
+00:09:41,399 --> 00:09:45,120
+estimate this Interventional expectation
+
+248
+00:09:43,519 --> 00:09:48,399
+it wasn't sorry we could identify the
+
+249
+00:09:45,120 --> 00:09:50,600
+Interventional expectation um but in
+
+250
+00:09:48,399 --> 00:09:52,920
+this hierarchical model when I when I
+
+251
+00:09:50,600 --> 00:09:56,839
+expand these aggregated variables into
+
+252
+00:09:52,920 --> 00:09:58,360
+the per student values I can identify it
+
+253
+00:09:56,839 --> 00:10:00,920
+and so what I want to talk about today
+
+254
+00:09:58,360 --> 00:10:03,040
+is what does it mean to take a causal
+
+255
+00:10:00,920 --> 00:10:05,320
+model and add hierarchy if I have data
+
+256
+00:10:03,040 --> 00:10:09,680
+sets like that and how can it help me
+
+257
+00:10:05,320 --> 00:10:12,320
+with causal inference okay and so just
+
+258
+00:10:09,680 --> 00:10:14,920
+to speak for a brief moment at a high
+
+259
+00:10:12,320 --> 00:10:16,279
+level the idea is that this kind of
+
+260
+00:10:14,920 --> 00:10:18,320
+causal structure this kind of
+
+261
+00:10:16,279 --> 00:10:20,040
+hierarchical structure might appear in a
+
+262
+00:10:18,320 --> 00:10:22,480
+lot of different applied settings in the
+
+263
+00:10:20,040 --> 00:10:24,160
+social sciences we see citizens within
+
+264
+00:10:22,480 --> 00:10:26,320
+States and we might have citizen level
+
+265
+00:10:24,160 --> 00:10:28,079
+variables about political preferences
+
+266
+00:10:26,320 --> 00:10:29,560
+and things like that and state level
+
+267
+00:10:28,079 --> 00:10:31,480
+variables about things like Bud budgets
+
+268
+00:10:29,560 --> 00:10:33,440
+and laws that might be confounding our
+
+269
+00:10:31,480 --> 00:10:35,839
+inferences about how some variables
+
+270
+00:10:33,440 --> 00:10:37,560
+affect others in biology which you're
+
+271
+00:10:35,839 --> 00:10:39,440
+interested in here many of you we have
+
+272
+00:10:37,560 --> 00:10:41,079
+cells within patients right cell level
+
+273
+00:10:39,440 --> 00:10:42,959
+variables might include genetics and
+
+274
+00:10:41,079 --> 00:10:44,240
+drug efficacy and patient level
+
+275
+00:10:42,959 --> 00:10:46,399
+variables might include things like
+
+276
+00:10:44,240 --> 00:10:49,000
+disease status or demographics and these
+
+277
+00:10:46,399 --> 00:10:52,839
+also might confound our understanding of
+
+278
+00:10:49,000 --> 00:10:54,360
+for example a drug on um on the patient
+
+279
+00:10:52,839 --> 00:10:57,120
+in physics and chemistry in many
+
+280
+00:10:54,360 --> 00:10:59,720
+different settings we have this idea of
+
+281
+00:10:57,120 --> 00:11:02,040
+data nested into groups and maybe even
+
+282
+00:10:59,720 --> 00:11:05,519
+nested further below
+
+283
+00:11:02,040 --> 00:11:08,120
+that okay speaking just from the
+
+284
+00:11:05,519 --> 00:11:10,120
+methodology perspective in basian
+
+285
+00:11:08,120 --> 00:11:12,320
+statistics and applied basian statistics
+
+286
+00:11:10,120 --> 00:11:15,079
+we have long enjoyed the benefits of
+
+287
+00:11:12,320 --> 00:11:18,240
+hierarchical modeling okay most applied
+
+288
+00:11:15,079 --> 00:11:20,560
+basian statistics papers nowadays are
+
+289
+00:11:18,240 --> 00:11:22,360
+about some kind of hierarchical model
+
+290
+00:11:20,560 --> 00:11:24,760
+where there's multiple groups of data
+
+291
+00:11:22,360 --> 00:11:26,680
+and the benefits of hierarchical bays
+
+292
+00:11:24,760 --> 00:11:28,440
+and of empirical bays are all about that
+
+293
+00:11:26,680 --> 00:11:30,399
+idea that idea that when I have multiple
+
+294
+00:11:28,440 --> 00:11:32,480
+groups of data and I estimate something
+
+295
+00:11:30,399 --> 00:11:34,480
+about them simultaneously I get a
+
+296
+00:11:32,480 --> 00:11:36,360
+benefit and so what we were trying to do
+
+297
+00:11:34,480 --> 00:11:38,360
+in this work is to understand you know
+
+298
+00:11:36,360 --> 00:11:40,680
+but so sorry but causal graphical
+
+299
+00:11:38,360 --> 00:11:42,519
+modeling has really only considered flat
+
+300
+00:11:40,680 --> 00:11:45,000
+models has never really contemplated
+
+301
+00:11:42,519 --> 00:11:47,200
+this idea of nested variables inside
+
+302
+00:11:45,000 --> 00:11:49,560
+units and so we are asking the question
+
+303
+00:11:47,200 --> 00:11:51,880
+you know can we enjoy some of the same
+
+304
+00:11:49,560 --> 00:11:54,600
+benefits that basian statistics enjoys
+
+305
+00:11:51,880 --> 00:11:56,720
+but via multi-group VIA multi-group data
+
+306
+00:11:54,600 --> 00:11:59,880
+in the in the context of causal modeling
+
+307
+00:11:56,720 --> 00:12:03,160
+and that's what this work is about
+
+308
+00:11:59,880 --> 00:12:05,800
+okay I will say one thing about
+
+309
+00:12:03,160 --> 00:12:07,440
+biology so I can't talk about it today
+
+310
+00:12:05,800 --> 00:12:09,240
+but if you want to invite me again I'll
+
+311
+00:12:07,440 --> 00:12:12,040
+talk about it
+
+312
+00:12:09,240 --> 00:12:15,120
+then um as long as you saw this talk
+
+313
+00:12:12,040 --> 00:12:18,240
+first um but the applied project that
+
+314
+00:12:15,120 --> 00:12:20,199
+we're working on using these ideas is
+
+315
+00:12:18,240 --> 00:12:23,160
+about understanding the effect of te-
+
+316
+00:12:20,199 --> 00:12:26,160
+cells on immune response okay and the
+
+317
+00:12:23,160 --> 00:12:29,040
+idea is which I learned from my
+
+318
+00:12:26,160 --> 00:12:31,600
+excellent co-author here Eli Weinstein
+
+319
+00:12:29,040 --> 00:12:34,160
+um each of us has a distribution of te-
+
+320
+00:12:31,600 --> 00:12:36,639
+cells in our bodies and it's called the
+
+321
+00:12:34,160 --> 00:12:39,360
+repertoire and the question we want to
+
+322
+00:12:36,639 --> 00:12:41,839
+ask is if I injected some other types of
+
+323
+00:12:39,360 --> 00:12:44,920
+te- cells into my body how well would I
+
+324
+00:12:41,839 --> 00:12:46,480
+protect against some new disease okay
+
+325
+00:12:44,920 --> 00:12:47,839
+and what is the causal effect of the
+
+326
+00:12:46,480 --> 00:12:51,199
+repertoire of te-
+
+327
+00:12:47,839 --> 00:12:54,040
+cells I feel nervous Speaking In This
+
+328
+00:12:51,199 --> 00:12:55,839
+Crowd about this um what what is the
+
+329
+00:12:54,040 --> 00:12:59,639
+causal effect of the repertoire of te-
+
+330
+00:12:55,839 --> 00:13:03,839
+cells on my um disease outcome
+
+331
+00:12:59,639 --> 00:13:05,160
+okay and and again the I'm going to
+
+332
+00:13:03,839 --> 00:13:08,760
+today talk about the kind of
+
+333
+00:13:05,160 --> 00:13:11,399
+mathematical basics of of the tools we
+
+334
+00:13:08,760 --> 00:13:13,000
+use to to solve this problem but this is
+
+335
+00:13:11,399 --> 00:13:14,639
+the kind of application that we have in
+
+336
+00:13:13,000 --> 00:13:17,560
+mind and that we're working on
+
+337
+00:13:14,639 --> 00:13:21,040
+now
+
+338
+00:13:17,560 --> 00:13:23,480
+okay again this idea of causal inference
+
+339
+00:13:21,040 --> 00:13:25,240
+from group data is an old idea it it
+
+340
+00:13:23,480 --> 00:13:26,720
+appears in lots of different settings
+
+341
+00:13:25,240 --> 00:13:29,240
+and today what I want to talk about is a
+
+342
+00:13:26,720 --> 00:13:30,639
+graphical methodology for causal reason
+
+343
+00:13:29,240 --> 00:13:34,680
+ing about group data how can we think
+
+344
+00:13:30,639 --> 00:13:36,680
+about it graphically and what kind of um
+
+345
+00:13:34,680 --> 00:13:39,160
+identification and estimation falls out
+
+346
+00:13:36,680 --> 00:13:42,160
+of that way of
+
+347
+00:13:39,160 --> 00:13:42,160
+thinking
+
+348
+00:13:44,399 --> 00:13:50,759
+okay so now we'll get into the
+
+349
+00:13:48,079 --> 00:13:52,360
+details to talk about this idea of
+
+350
+00:13:50,759 --> 00:13:54,920
+hierarchical caal models I'm going to
+
+351
+00:13:52,360 --> 00:13:57,160
+have three motifs three small little
+
+352
+00:13:54,920 --> 00:13:59,160
+graphs that we're going to be uh
+
+353
+00:13:57,160 --> 00:14:01,360
+studying
+
+354
+00:13:59,160 --> 00:14:04,800
+one we call confounder this is the one
+
+355
+00:14:01,360 --> 00:14:06,279
+we just studied where I have a a is
+
+356
+00:14:04,800 --> 00:14:07,920
+always going to be like a treatment Y is
+
+357
+00:14:06,279 --> 00:14:09,440
+going to be an outcome I have a
+
+358
+00:14:07,920 --> 00:14:11,079
+treatment to an outcome but then there's
+
+359
+00:14:09,440 --> 00:14:15,160
+this what we call a unit level
+
+360
+00:14:11,079 --> 00:14:17,000
+confounder you like budget we're going
+
+361
+00:14:15,160 --> 00:14:19,800
+to have this one called interference and
+
+362
+00:14:17,000 --> 00:14:22,000
+confounder where a goes to this unit
+
+363
+00:14:19,800 --> 00:14:24,120
+level variable Z the whole collection of
+
+364
+00:14:22,000 --> 00:14:26,000
+A's goes to Z and Z also affects the
+
+365
+00:14:24,120 --> 00:14:27,920
+outcome that's called that's a certain
+
+366
+00:14:26,000 --> 00:14:30,199
+type of interference not a general
+
+367
+00:14:27,920 --> 00:14:31,560
+interference but a certain type
+
+368
+00:14:30,199 --> 00:14:34,040
+um and then we're going to have what we
+
+369
+00:14:31,560 --> 00:14:37,199
+call an instrument graph where there is
+
+370
+00:14:34,040 --> 00:14:40,000
+now this Z variable which is an
+
+371
+00:14:37,199 --> 00:14:42,800
+instrument again nested inside of the
+
+372
+00:14:40,000 --> 00:14:45,480
+units many Z's Z goes to a it's not
+
+373
+00:14:42,800 --> 00:14:47,320
+affected by the confounder and a goes to
+
+374
+00:14:45,480 --> 00:14:49,560
+a unit level outcome okay we'll talk
+
+375
+00:14:47,320 --> 00:14:51,800
+about these throughout the
+
+376
+00:14:49,560 --> 00:14:53,639
+talk in each of them we're going to
+
+377
+00:14:51,800 --> 00:14:56,680
+consider the effects of a soft
+
+378
+00:14:53,639 --> 00:14:58,440
+intervention so just to remind you when
+
+379
+00:14:56,680 --> 00:15:01,040
+you intervene on a variable in a causal
+
+380
+00:14:58,440 --> 00:15:03,399
+graph what does that mean mean you
+
+381
+00:15:01,040 --> 00:15:06,240
+clobber the arrows going into that
+
+382
+00:15:03,399 --> 00:15:08,000
+variable and replace them with whatever
+
+383
+00:15:06,240 --> 00:15:11,320
+it is as determining that variable in
+
+384
+00:15:08,000 --> 00:15:14,160
+your intervention okay and so we're
+
+385
+00:15:11,320 --> 00:15:16,160
+going to intervene on a and all of these
+
+386
+00:15:14,160 --> 00:15:18,399
+and kind of almost necessarily we're
+
+387
+00:15:16,160 --> 00:15:19,639
+going to consider a soft intervention
+
+388
+00:15:18,399 --> 00:15:23,199
+where
+
+389
+00:15:19,639 --> 00:15:25,079
+we are going to replace the distribution
+
+390
+00:15:23,199 --> 00:15:27,279
+of a with another distribution called
+
+391
+00:15:25,079 --> 00:15:29,279
+qar a
+
+392
+00:15:27,279 --> 00:15:30,880
+okay now that could be a hard
+
+393
+00:15:29,279 --> 00:15:33,079
+intervention it could be that we say
+
+394
+00:15:30,880 --> 00:15:34,480
+everybody gets two hours of tutoring or
+
+395
+00:15:33,079 --> 00:15:36,279
+it could be that there is a distribution
+
+396
+00:15:34,480 --> 00:15:39,079
+of tutoring hours that we're imposing on
+
+397
+00:15:36,279 --> 00:15:40,959
+everybody equally at random everywhere
+
+398
+00:15:39,079 --> 00:15:43,959
+okay um that's called the soft
+
+399
+00:15:40,959 --> 00:15:46,199
+intervention P of Y in notation do a
+
+400
+00:15:43,959 --> 00:15:48,480
+comes from qar a all right and you can
+
+401
+00:15:46,199 --> 00:15:52,279
+see in all these graphs I removed the
+
+402
+00:15:48,480 --> 00:15:57,040
+arrow from U to a and replaced it with
+
+403
+00:15:52,279 --> 00:16:00,079
+qar a what we're going to think about is
+
+404
+00:15:57,040 --> 00:16:02,120
+we observe here passively
+
+405
+00:16:00,079 --> 00:16:03,880
+but our goal our inference goal our
+
+406
+00:16:02,120 --> 00:16:06,560
+estimation goal is to understand what
+
+407
+00:16:03,880 --> 00:16:08,360
+would happen if we did this okay in the
+
+408
+00:16:06,560 --> 00:16:10,279
+future right so there's kind of
+
+409
+00:16:08,360 --> 00:16:12,079
+counterfactual inference which is asking
+
+410
+00:16:10,279 --> 00:16:14,199
+what would have happened had I done that
+
+411
+00:16:12,079 --> 00:16:16,279
+given that that didn't happen but that's
+
+412
+00:16:14,199 --> 00:16:18,319
+so takes so long to say that we could
+
+413
+00:16:16,279 --> 00:16:21,920
+never give a talk about it and so we're
+
+414
+00:16:18,319 --> 00:16:23,279
+going to rather ask if I took my data
+
+415
+00:16:21,920 --> 00:16:25,000
+from the schools but then I made a
+
+416
+00:16:23,279 --> 00:16:28,759
+change and I gave everybody two hours of
+
+417
+00:16:25,000 --> 00:16:31,319
+tutoring what would happen then yep good
+
+418
+00:16:28,759 --> 00:16:33,480
+but but but not that we are going to do
+
+419
+00:16:31,319 --> 00:16:35,279
+this yeah we we're hypothetically
+
+420
+00:16:33,480 --> 00:16:36,759
+imagining it and then it's a
+
+421
+00:16:35,279 --> 00:16:38,040
+philosophical question that we won't get
+
+422
+00:16:36,759 --> 00:16:39,440
+into whether or not you can only
+
+423
+00:16:38,040 --> 00:16:41,920
+consider interventions that you can
+
+424
+00:16:39,440 --> 00:16:44,120
+really do but certainly people will
+
+425
+00:16:41,920 --> 00:16:45,839
+argue about that as well as every other
+
+426
+00:16:44,120 --> 00:16:47,959
+aspect of causal
+
+427
+00:16:45,839 --> 00:16:50,160
+inference
+
+428
+00:16:47,959 --> 00:16:52,480
+okay so let's first talk about this
+
+429
+00:16:50,160 --> 00:16:55,920
+confounder graph so remember schools are
+
+430
+00:16:52,480 --> 00:16:58,959
+units so the nplate are units students
+
+431
+00:16:55,920 --> 00:17:01,040
+are subunits that's the mplate
+
+432
+00:16:58,959 --> 00:17:03,519
+and the variables AI J tutoring hours
+
+433
+00:17:01,040 --> 00:17:05,640
+for student J and school I Yi J Test
+
+434
+00:17:03,519 --> 00:17:08,559
+performance for student J and school I
+
+435
+00:17:05,640 --> 00:17:10,439
+and UI for example budget for school I a
+
+436
+00:17:08,559 --> 00:17:12,120
+unit level confounder and the
+
+437
+00:17:10,439 --> 00:17:13,640
+intervention how does the distribution
+
+438
+00:17:12,120 --> 00:17:14,919
+of tutoring hours affect test
+
+439
+00:17:13,640 --> 00:17:16,240
+performance this is the example we've
+
+440
+00:17:14,919 --> 00:17:18,520
+been going
+
+441
+00:17:16,240 --> 00:17:20,600
+through now in the second graph
+
+442
+00:17:18,520 --> 00:17:23,720
+interference and compounder the variable
+
+443
+00:17:20,600 --> 00:17:26,760
+Z is a unit level descendant okay or we
+
+444
+00:17:23,720 --> 00:17:29,320
+call it interference and so for example
+
+445
+00:17:26,760 --> 00:17:32,280
+you might imagine that you know there's
+
+446
+00:17:29,320 --> 00:17:34,000
+a school here and um here are all the
+
+447
+00:17:32,280 --> 00:17:35,840
+students in the school and some of them
+
+448
+00:17:34,000 --> 00:17:38,280
+get tutoring and some of them don't but
+
+449
+00:17:35,840 --> 00:17:40,080
+then when they go out for recess as
+
+450
+00:17:38,280 --> 00:17:42,679
+students do they all discuss what they
+
+451
+00:17:40,080 --> 00:17:43,880
+learned during the day and so the
+
+452
+00:17:42,679 --> 00:17:44,720
+students that got tutoring are going to
+
+453
+00:17:43,880 --> 00:17:46,320
+tell the students that didn't get
+
+454
+00:17:44,720 --> 00:17:50,000
+tutoring all the cool stuff they learned
+
+455
+00:17:46,320 --> 00:17:52,120
+about math and things and um then that's
+
+456
+00:17:50,000 --> 00:17:53,440
+going to affect everybody's performance
+
+457
+00:17:52,120 --> 00:17:55,640
+on the test okay so that's called
+
+458
+00:17:53,440 --> 00:17:59,080
+interference where the treatment on one
+
+459
+00:17:55,640 --> 00:18:00,520
+student um affect is going to influence
+
+460
+00:17:59,080 --> 00:18:03,280
+another student even who didn't get
+
+461
+00:18:00,520 --> 00:18:06,520
+treated okay and that's called
+
+462
+00:18:03,280 --> 00:18:09,039
+interference okay um and finally in the
+
+463
+00:18:06,520 --> 00:18:11,280
+instrument graph the outcome variable y
+
+464
+00:18:09,039 --> 00:18:13,440
+notice is now at the unit level okay so
+
+465
+00:18:11,280 --> 00:18:14,880
+this is something about a school so for
+
+466
+00:18:13,440 --> 00:18:16,559
+example whether or not school I is
+
+467
+00:18:14,880 --> 00:18:19,120
+listed in a published list of top
+
+468
+00:18:16,559 --> 00:18:22,720
+schools and there's a new subunit
+
+469
+00:18:19,120 --> 00:18:24,919
+variable Z J which randomizes the cause
+
+470
+00:18:22,720 --> 00:18:27,200
+the treatment AI J for subunit J and
+
+471
+00:18:24,919 --> 00:18:29,159
+unit I what that means is that zi is
+
+472
+00:18:27,200 --> 00:18:31,440
+some kind of random influence on the
+
+473
+00:18:29,159 --> 00:18:34,080
+treatment variable AI J and notice it's
+
+474
+00:18:31,440 --> 00:18:36,640
+unconnected from UI so for
+
+475
+00:18:34,080 --> 00:18:39,799
+example if each School randomly
+
+476
+00:18:36,640 --> 00:18:43,240
+distributes coupons for tutoring to make
+
+477
+00:18:39,799 --> 00:18:44,679
+tutoring 50% off um and does so with
+
+478
+00:18:43,240 --> 00:18:46,120
+different distributions in each school
+
+479
+00:18:44,679 --> 00:18:48,960
+that would be an instrument that would
+
+480
+00:18:46,120 --> 00:18:50,799
+be a z now you might think oh
+
+481
+00:18:48,960 --> 00:18:51,880
+instrumental variables is solved but not
+
+482
+00:18:50,799 --> 00:18:53,720
+in this
+
+483
+00:18:51,880 --> 00:18:55,520
+situation and you'll see that we'll do
+
+484
+00:18:53,720 --> 00:18:57,840
+it with different kinds of assumptions
+
+485
+00:18:55,520 --> 00:18:59,960
+than normally used with instrumental
+
+486
+00:18:57,840 --> 00:19:02,520
+variables
+
+487
+00:18:59,960 --> 00:19:05,360
+okay with those three
+
+488
+00:19:02,520 --> 00:19:07,679
+motifs I'd like to get into the
+
+489
+00:19:05,360 --> 00:19:09,480
+nitty-gritty details of these
+
+490
+00:19:07,679 --> 00:19:13,360
+hierarchical causal models and so the
+
+491
+00:19:09,480 --> 00:19:15,400
+road map for the talk is to so
+
+492
+00:19:13,360 --> 00:19:17,720
+um if you're familiar with causal
+
+493
+00:19:15,400 --> 00:19:19,240
+graphical models there are these um
+
+494
+00:19:17,720 --> 00:19:20,799
+different levels of causal graphical
+
+495
+00:19:19,240 --> 00:19:22,799
+models and so first what we're going to
+
+496
+00:19:20,799 --> 00:19:24,799
+do is discuss what is hierarchical
+
+497
+00:19:22,799 --> 00:19:27,440
+structural equation model is what a
+
+498
+00:19:24,799 --> 00:19:30,480
+hierarchical causal graphical model is
+
+499
+00:19:27,440 --> 00:19:32,559
+and then discuss how to perform
+
+500
+00:19:30,480 --> 00:19:35,320
+identification in a hierarchical causal
+
+501
+00:19:32,559 --> 00:19:38,320
+graphical model how to do estimation and
+
+502
+00:19:35,320 --> 00:19:41,000
+then I'll just show you a kind of a toy
+
+503
+00:19:38,320 --> 00:19:42,760
+example with a real data
+
+504
+00:19:41,000 --> 00:19:44,720
+set okay so we'll begin with
+
+505
+00:19:42,760 --> 00:19:46,360
+hierarchical structural equation models
+
+506
+00:19:44,720 --> 00:19:49,120
+and hierarchical causal graphical models
+
+507
+00:19:46,360 --> 00:19:51,760
+and really we're just following along
+
+508
+00:19:49,120 --> 00:19:53,400
+the path the intellectual path of pearl
+
+509
+00:19:51,760 --> 00:19:55,320
+with hierarchical models with
+
+510
+00:19:53,400 --> 00:19:56,880
+hierarchical causal graphical models
+
+511
+00:19:55,320 --> 00:19:59,400
+rather than flat
+
+512
+00:19:56,880 --> 00:20:01,720
+ones okay so just to you a quick review
+
+513
+00:19:59,400 --> 00:20:05,120
+what is a structural equation model so a
+
+514
+00:20:01,720 --> 00:20:07,039
+structural equation model um it's before
+
+515
+00:20:05,120 --> 00:20:09,880
+Pearl but Pearl this is Pearl's
+
+516
+00:20:07,039 --> 00:20:11,720
+formulation of this idea each node is a
+
+517
+00:20:09,880 --> 00:20:13,400
+deterministic function of its parents
+
+518
+00:20:11,720 --> 00:20:17,880
+and some independent Noise Okay so this
+
+519
+00:20:13,400 --> 00:20:19,280
+is a flat model we have x a and Y and
+
+520
+00:20:17,880 --> 00:20:21,520
+it's a square which means it's a
+
+521
+00:20:19,280 --> 00:20:23,840
+deterministic function it's a
+
+522
+00:20:21,520 --> 00:20:26,720
+deterministic function of its parent so
+
+523
+00:20:23,840 --> 00:20:29,240
+a is a deterministic function of X and
+
+524
+00:20:26,720 --> 00:20:32,919
+some R independent noise
+
+525
+00:20:29,240 --> 00:20:36,200
+variable gamma okay and you can write
+
+526
+00:20:32,919 --> 00:20:38,919
+down a a schedule of equations to
+
+527
+00:20:36,200 --> 00:20:41,799
+describe a structural equation model so
+
+528
+00:20:38,919 --> 00:20:43,080
+here gamma X gamma a and Gamma Y come
+
+529
+00:20:41,799 --> 00:20:44,440
+from some distribution they're going to
+
+530
+00:20:43,080 --> 00:20:46,400
+be independent I guess I didn't make
+
+531
+00:20:44,440 --> 00:20:48,520
+that clear in this notation and then now
+
+532
+00:20:46,400 --> 00:20:50,280
+you see the variables have our
+
+533
+00:20:48,520 --> 00:20:53,640
+deterministic functions X is a
+
+534
+00:20:50,280 --> 00:20:55,880
+deterministic function of its noise a is
+
+535
+00:20:53,640 --> 00:20:58,840
+a deterministic function of X and its
+
+536
+00:20:55,880 --> 00:21:02,720
+noise and Y is a deterministic function
+
+537
+00:20:58,840 --> 00:21:04,400
+of a and x and its noise okay these are
+
+538
+00:21:02,720 --> 00:21:08,120
+all just
+
+539
+00:21:04,400 --> 00:21:09,400
+functions okay the idea behind
+
+540
+00:21:08,120 --> 00:21:12,080
+structural equation models when you're
+
+541
+00:21:09,400 --> 00:21:15,320
+building out your causal graph is that
+
+542
+00:21:12,080 --> 00:21:18,360
+you require a deterministic function
+
+543
+00:21:15,320 --> 00:21:20,120
+node an endogenous node for any variable
+
+544
+00:21:18,360 --> 00:21:21,480
+that affects two or more others
+
+545
+00:21:20,120 --> 00:21:23,600
+otherwise it can be thought of as a
+
+546
+00:21:21,480 --> 00:21:27,000
+noise
+
+547
+00:21:23,600 --> 00:21:29,720
+variable now again following Pearl's P
+
+548
+00:21:27,000 --> 00:21:31,039
+this is just Pearl again Pearl now takes
+
+549
+00:21:29,720 --> 00:21:33,080
+these structural equation models and
+
+550
+00:21:31,039 --> 00:21:35,360
+uses them to Define what he calls a
+
+551
+00:21:33,080 --> 00:21:38,880
+causal graphical
+
+552
+00:21:35,360 --> 00:21:40,960
+model and the idea there is to integrate
+
+553
+00:21:38,880 --> 00:21:45,480
+out the noise so integrate out the
+
+554
+00:21:40,960 --> 00:21:48,480
+random noise to produce random variables
+
+555
+00:21:45,480 --> 00:21:50,200
+instead of deterministic variables okay
+
+556
+00:21:48,480 --> 00:21:52,000
+and this looks familiar to you this is
+
+557
+00:21:50,200 --> 00:21:53,480
+just a probabilistic graphical model it
+
+558
+00:21:52,000 --> 00:21:55,000
+inherits all the properties of a
+
+559
+00:21:53,480 --> 00:21:58,919
+probabilistic graphical model here I
+
+560
+00:21:55,000 --> 00:22:00,720
+have X going to a a going to y y coming
+
+561
+00:21:58,919 --> 00:22:03,760
+from a and
+
+562
+00:22:00,720 --> 00:22:06,440
+X it defines a joint distribution of x a
+
+563
+00:22:03,760 --> 00:22:09,279
+and Y that factorizes using these
+
+564
+00:22:06,440 --> 00:22:11,000
+factors but because it came from the
+
+565
+00:22:09,279 --> 00:22:13,039
+causal model the structural equation
+
+566
+00:22:11,000 --> 00:22:14,960
+model it can tell us something about the
+
+567
+00:22:13,039 --> 00:22:16,320
+world of interventions that's the idea
+
+568
+00:22:14,960 --> 00:22:18,640
+and it's there's nothing magical here
+
+569
+00:22:16,320 --> 00:22:20,679
+we're assuming it came from this causal
+
+570
+00:22:18,640 --> 00:22:22,799
+struct the structural equation model and
+
+571
+00:22:20,679 --> 00:22:24,240
+that's what's giving us that power to be
+
+572
+00:22:22,799 --> 00:22:25,760
+able to predict something about an
+
+573
+00:22:24,240 --> 00:22:27,159
+intervention in the world through this
+
+574
+00:22:25,760 --> 00:22:30,760
+causal
+
+575
+00:22:27,159 --> 00:22:33,400
+graph okay but this just when you see it
+
+576
+00:22:30,760 --> 00:22:36,039
+in papers is a causal graphical
+
+577
+00:22:33,400 --> 00:22:37,360
+model looks just like a graphical model
+
+578
+00:22:36,039 --> 00:22:38,799
+if you saw it in the street you would
+
+579
+00:22:37,360 --> 00:22:41,200
+think it's a cause it's a graphical
+
+580
+00:22:38,799 --> 00:22:43,520
+model but if you have the secret
+
+581
+00:22:41,200 --> 00:22:44,880
+knowledge that it came from a structural
+
+582
+00:22:43,520 --> 00:22:46,440
+equation model you know that you can
+
+583
+00:22:44,880 --> 00:22:49,440
+make predictions about interventions
+
+584
+00:22:46,440 --> 00:22:49,440
+with this that's the
+
+585
+00:22:49,679 --> 00:22:55,360
+idea so now we have our
+
+586
+00:22:52,720 --> 00:22:57,559
+question how do we take our situation
+
+587
+00:22:55,360 --> 00:23:01,360
+where I have replications inside of a
+
+588
+00:22:57,559 --> 00:23:03,840
+plate and and think about a a structural
+
+589
+00:23:01,360 --> 00:23:07,320
+equation model in that
+
+590
+00:23:03,840 --> 00:23:09,720
+context and here there's an important
+
+591
+00:23:07,320 --> 00:23:12,159
+detail unlike classical structural
+
+592
+00:23:09,720 --> 00:23:13,880
+equation models for every subunit level
+
+593
+00:23:12,159 --> 00:23:15,720
+variable we're going to include two
+
+594
+00:23:13,880 --> 00:23:19,240
+levels of
+
+595
+00:23:15,720 --> 00:23:20,720
+Noise Okay so this is so here's the
+
+596
+00:23:19,240 --> 00:23:23,159
+model you write down on your whiteboard
+
+597
+00:23:20,720 --> 00:23:24,480
+when you're thinking about how the the
+
+598
+00:23:23,159 --> 00:23:28,480
+thing works that you're trying to figure
+
+599
+00:23:24,480 --> 00:23:30,320
+out and this is the corresponding
+
+600
+00:23:28,480 --> 00:23:33,279
+structural equation model and what's
+
+601
+00:23:30,320 --> 00:23:36,840
+different about this from a typical one
+
+602
+00:23:33,279 --> 00:23:38,320
+is that this variable here AI J it
+
+603
+00:23:36,840 --> 00:23:42,440
+doesn't just have one noise variable
+
+604
+00:23:38,320 --> 00:23:45,440
+going into it but it has two it's got a
+
+605
+00:23:42,440 --> 00:23:49,080
+subunit level noise variable Epsilon IJ
+
+606
+00:23:45,440 --> 00:23:53,720
+and a unit level noise variable gamma I
+
+607
+00:23:49,080 --> 00:23:58,720
+okay and the idea behind this is that
+
+608
+00:23:53,720 --> 00:24:01,000
+the subunit level noise Epsilon here
+
+609
+00:23:58,720 --> 00:24:04,480
+captures variation within the subunit
+
+610
+00:24:01,000 --> 00:24:06,400
+variables right in in Springfield
+
+611
+00:24:04,480 --> 00:24:08,720
+Elementary different students get
+
+612
+00:24:06,400 --> 00:24:10,720
+different amounts of tutoring and that's
+
+613
+00:24:08,720 --> 00:24:13,440
+and that's captured by the randomness in
+
+614
+00:24:10,720 --> 00:24:16,080
+epsilon within Springfield Elementary
+
+615
+00:24:13,440 --> 00:24:18,279
+okay but the unit level noise captures
+
+616
+00:24:16,080 --> 00:24:21,480
+variation among collections of subunit
+
+617
+00:24:18,279 --> 00:24:24,000
+variables Springfield Elementary and
+
+618
+00:24:21,480 --> 00:24:26,559
+Sunnydale High School have different
+
+619
+00:24:24,000 --> 00:24:28,440
+distributions of tutoring hours and that
+
+620
+00:24:26,559 --> 00:24:30,919
+difference in those distributions is
+
+621
+00:24:28,440 --> 00:24:33,960
+captured by gamma does this make sense
+
+622
+00:24:30,919 --> 00:24:35,559
+okay and so to go from the thing you
+
+623
+00:24:33,960 --> 00:24:38,080
+wrote on your whiteboard because you had
+
+624
+00:24:35,559 --> 00:24:39,200
+subunits Etc to a structural equation
+
+625
+00:24:38,080 --> 00:24:40,960
+model because you want to reason about
+
+626
+00:24:39,200 --> 00:24:42,720
+it causally you need to think about
+
+627
+00:24:40,960 --> 00:24:46,120
+these two levels of noise for the
+
+628
+00:24:42,720 --> 00:24:46,120
+subunit variables that's one of the
+
+629
+00:24:46,180 --> 00:24:51,720
+[Music]
+
+630
+00:24:47,600 --> 00:24:54,640
+nuances okay and then the schedule of
+
+631
+00:24:51,720 --> 00:24:57,480
+equations looks similar right I have my
+
+632
+00:24:54,640 --> 00:24:59,520
+noise variables I have my subunit noise
+
+633
+00:24:57,480 --> 00:25:02,000
+variables and everybody is a
+
+634
+00:24:59,520 --> 00:25:04,640
+deterministic function of its noise and
+
+635
+00:25:02,000 --> 00:25:07,000
+its parents
+
+636
+00:25:04,640 --> 00:25:08,960
+question one perspective on this could
+
+637
+00:25:07,000 --> 00:25:12,840
+be that you unroll this hierarchical
+
+638
+00:25:08,960 --> 00:25:15,159
+model and flatten it in some sense and
+
+639
+00:25:12,840 --> 00:25:16,559
+would that be equivalent to this except
+
+640
+00:25:15,159 --> 00:25:19,000
+where those errors now are now
+
+641
+00:25:16,559 --> 00:25:21,360
+decomposed into these two different
+
+642
+00:25:19,000 --> 00:25:24,440
+kinds of noises or is that a difference
+
+643
+00:25:21,360 --> 00:25:27,000
+are missing
+
+644
+00:25:24,440 --> 00:25:28,600
+well I'd have to think harder about the
+
+645
+00:25:27,000 --> 00:25:31,640
+answer to that question to answer it
+
+646
+00:25:28,600 --> 00:25:33,960
+well but I suspect my instinct is the
+
+647
+00:25:31,640 --> 00:25:36,440
+answer is no it's not the same as just
+
+648
+00:25:33,960 --> 00:25:38,559
+unrolling it if you unrolled it you
+
+649
+00:25:36,440 --> 00:25:39,919
+would not necessarily say oh I might put
+
+650
+00:25:38,559 --> 00:25:42,480
+this gamma
+
+651
+00:25:39,919 --> 00:25:45,399
+here the key thing is if you unrolled
+
+652
+00:25:42,480 --> 00:25:48,279
+this you would and then and then read
+
+653
+00:25:45,399 --> 00:25:50,960
+pearls excellent book the primer the
+
+654
+00:25:48,279 --> 00:25:53,440
+causal inference and statistics
+
+655
+00:25:50,960 --> 00:25:56,039
+primer um if you just did that then you
+
+656
+00:25:53,440 --> 00:25:59,320
+would only put these epsilons in you
+
+657
+00:25:56,039 --> 00:26:02,320
+would miss this gamma but the gamma is
+
+658
+00:25:59,320 --> 00:26:04,919
+important because the because that's not
+
+659
+00:26:02,320 --> 00:26:07,159
+respecting differences between
+
+660
+00:26:04,919 --> 00:26:09,320
+schools
+
+661
+00:26:07,159 --> 00:26:11,080
+yeah I was just going to maybe say I
+
+662
+00:26:09,320 --> 00:26:13,320
+think if you made a latent variable for
+
+663
+00:26:11,080 --> 00:26:15,600
+gamma and unroll it then maybe it would
+
+664
+00:26:13,320 --> 00:26:17,960
+be equivalent yeah you could do that our
+
+665
+00:26:15,600 --> 00:26:20,279
+point in in in making this kind of part
+
+666
+00:26:17,960 --> 00:26:22,880
+of the translation process from this
+
+667
+00:26:20,279 --> 00:26:24,320
+picture to the hierarchical structural
+
+668
+00:26:22,880 --> 00:26:27,039
+equation model which is too many
+
+669
+00:26:24,320 --> 00:26:28,360
+syllables is that is that this is a
+
+670
+00:26:27,039 --> 00:26:29,760
+picture you might draw when you're just
+
+671
+00:26:28,360 --> 00:26:30,880
+thinking about how do variables relate
+
+672
+00:26:29,760 --> 00:26:33,640
+to each other you wouldn't necessarily
+
+673
+00:26:30,880 --> 00:26:35,200
+put a latent variable there but but it's
+
+674
+00:26:33,640 --> 00:26:37,279
+implicitly there and actually I'll have
+
+675
+00:26:35,200 --> 00:26:39,240
+an ex I'll give an example for what this
+
+676
+00:26:37,279 --> 00:26:43,200
+might mean kind of intuitively in a
+
+677
+00:26:39,240 --> 00:26:44,799
+second question that the two different
+
+678
+00:26:43,200 --> 00:26:50,000
+the different noises are
+
+679
+00:26:44,799 --> 00:26:52,360
+independent yes they are independent yep
+
+680
+00:26:50,000 --> 00:26:54,159
+okay there's the schedule and so you can
+
+681
+00:26:52,360 --> 00:26:56,880
+see it looks real similar to the before
+
+682
+00:26:54,159 --> 00:27:00,120
+but now I have two sources of noise but
+
+683
+00:26:56,880 --> 00:27:04,840
+notice that Yi
+
+684
+00:27:00,120 --> 00:27:07,640
+J for all the students in Springfield
+
+685
+00:27:04,840 --> 00:27:09,480
+Elementary just make sure I know I'm old
+
+686
+00:27:07,640 --> 00:27:11,120
+as I mentioned so that's the Simpsons
+
+687
+00:27:09,480 --> 00:27:12,480
+school okay that's what we had there
+
+688
+00:27:11,120 --> 00:27:14,600
+before for all the students in
+
+689
+00:27:12,480 --> 00:27:17,640
+Springfield Elementary they all share
+
+690
+00:27:14,600 --> 00:27:19,760
+the same value of gamma iy right so
+
+691
+00:27:17,640 --> 00:27:21,360
+gamma gets chosen once and then all the
+
+692
+00:27:19,760 --> 00:27:23,679
+students in Springfield Elementary share
+
+693
+00:27:21,360 --> 00:27:25,760
+that gamma in their in their um
+
+694
+00:27:23,679 --> 00:27:27,440
+structural equation but each one has a
+
+695
+00:27:25,760 --> 00:27:30,399
+different Epsilon right some students do
+
+696
+00:27:27,440 --> 00:27:32,480
+better than others and in Sunnydale
+
+697
+00:27:30,399 --> 00:27:34,440
+That's The Buffy one all the students
+
+698
+00:27:32,480 --> 00:27:35,799
+share the same gamma again might be a
+
+699
+00:27:34,440 --> 00:27:37,279
+different gamma because it's drawn once
+
+700
+00:27:35,799 --> 00:27:38,279
+for that one but each one has a
+
+701
+00:27:37,279 --> 00:27:42,320
+different
+
+702
+00:27:38,279 --> 00:27:44,360
+Epsilon okay um so now to the
+
+703
+00:27:42,320 --> 00:27:46,240
+interpretation the noise variables
+
+704
+00:27:44,360 --> 00:27:48,320
+represent hidden causes that are not
+
+705
+00:27:46,240 --> 00:27:50,799
+confounding okay this is the idea behind
+
+706
+00:27:48,320 --> 00:27:52,440
+these noise variables they might they
+
+707
+00:27:50,799 --> 00:27:54,399
+they reflect variation that's not
+
+708
+00:27:52,440 --> 00:27:57,720
+confounding in the variables that you're
+
+709
+00:27:54,399 --> 00:27:59,840
+modeling and the intuition is that the
+
+710
+00:27:57,720 --> 00:28:01,760
+the sub unit noise just represents that
+
+711
+00:27:59,840 --> 00:28:05,000
+there is non-confounded variation among
+
+712
+00:28:01,760 --> 00:28:07,919
+students inside a school the unit level
+
+713
+00:28:05,000 --> 00:28:10,440
+noise on subunits reflects hidden causes
+
+714
+00:28:07,919 --> 00:28:12,320
+at the unit level right so for example
+
+715
+00:28:10,440 --> 00:28:14,080
+there might be a good teacher at
+
+716
+00:28:12,320 --> 00:28:16,120
+Springfield Elementary right that's
+
+717
+00:28:14,080 --> 00:28:18,600
+gamma everybody benefits from that good
+
+718
+00:28:16,120 --> 00:28:19,720
+teacher oh this is the Y variable so
+
+719
+00:28:18,600 --> 00:28:21,440
+there's the good teacher everybody
+
+720
+00:28:19,720 --> 00:28:24,120
+benefits from that good teacher in the
+
+721
+00:28:21,440 --> 00:28:26,399
+same way and um it's not that that good
+
+722
+00:28:24,120 --> 00:28:28,679
+teacher is at a student level and
+
+723
+00:28:26,399 --> 00:28:30,880
+whereas a student in another school does
+
+724
+00:28:28,679 --> 00:28:33,519
+not benefit from that same good teacher
+
+725
+00:28:30,880 --> 00:28:33,519
+okay that's the
+
+726
+00:28:34,279 --> 00:28:38,880
+idea Okay so we've got the hierarchical
+
+727
+00:28:37,080 --> 00:28:42,880
+structural equation model that's really
+
+728
+00:28:38,880 --> 00:28:44,440
+the basic material of this idea now
+
+729
+00:28:42,880 --> 00:28:46,159
+let's play the same game that Pearl
+
+730
+00:28:44,440 --> 00:28:47,919
+plays to create causal graphical models
+
+731
+00:28:46,159 --> 00:28:50,080
+and we'll integrate out all this
+
+732
+00:28:47,919 --> 00:28:52,480
+noise okay so first we're going to
+
+733
+00:28:50,080 --> 00:28:54,240
+integrate out the unit the subunit level
+
+734
+00:28:52,480 --> 00:28:56,720
+noise and you can see we have a little
+
+735
+00:28:54,240 --> 00:28:57,720
+graphical model for the subunit here
+
+736
+00:28:56,720 --> 00:28:59,399
+right we just did the same thing that
+
+737
+00:28:57,720 --> 00:29:01,399
+you do
+
+738
+00:28:59,399 --> 00:29:06,360
+classically but now we're going to
+
+739
+00:29:01,399 --> 00:29:07,720
+integrate out the um unit level noise
+
+740
+00:29:06,360 --> 00:29:09,840
+all right and now something interesting
+
+741
+00:29:07,720 --> 00:29:13,279
+is going to happen speaking of latent
+
+742
+00:29:09,840 --> 00:29:16,039
+variables so what just
+
+743
+00:29:13,279 --> 00:29:19,600
+happened when we integrated
+
+744
+00:29:16,039 --> 00:29:22,519
+out the unit level Noise We produced
+
+745
+00:29:19,600 --> 00:29:25,840
+these new variables called
+
+746
+00:29:22,519 --> 00:29:28,360
+Q which in the superscript shows you
+
+747
+00:29:25,840 --> 00:29:31,080
+what so I don't know how to explain this
+
+748
+00:29:28,360 --> 00:29:31,080
+let me just think about
+
+749
+00:29:32,679 --> 00:29:39,559
+it we can think of this subunit as being
+
+750
+00:29:35,720 --> 00:29:43,440
+a little graphical model right P of a p
+
+751
+00:29:39,559 --> 00:29:45,080
+of Y given a for school I all right and
+
+752
+00:29:43,440 --> 00:29:46,919
+when we integrate out the unit level
+
+753
+00:29:45,080 --> 00:29:49,399
+noise what we're doing is we are
+
+754
+00:29:46,919 --> 00:29:51,840
+producing new random variables that are
+
+755
+00:29:49,399 --> 00:29:54,919
+the factors in this graphical model
+
+756
+00:29:51,840 --> 00:29:58,840
+right this is p of a Qi of a for school
+
+757
+00:29:54,919 --> 00:30:00,000
+I this is p of Y given a for school I
+
+758
+00:29:58,840 --> 00:30:01,919
+okay that's what we're doing when we
+
+759
+00:30:00,000 --> 00:30:04,320
+integrate out the unit level noise the
+
+760
+00:30:01,919 --> 00:30:07,640
+unit level noise is affecting the
+
+761
+00:30:04,320 --> 00:30:09,200
+distribution of the subunit variables
+
+762
+00:30:07,640 --> 00:30:11,320
+and so when we integrate out the unit
+
+763
+00:30:09,200 --> 00:30:13,480
+level noise we have to make nodes for
+
+764
+00:30:11,320 --> 00:30:16,480
+that distribution and those are random
+
+765
+00:30:13,480 --> 00:30:18,960
+distributions because every time I make
+
+766
+00:30:16,480 --> 00:30:21,000
+a new school I first choose Q of a then
+
+767
+00:30:18,960 --> 00:30:24,440
+I choose Q of Y given a and then I let
+
+768
+00:30:21,000 --> 00:30:28,120
+the students get tutored and stuff
+
+769
+00:30:24,440 --> 00:30:29,840
+okay um
+
+770
+00:30:28,120 --> 00:30:31,200
+notice that's one thing to notice so
+
+771
+00:30:29,840 --> 00:30:33,799
+these are these Q variables are
+
+772
+00:30:31,200 --> 00:30:37,200
+important and also notice the how
+
+773
+00:30:33,799 --> 00:30:39,880
+connectivity changed so we had this unit
+
+774
+00:30:37,200 --> 00:30:42,600
+level variable
+
+775
+00:30:39,880 --> 00:30:45,200
+XI when we integrated out gamma I it
+
+776
+00:30:42,600 --> 00:30:47,840
+became a random variable but it was
+
+777
+00:30:45,200 --> 00:30:49,880
+connected to school performance however
+
+778
+00:30:47,840 --> 00:30:52,320
+because it's a unit level variable it's
+
+779
+00:30:49,880 --> 00:30:53,840
+only a relationship to test performance
+
+780
+00:30:52,320 --> 00:30:55,320
+sorry I said school performance I meant
+
+781
+00:30:53,840 --> 00:30:57,960
+test performance its only relationship
+
+782
+00:30:55,320 --> 00:31:00,080
+to test performance is through the dist
+
+783
+00:30:57,960 --> 00:31:03,240
+distribution of test performance for
+
+784
+00:31:00,080 --> 00:31:07,480
+that school and so the
+
+785
+00:31:03,240 --> 00:31:09,159
+connectivity X goes to q and Q goes to Y
+
+786
+00:31:07,480 --> 00:31:11,159
+these subunit variables are only ever
+
+787
+00:31:09,159 --> 00:31:15,320
+going to be connected to factors in the
+
+788
+00:31:11,159 --> 00:31:17,679
+subunit make sense okay and I'll show
+
+789
+00:31:15,320 --> 00:31:20,200
+you the algorithm for how to connect
+
+790
+00:31:17,679 --> 00:31:22,880
+this up uh
+
+791
+00:31:20,200 --> 00:31:25,399
+later all right and so now we have our
+
+792
+00:31:22,880 --> 00:31:28,480
+hierarchical causal graphical model
+
+793
+00:31:25,399 --> 00:31:30,760
+where we have these new variables Q
+
+794
+00:31:28,480 --> 00:31:33,399
+which are distributions drawn from
+
+795
+00:31:30,760 --> 00:31:35,440
+distributions of distributions okay this
+
+796
+00:31:33,399 --> 00:31:38,000
+is a distribution over distributions of
+
+797
+00:31:35,440 --> 00:31:40,310
+a this is a distribution over
+
+798
+00:31:38,000 --> 00:31:43,159
+conditional distributions of Y given
+
+799
+00:31:40,310 --> 00:31:46,639
+[Music]
+
+800
+00:31:43,159 --> 00:31:48,480
+a okay put differently they lie between
+
+801
+00:31:46,639 --> 00:31:51,279
+the unit level variables and the subunit
+
+802
+00:31:48,480 --> 00:31:53,159
+variables and again oh that's another
+
+803
+00:31:51,279 --> 00:31:54,960
+thing to notice they do not inherit the
+
+804
+00:31:53,159 --> 00:31:58,039
+connectivity of the subunit variables
+
+805
+00:31:54,960 --> 00:32:02,039
+that's also important so whereas a is
+
+806
+00:31:58,039 --> 00:32:04,200
+connected to Y excuse me qia a is not
+
+807
+00:32:02,039 --> 00:32:07,320
+connected to Qi y given
+
+808
+00:32:04,200 --> 00:32:11,159
+a okay and in the paper you can see a
+
+809
+00:32:07,320 --> 00:32:11,159
+derivation for why this all
+
+810
+00:32:11,320 --> 00:32:16,799
+happens all right so here is the
+
+811
+00:32:15,039 --> 00:32:18,760
+graphical algorithm for turning a
+
+812
+00:32:16,799 --> 00:32:21,399
+hierarchical structural equation model
+
+813
+00:32:18,760 --> 00:32:24,600
+into a hierarchical causal graphical
+
+814
+00:32:21,399 --> 00:32:26,320
+model for each subunit variable form
+
+815
+00:32:24,600 --> 00:32:28,320
+subunit level random variables and
+
+816
+00:32:26,320 --> 00:32:30,120
+remove the subunit level noise that's
+
+817
+00:32:28,320 --> 00:32:32,559
+easy that's just the same classical
+
+818
+00:32:30,120 --> 00:32:34,799
+thing just applied to the subunit for
+
+819
+00:32:32,559 --> 00:32:36,600
+the regular unit level variables like X
+
+820
+00:32:34,799 --> 00:32:38,519
+form unit level random variables and
+
+821
+00:32:36,600 --> 00:32:41,039
+remove unit level noise that just gave
+
+822
+00:32:38,519 --> 00:32:43,799
+us the X as a random variable
+
+823
+00:32:41,039 --> 00:32:46,799
+there and then for each subunit level
+
+824
+00:32:43,799 --> 00:32:49,919
+variable form unit level variables for
+
+825
+00:32:46,799 --> 00:32:52,000
+the factor V given its parents that's
+
+826
+00:32:49,919 --> 00:32:54,559
+where we make these Q variables
+
+827
+00:32:52,000 --> 00:32:57,519
+disconnect the unit level variables
+
+828
+00:32:54,559 --> 00:33:00,720
+from the subunit variables and then
+
+829
+00:32:57,519 --> 00:33:03,720
+connect the unit level parents of VI to
+
+830
+00:33:00,720 --> 00:33:05,840
+these Q's all right so this is now a
+
+831
+00:33:03,720 --> 00:33:10,559
+thing you can follow to turn
+
+832
+00:33:05,840 --> 00:33:13,080
+your hierarchical sem to a hierarchical
+
+833
+00:33:10,559 --> 00:33:15,120
+CGM okay so I'm not going to go through
+
+834
+00:33:13,080 --> 00:33:16,919
+it in that much detail but I'll just
+
+835
+00:33:15,120 --> 00:33:18,279
+show you so here's the thing you draw on
+
+836
+00:33:16,919 --> 00:33:22,840
+your board because that's the problem
+
+837
+00:33:18,279 --> 00:33:24,880
+you're solving and now there is your um
+
+838
+00:33:22,840 --> 00:33:29,080
+hierarchical sem corresponding to that
+
+839
+00:33:24,880 --> 00:33:31,360
+graph and now here is the corresponding
+
+840
+00:33:29,080 --> 00:33:33,039
+hierarchical causal graphical model
+
+841
+00:33:31,360 --> 00:33:34,960
+again you can see that whereas there's
+
+842
+00:33:33,039 --> 00:33:37,559
+an arrow here there's no Arrow here
+
+843
+00:33:34,960 --> 00:33:40,440
+that's going to be important for
+
+844
+00:33:37,559 --> 00:33:42,639
+identification here's the interference
+
+845
+00:33:40,440 --> 00:33:44,639
+graph here is the corresponding
+
+846
+00:33:42,639 --> 00:33:46,080
+hierarchical causal graphical model
+
+847
+00:33:44,639 --> 00:33:49,679
+where you can see some interesting stuff
+
+848
+00:33:46,080 --> 00:33:52,960
+happened with z and the q's
+
+849
+00:33:49,679 --> 00:33:54,679
+okay here's the instrument graph and
+
+850
+00:33:52,960 --> 00:33:57,960
+here's the hierarchical causal graphical
+
+851
+00:33:54,679 --> 00:33:59,639
+model you can see we have a Q for Z
+
+852
+00:33:57,960 --> 00:34:02,240
+that's disconnected from everything else
+
+853
+00:33:59,639 --> 00:34:04,600
+Q of a given Z here and some interesting
+
+854
+00:34:02,240 --> 00:34:06,519
+things happening with how it's connected
+
+855
+00:34:04,600 --> 00:34:09,679
+okay so that's
+
+856
+00:34:06,519 --> 00:34:11,560
+the that's the work you do when you draw
+
+857
+00:34:09,679 --> 00:34:14,679
+your assumptions like this with a
+
+858
+00:34:11,560 --> 00:34:16,320
+subunit and to go to something like this
+
+859
+00:34:14,679 --> 00:34:17,839
+which I'm calling a hierarchical causal
+
+860
+00:34:16,320 --> 00:34:21,320
+graphical model the next thing we're
+
+861
+00:34:17,839 --> 00:34:23,760
+going to do is try to figure out how to
+
+862
+00:34:21,320 --> 00:34:26,200
+identify causal effects in the context
+
+863
+00:34:23,760 --> 00:34:29,560
+of these of these causal graphical
+
+864
+00:34:26,200 --> 00:34:33,200
+models and you'll see it's going to be
+
+865
+00:34:29,560 --> 00:34:35,679
+um not that tricky there are assumptions
+
+866
+00:34:33,200 --> 00:34:37,200
+about the way that y depends on this
+
+867
+00:34:35,679 --> 00:34:39,440
+collection of A's and in particular it
+
+868
+00:34:37,200 --> 00:34:42,399
+needs to sort of exchangeably depend on
+
+869
+00:34:39,440 --> 00:34:44,639
+it it can't be that y depends on the
+
+870
+00:34:42,399 --> 00:34:46,359
+First Student in and the third student
+
+871
+00:34:44,639 --> 00:34:48,159
+and the ninth student it has to be that
+
+872
+00:34:46,359 --> 00:34:49,960
+if I saw these A's in different order I
+
+873
+00:34:48,159 --> 00:34:52,520
+would have the same distribution of Y
+
+874
+00:34:49,960 --> 00:34:54,320
+that's crucial all right so now let's do
+
+875
+00:34:52,520 --> 00:34:58,320
+identification and estimation just to
+
+876
+00:34:54,320 --> 00:35:00,760
+remind you um
+
+877
+00:34:58,320 --> 00:35:03,480
+if I'm sitting with a causal inference
+
+878
+00:35:00,760 --> 00:35:07,079
+problem I've set up a a graph that
+
+879
+00:35:03,480 --> 00:35:09,760
+that's my world and um the first
+
+880
+00:35:07,079 --> 00:35:12,240
+question I have is can I identify the
+
+881
+00:35:09,760 --> 00:35:14,040
+causal estimate so I set up my graph I
+
+882
+00:35:12,240 --> 00:35:16,240
+write down the effect of the
+
+883
+00:35:14,040 --> 00:35:19,200
+intervention as some kind of expectation
+
+884
+00:35:16,240 --> 00:35:22,040
+like expectation of Y do
+
+885
+00:35:19,200 --> 00:35:25,359
+QA and then I ask if I can identify it
+
+886
+00:35:22,040 --> 00:35:29,040
+meaning if I had actual access to the
+
+887
+00:35:25,359 --> 00:35:31,280
+Joint distribution under that that um my
+
+888
+00:35:29,040 --> 00:35:32,800
+causal graphical model represents if I
+
+889
+00:35:31,280 --> 00:35:34,880
+had access to that joint distribution or
+
+890
+00:35:32,800 --> 00:35:38,079
+equivalently I had infinite data from
+
+891
+00:35:34,880 --> 00:35:40,920
+that joint distribution could I then
+
+892
+00:35:38,079 --> 00:35:42,960
+figure out what this causal s demand is
+
+893
+00:35:40,920 --> 00:35:45,440
+and the premise is that if you can't
+
+894
+00:35:42,960 --> 00:35:47,400
+which sometimes you can't then there's
+
+895
+00:35:45,440 --> 00:35:49,760
+no hope in trying to estimate it from
+
+896
+00:35:47,400 --> 00:35:53,560
+finite data you're you're
+
+897
+00:35:49,760 --> 00:35:57,119
+sunk if you can then often that formula
+
+898
+00:35:53,560 --> 00:35:59,079
+for how to identify the causal effect um
+
+899
+00:35:57,119 --> 00:36:01,520
+leads you to an algorithm for estimating
+
+900
+00:35:59,079 --> 00:36:03,240
+it from finite data by estimating the
+
+901
+00:36:01,520 --> 00:36:06,160
+various components of that formula so
+
+902
+00:36:03,240 --> 00:36:08,040
+putting the causal s demand in terms of
+
+903
+00:36:06,160 --> 00:36:10,480
+the observational joint distribution is
+
+904
+00:36:08,040 --> 00:36:13,920
+what identification is
+
+905
+00:36:10,480 --> 00:36:15,319
+about okay so I just said this we're
+
+906
+00:36:13,920 --> 00:36:16,599
+writing an Interventional distribution
+
+907
+00:36:15,319 --> 00:36:18,920
+in terms of the observational
+
+908
+00:36:16,599 --> 00:36:21,040
+distribution so for example using the
+
+909
+00:36:18,920 --> 00:36:23,599
+due calculus Pearl's due
+
+910
+00:36:21,040 --> 00:36:26,079
+calculus is one way to get at
+
+911
+00:36:23,599 --> 00:36:28,920
+identification
+
+912
+00:36:26,079 --> 00:36:31,359
+um and again I said this earlier we're
+
+913
+00:36:28,920 --> 00:36:35,079
+going to consider a soft intervention on
+
+914
+00:36:31,359 --> 00:36:38,760
+a where we intervene on
+
+915
+00:36:35,079 --> 00:36:40,960
+a with this qar but now in our new model
+
+916
+00:36:38,760 --> 00:36:43,560
+that has these Q factors in them that's
+
+917
+00:36:40,960 --> 00:36:46,839
+just replacing this q o sorry this Q
+
+918
+00:36:43,560 --> 00:36:49,240
+factor with qar a okay so there's my
+
+919
+00:36:46,839 --> 00:36:52,640
+intervention this is my observational
+
+920
+00:36:49,240 --> 00:36:54,319
+distribution this is my intervene
+
+921
+00:36:52,640 --> 00:36:56,440
+distribution and so what we're going to
+
+922
+00:36:54,319 --> 00:36:58,440
+do is devise a graphical procedure for
+
+923
+00:36:56,440 --> 00:37:00,720
+doing identification these hierarchical
+
+924
+00:36:58,440 --> 00:37:03,000
+causal
+
+925
+00:37:00,720 --> 00:37:06,760
+models
+
+926
+00:37:03,000 --> 00:37:08,119
+okay so here's my confounder graph I
+
+927
+00:37:06,760 --> 00:37:09,720
+turned it into a structural equation and
+
+928
+00:37:08,119 --> 00:37:11,440
+a causal graph and I got these Q
+
+929
+00:37:09,720 --> 00:37:14,520
+variables and so
+
+930
+00:37:11,440 --> 00:37:16,599
+on here's my es demand the expected
+
+931
+00:37:14,520 --> 00:37:18,839
+performance in the world where I
+
+932
+00:37:16,599 --> 00:37:22,359
+intervene and I set everybody's tutoring
+
+933
+00:37:18,839 --> 00:37:24,200
+hours to be drawn from qar a so I'm
+
+934
+00:37:22,359 --> 00:37:28,520
+going to write that down in this way
+
+935
+00:37:24,200 --> 00:37:32,000
+expectation of mu of Q of Y
+
+936
+00:37:28,520 --> 00:37:36,000
+in the world where I intervene on QA
+
+937
+00:37:32,000 --> 00:37:39,119
+now let me explain this notation mu of Q
+
+938
+00:37:36,000 --> 00:37:40,960
+of Y is equal to the expectation under Q
+
+939
+00:37:39,119 --> 00:37:44,839
+of y a marginal distribution over test
+
+940
+00:37:40,960 --> 00:37:46,280
+performance of Y and Q of Y is the
+
+941
+00:37:44,839 --> 00:37:49,040
+marginal distribution of test
+
+942
+00:37:46,280 --> 00:37:52,640
+performance inside the subunit all right
+
+943
+00:37:49,040 --> 00:37:55,880
+so Q of Y just equals this integral QA
+
+944
+00:37:52,640 --> 00:38:00,200
+of a qy given a DA right that's just
+
+945
+00:37:55,880 --> 00:38:02,040
+probability and um but to be clear this
+
+946
+00:38:00,200 --> 00:38:04,960
+is the marginal distribution of test
+
+947
+00:38:02,040 --> 00:38:07,079
+performance within a school
+
+948
+00:38:04,960 --> 00:38:09,480
+right that's why it's capitalized here
+
+949
+00:38:07,079 --> 00:38:12,040
+it's random okay so this is an
+
+950
+00:38:09,480 --> 00:38:14,079
+expectation across schools and this is a
+
+951
+00:38:12,040 --> 00:38:16,640
+random marginal distribution of test
+
+952
+00:38:14,079 --> 00:38:18,800
+performance in a school in other words I
+
+953
+00:38:16,640 --> 00:38:21,920
+don't know I'm going to pluck a school
+
+954
+00:38:18,800 --> 00:38:24,760
+from my from my collection of
+
+955
+00:38:21,920 --> 00:38:26,280
+schools and it's got some distribution
+
+956
+00:38:24,760 --> 00:38:28,560
+of tutoring hours and it's got some
+
+957
+00:38:26,280 --> 00:38:30,920
+relationship between y in tutoring hours
+
+958
+00:38:28,560 --> 00:38:32,480
+and what I'm looking at is the marginal
+
+959
+00:38:30,920 --> 00:38:35,800
+distribution of test performance in that
+
+960
+00:38:32,480 --> 00:38:37,920
+world okay that's just this make sense
+
+961
+00:38:35,800 --> 00:38:39,839
+okay and so this expectation of Y this
+
+962
+00:38:37,920 --> 00:38:41,359
+is like a little iterated expectation
+
+963
+00:38:39,839 --> 00:38:43,480
+it's a
+
+964
+00:38:41,359 --> 00:38:44,760
+little complicated way to write it but
+
+965
+00:38:43,480 --> 00:38:47,480
+that's all that is
+
+966
+00:38:44,760 --> 00:38:49,480
+really what I want you to notice is that
+
+967
+00:38:47,480 --> 00:38:52,319
+this s demand is only a function of Q
+
+968
+00:38:49,480 --> 00:38:54,400
+variables Q of Y is
+
+969
+00:38:52,319 --> 00:38:57,440
+this
+
+970
+00:38:54,400 --> 00:38:58,480
+marginalization and I'm intervening on
+
+971
+00:38:57,440 --> 00:39:00,960
+on
+
+972
+00:38:58,480 --> 00:39:03,280
+QA okay so this is just something about
+
+973
+00:39:00,960 --> 00:39:03,280
+Q
+
+974
+00:39:03,680 --> 00:39:09,640
+variables So In classical
+
+975
+00:39:06,960 --> 00:39:11,680
+identification analysis we take n to
+
+976
+00:39:09,640 --> 00:39:14,800
+Infinity we imagine the number of units
+
+977
+00:39:11,680 --> 00:39:16,800
+goes to Infinity for hierarchical causal
+
+978
+00:39:14,800 --> 00:39:18,400
+models we're going to take both n and M
+
+979
+00:39:16,800 --> 00:39:20,040
+to Infinity so we're going to ask can I
+
+980
+00:39:18,400 --> 00:39:22,119
+identify the causal effect if I had an
+
+981
+00:39:20,040 --> 00:39:25,280
+infinite number of schools and each
+
+982
+00:39:22,119 --> 00:39:27,680
+school had an infinite number of
+
+983
+00:39:25,280 --> 00:39:29,200
+students and what that means is that
+
+984
+00:39:27,680 --> 00:39:31,040
+these Q variables are effectively
+
+985
+00:39:29,200 --> 00:39:32,720
+observed right if I had infinite number
+
+986
+00:39:31,040 --> 00:39:35,000
+of students in each school then I don't
+
+987
+00:39:32,720 --> 00:39:37,359
+need to worry about subunit about
+
+988
+00:39:35,000 --> 00:39:38,720
+variation of of uh students within the
+
+989
+00:39:37,359 --> 00:39:40,200
+school because I've seen an infinite
+
+990
+00:39:38,720 --> 00:39:42,000
+number of students I can tell you
+
+991
+00:39:40,200 --> 00:39:44,240
+exactly what the different Q factors are
+
+992
+00:39:42,000 --> 00:39:44,240
+going to
+
+993
+00:39:44,599 --> 00:39:50,040
+be so we call this graphical approach to
+
+994
+00:39:47,440 --> 00:39:52,280
+identification collapse and augment all
+
+995
+00:39:50,040 --> 00:39:54,040
+right and what's going to happen is
+
+996
+00:39:52,280 --> 00:39:56,359
+we're going to do this thing it's going
+
+997
+00:39:54,040 --> 00:39:58,760
+to result in a flat causal graphical
+
+998
+00:39:56,359 --> 00:40:01,160
+model a classical one that's going to be
+
+999
+00:39:58,760 --> 00:40:02,960
+equivalent to the HCM in both pre and
+
+1000
+00:40:01,160 --> 00:40:05,640
+post intervention distributions and then
+
+1001
+00:40:02,960 --> 00:40:07,319
+we do identification in that model okay
+
+1002
+00:40:05,640 --> 00:40:09,920
+so first what we're going to do is we're
+
+1003
+00:40:07,319 --> 00:40:12,119
+going to what we call collapse the model
+
+1004
+00:40:09,920 --> 00:40:14,760
+we write the model down in terms of
+
+1005
+00:40:12,119 --> 00:40:17,200
+these Q variables so there's my
+
+1006
+00:40:14,760 --> 00:40:18,560
+confounder and I remove the subunit
+
+1007
+00:40:17,200 --> 00:40:20,000
+variables because I'm imagining an
+
+1008
+00:40:18,560 --> 00:40:22,400
+infinite number of students in the
+
+1009
+00:40:20,000 --> 00:40:25,640
+schools all right and so you can see now
+
+1010
+00:40:22,400 --> 00:40:28,160
+already what happened I made my Q
+
+1011
+00:40:25,640 --> 00:40:30,680
+variables excuse me
+
+1012
+00:40:28,160 --> 00:40:31,800
+and um I'm they are effectively observed
+
+1013
+00:40:30,680 --> 00:40:34,240
+because I saw an infinite number of
+
+1014
+00:40:31,800 --> 00:40:35,920
+students but remember I did not preserve
+
+1015
+00:40:34,240 --> 00:40:37,599
+that connectivity between them right
+
+1016
+00:40:35,920 --> 00:40:39,480
+that went away so that's going to help
+
+1017
+00:40:37,599 --> 00:40:42,079
+us
+
+1018
+00:40:39,480 --> 00:40:44,599
+okay but the second step this is in
+
+1019
+00:40:42,079 --> 00:40:47,480
+terms of QA and qy given a but our
+
+1020
+00:40:44,599 --> 00:40:49,560
+causal es demand is in terms of qy which
+
+1021
+00:40:47,480 --> 00:40:52,240
+was this integral and so I'm going to
+
+1022
+00:40:49,560 --> 00:40:54,359
+add qy which is a deterministic function
+
+1023
+00:40:52,240 --> 00:40:58,800
+I'm using double arrows to denote that
+
+1024
+00:40:54,359 --> 00:40:58,800
+of QA and qy given a
+
+1025
+00:41:00,319 --> 00:41:04,839
+all right so that's collapse and augment
+
+1026
+00:41:02,280 --> 00:41:07,920
+right so now this is my graphical model
+
+1027
+00:41:04,839 --> 00:41:12,520
+that I want to try to identify the
+
+1028
+00:41:07,920 --> 00:41:16,079
+causal effect of intervening on QA on
+
+1029
+00:41:12,520 --> 00:41:18,000
+qy all right and so again here's my
+
+1030
+00:41:16,079 --> 00:41:21,599
+causal s
+
+1031
+00:41:18,000 --> 00:41:24,720
+demand and this if you know graphical
+
+1032
+00:41:21,599 --> 00:41:29,400
+models you can see is easy to identify
+
+1033
+00:41:24,720 --> 00:41:31,400
+with backd door adjustment qy given a is
+
+1034
+00:41:29,400 --> 00:41:34,079
+I need to condition on that and
+
+1035
+00:41:31,400 --> 00:41:35,960
+marginalize it out and then I can get
+
+1036
+00:41:34,079 --> 00:41:37,480
+the distribution of qy in the world
+
+1037
+00:41:35,960 --> 00:41:42,640
+where I intervene on
+
+1038
+00:41:37,480 --> 00:41:46,680
+QA okay it's p of qy given a p of qy
+
+1039
+00:41:42,640 --> 00:41:48,839
+given qar a and qy given a dqy given a
+
+1040
+00:41:46,680 --> 00:41:51,160
+all right this is an Interventional
+
+1041
+00:41:48,839 --> 00:41:55,000
+distribution this is all about the
+
+1042
+00:41:51,160 --> 00:41:58,920
+observational distribution okay one
+
+1043
+00:41:55,000 --> 00:42:01,000
+Nuance here is that P of qy given qar a
+
+1044
+00:41:58,920 --> 00:42:05,599
+and qy given a is essentially a Delta
+
+1045
+00:42:01,000 --> 00:42:08,440
+mass at the right qy given a that when
+
+1046
+00:42:05,599 --> 00:42:11,680
+combined with QA gives me qy all right
+
+1047
+00:42:08,440 --> 00:42:15,440
+it's a little funky
+
+1048
+00:42:11,680 --> 00:42:19,000
+but but it works out
+
+1049
+00:42:15,440 --> 00:42:22,680
+okay all right at a higher level the
+
+1050
+00:42:19,000 --> 00:42:25,000
+point is this I took that hierarchical
+
+1051
+00:42:22,680 --> 00:42:27,680
+model I turned it into this flat causal
+
+1052
+00:42:25,000 --> 00:42:31,280
+model this flat causal model ows for
+
+1053
+00:42:27,680 --> 00:42:34,520
+identification of the effect of QA on
+
+1054
+00:42:31,280 --> 00:42:37,359
+qy that's
+
+1055
+00:42:34,520 --> 00:42:40,359
+it we took that identification formula
+
+1056
+00:42:37,359 --> 00:42:42,480
+we ran a little simulation just to
+
+1057
+00:42:40,359 --> 00:42:44,760
+demonstrate that it works and you can
+
+1058
+00:42:42,480 --> 00:42:46,960
+see as we see more and more data in
+
+1059
+00:42:44,760 --> 00:42:49,040
+terms of number of units and subunits we
+
+1060
+00:42:46,960 --> 00:42:50,960
+get closer and closer to the true effect
+
+1061
+00:42:49,040 --> 00:42:52,920
+whereas a naive regression is going to
+
+1062
+00:42:50,960 --> 00:42:54,440
+be biased the theory already tells you
+
+1063
+00:42:52,920 --> 00:42:57,440
+that this is true but this is just a
+
+1064
+00:42:54,440 --> 00:42:57,440
+demonstration
+
+1065
+00:42:58,079 --> 00:43:01,960
+so we're going to now play that game
+
+1066
+00:42:59,760 --> 00:43:03,839
+with the interference graph so when we
+
+1067
+00:43:01,960 --> 00:43:05,599
+collapse the interference graph the Q
+
+1068
+00:43:03,839 --> 00:43:09,319
+variables are going to attach to the
+
+1069
+00:43:05,599 --> 00:43:11,359
+mediator there is the there is the
+
+1070
+00:43:09,319 --> 00:43:13,520
+collapse graph for the interference
+
+1071
+00:43:11,359 --> 00:43:15,319
+graph again I got my Q variables for the
+
+1072
+00:43:13,520 --> 00:43:18,040
+different factors in the subunit but
+
+1073
+00:43:15,319 --> 00:43:19,680
+they attach to the mediators right and
+
+1074
+00:43:18,040 --> 00:43:21,839
+again the intuition if more students
+
+1075
+00:43:19,680 --> 00:43:25,559
+receive tutoring QA then there's going
+
+1076
+00:43:21,839 --> 00:43:25,559
+to be more classroom discussion
+
+1077
+00:43:25,599 --> 00:43:28,960
+Z and that class classro discussion is
+
+1078
+00:43:27,839 --> 00:43:31,240
+going to change the conditional
+
+1079
+00:43:28,960 --> 00:43:32,760
+distribution of scores how much tutoring
+
+1080
+00:43:31,240 --> 00:43:35,520
+affects my
+
+1081
+00:43:32,760 --> 00:43:38,640
+score we're going to augment it we add
+
+1082
+00:43:35,520 --> 00:43:42,000
+qy and
+
+1083
+00:43:38,640 --> 00:43:44,319
+um now these Q
+
+1084
+00:43:42,000 --> 00:43:48,240
+variables all right so we're going to
+
+1085
+00:43:44,319 --> 00:43:49,960
+augment it qy and and this is the graph
+
+1086
+00:43:48,240 --> 00:43:53,480
+um
+
+1087
+00:43:49,960 --> 00:43:56,640
+good now again we have the same cause of
+
+1088
+00:43:53,480 --> 00:43:59,359
+L demand the the the effect on qy of
+
+1089
+00:43:56,640 --> 00:44:01,440
+interv meaning on QA now it's going to
+
+1090
+00:43:59,359 --> 00:44:04,079
+get a little
+
+1091
+00:44:01,440 --> 00:44:06,640
+hairer we write that down in terms of
+
+1092
+00:44:04,079 --> 00:44:10,800
+again a point mass at the marginal now
+
+1093
+00:44:06,640 --> 00:44:14,000
+times the change in qy given a by that
+
+1094
+00:44:10,800 --> 00:44:16,680
+intervention and
+
+1095
+00:44:14,000 --> 00:44:19,480
+this the change in qy given a based on
+
+1096
+00:44:16,680 --> 00:44:20,800
+the intervention on QA can be can be
+
+1097
+00:44:19,480 --> 00:44:22,559
+found with what's called front door
+
+1098
+00:44:20,800 --> 00:44:24,640
+adjustment I won't go into the details
+
+1099
+00:44:22,559 --> 00:44:26,400
+here if you're familiar with it that's
+
+1100
+00:44:24,640 --> 00:44:27,680
+great you just saw an application of
+
+1101
+00:44:26,400 --> 00:44:29,559
+front door adjust
+
+1102
+00:44:27,680 --> 00:44:32,640
+if not you can read about it in in
+
+1103
+00:44:29,559 --> 00:44:36,119
+Pearl's work um it's another way to get
+
+1104
+00:44:32,640 --> 00:44:38,000
+at the intervention distribution using
+
+1105
+00:44:36,119 --> 00:44:39,440
+terms from the observation distribution
+
+1106
+00:44:38,000 --> 00:44:41,559
+that's all that's
+
+1107
+00:44:39,440 --> 00:44:43,200
+important and that we can do it here
+
+1108
+00:44:41,559 --> 00:44:45,599
+whereas we couldn't do it if we had
+
+1109
+00:44:43,200 --> 00:44:48,800
+already aggregated the
+
+1110
+00:44:45,599 --> 00:44:52,319
+data again a simple simulation to show
+
+1111
+00:44:48,800 --> 00:44:52,319
+you that it's doing the right
+
+1112
+00:44:52,440 --> 00:44:57,559
+thing the instrument graph this is the
+
+1113
+00:44:55,520 --> 00:44:59,720
+last one is
+
+1114
+00:44:57,559 --> 00:45:01,880
+again the es demand is expectation of Y
+
+1115
+00:44:59,720 --> 00:45:03,520
+do a but now y remember is at the unit
+
+1116
+00:45:01,880 --> 00:45:06,400
+level this is like is the school in a
+
+1117
+00:45:03,520 --> 00:45:06,400
+published list of top
+
+1118
+00:45:06,680 --> 00:45:15,079
+schools here again we collapse and
+
+1119
+00:45:11,400 --> 00:45:17,559
+augment the
+
+1120
+00:45:15,079 --> 00:45:19,599
+graph it's a little special in that the
+
+1121
+00:45:17,559 --> 00:45:21,839
+augmentation is on the treatment
+
+1122
+00:45:19,599 --> 00:45:25,599
+variable right because we QA is a
+
+1123
+00:45:21,839 --> 00:45:29,960
+function of qz and QA given Z and QA
+
+1124
+00:45:25,599 --> 00:45:32,680
+given Z and qz only affect y through QA
+
+1125
+00:45:29,960 --> 00:45:35,559
+okay identification now comes from backd
+
+1126
+00:45:32,680 --> 00:45:38,160
+door adjustment and what this shows you
+
+1127
+00:45:35,559 --> 00:45:39,920
+is that in this graph you can do
+
+1128
+00:45:38,160 --> 00:45:41,359
+identification without the usual kinds
+
+1129
+00:45:39,920 --> 00:45:43,640
+of assumptions that instrumental
+
+1130
+00:45:41,359 --> 00:45:47,000
+variable analysis requires right the
+
+1131
+00:45:43,640 --> 00:45:47,000
+details are in the paper about
+
+1132
+00:45:47,559 --> 00:45:51,920
+that okay and again here's a simple
+
+1133
+00:45:50,000 --> 00:45:53,000
+simulation just to confirm so what we're
+
+1134
+00:45:51,920 --> 00:45:55,800
+doing by the way in these simple
+
+1135
+00:45:53,000 --> 00:45:57,319
+simulations is taking the identification
+
+1136
+00:45:55,800 --> 00:45:59,720
+formula in this case it comes from back
+
+1137
+00:45:57,319 --> 00:46:03,079
+door adjustment and just doing
+
+1138
+00:45:59,720 --> 00:46:06,920
+the dumbest Monte Carlo estimates of
+
+1139
+00:46:03,079 --> 00:46:10,319
+each term and then estimating the
+
+1140
+00:46:06,920 --> 00:46:14,440
+distribution or expectation through
+
+1141
+00:46:10,319 --> 00:46:16,760
+that okay that's the slog of the details
+
+1142
+00:46:14,440 --> 00:46:20,319
+of this
+
+1143
+00:46:16,760 --> 00:46:22,280
+idea the main point is you might be in a
+
+1144
+00:46:20,319 --> 00:46:25,880
+causal inference situation where you
+
+1145
+00:46:22,280 --> 00:46:27,480
+have subunits inside units if you are
+
+1146
+00:46:25,880 --> 00:46:30,000
+you can reason about that that by
+
+1147
+00:46:27,480 --> 00:46:32,839
+thinking about random distributions of
+
+1148
+00:46:30,000 --> 00:46:34,559
+subunits inside units and those random
+
+1149
+00:46:32,839 --> 00:46:36,280
+distributions won't necessarily be
+
+1150
+00:46:34,559 --> 00:46:38,599
+connected in the same way as the
+
+1151
+00:46:36,280 --> 00:46:40,520
+subunits were and that could be that
+
+1152
+00:46:38,599 --> 00:46:42,319
+could open the door to causal inference
+
+1153
+00:46:40,520 --> 00:46:45,040
+where it was otherwise unavailable from
+
+1154
+00:46:42,319 --> 00:46:49,520
+aggregated data that's the
+
+1155
+00:46:45,040 --> 00:46:52,160
+punchline so as a sort of real world
+
+1156
+00:46:49,520 --> 00:46:54,200
+study I say sort of because this is like
+
+1157
+00:46:52,160 --> 00:46:57,240
+the digits of hierarchical basian
+
+1158
+00:46:54,200 --> 00:46:59,040
+analysis um we looked at the old data
+
+1159
+00:46:57,240 --> 00:47:00,520
+from the eight schools all right and
+
+1160
+00:46:59,040 --> 00:47:03,839
+actually this data is about it's a
+
+1161
+00:47:00,520 --> 00:47:06,400
+coincidence test performance and um
+
+1162
+00:47:03,839 --> 00:47:08,800
+tutoring hours and this data has become
+
+1163
+00:47:06,400 --> 00:47:10,240
+a staple of hierarchical basian modeling
+
+1164
+00:47:08,800 --> 00:47:12,480
+and the idea behind this data is to
+
+1165
+00:47:10,240 --> 00:47:14,200
+estimate the effect of test preparation
+
+1166
+00:47:12,480 --> 00:47:16,680
+on the SAT verbal which is a
+
+1167
+00:47:14,200 --> 00:47:18,800
+standardized test I say it's a
+
+1168
+00:47:16,680 --> 00:47:21,400
+coincidence because we use that example
+
+1169
+00:47:18,800 --> 00:47:22,599
+just to work out these ideas and then at
+
+1170
+00:47:21,400 --> 00:47:23,920
+the end we thought oh let's look at
+
+1171
+00:47:22,599 --> 00:47:28,440
+eight schools and then it turns out
+
+1172
+00:47:23,920 --> 00:47:31,920
+eight schools is about that example okay
+
+1173
+00:47:28,440 --> 00:47:34,960
+so here's our here's our variables XI J
+
+1174
+00:47:31,920 --> 00:47:39,359
+is the previous test store for student J
+
+1175
+00:47:34,960 --> 00:47:41,359
+aij is tutoring hours Yi J is um sat
+
+1176
+00:47:39,359 --> 00:47:42,960
+performance and you know one thing you
+
+1177
+00:47:41,359 --> 00:47:45,599
+can do is imagine there are no causal
+
+1178
+00:47:42,960 --> 00:47:49,440
+issues that this is just everything is
+
+1179
+00:47:45,599 --> 00:47:54,000
+fine okay and now you just look at a big
+
+1180
+00:47:49,440 --> 00:47:56,000
+average okay and and and that's not even
+
+1181
+00:47:54,000 --> 00:47:58,520
+hierarchical base that's just taking the
+
+1182
+00:47:56,000 --> 00:48:02,720
+raw data and calculating a big
+
+1183
+00:47:58,520 --> 00:48:04,160
+conditional average of Y given a and X
+
+1184
+00:48:02,720 --> 00:48:05,640
+now you could imagine in the eight
+
+1185
+00:48:04,160 --> 00:48:07,319
+schools example that there could be unit
+
+1186
+00:48:05,640 --> 00:48:09,599
+level by the way eight schools means n
+
+1187
+00:48:07,319 --> 00:48:10,839
+equals 8 okay you can imagine in eight
+
+1188
+00:48:09,599 --> 00:48:12,680
+schools there could be unit level
+
+1189
+00:48:10,839 --> 00:48:15,400
+confounders that affect both treatment
+
+1190
+00:48:12,680 --> 00:48:17,960
+and outcome all right and in and Eli
+
+1191
+00:48:15,400 --> 00:48:19,599
+looked at the original 1979 paper found
+
+1192
+00:48:17,960 --> 00:48:21,920
+this quote where student interest far
+
+1193
+00:48:19,599 --> 00:48:23,520
+exceeded the program's capacity a larger
+
+1194
+00:48:21,920 --> 00:48:25,440
+number of students went into the control
+
+1195
+00:48:23,520 --> 00:48:27,319
+group than in the treatment group okay
+
+1196
+00:48:25,440 --> 00:48:30,359
+what that means is that there's some
+
+1197
+00:48:27,319 --> 00:48:32,960
+hidden variables here that are affecting
+
+1198
+00:48:30,359 --> 00:48:35,680
+distributions of tutoring hours and of
+
+1199
+00:48:32,960 --> 00:48:37,480
+course performance because there is
+
+1200
+00:48:35,680 --> 00:48:38,800
+student interest right you can imagine
+
+1201
+00:48:37,480 --> 00:48:40,240
+in schools where people are interested
+
+1202
+00:48:38,800 --> 00:48:42,280
+in tutoring they probably are doing
+
+1203
+00:48:40,240 --> 00:48:45,640
+better on the test I mean I'm not an
+
+1204
+00:48:42,280 --> 00:48:48,800
+expert but that's you can imagine that
+
+1205
+00:48:45,640 --> 00:48:51,200
+um what's interesting I thought just
+
+1206
+00:48:48,800 --> 00:48:53,599
+historically is that when you run
+
+1207
+00:48:51,200 --> 00:48:55,480
+through our methodology with this graph
+
+1208
+00:48:53,599 --> 00:48:57,920
+you get back classical hierarchical
+
+1209
+00:48:55,480 --> 00:48:59,720
+basian modeling right which means that
+
+1210
+00:48:57,920 --> 00:49:01,240
+doing the classical hierarchical basian
+
+1211
+00:48:59,720 --> 00:49:04,079
+modeling thing even though it's not a
+
+1212
+00:49:01,240 --> 00:49:06,400
+causal thing is gives you the same
+
+1213
+00:49:04,079 --> 00:49:08,119
+algorithm as imagining a causal graph
+
+1214
+00:49:06,400 --> 00:49:10,200
+with this unobserved confounder I
+
+1215
+00:49:08,119 --> 00:49:12,880
+thought that was kind of
+
+1216
+00:49:10,200 --> 00:49:16,680
+interesting now could there be
+
+1217
+00:49:12,880 --> 00:49:19,680
+interference turns out that class size
+
+1218
+00:49:16,680 --> 00:49:21,760
+the class size of the tutoring hours of
+
+1219
+00:49:19,680 --> 00:49:24,680
+the tutoring class depends on school
+
+1220
+00:49:21,760 --> 00:49:27,079
+size um as well as of course treatment
+
+1221
+00:49:24,680 --> 00:49:28,920
+and affects the score Yi J right so this
+
+1222
+00:49:27,079 --> 00:49:31,960
+is another case of
+
+1223
+00:49:28,920 --> 00:49:34,000
+interference and so we reanalyze the
+
+1224
+00:49:31,960 --> 00:49:36,680
+eight schools data using this
+
+1225
+00:49:34,000 --> 00:49:39,160
+hierarchical causal graph and what we
+
+1226
+00:49:36,680 --> 00:49:40,640
+found is that if you imagine and there's
+
+1227
+00:49:39,160 --> 00:49:42,119
+again a quote I don't have it in here
+
+1228
+00:49:40,640 --> 00:49:45,400
+from the paper saying that class size
+
+1229
+00:49:42,119 --> 00:49:47,839
+could really be a thing um you find that
+
+1230
+00:49:45,400 --> 00:49:50,240
+whereas the paper found a small positive
+
+1231
+00:49:47,839 --> 00:49:52,520
+effect to tutoring the uncertainty about
+
+1232
+00:49:50,240 --> 00:49:54,799
+it uh when you think about the
+
+1233
+00:49:52,520 --> 00:49:57,119
+possibility of interference uh goes up
+
+1234
+00:49:54,799 --> 00:49:59,720
+and you can't you can't conclude that
+
+1235
+00:49:57,119 --> 00:50:02,480
+there is any um good effect for tutoring
+
+1236
+00:49:59,720 --> 00:50:04,920
+on Sat performance again I'm not
+
+1237
+00:50:02,480 --> 00:50:08,559
+suggesting that this
+
+1238
+00:50:04,920 --> 00:50:13,160
+is any kind of new result in
+
+1239
+00:50:08,559 --> 00:50:15,680
+educational data analysis rather that a
+
+1240
+00:50:13,160 --> 00:50:18,240
+way to use hierarchical causal models in
+
+1241
+00:50:15,680 --> 00:50:21,640
+a real world
+
+1242
+00:50:18,240 --> 00:50:23,319
+setting okay so in summary nested data
+
+1243
+00:50:21,640 --> 00:50:25,760
+and hierarchical models are a main stay
+
+1244
+00:50:23,319 --> 00:50:27,640
+of Basi and statistics but today I told
+
+1245
+00:50:25,760 --> 00:50:29,920
+you about how to think about nested data
+
+1246
+00:50:27,640 --> 00:50:32,319
+in the context of causal models the key
+
+1247
+00:50:29,920 --> 00:50:34,240
+idea the nested data produces a flat
+
+1248
+00:50:32,319 --> 00:50:35,799
+model of distributions that if you see
+
+1249
+00:50:34,240 --> 00:50:37,200
+many many many students you've
+
+1250
+00:50:35,799 --> 00:50:39,720
+effectively observed and now you can
+
+1251
+00:50:37,200 --> 00:50:41,319
+reason about those distributions but it
+
+1252
+00:50:39,720 --> 00:50:43,319
+doesn't inherit the connectivity of the
+
+1253
+00:50:41,319 --> 00:50:45,480
+original model which can open the door
+
+1254
+00:50:43,319 --> 00:50:47,319
+to identification and
+
+1255
+00:50:45,480 --> 00:50:49,960
+estimation there's lots of things you
+
+1256
+00:50:47,319 --> 00:50:51,599
+can imagine doing different applications
+
+1257
+00:50:49,960 --> 00:50:53,400
+I mentioned the tel application that
+
+1258
+00:50:51,599 --> 00:50:55,040
+we're finishing up now you could think
+
+1259
+00:50:53,400 --> 00:50:56,480
+about using this in the context of
+
+1260
+00:50:55,040 --> 00:50:57,760
+multi-site experiments you can think
+
+1261
+00:50:56,480 --> 00:51:00,000
+about about all different kinds of
+
+1262
+00:50:57,760 --> 00:51:02,559
+places where you have many
+
+1263
+00:51:00,000 --> 00:51:04,079
+related groups of data a causal
+
+1264
+00:51:02,559 --> 00:51:06,319
+inference question that you have about
+
+1265
+00:51:04,079 --> 00:51:08,000
+all of them and where this could help
+
+1266
+00:51:06,319 --> 00:51:12,359
+you deal with some of the unobserved
+
+1267
+00:51:08,000 --> 00:51:12,359
+variables that are lurking in those data
+
+1268
+00:51:12,640 --> 00:51:17,599
+sets as I mentioned we did the most
+
+1269
+00:51:15,000 --> 00:51:21,760
+naive silly little estimation algorithms
+
+1270
+00:51:17,599 --> 00:51:23,839
+using Monte Carlo but I enjoy doing
+
+1271
+00:51:21,760 --> 00:51:25,359
+basian inference and so you could
+
+1272
+00:51:23,839 --> 00:51:27,680
+imagine and this has random
+
+1273
+00:51:25,359 --> 00:51:29,280
+distributions in it and so you know one
+
+1274
+00:51:27,680 --> 00:51:31,240
+thought would be to think about basian
+
+1275
+00:51:29,280 --> 00:51:32,880
+nonparametrics which is all about how to
+
+1276
+00:51:31,240 --> 00:51:34,920
+do basian analysis on random
+
+1277
+00:51:32,880 --> 00:51:38,559
+distributions in the context of these
+
+1278
+00:51:34,920 --> 00:51:41,000
+hierarchical causal models or other
+
+1279
+00:51:38,559 --> 00:51:42,599
+better estimation algorithms and then
+
+1280
+00:51:41,000 --> 00:51:45,880
+another question is is this method
+
+1281
+00:51:42,599 --> 00:51:48,920
+complete in other words um Can it always
+
+1282
+00:51:45,880 --> 00:51:51,359
+find c can the algorithm for deciding
+
+1283
+00:51:48,920 --> 00:51:53,520
+whether or not it's identifiable always
+
+1284
+00:51:51,359 --> 00:51:55,200
+find out that it is identifiable if it
+
+1285
+00:51:53,520 --> 00:51:56,839
+is this is a theoretical question that
+
+1286
+00:51:55,200 --> 00:51:59,839
+we have not answered if if you're
+
+1287
+00:51:56,839 --> 00:52:01,799
+interested there's a paper on the
+
+1288
+00:51:59,839 --> 00:52:04,799
+archive that's it these are the extra
+
+1289
+00:52:01,799 --> 00:52:04,799
+slides thanks very
+
+1290
+00:52:05,540 --> 00:52:11,640
+[Applause]
+
+1291
+00:52:09,400 --> 00:52:15,640
+much thank you very much Dave
+
+1292
+00:52:11,640 --> 00:52:17,920
+wonderfully explained talk okay so
+
+1293
+00:52:15,640 --> 00:52:20,640
+questions I'll try to run around and
+
+1294
+00:52:17,920 --> 00:52:22,880
+also if you can um come to the mic as
+
+1295
+00:52:20,640 --> 00:52:24,880
+well um I was wondering about
+
+1296
+00:52:22,880 --> 00:52:26,839
+measurement noise in the observed
+
+1297
+00:52:24,880 --> 00:52:28,920
+parameters at one point you said all the
+
+1298
+00:52:26,839 --> 00:52:31,119
+noise we observed is the result of
+
+1299
+00:52:28,920 --> 00:52:34,200
+hidden causes but it could just be
+
+1300
+00:52:31,119 --> 00:52:36,079
+random sampling and measurement errors
+
+1301
+00:52:34,200 --> 00:52:38,880
+which is I think a lot the case in some
+
+1302
+00:52:36,079 --> 00:52:40,680
+of the data sets we look at and yeah it
+
+1303
+00:52:38,880 --> 00:52:43,760
+seems like especially if the
+
+1304
+00:52:40,680 --> 00:52:46,440
+differences and the causal effects could
+
+1305
+00:52:43,760 --> 00:52:48,040
+appear smaller for variables that have
+
+1306
+00:52:46,440 --> 00:52:50,240
+more measurement noise and that sort of
+
+1307
+00:52:48,040 --> 00:52:52,839
+thing and is it still possible to
+
+1308
+00:52:50,240 --> 00:52:54,720
+identify cause effects in those so I
+
+1309
+00:52:52,839 --> 00:52:57,240
+think the answer to your question is
+
+1310
+00:52:54,720 --> 00:52:59,240
+that that um
+
+1311
+00:52:57,240 --> 00:53:00,839
+you know I I told you earlier I'm a
+
+1312
+00:52:59,240 --> 00:53:03,079
+little allergic to the philosophical
+
+1313
+00:53:00,839 --> 00:53:05,119
+stuff but the you know I think the
+
+1314
+00:53:03,079 --> 00:53:07,079
+answer is that the subunit level noise
+
+1315
+00:53:05,119 --> 00:53:09,200
+is measurement noise right so that could
+
+1316
+00:53:07,079 --> 00:53:12,160
+be seen as a hidden cause the hidden
+
+1317
+00:53:09,200 --> 00:53:16,440
+cause is some crazy stuff that you know
+
+1318
+00:53:12,160 --> 00:53:19,359
+a genius could figure out was there is
+
+1319
+00:53:16,440 --> 00:53:21,079
+creating noise in my subunit variable or
+
+1320
+00:53:19,359 --> 00:53:22,760
+maybe it's innate Randomness I'm not
+
+1321
+00:53:21,079 --> 00:53:25,319
+sure that's why I said it's kind of
+
+1322
+00:53:22,760 --> 00:53:27,440
+philosophical um so that's where
+
+1323
+00:53:25,319 --> 00:53:28,640
+measurement noise would live now can you
+
+1324
+00:53:27,440 --> 00:53:31,359
+still
+
+1325
+00:53:28,640 --> 00:53:32,640
+identify I made a big assumption here
+
+1326
+00:53:31,359 --> 00:53:35,559
+which is that you have an infinite
+
+1327
+00:53:32,640 --> 00:53:38,359
+number of subunit variables I a question
+
+1328
+00:53:35,559 --> 00:53:40,040
+here I should added to this list what
+
+1329
+00:53:38,359 --> 00:53:41,839
+are the finite sample properties of
+
+1330
+00:53:40,040 --> 00:53:44,400
+these estimators right this is the this
+
+1331
+00:53:41,839 --> 00:53:46,440
+is the an important question it seems to
+
+1332
+00:53:44,400 --> 00:53:47,839
+me the measurement L does not affect the
+
+1333
+00:53:46,440 --> 00:53:49,480
+other variables it's just what you
+
+1334
+00:53:47,839 --> 00:53:51,079
+observe again yeah that's right so
+
+1335
+00:53:49,480 --> 00:53:53,319
+that's why it would be in like the let
+
+1336
+00:53:51,079 --> 00:53:55,680
+me get my guy that's why it would be
+
+1337
+00:53:53,319 --> 00:53:57,440
+like if there's an Epsilon here in the
+
+1338
+00:53:55,680 --> 00:53:59,440
+in the structural equation model right
+
+1339
+00:53:57,440 --> 00:54:01,920
+that the randomness in AI J is because
+
+1340
+00:53:59,440 --> 00:54:03,319
+of measurement noise for example that's
+
+1341
+00:54:01,920 --> 00:54:05,720
+the idea that's where measurement noise
+
+1342
+00:54:03,319 --> 00:54:07,920
+would be modeled in this situation and
+
+1343
+00:54:05,720 --> 00:54:09,400
+indeed thought of as unconfounded it
+
+1344
+00:54:07,920 --> 00:54:12,640
+doesn't connect to anything else it just
+
+1345
+00:54:09,400 --> 00:54:14,599
+connects to AI J but of course if you
+
+1346
+00:54:12,640 --> 00:54:16,599
+see an infinite number of these subunits
+
+1347
+00:54:14,599 --> 00:54:18,319
+then all that measurement noise is
+
+1348
+00:54:16,599 --> 00:54:20,200
+washed out except that you of course
+
+1349
+00:54:18,319 --> 00:54:22,880
+don't so that's why it's an interesting
+
+1350
+00:54:20,200 --> 00:54:24,319
+question to ask one what are the finite
+
+1351
+00:54:22,880 --> 00:54:27,040
+sample properties but two even
+
+1352
+00:54:24,319 --> 00:54:28,720
+theoretically how do I think about
+
+1353
+00:54:27,040 --> 00:54:31,680
+more subunits like we were talking about
+
+1354
+00:54:28,720 --> 00:54:33,640
+at lunch more subunits versus more units
+
+1355
+00:54:31,680 --> 00:54:36,319
+y good
+
+1356
+00:54:33,640 --> 00:54:38,760
+question yeah uh so I have a question
+
+1357
+00:54:36,319 --> 00:54:40,520
+about the the error bars and uncertainty
+
+1358
+00:54:38,760 --> 00:54:41,920
+so towards the end you mentioned this so
+
+1359
+00:54:40,520 --> 00:54:44,480
+one question I guess is how do you
+
+1360
+00:54:41,920 --> 00:54:46,559
+compute these are these um uncertainties
+
+1361
+00:54:44,480 --> 00:54:49,160
+over the identified model or the
+
+1362
+00:54:46,559 --> 00:54:53,559
+randomness for an experiment are both
+
+1363
+00:54:49,160 --> 00:54:55,119
+and why was it that in your model uh you
+
+1364
+00:54:53,559 --> 00:54:57,000
+had error bars that weren't overlapping
+
+1365
+00:54:55,119 --> 00:54:59,920
+with the truth for small samples should
+
+1366
+00:54:57,000 --> 00:55:01,160
+we expect those ER bars to overlap with
+
+1367
+00:54:59,920 --> 00:55:03,240
+the truth but just be really big when
+
+1368
+00:55:01,160 --> 00:55:04,640
+you have small samples is there a bias
+
+1369
+00:55:03,240 --> 00:55:07,480
+yep
+
+1370
+00:55:04,640 --> 00:55:08,760
+so I need to check the paper but my
+
+1371
+00:55:07,480 --> 00:55:11,559
+memory is we did simple like
+
+1372
+00:55:08,760 --> 00:55:15,559
+bootstrapping to get airor bars here so
+
+1373
+00:55:11,559 --> 00:55:19,839
+this is like estimation air bars um and
+
+1374
+00:55:15,559 --> 00:55:22,280
+the reason that you see in so and again
+
+1375
+00:55:19,839 --> 00:55:24,359
+these identifiability results are for
+
+1376
+00:55:22,280 --> 00:55:26,359
+infinite numbers of subunits and units
+
+1377
+00:55:24,359 --> 00:55:28,440
+so when you're in a finite sample
+
+1378
+00:55:26,359 --> 00:55:32,000
+situation where there's you know 10
+
+1379
+00:55:28,440 --> 00:55:34,119
+students in a school and 15 schools you
+
+1380
+00:55:32,000 --> 00:55:36,160
+are there's going to be bias and so
+
+1381
+00:55:34,119 --> 00:55:38,240
+understanding this of course is a good
+
+1382
+00:55:36,160 --> 00:55:40,799
+open question do you think there are
+
+1383
+00:55:38,240 --> 00:55:43,319
+ways to have a bigger error bar on the
+
+1384
+00:55:40,799 --> 00:55:46,000
+left a bigger one yeah I mean it's it's
+
+1385
+00:55:43,319 --> 00:55:50,720
+too small right oh this um
+
+1386
+00:55:46,000 --> 00:55:53,160
+yeah I'm I'm not sure yeah um there's
+
+1387
+00:55:50,720 --> 00:55:55,079
+sort of two kind of data settings I'm
+
+1388
+00:55:53,160 --> 00:55:57,160
+sort of thinking about that I think
+
+1389
+00:55:55,079 --> 00:56:00,839
+maybe are related but not exactly the
+
+1390
+00:55:57,160 --> 00:56:02,559
+same as your school example um and
+
+1391
+00:56:00,839 --> 00:56:05,839
+they're basically the same one is time
+
+1392
+00:56:02,559 --> 00:56:08,079
+one is space so you can imagine um sort
+
+1393
+00:56:05,839 --> 00:56:10,960
+of Time series data where the hierarchy
+
+1394
+00:56:08,079 --> 00:56:12,839
+is maybe not so well defined such as uh
+
+1395
+00:56:10,960 --> 00:56:15,160
+which school but maybe I want to say do
+
+1396
+00:56:12,839 --> 00:56:16,559
+I time average over a year over a minute
+
+1397
+00:56:15,160 --> 00:56:19,559
+and you know many minutes mapped to an
+
+1398
+00:56:16,559 --> 00:56:21,799
+hour many hours mapped to a a day and so
+
+1399
+00:56:19,559 --> 00:56:24,079
+on and then same thing maybe more close
+
+1400
+00:56:21,799 --> 00:56:26,760
+to what people work on here like spatial
+
+1401
+00:56:24,079 --> 00:56:29,079
+data um I maybe have some sort of
+
+1402
+00:56:26,760 --> 00:56:31,599
+confounding on the scale of tissues
+
+1403
+00:56:29,079 --> 00:56:33,640
+which is maybe like centimeters and then
+
+1404
+00:56:31,599 --> 00:56:35,440
+uh individual cells and so on and I was
+
+1405
+00:56:33,640 --> 00:56:40,319
+wondering if you could speak
+
+1406
+00:56:35,440 --> 00:56:41,440
+to um I guess this question of searching
+
+1407
+00:56:40,319 --> 00:56:44,559
+for the
+
+1408
+00:56:41,440 --> 00:56:47,119
+correct uh hierarchical level upon which
+
+1409
+00:56:44,559 --> 00:56:49,280
+to separate your data that's a good
+
+1410
+00:56:47,119 --> 00:56:54,079
+question yeah so let's just get a graph
+
+1411
+00:56:49,280 --> 00:56:54,079
+up right so um
+
+1412
+00:56:57,960 --> 00:57:02,520
+so you're you're highlighting
+
+1413
+00:57:00,119 --> 00:57:03,960
+a assumption I've been making this whole
+
+1414
+00:57:02,520 --> 00:57:06,760
+time right which is some kind of
+
+1415
+00:57:03,960 --> 00:57:09,079
+exchangeability assumption the schools
+
+1416
+00:57:06,760 --> 00:57:11,280
+they're all exchangeable with each other
+
+1417
+00:57:09,079 --> 00:57:13,920
+and the joint distribution of the school
+
+1418
+00:57:11,280 --> 00:57:15,400
+level data doesn't change if I if I put
+
+1419
+00:57:13,920 --> 00:57:18,599
+the schools in a different order in that
+
+1420
+00:57:15,400 --> 00:57:20,960
+joint distribution you know now
+
+1421
+00:57:18,599 --> 00:57:23,440
+spatially right we could add a node here
+
+1422
+00:57:20,960 --> 00:57:25,640
+which is the lat long of the school and
+
+1423
+00:57:23,440 --> 00:57:27,359
+that affects everything and then
+
+1424
+00:57:25,640 --> 00:57:28,440
+essentially you've got conditional exch
+
+1425
+00:57:27,359 --> 00:57:30,000
+you know conditional on that it's
+
+1426
+00:57:28,440 --> 00:57:31,160
+exchangeable and so everybody's happy
+
+1427
+00:57:30,000 --> 00:57:32,559
+right you've found enough variables to
+
+1428
+00:57:31,160 --> 00:57:33,400
+make it conditionally exchangeable to
+
+1429
+00:57:32,559 --> 00:57:36,520
+make it
+
+1430
+00:57:33,400 --> 00:57:38,680
+exchangeable um so one question is what
+
+1431
+00:57:36,520 --> 00:57:39,799
+if you can't find variables to make it
+
+1432
+00:57:38,680 --> 00:57:41,680
+exchangeable or what if they are
+
+1433
+00:57:39,799 --> 00:57:44,880
+organized in a Time series where there's
+
+1434
+00:57:41,680 --> 00:57:46,240
+something latent that is drifting and we
+
+1435
+00:57:44,880 --> 00:57:49,839
+haven't thought about
+
+1436
+00:57:46,240 --> 00:57:52,319
+that theoretically I think these ideas
+
+1437
+00:57:49,839 --> 00:57:55,599
+could be extended to that situation but
+
+1438
+00:57:52,319 --> 00:57:57,880
+I would know quite how to do it in front
+
+1439
+00:57:55,599 --> 00:58:01,680
+of all of you
+
+1440
+00:57:57,880 --> 00:58:03,599
+um but certainly the the case where you
+
+1441
+00:58:01,680 --> 00:58:05,200
+can you can find variables that you can
+
+1442
+00:58:03,599 --> 00:58:06,640
+can condition on to make it exchangeable
+
+1443
+00:58:05,200 --> 00:58:08,839
+and that variable could be time stamp
+
+1444
+00:58:06,640 --> 00:58:11,319
+too right space and time is all the same
+
+1445
+00:58:08,839 --> 00:58:15,160
+so um you could do it that way your
+
+1446
+00:58:11,319 --> 00:58:18,839
+second question is about what level
+
+1447
+00:58:15,160 --> 00:58:21,799
+to hierarchical eyes yeah I'm kind of
+
+1448
+00:58:18,839 --> 00:58:24,079
+like thinking like you know centimeters
+
+1449
+00:58:21,799 --> 00:58:26,119
+mapped to millimeters mapped to
+
+1450
+00:58:24,079 --> 00:58:28,680
+micrometers right I see so like another
+
+1451
+00:58:26,119 --> 00:58:30,280
+other words if I have if if I have
+
+1452
+00:58:28,680 --> 00:58:32,520
+groups within groups within groups at
+
+1453
+00:58:30,280 --> 00:58:34,760
+finer and finer scales or do you mean
+
+1454
+00:58:32,520 --> 00:58:37,400
+even just what scale to think about the
+
+1455
+00:58:34,760 --> 00:58:40,920
+data at it seems like your model is sort
+
+1456
+00:58:37,400 --> 00:58:43,599
+of mapping out exchangeability with
+
+1457
+00:58:40,920 --> 00:58:46,200
+respect to different types of
+
+1458
+00:58:43,599 --> 00:58:47,640
+confounding so there seems to be maybe
+
+1459
+00:58:46,200 --> 00:58:50,359
+you're concerned about confounding
+
+1460
+00:58:47,640 --> 00:58:55,640
+relative to tissue type you would want
+
+1461
+00:58:50,359 --> 00:58:58,119
+to um sort of group things at the level
+
+1462
+00:58:55,640 --> 00:59:01,000
+at which tissue type kind of doesn't
+
+1463
+00:58:58,119 --> 00:59:03,200
+vary kind of with the schools whereas
+
+1464
+00:59:01,000 --> 00:59:06,000
+then if I was worried about removing a
+
+1465
+00:59:03,200 --> 00:59:08,039
+signal with respect to I don't know some
+
+1466
+00:59:06,000 --> 00:59:10,480
+other that happens at some other length
+
+1467
+00:59:08,039 --> 00:59:13,760
+scale I could pick
+
+1468
+00:59:10,480 --> 00:59:15,160
+the I see what you mean like I I don't
+
+1469
+00:59:13,760 --> 00:59:18,520
+quite know how to answer the question
+
+1470
+00:59:15,160 --> 00:59:20,160
+but you're saying that somehow the the
+
+1471
+00:59:18,520 --> 00:59:23,160
+definition of the
+
+1472
+00:59:20,160 --> 00:59:23,160
+subunit
+
+1473
+00:59:23,480 --> 00:59:29,440
+is relative to the definition of the
+
+1474
+00:59:26,760 --> 00:59:30,799
+confounder in a sense yeah so maybe with
+
+1475
+00:59:29,440 --> 00:59:33,559
+schools I could have broken It Up by
+
+1476
+00:59:30,799 --> 00:59:39,400
+classrooms right yep okay so which one
+
+1477
+00:59:33,559 --> 00:59:40,880
+do I do right yep um yeah I I you know
+
+1478
+00:59:39,400 --> 00:59:41,960
+my hunch is that there's something to
+
+1479
+00:59:40,880 --> 00:59:46,720
+say about
+
+1480
+00:59:41,960 --> 00:59:46,720
+that and that you could do it
+
+1481
+00:59:47,440 --> 00:59:52,240
+yeah that's my hunch yeah I agree with
+
+1482
+00:59:50,200 --> 00:59:53,599
+you it's it's very interesting it's it's
+
+1483
+00:59:52,240 --> 00:59:55,160
+it's related to the idea of like at what
+
+1484
+00:59:53,599 --> 00:59:56,079
+level do I want to model things and and
+
+1485
+00:59:55,160 --> 00:59:58,799
+you're right it relates to
+
+1486
+00:59:56,079 --> 01:00:01,000
+exchangeability but here it relates to
+
+1487
+00:59:58,799 --> 01:00:03,000
+where can I model things such that when
+
+1488
+01:00:01,000 --> 01:00:05,599
+I know the distribution of that I'm able
+
+1489
+01:00:03,000 --> 01:00:08,799
+to unhinge
+
+1490
+01:00:05,599 --> 01:00:10,319
+identification right it's good yeah I
+
+1491
+01:00:08,799 --> 01:00:12,119
+think my question is related to the last
+
+1492
+01:00:10,319 --> 01:00:13,880
+one actually because because I guess
+
+1493
+01:00:12,119 --> 01:00:15,839
+when you have this hierarchy of
+
+1494
+01:00:13,880 --> 01:00:18,280
+hierarchies or something like in
+
+1495
+01:00:15,839 --> 01:00:20,359
+principle you can have other levels of
+
+1496
+01:00:18,280 --> 01:00:21,760
+confounding and you could add on to this
+
+1497
+01:00:20,359 --> 01:00:24,079
+like have a deeper
+
+1498
+01:00:21,760 --> 01:00:27,280
+hierarchical causal graphical model I
+
+1499
+01:00:24,079 --> 01:00:29,359
+suppose right um
+
+1500
+01:00:27,280 --> 01:00:31,960
+so in principle I guess you could do
+
+1501
+01:00:29,359 --> 01:00:34,240
+that but that's I guess where the finite
+
+1502
+01:00:31,960 --> 01:00:36,160
+sample stuff becomes relevant because
+
+1503
+01:00:34,240 --> 01:00:38,160
+you you only have only so much data
+
+1504
+01:00:36,160 --> 01:00:40,359
+right and then the the more you add
+
+1505
+01:00:38,160 --> 01:00:42,319
+these levels I'm trying to understand
+
+1506
+01:00:40,359 --> 01:00:44,440
+when does it start hurting in some sense
+
+1507
+01:00:42,319 --> 01:00:46,079
+to to do that I mean I think that also
+
+1508
+01:00:44,440 --> 01:00:47,640
+that has to do with in the previous
+
+1509
+01:00:46,079 --> 01:00:49,640
+question about where the confounding is
+
+1510
+01:00:47,640 --> 01:00:50,920
+kicking in so you know if these schools
+
+1511
+01:00:49,640 --> 01:00:53,520
+were all in different countries for
+
+1512
+01:00:50,920 --> 01:00:55,599
+example there might be and and and there
+
+1513
+01:00:53,520 --> 01:00:58,160
+might be subgroups within the groups and
+
+1514
+01:00:55,599 --> 01:01:00,119
+those subgroups might enjoy not enjoy
+
+1515
+01:00:58,160 --> 01:01:03,280
+might involve confounding at that
+
+1516
+01:01:00,119 --> 01:01:05,119
+subgroup level and so um you might want
+
+1517
+01:01:03,280 --> 01:01:08,160
+to model it at that point
+
+1518
+01:01:05,119 --> 01:01:10,440
+too or it might be that going deeper
+
+1519
+01:01:08,160 --> 01:01:12,480
+down maybe maybe this is countries and
+
+1520
+01:01:10,440 --> 01:01:13,839
+these are School averages there is no
+
+1521
+01:01:12,480 --> 01:01:15,280
+confounding and so there's no point in
+
+1522
+01:01:13,839 --> 01:01:17,079
+doing it but that you're right that
+
+1523
+01:01:15,280 --> 01:01:18,960
+would also be interesting from a finite
+
+1524
+01:01:17,079 --> 01:01:20,599
+sample perspective like if there's no
+
+1525
+01:01:18,960 --> 01:01:22,839
+confounding I imagine aggregating the
+
+1526
+01:01:20,599 --> 01:01:24,720
+data and modeling it is better right and
+
+1527
+01:01:22,839 --> 01:01:27,160
+so maybe making that precise would be
+
+1528
+01:01:24,720 --> 01:01:28,799
+interesting yep
+
+1529
+01:01:27,160 --> 01:01:30,880
+one question and then we can take other
+
+1530
+01:01:28,799 --> 01:01:32,920
+questions after I mean this will be
+
+1531
+01:01:30,880 --> 01:01:34,200
+quick because I essentially was asking I
+
+1532
+01:01:32,920 --> 01:01:36,799
+I was curious about the same thing as
+
+1533
+01:01:34,200 --> 01:01:39,599
+him but I was just curious uh presumably
+
+1534
+01:01:36,799 --> 01:01:41,640
+this process generalizes to several
+
+1535
+01:01:39,599 --> 01:01:44,039
+levels of hierarchy but I was curious if
+
+1536
+01:01:41,640 --> 01:01:45,920
+you know anything about the trade-off
+
+1537
+01:01:44,039 --> 01:01:48,640
+between like increasing the levels of
+
+1538
+01:01:45,920 --> 01:01:51,599
+hierarchy in terms of how much it helps
+
+1539
+01:01:48,640 --> 01:01:53,680
+you like be able to make better causal
+
+1540
+01:01:51,599 --> 01:01:56,079
+reasoning versus how much it requires
+
+1541
+01:01:53,680 --> 01:01:57,359
+you to have like more data at each level
+
+1542
+01:01:56,079 --> 01:01:58,760
+yeah I mean I think that you're right
+
+1543
+01:01:57,359 --> 01:02:00,520
+that that relates to the answer to the
+
+1544
+01:01:58,760 --> 01:02:02,240
+previous question probably if if if
+
+1545
+01:02:00,520 --> 01:02:03,720
+there's no confounding or issues if
+
+1546
+01:02:02,240 --> 01:02:06,359
+there no causal
+
+1547
+01:02:03,720 --> 01:02:10,440
+issues below this level probably it
+
+1548
+01:02:06,359 --> 01:02:13,000
+hurts to break everything up
+
+1549
+01:02:10,440 --> 01:02:16,440
+um and so maybe you want to aggregate at
+
+1550
+01:02:13,000 --> 01:02:19,520
+the highest level possible such that
+
+1551
+01:02:16,440 --> 01:02:20,920
+there is no confounding issues or no
+
+1552
+01:02:19,520 --> 01:02:24,200
+identification issues would be a more
+
+1553
+01:02:20,920 --> 01:02:27,839
+General way of saying it um these are
+
+1554
+01:02:24,200 --> 01:02:27,839
+these are good points you're all making
+
+1555
+01:02:27,920 --> 01:02:31,119
+I know there are more questions but
+
+1556
+01:02:29,400 --> 01:02:32,760
+maybe so that others can leave since
+
+1557
+01:02:31,119 --> 01:02:35,119
+we're already over time we'll just have
+
+1558
+01:02:32,760 --> 01:02:38,760
+them come up to you direct yeah so thank
+
+1559
+01:02:35,119 --> 01:02:38,760
+you so much thanks
+

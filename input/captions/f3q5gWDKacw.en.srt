@@ -1,0 +1,4680 @@
+1
+00:00:00,280 --> 00:00:08,639
+now our next speaker next Kino speaker
+
+2
+00:00:03,440 --> 00:00:11,240
+will give a a talk on very specific
+
+3
+00:00:08,639 --> 00:00:15,160
+science computer science computer vision
+
+4
+00:00:11,240 --> 00:00:20,600
+and data uh it's called synthetic data
+
+5
+00:00:15,160 --> 00:00:25,840
+so now let me introduce our second kyom
+
+6
+00:00:20,600 --> 00:00:30,480
+speaker Professor Phillip is Sola who is
+
+7
+00:00:25,840 --> 00:00:34,239
+an associate professor in MIT e and a
+
+8
+00:00:30,480 --> 00:00:38,800
+principal investigator in mitc cell his
+
+9
+00:00:34,239 --> 00:00:42,039
+work focus on why we represent the world
+
+10
+00:00:38,800 --> 00:00:44,200
+the way we do and how we can
+
+11
+00:00:42,039 --> 00:00:46,199
+replicate uh the
+
+12
+00:00:44,200 --> 00:00:49,559
+abilities in
+
+13
+00:00:46,199 --> 00:00:52,719
+machines he has WR a book just published
+
+14
+00:00:49,559 --> 00:00:55,879
+very very few months ago it's called
+
+15
+00:00:52,719 --> 00:00:58,320
+found foundations of computer vision
+
+16
+00:00:55,879 --> 00:01:00,120
+that covers topics not standard in
+
+17
+00:00:58,320 --> 00:01:02,960
+textbooks
+
+18
+00:01:00,120 --> 00:01:05,240
+including for example
+
+19
+00:01:02,960 --> 00:01:07,880
+Transformers diffusion
+
+20
+00:01:05,240 --> 00:01:13,240
+models statistical image
+
+21
+00:01:07,880 --> 00:01:16,320
+models issues of fairness and uh ethics
+
+22
+00:01:13,240 --> 00:01:19,320
+and the research process now let's
+
+23
+00:01:16,320 --> 00:01:19,320
+welcome
+
+24
+00:01:22,520 --> 00:01:26,280
+Philip ask to ask
+
+25
+00:01:24,820 --> 00:01:28,759
+[Applause]
+
+26
+00:01:26,280 --> 00:01:32,079
+questions repeat
+
+27
+00:01:28,759 --> 00:01:33,640
+okay okay he hi everyone um yeah thank
+
+28
+00:01:32,079 --> 00:01:36,560
+you for the intro and for having me here
+
+29
+00:01:33,640 --> 00:01:37,680
+and happy to share um some of my work
+
+30
+00:01:36,560 --> 00:01:39,320
+and some of the trends that I'm seeing
+
+31
+00:01:37,680 --> 00:01:43,280
+going on in the field right now in
+
+32
+00:01:39,320 --> 00:01:46,320
+generative AI okay let me see if I know
+
+33
+00:01:43,280 --> 00:01:48,399
+where to point okay
+
+34
+00:01:46,320 --> 00:01:51,240
+good so I'm going to talk about
+
+35
+00:01:48,399 --> 00:01:54,960
+generative models as a data source for
+
+36
+00:01:51,240 --> 00:01:56,360
+AI systems and this is a topic which
+
+37
+00:01:54,960 --> 00:01:59,680
+sometimes goes under the name synthetic
+
+38
+00:01:56,360 --> 00:02:01,920
+data and a lot of companies and a lot of
+
+39
+00:01:59,680 --> 00:02:03,560
+uh applications are now building uh
+
+40
+00:02:01,920 --> 00:02:05,960
+their systems not on top of real data
+
+41
+00:02:03,560 --> 00:02:08,440
+but on top of data made by models and
+
+42
+00:02:05,960 --> 00:02:10,840
+these are two examples of synthetic data
+
+43
+00:02:08,440 --> 00:02:13,800
+this is a generative model of images of
+
+44
+00:02:10,840 --> 00:02:16,920
+cats um it's a model called the Gan and
+
+45
+00:02:13,800 --> 00:02:18,760
+this is a generative model um which is
+
+46
+00:02:16,920 --> 00:02:20,360
+called a Nerf and neural Radiance field
+
+47
+00:02:18,760 --> 00:02:22,720
+and I'll mention some applications of
+
+48
+00:02:20,360 --> 00:02:23,599
+those as well as um some of the even
+
+49
+00:02:22,720 --> 00:02:26,599
+newer
+
+50
+00:02:23,599 --> 00:02:26,599
+models
+
+51
+00:02:27,800 --> 00:02:31,840
+okay let's see
+
+52
+00:02:32,760 --> 00:02:36,519
+okay there we go finding the slide
+
+53
+00:02:34,319 --> 00:02:40,480
+Advanced button is always the first step
+
+54
+00:02:36,519 --> 00:02:43,239
+so uh a lot of work in AI proceeds as
+
+55
+00:02:40,480 --> 00:02:45,440
+shown on this slide here you take a data
+
+56
+00:02:43,239 --> 00:02:47,120
+set as fixed in in Academia this is what
+
+57
+00:02:45,440 --> 00:02:48,760
+we used to do all the time and it's
+
+58
+00:02:47,120 --> 00:02:50,440
+still what most people do they take data
+
+59
+00:02:48,760 --> 00:02:52,239
+as fixed that the rules of the game are
+
+60
+00:02:50,440 --> 00:02:53,480
+you have a data set and you want to
+
+61
+00:02:52,239 --> 00:02:56,640
+model that data you want to have an
+
+62
+00:02:53,480 --> 00:02:59,400
+algorithm that analyzes that data and
+
+63
+00:02:56,640 --> 00:03:00,959
+the entire um action is in the learning
+
+64
+00:02:59,400 --> 00:03:03,080
+algorithm
+
+65
+00:03:00,959 --> 00:03:05,000
+okay and then the learning algorithm uh
+
+66
+00:03:03,080 --> 00:03:06,640
+you know fits a function or a model to
+
+67
+00:03:05,000 --> 00:03:08,799
+the data and gets some intelligence out
+
+68
+00:03:06,640 --> 00:03:10,200
+of it but you don't have to do things
+
+69
+00:03:08,799 --> 00:03:13,280
+that way that was just the standard way
+
+70
+00:03:10,200 --> 00:03:14,599
+that we have done in the past instead
+
+71
+00:03:13,280 --> 00:03:17,159
+what I've been more interested in
+
+72
+00:03:14,599 --> 00:03:18,840
+recently is can we just freeze the
+
+73
+00:03:17,159 --> 00:03:21,120
+learning algorithm the rules of the game
+
+74
+00:03:18,840 --> 00:03:23,000
+become the learning algorithm is frozen
+
+75
+00:03:21,120 --> 00:03:25,080
+and instead change the data that we feed
+
+76
+00:03:23,000 --> 00:03:27,560
+to that algorithm and if we feed at
+
+77
+00:03:25,080 --> 00:03:30,439
+better data uh perhaps we'll get a
+
+78
+00:03:27,560 --> 00:03:31,879
+different result or a better result okay
+
+79
+00:03:30,439 --> 00:03:34,200
+so we're changing the focus from being
+
+80
+00:03:31,879 --> 00:03:35,959
+on the algorithms to on the data sets
+
+81
+00:03:34,200 --> 00:03:38,799
+and one motivation for this is that
+
+82
+00:03:35,959 --> 00:03:41,080
+we've all seen that data is the big
+
+83
+00:03:38,799 --> 00:03:43,200
+thing that has uh driven a lot of the
+
+84
+00:03:41,080 --> 00:03:45,319
+recent progress in AI the algorithms
+
+85
+00:03:43,200 --> 00:03:48,200
+haven't changed that much but the data
+
+86
+00:03:45,319 --> 00:03:49,920
+sets have scaled up incredibly and the
+
+87
+00:03:48,200 --> 00:03:51,239
+compute is the other part that's changed
+
+88
+00:03:49,920 --> 00:03:53,439
+but I'm not going to touch on that in
+
+89
+00:03:51,239 --> 00:03:55,720
+this talk okay so the hardware and the
+
+90
+00:03:53,439 --> 00:03:58,000
+gpus and all of the computational Power
+
+91
+00:03:55,720 --> 00:04:00,720
+has also been a big driver okay but we
+
+92
+00:03:58,000 --> 00:04:02,680
+know that data is um the fuel of machine
+
+93
+00:04:00,720 --> 00:04:04,920
+learning it's data driven intelligence
+
+94
+00:04:02,680 --> 00:04:06,280
+you get a lot of data and that data
+
+95
+00:04:04,920 --> 00:04:08,640
+tells you how to make intelligent
+
+96
+00:04:06,280 --> 00:04:10,000
+machines so we should really study the
+
+97
+00:04:08,640 --> 00:04:12,360
+data and we should really figure out
+
+98
+00:04:10,000 --> 00:04:13,599
+ways of making better data and um
+
+99
+00:04:12,360 --> 00:04:16,639
+generative models are going to be one
+
+100
+00:04:13,599 --> 00:04:19,120
+way of doing that okay so here's the
+
+101
+00:04:16,639 --> 00:04:22,720
+perspective that um that I like to take
+
+102
+00:04:19,120 --> 00:04:25,800
+on this problem uh so generative AI is
+
+103
+00:04:22,720 --> 00:04:27,560
+often thought of as just a you know fun
+
+104
+00:04:25,800 --> 00:04:29,840
+tool for making you know creative
+
+105
+00:04:27,560 --> 00:04:31,080
+stories or images uh but I think I think
+
+106
+00:04:29,840 --> 00:04:33,520
+it's actually much more fundamental and
+
+107
+00:04:31,080 --> 00:04:35,360
+powerful than that um so normally we
+
+108
+00:04:33,520 --> 00:04:37,160
+start with a uh data it goes into a
+
+109
+00:04:35,360 --> 00:04:40,440
+learning algorithm we get intelligence
+
+110
+00:04:37,160 --> 00:04:41,720
+out but instead we're going to think of
+
+111
+00:04:40,440 --> 00:04:43,120
+uh we're going to add a generative model
+
+112
+00:04:41,720 --> 00:04:45,919
+to the first part of the pipeline we're
+
+113
+00:04:43,120 --> 00:04:47,840
+going to take data fit a generative
+
+114
+00:04:45,919 --> 00:04:49,800
+model to that data this is going to be
+
+115
+00:04:47,840 --> 00:04:52,440
+like an image generation algorithm or a
+
+116
+00:04:49,800 --> 00:04:56,280
+text generation algorithm so think um
+
+117
+00:04:52,440 --> 00:04:57,960
+chat gbt or do uh these types of things
+
+118
+00:04:56,280 --> 00:05:01,440
+and what we're going to get out is not
+
+119
+00:04:57,960 --> 00:05:02,639
+just more photos or more text we're
+
+120
+00:05:01,440 --> 00:05:04,280
+going to get out something which is
+
+121
+00:05:02,639 --> 00:05:06,199
+actually fundamentally different it's
+
+122
+00:05:04,280 --> 00:05:07,919
+like the original data but in some ways
+
+123
+00:05:06,199 --> 00:05:10,080
+it can be better it's data with more
+
+124
+00:05:07,919 --> 00:05:12,080
+potential I like calling this uh data
+
+125
+00:05:10,080 --> 00:05:14,120
+Plus+ and I'll tell you uh the ways in
+
+126
+00:05:12,080 --> 00:05:16,800
+which this can be an augmentation or an
+
+127
+00:05:14,120 --> 00:05:17,919
+improvement over the original data okay
+
+128
+00:05:16,800 --> 00:05:19,199
+and it's a little bit weird I mean some
+
+129
+00:05:17,919 --> 00:05:21,440
+of you you should be kind of skeptical
+
+130
+00:05:19,199 --> 00:05:23,199
+like you have real data and then you
+
+131
+00:05:21,440 --> 00:05:24,520
+make this approximation to it with a
+
+132
+00:05:23,199 --> 00:05:26,440
+model and it's actually better that
+
+133
+00:05:24,520 --> 00:05:28,160
+doesn't make any sense right we think of
+
+134
+00:05:26,440 --> 00:05:32,039
+models as making like artifacts and
+
+135
+00:05:28,160 --> 00:05:33,759
+hallucinations and not being ual so it's
+
+136
+00:05:32,039 --> 00:05:34,960
+could be data minus minus after modeling
+
+137
+00:05:33,759 --> 00:05:36,600
+but I'm going to talk about some ways in
+
+138
+00:05:34,960 --> 00:05:39,080
+which it can actually be data
+
+139
+00:05:36,600 --> 00:05:42,600
+Plus+
+
+140
+00:05:39,080 --> 00:05:45,000
+okay okay and and I think that uh one uh
+
+141
+00:05:42,600 --> 00:05:48,440
+perspective on this is that this is just
+
+142
+00:05:45,000 --> 00:05:50,280
+what's happening in the world so whether
+
+143
+00:05:48,440 --> 00:05:51,639
+or not this is a good idea and I'll try
+
+144
+00:05:50,280 --> 00:05:53,199
+to argue that in some ways it can be a
+
+145
+00:05:51,639 --> 00:05:54,759
+good idea but whether or not it's a good
+
+146
+00:05:53,199 --> 00:05:58,639
+idea this is kind of the Paradigm that
+
+147
+00:05:54,759 --> 00:06:01,840
+has emerged uh we have
+
+148
+00:05:58,639 --> 00:06:04,000
+sorry we have companies that will train
+
+149
+00:06:01,840 --> 00:06:06,000
+these large generative models like
+
+150
+00:06:04,000 --> 00:06:09,400
+language models or image generative
+
+151
+00:06:06,000 --> 00:06:11,360
+models and users will take those models
+
+152
+00:06:09,400 --> 00:06:13,280
+and do something with them so rather
+
+153
+00:06:11,360 --> 00:06:15,360
+than the user directly Gathering
+
+154
+00:06:13,280 --> 00:06:16,720
+training data for their algorithm and uh
+
+155
+00:06:15,360 --> 00:06:19,440
+then training their models on that on
+
+156
+00:06:16,720 --> 00:06:22,560
+that data they will interface with the
+
+157
+00:06:19,440 --> 00:06:24,120
+data via a massive Foundation model a
+
+158
+00:06:22,560 --> 00:06:25,960
+massive generative model created in an
+
+159
+00:06:24,120 --> 00:06:27,520
+industry so this is just the reality of
+
+160
+00:06:25,960 --> 00:06:29,240
+how most people will interact with data
+
+161
+00:06:27,520 --> 00:06:31,319
+it's VI an interface which is through
+
+162
+00:06:29,240 --> 00:06:32,800
+another model generated by a large
+
+163
+00:06:31,319 --> 00:06:35,440
+organization or a company it could be an
+
+164
+00:06:32,800 --> 00:06:37,800
+open source model as well okay so we
+
+165
+00:06:35,440 --> 00:06:40,360
+have to I think understand uh this
+
+166
+00:06:37,800 --> 00:06:42,720
+Paradigm of learning from model uh data
+
+167
+00:06:40,360 --> 00:06:46,440
+that's mediated by a generative
+
+168
+00:06:42,720 --> 00:06:49,680
+model okay so we had an era previously
+
+169
+00:06:46,440 --> 00:06:52,960
+which was this era of Big Data Big Data
+
+170
+00:06:49,680 --> 00:06:55,479
+drove the advances in Ai and deep
+
+171
+00:06:52,960 --> 00:06:57,039
+learning and machine learning uh now we
+
+172
+00:06:55,479 --> 00:06:58,520
+have these big models and these are more
+
+173
+00:06:57,039 --> 00:07:01,319
+and more becoming the interface and just
+
+174
+00:06:58,520 --> 00:07:03,759
+for example in my fi of computer vision
+
+175
+00:07:01,319 --> 00:07:05,680
+um it used to be that whenever we'd
+
+176
+00:07:03,759 --> 00:07:07,039
+start a new project I would tell my
+
+177
+00:07:05,680 --> 00:07:09,080
+students or it could be in a company
+
+178
+00:07:07,039 --> 00:07:11,639
+You' tell your employees okay first you
+
+179
+00:07:09,080 --> 00:07:14,120
+want to uh collect a million labeled
+
+180
+00:07:11,639 --> 00:07:15,479
+photos for your application area and for
+
+181
+00:07:14,120 --> 00:07:17,560
+research we would often use this data
+
+182
+00:07:15,479 --> 00:07:19,520
+set called imag net but that's not what
+
+183
+00:07:17,560 --> 00:07:22,199
+we do anymore instead the starting point
+
+184
+00:07:19,520 --> 00:07:23,840
+that my students go to is called stable
+
+185
+00:07:22,199 --> 00:07:25,720
+diffusion we don't download imet and
+
+186
+00:07:23,840 --> 00:07:27,599
+train our algorithms on that we now go
+
+187
+00:07:25,720 --> 00:07:29,960
+to a model called stable diffusion which
+
+188
+00:07:27,599 --> 00:07:31,599
+is a generative AI system that is our
+
+189
+00:07:29,960 --> 00:07:33,840
+interface to data so our interface to
+
+190
+00:07:31,599 --> 00:07:35,440
+data is no longer a data set it's now a
+
+191
+00:07:33,840 --> 00:07:37,560
+model
+
+192
+00:07:35,440 --> 00:07:39,440
+okay and I think that this might this
+
+193
+00:07:37,560 --> 00:07:40,599
+trend might continue and there's also a
+
+194
+00:07:39,440 --> 00:07:42,120
+lot of talk about the social
+
+195
+00:07:40,599 --> 00:07:43,800
+consequences and the concerns about the
+
+196
+00:07:42,120 --> 00:07:45,240
+internet no longer being like a data set
+
+197
+00:07:43,800 --> 00:07:47,759
+the internet's just going to be a big
+
+198
+00:07:45,240 --> 00:07:50,080
+repository of synthetic data that's and
+
+199
+00:07:47,759 --> 00:07:51,360
+most of the um uh the dialogue about
+
+200
+00:07:50,080 --> 00:07:52,479
+this right now has been critiques of
+
+201
+00:07:51,360 --> 00:07:54,520
+that setting where the Internet is just
+
+202
+00:07:52,479 --> 00:07:56,120
+polluted by fake data so I want to give
+
+203
+00:07:54,520 --> 00:07:57,720
+a little more optimistic take that there
+
+204
+00:07:56,120 --> 00:08:00,520
+are some benefits as
+
+205
+00:07:57,720 --> 00:08:01,560
+well okay so here here are going to be
+
+206
+00:08:00,520 --> 00:08:03,840
+the benefits at the end I'll mention
+
+207
+00:08:01,560 --> 00:08:05,319
+that some of the limitations uh it is
+
+208
+00:08:03,840 --> 00:08:07,680
+true these critiques are also valid but
+
+209
+00:08:05,319 --> 00:08:09,759
+let's look at the positive side first
+
+210
+00:08:07,680 --> 00:08:12,199
+okay so generative models um what what
+
+211
+00:08:09,759 --> 00:08:16,039
+do they do one thing they do is they
+
+212
+00:08:12,199 --> 00:08:18,520
+take a finite data set a small in some
+
+213
+00:08:16,039 --> 00:08:21,919
+sense data set and they out they create
+
+214
+00:08:18,520 --> 00:08:24,720
+a system that that can uh produce an
+
+215
+00:08:21,919 --> 00:08:26,919
+Infinity of data okay so the way they do
+
+216
+00:08:24,720 --> 00:08:29,159
+that is you start with I'm going to talk
+
+217
+00:08:26,919 --> 00:08:32,479
+mostly about examples in computer vision
+
+218
+00:08:29,159 --> 00:08:34,880
+uh start with a set of photos and these
+
+219
+00:08:32,479 --> 00:08:37,680
+are like discrete points in some data
+
+220
+00:08:34,880 --> 00:08:39,479
+space okay so the set of photos here is
+
+221
+00:08:37,680 --> 00:08:42,000
+just going to be dots in this
+
+222
+00:08:39,479 --> 00:08:44,360
+distribution and I could sample photos
+
+223
+00:08:42,000 --> 00:08:46,760
+from that set and I'll get real photos
+
+224
+00:08:44,360 --> 00:08:47,720
+and if I train a gener model what you're
+
+225
+00:08:46,760 --> 00:08:49,320
+what you actually do is you fit a
+
+226
+00:08:47,720 --> 00:08:51,920
+continuous density you you fit a
+
+227
+00:08:49,320 --> 00:08:54,120
+continuous function to that discrete set
+
+228
+00:08:51,920 --> 00:08:56,560
+and that continuous function uh has
+
+229
+00:08:54,120 --> 00:08:57,920
+filled in all the gaps so you can you
+
+230
+00:08:56,560 --> 00:08:59,480
+know interpolate and potentially even
+
+231
+00:08:57,920 --> 00:09:00,880
+extrapolate a little bit outside of the
+
+232
+00:08:59,480 --> 00:09:03,160
+distribution of the training training
+
+233
+00:09:00,880 --> 00:09:04,640
+data and produce samples which you know
+
+234
+00:09:03,160 --> 00:09:06,959
+look photo realistic because that's the
+
+235
+00:09:04,640 --> 00:09:09,800
+point we're at now but you can produce
+
+236
+00:09:06,959 --> 00:09:12,800
+infinite samples uh they the diversity
+
+237
+00:09:09,800 --> 00:09:15,120
+of that set won't be infinite it will be
+
+238
+00:09:12,800 --> 00:09:17,279
+uh bounded by the training data but you
+
+239
+00:09:15,120 --> 00:09:18,480
+can interpolate and even extrapolate a
+
+240
+00:09:17,279 --> 00:09:20,920
+little bit beyond the the actual
+
+241
+00:09:18,480 --> 00:09:22,760
+training data so you get more data out
+
+242
+00:09:20,920 --> 00:09:24,880
+that's one simple sense in which the
+
+243
+00:09:22,760 --> 00:09:26,040
+output of a generative model can be uh
+
+244
+00:09:24,880 --> 00:09:28,680
+like data
+
+245
+00:09:26,040 --> 00:09:30,640
+Plus+ okay so generative models turn
+
+246
+00:09:28,680 --> 00:09:33,160
+finite data into continuous data into
+
+247
+00:09:30,640 --> 00:09:34,680
+Infinite data in some sense and uh
+
+248
+00:09:33,160 --> 00:09:36,600
+that's that's one like starting point
+
+249
+00:09:34,680 --> 00:09:37,839
+for understanding what they can do but
+
+250
+00:09:36,600 --> 00:09:39,760
+we'll see is that actually going to be a
+
+251
+00:09:37,839 --> 00:09:42,560
+good thing is that useful for
+
+252
+00:09:39,760 --> 00:09:44,600
+anything
+
+253
+00:09:42,560 --> 00:09:46,560
+okay so I want to tell you a little bit
+
+254
+00:09:44,600 --> 00:09:48,800
+about how these generative models work
+
+255
+00:09:46,560 --> 00:09:52,480
+uh to give you the next the next benefit
+
+256
+00:09:48,800 --> 00:09:54,480
+that I see in them um so most of the
+
+257
+00:09:52,480 --> 00:09:57,880
+generative AI systems we have now for
+
+258
+00:09:54,480 --> 00:10:00,399
+making images uh follow this pipeline
+
+259
+00:09:57,880 --> 00:10:03,040
+you start with a set of uh what we call
+
+260
+00:10:00,399 --> 00:10:04,399
+latent variables uh so sometimes people
+
+261
+00:10:03,040 --> 00:10:06,160
+call these noise but I don't really
+
+262
+00:10:04,399 --> 00:10:08,480
+think noise is the right way to think of
+
+263
+00:10:06,160 --> 00:10:10,680
+them instead think of them as the uh
+
+264
+00:10:08,480 --> 00:10:13,320
+control knobs that when you spin those
+
+265
+00:10:10,680 --> 00:10:15,040
+control knobs you'll get a um a
+
+266
+00:10:13,320 --> 00:10:17,240
+different image you'll get a random
+
+267
+00:10:15,040 --> 00:10:20,640
+image okay so you have a set of control
+
+268
+00:10:17,240 --> 00:10:22,959
+knobs labeled as Z in this diagram here
+
+269
+00:10:20,640 --> 00:10:24,360
+and you put those inputs you set those
+
+270
+00:10:22,959 --> 00:10:25,920
+control knobs to whatever setting you
+
+271
+00:10:24,360 --> 00:10:29,360
+want and you put them into a neural
+
+272
+00:10:25,920 --> 00:10:30,640
+network G that outputs an image and if I
+
+273
+00:10:29,360 --> 00:10:33,040
+bin my control knobs to a different
+
+274
+00:10:30,640 --> 00:10:36,040
+setting I'll get a different image okay
+
+275
+00:10:33,040 --> 00:10:37,680
+so these controls uh can be visualized
+
+276
+00:10:36,040 --> 00:10:42,279
+as follows so this is a real result this
+
+277
+00:10:37,680 --> 00:10:44,200
+isn't like just a cartoon uh if I have a
+
+278
+00:10:42,279 --> 00:10:46,000
+set of control variables maybe I have a
+
+279
+00:10:44,200 --> 00:10:47,639
+hundred of these knobs and I am just
+
+280
+00:10:46,000 --> 00:10:49,839
+going to look at two of them now I'm
+
+281
+00:10:47,639 --> 00:10:53,399
+going to look at um two of them on these
+
+282
+00:10:49,839 --> 00:10:54,600
+two axes on the right then if I take the
+
+283
+00:10:53,399 --> 00:10:57,839
+setting of The Knobs that makes this
+
+284
+00:10:54,600 --> 00:11:00,279
+bird and then I tune turn one knob
+
+285
+00:10:57,839 --> 00:11:02,600
+individually uh left and right then I
+
+286
+00:11:00,279 --> 00:11:05,200
+will get the bird rotating and if I uh
+
+287
+00:11:02,600 --> 00:11:06,560
+turn another of these control knobs uh
+
+288
+00:11:05,200 --> 00:11:09,120
+left and right I'll get the background
+
+289
+00:11:06,560 --> 00:11:11,279
+color changing so these control knobs
+
+290
+00:11:09,120 --> 00:11:13,639
+act like um interpretable kind of
+
+291
+00:11:11,279 --> 00:11:16,200
+controls that create this little
+
+292
+00:11:13,639 --> 00:11:19,440
+manifold continuous manifold of uh
+
+293
+00:11:16,200 --> 00:11:21,959
+natural images okay so this is something
+
+294
+00:11:19,440 --> 00:11:24,519
+you can't do with real data very easily
+
+295
+00:11:21,959 --> 00:11:26,279
+I can't just find photos of this bird
+
+296
+00:11:24,519 --> 00:11:27,959
+from all these different angles with
+
+297
+00:11:26,279 --> 00:11:29,839
+different background colors but with a
+
+298
+00:11:27,959 --> 00:11:31,839
+generative model I have these uh
+
+299
+00:11:29,839 --> 00:11:34,480
+independent latent variables that can be
+
+300
+00:11:31,839 --> 00:11:36,279
+tuned uh to create a visual like
+
+301
+00:11:34,480 --> 00:11:40,360
+this
+
+302
+00:11:36,279 --> 00:11:43,760
+okay so the other super powerful control
+
+303
+00:11:40,360 --> 00:11:46,000
+knob is uh that we can use Text Now to
+
+304
+00:11:43,760 --> 00:11:47,720
+control these uh these models so we
+
+305
+00:11:46,000 --> 00:11:49,279
+don't just have to use these kind of
+
+306
+00:11:47,720 --> 00:11:51,639
+so-called latent variables which are
+
+307
+00:11:49,279 --> 00:11:53,920
+like continuous knobs your turning you
+
+308
+00:11:51,639 --> 00:11:55,639
+can also just describe what you want and
+
+309
+00:11:53,920 --> 00:11:57,519
+I'm sure most of you have seen things
+
+310
+00:11:55,639 --> 00:12:00,440
+like this where you can do text to image
+
+311
+00:11:57,519 --> 00:12:01,920
+text to video here is a generative model
+
+312
+00:12:00,440 --> 00:12:03,480
+which is taking the text input a photo
+
+313
+00:12:01,920 --> 00:12:05,440
+of a group of robots building the status
+
+314
+00:12:03,480 --> 00:12:06,279
+Center and right this is the output like
+
+315
+00:12:05,440 --> 00:12:08,079
+these are the things that would have
+
+316
+00:12:06,279 --> 00:12:09,639
+been mind-blowing a few years ago but
+
+317
+00:12:08,079 --> 00:12:11,399
+you know the world changes and updates
+
+318
+00:12:09,639 --> 00:12:13,160
+very quickly and now it's like okay yeah
+
+319
+00:12:11,399 --> 00:12:14,480
+this is we've seen this is but just
+
+320
+00:12:13,160 --> 00:12:16,639
+remember a few years ago this would have
+
+321
+00:12:14,480 --> 00:12:20,040
+looked like magic nobody saw this coming
+
+322
+00:12:16,639 --> 00:12:22,560
+um that I know okay so we can control
+
+323
+00:12:20,040 --> 00:12:25,639
+our images via text that's a new
+
+324
+00:12:22,560 --> 00:12:28,120
+capability that generative models allow
+
+325
+00:12:25,639 --> 00:12:29,839
+that was not really easily possible if I
+
+326
+00:12:28,120 --> 00:12:31,000
+just had a tradition
+
+327
+00:12:29,839 --> 00:12:34,199
+data set of
+
+328
+00:12:31,000 --> 00:12:36,399
+photos Okay so this is the the next
+
+329
+00:12:34,199 --> 00:12:39,560
+benefit I see is that generative models
+
+330
+00:12:36,399 --> 00:12:41,639
+uh take kind of small unstructured data
+
+331
+00:12:39,560 --> 00:12:43,839
+as input and they output bigger
+
+332
+00:12:41,639 --> 00:12:45,720
+continuous data plus controls with these
+
+333
+00:12:43,839 --> 00:12:47,199
+control knobs so it's like the data plus
+
+334
+00:12:45,720 --> 00:12:50,240
+the controls and that's actually the
+
+335
+00:12:47,199 --> 00:12:52,240
+mostow powerful part of it in my opinion
+
+336
+00:12:50,240 --> 00:12:54,199
+because we can intervene on the data via
+
+337
+00:12:52,240 --> 00:12:57,199
+those controls to steer it and change it
+
+338
+00:12:54,199 --> 00:12:59,279
+into the type of data we want uh we can
+
+339
+00:12:57,199 --> 00:13:02,720
+change the properties of of the data to
+
+340
+00:12:59,279 --> 00:13:04,399
+be maybe less toxic or sensor content
+
+341
+00:13:02,720 --> 00:13:05,600
+that we don't like or we can make it
+
+342
+00:13:04,399 --> 00:13:08,040
+more beautiful we can do a lot of
+
+343
+00:13:05,600 --> 00:13:09,920
+interesting things to it okay I'll talk
+
+344
+00:13:08,040 --> 00:13:11,880
+I'll show some of these
+
+345
+00:13:09,920 --> 00:13:13,480
+applications okay but the big big idea
+
+346
+00:13:11,880 --> 00:13:15,480
+of these control knobs is they allow
+
+347
+00:13:13,480 --> 00:13:17,360
+what uh we can call counterfactual
+
+348
+00:13:15,480 --> 00:13:20,279
+reasoning okay so counterfactual
+
+349
+00:13:17,360 --> 00:13:22,880
+reasoning is a reasoning of the form uh
+
+350
+00:13:20,279 --> 00:13:25,639
+what would it look like if so what would
+
+351
+00:13:22,880 --> 00:13:27,000
+it look like if the lighting changed
+
+352
+00:13:25,639 --> 00:13:29,360
+what would it look like if the camera
+
+353
+00:13:27,000 --> 00:13:31,800
+angle changed what would it look like if
+
+354
+00:13:29,360 --> 00:13:33,639
+the pose of that cat changed and so
+
+355
+00:13:31,800 --> 00:13:36,720
+these control knobs allow you to ask
+
+356
+00:13:33,639 --> 00:13:38,600
+that question and uh visualize or
+
+357
+00:13:36,720 --> 00:13:40,399
+sometimes we would say hallucinate uh
+
+358
+00:13:38,600 --> 00:13:42,120
+these counterfactuals but this is like a
+
+359
+00:13:40,399 --> 00:13:44,320
+positive version of hallucination it's
+
+360
+00:13:42,120 --> 00:13:47,040
+it's imagination more than it is like
+
+361
+00:13:44,320 --> 00:13:51,120
+making up things that are unfactual in a
+
+362
+00:13:47,040 --> 00:13:52,759
+negative way okay so um how do we do
+
+363
+00:13:51,120 --> 00:13:54,880
+that with a photo that we want to
+
+364
+00:13:52,759 --> 00:13:57,320
+imagine this counterfactual for what
+
+365
+00:13:54,880 --> 00:14:00,440
+we'll we can do is we can take our photo
+
+366
+00:13:57,320 --> 00:14:02,920
+of this cat and we can do this data to
+
+367
+00:14:00,440 --> 00:14:05,680
+data Plus+ conversion process where we
+
+368
+00:14:02,920 --> 00:14:08,279
+find the setting of controls so find the
+
+369
+00:14:05,680 --> 00:14:09,759
+setting of latent variables Z that when
+
+370
+00:14:08,279 --> 00:14:11,759
+put through a generative model will
+
+371
+00:14:09,759 --> 00:14:14,199
+replicate that photo of the cat so we
+
+372
+00:14:11,759 --> 00:14:15,959
+call that encoding the cat into the the
+
+373
+00:14:14,199 --> 00:14:18,399
+um control variable space of the
+
+374
+00:14:15,959 --> 00:14:22,160
+generative model and then we can um
+
+375
+00:14:18,399 --> 00:14:24,279
+decode that cat back into a photo uh via
+
+376
+00:14:22,160 --> 00:14:27,639
+our generative model okay now we have
+
+377
+00:14:24,279 --> 00:14:30,560
+converted the the static real photo of
+
+378
+00:14:27,639 --> 00:14:32,440
+the cat into this generative version of
+
+379
+00:14:30,560 --> 00:14:34,199
+the cat which is coupled with its latent
+
+380
+00:14:32,440 --> 00:14:36,440
+variables and if we change those latent
+
+381
+00:14:34,199 --> 00:14:38,920
+variables those control knobs then we
+
+382
+00:14:36,440 --> 00:14:40,240
+get the cat changing its pose maybe we
+
+383
+00:14:38,920 --> 00:14:41,880
+can change the lighting conditions we
+
+384
+00:14:40,240 --> 00:14:44,399
+get this living object so we've
+
+385
+00:14:41,880 --> 00:14:46,959
+converted the static real data into this
+
+386
+00:14:44,399 --> 00:14:48,920
+more alive controllable um synthetic
+
+387
+00:14:46,959 --> 00:14:51,040
+data and that's that's what I see as the
+
+388
+00:14:48,920 --> 00:14:52,519
+kind of most qualitatively important uh
+
+389
+00:14:51,040 --> 00:14:55,839
+new power of synthetic data that you
+
+390
+00:14:52,519 --> 00:14:57,279
+don't have in real data okay so there's
+
+391
+00:14:55,839 --> 00:14:59,040
+a bunch of papers these ones are from a
+
+392
+00:14:57,279 --> 00:15:01,680
+few years ago but this is very much an
+
+393
+00:14:59,040 --> 00:15:04,320
+ongoing and hot research area right now
+
+394
+00:15:01,680 --> 00:15:07,079
+on what you can do with counterfactual
+
+395
+00:15:04,320 --> 00:15:09,519
+interventions into synthetic data to um
+
+396
+00:15:07,079 --> 00:15:11,480
+improve your data processing
+
+397
+00:15:09,519 --> 00:15:12,959
+pipeline okay so I'm going to talk about
+
+398
+00:15:11,480 --> 00:15:14,639
+a few things now that you can do a few
+
+399
+00:15:12,959 --> 00:15:17,399
+applications so we have this new type of
+
+400
+00:15:14,639 --> 00:15:20,360
+data uh I've argued that it is better
+
+401
+00:15:17,399 --> 00:15:21,839
+because it is uh continuous controllable
+
+402
+00:15:20,360 --> 00:15:23,199
+um and what can you actually do with
+
+403
+00:15:21,839 --> 00:15:25,600
+that how can that make applications
+
+404
+00:15:23,199 --> 00:15:29,639
+better so here's one paper we had from a
+
+405
+00:15:25,600 --> 00:15:32,399
+few years ago where we uh tried to prove
+
+406
+00:15:29,639 --> 00:15:34,759
+a kind of crummy classifier so we had
+
+407
+00:15:32,399 --> 00:15:36,160
+this classifier which I've labeled C
+
+408
+00:15:34,759 --> 00:15:38,440
+this is just a system that looks at
+
+409
+00:15:36,160 --> 00:15:42,079
+photos and decides is it a cat is it a
+
+410
+00:15:38,440 --> 00:15:45,600
+dog is it an airplane and what we did is
+
+411
+00:15:42,079 --> 00:15:49,319
+we tried to get a more robust classifier
+
+412
+00:15:45,600 --> 00:15:52,199
+by using these counterfactual um
+
+413
+00:15:49,319 --> 00:15:54,600
+visualizations okay so we have a noisy
+
+414
+00:15:52,199 --> 00:15:58,440
+imperfect classifier C it might say
+
+415
+00:15:54,600 --> 00:16:01,399
+that's a dog but we can then um do what
+
+416
+00:15:58,440 --> 00:16:04,360
+I just showed the previous slides and
+
+417
+00:16:01,399 --> 00:16:06,000
+convert this input photo into this um
+
+418
+00:16:04,360 --> 00:16:08,199
+these counterfactual variations on the
+
+419
+00:16:06,000 --> 00:16:10,120
+input photo and this now is saying well
+
+420
+00:16:08,199 --> 00:16:11,319
+the cat could have been in a different
+
+421
+00:16:10,120 --> 00:16:12,959
+pose the lighting could have been
+
+422
+00:16:11,319 --> 00:16:14,399
+different here's all the different ways
+
+423
+00:16:12,959 --> 00:16:16,240
+that the image could have been taken
+
+424
+00:16:14,399 --> 00:16:18,240
+Without Really fundamentally changing
+
+425
+00:16:16,240 --> 00:16:19,839
+the content of the image and now we put
+
+426
+00:16:18,240 --> 00:16:22,560
+all of those into our classifier
+
+427
+00:16:19,839 --> 00:16:23,959
+Ensemble the results and as long as one
+
+428
+00:16:22,560 --> 00:16:26,959
+of these kind of counterfactual
+
+429
+00:16:23,959 --> 00:16:29,680
+visualizations is clearer or more easy
+
+430
+00:16:26,959 --> 00:16:31,839
+to understand by the classifier then the
+
+431
+00:16:29,680 --> 00:16:34,560
+then the The Ensemble the set of all the
+
+432
+00:16:31,839 --> 00:16:36,399
+classifiers averaged together will uh
+
+433
+00:16:34,560 --> 00:16:38,839
+get a more accurate result so this is a
+
+434
+00:16:36,399 --> 00:16:42,959
+way of making more accurate and robust
+
+435
+00:16:38,839 --> 00:16:42,959
+classifier by just uh revisualization
+
+436
+00:17:00,120 --> 00:17:08,120
+okay so what we showed in that project
+
+437
+00:17:03,399 --> 00:17:10,000
+is that um generative augmentation so
+
+438
+00:17:08,120 --> 00:17:11,400
+counterfactual augmentation of what
+
+439
+00:17:10,000 --> 00:17:13,600
+could this cat look like under different
+
+440
+00:17:11,400 --> 00:17:15,959
+poses and lighting conditions can help
+
+441
+00:17:13,600 --> 00:17:17,679
+but it's at at what we call test time so
+
+442
+00:17:15,959 --> 00:17:19,319
+we we take our system and when we're
+
+443
+00:17:17,679 --> 00:17:21,160
+actually going to deploy it and use it
+
+444
+00:17:19,319 --> 00:17:22,600
+we're going to do this augmentation but
+
+445
+00:17:21,160 --> 00:17:23,839
+could you do these same augmentations
+
+446
+00:17:22,600 --> 00:17:26,000
+when you're actually training the
+
+447
+00:17:23,839 --> 00:17:28,039
+underling classifier or the underling
+
+448
+00:17:26,000 --> 00:17:29,880
+computer vision system uh you know
+
+449
+00:17:28,039 --> 00:17:31,280
+training at
+
+450
+00:17:29,880 --> 00:17:35,080
+now we would call it
+
+451
+00:17:31,280 --> 00:17:37,840
+pre-training okay and in the era that we
+
+452
+00:17:35,080 --> 00:17:39,240
+worked on that which was the um Gan era
+
+453
+00:17:37,840 --> 00:17:40,520
+of generative models it didn't really
+
+454
+00:17:39,240 --> 00:17:42,000
+work those models just were not
+
+455
+00:17:40,520 --> 00:17:44,600
+realistic enough they had too many
+
+456
+00:17:42,000 --> 00:17:46,960
+artifacts the hallucinations were too
+
+457
+00:17:44,600 --> 00:17:48,160
+unrealistic uh so it looked the cat
+
+458
+00:17:46,960 --> 00:17:51,960
+looked pretty good but it didn't work on
+
+459
+00:17:48,160 --> 00:17:54,559
+harder scenes okay but time goes on
+
+460
+00:17:51,960 --> 00:17:55,880
+these models just get bigger and better
+
+461
+00:17:54,559 --> 00:17:59,559
+uh now we're in the era of what are
+
+462
+00:17:55,880 --> 00:18:01,559
+called diffusion models and uh now train
+
+463
+00:17:59,559 --> 00:18:02,960
+time augmentation is starting to work
+
+464
+00:18:01,559 --> 00:18:04,440
+and I'll show a few examples of that on
+
+465
+00:18:02,960 --> 00:18:07,360
+the next on the next
+
+466
+00:18:04,440 --> 00:18:08,720
+slides okay so here's the basic Paradigm
+
+467
+00:18:07,360 --> 00:18:10,840
+which we started a few years ago which
+
+468
+00:18:08,720 --> 00:18:14,120
+is using generative models as a source
+
+469
+00:18:10,840 --> 00:18:16,480
+of of training data uh and this is work
+
+470
+00:18:14,120 --> 00:18:19,320
+led by Ali Janan and the other authors
+
+471
+00:18:16,480 --> 00:18:21,360
+shown here and uh we're just going to
+
+472
+00:18:19,320 --> 00:18:23,400
+contrast between training a computer
+
+473
+00:18:21,360 --> 00:18:26,159
+vision system on a data set of real
+
+474
+00:18:23,400 --> 00:18:28,360
+images like the imag net data set versus
+
+475
+00:18:26,159 --> 00:18:29,320
+training a computer vision system on a
+
+476
+00:18:28,360 --> 00:18:31,440
+data set
+
+477
+00:18:29,320 --> 00:18:33,799
+of synthetic images that are made by a
+
+478
+00:18:31,440 --> 00:18:35,159
+generative model and this cartoon is
+
+479
+00:18:33,799 --> 00:18:36,799
+just meant to say the the synthetic
+
+480
+00:18:35,159 --> 00:18:38,880
+images are like this data generating
+
+481
+00:18:36,799 --> 00:18:41,000
+engine it can produce you know Infinity
+
+482
+00:18:38,880 --> 00:18:42,960
+of data with underlying control knobs
+
+483
+00:18:41,000 --> 00:18:44,919
+indicated in that that uh circle with
+
+484
+00:18:42,960 --> 00:18:46,799
+the Z uh the technical details I'm not
+
+485
+00:18:44,919 --> 00:18:48,280
+going to get too much into but you think
+
+486
+00:18:46,799 --> 00:18:51,320
+of it like this engine that can have
+
+487
+00:18:48,280 --> 00:18:53,720
+this potentially endless
+
+488
+00:18:51,320 --> 00:18:57,280
+creativity okay so we're going to
+
+489
+00:18:53,720 --> 00:18:59,440
+combine our synthetic data generation
+
+490
+00:18:57,280 --> 00:19:01,240
+with a computer vision learning
+
+491
+00:18:59,440 --> 00:19:03,360
+algorithm called or a machine learning
+
+492
+00:19:01,240 --> 00:19:05,840
+algorithm called contrastive learning so
+
+493
+00:19:03,360 --> 00:19:07,400
+here here's how this algorithm works
+
+494
+00:19:05,840 --> 00:19:09,320
+this algorithm takes data this is like
+
+495
+00:19:07,400 --> 00:19:11,240
+the learner on that first slide it takes
+
+496
+00:19:09,320 --> 00:19:13,880
+data and it tries to create a computer
+
+497
+00:19:11,240 --> 00:19:17,280
+vision representation from that data and
+
+498
+00:19:13,880 --> 00:19:20,240
+the way it works is you take two crops
+
+499
+00:19:17,280 --> 00:19:22,760
+of a photo and you say these two crops
+
+500
+00:19:20,240 --> 00:19:24,120
+of that tiger probably represent the
+
+501
+00:19:22,760 --> 00:19:27,280
+same thing because they came from the
+
+502
+00:19:24,120 --> 00:19:29,400
+same photo so we will try to learn a
+
+503
+00:19:27,280 --> 00:19:32,520
+representation in which
+
+504
+00:19:29,400 --> 00:19:34,320
+two different crops of the same photo uh
+
+505
+00:19:32,520 --> 00:19:35,600
+m to the same representation Vector
+
+506
+00:19:34,320 --> 00:19:37,440
+we're trying to learn a vector
+
+507
+00:19:35,600 --> 00:19:40,880
+representation of an image is what they
+
+508
+00:19:37,440 --> 00:19:43,679
+call it and uh it's done in that way so
+
+509
+00:19:40,880 --> 00:19:46,360
+two different views of the same object
+
+510
+00:19:43,679 --> 00:19:48,840
+should map to the same representational
+
+511
+00:19:46,360 --> 00:19:50,520
+Vector okay and normally you do that by
+
+512
+00:19:48,840 --> 00:19:52,679
+just taking two a data point and then
+
+513
+00:19:50,520 --> 00:19:54,240
+taking another data point which is a
+
+514
+00:19:52,679 --> 00:19:56,280
+sample from the same image a crop from
+
+515
+00:19:54,240 --> 00:19:57,039
+the same image you know patch from the
+
+516
+00:19:56,280 --> 00:20:00,000
+same
+
+517
+00:19:57,039 --> 00:20:02,080
+image okay and in contr of learning you
+
+518
+00:20:00,000 --> 00:20:04,080
+say that a different image entirely that
+
+519
+00:20:02,080 --> 00:20:06,240
+is not a crop from the the tiger photo
+
+520
+00:20:04,080 --> 00:20:08,080
+should map to a different um
+
+521
+00:20:06,240 --> 00:20:10,840
+representational
+
+522
+00:20:08,080 --> 00:20:12,520
+Vector okay so we can combine these two
+
+523
+00:20:10,840 --> 00:20:14,320
+things together and we can say now we
+
+524
+00:20:12,520 --> 00:20:16,480
+have our latent variables which are a
+
+525
+00:20:14,320 --> 00:20:18,480
+way of getting two different views of
+
+526
+00:20:16,480 --> 00:20:20,360
+the same thing so rather than doing just
+
+527
+00:20:18,480 --> 00:20:22,200
+like cropping Patches from photos which
+
+528
+00:20:20,360 --> 00:20:24,200
+seems like a very crude way of look
+
+529
+00:20:22,200 --> 00:20:26,080
+finding two different views of the same
+
+530
+00:20:24,200 --> 00:20:27,520
+thing we can use a generative model to
+
+531
+00:20:26,080 --> 00:20:29,880
+create two different views of the same
+
+532
+00:20:27,520 --> 00:20:31,880
+thing and that's what in here so we take
+
+533
+00:20:29,880 --> 00:20:33,240
+our generative model that produces two
+
+534
+00:20:31,880 --> 00:20:34,440
+different views of the same thing but
+
+535
+00:20:33,240 --> 00:20:36,039
+now they they're not just different
+
+536
+00:20:34,440 --> 00:20:37,320
+crops they're actually you know the cat
+
+537
+00:20:36,039 --> 00:20:39,120
+potentially with different lighting or
+
+538
+00:20:37,320 --> 00:20:41,039
+pose or semantic and physical changes
+
+539
+00:20:39,120 --> 00:20:46,039
+like
+
+540
+00:20:41,039 --> 00:20:47,640
+this okay so um one of the most popular
+
+541
+00:20:46,039 --> 00:20:49,360
+contrast of learning algorithms from
+
+542
+00:20:47,640 --> 00:20:51,679
+real data is called Sim clear that's
+
+543
+00:20:49,360 --> 00:20:53,760
+shown on the left here and that just
+
+544
+00:20:51,679 --> 00:20:56,600
+takes crops it also might drop color
+
+545
+00:20:53,760 --> 00:20:58,240
+channels and do other types of um simple
+
+546
+00:20:56,600 --> 00:21:01,039
+augmentations but with a generative
+
+547
+00:20:58,240 --> 00:21:03,280
+model we can do U these more physical
+
+548
+00:21:01,039 --> 00:21:05,039
+and semantic augmentations like changing
+
+549
+00:21:03,280 --> 00:21:08,840
+the dog's expression or the angle at
+
+550
+00:21:05,039 --> 00:21:10,039
+which the photo is taken and in this
+
+551
+00:21:08,840 --> 00:21:13,159
+this paper just kind of set out that
+
+552
+00:21:10,039 --> 00:21:15,400
+basic Paradigm uh and at the time uh I
+
+553
+00:21:13,159 --> 00:21:17,000
+do have to admit that if the computer
+
+554
+00:21:15,400 --> 00:21:18,320
+vision system trained on the real data
+
+555
+00:21:17,000 --> 00:21:19,679
+actually was still doing a little better
+
+556
+00:21:18,320 --> 00:21:21,760
+but the synthetic data was doing almost
+
+557
+00:21:19,679 --> 00:21:23,520
+as well despite that this was using the
+
+558
+00:21:21,760 --> 00:21:25,240
+Gan era models which had all these
+
+559
+00:21:23,520 --> 00:21:27,679
+artifacts it wasn't quite the same dog
+
+560
+00:21:25,240 --> 00:21:29,799
+so there were problems with that but but
+
+561
+00:21:27,679 --> 00:21:32,000
+there there was some hope
+
+562
+00:21:29,799 --> 00:21:34,279
+Okay so we've continued on that and now
+
+563
+00:21:32,000 --> 00:21:35,559
+we just did the same thing recently with
+
+564
+00:21:34,279 --> 00:21:37,960
+um the latest generative models
+
+565
+00:21:35,559 --> 00:21:39,600
+diffusion models rather than Gans and
+
+566
+00:21:37,960 --> 00:21:41,080
+and now it actually starting to get get
+
+567
+00:21:39,600 --> 00:21:43,799
+to the level of actually outperforming
+
+568
+00:21:41,080 --> 00:21:45,480
+real data in some interesting ways okay
+
+569
+00:21:43,799 --> 00:21:47,600
+so I'm going to talk about this project
+
+570
+00:21:45,480 --> 00:21:50,279
+called stable rep it's going to be
+
+571
+00:21:47,600 --> 00:21:52,720
+basically the same idea except uh we
+
+572
+00:21:50,279 --> 00:21:55,279
+just updated with the latest generative
+
+573
+00:21:52,720 --> 00:21:57,559
+models okay
+
+574
+00:21:55,279 --> 00:21:59,159
+so here's the experiment that I'm going
+
+575
+00:21:57,559 --> 00:22:01,840
+to describe
+
+576
+00:21:59,159 --> 00:22:05,559
+we're going to train a contrastive
+
+577
+00:22:01,840 --> 00:22:09,679
+representation a vision system on either
+
+578
+00:22:05,559 --> 00:22:13,640
+n real photos or n synthetic
+
+579
+00:22:09,679 --> 00:22:16,480
+photos so we're going to sample n real
+
+580
+00:22:13,640 --> 00:22:17,520
+photos or and generate n synthetic
+
+581
+00:22:16,480 --> 00:22:19,039
+photos and we're going to train our
+
+582
+00:22:17,520 --> 00:22:21,760
+system on that so it's kind of equal
+
+583
+00:22:19,039 --> 00:22:25,039
+setting on a per sample basis which is
+
+584
+00:22:21,760 --> 00:22:27,600
+better a synthetic image or a real
+
+585
+00:22:25,039 --> 00:22:31,840
+photo okay so here here's the Bas the
+
+586
+00:22:27,600 --> 00:22:33,200
+first result so um on the y- AIS is
+
+587
+00:22:31,840 --> 00:22:35,480
+performance of our computer vision
+
+588
+00:22:33,200 --> 00:22:36,960
+system measured on a standard Benchmark
+
+589
+00:22:35,480 --> 00:22:38,520
+it's measured on the image net Benchmark
+
+590
+00:22:36,960 --> 00:22:41,159
+just this is how good that computer
+
+591
+00:22:38,520 --> 00:22:43,880
+vision system is at classifying you know
+
+592
+00:22:41,159 --> 00:22:45,440
+objects and cats and dogs and on the
+
+593
+00:22:43,880 --> 00:22:47,279
+x-axis are a few different
+
+594
+00:22:45,440 --> 00:22:50,360
+representation learning algorithms just
+
+595
+00:22:47,279 --> 00:22:53,360
+to show that um this approach works with
+
+596
+00:22:50,360 --> 00:22:55,640
+different methods uh and the green dots
+
+597
+00:22:53,360 --> 00:22:57,039
+are if I train on N real photos and the
+
+598
+00:22:55,640 --> 00:22:59,440
+orange dots are if I train on N
+
+599
+00:22:57,039 --> 00:23:01,799
+synthetic photos and you can see is that
+
+600
+00:22:59,440 --> 00:23:04,440
+training on nend synthetic photos is is
+
+601
+00:23:01,799 --> 00:23:07,679
+better in general okay so on a per
+
+602
+00:23:04,440 --> 00:23:09,520
+sample basis one fake synthetic image is
+
+603
+00:23:07,679 --> 00:23:10,679
+more valuable to your Downstream system
+
+604
+00:23:09,520 --> 00:23:13,880
+than one real
+
+605
+00:23:10,679 --> 00:23:15,120
+image okay so we're kind of in the plus
+
+606
+00:23:13,880 --> 00:23:17,799
+plus regime we're not in the in the
+
+607
+00:23:15,120 --> 00:23:20,000
+minus minus regime in this project okay
+
+608
+00:23:17,799 --> 00:23:21,720
+and so we want to understand why is that
+
+609
+00:23:20,000 --> 00:23:24,400
+like this is fake data should shouldn't
+
+610
+00:23:21,720 --> 00:23:26,200
+it be worse but one key thing is that we
+
+611
+00:23:24,400 --> 00:23:28,880
+actually intervened on one of those
+
+612
+00:23:26,200 --> 00:23:30,960
+control knobs to make the data more
+
+613
+00:23:28,880 --> 00:23:34,120
+useful to us and what this plot is
+
+614
+00:23:30,960 --> 00:23:35,880
+showing is the x-axis is how we set the
+
+615
+00:23:34,120 --> 00:23:37,039
+control knob so I'm not going to tell
+
+616
+00:23:35,880 --> 00:23:39,400
+you the technical details of this
+
+617
+00:23:37,039 --> 00:23:41,480
+control knob it's a knob that changes
+
+618
+00:23:39,400 --> 00:23:43,200
+the distribution that we're generating
+
+619
+00:23:41,480 --> 00:23:45,760
+it kind of Trades off between uh
+
+620
+00:23:43,200 --> 00:23:47,520
+diversity and realism and we can tune
+
+621
+00:23:45,760 --> 00:23:49,200
+that knob back and forth we can set it
+
+622
+00:23:47,520 --> 00:23:51,799
+to be low or set it to be high and what
+
+623
+00:23:49,200 --> 00:23:54,400
+this graph is showing is that by tuning
+
+624
+00:23:51,799 --> 00:23:57,200
+that knob for some settings on the y-
+
+625
+00:23:54,400 --> 00:23:59,840
+AIS is accuracy on for some settings the
+
+626
+00:23:57,200 --> 00:24:01,520
+synthetic data is worse than real data
+
+627
+00:23:59,840 --> 00:24:03,520
+and for other settings the synthetic
+
+628
+00:24:01,520 --> 00:24:05,360
+data is better than real data so the
+
+629
+00:24:03,520 --> 00:24:07,440
+synthetic data is just like data with
+
+630
+00:24:05,360 --> 00:24:09,640
+more opportunity and you can use that
+
+631
+00:24:07,440 --> 00:24:11,799
+opportunity to make it more useful than
+
+632
+00:24:09,640 --> 00:24:13,120
+real data or less useful than real data
+
+633
+00:24:11,799 --> 00:24:14,600
+but you have this control knob that can
+
+634
+00:24:13,120 --> 00:24:15,720
+intervene to make the distribution
+
+635
+00:24:14,600 --> 00:24:18,200
+different and that's where the power
+
+636
+00:24:15,720 --> 00:24:19,559
+comes in so we had to tune that variable
+
+637
+00:24:18,200 --> 00:24:21,320
+and if you don't tune that variable then
+
+638
+00:24:19,559 --> 00:24:23,440
+yes you do get this data minus minus you
+
+639
+00:24:21,320 --> 00:24:24,840
+get synthetic data that isn't as good as
+
+640
+00:24:23,440 --> 00:24:27,919
+the real data but you can intervene and
+
+641
+00:24:24,840 --> 00:24:29,600
+make it better that's that's the trick
+
+642
+00:24:27,919 --> 00:24:31,679
+okay
+
+643
+00:24:29,600 --> 00:24:33,600
+so so far what we showed in these
+
+644
+00:24:31,679 --> 00:24:35,320
+projects is that synthetic data on a per
+
+645
+00:24:33,600 --> 00:24:38,159
+sample basis can be more useful than
+
+646
+00:24:35,320 --> 00:24:40,000
+real data but there is a caveat which is
+
+647
+00:24:38,159 --> 00:24:41,640
+that these generative models are
+
+648
+00:24:40,000 --> 00:24:43,760
+themselves trained on massive massive
+
+649
+00:24:41,640 --> 00:24:46,039
+real data and where the rules of the
+
+650
+00:24:43,760 --> 00:24:48,039
+game so far are that we just are given a
+
+651
+00:24:46,039 --> 00:24:50,600
+generative model already trained that
+
+652
+00:24:48,039 --> 00:24:52,480
+cost has been paid up already we don't
+
+653
+00:24:50,600 --> 00:24:54,640
+have to worry about that what should we
+
+654
+00:24:52,480 --> 00:24:55,960
+do but what if we actually don't haven't
+
+655
+00:24:54,640 --> 00:24:57,760
+trained the generative model now we have
+
+656
+00:24:55,960 --> 00:24:59,360
+to make the choice should we train a
+
+657
+00:24:57,760 --> 00:25:01,320
+generative model or just directly use
+
+658
+00:24:59,360 --> 00:25:05,080
+our real data for the downstream task
+
+659
+00:25:01,320 --> 00:25:06,720
+can a data set X be U Can a model of a
+
+660
+00:25:05,080 --> 00:25:09,760
+data set X actually be more effective
+
+661
+00:25:06,720 --> 00:25:12,440
+than directly using X itself if we um
+
+662
+00:25:09,760 --> 00:25:13,640
+were making that choice okay this is a
+
+663
+00:25:12,440 --> 00:25:15,399
+harder question this is still somewhat
+
+664
+00:25:13,640 --> 00:25:18,240
+of an open question but I think we're
+
+665
+00:25:15,399 --> 00:25:20,240
+also now seeing some evidence that um
+
+666
+00:25:18,240 --> 00:25:22,559
+that this the answer can be yes to that
+
+667
+00:25:20,240 --> 00:25:25,320
+question so here here's a a followup
+
+668
+00:25:22,559 --> 00:25:26,960
+project to the stable rep project okay
+
+669
+00:25:25,320 --> 00:25:29,120
+so in the stable rep rep project we
+
+670
+00:25:26,960 --> 00:25:31,200
+compared these two paradigms the on the
+
+671
+00:25:29,120 --> 00:25:33,799
+top we have you have learning from data
+
+672
+00:25:31,200 --> 00:25:35,399
+you have um a data set of images that
+
+673
+00:25:33,799 --> 00:25:37,360
+are generated from a data set of text
+
+674
+00:25:35,399 --> 00:25:40,240
+prompts but it's real captions written
+
+675
+00:25:37,360 --> 00:25:42,320
+by humans that gener um that's the text
+
+676
+00:25:40,240 --> 00:25:43,720
+data and it's real photos downloaded
+
+677
+00:25:42,320 --> 00:25:45,840
+from the internet that are the the photo
+
+678
+00:25:43,720 --> 00:25:47,360
+data and you put those together and you
+
+679
+00:25:45,840 --> 00:25:49,960
+get one of these good computer vision
+
+680
+00:25:47,360 --> 00:25:52,880
+systems um in the stable rep project we
+
+681
+00:25:49,960 --> 00:25:54,480
+used actually a text image generative
+
+682
+00:25:52,880 --> 00:25:58,000
+model so we started with real captions
+
+683
+00:25:54,480 --> 00:25:59,720
+and we generated fake photos and we um
+
+684
+00:25:58,000 --> 00:26:02,000
+got on a per sample basis better
+
+685
+00:25:59,720 --> 00:26:03,279
+performance but if we actually take into
+
+686
+00:26:02,000 --> 00:26:04,640
+account the cost of having trained the
+
+687
+00:26:03,279 --> 00:26:06,000
+original generative model it was worse
+
+688
+00:26:04,640 --> 00:26:08,039
+performance so that was the caveat I
+
+689
+00:26:06,000 --> 00:26:10,640
+mentioned it's a little bit of a detail
+
+690
+00:26:08,039 --> 00:26:13,039
+but it is important uh but in this
+
+691
+00:26:10,640 --> 00:26:15,919
+project we said what if we replace the
+
+692
+00:26:13,039 --> 00:26:19,279
+real captions that generated the fake
+
+693
+00:26:15,919 --> 00:26:21,320
+images with fake C captions generated by
+
+694
+00:26:19,279 --> 00:26:23,320
+um chat gbt or a language model so now
+
+695
+00:26:21,320 --> 00:26:25,120
+the entire process is synthetic the
+
+696
+00:26:23,320 --> 00:26:27,039
+language is a generative model and the
+
+697
+00:26:25,120 --> 00:26:29,080
+images are a generative model and
+
+698
+00:26:27,039 --> 00:26:32,279
+putting those two things together now we
+
+699
+00:26:29,080 --> 00:26:33,640
+actually do see we're outperforming um
+
+700
+00:26:32,279 --> 00:26:37,120
+the state-of-the-art systems that are
+
+701
+00:26:33,640 --> 00:26:38,600
+trained directly on real data okay so
+
+702
+00:26:37,120 --> 00:26:40,120
+just by a little bit here but I think
+
+703
+00:26:38,600 --> 00:26:42,880
+this is the direction things are going
+
+704
+00:26:40,120 --> 00:26:44,480
+and if you you talk to people at openi
+
+705
+00:26:42,880 --> 00:26:46,679
+these big companies maybe some of you
+
+706
+00:26:44,480 --> 00:26:48,840
+have done this at your companies uh I
+
+707
+00:26:46,679 --> 00:26:50,399
+think synthetic data is part of you know
+
+708
+00:26:48,840 --> 00:26:52,320
+a lot of the actual pipelines in
+
+709
+00:26:50,399 --> 00:26:54,760
+production right now okay for example
+
+710
+00:26:52,320 --> 00:26:58,399
+the the uh the do 3 system is a little
+
+711
+00:26:54,760 --> 00:26:59,640
+bit old but it was trained um as an text
+
+712
+00:26:58,399 --> 00:27:01,520
+generation system that's trained on
+
+713
+00:26:59,640 --> 00:27:04,399
+synthetic captions so not so different
+
+714
+00:27:01,520 --> 00:27:07,520
+than this this idea
+
+715
+00:27:04,399 --> 00:27:10,360
+here okay um
+
+716
+00:27:07,520 --> 00:27:13,520
+so let me let me show one reason why why
+
+717
+00:27:10,360 --> 00:27:15,679
+this uh may have happened so we're
+
+718
+00:27:13,520 --> 00:27:17,760
+looking at
+
+719
+00:27:15,679 --> 00:27:21,360
+uh three different systems I'm going to
+
+720
+00:27:17,760 --> 00:27:24,799
+show three different ways of generating
+
+721
+00:27:21,360 --> 00:27:27,279
+um kind of classes for training a
+
+722
+00:27:24,799 --> 00:27:28,720
+computer vision system so the most
+
+723
+00:27:27,279 --> 00:27:32,760
+standard way to do it
+
+724
+00:27:28,720 --> 00:27:34,840
+uh 10 years ago was to label photos with
+
+725
+00:27:32,760 --> 00:27:36,080
+the object category so in this case all
+
+726
+00:27:34,840 --> 00:27:37,919
+of these golden retrievers would be
+
+727
+00:27:36,080 --> 00:27:39,559
+labeled Golden Retriever and you would
+
+728
+00:27:37,919 --> 00:27:40,559
+train your system to say these are
+
+729
+00:27:39,559 --> 00:27:45,000
+golden
+
+730
+00:27:40,559 --> 00:27:47,200
+retrievers okay but if I have a text to
+
+731
+00:27:45,000 --> 00:27:50,360
+image generative model now I can create
+
+732
+00:27:47,200 --> 00:27:52,200
+classes that are at a much more fine
+
+733
+00:27:50,360 --> 00:27:53,480
+granularity because I'm not saying all
+
+734
+00:27:52,200 --> 00:27:55,960
+golden retrievers are the same I'm going
+
+735
+00:27:53,480 --> 00:27:57,880
+to say I'm going to say all photos that
+
+736
+00:27:55,960 --> 00:28:00,640
+have the same caption that are generated
+
+737
+00:27:57,880 --> 00:28:02,039
+by the same caption are the same so this
+
+738
+00:28:00,640 --> 00:28:03,640
+is again something that's not easy to do
+
+739
+00:28:02,039 --> 00:28:05,760
+with real data because we don't have two
+
+740
+00:28:03,640 --> 00:28:07,760
+different photos with the same text
+
+741
+00:28:05,760 --> 00:28:09,720
+caption but with the generative model
+
+742
+00:28:07,760 --> 00:28:11,679
+which goes from text caption to photo
+
+743
+00:28:09,720 --> 00:28:13,240
+it's easy to make infinite photos that
+
+744
+00:28:11,679 --> 00:28:14,640
+all have the same text caption I just
+
+745
+00:28:13,240 --> 00:28:16,720
+run the generative model over and over
+
+746
+00:28:14,640 --> 00:28:17,960
+again on those text captions so because
+
+747
+00:28:16,720 --> 00:28:20,640
+the generative model has these
+
+748
+00:28:17,960 --> 00:28:22,760
+underlined text controls it allows you
+
+749
+00:28:20,640 --> 00:28:25,120
+to redefine the class grity in this
+
+750
+00:28:22,760 --> 00:28:26,640
+fashion and that's actually what we did
+
+751
+00:28:25,120 --> 00:28:27,559
+in this that that project I didn't get
+
+752
+00:28:26,640 --> 00:28:28,760
+through all the details but that's
+
+753
+00:28:27,559 --> 00:28:30,960
+actually what we did
+
+754
+00:28:28,760 --> 00:28:33,440
+and that's what allows us to get um this
+
+755
+00:28:30,960 --> 00:28:35,919
+other granularity that's uh finer
+
+756
+00:28:33,440 --> 00:28:39,679
+grained than just using labels to define
+
+757
+00:28:35,919 --> 00:28:42,720
+the classes and in the Sim clear and the
+
+758
+00:28:39,679 --> 00:28:44,440
+self-supervised stuff uh that that I I
+
+759
+00:28:42,720 --> 00:28:45,720
+mentioned that just uses two different
+
+760
+00:28:44,440 --> 00:28:47,840
+crops from the same image you're
+
+761
+00:28:45,720 --> 00:28:50,279
+essentially defining the classes in your
+
+762
+00:28:47,840 --> 00:28:52,080
+visual concepts the categorization and
+
+763
+00:28:50,279 --> 00:28:53,919
+vision that you're using is that every
+
+764
+00:28:52,080 --> 00:28:56,760
+image is its own class and it's too fine
+
+765
+00:28:53,919 --> 00:28:58,640
+grained so this intermediate level of um
+
+766
+00:28:56,760 --> 00:29:00,360
+of class granularity is the one that
+
+767
+00:28:58,640 --> 00:29:02,120
+actually works best and the numbers I'm
+
+768
+00:29:00,360 --> 00:29:03,600
+showing here are just kind of an Apples
+
+769
+00:29:02,120 --> 00:29:05,640
+to Apples comparison if you define the
+
+770
+00:29:03,600 --> 00:29:07,399
+classes in these three different ways uh
+
+771
+00:29:05,640 --> 00:29:10,399
+and you run everything else the same
+
+772
+00:29:07,399 --> 00:29:12,720
+then defining it with the two images
+
+773
+00:29:10,399 --> 00:29:14,840
+with the same caption or the same class
+
+774
+00:29:12,720 --> 00:29:16,600
+that's your granularity does the best
+
+775
+00:29:14,840 --> 00:29:19,039
+and that's a granularity that can really
+
+776
+00:29:16,600 --> 00:29:21,720
+only easily be achieved with generative
+
+777
+00:29:19,039 --> 00:29:23,720
+models
+
+778
+00:29:21,720 --> 00:29:26,559
+okay okay
+
+779
+00:29:23,720 --> 00:29:28,960
+so so moving right along so generative
+
+780
+00:29:26,559 --> 00:29:31,519
+models can be a good data source for
+
+781
+00:29:28,960 --> 00:29:34,240
+training they can be useful for doing
+
+782
+00:29:31,519 --> 00:29:35,159
+counterfactual reasoning at test time uh
+
+783
+00:29:34,240 --> 00:29:37,399
+these are a few different things they
+
+784
+00:29:35,159 --> 00:29:40,480
+can do here's here's one more uh which
+
+785
+00:29:37,399 --> 00:29:42,760
+is you can take a generative model of
+
+786
+00:29:40,480 --> 00:29:45,200
+your data and you can intervene on it
+
+787
+00:29:42,760 --> 00:29:46,960
+toward human preferences this is
+
+788
+00:29:45,200 --> 00:29:49,080
+probably the most popular way of
+
+789
+00:29:46,960 --> 00:29:50,799
+intervening on generative models it's
+
+790
+00:29:49,080 --> 00:29:54,120
+what led to chat GPT it was the big
+
+791
+00:29:50,799 --> 00:29:55,240
+thing that chat GPT did it um it's uh
+
+792
+00:29:54,120 --> 00:29:56,480
+related to this idea called
+
+793
+00:29:55,240 --> 00:29:57,640
+reinforcement learning from Human
+
+794
+00:29:56,480 --> 00:30:00,120
+feedback but let me show you what it
+
+795
+00:29:57,640 --> 00:30:01,640
+look what what you can do with images
+
+796
+00:30:00,120 --> 00:30:04,320
+intervenient in this way so what you can
+
+797
+00:30:01,640 --> 00:30:06,600
+do is you can take a generative model of
+
+798
+00:30:04,320 --> 00:30:11,200
+photos that has these underlying control
+
+799
+00:30:06,600 --> 00:30:13,159
+knobs and you can now take a a model of
+
+800
+00:30:11,200 --> 00:30:16,399
+human preferences so we have a human
+
+801
+00:30:13,159 --> 00:30:18,240
+that looks at these uh images and make
+
+802
+00:30:16,399 --> 00:30:20,279
+some Judgment of whether or not they're
+
+803
+00:30:18,240 --> 00:30:23,080
+beautiful or whether or not they've
+
+804
+00:30:20,279 --> 00:30:25,159
+fairly depicted reality um whether or
+
+805
+00:30:23,080 --> 00:30:27,159
+not they have kind of demographic parity
+
+806
+00:30:25,159 --> 00:30:29,559
+and how they're representing different
+
+807
+00:30:27,159 --> 00:30:32,679
+um occupations and genders and
+
+808
+00:30:29,559 --> 00:30:33,760
+demographic properties like this um
+
+809
+00:30:32,679 --> 00:30:34,880
+there's a lot of questions you could ask
+
+810
+00:30:33,760 --> 00:30:36,279
+a human that you might want to tune
+
+811
+00:30:34,880 --> 00:30:38,600
+toward you might want to get rid of
+
+812
+00:30:36,279 --> 00:30:40,519
+violent images so we can ask a human in
+
+813
+00:30:38,600 --> 00:30:41,760
+in the project that I'm showing here uh
+
+814
+00:30:40,519 --> 00:30:43,679
+we did this a few years ago and we
+
+815
+00:30:41,760 --> 00:30:46,120
+actually were interested in making
+
+816
+00:30:43,679 --> 00:30:48,919
+images that are more or less memorable
+
+817
+00:30:46,120 --> 00:30:51,279
+so so it's kind of a weird question but
+
+818
+00:30:48,919 --> 00:30:52,880
+it's fun so this photo is actually super
+
+819
+00:30:51,279 --> 00:30:55,080
+memorable you're all going to remember
+
+820
+00:30:52,880 --> 00:30:57,039
+this after the talk because in our
+
+821
+00:30:55,080 --> 00:30:58,440
+experiments from a long time ago we
+
+822
+00:30:57,039 --> 00:31:00,279
+found that this was the most memorable
+
+823
+00:30:58,440 --> 00:31:02,320
+photo like that on the whole internet
+
+824
+00:31:00,279 --> 00:31:04,200
+that we could find okay not the whole
+
+825
+00:31:02,320 --> 00:31:06,559
+internet but a section so you're going
+
+826
+00:31:04,200 --> 00:31:08,080
+to remember that photo and a human we
+
+827
+00:31:06,559 --> 00:31:10,840
+look at this and say it's memorable we
+
+828
+00:31:08,080 --> 00:31:13,320
+create a model of what a human would say
+
+829
+00:31:10,840 --> 00:31:15,080
+and then we'll just tune the knobs of an
+
+830
+00:31:13,320 --> 00:31:16,039
+image generator to make an image that's
+
+831
+00:31:15,080 --> 00:31:18,519
+super
+
+832
+00:31:16,039 --> 00:31:20,840
+memorable okay
+
+833
+00:31:18,519 --> 00:31:22,559
+so we'll start with this photo here and
+
+834
+00:31:20,840 --> 00:31:23,880
+we're going to now tune the knobs in the
+
+835
+00:31:22,559 --> 00:31:26,120
+direction that makes it more memorable
+
+836
+00:31:23,880 --> 00:31:28,159
+according to our model of memorability
+
+837
+00:31:26,120 --> 00:31:30,360
+and what happens is the dog face becomes
+
+838
+00:31:28,159 --> 00:31:32,000
+super zoomed in and kind of cute and the
+
+839
+00:31:30,360 --> 00:31:33,240
+eyes are bright and if you tune in
+
+840
+00:31:32,000 --> 00:31:35,519
+toward the knob that will make the image
+
+841
+00:31:33,240 --> 00:31:37,519
+very forgettable it become has artifacts
+
+842
+00:31:35,519 --> 00:31:39,799
+that the dog recedes into the background
+
+843
+00:31:37,519 --> 00:31:41,919
+it's kind of hard to make it out okay so
+
+844
+00:31:39,799 --> 00:31:43,559
+this is tuning a with with generative
+
+845
+00:31:41,919 --> 00:31:45,799
+data you can actually change it
+
+846
+00:31:43,559 --> 00:31:47,279
+intervene toward human preferences or
+
+847
+00:31:45,799 --> 00:31:50,000
+make it more memorable make it less
+
+848
+00:31:47,279 --> 00:31:52,240
+toxic make it whatever you want right uh
+
+849
+00:31:50,000 --> 00:31:54,240
+and this is the general Paradigm there's
+
+850
+00:31:52,240 --> 00:31:56,200
+a lot a lot of work that does this in
+
+851
+00:31:54,240 --> 00:31:57,600
+language models the most famous example
+
+852
+00:31:56,200 --> 00:32:00,440
+is chat gbt that's the difference
+
+853
+00:31:57,600 --> 00:32:01,639
+between chat gbt and the previous models
+
+854
+00:32:00,440 --> 00:32:03,039
+was they tuned it toward human
+
+855
+00:32:01,639 --> 00:32:05,000
+preferences and suddenly it talked to
+
+856
+00:32:03,039 --> 00:32:08,559
+you in a polite friendly way and it just
+
+857
+00:32:05,000 --> 00:32:10,200
+was a lot more fun um okay so generative
+
+858
+00:32:08,559 --> 00:32:11,880
+models provide data you can optimize you
+
+859
+00:32:10,200 --> 00:32:13,080
+can optimize over the generative process
+
+860
+00:32:11,880 --> 00:32:15,760
+because you have continuous control
+
+861
+00:32:13,080 --> 00:32:17,679
+variables you can actually do um
+
+862
+00:32:15,760 --> 00:32:18,919
+gradient descent and back propagation
+
+863
+00:32:17,679 --> 00:32:21,200
+through those controls that's like the
+
+864
+00:32:18,919 --> 00:32:23,639
+technical term
+
+865
+00:32:21,200 --> 00:32:25,960
+okay so generative models can provide
+
+866
+00:32:23,639 --> 00:32:28,159
+better data in in the sense of it being
+
+867
+00:32:25,960 --> 00:32:30,120
+bigger and continuous in the sense of it
+
+868
+00:32:28,159 --> 00:32:32,000
+having um control knobs in the sense of
+
+869
+00:32:30,120 --> 00:32:34,519
+it having optimizable controls that can
+
+870
+00:32:32,000 --> 00:32:37,480
+be tuned toward Comm preference uh in
+
+871
+00:32:34,519 --> 00:32:39,440
+the last section I want to talk about U
+
+872
+00:32:37,480 --> 00:32:41,799
+some applications to
+
+873
+00:32:39,440 --> 00:32:43,200
+robotics okay I'm going to switch to an
+
+874
+00:32:41,799 --> 00:32:45,399
+entirely different type of generative
+
+875
+00:32:43,200 --> 00:32:50,559
+model which is called a neural Radiance
+
+876
+00:32:45,399 --> 00:32:52,960
+field um and the way these work is you
+
+877
+00:32:50,559 --> 00:32:54,840
+take a set of photos of a room this is a
+
+878
+00:32:52,960 --> 00:32:59,159
+set of photos of one of the offices in
+
+879
+00:32:54,840 --> 00:33:02,039
+stata uh on the campus at MIT and from a
+
+880
+00:32:59,159 --> 00:33:04,440
+set of photos just about uh 60 photos of
+
+881
+00:33:02,039 --> 00:33:06,519
+this room you get a 3D model that you
+
+882
+00:33:04,440 --> 00:33:08,799
+can navigate through and it looks you
+
+883
+00:33:06,519 --> 00:33:10,159
+know photo realistic so it's like a
+
+884
+00:33:08,799 --> 00:33:11,559
+generative model and that you take
+
+885
+00:33:10,159 --> 00:33:14,240
+photos and you create something that can
+
+886
+00:33:11,559 --> 00:33:15,760
+sample more photos of that same place
+
+887
+00:33:14,240 --> 00:33:17,960
+but kind of fill in the gaps interpolate
+
+888
+00:33:15,760 --> 00:33:22,399
+it between all of the the missing
+
+889
+00:33:17,960 --> 00:33:24,440
+images okay so um here's a generative
+
+890
+00:33:22,399 --> 00:33:26,840
+model kind of picture of a neural
+
+891
+00:33:24,440 --> 00:33:28,519
+Radiance field and the way you can think
+
+892
+00:33:26,840 --> 00:33:30,200
+of it here is it's also Al a model with
+
+893
+00:33:28,519 --> 00:33:34,200
+control variables but now the control
+
+894
+00:33:30,200 --> 00:33:36,600
+variables are camera controls so you can
+
+895
+00:33:34,200 --> 00:33:38,320
+input into this generative model what
+
+896
+00:33:36,600 --> 00:33:39,919
+where is the camera going to be what at
+
+897
+00:33:38,320 --> 00:33:41,760
+what point do I put my camera and what
+
+898
+00:33:39,919 --> 00:33:43,159
+would I see if I put my camera there so
+
+899
+00:33:41,760 --> 00:33:45,320
+I'm going to put in the angle of the
+
+900
+00:33:43,159 --> 00:33:47,720
+camera and the location of the camera
+
+901
+00:33:45,320 --> 00:33:50,120
+and get out a picture of what I the
+
+902
+00:33:47,720 --> 00:33:53,240
+camera would have seen at that location
+
+903
+00:33:50,120 --> 00:33:55,279
+okay so as I tune and move around in
+
+904
+00:33:53,240 --> 00:33:57,120
+this latent variable space control knobs
+
+905
+00:33:55,279 --> 00:33:58,080
+I end up rotating the camera to see what
+
+906
+00:33:57,120 --> 00:34:00,360
+the image would look like like from
+
+907
+00:33:58,080 --> 00:34:02,480
+different angles okay so this is another
+
+908
+00:34:00,360 --> 00:34:04,559
+generative model that has taken the raw
+
+909
+00:34:02,480 --> 00:34:06,200
+photographic data and added these
+
+910
+00:34:04,559 --> 00:34:08,399
+control
+
+911
+00:34:06,200 --> 00:34:10,520
+variables and these control variables
+
+912
+00:34:08,399 --> 00:34:12,320
+are actually quite powerful uh you can
+
+913
+00:34:10,520 --> 00:34:14,320
+not only change the location of the
+
+914
+00:34:12,320 --> 00:34:17,560
+camera but you can also change the
+
+915
+00:34:14,320 --> 00:34:20,879
+camera's Optics so if any of you are you
+
+916
+00:34:17,560 --> 00:34:23,359
+know photographers or you know work on
+
+917
+00:34:20,879 --> 00:34:25,639
+um you know on Imaging or even just
+
+918
+00:34:23,359 --> 00:34:27,760
+hobbyist uh you'll know that there's a
+
+919
+00:34:25,639 --> 00:34:31,280
+lot of complicated Optics within the
+
+920
+00:34:27,760 --> 00:34:33,720
+lens system of a camera and the model
+
+921
+00:34:31,280 --> 00:34:35,119
+that we fit to these images can uh
+
+922
+00:34:33,720 --> 00:34:37,440
+synthesize what would it look like if I
+
+923
+00:34:35,119 --> 00:34:40,560
+changed those lenses okay so I can
+
+924
+00:34:37,440 --> 00:34:42,520
+change those those those lenses to
+
+925
+00:34:40,560 --> 00:34:43,599
+create uh what's called an orthographic
+
+926
+00:34:42,520 --> 00:34:45,200
+projection of the scene so an
+
+927
+00:34:43,599 --> 00:34:47,159
+orthographic projection is equivalent to
+
+928
+00:34:45,200 --> 00:34:49,079
+if I zoom in to Infinity if I take a
+
+929
+00:34:47,159 --> 00:34:50,679
+telephoto lens and I zoom into Infinity
+
+930
+00:34:49,079 --> 00:34:53,639
+I get an orthographic projection of the
+
+931
+00:34:50,679 --> 00:34:55,440
+world so it's not easy to achieve with
+
+932
+00:34:53,639 --> 00:34:58,160
+actual real Optics but with synthetic
+
+933
+00:34:55,440 --> 00:34:59,560
+Optics it's just you just change these
+
+934
+00:34:58,160 --> 00:35:02,119
+variables around it's just an equation
+
+935
+00:34:59,560 --> 00:35:04,079
+it's really simple okay so here's what a
+
+936
+00:35:02,119 --> 00:35:06,440
+photo of some mugs looks like from top
+
+937
+00:35:04,079 --> 00:35:08,240
+down with a regular camera but with an
+
+938
+00:35:06,440 --> 00:35:10,280
+orthographic camera like a telephoto
+
+939
+00:35:08,240 --> 00:35:12,440
+lens zoomed into Infinity it would look
+
+940
+00:35:10,280 --> 00:35:15,160
+like that and the model can hallucinate
+
+941
+00:35:12,440 --> 00:35:17,640
+this so the model can take my photos and
+
+942
+00:35:15,160 --> 00:35:17,640
+revisualization
+
+943
+00:35:28,760 --> 00:35:33,599
+orthographic projection makes things
+
+944
+00:35:31,160 --> 00:35:35,440
+much easier okay so if we have a robot
+
+945
+00:35:33,599 --> 00:35:40,040
+trying to manipulate some blocks on a
+
+946
+00:35:35,440 --> 00:35:41,520
+table perspective effects where the mug
+
+947
+00:35:40,040 --> 00:35:43,560
+shapes and the block shapes get all
+
+948
+00:35:41,520 --> 00:35:45,880
+distorted due to perspective they make
+
+949
+00:35:43,560 --> 00:35:48,440
+it very hard to for the robot to reason
+
+950
+00:35:45,880 --> 00:35:50,440
+about where things are but orthographic
+
+951
+00:35:48,440 --> 00:35:53,200
+projection is much simpler to work with
+
+952
+00:35:50,440 --> 00:35:56,160
+the math is just much simpler and uh for
+
+953
+00:35:53,200 --> 00:35:58,240
+example if I want to do operations on
+
+954
+00:35:56,160 --> 00:35:59,599
+the imagery you can often just do in 2D
+
+955
+00:35:58,240 --> 00:36:01,520
+in the 2D plane you don't have to reason
+
+956
+00:35:59,599 --> 00:36:04,839
+about 3D it can all be kind of done in
+
+957
+00:36:01,520 --> 00:36:07,520
+2D okay so orthographic makes certain
+
+958
+00:36:04,839 --> 00:36:09,520
+Vision algorithms especially for robotic
+
+959
+00:36:07,520 --> 00:36:11,000
+applications much easier people like to
+
+960
+00:36:09,520 --> 00:36:13,800
+use these like close to orthographic
+
+961
+00:36:11,000 --> 00:36:15,280
+cameras with robots but there's physical
+
+962
+00:36:13,800 --> 00:36:18,160
+limitations what you can do but with
+
+963
+00:36:15,280 --> 00:36:19,280
+synthetic data you can hallucinate what
+
+964
+00:36:18,160 --> 00:36:22,119
+it would look like if it were
+
+965
+00:36:19,280 --> 00:36:23,640
+orthographic and that works quite well
+
+966
+00:36:22,119 --> 00:36:25,760
+okay so this was just a project I'm only
+
+967
+00:36:23,640 --> 00:36:27,680
+going to show you the the result here
+
+968
+00:36:25,760 --> 00:36:29,599
+where the robot could pick up this kind
+
+969
+00:36:27,680 --> 00:36:32,760
+floss and put it into these different
+
+970
+00:36:29,599 --> 00:36:34,520
+containers and it improved uh despite
+
+971
+00:36:32,760 --> 00:36:37,760
+all the you know transparency and
+
+972
+00:36:34,520 --> 00:36:39,240
+Reflections because the orthographic um
+
+973
+00:36:37,760 --> 00:36:41,599
+synthetic data it was kind of
+
+974
+00:36:39,240 --> 00:36:41,599
+revisualization
+
+975
+00:36:49,319 --> 00:36:53,680
+of that that scene from the robot's
+
+976
+00:36:51,920 --> 00:36:55,800
+point of view and orthographic and what
+
+977
+00:36:53,680 --> 00:36:57,960
+you should see is that the orthographic
+
+978
+00:36:55,800 --> 00:37:01,400
+um shapes don't change as much undergo
+
+979
+00:36:57,960 --> 00:37:01,400
+rigid transformation as opposed to
+
+980
+00:37:02,160 --> 00:37:06,599
+distorting okay so in the last few
+
+981
+00:37:04,079 --> 00:37:08,240
+minutes I'm just going to um tell you
+
+982
+00:37:06,599 --> 00:37:10,560
+the basic recipe I've presented and a
+
+983
+00:37:08,240 --> 00:37:12,560
+few limitations so the basic recipe that
+
+984
+00:37:10,560 --> 00:37:14,400
+I think is quite powerful is first take
+
+985
+00:37:12,560 --> 00:37:17,920
+your data fit a Model A generative model
+
+986
+00:37:14,400 --> 00:37:21,200
+to your data second sample more and
+
+987
+00:37:17,920 --> 00:37:24,119
+better data from your model to get X
+
+988
+00:37:21,200 --> 00:37:25,720
+Prime it's like data Plus+ and third use
+
+989
+00:37:24,119 --> 00:37:27,720
+x Prime for your task rather than
+
+990
+00:37:25,720 --> 00:37:30,319
+original data this recipe shows up up in
+
+991
+00:37:27,720 --> 00:37:32,079
+a lot of pipelines right now and one way
+
+992
+00:37:30,319 --> 00:37:33,920
+to think about it is well you're taking
+
+993
+00:37:32,079 --> 00:37:35,359
+data and you're making better data so if
+
+994
+00:37:33,920 --> 00:37:37,920
+you're going to send that data to a data
+
+995
+00:37:35,359 --> 00:37:38,960
+processing system then it's kind of safe
+
+996
+00:37:37,920 --> 00:37:41,000
+like anything you can do with the
+
+997
+00:37:38,960 --> 00:37:43,280
+original data you can do with this this
+
+998
+00:37:41,000 --> 00:37:45,760
+new sample data uh if your new sample
+
+999
+00:37:43,280 --> 00:37:48,800
+data is truly better than your original
+
+1000
+00:37:45,760 --> 00:37:50,119
+data um but it's not always going to be
+
+1001
+00:37:48,800 --> 00:37:52,680
+the case that your generate data is
+
+1002
+00:37:50,119 --> 00:37:54,359
+actually better than your original data
+
+1003
+00:37:52,680 --> 00:37:57,000
+uh you know we all know that if you have
+
+1004
+00:37:54,359 --> 00:37:58,880
+a bad generative model then it's going
+
+1005
+00:37:57,000 --> 00:38:01,160
+to have art facts and if you have
+
+1006
+00:37:58,880 --> 00:38:03,280
+applications where factuality really
+
+1007
+00:38:01,160 --> 00:38:05,480
+matters where you know you need to know
+
+1008
+00:38:03,280 --> 00:38:07,359
+who is the president today and the model
+
+1009
+00:38:05,480 --> 00:38:09,240
+says the wrong person uh and you're
+
+1010
+00:38:07,359 --> 00:38:10,720
+going to you know write some journalism
+
+1011
+00:38:09,240 --> 00:38:14,280
+article about it that's just a problem
+
+1012
+00:38:10,720 --> 00:38:16,119
+so hallucination and unfactual can can
+
+1013
+00:38:14,280 --> 00:38:18,480
+matter sometimes okay so we're just a
+
+1014
+00:38:16,119 --> 00:38:22,200
+few minutes left
+
+1015
+00:38:18,480 --> 00:38:23,359
+um and another thing that's uh become
+
+1016
+00:38:22,200 --> 00:38:24,800
+kind of a popular and interesting
+
+1017
+00:38:23,359 --> 00:38:26,800
+critique is that if you train models
+
+1018
+00:38:24,800 --> 00:38:28,560
+recursively on their own samples you can
+
+1019
+00:38:26,800 --> 00:38:31,400
+potentially get drift and collapse of
+
+1020
+00:38:28,560 --> 00:38:33,760
+these models uh so this is all to say
+
+1021
+00:38:31,400 --> 00:38:36,359
+that generative models can produce good
+
+1022
+00:38:33,760 --> 00:38:38,240
+data or bad data but we have some tools
+
+1023
+00:38:36,359 --> 00:38:40,079
+for making them produce good data and if
+
+1024
+00:38:38,240 --> 00:38:42,000
+they produce if you use those tools then
+
+1025
+00:38:40,079 --> 00:38:44,640
+potentially you can you can get a
+
+1026
+00:38:42,000 --> 00:38:46,599
+benefit okay so let's improved AI on the
+
+1027
+00:38:44,640 --> 00:38:48,160
+data side let's make generative models
+
+1028
+00:38:46,599 --> 00:38:50,680
+that produce better data than we started
+
+1029
+00:38:48,160 --> 00:38:54,000
+with data Plus+ and I'll end there and
+
+1030
+00:38:50,680 --> 00:39:01,680
+have a few minutes for questions
+
+1031
+00:38:54,000 --> 00:39:03,960
+[Applause]
+
+1032
+00:39:01,680 --> 00:39:05,640
+okay great so I think I can uh read the
+
+1033
+00:39:03,960 --> 00:39:09,119
+questions and go from there okay so the
+
+1034
+00:39:05,640 --> 00:39:10,800
+first question is uh the IDE is great uh
+
+1035
+00:39:09,119 --> 00:39:13,400
+images are similar to the ones that are
+
+1036
+00:39:10,800 --> 00:39:14,440
+available on the internet um but how
+
+1037
+00:39:13,400 --> 00:39:17,280
+would this perform on Specialized
+
+1038
+00:39:14,440 --> 00:39:21,119
+domains like x-rays MRI thermal images
+
+1039
+00:39:17,280 --> 00:39:25,000
+yeah so you need to have a lot of
+
+1040
+00:39:21,119 --> 00:39:26,319
+training data for your gender model and
+
+1041
+00:39:25,000 --> 00:39:27,920
+we have a lot of training data for
+
+1042
+00:39:26,319 --> 00:39:32,720
+random internet photos but we don't
+
+1043
+00:39:27,920 --> 00:39:34,960
+necessarily for X-rays and MRIs um so if
+
+1044
+00:39:32,720 --> 00:39:37,119
+I used a off-the-shelf generative model
+
+1045
+00:39:34,960 --> 00:39:38,400
+as a data source for MRIs well that
+
+1046
+00:39:37,119 --> 00:39:40,240
+wouldn't be appropriate because the
+
+1047
+00:39:38,400 --> 00:39:42,160
+off-the-shelf models just don't know
+
+1048
+00:39:40,240 --> 00:39:44,680
+what MRIs look like so what I would
+
+1049
+00:39:42,160 --> 00:39:46,480
+recommend here is uh we need to make
+
+1050
+00:39:44,680 --> 00:39:49,400
+good generative models good foundation
+
+1051
+00:39:46,480 --> 00:39:51,920
+models for X-rays and MRIs and of course
+
+1052
+00:39:49,400 --> 00:39:54,160
+there's legal and privacy and ethical um
+
+1053
+00:39:51,920 --> 00:39:55,440
+constraints on this but I imagine this
+
+1054
+00:39:54,160 --> 00:39:56,680
+could also be done like hospitals do
+
+1055
+00:39:55,440 --> 00:40:00,400
+have a lot of data and potentially we
+
+1056
+00:39:56,680 --> 00:40:00,400
+could make Big Data dat sets for that
+
+1057
+00:40:00,680 --> 00:40:06,440
+purpose okay um next question synthetic
+
+1058
+00:40:03,520 --> 00:40:07,880
+data Bears the bias of the models that
+
+1059
+00:40:06,440 --> 00:40:09,599
+uh generated it what can you need to
+
+1060
+00:40:07,880 --> 00:40:11,880
+control or prevent these biases what
+
+1061
+00:40:09,599 --> 00:40:14,800
+these biases propagate to the end result
+
+1062
+00:40:11,880 --> 00:40:19,359
+um yeah yeah this is a really important
+
+1063
+00:40:14,800 --> 00:40:21,000
+Point uh so data sets have bias and we
+
+1064
+00:40:19,359 --> 00:40:22,680
+should always be careful and aware of
+
+1065
+00:40:21,000 --> 00:40:26,040
+that and generative models are no
+
+1066
+00:40:22,680 --> 00:40:28,240
+exception so a generative model is a
+
+1067
+00:40:26,040 --> 00:40:30,480
+system that produces data dat and it
+
+1068
+00:40:28,240 --> 00:40:32,839
+might produce bias data but it's not
+
+1069
+00:40:30,480 --> 00:40:34,839
+really fundamentally different in in
+
+1070
+00:40:32,839 --> 00:40:36,440
+that sense from other data sets which
+
+1071
+00:40:34,839 --> 00:40:39,240
+also are systems that can be used to
+
+1072
+00:40:36,440 --> 00:40:42,079
+sample data and potentially um showcase
+
+1073
+00:40:39,240 --> 00:40:44,160
+biases that we don't want uh but I think
+
+1074
+00:40:42,079 --> 00:40:47,000
+there's a nice opportunity here which is
+
+1075
+00:40:44,160 --> 00:40:48,599
+that you can because we have these knobs
+
+1076
+00:40:47,000 --> 00:40:51,079
+and we can intervene and change our
+
+1077
+00:40:48,599 --> 00:40:52,079
+synthetic data we can potentially debias
+
+1078
+00:40:51,079 --> 00:40:53,560
+it and there's actually a lot of
+
+1079
+00:40:52,079 --> 00:40:55,520
+interesting algorithms that do study
+
+1080
+00:40:53,560 --> 00:40:59,200
+this they do try to take a generative
+
+1081
+00:40:55,520 --> 00:41:00,680
+model and uh remove social biases that
+
+1082
+00:40:59,200 --> 00:41:03,720
+we might not want or other types of
+
+1083
+00:41:00,680 --> 00:41:06,359
+biases so we can say let's say that the
+
+1084
+00:41:03,720 --> 00:41:10,599
+gener of model has made photos and it
+
+1085
+00:41:06,359 --> 00:41:12,160
+shows uh images of doctors uh but it uh
+
+1086
+00:41:10,599 --> 00:41:14,599
+we we potentially want it to show
+
+1087
+00:41:12,160 --> 00:41:16,599
+occupations at kind of demographic
+
+1088
+00:41:14,599 --> 00:41:17,760
+parity that might be one application
+
+1089
+00:41:16,599 --> 00:41:19,319
+that we we care about for an
+
+1090
+00:41:17,760 --> 00:41:21,960
+advertisement we want to show that you
+
+1091
+00:41:19,319 --> 00:41:24,119
+know all different genders and races and
+
+1092
+00:41:21,960 --> 00:41:25,599
+can be represented as doctors well with
+
+1093
+00:41:24,119 --> 00:41:26,800
+real data we might not actually have
+
+1094
+00:41:25,599 --> 00:41:28,680
+that distribution out there cuz
+
+1095
+00:41:26,800 --> 00:41:30,280
+historically there have been biases but
+
+1096
+00:41:28,680 --> 00:41:32,200
+with synthetic data we can manipulate
+
+1097
+00:41:30,280 --> 00:41:34,359
+those knobs and create a world which is
+
+1098
+00:41:32,200 --> 00:41:36,880
+different than reality and that could be
+
+1099
+00:41:34,359 --> 00:41:38,960
+beneficial or it could be uh something
+
+1100
+00:41:36,880 --> 00:41:40,560
+you don't want so it's it's a trade-off
+
+1101
+00:41:38,960 --> 00:41:42,960
+yeah
+
+1102
+00:41:40,560 --> 00:41:44,640
+okay uh so what real life applications
+
+1103
+00:41:42,960 --> 00:41:46,119
+and sustainability in climate and life
+
+1104
+00:41:44,640 --> 00:41:47,599
+science do I anticipate in this line of
+
+1105
+00:41:46,119 --> 00:41:49,760
+research on synthetic
+
+1106
+00:41:47,599 --> 00:41:51,640
+data yeah I think that's really
+
+1107
+00:41:49,760 --> 00:41:53,520
+interesting um I'm not really involved
+
+1108
+00:41:51,640 --> 00:41:56,319
+in that side of things too much but I do
+
+1109
+00:41:53,520 --> 00:41:58,880
+have a collaborator uh Sarah beri who's
+
+1110
+00:41:56,319 --> 00:42:00,640
+another professor at Mi it and she's
+
+1111
+00:41:58,880 --> 00:42:03,599
+been using um we've been working
+
+1112
+00:42:00,640 --> 00:42:04,760
+together on synthetic data for trying to
+
+1113
+00:42:03,599 --> 00:42:09,800
+uh detect
+
+1114
+00:42:04,760 --> 00:42:11,480
+rare uh bird types um so if I have some
+
+1115
+00:42:09,800 --> 00:42:13,160
+unusual species or bird that I want to
+
+1116
+00:42:11,480 --> 00:42:15,280
+identify in the forest I don't have
+
+1117
+00:42:13,160 --> 00:42:16,760
+enough real data to train on but I could
+
+1118
+00:42:15,280 --> 00:42:19,839
+potentially use a generative model to
+
+1119
+00:42:16,760 --> 00:42:21,520
+create uh a lot of hallucinated images
+
+1120
+00:42:19,839 --> 00:42:23,599
+of this bird and then create a better
+
+1121
+00:42:21,520 --> 00:42:24,680
+detector for that rare bird type so
+
+1122
+00:42:23,599 --> 00:42:27,480
+that's actually an application we're
+
+1123
+00:42:24,680 --> 00:42:31,160
+even working on now
+
+1124
+00:42:27,480 --> 00:42:33,400
+ask one more question uh it looks like
+
+1125
+00:42:31,160 --> 00:42:38,400
+Philip just demonstrated or showcased
+
+1126
+00:42:33,400 --> 00:42:41,559
+the how powerful gen generative model as
+
+1127
+00:42:38,400 --> 00:42:43,839
+a data source for AI systems can you
+
+1128
+00:42:41,559 --> 00:42:46,160
+also say more some words about other
+
+1129
+00:42:43,839 --> 00:42:50,880
+different applications of just using
+
+1130
+00:42:46,160 --> 00:42:52,520
+generative models yeah uh so right
+
+1131
+00:42:50,880 --> 00:42:55,240
+generative models can be a great data
+
+1132
+00:42:52,520 --> 00:42:57,440
+source for any data consuming algorithm
+
+1133
+00:42:55,240 --> 00:43:02,400
+uh but maybe one other big class of data
+
+1134
+00:42:57,440 --> 00:43:05,160
+algorithm is uh systems that are kind of
+
+1135
+00:43:02,400 --> 00:43:07,760
+doing modelbased control so in robotics
+
+1136
+00:43:05,160 --> 00:43:10,480
+we often will want to have a model of
+
+1137
+00:43:07,760 --> 00:43:12,400
+the world that we can reason over to
+
+1138
+00:43:10,480 --> 00:43:14,400
+decide what action will be optimal to
+
+1139
+00:43:12,400 --> 00:43:15,960
+take like imagine you're controlling a
+
+1140
+00:43:14,400 --> 00:43:17,200
+car and you want to have a model of
+
+1141
+00:43:15,960 --> 00:43:18,240
+where the other cars are on the street
+
+1142
+00:43:17,200 --> 00:43:20,040
+to know when you're going to turn your
+
+1143
+00:43:18,240 --> 00:43:21,800
+wheel you have to have a model of the
+
+1144
+00:43:20,040 --> 00:43:24,680
+velocity of the car and a model of the
+
+1145
+00:43:21,800 --> 00:43:26,839
+you know the friction on the ground and
+
+1146
+00:43:24,680 --> 00:43:28,359
+there is this kind of upand cominging
+
+1147
+00:43:26,839 --> 00:43:30,079
+class class of generative models which
+
+1148
+00:43:28,359 --> 00:43:33,480
+are called World models which actually
+
+1149
+00:43:30,079 --> 00:43:35,160
+try to not only model text or 2D images
+
+1150
+00:43:33,480 --> 00:43:37,839
+but model the entire physical dynamics
+
+1151
+00:43:35,160 --> 00:43:39,760
+of the world around you and this kind of
+
+1152
+00:43:37,839 --> 00:43:42,319
+generative model is going to find a lot
+
+1153
+00:43:39,760 --> 00:43:44,119
+of application in robotics and control
+
+1154
+00:43:42,319 --> 00:43:46,960
+where you actually need to know the the
+
+1155
+00:43:44,119 --> 00:43:48,359
+physics and then all of these ideas I'm
+
+1156
+00:43:46,960 --> 00:43:50,400
+talking about like counterfactual
+
+1157
+00:43:48,359 --> 00:43:51,640
+reasoning show up there as well you say
+
+1158
+00:43:50,400 --> 00:43:53,240
+you know what would I what would happen
+
+1159
+00:43:51,640 --> 00:43:55,040
+if I steer my will really quickly to the
+
+1160
+00:43:53,240 --> 00:43:56,599
+left and then you run your generative
+
+1161
+00:43:55,040 --> 00:43:58,359
+model you know traditionally you run
+
+1162
+00:43:56,599 --> 00:43:59,559
+your class physics simulator but in the
+
+1163
+00:43:58,359 --> 00:44:01,640
+future you know you'll run your
+
+1164
+00:43:59,559 --> 00:44:03,200
+generative physics engine and it will
+
+1165
+00:44:01,640 --> 00:44:04,720
+predict what would happen and then you
+
+1166
+00:44:03,200 --> 00:44:06,839
+decide should I actually take that
+
+1167
+00:44:04,720 --> 00:44:08,480
+action if I'm going to crash I would not
+
+1168
+00:44:06,839 --> 00:44:11,400
+take that action if that's my prediction
+
+1169
+00:44:08,480 --> 00:44:15,720
+and if I'm not going to crash maybe I
+
+1170
+00:44:11,400 --> 00:44:15,720
+would okay thank you
+

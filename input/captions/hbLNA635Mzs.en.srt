@@ -1,0 +1,2384 @@
+1
+00:00:01,880 --> 00:00:09,600
+good morning everyone and welcome to the mpg 
+primer and today it is my great pleasure to  
+
+2
+00:00:09,600 --> 00:00:16,360
+introduce Mark elosua bayz he is a computational 
+biologist in the cell Discovery Network an  
+
+3
+00:00:16,360 --> 00:00:21,680
+initiative within Boston Children's Hospital 
+which I've used for help so many times um he  
+
+4
+00:00:21,680 --> 00:00:27,040
+aims to use the power of single cell and spatial 
+resolve Technologies to provide Precision medicine  
+
+5
+00:00:27,040 --> 00:00:32,880
+treatments using highresolution Technologies to 
+interrogate biology he wants to better understand  
+
+6
+00:00:32,880 --> 00:00:37,960
+disease driving mechanisms where a patient 
+sits within the disease landscape and how  
+
+7
+00:00:37,960 --> 00:00:42,800
+to effectively treat it from the cell Discovery 
+Network he wants to spread single cell biology  
+
+8
+00:00:42,800 --> 00:00:48,160
+knowledge and help more people to analyze their 
+data um so today he's going to be talking about  
+
+9
+00:00:48,160 --> 00:00:53,080
+introduction to single cell RNA seek workflow 
+please feel free to ask questions throughout  
+
+10
+00:00:53,080 --> 00:00:57,040
+there's two mics in the middle of the room and 
+you can also wave your hand and we'll come over  
+
+11
+00:00:57,040 --> 00:01:01,960
+to you thank you very much so I'm going to be 
+talking a little bit about the introduction to  
+
+12
+00:01:01,960 --> 00:01:09,840
+single cell RN I don't know how familiar everyone 
+is so um I just want to like provide General ideas  
+
+13
+00:01:09,840 --> 00:01:15,680
+of how to analyze the data what considerations 
+and try to like give sort of like an intuition  
+
+14
+00:01:15,680 --> 00:01:20,520
+of why we're making specific decisions that 
+uh we believe are are very important in the  
+
+15
+00:01:20,520 --> 00:01:28,600
+in the analysis and these are tool agnostics so 
+regardless of the tool that you want to use uh  
+
+16
+00:01:28,600 --> 00:01:35,760
+you can go ahead and I think we also don't want 
+to focus on any one specific tool because there  
+
+17
+00:01:35,760 --> 00:01:41,280
+will be constant tools coming up so just providing 
+the the Baseline of like when I'm doing this sort  
+
+18
+00:01:41,280 --> 00:01:46,720
+of analysis what what should I be looking out for 
+what are the limitations uh and what is happening  
+
+19
+00:01:46,720 --> 00:01:54,360
+under the hood uh at a at a broad level um so for 
+the agenda we're going to uh start a little bit  
+
+20
+00:01:54,360 --> 00:02:00,000
+from the basics so once we have our count Matrix 
+or gene expression Matrix how do we go to the  
+
+21
+00:02:00,000 --> 00:02:05,200
+the the graph representation of the data 
+uh and then I want to dive deeper into the  
+
+22
+00:02:05,200 --> 00:02:09,320
+quality control and the batch effect and and 
+integration assessment which I think are are  
+
+23
+00:02:09,320 --> 00:02:13,800
+two of the key parts of the of the analysis 
+and then just very quickly provide some data  
+
+24
+00:02:13,800 --> 00:02:23,320
+resources and Tool resources um I think could be 
+very useful um but before we start why would we  
+
+25
+00:02:23,320 --> 00:02:30,000
+ever want to use single cell RN seek and 
+I think I just put a few things here but  
+
+26
+00:02:30,000 --> 00:02:34,600
+first of all it allows us uh unprecedented 
+levels uh of resolution so it really allows  
+
+27
+00:02:34,600 --> 00:02:43,800
+us to understand solell heterogen heterogenity at 
+a unbiased quotation marks um way uh since we're  
+
+28
+00:02:43,800 --> 00:02:49,880
+going very deep into this biology it can allow us 
+to also detect Noble and rear C States depending  
+
+29
+00:02:49,880 --> 00:02:55,400
+on how we design our experiment it really helps 
+us map lineages and and development trajectories  
+
+30
+00:02:55,400 --> 00:03:02,440
+um and ultimately can lead into insights um into 
+how disease progress in the the mechanisms of it
+
+31
+00:03:02,440 --> 00:03:15,200
+um so basic steps is I want to start by being 
+like where do we want to get to um once we have  
+
+32
+00:03:15,200 --> 00:03:21,600
+our data I feel like not many people know this 
+but single cell RN works on a graph structure  
+
+33
+00:03:21,600 --> 00:03:25,920
+and I'm not sure going to try to like put too 
+much too uh too much math in in here but like  
+
+34
+00:03:25,920 --> 00:03:30,320
+just to get the understanding that we're working 
+on the kers neighbor graph where or we want to get  
+
+35
+00:03:30,320 --> 00:03:37,120
+to a point where we can build this kers neighbor 
+graph where each cell is a DOT and these cells are  
+
+36
+00:03:37,120 --> 00:03:45,480
+connected between them regarding on how similar 
+they are between them um how do we get from our  
+
+37
+00:03:45,480 --> 00:03:51,760
+count Matrix to here is the complicated 
+part because you can imagine that uh as we  
+
+38
+00:03:51,760 --> 00:03:59,840
+start to have more and more cells um the problem 
+becomes intractable in terms of like how much how  
+
+39
+00:03:59,840 --> 00:04:06,200
+you can compute distances between these cells so 
+let's say we start with uh our Gene Matrix which  
+
+40
+00:04:06,200 --> 00:04:12,480
+has 30,000 genes and 100,000 cells um we can't 
+compute distances in this super high dimensional  
+
+41
+00:04:12,480 --> 00:04:18,320
+space um and it is neither comp memory efficient 
+or computationally feasible to really just ask a  
+
+42
+00:04:18,320 --> 00:04:25,720
+computer to do this so we need to find a way to 
+somehow reduce these dimensions and um the way  
+
+43
+00:04:25,720 --> 00:04:32,880
+that we do this is we need to first um select 
+or most analysis usually start by selecting a  
+
+44
+00:04:32,880 --> 00:04:38,600
+subset of Highly variable genes um in order to 
+like accurately be able to select these highly  
+
+45
+00:04:38,600 --> 00:04:44,920
+variable genes we need to normalize our data 
+and I uh some of you might be very familiar but  
+
+46
+00:04:44,920 --> 00:04:51,520
+imagine we have two cells um red cell and blue 
+cell and let's say uh if we're just looking at  
+
+47
+00:04:51,520 --> 00:04:56,800
+the rock counts we would say okay the red cell 
+and the blue cell have the same expression of  
+
+48
+00:04:56,800 --> 00:05:02,600
+of the pink transcript and the GRE and the red 
+cell expresses more of like the the teal and  
+
+49
+00:05:02,600 --> 00:05:07,200
+the orange transcript obviously depends on the 
+light res siiz depends on the sequencing depth  
+
+50
+00:05:07,200 --> 00:05:12,440
+so we need to normalize this there's many 
+ways of normalizing it um many different
+
+51
+00:05:12,440 --> 00:05:23,520
+algorithms see uh normalizing by the library 
+depth usually works super well and um I that's  
+
+52
+00:05:23,520 --> 00:05:30,120
+what uh we tend to suggest before trying uh 
+fancier methods um and once we have the data  
+
+53
+00:05:30,120 --> 00:05:35,080
+normalized we can go on to looking at which are 
+the genes that are most highly variable this is  
+
+54
+00:05:35,080 --> 00:05:39,840
+because we want to subset from our 30,000 Gene 
+space we want to just do a selection of let's  
+
+55
+00:05:39,840 --> 00:05:46,120
+say which are the most biologically relevant genes 
+and we Define biologically relevant by genes that  
+
+56
+00:05:46,120 --> 00:05:51,040
+are variable within our data set we can imagine 
+that if a gene is constantly expressed it's not  
+
+57
+00:05:51,040 --> 00:05:56,920
+necessarily adding any information uh to our data 
+set in the sense it's not going to tell us allow  
+
+58
+00:05:56,920 --> 00:06:04,320
+us to tell us apart different cell populations 
+so so we select our most highly varable genes and  
+
+59
+00:06:04,320 --> 00:06:10,200
+we're like we're going to subset from 30,000 genes 
+we're now going to look at these 3,000 2,000 5,000  
+
+60
+00:06:10,200 --> 00:06:17,080
+genes of Interest feature selection is very very 
+important because as you can imagine we're going  
+
+61
+00:06:17,080 --> 00:06:26,600
+from 30,000 genes to 3,000 genes those other 20 
+27,000 genes will be invisible we'll be blind to  
+
+62
+00:06:26,600 --> 00:06:34,040
+them for the rest of the analysis so just keep in 
+mind that the Single Cell usually is an iterative  
+
+63
+00:06:34,040 --> 00:06:38,400
+process where you annotate the level one then you 
+subset your data and then you need to redo these  
+
+64
+00:06:38,400 --> 00:06:46,360
+steps redo the feature selection um because at 
+each level you're only working with these 3,000  
+
+65
+00:06:46,360 --> 00:06:55,000
+highly variable genes anything that's outside the 
+3,000 will be invisible to the analysis um and  
+
+66
+00:06:55,000 --> 00:06:59,520
+then once we select our highly varable genes 
+we can scale the data and we can compute PCA  
+
+67
+00:07:00,160 --> 00:07:06,280
+uh and then we go to say 50 principal components 
+that were computed on these 3,000 veral genes  
+
+68
+00:07:06,280 --> 00:07:15,160
+for 100,000 cells in our data set um this is very 
+important because these 50 PCS have been computed  
+
+69
+00:07:15,160 --> 00:07:19,640
+on these 3,000 High highly variable genes imagine 
+if we start with a data set that's let's say a  
+
+70
+00:07:19,640 --> 00:07:24,360
+tissue biopsy that has epithelial cells that has 
+immune cells that has stromal cells the highly  
+
+71
+00:07:24,360 --> 00:07:28,880
+varable genes will include genes that come from 
+the epithelial genes that come from the stroma  
+
+72
+00:07:28,880 --> 00:07:33,160
+things that come from the the immune subset if 
+then you subsets to just your immune cells you  
+
+73
+00:07:33,160 --> 00:07:36,720
+need to reprocess it so now you recompute these 
+highly variable genes to genes that are highly  
+
+74
+00:07:36,720 --> 00:07:44,560
+variable within your immune subset and that will 
+allow you to gain let's say an extra layer of um  
+
+75
+00:07:44,560 --> 00:07:51,000
+um heterogen to pull things apart um and I'm 
+just making a lot of emphasis because feel  
+
+76
+00:07:51,000 --> 00:07:56,280
+like a lot of people miss this step and it's 
+it's very very important to really nail this  
+
+77
+00:07:56,280 --> 00:08:03,160
+down and once we have our data in 50 PC or in this 
+reduced Dimension space here and putting principal  
+
+78
+00:08:03,160 --> 00:08:09,920
+components it could be anything it could be if 
+you compute nmf if you SBI if you do uh single  
+
+79
+00:08:09,920 --> 00:08:15,240
+value the composition if you do any sort of um 
+integration method it's just a reduced Dimension  
+
+80
+00:08:15,240 --> 00:08:22,680
+space we can then compute distances and we can 
+then go on and build our uh cell connectivity and  
+
+81
+00:08:22,680 --> 00:08:28,680
+this is just showing on pc1 and PC2 but you can 
+imagine that this we're working on 50 principal  
+
+82
+00:08:28,680 --> 00:08:38,680
+components or yeah we're working in in that BC 
+space um once we have our uh graph build our  
+
+83
+00:08:38,680 --> 00:08:45,240
+K&N graph um we usually end up with something like 
+this it's not that we're looking at it but this is  
+
+84
+00:08:45,240 --> 00:08:51,680
+what's happening under the hood and we want to say 
+can we cluster this um classical methods like K  
+
+85
+00:08:51,680 --> 00:08:58,080
+means or hierarchical clustering don't scale well 
+with these super large um data sets especially  
+
+86
+00:08:58,080 --> 00:09:03,720
+when we have hundreds of hundreds of thousands of 
+points so what we do is we end up using Community  
+
+87
+00:09:03,720 --> 00:09:11,760
+DET Community detection algorithms like luane or 
+or or lien more recently um and these basically  
+
+88
+00:09:11,760 --> 00:09:17,880
+try to identify communities within our graph 
+that are more interconnected within them than  
+
+89
+00:09:17,880 --> 00:09:23,720
+outside of them so it's trying to optimize the 
+modularity of this graph but basically is being  
+
+90
+00:09:23,720 --> 00:09:29,360
+like okay what cells are more interconnected 
+between them than than outside of them um  
+
+91
+00:09:30,680 --> 00:09:37,560
+here I put that uh snn which means shared nearest 
+neighbors uh most of these algorithms don't work  
+
+92
+00:09:37,560 --> 00:09:42,920
+directly on the K nearest neighbor graph and K is 
+whatever number you want to say 20 50 100 nearest  
+
+93
+00:09:42,920 --> 00:09:48,400
+neighbors but more on the shared nearest neighbor 
+so once you have a cell for each cell you look at  
+
+94
+00:09:48,400 --> 00:09:53,680
+how many nearest neighbors you share with them 
+and that kind of prunes um extreme points that  
+
+95
+00:09:53,680 --> 00:10:00,760
+might not um be super related but just um because 
+they they it cleans up a little bit of the of the  
+
+96
+00:10:00,760 --> 00:10:07,400
+technical variability um with these graph 
+clusterings algorithms we can increase the  
+
+97
+00:10:07,400 --> 00:10:14,920
+resolution and that yeah can split uh further 
+split the initial subsets that we had um and I  
+
+98
+00:10:14,920 --> 00:10:21,120
+think one of the questions that we also get a lot 
+is how do we assess if a clustering resolution is  
+
+99
+00:10:21,120 --> 00:10:30,520
+good or bad or when do we call a clustering 
+um done um there's no clear answer I think  
+
+100
+00:10:30,520 --> 00:10:36,080
+biology is ultimately the the main driver of 
+this decision but we can use some metrics and  
+
+101
+00:10:36,080 --> 00:10:42,480
+here I'm talking about two of the metrics that 
+we tend to use um let's say we we have our our  
+
+102
+00:10:42,480 --> 00:10:49,600
+clustering done and uh each column here is one of 
+the Clusters and here we have our our samples we  
+
+103
+00:10:49,600 --> 00:10:54,160
+have our flu samples in blue our normal samples 
+in green and our covid samples in red if we  
+
+104
+00:10:54,160 --> 00:10:59,240
+look at clusters four and six we can see that 
+they're dominated by Just One of the patients  
+
+105
+00:11:00,400 --> 00:11:07,120
+doesn't mean that it's a bad thing could be 
+biology but there's definitely no sample diversity  
+
+106
+00:11:07,120 --> 00:11:12,000
+Within These clusters um and even cluster 5 
+seems to be mainly dominated by uh one of the flu  
+
+107
+00:11:12,000 --> 00:11:17,040
+samples so something to keep an eye out something 
+that could be pointing that there's something off  
+
+108
+00:11:17,040 --> 00:11:23,000
+or different from that one sample and that 
+it could be worth paying some attention and  
+
+109
+00:11:23,000 --> 00:11:28,760
+potentially removing it if it's if it's not going 
+to be useful or we think it's low quality and we  
+
+110
+00:11:28,760 --> 00:11:34,520
+can do this based of the ey test and just drawing 
+the bar plot and being like what does this look  
+
+111
+00:11:34,520 --> 00:11:39,880
+like or for example we can compute the Simpson 
+diversity index for each cluster and we can see  
+
+112
+00:11:39,880 --> 00:11:47,360
+how diverse is each cluster by um the sample ID 
+or the batch that we're looking at I have a quick  
+
+113
+00:11:47,360 --> 00:11:56,280
+question yeah so if you get a cluster like four um 
+how do you go about deciding if that's some weird  
+
+114
+00:11:56,280 --> 00:12:01,280
+batch effect or if it is some unique biology 
+that's like do I kick it out or investigate  
+
+115
+00:12:01,280 --> 00:12:05,680
+it that's the question that's why I said at the 
+beginning that we can provide technical expertise  
+
+116
+00:12:05,680 --> 00:12:11,480
+but knowing the biology is the most important part 
+when making these decisions in this case I believe  
+
+117
+00:12:11,480 --> 00:12:19,120
+cluster 4 ended up being uh platelets so it was 
+a sample that just had a lot wasn't cleaned up  
+
+118
+00:12:19,120 --> 00:12:26,120
+well in terms of the blood wasn't fully removed 
+so we had a lot of um hemoglobin uh genes uh in  
+
+119
+00:12:26,120 --> 00:12:31,360
+cluster 6 and a lot of platelets um in cluster 4 
+so we ended up removing these because they were  
+
+120
+00:12:31,360 --> 00:12:36,200
+not a cell type that we're directly interested 
+in and that had just missed the let's say the  
+
+121
+00:12:36,200 --> 00:12:43,520
+sample processing quality steps but again just 
+by looking at this I would not remove the samp  
+
+122
+00:12:43,520 --> 00:12:48,000
+that cluster I would interrogate and be like 
+what genes are differentially expressed do I  
+
+123
+00:12:48,000 --> 00:12:52,120
+see this in my condition of interest because if I 
+see this cluster just in one of the patients but  
+
+124
+00:12:52,120 --> 00:12:57,080
+it's in let's say in my disease category then 
+I might be more inclined and keeping it to be  
+
+125
+00:12:57,080 --> 00:13:02,640
+like oh this seems to be something that's more 
+dis specific um but I'm going to go over some  
+
+126
+00:13:02,640 --> 00:13:10,400
+QC metrics in in a little bit as well to to try 
+to um help with that process but again I think  
+
+127
+00:13:10,400 --> 00:13:14,760
+biology if there's one point is that biology 
+is the key driver of the decision- making we  
+
+128
+00:13:14,760 --> 00:13:23,360
+can provide as many parameters and tools and and 
+things to look at but laying our decision making  
+
+129
+00:13:23,360 --> 00:13:29,440
+on the biology is the I think the ultimate driver 
+of of what's going to make a successful analysis
+
+130
+00:13:29,440 --> 00:13:37,160
+um and another thing that we can do is we compute 
+the uh silhouette score which the silhouette score  
+
+131
+00:13:37,160 --> 00:13:44,200
+basically means is my cell more similar to the 
+cells in its own cluster than to the cells outside  
+
+132
+00:13:44,200 --> 00:13:50,520
+of my own cluster um and I'll show the formula 
+in in a few slides but basically what we can see  
+
+133
+00:13:50,520 --> 00:13:56,360
+is that high silouette scores near one u means 
+that um the cells within that cluster or that  
+
+134
+00:13:56,360 --> 00:14:02,680
+that cell is very similar to self than to other 
+and uh scores zero or below means that that cell  
+
+135
+00:14:02,680 --> 00:14:11,400
+is more similar is equally similar or more this 
+similar to self than to others um so we can see  
+
+136
+00:14:11,400 --> 00:14:18,320
+how let's say clusters 8 7 six 4 3 2 and zero seem 
+to be very well structured seem to be very similar  
+
+137
+00:14:18,320 --> 00:14:23,560
+to self then all the cells within those clusters 
+are similar to uh the cells that are also in the  
+
+138
+00:14:23,560 --> 00:14:29,040
+cluster than the rest cluster five for example 
+which is uh in this case is this one over here  
+
+139
+00:14:29,880 --> 00:14:37,440
+um seems to not be uh doing such a good job 
+so cluster 5 could be something potentially  
+
+140
+00:14:37,440 --> 00:14:42,800
+interesting to look at because the cells within 
+cluster 5 seem to be more different between them  
+
+141
+00:14:42,800 --> 00:14:49,800
+um than and more similar to some stuff outside of 
+the cluster um cluster 5 when we ended up looking  
+
+142
+00:14:49,800 --> 00:14:55,440
+at it um where a lot of polar forting cells so 
+they got grouped together because they shared  
+
+143
+00:14:55,440 --> 00:14:58,880
+the proliferation signature but there was a lot 
+of seller heterogenity within them so when you  
+
+144
+00:14:58,880 --> 00:15:04,840
+were drawing distances um the proliferating T 
+cells were still similar to the T cells the um  
+
+145
+00:15:04,840 --> 00:15:10,280
+um proliferating Milo cells were more similar 
+to Milo cells Etc so it's just an indication  
+
+146
+00:15:10,280 --> 00:15:13,360
+doesn't mean that it's a good thing or a bad 
+thing it just means that it's something that  
+
+147
+00:15:13,360 --> 00:15:18,640
+we need to take into consideration and look 
+deeper into before we make a a final decision
+
+148
+00:15:18,640 --> 00:15:26,200
+um so once we have the clustering based on this 
+K nearest neighbor graph we can also compute  
+
+149
+00:15:26,200 --> 00:15:32,560
+our umap visualization of the data which which I'm 
+sure most of you have seen some sort of uh umap uh  
+
+150
+00:15:32,560 --> 00:15:40,320
+by now um I just want to caution that you can see 
+that we started from 30,000 genes at the beginning  
+
+151
+00:15:40,320 --> 00:15:46,000
+we subset it to 3,000 genes and then we reduce 
+that to 50 principal components we built a graph  
+
+152
+00:15:46,000 --> 00:15:54,000
+on that and then we reduce this to two Dimensions 
+so it's been a long process and a lot of data has  
+
+153
+00:15:54,000 --> 00:16:00,800
+been let's say shed or compacted during these 
+steps um because we ultimately want to see can  
+
+154
+00:16:00,800 --> 00:16:04,760
+we capture the most amount of variability within 
+two components this doesn't mean that there  
+
+155
+00:16:04,760 --> 00:16:10,920
+are more sources of variability Beyond these two 
+components and the distances that we see them that  
+
+156
+00:16:10,920 --> 00:16:16,720
+we see within our our um map don't over interpret 
+them just because you see the two things are very  
+
+157
+00:16:16,720 --> 00:16:21,240
+close together and one thing is very far apart 
+doesn't mean that that's necessarily biologically  
+
+158
+00:16:21,240 --> 00:16:29,080
+true it's just a way of visualizing the data 
+um if we added a third umap dimension Maybe  
+
+159
+00:16:29,080 --> 00:16:36,160
+um the green cluster would be closer to Blue 
+than um the orange just because with the third  
+
+160
+00:16:36,160 --> 00:16:42,320
+dimensions and Cas cells would go all the way 
+up um so just to to not over interpret ums they  
+
+161
+00:16:42,320 --> 00:16:49,160
+there're can be useful to look at the data and 
+just have some visual reference but um yeah don't  
+
+162
+00:16:49,160 --> 00:16:54,000
+judge distances and and relationships and if you 
+see four clusters right in a row don't assume that  
+
+163
+00:16:54,000 --> 00:16:59,000
+this is one transitioning space that's going from 
+one to the other um because basically you're just  
+
+164
+00:16:59,000 --> 00:17:05,480
+drawing things to be like um you're you're 
+compressing 30,000 genes into two Dimensions  
+
+165
+00:17:05,480 --> 00:17:11,240
+there might be a lot that's missing there as well 
+um and once we have this then we can go on to do  
+
+166
+00:17:11,240 --> 00:17:16,000
+our our Downstream analysis we can do differential 
+gene expression we can annotate our cell types we  
+
+167
+00:17:16,000 --> 00:17:21,880
+can do some sort of compositional analysis we can 
+do cell cell communication many many down stream  
+
+168
+00:17:21,880 --> 00:17:27,640
+analysis um that I think that really depends 
+on on the question that you're trying to answer  
+
+169
+00:17:27,640 --> 00:17:34,040
+in in your data set um for the quality control I 
+want to spend some time because I feel like it's  
+
+170
+00:17:34,040 --> 00:17:39,560
+a a very important part of the process and some 
+people sometimes rush through it um I tend to be  
+
+171
+00:17:39,560 --> 00:17:45,080
+way more conservative in the way that I do quality 
+control um I will only remove something if it's  
+
+172
+00:17:45,080 --> 00:17:55,120
+very clearly obvious that it's um poor quality uh 
+or an let's say an empty droplet um I will start  
+
+173
+00:17:55,120 --> 00:18:01,360
+with a sample level metrics so once you've done 
+your sequencing think can we look at the metrics  
+
+174
+00:18:01,360 --> 00:18:07,040
+that you obtain from from uh sequencing your data 
+and then mapping them to your reference genome and  
+
+175
+00:18:07,040 --> 00:18:14,000
+see what we're obtaining from from them uh here 
+I'm putting on the left the let's say typical sell  
+
+176
+00:18:14,000 --> 00:18:19,360
+Ranger report that you get uh when you've done a 
+10x genomic experiment and you run it through cell  
+
+177
+00:18:19,360 --> 00:18:24,680
+Ranger these are the the basic summary statistics 
+um and basically by looking at these sample level  
+
+178
+00:18:24,680 --> 00:18:29,600
+metrics we're just trying to understand was this 
+sample good quality was there something off are  
+
+179
+00:18:29,600 --> 00:18:34,200
+we getting the same the expected number of cells 
+that we were expecting um is the quality of the  
+
+180
+00:18:34,200 --> 00:18:39,360
+sequencing good that the sequencing depth is 
+it the one that we expected um from the sequin  
+
+181
+00:18:39,360 --> 00:18:46,960
+facility um that mapping these cells or these 
+reads to the reference genome work well did it  
+
+182
+00:18:46,960 --> 00:18:53,520
+not and try to like get ahead of some of these um 
+QC analysis QC problems that we might see later on  
+
+183
+00:18:53,520 --> 00:18:59,080
+Downstream but try to identify them U earlier on 
+at the sample level and be like okay we know that  
+
+184
+00:18:59,080 --> 00:19:03,320
+um anything that happens within the sample could 
+be biased because it wasn't sequenced properly or  
+
+185
+00:19:03,320 --> 00:19:09,800
+it wasn't sequenced at a lower depth etc etc 
+uh and this I like to look at it in two main  
+
+186
+00:19:09,800 --> 00:19:14,080
+different ways so one is on the sequencing 
+and Alignment quality um so we're looking at  
+
+187
+00:19:14,080 --> 00:19:19,200
+the sequencing depth uh which I hopefully you can 
+read but uh we can get the total number of reads  
+
+188
+00:19:19,200 --> 00:19:25,320
+that were sequenced uh how many of these reads 
+um or how many of the barcodes Andis that were  
+
+189
+00:19:25,320 --> 00:19:32,280
+sequenced are valid and Andis are unique molecular 
+identifiers um so when you're doing your single  
+
+190
+00:19:32,280 --> 00:19:38,080
+cell experiment um each individual transcript 
+will be assigned a unique bar code uh so when you  
+
+191
+00:19:38,080 --> 00:19:45,280
+do the PCR amplification Etc you can correct for 
+amplification biases um just Umi is is short for  
+
+192
+00:19:45,280 --> 00:19:51,280
+for this unique molecular identifier um and then 
+we also have the q30 scores to see how good the  
+
+193
+00:19:51,280 --> 00:19:58,000
+sequencing was in the barcode in the RNA read and 
+the Umi um these usually always look very good but  
+
+194
+00:19:58,000 --> 00:20:02,960
+sometimes you'll see that some specific samples 
+just look very very poor and that could be like  
+
+195
+00:20:02,960 --> 00:20:09,320
+already an indication that that sample um could be 
+Troublesome in in Downstream analysis or might not  
+
+196
+00:20:09,320 --> 00:20:17,040
+be worth um adding in the in here and then some 
+other things that are interesting is percentage  
+
+197
+00:20:17,040 --> 00:20:21,840
+of reads that were mapped to the genome and then 
+uh reads that were mapped confence to the genome  
+
+198
+00:20:21,840 --> 00:20:28,920
+M to intergenic exonic or intronic regions um I 
+can't give you a number of what number you should  
+
+199
+00:20:28,920 --> 00:20:34,480
+be looking for here uh it will vary if you're 
+doing single cell R sequencing um you will get a  
+
+200
+00:20:34,480 --> 00:20:38,880
+a higher proportion of read mapping to the exonic 
+regions if you're doing single nuclei where you're  
+
+201
+00:20:38,880 --> 00:20:42,080
+really just looking at the stuff that's within 
+the nuclei then you will get a higher percentage  
+
+202
+00:20:42,080 --> 00:20:53,640
+of reads mapping to um intronic regions um for 
+the more immature rnas um so just to to keep  
+
+203
+00:20:53,640 --> 00:20:58,760
+in mind how did the sequencing and how did the 
+mapping of of our reads go and then we can also  
+
+204
+00:20:58,760 --> 00:21:07,880
+go to the sample and cell quality so usually 
+people tend to load 10 to 20,000 cells um so are  
+
+205
+00:21:07,880 --> 00:21:12,120
+we getting the expected number of cells sometimes 
+you get 3,000 sometimes you get 50,000 if you get  
+
+206
+00:21:12,120 --> 00:21:19,320
+50,000 you could be like did I overload it did 
+uh something go wrong and it's considering more  
+
+207
+00:21:19,320 --> 00:21:24,360
+cells than than it should be considering um we 
+have our barcode rank plot up here that I will  
+
+208
+00:21:24,360 --> 00:21:29,440
+talk in a second but yeah uh this basically 
+determines uh the estimate number of cells  
+
+209
+00:21:29,440 --> 00:21:36,080
+number of reads that ended up in a Cell uh some 
+statistics on like um how many molecules how many  
+
+210
+00:21:36,080 --> 00:21:43,040
+genes were detected per cell Etc and I really 
+like to look at the sequencing saturation and  
+
+211
+00:21:43,040 --> 00:21:47,480
+at the barcode rank plot the sequencing saturation 
+is this this top plot where we have the the mean  
+
+212
+00:21:47,480 --> 00:21:54,400
+reads per cell and the sequencing saturation in 
+the Y AIS meaning that as we sequence deeper and  
+
+213
+00:21:54,400 --> 00:21:59,880
+deeper the likelihood that we're going to find new 
+genes gets lower and lower over so at some point  
+
+214
+00:21:59,880 --> 00:22:08,000
+there's this tradeoff right um around here let's 
+say where in order for you to get a more let say  
+
+215
+00:22:08,000 --> 00:22:14,920
+complex Library more new information you need to 
+sequence way deeper and uh in most of these cases  
+
+216
+00:22:14,920 --> 00:22:21,600
+it's usually better to sequence more samples than 
+to sequence deeper one sample because you usually  
+
+217
+00:22:21,600 --> 00:22:31,640
+end up having enough information um by 6.7 um 
+and then the barode rank plot is the automated  
+
+218
+00:22:31,640 --> 00:22:38,080
+way that uh cell Ranger has to determine what is 
+a cell and what is not a cell or what is an empty  
+
+219
+00:22:38,080 --> 00:22:44,040
+droplet versus what is a droplet that has captured 
+a cell um and you can see that here's the number  
+
+220
+00:22:44,040 --> 00:22:49,920
+of barcodes in the x-axis here's the number of Umi 
+counts per cell um all the cells that have many  
+
+221
+00:22:49,920 --> 00:22:55,800
+Umi counts end up being considered a cell and then 
+it usually gets to an elbow Point um and right  
+
+222
+00:22:55,800 --> 00:23:00,800
+after the elbow point it will set a threshold and 
+it will be like like anything after this is not I  
+
+223
+00:23:00,800 --> 00:23:07,320
+consider to be an empty droplet everything Above 
+This is considered to be a droplet with um enough  
+
+224
+00:23:07,320 --> 00:23:14,480
+information to be considered a cell Um this can 
+be misleading um always I like to take a look at  
+
+225
+00:23:14,480 --> 00:23:21,360
+it because sometimes you get a double elbow um if 
+you have very if you have a gr sites for example  
+
+226
+00:23:21,360 --> 00:23:29,320
+that have very low um uh transcript uh mrnas um 
+you can get this double elbow and by setting this  
+
+227
+00:23:29,320 --> 00:23:34,320
+automatic threshold it could absolutely just 
+remove a whole a whole population from your  
+
+228
+00:23:34,320 --> 00:23:41,000
+analysis so if you're expecting to see something 
+you don't see it um it could be because in this  
+
+229
+00:23:41,000 --> 00:23:48,320
+first step um and this is you what when you run 
+cell Ranger you get your filtered gene expression  
+
+230
+00:23:48,320 --> 00:23:53,160
+Matrix and you'll get your raw gene expression 
+M Matrix uh your filtered gene expression Matrix  
+
+231
+00:23:53,160 --> 00:24:01,680
+will have around 10,000 cells uh your raw will 
+have all of them so will have 1 million cells  
+
+232
+00:24:01,680 --> 00:24:07,200
+it's much easier to just start from the let's say 
+pre-filtered one but if you see or if you have the  
+
+233
+00:24:07,200 --> 00:24:12,120
+intuition that something's off that you're missing 
+something you can always access uh all of the data  
+
+234
+00:24:12,120 --> 00:24:22,160
+that's in this tail end over here um and really 
+try to recover as much as possible um moving on  
+
+235
+00:24:22,160 --> 00:24:31,120
+to the cell level Matrix here we just want to 
+mainly remove and uh droplets so droplets that  
+
+236
+00:24:31,120 --> 00:24:36,560
+have no genetic material within them or just 
+have ambient RNA we want to identify duplets  
+
+237
+00:24:36,560 --> 00:24:46,320
+and uh at least label them as potential Duets and 
+we want to remove noisy artifacts um some of the  
+
+238
+00:24:46,320 --> 00:24:50,480
+key metrics that we look at are the library size 
+and the library complexity Library size is how  
+
+239
+00:24:50,480 --> 00:24:57,200
+many um umis we detected for that droplet Library 
+complexity is how many genes we detected for that  
+
+240
+00:24:57,200 --> 00:25:03,120
+droplet mitochondrial percentage is what percent 
+of genes map to mitochondria mitochondrial genes  
+
+241
+00:25:03,120 --> 00:25:09,720
+and the doublet score um we'll we'll look into 
+a second but we can imagine that this is our  
+
+242
+00:25:09,720 --> 00:25:13,680
+our all our droplets after running the the micr 
+fluid section and we see that we have some empty  
+
+243
+00:25:13,680 --> 00:25:18,280
+droplets we see that we have a a cell that's 
+stressed out and it's sign we see that we have  
+
+244
+00:25:18,280 --> 00:25:23,960
+two cells within one droplet uh and we see some 
+empty droplet to have some ambient RNA I'm not  
+
+245
+00:25:23,960 --> 00:25:29,120
+going to go into ambient RNA removal because it's 
+a little bit more advanced and don't necessarily  
+
+246
+00:25:29,120 --> 00:25:34,280
+recommend to do right off the bat but it's a 
+thing that uh could be happening within your  
+
+247
+00:25:34,280 --> 00:25:40,440
+your data set and if there's just like sometimes 
+you just find underlying Baseline expression of a  
+
+248
+00:25:40,440 --> 00:25:48,840
+gene throughout all of your cells uh it could 
+be ambient RNA worth uh removing um but some  
+
+249
+00:25:48,840 --> 00:25:52,920
+of the metrics that we're using are Library size 
+and Library complexity if we see cells that have  
+
+250
+00:25:52,920 --> 00:25:58,240
+very low Library size very low complexity most 
+likely they're going to be these empty droplets  
+
+251
+00:25:59,080 --> 00:26:03,440
+we can label them and and start removing them 
+from from our data set we can look at our mitochon  
+
+252
+00:26:03,440 --> 00:26:11,640
+percentage um it usually identifies dying or 
+stressed cells uh usually when cells get stressed  
+
+253
+00:26:11,640 --> 00:26:19,360
+they'll like have uh some pores in the membrane 
+all the cytosolic um uh content will or mRNA will  
+
+254
+00:26:19,360 --> 00:26:24,480
+leak out of the cell but the mitochondria which 
+are too big will remain enclosed so when you  
+
+255
+00:26:24,480 --> 00:26:29,960
+sequence them you'll see very very high mitochon 
+percentages uh with within those within those  
+
+256
+00:26:29,960 --> 00:26:37,240
+cells um and again very different if you're doing 
+single cell versus single nuclei if you're doing  
+
+257
+00:26:37,240 --> 00:26:42,360
+single cell you can get some cell types up to 30 
+40 50% of mitochondrial percentage I think I have  
+
+258
+00:26:42,360 --> 00:26:47,240
+an example later but like cardom sites which are 
+muscle cells will have very high M percentages up  
+
+259
+00:26:47,240 --> 00:26:52,400
+to 40 50% that doesn't mean they're low quality 
+cells it's biologically driven so you shouldn't  
+
+260
+00:26:52,400 --> 00:26:57,280
+remove a cell just because it has a high amount 
+M percentage um but if you doing single nuclear  
+
+261
+00:26:57,280 --> 00:27:02,600
+or any where you're just working with the nuclei 
+you really expect to find very very clean um cells  
+
+262
+00:27:02,600 --> 00:27:09,000
+where there's no metacon your percentage related 
+to single cell versus single nuke we do single  
+
+263
+00:27:09,000 --> 00:27:14,680
+nuke because our cells are often in CA so we need 
+the separate nuclei but then we we really have to  
+
+264
+00:27:14,680 --> 00:27:19,880
+clean up the ambient RNA I think because the 
+cytosolic RNA sticks to all the nuclei is that  
+
+265
+00:27:19,880 --> 00:27:25,920
+just us or is that something you see generally I 
+think with a single nuclei you you can get more  
+
+266
+00:27:25,920 --> 00:27:32,600
+uh ambient RNA just because during the process may 
+not be fully clean or might be sticking um you use  
+
+267
+00:27:32,600 --> 00:27:39,720
+salender in those I think Sal vender is one of 
+the the most used tools for for it uh and again  
+
+268
+00:27:39,720 --> 00:27:43,840
+it's one of those tools that works very well but 
+it really requires a lot of control right because  
+
+269
+00:27:43,840 --> 00:27:51,600
+like if you use it if you're too strict with it 
+you might start to remove true biology so always  
+
+270
+00:27:51,600 --> 00:27:57,920
+better to start a little bit more conservative and 
+then bring it up uh more and more more strict as  
+
+271
+00:27:57,920 --> 00:28:06,880
+you go um and with the doubl scores um we want 
+to identify instances where two cells ended up  
+
+272
+00:28:06,880 --> 00:28:16,920
+in one droplet and we can't um constantly say that 
+it's a or b because it's a and b together um want  
+
+273
+00:28:16,920 --> 00:28:22,160
+to make an emphasis into to detection algorithms 
+uh there's many I put four down here in the the  
+
+274
+00:28:22,160 --> 00:28:28,120
+bottom left corner um but just to like get a 
+sense of how these algorithms are working um  
+
+275
+00:28:29,080 --> 00:28:35,760
+basically what they're trying to do is they're 
+trying to mimic a a doublet that has happened  
+
+276
+00:28:35,760 --> 00:28:41,640
+uh during the process and to do that you start 
+with let's say you you have your your PC space  
+
+277
+00:28:41,640 --> 00:28:46,040
+with all of your cells and what you do is 
+you create artificial doublets so you grab  
+
+278
+00:28:46,040 --> 00:28:51,240
+two random cells from your data set you put 
+them together and you do that many many times  
+
+279
+00:28:51,240 --> 00:28:58,520
+and you put those cells back into or these 
+simulated doublets back into your uh reduced  
+
+280
+00:28:58,520 --> 00:29:09,600
+Dimensions embedding and we can see how in some 
+cases all of these um simulated doublets end up  
+
+281
+00:29:09,600 --> 00:29:21,480
+clustering together meaning that these droplets 
+that we were seeing here are most likely um AR  
+
+282
+00:29:21,480 --> 00:29:28,040
+technical doublets uh because they're surrounded 
+by artificial doublets that we generated um
+
+283
+00:29:29,640 --> 00:29:37,720
+but sometimes it's not as clearcut sometimes 
+doublets look like a mix of two phenotypes  
+
+284
+00:29:37,720 --> 00:29:41,800
+uh sometimes if you have a cell that's 
+differentiating from point A to point B  
+
+285
+00:29:41,800 --> 00:29:48,000
+and it has a phenotype That's A and B like 
+you can find that these cells get very high  
+
+286
+00:29:48,000 --> 00:29:52,480
+doublet scores where that just biology 
+it's because that cells transitioning  
+
+287
+00:29:52,480 --> 00:29:58,160
+sometimes we see this a lot with uh intermediate 
+monocytes where they end up usually having very  
+
+288
+00:29:58,160 --> 00:30:01,960
+High doublet scores because they're this mix 
+of classical and non-classical monocytes for  
+
+289
+00:30:01,960 --> 00:30:10,640
+they're expressing cd14 cd16 um so just because a 
+cell has a a very high doublet score doesn't mean  
+
+290
+00:30:10,640 --> 00:30:16,280
+that it's a doublet it could be biologically 
+relevant again it just a moment to make an  
+
+291
+00:30:16,280 --> 00:30:21,440
+informed decision on your biology of of the data 
+to be like do I expect to see this do I not expect  
+
+292
+00:30:21,440 --> 00:30:28,160
+to see this could this be biologically relevant or 
+not um obviously if you see Pell and B cell Market  
+
+293
+00:30:28,160 --> 00:30:34,240
+within one droplet that is is very indicative 
+that that is uh most likely a dlet but in these  
+
+294
+00:30:34,240 --> 00:30:40,160
+like intermediate cases where it look looks kind 
+of fuzzy and and kind of transitioning be careful  
+
+295
+00:30:40,160 --> 00:30:45,480
+before removing something because once you remove 
+something those cells are gone you're not going to  
+
+296
+00:30:45,480 --> 00:30:51,080
+remember that you remove them that's gone that's 
+out of the out of the picture so always better to  
+
+297
+00:30:51,080 --> 00:30:57,920
+be a little bit more um conservative with with 
+what you keep than with what you're removing um  
+
+298
+00:30:58,560 --> 00:31:02,840
+and when we're looking at these SEL metrics I 
+mentioned them before one by one just to like see  
+
+299
+00:31:02,840 --> 00:31:08,040
+how they could help us just looking at them one 
+at a time is not enough we need to see how these  
+
+300
+00:31:08,040 --> 00:31:15,680
+things um vary together so for example we can 
+look at uh the number of counts so the the library  
+
+301
+00:31:15,680 --> 00:31:20,080
+depth the number of transcript detected for each 
+cell and the library complexity the number of  
+
+302
+00:31:20,080 --> 00:31:24,800
+genes detected and we can see that as we increase 
+the number of counts we increase the number of uh  
+
+303
+00:31:24,800 --> 00:31:30,400
+transcripts detected um but some sometimes for 
+example we see that if we look at the hemoglobin  
+
+304
+00:31:30,400 --> 00:31:35,040
+percentage it's very high down here so if we 
+were to remove all of the cells that have less  
+
+305
+00:31:35,040 --> 00:31:39,280
+than this number of counts and that less than this 
+number of features we would be removing all of our  
+
+306
+00:31:39,280 --> 00:31:44,280
+red blood cells we're usually not interested in 
+red blood cells but if that was your population  
+
+307
+00:31:44,280 --> 00:31:50,680
+of interest and you just set hard thresholds say 
+bye-bye to your data because you just filtered  
+
+308
+00:31:50,680 --> 00:31:55,640
+it out of your analysis just by setting hard 
+thresholds um some of the things that you also  
+
+309
+00:31:55,640 --> 00:32:02,080
+see sometimes are these Tails down here uh where 
+the library complexity goes up but the number of  
+
+310
+00:32:02,080 --> 00:32:09,240
+features doesn't necessarily go up uh and here 
+the the dots are called by the mitoch percentage
+
+311
+00:32:09,240 --> 00:32:16,680
+um most likely it's low quality Sol so I'm going 
+to show an example of when it's not a lowquality  
+
+312
+00:32:16,680 --> 00:32:23,280
+cell um and why we need to be careful with this 
+and then I also like to in this same PL plot the  
+
+313
+00:32:23,280 --> 00:32:28,160
+scroll the double scores because one of the the 
+things that we could think is these cells that end  
+
+314
+00:32:28,160 --> 00:32:34,720
+up in the top right corner uh could be doublets 
+because they have double the genetic material so  
+
+315
+00:32:34,720 --> 00:32:44,000
+we expect slightly higher um uh number of counts 
+and number of features detected within there but  
+
+316
+00:32:44,000 --> 00:32:50,320
+if we look at an example here from everything that 
+I just told you um would be like clusters two four  
+
+317
+00:32:50,320 --> 00:32:57,840
+and six potentially right seem to have very low 
+Library size um very low number of detected genes  
+
+318
+00:32:57,840 --> 00:33:06,080
+compared to the rest and uh again um clusters 
+2 and six seem to have low monoc percentage and  
+
+319
+00:33:06,080 --> 00:33:13,280
+low ribosoma percentage so what could be going on 
+with these clusters um are they low quality and  
+
+320
+00:33:13,280 --> 00:33:20,800
+most of these clusters ended up being in this 
+uh lower tail down here but before we removed  
+
+321
+00:33:20,800 --> 00:33:26,120
+them we just did like the standard differential 
+expression analysis between our clusters and what  
+
+322
+00:33:26,120 --> 00:33:32,920
+we saw was that uh cluster 6 uh expressed ly6g 
+and some cxr 2 and cluster 2 expressed a lot of  
+
+323
+00:33:32,920 --> 00:33:40,960
+cxr 2 as well as il10 and and rg2 meaning that 
+uh for us these were very clearly neutrophils  
+
+324
+00:33:40,960 --> 00:33:46,560
+that were um included in our analysis and we have 
+we if we had set a big threshold these neutr fils  
+
+325
+00:33:46,560 --> 00:33:53,680
+would have been completely removed and again if 
+you look at cluster two it has a big expression  
+
+326
+00:33:53,680 --> 00:34:00,640
+of uh il1b argas and and CX2 compared to the 
+rest of the data set if we go back one slide  
+
+327
+00:34:00,640 --> 00:34:09,760
+um cluster two seems flat as a pancake in terms 
+of the uh number the library depth um so just  
+
+328
+00:34:09,760 --> 00:34:14,400
+because something has uh low number features 
+or low Library complexity don't just remove it  
+
+329
+00:34:14,400 --> 00:34:18,880
+automatically take a second to look at what are 
+the genes that are differentially expressed uh  
+
+330
+00:34:18,880 --> 00:34:24,120
+before kicking it out of your analysis because you 
+could be missing a population that just happens to  
+
+331
+00:34:24,120 --> 00:34:30,760
+have uh those characteristics uh and the the same 
+thing with cardom asites they can have very high  
+
+332
+00:34:30,760 --> 00:34:35,440
+Manon percentages if you just set a threshold 
+of everything that's over 30% man percentage  
+
+333
+00:34:35,440 --> 00:34:41,640
+I'm going to remove you could be missing out on a 
+complete whole population that just biologically  
+
+334
+00:34:41,640 --> 00:34:48,840
+happens to have high Monon percentage um and the 
+last thing that I want to do is I don't like to  
+
+335
+00:34:48,840 --> 00:34:54,840
+remove cells with these strict thresholds so what 
+I tend to do is let's say we have our uh all all  
+
+336
+00:34:54,840 --> 00:35:02,120
+of our cells I will label my cells as good quality 
+and bad quality depending on on fixed thresholds  
+
+337
+00:35:02,120 --> 00:35:05,960
+but before going on and removing I will do a 
+differential expression between the good quality  
+
+338
+00:35:05,960 --> 00:35:13,080
+cells and the bad quality cells and just see if 
+any biologically relevant genes are popping up to  
+
+339
+00:35:13,080 --> 00:35:20,320
+be over expressed in the cells that I labeled uh 
+low quality and if they are then I will keep those  
+
+340
+00:35:20,320 --> 00:35:27,640
+cells in and I will like in iterative rounds of 
+the analysis I will be maybe a little bit more um
+
+341
+00:35:29,480 --> 00:35:34,320
+um I will find a little bit more noise and 
+Technical noise in in there but I'm making  
+
+342
+00:35:34,320 --> 00:35:40,440
+sure that whatever population was labeled 
+as poor quality is kept uh within within  
+
+343
+00:35:40,440 --> 00:35:45,560
+my analysis so I really like doing this 
+uh I think it's called diagnosing cell  
+
+344
+00:35:45,560 --> 00:35:51,840
+type loss um I think it's super important 
+it can really help keep uh all the biology  
+
+345
+00:35:51,840 --> 00:35:57,640
+that you have in in your data set and 
+and avoid you removing uh things um  
+
+346
+00:35:58,680 --> 00:36:05,520
+so that's for the QC part moving on to batch 
+effects and integration assessment um batch  
+
+347
+00:36:05,520 --> 00:36:11,080
+effects will always be there batch effects happen 
+at any point of the process different location  
+
+348
+00:36:11,080 --> 00:36:18,680
+site different sign signal machine different 
+person um processing the data um they will happen  
+
+349
+00:36:18,680 --> 00:36:26,800
+um it's just something that we have to deal with 
+the question is how do we uh go about it um most  
+
+350
+00:36:26,800 --> 00:36:31,920
+important thing is experimental design if you have 
+a good experimental design it's so much easier to  
+
+351
+00:36:31,920 --> 00:36:38,560
+correct um your match effect so let's say we have 
+uh two experimental designs this top one uh where  
+
+352
+00:36:38,560 --> 00:36:47,160
+we have um let's say we have control this isas one 
+this is diseas two and we sequence each one in its  
+
+353
+00:36:47,160 --> 00:36:54,440
+own separate batch and then we see differences 
+between them we don't know if these differences  
+
+354
+00:36:54,440 --> 00:37:02,200
+are due because of the batch or because of the 
+underlying biology we can correct by batch which  
+
+355
+00:37:02,200 --> 00:37:07,640
+will tend to homogenize our data set but that 
+means that we're also correcting for biology  
+
+356
+00:37:07,640 --> 00:37:15,600
+at that step because we don't have any way to 
+control biology and batch separately in our second  
+
+357
+00:37:15,600 --> 00:37:24,200
+experimental design where we let's say we grab 
+um our our control disas one dis two and then in  
+
+358
+00:37:24,200 --> 00:37:29,320
+our patches we mix control and disas two control 
+and this one and this is one and this is two into  
+
+359
+00:37:29,320 --> 00:37:37,200
+three batches then this all this allows us very 
+much to correct um things that are happening so  
+
+360
+00:37:37,200 --> 00:37:44,880
+we'll see for example these box plots are colored 
+by batch um here we have a very clear batch effect  
+
+361
+00:37:44,880 --> 00:37:51,640
+right uh where all the samples that were sequenced 
+in batch one uh have the same so we can say okay  
+
+362
+00:37:51,640 --> 00:37:56,280
+uh proportion of detected genes in this case 
+seems to be driven by batch this something  
+
+363
+00:37:56,280 --> 00:38:04,720
+that we should be taking into account um something 
+that can be fixed computationally but it's so much  
+
+364
+00:38:04,720 --> 00:38:11,720
+easier when done already from the experimental 
+design side um and sometimes when we're fixing it  
+
+365
+00:38:11,720 --> 00:38:15,840
+experimentally what we're actually doing is we're 
+just killing very important biological signal just  
+
+366
+00:38:15,840 --> 00:38:21,160
+because we were forced to uh correct these things 
+or if we don't correct them then the results that  
+
+367
+00:38:21,160 --> 00:38:27,680
+we're seeing we don't know how much of them 
+are true biology versus just technical noise
+
+368
+00:38:27,680 --> 00:38:36,200
+um sometimes match with single cell looks like 
+this um this is just looking at it on the um map  
+
+369
+00:38:36,200 --> 00:38:40,960
+where you see how like these populations seem to 
+be very similar but they're just mirroring each  
+
+370
+00:38:40,960 --> 00:38:47,240
+other so like how do we get them to integrate 
+uh much better and post integration we want to  
+
+371
+00:38:47,240 --> 00:38:55,920
+obtain something that looks more like this where 
+both conditions are much more overlapping um I  
+
+372
+00:38:55,920 --> 00:39:04,560
+just want to go about just like let's not just 
+look at a umap and be happy with how it looks  
+
+373
+00:39:04,560 --> 00:39:09,120
+and assess integration that way but provide 
+some metrics that can help us um assess how  
+
+374
+00:39:09,120 --> 00:39:18,720
+the integration has has uh gone and and assess 
+it um is a very um there there's a lot of nice  
+
+375
+00:39:18,720 --> 00:39:26,640
+benchmarking papers um I really um suggest a 
+mukan paper I think it's from 2021 about the  
+
+376
+00:39:26,640 --> 00:39:33,120
+integration bench Mark um SCV they call it because 
+they really are um very thorough in in how they go  
+
+377
+00:39:33,120 --> 00:39:39,160
+through integration um but I want to talk about 
+these three metrics um the I and the C score the  
+
+378
+00:39:39,160 --> 00:39:44,080
+solette score and the PCA regression um there 
+are three uh metrics that we can use to assess  
+
+379
+00:39:44,080 --> 00:39:49,760
+how much or how well the integration has worked 
+um if you look at the first one the ilc and the  
+
+380
+00:39:49,760 --> 00:39:55,960
+CC uh they're the same thing um but uh the name 
+changes because what we're looking at here is is  
+
+381
+00:39:55,960 --> 00:40:01,320
+batch on the left versus Sal type on the right 
+so if you can imagine where we have a perfectly  
+
+382
+00:40:01,320 --> 00:40:08,760
+annotated data set and we integrate it we would 
+want batch to be completely integrated while cell  
+
+383
+00:40:08,760 --> 00:40:14,000
+type labels remain distinct between them so all 
+the cells that fall within the same cluster should  
+
+384
+00:40:14,000 --> 00:40:23,120
+be from the same cell typ cell type label and very 
+heterogeneous for batch um this is the inverse uh  
+
+385
+00:40:23,120 --> 00:40:28,600
+the local imerse Simpsons index uh we can compute 
+it from the batch so if we computed it with the  
+
+386
+00:40:28,600 --> 00:40:35,160
+batch variable we want this um variable to be very 
+diverse we wanted it to be uh very high we want to  
+
+387
+00:40:35,160 --> 00:40:42,280
+find very heterogeneous neighborhoods in terms of 
+bch within each cluster uh or within each cell um  
+
+388
+00:40:42,280 --> 00:40:48,800
+and we also want to find this C or the cell type 
+Ley very low we want this cell type heterogenity  
+
+389
+00:40:48,800 --> 00:40:54,400
+to be very low since we usually don't have the 
+predicted cell type right off the bat what we  
+
+390
+00:40:54,400 --> 00:40:59,960
+tried to do is uh some sort of automated sell type 
+annotation that gives us broad labeling of our  
+
+391
+00:40:59,960 --> 00:41:05,360
+cells and try to assess it that way so uh the way 
+that we're trying to assess the integration is we  
+
+392
+00:41:05,360 --> 00:41:12,600
+want to increase the IC increase the the Le score 
+over the batch covariates and decrease it or keep  
+
+393
+00:41:12,600 --> 00:41:18,640
+it as much as possible for cell type um for the 
+cell type label so we keep our distinct uh cell  
+
+394
+00:41:18,640 --> 00:41:25,560
+type neighborhoods while we merge them um across 
+patch um we can also compute the silhouette score  
+
+395
+00:41:25,560 --> 00:41:32,000
+that I mentioned before uh which is basically 
+the distance of each cell versus the centroid  
+
+396
+00:41:32,000 --> 00:41:38,560
+of its cluster versus the distance of that cell 
+towards the centroid of the nearest cluster in  
+
+397
+00:41:38,560 --> 00:41:47,160
+our data set if we have clean um uh data um 
+and here we're looking let's say at the batch  
+
+398
+00:41:47,160 --> 00:41:53,000
+C variat we would not want to find two distinct 
+clusters if we're assessing a bat Cate because  
+
+399
+00:41:53,000 --> 00:42:00,120
+we would want these to be very merged we would 
+want to correct that effect um so if we go back
+
+400
+00:42:00,120 --> 00:42:09,400
+here um this would be an example where the 
+silouette score would be very high by batch  
+
+401
+00:42:09,400 --> 00:42:15,240
+because each batch is very similar to itself 
+and very different from the rest um but in  
+
+402
+00:42:15,240 --> 00:42:24,960
+these cases it would be great um so um looking 
+at the silhouette width by batch we want to have  
+
+403
+00:42:24,960 --> 00:42:28,920
+high diversity by batch looking at the silhouette 
+width by the predicted cell type label we want to  
+
+404
+00:42:28,920 --> 00:42:36,040
+have very low because we want to still keep the 
+structure of our biological data together um so  
+
+405
+00:42:36,040 --> 00:42:42,560
+yeah um and then we can also look at the PCA 
+regression so we know that this is a little  
+
+406
+00:42:42,560 --> 00:42:48,120
+bit more complicated but we know that each 
+principal component exp explains x% of the  
+
+407
+00:42:48,120 --> 00:42:54,480
+variability within our data set and then we can 
+draw some kind of model where how much um each  
+
+408
+00:42:54,480 --> 00:43:01,720
+of our batch C variates Express explains uh each 
+principal component and then we try to get try to  
+
+409
+00:43:01,720 --> 00:43:06,560
+like align these things and we look at it before 
+integration and after integration and we want to  
+
+410
+00:43:06,560 --> 00:43:12,600
+see if let's say the site of collection was uh 
+initially explaining a lot of the variance within  
+
+411
+00:43:12,600 --> 00:43:19,800
+pc1 but after correct correcting or integrating 
+uh this variance has been uh decreased um so  
+
+412
+00:43:19,800 --> 00:43:27,120
+we've effectively removed the effect of set 
+of collection on on principal component one um  
+
+413
+00:43:27,920 --> 00:43:33,800
+always look at uh positive and negative controls 
+so always have uh things that you know that you  
+
+414
+00:43:33,800 --> 00:43:37,480
+want to correct for so the sequencing flow sell 
+the side of collection data of collection person  
+
+415
+00:43:37,480 --> 00:43:43,080
+that handle the samples versus things that 
+you know you do not want to correct for or  
+
+416
+00:43:43,080 --> 00:43:48,080
+bioconservation metrics so if you have uh a 
+proted cell type label or you have the cell  
+
+417
+00:43:48,080 --> 00:43:54,640
+cycle score or you have a biological covert of 
+Interest disease versus healthy um and if it was  
+
+418
+00:43:54,640 --> 00:43:58,600
+a well-designed study you would expect disease 
+versus healthy to not be corrected because that  
+
+419
+00:43:58,600 --> 00:44:06,080
+is your key question and you don't want to um 
+confound that biology with batch um so again I  
+
+420
+00:44:06,080 --> 00:44:11,880
+think it's very easy for computationalist to just 
+run analysis whereas W lab biologists really have  
+
+421
+00:44:11,880 --> 00:44:16,120
+like the positive controls negative controls and 
+everything and I think we should start doing more  
+
+422
+00:44:16,120 --> 00:44:21,120
+of these in in our tools and like when you're 
+running any new tool you always need to expect  
+
+423
+00:44:21,120 --> 00:44:26,480
+something that you expect to find something that 
+you don't expect to find and that uh helps you  
+
+424
+00:44:26,480 --> 00:44:32,720
+or or run a case in different scenarios that uh 
+you can validate that it works it doesn't work in  
+
+425
+00:44:32,720 --> 00:44:41,640
+in your hands um moving on to uh closing up the 
+stages uh possible analysis that you can do with  
+
+426
+00:44:41,640 --> 00:44:46,840
+single cell you can do differential expression 
+analysis between conditions uh usually um people  
+
+427
+00:44:46,840 --> 00:44:51,280
+will recommend to do this at the pseudo level so 
+let's say you want to find differences between uh  
+
+428
+00:44:51,280 --> 00:44:57,120
+CD4 T cells and disease versus healthy you would 
+do pseudo by patient by cell type and compare them  
+
+429
+00:44:57,120 --> 00:45:03,720
+them with classic bulk RNA seek um differential 
+expression tools which are much more robust and  
+
+430
+00:45:03,720 --> 00:45:10,440
+um really once you do this to B you reduce the 
+sparcity a lot more you can extract functional  
+
+431
+00:45:10,440 --> 00:45:15,240
+Gene programs you can map Gene signatures of 
+Interest identify Gene regulatory networks this  
+
+432
+00:45:15,240 --> 00:45:20,480
+works especially well if you add other layers like 
+um single cell attack sequencing you can do cell  
+
+433
+00:45:20,480 --> 00:45:25,800
+cell communication um compositional analysis 
+lineage tracing single Cel utls if you have  
+
+434
+00:45:25,800 --> 00:45:32,600
+genotyping information um many many many different 
+things there's many papers out there um tools to  
+
+435
+00:45:32,600 --> 00:45:40,160
+analyze the data in R Sarat and bioconductor 
+um are the the two big players in Python it's  
+
+436
+00:45:40,160 --> 00:45:47,840
+scampy which uh uh is uh part of the scers family 
+which is trying to do this bioconductor uh family  
+
+437
+00:45:47,840 --> 00:45:55,520
+of of um suit of packages uh for python which I 
+think is is very very cool and uh if you don't  
+
+438
+00:45:55,520 --> 00:46:02,800
+have access to your own data there's very large 
+data repositories such as the cell by Gene um  
+
+439
+00:46:02,800 --> 00:46:09,720
+database data portal which has yeah 107 million 
+cells over 1,700 uh data sets the Single Cell P  
+
+440
+00:46:09,720 --> 00:46:15,400
+portal from the broad again 55 million cells from 
+800 studies and the human cell outlas data portal  
+
+441
+00:46:15,400 --> 00:46:24,080
+which only has healthy cells uh and has 63 million 
+cells from over 9,000 donors um here I think that  
+
+442
+00:46:24,080 --> 00:46:31,000
+this can be shared so I put some resources on on 
+places to get started or to go more in depth into  
+
+443
+00:46:31,000 --> 00:46:36,720
+what I just explained uh but these I think are are 
+very three very good resources to to get started  
+
+444
+00:46:36,720 --> 00:46:44,840
+and uh revisit to just say the foundations of 
+of the analysis um and yeah I would say that  
+
+445
+00:46:44,840 --> 00:46:49,400
+the take home messages from The Talk would be 
+that the pre-processing steps matter that they  
+
+446
+00:46:49,400 --> 00:46:57,000
+can have a big influence uh so the way that we go 
+from gene expression to uh our graph structure uh  
+
+447
+00:46:57,000 --> 00:47:01,000
+and the feature selection and the dimensional 
+reductions are really key into what biology we're  
+
+448
+00:47:01,000 --> 00:47:07,400
+going to see afterwards the quality control should 
+be carried out cautiously we can't just remove  
+
+449
+00:47:07,400 --> 00:47:13,600
+cells out of a fixed threshold because you could 
+have um biology that you're missing out so please  
+
+450
+00:47:13,600 --> 00:47:20,200
+do some diagnosing uh diagnosing cell type loss 
+analysis uh to retain let's say weirdly behaving  
+
+451
+00:47:20,200 --> 00:47:26,840
+cells that you might not expect and that batch 
+effects can be corrected with integration methods  
+
+452
+00:47:27,840 --> 00:47:32,640
+but try to have some positive and negative 
+controls of what you're correcting and if you  
+
+453
+00:47:32,640 --> 00:47:37,400
+don't have a good experimental design and you have 
+to end up overcorrecting your analysis because  
+
+454
+00:47:37,400 --> 00:47:45,040
+your coar of your biological coar of interest is 
+confounded with a technical artifact then you will  
+
+455
+00:47:45,040 --> 00:47:51,240
+be homogenizing all of that together and losing on 
+a lot a lot a lot of biology uh so you have anyone  
+
+456
+00:47:51,240 --> 00:47:57,040
+that you can go talk to or even you can come talk 
+to us at bch we can help in these early stages  
+
+457
+00:47:57,040 --> 00:48:02,280
+of just thinking about the analysis because 
+sometimes we find that people have already  
+
+458
+00:48:02,280 --> 00:48:07,280
+gone all the way down the analysis and generate 
+the data and now we're just trying to minimize  
+
+459
+00:48:07,280 --> 00:48:16,440
+the damage um so yeah I would like to thank 
+everyone in the oras Mones Lab at bch and  
+
+460
+00:48:16,440 --> 00:48:26,760
+uh also the sovery network group uh and all 
+our our funding Partners thank you very much
+
+461
+00:48:28,480 --> 00:48:31,600
+do we have any quick questions in the
+
+462
+00:48:31,600 --> 00:48:39,080
+room um it's 920 but I do have one 
+quick question with the QC do you  
+
+463
+00:48:39,080 --> 00:48:45,560
+recommend doing like looser thresholds um 
+first and then clustering and then doing  
+
+464
+00:48:45,560 --> 00:48:52,400
+QC like by each cluster like iteratively 
+so you don't remove the weird cells yeah  
+
+465
+00:48:52,400 --> 00:48:56,880
+so the way that I end up doing most of the 
+ansers is I label them as good bad quality  
+
+466
+00:48:56,880 --> 00:49:00,760
+and then you'll go through level one level two 
+level three integration and at each level I will  
+
+467
+00:49:00,760 --> 00:49:04,920
+keep all the cells unless there's like cells 
+that are like really depleted of transcripts  
+
+468
+00:49:04,920 --> 00:49:10,160
+but at each level you will identify clusters 
+that seem to be behaving weirdly and then you  
+
+469
+00:49:10,160 --> 00:49:14,560
+can contextualize them within that level so I'd 
+say once you get within cd4t cells you see a  
+
+470
+00:49:14,560 --> 00:49:20,920
+weird cluster in there like okay these seem to 
+be this cluster seems to be enriched in lower  
+
+471
+00:49:20,920 --> 00:49:25,480
+quality cells and then you can remove it there 
+or it could be yeah biologically relevant and  
+
+472
+00:49:25,480 --> 00:49:30,920
+and you might want to keep it MH it does seem 
+easier to label them as bad and remove them  
+
+473
+00:49:30,920 --> 00:49:38,600
+later than to go back and start over to exact 
+Tock get them back oh it's snowing um um okay  
+
+474
+00:49:38,600 --> 00:49:44,320
+that that was great it's just a reminder that 
+this is um a science but also an art a very  
+
+475
+00:49:44,320 --> 00:49:50,320
+challenging one that requires um computational 
+skills but also cell biology knowledge I think  
+
+476
+00:49:50,320 --> 00:49:54,360
+cell biology is the hardest part to bring into 
+your you almost need like a a computational  
+
+477
+00:49:54,360 --> 00:50:04,560
+biologist and a cell biologist this together um 
+okay uh thank you we'll see you here next week
+

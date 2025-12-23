@@ -1,0 +1,3240 @@
+1
+00:00:01,640 --> 00:00:03,170
+Hey, everyone.
+
+2
+00:00:03,170 --> 00:00:07,050
+So it was really wonderful to
+get to hear from Yann LeCun.
+
+3
+00:00:07,050 --> 00:00:09,570
+And now, my name is Sara Beery.
+
+4
+00:00:09,570 --> 00:00:12,770
+I'm a professor of AI and
+decision-making here at MIT.
+
+5
+00:00:12,770 --> 00:00:15,170
+And I'm going to kick off
+our next session, which
+
+6
+00:00:15,170 --> 00:00:18,230
+is three different talks,
+about the use of generative AI
+
+7
+00:00:18,230 --> 00:00:21,200
+across scientific disciplines.
+
+8
+00:00:21,200 --> 00:00:24,170
+And so I'm going to kick
+us off here specifically
+
+9
+00:00:24,170 --> 00:00:28,050
+talking about generative
+AI in the field of ecology.
+
+10
+00:00:28,050 --> 00:00:32,720
+So in my research group at
+MIT we sit fundamentally
+
+11
+00:00:32,720 --> 00:00:36,180
+within the AI cohort
+within the AI discipline,
+
+12
+00:00:36,180 --> 00:00:39,420
+but we consider ourselves truly
+interdisciplinary scientists.
+
+13
+00:00:39,420 --> 00:00:42,410
+I've been working in the
+ecological applications of AI
+
+14
+00:00:42,410 --> 00:00:44,510
+for over a decade.
+
+15
+00:00:44,510 --> 00:00:47,480
+And in general,
+our large goal is
+
+16
+00:00:47,480 --> 00:00:50,970
+we want to be able to understand
+and monitor biodiversity,
+
+17
+00:00:50,970 --> 00:00:54,360
+all life and the interactions
+between life on Earth,
+
+18
+00:00:54,360 --> 00:00:56,960
+and be able to detect
+change in biodiversity,
+
+19
+00:00:56,960 --> 00:01:00,070
+risks to biodiversity
+across scales
+
+20
+00:01:00,070 --> 00:01:02,390
+globally and in real-time.
+
+21
+00:01:02,390 --> 00:01:05,200
+Now this is a very
+ambitious goal,
+
+22
+00:01:05,200 --> 00:01:07,940
+and I am not the only
+one who has this goal.
+
+23
+00:01:07,940 --> 00:01:10,360
+And in recent decades,
+the combination
+
+24
+00:01:10,360 --> 00:01:13,990
+of advances in hardware
+and sensor technology
+
+25
+00:01:13,990 --> 00:01:18,610
+that help us capture much,
+much more data than we'd ever
+
+26
+00:01:18,610 --> 00:01:22,130
+seen before across many,
+many different types of data,
+
+27
+00:01:22,130 --> 00:01:25,610
+everything from satellite
+images to cameras on the ground,
+
+28
+00:01:25,610 --> 00:01:28,730
+bioacoustic sensors,
+environmental DNA
+
+29
+00:01:28,730 --> 00:01:30,730
+where we can collect
+evidence of species
+
+30
+00:01:30,730 --> 00:01:33,400
+even if they've
+no longer actually
+
+31
+00:01:33,400 --> 00:01:35,210
+are there in the environment.
+
+32
+00:01:35,210 --> 00:01:38,150
+And increasingly, things
+like community science.
+
+33
+00:01:38,150 --> 00:01:40,510
+So organizations
+like iNaturalist
+
+34
+00:01:40,510 --> 00:01:43,250
+that help any of you,
+any passionate volunteer,
+
+35
+00:01:43,250 --> 00:01:47,360
+contribute species data to
+our scientific understanding.
+
+36
+00:01:47,360 --> 00:01:51,040
+This data is incredibly
+valuable and has really
+
+37
+00:01:51,040 --> 00:01:53,110
+expanded exponentially.
+
+38
+00:01:53,110 --> 00:01:56,170
+But the problem is,
+none of these data types
+
+39
+00:01:56,170 --> 00:01:58,800
+are directly measuring
+what we care about.
+
+40
+00:01:58,800 --> 00:02:01,460
+Unlike, if you're
+interested in measuring
+
+41
+00:02:01,460 --> 00:02:04,500
+surface temperature, which
+is a measurable quantity,
+
+42
+00:02:04,500 --> 00:02:05,970
+instead we get pixels.
+
+43
+00:02:05,970 --> 00:02:07,140
+We get sound waves.
+
+44
+00:02:07,140 --> 00:02:08,100
+We get point clouds.
+
+45
+00:02:08,100 --> 00:02:09,570
+We get hyperspectral data.
+
+46
+00:02:09,570 --> 00:02:11,480
+And then we need to
+actually figure out
+
+47
+00:02:11,480 --> 00:02:13,850
+how to translate those
+streams of raw data
+
+48
+00:02:13,850 --> 00:02:16,350
+into some form of
+actionable insight,
+
+49
+00:02:16,350 --> 00:02:18,900
+some form of scientific
+knowledge about the world.
+
+50
+00:02:18,900 --> 00:02:20,870
+And this is really
+where AI has already
+
+51
+00:02:20,870 --> 00:02:23,130
+been absolutely transformative.
+
+52
+00:02:23,130 --> 00:02:26,450
+We've seen models get deployed
+for many of these different data
+
+53
+00:02:26,450 --> 00:02:29,930
+types to be able to turn that
+into scientific knowledge.
+
+54
+00:02:29,930 --> 00:02:33,020
+Now, one of the big
+challenges that we have
+
+55
+00:02:33,020 --> 00:02:38,240
+is that ecological imagery
+is often highly degraded.
+
+56
+00:02:38,240 --> 00:02:41,960
+Unlike data that's captured by
+a human photographer where maybe
+
+57
+00:02:41,960 --> 00:02:44,960
+you're using your own
+intelligence to get a photo that
+
+58
+00:02:44,960 --> 00:02:48,860
+captures the thing you care
+about, is reasonably well-lit,
+
+59
+00:02:48,860 --> 00:02:51,860
+is focused, is well-centered,
+if you're collecting data
+
+60
+00:02:51,860 --> 00:02:54,680
+from all of these
+remote sources, what
+
+61
+00:02:54,680 --> 00:02:58,790
+you get is data that can often
+be very difficult to interpret.
+
+62
+00:02:58,790 --> 00:03:03,380
+It can have haze, it can have
+noise, it can have occlusions,
+
+63
+00:03:03,380 --> 00:03:05,420
+we can deal with
+weather challenges.
+
+64
+00:03:05,420 --> 00:03:07,670
+And so what we've been
+trying to do in our lab,
+
+65
+00:03:07,670 --> 00:03:10,270
+as one of the many different
+diverse applications
+
+66
+00:03:10,270 --> 00:03:13,180
+of generative AI,
+is figure out how
+
+67
+00:03:13,180 --> 00:03:16,310
+to address the
+challenging noise,
+
+68
+00:03:16,310 --> 00:03:20,890
+these compound degradations of
+data, for ecological imagery.
+
+69
+00:03:20,890 --> 00:03:24,680
+And so what we've proposed is a
+method that we're calling PRISM.
+
+70
+00:03:24,680 --> 00:03:28,210
+It stands for Precision
+Restoration with Interpretable
+
+71
+00:03:28,210 --> 00:03:30,980
+Separation of Mixtures,
+but at its core,
+
+72
+00:03:30,980 --> 00:03:33,610
+it's essentially an
+image generation model
+
+73
+00:03:33,610 --> 00:03:37,150
+that takes in both an image and
+input from a scientific expert
+
+74
+00:03:37,150 --> 00:03:40,390
+and is able to
+iteratively remove
+
+75
+00:03:40,390 --> 00:03:44,600
+these distortions with a
+focus on scientific accuracy.
+
+76
+00:03:44,600 --> 00:03:46,990
+So there's a lot of
+work in image generation
+
+77
+00:03:46,990 --> 00:03:49,000
+that we've seen, but
+one of the challenges
+
+78
+00:03:49,000 --> 00:03:50,800
+is all of our metrics
+in the AI space
+
+79
+00:03:50,800 --> 00:03:53,020
+for image generation
+seem to be grounded
+
+80
+00:03:53,020 --> 00:03:56,460
+around the idea of
+human perceptual value.
+
+81
+00:03:56,460 --> 00:03:58,410
+We want things that look pretty.
+
+82
+00:03:58,410 --> 00:04:01,410
+I don't care if it's pretty,
+I want it to be correct.
+
+83
+00:04:01,410 --> 00:04:04,920
+I don't want pretty at
+the expense of correct.
+
+84
+00:04:04,920 --> 00:04:07,940
+And so what we've
+done is we've really
+
+85
+00:04:07,940 --> 00:04:10,350
+focused on two key components.
+
+86
+00:04:10,350 --> 00:04:12,920
+We recognize that we're
+going to have complicated
+
+87
+00:04:12,920 --> 00:04:15,080
+compound distortions,
+so we train
+
+88
+00:04:15,080 --> 00:04:17,630
+the model on the types
+of difficult distortions
+
+89
+00:04:17,630 --> 00:04:19,019
+we're going to see in reality.
+
+90
+00:04:19,019 --> 00:04:23,180
+And we actually have built this
+contrastive latent space that
+
+91
+00:04:23,180 --> 00:04:25,790
+helps us separate the
+different types of distortions
+
+92
+00:04:25,790 --> 00:04:27,920
+and learn how to deal
+with them interactively
+
+93
+00:04:27,920 --> 00:04:30,530
+and independently, which
+then means that we can almost
+
+94
+00:04:30,530 --> 00:04:35,000
+see them as pieces or tools that
+we can put back together to be
+
+95
+00:04:35,000 --> 00:04:38,150
+able to try to get to the
+correct version of an image.
+
+96
+00:04:38,150 --> 00:04:41,760
+So the cool thing here is
+that now with our system,
+
+97
+00:04:41,760 --> 00:04:46,260
+we enable both controllable
+and joint restoration.
+
+98
+00:04:46,260 --> 00:04:48,830
+So you can restore multiple
+types of distortion,
+
+99
+00:04:48,830 --> 00:04:52,200
+and you, as a scientist,
+are in control.
+
+100
+00:04:52,200 --> 00:04:54,740
+So let's look at this the
+satellite image, for example.
+
+101
+00:04:54,740 --> 00:04:56,950
+So you can see here,
+this is a satellite image
+
+102
+00:04:56,950 --> 00:04:58,400
+taken of the Earth.
+
+103
+00:04:58,400 --> 00:05:00,725
+And we're looking here,
+I'm highlighting this area
+
+104
+00:05:00,725 --> 00:05:02,600
+because I think it's a
+nice place to look at.
+
+105
+00:05:02,600 --> 00:05:04,720
+And there's two different
+types of distortions
+
+106
+00:05:04,720 --> 00:05:07,178
+that are affecting our ability
+to see what's going on here.
+
+107
+00:05:07,178 --> 00:05:09,650
+We have both clouds and
+low light and noise.
+
+108
+00:05:09,650 --> 00:05:10,660
+So three.
+
+109
+00:05:10,660 --> 00:05:13,000
+So, one thing you
+could do is you
+
+110
+00:05:13,000 --> 00:05:16,870
+could try to, with this kind of
+controllability, by prompting
+
+111
+00:05:16,870 --> 00:05:20,050
+our model, remove each of
+these types of distortions
+
+112
+00:05:20,050 --> 00:05:20,860
+independently.
+
+113
+00:05:20,860 --> 00:05:24,650
+So you can try to remove noise,
+you get something diffuse.
+
+114
+00:05:24,650 --> 00:05:26,270
+You can try to
+remove the clouds.
+
+115
+00:05:26,270 --> 00:05:27,950
+All right, now we
+have some blurriness,
+
+116
+00:05:27,950 --> 00:05:31,340
+but we are anticipating
+what might be underneath.
+
+117
+00:05:31,340 --> 00:05:34,360
+We can try to remove low light.
+
+118
+00:05:34,360 --> 00:05:37,940
+And, OK, we can see, yeah,
+we've done something.
+
+119
+00:05:37,940 --> 00:05:38,737
+Is it correct?
+
+120
+00:05:38,737 --> 00:05:40,070
+That's the interesting question.
+
+121
+00:05:40,070 --> 00:05:42,670
+How do we know
+that this generated
+
+122
+00:05:42,670 --> 00:05:44,420
+image is actually correct?
+
+123
+00:05:44,420 --> 00:05:46,840
+So here, what we've
+done is you can
+
+124
+00:05:46,840 --> 00:05:48,920
+think of this
+sequential restoration,
+
+125
+00:05:48,920 --> 00:05:52,010
+but our model actually
+enables composite restoration.
+
+126
+00:05:52,010 --> 00:05:54,080
+So we can do all of this
+simultaneously, which
+
+127
+00:05:54,080 --> 00:05:55,860
+is much more
+computationally efficient,
+
+128
+00:05:55,860 --> 00:05:59,100
+and we find actually also
+introduces less artifacts.
+
+129
+00:05:59,100 --> 00:06:02,790
+You have less opportunity to
+add incorrect information.
+
+130
+00:06:02,790 --> 00:06:05,720
+And, if we look at
+the true clear image,
+
+131
+00:06:05,720 --> 00:06:07,488
+which we've collected from--
+
+132
+00:06:07,488 --> 00:06:09,530
+basically we've come up
+with this really nice way
+
+133
+00:06:09,530 --> 00:06:12,740
+to evaluate the models where
+we use difference over time
+
+134
+00:06:12,740 --> 00:06:15,720
+to find the true value of what
+we actually want to recover,
+
+135
+00:06:15,720 --> 00:06:19,122
+so we can evaluate on truth,
+not quality, we can see,
+
+136
+00:06:19,122 --> 00:06:20,580
+it actually is a
+really nice match,
+
+137
+00:06:20,580 --> 00:06:23,300
+both qualitatively
+and quantitatively.
+
+138
+00:06:23,300 --> 00:06:25,310
+And this cool thing
+about controllability
+
+139
+00:06:25,310 --> 00:06:27,590
+is that it enables
+you as an expert
+
+140
+00:06:27,590 --> 00:06:29,545
+to drive scientific precision.
+
+141
+00:06:29,545 --> 00:06:34,050
+So like I said, the
+more you change,
+
+142
+00:06:34,050 --> 00:06:36,980
+the more opportunity
+there is to add mistakes
+
+143
+00:06:36,980 --> 00:06:38,370
+in these generative models.
+
+144
+00:06:38,370 --> 00:06:39,770
+One thing that has
+been brought up a lot
+
+145
+00:06:39,770 --> 00:06:42,187
+is this idea of hallucination,
+but yeah, generative models
+
+146
+00:06:42,187 --> 00:06:43,650
+can introduce errors.
+
+147
+00:06:43,650 --> 00:06:46,760
+And what we've seen
+is that if the goal is
+
+148
+00:06:46,760 --> 00:06:50,450
+to be able to do some sort of
+scientific inference downstream,
+
+149
+00:06:50,450 --> 00:06:53,650
+you don't always need to
+remove every type of distortion
+
+150
+00:06:53,650 --> 00:06:56,120
+to be able to do
+your task correctly.
+
+151
+00:06:56,120 --> 00:06:57,820
+So in this case,
+what we're showing
+
+152
+00:06:57,820 --> 00:07:01,570
+is that an expert identifying
+that we want to just remove
+
+153
+00:07:01,570 --> 00:07:05,080
+the contrast, but we don't
+necessarily want to also try
+
+154
+00:07:05,080 --> 00:07:07,132
+to affect the light, is better.
+
+155
+00:07:07,132 --> 00:07:09,340
+And the way that we're
+actually showing that is these
+
+156
+00:07:09,340 --> 00:07:10,715
+are camera trap
+images, and we're
+
+157
+00:07:10,715 --> 00:07:11,990
+trying to identify species.
+
+158
+00:07:11,990 --> 00:07:15,208
+And I bet all of you don't
+necessarily even what's
+
+159
+00:07:15,208 --> 00:07:16,250
+going on in these images.
+
+160
+00:07:16,250 --> 00:07:17,833
+That's because you're
+not an ecologist
+
+161
+00:07:17,833 --> 00:07:19,600
+or a scientific expert,
+and this is really
+
+162
+00:07:19,600 --> 00:07:21,290
+where that expertise comes in.
+
+163
+00:07:21,290 --> 00:07:23,960
+So here, there's an
+animal can see its eyes,
+
+164
+00:07:23,960 --> 00:07:26,840
+and that part in the
+red box is its tail.
+
+165
+00:07:26,840 --> 00:07:30,850
+And what we're showing is that
+by only removing the contrast,
+
+166
+00:07:30,850 --> 00:07:33,310
+but not also trying to change
+the haze, the low light, all
+
+167
+00:07:33,310 --> 00:07:34,930
+of these other
+distortions, you're
+
+168
+00:07:34,930 --> 00:07:37,870
+better able to pick up the
+stripes on the tail, which
+
+169
+00:07:37,870 --> 00:07:39,850
+enabled an ecologist
+to correctly identify
+
+170
+00:07:39,850 --> 00:07:41,390
+this as a northern raccoon.
+
+171
+00:07:41,390 --> 00:07:43,940
+And again, we're
+identifying correctness,
+
+172
+00:07:43,940 --> 00:07:46,190
+and we're doing that by
+using changes over time--
+
+173
+00:07:46,190 --> 00:07:49,680
+so an additional image in this
+sequence which had a much easier
+
+174
+00:07:49,680 --> 00:07:52,800
+to identify species as
+our way to evaluate.
+
+175
+00:07:52,800 --> 00:07:55,720
+So you can see this for other
+types of modalities, too.
+
+176
+00:07:55,720 --> 00:07:57,400
+Here, we're looking
+at microscopy.
+
+177
+00:07:57,400 --> 00:08:00,090
+And you can see that if you're
+trying to segment out objects
+
+178
+00:08:00,090 --> 00:08:03,810
+here, if you just do it on
+this low-resolution sensor,
+
+179
+00:08:03,810 --> 00:08:05,680
+you miss some stuff.
+
+180
+00:08:05,680 --> 00:08:07,420
+You can do super resolution.
+
+181
+00:08:07,420 --> 00:08:10,470
+And here, OK, just
+by super-resolving,
+
+182
+00:08:10,470 --> 00:08:12,460
+now you have some
+additional objects.
+
+183
+00:08:12,460 --> 00:08:14,770
+If you try to
+super-resolve and denoise,
+
+184
+00:08:14,770 --> 00:08:16,120
+you've removed those objects.
+
+185
+00:08:16,120 --> 00:08:18,190
+So here, you can focus
+specifically in this area.
+
+186
+00:08:18,190 --> 00:08:21,010
+You can see, there's two objects
+here that have been removed.
+
+187
+00:08:21,010 --> 00:08:24,600
+Now if we compare this to a
+high-resolution sensor that
+
+188
+00:08:24,600 --> 00:08:26,920
+was actually taken
+of the same thing--
+
+189
+00:08:26,920 --> 00:08:29,460
+so we know this is ground
+truth, you can similarly
+
+190
+00:08:29,460 --> 00:08:33,150
+see, by carefully removing
+or addressing only some
+
+191
+00:08:33,150 --> 00:08:36,549
+of the dimensions of the
+data quality challenges,
+
+192
+00:08:36,549 --> 00:08:39,960
+we get much more scientifically
+accurate results.
+
+193
+00:08:39,960 --> 00:08:43,530
+And so the other cool thing
+is that by disentangling
+
+194
+00:08:43,530 --> 00:08:45,180
+in the latent
+space, by taking all
+
+195
+00:08:45,180 --> 00:08:46,805
+of these different
+types of distortions
+
+196
+00:08:46,805 --> 00:08:48,430
+and learning them
+independently, this
+
+197
+00:08:48,430 --> 00:08:51,190
+means that our model is able
+to generalize, in some ways,
+
+198
+00:08:51,190 --> 00:08:53,530
+to types of data, types
+of scientific data
+
+199
+00:08:53,530 --> 00:08:55,130
+that it never saw
+during training.
+
+200
+00:08:55,130 --> 00:08:57,440
+So for example, this is
+a drone image of a reef--
+
+201
+00:08:57,440 --> 00:08:59,450
+so this is taken
+over a coral reef.
+
+202
+00:08:59,450 --> 00:09:02,050
+And you can see that with
+an expert in the loop,
+
+203
+00:09:02,050 --> 00:09:04,940
+you can unwarp the
+wave distortions,
+
+204
+00:09:04,940 --> 00:09:08,200
+you can fix the coloration,
+this distortion of the color
+
+205
+00:09:08,200 --> 00:09:12,530
+that you're seeing through
+the water, and you can unblur.
+
+206
+00:09:12,530 --> 00:09:16,280
+And based on undersea
+imagery of this,
+
+207
+00:09:16,280 --> 00:09:18,310
+the ecologists
+thought that this was
+
+208
+00:09:18,310 --> 00:09:22,930
+a much, much, significantly more
+improved version of the data.
+
+209
+00:09:22,930 --> 00:09:25,660
+And the nice thing
+is, using our method,
+
+210
+00:09:25,660 --> 00:09:28,100
+you can also do this without
+an expert in the loop,
+
+211
+00:09:28,100 --> 00:09:30,230
+and it does work OK.
+
+212
+00:09:30,230 --> 00:09:32,020
+So you can identify
+types of distortions
+
+213
+00:09:32,020 --> 00:09:33,812
+that the model thinks
+might be in the image
+
+214
+00:09:33,812 --> 00:09:38,300
+and remove them for things like
+images of species on the ground.
+
+215
+00:09:38,300 --> 00:09:40,250
+Again, underwater ROV images--
+
+216
+00:09:40,250 --> 00:09:43,070
+so now instead of above the
+surface, below the surface.
+
+217
+00:09:43,070 --> 00:09:47,770
+Or the ability to even remove
+the surface of rippling water.
+
+218
+00:09:47,770 --> 00:09:50,710
+And so I think this is a--
+it's just a first step,
+
+219
+00:09:50,710 --> 00:09:53,980
+but there's a few key components
+I want to emphasize here.
+
+220
+00:09:53,980 --> 00:09:56,220
+First, I think
+that generative AI
+
+221
+00:09:56,220 --> 00:09:58,470
+across many different
+dimensions is really
+
+222
+00:09:58,470 --> 00:10:03,810
+going to be fundamentally a
+transformative tool for science.
+
+223
+00:10:03,810 --> 00:10:09,310
+But I also think that there is
+a key piece of understanding,
+
+224
+00:10:09,310 --> 00:10:11,550
+which is I think
+it's a tool, and I
+
+225
+00:10:11,550 --> 00:10:14,520
+think the hard-won
+knowledge that scientists
+
+226
+00:10:14,520 --> 00:10:18,640
+have built through decades of
+training is also adding value.
+
+227
+00:10:18,640 --> 00:10:21,540
+And so I like to think about how
+do we design these systems so
+
+228
+00:10:21,540 --> 00:10:24,550
+that scientists can work
+interactively with these tools,
+
+229
+00:10:24,550 --> 00:10:27,370
+but the scientist is still
+the one who's in control.
+
+230
+00:10:27,370 --> 00:10:30,400
+The scientists are the one who
+is able to do that verification,
+
+231
+00:10:30,400 --> 00:10:33,630
+use their intuition to ensure
+the correctness of what they're
+
+232
+00:10:33,630 --> 00:10:35,370
+trying to measure.
+
+233
+00:10:35,370 --> 00:10:36,765
+So thank you very much.
+
+234
+00:10:36,765 --> 00:10:38,640
+And of course, I'd be
+remiss without thanking
+
+235
+00:10:38,640 --> 00:10:41,340
+the many, many collaborators
+in the ecology space that
+
+236
+00:10:41,340 --> 00:10:43,840
+have contributed to my
+group's work at MIT.
+
+237
+00:10:43,840 --> 00:10:44,740
+Thanks.
+
+238
+00:10:44,740 --> 00:10:47,570
+[APPLAUSE]
+
+239
+00:10:47,570 --> 00:10:50,770
+As you have seen, I am
+currently the Vice Provost
+
+240
+00:10:50,770 --> 00:10:52,070
+of OpenLearning.
+
+241
+00:10:52,070 --> 00:10:53,600
+My name is Dimitri Bertsimas.
+
+242
+00:10:53,600 --> 00:10:56,030
+I have joined
+OpenLearning a year ago.
+
+243
+00:10:56,030 --> 00:10:59,350
+I've been at MIT about 40
+years, and one of the reasons
+
+244
+00:10:59,350 --> 00:11:06,860
+I joined OpenLearning is to
+try to work with colleagues,
+
+245
+00:11:06,860 --> 00:11:09,130
+students, and so
+forth to accomplish
+
+246
+00:11:09,130 --> 00:11:11,360
+the dream of
+personalized education.
+
+247
+00:11:11,360 --> 00:11:14,150
+What I'm doing today is
+far from personalized.
+
+248
+00:11:14,150 --> 00:11:22,270
+All of you see a common
+lecture even though you have
+
+249
+00:11:22,270 --> 00:11:24,050
+many distinct characteristics.
+
+250
+00:11:24,050 --> 00:11:29,080
+So if somebody would have
+told me that in a year or so,
+
+251
+00:11:29,080 --> 00:11:32,270
+I would have been able to talk
+about some of our progress,
+
+252
+00:11:32,270 --> 00:11:33,740
+I wouldn't have believed it.
+
+253
+00:11:33,740 --> 00:11:36,200
+So the word magic is relevant.
+
+254
+00:11:36,200 --> 00:11:38,960
+I hope you feel the same
+at the end of the talk.
+
+255
+00:11:38,960 --> 00:11:42,120
+So this is a vision
+and our efforts
+
+256
+00:11:42,120 --> 00:11:45,630
+on creating a
+customized adaptive
+
+257
+00:11:45,630 --> 00:11:49,020
+online education using GenAI.
+
+258
+00:11:49,020 --> 00:11:52,330
+This is work with two of
+my exceptional students,
+
+259
+00:11:52,330 --> 00:11:55,500
+Romain, and Dewang,
+who are starting
+
+260
+00:11:55,500 --> 00:11:58,530
+their second year at the
+Operational Research Center.
+
+261
+00:11:58,530 --> 00:12:01,810
+So online learners have
+obviously different interests,
+
+262
+00:12:01,810 --> 00:12:04,620
+backgrounds and goals.
+
+263
+00:12:04,620 --> 00:12:09,480
+So as a result, this calls
+for customization adapted
+
+264
+00:12:09,480 --> 00:12:11,320
+to these characteristics.
+
+265
+00:12:11,320 --> 00:12:12,940
+First, motivation.
+
+266
+00:12:12,940 --> 00:12:17,680
+Also, learners have different
+learning pace, abilities,
+
+267
+00:12:17,680 --> 00:12:19,210
+and preferences.
+
+268
+00:12:19,210 --> 00:12:25,050
+This calls, naturally, for
+personalized adaptive learning.
+
+269
+00:12:25,050 --> 00:12:28,830
+And this is, so far, from the
+point of view of the learners.
+
+270
+00:12:28,830 --> 00:12:34,050
+However, the people who
+create all the context
+
+271
+00:12:34,050 --> 00:12:36,580
+are professors, teachers.
+
+272
+00:12:36,580 --> 00:12:39,690
+So improving
+instructors' productivity
+
+273
+00:12:39,690 --> 00:12:43,330
+to fulfill these needs while
+retaining control is also
+
+274
+00:12:43,330 --> 00:12:46,090
+relevant, and I will show
+you the progress we have
+
+275
+00:12:46,090 --> 00:12:48,970
+made on all these three areas.
+
+276
+00:12:48,970 --> 00:12:53,920
+So, one of our efforts
+this year in OpenLearning
+
+277
+00:12:53,920 --> 00:12:57,700
+is what we call
+universal AI, which
+
+278
+00:12:57,700 --> 00:13:01,730
+is about to launch
+in a week or so.
+
+279
+00:13:01,730 --> 00:13:03,700
+This is an ambitious
+program of reaching
+
+280
+00:13:03,700 --> 00:13:07,160
+a lot of learners in the world,
+of teaching the basics of AI.
+
+281
+00:13:07,160 --> 00:13:11,140
+So this is an example
+of one-- this is--
+
+282
+00:13:11,140 --> 00:13:13,490
+in a particular topic.
+
+283
+00:13:13,490 --> 00:13:15,820
+Let me give you
+some of the details
+
+284
+00:13:15,820 --> 00:13:19,450
+of multiple linear
+regression model.
+
+285
+00:13:19,450 --> 00:13:24,970
+We are given data of the
+dependent variable YI,
+
+286
+00:13:24,970 --> 00:13:30,280
+the price realization
+of auction I.
+
+287
+00:13:30,280 --> 00:13:35,110
+So let me show you how
+GenAI can customize
+
+288
+00:13:35,110 --> 00:13:38,247
+this content automatically
+for the health care industry.
+
+289
+00:13:38,247 --> 00:13:39,580
+The previous was about auctions.
+
+290
+00:13:39,580 --> 00:13:41,038
+Let me give you
+some of the details
+
+291
+00:13:41,038 --> 00:13:43,240
+of the multiple linear
+regression model.
+
+292
+00:13:43,240 --> 00:13:45,130
+We are given data of
+the dependent variable
+
+293
+00:13:45,130 --> 00:13:47,880
+YI, the hospital
+length of stay in days
+
+294
+00:13:47,880 --> 00:13:54,360
+for patient I, and independent
+variables X subscript I.
+
+295
+00:13:54,360 --> 00:13:58,630
+Similarly, for the
+energy industry,
+
+296
+00:13:58,630 --> 00:14:01,620
+I would like to stress that
+this is automatically generated
+
+297
+00:14:01,620 --> 00:14:03,420
+with a very simple command.
+
+298
+00:14:03,420 --> 00:14:05,130
+Let me give you
+some of the details
+
+299
+00:14:05,130 --> 00:14:07,270
+of a multiple linear
+regression model.
+
+300
+00:14:07,270 --> 00:14:10,200
+We are given data on the
+dependent variable YI,
+
+301
+00:14:10,200 --> 00:14:13,500
+the day ahead electricity
+price in market interval I,
+
+302
+00:14:13,500 --> 00:14:16,380
+and independent variables
+X subscript I superscript
+
+303
+00:14:16,380 --> 00:14:19,414
+1, the system load
+forecast in MW.
+
+304
+00:14:19,414 --> 00:14:23,725
+XI2, the natural gas spot
+price in US per MMBtu.
+
+305
+00:14:23,725 --> 00:14:24,225
+XI3--
+
+306
+00:14:29,130 --> 00:14:32,760
+Now I would like to
+demonstrate to customize
+
+307
+00:14:32,760 --> 00:14:34,570
+the length of the presentation.
+
+308
+00:14:34,570 --> 00:14:37,740
+So the previous were more
+elaborate presentations.
+
+309
+00:14:37,740 --> 00:14:42,420
+And quite often, the need
+arises for a much shorter bite.
+
+310
+00:14:42,420 --> 00:14:44,290
+Here's the 30-second summary.
+
+311
+00:14:44,290 --> 00:14:47,940
+We model log line price as
+YI equals beta plus beta 1 X1
+
+312
+00:14:47,940 --> 00:14:51,480
+plus E fitted by minimizing
+the sum of squared errors SSE.
+
+313
+00:14:51,480 --> 00:14:53,830
+R squared equals 1 minus SSE.
+
+314
+00:14:53,830 --> 00:14:56,610
+SST measures how much
+better we do than predicting
+
+315
+00:14:56,610 --> 00:14:58,140
+the overall average only.
+
+316
+00:14:58,140 --> 00:15:00,910
+Using age, temperature,
+and rain as predictors,
+
+317
+00:15:00,910 --> 00:15:05,010
+a simple model reaches R
+squared to 0.42 on Bordeaux data
+
+318
+00:15:05,010 --> 00:15:06,820
+and beats the average baseline.
+
+319
+00:15:06,820 --> 00:15:09,990
+Takeaway-- a few variables
+plus linear regression
+
+320
+00:15:09,990 --> 00:15:14,760
+yield useful,
+quantifiable forecasts.
+
+321
+00:15:14,760 --> 00:15:18,060
+So now, I would like
+to demonstrate the need
+
+322
+00:15:18,060 --> 00:15:23,220
+to customize simultaneously
+the language of instruction,
+
+323
+00:15:23,220 --> 00:15:25,210
+as well as the domain expertise.
+
+324
+00:15:25,210 --> 00:15:27,580
+Of course, there are
+multiple other combinations,
+
+325
+00:15:27,580 --> 00:15:28,990
+this is just an indication.
+
+326
+00:15:28,990 --> 00:15:30,960
+[SPEAKING SPANISH]
+
+327
+00:15:45,070 --> 00:15:47,540
+So, I mean, I
+don't know Spanish,
+
+328
+00:15:47,540 --> 00:15:50,440
+but I checked with
+one of my students,
+
+329
+00:15:50,440 --> 00:15:57,280
+and the assertion
+was that this is OK.
+
+330
+00:15:57,280 --> 00:15:59,560
+I was worried about that.
+
+331
+00:15:59,560 --> 00:16:02,480
+So now, I would like to
+say the bigger dream.
+
+332
+00:16:02,480 --> 00:16:05,120
+So far this was the
+customization adaptation story,
+
+333
+00:16:05,120 --> 00:16:06,650
+but suppose you
+have the following.
+
+334
+00:16:06,650 --> 00:16:08,320
+Suppose you have
+a lecture, as we
+
+335
+00:16:08,320 --> 00:16:11,390
+do in universal AI, in which
+you have an assessment.
+
+336
+00:16:11,390 --> 00:16:14,830
+After five slides, you have
+a brief assessment that
+
+337
+00:16:14,830 --> 00:16:17,060
+can be done in a few seconds.
+
+338
+00:16:17,060 --> 00:16:22,000
+This is an example where
+the student clearly
+
+339
+00:16:22,000 --> 00:16:26,930
+does not understand what R
+squared is and its values.
+
+340
+00:16:26,930 --> 00:16:29,240
+The specifics is not so
+important to understand.
+
+341
+00:16:29,240 --> 00:16:31,270
+But the key here is
+that it's very simple
+
+342
+00:16:31,270 --> 00:16:33,890
+to detect that the student
+didn't fully get it.
+
+343
+00:16:33,890 --> 00:16:38,000
+So therefore, a need
+arises for a system
+
+344
+00:16:38,000 --> 00:16:44,270
+to perhaps review and repeat the
+story in an understandable way
+
+345
+00:16:44,270 --> 00:16:48,200
+targeted for this story.
+
+346
+00:16:48,200 --> 00:16:50,480
+The key performance measure
+in linear regression
+
+347
+00:16:50,480 --> 00:16:52,190
+is called R squared.
+
+348
+00:16:52,190 --> 00:16:55,680
+R squared is defined by
+calculating two quantities.
+
+349
+00:16:55,680 --> 00:16:59,660
+First, the Sum of Squared
+Errors, SSE, which is the sum of
+
+350
+00:16:59,660 --> 00:17:02,050
+squared distances of the
+points to the green line.
+
+351
+00:17:05,480 --> 00:17:11,210
+And this is something we
+actually are currently
+
+352
+00:17:11,210 --> 00:17:14,569
+implementing in OpenLearning
+to do it in a very customized
+
+353
+00:17:14,569 --> 00:17:18,319
+way, adaptive to the learner in
+a personalized manner for all
+
+354
+00:17:18,319 --> 00:17:20,280
+the content that we have.
+
+355
+00:17:20,280 --> 00:17:24,810
+Final, how to put the
+instructor in the loop.
+
+356
+00:17:24,810 --> 00:17:28,190
+So, what we have built
+and what we envision
+
+357
+00:17:28,190 --> 00:17:34,470
+is that the biggest bottleneck
+in high-quality educational
+
+358
+00:17:34,470 --> 00:17:38,620
+content is the time of my
+colleagues, as well as mine.
+
+359
+00:17:38,620 --> 00:17:44,440
+So this, we expect, will
+help accelerate the story.
+
+360
+00:17:44,440 --> 00:17:47,320
+So human in the loop and
+instructor in the loop.
+
+361
+00:17:47,320 --> 00:17:49,170
+So the idea is--
+
+362
+00:17:49,170 --> 00:17:54,030
+so this is a system
+that the instructor
+
+363
+00:17:54,030 --> 00:17:57,460
+can give some instructions.
+
+364
+00:17:57,460 --> 00:18:03,570
+Also, what information,
+what papers, books,
+
+365
+00:18:03,570 --> 00:18:07,500
+slides to use, and then
+appropriate instructions
+
+366
+00:18:07,500 --> 00:18:12,100
+to synthesize the story.
+
+367
+00:18:12,100 --> 00:18:14,310
+Clearly we don't
+have a lot of time
+
+368
+00:18:14,310 --> 00:18:17,190
+to demonstrate all
+the details, but we do
+
+369
+00:18:17,190 --> 00:18:20,010
+envision that this would be--
+
+370
+00:18:20,010 --> 00:18:22,140
+we have a working
+prototype, a tool
+
+371
+00:18:22,140 --> 00:18:24,630
+that we are currently
+experimenting
+
+372
+00:18:24,630 --> 00:18:28,980
+with in OpenLearning
+with various instructors
+
+373
+00:18:28,980 --> 00:18:31,240
+responsible for various paths.
+
+374
+00:18:31,240 --> 00:18:36,420
+So although, of course, this is
+still in a research environment,
+
+375
+00:18:36,420 --> 00:18:39,200
+this is a prototype only,
+but it is our aspiration
+
+376
+00:18:39,200 --> 00:18:47,090
+within OpenLearning to utilize
+all these features in everything
+
+377
+00:18:47,090 --> 00:18:48,030
+that we do.
+
+378
+00:18:48,030 --> 00:18:53,600
+Our first step is we're about
+to launch universal AI for, we
+
+379
+00:18:53,600 --> 00:18:57,200
+hope, a lot of learners,
+and that would be, in a way,
+
+380
+00:18:57,200 --> 00:18:59,220
+our first experiment.
+
+381
+00:18:59,220 --> 00:19:01,020
+We, of course, will
+adapt and learn.
+
+382
+00:19:01,020 --> 00:19:05,330
+But we envision that the
+idea of customization
+
+383
+00:19:05,330 --> 00:19:08,880
+for different audiences
+for different industries,
+
+384
+00:19:08,880 --> 00:19:15,710
+the idea of personalization,
+and the idea of translations,
+
+385
+00:19:15,710 --> 00:19:18,560
+adaptations in
+length, and difficulty
+
+386
+00:19:18,560 --> 00:19:20,670
+is going to be present.
+
+387
+00:19:20,670 --> 00:19:22,625
+So I would leave
+you with this vision
+
+388
+00:19:22,625 --> 00:19:25,530
+of customize adaptive
+online education.
+
+389
+00:19:25,530 --> 00:19:28,340
+As I mentioned,
+when I have worked
+
+390
+00:19:28,340 --> 00:19:29,910
+in the area of personalization--
+
+391
+00:19:29,910 --> 00:19:35,220
+I tried, anyway, 10 years ago,
+and it was an enormous effort.
+
+392
+00:19:35,220 --> 00:19:37,300
+In the topic of
+linear regression,
+
+393
+00:19:37,300 --> 00:19:41,130
+we have developed, in the past,
+various paths for learners.
+
+394
+00:19:41,130 --> 00:19:43,300
+Just for one lecture
+and one homework,
+
+395
+00:19:43,300 --> 00:19:46,720
+it took myself and a
+student months to do.
+
+396
+00:19:46,720 --> 00:19:48,520
+This is not the case.
+
+397
+00:19:48,520 --> 00:19:49,770
+This is, I believe--
+
+398
+00:19:49,770 --> 00:19:53,940
+that's why I said if
+somebody told me a year
+
+399
+00:19:53,940 --> 00:19:56,860
+or two ago, I would say this
+is probably science fiction.
+
+400
+00:19:56,860 --> 00:19:59,550
+And this happened within a year.
+
+401
+00:19:59,550 --> 00:20:02,220
+Of course, it wouldn't have
+happened without the ability
+
+402
+00:20:02,220 --> 00:20:06,450
+and talent of my two
+students, but my hope
+
+403
+00:20:06,450 --> 00:20:09,450
+is that this will
+change education
+
+404
+00:20:09,450 --> 00:20:12,910
+in ways that I think will
+be beneficial to learners,
+
+405
+00:20:12,910 --> 00:20:16,830
+and perhaps in the way even
+MIT or other universities
+
+406
+00:20:16,830 --> 00:20:21,310
+around the world will be
+adapting to this new knowledge.
+
+407
+00:20:21,310 --> 00:20:22,436
+Thank you.
+
+408
+00:20:22,436 --> 00:20:23,430
+[APPLAUSE]
+
+409
+00:20:23,430 --> 00:20:25,560
+So we're all used
+to seeing graphs
+
+410
+00:20:25,560 --> 00:20:29,460
+like this of AI's capabilities
+improving over time.
+
+411
+00:20:29,460 --> 00:20:31,590
+This doesn't even
+show the last year,
+
+412
+00:20:31,590 --> 00:20:34,560
+and Yann LeCun just told us
+how we're going to get lots--
+
+413
+00:20:34,560 --> 00:20:36,930
+reach a lot further heights.
+
+414
+00:20:36,930 --> 00:20:39,890
+But I work at the
+Media Lab, and we
+
+415
+00:20:39,890 --> 00:20:44,430
+focus on what technology
+does to our human lives,
+
+416
+00:20:44,430 --> 00:20:47,730
+how technology affects
+the way we live our lives.
+
+417
+00:20:47,730 --> 00:20:51,420
+The way we learn, work, take
+care of our health, communicate,
+
+418
+00:20:51,420 --> 00:20:53,610
+relate to others, and so on.
+
+419
+00:20:53,610 --> 00:20:57,240
+And so the question
+that I'm focused on,
+
+420
+00:20:57,240 --> 00:20:59,390
+and a lot of my colleagues
+at the Media Lab
+
+421
+00:20:59,390 --> 00:21:03,930
+as well, is, as AI
+keeps advancing,
+
+422
+00:21:03,930 --> 00:21:08,220
+how do we ensure that
+people will advance as well?
+
+423
+00:21:08,220 --> 00:21:11,180
+And are we sure that
+people will actually also
+
+424
+00:21:11,180 --> 00:21:16,070
+be better off in a world where
+they use AI all the time?
+
+425
+00:21:16,070 --> 00:21:21,110
+You may know that by now, over
+half the US population uses
+
+426
+00:21:21,110 --> 00:21:24,080
+AI on a regular basis,
+and frankly, it's
+
+427
+00:21:24,080 --> 00:21:26,940
+almost hard to avoid
+using AI because it's
+
+428
+00:21:26,940 --> 00:21:31,470
+integrated into every single
+app that we use and always
+
+429
+00:21:31,470 --> 00:21:36,030
+eager to assist you
+with all sorts of tasks
+
+430
+00:21:36,030 --> 00:21:38,050
+that you may be involved in.
+
+431
+00:21:38,050 --> 00:21:43,080
+The promise is, of course,
+that AI will improve our lives.
+
+432
+00:21:43,080 --> 00:21:47,590
+health care, education,
+accessibility, performance,
+
+433
+00:21:47,590 --> 00:21:52,440
+our daily life at home,
+scientific research, et cetera.
+
+434
+00:21:52,440 --> 00:21:56,260
+But I want to talk
+today about the reality.
+
+435
+00:21:56,260 --> 00:22:01,740
+I think the reality is much
+more of a mixed bag of how AI
+
+436
+00:22:01,740 --> 00:22:05,140
+is influencing our daily lives.
+
+437
+00:22:05,140 --> 00:22:10,440
+There is an increased risk for
+misinformation and manipulation
+
+438
+00:22:10,440 --> 00:22:15,550
+as we increasingly rely on AI
+to provide us with information.
+
+439
+00:22:15,550 --> 00:22:18,690
+There's a loss of
+understanding and agency
+
+440
+00:22:18,690 --> 00:22:21,400
+and control over our world.
+
+441
+00:22:21,400 --> 00:22:24,970
+There's less interest and
+motivation for learning,
+
+442
+00:22:24,970 --> 00:22:27,800
+and we are losing the
+skills that we once
+
+443
+00:22:27,800 --> 00:22:34,260
+had because we relied too much
+on AI to do the work for us.
+
+444
+00:22:34,260 --> 00:22:39,080
+We are weakening our social
+skills and our social ties
+
+445
+00:22:39,080 --> 00:22:42,740
+to others as we
+increasingly just talk
+
+446
+00:22:42,740 --> 00:22:45,710
+to chatbots for
+everything we need
+
+447
+00:22:45,710 --> 00:22:51,630
+help with rather than to friends
+or family or peers or experts.
+
+448
+00:22:51,630 --> 00:22:55,860
+There are mental health
+issues such as delusions,
+
+449
+00:22:55,860 --> 00:22:59,700
+even more serious
+problems like suicides,
+
+450
+00:22:59,700 --> 00:23:03,150
+the result of our
+interactions with AI.
+
+451
+00:23:03,150 --> 00:23:08,270
+And of course, a loss of jobs,
+especially at the junior level,
+
+452
+00:23:08,270 --> 00:23:11,930
+and a loss of meaning
+and pride in the work
+
+453
+00:23:11,930 --> 00:23:17,390
+that we do as we increasingly
+have to just be the people
+
+454
+00:23:17,390 --> 00:23:20,460
+that check the work
+that is done by AI.
+
+455
+00:23:20,460 --> 00:23:22,560
+So the AI gets to
+do the fun part
+
+456
+00:23:22,560 --> 00:23:25,030
+and we have to figure
+out what mistakes
+
+457
+00:23:25,030 --> 00:23:28,150
+they've made because we're
+ultimately still held
+
+458
+00:23:28,150 --> 00:23:30,340
+liable and responsible.
+
+459
+00:23:30,340 --> 00:23:32,680
+So let me talk
+about all of these
+
+460
+00:23:32,680 --> 00:23:34,370
+in a little bit more detail.
+
+461
+00:23:34,370 --> 00:23:37,750
+AI's impact on human beliefs.
+
+462
+00:23:37,750 --> 00:23:42,440
+You may have heard that AI
+as a sycophancy problem.
+
+463
+00:23:42,440 --> 00:23:46,420
+AI systems basically
+prioritize agreeing
+
+464
+00:23:46,420 --> 00:23:50,320
+with the user over issues
+rather than providing
+
+465
+00:23:50,320 --> 00:23:53,960
+accurate information or
+objective information,
+
+466
+00:23:53,960 --> 00:23:57,910
+and thereby, they reinforce
+some of the strange thoughts
+
+467
+00:23:57,910 --> 00:24:02,240
+and beliefs that people may
+have, they reinforce biases,
+
+468
+00:24:02,240 --> 00:24:04,870
+they spread misinformation,
+and they really
+
+469
+00:24:04,870 --> 00:24:07,340
+limit people's
+critical thinking.
+
+470
+00:24:07,340 --> 00:24:11,930
+Unfortunately-- so the AI
+industry knows this, actually,
+
+471
+00:24:11,930 --> 00:24:16,280
+and unfortunately-- and
+ChatGPT-5 is less sycophantic,
+
+472
+00:24:16,280 --> 00:24:21,250
+but a lot of people rebelled
+because their AI was no longer
+
+473
+00:24:21,250 --> 00:24:25,340
+acting as their best buddy that
+agreed with everything they
+
+474
+00:24:25,340 --> 00:24:27,720
+said, they would
+occasionally push back.
+
+475
+00:24:27,720 --> 00:24:31,410
+So people actually
+these sycophantic AIs
+
+476
+00:24:31,410 --> 00:24:35,720
+even though they are not
+necessarily good for them.
+
+477
+00:24:35,720 --> 00:24:40,500
+The sycophancy can result
+in delusional spirals,
+
+478
+00:24:40,500 --> 00:24:44,000
+and we have learned what
+the negative impact is
+
+479
+00:24:44,000 --> 00:24:48,200
+of social media maybe 10 or so
+years after social media was
+
+480
+00:24:48,200 --> 00:24:49,910
+introduced.
+
+481
+00:24:49,910 --> 00:24:55,730
+I am predicting that with
+AI, we risk a similar--
+
+482
+00:24:55,730 --> 00:24:58,860
+something worse than
+polarization, actually,
+
+483
+00:24:58,860 --> 00:25:00,650
+and people just
+talking to people
+
+484
+00:25:00,650 --> 00:25:04,610
+like them in that ultimately,
+we may have bubbles of one
+
+485
+00:25:04,610 --> 00:25:07,070
+where people just
+talk to their AI
+
+486
+00:25:07,070 --> 00:25:10,700
+and live in this
+unrealistic world
+
+487
+00:25:10,700 --> 00:25:14,720
+that they've created
+together with their AI.
+
+488
+00:25:14,720 --> 00:25:17,850
+We all know AI
+models are biased,
+
+489
+00:25:17,850 --> 00:25:22,660
+and it turns out that working
+with an AI model that is biased
+
+490
+00:25:22,660 --> 00:25:26,000
+affects your views
+and your decisions.
+
+491
+00:25:26,000 --> 00:25:29,150
+A colleague of mine at
+Cornell, Mor Naaman,
+
+492
+00:25:29,150 --> 00:25:31,360
+did a study where
+he just had people
+
+493
+00:25:31,360 --> 00:25:34,180
+use a text editor
+with an AI assistant
+
+494
+00:25:34,180 --> 00:25:37,310
+to write essays
+about climate change,
+
+495
+00:25:37,310 --> 00:25:41,380
+and he gave people different
+AI models that were slightly
+
+496
+00:25:41,380 --> 00:25:43,450
+biased in different
+ways, believing
+
+497
+00:25:43,450 --> 00:25:46,120
+in climate change or
+not or climate change
+
+498
+00:25:46,120 --> 00:25:48,250
+being human-created, et cetera.
+
+499
+00:25:48,250 --> 00:25:52,930
+And he saw that these biases
+were reflected in the essays
+
+500
+00:25:52,930 --> 00:25:54,320
+that people wrote.
+
+501
+00:25:54,320 --> 00:25:57,190
+And when he asked
+the subjects, did you
+
+502
+00:25:57,190 --> 00:25:59,270
+realize that the AI was biased?
+
+503
+00:25:59,270 --> 00:26:00,230
+They said, no.
+
+504
+00:26:00,230 --> 00:26:03,680
+Do you stand by everything
+that you wrote in that article?
+
+505
+00:26:03,680 --> 00:26:04,210
+Yes.
+
+506
+00:26:04,210 --> 00:26:06,740
+Those are my beliefs,
+those are my thoughts,
+
+507
+00:26:06,740 --> 00:26:10,450
+even though he could clearly,
+in a statistical-- using
+
+508
+00:26:10,450 --> 00:26:16,420
+statistical evaluation, show
+that they basically had been
+
+509
+00:26:16,420 --> 00:26:20,060
+influenced by the biased AI.
+
+510
+00:26:20,060 --> 00:26:23,460
+AI is also impacting
+our decision-making.
+
+511
+00:26:23,460 --> 00:26:25,230
+We did a study in my lab.
+
+512
+00:26:25,230 --> 00:26:28,530
+We gave people a number
+of newspaper headlines--
+
+513
+00:26:28,530 --> 00:26:30,240
+some were true, some were false.
+
+514
+00:26:30,240 --> 00:26:33,890
+We gave some people no AI,
+they had to decide themselves
+
+515
+00:26:33,890 --> 00:26:35,370
+whether it was true or false.
+
+516
+00:26:35,370 --> 00:26:38,720
+Others had an accurate
+AI or a truthful AI
+
+517
+00:26:38,720 --> 00:26:41,370
+that said why something
+was true or false.
+
+518
+00:26:41,370 --> 00:26:43,080
+Also, it gave an explanation.
+
+519
+00:26:43,080 --> 00:26:46,820
+But then yet others we gave
+a deceptive AI that gave them
+
+520
+00:26:46,820 --> 00:26:48,960
+the opposite of the truth.
+
+521
+00:26:48,960 --> 00:26:53,010
+And what we noticed is
+that people just trust AI,
+
+522
+00:26:53,010 --> 00:26:55,980
+and in fact, often
+you hear people say
+
+523
+00:26:55,980 --> 00:26:58,050
+explanations are so important.
+
+524
+00:26:58,050 --> 00:27:01,380
+What we learned is if
+you provide explanations,
+
+525
+00:27:01,380 --> 00:27:04,800
+people trust the
+wrong AI even more.
+
+526
+00:27:04,800 --> 00:27:08,430
+They don't really look
+carefully about the explanation,
+
+527
+00:27:08,430 --> 00:27:10,640
+they just trust
+that if the AI has
+
+528
+00:27:10,640 --> 00:27:14,100
+an explanation for why something
+is true or false, well,
+
+529
+00:27:14,100 --> 00:27:15,680
+it must be right.
+
+530
+00:27:15,680 --> 00:27:20,750
+So, we try to come up with
+new methods also in our lab,
+
+531
+00:27:20,750 --> 00:27:24,160
+new designs for AI
+and AI deployments
+
+532
+00:27:24,160 --> 00:27:27,890
+that actually will mitigate
+some of these problems.
+
+533
+00:27:27,890 --> 00:27:31,900
+For example, a
+simple intervention
+
+534
+00:27:31,900 --> 00:27:34,780
+where AI will first
+engage the user
+
+535
+00:27:34,780 --> 00:27:38,480
+in asking a question about
+that newspaper headline,
+
+536
+00:27:38,480 --> 00:27:40,210
+do you really think
+the Pope would
+
+537
+00:27:40,210 --> 00:27:45,520
+wear a Balenciaga jacket that
+costs thousands of dollars?
+
+538
+00:27:45,520 --> 00:27:50,330
+That alone immediately
+improved their accuracy
+
+539
+00:27:50,330 --> 00:27:54,100
+even if they had an
+AI that ultimately
+
+540
+00:27:54,100 --> 00:27:56,950
+would give a wrong suggestion.
+
+541
+00:27:56,950 --> 00:28:00,620
+Now agents are, of
+course, a thing in 2025.
+
+542
+00:28:00,620 --> 00:28:03,610
+It turns out that all
+of these same problems
+
+543
+00:28:03,610 --> 00:28:07,760
+exist with agents, but
+even at a worse level.
+
+544
+00:28:07,760 --> 00:28:12,640
+We know from the work
+of behavioral economists
+
+545
+00:28:12,640 --> 00:28:15,050
+that human choices
+can be manipulated,
+
+546
+00:28:15,050 --> 00:28:18,390
+and in our work, some of
+the work funded by MGAIC,
+
+547
+00:28:18,390 --> 00:28:21,860
+we show that LLM
+agents are even easier
+
+548
+00:28:21,860 --> 00:28:23,880
+to influence in their decisions.
+
+549
+00:28:23,880 --> 00:28:29,390
+So go see Manuel Cherep and
+his poster in the hallway
+
+550
+00:28:29,390 --> 00:28:32,370
+later who can tell you
+all about that work.
+
+551
+00:28:32,370 --> 00:28:36,780
+In one example, we actually
+used AI assistants,
+
+552
+00:28:36,780 --> 00:28:40,850
+just an AI assistant, just
+to evaluate resumes for a job
+
+553
+00:28:40,850 --> 00:28:45,270
+opening, and what we learned
+is that the exact same resume,
+
+554
+00:28:45,270 --> 00:28:49,130
+if you have a famous last
+name, Kennedy, Gates, whatever,
+
+555
+00:28:49,130 --> 00:28:53,040
+you get ranked higher
+than if you don't.
+
+556
+00:28:53,040 --> 00:28:58,130
+So maybe think of changing
+your name in the era of AI.
+
+557
+00:28:58,130 --> 00:29:00,420
+Learning and skill development.
+
+558
+00:29:00,420 --> 00:29:04,070
+We did a study with
+54 college students
+
+559
+00:29:04,070 --> 00:29:06,920
+where we monitored
+brain activity
+
+560
+00:29:06,920 --> 00:29:11,250
+while they were writing an
+essay on an SAT topic, actually.
+
+561
+00:29:11,250 --> 00:29:12,960
+And we had three groups.
+
+562
+00:29:12,960 --> 00:29:16,330
+One group used ChatGPT,
+another groups just search,
+
+563
+00:29:16,330 --> 00:29:19,130
+and the third group had
+to work by themselves.
+
+564
+00:29:19,130 --> 00:29:21,940
+What we noticed in
+the EEG patterns
+
+565
+00:29:21,940 --> 00:29:23,990
+were striking differences.
+
+566
+00:29:23,990 --> 00:29:27,640
+A lot more connectivity
+and activity
+
+567
+00:29:27,640 --> 00:29:33,620
+in the brains of the people that
+did not have the ChatGPT tool.
+
+568
+00:29:33,620 --> 00:29:37,580
+But interestingly, we noticed
+some other things as well.
+
+569
+00:29:37,580 --> 00:29:40,400
+We asked people to
+write about happiness.
+
+570
+00:29:40,400 --> 00:29:42,350
+What does happiness mean to you?
+
+571
+00:29:42,350 --> 00:29:47,140
+It turns out that the whole
+group that had ChatGPT
+
+572
+00:29:47,140 --> 00:29:52,480
+to help them, they all wrote
+about how success in your career
+
+573
+00:29:52,480 --> 00:29:53,960
+will lead to happiness.
+
+574
+00:29:53,960 --> 00:29:58,840
+And we didn't see that as much
+in the other essays that were
+
+575
+00:29:58,840 --> 00:30:00,230
+written by the other group.
+
+576
+00:30:00,230 --> 00:30:04,840
+So again, showing
+how AI actually
+
+577
+00:30:04,840 --> 00:30:09,460
+influences your thinking,
+influences your beliefs.
+
+578
+00:30:09,460 --> 00:30:14,220
+Worse, the people that
+had used ChatGPT could not
+
+579
+00:30:14,220 --> 00:30:16,320
+quote from their
+essays or could not
+
+580
+00:30:16,320 --> 00:30:20,250
+make that same argument
+orally later down
+
+581
+00:30:20,250 --> 00:30:23,110
+the road, but yet
+at the same time,
+
+582
+00:30:23,110 --> 00:30:25,360
+they claimed ownership
+over this work.
+
+583
+00:30:25,360 --> 00:30:28,390
+They said, yes, I stand
+by my essay that I wrote,
+
+584
+00:30:28,390 --> 00:30:30,870
+this is my work, even
+though they couldn't even
+
+585
+00:30:30,870 --> 00:30:35,250
+remember what they had
+written a week later.
+
+586
+00:30:35,250 --> 00:30:38,290
+So we think there are
+solutions for this.
+
+587
+00:30:38,290 --> 00:30:42,330
+Again, we are developing, for
+example, in the area of AI that
+
+588
+00:30:42,330 --> 00:30:46,650
+assists with writing a system
+called Critical Thinker that
+
+589
+00:30:46,650 --> 00:30:50,400
+acts more like an editor,
+an editor that tells you,
+
+590
+00:30:50,400 --> 00:30:52,630
+this is a good
+point you're making,
+
+591
+00:30:52,630 --> 00:30:57,160
+but you need more proof or
+more evidence for this point.
+
+592
+00:30:57,160 --> 00:31:00,480
+Or maybe here, you could
+use an example, et cetera,
+
+593
+00:31:00,480 --> 00:31:04,110
+teaching people to write
+rather than doing the thinking
+
+594
+00:31:04,110 --> 00:31:05,800
+and writing for them.
+
+595
+00:31:05,800 --> 00:31:11,680
+Now AI is also resulting in
+the loss of skills, actually.
+
+596
+00:31:11,680 --> 00:31:15,010
+A study done by
+other people actually
+
+597
+00:31:15,010 --> 00:31:20,840
+showed that for oncologists
+who use AI for three months,
+
+598
+00:31:20,840 --> 00:31:25,120
+they become less good
+at spotting cancer
+
+599
+00:31:25,120 --> 00:31:30,850
+spots in medical images because
+they rely so much on the AI
+
+600
+00:31:30,850 --> 00:31:34,760
+that they lose their own skills
+that they previously had.
+
+601
+00:31:34,760 --> 00:31:37,150
+Is this what we
+want, or do we want
+
+602
+00:31:37,150 --> 00:31:43,360
+to benefit from both
+the expertise of the AI
+
+603
+00:31:43,360 --> 00:31:46,040
+and the expertise of the doctor?
+
+604
+00:31:46,040 --> 00:31:49,780
+We need to think about how
+to design these systems so
+
+605
+00:31:49,780 --> 00:31:53,870
+that they really still
+engage the doctor
+
+606
+00:31:53,870 --> 00:31:59,660
+and not just make it too easy
+to just rely on the system.
+
+607
+00:31:59,660 --> 00:32:04,700
+So for AI deployments to be
+successful in a real context,
+
+608
+00:32:04,700 --> 00:32:07,330
+it is not sufficient
+for the AI model
+
+609
+00:32:07,330 --> 00:32:10,480
+to be accurate and fair and
+ethical and unexplainable.
+
+610
+00:32:10,480 --> 00:32:14,790
+It is important that we
+also test AI models and AI
+
+611
+00:32:14,790 --> 00:32:18,540
+systems in the context,
+the human context where
+
+612
+00:32:18,540 --> 00:32:19,720
+they will be used.
+
+613
+00:32:19,720 --> 00:32:22,270
+And that we look
+at other outcomes,
+
+614
+00:32:22,270 --> 00:32:25,600
+not just how well
+the AI system does,
+
+615
+00:32:25,600 --> 00:32:29,980
+but how well does that
+person do with AI?
+
+616
+00:32:29,980 --> 00:32:32,490
+Do they lose their
+skills, do they lose
+
+617
+00:32:32,490 --> 00:32:36,670
+their motivation, et cetera.
+
+618
+00:32:36,670 --> 00:32:40,200
+I want to end by talking
+about some other work
+
+619
+00:32:40,200 --> 00:32:45,870
+that we're doing as well on the
+impact on our social connections
+
+620
+00:32:45,870 --> 00:32:47,490
+with others.
+
+621
+00:32:47,490 --> 00:32:51,990
+You may have read a lot about
+that people are increasingly
+
+622
+00:32:51,990 --> 00:32:58,530
+lonely, and I think that AI will
+only exacerbate that problem.
+
+623
+00:32:58,530 --> 00:33:02,580
+In fact, if you look at the
+top AI apps, the ones that
+
+624
+00:33:02,580 --> 00:33:07,440
+are about the AI being a
+buddy, a close companion,
+
+625
+00:33:07,440 --> 00:33:09,770
+are the ones that
+get the most use.
+
+626
+00:33:09,770 --> 00:33:12,280
+Guess where the
+money is going to go?
+
+627
+00:33:12,280 --> 00:33:14,590
+I mean, all of these
+companies ultimately
+
+628
+00:33:14,590 --> 00:33:19,370
+have to make a profit from the
+AIs that they are building.
+
+629
+00:33:19,370 --> 00:33:24,310
+So we have actually, funded
+by OpenAI and in collaboration
+
+630
+00:33:24,310 --> 00:33:27,070
+with OpenAI, one of
+the first studies
+
+631
+00:33:27,070 --> 00:33:31,780
+to evaluate how
+daily use of ChatGPT
+
+632
+00:33:31,780 --> 00:33:36,010
+affects social and
+emotional outcomes.
+
+633
+00:33:36,010 --> 00:33:40,450
+And we saw in a sample
+of a thousand people
+
+634
+00:33:40,450 --> 00:33:43,540
+using it for a whole
+month that the people who
+
+635
+00:33:43,540 --> 00:33:49,580
+use AI more often in a day or
+for longer periods of time,
+
+636
+00:33:49,580 --> 00:33:53,810
+they do report feeling
+less lonely, interestingly,
+
+637
+00:33:53,810 --> 00:33:58,240
+but they also socialize less
+with other humans, which
+
+638
+00:33:58,240 --> 00:34:00,230
+is a little bit worrisome.
+
+639
+00:34:00,230 --> 00:34:02,890
+Together with
+OpenAI, actually, we
+
+640
+00:34:02,890 --> 00:34:06,850
+came up with a new
+method for evaluating
+
+641
+00:34:06,850 --> 00:34:12,460
+the social and emotional
+impact of AI models on people,
+
+642
+00:34:12,460 --> 00:34:15,719
+and we now have classifiers
+that can actually
+
+643
+00:34:15,719 --> 00:34:19,350
+look at interactions,
+conversations
+
+644
+00:34:19,350 --> 00:34:23,100
+between the user and
+the AI, to figure out
+
+645
+00:34:23,100 --> 00:34:27,900
+whether a model does well in
+terms of being more pro-social
+
+646
+00:34:27,900 --> 00:34:31,060
+and encouraging the person
+to reach out to people
+
+647
+00:34:31,060 --> 00:34:36,159
+rather than encouraging the
+person to just talk to the AI,
+
+648
+00:34:36,159 --> 00:34:37,360
+for example.
+
+649
+00:34:37,360 --> 00:34:42,690
+So in summary, AI's impact
+on our human experience,
+
+650
+00:34:42,690 --> 00:34:47,610
+on our human lives, risks
+being negative unless we really
+
+651
+00:34:47,610 --> 00:34:53,100
+think carefully about how to
+design AI and deploy AI and not
+
+652
+00:34:53,100 --> 00:34:58,030
+just think about making AI
+ever more powerful and capable
+
+653
+00:34:58,030 --> 00:34:59,940
+and then throwing
+it over the fence
+
+654
+00:34:59,940 --> 00:35:03,630
+into the hands of real users.
+
+655
+00:35:03,630 --> 00:35:05,830
+AI should present
+the presented truth
+
+656
+00:35:05,830 --> 00:35:08,440
+and occasionally
+push back to the user
+
+657
+00:35:08,440 --> 00:35:11,330
+and encourage a user to
+see other points of view
+
+658
+00:35:11,330 --> 00:35:13,700
+rather than reinforcing
+their point of view.
+
+659
+00:35:13,700 --> 00:35:17,950
+It should engage the users
+in critical thinking in areas
+
+660
+00:35:17,950 --> 00:35:22,940
+where it's important that the
+person maintains that skill.
+
+661
+00:35:22,940 --> 00:35:28,750
+It should stimulate curiosity
+and development of knowledge
+
+662
+00:35:28,750 --> 00:35:31,490
+and skills, especially
+for young people,
+
+663
+00:35:31,490 --> 00:35:36,430
+and should promote and support
+deep human relationships
+
+664
+00:35:36,430 --> 00:35:40,610
+rather than aiming to
+replace human relationships.
+
+665
+00:35:40,610 --> 00:35:43,220
+If you're interested
+in this issue,
+
+666
+00:35:43,220 --> 00:35:46,490
+come and find me
+at the Media Lab.
+
+667
+00:35:46,490 --> 00:35:48,580
+We have a large
+program, actually,
+
+668
+00:35:48,580 --> 00:35:51,640
+with multiple faculty
+involved called Advancing
+
+669
+00:35:51,640 --> 00:35:53,260
+Humans with AI--
+
+670
+00:35:53,260 --> 00:35:59,080
+uh huh-- that focuses on
+designing AI so that people
+
+671
+00:35:59,080 --> 00:36:00,650
+ultimately flourish.
+
+672
+00:36:00,650 --> 00:36:01,630
+Thank you.
+
+673
+00:36:01,630 --> 00:36:04,500
+[APPLAUSE]
+

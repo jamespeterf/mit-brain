@@ -1,0 +1,3392 @@
+1
+00:00:00,640 --> 00:00:06,720
+Good morning everybody. Welcome to the
+
+2
+00:00:04,480 --> 00:00:11,280
+MPG primer. You probably missed us over
+
+3
+00:00:06,720 --> 00:00:13,840
+the last two weeks. Um we're back. Um we
+
+4
+00:00:11,280 --> 00:00:16,240
+have Kirk Smith who is thankfully
+
+5
+00:00:13,840 --> 00:00:18,960
+presenting online. He's saving us all
+
+6
+00:00:16,240 --> 00:00:22,199
+from some flu germs. So thank you Kirk
+
+7
+00:00:18,960 --> 00:00:24,960
+for for doing this remotely.
+
+8
+00:00:22,199 --> 00:00:28,320
+Um let's see. Kirk graduated from
+
+9
+00:00:24,960 --> 00:00:30,480
+Virginia Tech in 2015 with a bachelor of
+
+10
+00:00:28,320 --> 00:00:32,239
+science in mechanical engineering. And
+
+11
+00:00:30,480 --> 00:00:34,399
+then after working as a mechanical
+
+12
+00:00:32,239 --> 00:00:36,160
+engineer for several years, he pursued
+
+13
+00:00:34,399 --> 00:00:38,399
+graduate studies at the University of
+
+14
+00:00:36,160 --> 00:00:39,840
+Michigan, go blue, where he received a
+
+15
+00:00:38,399 --> 00:00:44,000
+master's of science in medical
+
+16
+00:00:39,840 --> 00:00:46,640
+engineering in 2019. In 2021, Kirk
+
+17
+00:00:44,000 --> 00:00:48,640
+joined Dr. Udler's lab, um, where he
+
+18
+00:00:46,640 --> 00:00:52,800
+focuses on using genetic clustering to
+
+19
+00:00:48,640 --> 00:00:54,239
+study complex genetics diseases. Um, I
+
+20
+00:00:52,800 --> 00:00:56,079
+just talked to him and he actually ran
+
+21
+00:00:54,239 --> 00:00:58,320
+this on one of uh, my favorite
+
+22
+00:00:56,079 --> 00:01:00,559
+phenotypes, nefertic syndrome and this
+
+23
+00:00:58,320 --> 00:01:02,719
+is what he's going to talk about today.
+
+24
+00:01:00,559 --> 00:01:04,879
+Um, if you have questions, he obviously
+
+25
+00:01:02,719 --> 00:01:07,520
+might not see you. Um, so just come up
+
+26
+00:01:04,879 --> 00:01:09,119
+to these microphones and cut in at the
+
+27
+00:01:07,520 --> 00:01:11,600
+appropriate time or raise your hand and
+
+28
+00:01:09,119 --> 00:01:13,360
+I can bring you a microphone. Um, but
+
+29
+00:01:11,600 --> 00:01:16,080
+yeah, let's have some conversations and
+
+30
+00:01:13,360 --> 00:01:18,560
+thank you Kirk. Thank you for the intro
+
+31
+00:01:16,080 --> 00:01:20,159
+and um, thanks everyone for joining and
+
+32
+00:01:18,560 --> 00:01:23,040
+uh, yeah, for for those in person.
+
+33
+00:01:20,159 --> 00:01:24,720
+Sorry, sorry I couldn't be there. Um, as
+
+34
+00:01:23,040 --> 00:01:26,720
+was mentioned, I'm recovering from being
+
+35
+00:01:24,720 --> 00:01:30,000
+a little sick all week. So, uh, thought
+
+36
+00:01:26,720 --> 00:01:32,960
+I'd be cautious and present virtually.
+
+37
+00:01:30,000 --> 00:01:35,439
+Um, so yeah, uh, today I'll be talking
+
+38
+00:01:32,960 --> 00:01:37,600
+to you about our lab's research
+
+39
+00:01:35,439 --> 00:01:40,200
+regarding the clustering of genetic
+
+40
+00:01:37,600 --> 00:01:42,880
+lossi to study complex
+
+41
+00:01:40,200 --> 00:01:45,040
+diseases. Um, in today's presentation,
+
+42
+00:01:42,880 --> 00:01:47,119
+I'll start with our motivation for
+
+43
+00:01:45,040 --> 00:01:50,079
+performing soft clustering analysis on
+
+44
+00:01:47,119 --> 00:01:52,159
+genetic lossi. I'll then describe the
+
+45
+00:01:50,079 --> 00:01:54,720
+actual soft clustering method that we're
+
+46
+00:01:52,159 --> 00:01:58,240
+using which is called basian non-gative
+
+47
+00:01:54,720 --> 00:02:01,200
+matrix factorization or BNMF and we'll
+
+48
+00:01:58,240 --> 00:02:02,799
+go over some of its primary benefits. Um
+
+49
+00:02:01,200 --> 00:02:05,119
+and then lastly I'll go through a number
+
+50
+00:02:02,799 --> 00:02:07,399
+of potential applications and downstream
+
+51
+00:02:05,119 --> 00:02:10,319
+analyses that can be done with these
+
+52
+00:02:07,399 --> 00:02:11,920
+clusters. And um before I move on I just
+
+53
+00:02:10,319 --> 00:02:14,319
+wanted to mention that I'll be
+
+54
+00:02:11,920 --> 00:02:15,920
+referencing type 2 diabetes a lot in
+
+55
+00:02:14,319 --> 00:02:18,239
+these slides since that's the primary
+
+56
+00:02:15,920 --> 00:02:19,680
+focus of our lab's research. Um,
+
+57
+00:02:18,239 --> 00:02:21,680
+however, pretty much everything that
+
+58
+00:02:19,680 --> 00:02:25,200
+we're going over today is applicable to
+
+59
+00:02:21,680 --> 00:02:27,000
+any complex disease. Um, so just keep
+
+60
+00:02:25,200 --> 00:02:29,760
+that in
+
+61
+00:02:27,000 --> 00:02:31,840
+mind. All right. So, when most people
+
+62
+00:02:29,760 --> 00:02:34,000
+think of genetic diseases, they think of
+
+63
+00:02:31,840 --> 00:02:36,879
+a monogenic disease such as cystic
+
+64
+00:02:34,000 --> 00:02:39,599
+fibrosis where a single dysfunctional
+
+65
+00:02:36,879 --> 00:02:42,000
+gene is the primary issue. And we can
+
+66
+00:02:39,599 --> 00:02:44,959
+picture this as a single pipe rupture
+
+67
+00:02:42,000 --> 00:02:48,000
+which produces a massive but uniform
+
+68
+00:02:44,959 --> 00:02:50,640
+puddle. And then by contrast, complex
+
+69
+00:02:48,000 --> 00:02:52,800
+diseases such as type two diabetes arise
+
+70
+00:02:50,640 --> 00:02:55,760
+from dozens or hundreds of variants in
+
+71
+00:02:52,800 --> 00:02:58,959
+different biological pathways. So each
+
+72
+00:02:55,760 --> 00:03:01,519
+variant is only a small leak on its own,
+
+73
+00:02:58,959 --> 00:03:04,480
+but together they pull into a shared
+
+74
+00:03:01,519 --> 00:03:06,560
+disease risk. And because these leaks
+
+75
+00:03:04,480 --> 00:03:08,640
+are coming from various different piping
+
+76
+00:03:06,560 --> 00:03:10,319
+systems, our puddle can be very
+
+77
+00:03:08,640 --> 00:03:12,720
+heterogeneous.
+
+78
+00:03:10,319 --> 00:03:15,440
+And so this metaphor demonstrates why
+
+79
+00:03:12,720 --> 00:03:18,879
+monogenic diseases are relatively
+
+80
+00:03:15,440 --> 00:03:21,680
+speaking um easier to diagnose and find
+
+81
+00:03:18,879 --> 00:03:24,159
+drug targets for and while complex
+
+82
+00:03:21,680 --> 00:03:27,440
+genetic diseases can be much more
+
+83
+00:03:24,159 --> 00:03:27,440
+difficult in that same
+
+84
+00:03:28,200 --> 00:03:33,360
+regard. So this same concept was
+
+85
+00:03:30,879 --> 00:03:37,640
+captured in the pallet model proposed by
+
+86
+00:03:33,360 --> 00:03:40,480
+Mark McCarthy in 2017 to illustrate T2-D
+
+87
+00:03:37,640 --> 00:03:42,560
+heterogeneity. Um on the far left we
+
+88
+00:03:40,480 --> 00:03:44,720
+have several pathways associated with
+
+89
+00:03:42,560 --> 00:03:48,760
+type two diabetes such as beta cell
+
+90
+00:03:44,720 --> 00:03:50,799
+function uh insulin action and atapose
+
+91
+00:03:48,760 --> 00:03:53,040
+distribution. Then to the right of that
+
+92
+00:03:50,799 --> 00:03:55,120
+we have patients A through D which each
+
+93
+00:03:53,040 --> 00:03:57,840
+have a varying degree of disregulation
+
+94
+00:03:55,120 --> 00:04:00,159
+in these pathways. The amount each
+
+95
+00:03:57,840 --> 00:04:02,400
+pathway is contributing to their overall
+
+96
+00:04:00,159 --> 00:04:04,480
+disease risk will determine their final
+
+97
+00:04:02,400 --> 00:04:07,200
+location on the pallet or their final
+
+98
+00:04:04,480 --> 00:04:09,120
+color shade. So this also means that
+
+99
+00:04:07,200 --> 00:04:10,959
+each patient might show different
+
+100
+00:04:09,120 --> 00:04:13,000
+symptoms in the clinical setting or
+
+101
+00:04:10,959 --> 00:04:16,079
+respond better to certain
+
+102
+00:04:13,000 --> 00:04:18,239
+medications. So until we start to
+
+103
+00:04:16,079 --> 00:04:20,400
+untangle this heterogeneity, it'll be
+
+104
+00:04:18,239 --> 00:04:22,560
+very difficult to make strides in
+
+105
+00:04:20,400 --> 00:04:26,400
+personalized medicine. So the question
+
+106
+00:04:22,560 --> 00:04:26,400
+is how do we how do we begin to do
+
+107
+00:04:26,919 --> 00:04:30,960
+that? There are a number of different
+
+108
+00:04:28,960 --> 00:04:33,040
+approaches that um one can use for
+
+109
+00:04:30,960 --> 00:04:35,280
+studying disease heterogeneity, but each
+
+110
+00:04:33,040 --> 00:04:36,880
+has its own challenges. The most
+
+111
+00:04:35,280 --> 00:04:38,880
+straightforward method might be to
+
+112
+00:04:36,880 --> 00:04:40,880
+perform phenotypic clustering where
+
+113
+00:04:38,880 --> 00:04:42,720
+patients are grouped together based on
+
+114
+00:04:40,880 --> 00:04:46,080
+the traits they have in common such as
+
+115
+00:04:42,720 --> 00:04:48,560
+BMI or fasting glucose. The issue here
+
+116
+00:04:46,080 --> 00:04:51,360
+is that this clustering is looking at a
+
+117
+00:04:48,560 --> 00:04:53,360
+single snapshot in time. A patient's
+
+118
+00:04:51,360 --> 00:04:55,360
+phenotype will vary depending on where
+
+119
+00:04:53,360 --> 00:04:57,840
+they are in disease pro disease
+
+120
+00:04:55,360 --> 00:04:59,840
+progression or treatment. So this means
+
+121
+00:04:57,840 --> 00:05:02,720
+that a patient might change clusters
+
+122
+00:04:59,840 --> 00:05:04,720
+after a few weeks on medication or had
+
+123
+00:05:02,720 --> 00:05:06,320
+they come into the clinic at a different
+
+124
+00:05:04,720 --> 00:05:07,960
+time point, they could have been grouped
+
+125
+00:05:06,320 --> 00:05:09,919
+into a completely different
+
+126
+00:05:07,960 --> 00:05:11,919
+cluster. Additionally, with this
+
+127
+00:05:09,919 --> 00:05:13,479
+approach, we don't learn much about the
+
+128
+00:05:11,919 --> 00:05:15,840
+disease-causing
+
+129
+00:05:13,479 --> 00:05:18,240
+mechanisms. So that brings us to
+
+130
+00:05:15,840 --> 00:05:20,320
+genetics, which is a much more constant
+
+131
+00:05:18,240 --> 00:05:23,520
+data type, and we can assume it has a
+
+132
+00:05:20,320 --> 00:05:25,440
+one-way causality with the disease.
+
+133
+00:05:23,520 --> 00:05:27,520
+Now the first step in connecting
+
+134
+00:05:25,440 --> 00:05:29,919
+genetics to disease is often doing
+
+135
+00:05:27,520 --> 00:05:33,199
+variant discovery using genomewide
+
+136
+00:05:29,919 --> 00:05:35,680
+association studies or G-W was. G-W was
+
+137
+00:05:33,199 --> 00:05:37,919
+involve looking at the genetic data of
+
+138
+00:05:35,680 --> 00:05:40,120
+thousands of people and finding variants
+
+139
+00:05:37,919 --> 00:05:42,400
+associated with your phenotype of
+
+140
+00:05:40,120 --> 00:05:45,199
+interest. Going back to our piping
+
+141
+00:05:42,400 --> 00:05:48,880
+metaphor, a G-W was can help us locate
+
+142
+00:05:45,199 --> 00:05:51,039
+all of those tiny leaks, but it doesn't
+
+143
+00:05:48,880 --> 00:05:53,199
+tell us how they're contributing to the
+
+144
+00:05:51,039 --> 00:05:54,400
+disease risk. For one thing, the
+
+145
+00:05:53,199 --> 00:05:56,400
+majority of variants are found in
+
+146
+00:05:54,400 --> 00:05:59,280
+non-coding regions. So we may not even
+
+147
+00:05:56,400 --> 00:06:01,680
+know what gene a variant is affecting.
+
+148
+00:05:59,280 --> 00:06:03,840
+This means that after conducting a G-W
+
+149
+00:06:01,680 --> 00:06:06,240
+was, we still need to figure out which
+
+150
+00:06:03,840 --> 00:06:09,440
+genetic loi are acting together in
+
+151
+00:06:06,240 --> 00:06:09,440
+distinct mechanistic
+
+152
+00:06:10,280 --> 00:06:15,600
+modules. So to do this, our lab's
+
+153
+00:06:13,039 --> 00:06:18,720
+approach is to leverage genetic genetics
+
+154
+00:06:15,600 --> 00:06:20,479
+informed by physiology. So rather than
+
+155
+00:06:18,720 --> 00:06:22,560
+clustering patients based on their
+
+156
+00:06:20,479 --> 00:06:24,600
+genetics, we cluster the snips
+
+157
+00:06:22,560 --> 00:06:27,199
+themselves based on their trait
+
+158
+00:06:24,600 --> 00:06:29,600
+signatures. This starts by extracting
+
+159
+00:06:27,199 --> 00:06:32,400
+the T2D associated variants from one or
+
+160
+00:06:29,600 --> 00:06:35,440
+more G-W was ideally using the largest
+
+161
+00:06:32,400 --> 00:06:37,759
+publicly available studies. Next, we
+
+162
+00:06:35,440 --> 00:06:40,960
+look up those snips in G-W was of key
+
+163
+00:06:37,759 --> 00:06:44,120
+metabolic traits such as BMI, glycemic
+
+164
+00:06:40,960 --> 00:06:47,199
+measures, lipids, etc. to get their
+
+165
+00:06:44,120 --> 00:06:49,759
+zcores. Finally, we align everything to
+
+166
+00:06:47,199 --> 00:06:52,199
+the T2-D riskinccreasing alals and put
+
+167
+00:06:49,759 --> 00:06:55,759
+it all together in this variant by trait
+
+168
+00:06:52,199 --> 00:06:58,319
+matrix. This matrix encapsulates encap
+
+169
+00:06:55,759 --> 00:07:00,319
+encapsulates how each genetic variant
+
+170
+00:06:58,319 --> 00:07:02,240
+affects each trait. And at this point,
+
+171
+00:07:00,319 --> 00:07:04,800
+it's ready to be thrown into some type
+
+172
+00:07:02,240 --> 00:07:06,400
+of clustering algorithm. Um, what you're
+
+173
+00:07:04,800 --> 00:07:09,280
+seeing here on this slide is essentially
+
+174
+00:07:06,400 --> 00:07:11,880
+a very high-level overview of our entire
+
+175
+00:07:09,280 --> 00:07:14,560
+workflow. Um, and it shows you how we go
+
+176
+00:07:11,880 --> 00:07:17,680
+from variants associated to the disease
+
+177
+00:07:14,560 --> 00:07:19,680
+of interest to looking at the traits
+
+178
+00:07:17,680 --> 00:07:22,639
+that they those variants are associated
+
+179
+00:07:19,680 --> 00:07:25,120
+with to putting that information into a
+
+180
+00:07:22,639 --> 00:07:25,120
+clustering
+
+181
+00:07:25,720 --> 00:07:31,120
+algorithm. So now the the next question
+
+182
+00:07:28,319 --> 00:07:33,120
+is what clustering approach do we use?
+
+183
+00:07:31,120 --> 00:07:35,120
+There are a ton of different clustering
+
+184
+00:07:33,120 --> 00:07:37,479
+algorithms out there which can generally
+
+185
+00:07:35,120 --> 00:07:40,000
+be categorized as either hard or soft
+
+186
+00:07:37,479 --> 00:07:41,759
+clustering. The hard clustering label
+
+187
+00:07:40,000 --> 00:07:44,479
+simply means that each data point is
+
+188
+00:07:41,759 --> 00:07:46,880
+assigned to a single cluster. Some uh
+
+189
+00:07:44,479 --> 00:07:48,199
+common examples of this are K means and
+
+190
+00:07:46,880 --> 00:07:50,319
+hierarchical
+
+191
+00:07:48,199 --> 00:07:53,199
+clustering. Determining the true number
+
+192
+00:07:50,319 --> 00:07:54,960
+of clusters which we call K can be very
+
+193
+00:07:53,199 --> 00:07:57,199
+difficult with some of these uh hard
+
+194
+00:07:54,960 --> 00:07:59,280
+clustering techniques. There are many
+
+195
+00:07:57,199 --> 00:08:00,720
+different um cluster quality metrics
+
+196
+00:07:59,280 --> 00:08:04,080
+that can be looked at to pick the
+
+197
+00:08:00,720 --> 00:08:06,319
+optimal K. Um but anyone who has uh done
+
+198
+00:08:04,080 --> 00:08:08,800
+clustering before knows that often these
+
+199
+00:08:06,319 --> 00:08:11,599
+metrics will point to different values
+
+200
+00:08:08,800 --> 00:08:13,280
+and the user end is uh ends up being
+
+201
+00:08:11,599 --> 00:08:15,680
+required to make some type of gut
+
+202
+00:08:13,280 --> 00:08:17,800
+decision on on what metric to use and
+
+203
+00:08:15,680 --> 00:08:20,800
+what final K value to
+
+204
+00:08:17,800 --> 00:08:22,720
+use. So in addition to that um after the
+
+205
+00:08:20,800 --> 00:08:25,599
+clustering is done the user is also
+
+206
+00:08:22,720 --> 00:08:28,120
+required to um determine which traits
+
+207
+00:08:25,599 --> 00:08:32,000
+are driving each cluster. Um so this
+
+208
+00:08:28,120 --> 00:08:36,080
+could uh involve doing some type of post
+
+209
+00:08:32,000 --> 00:08:38,800
+hawk um trait association testing or um
+
+210
+00:08:36,080 --> 00:08:40,560
+some other type of analysis. But um
+
+211
+00:08:38,800 --> 00:08:42,880
+essentially the takeaway is that what
+
+212
+00:08:40,560 --> 00:08:44,880
+your clusters are forming around isn't
+
+213
+00:08:42,880 --> 00:08:46,519
+um apparent right away when you use most
+
+214
+00:08:44,880 --> 00:08:48,800
+of these hard clustering
+
+215
+00:08:46,519 --> 00:08:51,279
+techniques. Soft clustering on the other
+
+216
+00:08:48,800 --> 00:08:52,880
+hand uses weighted assignments. This
+
+217
+00:08:51,279 --> 00:08:55,120
+means that variants can belong to
+
+218
+00:08:52,880 --> 00:08:58,080
+multiple clusters which is more in line
+
+219
+00:08:55,120 --> 00:09:00,399
+with how biological systems overlap. Um
+
+220
+00:08:58,080 --> 00:09:02,800
+this is demonstrated in the the panel on
+
+221
+00:09:00,399 --> 00:09:04,640
+the right here by these um by the stars
+
+222
+00:09:02,800 --> 00:09:06,880
+which you can see are in the kind of
+
+223
+00:09:04,640 --> 00:09:10,480
+overlapping regions of these different
+
+224
+00:09:06,880 --> 00:09:12,560
+clusters. Um clearly these data points
+
+225
+00:09:10,480 --> 00:09:15,760
+are kind of in between the clusters. So
+
+226
+00:09:12,560 --> 00:09:17,519
+it's it's can be expected and that these
+
+227
+00:09:15,760 --> 00:09:20,080
+data points are kind of contributing to
+
+228
+00:09:17,519 --> 00:09:22,240
+multiple signals.
+
+229
+00:09:20,080 --> 00:09:24,480
+So um from here on out I'll be focusing
+
+230
+00:09:22,240 --> 00:09:26,480
+on our specific soft clustering method
+
+231
+00:09:24,480 --> 00:09:28,600
+which is called basian non- negative
+
+232
+00:09:26,480 --> 00:09:32,000
+matrix factorization or
+
+233
+00:09:28,600 --> 00:09:34,720
+B&MF. Now with BNMF the optimal clusters
+
+234
+00:09:32,000 --> 00:09:37,440
+are um given as an output of the model.
+
+235
+00:09:34,720 --> 00:09:39,200
+So that takes away any or most of the
+
+236
+00:09:37,440 --> 00:09:42,320
+user bias in terms of picking the
+
+237
+00:09:39,200 --> 00:09:44,080
+optimal K and then in addition to that
+
+238
+00:09:42,320 --> 00:09:46,240
+we get the trait loadings for each
+
+239
+00:09:44,080 --> 00:09:48,240
+cluster as an output of the model. So
+
+240
+00:09:46,240 --> 00:09:51,519
+that gives us immediate insight into
+
+241
+00:09:48,240 --> 00:09:51,519
+what is driving each
+
+242
+00:09:52,440 --> 00:09:57,839
+cluster. All right. So um I'll now give
+
+243
+00:09:55,360 --> 00:10:00,320
+a a relatively quick overview on how
+
+244
+00:09:57,839 --> 00:10:02,839
+B&MF actually works and I'll mention a
+
+245
+00:10:00,320 --> 00:10:06,000
+few more specific um benefits of this
+
+246
+00:10:02,839 --> 00:10:08,560
+method. So um to start the user does
+
+247
+00:10:06,000 --> 00:10:10,320
+have to input a maximum number of
+
+248
+00:10:08,560 --> 00:10:13,680
+clusters to consider which we'll call
+
+249
+00:10:10,320 --> 00:10:16,000
+KAX. Um, so typically this would just be
+
+250
+00:10:13,680 --> 00:10:17,760
+a number that would be way above the
+
+251
+00:10:16,000 --> 00:10:20,480
+number of clusters you expect. So you
+
+252
+00:10:17,760 --> 00:10:23,440
+would just kind of pick a safe K value.
+
+253
+00:10:20,480 --> 00:10:25,200
+Um, so perhaps you think there might be
+
+254
+00:10:23,440 --> 00:10:28,560
+10 clusters in your data, you could
+
+255
+00:10:25,200 --> 00:10:30,720
+input a K max of 20. Um, and then the
+
+256
+00:10:28,560 --> 00:10:32,600
+BMF algorithm will consider anything
+
+257
+00:10:30,720 --> 00:10:35,920
+below
+
+258
+00:10:32,600 --> 00:10:39,120
+20. So um, we then initialize two random
+
+259
+00:10:35,920 --> 00:10:41,360
+matrices which are called W and H. W
+
+260
+00:10:39,120 --> 00:10:43,760
+will contain the variant weights. So its
+
+261
+00:10:41,360 --> 00:10:46,880
+dimensions are the number of snips by K
+
+262
+00:10:43,760 --> 00:10:49,519
+max and H will contain the TRO the trait
+
+263
+00:10:46,880 --> 00:10:52,880
+loadings. Its dimensions are actually K
+
+264
+00:10:49,519 --> 00:10:55,200
+max by the number of traits times two.
+
+265
+00:10:52,880 --> 00:10:57,360
+Now this is because of the non- negative
+
+266
+00:10:55,200 --> 00:11:00,000
+requirement of BMF. We're actually
+
+267
+00:10:57,360 --> 00:11:02,079
+forced to split each trait into a
+
+268
+00:11:00,000 --> 00:11:04,000
+positive and negative column and then
+
+269
+00:11:02,079 --> 00:11:06,399
+multiply the negative column by minus
+
+270
+00:11:04,000 --> 00:11:08,640
+one. So you can see this reflected in
+
+271
+00:11:06,399 --> 00:11:11,120
+the um the H matrix on the right. how
+
+272
+00:11:08,640 --> 00:11:14,600
+each trait now has a a positive and
+
+273
+00:11:11,120 --> 00:11:16,880
+negative such as BMI plus and BMI
+
+274
+00:11:14,600 --> 00:11:19,600
+negative. So once we have these random
+
+275
+00:11:16,880 --> 00:11:21,680
+matrices W and H, we begin alternating
+
+276
+00:11:19,600 --> 00:11:24,079
+fitting and pruning. The fitting
+
+277
+00:11:21,680 --> 00:11:26,800
+involves minimizing the error between
+
+278
+00:11:24,079 --> 00:11:30,720
+our original matrix X and the matrix
+
+279
+00:11:26,800 --> 00:11:32,560
+product of W * H. There's also a comp
+
+280
+00:11:30,720 --> 00:11:34,240
+complexity penalty involved to avoid
+
+281
+00:11:32,560 --> 00:11:36,320
+overfitting.
+
+282
+00:11:34,240 --> 00:11:38,640
+Now the pruning is a very important part
+
+283
+00:11:36,320 --> 00:11:40,560
+because it shrinks clusters that are not
+
+284
+00:11:38,640 --> 00:11:43,360
+contributing to the approximate
+
+285
+00:11:40,560 --> 00:11:45,360
+approximation of X. Um I've tried to
+
+286
+00:11:43,360 --> 00:11:47,920
+highlight that in this example with the
+
+287
+00:11:45,360 --> 00:11:50,800
+color coding. Um so you can see how the
+
+288
+00:11:47,920 --> 00:11:54,320
+first column of W is tied to the first
+
+289
+00:11:50,800 --> 00:11:57,760
+row of H and so on. So in this example
+
+290
+00:11:54,320 --> 00:12:00,399
+we started with a K max of five. Um
+
+291
+00:11:57,760 --> 00:12:03,360
+however all the elements of the fifth
+
+292
+00:12:00,399 --> 00:12:05,760
+cluster were pruned to zero. So we ended
+
+293
+00:12:03,360 --> 00:12:08,560
+up with just four clusters. So this is
+
+294
+00:12:05,760 --> 00:12:11,040
+kind of a a
+
+295
+00:12:08,560 --> 00:12:14,160
+um simple example to show how we go from
+
+296
+00:12:11,040 --> 00:12:17,440
+kmax to the optimal number of clusters.
+
+297
+00:12:14,160 --> 00:12:20,880
+Um the BMF pruning essentially gets rid
+
+298
+00:12:17,440 --> 00:12:23,519
+of all of the unimportant factors. Um so
+
+299
+00:12:20,880 --> 00:12:25,600
+we end up with the true number of
+
+300
+00:12:23,519 --> 00:12:27,240
+clusters in our data set rather than the
+
+301
+00:12:25,600 --> 00:12:30,320
+k that we started
+
+302
+00:12:27,240 --> 00:12:33,200
+at. Now this um shrinkage is encouraged
+
+303
+00:12:30,320 --> 00:12:36,880
+by the gamma prior and it also makes our
+
+304
+00:12:33,200 --> 00:12:40,480
+um final weights quite sparse. So um in
+
+305
+00:12:36,880 --> 00:12:43,120
+an actual clustering run you would see a
+
+306
+00:12:40,480 --> 00:12:46,399
+lot of zeros or very very small weights
+
+307
+00:12:43,120 --> 00:12:48,560
+in the final um matrices that you get.
+
+308
+00:12:46,399 --> 00:12:50,880
+And so this makes interpretation much
+
+309
+00:12:48,560 --> 00:12:53,680
+easier because you don't have to look at
+
+310
+00:12:50,880 --> 00:12:55,360
+um weights uh you know weights for
+
+311
+00:12:53,680 --> 00:12:58,360
+hundreds of variants and traits for each
+
+312
+00:12:55,360 --> 00:12:58,360
+cluster.
+
+313
+00:12:59,120 --> 00:13:04,560
+So, how do we define the clusters once
+
+314
+00:13:01,760 --> 00:13:08,399
+we get these final um W and H matrices
+
+315
+00:13:04,560 --> 00:13:10,399
+from B&MF? Yep. Oh, sorry, I was muted.
+
+316
+00:13:08,399 --> 00:13:12,880
+Can I ask a quick question? Is there an
+
+317
+00:13:10,399 --> 00:13:14,639
+upper bound on the number of traits you
+
+318
+00:13:12,880 --> 00:13:16,399
+could put in? Because I would imagine
+
+319
+00:13:14,639 --> 00:13:18,320
+with type two diabetes, you have some
+
+320
+00:13:16,399 --> 00:13:20,320
+ideas of where to look, but if you're
+
+321
+00:13:18,320 --> 00:13:22,720
+unsure what's driving your phenotype,
+
+322
+00:13:20,320 --> 00:13:23,839
+you might want to include a lot more GWS
+
+323
+00:13:22,720 --> 00:13:25,360
+traits. And I don't know if there's an
+
+324
+00:13:23,839 --> 00:13:26,800
+upper bound to the number that you could
+
+325
+00:13:25,360 --> 00:13:29,200
+put in.
+
+326
+00:13:26,800 --> 00:13:31,440
+Yeah. Um, okay. So, I have a uh in two
+
+327
+00:13:29,200 --> 00:13:34,240
+slides I'll go over that. Oh, great. I
+
+328
+00:13:31,440 --> 00:13:36,639
+think it's set up. Yes. Uh, maybe three
+
+329
+00:13:34,240 --> 00:13:38,560
+slides, two or three slides. Um, I'll
+
+330
+00:13:36,639 --> 00:13:42,399
+cover that. Um, so I'll hold off on
+
+331
+00:13:38,560 --> 00:13:45,519
+answering till then. Um, okay. So, um,
+
+332
+00:13:42,399 --> 00:13:47,519
+in terms of defining the final clusters,
+
+333
+00:13:45,519 --> 00:13:50,399
+um, one approach would be to consider
+
+334
+00:13:47,519 --> 00:13:52,240
+all snips and weights with a non zero
+
+335
+00:13:50,399 --> 00:13:54,720
+weight or sorry, all snips and traits
+
+336
+00:13:52,240 --> 00:13:56,000
+with a non-zero weight. Um there's
+
+337
+00:13:54,720 --> 00:13:58,399
+nothing wrong with that approach.
+
+338
+00:13:56,000 --> 00:14:00,560
+However, our lab's approach has been to
+
+339
+00:13:58,399 --> 00:14:03,760
+focus more on the components that are
+
+340
+00:14:00,560 --> 00:14:06,959
+most heavily driving each cluster. So to
+
+341
+00:14:03,760 --> 00:14:09,600
+do this, we compute a cluster specific
+
+342
+00:14:06,959 --> 00:14:12,440
+um or sorry, we compute a weight
+
+343
+00:14:09,600 --> 00:14:15,120
+threshold to maximize a signal to noise
+
+344
+00:14:12,440 --> 00:14:17,519
+ratio. So from there, all the snips and
+
+345
+00:14:15,120 --> 00:14:20,480
+traits with weights above that cutoff
+
+346
+00:14:17,519 --> 00:14:22,320
+are assigned to a cluster. Um I've
+
+347
+00:14:20,480 --> 00:14:24,240
+demonstrated that here by highlighting
+
+348
+00:14:22,320 --> 00:14:27,040
+in yellow the variance in traits that
+
+349
+00:14:24,240 --> 00:14:28,600
+are above um the cutoff in each cluster
+
+350
+00:14:27,040 --> 00:14:31,360
+for this
+
+351
+00:14:28,600 --> 00:14:34,720
+example. So then um if we wanted to zoom
+
+352
+00:14:31,360 --> 00:14:37,839
+in on cluster one for example um we
+
+353
+00:14:34,720 --> 00:14:39,680
+would see that uh snips one through four
+
+354
+00:14:37,839 --> 00:14:41,920
+are above the cutoff. So those are
+
+355
+00:14:39,680 --> 00:14:44,880
+included in the cluster. And then we can
+
+356
+00:14:41,920 --> 00:14:46,800
+see right away that um we also have
+
+357
+00:14:44,880 --> 00:14:50,800
+increased BMI and glucose in this
+
+358
+00:14:46,800 --> 00:14:52,560
+cluster and decreased height. So um you
+
+359
+00:14:50,800 --> 00:14:55,120
+can see right away how having these
+
+360
+00:14:52,560 --> 00:14:56,959
+trait loadings makes it super easy to
+
+361
+00:14:55,120 --> 00:14:59,279
+begin interpreting these clusters
+
+362
+00:14:56,959 --> 00:15:00,680
+immediately rather than having to do
+
+363
+00:14:59,279 --> 00:15:04,000
+some post hawk
+
+364
+00:15:00,680 --> 00:15:07,199
+testing. Um and then for anyone uh that
+
+365
+00:15:04,000 --> 00:15:10,000
+ends up reading any of our um papers um
+
+366
+00:15:07,199 --> 00:15:12,240
+you might see uh you'll see these circle
+
+367
+00:15:10,000 --> 00:15:14,320
+plots which are sometimes we get asked
+
+368
+00:15:12,240 --> 00:15:16,800
+about but these are just essentially
+
+369
+00:15:14,320 --> 00:15:19,040
+showing the same information as the bar
+
+370
+00:15:16,800 --> 00:15:22,560
+plots to the left. um just showing the
+
+371
+00:15:19,040 --> 00:15:24,160
+weights um the weights of the variance
+
+372
+00:15:22,560 --> 00:15:26,160
+and traits that are driving each
+
+373
+00:15:24,160 --> 00:15:27,760
+cluster. So, same information that I
+
+374
+00:15:26,160 --> 00:15:30,160
+just described here just in a kind of
+
+375
+00:15:27,760 --> 00:15:30,160
+nicer
+
+376
+00:15:30,839 --> 00:15:37,920
+format. So, um a few more quick notes on
+
+377
+00:15:33,760 --> 00:15:40,079
+BNMF. Um certain inputs and traits might
+
+378
+00:15:37,920 --> 00:15:42,720
+not end up in any cluster which you
+
+379
+00:15:40,079 --> 00:15:44,560
+might have noticed on the last slide. Um
+
+380
+00:15:42,720 --> 00:15:46,720
+so this will depend on several things
+
+381
+00:15:44,560 --> 00:15:49,040
+such as the B&MF pruning or whatever
+
+382
+00:15:46,720 --> 00:15:51,600
+approach you take for the weight cutoff.
+
+383
+00:15:49,040 --> 00:15:54,920
+Um with our method we often see around
+
+384
+00:15:51,600 --> 00:15:57,360
+50% of snips contributing to one or more
+
+385
+00:15:54,920 --> 00:16:00,560
+clusters. And in line with that same
+
+386
+00:15:57,360 --> 00:16:02,720
+idea um one kind of nice benefit of this
+
+387
+00:16:00,560 --> 00:16:05,680
+method is we're not forcing snips into
+
+388
+00:16:02,720 --> 00:16:07,199
+clusters that they don't belong. So say
+
+389
+00:16:05,680 --> 00:16:09,040
+there's a snip associated with your
+
+390
+00:16:07,199 --> 00:16:11,920
+disease that doesn't end up in any of
+
+391
+00:16:09,040 --> 00:16:14,480
+the clusters. um this, you know, maybe
+
+392
+00:16:11,920 --> 00:16:16,079
+is disappointing at first, but um in
+
+393
+00:16:14,480 --> 00:16:18,160
+reality it could be very informative
+
+394
+00:16:16,079 --> 00:16:20,639
+because it tells you that that snip is
+
+395
+00:16:18,160 --> 00:16:23,360
+not acting through a mechanism that's
+
+396
+00:16:20,639 --> 00:16:25,839
+captured by the traits you're using. So
+
+397
+00:16:23,360 --> 00:16:28,800
+looking at this example in um sub panel
+
+398
+00:16:25,839 --> 00:16:30,800
+2, um if we were using a method like K
+
+399
+00:16:28,800 --> 00:16:33,360
+means, we essentially would have had to
+
+400
+00:16:30,800 --> 00:16:36,880
+stretch um some of these clusters to
+
+401
+00:16:33,360 --> 00:16:39,720
+encapsulate these outlier data points.
+
+402
+00:16:36,880 --> 00:16:42,720
+So um not only would we kind of
+
+403
+00:16:39,720 --> 00:16:46,560
+be maybe wrongly classifying these data
+
+404
+00:16:42,720 --> 00:16:48,800
+those data points but we um could be
+
+405
+00:16:46,560 --> 00:16:51,199
+skewing the cluster centroidids which
+
+406
+00:16:48,800 --> 00:16:52,920
+are later used for some other um
+
+407
+00:16:51,199 --> 00:16:55,519
+downstream
+
+408
+00:16:52,920 --> 00:16:57,279
+analyses. And then um lastly it's
+
+409
+00:16:55,519 --> 00:16:59,440
+important to remember that your results
+
+410
+00:16:57,279 --> 00:17:02,560
+will depend on the quality and quantity
+
+411
+00:16:59,440 --> 00:17:04,720
+of your genetic inputs. So the more
+
+412
+00:17:02,560 --> 00:17:06,959
+powerful G-W was that you have means the
+
+413
+00:17:04,720 --> 00:17:08,959
+more snips you have as inputs and also
+
+414
+00:17:06,959 --> 00:17:11,280
+the more reliable your variant trait
+
+415
+00:17:08,959 --> 00:17:12,880
+associations will be. And then
+
+416
+00:17:11,280 --> 00:17:14,720
+additionally the number of traits you
+
+417
+00:17:12,880 --> 00:17:16,720
+input will have a big impact on the
+
+418
+00:17:14,720 --> 00:17:19,039
+number of clusters that you get.
+
+419
+00:17:16,720 --> 00:17:21,280
+However, a big caveat there is that it's
+
+420
+00:17:19,039 --> 00:17:25,799
+not necessarily the number of traits but
+
+421
+00:17:21,280 --> 00:17:25,799
+the number of relevant traits.
+
+422
+00:17:26,079 --> 00:17:33,200
+So um now getting kind of into that uh
+
+423
+00:17:29,520 --> 00:17:35,280
+trait selection question um our our
+
+424
+00:17:33,200 --> 00:17:38,160
+group's approach has been to take a
+
+425
+00:17:35,280 --> 00:17:40,480
+datadriven um approach for deciding on
+
+426
+00:17:38,160 --> 00:17:41,919
+what um traits to include. And this is
+
+427
+00:17:40,480 --> 00:17:44,960
+probably actually the most common
+
+428
+00:17:41,919 --> 00:17:47,360
+question that we get for running um B&MF
+
+429
+00:17:44,960 --> 00:17:48,960
+is how do we go about um deciding on
+
+430
+00:17:47,360 --> 00:17:52,480
+what traits to include in this variant
+
+431
+00:17:48,960 --> 00:17:54,799
+trait matrix. So um there there is no
+
+432
+00:17:52,480 --> 00:17:57,360
+correct answer for for this. Um some
+
+433
+00:17:54,799 --> 00:18:00,000
+people prefer to handp pick traits but
+
+434
+00:17:57,360 --> 00:18:03,919
+our method has been to include as many
+
+435
+00:18:00,000 --> 00:18:06,640
+trait G-W was as feasible. And um the
+
+436
+00:18:03,919 --> 00:18:09,600
+thing to keep in mind there is that that
+
+437
+00:18:06,640 --> 00:18:12,080
+involves um downloading and formatting
+
+438
+00:18:09,600 --> 00:18:13,360
+all these trait G-W was uh which is
+
+439
+00:18:12,080 --> 00:18:16,080
+actually probably the most time
+
+440
+00:18:13,360 --> 00:18:18,400
+consuming part of this entire workflow.
+
+441
+00:18:16,080 --> 00:18:21,200
+Um, and also the more traits that you
+
+442
+00:18:18,400 --> 00:18:24,720
+include in the pipeline, the longer it's
+
+443
+00:18:21,200 --> 00:18:26,480
+going to take to run. Um, so it's just
+
+444
+00:18:24,720 --> 00:18:28,960
+something to keep in mind. It's, you
+
+445
+00:18:26,480 --> 00:18:31,919
+know, a limitation that can be overcome,
+
+446
+00:18:28,960 --> 00:18:34,400
+but it's um, to give you an idea, in our
+
+447
+00:18:31,919 --> 00:18:39,600
+most recent paper, I think we included
+
+448
+00:18:34,400 --> 00:18:42,799
+about 160 traits um, initially and then
+
+449
+00:18:39,600 --> 00:18:46,320
+um, the final clust matrix ended up at
+
+450
+00:18:42,799 --> 00:18:48,400
+around 110 traits. Um and then so uh
+
+451
+00:18:46,320 --> 00:18:50,600
+this slide kind of goes over how we get
+
+452
+00:18:48,400 --> 00:18:53,760
+from that 160 to that
+
+453
+00:18:50,600 --> 00:18:56,720
+110. So once the initial variant trait
+
+454
+00:18:53,760 --> 00:18:59,520
+matrix is formed, we've we have our T2D
+
+455
+00:18:56,720 --> 00:19:02,160
+snips on the Y-axis and we've pulled all
+
+456
+00:18:59,520 --> 00:19:05,039
+the Zcores for these initial traits that
+
+457
+00:19:02,160 --> 00:19:07,360
+are on the X-axis. Um now we start
+
+458
+00:19:05,039 --> 00:19:09,760
+pruning the traits. So the first thing
+
+459
+00:19:07,360 --> 00:19:12,160
+we do is we remove traits that have low
+
+460
+00:19:09,760 --> 00:19:14,720
+sample sizes. Um this sounds like
+
+461
+00:19:12,160 --> 00:19:17,280
+something that could be done prior to
+
+462
+00:19:14,720 --> 00:19:20,400
+running the pipeline. How however often
+
+463
+00:19:17,280 --> 00:19:23,679
+GWA studies will report a maximum N. So
+
+464
+00:19:20,400 --> 00:19:26,880
+um they might say that um they took the
+
+465
+00:19:23,679 --> 00:19:29,039
+uh genetic data for up to 15,000 people.
+
+466
+00:19:26,880 --> 00:19:31,520
+However, once you start um actually
+
+467
+00:19:29,039 --> 00:19:33,679
+pulling um snips and data from the
+
+468
+00:19:31,520 --> 00:19:35,360
+summary statistics file, you might find
+
+469
+00:19:33,679 --> 00:19:36,960
+that a lot of the variants that you're
+
+470
+00:19:35,360 --> 00:19:39,440
+interested in, they actually only
+
+471
+00:19:36,960 --> 00:19:41,679
+measured in a few hundred. Um, and we
+
+472
+00:19:39,440 --> 00:19:44,559
+typically look for a median sample size
+
+473
+00:19:41,679 --> 00:19:47,440
+of at least 10,000. Um, so sometimes we
+
+474
+00:19:44,559 --> 00:19:49,720
+do lose traits due to a lot of the snips
+
+475
+00:19:47,440 --> 00:19:52,720
+um, not having enough sample
+
+476
+00:19:49,720 --> 00:19:54,799
+size. Um, so next we remove traits
+
+477
+00:19:52,720 --> 00:19:57,039
+without at least one bonfrron
+
+478
+00:19:54,799 --> 00:19:58,640
+significant snip. This is probably the
+
+479
+00:19:57,039 --> 00:20:00,480
+most important filter because this is
+
+480
+00:19:58,640 --> 00:20:03,360
+kind of what allows us to throw traits
+
+481
+00:20:00,480 --> 00:20:05,039
+into the pipeline that maybe we suspect
+
+482
+00:20:03,360 --> 00:20:07,520
+are associated with our disease, but we
+
+483
+00:20:05,039 --> 00:20:09,919
+aren't entirely sure. And then if it
+
+484
+00:20:07,520 --> 00:20:12,559
+turns out that none of our T2D snips are
+
+485
+00:20:09,919 --> 00:20:14,559
+associated with that trait, um we simply
+
+486
+00:20:12,559 --> 00:20:17,440
+remove the trait and therefore we're not
+
+487
+00:20:14,559 --> 00:20:18,280
+add any adding any unnecessary noise to
+
+488
+00:20:17,440 --> 00:20:20,640
+the
+
+489
+00:20:18,280 --> 00:20:22,559
+clustering. And then finally, if we have
+
+490
+00:20:20,640 --> 00:20:24,240
+two traits that are highly correlated,
+
+491
+00:20:22,559 --> 00:20:26,240
+we just keep the one with the strongest
+
+492
+00:20:24,240 --> 00:20:28,480
+signal. This is to make sure that the
+
+493
+00:20:26,240 --> 00:20:31,600
+traits are representing um independent
+
+494
+00:20:28,480 --> 00:20:33,760
+signals when the clustering is done. Um,
+
+495
+00:20:31,600 --> 00:20:36,480
+and kind of an a common example for this
+
+496
+00:20:33,760 --> 00:20:39,520
+is we often will include um two versions
+
+497
+00:20:36,480 --> 00:20:41,760
+of a trait, one adjusted for BM BMI and
+
+498
+00:20:39,520 --> 00:20:45,000
+one unadjusted, and then we can let the
+
+499
+00:20:41,760 --> 00:20:48,159
+pipeline figure out which one um to
+
+500
+00:20:45,000 --> 00:20:50,640
+keep. Um so hopefully that answers the
+
+501
+00:20:48,159 --> 00:20:52,440
+question about um kind of picking traits
+
+502
+00:20:50,640 --> 00:20:55,960
+to
+
+503
+00:20:52,440 --> 00:21:00,960
+include. Um now as I mentioned
+
+504
+00:20:55,960 --> 00:21:02,799
+um this whole process can be uh very um
+
+505
+00:21:00,960 --> 00:21:04,720
+there's a lot of steps to it from
+
+506
+00:21:02,799 --> 00:21:07,280
+formatting the G-W was pulling the
+
+507
+00:21:04,720 --> 00:21:09,520
+summary statistics and everything. Um
+
+508
+00:21:07,280 --> 00:21:13,520
+and for the original paper that Dr.
+
+509
+00:21:09,520 --> 00:21:15,440
+Udler published on this topic in 2018
+
+510
+00:21:13,520 --> 00:21:17,679
+um all of this summary statistics
+
+511
+00:21:15,440 --> 00:21:21,039
+wrangling had to be done by hand um
+
+512
+00:21:17,679 --> 00:21:23,840
+which I I can't imagine. Um fortunately
+
+513
+00:21:21,039 --> 00:21:25,840
+uh right before I joined the lab in 2021
+
+514
+00:21:23,840 --> 00:21:27,760
+a few members of our team created this
+
+515
+00:21:25,840 --> 00:21:30,799
+high throughput R pipeline which
+
+516
+00:21:27,760 --> 00:21:32,799
+automates almost the entire process. Um
+
+517
+00:21:30,799 --> 00:21:35,679
+essentially the only requirement from
+
+518
+00:21:32,799 --> 00:21:38,960
+the user is a list of file paths for the
+
+519
+00:21:35,679 --> 00:21:41,520
+input G-W was. Um so at this point
+
+520
+00:21:38,960 --> 00:21:43,120
+pretty much the main work for someone
+
+521
+00:21:41,520 --> 00:21:45,440
+that wanted to start a new project would
+
+522
+00:21:43,120 --> 00:21:48,080
+be to figure out what traits they want
+
+523
+00:21:45,440 --> 00:21:50,400
+to include. Um, and if we don't have
+
+524
+00:21:48,080 --> 00:21:52,880
+those trait G-W was already available
+
+525
+00:21:50,400 --> 00:21:55,520
+somewhere on our server, um, they would
+
+526
+00:21:52,880 --> 00:21:57,360
+have to download and, um, do some
+
+527
+00:21:55,520 --> 00:22:00,720
+formatting to the summary statistics
+
+528
+00:21:57,360 --> 00:22:02,720
+files. Um, and then they input those
+
+529
+00:22:00,720 --> 00:22:04,600
+paths to the pipeline and pretty much
+
+530
+00:22:02,720 --> 00:22:07,280
+everything else runs on its
+
+531
+00:22:04,600 --> 00:22:09,840
+own. So this means that we can now apply
+
+532
+00:22:07,280 --> 00:22:12,559
+our method very efficiently to any
+
+533
+00:22:09,840 --> 00:22:14,480
+complex disease of interest. Um, as you
+
+534
+00:22:12,559 --> 00:22:16,400
+can see in this list, we've already
+
+535
+00:22:14,480 --> 00:22:18,480
+published several papers on diseases and
+
+536
+00:22:16,400 --> 00:22:21,840
+traits outside of type two diabetes, and
+
+537
+00:22:18,480 --> 00:22:21,840
+we have several more in the
+
+538
+00:22:22,840 --> 00:22:29,840
+works. All right. So, um, I'll now get
+
+539
+00:22:25,360 --> 00:22:29,840
+into applications of the genetic
+
+540
+00:22:30,440 --> 00:22:34,880
+clusters. So, probably the most useful
+
+541
+00:22:33,200 --> 00:22:37,360
+downstream analysis we can do with these
+
+542
+00:22:34,880 --> 00:22:39,200
+clusters is generating cluster specific
+
+543
+00:22:37,360 --> 00:22:42,080
+partition polygenic risk scores or
+
+544
+00:22:39,200 --> 00:22:43,840
+cluster PPS. The steps for doing this
+
+545
+00:22:42,080 --> 00:22:45,919
+are very similar to what would be done
+
+546
+00:22:43,840 --> 00:22:49,520
+for a full disease risk score such as
+
+547
+00:22:45,919 --> 00:22:51,440
+the a T2D PRS. As we discussed earlier,
+
+548
+00:22:49,520 --> 00:22:53,280
+we start by defining each cluster's
+
+549
+00:22:51,440 --> 00:22:56,400
+variant set shown here with the blue
+
+550
+00:22:53,280 --> 00:22:59,039
+bars for cluster one. So this includes
+
+551
+00:22:56,400 --> 00:23:01,240
+any snip that was above the weight cut
+
+552
+00:22:59,039 --> 00:23:03,679
+off um for that
+
+553
+00:23:01,240 --> 00:23:05,760
+cluster for a given patient. We then
+
+554
+00:23:03,679 --> 00:23:07,919
+pull their genotype dosages at those
+
+555
+00:23:05,760 --> 00:23:10,159
+snips. uh these are shown in the blue
+
+556
+00:23:07,919 --> 00:23:12,240
+circles and so these will be either a
+
+557
+00:23:10,159 --> 00:23:14,440
+zero, one or two depending how many
+
+558
+00:23:12,240 --> 00:23:17,360
+alals that patient has for the given
+
+559
+00:23:14,440 --> 00:23:20,400
+snip. We then compute the dot product to
+
+560
+00:23:17,360 --> 00:23:22,960
+get a partition PS for the cluster. This
+
+561
+00:23:20,400 --> 00:23:25,240
+is repeated for each cluster to build a
+
+562
+00:23:22,960 --> 00:23:27,840
+PPS profile for that
+
+563
+00:23:25,240 --> 00:23:29,919
+patient. We can then determine each
+
+564
+00:23:27,840 --> 00:23:33,440
+patient's dominant genetic pathways and
+
+565
+00:23:29,919 --> 00:23:35,200
+compare PPS profiles across patients. So
+
+566
+00:23:33,440 --> 00:23:37,919
+as you can see um looking at this
+
+567
+00:23:35,200 --> 00:23:40,159
+example of patient one we can see that
+
+568
+00:23:37,919 --> 00:23:43,360
+much more of their T2D risk is coming
+
+569
+00:23:40,159 --> 00:23:47,760
+from cluster one than from cluster 12.
+
+570
+00:23:43,360 --> 00:23:50,400
+Um and this is tied to the um their alil
+
+571
+00:23:47,760 --> 00:23:52,640
+dosages for the um snips in each of
+
+572
+00:23:50,400 --> 00:23:52,640
+those
+
+573
+00:23:53,720 --> 00:23:59,840
+clusters. Sorry.
+
+574
+00:23:56,360 --> 00:24:03,440
+Um all right. So um once we have a
+
+575
+00:23:59,840 --> 00:24:04,960
+cluster PPS um generated for a cohort we
+
+576
+00:24:03,440 --> 00:24:06,760
+want to see how those clusters are
+
+577
+00:24:04,960 --> 00:24:10,480
+associated with various
+
+578
+00:24:06,760 --> 00:24:12,480
+phenotypes. So clinical data can be or
+
+579
+00:24:10,480 --> 00:24:14,640
+is typically very noisy. So these
+
+580
+00:24:12,480 --> 00:24:16,640
+patterns are often not visible at the
+
+581
+00:24:14,640 --> 00:24:18,960
+individual level or from a simple
+
+582
+00:24:16,640 --> 00:24:21,200
+correlation test. However, once we
+
+583
+00:24:18,960 --> 00:24:23,600
+employ more powerful regression models
+
+584
+00:24:21,200 --> 00:24:25,200
+and account for covariants such as age,
+
+585
+00:24:23,600 --> 00:24:27,919
+sex, and race, we start seeing some
+
+586
+00:24:25,200 --> 00:24:31,360
+really nice signals for these clusters.
+
+587
+00:24:27,919 --> 00:24:33,039
+In cases where we are um testing traits
+
+588
+00:24:31,360 --> 00:24:34,880
+that we used in the clustering, we
+
+589
+00:24:33,039 --> 00:24:38,559
+typically think of these as validation
+
+590
+00:24:34,880 --> 00:24:40,240
+tests as the clusters. So for example um
+
+591
+00:24:38,559 --> 00:24:42,720
+confirm as you can see here in the kind
+
+592
+00:24:40,240 --> 00:24:45,279
+of the top plot um confirming that the
+
+593
+00:24:42,720 --> 00:24:46,919
+obesity cluster has a strong association
+
+594
+00:24:45,279 --> 00:24:49,440
+with
+
+595
+00:24:46,919 --> 00:24:52,000
+BMI. Now when it's a new continuous
+
+596
+00:24:49,440 --> 00:24:53,520
+trait um we consider an exploratory
+
+597
+00:24:52,000 --> 00:24:55,520
+test.
+
+598
+00:24:53,520 --> 00:24:57,679
+Now we can of course also do the same
+
+599
+00:24:55,520 --> 00:24:59,840
+analysis with discrete outcomes such as
+
+600
+00:24:57,679 --> 00:25:03,039
+shown in um figure two. So we can look
+
+601
+00:24:59,840 --> 00:25:06,480
+at how clusters are um cluster PPS are
+
+602
+00:25:03,039 --> 00:25:10,080
+associated with um other diseases such
+
+603
+00:25:06,480 --> 00:25:12,400
+as CAD or CKD. Um and in the same manner
+
+604
+00:25:10,080 --> 00:25:14,240
+we can account for things such as um
+
+605
+00:25:12,400 --> 00:25:16,640
+age, sex, and race so that we're only
+
+606
+00:25:14,240 --> 00:25:18,799
+looking at the effect of the cluster on
+
+607
+00:25:16,640 --> 00:25:20,320
+that outcome.
+
+608
+00:25:18,799 --> 00:25:22,159
+Um, and then while I won't go into
+
+609
+00:25:20,320 --> 00:25:24,559
+detail on this today, I wanted to note
+
+610
+00:25:22,159 --> 00:25:27,600
+that we're also able to generate cluster
+
+611
+00:25:24,559 --> 00:25:29,520
+PPS at the G-W was level. Um, and this
+
+612
+00:25:27,600 --> 00:25:31,440
+is a really can be a really helpful
+
+613
+00:25:29,520 --> 00:25:33,919
+analysis because that means we can run
+
+614
+00:25:31,440 --> 00:25:36,799
+this for traits that aren't available at
+
+615
+00:25:33,919 --> 00:25:39,440
+the indivi individual level or perhaps
+
+616
+00:25:36,799 --> 00:25:41,919
+if um we want to take advantage of a
+
+617
+00:25:39,440 --> 00:25:45,120
+larger sample size that a G-W was might
+
+618
+00:25:41,919 --> 00:25:48,440
+have over um an individual level cohort
+
+619
+00:25:45,120 --> 00:25:48,440
+data set.
+
+620
+00:25:49,279 --> 00:25:54,080
+So it's also of interest to determine um
+
+621
+00:25:51,840 --> 00:25:58,240
+which tissues and cell types of clusters
+
+622
+00:25:54,080 --> 00:26:00,640
+are active in. To do this um in our uh
+
+623
+00:25:58,240 --> 00:26:02,799
+recent paper published in 2024, we
+
+624
+00:26:00,640 --> 00:26:05,520
+created credible sets for the variants
+
+625
+00:26:02,799 --> 00:26:07,360
+in our clusters and we then over
+
+626
+00:26:05,520 --> 00:26:09,840
+overlapped the credible set variants
+
+627
+00:26:07,360 --> 00:26:12,640
+with cell type and tissue type genomic
+
+628
+00:26:09,840 --> 00:26:15,440
+annotations. Um this was done in these
+
+629
+00:26:12,640 --> 00:26:18,320
+uh two epigenomic data sets catlas and
+
+630
+00:26:15,440 --> 00:26:21,000
+road map. And then finally we used uh
+
+631
+00:26:18,320 --> 00:26:23,200
+permutation testing to determine the
+
+632
+00:26:21,000 --> 00:26:26,400
+cumulative post posterior probability
+
+633
+00:26:23,200 --> 00:26:30,159
+for each annotation. Um the the results
+
+634
+00:26:26,400 --> 00:26:32,720
+you see on the right um show the
+
+635
+00:26:30,159 --> 00:26:35,120
+significant um tissues and cell types
+
+636
+00:26:32,720 --> 00:26:37,039
+for each cluster. And um we saw some
+
+637
+00:26:35,120 --> 00:26:39,440
+really cool results here that supported
+
+638
+00:26:37,039 --> 00:26:41,520
+our interpretation of these clusters
+
+639
+00:26:39,440 --> 00:26:43,720
+such as the beta cell clusters being
+
+640
+00:26:41,520 --> 00:26:46,400
+enriched for pancreatic eyelet
+
+641
+00:26:43,720 --> 00:26:48,039
+annotations and the liver lipid cluster
+
+642
+00:26:46,400 --> 00:26:50,559
+for hpatoblast
+
+643
+00:26:48,039 --> 00:26:52,559
+annotations. So um this is kind of
+
+644
+00:26:50,559 --> 00:26:54,480
+confirming that these genetic clusters
+
+645
+00:26:52,559 --> 00:26:56,960
+are capturing variants with distinct
+
+646
+00:26:54,480 --> 00:26:59,960
+effects in specific tissue and cell
+
+647
+00:26:56,960 --> 00:26:59,960
+types.
+
+648
+00:27:00,880 --> 00:27:05,120
+Now, in addition to studying how the
+
+649
+00:27:02,559 --> 00:27:07,559
+clusters behave across tissues, we can
+
+650
+00:27:05,120 --> 00:27:10,080
+also look at how they differ across
+
+651
+00:27:07,559 --> 00:27:13,279
+populations. Um, in these figures from
+
+652
+00:27:10,080 --> 00:27:16,080
+our 2024 paper on the left, we see the
+
+653
+00:27:13,279 --> 00:27:19,760
+proportion of total T2T risk coming from
+
+654
+00:27:16,080 --> 00:27:22,400
+each cluster broken down by population.
+
+655
+00:27:19,760 --> 00:27:24,559
+For example, um we see in East Asians in
+
+656
+00:27:22,400 --> 00:27:26,880
+blue, the two lipidrophy clusters
+
+657
+00:27:24,559 --> 00:27:30,520
+account for a notably large larger
+
+658
+00:27:26,880 --> 00:27:33,279
+fraction of total PPS than Europeans or
+
+659
+00:27:30,520 --> 00:27:35,440
+Africans. Um now just a quick note,
+
+660
+00:27:33,279 --> 00:27:38,080
+you'll you'll notice that um for each of
+
+661
+00:27:35,440 --> 00:27:42,720
+these clusters, the kind of maximum
+
+662
+00:27:38,080 --> 00:27:46,159
+value is um very different um across
+
+663
+00:27:42,720 --> 00:27:49,799
+each cluster. And that's based off of
+
+664
+00:27:46,159 --> 00:27:53,360
+the total um sum of weights for each
+
+665
+00:27:49,799 --> 00:27:55,120
+cluster. And so for this analysis um I
+
+666
+00:27:53,360 --> 00:27:58,399
+would it's important to note that we're
+
+667
+00:27:55,120 --> 00:28:01,360
+not comparing um risk across clusters so
+
+668
+00:27:58,399 --> 00:28:04,080
+much as we are looking at um populations
+
+669
+00:28:01,360 --> 00:28:06,559
+within a cluster. if if you wanted to
+
+670
+00:28:04,080 --> 00:28:08,960
+somehow try to look at um the risk
+
+671
+00:28:06,559 --> 00:28:11,200
+coming from each cluster, you would have
+
+672
+00:28:08,960 --> 00:28:14,159
+to probably normalize
+
+673
+00:28:11,200 --> 00:28:16,240
+um normalize the weights or the the PPS
+
+674
+00:28:14,159 --> 00:28:19,200
+across clusters before doing that type
+
+675
+00:28:16,240 --> 00:28:21,679
+of analysis. So um kind of the takeaway
+
+676
+00:28:19,200 --> 00:28:24,320
+here is that we're looking at population
+
+677
+00:28:21,679 --> 00:28:26,159
+differences within a cluster.
+
+678
+00:28:24,320 --> 00:28:29,760
+So um kind of going back to this
+
+679
+00:28:26,159 --> 00:28:33,080
+difference that we see in um in the East
+
+680
+00:28:29,760 --> 00:28:37,360
+Asian population in the lipid clusters.
+
+681
+00:28:33,080 --> 00:28:40,159
+Um we um in figure two we modeled T2D
+
+682
+00:28:37,360 --> 00:28:42,320
+risk versus BMI um and plotted these as
+
+683
+00:28:40,159 --> 00:28:45,520
+curves for each ancestry group and we
+
+684
+00:28:42,320 --> 00:28:47,279
+adjusted for age, sex and PCs. So you
+
+685
+00:28:45,520 --> 00:28:51,200
+can see that the Europeans in orange
+
+686
+00:28:47,279 --> 00:28:54,000
+have a TTD risk of about um 9% at a BMI
+
+687
+00:28:51,200 --> 00:28:56,960
+of 30, which is kind of the standard um
+
+688
+00:28:54,000 --> 00:29:00,840
+threshold for obesity, while East Asians
+
+689
+00:28:56,960 --> 00:29:04,240
+have the same risk at a BMI of only
+
+690
+00:29:00,840 --> 00:29:06,880
+24. Next, we adjusted these models for
+
+691
+00:29:04,240 --> 00:29:08,880
+the lipid 1 and 2 PPS and we saw that
+
+692
+00:29:06,880 --> 00:29:11,039
+this difference in risk decreased by
+
+693
+00:29:08,880 --> 00:29:13,440
+about 67%.
+
+694
+00:29:11,039 --> 00:29:15,520
+So um this is essentially quantif
+
+695
+00:29:13,440 --> 00:29:17,960
+quantifying how the genetic differences
+
+696
+00:29:15,520 --> 00:29:20,480
+in this these atapost dysfunction
+
+697
+00:29:17,960 --> 00:29:23,279
+pathways um are explaining part of the
+
+698
+00:29:20,480 --> 00:29:25,919
+well-known lower BMI threshold for T2D
+
+699
+00:29:23,279 --> 00:29:27,440
+in East Asians. Um, so this was actually
+
+700
+00:29:25,919 --> 00:29:31,000
+probably the coolest result from our
+
+701
+00:29:27,440 --> 00:29:34,559
+2024 paper. Um, since this
+
+702
+00:29:31,000 --> 00:29:36,799
+um this tendency for East Asians to
+
+703
+00:29:34,559 --> 00:29:39,039
+develop TTD at lower BMI has kind of is
+
+704
+00:29:36,799 --> 00:29:40,679
+a well-known phenomena, but it hasn't
+
+705
+00:29:39,039 --> 00:29:44,480
+been
+
+706
+00:29:40,679 --> 00:29:46,880
+um uh studied to a large degree or
+
+707
+00:29:44,480 --> 00:29:49,200
+figured out. So um the fact that these
+
+708
+00:29:46,880 --> 00:29:53,640
+clusters are capturing this difference
+
+709
+00:29:49,200 --> 00:29:53,640
+um was a really interesting finding.
+
+710
+00:29:54,640 --> 00:30:00,000
+Um finally I wanted to highlight some um
+
+711
+00:29:57,120 --> 00:30:02,880
+really exciting work from Dr. Molina um
+
+712
+00:30:00,000 --> 00:30:05,760
+Clausnisser's lab. Um so from
+
+713
+00:30:02,880 --> 00:30:08,720
+subcutaneous and visceral fat biopsies
+
+714
+00:30:05,760 --> 00:30:10,399
+um Dr. Clauser's team derived meenymal
+
+715
+00:30:08,720 --> 00:30:13,279
+stem cells. The cells were
+
+716
+00:30:10,399 --> 00:30:15,520
+differentiated over 14 days into mature
+
+717
+00:30:13,279 --> 00:30:20,000
+adiposytes with imaging and molecular
+
+718
+00:30:15,520 --> 00:30:22,679
+profiling at days 03 8 and 14.
+
+719
+00:30:20,000 --> 00:30:25,120
+Now um when they stratified by total
+
+720
+00:30:22,679 --> 00:30:28,440
+T2DPRS there was really no difference in
+
+721
+00:30:25,120 --> 00:30:31,760
+lipid accumulation or mitochondrial
+
+722
+00:30:28,440 --> 00:30:34,720
+markers. However once they stratified by
+
+723
+00:30:31,760 --> 00:30:38,919
+high versus low lipidary PPS there was a
+
+724
+00:30:34,720 --> 00:30:42,000
+huge signal in the subcutaneous day 14
+
+725
+00:30:38,919 --> 00:30:44,720
+adiposytes. This included differences in
+
+726
+00:30:42,000 --> 00:30:47,120
+um lipid droplet size and mitochondria
+
+727
+00:30:44,720 --> 00:30:49,360
+activity. Um so this analysis was really
+
+728
+00:30:47,120 --> 00:30:52,000
+cool in that it demonstrated how these
+
+729
+00:30:49,360 --> 00:30:56,240
+genetic clusters are actually capturing
+
+730
+00:30:52,000 --> 00:30:56,240
+um functional differences in cellular
+
+731
+00:30:56,600 --> 00:31:01,600
+biology. Um now before wrapping up I
+
+732
+00:30:59,679 --> 00:31:04,240
+wanted to mention that these genetic
+
+733
+00:31:01,600 --> 00:31:06,480
+clusters are constantly evolving as G-W
+
+734
+00:31:04,240 --> 00:31:09,360
+was and computational methods become
+
+735
+00:31:06,480 --> 00:31:12,120
+more powerful. Um as I mentioned earlier
+
+736
+00:31:09,360 --> 00:31:14,799
+Dr. Uler first published this work in
+
+737
+00:31:12,120 --> 00:31:17,200
+2018 and then the development of our
+
+738
+00:31:14,799 --> 00:31:20,240
+high throughput pipeline allowed us to
+
+739
+00:31:17,200 --> 00:31:21,880
+um expand that analysis in 22. So that
+
+740
+00:31:20,240 --> 00:31:24,880
+included
+
+741
+00:31:21,880 --> 00:31:27,200
+um increasing our number of snips by
+
+742
+00:31:24,880 --> 00:31:30,320
+over threefold in addition to adding
+
+743
+00:31:27,200 --> 00:31:32,880
+more traits and then uh more recently in
+
+744
+00:31:30,320 --> 00:31:36,000
+2024 we published a new set of clusters
+
+745
+00:31:32,880 --> 00:31:37,240
+that expanded from Europeanon uh G-W was
+
+746
+00:31:36,000 --> 00:31:39,760
+to
+
+747
+00:31:37,240 --> 00:31:42,080
+multi-anccestry. So, in addition to G-W
+
+748
+00:31:39,760 --> 00:31:44,320
+was becoming more powerful and diverse,
+
+749
+00:31:42,080 --> 00:31:47,679
+we're also constantly working on ways to
+
+750
+00:31:44,320 --> 00:31:49,120
+improve our BMF pipeline. Um, and I just
+
+751
+00:31:47,679 --> 00:31:51,440
+wanted to kind of mention this because
+
+752
+00:31:49,120 --> 00:31:53,919
+it goes to show that, um, even if
+
+753
+00:31:51,440 --> 00:31:55,519
+genetic clustering has been done on a
+
+754
+00:31:53,919 --> 00:31:57,600
+disease or phenotype that you're
+
+755
+00:31:55,519 --> 00:32:00,799
+interested in, uh, there's almost always
+
+756
+00:31:57,600 --> 00:32:02,880
+room for improvement.
+
+757
+00:32:00,799 --> 00:32:05,120
+Um, and kind of in line with that, for
+
+758
+00:32:02,880 --> 00:32:07,120
+anyone that's interested in applying our
+
+759
+00:32:05,120 --> 00:32:09,760
+workflow to their own research, um, we
+
+760
+00:32:07,120 --> 00:32:11,679
+do have a GitHub page, um, that, as I
+
+761
+00:32:09,760 --> 00:32:13,760
+mentioned, we we are constantly trying
+
+762
+00:32:11,679 --> 00:32:16,480
+to, um, update it and make improvements
+
+763
+00:32:13,760 --> 00:32:18,320
+to our workflow. Um, so you're welcome
+
+764
+00:32:16,480 --> 00:32:21,200
+to check this out and try running the
+
+765
+00:32:18,320 --> 00:32:23,519
+clustering yourself. Or if that seems a
+
+766
+00:32:21,200 --> 00:32:26,080
+bit um, overwhelming to you, um, feel
+
+767
+00:32:23,519 --> 00:32:27,760
+free to reach out to Miriam um, if you
+
+768
+00:32:26,080 --> 00:32:30,320
+have any ideas for a collaboration
+
+769
+00:32:27,760 --> 00:32:32,880
+project.
+
+770
+00:32:30,320 --> 00:32:36,640
+Um and then I lastly I wanted to touch
+
+771
+00:32:32,880 --> 00:32:39,039
+on the limitations. Um I I know I've
+
+772
+00:32:36,640 --> 00:32:40,799
+kind of painted this uh approach as some
+
+773
+00:32:39,039 --> 00:32:42,880
+magic clustering tool today that's
+
+774
+00:32:40,799 --> 00:32:45,480
+perfect but as with any clustering
+
+775
+00:32:42,880 --> 00:32:49,200
+method there are um some limitations
+
+776
+00:32:45,480 --> 00:32:51,440
+involved. Um so number one uh the trait
+
+777
+00:32:49,200 --> 00:32:53,840
+inclusion um as I touched on this a bit
+
+778
+00:32:51,440 --> 00:32:55,519
+earlier but um we're still at this stage
+
+779
+00:32:53,840 --> 00:32:57,600
+where we have to manually download and
+
+780
+00:32:55,519 --> 00:33:01,039
+format each trait G-W was before we can
+
+781
+00:32:57,600 --> 00:33:03,919
+include it in the pipeline. Um so this
+
+782
+00:33:01,039 --> 00:33:05,200
+is actually um again as I mentioned
+
+783
+00:33:03,919 --> 00:33:08,399
+probably the most timeconuming part of
+
+784
+00:33:05,200 --> 00:33:10,559
+the workflow. Um for example the UK biio
+
+785
+00:33:08,399 --> 00:33:12,159
+bank has several thousand brain imaging
+
+786
+00:33:10,559 --> 00:33:13,279
+related traits and it would be great if
+
+787
+00:33:12,159 --> 00:33:15,679
+we could throw them all into the
+
+788
+00:33:13,279 --> 00:33:18,880
+pipeline for our Alzheimer's project and
+
+789
+00:33:15,679 --> 00:33:20,880
+see what sticks but the data processing
+
+790
+00:33:18,880 --> 00:33:22,880
+um is a lot of work and the more traits
+
+791
+00:33:20,880 --> 00:33:26,480
+you include the pipeline can also take
+
+792
+00:33:22,880 --> 00:33:30,000
+expens exponentially longer to run. Um
+
+793
+00:33:26,480 --> 00:33:32,120
+and then another one also kind of uh
+
+794
+00:33:30,000 --> 00:33:34,399
+related to the trait inclusion is data
+
+795
+00:33:32,120 --> 00:33:36,559
+availability. Um I think this mostly
+
+796
+00:33:34,399 --> 00:33:39,919
+applies to projects focused on
+
+797
+00:33:36,559 --> 00:33:41,760
+non-European populations. Um while the
+
+798
+00:33:39,919 --> 00:33:44,000
+population you're interested in might
+
+799
+00:33:41,760 --> 00:33:46,159
+have a powerful enough G-W was for the
+
+800
+00:33:44,000 --> 00:33:48,240
+main disease you want to study. If there
+
+801
+00:33:46,159 --> 00:33:50,720
+aren't enough trait G-W was for that
+
+802
+00:33:48,240 --> 00:33:53,600
+population then you might be a bit
+
+803
+00:33:50,720 --> 00:33:56,480
+stuck. Um, you can always fall back to
+
+804
+00:33:53,600 --> 00:33:58,679
+using multi- ancestry G-W was, but this
+
+805
+00:33:56,480 --> 00:34:01,120
+is just kind of a limitation to
+
+806
+00:33:58,679 --> 00:34:02,799
+consider. And then finally, something
+
+807
+00:34:01,120 --> 00:34:04,720
+that we're looking into a bit more now
+
+808
+00:34:02,799 --> 00:34:07,440
+is tuning the hyperparameters of the
+
+809
+00:34:04,720 --> 00:34:09,679
+BNMF algorithm. Um, there are things you
+
+810
+00:34:07,440 --> 00:34:12,240
+can adjust such as the tolerance
+
+811
+00:34:09,679 --> 00:34:13,839
+threshold or the gamma prior that will
+
+812
+00:34:12,240 --> 00:34:16,560
+affect the clusters that you end up
+
+813
+00:34:13,839 --> 00:34:18,480
+getting. Um so I think for future papers
+
+814
+00:34:16,560 --> 00:34:20,720
+it might be important to do some type of
+
+815
+00:34:18,480 --> 00:34:22,119
+hyper um some type of sensitivity
+
+816
+00:34:20,720 --> 00:34:24,159
+analysis on these
+
+817
+00:34:22,119 --> 00:34:25,919
+hyperparameters and I think this could
+
+818
+00:34:24,159 --> 00:34:28,800
+actually be a really useful analysis
+
+819
+00:34:25,919 --> 00:34:31,679
+because it might help us um identify the
+
+820
+00:34:28,800 --> 00:34:31,679
+most robust
+
+821
+00:34:31,800 --> 00:34:38,800
+clusters. So um in conclusion um complex
+
+822
+00:34:35,599 --> 00:34:41,679
+genetics diseases lead to heterogeneous
+
+823
+00:34:38,800 --> 00:34:43,679
+heterogeneous phenotypes. Um soft
+
+824
+00:34:41,679 --> 00:34:46,320
+clustering of genetic lossi by
+
+825
+00:34:43,679 --> 00:34:48,760
+associated traits using BNMF is a unique
+
+826
+00:34:46,320 --> 00:34:51,119
+approach for untangling this
+
+827
+00:34:48,760 --> 00:34:53,200
+heterogeneity. And then variant trait
+
+828
+00:34:51,119 --> 00:34:55,520
+groupings provide mechanistic pathway
+
+829
+00:34:53,200 --> 00:34:57,920
+insights while cluster PPS are useful
+
+830
+00:34:55,520 --> 00:35:01,119
+for patient stratification.
+
+831
+00:34:57,920 --> 00:35:02,960
+And um kind of takeaway for anyone um
+
+832
+00:35:01,119 --> 00:35:06,240
+interested in applying this to other
+
+833
+00:35:02,960 --> 00:35:08,880
+diseases is that this method is very um
+
+834
+00:35:06,240 --> 00:35:10,720
+uh flexible and you we can apply to
+
+835
+00:35:08,880 --> 00:35:13,720
+essentially any complex genetic disease
+
+836
+00:35:10,720 --> 00:35:16,079
+as long as the data is
+
+837
+00:35:13,720 --> 00:35:19,839
+available. And lastly, I just want to
+
+838
+00:35:16,079 --> 00:35:23,359
+say um thank you to everyone um in my uh
+
+839
+00:35:19,839 --> 00:35:25,119
+lab and in Dr. Uler's group and also to
+
+840
+00:35:23,359 --> 00:35:27,359
+um the many other collaborator
+
+841
+00:35:25,119 --> 00:35:30,480
+collaborators have helped on uh this
+
+842
+00:35:27,359 --> 00:35:30,480
+project over the last few
+
+843
+00:35:32,520 --> 00:35:38,000
+years. Um yeah, and that's it. Let's
+
+844
+00:35:35,440 --> 00:35:38,000
+think Kirk
+
+845
+00:35:39,800 --> 00:35:45,520
+again. And uh next two weeks we'll be in
+
+846
+00:35:43,200 --> 00:35:48,000
+here. So see you soon and please join us
+
+847
+00:35:45,520 --> 00:35:51,560
+across the hall for Steve Parker um also
+
+848
+00:35:48,000 --> 00:35:51,560
+from U of M.
+

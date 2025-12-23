@@ -1,0 +1,3920 @@
+1
+00:00:05,359 --> 00:00:10,719
+Uh it is my pleasure to introduce our
+
+2
+00:00:07,440 --> 00:00:12,800
+next speaker. Uh Daniel Jackson is a
+
+3
+00:00:10,719 --> 00:00:15,440
+professor of electrical engineering and
+
+4
+00:00:12,800 --> 00:00:17,920
+computer science here at MIT and he is
+
+5
+00:00:15,440 --> 00:00:21,600
+also associate director of the computer
+
+6
+00:00:17,920 --> 00:00:23,920
+science and AI lab or CESAL. Uh and uh
+
+7
+00:00:21,600 --> 00:00:26,720
+Daniel is going to talk to you about the
+
+8
+00:00:23,920 --> 00:00:29,199
+synergy of AI and modular design. So
+
+9
+00:00:26,720 --> 00:00:30,720
+let's hear it for Daniel.
+
+10
+00:00:29,199 --> 00:00:33,680
+Thank you so much, Jim. It's such a
+
+11
+00:00:30,720 --> 00:00:34,880
+pleasure to be with you all today, but I
+
+12
+00:00:33,680 --> 00:00:36,640
+have to start off with a bit of a
+
+13
+00:00:34,880 --> 00:00:39,840
+disclosure. I'm afraid I have some bad
+
+14
+00:00:36,640 --> 00:00:41,840
+news for you. The bad news is you come
+
+15
+00:00:39,840 --> 00:00:43,600
+to MIT, you know, to hear from the cool
+
+16
+00:00:41,840 --> 00:00:46,239
+kids. Well, I'm not one of the cool
+
+17
+00:00:43,600 --> 00:00:48,559
+kids. Uh I basically have spent my
+
+18
+00:00:46,239 --> 00:00:51,039
+entire career thinking about questions
+
+19
+00:00:48,559 --> 00:00:52,719
+of software design and modularity, which
+
+20
+00:00:51,039 --> 00:00:55,440
+I think roughly speaking, it's fair to
+
+21
+00:00:52,719 --> 00:00:57,840
+say have become less and less popular uh
+
+22
+00:00:55,440 --> 00:00:59,600
+over the years. And when this whole AI
+
+23
+00:00:57,840 --> 00:01:03,440
+thing happened, you know, you know, with
+
+24
+00:00:59,600 --> 00:01:05,360
+the emergence of chat GPT in 2022, I
+
+25
+00:01:03,440 --> 00:01:08,400
+have to admit that I thought thought to
+
+26
+00:01:05,360 --> 00:01:10,479
+myself, okay, now now this is totally a
+
+27
+00:01:08,400 --> 00:01:12,320
+niche market. You know, now I'm really
+
+28
+00:01:10,479 --> 00:01:14,240
+on my own, but never mind. We'll survive
+
+29
+00:01:12,320 --> 00:01:17,200
+in this world. But, you know, I've come
+
+30
+00:01:14,240 --> 00:01:18,799
+to think that actually LLMs might have
+
+31
+00:01:17,200 --> 00:01:21,200
+the opposite effect for my field. And
+
+32
+00:01:18,799 --> 00:01:23,439
+then it might turn out that software
+
+33
+00:01:21,200 --> 00:01:25,119
+design and modularity matter more than
+
+34
+00:01:23,439 --> 00:01:26,479
+ever before and that we might actually
+
+35
+00:01:25,119 --> 00:01:27,520
+see a little bit of a renaissance. And I
+
+36
+00:01:26,479 --> 00:01:30,240
+want to tell you a little bit of that
+
+37
+00:01:27,520 --> 00:01:32,079
+story. So let me start by um addressing
+
+38
+00:01:30,240 --> 00:01:33,759
+you know the obvious question which
+
+39
+00:01:32,079 --> 00:01:36,640
+you've heard about no doubt from many
+
+40
+00:01:33,759 --> 00:01:39,360
+other people more knowledgeable than me.
+
+41
+00:01:36,640 --> 00:01:41,119
+Uh how good are LLMs at coding? So on
+
+42
+00:01:39,360 --> 00:01:43,439
+the face of it the answer is
+
+43
+00:01:41,119 --> 00:01:44,799
+extraordinary right partly because of
+
+44
+00:01:43,439 --> 00:01:47,200
+you know the phenomenon of the dancing
+
+45
+00:01:44,799 --> 00:01:48,799
+dog. The fact that it can be done at all
+
+46
+00:01:47,200 --> 00:01:51,680
+uh makes it remarkable and we don't
+
+47
+00:01:48,799 --> 00:01:53,360
+always ask how well it can be done. So
+
+48
+00:01:51,680 --> 00:01:57,280
+here are some here are some statistics
+
+49
+00:01:53,360 --> 00:01:59,680
+from the last few years. Um Copilot you
+
+50
+00:01:57,280 --> 00:02:01,600
+know they insidiously like all these
+
+51
+00:01:59,680 --> 00:02:04,920
+tools track you know what their users
+
+52
+00:02:01,600 --> 00:02:08,319
+are doing. Um, and even back in June
+
+53
+00:02:04,920 --> 00:02:10,479
+2023, the Copilot estimated that their
+
+54
+00:02:08,319 --> 00:02:12,879
+users generated almost half of their
+
+55
+00:02:10,479 --> 00:02:15,680
+code uh using Copilot. And I'm sure it's
+
+56
+00:02:12,879 --> 00:02:17,040
+much more now. And as you know, uh, and
+
+57
+00:02:15,680 --> 00:02:18,720
+Armando mentioned some of these, there
+
+58
+00:02:17,040 --> 00:02:20,760
+have been a bunch of benchmarks. One of
+
+59
+00:02:18,720 --> 00:02:23,120
+the most popular benchmarks has been
+
+60
+00:02:20,760 --> 00:02:24,319
+MBPP. Um, and it seems that these are
+
+61
+00:02:23,120 --> 00:02:26,560
+really great. You know, they're
+
+62
+00:02:24,319 --> 00:02:28,160
+basically solving some very high
+
+63
+00:02:26,560 --> 00:02:29,440
+proportion of problems that are
+
+64
+00:02:28,160 --> 00:02:31,840
+programming problems that are presented
+
+65
+00:02:29,440 --> 00:02:34,239
+to them. What people don't focus on is
+
+66
+00:02:31,840 --> 00:02:36,720
+that by and large almost all these
+
+67
+00:02:34,239 --> 00:02:39,440
+benchmark examples work on single
+
+68
+00:02:36,720 --> 00:02:41,599
+functions and they're mostly tiny often
+
+69
+00:02:39,440 --> 00:02:43,760
+50 lines of code or less. And if you ask
+
+70
+00:02:41,599 --> 00:02:45,840
+what about building whole apps, you get
+
+71
+00:02:43,760 --> 00:02:47,120
+a very different story. And you know,
+
+72
+00:02:45,840 --> 00:02:48,480
+here's the typical kind of response
+
+73
+00:02:47,120 --> 00:02:50,720
+you'll get, you know, to someone who
+
+74
+00:02:48,480 --> 00:02:52,560
+asks, you know, on a on an online forum,
+
+75
+00:02:50,720 --> 00:02:54,720
+can you build a whole app with with with
+
+76
+00:02:52,560 --> 00:02:56,879
+GPT? And this person says, if you ask
+
+77
+00:02:54,720 --> 00:02:59,680
+GPT to write whole apps for you, it
+
+78
+00:02:56,879 --> 00:03:01,760
+can't get there. But if you architect
+
+79
+00:02:59,680 --> 00:03:04,000
+the app in your head, you can ask it to
+
+80
+00:03:01,760 --> 00:03:06,000
+build out one function at a time pretty
+
+81
+00:03:04,000 --> 00:03:08,560
+effectively. And in fact uh Thomas
+
+82
+00:03:06,000 --> 00:03:10,400
+Donkey who's the CEO of GitHub has
+
+83
+00:03:08,560 --> 00:03:12,400
+actually sort actually back then sort of
+
+84
+00:03:10,400 --> 00:03:14,560
+formulated this as the future of
+
+85
+00:03:12,400 --> 00:03:16,879
+programming that basically the skills of
+
+86
+00:03:14,560 --> 00:03:18,400
+developer will be to push to the point
+
+87
+00:03:16,879 --> 00:03:20,080
+at which you've reduce things to small
+
+88
+00:03:18,400 --> 00:03:23,599
+enough pieces that you can actually
+
+89
+00:03:20,080 --> 00:03:25,120
+implement it in code uh using an LLM. Um
+
+90
+00:03:23,599 --> 00:03:26,560
+but we could ask a different question
+
+91
+00:03:25,120 --> 00:03:28,879
+and the different question is if we move
+
+92
+00:03:26,560 --> 00:03:30,799
+away from these toy examples that are
+
+93
+00:03:28,879 --> 00:03:32,799
+typically the subject of the benchmarks.
+
+94
+00:03:30,799 --> 00:03:34,879
+What if we look at more real examples
+
+95
+00:03:32,799 --> 00:03:37,280
+and we have some optimism that maybe
+
+96
+00:03:34,879 --> 00:03:39,840
+building real code bases can still be
+
+97
+00:03:37,280 --> 00:03:41,440
+done small fragments at a time. So what
+
+98
+00:03:39,840 --> 00:03:43,519
+about small code fragments in a more
+
+99
+00:03:41,440 --> 00:03:46,480
+realistic context? Well, there's a very
+
+100
+00:03:43,519 --> 00:03:48,560
+nice benchmark called SWEBench
+
+101
+00:03:46,480 --> 00:03:50,080
+um which um which came I believe out of
+
+102
+00:03:48,560 --> 00:03:51,760
+an acade academic group and has been
+
+103
+00:03:50,080 --> 00:03:54,400
+adopted by OpenAI. And what they
+
+104
+00:03:51,760 --> 00:03:56,959
+basically did was they took about 2,300
+
+105
+00:03:54,400 --> 00:03:58,720
+GitHub issues from some popular repos
+
+106
+00:03:56,959 --> 00:04:01,959
+and they posed the question, if we
+
+107
+00:03:58,720 --> 00:04:05,360
+simply present these issues to an
+
+108
+00:04:01,959 --> 00:04:06,879
+LLM, how many of these issues can get
+
+109
+00:04:05,360 --> 00:04:08,159
+resolved? And they've been tracking this
+
+110
+00:04:06,879 --> 00:04:11,200
+number. Obviously, a very interesting
+
+111
+00:04:08,159 --> 00:04:13,200
+question. Um, and this seems to produce
+
+112
+00:04:11,200 --> 00:04:15,439
+some incredibly impressive and
+
+113
+00:04:13,200 --> 00:04:17,680
+encouraging results. Um, by their
+
+114
+00:04:15,439 --> 00:04:21,600
+measure, uh, the best LLMs are now
+
+115
+00:04:17,680 --> 00:04:22,960
+resolving about 65% of issues. However,
+
+116
+00:04:21,600 --> 00:04:25,199
+um maybe the story isn't quite so
+
+117
+00:04:22,960 --> 00:04:28,720
+simple. There was a study done at York
+
+118
+00:04:25,199 --> 00:04:30,800
+University um earlier this year and they
+
+119
+00:04:28,720 --> 00:04:32,400
+looked very carefully at these patches
+
+120
+00:04:30,800 --> 00:04:34,360
+and they found out the following. First
+
+121
+00:04:32,400 --> 00:04:37,040
+of all,
+
+122
+00:04:34,360 --> 00:04:39,120
+33% of these patches that were deemed to
+
+123
+00:04:37,040 --> 00:04:42,960
+have been succeeded were actually
+
+124
+00:04:39,120 --> 00:04:45,440
+patches in which the issue included
+
+125
+00:04:42,960 --> 00:04:47,360
+proposed code that the person filing the
+
+126
+00:04:45,440 --> 00:04:48,880
+issue had included. So all that was
+
+127
+00:04:47,360 --> 00:04:50,520
+necessary was to actually cut and paste
+
+128
+00:04:48,880 --> 00:04:53,680
+the code from the
+
+129
+00:04:50,520 --> 00:04:55,840
+issue. Secondly, about a third of these
+
+130
+00:04:53,680 --> 00:04:57,600
+patches that were deemed correct
+
+131
+00:04:55,840 --> 00:04:59,360
+actually turned out to be wrong. They
+
+132
+00:04:57,600 --> 00:05:00,800
+were deemed correct because of course we
+
+133
+00:04:59,360 --> 00:05:02,080
+have to have means of you know checking
+
+134
+00:05:00,800 --> 00:05:04,639
+correctness. So they ran them against
+
+135
+00:05:02,080 --> 00:05:07,120
+the test cases but as Armando mentioned
+
+136
+00:05:04,639 --> 00:05:09,360
+test cases are often very incomplete.
+
+137
+00:05:07,120 --> 00:05:11,479
+And so in fact these were wrong patches
+
+138
+00:05:09,360 --> 00:05:14,479
+but they were deemed correct.
+
+139
+00:05:11,479 --> 00:05:19,039
+Furthermore, it turns out that most of
+
+140
+00:05:14,479 --> 00:05:22,160
+these issues were there long before the
+
+141
+00:05:19,039 --> 00:05:24,560
+training cutoff for tools like GPT um
+
+142
+00:05:22,160 --> 00:05:26,800
+came around. And as a result, if you
+
+143
+00:05:24,560 --> 00:05:29,919
+take all this into account, the actual
+
+144
+00:05:26,800 --> 00:05:32,360
+resolution rate um for GPT4 in
+
+145
+00:05:29,919 --> 00:05:34,960
+particular falls to less than
+
+146
+00:05:32,360 --> 00:05:36,720
+1%. Uh and it's higher for some other
+
+147
+00:05:34,960 --> 00:05:38,720
+more recent ones, but it it doesn't, I
+
+148
+00:05:36,720 --> 00:05:39,759
+believe, rise above 5%. And I believe
+
+149
+00:05:38,720 --> 00:05:41,199
+you know they're working on this paper
+
+150
+00:05:39,759 --> 00:05:43,280
+and we'll review it but basically this
+
+151
+00:05:41,199 --> 00:05:45,360
+is not nearly as inus as exciting as one
+
+152
+00:05:43,280 --> 00:05:47,840
+might have thought. So in short L&M
+
+153
+00:05:45,360 --> 00:05:50,560
+based coding assistants often suggest
+
+154
+00:05:47,840 --> 00:05:52,320
+code that doesn't work and worse if you
+
+155
+00:05:50,560 --> 00:05:54,800
+accept one of the proposals it will
+
+156
+00:05:52,320 --> 00:05:58,720
+often break functions that already work
+
+157
+00:05:54,800 --> 00:06:01,120
+in attempting to add a new function. So
+
+158
+00:05:58,720 --> 00:06:03,039
+what's modularity got to do with this?
+
+159
+00:06:01,120 --> 00:06:04,560
+So I would say that the obvious solution
+
+160
+00:06:03,039 --> 00:06:06,000
+to this problem is to have properly
+
+161
+00:06:04,560 --> 00:06:08,720
+modular software development. What does
+
+162
+00:06:06,000 --> 00:06:11,280
+that mean? Well, it means that you build
+
+163
+00:06:08,720 --> 00:06:12,479
+your software one solid module at a time
+
+164
+00:06:11,280 --> 00:06:14,960
+like this and then you put these
+
+165
+00:06:12,479 --> 00:06:16,400
+together. Okay? And and and the idea of
+
+166
+00:06:14,960 --> 00:06:18,479
+course is that as you build these
+
+167
+00:06:16,400 --> 00:06:21,600
+modules, the other modules stay the
+
+168
+00:06:18,479 --> 00:06:23,759
+same, preserving the good features and
+
+169
+00:06:21,600 --> 00:06:25,440
+the solidity that those modules brought.
+
+170
+00:06:23,759 --> 00:06:26,720
+So what does modularity actually mean?
+
+171
+00:06:25,440 --> 00:06:29,280
+Well, I would claim that it means
+
+172
+00:06:26,720 --> 00:06:30,800
+actually two slightly different things.
+
+173
+00:06:29,280 --> 00:06:32,319
+So the first is what you might call
+
+174
+00:06:30,800 --> 00:06:35,000
+coherence.
+
+175
+00:06:32,319 --> 00:06:38,000
+And what that means is that a single
+
+176
+00:06:35,000 --> 00:06:40,080
+module doesn't conflate unrelated
+
+177
+00:06:38,000 --> 00:06:42,840
+functions. So to sort of illustrate this
+
+178
+00:06:40,080 --> 00:06:45,039
+graphically, this might be a coherent
+
+179
+00:06:42,840 --> 00:06:46,560
+modularization in which we have a yellow
+
+180
+00:06:45,039 --> 00:06:48,880
+module containing all the yellow
+
+181
+00:06:46,560 --> 00:06:50,960
+function and a green module containing
+
+182
+00:06:48,880 --> 00:06:53,600
+the green function. And this is an
+
+183
+00:06:50,960 --> 00:06:55,319
+incoherent module because it mixes green
+
+184
+00:06:53,600 --> 00:06:57,479
+function and yellow function
+
+185
+00:06:55,319 --> 00:07:00,720
+together. Another requirement of
+
+186
+00:06:57,479 --> 00:07:03,039
+modularity is independence.
+
+187
+00:07:00,720 --> 00:07:04,680
+What independence means is that one
+
+188
+00:07:03,039 --> 00:07:07,280
+module by and large doesn't rely on
+
+189
+00:07:04,680 --> 00:07:09,520
+another. So this would be a case of
+
+190
+00:07:07,280 --> 00:07:11,520
+independence because you can see that
+
+191
+00:07:09,520 --> 00:07:13,240
+the green and yellow modules work by
+
+192
+00:07:11,520 --> 00:07:15,440
+themselves. But this is a case of
+
+193
+00:07:13,240 --> 00:07:18,280
+dependence because there's this rat's
+
+194
+00:07:15,440 --> 00:07:20,720
+nest of relationships between the
+
+195
+00:07:18,280 --> 00:07:22,319
+modules and the green module won't work
+
+196
+00:07:20,720 --> 00:07:24,080
+without the yellow module, the yellow
+
+197
+00:07:22,319 --> 00:07:27,520
+module without the green module and so
+
+198
+00:07:24,080 --> 00:07:29,039
+on. Well, why does this matter? Well,
+
+199
+00:07:27,520 --> 00:07:31,599
+coherence matters because if you have an
+
+200
+00:07:29,039 --> 00:07:33,360
+incoherent uh modularization, then you
+
+201
+00:07:31,599 --> 00:07:34,720
+end up with needless complexity because
+
+202
+00:07:33,360 --> 00:07:36,560
+you haven't teased out the different
+
+203
+00:07:34,720 --> 00:07:38,240
+functions, right? And so you've
+
+204
+00:07:36,560 --> 00:07:39,520
+basically conflated the functions and
+
+205
+00:07:38,240 --> 00:07:40,960
+their purposes. You're not really sure
+
+206
+00:07:39,520 --> 00:07:42,479
+what you're doing. Everything's sort of
+
+207
+00:07:40,960 --> 00:07:45,039
+messed up together. What about
+
+208
+00:07:42,479 --> 00:07:47,360
+dependence violations? Well, there you
+
+209
+00:07:45,039 --> 00:07:48,800
+have a classic failure of localization.
+
+210
+00:07:47,360 --> 00:07:51,919
+And it means that you can't make a
+
+211
+00:07:48,800 --> 00:07:55,919
+change in one module without that change
+
+212
+00:07:51,919 --> 00:07:58,319
+uh propagating to other modules. Um and
+
+213
+00:07:55,919 --> 00:08:00,960
+it means that you can't reason uh one
+
+214
+00:07:58,319 --> 00:08:02,720
+module at a time. Now the interesting
+
+215
+00:08:00,960 --> 00:08:04,160
+thing is we we've known all this. This
+
+216
+00:08:02,720 --> 00:08:05,840
+is not new. You know this is the point
+
+217
+00:08:04,160 --> 00:08:07,280
+at which you're probably thinking snore
+
+218
+00:08:05,840 --> 00:08:09,199
+I've heard all this before. And of
+
+219
+00:08:07,280 --> 00:08:11,520
+course we've been saying this for I
+
+220
+00:08:09,199 --> 00:08:13,680
+don't know 50 75 years maybe even
+
+221
+00:08:11,520 --> 00:08:16,879
+longer. But we tolerated this in
+
+222
+00:08:13,680 --> 00:08:18,400
+software development right? Um and I
+
+223
+00:08:16,879 --> 00:08:19,360
+think the reason we tolerated it was
+
+224
+00:08:18,400 --> 00:08:21,840
+first of all because humans are
+
+225
+00:08:19,360 --> 00:08:24,720
+incredibly resilient. We're able to deal
+
+226
+00:08:21,840 --> 00:08:27,199
+with all the complexity this produces.
+
+227
+00:08:24,720 --> 00:08:29,919
+But it was often the case that we
+
+228
+00:08:27,199 --> 00:08:33,680
+tolerated it because we thought that the
+
+229
+00:08:29,919 --> 00:08:35,279
+costs that these these flaws implied um
+
+230
+00:08:33,680 --> 00:08:37,839
+outweighed the difficulty of actually
+
+231
+00:08:35,279 --> 00:08:40,080
+achieving modularity and we coined fancy
+
+232
+00:08:37,839 --> 00:08:41,760
+terms for this like technical debt uh
+
+233
+00:08:40,080 --> 00:08:44,080
+and implied this was a good thing
+
+234
+00:08:41,760 --> 00:08:45,519
+basically to build crappy systems. Um
+
+235
+00:08:44,080 --> 00:08:47,680
+but of course people realize that
+
+236
+00:08:45,519 --> 00:08:49,279
+there's a very heavy price for that. So
+
+237
+00:08:47,680 --> 00:08:51,040
+let me give you an example. I want to I
+
+238
+00:08:49,279 --> 00:08:54,080
+want to talk concretely about a very
+
+239
+00:08:51,040 --> 00:08:55,920
+simple um a very simple application and
+
+240
+00:08:54,080 --> 00:08:59,040
+some of the modularity issues in there.
+
+241
+00:08:55,920 --> 00:09:01,360
+So this is hacker news. How is it that
+
+242
+00:08:59,040 --> 00:09:02,959
+anybody's able to use hacker news
+
+243
+00:09:01,360 --> 00:09:04,560
+without reading the manual? Well, of
+
+244
+00:09:02,959 --> 00:09:06,080
+course it's because like any other
+
+245
+00:09:04,560 --> 00:09:08,399
+social media app, it has all the
+
+246
+00:09:06,080 --> 00:09:11,680
+familiar ingredients. So it has posts,
+
+247
+00:09:08,399 --> 00:09:13,839
+it has comments, it has sessions, um it
+
+248
+00:09:11,680 --> 00:09:16,000
+has upvoting favorites, and if you click
+
+249
+00:09:13,839 --> 00:09:18,080
+on an user's name, you'll see there's
+
+250
+00:09:16,000 --> 00:09:20,000
+some number of comma points. How do they
+
+251
+00:09:18,080 --> 00:09:21,120
+even dare to use the word karma, right?
+
+252
+00:09:20,000 --> 00:09:22,959
+How's anyone supposed to understand
+
+253
+00:09:21,120 --> 00:09:24,880
+that? Well, the answer is it's a
+
+254
+00:09:22,959 --> 00:09:28,160
+familiar notion from other social media
+
+255
+00:09:24,880 --> 00:09:30,480
+apps basically uh points that are acred
+
+256
+00:09:28,160 --> 00:09:32,240
+uh you know as rewards for good behavior
+
+257
+00:09:30,480 --> 00:09:34,480
+to essentially allow the the
+
+258
+00:09:32,240 --> 00:09:36,560
+well-behaving users uh to do more
+
+259
+00:09:34,480 --> 00:09:38,240
+powerful things. So you might say, well,
+
+260
+00:09:36,560 --> 00:09:39,920
+here's all this massive functionality.
+
+261
+00:09:38,240 --> 00:09:41,519
+What's new here? Of course, what's new
+
+262
+00:09:39,920 --> 00:09:44,160
+here is that although it's fun
+
+263
+00:09:41,519 --> 00:09:46,000
+functionality is very familiar, how it's
+
+264
+00:09:44,160 --> 00:09:47,920
+put together is not necessarily
+
+265
+00:09:46,000 --> 00:09:49,120
+familiar. And this goes by the name of
+
+266
+00:09:47,920 --> 00:09:51,519
+what Margaret Bowden called
+
+267
+00:09:49,120 --> 00:09:53,680
+combinational creativity. Familiar
+
+268
+00:09:51,519 --> 00:09:55,600
+elements combined in new ways. So in the
+
+269
+00:09:53,680 --> 00:09:57,680
+case of hacken news, it's things like
+
+270
+00:09:55,600 --> 00:10:00,800
+this that a post is actually a weird
+
+271
+00:09:57,680 --> 00:10:03,360
+thing. It either just has a title uh and
+
+272
+00:10:00,800 --> 00:10:05,040
+a link or it's a question. It's not a
+
+273
+00:10:03,360 --> 00:10:07,120
+post like in, you know, Facebook or
+
+274
+00:10:05,040 --> 00:10:08,880
+Instagram. You can't comment on a post
+
+275
+00:10:07,120 --> 00:10:10,720
+after two weeks. You can't edit
+
+276
+00:10:08,880 --> 00:10:12,560
+something you've written after 2 hours.
+
+277
+00:10:10,720 --> 00:10:14,160
+You can't downvote a comment until your
+
+278
+00:10:12,560 --> 00:10:18,480
+own post has been upvoted. That's the
+
+279
+00:10:14,160 --> 00:10:22,079
+karma system. and so on. So what happens
+
+280
+00:10:18,480 --> 00:10:24,800
+is these familiar functions are made
+
+281
+00:10:22,079 --> 00:10:26,480
+application specific um by these
+
+282
+00:10:24,800 --> 00:10:28,560
+wrinkles that actually turn out to be
+
+283
+00:10:26,480 --> 00:10:30,720
+the very essence of hacken news that
+
+284
+00:10:28,560 --> 00:10:32,320
+basically make hackenuse what it is. So
+
+285
+00:10:30,720 --> 00:10:34,800
+let's imagine let's we we're all going
+
+286
+00:10:32,320 --> 00:10:36,640
+back to school. We're in programming 101
+
+287
+00:10:34,800 --> 00:10:38,320
+and we've had some enthusiastic lectures
+
+288
+00:10:36,640 --> 00:10:39,680
+about object-oriented programming and
+
+289
+00:10:38,320 --> 00:10:41,440
+now we're going to code this as our
+
+290
+00:10:39,680 --> 00:10:43,360
+first object-oriented program, right? So
+
+291
+00:10:41,440 --> 00:10:44,880
+how do we do it? So here's what we do.
+
+292
+00:10:43,360 --> 00:10:47,279
+We say well obviously the first thing is
+
+293
+00:10:44,880 --> 00:10:49,519
+we have users okay so users have
+
+294
+00:10:47,279 --> 00:10:52,160
+usernames and passwords we have a method
+
+295
+00:10:49,519 --> 00:10:54,880
+to register a user a me um a method to
+
+296
+00:10:52,160 --> 00:10:56,959
+authenticate a user we have posts okay
+
+297
+00:10:54,880 --> 00:10:58,959
+which have an author and a body and a
+
+298
+00:10:56,959 --> 00:11:00,560
+constructor and now the question is
+
+299
+00:10:58,959 --> 00:11:02,320
+let's start adding all our features so
+
+300
+00:11:00,560 --> 00:11:05,200
+what about upvoting well what gets
+
+301
+00:11:02,320 --> 00:11:07,839
+upvoted posts so we'll add to the post
+
+302
+00:11:05,200 --> 00:11:10,000
+class a set of the set of users who
+
+303
+00:11:07,839 --> 00:11:12,000
+upvote or down two sets one for the set
+
+304
+00:11:10,000 --> 00:11:13,680
+of users who upvote the post one for the
+
+305
+00:11:12,000 --> 00:11:16,160
+set of users who downvote the post and
+
+306
+00:11:13,680 --> 00:11:19,120
+we'll add methods to upvote or downvote
+
+307
+00:11:16,160 --> 00:11:20,800
+the post. Okay, what about comma points?
+
+308
+00:11:19,120 --> 00:11:22,640
+Well, comma points clearly belong to
+
+309
+00:11:20,800 --> 00:11:25,120
+users, right? It's users who are
+
+310
+00:11:22,640 --> 00:11:27,920
+rewarded with karma points. Um, so we're
+
+311
+00:11:25,120 --> 00:11:29,519
+going to need to um uh we're going to
+
+312
+00:11:27,920 --> 00:11:31,440
+need to put those in somewhere. So,
+
+313
+00:11:29,519 --> 00:11:34,800
+we'll put them in users. So, here they
+
+314
+00:11:31,440 --> 00:11:36,560
+go. Um, we add to the user class the
+
+315
+00:11:34,800 --> 00:11:38,560
+number of comma points and we add
+
+316
+00:11:36,560 --> 00:11:40,079
+methods to increase a user's comma and
+
+317
+00:11:38,560 --> 00:11:42,560
+to check that a user has some number of
+
+318
+00:11:40,079 --> 00:11:44,160
+comma points. And now notice that what
+
+319
+00:11:42,560 --> 00:11:45,360
+we're going to have to do if we're going
+
+320
+00:11:44,160 --> 00:11:47,680
+to say that you need some number of
+
+321
+00:11:45,360 --> 00:11:49,440
+comma points to downvote a post, we're
+
+322
+00:11:47,680 --> 00:11:52,079
+going to need to put a condition inside
+
+323
+00:11:49,440 --> 00:11:53,440
+the the um downvote method that will
+
+324
+00:11:52,079 --> 00:11:56,000
+actually check that for a particular
+
+325
+00:11:53,440 --> 00:11:57,680
+user. Um okay, all pretty good. And now
+
+326
+00:11:56,000 --> 00:11:59,440
+commenting and we sort of carry on with
+
+327
+00:11:57,680 --> 00:12:01,200
+this game, right? What about comments?
+
+328
+00:11:59,440 --> 00:12:03,680
+Well, we let's treat comments as posts.
+
+329
+00:12:01,200 --> 00:12:05,200
+We can associate the the the comments um
+
+330
+00:12:03,680 --> 00:12:07,040
+with a particular post and we'll have an
+
+331
+00:12:05,200 --> 00:12:09,200
+add comment method. it'll make it very
+
+332
+00:12:07,040 --> 00:12:10,959
+nice to basically add the comments to a
+
+333
+00:12:09,200 --> 00:12:13,160
+post and very easy to collect the the
+
+334
+00:12:10,959 --> 00:12:16,320
+comments associated with a post and so
+
+335
+00:12:13,160 --> 00:12:18,399
+on. But look at where we've got. This is
+
+336
+00:12:16,320 --> 00:12:20,560
+the situation we're in now, right? We're
+
+337
+00:12:18,399 --> 00:12:23,639
+in this uh we're in this basically
+
+338
+00:12:20,560 --> 00:12:27,519
+rainbow coding scenario of total
+
+339
+00:12:23,639 --> 00:12:30,079
+incoherence in which we have classes um
+
+340
+00:12:27,519 --> 00:12:31,440
+that basically conflate all these
+
+341
+00:12:30,079 --> 00:12:33,519
+different functions. And if we list the
+
+342
+00:12:31,440 --> 00:12:35,519
+functions on the right hand side, user
+
+343
+00:12:33,519 --> 00:12:37,360
+authentication, posting, upvoting,
+
+344
+00:12:35,519 --> 00:12:38,639
+commenting, and karma, you'll see that
+
+345
+00:12:37,360 --> 00:12:40,639
+they're completely distributed through
+
+346
+00:12:38,639 --> 00:12:41,959
+these classes. There's no modularity
+
+347
+00:12:40,639 --> 00:12:45,040
+here
+
+348
+00:12:41,959 --> 00:12:46,880
+whatsoever. So we have incoherence in
+
+349
+00:12:45,040 --> 00:12:49,279
+particular, for example, that the post
+
+350
+00:12:46,880 --> 00:12:51,279
+class not only contains posting, but
+
+351
+00:12:49,279 --> 00:12:54,000
+also contains commenting, upvoting, and
+
+352
+00:12:51,279 --> 00:12:55,200
+karma. And the result of that is that a
+
+353
+00:12:54,000 --> 00:12:58,480
+class like this isn't going to be
+
+354
+00:12:55,200 --> 00:13:00,639
+reusable, right? Because you know if you
+
+355
+00:12:58,480 --> 00:13:02,399
+if you want if you wanted for example
+
+356
+00:13:00,639 --> 00:13:04,880
+you know posting without karma you're
+
+357
+00:13:02,399 --> 00:13:07,519
+out of luck right and notice also that
+
+358
+00:13:04,880 --> 00:13:09,920
+we have dependencies in particular that
+
+359
+00:13:07,519 --> 00:13:12,079
+the post class calls the user class
+
+360
+00:13:09,920 --> 00:13:13,440
+which is very awkward right in order to
+
+361
+00:13:12,079 --> 00:13:15,040
+get the number of comma points to
+
+362
+00:13:13,440 --> 00:13:16,959
+determine whether the down vote is
+
+363
+00:13:15,040 --> 00:13:18,320
+allowed and the result of that is that
+
+364
+00:13:16,959 --> 00:13:20,639
+these things can't be built fully
+
+365
+00:13:18,320 --> 00:13:23,200
+independently of one one another because
+
+366
+00:13:20,639 --> 00:13:25,920
+you need to know about one in order to
+
+367
+00:13:23,200 --> 00:13:28,639
+code the other. So there must be a
+
+368
+00:13:25,920 --> 00:13:32,079
+better way. So the better way I would
+
+369
+00:13:28,639 --> 00:13:33,680
+propose uh is a sort of new old way. New
+
+370
+00:13:32,079 --> 00:13:35,120
+in the sense that I'm going to propose
+
+371
+00:13:33,680 --> 00:13:36,160
+it more radically, but old in the sense
+
+372
+00:13:35,120 --> 00:13:38,320
+that it's just our old friend
+
+373
+00:13:36,160 --> 00:13:41,040
+modularity. What if we actually built a
+
+374
+00:13:38,320 --> 00:13:44,079
+structure like this in which we cleanly
+
+375
+00:13:41,040 --> 00:13:46,000
+separated the functions of um user
+
+376
+00:13:44,079 --> 00:13:48,639
+authentication, posting, karma, and
+
+377
+00:13:46,000 --> 00:13:50,160
+upvoting into separate modules.
+
+378
+00:13:48,639 --> 00:13:53,279
+in a large system. Those could be full
+
+379
+00:13:50,160 --> 00:13:55,200
+stack modules um with um with their own
+
+380
+00:13:53,279 --> 00:13:57,920
+persistence in in their own databases
+
+381
+00:13:55,200 --> 00:13:59,519
+and so on. And we put these together not
+
+382
+00:13:57,920 --> 00:14:02,240
+by allowing them to call each other
+
+383
+00:13:59,519 --> 00:14:04,079
+which will compromise independence, but
+
+384
+00:14:02,240 --> 00:14:07,519
+rather by having a kind of mediator at
+
+385
+00:14:04,079 --> 00:14:09,320
+the top um that um that called one uh
+
+386
+00:14:07,519 --> 00:14:11,360
+and used the results from one to call
+
+387
+00:14:09,320 --> 00:14:12,519
+another. And so in this scenario,
+
+388
+00:14:11,360 --> 00:14:15,040
+there's no dependencies between
+
+389
+00:14:12,519 --> 00:14:17,040
+concepts. Uh and I call these concepts,
+
+390
+00:14:15,040 --> 00:14:18,880
+I should have said, right? And uh and
+
+391
+00:14:17,040 --> 00:14:20,000
+here's what it would look like. Uh and I
+
+392
+00:14:18,880 --> 00:14:21,040
+don't need to go into the coding
+
+393
+00:14:20,000 --> 00:14:23,120
+details. There are many different ways
+
+394
+00:14:21,040 --> 00:14:24,800
+this could be coded. But notice that now
+
+395
+00:14:23,120 --> 00:14:26,399
+the important thing to note is that we
+
+396
+00:14:24,800 --> 00:14:28,800
+have uniform colors in each of the
+
+397
+00:14:26,399 --> 00:14:30,639
+modules. Um so this for example is the
+
+398
+00:14:28,800 --> 00:14:32,800
+user module. It contains some mapping
+
+399
+00:14:30,639 --> 00:14:34,399
+from users to their names and users to
+
+400
+00:14:32,800 --> 00:14:35,839
+their passwords and it only has
+
+401
+00:14:34,399 --> 00:14:38,720
+registration and authentication. It
+
+402
+00:14:35,839 --> 00:14:40,399
+doesn't have anything else. Karma uh it
+
+403
+00:14:38,720 --> 00:14:41,920
+contains a mapping from users to their
+
+404
+00:14:40,399 --> 00:14:43,680
+karma points. Right? Right? And it
+
+405
+00:14:41,920 --> 00:14:45,760
+allows you to increase the karma
+
+406
+00:14:43,680 --> 00:14:47,519
+associated with a user and to figure out
+
+407
+00:14:45,760 --> 00:14:50,000
+how many karma points a user has and so
+
+408
+00:14:47,519 --> 00:14:53,040
+on. So each of these different concepts
+
+409
+00:14:50,000 --> 00:14:55,920
+is entirely coherent in containing only
+
+410
+00:14:53,040 --> 00:14:58,480
+the functionality um of uh that's
+
+411
+00:14:55,920 --> 00:14:59,920
+appropriate. So the concerns essentially
+
+412
+00:14:58,480 --> 00:15:02,560
+there's a lot of talk about separation
+
+413
+00:14:59,920 --> 00:15:04,399
+of concerns and now cleanly separated.
+
+414
+00:15:02,560 --> 00:15:06,560
+And notice also that the coupling is now
+
+415
+00:15:04,399 --> 00:15:08,480
+gone. So you might say well surely the
+
+416
+00:15:06,560 --> 00:15:10,720
+coupling isn't gone because for example
+
+417
+00:15:08,480 --> 00:15:12,079
+comments have to be on posts, right?
+
+418
+00:15:10,720 --> 00:15:13,760
+Well, they don't have to be on posts.
+
+419
+00:15:12,079 --> 00:15:15,440
+Comments just have to be on something.
+
+420
+00:15:13,760 --> 00:15:18,000
+So in this case, that something is
+
+421
+00:15:15,440 --> 00:15:19,199
+represented by a type parameter T, which
+
+422
+00:15:18,000 --> 00:15:21,680
+essentially says there has to be some
+
+423
+00:15:19,199 --> 00:15:23,199
+target for a comment. But the comment
+
+424
+00:15:21,680 --> 00:15:24,800
+concept doesn't need to know what that
+
+425
+00:15:23,199 --> 00:15:26,560
+target is because it doesn't actually
+
+426
+00:15:24,800 --> 00:15:28,560
+deal in the functionality of that
+
+427
+00:15:26,560 --> 00:15:30,160
+target. And then this thing on the right
+
+428
+00:15:28,560 --> 00:15:31,360
+hand side, which I'm not unfortunately
+
+429
+00:15:30,160 --> 00:15:34,000
+going to have much time to tell you
+
+430
+00:15:31,360 --> 00:15:36,560
+about, is what I call a synchronization.
+
+431
+00:15:34,000 --> 00:15:39,360
+And a synchronization is this mediator.
+
+432
+00:15:36,560 --> 00:15:41,120
+And what this mediator does uh is
+
+433
+00:15:39,360 --> 00:15:43,199
+essentially connect these concepts
+
+434
+00:15:41,120 --> 00:15:45,120
+together to account for all those
+
+435
+00:15:43,199 --> 00:15:48,079
+application specific properties that I
+
+436
+00:15:45,120 --> 00:15:50,000
+said were necessary but while preserving
+
+437
+00:15:48,079 --> 00:15:51,160
+the independence of the concepts. So,
+
+438
+00:15:50,000 --> 00:15:54,480
+for example, we might have a
+
+439
+00:15:51,160 --> 00:15:56,399
+synchronization that says um we're going
+
+440
+00:15:54,480 --> 00:15:58,160
+to need some kind of concept for web
+
+441
+00:15:56,399 --> 00:16:01,839
+requests that when we get a web request
+
+442
+00:15:58,160 --> 00:16:03,680
+for a downvote of user U for item I,
+
+443
+00:16:01,839 --> 00:16:06,000
+then we're going to check that this user
+
+444
+00:16:03,680 --> 00:16:09,199
+U has, for example, 10 comma points. And
+
+445
+00:16:06,000 --> 00:16:13,839
+if they do, then we will execute uh the
+
+446
+00:16:09,199 --> 00:16:19,720
+downvote action uh of user U on uh on
+
+447
+00:16:13,839 --> 00:16:23,600
+item I. And notice that this um mediator
+
+448
+00:16:19,720 --> 00:16:25,120
+um wow um my my computer keeps dying.
+
+449
+00:16:23,600 --> 00:16:27,440
+This is very strange and disturbing. I
+
+450
+00:16:25,120 --> 00:16:30,160
+don't know what's going on here. Um but
+
+451
+00:16:27,440 --> 00:16:32,040
+hopefully it will it will last. Um so
+
+452
+00:16:30,160 --> 00:16:34,639
+the key point here is that these
+
+453
+00:16:32,040 --> 00:16:37,199
+synchronizations basically describe uh
+
+454
+00:16:34,639 --> 00:16:39,360
+these interactions between the concepts.
+
+455
+00:16:37,199 --> 00:16:40,560
+So what can one do with this? You've
+
+456
+00:16:39,360 --> 00:16:42,720
+been wondering what does this have to do
+
+457
+00:16:40,560 --> 00:16:44,639
+with LLMs? Well, the idea of course is
+
+458
+00:16:42,720 --> 00:16:46,320
+in an LLM what you do is you give it a
+
+459
+00:16:44,639 --> 00:16:48,079
+prompt and you know in the case of
+
+460
+00:16:46,320 --> 00:16:49,759
+whatever your LLM is GPT say it
+
+461
+00:16:48,079 --> 00:16:51,920
+generates some code and of course what
+
+462
+00:16:49,759 --> 00:16:54,800
+we're going to do is we're going to make
+
+463
+00:16:51,920 --> 00:16:56,880
+those prompts specifications of concepts
+
+464
+00:16:54,800 --> 00:16:58,800
+uh and we're going to prompt entirely
+
+465
+00:16:56,880 --> 00:17:00,959
+separately for each of the con concepts
+
+466
+00:16:58,800 --> 00:17:02,720
+to generate the code for the concept and
+
+467
+00:17:00,959 --> 00:17:04,640
+then we're going to have some kind of
+
+468
+00:17:02,720 --> 00:17:06,079
+specification in in the case of a web
+
+469
+00:17:04,640 --> 00:17:08,000
+application it's a route but in general
+
+470
+00:17:06,079 --> 00:17:09,760
+it's just a synchronization between the
+
+471
+00:17:08,000 --> 00:17:11,439
+concepts and we're going to generate the
+
+472
+00:17:09,760 --> 00:17:13,360
+code that calls the concept concepts and
+
+473
+00:17:11,439 --> 00:17:15,600
+that of course is going to actually need
+
+474
+00:17:13,360 --> 00:17:16,640
+the API of the concepts. And so what
+
+475
+00:17:15,600 --> 00:17:18,959
+we're actually going to do is we're
+
+476
+00:17:16,640 --> 00:17:20,799
+going to extract that API from the
+
+477
+00:17:18,959 --> 00:17:23,439
+generated code. Then we're going to
+
+478
+00:17:20,799 --> 00:17:25,439
+generate a front end. Easier said than
+
+479
+00:17:23,439 --> 00:17:26,959
+done. That's a that's a a story for
+
+480
+00:17:25,439 --> 00:17:29,520
+another time. Uh and we're going to
+
+481
+00:17:26,959 --> 00:17:32,080
+produce a fully deployed app. So my
+
+482
+00:17:29,520 --> 00:17:34,160
+student Barish Namazov um built a
+
+483
+00:17:32,080 --> 00:17:36,000
+prototype tool called Codeless to do
+
+484
+00:17:34,160 --> 00:17:38,160
+this. Uh and uh here are some
+
+485
+00:17:36,000 --> 00:17:40,320
+screenshots of it. Basically, you give a
+
+486
+00:17:38,160 --> 00:17:42,320
+a very uh vague and minimal description.
+
+487
+00:17:40,320 --> 00:17:45,039
+And here's what he happened to write uh
+
+488
+00:17:42,320 --> 00:17:47,440
+for for karma. He said each karma should
+
+489
+00:17:45,039 --> 00:17:50,240
+have user generic and points number
+
+490
+00:17:47,440 --> 00:17:52,960
+actions should be this and that. Um and
+
+491
+00:17:50,240 --> 00:17:54,799
+uh and it goes ahead. This is you know
+
+492
+00:17:52,960 --> 00:17:56,000
+note this is application independent.
+
+493
+00:17:54,799 --> 00:17:58,240
+That's the important thing and pretty
+
+494
+00:17:56,000 --> 00:17:59,760
+brief. Uh it generates some code. That
+
+495
+00:17:58,240 --> 00:18:01,840
+code has all the mess in it you'd
+
+496
+00:17:59,760 --> 00:18:04,240
+expect, you know, with database schemas
+
+497
+00:18:01,840 --> 00:18:05,679
+and all the coding details that uh that
+
+498
+00:18:04,240 --> 00:18:07,120
+that a you know that an end user
+
+499
+00:18:05,679 --> 00:18:09,280
+programmer doesn't want to write. And
+
+500
+00:18:07,120 --> 00:18:12,160
+then what it does is it generates an API
+
+501
+00:18:09,280 --> 00:18:14,640
+specification from that code. That API
+
+502
+00:18:12,160 --> 00:18:16,720
+specification is typically much much
+
+503
+00:18:14,640 --> 00:18:18,799
+more detailed than the prompt, right?
+
+504
+00:18:16,720 --> 00:18:20,960
+Because of course what we're relying on
+
+505
+00:18:18,799 --> 00:18:22,960
+here is that the LLM knows things about
+
+506
+00:18:20,960 --> 00:18:24,480
+karma that the user didn't need to
+
+507
+00:18:22,960 --> 00:18:26,559
+specify because these are familiar
+
+508
+00:18:24,480 --> 00:18:28,080
+concepts. And now when we want to
+
+509
+00:18:26,559 --> 00:18:29,280
+actually create a synchronization or a
+
+510
+00:18:28,080 --> 00:18:30,960
+route, we just give the minimal
+
+511
+00:18:29,280 --> 00:18:32,080
+information. In this case, for example,
+
+512
+00:18:30,960 --> 00:18:34,320
+we're saying we're going to want to
+
+513
+00:18:32,080 --> 00:18:36,320
+route a post, an HTTP post for
+
+514
+00:18:34,320 --> 00:18:38,240
+registering that should register a user
+
+515
+00:18:36,320 --> 00:18:40,559
+and log them in. New users should start
+
+516
+00:18:38,240 --> 00:18:42,000
+with one comma point. Um, and notice
+
+517
+00:18:40,559 --> 00:18:44,080
+there's no explicit mention of the
+
+518
+00:18:42,000 --> 00:18:46,160
+concepts there or of their actions. And
+
+519
+00:18:44,080 --> 00:18:48,520
+from that, um, codeless actually
+
+520
+00:18:46,160 --> 00:18:50,480
+generates calls uh the the
+
+521
+00:18:48,520 --> 00:18:53,360
+synchronizations that actually use the
+
+522
+00:18:50,480 --> 00:18:55,600
+concept APIs uh, and uh, appropriately
+
+523
+00:18:53,360 --> 00:18:58,640
+selects actions from them. Uh and from
+
+524
+00:18:55,600 --> 00:19:00,880
+that um we can produce basically a clone
+
+525
+00:18:58,640 --> 00:19:03,360
+of the behavior of hacken news. Um this
+
+526
+00:19:00,880 --> 00:19:04,559
+looks much more impressive. Um then you
+
+527
+00:19:03,360 --> 00:19:07,120
+shouldn't be fooled by this. This is of
+
+528
+00:19:04,559 --> 00:19:09,039
+course just stealing all the CSS. Um but
+
+529
+00:19:07,120 --> 00:19:10,880
+you know these visual tricks are are
+
+530
+00:19:09,039 --> 00:19:12,320
+compelling aren't they? So you can make
+
+531
+00:19:10,880 --> 00:19:14,320
+something but I can assure you it does
+
+532
+00:19:12,320 --> 00:19:16,720
+actually work. Uh and we can even make
+
+533
+00:19:14,320 --> 00:19:18,080
+blue pages. You know the hacken news has
+
+534
+00:19:16,720 --> 00:19:19,280
+this weird feature. It allows you to
+
+535
+00:19:18,080 --> 00:19:20,960
+change the color of the bar. Who knows
+
+536
+00:19:19,280 --> 00:19:24,480
+why anyone would care about that but we
+
+537
+00:19:20,960 --> 00:19:26,480
+can do that as well. Um and um it
+
+538
+00:19:24,480 --> 00:19:31,679
+actually turns out that there are a lot
+
+539
+00:19:26,480 --> 00:19:33,520
+of intricacies um in in hacker news. Um
+
+540
+00:19:31,679 --> 00:19:36,080
+not only things like all these features
+
+541
+00:19:33,520 --> 00:19:38,960
+I told you like you know karma um
+
+542
+00:19:36,080 --> 00:19:41,600
+flagging posts, hiding posts, nested
+
+543
+00:19:38,960 --> 00:19:43,039
+comments, complicated ranking rules, uh
+
+544
+00:19:41,600 --> 00:19:45,280
+all kinds of weird things. Even it turns
+
+545
+00:19:43,039 --> 00:19:47,440
+out producing the front page relies on
+
+546
+00:19:45,280 --> 00:19:49,120
+some quite complicated formulas about
+
+547
+00:19:47,440 --> 00:19:51,760
+the age of post and number of up votes
+
+548
+00:19:49,120 --> 00:19:55,360
+and whatever. Um and those are very
+
+549
+00:19:51,760 --> 00:19:57,200
+easily uh presented as prompts. Um in
+
+550
+00:19:55,360 --> 00:19:59,600
+total it needed only about a 100 lines
+
+551
+00:19:57,200 --> 00:20:01,919
+of prompt to generate this application
+
+552
+00:19:59,600 --> 00:20:04,480
+and there was no code editing needed. So
+
+553
+00:20:01,919 --> 00:20:07,480
+basically we ran it and if it didn't
+
+554
+00:20:04,480 --> 00:20:10,240
+work we tweaked the prompt a little bit.
+
+555
+00:20:07,480 --> 00:20:12,720
+Um not so good. This is only the back
+
+556
+00:20:10,240 --> 00:20:13,919
+end currently. Uh I have to say you know
+
+557
+00:20:12,720 --> 00:20:15,039
+I've been giving talks about this for a
+
+558
+00:20:13,919 --> 00:20:16,960
+while and they used to say well the
+
+559
+00:20:15,039 --> 00:20:18,559
+front end should be easy. I don't
+
+560
+00:20:16,960 --> 00:20:20,080
+believe anymore that that's the case. I
+
+561
+00:20:18,559 --> 00:20:22,240
+think if you want a front end that
+
+562
+00:20:20,080 --> 00:20:24,080
+tightly integrates the concepts so that
+
+563
+00:20:22,240 --> 00:20:26,240
+for example the upvote button is on a
+
+564
+00:20:24,080 --> 00:20:27,840
+post uh it's it's a little bit harder
+
+565
+00:20:26,240 --> 00:20:29,679
+but I think we have we have some good
+
+566
+00:20:27,840 --> 00:20:31,039
+ideas about how to do that. Some of the
+
+567
+00:20:29,679 --> 00:20:34,240
+synchronizations I have to admit are
+
+568
+00:20:31,039 --> 00:20:36,080
+pretty ugly. Um especially it turns out
+
+569
+00:20:34,240 --> 00:20:38,080
+often what happens in a back end is you
+
+570
+00:20:36,080 --> 00:20:41,039
+have to package structures for the front
+
+571
+00:20:38,080 --> 00:20:44,960
+end and that packaging um is sort of
+
+572
+00:20:41,039 --> 00:20:46,799
+ugly to describe. Furthermore, um the
+
+573
+00:20:44,960 --> 00:20:48,000
+concept synchronizations also need to be
+
+574
+00:20:46,799 --> 00:20:49,919
+able to query the state of the
+
+575
+00:20:48,000 --> 00:20:51,600
+individual concepts. Uh and at the time
+
+576
+00:20:49,919 --> 00:20:54,240
+we wrote this, we didn't have a good
+
+577
+00:20:51,600 --> 00:20:56,000
+story about basically mixing the kind of
+
+578
+00:20:54,240 --> 00:20:57,600
+database queries you needed and the
+
+579
+00:20:56,000 --> 00:21:00,039
+calls, the actions. We have a much
+
+580
+00:20:57,600 --> 00:21:03,200
+better uh story about that
+
+581
+00:21:00,039 --> 00:21:05,440
+now. So in conclusion, I want to sort of
+
+582
+00:21:03,200 --> 00:21:08,480
+return to the original premise. Why is
+
+583
+00:21:05,440 --> 00:21:10,960
+it that modularity matters not just for
+
+584
+00:21:08,480 --> 00:21:14,799
+software in general but for LLM code
+
+585
+00:21:10,960 --> 00:21:16,960
+generation in particular? So um I told
+
+586
+00:21:14,799 --> 00:21:19,520
+you earlier on these two reasons that
+
+587
+00:21:16,960 --> 00:21:21,919
+incoherence and dependence were bad. But
+
+588
+00:21:19,520 --> 00:21:23,919
+now in the concept of of LLM based code
+
+589
+00:21:21,919 --> 00:21:26,240
+generation I would argue there are new
+
+590
+00:21:23,919 --> 00:21:28,039
+reasons that these notions of modularity
+
+591
+00:21:26,240 --> 00:21:30,320
+matter a lot. So in the case of
+
+592
+00:21:28,039 --> 00:21:33,120
+coherence the main importance of
+
+593
+00:21:30,320 --> 00:21:35,200
+coherence is that if you don't have it
+
+594
+00:21:33,120 --> 00:21:37,679
+your modules become very application
+
+595
+00:21:35,200 --> 00:21:40,080
+specific right because they contain the
+
+596
+00:21:37,679 --> 00:21:42,400
+particular combination of features of
+
+597
+00:21:40,080 --> 00:21:44,400
+that application and that means that we
+
+598
+00:21:42,400 --> 00:21:46,320
+have novel combinations of functions and
+
+599
+00:21:44,400 --> 00:21:49,600
+as we all know LLMs are not good at
+
+600
+00:21:46,320 --> 00:21:52,000
+novelty what LLMs excel with is being
+
+601
+00:21:49,600 --> 00:21:54,480
+able to produce the same old stuff and
+
+602
+00:21:52,000 --> 00:21:57,039
+so we want to make our software problem
+
+603
+00:21:54,480 --> 00:21:58,960
+as much as possible the same old stuff
+
+604
+00:21:57,039 --> 00:22:01,120
+and then localization which was a
+
+605
+00:21:58,960 --> 00:22:02,799
+problem for human reasoning becomes a
+
+606
+00:22:01,120 --> 00:22:04,400
+huge problem for LLMs and the problem
+
+607
+00:22:02,799 --> 00:22:06,640
+essentially is that the context isn't
+
+608
+00:22:04,400 --> 00:22:08,400
+bounded right because now in order to
+
+609
+00:22:06,640 --> 00:22:10,559
+write one piece of code and this is why
+
+610
+00:22:08,400 --> 00:22:11,919
+in swbench all those patches break
+
+611
+00:22:10,559 --> 00:22:13,280
+everything all over the place
+
+612
+00:22:11,919 --> 00:22:15,039
+essentially you need to understand the
+
+613
+00:22:13,280 --> 00:22:18,480
+whole code base if you don't have
+
+614
+00:22:15,039 --> 00:22:20,880
+localization when you make a change
+
+615
+00:22:18,480 --> 00:22:22,480
+um and uh or the alternative of course
+
+616
+00:22:20,880 --> 00:22:24,799
+is that you have very detailed
+
+617
+00:22:22,480 --> 00:22:27,039
+interfaces specifications of every
+
+618
+00:22:24,799 --> 00:22:28,799
+component uh and that you know I think
+
+619
+00:22:27,039 --> 00:22:30,559
+that is something that's going to
+
+620
+00:22:28,799 --> 00:22:32,840
+happen. We're going to see a resurgence
+
+621
+00:22:30,559 --> 00:22:35,440
+not only of modularity but of precise
+
+622
+00:22:32,840 --> 00:22:37,200
+specification. Um but in general that's
+
+623
+00:22:35,440 --> 00:22:39,720
+too much of a burden and it will be
+
+624
+00:22:37,200 --> 00:22:42,080
+easier to increase the level of
+
+625
+00:22:39,720 --> 00:22:44,720
+decoupling than to place higher burdens
+
+626
+00:22:42,080 --> 00:22:46,480
+of specification uh on the programmer.
+
+627
+00:22:44,720 --> 00:22:47,919
+But the main thing is that you know I
+
+628
+00:22:46,480 --> 00:22:49,840
+would argue that we need to move from
+
+629
+00:22:47,919 --> 00:22:52,320
+this idea that we can tolerate all this
+
+630
+00:22:49,840 --> 00:22:54,799
+modularity to recognizing that
+
+631
+00:22:52,320 --> 00:22:58,080
+modularity is the very key to code
+
+632
+00:22:54,799 --> 00:22:59,520
+generation with LLMs. And so in short
+
+633
+00:22:58,080 --> 00:23:02,000
+this comes down to a shift of
+
+634
+00:22:59,520 --> 00:23:03,679
+perspective. We used to think of uh
+
+635
+00:23:02,000 --> 00:23:05,440
+modularity like this in which we had all
+
+636
+00:23:03,679 --> 00:23:07,760
+these dependent modules that were also
+
+637
+00:23:05,440 --> 00:23:09,760
+incoherent. And I'm arguing that what we
+
+638
+00:23:07,760 --> 00:23:11,280
+should move to is a scheme like this
+
+639
+00:23:09,760 --> 00:23:14,080
+where I've tried to sort of indicate by
+
+640
+00:23:11,280 --> 00:23:15,960
+these icons that each of these modules
+
+641
+00:23:14,080 --> 00:23:18,039
+represents some familiar piece of
+
+642
+00:23:15,960 --> 00:23:20,799
+functionality. So these are familiar
+
+643
+00:23:18,039 --> 00:23:22,799
+modules and these modules are no longer
+
+644
+00:23:20,799 --> 00:23:24,799
+dependent on one another. They have
+
+645
+00:23:22,799 --> 00:23:26,960
+control and data that flows between
+
+646
+00:23:24,799 --> 00:23:29,520
+them. But that control and data is
+
+647
+00:23:26,960 --> 00:23:31,280
+mediated by a kind of conductor that
+
+648
+00:23:29,520 --> 00:23:33,600
+embodies the application specific
+
+649
+00:23:31,280 --> 00:23:35,520
+details. these mediators that that call
+
+650
+00:23:33,600 --> 00:23:38,640
+the concepts and the concepts don't call
+
+651
+00:23:35,520 --> 00:23:40,799
+themselves. So what we're working on now
+
+652
+00:23:38,640 --> 00:23:42,559
+a whole bunch of exciting things uh
+
+653
+00:23:40,799 --> 00:23:44,960
+improving the way these synchronizations
+
+654
+00:23:42,559 --> 00:23:46,640
+work in particular um first of all to
+
+655
+00:23:44,960 --> 00:23:48,320
+make them fully declarative and order
+
+656
+00:23:46,640 --> 00:23:51,360
+independent to allow them to be
+
+657
+00:23:48,320 --> 00:23:53,200
+extremely expressive so you can um
+
+658
+00:23:51,360 --> 00:23:55,280
+describe all kinds of iterative
+
+659
+00:23:53,200 --> 00:23:57,520
+behaviors uh and all kinds of event
+
+660
+00:23:55,280 --> 00:23:59,520
+patterns. um it's very important that
+
+661
+00:23:57,520 --> 00:24:01,120
+these be written while inventing you
+
+662
+00:23:59,520 --> 00:24:04,159
+know a rich language here in a style
+
+663
+00:24:01,120 --> 00:24:05,760
+that's familiar to LLM. So my my
+
+664
+00:24:04,159 --> 00:24:07,520
+graduate student Egon Mang who's working
+
+665
+00:24:05,760 --> 00:24:10,080
+on this is currently trying to persuade
+
+666
+00:24:07,520 --> 00:24:11,360
+me that using a kind of data log way of
+
+667
+00:24:10,080 --> 00:24:12,799
+expressing this might be the right way
+
+668
+00:24:11,360 --> 00:24:14,720
+to go and I think that's a very exciting
+
+669
+00:24:12,799 --> 00:24:16,799
+option and he's actually managed to show
+
+670
+00:24:14,720 --> 00:24:19,279
+that with his new uh synchronization
+
+671
+00:24:16,799 --> 00:24:20,640
+language he's able to factor out the
+
+672
+00:24:19,279 --> 00:24:22,440
+presentation issues those packaging
+
+673
+00:24:20,640 --> 00:24:24,480
+issues I mentioned as separate
+
+674
+00:24:22,440 --> 00:24:26,640
+synchronizations and even to factor out
+
+675
+00:24:24,480 --> 00:24:28,400
+persistence which I think is very nice.
+
+676
+00:24:26,640 --> 00:24:29,919
+Um, it's the kind of thing that Adam,
+
+677
+00:24:28,400 --> 00:24:31,520
+our next speaker, has has done
+
+678
+00:24:29,919 --> 00:24:34,640
+throughout his career to basically
+
+679
+00:24:31,520 --> 00:24:36,880
+enable you to have immutable functional
+
+680
+00:24:34,640 --> 00:24:38,960
+descriptions of functionality and to
+
+681
+00:24:36,880 --> 00:24:41,120
+separate the updating of a database,
+
+682
+00:24:38,960 --> 00:24:43,039
+even the choice of a database, uh, to a
+
+683
+00:24:41,120 --> 00:24:44,600
+separate module. Um, we're looking at
+
+684
+00:24:43,039 --> 00:24:46,720
+using concepts to do front-end
+
+685
+00:24:44,600 --> 00:24:48,320
+generation. Uh, and importantly, I
+
+686
+00:24:46,720 --> 00:24:50,080
+didn't emphasize this a lot, but of
+
+687
+00:24:48,320 --> 00:24:52,080
+course, a key idea is if you have these
+
+688
+00:24:50,080 --> 00:24:54,720
+familiar components, right, you can
+
+689
+00:24:52,080 --> 00:24:56,960
+build a library of them. uh and then you
+
+690
+00:24:54,720 --> 00:24:58,320
+can reuse them from the library. And the
+
+691
+00:24:56,960 --> 00:25:00,480
+advantage of that is not only that you
+
+692
+00:24:58,320 --> 00:25:03,039
+don't need to generate them, but that
+
+693
+00:25:00,480 --> 00:25:04,880
+you can audit those components if if
+
+694
+00:25:03,039 --> 00:25:07,039
+necessary by hand to make sure they're
+
+695
+00:25:04,880 --> 00:25:09,120
+extremely high quality and don't contain
+
+696
+00:25:07,039 --> 00:25:12,159
+any security vulnerabilities. So then
+
+697
+00:25:09,120 --> 00:25:14,240
+the LLM problem becomes only essentially
+
+698
+00:25:12,159 --> 00:25:16,159
+either the generation of unusual
+
+699
+00:25:14,240 --> 00:25:18,880
+concepts or the synchronization of this
+
+700
+00:25:16,159 --> 00:25:20,320
+large number of existing ones.
+
+701
+00:25:18,880 --> 00:25:22,400
+Now in working on this notion of
+
+702
+00:25:20,320 --> 00:25:23,600
+concepts you know the initial motivation
+
+703
+00:25:22,400 --> 00:25:26,159
+was really two things actually.
+
+704
+00:25:23,600 --> 00:25:29,919
+Originally it was to think about finding
+
+705
+00:25:26,159 --> 00:25:32,640
+u better um user experience um and um
+
+706
+00:25:29,919 --> 00:25:34,480
+but also to achieve modularity both in
+
+707
+00:25:32,640 --> 00:25:36,080
+uh the design and the code. But what I'm
+
+708
+00:25:34,480 --> 00:25:37,679
+coming to realize is that thinking of
+
+709
+00:25:36,080 --> 00:25:40,960
+software in terms of concepts brings
+
+710
+00:25:37,679 --> 00:25:42,799
+other advantages too. One is providing a
+
+711
+00:25:40,960 --> 00:25:45,200
+design language for different people in
+
+712
+00:25:42,799 --> 00:25:46,480
+an organization to talk to each other.
+
+713
+00:25:45,200 --> 00:25:47,919
+Um, so one of the things that often
+
+714
+00:25:46,480 --> 00:25:49,600
+happens is that user experience
+
+715
+00:25:47,919 --> 00:25:51,520
+architects and software architects have
+
+716
+00:25:49,600 --> 00:25:53,279
+no language in common because the UX
+
+717
+00:25:51,520 --> 00:25:55,039
+people speak wireframes, you know, and
+
+718
+00:25:53,279 --> 00:25:56,880
+the software architects speak box and
+
+719
+00:25:55,039 --> 00:25:59,520
+line diagrams and there's no way for
+
+720
+00:25:56,880 --> 00:26:00,960
+them to have a really deep discussion
+
+721
+00:25:59,520 --> 00:26:02,720
+about the nature of the functionality
+
+722
+00:26:00,960 --> 00:26:05,000
+that they're designing together and
+
+723
+00:26:02,720 --> 00:26:07,600
+concepts uh allows them to do
+
+724
+00:26:05,000 --> 00:26:09,840
+that. Um the other thing is that
+
+725
+00:26:07,600 --> 00:26:11,840
+concepts give you a place for design
+
+726
+00:26:09,840 --> 00:26:13,840
+meaning that they give you basically a
+
+727
+00:26:11,840 --> 00:26:15,600
+structure in order to say these are the
+
+728
+00:26:13,840 --> 00:26:17,520
+design issues and even the human issues
+
+729
+00:26:15,600 --> 00:26:19,600
+associated with this functionality that
+
+730
+00:26:17,520 --> 00:26:21,679
+we need to understand. Um and so this
+
+731
+00:26:19,600 --> 00:26:24,000
+idea of a concept catalog is one that
+
+732
+00:26:21,679 --> 00:26:26,640
+I'm working with some companies on uh to
+
+733
+00:26:24,000 --> 00:26:29,039
+see how uh that can be used as a way to
+
+734
+00:26:26,640 --> 00:26:31,360
+basically uh record the design issues
+
+735
+00:26:29,039 --> 00:26:33,200
+and design knowledge of a company. Uh
+
+736
+00:26:31,360 --> 00:26:35,840
+just as a closing bit of perspective,
+
+737
+00:26:33,200 --> 00:26:37,840
+you know, I have a book on this uh which
+
+738
+00:26:35,840 --> 00:26:39,679
+uh shameless plug here uh which you're
+
+739
+00:26:37,840 --> 00:26:41,039
+welcome to find out about at my website.
+
+740
+00:26:39,679 --> 00:26:43,840
+You know, the origins of this project
+
+741
+00:26:41,039 --> 00:26:45,360
+were basically 10 years spent studying a
+
+742
+00:26:43,840 --> 00:26:46,799
+bunch of apps and trying to understand,
+
+743
+00:26:45,360 --> 00:26:48,559
+you know, what what was the difference
+
+744
+00:26:46,799 --> 00:26:51,600
+between the ones that had great UX and
+
+745
+00:26:48,559 --> 00:26:53,279
+bad UX and seeking a way to analyze uh
+
+746
+00:26:51,600 --> 00:26:55,279
+and structure the underlying function.
+
+747
+00:26:53,279 --> 00:26:57,520
+And what I found was that basically
+
+748
+00:26:55,279 --> 00:27:00,080
+everybody for the last 50 or 100 years,
+
+749
+00:26:57,520 --> 00:27:02,000
+50, 75 years, has been saying conceptual
+
+750
+00:27:00,080 --> 00:27:03,840
+models are at the heart of usability.
+
+751
+00:27:02,000 --> 00:27:06,799
+But nobody really knew what the concepts
+
+752
+00:27:03,840 --> 00:27:08,799
+were in conceptual models. Um, and with
+
+753
+00:27:06,799 --> 00:27:11,760
+this notion of concepts, we're able to
+
+754
+00:27:08,799 --> 00:27:15,600
+explain complex designs and design and
+
+755
+00:27:11,760 --> 00:27:18,080
+diagnose usability flaws. Oh, my machine
+
+756
+00:27:15,600 --> 00:27:19,600
+keeps dying. Excuse me. Please come
+
+757
+00:27:18,080 --> 00:27:22,720
+back. Okay.
+
+758
+00:27:19,600 --> 00:27:24,480
+um we're able to bring alignment uh and
+
+759
+00:27:22,720 --> 00:27:26,799
+strategic clarity in large scale
+
+760
+00:27:24,480 --> 00:27:28,400
+developments. Alignment between not only
+
+761
+00:27:26,799 --> 00:27:29,760
+different roles but also between
+
+762
+00:27:28,400 --> 00:27:31,679
+different products because it's often
+
+763
+00:27:29,760 --> 00:27:33,279
+very common in a large organization to
+
+764
+00:27:31,679 --> 00:27:36,000
+have multiple products. It's that
+
+765
+00:27:33,279 --> 00:27:37,600
+essentially share functionality uh and
+
+766
+00:27:36,000 --> 00:27:39,679
+also to provide of course and that's
+
+767
+00:27:37,600 --> 00:27:41,480
+been the subject of this conversation a
+
+768
+00:27:39,679 --> 00:27:43,440
+strong basis for LLM based code
+
+769
+00:27:41,480 --> 00:27:45,440
+generation. So with that I'm done and
+
+770
+00:27:43,440 --> 00:27:48,440
+I'd be delighted to uh take any
+
+771
+00:27:45,440 --> 00:27:48,440
+questions.
+
+772
+00:27:48,720 --> 00:27:53,360
+Thank you so much for this, Daniel. Um,
+
+773
+00:27:51,360 --> 00:27:56,000
+as I was listening to you, I felt like,
+
+774
+00:27:53,360 --> 00:27:59,200
+is this microphone helping? Yes, it is.
+
+775
+00:27:56,000 --> 00:28:02,240
+Okay. Um, I I felt like I was in a
+
+776
+00:27:59,200 --> 00:28:03,840
+parallel universe. And that is sort of
+
+777
+00:28:02,240 --> 00:28:06,399
+this I'm going to bring up a dreaded
+
+778
+00:28:03,840 --> 00:28:08,679
+word because it's so hyped up. It's
+
+779
+00:28:06,399 --> 00:28:11,760
+basically the the concept of intelligent
+
+780
+00:28:08,679 --> 00:28:14,000
+agents, which actually started I think
+
+781
+00:28:11,760 --> 00:28:17,039
+the first conference on agents,
+
+782
+00:28:14,000 --> 00:28:19,600
+multi-agent systems, was in 1997.
+
+783
+00:28:17,039 --> 00:28:21,679
+But but only the AI community knew about
+
+784
+00:28:19,600 --> 00:28:24,720
+it and now all of a sudden it's become
+
+785
+00:28:21,679 --> 00:28:27,039
+hyped up as something brand new and it's
+
+786
+00:28:24,720 --> 00:28:30,720
+become and I think the reason for that
+
+787
+00:28:27,039 --> 00:28:32,880
+is that um in the AI world agents were
+
+788
+00:28:30,720 --> 00:28:35,279
+always sort of buried under the covers
+
+789
+00:28:32,880 --> 00:28:37,760
+but now that they're um at the edge
+
+790
+00:28:35,279 --> 00:28:39,760
+because of language use um a lot of
+
+791
+00:28:37,760 --> 00:28:42,080
+people that have been working on Gen AI
+
+792
+00:28:39,760 --> 00:28:45,520
+tools have started hearing about them
+
+793
+00:28:42,080 --> 00:28:47,919
+and by the time I got involved in trying
+
+794
+00:28:45,520 --> 00:28:50,880
+to comprehend and what was happening. It
+
+795
+00:28:47,919 --> 00:28:52,559
+was so closely tied with Gen AI, this
+
+796
+00:28:50,880 --> 00:28:55,279
+whole concept, but everything that you
+
+797
+00:28:52,559 --> 00:28:58,320
+said in terms of modularity, in terms of
+
+798
+00:28:55,279 --> 00:28:59,919
+concepts being independent and and
+
+799
+00:28:58,320 --> 00:29:02,480
+communicating with each other is sort of
+
+800
+00:28:59,919 --> 00:29:06,000
+the heart of agent-based design. So, I'm
+
+801
+00:29:02,480 --> 00:29:08,720
+just wondering if you can connect what
+
+802
+00:29:06,000 --> 00:29:10,480
+you talked about with this whole idea of
+
+803
+00:29:08,720 --> 00:29:13,440
+multi-agent systems working with each
+
+804
+00:29:10,480 --> 00:29:15,679
+other. Oh, wow. Um, I don't know a lot
+
+805
+00:29:13,440 --> 00:29:17,120
+about multi-agent systems. Um I think
+
+806
+00:29:15,679 --> 00:29:18,559
+there are probably connections there. I
+
+807
+00:29:17,120 --> 00:29:21,200
+will say that in terms of this sort of
+
+808
+00:29:18,559 --> 00:29:23,679
+new you know hype about agentic
+
+809
+00:29:21,200 --> 00:29:25,120
+computing and so on uh I think agents
+
+810
+00:29:23,679 --> 00:29:26,240
+will obviously be useful but I think
+
+811
+00:29:25,120 --> 00:29:28,799
+that one of the things we're going to
+
+812
+00:29:26,240 --> 00:29:31,760
+see is that agents if you like will take
+
+813
+00:29:28,799 --> 00:29:36,240
+over the lower level more routine uh
+
+814
+00:29:31,760 --> 00:29:38,320
+code generation um um work uh and uh
+
+815
+00:29:36,240 --> 00:29:40,320
+infusing work with well understood
+
+816
+00:29:38,320 --> 00:29:42,960
+knowledge and in some sense will leave
+
+817
+00:29:40,320 --> 00:29:44,559
+more room for software designers to do
+
+818
+00:29:42,960 --> 00:29:46,640
+do the more imaginative and creative
+
+819
+00:29:44,559 --> 00:29:48,000
+work of of understanding what's really
+
+820
+00:29:46,640 --> 00:29:50,080
+needed in the application in the
+
+821
+00:29:48,000 --> 00:29:51,880
+specific context. Um, and so I think
+
+822
+00:29:50,080 --> 00:29:54,440
+we're going to see that sort of uh
+
+823
+00:29:51,880 --> 00:29:57,440
+bifocation of work.
+
+824
+00:29:54,440 --> 00:30:00,200
+Follow a global search replace of the
+
+825
+00:29:57,440 --> 00:30:03,360
+word agent or
+
+826
+00:30:00,200 --> 00:30:05,279
+module, how would that impact because I
+
+827
+00:30:03,360 --> 00:30:08,480
+could make the case that well-designed
+
+828
+00:30:05,279 --> 00:30:10,080
+modules are in workflows and data flows
+
+829
+00:30:08,480 --> 00:30:12,520
+effectively agents. So, I'm just
+
+830
+00:30:10,080 --> 00:30:14,399
+wondering, forgive the word,
+
+831
+00:30:12,520 --> 00:30:17,120
+ontologically, do you think in those
+
+832
+00:30:14,399 --> 00:30:18,799
+terms, is that an acceptable search and
+
+833
+00:30:17,120 --> 00:30:21,120
+replace?
+
+834
+00:30:18,799 --> 00:30:22,240
+Um, gosh, it's such a that's such an
+
+835
+00:30:21,120 --> 00:30:24,480
+interesting question. I wasn't ready for
+
+836
+00:30:22,240 --> 00:30:26,080
+this question. Uh, I think, you know, to
+
+837
+00:30:24,480 --> 00:30:27,679
+me, um, by the way, your book is
+
+838
+00:30:26,080 --> 00:30:29,760
+terrific. Thank you. I mean, I think
+
+839
+00:30:27,679 --> 00:30:32,559
+agent in a way is a much more ambitious
+
+840
+00:30:29,760 --> 00:30:35,200
+word. You know, agent implies autonomy
+
+841
+00:30:32,559 --> 00:30:37,360
+and independence, uh, and a degree of
+
+842
+00:30:35,200 --> 00:30:40,640
+complexity that I think uh, is not
+
+843
+00:30:37,360 --> 00:30:43,200
+implied by the word module. Um but I
+
+844
+00:30:40,640 --> 00:30:44,640
+think uh certainly to the extent that
+
+845
+00:30:43,200 --> 00:30:46,080
+you know we're going to want to have
+
+846
+00:30:44,640 --> 00:30:48,640
+agents that will work together
+
+847
+00:30:46,080 --> 00:30:50,080
+effectively and won't have you know
+
+848
+00:30:48,640 --> 00:30:52,640
+emerging behaviors that are
+
+849
+00:30:50,080 --> 00:30:54,480
+unanticipated and disastrous. We will
+
+850
+00:30:52,640 --> 00:30:56,720
+need exactly the kind of modularity
+
+851
+00:30:54,480 --> 00:30:59,520
+mechanisms uh that that that are
+
+852
+00:30:56,720 --> 00:31:01,520
+familiar to us. Yes. Yeah. If I
+
+853
+00:30:59,520 --> 00:31:04,320
+piggyback on that, I think microservices
+
+854
+00:31:01,520 --> 00:31:06,799
+is another word like uh the
+
+855
+00:31:04,320 --> 00:31:08,760
+microservices architecture is kind of
+
+856
+00:31:06,799 --> 00:31:12,159
+the modu
+
+857
+00:31:08,760 --> 00:31:14,600
+modularity implementation in real world
+
+858
+00:31:12,159 --> 00:31:16,960
+right absolutely. So just a word about
+
+859
+00:31:14,600 --> 00:31:18,320
+microservices obviously this this work
+
+860
+00:31:16,960 --> 00:31:19,919
+that I've described has been influenced
+
+861
+00:31:18,320 --> 00:31:22,000
+by microservices. I will say that I
+
+862
+00:31:19,919 --> 00:31:23,919
+think microservices has proved
+
+863
+00:31:22,000 --> 00:31:24,960
+disappointing in two respects. One is
+
+864
+00:31:23,919 --> 00:31:27,279
+that a lot of companies who have
+
+865
+00:31:24,960 --> 00:31:28,880
+microservices can show you a graph of
+
+866
+00:31:27,279 --> 00:31:30,960
+dependencies between their microservices
+
+867
+00:31:28,880 --> 00:31:32,640
+that is quite intimidating. That shows
+
+868
+00:31:30,960 --> 00:31:34,559
+that far from actually decoupling
+
+869
+00:31:32,640 --> 00:31:37,000
+functionality, they've ended up with an
+
+870
+00:31:34,559 --> 00:31:39,600
+absolutely huge um
+
+871
+00:31:37,000 --> 00:31:41,039
+crossenterprise um collection of
+
+872
+00:31:39,600 --> 00:31:42,880
+dependencies that I think are very
+
+873
+00:31:41,039 --> 00:31:45,279
+costly. The second thing is that
+
+874
+00:31:42,880 --> 00:31:48,080
+microservices got tied up with the idea
+
+875
+00:31:45,279 --> 00:31:49,840
+that modularity had to imply separate
+
+876
+00:31:48,080 --> 00:31:52,080
+deployment often with separate platforms
+
+877
+00:31:49,840 --> 00:31:54,240
+and separate languages uh and separate
+
+878
+00:31:52,080 --> 00:31:55,760
+issue databases and so on. And that
+
+879
+00:31:54,240 --> 00:31:58,360
+seems to me should never have been
+
+880
+00:31:55,760 --> 00:32:01,120
+conflated. That's a completely separable
+
+881
+00:31:58,360 --> 00:32:02,880
+issue. Um it's why some people talk
+
+882
+00:32:01,120 --> 00:32:04,720
+about you know modular monoliths and so
+
+883
+00:32:02,880 --> 00:32:06,320
+on but that was a mistake I think
+
+884
+00:32:04,720 --> 00:32:08,640
+because it put a lot of people off the
+
+885
+00:32:06,320 --> 00:32:12,240
+idea of modularity because of the cost
+
+886
+00:32:08,640 --> 00:32:15,240
+of all those separate deployments.
+
+887
+00:32:12,240 --> 00:32:15,240
+Yes.
+
+888
+00:32:19,600 --> 00:32:24,960
+Um, does that kind of coincide with the
+
+889
+00:32:22,720 --> 00:32:27,279
+use of domains? So, does the
+
+890
+00:32:24,960 --> 00:32:30,159
+synchronization represent a module in a
+
+891
+00:32:27,279 --> 00:32:31,799
+different domain than the lower level
+
+892
+00:32:30,159 --> 00:32:34,159
+modules?
+
+893
+00:32:31,799 --> 00:32:36,320
+Um, you mean in the sense of like domain
+
+894
+00:32:34,159 --> 00:32:37,919
+driven design like like when you have a
+
+895
+00:32:36,320 --> 00:32:40,159
+when you have a very complex system.
+
+896
+00:32:37,919 --> 00:32:42,080
+Yeah. You have the the small modules
+
+897
+00:32:40,159 --> 00:32:43,760
+that do the very low-level things. Yeah.
+
+898
+00:32:42,080 --> 00:32:46,080
+You have a synchronization that ties
+
+899
+00:32:43,760 --> 00:32:47,919
+those modules together that provides a
+
+900
+00:32:46,080 --> 00:32:51,120
+functionality. You can think of that
+
+901
+00:32:47,919 --> 00:32:52,880
+whole block now as a module. Y but it's
+
+902
+00:32:51,120 --> 00:32:55,120
+now in a different domain that has
+
+903
+00:32:52,880 --> 00:32:56,480
+larger scope. Oh, I think that I if I
+
+904
+00:32:55,120 --> 00:32:58,000
+understand you correctly, I think that's
+
+905
+00:32:56,480 --> 00:32:59,840
+right. And I think what I'm advocating
+
+906
+00:32:58,000 --> 00:33:01,600
+is, and this by the way is a contrast
+
+907
+00:32:59,840 --> 00:33:03,519
+with Eric Evans notion of domain driven
+
+908
+00:33:01,600 --> 00:33:04,640
+design, you know, which has this very
+
+909
+00:33:03,519 --> 00:33:06,480
+productive and interesting idea of
+
+910
+00:33:04,640 --> 00:33:09,039
+bounded context, but almost encourages
+
+911
+00:33:06,480 --> 00:33:10,320
+people to develop concepts that are
+
+912
+00:33:09,039 --> 00:33:11,600
+different for the same functionality in
+
+913
+00:33:10,320 --> 00:33:13,039
+different domains. And what I'm arguing
+
+914
+00:33:11,600 --> 00:33:14,799
+is that what you really want is to
+
+915
+00:33:13,039 --> 00:33:16,720
+achieve alignment. If everybody has user
+
+916
+00:33:14,799 --> 00:33:18,080
+authentication and everybody has billing
+
+917
+00:33:16,720 --> 00:33:19,760
+and everybody has notification in every
+
+918
+00:33:18,080 --> 00:33:21,279
+part of the company, you surely don't
+
+919
+00:33:19,760 --> 00:33:23,200
+want to design and implement it
+
+920
+00:33:21,279 --> 00:33:24,880
+differently in every single team. So
+
+921
+00:33:23,200 --> 00:33:26,240
+what I'm arguing is that indeed you want
+
+922
+00:33:24,880 --> 00:33:28,640
+to have shared concepts for those
+
+923
+00:33:26,240 --> 00:33:30,720
+things. Um but as you say I think in you
+
+924
+00:33:28,640 --> 00:33:32,159
+know in different domains those will be
+
+925
+00:33:30,720 --> 00:33:33,600
+realized differently and will interact
+
+926
+00:33:32,159 --> 00:33:36,559
+differently to due to the different
+
+927
+00:33:33,600 --> 00:33:40,399
+packagings and synchronizations.
+
+928
+00:33:36,559 --> 00:33:42,480
+Exactly. Last question. Um the universe
+
+929
+00:33:40,399 --> 00:33:45,320
+is used to natural language interfaces.
+
+930
+00:33:42,480 --> 00:33:48,519
+Let's say the short shorthand of a
+
+931
+00:33:45,320 --> 00:33:52,399
+chatbot. Does application of concepts
+
+932
+00:33:48,519 --> 00:33:56,039
+make chat interactions better?
+
+933
+00:33:52,399 --> 00:33:59,200
+Quart one. Part two is what fraction of
+
+934
+00:33:56,039 --> 00:34:03,120
+UX do you think can be properly subsumed
+
+935
+00:33:59,200 --> 00:34:05,399
+by that kind of a chatbot? And part
+
+936
+00:34:03,120 --> 00:34:08,399
+three, if we're only
+
+937
+00:34:05,399 --> 00:34:11,119
+generating interfaces and you know APIs
+
+938
+00:34:08,399 --> 00:34:14,480
+and chat interfaces, does that make the
+
+939
+00:34:11,119 --> 00:34:16,720
+code generation challenge easier?
+
+940
+00:34:14,480 --> 00:34:20,079
+Wow. Um there there are so many
+
+941
+00:34:16,720 --> 00:34:21,599
+interesting observations there. Um I
+
+942
+00:34:20,079 --> 00:34:22,720
+think that um you know people are
+
+943
+00:34:21,599 --> 00:34:25,200
+rightly pointing out that chat
+
+944
+00:34:22,720 --> 00:34:27,280
+interfaces are very limited. Um I
+
+945
+00:34:25,200 --> 00:34:28,399
+actually suspect that um for code
+
+946
+00:34:27,280 --> 00:34:29,679
+development they're pretty powerful.
+
+947
+00:34:28,399 --> 00:34:30,800
+Language is a very powerful thing and
+
+948
+00:34:29,679 --> 00:34:33,200
+we'll be able to go a long way with
+
+949
+00:34:30,800 --> 00:34:35,440
+that. Um I think that one of the
+
+950
+00:34:33,200 --> 00:34:37,280
+important things about concepts which is
+
+951
+00:34:35,440 --> 00:34:38,720
+which is I think perhaps related to your
+
+952
+00:34:37,280 --> 00:34:40,879
+question is that concepts are
+
+953
+00:34:38,720 --> 00:34:42,159
+fundamentally userfacing and what that
+
+954
+00:34:40,879 --> 00:34:43,839
+means is that when you describe the
+
+955
+00:34:42,159 --> 00:34:46,079
+functionality you want to be able to
+
+956
+00:34:43,839 --> 00:34:47,280
+describe it in the user terms and this
+
+957
+00:34:46,079 --> 00:34:49,679
+is a big difference from coding
+
+958
+00:34:47,280 --> 00:34:52,159
+assistants um you know like you know
+
+959
+00:34:49,679 --> 00:34:54,720
+cursor and uh copilot and so on which
+
+960
+00:34:52,159 --> 00:34:56,320
+require the programmer to explain the
+
+961
+00:34:54,720 --> 00:34:59,040
+functionality they want in terms of the
+
+962
+00:34:56,320 --> 00:35:00,079
+existing implementation modules. Uh I
+
+963
+00:34:59,040 --> 00:35:01,440
+should have emphasized that actually
+
+964
+00:35:00,079 --> 00:35:04,480
+that's a very important point that in
+
+965
+00:35:01,440 --> 00:35:06,240
+this case everything you describe um is
+
+966
+00:35:04,480 --> 00:35:08,000
+essentially at the domain level and this
+
+967
+00:35:06,240 --> 00:35:10,320
+is also going to be a feature of of
+
+968
+00:35:08,000 --> 00:35:12,880
+Adam's very interesting work um that
+
+969
+00:35:10,320 --> 00:35:15,200
+basically you don't want to put the user
+
+970
+00:35:12,880 --> 00:35:17,440
+the user developer as it were in the
+
+971
+00:35:15,200 --> 00:35:20,000
+position of having to break the
+
+972
+00:35:17,440 --> 00:35:22,320
+abstraction and understand low-level
+
+973
+00:35:20,000 --> 00:35:24,240
+implementation details. Uh and I think
+
+974
+00:35:22,320 --> 00:35:26,480
+that's really the crucial point that in
+
+975
+00:35:24,240 --> 00:35:28,240
+whatever interaction it is, it has to be
+
+976
+00:35:26,480 --> 00:35:29,839
+an interaction in what uh me and my
+
+977
+00:35:28,240 --> 00:35:32,800
+students call the vernacular. The
+
+978
+00:35:29,839 --> 00:35:35,800
+vernacular of the user uh and not in the
+
+979
+00:35:32,800 --> 00:35:40,680
+language of of the
+
+980
+00:35:35,800 --> 00:35:40,680
+programmer. Okay. Thank you very much.
+

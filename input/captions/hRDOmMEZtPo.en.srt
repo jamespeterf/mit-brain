@@ -1,0 +1,5308 @@
+1
+00:00:10,880 --> 00:00:19,119
+okay can people hear in the back are we
+
+2
+00:00:13,879 --> 00:00:21,400
+good yeah thumbs up okay nice one so uh
+
+3
+00:00:19,119 --> 00:00:25,160
+you you've already seen uh a couple of
+
+4
+00:00:21,400 --> 00:00:27,599
+lectures on on number Theory now and uh
+
+5
+00:00:25,160 --> 00:00:29,560
+so we've already uh some of you have
+
+6
+00:00:27,599 --> 00:00:31,279
+been asking like why are we doing this
+
+7
+00:00:29,560 --> 00:00:34,399
+why is this in
+
+8
+00:00:31,279 --> 00:00:37,800
+61200 and uh today we're going to see
+
+9
+00:00:34,399 --> 00:00:40,640
+how gcds and modular arithmetic uh can
+
+10
+00:00:37,800 --> 00:00:42,160
+be very important for uh you know
+
+11
+00:00:40,640 --> 00:00:45,239
+something that you that you use every
+
+12
+00:00:42,160 --> 00:00:48,120
+day computer security uh so cryptography
+
+13
+00:00:45,239 --> 00:00:50,640
+has been uh uh you know very important
+
+14
+00:00:48,120 --> 00:00:53,520
+uh subject for you know uh for for daily
+
+15
+00:00:50,640 --> 00:00:58,160
+life for like the last 20 odd years uh
+
+16
+00:00:53,520 --> 00:00:59,680
+you know any time you uh do an online uh
+
+17
+00:00:58,160 --> 00:01:01,680
+like credit card transaction or anything
+
+18
+00:00:59,680 --> 00:01:02,920
+like that like that's using uh you know
+
+19
+00:01:01,680 --> 00:01:05,760
+modern
+
+20
+00:01:02,920 --> 00:01:08,360
+cryptography um we'll see some uh some
+
+21
+00:01:05,760 --> 00:01:10,960
+examples from history where it was quite
+
+22
+00:01:08,360 --> 00:01:13,240
+important uh it's it's you know very
+
+23
+00:01:10,960 --> 00:01:16,799
+much a computer science topic not uh not
+
+24
+00:01:13,240 --> 00:01:18,640
+just math and uh but but it does use all
+
+25
+00:01:16,799 --> 00:01:22,119
+sorts of uh exciting mathematics
+
+26
+00:01:18,640 --> 00:01:23,880
+including you know number Theory okay so
+
+27
+00:01:22,119 --> 00:01:28,040
+can anybody tell me you know just in a
+
+28
+00:01:23,880 --> 00:01:28,040
+nutshell very informally uh what is
+
+29
+00:01:28,439 --> 00:01:31,920
+cryptography anyone
+
+30
+00:01:40,600 --> 00:01:45,600
+yep okay secure information over an
+
+31
+00:01:43,280 --> 00:01:46,680
+insecure Channel yeah that's a that's a
+
+32
+00:01:45,600 --> 00:01:48,840
+pretty good
+
+33
+00:01:46,680 --> 00:01:52,119
+description uh so I I would say that
+
+34
+00:01:48,840 --> 00:01:54,520
+it's uh you know the art or science of
+
+35
+00:01:52,119 --> 00:01:56,119
+of you know dealing with with such uh
+
+36
+00:01:54,520 --> 00:01:57,680
+dealing with protecting
+
+37
+00:01:56,119 --> 00:02:01,680
+information
+
+38
+00:01:57,680 --> 00:02:03,039
+um so like the the basic idea right uh
+
+39
+00:02:01,680 --> 00:02:05,320
+well at least for for what we're going
+
+40
+00:02:03,039 --> 00:02:08,640
+to be looking at today is suppose you
+
+41
+00:02:05,320 --> 00:02:11,760
+have an insecure Channel and you want to
+
+42
+00:02:08,640 --> 00:02:13,680
+send some message to uh you know a
+
+43
+00:02:11,760 --> 00:02:15,519
+recipient but you don't want other
+
+44
+00:02:13,680 --> 00:02:16,720
+people who might be uh EES dropping on
+
+45
+00:02:15,519 --> 00:02:19,239
+your channel to to know what you're
+
+46
+00:02:16,720 --> 00:02:21,800
+doing okay so basically you're going to
+
+47
+00:02:19,239 --> 00:02:23,440
+want to garble a a message that you send
+
+48
+00:02:21,800 --> 00:02:26,519
+privately in such a way that only
+
+49
+00:02:23,440 --> 00:02:28,920
+certain parties can read it okay so
+
+50
+00:02:26,519 --> 00:02:31,840
+let's uh you know take a look at at uh
+
+51
+00:02:28,920 --> 00:02:31,840
+what we mean
+
+52
+00:02:33,400 --> 00:02:41,560
+okay so the art or science of protecting
+
+53
+00:02:37,160 --> 00:02:43,040
+information so our uh you know our setup
+
+54
+00:02:41,560 --> 00:02:45,800
+the convention right is that we're going
+
+55
+00:02:43,040 --> 00:02:47,400
+to have uh two parties Alis Kazam and
+
+56
+00:02:45,800 --> 00:02:49,519
+and
+
+57
+00:02:47,400 --> 00:02:51,599
+Bulbasaur and they're going to be trying
+
+58
+00:02:49,519 --> 00:02:53,560
+to communicate over this communication
+
+59
+00:02:51,599 --> 00:02:56,599
+Channel which you know may or may not be
+
+60
+00:02:53,560 --> 00:02:58,800
+secure okay so maybe Alis Kazam wants to
+
+61
+00:02:56,599 --> 00:03:00,760
+send a message it's it's Pi Day so she's
+
+62
+00:02:58,800 --> 00:03:03,440
+going to send a pi
+
+63
+00:03:00,760 --> 00:03:05,680
+uh over to Bulbasaur right so you know
+
+64
+00:03:03,440 --> 00:03:08,840
+maybe she puts it in an envelope uh pops
+
+65
+00:03:05,680 --> 00:03:10,400
+it in the post and you know Bulbasaur
+
+66
+00:03:08,840 --> 00:03:13,720
+receives it he can open up the envelope
+
+67
+00:03:10,400 --> 00:03:16,040
+and and get the message okay so does
+
+68
+00:03:13,720 --> 00:03:20,080
+that basic setup make sense to
+
+69
+00:03:16,040 --> 00:03:21,440
+people okay so nothing too fancy yet uh
+
+70
+00:03:20,080 --> 00:03:24,239
+but what could go
+
+71
+00:03:21,440 --> 00:03:26,400
+wrong can anybody uh tell me a problem
+
+72
+00:03:24,239 --> 00:03:26,400
+with
+
+73
+00:03:27,000 --> 00:03:31,000
+this yeah
+
+74
+00:03:31,280 --> 00:03:35,080
+yeah somebody could come and steal the
+
+75
+00:03:32,480 --> 00:03:38,879
+message right so like maybe we've got uh
+
+76
+00:03:35,080 --> 00:03:42,040
+some Eve stopper Eevee right and uh you
+
+77
+00:03:38,879 --> 00:03:43,400
+know Eevee wants to uh wants to Eve St
+
+78
+00:03:42,040 --> 00:03:46,080
+up on their conversation wants to figure
+
+79
+00:03:43,400 --> 00:03:47,720
+out what they're talking about okay so
+
+80
+00:03:46,080 --> 00:03:50,360
+it's it's quite possible that you know
+
+81
+00:03:47,720 --> 00:03:53,079
+maybe Alex Alex Kazam pops this in the
+
+82
+00:03:50,360 --> 00:03:54,439
+mail Eevee then opens the mail puts it
+
+83
+00:03:53,079 --> 00:03:55,799
+back in the mail sends it along to
+
+84
+00:03:54,439 --> 00:03:59,480
+bobasaur but now Eevee knows what the
+
+85
+00:03:55,799 --> 00:04:03,680
+message is okay so this is a problem
+
+86
+00:03:59,480 --> 00:04:03,680
+right what else could go wrong any other
+
+87
+00:04:07,799 --> 00:04:10,799
+ideas
+
+88
+00:04:13,360 --> 00:04:18,720
+yeah yeah like what if what if Eevee is
+
+89
+00:04:16,720 --> 00:04:22,560
+is not just an eavesdropper but like
+
+90
+00:04:18,720 --> 00:04:24,280
+some meddling adversary okay so you know
+
+91
+00:04:22,560 --> 00:04:26,759
+maybe maybe Bulbasaur now wants to say
+
+92
+00:04:24,280 --> 00:04:29,280
+thank you for the pie Bulbasaur you know
+
+93
+00:04:26,759 --> 00:04:32,199
+puts this in an envelope sends it over
+
+94
+00:04:29,280 --> 00:04:34,320
+to all gam but you know E's intercepted
+
+95
+00:04:32,199 --> 00:04:36,400
+along the way and so now when uh when
+
+96
+00:04:34,320 --> 00:04:39,320
+alexam gets it it's not quite the same
+
+97
+00:04:36,400 --> 00:04:40,759
+message as Bulbasaur sent okay so that's
+
+98
+00:04:39,320 --> 00:04:44,039
+also a problem we we'd also like to
+
+99
+00:04:40,759 --> 00:04:46,840
+prevent this
+
+100
+00:04:44,039 --> 00:04:49,639
+okay so what can we
+
+101
+00:04:46,840 --> 00:04:51,800
+do well if we think about you know the
+
+102
+00:04:49,639 --> 00:04:54,360
+actual Postal System we could uh you
+
+103
+00:04:51,800 --> 00:04:58,120
+know basically put a put a seal on it
+
+104
+00:04:54,360 --> 00:05:00,120
+like a an oldfashioned Wax Seal uh but
+
+105
+00:04:58,120 --> 00:05:01,639
+you know basically
+
+106
+00:05:00,120 --> 00:05:05,479
+Alice gazam and Bulbasaur are going to
+
+107
+00:05:01,639 --> 00:05:07,720
+share some some key okay
+
+108
+00:05:05,479 --> 00:05:09,639
+so they they have a a message that
+
+109
+00:05:07,720 --> 00:05:11,919
+they'd like to share it's supposed to be
+
+110
+00:05:09,639 --> 00:05:14,080
+secret so instead of just you know
+
+111
+00:05:11,919 --> 00:05:16,280
+putting the envelope in the post they're
+
+112
+00:05:14,080 --> 00:05:18,319
+going to put it in a locked box right
+
+113
+00:05:16,280 --> 00:05:21,120
+and alas exam will will lock it with her
+
+114
+00:05:18,319 --> 00:05:23,199
+key and now when she sends it over the
+
+115
+00:05:21,120 --> 00:05:25,199
+channel Eevee can't do anything with it
+
+116
+00:05:23,199 --> 00:05:27,560
+it's locked Eevee doesn't have the key
+
+117
+00:05:25,199 --> 00:05:29,360
+okay but Bulbasaur has the same key so
+
+118
+00:05:27,560 --> 00:05:33,680
+he can now remove the lock and open the
+
+119
+00:05:29,360 --> 00:05:33,680
+message and everything is awesome
+
+120
+00:05:34,800 --> 00:05:39,479
+okay so key Concepts in
+
+121
+00:05:39,639 --> 00:05:46,840
+cryptography oops that all
+
+122
+00:05:42,199 --> 00:05:48,560
+work okay so the the basic idea you know
+
+123
+00:05:46,840 --> 00:05:51,080
+we're we're trying to send private
+
+124
+00:05:48,560 --> 00:05:53,319
+messages right so we're going to want to
+
+125
+00:05:51,080 --> 00:05:55,440
+what we call encrypt a message so this
+
+126
+00:05:53,319 --> 00:05:56,960
+means just garbling it so it kind of
+
+127
+00:05:55,440 --> 00:05:59,840
+looks like random
+
+128
+00:05:56,960 --> 00:06:02,120
+noise uh so only parties who share your
+
+129
+00:05:59,840 --> 00:06:03,800
+secret key will be able to read
+
+130
+00:06:02,120 --> 00:06:06,759
+it
+
+131
+00:06:03,800 --> 00:06:07,720
+okay uh decryption is the reverse right
+
+132
+00:06:06,759 --> 00:06:09,840
+you're going to take one of these
+
+133
+00:06:07,720 --> 00:06:13,000
+garbled messages if you're the intended
+
+134
+00:06:09,840 --> 00:06:16,039
+recipient and hopefully you can Ungar it
+
+135
+00:06:13,000 --> 00:06:17,520
+to recover the uh the original message
+
+136
+00:06:16,039 --> 00:06:21,240
+but also you know hopefully nobody else
+
+137
+00:06:17,520 --> 00:06:23,919
+can do the same thing okay and in order
+
+138
+00:06:21,240 --> 00:06:25,919
+to do both of these things uh the the
+
+139
+00:06:23,919 --> 00:06:28,319
+two parties are going to share a secret
+
+140
+00:06:25,919 --> 00:06:31,080
+key which is some data that that only
+
+141
+00:06:28,319 --> 00:06:34,520
+they have nobody else should have it and
+
+142
+00:06:31,080 --> 00:06:37,560
+it should look random and it should be
+
+143
+00:06:34,520 --> 00:06:40,720
+hard for for somebody else to to derive
+
+144
+00:06:37,560 --> 00:06:40,720
+or guess
+
+145
+00:06:46,319 --> 00:06:51,000
+yeah that's a great question so like
+
+146
+00:06:48,880 --> 00:06:53,240
+that yeah they have to meet up and and
+
+147
+00:06:51,000 --> 00:06:55,680
+actually share a key uh but then that
+
+148
+00:06:53,240 --> 00:06:57,759
+allows them to you know share messages
+
+149
+00:06:55,680 --> 00:07:00,120
+uh over this insecure Channel later okay
+
+150
+00:06:57,759 --> 00:07:02,919
+but they they do have to establish a uh
+
+151
+00:07:00,120 --> 00:07:05,759
+you know a secure way of sharing the key
+
+152
+00:07:02,919 --> 00:07:07,840
+first uh so we won't be talking too much
+
+153
+00:07:05,759 --> 00:07:09,840
+about how you can actually do that
+
+154
+00:07:07,840 --> 00:07:12,240
+nowadays uh but it is in the notes if
+
+155
+00:07:09,840 --> 00:07:14,199
+you'd like to read it
+
+156
+00:07:12,240 --> 00:07:18,199
+okay
+
+157
+00:07:14,199 --> 00:07:20,000
+uh okay so a cryptographic scheme is
+
+158
+00:07:18,199 --> 00:07:21,360
+basically just you know these things
+
+159
+00:07:20,000 --> 00:07:22,879
+right it's a it's an encryption
+
+160
+00:07:21,360 --> 00:07:25,160
+algorithm paired with a decryption
+
+161
+00:07:22,879 --> 00:07:27,360
+algorithm and they should you know use
+
+162
+00:07:25,160 --> 00:07:30,840
+the same secret key to uh you know
+
+163
+00:07:27,360 --> 00:07:30,840
+invert each other
+
+164
+00:07:31,280 --> 00:07:37,879
+okay so can anybody give me examples
+
+165
+00:07:35,160 --> 00:07:39,960
+historical examples of cryptographic
+
+166
+00:07:37,879 --> 00:07:42,240
+schemes does anybody know what the first
+
+167
+00:07:39,960 --> 00:07:42,240
+one
+
+168
+00:07:43,759 --> 00:07:48,400
+was
+
+169
+00:07:45,440 --> 00:07:52,800
+yeah uh yeah the Caesar
+
+170
+00:07:48,400 --> 00:07:52,800
+Cipher so what was the Caesar
+
+171
+00:07:55,080 --> 00:08:00,520
+Cipher how do you encrypt a message yeah
+
+172
+00:08:02,960 --> 00:08:06,479
+okay so the answer was you offset every
+
+173
+00:08:04,759 --> 00:08:07,720
+message in the letter by you know n
+
+174
+00:08:06,479 --> 00:08:11,720
+letters after
+
+175
+00:08:07,720 --> 00:08:14,240
+it uh not quite you are thinking of
+
+176
+00:08:11,720 --> 00:08:16,759
+something very slightly different the
+
+177
+00:08:14,240 --> 00:08:20,919
+Caesar Cipher was specifically using
+
+178
+00:08:16,759 --> 00:08:22,639
+three not not like some some key n okay
+
+179
+00:08:20,919 --> 00:08:25,120
+so you take every letter shift it over
+
+180
+00:08:22,639 --> 00:08:29,800
+by three letters so like you know C
+
+181
+00:08:25,120 --> 00:08:31,960
+becomes D EF right uh and you know you
+
+182
+00:08:29,800 --> 00:08:34,760
+shift every letter uh individually and
+
+183
+00:08:31,960 --> 00:08:36,959
+then send the shifted message okay and
+
+184
+00:08:34,760 --> 00:08:39,159
+to decrypt it you do the reverse you you
+
+185
+00:08:36,959 --> 00:08:42,640
+kind of subtract three modul
+
+186
+00:08:39,159 --> 00:08:45,399
+26 okay does that make sense to
+
+187
+00:08:42,640 --> 00:08:47,959
+everybody now what you're thinking of is
+
+188
+00:08:45,399 --> 00:08:51,680
+the Caesar
+
+189
+00:08:47,959 --> 00:08:53,360
+shift which is slightly better right so
+
+190
+00:08:51,680 --> 00:08:57,360
+one problem with the Caesar Cipher right
+
+191
+00:08:53,360 --> 00:09:00,079
+is um you know you're not you don't
+
+192
+00:08:57,360 --> 00:09:01,640
+really have a key right like uh
+
+193
+00:09:00,079 --> 00:09:05,839
+it's kind of what we call cryptography
+
+194
+00:09:01,640 --> 00:09:07,839
+by obscurity so the only reason it might
+
+195
+00:09:05,839 --> 00:09:09,200
+be secure is if nobody else knows you're
+
+196
+00:09:07,839 --> 00:09:12,880
+doing
+
+197
+00:09:09,200 --> 00:09:17,000
+it uh unfortunately you know if uh you
+
+198
+00:09:12,880 --> 00:09:19,040
+know if you're a Roman Emperor Legion or
+
+199
+00:09:17,000 --> 00:09:20,760
+whatever using the Caesar
+
+200
+00:09:19,040 --> 00:09:23,560
+Cipher
+
+201
+00:09:20,760 --> 00:09:27,079
+uh you know it doesn't protect against
+
+202
+00:09:23,560 --> 00:09:29,600
+say maybe one of your generals defects
+
+203
+00:09:27,079 --> 00:09:31,120
+and uh now goes to the enemy and is like
+
+204
+00:09:29,600 --> 00:09:32,760
+hey they're using this cryptographic
+
+205
+00:09:31,120 --> 00:09:35,560
+scheme here's how you can break all
+
+206
+00:09:32,760 --> 00:09:37,040
+their messages right and so then from
+
+207
+00:09:35,560 --> 00:09:40,760
+that point forward you know nothing you
+
+208
+00:09:37,040 --> 00:09:42,839
+send is secure okay so one way we can
+
+209
+00:09:40,760 --> 00:09:46,839
+fix that is you know by as you said
+
+210
+00:09:42,839 --> 00:09:49,279
+introducing a key okay so the Caesar
+
+211
+00:09:46,839 --> 00:09:51,040
+shift is you know very similar but
+
+212
+00:09:49,279 --> 00:09:53,760
+instead of just shifting by three you
+
+213
+00:09:51,040 --> 00:09:54,880
+shift by you know some secret key K okay
+
+214
+00:09:53,760 --> 00:09:57,320
+modulo
+
+215
+00:09:54,880 --> 00:10:00,320
+26 okay does anybody see a problem with
+
+216
+00:09:57,320 --> 00:10:00,320
+this
+
+217
+00:10:04,480 --> 00:10:12,200
+MH yeah that it is
+
+218
+00:10:07,800 --> 00:10:12,200
+so oops let's not caps lock
+
+219
+00:10:13,680 --> 00:10:21,160
+that
+
+220
+00:10:16,200 --> 00:10:25,519
+uh okay so here is a um oh
+
+221
+00:10:21,160 --> 00:10:25,519
+that did not work what is going
+
+222
+00:10:27,160 --> 00:10:33,399
+on okay so here's uh an encrypted
+
+223
+00:10:31,160 --> 00:10:37,560
+message it's been encrypt encrypted
+
+224
+00:10:33,399 --> 00:10:38,720
+using the uh uh the Caesar Cipher sorry
+
+225
+00:10:37,560 --> 00:10:40,720
+Caesar
+
+226
+00:10:38,720 --> 00:10:44,639
+shift
+
+227
+00:10:40,720 --> 00:10:47,639
+uh as you said right it's fairly easy to
+
+228
+00:10:44,639 --> 00:10:49,279
+guess what the key is right so does
+
+229
+00:10:47,639 --> 00:10:51,519
+anybody have any guesses before I start
+
+230
+00:10:49,279 --> 00:10:53,639
+just you know putting in
+
+231
+00:10:51,519 --> 00:10:58,560
+values
+
+232
+00:10:53,639 --> 00:10:58,560
+yeah 13 why 13
+
+233
+00:11:00,880 --> 00:11:06,320
+yeah that's uh that's a very good
+
+234
+00:11:03,920 --> 00:11:08,040
+guess so yeah no knowing some
+
+235
+00:11:06,320 --> 00:11:11,399
+information about the message right like
+
+236
+00:11:08,040 --> 00:11:13,760
+this is probably in English right uh you
+
+237
+00:11:11,399 --> 00:11:16,600
+have a a standalone n in that first line
+
+238
+00:11:13,760 --> 00:11:18,200
+right that's probably an A or an I right
+
+239
+00:11:16,600 --> 00:11:19,440
+you you've already got lots of
+
+240
+00:11:18,200 --> 00:11:22,880
+information that you can use to narrow
+
+241
+00:11:19,440 --> 00:11:24,480
+down the key and even if you don't right
+
+242
+00:11:22,880 --> 00:11:27,200
+like if we just start putting in random
+
+243
+00:11:24,480 --> 00:11:31,240
+values here right like most of them are
+
+244
+00:11:27,200 --> 00:11:31,240
+going to look like garbage right
+
+245
+00:11:31,800 --> 00:11:36,600
+okay uh but like one of them is actually
+
+246
+00:11:34,120 --> 00:11:38,279
+going to make sense okay so when we try
+
+247
+00:11:36,600 --> 00:11:40,360
+all of the possible values we're going
+
+248
+00:11:38,279 --> 00:11:41,920
+to you know figure out something that uh
+
+249
+00:11:40,360 --> 00:11:44,839
+that is almost certainly going to be the
+
+250
+00:11:41,920 --> 00:11:49,120
+the correct key
+
+251
+00:11:44,839 --> 00:11:52,320
+okay so how can we avoid this
+
+252
+00:11:49,120 --> 00:11:52,320
+problem any
+
+253
+00:11:53,000 --> 00:11:57,000
+ideas yeah
+
+254
+00:12:00,600 --> 00:12:05,040
+change the encryption method based on
+
+255
+00:12:02,079 --> 00:12:06,839
+the index of the letter okay uh so what
+
+256
+00:12:05,040 --> 00:12:09,760
+you're describing is uh what we call the
+
+257
+00:12:06,839 --> 00:12:13,839
+onetime pad um that is a good idea we
+
+258
+00:12:09,760 --> 00:12:13,839
+will not be covering it just yet
+
+259
+00:12:16,399 --> 00:12:22,600
+yeah okay um similar idea uh let's let's
+
+260
+00:12:20,880 --> 00:12:25,560
+start by making a a smaller more
+
+261
+00:12:22,600 --> 00:12:27,880
+incremental change
+
+262
+00:12:25,560 --> 00:12:30,160
+yeah okay include
+
+263
+00:12:27,880 --> 00:12:34,079
+numbers uh
+
+264
+00:12:30,160 --> 00:12:35,839
+well the idea that I had in mind was to
+
+265
+00:12:34,079 --> 00:12:38,600
+just use a larger key
+
+266
+00:12:35,839 --> 00:12:41,320
+space uh use a permutation instead of
+
+267
+00:12:38,600 --> 00:12:42,560
+instead of just a shift okay so that
+
+268
+00:12:41,320 --> 00:12:45,199
+this is something that was done you know
+
+269
+00:12:42,560 --> 00:12:47,199
+in medieval times uh instead of Shifting
+
+270
+00:12:45,199 --> 00:12:49,680
+every letter over by the same amount
+
+271
+00:12:47,199 --> 00:12:51,079
+right you'd take a random permutation of
+
+272
+00:12:49,680 --> 00:12:52,959
+the letters and so you're kind of
+
+273
+00:12:51,079 --> 00:12:56,560
+Shifting each letter
+
+274
+00:12:52,959 --> 00:13:00,240
+differently okay now can anybody think
+
+275
+00:12:56,560 --> 00:13:03,680
+of a way that you could attack this
+
+276
+00:13:00,240 --> 00:13:03,680
+oh why is this not
+
+277
+00:13:05,839 --> 00:13:12,120
+working
+
+278
+00:13:08,160 --> 00:13:12,120
+H sorry technical
+
+279
+00:13:16,279 --> 00:13:20,440
+difficulties oh well I guess it doesn't
+
+280
+00:13:18,600 --> 00:13:24,279
+matter too much uh I can describe what's
+
+281
+00:13:20,440 --> 00:13:26,519
+going on um so yeah uh what what your
+
+282
+00:13:24,279 --> 00:13:28,720
+classmate suggested was that you know
+
+283
+00:13:26,519 --> 00:13:30,639
+again we can use uh the known plain text
+
+284
+00:13:28,720 --> 00:13:34,160
+attack that that we described a moment
+
+285
+00:13:30,639 --> 00:13:37,399
+ago with the um uh with the Caesar shift
+
+286
+00:13:34,160 --> 00:13:41,399
+okay if we know something about uh about
+
+287
+00:13:37,399 --> 00:13:43,240
+our message right like uh for instance
+
+288
+00:13:41,399 --> 00:13:44,360
+if we know that it's it's probably
+
+289
+00:13:43,240 --> 00:13:48,199
+written in
+
+290
+00:13:44,360 --> 00:13:51,079
+English then we can count how many times
+
+291
+00:13:48,199 --> 00:13:53,160
+each letter appears and whichever letter
+
+292
+00:13:51,079 --> 00:13:55,800
+appears most frequently probably
+
+293
+00:13:53,160 --> 00:13:58,040
+decrypts to e because e is the uh most
+
+294
+00:13:55,800 --> 00:14:00,399
+common English letter or even if not
+
+295
+00:13:58,040 --> 00:14:01,600
+we've got a decent guess right like uh
+
+296
+00:14:00,399 --> 00:14:04,120
+you know it's probably not going to be
+
+297
+00:14:01,600 --> 00:14:06,320
+like X or Zed it might be S or t or
+
+298
+00:14:04,120 --> 00:14:07,880
+something like that uh but the point is
+
+299
+00:14:06,320 --> 00:14:09,199
+it's very easy to start narrowing down
+
+300
+00:14:07,880 --> 00:14:12,839
+the key
+
+301
+00:14:09,199 --> 00:14:14,519
+space and you know once we have a guess
+
+302
+00:14:12,839 --> 00:14:16,079
+we can then start building on it so
+
+303
+00:14:14,519 --> 00:14:18,839
+similarly to what your colleague did
+
+304
+00:14:16,079 --> 00:14:22,240
+earlier right like if you have e and you
+
+305
+00:14:18,839 --> 00:14:25,120
+see threel words you know ending with E
+
+306
+00:14:22,240 --> 00:14:28,079
+that might be the right so then you've
+
+307
+00:14:25,120 --> 00:14:30,839
+got two more letters okay does that make
+
+308
+00:14:28,079 --> 00:14:32,639
+sense to people so you can like knowing
+
+309
+00:14:30,839 --> 00:14:35,600
+a little bit of of information about
+
+310
+00:14:32,639 --> 00:14:37,320
+your key you can kind of incrementally
+
+311
+00:14:35,600 --> 00:14:40,440
+figure out the the rest of the key and
+
+312
+00:14:37,320 --> 00:14:40,440
+decrypt the message
+
+313
+00:14:45,240 --> 00:14:51,160
+yeah that's right so it is a permutation
+
+314
+00:14:48,800 --> 00:14:52,720
+so uh you know it's a it's a onetoone
+
+315
+00:14:51,160 --> 00:14:58,360
+map it's a
+
+316
+00:14:52,720 --> 00:14:58,360
+bje okay uh other questions
+
+317
+00:15:03,279 --> 00:15:06,480
+maybe I can just post this demo on the
+
+318
+00:15:04,759 --> 00:15:08,720
+website so you can uh play around with
+
+319
+00:15:06,480 --> 00:15:10,839
+it uh sorry it didn't
+
+320
+00:15:08,720 --> 00:15:13,839
+work
+
+321
+00:15:10,839 --> 00:15:13,839
+um
+
+322
+00:15:14,199 --> 00:15:19,079
+okay so the next example comes from
+
+323
+00:15:17,160 --> 00:15:22,800
+World War II has anybody uh heard of the
+
+324
+00:15:19,079 --> 00:15:25,399
+Enigma Cipher yeah few hands can anybody
+
+325
+00:15:22,800 --> 00:15:25,399
+tell me what it
+
+326
+00:15:27,240 --> 00:15:30,959
+did mhm
+
+327
+00:15:32,120 --> 00:15:36,360
+okay uh so the answer was it changed the
+
+328
+00:15:33,920 --> 00:15:38,480
+encryption method every day uh that's
+
+329
+00:15:36,360 --> 00:15:40,519
+not quite true it changed the key every
+
+330
+00:15:38,480 --> 00:15:44,240
+day it didn't change the algorithm that
+
+331
+00:15:40,519 --> 00:15:44,240
+they were using uh
+
+332
+00:15:45,519 --> 00:15:50,040
+yes yeah so it it basically oh so the
+
+333
+00:15:48,480 --> 00:15:53,480
+answer was it it changed the permutation
+
+334
+00:15:50,040 --> 00:15:55,839
+every letter uh so yes that's that's the
+
+335
+00:15:53,480 --> 00:15:59,000
+the basic idea behind uh
+
+336
+00:15:55,839 --> 00:16:01,519
+Enigma um it started with some you know
+
+337
+00:15:59,000 --> 00:16:04,519
+permutation of the letters and every
+
+338
+00:16:01,519 --> 00:16:07,319
+time you uh encrypted a letter it would
+
+339
+00:16:04,519 --> 00:16:09,440
+then you know apply some some uh change
+
+340
+00:16:07,319 --> 00:16:11,519
+to this permutation so that the next
+
+341
+00:16:09,440 --> 00:16:14,360
+letter would be encrypted differently so
+
+342
+00:16:11,519 --> 00:16:17,519
+that made it resistant to a frequency
+
+343
+00:16:14,360 --> 00:16:21,120
+analysis um but you know unfortunately
+
+344
+00:16:17,519 --> 00:16:24,000
+for the for the Germans it was still
+
+345
+00:16:21,120 --> 00:16:27,440
+viable to do a known plain text attack
+
+346
+00:16:24,000 --> 00:16:29,399
+right so basically the the way that the
+
+347
+00:16:27,440 --> 00:16:32,480
+Allies ended up breaking this uh
+
+348
+00:16:29,399 --> 00:16:34,839
+encryption scheme was you know they knew
+
+349
+00:16:32,480 --> 00:16:36,759
+something about uh about the messages
+
+350
+00:16:34,839 --> 00:16:39,040
+that were being sent every day right
+
+351
+00:16:36,759 --> 00:16:39,800
+like many of them were weather reports
+
+352
+00:16:39,040 --> 00:16:42,279
+or
+
+353
+00:16:39,800 --> 00:16:43,800
+something uh many of them had like you
+
+354
+00:16:42,279 --> 00:16:46,199
+know the phrase H Hitler or something
+
+355
+00:16:43,800 --> 00:16:48,519
+like that um but like if you know that
+
+356
+00:16:46,199 --> 00:16:50,199
+you're getting a weather report from a
+
+357
+00:16:48,519 --> 00:16:52,000
+certain location you know the weather in
+
+358
+00:16:50,199 --> 00:16:54,040
+that location like you've got a bunch of
+
+359
+00:16:52,000 --> 00:16:57,800
+information about what you know how this
+
+360
+00:16:54,040 --> 00:16:59,959
+message might start right and so this
+
+361
+00:16:57,800 --> 00:17:02,199
+you know similarly to to to a a
+
+362
+00:16:59,959 --> 00:17:04,839
+frequency analysis attack you can kind
+
+363
+00:17:02,199 --> 00:17:07,400
+of use this information to narrow down
+
+364
+00:17:04,839 --> 00:17:09,199
+your key space and uh figure out the
+
+365
+00:17:07,400 --> 00:17:10,640
+secret key and once you've got that you
+
+366
+00:17:09,199 --> 00:17:13,039
+can decrypt everything that's being sent
+
+367
+00:17:10,640 --> 00:17:15,799
+that day uh and so you know this is what
+
+368
+00:17:13,039 --> 00:17:20,439
+the Allies were were doing uh uh in
+
+369
+00:17:15,799 --> 00:17:22,120
+Bletchley Park to to win the war
+
+370
+00:17:20,439 --> 00:17:24,919
+okay
+
+371
+00:17:22,120 --> 00:17:29,400
+so Enigma kind
+
+372
+00:17:24,919 --> 00:17:31,799
+of uh Enigma was kind of the the last
+
+373
+00:17:29,400 --> 00:17:35,919
+uh major example of of what
+
+374
+00:17:31,799 --> 00:17:39,080
+we or what I call kind of um
+
+375
+00:17:35,919 --> 00:17:41,480
+cryptography by hubis uh like basically
+
+376
+00:17:39,080 --> 00:17:43,520
+the the security relied on on you know
+
+377
+00:17:41,480 --> 00:17:44,679
+some German engineer being you know
+
+378
+00:17:43,520 --> 00:17:47,400
+smarter than everybody else on the
+
+379
+00:17:44,679 --> 00:17:50,640
+planet right like you know he he came up
+
+380
+00:17:47,400 --> 00:17:53,160
+with this uh encryption scheme and was
+
+381
+00:17:50,640 --> 00:17:55,480
+like okay this looks uh this looks you
+
+382
+00:17:53,160 --> 00:17:56,960
+know weird and random I can't figure out
+
+383
+00:17:55,480 --> 00:18:00,760
+how to break it I bet nobody else can
+
+384
+00:17:56,960 --> 00:18:02,440
+either okay and so the the Germans kind
+
+385
+00:18:00,760 --> 00:18:04,919
+of worked with this assumption for the
+
+386
+00:18:02,440 --> 00:18:10,679
+uh duration of the war and it was wrong
+
+387
+00:18:04,919 --> 00:18:13,360
+right so nowadays we like to uh you know
+
+388
+00:18:10,679 --> 00:18:14,559
+try and you know prove Security based on
+
+389
+00:18:13,360 --> 00:18:15,440
+you know more reasonable assumptions
+
+390
+00:18:14,559 --> 00:18:18,919
+than
+
+391
+00:18:15,440 --> 00:18:20,760
+that so uh one example which is in the
+
+392
+00:18:18,919 --> 00:18:24,000
+notes that we won't be uh covering too
+
+393
+00:18:20,760 --> 00:18:26,720
+much today is uh called Diffy Helman uh
+
+394
+00:18:24,000 --> 00:18:28,960
+the one that we'll be focusing on though
+
+395
+00:18:26,720 --> 00:18:33,000
+is uh RSA
+
+396
+00:18:28,960 --> 00:18:35,640
+so RSA was uh you know it's it's a a
+
+397
+00:18:33,000 --> 00:18:37,559
+modern cryptographic scheme named after
+
+398
+00:18:35,640 --> 00:18:42,120
+its inventor Clifford
+
+399
+00:18:37,559 --> 00:18:43,960
+Cox um that's totally a lie uh so
+
+400
+00:18:42,120 --> 00:18:46,400
+Clifford Cox did you know in some sense
+
+401
+00:18:43,960 --> 00:18:47,760
+invent RSA but uh he made the rather
+
+402
+00:18:46,400 --> 00:18:48,480
+suspicious life choice of working for
+
+403
+00:18:47,760 --> 00:18:51,159
+the
+
+404
+00:18:48,480 --> 00:18:54,400
+government uh so his work was classified
+
+405
+00:18:51,159 --> 00:18:56,720
+for like 2025 years something like that
+
+406
+00:18:54,400 --> 00:19:00,080
+and in the meantime you know rsna came
+
+407
+00:18:56,720 --> 00:19:01,559
+along uh and you know Ed his same scheme
+
+408
+00:19:00,080 --> 00:19:05,280
+they did it here at
+
+409
+00:19:01,559 --> 00:19:08,120
+MIT uh so this was uh Ron reest Addie
+
+410
+00:19:05,280 --> 00:19:09,360
+Shir and Leonard Adelman uh they got all
+
+411
+00:19:08,120 --> 00:19:12,360
+the credit for it they won a cheering
+
+412
+00:19:09,360 --> 00:19:15,039
+award and you know poor Mr Cox uh was
+
+413
+00:19:12,360 --> 00:19:17,200
+kind of screwed um so more of the story
+
+414
+00:19:15,039 --> 00:19:20,679
+don't work for the government um just
+
+415
+00:19:17,200 --> 00:19:25,720
+kidding but uh yeah kind of sucked for
+
+416
+00:19:20,679 --> 00:19:28,559
+him uh but yeah let's uh why don't we um
+
+417
+00:19:25,720 --> 00:19:30,559
+why don't we get into uh to what RSA
+
+418
+00:19:28,559 --> 00:19:33,799
+actually actually does
+
+419
+00:19:30,559 --> 00:19:36,280
+okay so RSA is an example of what we
+
+420
+00:19:33,799 --> 00:19:38,600
+call a public key crypto
+
+421
+00:19:36,280 --> 00:19:41,600
+system
+
+422
+00:19:38,600 --> 00:19:41,600
+okay
+
+423
+00:19:54,440 --> 00:20:02,720
+so okay so before right I described uh
+
+424
+00:20:00,240 --> 00:20:05,679
+what we actually call a a a private key
+
+425
+00:20:02,720 --> 00:20:08,480
+crypto system right where both
+
+426
+00:20:05,679 --> 00:20:12,039
+encryption and decryption use the same
+
+427
+00:20:08,480 --> 00:20:14,679
+secret key okay in a public key crypto
+
+428
+00:20:12,039 --> 00:20:17,360
+system that's no longer the case so we
+
+429
+00:20:14,679 --> 00:20:17,360
+actually have two
+
+430
+00:20:19,760 --> 00:20:29,880
+keys so let's call them uh KP and
+
+431
+00:20:24,760 --> 00:20:34,280
+KS okay so KP is going to be a public
+
+432
+00:20:29,880 --> 00:20:36,320
+key which everybody can see okay and
+
+433
+00:20:34,280 --> 00:20:40,400
+then it's going to be paired with the
+
+434
+00:20:36,320 --> 00:20:43,280
+secret key KS which you know you keep to
+
+435
+00:20:40,400 --> 00:20:44,360
+yourself okay and now the encryption and
+
+436
+00:20:43,280 --> 00:20:46,280
+decryption
+
+437
+00:20:44,360 --> 00:20:50,720
+algorithms uh each of them uses a
+
+438
+00:20:46,280 --> 00:20:53,720
+different key Okay so we've got
+
+439
+00:20:50,720 --> 00:20:53,720
+uh
+
+440
+00:20:55,280 --> 00:20:59,280
+encryption okay so our encryption
+
+441
+00:20:58,080 --> 00:21:01,240
+algorithm
+
+442
+00:20:59,280 --> 00:21:03,799
+is going to be you know e of some
+
+443
+00:21:01,240 --> 00:21:07,559
+message and our public
+
+444
+00:21:03,799 --> 00:21:09,760
+key okay and this will output you know
+
+445
+00:21:07,559 --> 00:21:12,760
+some Cipher text
+
+446
+00:21:09,760 --> 00:21:15,600
+C okay and then we're going to have a
+
+447
+00:21:12,760 --> 00:21:15,600
+different decryption
+
+448
+00:21:22,799 --> 00:21:28,760
+algorithm D which will you know
+
+449
+00:21:25,120 --> 00:21:30,880
+hopefully take this Cipher text uh C and
+
+450
+00:21:28,760 --> 00:21:32,919
+this time the secret
+
+451
+00:21:30,880 --> 00:21:34,559
+key and it should output the original
+
+452
+00:21:32,919 --> 00:21:37,279
+plane text message
+
+453
+00:21:34,559 --> 00:21:41,240
+M
+
+454
+00:21:37,279 --> 00:21:43,919
+okay so slightly different from the uh
+
+455
+00:21:41,240 --> 00:21:46,520
+uh uh from the the crypto system that I
+
+456
+00:21:43,919 --> 00:21:48,200
+defined earlier right in that one these
+
+457
+00:21:46,520 --> 00:21:50,480
+two keys were the same and so you don't
+
+458
+00:21:48,200 --> 00:21:54,159
+you you can't publish uh you can't
+
+459
+00:21:50,480 --> 00:21:56,080
+publish KP okay so only people who share
+
+460
+00:21:54,159 --> 00:21:58,240
+the same secret key can actually
+
+461
+00:21:56,080 --> 00:22:03,279
+communicate here this allows you know
+
+462
+00:21:58,240 --> 00:22:05,279
+any body to uh to to send a message okay
+
+463
+00:22:03,279 --> 00:22:07,400
+so you can kind of think of this as you
+
+464
+00:22:05,279 --> 00:22:08,880
+know suppose Alex exam wants to send a
+
+465
+00:22:07,400 --> 00:22:12,039
+message to
+
+466
+00:22:08,880 --> 00:22:14,279
+Bulbasaur uh so she's going to use
+
+467
+00:22:12,039 --> 00:22:15,600
+Bulbasaur's public key to send him a
+
+468
+00:22:14,279 --> 00:22:18,360
+message you can think of this as
+
+469
+00:22:15,600 --> 00:22:19,840
+Bulbasaur's like Gmail address right
+
+470
+00:22:18,360 --> 00:22:20,799
+this is something that you know anybody
+
+471
+00:22:19,840 --> 00:22:24,240
+can
+
+472
+00:22:20,799 --> 00:22:25,600
+find uh but then Bulbasaur has his Gmail
+
+473
+00:22:24,240 --> 00:22:30,159
+password which he can then use to read
+
+474
+00:22:25,600 --> 00:22:30,159
+the message okay
+
+475
+00:22:30,559 --> 00:22:33,320
+okay
+
+476
+00:22:35,799 --> 00:22:42,760
+so now we are ready
+
+477
+00:22:38,480 --> 00:22:42,760
+to actually Define how RSA
+
+478
+00:22:46,559 --> 00:22:53,000
+works
+
+479
+00:22:48,520 --> 00:22:57,120
+okay so the basic idea behind
+
+480
+00:22:53,000 --> 00:23:00,120
+RSA is that uh the encryption and
+
+481
+00:22:57,120 --> 00:23:02,679
+decryption algorithm together
+
+482
+00:23:00,120 --> 00:23:04,919
+uh should basically make use of phos
+
+483
+00:23:02,679 --> 00:23:07,120
+little theorem to to make sure that we
+
+484
+00:23:04,919 --> 00:23:10,559
+get back to the same
+
+485
+00:23:07,120 --> 00:23:14,320
+message okay
+
+486
+00:23:10,559 --> 00:23:20,480
+so we're going to try and come up with
+
+487
+00:23:14,320 --> 00:23:25,520
+uh you know some e and d
+
+488
+00:23:20,480 --> 00:23:26,520
+right and some n such that if we you
+
+489
+00:23:25,520 --> 00:23:29,520
+know
+
+490
+00:23:26,520 --> 00:23:32,400
+exponentiate right first raised to the
+
+491
+00:23:29,520 --> 00:23:34,559
+power of of uh e then raise again to the
+
+492
+00:23:32,400 --> 00:23:37,720
+power of D we should get back to to
+
+493
+00:23:34,559 --> 00:23:42,000
+where we started okay so we're going to
+
+494
+00:23:37,720 --> 00:23:44,240
+want uh you know for any m m to the E
+
+495
+00:23:42,000 --> 00:23:47,679
+raised to the power of D should be
+
+496
+00:23:44,240 --> 00:23:50,480
+equivalent mod n to
+
+497
+00:23:47,679 --> 00:23:52,600
+n
+
+498
+00:23:50,480 --> 00:23:54,440
+okay so let let's just start with
+
+499
+00:23:52,600 --> 00:23:57,320
+correctness for now let's let's not
+
+500
+00:23:54,440 --> 00:23:59,679
+worry too much about security just yet
+
+501
+00:23:57,320 --> 00:24:05,200
+but uh how could we achieve
+
+502
+00:23:59,679 --> 00:24:07,279
+this how could we choose uh n and D such
+
+503
+00:24:05,200 --> 00:24:09,679
+that this will at least work even if
+
+504
+00:24:07,279 --> 00:24:09,679
+it's not
+
+505
+00:24:12,480 --> 00:24:15,720
+secure any
+
+506
+00:24:27,000 --> 00:24:31,279
+ideas so what what did FMA tell
+
+507
+00:24:32,679 --> 00:24:41,279
+us so phma tells
+
+508
+00:24:35,559 --> 00:24:46,559
+us right that uh m to
+
+509
+00:24:41,279 --> 00:24:51,039
+the uh you know P minus one is congruent
+
+510
+00:24:46,559 --> 00:24:51,039
+mod P to one
+
+511
+00:24:53,640 --> 00:25:01,000
+okay so how can we kind of massage this
+
+512
+00:24:58,600 --> 00:25:01,000
+into
+
+513
+00:25:12,760 --> 00:25:19,120
+this well first time might we choose
+
+514
+00:25:16,120 --> 00:25:19,120
+n
+
+515
+00:25:19,559 --> 00:25:22,559
+yeah
+
+516
+00:25:22,799 --> 00:25:26,600
+sorry
+
+517
+00:25:24,320 --> 00:25:32,200
+okay
+
+518
+00:25:26,600 --> 00:25:35,360
+so the idea was to you know let e and d
+
+519
+00:25:32,200 --> 00:25:38,919
+uh be factors of n so like e *
+
+520
+00:25:35,360 --> 00:25:41,919
+D sorry equals
+
+521
+00:25:38,919 --> 00:25:41,919
+n
+
+522
+00:25:42,960 --> 00:25:48,399
+okay uh does anybody see a problem with
+
+523
+00:25:45,399 --> 00:25:48,399
+this
+
+524
+00:25:48,840 --> 00:25:55,159
+yeah uh so that's not the problem right
+
+525
+00:25:52,480 --> 00:25:57,640
+so we uh remember the exponent here is p
+
+526
+00:25:55,159 --> 00:26:00,279
+minus one right so you know if you
+
+527
+00:25:57,640 --> 00:26:04,520
+multiply both Ides by m you get m to the
+
+528
+00:26:00,279 --> 00:26:06,200
+p is congruent mod P to M okay so that
+
+529
+00:26:04,520 --> 00:26:09,760
+that is actually what we
+
+530
+00:26:06,200 --> 00:26:11,520
+want what assumption did we have on
+
+531
+00:26:09,760 --> 00:26:15,520
+P
+
+532
+00:26:11,520 --> 00:26:17,399
+yeah P ISE yeah p is prime so we can't
+
+533
+00:26:15,520 --> 00:26:20,399
+do
+
+534
+00:26:17,399 --> 00:26:20,399
+this
+
+535
+00:26:21,840 --> 00:26:26,640
+okay it is close though
+
+536
+00:26:31,559 --> 00:26:37,880
+so maybe I should rewrite this as the
+
+537
+00:26:33,760 --> 00:26:38,960
+suggestion was e * D should be equal to
+
+538
+00:26:37,880 --> 00:26:42,240
+p
+
+539
+00:26:38,960 --> 00:26:42,240
+minus1 +
+
+540
+00:26:42,559 --> 00:26:47,240
+1
+
+541
+00:26:45,000 --> 00:26:51,600
+okay does that make it any more clear
+
+542
+00:26:47,240 --> 00:26:51,600
+what how we can uh iterate on this
+
+543
+00:27:02,600 --> 00:27:07,720
+what other things would work here
+
+544
+00:27:04,320 --> 00:27:07,720
+instead of P minus one +
+
+545
+00:27:27,000 --> 00:27:30,159
+one yeah
+
+546
+00:27:31,399 --> 00:27:37,000
+yeah uh yes that's right
+
+547
+00:27:34,399 --> 00:27:40,320
+sorry so the answer was we can multiply
+
+548
+00:27:37,000 --> 00:27:44,880
+this by whatever we want right like any
+
+549
+00:27:40,320 --> 00:27:49,840
+K here it'll still work right as long as
+
+550
+00:27:44,880 --> 00:27:55,600
+e * D is equivalent to 1 mod P minus one
+
+551
+00:27:49,840 --> 00:27:58,640
+so e d equivalent mod P minus one to 1
+
+552
+00:27:55,600 --> 00:28:00,960
+right as long as we satisfy this
+
+553
+00:27:58,640 --> 00:28:06,039
+right we get
+
+554
+00:28:00,960 --> 00:28:09,440
+this okay or sorry we get
+
+555
+00:28:06,039 --> 00:28:09,440
+this okay
+
+556
+00:28:11,519 --> 00:28:16,679
+yeah uh so the the the question was like
+
+557
+00:28:15,120 --> 00:28:20,960
+what are we multiplying by K we're
+
+558
+00:28:16,679 --> 00:28:24,760
+multiplying this P minus one right uh
+
+559
+00:28:20,960 --> 00:28:26,760
+yeah so the the reason right FLT says
+
+560
+00:28:24,760 --> 00:28:30,640
+that M the P minus one is congruent to
+
+561
+00:28:26,760 --> 00:28:32,799
+one so m to the K * P minus one is going
+
+562
+00:28:30,640 --> 00:28:36,720
+to be 1 to the K right so that's just
+
+563
+00:28:32,799 --> 00:28:38,320
+one okay so no matter what K we put here
+
+564
+00:28:36,720 --> 00:28:39,919
+this will still work now when you
+
+565
+00:28:38,320 --> 00:28:42,240
+multiply by m that's just adding one
+
+566
+00:28:39,919 --> 00:28:47,640
+onto the exponents okay so then you'll
+
+567
+00:28:42,240 --> 00:28:49,480
+have you know m to the uh K * P - 1 + 1
+
+568
+00:28:47,640 --> 00:28:52,039
+should be congruent to to
+
+569
+00:28:49,480 --> 00:28:56,120
+n
+
+570
+00:28:52,039 --> 00:29:00,039
+okay does this setup make sense to
+
+571
+00:28:56,120 --> 00:29:00,039
+people yeah
+
+572
+00:29:01,840 --> 00:29:06,720
+question uh so the the question was why
+
+573
+00:29:04,440 --> 00:29:08,600
+are we adding one onto the end so the
+
+574
+00:29:06,720 --> 00:29:10,720
+answer was you know FLT tells us that
+
+575
+00:29:08,600 --> 00:29:12,399
+we're going to get one what we really
+
+576
+00:29:10,720 --> 00:29:16,919
+wanted was
+
+577
+00:29:12,399 --> 00:29:18,679
+n okay so you know what what we want is
+
+578
+00:29:16,919 --> 00:29:22,960
+uh you know m to the Ed is congruent to
+
+579
+00:29:18,679 --> 00:29:26,000
+m not congruent to one so that's why
+
+580
+00:29:22,960 --> 00:29:28,720
+okay so as long as we choose Ed
+
+581
+00:29:26,000 --> 00:29:31,679
+congruent mod P minus one to one
+
+582
+00:29:28,720 --> 00:29:31,679
+right we'll get
+
+583
+00:29:32,799 --> 00:29:40,480
+this okay so you know more practically
+
+584
+00:29:36,600 --> 00:29:40,480
+speaking how can we generate e and
+
+585
+00:29:53,360 --> 00:30:01,640
+D like how can I find uh a solution
+
+586
+00:29:58,360 --> 00:30:01,640
+to this uh
+
+587
+00:30:08,000 --> 00:30:13,320
+congruence
+
+588
+00:30:10,840 --> 00:30:15,320
+yeah
+
+589
+00:30:13,320 --> 00:30:17,000
+sorry okay so the answer was TR
+
+590
+00:30:15,320 --> 00:30:19,330
+different values of
+
+591
+00:30:17,000 --> 00:30:21,159
+K uh okay
+
+592
+00:30:19,330 --> 00:30:23,320
+[Music]
+
+593
+00:30:21,159 --> 00:30:26,200
+so we're going to want to be using very
+
+594
+00:30:23,320 --> 00:30:28,120
+large numbers here so that's going to be
+
+595
+00:30:26,200 --> 00:30:30,360
+intractable we want to be able to do
+
+596
+00:30:28,120 --> 00:30:30,360
+more
+
+597
+00:30:38,399 --> 00:30:43,440
+efficiently so recall from uh Tuesday
+
+598
+00:30:41,799 --> 00:30:46,440
+right this is saying that e and D are
+
+599
+00:30:43,440 --> 00:30:51,240
+modular inverses modu P minus
+
+600
+00:30:46,440 --> 00:30:54,519
+one okay how can we compute a modular
+
+601
+00:30:51,240 --> 00:30:59,919
+inverse well one way is to use the
+
+602
+00:30:54,519 --> 00:30:59,919
+pulverizer okay so if we choose e
+
+603
+00:31:07,000 --> 00:31:10,360
+randomly and then
+
+604
+00:31:11,600 --> 00:31:18,399
+pulverize this will give us
+
+605
+00:31:15,399 --> 00:31:18,399
+D
+
+606
+00:31:19,120 --> 00:31:24,960
+Okay Okay so we've got a way to generate
+
+607
+00:31:22,360 --> 00:31:27,440
+Keys we've got a way to encrypt we raise
+
+608
+00:31:24,960 --> 00:31:29,039
+m to the E we've got a way to decrypt we
+
+609
+00:31:27,440 --> 00:31:32,279
+raise C to the
+
+610
+00:31:29,039 --> 00:31:35,760
+D can anybody tell me a security
+
+611
+00:31:32,279 --> 00:31:35,760
+flow why is this
+
+612
+00:31:47,799 --> 00:31:52,760
+insecure so remember for public key
+
+613
+00:31:50,480 --> 00:31:54,760
+crypto system right everybody knows the
+
+614
+00:31:52,760 --> 00:31:59,120
+public
+
+615
+00:31:54,760 --> 00:32:00,799
+key right and we don't want anybody to
+
+616
+00:31:59,120 --> 00:32:02,240
+be able to figure out the private key
+
+617
+00:32:00,799 --> 00:32:06,480
+from
+
+618
+00:32:02,240 --> 00:32:09,600
+that so in this case our public key is
+
+619
+00:32:06,480 --> 00:32:16,240
+going to be you know KP is going to be
+
+620
+00:32:09,600 --> 00:32:21,200
+the pair uh P comma D oh
+
+621
+00:32:16,240 --> 00:32:24,120
+sorry P comma e and our secret key is
+
+622
+00:32:21,200 --> 00:32:27,320
+going to be the P the pair P comma
+
+623
+00:32:24,120 --> 00:32:28,840
+D okay so this is what we need in order
+
+624
+00:32:27,320 --> 00:32:30,960
+to encrypt this is what we need in order
+
+625
+00:32:28,840 --> 00:32:30,960
+to
+
+626
+00:32:33,679 --> 00:32:37,440
+decrypt I claim that this is
+
+627
+00:32:38,080 --> 00:32:41,080
+insecure
+
+628
+00:32:43,000 --> 00:32:49,720
+yeah yes so the answer was can't anybody
+
+629
+00:32:46,279 --> 00:32:51,480
+else do exactly what we did right we
+
+630
+00:32:49,720 --> 00:32:54,840
+started with the public
+
+631
+00:32:51,480 --> 00:32:55,960
+key and then use it to to derive our our
+
+632
+00:32:54,840 --> 00:32:58,639
+secret
+
+633
+00:32:55,960 --> 00:33:00,440
+key if we then share that public key
+
+634
+00:32:58,639 --> 00:33:03,240
+with everybody else everybody else can
+
+635
+00:33:00,440 --> 00:33:06,480
+do exactly the same thing okay so our
+
+636
+00:33:03,240 --> 00:33:06,480
+secret key isn't exactly
+
+637
+00:33:06,880 --> 00:33:11,440
+secret
+
+638
+00:33:08,600 --> 00:33:14,480
+okay so we would like to try and do
+
+639
+00:33:11,440 --> 00:33:17,200
+something similar to this but in a way
+
+640
+00:33:14,480 --> 00:33:19,440
+where other people can't you know repeat
+
+641
+00:33:17,200 --> 00:33:19,440
+our
+
+642
+00:33:19,720 --> 00:33:25,200
+computation can anybody think of how we
+
+643
+00:33:21,799 --> 00:33:25,200
+might do this
+
+644
+00:33:30,600 --> 00:33:34,760
+how can I make sure that nobody else can
+
+645
+00:33:32,320 --> 00:33:34,760
+do the same
+
+646
+00:33:42,279 --> 00:33:45,279
+pulverization
+
+647
+00:33:47,639 --> 00:33:52,399
+yeah okay so the answer was choose a
+
+648
+00:33:49,799 --> 00:33:54,679
+random D and then pulverize to find E I
+
+649
+00:33:52,399 --> 00:33:58,440
+claim that this is exactly the same
+
+650
+00:33:54,679 --> 00:33:59,960
+right it's it's the same process right
+
+651
+00:33:58,440 --> 00:34:04,440
+um
+
+652
+00:33:59,960 --> 00:34:07,000
+so you know like these two are basically
+
+653
+00:34:04,440 --> 00:34:09,320
+symmetric okay so like if I share one of
+
+654
+00:34:07,000 --> 00:34:11,480
+them then anybody else can can then find
+
+655
+00:34:09,320 --> 00:34:11,480
+the
+
+656
+00:34:21,440 --> 00:34:30,760
+other okay so the idea behind RSA right
+
+657
+00:34:26,520 --> 00:34:33,159
+is that this modulus here the the thing
+
+658
+00:34:30,760 --> 00:34:35,599
+that we're trying to pulverize with
+
+659
+00:34:33,159 --> 00:34:38,960
+right and
+
+660
+00:34:35,599 --> 00:34:40,040
+the modulus here the part of the key
+
+661
+00:34:38,960 --> 00:34:44,440
+that we're
+
+662
+00:34:40,040 --> 00:34:47,520
+sharing you know here they're off by
+
+663
+00:34:44,440 --> 00:34:51,399
+one but in some sense they don't have to
+
+664
+00:34:47,520 --> 00:34:52,760
+be okay so we'd like to find a way to
+
+665
+00:34:51,399 --> 00:34:56,320
+share
+
+666
+00:34:52,760 --> 00:34:59,640
+this but like not have this be so easily
+
+667
+00:34:56,320 --> 00:34:59,640
+uh so easily computable
+
+668
+00:35:00,240 --> 00:35:03,839
+okay how could we do
+
+669
+00:35:12,920 --> 00:35:18,599
+that well instead of using a single
+
+670
+00:35:15,119 --> 00:35:18,599
+Prime suppose we have two
+
+671
+00:35:26,240 --> 00:35:30,280
+primes so let's call them p and
+
+672
+00:35:34,280 --> 00:35:38,960
+Q
+
+673
+00:35:35,880 --> 00:35:41,240
+okay and
+
+674
+00:35:38,960 --> 00:35:46,119
+now uh our
+
+675
+00:35:41,240 --> 00:35:48,200
+n is going to be their product P * Q
+
+676
+00:35:46,119 --> 00:35:50,640
+okay so that's going to be what I want
+
+677
+00:35:48,200 --> 00:35:50,640
+to share
+
+678
+00:35:55,560 --> 00:36:04,640
+here okay
+
+679
+00:35:59,160 --> 00:36:04,640
+uh but now this no longer quite
+
+680
+00:36:06,880 --> 00:36:14,440
+works so instead of pulverizing with uh
+
+681
+00:36:11,480 --> 00:36:18,079
+n minus one we're going to pulverize
+
+682
+00:36:14,440 --> 00:36:21,800
+with you know uh sorry P
+
+683
+00:36:18,079 --> 00:36:24,800
+minus1 * Q
+
+684
+00:36:21,800 --> 00:36:24,800
+-1
+
+685
+00:36:25,599 --> 00:36:29,560
+okay why
+
+686
+00:36:32,839 --> 00:36:39,960
+well suppose like you know suppose we we
+
+687
+00:36:36,640 --> 00:36:41,680
+we have done this already suppose
+
+688
+00:36:39,960 --> 00:36:47,520
+that
+
+689
+00:36:41,680 --> 00:36:51,200
+Ed is congruent mod uh let's call this
+
+690
+00:36:47,520 --> 00:36:53,560
+uh say m no M is for message let's call
+
+691
+00:36:51,200 --> 00:36:53,560
+it n
+
+692
+00:36:55,040 --> 00:37:00,720
+Prime congruent mod n Prime
+
+693
+00:36:58,160 --> 00:37:00,720
+to
+
+694
+00:37:04,040 --> 00:37:09,440
+one
+
+695
+00:37:06,240 --> 00:37:12,160
+okay what happens if we take M and raise
+
+696
+00:37:09,440 --> 00:37:12,160
+it to the Ed
+
+697
+00:37:16,480 --> 00:37:22,480
+power what is this equivalent to mod n
+
+698
+00:37:32,720 --> 00:37:40,640
+y okay so the answer was M yes
+
+699
+00:37:37,560 --> 00:37:43,800
+why don't
+
+700
+00:37:40,640 --> 00:37:45,520
+know fair enough I mean this is kind of
+
+701
+00:37:43,800 --> 00:37:47,520
+you know what we were aiming for so you
+
+702
+00:37:45,520 --> 00:37:51,440
+know very good educated
+
+703
+00:37:47,520 --> 00:37:51,440
+guess uh how could we prove
+
+704
+00:37:51,720 --> 00:37:54,720
+this
+
+705
+00:37:55,480 --> 00:38:01,960
+yeah uh so this is supposed to be an N
+
+706
+00:37:59,079 --> 00:38:03,960
+right so remember that uh you know when
+
+707
+00:38:01,960 --> 00:38:05,760
+we encrypt and decrypt those
+
+708
+00:38:03,960 --> 00:38:08,680
+computations are being done mod
+
+709
+00:38:05,760 --> 00:38:12,400
+n it's only the pulverizing that should
+
+710
+00:38:08,680 --> 00:38:15,000
+be done mod like using uh n Prime okay
+
+711
+00:38:12,400 --> 00:38:18,280
+so we're we're trying to so we're we're
+
+712
+00:38:15,000 --> 00:38:21,079
+assuming that Ed is congruent mod n
+
+713
+00:38:18,280 --> 00:38:24,200
+Prime to one right and so we find that
+
+714
+00:38:21,079 --> 00:38:25,640
+by pulverizing with with the N Prime but
+
+715
+00:38:24,200 --> 00:38:27,640
+you know after that we can forget about
+
+716
+00:38:25,640 --> 00:38:28,599
+NP Prime right we don't need nime
+
+717
+00:38:27,640 --> 00:38:31,280
+anymore we're just going to do all of
+
+718
+00:38:28,599 --> 00:38:32,839
+our computations mod n using you know e
+
+719
+00:38:31,280 --> 00:38:35,839
+and
+
+720
+00:38:32,839 --> 00:38:35,839
+D
+
+721
+00:38:36,520 --> 00:38:42,880
+okay so does anybody have any ideas how
+
+722
+00:38:38,920 --> 00:38:42,880
+we could prove this this statement
+
+723
+00:38:52,160 --> 00:38:58,640
+here what exactly is the statement
+
+724
+00:38:54,359 --> 00:38:58,640
+saying if we go back to the definitions
+
+725
+00:39:14,440 --> 00:39:20,560
+yeah yeah exactly so you've skipped a
+
+726
+00:39:17,680 --> 00:39:23,200
+couple of steps but um yes I will get to
+
+727
+00:39:20,560 --> 00:39:26,359
+that in a moment uh so this is saying
+
+728
+00:39:23,200 --> 00:39:28,599
+that you know uh n
+
+729
+00:39:26,359 --> 00:39:31,760
+divides m to the E
+
+730
+00:39:28,599 --> 00:39:34,480
+D minus uh
+
+731
+00:39:31,760 --> 00:39:36,400
+M
+
+732
+00:39:34,480 --> 00:39:39,880
+okay now at this point we can break
+
+733
+00:39:36,400 --> 00:39:41,280
+apart this n so all we really need to do
+
+734
+00:39:39,880 --> 00:39:47,359
+is you know prove that P and Q
+
+735
+00:39:41,280 --> 00:39:47,359
+separately divide m to the Ed minus
+
+736
+00:39:50,440 --> 00:39:56,839
+M or
+
+737
+00:39:52,319 --> 00:39:57,839
+equivalently that uh m to the Ed is
+
+738
+00:39:56,839 --> 00:40:03,200
+congruent
+
+739
+00:39:57,839 --> 00:40:03,200
+mod P and Q separately to
+
+740
+00:40:05,160 --> 00:40:09,240
+M
+
+741
+00:40:06,800 --> 00:40:11,560
+okay so if we prove these two things
+
+742
+00:40:09,240 --> 00:40:11,560
+then we're
+
+743
+00:40:21,760 --> 00:40:28,720
+done okay so p and Q are
+
+744
+00:40:25,920 --> 00:40:31,440
+symmetric so so you know let's let's
+
+745
+00:40:28,720 --> 00:40:32,680
+only prove it for p the same same exact
+
+746
+00:40:31,440 --> 00:40:35,680
+proof will work for
+
+747
+00:40:32,680 --> 00:40:35,680
+Q
+
+748
+00:40:35,920 --> 00:40:41,640
+okay
+
+749
+00:40:37,760 --> 00:40:41,640
+so how do we prove
+
+750
+00:40:49,920 --> 00:40:57,319
+now that m to the Ed is congruent mod P
+
+751
+00:40:52,760 --> 00:40:57,319
+to n how could we do this
+
+752
+00:41:00,160 --> 00:41:02,359
+any
+
+753
+00:41:26,000 --> 00:41:29,240
+ideas yeah
+
+754
+00:41:35,760 --> 00:41:40,319
+that's right okay so the answer was
+
+755
+00:41:38,560 --> 00:41:46,280
+basically that we've already done it
+
+756
+00:41:40,319 --> 00:41:48,319
+okay so remember that uh Ed is congruent
+
+757
+00:41:46,280 --> 00:41:53,920
+mod n Prime to
+
+758
+00:41:48,319 --> 00:41:58,800
+one okay so this means that n Prime
+
+759
+00:41:53,920 --> 00:42:02,880
+divides Ed minus one
+
+760
+00:41:58,800 --> 00:42:08,119
+okay well what is n Prime n
+
+761
+00:42:02,880 --> 00:42:11,720
+Prime equal pus1 Q minus
+
+762
+00:42:08,119 --> 00:42:14,319
+one so in particular Q minus
+
+763
+00:42:11,720 --> 00:42:18,920
+one no P minus
+
+764
+00:42:14,319 --> 00:42:21,920
+one divides Ed minus
+
+765
+00:42:18,920 --> 00:42:21,920
+one
+
+766
+00:42:22,119 --> 00:42:30,359
+okay so set otherwise e is congruent mod
+
+767
+00:42:26,920 --> 00:42:32,480
+P - one to
+
+768
+00:42:30,359 --> 00:42:34,920
+1
+
+769
+00:42:32,480 --> 00:42:38,160
+okay so that's exactly the uh condition
+
+770
+00:42:34,920 --> 00:42:38,160
+we had over here yeah
+
+771
+00:42:40,200 --> 00:42:45,839
+question uh so the question was how do
+
+772
+00:42:42,800 --> 00:42:49,079
+we know P minus1 divides edus
+
+773
+00:42:45,839 --> 00:42:51,760
+one uh P minus1 divides n
+
+774
+00:42:49,079 --> 00:42:55,680
+Prime right we defined n Prime to be the
+
+775
+00:42:51,760 --> 00:42:58,319
+product of Q -1 and P minus one okay so
+
+776
+00:42:55,680 --> 00:43:00,400
+we know that n Prime divides this and
+
+777
+00:42:58,319 --> 00:43:02,000
+one of our rules of divisibility was
+
+778
+00:43:00,400 --> 00:43:03,480
+that you know then any factors of n
+
+779
+00:43:02,000 --> 00:43:05,480
+Prime also divide
+
+780
+00:43:03,480 --> 00:43:08,200
+it
+
+781
+00:43:05,480 --> 00:43:10,000
+okay so we know that P minus one divides
+
+782
+00:43:08,200 --> 00:43:12,160
+Ed minus
+
+783
+00:43:10,000 --> 00:43:14,880
+one so that's just saying that Ed is
+
+784
+00:43:12,160 --> 00:43:18,319
+congruent to one mod P minus
+
+785
+00:43:14,880 --> 00:43:19,480
+one right and that's the condition we
+
+786
+00:43:18,319 --> 00:43:21,599
+add
+
+787
+00:43:19,480 --> 00:43:26,559
+here
+
+788
+00:43:21,599 --> 00:43:26,559
+okay so now by FLT
+
+789
+00:43:29,400 --> 00:43:32,920
+m to the
+
+790
+00:43:30,440 --> 00:43:36,160
+Ed is congruent mod
+
+791
+00:43:32,920 --> 00:43:36,160
+P to
+
+792
+00:43:36,559 --> 00:43:42,240
+M
+
+793
+00:43:38,559 --> 00:43:46,400
+okay so did people follow
+
+794
+00:43:42,240 --> 00:43:48,880
+that so we've got congruence mod
+
+795
+00:43:46,400 --> 00:43:51,400
+P by symmetry we also have congruence
+
+796
+00:43:48,880 --> 00:43:53,720
+mod Q right p and Q are you know they're
+
+797
+00:43:51,400 --> 00:43:53,720
+basically
+
+798
+00:43:53,960 --> 00:43:58,040
+symmetric
+
+799
+00:43:55,480 --> 00:44:01,240
+okay and now because they
+
+800
+00:43:58,040 --> 00:44:03,839
+Prime right we can say that if you know
+
+801
+00:44:01,240 --> 00:44:06,440
+p and Q both independently divide this
+
+802
+00:44:03,839 --> 00:44:11,640
+difference their product must divided as
+
+803
+00:44:06,440 --> 00:44:11,640
+well so that gives us congruence mod PQ
+
+804
+00:44:40,599 --> 00:44:45,599
+okay
+
+805
+00:44:42,599 --> 00:44:45,599
+questions
+
+806
+00:44:50,119 --> 00:44:54,720
+yeah okay so the the question was can we
+
+807
+00:44:53,119 --> 00:44:57,960
+uh you know go into this this step here
+
+808
+00:44:54,720 --> 00:45:01,520
+in more detail okay so remember that's
+
+809
+00:44:57,960 --> 00:45:03,720
+what we were doing over here right so
+
+810
+00:45:01,520 --> 00:45:04,559
+fma's little theorem right says that M
+
+811
+00:45:03,720 --> 00:45:07,880
+the p
+
+812
+00:45:04,559 --> 00:45:10,720
+minus1 is congruent to one mod
+
+813
+00:45:07,880 --> 00:45:15,920
+P okay
+
+814
+00:45:10,720 --> 00:45:17,720
+so if we raise these to any power K
+
+815
+00:45:15,920 --> 00:45:21,839
+right it's still going to be congruent
+
+816
+00:45:17,720 --> 00:45:25,880
+to one okay so m to the K * P minus1
+
+817
+00:45:21,839 --> 00:45:30,119
+will also be congruent to one right so m
+
+818
+00:45:25,880 --> 00:45:33,559
+to the K * P - 1 + 1 will be congruent
+
+819
+00:45:30,119 --> 00:45:33,559
+to one
+
+820
+00:45:34,200 --> 00:45:39,920
+okay this here is saying that Ed has
+
+821
+00:45:37,720 --> 00:45:42,400
+that form it's some multiple of P minus
+
+822
+00:45:39,920 --> 00:45:44,079
+one +
+
+823
+00:45:42,400 --> 00:45:48,400
+1
+
+824
+00:45:44,079 --> 00:45:53,240
+okay so basically we're applying FLT
+
+825
+00:45:48,400 --> 00:45:53,240
+repeatedly just as we did over here
+
+826
+00:45:57,440 --> 00:46:01,359
+okay are people reasonably happy with
+
+827
+00:46:09,520 --> 00:46:12,520
+this
+
+828
+00:46:15,480 --> 00:46:20,240
+yeah okay so why are we using p minus1
+
+829
+00:46:18,119 --> 00:46:22,760
+and Q minus1 in the first
+
+830
+00:46:20,240 --> 00:46:24,359
+place uh in short I pulled them out of
+
+831
+00:46:22,760 --> 00:46:27,480
+my house so it would
+
+832
+00:46:24,359 --> 00:46:30,839
+work uh
+
+833
+00:46:27,480 --> 00:46:33,920
+so this is um you know it's basically a
+
+834
+00:46:30,839 --> 00:46:34,839
+generalization of of FLT uh called
+
+835
+00:46:33,920 --> 00:46:40,119
+Oilers
+
+836
+00:46:34,839 --> 00:46:43,040
+theorem um it turns out that uh you know
+
+837
+00:46:40,119 --> 00:46:45,200
+this P min-1 * Q
+
+838
+00:46:43,040 --> 00:46:49,480
+-1 is what we
+
+839
+00:46:45,200 --> 00:46:53,040
+call V of n where V is Oiler to
+
+840
+00:46:49,480 --> 00:46:55,760
+function uh this counts the number of of
+
+841
+00:46:53,040 --> 00:46:57,720
+uh you know numbers up to n that are
+
+842
+00:46:55,760 --> 00:47:01,359
+co-prime with n
+
+843
+00:46:57,720 --> 00:47:05,400
+so basically we can we can use the same
+
+844
+00:47:01,359 --> 00:47:08,160
+proof uh as we did you know
+
+845
+00:47:05,400 --> 00:47:09,400
+Tuesday uh to show that you know if we
+
+846
+00:47:08,160 --> 00:47:11,680
+want to get rid of this assumption that
+
+847
+00:47:09,400 --> 00:47:15,119
+P is prime over
+
+848
+00:47:11,680 --> 00:47:16,359
+here uh we can replace this this P minus
+
+849
+00:47:15,119 --> 00:47:19,520
+one with P of
+
+850
+00:47:16,359 --> 00:47:20,240
+n uh and then then we get congruence mod
+
+851
+00:47:19,520 --> 00:47:21,839
+mod
+
+852
+00:47:20,240 --> 00:47:24,720
+n
+
+853
+00:47:21,839 --> 00:47:27,480
+okay uh we just kind of proved the
+
+854
+00:47:24,720 --> 00:47:28,760
+special case where n is the product of
+
+855
+00:47:27,480 --> 00:47:31,079
+of two
+
+856
+00:47:28,760 --> 00:47:34,599
+primes
+
+857
+00:47:31,079 --> 00:47:37,920
+um but uh yeah basically it's it's kind
+
+858
+00:47:34,599 --> 00:47:40,160
+of it's kind of a guess and check right
+
+859
+00:47:37,920 --> 00:47:42,599
+like all we all we really need to know
+
+860
+00:47:40,160 --> 00:47:45,440
+is that this works we don't really need
+
+861
+00:47:42,599 --> 00:47:45,440
+to know how we got
+
+862
+00:47:55,680 --> 00:47:58,839
+there okay
+
+863
+00:48:03,800 --> 00:48:09,480
+Okay so we've proven that uh you know if
+
+864
+00:48:06,800 --> 00:48:13,680
+we encrypt something by you know raising
+
+865
+00:48:09,480 --> 00:48:15,480
+it to the uh eth Power mod n and then we
+
+866
+00:48:13,680 --> 00:48:17,599
+decrypt it by raising it to the D power
+
+867
+00:48:15,480 --> 00:48:20,040
+mod mod n we're going to get back to the
+
+868
+00:48:17,599 --> 00:48:22,559
+same thing we started with
+
+869
+00:48:20,040 --> 00:48:25,400
+Okay so this crypto system is at least
+
+870
+00:48:22,559 --> 00:48:28,520
+you know correct right we can uh encrypt
+
+871
+00:48:25,400 --> 00:48:30,839
+a message and then decrypt it again
+
+872
+00:48:28,520 --> 00:48:30,839
+is it
+
+873
+00:48:42,359 --> 00:48:48,119
+secure oh
+
+874
+00:48:45,359 --> 00:48:50,680
+sorry actually why me
+
+875
+00:48:48,119 --> 00:48:52,960
+just do
+
+876
+00:48:50,680 --> 00:48:57,400
+that
+
+877
+00:48:52,960 --> 00:48:59,040
+okay so uh is RSA secure
+
+878
+00:48:57,400 --> 00:49:00,920
+right we we said before that if we're
+
+879
+00:48:59,040 --> 00:49:03,839
+just using a prime instead of this
+
+880
+00:49:00,920 --> 00:49:05,960
+product of two primes then uh anybody
+
+881
+00:49:03,839 --> 00:49:08,799
+else can can computer secret
+
+882
+00:49:05,960 --> 00:49:11,599
+key okay what are we doing
+
+883
+00:49:08,799 --> 00:49:16,400
+now
+
+884
+00:49:11,599 --> 00:49:16,400
+well one we're choosing random
+
+885
+00:49:19,079 --> 00:49:27,440
+primes large primes so think of these as
+
+886
+00:49:22,680 --> 00:49:27,440
+like having hundreds of digits okay
+
+887
+00:49:32,040 --> 00:49:37,200
+okay uh next we're going to set n equals
+
+888
+00:49:36,280 --> 00:49:39,079
+their
+
+889
+00:49:37,200 --> 00:49:42,000
+product
+
+890
+00:49:39,079 --> 00:49:47,119
+and uh let's just call it f of n
+
+891
+00:49:42,000 --> 00:49:47,119
+nowal p -1 * Q
+
+892
+00:49:47,839 --> 00:49:53,680
+-1 and next we're going to choose a
+
+893
+00:49:50,280 --> 00:49:53,680
+random e
+
+894
+00:49:57,880 --> 00:50:00,920
+co-prime with
+
+895
+00:50:07,160 --> 00:50:12,720
+this and then we want to pulverize it we
+
+896
+00:50:09,559 --> 00:50:12,720
+want to compute an inverse of
+
+897
+00:50:17,319 --> 00:50:26,960
+e so why don't I write it this this
+
+898
+00:50:22,799 --> 00:50:26,960
+compute a multiplicative inverse
+
+899
+00:50:30,319 --> 00:50:34,720
+modulo uh F of
+
+900
+00:50:32,960 --> 00:50:37,280
+n
+
+901
+00:50:34,720 --> 00:50:41,960
+okay now what is the public key public
+
+902
+00:50:37,280 --> 00:50:44,960
+key is going to be oops K sub p is going
+
+903
+00:50:41,960 --> 00:50:49,559
+to be n comma
+
+904
+00:50:44,960 --> 00:50:52,119
+e k sub s is going to be n comma
+
+905
+00:50:49,559 --> 00:50:55,559
+D
+
+906
+00:50:52,119 --> 00:50:58,559
+okay so before when we had uh oh
+
+907
+00:50:55,559 --> 00:50:58,559
+question
+
+908
+00:51:02,880 --> 00:51:06,920
+okay uh how hard is it to choose e
+
+909
+00:51:05,760 --> 00:51:11,559
+that's that's co-
+
+910
+00:51:06,920 --> 00:51:13,720
+Prime uh it's actually not that hard uh
+
+911
+00:51:11,559 --> 00:51:15,280
+so in practice usually you would you
+
+912
+00:51:13,720 --> 00:51:17,559
+know not choose it totally randomly
+
+913
+00:51:15,280 --> 00:51:18,799
+you'd have a fairly small e so that
+
+914
+00:51:17,559 --> 00:51:20,760
+encryption is
+
+915
+00:51:18,799 --> 00:51:24,680
+efficient uh but if you wanted to do it
+
+916
+00:51:20,760 --> 00:51:28,559
+totally randomly right like how many how
+
+917
+00:51:24,680 --> 00:51:28,559
+many things are not co-prime to
+
+918
+00:51:39,680 --> 00:51:48,319
+uh so yeah multiples of the prime
+
+919
+00:51:42,839 --> 00:51:52,799
+factors yes um so let's see have you did
+
+920
+00:51:48,319 --> 00:51:55,599
+we do the carmichel numbers yet no okay
+
+921
+00:51:52,799 --> 00:51:58,040
+so uh well it turns out that if you
+
+922
+00:51:55,599 --> 00:51:59,599
+choose a random a random number it'll
+
+923
+00:51:58,040 --> 00:52:02,880
+actually be co-prime with reasonably
+
+924
+00:51:59,599 --> 00:52:05,079
+good probability okay uh but you know in
+
+925
+00:52:02,880 --> 00:52:07,240
+practice right we're going to just you
+
+926
+00:52:05,079 --> 00:52:10,240
+know choose a fairly small
+
+927
+00:52:07,240 --> 00:52:10,240
+e
+
+928
+00:52:16,160 --> 00:52:20,480
+okay
+
+929
+00:52:17,920 --> 00:52:23,920
+okay so we said that if if we just you
+
+930
+00:52:20,480 --> 00:52:25,839
+know forget about Q use nals P this
+
+931
+00:52:23,920 --> 00:52:27,920
+doesn't work because anybody else can
+
+932
+00:52:25,839 --> 00:52:30,319
+then you know compute our our secret key
+
+933
+00:52:27,920 --> 00:52:33,720
+in the same way as we computed it
+
+934
+00:52:30,319 --> 00:52:36,599
+ourselves why does this not happen
+
+935
+00:52:33,720 --> 00:52:37,960
+here why can nobody else compute the
+
+936
+00:52:36,599 --> 00:52:41,640
+secret
+
+937
+00:52:37,960 --> 00:52:41,640
+key given the public
+
+938
+00:52:43,839 --> 00:52:46,839
+key
+
+939
+00:52:48,440 --> 00:52:55,640
+yeah yeah so the the basic idea is that
+
+940
+00:52:51,240 --> 00:52:55,640
+we're relying on factoring being hard
+
+941
+00:53:17,559 --> 00:53:23,839
+okay uh so the the basic idea right is
+
+942
+00:53:20,920 --> 00:53:27,280
+that if you have n it's it should be
+
+943
+00:53:23,839 --> 00:53:29,640
+hard to to come up with with p and Q
+
+944
+00:53:27,280 --> 00:53:31,720
+okay and I claim that this is actually a
+
+945
+00:53:29,640 --> 00:53:34,240
+much safer assumption than was used with
+
+946
+00:53:31,720 --> 00:53:35,760
+Enigma uh because this is a very well
+
+947
+00:53:34,240 --> 00:53:37,680
+studied problem like people have been
+
+948
+00:53:35,760 --> 00:53:40,799
+trying to factor things more efficiently
+
+949
+00:53:37,680 --> 00:53:43,480
+for you know hundreds of years right and
+
+950
+00:53:40,799 --> 00:53:45,960
+you know mathematicians have not found
+
+951
+00:53:43,480 --> 00:53:49,040
+an efficient way of of doing this so in
+
+952
+00:53:45,960 --> 00:53:51,440
+particular the adversary will will also
+
+953
+00:53:49,040 --> 00:53:53,119
+presumably not be able to do it right
+
+954
+00:53:51,440 --> 00:53:54,440
+it's not just saying like I personally
+
+955
+00:53:53,119 --> 00:53:56,440
+couldn't come up with a with a good
+
+956
+00:53:54,440 --> 00:53:58,280
+factoring algorithm this is you know
+
+957
+00:53:56,440 --> 00:54:01,000
+relying on you know many years of of
+
+958
+00:53:58,280 --> 00:54:02,760
+work by many mathematicians okay it
+
+959
+00:54:01,000 --> 00:54:04,839
+still is possible that that factoring
+
+960
+00:54:02,760 --> 00:54:06,520
+isn't hard like you know and in fact
+
+961
+00:54:04,839 --> 00:54:08,119
+maybe maybe somebody already knows how
+
+962
+00:54:06,520 --> 00:54:10,880
+to do it they've got they've got their
+
+963
+00:54:08,119 --> 00:54:13,240
+algorithm they just haven't published it
+
+964
+00:54:10,880 --> 00:54:16,160
+uh but the assumption is basically like
+
+965
+00:54:13,240 --> 00:54:17,680
+if one could do it then one of these
+
+966
+00:54:16,160 --> 00:54:19,880
+mathematicians would have would have
+
+967
+00:54:17,680 --> 00:54:20,920
+figured it out okay like one of these
+
+968
+00:54:19,880 --> 00:54:23,319
+World
+
+969
+00:54:20,920 --> 00:54:28,000
+experts
+
+970
+00:54:23,319 --> 00:54:32,640
+okay uh so more formally though
+
+971
+00:54:28,000 --> 00:54:32,640
+if we could compute the uh
+
+972
+00:54:32,880 --> 00:54:37,040
+uh ah okay question was isn't this just
+
+973
+00:54:35,839 --> 00:54:39,720
+cryptography by
+
+974
+00:54:37,040 --> 00:54:42,079
+huis okay I claim that I'm not relying
+
+975
+00:54:39,720 --> 00:54:44,160
+solely on you know my own intelligence
+
+976
+00:54:42,079 --> 00:54:46,520
+I'm relying on you know everybody else
+
+977
+00:54:44,160 --> 00:54:49,119
+like the the entire field of mathematics
+
+978
+00:54:46,520 --> 00:54:51,240
+okay like like many mathematicians have
+
+979
+00:54:49,119 --> 00:54:53,520
+spent like their entire careers trying
+
+980
+00:54:51,240 --> 00:54:55,720
+to you know Factor things
+
+981
+00:54:53,520 --> 00:54:58,200
+quickly and nobody's figured out how to
+
+982
+00:54:55,720 --> 00:55:00,599
+do it yet it's not just like you know I
+
+983
+00:54:58,200 --> 00:55:02,160
+was spending half an hour in my basement
+
+984
+00:55:00,599 --> 00:55:04,520
+and you know I I couldn't figure out a
+
+985
+00:55:02,160 --> 00:55:07,000
+good algorithm in that time you know
+
+986
+00:55:04,520 --> 00:55:08,839
+like the the the Enigma engineer right
+
+987
+00:55:07,000 --> 00:55:09,960
+like you know he just came up with
+
+988
+00:55:08,839 --> 00:55:13,040
+something and then couldn't figure out a
+
+989
+00:55:09,960 --> 00:55:16,440
+way how to a way to to break it and so
+
+990
+00:55:13,040 --> 00:55:19,520
+kind of just assumed security from that
+
+991
+00:55:16,440 --> 00:55:21,160
+right so it's it's kind of you know me
+
+992
+00:55:19,520 --> 00:55:24,160
+versus the entire field of of
+
+993
+00:55:21,160 --> 00:55:24,160
+mathematics
+
+994
+00:55:31,000 --> 00:55:38,079
+okay okay so yeah I guess the question
+
+995
+00:55:34,680 --> 00:55:39,640
+is you know given uh so if we had an
+
+996
+00:55:38,079 --> 00:55:42,480
+algorithm that would you know compute
+
+997
+00:55:39,640 --> 00:55:46,119
+the secret key from the public key how
+
+998
+00:55:42,480 --> 00:55:46,119
+would this Factor end
+
+999
+00:56:01,640 --> 00:56:07,680
+right notice that the uh secret key
+
+1000
+00:56:03,319 --> 00:56:07,680
+doesn't actually contain p andq
+
+1001
+00:56:47,039 --> 00:56:50,480
+so I suppose as described we aren't
+
+1002
+00:56:49,160 --> 00:56:51,839
+quite relying on the hardness of
+
+1003
+00:56:50,480 --> 00:56:54,640
+factoring we're relying on something
+
+1004
+00:56:51,839 --> 00:56:58,240
+slightly different
+
+1005
+00:56:54,640 --> 00:56:58,240
+yeah oh sorry
+
+1006
+00:57:00,680 --> 00:57:07,319
+uh no how do how do we um so if we could
+
+1007
+00:57:04,440 --> 00:57:09,359
+find the uh the private key the secret
+
+1008
+00:57:07,319 --> 00:57:10,720
+key given the public key how would this
+
+1009
+00:57:09,359 --> 00:57:13,440
+then factor
+
+1010
+00:57:10,720 --> 00:57:17,119
+in right we we would like to rely on the
+
+1011
+00:57:13,440 --> 00:57:17,119
+the hardness of factorization
+
+1012
+00:57:43,960 --> 00:57:48,039
+okay so the the answer was basically
+
+1013
+00:57:45,640 --> 00:57:51,280
+that that you have to come up with the
+
+1014
+00:57:48,039 --> 00:57:52,319
+prime factors p and Q before you can uh
+
+1015
+00:57:51,280 --> 00:57:57,680
+before you can
+
+1016
+00:57:52,319 --> 00:57:57,680
+compute uh D from e
+
+1017
+00:57:58,680 --> 00:58:03,839
+uh we would like to say that you know no
+
+1018
+00:58:01,839 --> 00:58:04,960
+matter how you do it you're still
+
+1019
+00:58:03,839 --> 00:58:07,240
+basically going to end up with the
+
+1020
+00:58:04,960 --> 00:58:09,520
+factors p and Q right like you will have
+
+1021
+00:58:07,240 --> 00:58:10,760
+solved the problem even if you didn't
+
+1022
+00:58:09,520 --> 00:58:14,240
+intend
+
+1023
+00:58:10,760 --> 00:58:14,240
+to does that make
+
+1024
+00:58:19,799 --> 00:58:30,240
+sense okay so suppose I have n e d
+
+1025
+00:58:26,480 --> 00:58:31,319
+okay so suppose I've I've used the uh
+
+1026
+00:58:30,240 --> 00:58:32,839
+the public key to come up with the
+
+1027
+00:58:31,319 --> 00:58:34,160
+secret key so now I have these three
+
+1028
+00:58:32,839 --> 00:58:37,240
+pieces of
+
+1029
+00:58:34,160 --> 00:58:40,720
+information right does this now allow me
+
+1030
+00:58:37,240 --> 00:58:40,720
+to factor in
+
+1031
+00:59:03,079 --> 00:59:07,960
+does anybody remember the quadratic
+
+1032
+00:59:04,599 --> 00:59:07,960
+formula from uh from grade
+
+1033
+00:59:08,240 --> 00:59:12,760
+school it's okay I don't
+
+1034
+00:59:10,880 --> 00:59:14,000
+either
+
+1035
+00:59:12,760 --> 00:59:16,119
+okay
+
+1036
+00:59:14,000 --> 00:59:20,559
+[Music]
+
+1037
+00:59:16,119 --> 00:59:20,559
+so if I have end d
+
+1038
+00:59:23,440 --> 00:59:29,599
+right Ed minus one
+
+1039
+00:59:27,280 --> 00:59:29,599
+should
+
+1040
+00:59:34,039 --> 00:59:41,280
+be a multiple of P
+
+1041
+00:59:37,720 --> 00:59:41,280
+-1 * Q
+
+1042
+00:59:42,079 --> 00:59:45,079
+-1
+
+1043
+00:59:49,880 --> 00:59:54,160
+okay what happens if I reduce that mod
+
+1044
+00:59:55,039 --> 01:00:00,200
+in
+
+1045
+00:59:56,880 --> 01:00:03,119
+hm I get one uh if I reduce it mod P - 1
+
+1046
+01:00:00,200 --> 01:00:03,119
+* Q -1 I get
+
+1047
+01:00:06,920 --> 01:00:12,200
+one
+
+1048
+01:00:08,680 --> 01:00:12,200
+yeah get p and
+
+1049
+01:00:14,039 --> 01:00:20,240
+Q okay let's let's make it a little bit
+
+1050
+01:00:16,319 --> 01:00:23,000
+simpler suppose I actually have p minus1
+
+1051
+01:00:20,240 --> 01:00:28,960
+and Q -1 or P -1 * Q
+
+1052
+01:00:23,000 --> 01:00:28,960
+-1 if I had that could I factor in for
+
+1053
+01:00:56,599 --> 01:01:01,280
+so if I had that I could oh yeah
+
+1054
+01:01:27,599 --> 01:01:34,119
+mhm yeah so if we actually had P min-1 *
+
+1055
+01:01:31,359 --> 01:01:36,359
+Q - one we could use that to figure out
+
+1056
+01:01:34,119 --> 01:01:39,240
+the sum of p and Q we know their product
+
+1057
+01:01:36,359 --> 01:01:39,240
+we can use the quadratic
+
+1058
+01:01:39,319 --> 01:01:42,319
+formula
+
+1059
+01:01:44,280 --> 01:01:49,520
+okay what happens if we just have Ed uh
+
+1060
+01:01:46,920 --> 01:01:49,520
+sorry e and
+
+1061
+01:01:52,160 --> 01:01:56,880
+D can we do something similar
+
+1062
+01:02:08,480 --> 01:02:13,079
+oh actually I'm running quite short on
+
+1063
+01:02:09,920 --> 01:02:15,039
+time okay uh why don't we hold off on
+
+1064
+01:02:13,079 --> 01:02:16,960
+that uh let's just take it on faith that
+
+1065
+01:02:15,039 --> 01:02:19,680
+we're relying on factoring being hard
+
+1066
+01:02:16,960 --> 01:02:22,039
+let's move on to
+
+1067
+01:02:19,680 --> 01:02:24,359
+uh the last thing that we wanted to
+
+1068
+01:02:22,039 --> 01:02:24,359
+cover
+
+1069
+01:02:24,559 --> 01:02:32,559
+today which is a uh slightly different
+
+1070
+01:02:28,839 --> 01:02:35,000
+application of uh of number Theory which
+
+1071
+01:02:32,559 --> 01:02:36,279
+you may find useful in uh you know
+
+1072
+01:02:35,000 --> 01:02:42,480
+throughout computer
+
+1073
+01:02:36,279 --> 01:02:42,480
+science um notice where is it
+
+1074
+01:02:42,880 --> 01:02:46,279
+uh okay
+
+1075
+01:02:52,920 --> 01:02:59,559
+here so here we kind of
+
+1076
+01:02:56,440 --> 01:03:03,039
+uh we're trying to work mod n right n is
+
+1077
+01:02:59,559 --> 01:03:03,039
+the fact or n is the product of two
+
+1078
+01:03:03,119 --> 01:03:06,960
+primes and we said that it's easier
+
+1079
+01:03:05,359 --> 01:03:08,480
+instead of working mod n we're going to
+
+1080
+01:03:06,960 --> 01:03:11,359
+work mod the two primes
+
+1081
+01:03:08,480 --> 01:03:12,799
+individually okay so it turns out that
+
+1082
+01:03:11,359 --> 01:03:15,720
+this this is something that you can do
+
+1083
+01:03:12,799 --> 01:03:19,480
+in general right uh this is what we call
+
+1084
+01:03:15,720 --> 01:03:22,559
+the Chinese remainder theorem right uh
+
+1085
+01:03:19,480 --> 01:03:24,319
+if you have uh in fact if you have two
+
+1086
+01:03:22,559 --> 01:03:27,200
+co-prime numbers p and
+
+1087
+01:03:24,319 --> 01:03:28,640
+Q working modulo their product is
+
+1088
+01:03:27,200 --> 01:03:29,599
+equivalent to working modulo each of
+
+1089
+01:03:28,640 --> 01:03:32,160
+them
+
+1090
+01:03:29,599 --> 01:03:35,200
+individually okay and often working
+
+1091
+01:03:32,160 --> 01:03:37,279
+modulo you know the the smaller numbers
+
+1092
+01:03:35,200 --> 01:03:39,520
+individually is going to be you know
+
+1093
+01:03:37,279 --> 01:03:44,119
+much easier than working modu the the
+
+1094
+01:03:39,520 --> 01:03:47,599
+large number okay so as a very simple
+
+1095
+01:03:44,119 --> 01:03:50,680
+example uh suppose we
+
+1096
+01:03:47,599 --> 01:03:54,319
+have the
+
+1097
+01:03:50,680 --> 01:03:56,520
+following uh actually strictly less than
+
+1098
+01:03:54,319 --> 01:04:01,200
+55 okay
+
+1099
+01:03:56,520 --> 01:04:06,440
+and we know that X is congruent mod 5 to
+
+1100
+01:04:01,200 --> 01:04:08,640
+4 x congruent mod 11 to
+
+1101
+01:04:06,440 --> 01:04:10,799
+7
+
+1102
+01:04:08,640 --> 01:04:13,920
+okay I claim that we have enough
+
+1103
+01:04:10,799 --> 01:04:18,799
+information now to Unique identify
+
+1104
+01:04:13,920 --> 01:04:18,799
+X okay can anybody do it
+
+1105
+01:04:27,720 --> 01:04:30,319
+how might we do
+
+1106
+01:04:35,760 --> 01:04:38,760
+it
+
+1107
+01:04:49,440 --> 01:04:55,119
+yeah okay uh so the answer was you know
+
+1108
+01:04:52,480 --> 01:04:57,200
+try everything between 0 and 55 uh see
+
+1109
+01:04:55,119 --> 01:04:59,319
+what they're con to mod four or Mod Five
+
+1110
+01:04:57,200 --> 01:05:01,559
+see what they're conent to mod 11 and
+
+1111
+01:04:59,319 --> 01:05:02,839
+see whether it satisfies both of those I
+
+1112
+01:05:01,559 --> 01:05:05,880
+claim that we can do it slightly faster
+
+1113
+01:05:02,839 --> 01:05:08,480
+than that uh why don't we enumerate
+
+1114
+01:05:05,880 --> 01:05:09,599
+everything that satisfies uh this
+
+1115
+01:05:08,480 --> 01:05:12,400
+congruence
+
+1116
+01:05:09,599 --> 01:05:14,400
+first okay so what is congruent to seven
+
+1117
+01:05:12,400 --> 01:05:17,880
+modul 11 in this
+
+1118
+01:05:14,400 --> 01:05:20,680
+range right so that tells us that maybe
+
+1119
+01:05:17,880 --> 01:05:21,799
+I should write it down here oops X is in
+
+1120
+01:05:20,680 --> 01:05:26,680
+the following
+
+1121
+01:05:21,799 --> 01:05:28,359
+set 7 18
+
+1122
+01:05:26,680 --> 01:05:30,440
+29
+
+1123
+01:05:28,359 --> 01:05:34,000
+40
+
+1124
+01:05:30,440 --> 01:05:36,920
+51 and if we add 11 again we get past
+
+1125
+01:05:34,000 --> 01:05:40,200
+55
+
+1126
+01:05:36,920 --> 01:05:43,640
+okay now we only have to check uh five
+
+1127
+01:05:40,200 --> 01:05:45,720
+numbers to see which is congruent to uh
+
+1128
+01:05:43,640 --> 01:05:48,960
+uh to four modul
+
+1129
+01:05:45,720 --> 01:05:50,960
+5 and if we look at them 29 is the only
+
+1130
+01:05:48,960 --> 01:05:54,520
+one that
+
+1131
+01:05:50,960 --> 01:05:59,400
+works okay so it turns out that there's
+
+1132
+01:05:54,520 --> 01:05:59,400
+a unique answer modulo
+
+1133
+01:05:59,880 --> 01:06:05,440
+55
+
+1134
+01:06:02,559 --> 01:06:07,359
+okay and we can actually do this in
+
+1135
+01:06:05,440 --> 01:06:10,359
+general and in fact even more
+
+1136
+01:06:07,359 --> 01:06:13,200
+efficiently so Chinese remainder theorem
+
+1137
+01:06:10,359 --> 01:06:16,599
+often abbreviated
+
+1138
+01:06:13,200 --> 01:06:16,599
+CRT so
+
+1139
+01:06:16,640 --> 01:06:20,920
+suppose p and Q are
+
+1140
+01:06:21,880 --> 01:06:27,559
+co-prime okay and a and b
+
+1141
+01:06:28,000 --> 01:06:32,000
+are
+
+1142
+01:06:29,240 --> 01:06:35,359
+integers
+
+1143
+01:06:32,000 --> 01:06:38,839
+okay and we have the
+
+1144
+01:06:35,359 --> 01:06:38,839
+following system of
+
+1145
+01:06:44,039 --> 01:06:49,160
+congruences
+
+1146
+01:06:46,039 --> 01:06:51,599
+okay so if we have this then there is a
+
+1147
+01:06:49,160 --> 01:06:56,640
+unique solution there's a unique X that
+
+1148
+01:06:51,599 --> 01:06:56,640
+satisfies this modulo PQ
+
+1149
+01:07:20,640 --> 01:07:24,960
+okay so how might we prove this what
+
+1150
+01:07:23,760 --> 01:07:27,520
+what are the elements that we need to
+
+1151
+01:07:24,960 --> 01:07:27,520
+prove
+
+1152
+01:07:38,160 --> 01:07:41,160
+yeah
+
+1153
+01:07:44,079 --> 01:07:50,799
+sorry oh here
+
+1154
+01:07:47,559 --> 01:07:54,200
+fien uh here
+
+1155
+01:07:50,799 --> 01:07:55,520
+fien yeah so you don't have to worry
+
+1156
+01:07:54,200 --> 01:07:57,039
+about what this is actually called we
+
+1157
+01:07:55,520 --> 01:07:59,720
+could call this n
+
+1158
+01:07:57,039 --> 01:08:02,480
+Prime but
+
+1159
+01:07:59,720 --> 01:08:06,680
+yeah sorry this was just following up on
+
+1160
+01:08:02,480 --> 01:08:06,680
+on what one of your classmates asked uh
+
+1161
+01:08:08,960 --> 01:08:13,160
+earlier
+
+1162
+01:08:11,119 --> 01:08:14,799
+okay so what are the elements that we
+
+1163
+01:08:13,160 --> 01:08:17,319
+need to prove in order to prove this
+
+1164
+01:08:14,799 --> 01:08:17,319
+this theorem
+
+1165
+01:08:22,199 --> 01:08:27,279
+here well we need to prove existence
+
+1166
+01:08:27,319 --> 01:08:30,440
+and then we need to prove that there
+
+1167
+01:08:28,359 --> 01:08:33,719
+don't exist two
+
+1168
+01:08:30,440 --> 01:08:35,279
+solutions okay so let's start with let's
+
+1169
+01:08:33,719 --> 01:08:40,600
+start with
+
+1170
+01:08:35,279 --> 01:08:40,600
+existence why does there exist a
+
+1171
+01:08:41,560 --> 01:08:46,000
+solution maybe we can start thinking
+
+1172
+01:08:43,520 --> 01:08:49,279
+about a special case so
+
+1173
+01:08:46,000 --> 01:08:50,480
+suppose uh suppose for for a start that
+
+1174
+01:08:49,279 --> 01:08:52,440
+a equals
+
+1175
+01:08:50,480 --> 01:08:56,120
+Zer
+
+1176
+01:08:52,440 --> 01:09:00,520
+okay how could we find a solution
+
+1177
+01:08:56,120 --> 01:09:05,640
+uh to X congruent uh to b modul
+
+1178
+01:09:00,520 --> 01:09:05,640
+q and x congruent to zero modul
+
+1179
+01:09:05,920 --> 01:09:11,600
+P
+
+1180
+01:09:08,600 --> 01:09:11,600
+yeah
+
+1181
+01:09:18,679 --> 01:09:24,000
+sure yeah
+
+1182
+01:09:20,719 --> 01:09:26,719
+so the relation here is that uh you know
+
+1183
+01:09:24,000 --> 01:09:30,359
+we've got our p and Q are 5 and
+
+1184
+01:09:26,719 --> 01:09:32,759
+11 right our A and B are 4 and
+
+1185
+01:09:30,359 --> 01:09:35,159
+seven and so we're saying that there's a
+
+1186
+01:09:32,759 --> 01:09:38,279
+unique solution to to you know this
+
+1187
+01:09:35,159 --> 01:09:41,359
+system of congruences modulo 55 which is
+
+1188
+01:09:38,279 --> 01:09:44,120
+their product okay or you know you could
+
+1189
+01:09:41,359 --> 01:09:46,440
+also phrase that as there is a unique X
+
+1190
+01:09:44,120 --> 01:09:47,239
+in this range like a unique integer X in
+
+1191
+01:09:46,440 --> 01:09:49,799
+this
+
+1192
+01:09:47,239 --> 01:09:52,520
+range
+
+1193
+01:09:49,799 --> 01:09:54,840
+okay so we're just kind of we're just
+
+1194
+01:09:52,520 --> 01:09:55,840
+kind of G to generalize this kind of to
+
+1195
+01:09:54,840 --> 01:09:57,520
+um you know
+
+1196
+01:09:55,840 --> 01:09:59,159
+a more General p and Q more General A
+
+1197
+01:09:57,520 --> 01:10:05,159
+and
+
+1198
+01:09:59,159 --> 01:10:05,159
+B okay question or oh
+
+1199
+01:10:16,159 --> 01:10:21,280
+sorry
+
+1200
+01:10:17,840 --> 01:10:22,679
+okay well if we look at the special case
+
+1201
+01:10:21,280 --> 01:10:27,320
+where a equals
+
+1202
+01:10:22,679 --> 01:10:30,159
+z why don't we start by defining
+
+1203
+01:10:27,320 --> 01:10:32,120
+uh P minus
+
+1204
+01:10:30,159 --> 01:10:36,280
+one p
+
+1205
+01:10:32,120 --> 01:10:36,280
+inverse uh to be a modular
+
+1206
+01:10:41,360 --> 01:10:45,719
+inverse of p
+
+1207
+01:10:46,239 --> 01:10:52,239
+modulo
+
+1208
+01:10:49,239 --> 01:10:52,239
+q
+
+1209
+01:10:53,400 --> 01:10:58,920
+okay and now let's multiply that by P to
+
+1210
+01:10:57,120 --> 01:11:03,159
+get the
+
+1211
+01:10:58,920 --> 01:11:03,159
+integer uh e
+
+1212
+01:11:06,080 --> 01:11:09,080
+subq
+
+1213
+01:11:09,840 --> 01:11:15,040
+okay now what can we say about e subq
+
+1214
+01:11:42,040 --> 01:11:46,679
+what is it congruent to modul p
+
+1215
+01:11:58,760 --> 01:12:05,440
+yeah yeah so we defined it to be a
+
+1216
+01:12:01,760 --> 01:12:09,920
+multiple of P so e
+
+1217
+01:12:05,440 --> 01:12:14,320
+subq is going to be congruent mod P to
+
+1218
+01:12:09,920 --> 01:12:14,320
+zero okay what about modulo
+
+1219
+01:12:16,719 --> 01:12:21,800
+Q what is it congruent to modulo
+
+1220
+01:12:20,159 --> 01:12:26,280
+Q
+
+1221
+01:12:21,800 --> 01:12:29,880
+yeah one yeah so by definition
+
+1222
+01:12:26,280 --> 01:12:32,320
+right P inverse is a multiplicative
+
+1223
+01:12:29,880 --> 01:12:36,400
+inverse of p modul q so when you
+
+1224
+01:12:32,320 --> 01:12:36,400
+multiply them you get one mod
+
+1225
+01:12:37,520 --> 01:12:46,719
+Q okay so how can we use e sub Q to get
+
+1226
+01:12:44,440 --> 01:12:48,440
+X remember remember we're thinking of
+
+1227
+01:12:46,719 --> 01:12:51,239
+the special case where a equals
+
+1228
+01:12:48,440 --> 01:12:57,000
+z so we're trying to find a multiple of
+
+1229
+01:12:51,239 --> 01:12:57,000
+P that's congruent to b modu q
+
+1230
+01:13:16,960 --> 01:13:20,960
+anybody yeah
+
+1231
+01:13:26,360 --> 01:13:34,800
+yeah so the answer was multiply EQ by B
+
+1232
+01:13:29,920 --> 01:13:41,120
+okay B * EQ now is congruent to zero
+
+1233
+01:13:34,800 --> 01:13:41,120
+modul p and 1 * B which is B modul
+
+1234
+01:13:41,880 --> 01:13:45,960
+Q okay does that make sense to
+
+1235
+01:13:49,760 --> 01:13:54,880
+everybody so for the more General case
+
+1236
+01:13:59,679 --> 01:14:06,639
+we are going to
+
+1237
+01:14:02,159 --> 01:14:06,639
+Define uh e subp
+
+1238
+01:14:13,239 --> 01:14:16,239
+analogously
+
+1239
+01:14:17,600 --> 01:14:21,840
+okay now how how do you think we could
+
+1240
+01:14:19,960 --> 01:14:25,520
+solve the more General
+
+1241
+01:14:21,840 --> 01:14:29,719
+case instead of just B * zq
+
+1242
+01:14:25,520 --> 01:14:29,719
+how do we then you know fold EP into
+
+1243
+01:14:39,600 --> 01:14:42,600
+it
+
+1244
+01:14:47,760 --> 01:14:53,480
+y
+
+1245
+01:14:50,000 --> 01:14:56,320
+yeah so
+
+1246
+01:14:53,480 --> 01:15:02,600
+claim X
+
+1247
+01:14:56,320 --> 01:15:02,600
+equal a e p + b e
+
+1248
+01:15:03,080 --> 01:15:06,840
+q is a
+
+1249
+01:15:08,679 --> 01:15:11,679
+solution
+
+1250
+01:15:20,880 --> 01:15:26,760
+okay so we can verify each of these two
+
+1251
+01:15:24,280 --> 01:15:28,960
+congruences
+
+1252
+01:15:26,760 --> 01:15:31,320
+separately right so if we look at the
+
+1253
+01:15:28,960 --> 01:15:35,120
+first congruence what happens if we
+
+1254
+01:15:31,320 --> 01:15:35,120
+reduce this x modu
+
+1255
+01:15:35,159 --> 01:15:40,760
+p well modulo P this EP here is
+
+1256
+01:15:39,679 --> 01:15:45,000
+congruent to
+
+1257
+01:15:40,760 --> 01:15:48,600
+one so this term becomes
+
+1258
+01:15:45,000 --> 01:15:51,239
+a uh we said that EQ is defined to be a
+
+1259
+01:15:48,600 --> 01:15:52,000
+multiple of P so the second term just
+
+1260
+01:15:51,239 --> 01:15:58,040
+goes
+
+1261
+01:15:52,000 --> 01:16:01,560
+away so modulo p X is now congruent to
+
+1262
+01:15:58,040 --> 01:16:04,360
+a modulo q it's exactly the opposite
+
+1263
+01:16:01,560 --> 01:16:08,080
+right this term goes away because the
+
+1264
+01:16:04,360 --> 01:16:08,080
+the EP was defined to be a multiple of
+
+1265
+01:16:08,120 --> 01:16:15,480
+Q right and
+
+1266
+01:16:12,480 --> 01:16:15,480
+uh
+
+1267
+01:16:17,040 --> 01:16:23,880
+sorry yes this is defined to be a
+
+1268
+01:16:19,800 --> 01:16:26,920
+multiple of Q and uh I've done it the
+
+1269
+01:16:23,880 --> 01:16:26,920
+wrong way around haven't I
+
+1270
+01:16:27,760 --> 01:16:35,120
+Q mod
+
+1271
+01:16:30,000 --> 01:16:35,120
+q no no we're fine
+
+1272
+01:16:36,719 --> 01:16:40,920
+okay so EP is a multiple of Q the a term
+
+1273
+01:16:40,159 --> 01:16:46,960
+goes
+
+1274
+01:16:40,920 --> 01:16:52,360
+away uh B * EQ is going to be one
+
+1275
+01:16:46,960 --> 01:16:52,360
+okay sorry B * EQ is going to be B
+
+1276
+01:16:59,760 --> 01:17:03,280
+okay so what about
+
+1277
+01:17:10,560 --> 01:17:14,239
+uniqueness how might we prove
+
+1278
+01:17:18,239 --> 01:17:23,960
+uniqueness what is the what is the setup
+
+1279
+01:17:20,480 --> 01:17:23,960
+going to look like
+
+1280
+01:17:41,320 --> 01:17:47,040
+yeah okay so the the idea was show that
+
+1281
+01:17:44,880 --> 01:17:51,320
+any candidate solution so let's say x
+
+1282
+01:17:47,040 --> 01:17:56,080
+Prime is actually the same solution okay
+
+1283
+01:17:51,320 --> 01:17:58,840
+so let X and X Prime be
+
+1284
+01:17:56,080 --> 01:17:58,840
+to
+
+1285
+01:18:01,639 --> 01:18:04,639
+Solutions
+
+1286
+01:18:05,800 --> 01:18:09,920
+okay now what are we trying to
+
+1287
+01:18:13,880 --> 01:18:18,760
+show
+
+1288
+01:18:16,600 --> 01:18:21,239
+yeah uh not
+
+1289
+01:18:18,760 --> 01:18:22,920
+equals so we're not trying to we're not
+
+1290
+01:18:21,239 --> 01:18:25,239
+trying to prove there are unique
+
+1291
+01:18:22,920 --> 01:18:28,480
+integers right we're trying to prove
+
+1292
+01:18:25,239 --> 01:18:31,760
+that it's Unique modul PQ so we want to
+
+1293
+01:18:28,480 --> 01:18:31,760
+show that they're congruent modul
+
+1294
+01:18:36,239 --> 01:18:41,480
+PQ
+
+1295
+01:18:37,880 --> 01:18:41,480
+okay how can we do
+
+1296
+01:18:45,360 --> 01:18:49,639
+this well what is the definition of this
+
+1297
+01:18:53,040 --> 01:18:59,280
+equivalence we could do this by showing
+
+1298
+01:18:55,639 --> 01:19:03,360
+that uh you know PQ
+
+1299
+01:18:59,280 --> 01:19:03,360
+divides x - x
+
+1300
+01:19:06,520 --> 01:19:12,000
+Prime now in order to do that right we
+
+1301
+01:19:09,199 --> 01:19:16,239
+can look at p and Q
+
+1302
+01:19:12,000 --> 01:19:19,239
+separately okay so why does p divide the
+
+1303
+01:19:16,239 --> 01:19:19,239
+difference
+
+1304
+01:19:26,000 --> 01:19:30,040
+well both of them satisfy that first
+
+1305
+01:19:27,800 --> 01:19:32,280
+equation or that first
+
+1306
+01:19:30,040 --> 01:19:35,239
+congruence okay so both of them are
+
+1307
+01:19:32,280 --> 01:19:36,320
+congruent to a modulo p if you subtract
+
+1308
+01:19:35,239 --> 01:19:39,520
+them you get
+
+1309
+01:19:36,320 --> 01:19:41,760
+zero okay so P divides the
+
+1310
+01:19:39,520 --> 01:19:43,880
+difference now because they both satisfy
+
+1311
+01:19:41,760 --> 01:19:46,920
+the second
+
+1312
+01:19:43,880 --> 01:19:51,280
+congruence right uh you subtract them
+
+1313
+01:19:46,920 --> 01:19:55,639
+you get B minus B right so there so the
+
+1314
+01:19:51,280 --> 01:20:00,000
+the so Q divides the difference as well
+
+1315
+01:19:55,639 --> 01:20:00,000
+okay so p and Q
+
+1316
+01:20:09,120 --> 01:20:12,120
+individually
+
+1317
+01:20:12,520 --> 01:20:17,480
+okay and by assumption they're co-prime
+
+1318
+01:20:15,840 --> 01:20:19,440
+so their product must then also divide
+
+1319
+01:20:17,480 --> 01:20:23,440
+the
+
+1320
+01:20:19,440 --> 01:20:23,440
+difference okay
+
+1321
+01:20:39,440 --> 01:20:45,440
+okay so that means that x and x Prime
+
+1322
+01:20:42,480 --> 01:20:48,040
+must be congruent modu of
+
+1323
+01:20:45,440 --> 01:20:51,560
+PQ okay so that's all we have time for
+
+1324
+01:20:48,040 --> 01:20:54,760
+today um yeah you'll see you'll get more
+
+1325
+01:20:51,560 --> 01:20:57,080
+practice with uh RSA and CRT in uh in
+
+1326
+01:20:54,760 --> 01:21:01,480
+recitation tomorrow and uh yeah feel
+
+1327
+01:20:57,080 --> 01:21:01,480
+free to uh come up if you have questions
+

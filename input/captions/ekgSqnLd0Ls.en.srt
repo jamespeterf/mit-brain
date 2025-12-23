@@ -1,0 +1,5636 @@
+1
+00:00:10,200 --> 00:00:14,000
+hello everybody we're going to be
+
+2
+00:00:11,599 --> 00:00:16,800
+looking today at how we can use machine
+
+3
+00:00:14,000 --> 00:00:20,160
+learning and artificial intelligence in
+
+4
+00:00:16,800 --> 00:00:24,039
+order to learn more about musical
+
+5
+00:00:20,160 --> 00:00:27,480
+behavior and music theory and just music
+
+6
+00:00:24,039 --> 00:00:30,720
+in general our first task is going to be
+
+7
+00:00:27,480 --> 00:00:33,719
+how do we transform music into formats
+
+8
+00:00:30,720 --> 00:00:37,000
+that computers can learn from because a
+
+9
+00:00:33,719 --> 00:00:40,280
+score alone is not something that can be
+
+10
+00:00:37,000 --> 00:00:42,320
+used for artificial intelligence and so
+
+11
+00:00:40,280 --> 00:00:44,719
+our first task is going to be
+
+12
+00:00:42,320 --> 00:00:48,440
+understanding how feature extraction the
+
+13
+00:00:44,719 --> 00:00:51,960
+conversion of musical scores into
+
+14
+00:00:48,440 --> 00:00:55,520
+intelligent numerical data how feature
+
+15
+00:00:51,960 --> 00:00:59,399
+extraction is able to make machine
+
+16
+00:00:55,520 --> 00:01:02,239
+learning possible so go ahead and load
+
+17
+00:00:59,399 --> 00:01:05,840
+up juper notebook and follow along as we
+
+18
+00:01:02,239 --> 00:01:08,360
+do some work with music 21 first
+
+19
+00:01:05,840 --> 00:01:11,680
+separate from the music 21 machine
+
+20
+00:01:08,360 --> 00:01:16,280
+learning tool kit and then with music 21
+
+21
+00:01:11,680 --> 00:01:19,000
+features in order to learn more about
+
+22
+00:01:16,280 --> 00:01:20,360
+some genres and other ways of
+
+23
+00:01:19,000 --> 00:01:24,040
+classifying
+
+24
+00:01:20,360 --> 00:01:26,720
+music so go ahead and start Jupiter
+
+25
+00:01:24,040 --> 00:01:28,720
+notebook and we're going to create uh
+
+26
+00:01:26,720 --> 00:01:32,399
+the first step which is to understand
+
+27
+00:01:28,720 --> 00:01:37,000
+what features are so I'll I know why we
+
+28
+00:01:32,399 --> 00:01:38,520
+might want to extract them so what is a
+
+29
+00:01:37,000 --> 00:01:41,560
+feature that's the first thing we're
+
+30
+00:01:38,520 --> 00:01:43,799
+going to work on feature is something
+
+31
+00:01:41,560 --> 00:01:47,079
+really really really basic let's say
+
+32
+00:01:43,799 --> 00:01:50,960
+that we have a piece um will load from
+
+33
+00:01:47,079 --> 00:01:53,360
+music 21 Corpus our favorite B Corral so
+
+34
+00:01:50,960 --> 00:02:00,920
+you don't even need to know what comes
+
+35
+00:01:53,360 --> 00:02:03,840
+up from this Corpus pars BL bwv 66.
+
+36
+00:02:00,920 --> 00:02:06,159
+six and just to remind yourselves how it
+
+37
+00:02:03,840 --> 00:02:09,800
+goes here's the
+
+38
+00:02:06,159 --> 00:02:14,120
+buck so great let's go ahead
+
+39
+00:02:09,800 --> 00:02:17,280
+and choose a feature from the this um
+
+40
+00:02:14,120 --> 00:02:23,160
+from this let's do the parts feature and
+
+41
+00:02:17,280 --> 00:02:25,920
+we'll call it num Parts equals 4 and
+
+42
+00:02:23,160 --> 00:02:28,840
+let's do the time
+
+43
+00:02:25,920 --> 00:02:30,840
+signature numerator
+
+44
+00:02:28,840 --> 00:02:37,319
+feature equal
+
+45
+00:02:30,840 --> 00:02:40,959
+4 there we've now extracted manually two
+
+46
+00:02:37,319 --> 00:02:43,480
+features from this
+
+47
+00:02:40,959 --> 00:02:46,680
+Coral feature extraction is the
+
+48
+00:02:43,480 --> 00:02:48,519
+conversion of musical elements or any
+
+49
+00:02:46,680 --> 00:02:50,440
+element but musical feature extraction
+
+50
+00:02:48,519 --> 00:02:55,879
+is a conversion of musical elements into
+
+51
+00:02:50,440 --> 00:03:00,599
+single numbers or lists arays vectors of
+
+52
+00:02:55,879 --> 00:03:03,000
+numbers it is thus the most boring thing
+
+53
+00:03:00,599 --> 00:03:06,920
+in the world as you've just
+
+54
+00:03:03,000 --> 00:03:10,200
+seen it is just a bunch of numbers
+
+55
+00:03:06,920 --> 00:03:13,159
+feature extraction sucks out the
+
+56
+00:03:10,200 --> 00:03:15,120
+lifeblood of Music it takes everything
+
+57
+00:03:13,159 --> 00:03:18,080
+that's beautiful in music and turns it
+
+58
+00:03:15,120 --> 00:03:20,920
+into a bunch of numbers it is the life
+
+59
+00:03:18,080 --> 00:03:22,519
+sucker it is the zombie of the musical
+
+60
+00:03:20,920 --> 00:03:25,799
+world
+
+61
+00:03:22,519 --> 00:03:27,200
+but but there are tons of amazing
+
+62
+00:03:25,799 --> 00:03:28,680
+machine learning and artificial
+
+63
+00:03:27,200 --> 00:03:31,120
+intelligence and deep learning
+
+64
+00:03:28,680 --> 00:03:33,319
+algorithms in the world as far as I know
+
+65
+00:03:31,120 --> 00:03:35,319
+they all have one thing in common they
+
+66
+00:03:33,319 --> 00:03:37,879
+only work on collections of single
+
+67
+00:03:35,319 --> 00:03:40,040
+numbers or vectors of
+
+68
+00:03:37,879 --> 00:03:42,000
+numbers I'm not a machine learning
+
+69
+00:03:40,040 --> 00:03:44,239
+expert so maybe there are algorithms
+
+70
+00:03:42,000 --> 00:03:46,000
+that work on two or multi-dimensional
+
+71
+00:03:44,239 --> 00:03:49,640
+arrays of numbers that would be amazing
+
+72
+00:03:46,000 --> 00:03:51,720
+for Machine Vision or what we do but
+
+73
+00:03:49,640 --> 00:03:54,360
+nothing as far as I know in the
+
+74
+00:03:51,720 --> 00:03:56,000
+artificial intelligence World works on
+
+75
+00:03:54,360 --> 00:03:57,879
+things
+
+76
+00:03:56,000 --> 00:04:00,190
+like this
+
+77
+00:03:57,879 --> 00:04:06,449
+notation or
+
+78
+00:04:00,190 --> 00:04:06,449
+[Music]
+
+79
+00:04:08,040 --> 00:04:12,640
+sound so if we're going to work on doing
+
+80
+00:04:10,400 --> 00:04:14,720
+artificial intelligence or predictions
+
+81
+00:04:12,640 --> 00:04:17,840
+or anything super amazing on music
+
+82
+00:04:14,720 --> 00:04:21,040
+notation at least at present we need to
+
+83
+00:04:17,840 --> 00:04:23,040
+convert music to
+
+84
+00:04:21,040 --> 00:04:26,880
+numbers so that's what feature
+
+85
+00:04:23,040 --> 00:04:28,720
+extraction is basic feature extraction
+
+86
+00:04:26,880 --> 00:04:32,039
+is pretty
+
+87
+00:04:28,720 --> 00:04:33,360
+simple so in this case let's just
+
+88
+00:04:32,039 --> 00:04:36,560
+extract
+
+89
+00:04:33,360 --> 00:04:40,479
+automatically the meter from this piece
+
+90
+00:04:36,560 --> 00:04:42,960
+so we'll uh write something that does it
+
+91
+00:04:40,479 --> 00:04:45,600
+we'll import from the typing module
+
+92
+00:04:42,960 --> 00:04:48,400
+because we like to do things like this
+
+93
+00:04:45,600 --> 00:04:51,120
+turn python which is a weakly typed
+
+94
+00:04:48,400 --> 00:04:54,560
+language into slightly stronger typed so
+
+95
+00:04:51,120 --> 00:04:58,199
+that we can um understand a little bit
+
+96
+00:04:54,560 --> 00:05:00,039
+better um what's going to go on so we'll
+
+97
+00:04:58,199 --> 00:05:02,880
+also import from music 21 the meter and
+
+98
+00:05:00,039 --> 00:05:04,520
+stream modules now let's write something
+
+99
+00:05:02,880 --> 00:05:08,919
+called
+
+100
+00:05:04,520 --> 00:05:11,400
+extract extract meter which takes in a
+
+101
+00:05:08,919 --> 00:05:13,840
+variable score which is a
+
+102
+00:05:11,400 --> 00:05:17,039
+stream. stream object maybe it should be
+
+103
+00:05:13,840 --> 00:05:20,759
+a stream. score object but let's keep it
+
+104
+00:05:17,039 --> 00:05:24,360
+flexible and it returns a tupple of two
+
+105
+00:05:20,759 --> 00:05:28,280
+integers and we'll say here that returns
+
+106
+00:05:24,360 --> 00:05:30,400
+a two tle of the
+
+107
+00:05:28,280 --> 00:05:31,960
+numerator and
+
+108
+00:05:30,400 --> 00:05:36,960
+the
+
+109
+00:05:31,960 --> 00:05:36,960
+denominator of the first time
+
+110
+00:05:37,039 --> 00:05:43,440
+signature
+
+111
+00:05:39,120 --> 00:05:50,720
+siger found in a
+
+112
+00:05:43,440 --> 00:05:54,479
+score returns 0 comma 0 if the score has
+
+113
+00:05:50,720 --> 00:05:56,960
+no meter why do we return 0 comma 0 if
+
+114
+00:05:54,479 --> 00:05:59,120
+there's no meter in feature extraction
+
+115
+00:05:56,960 --> 00:06:01,360
+it's generally assumed that we want to
+
+116
+00:05:59,120 --> 00:06:03,400
+return out of bound number rather than
+
+117
+00:06:01,360 --> 00:06:06,400
+raising exception if there's a
+
+118
+00:06:03,400 --> 00:06:08,720
+mistake and the reason is you'd hate to
+
+119
+00:06:06,400 --> 00:06:10,280
+be running extract meter on hundreds or
+
+120
+00:06:08,720 --> 00:06:13,120
+thousands of pieces and you're always
+
+121
+00:06:10,280 --> 00:06:15,440
+getting 4 comma 4 or 3 comma 4 or 6
+
+122
+00:06:13,120 --> 00:06:18,160
+comma 8 or even something wacky like 11
+
+123
+00:06:15,440 --> 00:06:20,160
+comma 32 and you it's all working
+
+124
+00:06:18,160 --> 00:06:21,720
+successfully only to have your entire
+
+125
+00:06:20,160 --> 00:06:24,479
+feature construction artificial
+
+126
+00:06:21,720 --> 00:06:26,080
+intelligence pipeline fail if there's
+
+127
+00:06:24,479 --> 00:06:28,639
+one piece that doesn't have a time
+
+128
+00:06:26,080 --> 00:06:31,199
+signature like let's say it's Gregorian
+
+129
+00:06:28,639 --> 00:06:33,440
+chant or some kind of trans
+
+130
+00:06:31,199 --> 00:06:37,080
+meditation so that's why we're going to
+
+131
+00:06:33,440 --> 00:06:39,400
+be putting returning 0 comma 0 on the
+
+132
+00:06:37,080 --> 00:06:41,000
+other hand maybe it's a bad assumption
+
+133
+00:06:39,400 --> 00:06:43,759
+and we should raise exceptions when
+
+134
+00:06:41,000 --> 00:06:47,240
+something's not right and then we should
+
+135
+00:06:43,759 --> 00:06:47,240
+fix our work rather than hiding
+
+136
+00:06:47,440 --> 00:06:53,599
+errors but we'll get to that in just a
+
+137
+00:06:49,880 --> 00:06:55,120
+bit first meter but first let's see how
+
+138
+00:06:53,599 --> 00:06:57,680
+we do this so let's just remind
+
+139
+00:06:55,120 --> 00:07:03,080
+ourselves we can take from anything get
+
+140
+00:06:57,680 --> 00:07:03,080
+Elements by class meter. time
+
+141
+00:07:03,120 --> 00:07:09,360
+signature and if we do not have the any
+
+142
+00:07:06,720 --> 00:07:11,960
+the first meter will
+
+143
+00:07:09,360 --> 00:07:15,199
+return 0 comma
+
+144
+00:07:11,960 --> 00:07:18,919
+0 and otherwise we'll return the first
+
+145
+00:07:15,199 --> 00:07:21,919
+meters numerator and the first
+
+146
+00:07:18,919 --> 00:07:21,919
+meters
+
+147
+00:07:22,080 --> 00:07:27,160
+denominator we're kind of hiding an
+
+148
+00:07:24,479 --> 00:07:29,120
+error in our encoding um is that the
+
+149
+00:07:27,160 --> 00:07:32,000
+right thing to do and I think this is
+
+150
+00:07:29,120 --> 00:07:33,759
+something that when we're talking about
+
+151
+00:07:32,000 --> 00:07:37,160
+it and I would love to talk to anybody
+
+152
+00:07:33,759 --> 00:07:39,560
+directly about about ethics and morality
+
+153
+00:07:37,160 --> 00:07:42,280
+and sort of what who artificial
+
+154
+00:07:39,560 --> 00:07:43,879
+intelligence is working for because I
+
+155
+00:07:42,280 --> 00:07:45,080
+think there are often important
+
+156
+00:07:43,879 --> 00:07:46,879
+considerations of artificial
+
+157
+00:07:45,080 --> 00:07:49,720
+intelligence with moral and ethical
+
+158
+00:07:46,879 --> 00:07:53,120
+consequences when we hide things that it
+
+159
+00:07:49,720 --> 00:07:54,639
+can't do and so I want you if you're
+
+160
+00:07:53,120 --> 00:07:56,639
+going to be somebody who's going to be
+
+161
+00:07:54,639 --> 00:07:58,639
+working with artificial intelligence and
+
+162
+00:07:56,639 --> 00:08:00,560
+the rest of your life and Technology to
+
+163
+00:07:58,639 --> 00:08:03,680
+think about such things maybe we
+
+164
+00:08:00,560 --> 00:08:07,199
+shouldn't be hiding our error so
+
+165
+00:08:03,680 --> 00:08:10,520
+much okay so we have this extract meter
+
+166
+00:08:07,199 --> 00:08:12,680
+to get back to this whoops um doesn't
+
+167
+00:08:10,520 --> 00:08:14,960
+matter if you put a parenthesis around a
+
+168
+00:08:12,680 --> 00:08:16,800
+tupple when you return it but if you
+
+169
+00:08:14,960 --> 00:08:18,879
+start with one you have to do the other
+
+170
+00:08:16,800 --> 00:08:21,639
+okay so let's take this B Corral and
+
+171
+00:08:18,879 --> 00:08:25,479
+let's run extract
+
+172
+00:08:21,639 --> 00:08:30,639
+meter on the B
+
+173
+00:08:25,479 --> 00:08:32,519
+oh0 comma 0 oh I know why because we
+
+174
+00:08:30,639 --> 00:08:34,800
+forgot to do
+
+175
+00:08:32,519 --> 00:08:37,080
+recurse you know flat would do just as
+
+176
+00:08:34,800 --> 00:08:39,159
+well but recurse is a little bit faster
+
+177
+00:08:37,080 --> 00:08:42,719
+and oh by the way something I didn't
+
+178
+00:08:39,159 --> 00:08:45,200
+mention uh you might have seen that
+
+179
+00:08:42,719 --> 00:08:47,360
+we're sending in the class actual class
+
+180
+00:08:45,200 --> 00:08:50,760
+meter. time signature we could also put
+
+181
+00:08:47,360 --> 00:08:55,279
+in the um strin time signature doesn't
+
+182
+00:08:50,760 --> 00:08:57,160
+matter either way there um but this
+
+183
+00:08:55,279 --> 00:09:00,200
+actually doesn't get us the first meter
+
+184
+00:08:57,160 --> 00:09:02,360
+this gets us all the meters and so if
+
+185
+00:09:00,200 --> 00:09:04,800
+there are no
+
+186
+00:09:02,360 --> 00:09:09,279
+meters that says if there's not a single
+
+187
+00:09:04,800 --> 00:09:12,680
+one return that we'll call First
+
+188
+00:09:09,279 --> 00:09:16,480
+meter the first of all meters so of
+
+189
+00:09:12,680 --> 00:09:20,079
+course it's number zero now that's
+
+190
+00:09:16,480 --> 00:09:23,200
+should be there now extract meter Bo
+
+191
+00:09:20,079 --> 00:09:26,680
+fantastic returns four comma
+
+192
+00:09:23,200 --> 00:09:30,200
+4 so why would we want to extract the
+
+193
+00:09:26,680 --> 00:09:34,079
+meter as two numbers as part of future
+
+194
+00:09:30,200 --> 00:09:35,920
+extraction we might do it as part of a
+
+195
+00:09:34,079 --> 00:09:38,560
+series of features in order to make a
+
+196
+00:09:35,920 --> 00:09:40,600
+prediction about a piece let's say we
+
+197
+00:09:38,560 --> 00:09:44,399
+wanted to predict if a piece of music is
+
+198
+00:09:40,600 --> 00:09:46,920
+a waltz or not so we might first think
+
+199
+00:09:44,399 --> 00:09:46,920
+is this a
+
+200
+00:09:52,480 --> 00:10:06,360
+waltz or is this a Walts
+
+201
+00:09:55,480 --> 00:10:09,200
+[Music]
+
+202
+00:10:06,360 --> 00:10:09,200
+is this a
+
+203
+00:10:21,079 --> 00:10:25,360
+Walts so what makes something a Walts
+
+204
+00:10:24,240 --> 00:10:28,000
+well it probably has something to do
+
+205
+00:10:25,360 --> 00:10:30,360
+with a meter we fortunately already have
+
+206
+00:10:28,000 --> 00:10:34,440
+a meter extraction for types cure for
+
+207
+00:10:30,360 --> 00:10:37,360
+the piece and now we can use this to try
+
+208
+00:10:34,440 --> 00:10:40,600
+to figure out if something is a Walter
+
+209
+00:10:37,360 --> 00:10:43,040
+not so we would assume that the
+
+210
+00:10:40,600 --> 00:10:45,079
+prevailing time signature in a piece and
+
+211
+00:10:43,040 --> 00:10:48,399
+the opening time signature in a piece if
+
+212
+00:10:45,079 --> 00:10:51,360
+it's a Walt would be 34 and therefore
+
+213
+00:10:48,399 --> 00:10:56,040
+our extraction should be 3 comma
+
+214
+00:10:51,360 --> 00:10:58,240
+4 that is the worst assumption ever the
+
+215
+00:10:56,040 --> 00:11:01,360
+most famous Walts of all time Johan
+
+216
+00:10:58,240 --> 00:11:03,880
+truss's blue Dan Waltz which you just
+
+217
+00:11:01,360 --> 00:11:08,839
+heard doesn't start in 34 it starts with
+
+218
+00:11:03,880 --> 00:11:08,839
+a slow introduction in 68
+
+219
+00:11:09,880 --> 00:11:15,120
+time I happen to have a random Waltz on
+
+220
+00:11:12,800 --> 00:11:18,320
+my computer it's Yan strauss's Waltz
+
+221
+00:11:15,120 --> 00:11:20,880
+called on the blue denu it's not in the
+
+222
+00:11:18,320 --> 00:11:23,720
+music 21 Corpus but it's instead on my
+
+223
+00:11:20,880 --> 00:11:27,279
+hard drive on my desktop so I'll need to
+
+224
+00:11:23,720 --> 00:11:30,440
+import the converter module from music
+
+225
+00:11:27,279 --> 00:11:33,320
+21 I mean it's just a wrapper around
+
+226
+00:11:30,440 --> 00:11:36,519
+loading things and stuff and now instead
+
+227
+00:11:33,320 --> 00:11:41,240
+of using Corpus parse I'll use converter
+
+228
+00:11:36,519 --> 00:11:45,040
+dopar I'll give um the full file name to
+
+229
+00:11:41,240 --> 00:11:50,079
+file path to my um to my
+
+230
+00:11:45,040 --> 00:11:50,079
+Walts it's a music XML
+
+231
+00:11:51,079 --> 00:11:57,800
+file oh great so the guy who's making
+
+232
+00:11:54,279 --> 00:12:00,720
+this recording just goes online grabs a
+
+233
+00:11:57,800 --> 00:12:01,600
+random music XML copy of the blue danu
+
+234
+00:12:00,720 --> 00:12:04,800
+from the
+
+235
+00:12:01,600 --> 00:12:08,200
+internet and this version skips the
+
+236
+00:12:04,800 --> 00:12:11,160
+introduction completely so it has 34
+
+237
+00:12:08,200 --> 00:12:13,160
+when it should have gotten 68 so it's
+
+238
+00:12:11,160 --> 00:12:15,600
+going to get the right answer but for
+
+239
+00:12:13,160 --> 00:12:19,000
+all the wrong reasons have you ever
+
+240
+00:12:15,600 --> 00:12:21,320
+heard the expression goo garbage in
+
+241
+00:12:19,000 --> 00:12:25,160
+equals garbage
+
+242
+00:12:21,320 --> 00:12:27,680
+out let's not do that in our own work
+
+243
+00:12:25,160 --> 00:12:30,000
+what we're learning from in this
+
+244
+00:12:27,680 --> 00:12:32,279
+tutorial let's instead make the world of
+
+245
+00:12:30,000 --> 00:12:34,880
+artificial intelligence a better place
+
+246
+00:12:32,279 --> 00:12:37,519
+and always check whether our training
+
+247
+00:12:34,880 --> 00:12:39,440
+data is correct whether this is actually
+
+248
+00:12:37,519 --> 00:12:42,320
+a score of the Blue danu rather than
+
+249
+00:12:39,440 --> 00:12:46,120
+just the main theme of it let's check
+
+250
+00:12:42,320 --> 00:12:46,120
+things like this before we use
+
+251
+00:12:46,279 --> 00:12:54,720
+it great so it's in 34 so our extract
+
+252
+00:12:52,160 --> 00:12:58,279
+meter function is going to return 34
+
+253
+00:12:54,720 --> 00:12:58,279
+let's try that
+
+254
+00:12:59,959 --> 00:13:06,040
+oops sorry don't give the answer give
+
+255
+00:13:03,279 --> 00:13:07,800
+the question there we go so now we have
+
+256
+00:13:06,040 --> 00:13:10,560
+our first feature that might help
+
+257
+00:13:07,800 --> 00:13:12,680
+identify a Walt it's Tim
+
+258
+00:13:10,560 --> 00:13:14,600
+signature now let's do something a
+
+259
+00:13:12,680 --> 00:13:16,959
+little bit more advanced and let's let's
+
+260
+00:13:14,600 --> 00:13:19,000
+look at this piece and see H is there
+
+261
+00:13:16,959 --> 00:13:22,199
+anything that seems to happen pretty
+
+262
+00:13:19,000 --> 00:13:26,760
+often well it looks like the last beat
+
+263
+00:13:22,199 --> 00:13:29,560
+beat three of the piece or offset two is
+
+264
+00:13:26,760 --> 00:13:31,639
+more often higher than offset one I
+
+265
+00:13:29,560 --> 00:13:33,079
+don't know if that's true but that that
+
+266
+00:13:31,639 --> 00:13:36,519
+looks like something that's a
+
+267
+00:13:33,079 --> 00:13:39,279
+possibility so we'll create sort of a
+
+268
+00:13:36,519 --> 00:13:43,959
+more sophisticated feature extractor
+
+269
+00:13:39,279 --> 00:13:47,600
+which uh Returns the proportion of all
+
+270
+00:13:43,959 --> 00:13:50,440
+the measures where beat 3 is above beat
+
+271
+00:13:47,600 --> 00:13:52,560
+1 first we'll make the assumption that
+
+272
+00:13:50,440 --> 00:13:55,399
+beat 1 is always at offset zero and beat
+
+273
+00:13:52,560 --> 00:13:57,720
+3 is at offset to these aren't very good
+
+274
+00:13:55,399 --> 00:13:59,720
+assumptions uh but maybe together with
+
+275
+00:13:57,720 --> 00:14:01,320
+searching for meter they'll too will
+
+276
+00:13:59,720 --> 00:14:04,240
+make a good case for whether something
+
+277
+00:14:01,320 --> 00:14:05,800
+is a waltz or not so here we go uh if
+
+278
+00:14:04,240 --> 00:14:10,720
+we're going to we're going to eventually
+
+279
+00:14:05,800 --> 00:14:13,959
+write something uh proportion uh prop
+
+280
+00:14:10,720 --> 00:14:13,959
+proportion of
+
+281
+00:14:14,079 --> 00:14:21,160
+bat3 above beat one which is going to
+
+282
+00:14:17,959 --> 00:14:23,399
+take a score stream stream and it's
+
+283
+00:14:21,160 --> 00:14:26,800
+going to return a float because it's a
+
+284
+00:14:23,399 --> 00:14:29,199
+proportion and I'll just say pass now
+
+285
+00:14:26,800 --> 00:14:30,720
+because in order to write this of of
+
+286
+00:14:29,199 --> 00:14:33,399
+course uh we're going to need something
+
+287
+00:14:30,720 --> 00:14:39,920
+that figures out for any given measure
+
+288
+00:14:33,399 --> 00:14:43,880
+if beat 3 is above beat
+
+289
+00:14:39,920 --> 00:14:45,839
+one for a single measure for one measure
+
+290
+00:14:43,880 --> 00:14:48,000
+so we'll take an M which will be a
+
+291
+00:14:45,839 --> 00:14:51,920
+stream. measure and this is going to
+
+292
+00:14:48,000 --> 00:14:54,519
+return true or false oops it's going to
+
+293
+00:14:51,920 --> 00:14:56,240
+return true or false someday we going to
+
+294
+00:14:54,519 --> 00:14:57,519
+have an incredible production crew
+
+295
+00:14:56,240 --> 00:15:00,000
+that's going to edit out all these
+
+296
+00:14:57,519 --> 00:15:02,759
+mistakes but I don't have that yet so
+
+297
+00:15:00,000 --> 00:15:07,160
+we'll say that measures notes are get
+
+298
+00:15:02,759 --> 00:15:09,920
+all the elements by class note and that
+
+299
+00:15:07,160 --> 00:15:12,759
+returns this stream iterator for now I'm
+
+300
+00:15:09,920 --> 00:15:15,079
+going to say recast that stream iterator
+
+301
+00:15:12,759 --> 00:15:17,279
+as another stream uh you can do this
+
+302
+00:15:15,079 --> 00:15:20,440
+with any of the get something bu
+
+303
+00:15:17,279 --> 00:15:23,519
+something uh classes in music 21 great
+
+304
+00:15:20,440 --> 00:15:25,959
+so within this is now a stream of just
+
+305
+00:15:23,519 --> 00:15:29,639
+nothing but notes and so I can say the
+
+306
+00:15:25,959 --> 00:15:34,560
+first notes are those notes
+
+307
+00:15:29,639 --> 00:15:40,319
+that appear at an offset
+
+308
+00:15:34,560 --> 00:15:44,199
+zero and if there's no note there return
+
+309
+00:15:40,319 --> 00:15:46,600
+fulse great now we'll check bat3 notes
+
+310
+00:15:44,199 --> 00:15:49,120
+are those
+
+311
+00:15:46,600 --> 00:15:54,839
+notes
+
+312
+00:15:49,120 --> 00:15:57,959
+that are at offset 2 and that began at
+
+313
+00:15:54,839 --> 00:16:00,120
+offset 2 so that should work pretty well
+
+314
+00:15:57,959 --> 00:16:03,880
+and if there's no note
+
+315
+00:16:00,120 --> 00:16:03,880
+that satisfies that
+
+316
+00:16:04,040 --> 00:16:12,199
+condition we're going to return false
+
+317
+00:16:07,639 --> 00:16:17,720
+again but what if there is more than one
+
+318
+00:16:12,199 --> 00:16:19,519
+note at the beginning of the measure or
+
+319
+00:16:17,720 --> 00:16:22,360
+at
+
+320
+00:16:19,519 --> 00:16:26,720
+bat3 so we have to make sure that first
+
+321
+00:16:22,360 --> 00:16:30,160
+note is the first of the beat3
+
+322
+00:16:26,720 --> 00:16:34,319
+notes and the beat3 note not is the
+
+323
+00:16:30,160 --> 00:16:37,079
+first of the beat3 notes not the third
+
+324
+00:16:34,319 --> 00:16:40,040
+the first now we'll go ahead and say if
+
+325
+00:16:37,079 --> 00:16:41,639
+the first note pitch is lower and we're
+
+326
+00:16:40,040 --> 00:16:45,360
+going to measure the pitch by pitch
+
+327
+00:16:41,639 --> 00:16:46,720
+space or midi number uh is less than the
+
+328
+00:16:45,360 --> 00:16:50,639
+beat3
+
+329
+00:16:46,720 --> 00:16:53,959
+notes pit space will return false
+
+330
+00:16:50,639 --> 00:16:58,399
+otherwise we're going to return true
+
+331
+00:16:53,959 --> 00:17:02,920
+um great we'll let's be good we'll make
+
+332
+00:16:58,399 --> 00:17:05,079
+this a second thing we'll put cut and
+
+333
+00:17:02,920 --> 00:17:08,839
+paste that there Meanwhile we're going
+
+334
+00:17:05,079 --> 00:17:13,319
+to um let's write a little test on this
+
+335
+00:17:08,839 --> 00:17:16,400
+so we have blue um let's get measure
+
+336
+00:17:13,319 --> 00:17:20,439
+zero so
+
+337
+00:17:16,400 --> 00:17:24,760
+m0 actually it's measure one so blue.
+
+338
+00:17:20,439 --> 00:17:27,160
+measure one and we'll
+
+339
+00:17:24,760 --> 00:17:30,840
+see is
+
+340
+00:17:27,160 --> 00:17:30,840
+beat3 above beat 1
+
+341
+00:17:33,400 --> 00:17:36,400
+oops
+
+342
+00:17:37,400 --> 00:17:42,960
+little elements
+
+343
+00:17:40,240 --> 00:17:46,240
+you so this
+
+344
+00:17:42,960 --> 00:17:49,120
+fight this is why we test things great
+
+345
+00:17:46,240 --> 00:17:54,039
+is beat three above beat one in
+
+346
+00:17:49,120 --> 00:17:57,400
+measure one actually is
+
+347
+00:17:54,039 --> 00:18:00,200
+huh oh I know what it is we have a
+
+348
+00:17:57,400 --> 00:18:03,360
+reverse of a sign it if this pitch is
+
+349
+00:18:00,200 --> 00:18:06,840
+greater than or equal then we returned
+
+350
+00:18:03,360 --> 00:18:10,159
+false actually if it's yeah the equal
+
+351
+00:18:06,840 --> 00:18:13,640
+sign there and now that's working
+
+352
+00:18:10,159 --> 00:18:15,600
+measure two should be true also measure
+
+353
+00:18:13,640 --> 00:18:16,600
+three should be false let's make sure
+
+354
+00:18:15,600 --> 00:18:20,880
+that
+
+355
+00:18:16,600 --> 00:18:24,919
+works yep and false great so that seems
+
+356
+00:18:20,880 --> 00:18:26,400
+to be working um here's the irony uh
+
+357
+00:18:24,919 --> 00:18:29,400
+actually except for the fact that our
+
+358
+00:18:26,400 --> 00:18:30,919
+label would be completely wrong uh
+
+359
+00:18:29,400 --> 00:18:33,120
+having every single thing that should be
+
+360
+00:18:30,919 --> 00:18:35,880
+false be true and true be false probably
+
+361
+00:18:33,120 --> 00:18:38,280
+wouldn't change our answers very much
+
+362
+00:18:35,880 --> 00:18:40,200
+but who knows we call this is beat three
+
+363
+00:18:38,280 --> 00:18:42,600
+above beat one in one
+
+364
+00:18:40,200 --> 00:18:43,640
+measure it better do what it says okay
+
+365
+00:18:42,600 --> 00:18:46,720
+great now we're going to get the
+
+366
+00:18:43,640 --> 00:18:48,799
+proportion that is U the proportion of
+
+367
+00:18:46,720 --> 00:18:50,200
+measures in this piece where B3 is above
+
+368
+00:18:48,799 --> 00:18:53,039
+B1 so
+
+369
+00:18:50,200 --> 00:18:55,799
+we'll keep track of the total number of
+
+370
+00:18:53,039 --> 00:18:59,320
+measures equals z the total we'll call
+
+371
+00:18:55,799 --> 00:19:01,440
+them Walts like measures those where
+
+372
+00:18:59,320 --> 00:19:06,720
+beat 3 is above beat one we'll call it
+
+373
+00:19:01,440 --> 00:19:11,320
+zero for every measure in the score
+
+374
+00:19:06,720 --> 00:19:14,799
+recurse get Elements by class
+
+375
+00:19:11,320 --> 00:19:16,559
+measure um there's a reason why we'll
+
+376
+00:19:14,799 --> 00:19:20,520
+use get Elements by class measure
+
+377
+00:19:16,559 --> 00:19:22,760
+instead of measure 0 1 2 3 so mostly to
+
+378
+00:19:20,520 --> 00:19:25,159
+do with the fact that sometimes there's
+
+379
+00:19:22,760 --> 00:19:27,080
+two measure 3es or they're missing
+
+380
+00:19:25,159 --> 00:19:29,919
+Measure 11 or something like that with
+
+381
+00:19:27,080 --> 00:19:31,760
+there's measure 5 a and 5B if there's a
+
+382
+00:19:29,919 --> 00:19:34,240
+first ending or something like that
+
+383
+00:19:31,760 --> 00:19:35,520
+anyhow so we're going for every measure
+
+384
+00:19:34,240 --> 00:19:38,559
+we increment the total number of
+
+385
+00:19:35,520 --> 00:19:40,840
+measures by one and now um we look at
+
+386
+00:19:38,559 --> 00:19:40,840
+one
+
+387
+00:19:41,200 --> 00:19:46,080
+measure and we say if that's true then
+
+388
+00:19:44,039 --> 00:19:50,960
+the total Walts
+
+389
+00:19:46,080 --> 00:19:52,559
+like measures plus equal one and we're
+
+390
+00:19:50,960 --> 00:19:57,320
+going to return the
+
+391
+00:19:52,559 --> 00:19:59,520
+total WTS like measures divided by the
+
+392
+00:19:57,320 --> 00:20:02,039
+total measures
+
+393
+00:19:59,520 --> 00:20:06,600
+uh we're coding pretty fast so we'll
+
+394
+00:20:02,039 --> 00:20:09,720
+just put as a to-do later um what if
+
+395
+00:20:06,600 --> 00:20:12,320
+there are no total measures always make
+
+396
+00:20:09,720 --> 00:20:15,720
+sure that we don't do a division by zero
+
+397
+00:20:12,320 --> 00:20:19,240
+measure uh error but that can be a later
+
+398
+00:20:15,720 --> 00:20:22,799
+thing so let's check this um
+
+399
+00:20:19,240 --> 00:20:28,320
+proportion of beat 3
+
+400
+00:20:22,799 --> 00:20:28,320
+above beat one in the blue danu
+
+401
+00:20:31,760 --> 00:20:36,960
+26% not really true seems a little bit
+
+402
+00:20:37,200 --> 00:20:43,080
+low one two
+
+403
+00:20:40,280 --> 00:20:47,280
+down well we'll check that later turns
+
+404
+00:20:43,080 --> 00:20:50,640
+out it's not not that bad and BWB U
+
+405
+00:20:47,280 --> 00:20:53,840
+sorry Buck CL this time it's actually
+
+406
+00:20:50,640 --> 00:20:55,799
+even a little bit more interesting okay
+
+407
+00:20:53,840 --> 00:20:58,080
+so in any case this is a feature we've
+
+408
+00:20:55,799 --> 00:21:00,200
+just defined this particular feature
+
+409
+00:20:58,080 --> 00:21:05,880
+figures out how often beat 3 is above
+
+410
+00:21:00,200 --> 00:21:09,039
+beat one great what we can do now is
+
+411
+00:21:05,880 --> 00:21:11,919
+these are individual features let's
+
+412
+00:21:09,039 --> 00:21:13,840
+create something that does chains a
+
+413
+00:21:11,919 --> 00:21:15,400
+whole bunch of features together well
+
+414
+00:21:13,840 --> 00:21:16,559
+not this one whole bunch of features
+
+415
+00:21:15,400 --> 00:21:20,360
+we'll
+
+416
+00:21:16,559 --> 00:21:23,360
+get four features so we'll
+
+417
+00:21:20,360 --> 00:21:27,159
+say our feature
+
+418
+00:21:23,360 --> 00:21:31,000
+extractor will take in a
+
+419
+00:21:27,159 --> 00:21:36,279
+score and it's going to return a tupple
+
+420
+00:21:31,000 --> 00:21:40,279
+of a string an INT an INT a float and a
+
+421
+00:21:36,279 --> 00:21:42,960
+b end okay what the heck what are these
+
+422
+00:21:40,279 --> 00:21:44,200
+things going to be so first what we're
+
+423
+00:21:42,960 --> 00:21:47,600
+going to do is we're going to take in
+
+424
+00:21:44,200 --> 00:21:50,919
+score and we're going to
+
+425
+00:21:47,600 --> 00:21:53,080
+um well we're going to say the file
+
+426
+00:21:50,919 --> 00:21:56,080
+name of the score is going to be that
+
+427
+00:21:53,080 --> 00:21:59,480
+first string um and you can get the file
+
+428
+00:21:56,080 --> 00:22:02,039
+name from any music 21 core by getting
+
+429
+00:21:59,480 --> 00:22:03,640
+his file path which is a path lip and
+
+430
+00:22:02,039 --> 00:22:05,640
+getting the name which gets rid of all
+
+431
+00:22:03,640 --> 00:22:07,720
+the directories and stuff great so we'll
+
+432
+00:22:05,640 --> 00:22:11,080
+get the file name of something and we'll
+
+433
+00:22:07,720 --> 00:22:13,279
+get the next thing we're going to get
+
+434
+00:22:11,080 --> 00:22:16,320
+these two ins which are going to be the
+
+435
+00:22:13,279 --> 00:22:19,799
+meter so we'll say the meter
+
+436
+00:22:16,320 --> 00:22:24,080
+feature is where I get that from
+
+437
+00:22:19,799 --> 00:22:27,240
+extract extract meter on that
+
+438
+00:22:24,080 --> 00:22:29,760
+score next we're going to get this float
+
+439
+00:22:27,240 --> 00:22:33,080
+which is going to be the beat 3
+
+440
+00:22:29,760 --> 00:22:37,880
+feature so we'll get the beat3
+
+441
+00:22:33,080 --> 00:22:42,000
+feature is the proportion propor sh why
+
+442
+00:22:37,880 --> 00:22:46,080
+do I keep doing this beat three above
+
+443
+00:22:42,000 --> 00:22:52,279
+beat one for that score great super oops
+
+444
+00:22:46,080 --> 00:22:54,039
+I hit shift enter then we want to get
+
+445
+00:22:52,279 --> 00:22:56,720
+the Boolean what we're going to do is if
+
+446
+00:22:54,039 --> 00:23:00,440
+we're training a data set we're going to
+
+447
+00:22:56,720 --> 00:23:02,760
+know whether or not something is a waltz
+
+448
+00:23:00,440 --> 00:23:04,520
+so we'll say that Boolean is going to be
+
+449
+00:23:02,760 --> 00:23:08,279
+true or false on whether something is a
+
+450
+00:23:04,520 --> 00:23:10,080
+waltz and so we could say is
+
+451
+00:23:08,279 --> 00:23:14,799
+Waltz
+
+452
+00:23:10,080 --> 00:23:18,720
+equals if true if Waltz is in the file
+
+453
+00:23:14,799 --> 00:23:20,279
+name or if lowercase vaults is in the
+
+454
+00:23:18,720 --> 00:23:26,520
+file
+
+455
+00:23:20,279 --> 00:23:29,400
+name file name so then we know the file
+
+456
+00:23:26,520 --> 00:23:31,880
+name numerator and
+
+457
+00:23:29,400 --> 00:23:35,120
+denominator a float of the proportion
+
+458
+00:23:31,880 --> 00:23:38,240
+beat3 and whether or not science Walts
+
+459
+00:23:35,120 --> 00:23:40,000
+this last particular um thing we'll some
+
+460
+00:23:38,240 --> 00:23:43,000
+call this instead of is Walter sign
+
+461
+00:23:40,000 --> 00:23:46,440
+we'll use generic term ground truth
+
+462
+00:23:43,000 --> 00:23:49,080
+we'll also see it called the class so
+
+463
+00:23:46,440 --> 00:23:51,120
+whether it's belongs to the waltz class
+
+464
+00:23:49,080 --> 00:23:53,679
+or not so we can call it Walt or non-
+
+465
+00:23:51,120 --> 00:23:55,600
+waltz or true false something like that
+
+466
+00:23:53,679 --> 00:23:59,120
+now we want to return all these things
+
+467
+00:23:55,600 --> 00:24:01,840
+as a tupple so tuples are created
+
+468
+00:23:59,120 --> 00:24:04,679
+with a comma or with a parenthesis so
+
+469
+00:24:01,840 --> 00:24:07,799
+we'll use the parenthesis the file name
+
+470
+00:24:04,679 --> 00:24:09,799
+the meter features first argument which
+
+471
+00:24:07,799 --> 00:24:12,039
+is the numerator meter
+
+472
+00:24:09,799 --> 00:24:14,919
+features second argument which is the
+
+473
+00:24:12,039 --> 00:24:18,799
+denominator the beat3
+
+474
+00:24:14,919 --> 00:24:22,960
+feature and the ground
+
+475
+00:24:18,799 --> 00:24:28,080
+truth so let's see we'll run this
+
+476
+00:24:22,960 --> 00:24:29,520
+feature ex let's call extractor let's
+
+477
+00:24:28,080 --> 00:24:32,159
+call
+
+478
+00:24:29,520 --> 00:24:35,000
+snap it properly F feature extractor on
+
+479
+00:24:32,159 --> 00:24:38,120
+the blue denu
+
+480
+00:24:35,000 --> 00:24:42,360
+and uh I still didn't spell it right why
+
+481
+00:24:38,120 --> 00:24:46,120
+do I copy and paste there we
+
+482
+00:24:42,360 --> 00:24:48,000
+go oh we can see blue Denny Waltz was in
+
+483
+00:24:46,120 --> 00:24:52,399
+three
+
+484
+00:24:48,000 --> 00:24:57,120
+four 26% has this beat proportion and
+
+485
+00:24:52,399 --> 00:24:59,919
+true it is a Walt let's run our feature
+
+486
+00:24:57,120 --> 00:25:03,760
+extract
+
+487
+00:24:59,919 --> 00:25:10,159
+Tour on BW on
+
+488
+00:25:03,760 --> 00:25:12,960
+B we'll see file name 44 35 false
+
+489
+00:25:10,159 --> 00:25:15,000
+great So eventually we would want to
+
+490
+00:25:12,960 --> 00:25:18,840
+have a computer system that can
+
+491
+00:25:15,000 --> 00:25:22,240
+distinguish between one up between a
+
+492
+00:25:18,840 --> 00:25:24,000
+waltz and not by learning all this
+
+493
+00:25:22,240 --> 00:25:26,559
+information
+
+494
+00:25:24,000 --> 00:25:29,039
+unfortunately I don't have enough waltes
+
+495
+00:25:26,559 --> 00:25:31,480
+in my data set to do this so we're going
+
+496
+00:25:29,039 --> 00:25:36,320
+to move to the next best thing we're
+
+497
+00:25:31,480 --> 00:25:39,399
+going to get a jig so let's go ahead and
+
+498
+00:25:36,320 --> 00:25:43,760
+um and grab a particular jig we have all
+
+499
+00:25:39,399 --> 00:25:46,200
+of these jigs in this um in this data
+
+500
+00:25:43,760 --> 00:25:47,320
+set which is really useful for people to
+
+501
+00:25:46,200 --> 00:25:49,919
+know it's called
+
+502
+00:25:47,320 --> 00:25:52,799
+Ryan's uh
+
+503
+00:25:49,919 --> 00:25:55,000
+Mammoth
+
+504
+00:25:52,799 --> 00:25:57,720
+collection it's for 19th century thing
+
+505
+00:25:55,000 --> 00:26:01,039
+you can look it up it's very famous hi I
+
+506
+00:25:57,720 --> 00:26:02,919
+wanted to jump in for a second and say
+
+507
+00:26:01,039 --> 00:26:06,640
+something about this collection I'm
+
+508
+00:26:02,919 --> 00:26:09,600
+planning on not using it again soon
+
+509
+00:26:06,640 --> 00:26:11,919
+since I made this video I've realized
+
+510
+00:26:09,600 --> 00:26:13,440
+that within Ryan's Mammoth collection
+
+511
+00:26:11,919 --> 00:26:16,520
+there is a lot of what are called
+
+512
+00:26:13,440 --> 00:26:20,320
+minstral songs that is songs that were
+
+513
+00:26:16,520 --> 00:26:23,919
+performed um in the style of negro
+
+514
+00:26:20,320 --> 00:26:27,480
+Melodies but by uh by white performers
+
+515
+00:26:23,919 --> 00:26:29,159
+often in blackace and with texts which
+
+516
+00:26:27,480 --> 00:26:32,000
+are not included in this collection
+
+517
+00:26:29,159 --> 00:26:35,120
+thank goodness but with texts that uh
+
+518
+00:26:32,000 --> 00:26:37,600
+denigrated uh Black Americans and black
+
+519
+00:26:35,120 --> 00:26:40,240
+experience so I'm going to try to uh
+
+520
+00:26:37,600 --> 00:26:42,679
+change this example as soon as I can and
+
+521
+00:26:40,240 --> 00:26:45,960
+my apologies
+
+522
+00:26:42,679 --> 00:26:49,399
+for what I didn't know then and what I
+
+523
+00:26:45,960 --> 00:26:52,000
+know now and what I plan to continue to
+
+524
+00:26:49,399 --> 00:26:54,279
+do to make computational musicology a
+
+525
+00:26:52,000 --> 00:26:56,120
+more welcoming
+
+526
+00:26:54,279 --> 00:27:00,559
+place we're going to be looking at the
+
+527
+00:26:56,120 --> 00:27:03,840
+blooming Meadows Chi so um let's just
+
+528
+00:27:00,559 --> 00:27:06,279
+we'll load that um
+
+529
+00:27:03,840 --> 00:27:11,000
+blooming Corpus
+
+530
+00:27:06,279 --> 00:27:13,039
+pars blo Meadow jig don't need the ABC
+
+531
+00:27:11,000 --> 00:27:15,120
+you can leave it in however you want
+
+532
+00:27:13,039 --> 00:27:18,399
+let's look at
+
+533
+00:27:15,120 --> 00:27:21,200
+this in case you haven't seen a jig in a
+
+534
+00:27:18,399 --> 00:27:23,200
+while it's kind of helpful for
+
+535
+00:27:21,200 --> 00:27:26,480
+understanding so
+
+536
+00:27:23,200 --> 00:27:29,120
+jig we speaking of 68 we got these
+
+537
+00:27:26,480 --> 00:27:31,279
+violin bow marks we could use that as a
+
+538
+00:27:29,120 --> 00:27:33,559
+feature extractor if it has violin
+
+539
+00:27:31,279 --> 00:27:36,360
+markings it's more likely to be a jig if
+
+540
+00:27:33,559 --> 00:27:39,440
+it doesn't it's less likely lots of Bo
+
+541
+00:27:36,360 --> 00:27:42,039
+pieces of violin bow marks the boach
+
+542
+00:27:39,440 --> 00:27:44,200
+violin part just they're not all jigs
+
+543
+00:27:42,039 --> 00:27:45,559
+but you know so it's not going to be
+
+544
+00:27:44,200 --> 00:27:48,840
+perfect but all these things kind of
+
+545
+00:27:45,559 --> 00:27:50,679
+help but maybe that meter extractor 68
+
+546
+00:27:48,840 --> 00:27:53,279
+is going to be a little bit
+
+547
+00:27:50,679 --> 00:27:55,080
+helpful so I happen to know that this
+
+548
+00:27:53,279 --> 00:27:56,720
+little piece is a jig it's kind of nice
+
+549
+00:27:55,080 --> 00:27:58,320
+short piece but there's a whole bunch of
+
+550
+00:27:56,720 --> 00:28:01,320
+things so we're going to get from Ryan
+
+551
+00:27:58,320 --> 00:28:03,000
+MTH collection and we'll use a different
+
+552
+00:28:01,320 --> 00:28:04,960
+thing uh that we've used before into
+
+553
+00:28:03,000 --> 00:28:08,279
+Corpus pars we're going to search
+
+554
+00:28:04,960 --> 00:28:10,399
+everything for Ryan um I think
+
+555
+00:28:08,279 --> 00:28:12,240
+everything in there is uh is part of
+
+556
+00:28:10,399 --> 00:28:15,080
+this Ryan's mavi collection and we'll
+
+557
+00:28:12,240 --> 00:28:17,880
+see that within Ryan there's going to be
+
+558
+00:28:15,080 --> 00:28:20,120
+quite a number of pieces
+
+559
+00:28:17,880 --> 00:28:24,240
+1,63 you'll see the first time you use
+
+560
+00:28:20,120 --> 00:28:27,559
+Corpus search you um it takes some time
+
+561
+00:28:24,240 --> 00:28:30,080
+but you can um you can use after the
+
+562
+00:28:27,559 --> 00:28:32,799
+after you do it once it's often quite a
+
+563
+00:28:30,080 --> 00:28:37,440
+bit faster super
+
+564
+00:28:32,799 --> 00:28:42,000
+fast there we go okay so we're going to
+
+565
+00:28:37,440 --> 00:28:43,720
+um have use that beat3 feature why not I
+
+566
+00:28:42,000 --> 00:28:45,200
+mean we already have a feature and we're
+
+567
+00:28:43,720 --> 00:28:47,880
+going to use the meter feature but let's
+
+568
+00:28:45,200 --> 00:28:49,880
+use one more thing I've heard that jigs
+
+569
+00:28:47,880 --> 00:28:53,480
+tend to come in a
+
+570
+00:28:49,880 --> 00:28:56,519
+few in a few Keys a few key signatures
+
+571
+00:28:53,480 --> 00:28:58,200
+um maybe one flat one sharp you know
+
+572
+00:28:56,519 --> 00:29:01,120
+they don't tend to come in five flats
+
+573
+00:28:58,200 --> 00:29:06,000
+that's kind of a hard thing for violin
+
+574
+00:29:01,120 --> 00:29:08,600
+so let's go ahead and create um a sharp
+
+575
+00:29:06,000 --> 00:29:10,600
+extractor so we'll call it uh we just
+
+576
+00:29:08,600 --> 00:29:13,440
+called get
+
+577
+00:29:10,600 --> 00:29:15,679
+Sharps because we'll just remind
+
+578
+00:29:13,440 --> 00:29:18,960
+ourselves that feature extractor is
+
+579
+00:29:15,679 --> 00:29:22,120
+nothing more than something that takes
+
+580
+00:29:18,960 --> 00:29:24,760
+in a score some other piece of data and
+
+581
+00:29:22,120 --> 00:29:27,760
+returns numbers in this case an integer
+
+582
+00:29:24,760 --> 00:29:29,760
+uh we'll just TR put a try thing we'll
+
+583
+00:29:27,760 --> 00:29:30,519
+return the score we're going to go
+
+584
+00:29:29,760 --> 00:29:32,760
+through
+
+585
+00:29:30,519 --> 00:29:37,480
+it
+
+586
+00:29:32,760 --> 00:29:40,840
+recurse get all the elements okay use
+
+587
+00:29:37,480 --> 00:29:44,279
+plural This Time by class key
+
+588
+00:29:40,840 --> 00:29:46,720
+signature get the first one and return
+
+589
+00:29:44,279 --> 00:29:51,360
+the number of Sharps remember if it's
+
+590
+00:29:46,720 --> 00:29:54,519
+two Flats Sharps will be -2 and in case
+
+591
+00:29:51,360 --> 00:29:59,679
+we can't find it uh might be an index
+
+592
+00:29:54,519 --> 00:30:01,799
+error because uh there's zero um you can
+
+593
+00:29:59,679 --> 00:30:04,200
+always in your own code that you don't
+
+594
+00:30:01,799 --> 00:30:07,039
+turn in um and you don't put sign there
+
+595
+00:30:04,200 --> 00:30:10,720
+you can just say except all
+
+596
+00:30:07,039 --> 00:30:14,240
+errors return zero let's double check
+
+597
+00:30:10,720 --> 00:30:17,120
+this um do we call it yeah
+
+598
+00:30:14,240 --> 00:30:19,200
+blooming
+
+599
+00:30:17,120 --> 00:30:22,640
+Sharps
+
+600
+00:30:19,200 --> 00:30:27,000
+blooming get one let's remind ourselves
+
+601
+00:30:22,640 --> 00:30:27,000
+blue denu should also be one
+
+602
+00:30:28,840 --> 00:30:34,360
+great and that Bo piece should be
+
+603
+00:30:37,120 --> 00:30:44,799
+three super okay so that seems to work a
+
+604
+00:30:41,000 --> 00:30:44,799
+little bit now let's write our feature
+
+605
+00:30:46,880 --> 00:30:53,039
+extractor or our multifeature extractor
+
+606
+00:30:50,200 --> 00:30:54,880
+never really sure if our if feature
+
+607
+00:30:53,039 --> 00:30:57,360
+extractor just refers to sign that gets
+
+608
+00:30:54,880 --> 00:30:58,639
+one feature like get sharps or sign that
+
+609
+00:30:57,360 --> 00:31:00,639
+gets a whole bunch features people
+
+610
+00:30:58,639 --> 00:31:02,440
+aren't really clear on that so we're
+
+611
+00:31:00,639 --> 00:31:04,240
+going to return again the string it's
+
+612
+00:31:02,440 --> 00:31:06,320
+going to be the file name uh two
+
+613
+00:31:04,240 --> 00:31:09,120
+integers for the metered mearian
+
+614
+00:31:06,320 --> 00:31:12,039
+denominator pretty important float for
+
+615
+00:31:09,120 --> 00:31:15,240
+that kind of silly uh beat3 thing but
+
+616
+00:31:12,039 --> 00:31:19,360
+we'll add one more integer on
+
+617
+00:31:15,240 --> 00:31:21,639
+um whether or not um yeah on the number
+
+618
+00:31:19,360 --> 00:31:23,960
+of Sharps and instead returning a
+
+619
+00:31:21,639 --> 00:31:25,840
+Boolean at the end we're going to switch
+
+620
+00:31:23,960 --> 00:31:28,399
+this last little thing to returning an
+
+621
+00:31:25,840 --> 00:31:32,720
+integer for whether or not something is
+
+622
+00:31:28,399 --> 00:31:35,399
+a jig the ground truth and it's because
+
+623
+00:31:32,720 --> 00:31:37,200
+most of the machine learning toolkits
+
+624
+00:31:35,399 --> 00:31:41,880
+really
+
+625
+00:31:37,200 --> 00:31:44,320
+um like working with numbers so might as
+
+626
+00:31:41,880 --> 00:31:47,440
+well make our ground truth a number uh
+
+627
+00:31:44,320 --> 00:31:49,080
+make a file name the file path name
+
+628
+00:31:47,440 --> 00:31:50,080
+again as before you don't really need
+
+629
+00:31:49,080 --> 00:31:51,799
+that there but it's going to be really
+
+630
+00:31:50,080 --> 00:31:53,559
+helpful for figuring out why something's
+
+631
+00:31:51,799 --> 00:31:55,919
+working or what particular pieces are
+
+632
+00:31:53,559 --> 00:31:59,559
+wrong or right IOP I still had propor
+
+633
+00:31:55,919 --> 00:32:01,480
+shot in my uh we in my clip board but
+
+634
+00:31:59,559 --> 00:32:03,360
+okay so proportion B3 above B1 I always
+
+635
+00:32:01,480 --> 00:32:06,200
+hit shift enter too early Sharps feature
+
+636
+00:32:03,360 --> 00:32:07,720
+is better be get Sharps from score add
+
+637
+00:32:06,200 --> 00:32:10,240
+our ground truth this case we said it's
+
+638
+00:32:07,720 --> 00:32:14,799
+going to be an integer so we'll say int
+
+639
+00:32:10,240 --> 00:32:19,360
+jig in file name or jig in file name two
+
+640
+00:32:14,799 --> 00:32:22,000
+things to know one python int on true on
+
+641
+00:32:19,360 --> 00:32:25,200
+int on true returns one int on false
+
+642
+00:32:22,000 --> 00:32:27,320
+returns zero in fact uh in earlier
+
+643
+00:32:25,200 --> 00:32:29,799
+versions of python true and false were
+
+644
+00:32:27,320 --> 00:32:31,720
+just kind of aliases for one and zero
+
+645
+00:32:29,799 --> 00:32:34,600
+thankfully that's a little bit better uh
+
+646
+00:32:31,720 --> 00:32:36,840
+the other thing is again this what we've
+
+647
+00:32:34,600 --> 00:32:39,480
+learned about garbage in garbage out I
+
+648
+00:32:36,840 --> 00:32:43,039
+don't actually know if every single
+
+649
+00:32:39,480 --> 00:32:46,639
+thing in uh this collection that has a
+
+650
+00:32:43,039 --> 00:32:49,679
+word jig in its title is a jig and I
+
+651
+00:32:46,639 --> 00:32:51,639
+definitely don't know that there's every
+
+652
+00:32:49,679 --> 00:32:54,360
+piece in this collection that isn't a
+
+653
+00:32:51,639 --> 00:32:56,679
+jig or that is a jig has jig in the
+
+654
+00:32:54,360 --> 00:32:57,960
+title or that yeah that there might be
+
+655
+00:32:56,679 --> 00:33:02,200
+jigs that don't have jig in the the
+
+656
+00:32:57,960 --> 00:33:05,039
+title just as most rag rags in rag time
+
+657
+00:33:02,200 --> 00:33:08,399
+in Scott Joplin have rag in their title
+
+658
+00:33:05,039 --> 00:33:10,360
+Maple Leaf Rag so on but some of them
+
+659
+00:33:08,399 --> 00:33:13,200
+don't the Entertainer is a rag it
+
+660
+00:33:10,360 --> 00:33:17,519
+doesn't have rag in his title so so our
+
+661
+00:33:13,200 --> 00:33:20,799
+ground truth isn't exactly the world's
+
+662
+00:33:17,519 --> 00:33:23,120
+gospel truth this is something that that
+
+663
+00:33:20,799 --> 00:33:26,639
+people neglect all the time in machine
+
+664
+00:33:23,120 --> 00:33:28,279
+learning they keep training the computer
+
+665
+00:33:26,639 --> 00:33:31,880
+to replicate
+
+666
+00:33:28,279 --> 00:33:34,120
+truths that aren't necessarily true and
+
+667
+00:33:31,880 --> 00:33:36,960
+you'll see this all over the place I was
+
+668
+00:33:34,120 --> 00:33:38,519
+just working with uh Master student on a
+
+669
+00:33:36,960 --> 00:33:41,399
+project where we're trying to train
+
+670
+00:33:38,519 --> 00:33:44,320
+Optical music recognition to produce the
+
+671
+00:33:41,399 --> 00:33:46,799
+exact ground truth that we had found
+
+672
+00:33:44,320 --> 00:33:49,919
+encoded the thing is the ground truth
+
+673
+00:33:46,799 --> 00:33:52,080
+had lots of Errors too so that's theci
+
+674
+00:33:49,919 --> 00:33:54,360
+to know anyhow getting back to what are
+
+675
+00:33:52,080 --> 00:33:56,600
+we going to return take a second see if
+
+676
+00:33:54,360 --> 00:33:58,960
+you can figure this out based on what
+
+677
+00:33:56,600 --> 00:34:01,679
+we've said return value is and what
+
+678
+00:33:58,960 --> 00:34:06,320
+we've defined here great so we're going
+
+679
+00:34:01,679 --> 00:34:12,839
+to return the file name meter
+
+680
+00:34:06,320 --> 00:34:17,879
+feature zero meter feature one P3
+
+681
+00:34:12,839 --> 00:34:20,359
+feature Sharps feature and the ground
+
+682
+00:34:17,879 --> 00:34:22,520
+truth
+
+683
+00:34:20,359 --> 00:34:24,520
+great okay so now we just need to
+
+684
+00:34:22,520 --> 00:34:27,000
+iterate over everything I want to show
+
+685
+00:34:24,520 --> 00:34:28,679
+something when you iterate over a corpus
+
+686
+00:34:27,000 --> 00:34:30,879
+search object object there's this thing
+
+687
+00:34:28,679 --> 00:34:34,359
+called a metadata bundle that is to say
+
+688
+00:34:30,879 --> 00:34:36,560
+you haven't actually parsed 1,63 pieces
+
+689
+00:34:34,359 --> 00:34:42,320
+it just knows about the existence of
+
+690
+00:34:36,560 --> 00:34:43,639
+1,63 pieces so when we say for um bundle
+
+691
+00:34:42,320 --> 00:34:46,280
+in
+
+692
+00:34:43,639 --> 00:34:49,800
+Ryan we can print the
+
+693
+00:34:46,280 --> 00:34:54,000
+bundle and we can see that we have all
+
+694
+00:34:49,800 --> 00:34:57,000
+of these um different Ines for
+
+695
+00:34:54,000 --> 00:35:00,400
+pieces so what we'll do go ahead and do
+
+696
+00:34:57,000 --> 00:35:02,720
+is instead of um getting but not actual
+
+697
+00:35:00,400 --> 00:35:07,520
+pieces so to get the pieces we can say
+
+698
+00:35:02,720 --> 00:35:10,640
+um piece pars equals bundle actually we
+
+699
+00:35:07,520 --> 00:35:14,240
+call it to bundle say metadata
+
+700
+00:35:10,640 --> 00:35:16,240
+entry since out in there metadata entry
+
+701
+00:35:14,240 --> 00:35:20,000
+in Ryan
+
+702
+00:35:16,240 --> 00:35:22,560
+entry piece pars is the metadata entry.
+
+703
+00:35:20,000 --> 00:35:25,320
+parse that's going to take some
+
+704
+00:35:22,560 --> 00:35:28,200
+time then we're going to print out the
+
+705
+00:35:25,320 --> 00:35:31,280
+feature extraction
+
+706
+00:35:28,200 --> 00:35:35,240
+on the piece
+
+707
+00:35:31,280 --> 00:35:37,119
+pars you're going to learn to use this
+
+708
+00:35:35,240 --> 00:35:39,400
+little button in a second because the
+
+709
+00:35:37,119 --> 00:35:42,040
+stop button because it's going to take
+
+710
+00:35:39,400 --> 00:35:43,680
+some time if you hit run but you're
+
+711
+00:35:42,040 --> 00:35:46,480
+going to have to do it in a little bit
+
+712
+00:35:43,680 --> 00:35:49,880
+oops feature extractor used to call it
+
+713
+00:35:46,480 --> 00:35:54,359
+feature extraction but that
+
+714
+00:35:49,880 --> 00:35:56,520
+and extract meter exact meter extract
+
+715
+00:35:54,359 --> 00:36:00,800
+meter here we go so we're going to put
+
+716
+00:35:56,520 --> 00:36:03,599
+this back here and uh let's go ahead and
+
+717
+00:36:00,800 --> 00:36:07,440
+run this
+
+718
+00:36:03,599 --> 00:36:10,160
+oops oh my goodness I cannot spell
+
+719
+00:36:07,440 --> 00:36:13,359
+anything today okay here we go let's go
+
+720
+00:36:10,160 --> 00:36:15,880
+ahead and runting this it shows that
+
+721
+00:36:13,359 --> 00:36:17,760
+adil's hornpipe is I don't know this
+
+722
+00:36:15,880 --> 00:36:22,400
+piece but it's in
+
+723
+00:36:17,760 --> 00:36:26,599
+22 really seldom does beat three um is
+
+724
+00:36:22,400 --> 00:36:30,680
+uh was offset two higher than offset one
+
+725
+00:36:26,599 --> 00:36:34,760
+wow that is really really low and um
+
+726
+00:36:30,680 --> 00:36:38,560
+it's in one sharp oh good Flats do work
+
+727
+00:36:34,760 --> 00:36:41,000
+and it is zero it is not a jig it is a
+
+728
+00:36:38,560 --> 00:36:42,960
+hornpipe I know we all know these
+
+729
+00:36:41,000 --> 00:36:45,599
+differences between reels and hornpipes
+
+730
+00:36:42,960 --> 00:36:47,720
+and Jigs and all these things um well
+
+731
+00:36:45,599 --> 00:36:50,440
+maybe some of us got our Pirates like
+
+732
+00:36:47,720 --> 00:36:52,839
+okay we can see here Bano o barley meal
+
+733
+00:36:50,440 --> 00:36:57,280
+jig uh which is in
+
+734
+00:36:52,839 --> 00:37:00,520
+68 has this feature it's in two sharps
+
+735
+00:36:57,280 --> 00:37:02,160
+and there's a one here so is a jig so
+
+736
+00:37:00,520 --> 00:37:03,560
+that works pretty well and we can scroll
+
+737
+00:37:02,160 --> 00:37:06,119
+all the way through wow there's a lot of
+
+738
+00:37:03,560 --> 00:37:09,079
+pieces okay great and some of them are
+
+739
+00:37:06,119 --> 00:37:09,079
+jigs some of them are
+
+740
+00:37:09,640 --> 00:37:16,880
+not okay so now we've extracted all this
+
+741
+00:37:14,640 --> 00:37:20,839
+data if we put all of this into some
+
+742
+00:37:16,880 --> 00:37:22,680
+sort of file somewhere um we will have
+
+743
+00:37:20,839 --> 00:37:27,000
+it all done so I'm going to take a two
+
+744
+00:37:22,680 --> 00:37:29,680
+second break and show how we move from
+
+745
+00:37:27,000 --> 00:37:31,920
+feature abstraction to machine
+
+746
+00:37:29,680 --> 00:37:34,040
+learning okay one of the most important
+
+747
+00:37:31,920 --> 00:37:36,520
+things we're going to be thinking about
+
+748
+00:37:34,040 --> 00:37:39,800
+when we think about machine learning is
+
+749
+00:37:36,520 --> 00:37:42,359
+that we're going to be training the
+
+750
+00:37:39,800 --> 00:37:44,440
+computer on a certain set of data
+
+751
+00:37:42,359 --> 00:37:47,440
+training our algorithms training our
+
+752
+00:37:44,440 --> 00:37:48,800
+neural networks or whatever artificial
+
+753
+00:37:47,440 --> 00:37:51,040
+intelligence and machine learning
+
+754
+00:37:48,800 --> 00:37:52,920
+algorithm we choose to use on some
+
+755
+00:37:51,040 --> 00:37:55,400
+portion of the data and then we want to
+
+756
+00:37:52,920 --> 00:37:58,280
+see how good is the computer doing so
+
+757
+00:37:55,400 --> 00:38:01,920
+we're going to hold out some portion of
+
+758
+00:37:58,280 --> 00:38:04,040
+the data to be our test to see well if
+
+759
+00:38:01,920 --> 00:38:05,880
+the training data is somewhat like the
+
+760
+00:38:04,040 --> 00:38:07,720
+test data but the computer seen the
+
+761
+00:38:05,880 --> 00:38:12,400
+training data and it hasn't seen the
+
+762
+00:38:07,720 --> 00:38:16,040
+test data how well does it learn from
+
+763
+00:38:12,400 --> 00:38:19,319
+the training data in order to make um
+
+764
+00:38:16,040 --> 00:38:20,920
+identifications in the test data and
+
+765
+00:38:19,319 --> 00:38:23,440
+there are lots of different ways of
+
+766
+00:38:20,920 --> 00:38:25,240
+doing this please take a machine
+
+767
+00:38:23,440 --> 00:38:26,839
+learning class take an artificial
+
+768
+00:38:25,240 --> 00:38:29,240
+intelligence class so you can learn
+
+769
+00:38:26,839 --> 00:38:32,720
+about one hold out out cross validation
+
+770
+00:38:29,240 --> 00:38:34,560
+or on10th uh hold out lots of different
+
+771
+00:38:32,720 --> 00:38:37,000
+ways that we can do this better than
+
+772
+00:38:34,560 --> 00:38:39,800
+what we're going to do but instead for
+
+773
+00:38:37,000 --> 00:38:41,599
+now to make things very simple for those
+
+774
+00:38:39,800 --> 00:38:43,599
+who for whom this is going to be your
+
+775
+00:38:41,599 --> 00:38:45,560
+first introduction to artificial
+
+776
+00:38:43,599 --> 00:38:46,720
+intelligence and machine learning what
+
+777
+00:38:45,560 --> 00:38:49,839
+we're going to do is we're going to
+
+778
+00:38:46,720 --> 00:38:52,400
+divide all of our training data into two
+
+779
+00:38:49,839 --> 00:38:54,319
+parts all of our data into half of it as
+
+780
+00:38:52,400 --> 00:38:56,240
+the test data and half of it as the
+
+781
+00:38:54,319 --> 00:38:58,760
+training data and I'm just going to go
+
+782
+00:38:56,240 --> 00:39:01,800
+through and almost always do everything
+
+783
+00:38:58,760 --> 00:39:03,880
+in up this one to test this one training
+
+784
+00:39:01,800 --> 00:39:06,240
+this one test this one training it's
+
+785
+00:39:03,880 --> 00:39:08,480
+just going to make things easier but
+
+786
+00:39:06,240 --> 00:39:12,480
+there are better ways to do
+
+787
+00:39:08,480 --> 00:39:15,760
+it not for now let's get to some
+
+788
+00:39:12,480 --> 00:39:18,680
+artificial intelligence and machine
+
+789
+00:39:15,760 --> 00:39:21,079
+learning okay let's go ahead and and
+
+790
+00:39:18,680 --> 00:39:22,960
+open up two files for writing I'm going
+
+791
+00:39:21,079 --> 00:39:25,800
+to call
+
+792
+00:39:22,960 --> 00:39:29,599
+them uh they're on my desktop o now you
+
+793
+00:39:25,800 --> 00:39:32,920
+know my secret secret path um we'll call
+
+794
+00:39:29,599 --> 00:39:36,319
+it train data. tab we're going to open
+
+795
+00:39:32,920 --> 00:39:39,040
+this for writing and we'll call it as
+
+796
+00:39:36,319 --> 00:39:42,560
+training if you're not familiar with
+
+797
+00:39:39,040 --> 00:39:46,640
+python um file handles please take a
+
+798
+00:39:42,560 --> 00:39:48,560
+second to look this up because otherwise
+
+799
+00:39:46,640 --> 00:39:52,520
+this won't make much sense but
+
+800
+00:39:48,560 --> 00:39:53,839
+essentially we're going to have um two
+
+801
+00:39:52,520 --> 00:39:57,480
+files so we're going to be able to write
+
+802
+00:39:53,839 --> 00:40:00,240
+two going back and forth one versus the
+
+803
+00:39:57,480 --> 00:40:02,839
+other there's going to be better ways of
+
+804
+00:40:00,240 --> 00:40:05,280
+doing this but this how we're going to
+
+805
+00:40:02,839 --> 00:40:09,440
+do it first okay we're going to need to
+
+806
+00:40:05,280 --> 00:40:11,400
+say uh for a lot of various algorithms
+
+807
+00:40:09,440 --> 00:40:13,839
+we're going to need to be able to say
+
+808
+00:40:11,400 --> 00:40:16,920
+what our column names are so we'll say
+
+809
+00:40:13,839 --> 00:40:19,119
+our columns are going to be a series of
+
+810
+00:40:16,920 --> 00:40:22,040
+tab separated values so that's what
+
+811
+00:40:19,119 --> 00:40:25,680
+these tab files are going to be series
+
+812
+00:40:22,040 --> 00:40:28,200
+of tab separated values that join these
+
+813
+00:40:25,680 --> 00:40:30,880
+um titles file
+
+814
+00:40:28,200 --> 00:40:34,280
+name numerator doesn't matter what these
+
+815
+00:40:30,880 --> 00:40:37,480
+are called
+
+816
+00:40:34,280 --> 00:40:40,760
+denominator beat3 proportion I'm not
+
+817
+00:40:37,480 --> 00:40:44,119
+going to make myself type that again and
+
+818
+00:40:40,760 --> 00:40:48,599
+we'll say is jig at the end for a ground
+
+819
+00:40:44,119 --> 00:40:50,359
+truth fantastic okay those are columns
+
+820
+00:40:48,599 --> 00:40:51,440
+and first I'm going to do is write to
+
+821
+00:40:50,359 --> 00:40:53,359
+each of our
+
+822
+00:40:51,440 --> 00:40:56,920
+different
+
+823
+00:40:53,359 --> 00:40:58,880
+files write our columns with a line
+
+824
+00:40:56,920 --> 00:41:02,839
+break at the
+
+825
+00:40:58,880 --> 00:41:06,240
+end go testing is going to write columns
+
+826
+00:41:02,839 --> 00:41:08,400
+with a line break at the end great now
+
+827
+00:41:06,240 --> 00:41:10,800
+we want to describe what kind of value
+
+828
+00:41:08,400 --> 00:41:13,480
+what kind of value um will a machine
+
+829
+00:41:10,800 --> 00:41:17,760
+learning toolkit expect to get from file
+
+830
+00:41:13,480 --> 00:41:22,599
+name uh stram numerator integer beat3
+
+831
+00:41:17,760 --> 00:41:24,560
+float things like that so we'll say our
+
+832
+00:41:22,599 --> 00:41:26,640
+descriptions are going to be and these
+
+833
+00:41:24,560 --> 00:41:30,480
+are pretty standard formats but they're
+
+834
+00:41:26,640 --> 00:41:33,000
+not python so look at this it's not Str
+
+835
+00:41:30,480 --> 00:41:37,160
+it's string and we'll say that our
+
+836
+00:41:33,000 --> 00:41:39,720
+integers are discrete data with a I not
+
+837
+00:41:37,160 --> 00:41:43,040
+discrete like indiscrete
+
+838
+00:41:39,720 --> 00:41:46,760
+but okay I won't make a joke but discret
+
+839
+00:41:43,040 --> 00:41:50,960
+like integer values uh but beat3 data
+
+840
+00:41:46,760 --> 00:41:53,960
+can be continuous it can be 1.2 1.21 so
+
+841
+00:41:50,960 --> 00:41:57,680
+on and then another discrete data for
+
+842
+00:41:53,960 --> 00:41:59,680
+the number Sharps and then for is J it's
+
+843
+00:41:57,680 --> 00:42:02,839
+also it's 01 so it's going to be
+
+844
+00:41:59,680 --> 00:42:04,160
+discrete data fantastic we're going to
+
+845
+00:42:02,839 --> 00:42:07,839
+write
+
+846
+00:42:04,160 --> 00:42:12,240
+these to these files the descriptions
+
+847
+00:42:07,839 --> 00:42:16,200
+also boom okay
+
+848
+00:42:12,240 --> 00:42:20,760
+great this um we also tend to put these
+
+849
+00:42:16,200 --> 00:42:22,599
+meta variables in and they say um if
+
+850
+00:42:20,760 --> 00:42:25,240
+anything is special if anything is
+
+851
+00:42:22,599 --> 00:42:28,040
+unlike the rest well the ones that are
+
+852
+00:42:25,240 --> 00:42:32,280
+special is the first thing string is
+
+853
+00:42:28,040 --> 00:42:35,280
+just a meta data that is to say it just
+
+854
+00:42:32,280 --> 00:42:37,800
+means um something so that we can more
+
+855
+00:42:35,280 --> 00:42:39,599
+easily diagnose uh problems and look
+
+856
+00:42:37,800 --> 00:42:42,079
+things up later we don't actually need
+
+857
+00:42:39,599 --> 00:42:46,240
+it we're not going to study the file
+
+858
+00:42:42,079 --> 00:42:49,079
+name um and then these are just normal
+
+859
+00:42:46,240 --> 00:42:51,280
+things numerator denominator beat three
+
+860
+00:42:49,079 --> 00:42:54,599
+number of Sharps and then at the very
+
+861
+00:42:51,280 --> 00:42:56,720
+end the final thing is our class the
+
+862
+00:42:54,599 --> 00:43:00,400
+thing that's we're trying to learn we're
+
+863
+00:42:56,720 --> 00:43:01,920
+trying to learn does this
+
+864
+00:43:00,400 --> 00:43:03,520
+information
+
+865
+00:43:01,920 --> 00:43:07,960
+98.1
+
+866
+00:43:03,520 --> 00:43:11,040
+11112 describe a jig or not the class of
+
+867
+00:43:07,960 --> 00:43:14,839
+objects that is a jig great so these are
+
+868
+00:43:11,040 --> 00:43:19,319
+our meta variables and we're going to
+
+869
+00:43:14,839 --> 00:43:20,839
+write them to again our see do I still
+
+870
+00:43:19,319 --> 00:43:24,119
+have that
+
+871
+00:43:20,839 --> 00:43:28,400
+no going to write that to our training
+
+872
+00:43:24,119 --> 00:43:32,920
+and to our testing
+
+873
+00:43:28,400 --> 00:43:35,800
+great um here I can kind of do this
+
+874
+00:43:32,920 --> 00:43:39,920
+anyhow we can
+
+875
+00:43:35,800 --> 00:43:41,720
+cat that file this is a um these magic
+
+876
+00:43:39,920 --> 00:43:44,680
+things are stuff you can do in Jupiter
+
+877
+00:43:41,720 --> 00:43:48,079
+that you can't in normal python um but
+
+878
+00:43:44,680 --> 00:43:51,960
+it'll see train
+
+879
+00:43:48,079 --> 00:43:54,240
+data tab yep we can kind of see what
+
+880
+00:43:51,960 --> 00:43:55,760
+we've written out there okay great now
+
+881
+00:43:54,240 --> 00:43:57,920
+we're going to take this and we're going
+
+882
+00:43:55,760 --> 00:44:03,599
+to write more things it we're going to
+
+883
+00:43:57,920 --> 00:44:06,160
+write to um these into these two files
+
+884
+00:44:03,599 --> 00:44:08,640
+information about from our feature
+
+885
+00:44:06,160 --> 00:44:14,359
+extractions so we're going to go back
+
+886
+00:44:08,640 --> 00:44:19,440
+for each piece in ryion um
+
+887
+00:44:14,359 --> 00:44:21,240
+enumerate Ryan um and enumerate says our
+
+888
+00:44:19,440 --> 00:44:22,920
+first thing goes into piece and we'll
+
+889
+00:44:21,240 --> 00:44:26,319
+call it I actually we'll not call it
+
+890
+00:44:22,920 --> 00:44:27,839
+piece we'll call it uh metad data entry
+
+891
+00:44:26,319 --> 00:44:32,040
+great
+
+892
+00:44:27,839 --> 00:44:35,040
+uh we'll say piece pars is our
+
+893
+00:44:32,040 --> 00:44:38,079
+metadata entry
+
+894
+00:44:35,040 --> 00:44:42,319
+parse great and our
+
+895
+00:44:38,079 --> 00:44:46,079
+features are our featured
+
+896
+00:44:42,319 --> 00:44:46,079
+extractor on pie
+
+897
+00:44:46,640 --> 00:44:53,319
+pars pie pars and now we're going to uh
+
+898
+00:44:50,640 --> 00:44:57,559
+create make a string out of that feature
+
+899
+00:44:53,319 --> 00:45:02,920
+string equals tab separated version of
+
+900
+00:44:57,559 --> 00:45:06,640
+the string value of each element for the
+
+901
+00:45:02,920 --> 00:45:08,079
+element in features okay yeah we should
+
+902
+00:45:06,640 --> 00:45:10,760
+call it
+
+903
+00:45:08,079 --> 00:45:14,800
+f
+
+904
+00:45:10,760 --> 00:45:18,520
+fantastic and if I is
+
+905
+00:45:14,800 --> 00:45:21,319
+even no if I is odd uh we'll write it to
+
+906
+00:45:18,520 --> 00:45:21,319
+the training
+
+907
+00:45:22,559 --> 00:45:27,559
+data with uh new
+
+908
+00:45:25,400 --> 00:45:31,480
+line and
+
+909
+00:45:27,559 --> 00:45:31,480
+otherwise we'll write it to the testing
+
+910
+00:45:32,200 --> 00:45:38,280
+data with a new line great hopefully I
+
+911
+00:45:36,520 --> 00:45:40,720
+didn't type anything wrong we'll find
+
+912
+00:45:38,280 --> 00:45:40,720
+out in a
+
+913
+00:45:41,440 --> 00:45:48,040
+second great it seems to be working it's
+
+914
+00:45:45,960 --> 00:45:49,760
+slow one of the things I'm going to
+
+915
+00:45:48,040 --> 00:45:53,440
+eventually learn is that everything's
+
+916
+00:45:49,760 --> 00:45:57,119
+slower when I'm screen recording so uh
+
+917
+00:45:53,440 --> 00:45:59,359
+we could see that yep there's a bunch of
+
+918
+00:45:57,119 --> 00:46:02,040
+of things in here most important one can
+
+919
+00:45:59,359 --> 00:46:04,800
+we get a jig good it has a one at the
+
+920
+00:46:02,040 --> 00:46:08,920
+end if it's a jig zero at the end if
+
+921
+00:46:04,800 --> 00:46:12,680
+it's something else oh these jigs are 68
+
+922
+00:46:08,920 --> 00:46:13,760
+oh look there's a jig it begins in 98 so
+
+923
+00:46:12,680 --> 00:46:15,280
+maybe it's the eight that's more
+
+924
+00:46:13,760 --> 00:46:17,359
+important I don't know we'll see if the
+
+925
+00:46:15,280 --> 00:46:20,000
+computer can figure this out uh we don't
+
+926
+00:46:17,359 --> 00:46:22,400
+need to look at all 1,000 entries
+
+927
+00:46:20,000 --> 00:46:27,200
+Jupiter does a nice way of not putting
+
+928
+00:46:22,400 --> 00:46:30,079
+that all together okay great so now we
+
+929
+00:46:27,200 --> 00:46:32,480
+have something that we can feed into an
+
+930
+00:46:30,079 --> 00:46:34,520
+artificial intelligence classification
+
+931
+00:46:32,480 --> 00:46:36,440
+program so we don't have one so we're
+
+932
+00:46:34,520 --> 00:46:40,240
+going to write one of our own so we're
+
+933
+00:46:36,440 --> 00:46:42,440
+going to say neural network ah just
+
+934
+00:46:40,240 --> 00:46:44,280
+kidding no that's not what this class is
+
+935
+00:46:42,440 --> 00:46:47,760
+about that's other classes we're going
+
+936
+00:46:44,280 --> 00:46:50,920
+to install one so go ahead and install
+
+937
+00:46:47,760 --> 00:46:53,960
+Orange 3 which is a really great pass
+
+938
+00:46:50,920 --> 00:46:55,359
+package oh hey I already have installed
+
+939
+00:46:53,960 --> 00:46:57,760
+yours probably takes a little bit longer
+
+940
+00:46:55,359 --> 00:47:02,480
+than that great
+
+941
+00:46:57,760 --> 00:47:06,160
+super so now I have orange 3 um orange 3
+
+942
+00:47:02,480 --> 00:47:08,400
+names it stuff kind of funny um so I
+
+943
+00:47:06,160 --> 00:47:11,880
+always because I've been using it for a
+
+944
+00:47:08,400 --> 00:47:15,240
+long time I just imported it it's not
+
+945
+00:47:11,880 --> 00:47:16,680
+Orange 3 let's call it orange great now
+
+946
+00:47:15,240 --> 00:47:19,720
+what we're going to do is we're going to
+
+947
+00:47:16,680 --> 00:47:24,960
+load in our training
+
+948
+00:47:19,720 --> 00:47:28,240
+data from an orange data table based on
+
+949
+00:47:24,960 --> 00:47:28,240
+that information
+
+950
+00:47:29,079 --> 00:47:38,839
+so train data.
+
+951
+00:47:33,839 --> 00:47:41,000
+tab uh I reverted myself to using camel
+
+952
+00:47:38,839 --> 00:47:42,079
+case things I probably shouldn't but I'm
+
+953
+00:47:41,000 --> 00:47:45,319
+not going to
+
+954
+00:47:42,079 --> 00:47:47,520
+rewrite everything now though it doesn't
+
+955
+00:47:45,319 --> 00:47:50,880
+look like much but I have a lot in my
+
+956
+00:47:47,520 --> 00:47:54,720
+sleeve okay so we're going to load those
+
+957
+00:47:50,880 --> 00:47:57,520
+two great um we can look at train data
+
+958
+00:47:54,720 --> 00:48:02,040
+little bit yep whole bunch of stuff uh
+
+959
+00:47:57,520 --> 00:48:05,880
+these are I think map plot live is type
+
+960
+00:48:02,040 --> 00:48:09,839
+things okay great so what we want to do
+
+961
+00:48:05,880 --> 00:48:13,720
+is um create a bunch of Learners things
+
+962
+00:48:09,839 --> 00:48:16,119
+that can classify and understand data
+
+963
+00:48:13,720 --> 00:48:18,079
+and try to make guesses about things our
+
+964
+00:48:16,119 --> 00:48:21,079
+first learner is kind of like the
+
+965
+00:48:18,079 --> 00:48:24,440
+placebo of Learners uh it's called the
+
+966
+00:48:21,079 --> 00:48:26,440
+majority learner uh and there's other
+
+967
+00:48:24,440 --> 00:48:27,280
+ways of doing this but we'll use this
+
+968
+00:48:26,440 --> 00:48:32,599
+one
+
+969
+00:48:27,280 --> 00:48:36,359
+and the majority learner is um is is
+
+970
+00:48:32,599 --> 00:48:39,359
+pretty cool it just looks at the data it
+
+971
+00:48:36,359 --> 00:48:43,079
+um it looks at what we put in the
+
+972
+00:48:39,359 --> 00:48:45,599
+training data and it says you know what
+
+973
+00:48:43,079 --> 00:48:49,520
+there's about three times as many things
+
+974
+00:48:45,599 --> 00:48:52,359
+that are not jigs as there are jigs so I
+
+975
+00:48:49,520 --> 00:48:54,960
+can get three out of four right if I
+
+976
+00:48:52,359 --> 00:48:57,040
+just learn to always vote with majority
+
+977
+00:48:54,960 --> 00:48:59,720
+I don't know anything about music but
+
+978
+00:48:57,040 --> 00:49:02,319
+I'll just say I'll always say that's not
+
+979
+00:48:59,720 --> 00:49:05,920
+a jig and you know what I'll usually be
+
+980
+00:49:02,319 --> 00:49:08,319
+right um so never classify things
+
+981
+00:49:05,920 --> 00:49:10,000
+according to hey uh is this right or
+
+982
+00:49:08,319 --> 00:49:13,040
+wrong you know did did it get it right
+
+983
+00:49:10,000 --> 00:49:15,440
+more than half the time no classify how
+
+984
+00:49:13,040 --> 00:49:18,079
+you're doing against did it do did it do
+
+985
+00:49:15,440 --> 00:49:21,720
+better than the majority learner
+
+986
+00:49:18,079 --> 00:49:23,839
+correct um you're going to now if you
+
+987
+00:49:21,720 --> 00:49:28,480
+don't know what this is we're going to
+
+988
+00:49:23,839 --> 00:49:32,160
+learn what um in uh uh K nearest
+
+989
+00:49:28,480 --> 00:49:34,000
+neighbors is KNN learner uh
+
+990
+00:49:32,160 --> 00:49:35,880
+classification
+
+991
+00:49:34,000 --> 00:49:39,359
+classification
+
+992
+00:49:35,880 --> 00:49:41,200
+KNN learner and this is a pretty
+
+993
+00:49:39,359 --> 00:49:44,280
+standard artificial intelligence
+
+994
+00:49:41,200 --> 00:49:46,319
+learning algorithm um and so I'm not
+
+995
+00:49:44,280 --> 00:49:48,839
+going to say too much about that so we
+
+996
+00:49:46,319 --> 00:49:51,319
+have we create a kind of learner thing
+
+997
+00:49:48,839 --> 00:49:54,079
+and our classifier is a learner that's
+
+998
+00:49:51,319 --> 00:49:58,359
+been that's going to work on a
+
+999
+00:49:54,079 --> 00:50:01,079
+particular set of data our training data
+
+1000
+00:49:58,359 --> 00:50:02,920
+okay good so we create a learner create
+
+1001
+00:50:01,079 --> 00:50:05,280
+a classifier hasn't actually learned
+
+1002
+00:50:02,920 --> 00:50:09,000
+anything yet but it's going to be ready
+
+1003
+00:50:05,280 --> 00:50:11,880
+for for doing that okay
+
+1004
+00:50:09,000 --> 00:50:14,319
+um now we're going to check how often
+
+1005
+00:50:11,880 --> 00:50:17,040
+does the majority learner get things uh
+
+1006
+00:50:14,319 --> 00:50:21,839
+how many times does it get it correct
+
+1007
+00:50:17,040 --> 00:50:24,280
+and how many times does um the kers
+
+1008
+00:50:21,839 --> 00:50:28,160
+neighbors learner get things
+
+1009
+00:50:24,280 --> 00:50:29,839
+correct and how many total things are
+
+1010
+00:50:28,160 --> 00:50:34,720
+there
+
+1011
+00:50:29,839 --> 00:50:37,520
+uh we get that as I need floats still
+
+1012
+00:50:34,720 --> 00:50:38,599
+thinking too much how to think like
+
+1013
+00:50:37,520 --> 00:50:42,520
+python
+
+1014
+00:50:38,599 --> 00:50:48,920
+Tu so how many test data there
+
+1015
+00:50:42,520 --> 00:50:48,920
+are go ah and see okay 532 in the test
+
+1016
+00:50:49,960 --> 00:50:55,200
+data the training data does not need to
+
+1017
+00:50:52,440 --> 00:50:57,480
+be exactly the same size or even close
+
+1018
+00:50:55,200 --> 00:50:59,319
+the same size as the test data
+
+1019
+00:50:57,480 --> 00:51:01,640
+but in this case they are great so now
+
+1020
+00:50:59,319 --> 00:51:04,839
+we're going to iterate through each of
+
+1021
+00:51:01,640 --> 00:51:10,359
+the rows
+
+1022
+00:51:04,839 --> 00:51:11,799
+um of um of our test data not our
+
+1023
+00:51:10,359 --> 00:51:14,319
+training
+
+1024
+00:51:11,799 --> 00:51:18,040
+data so we're going to know what row
+
+1025
+00:51:14,319 --> 00:51:19,680
+number we are on I and then test row and
+
+1026
+00:51:18,040 --> 00:51:23,520
+then the majority learner is going to
+
+1027
+00:51:19,680 --> 00:51:25,799
+make a guess based on the data in the
+
+1028
+00:51:23,520 --> 00:51:28,799
+test row wh the majority learner is
+
+1029
+00:51:25,799 --> 00:51:32,520
+really stupid so its guess is always
+
+1030
+00:51:28,799 --> 00:51:34,280
+going to be it's not a jig then Ker's
+
+1031
+00:51:32,520 --> 00:51:36,839
+neighbor is going to make a guess and
+
+1032
+00:51:34,280 --> 00:51:39,839
+we're hope that K's neighbor is making a
+
+1033
+00:51:36,839 --> 00:51:43,000
+guess based on some intelligence that it
+
+1034
+00:51:39,839 --> 00:51:44,640
+has or fake intelligence I mean it's
+
+1035
+00:51:43,000 --> 00:51:48,720
+called artificial intelligence for a
+
+1036
+00:51:44,640 --> 00:51:52,119
+reason and then we get to see in this
+
+1037
+00:51:48,720 --> 00:51:54,119
+case what the actual answer is with the
+
+1038
+00:51:52,119 --> 00:51:57,240
+class whether it's a jig or not so
+
+1039
+00:51:54,119 --> 00:51:59,119
+that's our real answer so we know this
+
+1040
+00:51:57,240 --> 00:52:02,119
+but K nearest neighbor is not allowed to
+
+1041
+00:51:59,119 --> 00:52:04,799
+look at this we really hope the
+
+1042
+00:52:02,119 --> 00:52:06,799
+computer's not peing uh otherwise all
+
+1043
+00:52:04,799 --> 00:52:09,559
+artificial intelligence is kind of
+
+1044
+00:52:06,799 --> 00:52:12,880
+screwed okay we'll just print out some
+
+1045
+00:52:09,559 --> 00:52:17,119
+test data that um the
+
+1046
+00:52:12,880 --> 00:52:20,760
+row I is
+
+1047
+00:52:17,119 --> 00:52:24,440
+uh a little bit of the information about
+
+1048
+00:52:20,760 --> 00:52:30,440
+our set that should be good gri will'll
+
+1049
+00:52:24,440 --> 00:52:33,440
+print out that the answer to row I
+
+1050
+00:52:30,440 --> 00:52:33,440
+is
+
+1051
+00:52:34,160 --> 00:52:39,839
+jig
+
+1052
+00:52:36,440 --> 00:52:39,839
+give whe
+
+1053
+00:52:39,920 --> 00:52:45,880
+answer I think that works else not
+
+1054
+00:52:46,400 --> 00:52:49,400
+check
+
+1055
+00:52:49,720 --> 00:52:56,200
+and and then we'll put in a tab we'll
+
+1056
+00:52:52,599 --> 00:52:59,119
+say k neighbor got it right or wrong
+
+1057
+00:52:56,200 --> 00:53:01,920
+correct right if k&n's if the K nearest
+
+1058
+00:52:59,119 --> 00:53:05,640
+neighbor's guess is the same as the real
+
+1059
+00:53:01,920 --> 00:53:09,200
+answer else
+
+1060
+00:53:05,640 --> 00:53:13,119
+wrong that's some pretty tough stuff
+
+1061
+00:53:09,200 --> 00:53:16,559
+Oran can't even get that right good
+
+1062
+00:53:13,119 --> 00:53:20,160
+okay um we'll print a blank line after
+
+1063
+00:53:16,559 --> 00:53:22,000
+that if the majority guesss if the
+
+1064
+00:53:20,160 --> 00:53:27,760
+majority guessed
+
+1065
+00:53:22,000 --> 00:53:27,760
+right then the majority correct
+
+1066
+00:53:28,280 --> 00:53:35,119
+INR if k n
+
+1067
+00:53:32,160 --> 00:53:37,799
+neighbors guess is
+
+1068
+00:53:35,119 --> 00:53:40,680
+right so we're just checking at this
+
+1069
+00:53:37,799 --> 00:53:42,480
+point how how good is this cares
+
+1070
+00:53:40,680 --> 00:53:43,240
+neighbors correct okay this going to be
+
+1071
+00:53:42,480 --> 00:53:45,000
+one
+
+1072
+00:53:43,240 --> 00:53:49,119
+bigger
+
+1073
+00:53:45,000 --> 00:53:54,520
+great so we'll go ahead and let that run
+
+1074
+00:53:49,119 --> 00:53:58,280
+oops uh claes are very nice oops they
+
+1075
+00:53:54,520 --> 00:53:58,280
+screw siging up
+
+1076
+00:53:58,400 --> 00:54:07,000
+um oops there we go uh I have to cast
+
+1077
+00:54:03,319 --> 00:54:10,520
+this as a list because where is it this
+
+1078
+00:54:07,000 --> 00:54:13,280
+data can't be sliced but lists can okay
+
+1079
+00:54:10,520 --> 00:54:15,920
+so that going on you know I probably
+
+1080
+00:54:13,280 --> 00:54:18,480
+need to reset my data so let's go ahead
+
+1081
+00:54:15,920 --> 00:54:22,920
+and do that it's going to be printing
+
+1082
+00:54:18,480 --> 00:54:26,880
+cool not jig K neighbors got it wrong
+
+1083
+00:54:22,920 --> 00:54:29,079
+not jig Kors got it right good good so
+
+1084
+00:54:26,880 --> 00:54:31,760
+hey see a lot of got it right I like
+
+1085
+00:54:29,079 --> 00:54:37,480
+that I like that okay here's the Moment
+
+1086
+00:54:31,760 --> 00:54:39,680
+of Truth um without machine
+
+1087
+00:54:37,480 --> 00:54:40,920
+learning there's a majority learner
+
+1088
+00:54:39,680 --> 00:54:47,200
+majority
+
+1089
+00:54:40,920 --> 00:54:50,079
+correct always put things into um into
+
+1090
+00:54:47,200 --> 00:54:52,400
+uh percentages always round your
+
+1091
+00:54:50,079 --> 00:54:55,880
+percentages toci reasonable nobody wants
+
+1092
+00:54:52,400 --> 00:55:02,319
+to see all those dangling digits okay so
+
+1093
+00:54:55,880 --> 00:55:08,440
+it got that number right and we'll say
+
+1094
+00:55:02,319 --> 00:55:11,599
+with K andn Machine learning we got the
+
+1095
+00:55:08,440 --> 00:55:15,079
+KNN correct how well do we
+
+1096
+00:55:11,599 --> 00:55:19,880
+do without machine learning got it 77%
+
+1097
+00:55:15,079 --> 00:55:23,480
+right K nearest neighbors got it 95%
+
+1098
+00:55:19,880 --> 00:55:25,920
+right wow okay that's pretty awesome
+
+1099
+00:55:23,480 --> 00:55:30,200
+that's a lot better than I thought when
+
+1100
+00:55:25,920 --> 00:55:31,720
+I um when I thought I would do this um
+
+1101
+00:55:30,200 --> 00:55:33,760
+by the way one of the things we can do
+
+1102
+00:55:31,720 --> 00:55:37,880
+you you probably want to keep track of
+
+1103
+00:55:33,760 --> 00:55:40,240
+your uh of your data and don't um don't
+
+1104
+00:55:37,880 --> 00:55:41,720
+do this but we'll just go ahead and
+
+1105
+00:55:40,240 --> 00:55:45,960
+check does it make a difference if we
+
+1106
+00:55:41,720 --> 00:55:45,960
+swap the training and the test
+
+1107
+00:55:46,799 --> 00:55:52,319
+data oops not training data training
+
+1108
+00:55:54,200 --> 00:56:00,200
+data do we get a fluke
+
+1109
+00:55:57,799 --> 00:56:04,680
+and we can go ahead and
+
+1110
+00:56:00,200 --> 00:56:06,520
+run 72 and 94 so yeah still pretty good
+
+1111
+00:56:04,680 --> 00:56:09,839
+doesn't matter which one we do I'm going
+
+1112
+00:56:06,520 --> 00:56:13,280
+to switch that back because I will
+
+1113
+00:56:09,839 --> 00:56:16,520
+totally uh make that mistake but yeah so
+
+1114
+00:56:13,280 --> 00:56:17,960
+we're doing really well with this so
+
+1115
+00:56:16,520 --> 00:56:21,440
+this is how you can do artificial
+
+1116
+00:56:17,960 --> 00:56:21,440
+intelligence with machine
+
+1117
+00:56:22,599 --> 00:56:27,160
+learning but that's been a little bit
+
+1118
+00:56:25,280 --> 00:56:30,880
+hard so
+
+1119
+00:56:27,160 --> 00:56:33,799
+fortunately music 21 has some tools to
+
+1120
+00:56:30,880 --> 00:56:36,400
+make a lot of these things even easier
+
+1121
+00:56:33,799 --> 00:56:37,960
+here so music 21 feature extraction will
+
+1122
+00:56:36,400 --> 00:56:39,480
+be the last topic that we're going to
+
+1123
+00:56:37,960 --> 00:56:42,440
+talk about
+
+1124
+00:56:39,480 --> 00:56:46,640
+today so we can go ahead and import from
+
+1125
+00:56:42,440 --> 00:56:46,640
+music 21 the features
+
+1126
+00:56:48,760 --> 00:56:54,920
+module great so within the features
+
+1127
+00:56:51,559 --> 00:56:58,200
+module there are things called data sets
+
+1128
+00:56:54,920 --> 00:57:02,000
+so let's create um um training
+
+1129
+00:56:58,200 --> 00:57:06,599
+set which will be a data set um with a
+
+1130
+00:57:02,000 --> 00:57:08,200
+class label of is jig we call ground
+
+1131
+00:57:06,599 --> 00:57:12,200
+trth or whatever and we'll create an
+
+1132
+00:57:08,200 --> 00:57:16,520
+identical one U for our test
+
+1133
+00:57:12,200 --> 00:57:19,920
+set testing set great so these are just
+
+1134
+00:57:16,520 --> 00:57:23,480
+um things that are ready to
+
+1135
+00:57:19,920 --> 00:57:25,280
+add two important things a set of data
+
+1136
+00:57:23,480 --> 00:57:27,799
+that is Stream So a whole bunch of
+
+1137
+00:57:25,280 --> 00:57:31,799
+streams uh will be added to both the
+
+1138
+00:57:27,799 --> 00:57:34,319
+training and the test set and also a set
+
+1139
+00:57:31,799 --> 00:57:36,280
+of feature
+
+1140
+00:57:34,319 --> 00:57:39,119
+extractors I'm not going to explain
+
+1141
+00:57:36,280 --> 00:57:42,200
+today how to write new feature
+
+1142
+00:57:39,119 --> 00:57:43,680
+extractors in the way music 21 expects
+
+1143
+00:57:42,200 --> 00:57:45,760
+them but they're basically pretty
+
+1144
+00:57:43,680 --> 00:57:47,720
+similar to what we've just been writing
+
+1145
+00:57:45,760 --> 00:57:49,559
+with functions except they're kind of
+
+1146
+00:57:47,720 --> 00:57:52,880
+expected to be
+
+1147
+00:57:49,559 --> 00:57:55,760
+classes but we don't really have to
+
+1148
+00:57:52,880 --> 00:57:57,000
+because music 21 has a whole bunch of
+
+1149
+00:57:55,760 --> 00:57:59,280
+features
+
+1150
+00:57:57,000 --> 00:58:02,799
+extractors some of them come from this
+
+1151
+00:57:59,280 --> 00:58:05,839
+amazing toolkit called J symbolic or the
+
+1152
+00:58:02,799 --> 00:58:10,079
+reinterpretations of Corey McKay's J
+
+1153
+00:58:05,839 --> 00:58:13,280
+symbolic toolkit which is in Java and um
+
+1154
+00:58:10,079 --> 00:58:15,280
+they have numbers like D1 is the overall
+
+1155
+00:58:13,280 --> 00:58:18,880
+dynamic range features not all of them
+
+1156
+00:58:15,280 --> 00:58:21,319
+have been implemented um eyes are
+
+1157
+00:58:18,880 --> 00:58:24,000
+instrument features you can probably see
+
+1158
+00:58:21,319 --> 00:58:26,799
+that um the percentage of all notes
+
+1159
+00:58:24,000 --> 00:58:28,640
+being played by electric guitars
+
+1160
+00:58:26,799 --> 00:58:32,200
+if you know something about jigs is
+
+1161
+00:58:28,640 --> 00:58:34,760
+probably not going to be very helpful to
+
+1162
+00:58:32,200 --> 00:58:38,119
+um to classifying whether or not
+
+1163
+00:58:34,760 --> 00:58:40,599
+something is a jig but maybe the average
+
+1164
+00:58:38,119 --> 00:58:43,039
+melodic interval will tell you something
+
+1165
+00:58:40,599 --> 00:58:45,960
+like that or how often there are melodic
+
+1166
+00:58:43,039 --> 00:58:47,599
+thirds or melodic fifths or maybe you
+
+1167
+00:58:45,960 --> 00:58:51,160
+know other things might tell sign so
+
+1168
+00:58:47,599 --> 00:58:53,680
+these are Melody features pitch features
+
+1169
+00:58:51,160 --> 00:58:56,520
+and so on um there's Rhythm features
+
+1170
+00:58:53,680 --> 00:59:00,039
+that's going to be pretty important um
+
+1171
+00:58:56,520 --> 00:59:03,680
+uh where do we have r31 initial time
+
+1172
+00:59:00,039 --> 00:59:08,559
+signature feature R32 compound or simple
+
+1173
+00:59:03,680 --> 00:59:11,200
+meure features and so on so we could add
+
+1174
+00:59:08,559 --> 00:59:14,200
+a bunch of these features in and we
+
+1175
+00:59:11,200 --> 00:59:17,240
+remember the names and within the music
+
+1176
+00:59:14,200 --> 00:59:19,119
+21 documentation there will be um
+
+1177
+00:59:17,240 --> 00:59:21,880
+certain things that will tell you you
+
+1178
+00:59:19,119 --> 00:59:23,319
+know uh triple meter features set to one
+
+1179
+00:59:21,880 --> 00:59:26,799
+if the numerator of the initial time
+
+1180
+00:59:23,319 --> 00:59:30,520
+signature is three or zero otherwise and
+
+1181
+00:59:26,799 --> 00:59:32,720
+this shows you how how it can work um so
+
+1182
+00:59:30,520 --> 00:59:37,799
+we can give a particular piece and it
+
+1183
+00:59:32,720 --> 00:59:43,000
+will tell us that BWB 66.6 is zero not
+
+1184
+00:59:37,799 --> 00:59:46,160
+in triple meter okay um we've already
+
+1185
+00:59:43,000 --> 00:59:48,039
+done something really really great um
+
+1186
+00:59:46,160 --> 00:59:50,359
+and so I will tell you that if we use
+
+1187
+00:59:48,039 --> 00:59:52,280
+this very similar feature extractors the
+
+1188
+00:59:50,359 --> 00:59:55,760
+ones we did before we're going to get
+
+1189
+00:59:52,280 --> 00:59:57,599
+the same um the same results but one of
+
+1190
+00:59:55,760 --> 01:00:00,480
+the other things we can do is we can
+
+1191
+00:59:57,599 --> 01:00:06,599
+just use a whole bunch of pretty random
+
+1192
+01:00:00,480 --> 01:00:09,359
+ones so we'll get um these features by
+
+1193
+01:00:06,599 --> 01:00:13,520
+ID and these are a bunch of features
+
+1194
+01:00:09,359 --> 01:00:17,760
+that I used to classify um various
+
+1195
+01:00:13,520 --> 01:00:21,000
+pieces of I think it was 16th 15th
+
+1196
+01:00:17,760 --> 01:00:24,480
+century music no 16th century music so
+
+1197
+01:00:21,000 --> 01:00:26,920
+they're not exactly super tuned for what
+
+1198
+01:00:24,480 --> 01:00:31,039
+we're going to do um um a lot of them
+
+1199
+01:00:26,920 --> 01:00:34,240
+are melodic features and so on uh well
+
+1200
+01:00:31,039 --> 01:00:36,960
+you see scroll over see which ones
+
+1201
+01:00:34,240 --> 01:00:37,960
+haven't done pitch features pitch
+
+1202
+01:00:36,960 --> 01:00:40,200
+feature
+
+1203
+01:00:37,960 --> 01:00:43,640
+8
+
+1204
+01:00:40,200 --> 01:00:43,640
+10 R up
+
+1205
+01:00:44,160 --> 01:00:50,280
+feature wa we guys see what they
+
+1206
+01:00:47,599 --> 01:00:51,720
+are I'm already going to tell you uh no
+
+1207
+01:00:50,280 --> 01:00:54,319
+surprise these aren't going to work
+
+1208
+01:00:51,720 --> 01:00:57,319
+nearly as well as the ones we just made
+
+1209
+01:00:54,319 --> 01:00:59,000
+um note dens feature isn't going to help
+
+1210
+01:00:57,319 --> 01:01:00,480
+us very much I would have thought range
+
+1211
+01:00:59,000 --> 01:01:03,280
+might have told us something about a jig
+
+1212
+01:01:00,480 --> 01:01:05,920
+but maybe it's not um some people will
+
+1213
+01:01:03,280 --> 01:01:09,760
+tell you hey just throw lots of feature
+
+1214
+01:01:05,920 --> 01:01:12,760
+extractors in um it can't hurt it kind
+
+1215
+01:01:09,760 --> 01:01:15,640
+of can but because we often don't have
+
+1216
+01:01:12,760 --> 01:01:18,000
+enough data to make use of all these
+
+1217
+01:01:15,640 --> 01:01:21,599
+features but let's give it a shot we're
+
+1218
+01:01:18,000 --> 01:01:25,920
+going to add these feature
+
+1219
+01:01:21,599 --> 01:01:30,119
+extractors to um our training set and to
+
+1220
+01:01:25,920 --> 01:01:30,119
+to our testing
+
+1221
+01:01:31,319 --> 01:01:37,160
+set okay so our training set and testing
+
+1222
+01:01:34,000 --> 01:01:39,559
+set any uh is now ready to go where any
+
+1223
+01:01:37,160 --> 01:01:41,680
+stream we add to these sets we're going
+
+1224
+01:01:39,559 --> 01:01:45,039
+to um going to have these feature
+
+1225
+01:01:41,680 --> 01:01:50,599
+extractors added to them so we'll say is
+
+1226
+01:01:45,039 --> 01:01:52,480
+for I add metad dat entry in a
+
+1227
+01:01:50,599 --> 01:01:56,599
+numerate
+
+1228
+01:01:52,480 --> 01:02:00,240
+uh Ryan again P's part
+
+1229
+01:01:56,599 --> 01:02:01,799
+equals metad dat
+
+1230
+01:02:00,240 --> 01:02:08,279
+entry.
+
+1231
+01:02:01,799 --> 01:02:11,440
+parse if I is odd then training or test
+
+1232
+01:02:08,279 --> 01:02:13,240
+will be we'll we'll set um so we only
+
+1233
+01:02:11,440 --> 01:02:14,559
+have to write things once we'll set our
+
+1234
+01:02:13,240 --> 01:02:17,720
+training or test set will be the
+
+1235
+01:02:14,559 --> 01:02:21,680
+training set in this case otherwise our
+
+1236
+01:02:17,720 --> 01:02:27,599
+training or test will be our testing
+
+1237
+01:02:21,680 --> 01:02:32,319
+set great uh file name is the pie PAR
+
+1238
+01:02:27,599 --> 01:02:34,119
+file path name is jig same thing we were
+
+1239
+01:02:32,319 --> 01:02:37,119
+doing
+
+1240
+01:02:34,119 --> 01:02:39,160
+before here we're not going to um music
+
+1241
+01:02:37,119 --> 01:02:41,279
+21 smart enough it doesn't need us to
+
+1242
+01:02:39,160 --> 01:02:44,440
+cast this to an integer that'll figure
+
+1243
+01:02:41,279 --> 01:02:47,559
+out what to do itself
+
+1244
+01:02:44,440 --> 01:02:50,039
+okay we going say what row are we is
+
+1245
+01:02:47,559 --> 01:02:52,359
+this a jig and what's its file name
+
+1246
+01:02:50,039 --> 01:02:54,160
+that's easy part and then whatever
+
+1247
+01:02:52,359 --> 01:02:56,359
+dating data set we're working with
+
+1248
+01:02:54,160 --> 01:03:00,640
+training or test we're going to add
+
+1249
+01:02:56,359 --> 01:03:03,640
+the data from the here's a stream our
+
+1250
+01:03:00,640 --> 01:03:06,720
+score whatever you call it class value
+
+1251
+01:03:03,640 --> 01:03:09,079
+what is what is the right answer it's
+
+1252
+01:03:06,720 --> 01:03:11,240
+whether or not this is a jig and then
+
+1253
+01:03:09,079 --> 01:03:15,000
+the identification for this will be the
+
+1254
+01:03:11,240 --> 01:03:18,480
+file name okay boom it's going to go
+
+1255
+01:03:15,000 --> 01:03:21,880
+through it has 1,000 of these to run so
+
+1256
+01:03:18,480 --> 01:03:25,240
+I'm not going to wait for all of it to
+
+1257
+01:03:21,880 --> 01:03:26,559
+um happen I'm going to stop for a second
+
+1258
+01:03:25,240 --> 01:03:28,240
+um
+
+1259
+01:03:26,559 --> 01:03:30,599
+because we don't have all that time in
+
+1260
+01:03:28,240 --> 01:03:33,319
+the world um that's part of the reason
+
+1261
+01:03:30,599 --> 01:03:35,319
+why we also don't want to do everything
+
+1262
+01:03:33,319 --> 01:03:38,559
+but our that small training set we're
+
+1263
+01:03:35,319 --> 01:03:41,400
+going to process and we're going to take
+
+1264
+01:03:38,559 --> 01:03:43,160
+that training set and write it out to
+
+1265
+01:03:41,400 --> 01:03:46,559
+train
+
+1266
+01:03:43,160 --> 01:03:48,880
+to. no we're not you should do that
+
+1267
+01:03:46,559 --> 01:03:50,480
+because you have time to wait but uh
+
+1268
+01:03:48,880 --> 01:03:53,279
+nobody wants us do that we'll do the
+
+1269
+01:03:50,480 --> 01:03:56,000
+same thing with the testing set process
+
+1270
+01:03:53,279 --> 01:03:59,279
+and then testing set
+
+1271
+01:03:56,000 --> 01:04:01,440
+we're going to write that to test
+
+1272
+01:03:59,279 --> 01:04:03,240
+2.tap I'm not doing that right now
+
+1273
+01:04:01,440 --> 01:04:06,680
+because like they do in those old
+
+1274
+01:04:03,240 --> 01:04:10,480
+cooking shows um I've already done all
+
+1275
+01:04:06,680 --> 01:04:13,119
+this and I'm going to uh load it from
+
+1276
+01:04:10,480 --> 01:04:15,680
+what I've already done
+
+1277
+01:04:13,119 --> 01:04:17,319
+so um you know what I mean the old
+
+1278
+01:04:15,680 --> 01:04:20,680
+cooking shows where they put they put
+
+1279
+01:04:17,319 --> 01:04:23,480
+the turkey raw turkey in the oven and
+
+1280
+01:04:20,680 --> 01:04:25,799
+then they just immediately go to the
+
+1281
+01:04:23,480 --> 01:04:28,160
+other oven and the turkey son. sorry all
+
+1282
+01:04:25,799 --> 01:04:31,039
+right I you know you all can read my
+
+1283
+01:04:28,160 --> 01:04:33,799
+mind right that's that's
+
+1284
+01:04:31,039 --> 01:04:36,920
+what that's what you pay me to do make
+
+1285
+01:04:33,799 --> 01:04:41,760
+you read my mind to not actually
+
+1286
+01:04:36,920 --> 01:04:44,599
+teach that's fantastic um okay a no
+
+1287
+01:04:41,760 --> 01:04:47,680
+enough I'll make this line up so I
+
+1288
+01:04:44,599 --> 01:04:50,039
+don't so I don't make any
+
+1289
+01:04:47,680 --> 01:04:54,680
+typos on my
+
+1290
+01:04:50,039 --> 01:04:56,400
+desktop test 2.tap that's why it broke
+
+1291
+01:04:54,680 --> 01:04:59,720
+okay so again we're going to do
+
+1292
+01:04:56,400 --> 01:05:04,160
+everything as before why do everything
+
+1293
+01:04:59,720 --> 01:05:04,160
+as before when you can't just copy
+
+1294
+01:05:04,240 --> 01:05:10,839
+and because now we've already written
+
+1295
+01:05:06,680 --> 01:05:13,640
+everything out for um yeah this this
+
+1296
+01:05:10,839 --> 01:05:17,039
+whole process and right thing takes care
+
+1297
+01:05:13,640 --> 01:05:19,880
+of everything we did before where we
+
+1298
+01:05:17,039 --> 01:05:22,760
+where is that where we had to Define we
+
+1299
+01:05:19,880 --> 01:05:24,640
+had to open our datas we had to Define
+
+1300
+01:05:22,760 --> 01:05:26,680
+our columns we had to write that out
+
+1301
+01:05:24,640 --> 01:05:29,920
+Define our description write out all our
+
+1302
+01:05:26,680 --> 01:05:31,559
+meta things um extract write our feature
+
+1303
+01:05:29,920 --> 01:05:36,319
+extractors do all that
+
+1304
+01:05:31,559 --> 01:05:39,880
+stuff these little um process and then
+
+1305
+01:05:36,319 --> 01:05:43,160
+write did all that for us so now we're
+
+1306
+01:05:39,880 --> 01:05:48,520
+we're actually back on to
+
+1307
+01:05:43,160 --> 01:05:48,520
+uh uh feature extraction is
+
+1308
+01:05:48,920 --> 01:05:55,640
+done let's do machine learning anybody
+
+1309
+01:05:54,240 --> 01:05:57,640
+who tells you that the machine learn
+
+1310
+01:05:55,640 --> 01:06:01,440
+learning is the only hard part and that
+
+1311
+01:05:57,640 --> 01:06:03,920
+feature extraction uh is easy stuff uh
+
+1312
+01:06:01,440 --> 01:06:06,000
+is lying to you or is doesn't know what
+
+1313
+01:06:03,920 --> 01:06:09,440
+they're talking about or whatever
+
+1314
+01:06:06,000 --> 01:06:12,920
+because um feature extraction and doing
+
+1315
+01:06:09,440 --> 01:06:15,160
+it right is really really hard okay so
+
+1316
+01:06:12,920 --> 01:06:20,039
+we're going to cop basically copy and
+
+1317
+01:06:15,160 --> 01:06:24,000
+paste everything that um that we did
+
+1318
+01:06:20,039 --> 01:06:27,720
+before totals something like
+
+1319
+01:06:24,000 --> 01:06:31,400
+that great we're going to run this
+
+1320
+01:06:27,720 --> 01:06:36,640
+again and then we're going
+
+1321
+01:06:31,400 --> 01:06:36,640
+to print everything
+
+1322
+01:06:36,760 --> 01:06:42,920
+afterwards great and that's going to go
+
+1323
+01:06:39,599 --> 01:06:46,559
+through and uh it's going to print a
+
+1324
+01:06:42,920 --> 01:06:50,520
+couple things what are we
+
+1325
+01:06:46,559 --> 01:06:53,440
+doing oh has to we giving it a lot more
+
+1326
+01:06:50,520 --> 01:06:55,200
+things to train on so a lot more data
+
+1327
+01:06:53,440 --> 01:06:57,520
+these are much bigger files because of
+
+1328
+01:06:55,200 --> 01:06:59,920
+all the different feature extractors so
+
+1329
+01:06:57,520 --> 01:07:03,559
+it takes a while you can see in all this
+
+1330
+01:06:59,920 --> 01:07:06,839
+time it's just done one
+
+1331
+01:07:03,559 --> 01:07:08,720
+row and two rows are we going to wait
+
+1332
+01:07:06,839 --> 01:07:11,920
+for
+
+1333
+01:07:08,720 --> 01:07:14,480
+uh you know oh I think it's like an hour
+
+1334
+01:07:11,920 --> 01:07:15,920
+and a half and I ran this at like 2 in
+
+1335
+01:07:14,480 --> 01:07:19,160
+the morning are we going to wait an hour
+
+1336
+01:07:15,920 --> 01:07:20,559
+and a half we can all do that no I'm
+
+1337
+01:07:19,160 --> 01:07:22,160
+going to hit stop for a second on the
+
+1338
+01:07:20,559 --> 01:07:24,240
+recording and then I'm going to load up
+
+1339
+01:07:22,160 --> 01:07:27,559
+our
+
+1340
+01:07:24,240 --> 01:07:31,359
+results okay here are the results I
+
+1341
+01:07:27,559 --> 01:07:34,599
+got again our majority learner got 77%
+
+1342
+01:07:31,359 --> 01:07:36,599
+right and our K nearest neighbors super
+
+1343
+01:07:34,599 --> 01:07:40,559
+intelligent artificial
+
+1344
+01:07:36,599 --> 01:07:42,599
+intelligence only got 4% better I mean I
+
+1345
+01:07:40,559 --> 01:07:44,440
+don't even know if that meets the margin
+
+1346
+01:07:42,599 --> 01:07:48,359
+of error in a political poll or
+
+1347
+01:07:44,440 --> 01:07:50,440
+something so all that extra time didn't
+
+1348
+01:07:48,359 --> 01:07:54,559
+actually improve anything what's
+
+1349
+01:07:50,440 --> 01:07:56,000
+important is always to choose your um
+
+1350
+01:07:54,559 --> 01:07:59,480
+choose your
+
+1351
+01:07:56,000 --> 01:08:03,640
+feature extractors well the fact that I
+
+1352
+01:07:59,480 --> 01:08:06,599
+didn't include that one simple extractor
+
+1353
+01:08:03,640 --> 01:08:10,079
+about the time signature made all the
+
+1354
+01:08:06,599 --> 01:08:12,599
+difference in the world I think um okay
+
+1355
+01:08:10,079 --> 01:08:15,440
+I just want to show that there's um you
+
+1356
+01:08:12,599 --> 01:08:17,319
+can uh you can print all of the
+
+1357
+01:08:15,440 --> 01:08:19,640
+different features onto various charts
+
+1358
+01:08:17,319 --> 01:08:21,600
+and zoom in and stuff like that if
+
+1359
+01:08:19,640 --> 01:08:23,400
+people want to do that but that'll be
+
+1360
+01:08:21,600 --> 01:08:26,920
+something for another
+
+1361
+01:08:23,400 --> 01:08:29,960
+time this is what is available to you
+
+1362
+01:08:26,920 --> 01:08:34,040
+now um maybe not this kind of low-level
+
+1363
+01:08:29,960 --> 01:08:37,560
+one but using the these feature
+
+1364
+01:08:34,040 --> 01:08:41,080
+extractors simple ones like Sharps and
+
+1365
+01:08:37,560 --> 01:08:44,040
+meter and uh what was that percentage of
+
+1366
+01:08:41,080 --> 01:08:48,279
+compound time range features things like
+
+1367
+01:08:44,040 --> 01:08:50,839
+that in order to classify pieces is
+
+1368
+01:08:48,279 --> 01:08:53,679
+incredibly powerful and when put
+
+1369
+01:08:50,839 --> 01:08:56,319
+together with the right machine learning
+
+1370
+01:08:53,679 --> 01:08:58,359
+and artificial intelligence algorithm
+
+1371
+01:08:56,319 --> 01:09:03,159
+there's a lot of possibilities for the
+
+1372
+01:08:58,359 --> 01:09:06,719
+future of computational Music
+
+1373
+01:09:03,159 --> 01:09:11,040
+analysis this lecture is run pretty darn
+
+1374
+01:09:06,719 --> 01:09:13,239
+long so I'm going to say for a second
+
+1375
+01:09:11,040 --> 01:09:16,040
+little supplement on what are some of
+
+1376
+01:09:13,239 --> 01:09:18,759
+the things that I have learned through
+
+1377
+01:09:16,040 --> 01:09:20,920
+using computational artificial
+
+1378
+01:09:18,759 --> 01:09:24,520
+intelligence what are some of the
+
+1379
+01:09:20,920 --> 01:09:28,120
+projects other people have done and why
+
+1380
+01:09:24,520 --> 01:09:31,040
+the world of the-art blackbox deep
+
+1381
+01:09:28,120 --> 01:09:33,600
+learning or um other sophisticated
+
+1382
+01:09:31,040 --> 01:09:36,040
+algorithms might not always be the best
+
+1383
+01:09:33,600 --> 01:09:38,040
+ones that we want to use when we're
+
+1384
+01:09:36,040 --> 01:09:41,880
+doing artificial intelligence and
+
+1385
+01:09:38,040 --> 01:09:44,040
+machine learning techniques on musical
+
+1386
+01:09:41,880 --> 01:09:46,920
+scores but we'll leave that for another
+
+1387
+01:09:44,040 --> 01:09:48,920
+time thank you so much for listening go
+
+1388
+01:09:46,920 --> 01:09:51,560
+ahead and play around with some data
+
+1389
+01:09:48,920 --> 01:09:54,679
+sets you've learned how to use Corpus
+
+1390
+01:09:51,560 --> 01:09:59,360
+search to be able to find various pieces
+
+1391
+01:09:54,679 --> 01:10:01,840
+on there's a music 21 uh I think chapter
+
+1392
+01:09:59,360 --> 01:10:04,080
+users guide chapter and tutorial on how
+
+1393
+01:10:01,840 --> 01:10:06,880
+to do more interesting things with that
+
+1394
+01:10:04,080 --> 01:10:09,360
+there's the paper written with Chris ARA
+
+1395
+01:10:06,880 --> 01:10:12,120
+and Lisa Friedland on using feature
+
+1396
+01:10:09,360 --> 01:10:15,760
+extractors with music 21 and there's
+
+1397
+01:10:12,120 --> 01:10:17,920
+also some other um music 21 feature
+
+1398
+01:10:15,760 --> 01:10:20,920
+extractor papers that were written with
+
+1399
+01:10:17,920 --> 01:10:23,840
+MIT undergraduate europs on how we can
+
+1400
+01:10:20,920 --> 01:10:26,560
+use feature extraction to go beyond what
+
+1401
+01:10:23,840 --> 01:10:29,199
+we can do with midi to really look at
+
+1402
+01:10:26,560 --> 01:10:31,159
+the Nuance of musical scores in feature
+
+1403
+01:10:29,199 --> 01:10:34,640
+extraction I'll be sending all those
+
+1404
+01:10:31,159 --> 01:10:36,840
+around the meantime please go back
+
+1405
+01:10:34,640 --> 01:10:39,760
+through your the most interesting parts
+
+1406
+01:10:36,840 --> 01:10:41,960
+of this lecture to you hit pause and
+
+1407
+01:10:39,760 --> 01:10:46,239
+play around with your own data
+
+1408
+01:10:41,960 --> 01:10:49,719
+sense good luck in applying this to
+
+1409
+01:10:46,239 --> 01:10:49,719
+Future projects
+

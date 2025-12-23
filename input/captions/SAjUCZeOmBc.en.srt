@@ -1,0 +1,3376 @@
+1
+00:00:00,520 --> 00:00:05,040
+all right well it is a pleasure to be
+
+2
+00:00:02,639 --> 00:00:07,359
+here today uh and this is obviously such
+
+3
+00:00:05,040 --> 00:00:09,120
+an important topic and it's a you know
+
+4
+00:00:07,359 --> 00:00:11,040
+great group of people that's talking
+
+5
+00:00:09,120 --> 00:00:12,200
+about this and hopefully we can work
+
+6
+00:00:11,040 --> 00:00:15,040
+together and come up with some great
+
+7
+00:00:12,200 --> 00:00:17,000
+Solutions on addressing this so as y
+
+8
+00:00:15,040 --> 00:00:18,680
+Yuri mentioned I wear a few different
+
+9
+00:00:17,000 --> 00:00:21,199
+hats today I'm going to be talking a lot
+
+10
+00:00:18,680 --> 00:00:25,560
+more about the work we've been doing at
+
+11
+00:00:21,199 --> 00:00:27,920
+MIT uh in both understanding but more
+
+12
+00:00:25,560 --> 00:00:30,920
+importantly mitigating the environmental
+
+13
+00:00:27,920 --> 00:00:32,520
+impact of AI data centers Computing but
+
+14
+00:00:30,920 --> 00:00:35,200
+I'll also add a little bit of flavor as
+
+15
+00:00:32,520 --> 00:00:37,079
+a person who uh also moonlights as a
+
+16
+00:00:35,200 --> 00:00:39,160
+chief technology officer and attempts to
+
+17
+00:00:37,079 --> 00:00:41,320
+buy space at different data centers and
+
+18
+00:00:39,160 --> 00:00:45,800
+set up heavy compute in order to make
+
+19
+00:00:41,320 --> 00:00:47,640
+customers build larger bigger systems so
+
+20
+00:00:45,800 --> 00:00:48,960
+I'll I'll go through my slides and look
+
+21
+00:00:47,640 --> 00:00:50,160
+forward to any questions that you have
+
+22
+00:00:48,960 --> 00:00:51,719
+I'll try to get through things quickly
+
+23
+00:00:50,160 --> 00:00:53,680
+so we can have a robust discussion
+
+24
+00:00:51,719 --> 00:00:55,680
+because there is just so much Nuance in
+
+25
+00:00:53,680 --> 00:00:57,760
+this topic and there'll be times where I
+
+26
+00:00:55,680 --> 00:00:59,359
+come off as a real defeatist and like oh
+
+27
+00:00:57,760 --> 00:01:01,079
+sucks uh and then there are times where
+
+28
+00:00:59,359 --> 00:01:04,040
+there are some h GE opportunities and I
+
+29
+00:01:01,079 --> 00:01:05,799
+think with this group of people here
+
+30
+00:01:04,040 --> 00:01:07,600
+there are some really interesting
+
+31
+00:01:05,799 --> 00:01:09,799
+opportunities even in the world of data
+
+32
+00:01:07,600 --> 00:01:11,960
+centers and Computing and being able to
+
+33
+00:01:09,799 --> 00:01:13,439
+bring all of these pieces together and
+
+34
+00:01:11,960 --> 00:01:16,920
+there may be some uh interesting
+
+35
+00:01:13,439 --> 00:01:16,920
+conversation that comes off of
+
+36
+00:01:17,240 --> 00:01:22,600
+that so let me just start with a little
+
+37
+00:01:19,880 --> 00:01:25,000
+bit in case uh you're not as familiar
+
+38
+00:01:22,600 --> 00:01:27,960
+with the environmental impact of AI and
+
+39
+00:01:25,000 --> 00:01:30,400
+what's causing it so the first is over
+
+40
+00:01:27,960 --> 00:01:33,720
+the past few years there has been a
+
+41
+00:01:30,400 --> 00:01:37,880
+rapid growth in the models that we're
+
+42
+00:01:33,720 --> 00:01:39,640
+using that power a lot of the services
+
+43
+00:01:37,880 --> 00:01:42,960
+that we're now using so when you take
+
+44
+00:01:39,640 --> 00:01:45,119
+something like gp4 or GPT 40 those
+
+45
+00:01:42,960 --> 00:01:47,159
+models are hundreds to thousands of
+
+46
+00:01:45,119 --> 00:01:49,920
+times larger than models that we were
+
+47
+00:01:47,159 --> 00:01:51,960
+using maybe just a few years ago and
+
+48
+00:01:49,920 --> 00:01:53,560
+while it's not exactly directly linearly
+
+49
+00:01:51,960 --> 00:01:55,399
+proportional but there is a pretty
+
+50
+00:01:53,560 --> 00:01:57,600
+strong correlation the larger the model
+
+51
+00:01:55,399 --> 00:01:59,680
+the larger the energy use that's both on
+
+52
+00:01:57,600 --> 00:02:01,320
+training it as well as on inference or
+
+53
+00:01:59,680 --> 00:02:03,680
+when actually interacting with these
+
+54
+00:02:01,320 --> 00:02:05,520
+models and in fact by some of our
+
+55
+00:02:03,680 --> 00:02:08,520
+estimates we've seen that just in the
+
+56
+00:02:05,520 --> 00:02:10,560
+last 5 years we've seen an over 100x
+
+57
+00:02:08,520 --> 00:02:12,000
+growth and everyone keeps predicting
+
+58
+00:02:10,560 --> 00:02:13,040
+that oh well this is the last year when
+
+59
+00:02:12,000 --> 00:02:14,319
+it's not going to grow again then
+
+60
+00:02:13,040 --> 00:02:16,680
+someone comes out with the new 10
+
+61
+00:02:14,319 --> 00:02:18,239
+trillion model uh 10 trillion parameter
+
+62
+00:02:16,680 --> 00:02:20,280
+model so this growth seems to still be
+
+63
+00:02:18,239 --> 00:02:22,840
+growing and as we look at different
+
+64
+00:02:20,280 --> 00:02:24,959
+types of models moving away from text to
+
+65
+00:02:22,840 --> 00:02:26,440
+video to image those models are growing
+
+66
+00:02:24,959 --> 00:02:30,239
+larger and larger so is the energy
+
+67
+00:02:26,440 --> 00:02:32,160
+impact of that and I I help found our
+
+68
+00:02:30,239 --> 00:02:34,840
+supercomputing Center at Lincoln
+
+69
+00:02:32,160 --> 00:02:37,040
+laboratory in MIT and so we also track
+
+70
+00:02:34,840 --> 00:02:39,200
+where Computing performance is going and
+
+71
+00:02:37,040 --> 00:02:40,480
+that growth has not been as steep uh and
+
+72
+00:02:39,200 --> 00:02:43,480
+in fact if we look at some of our
+
+73
+00:02:40,480 --> 00:02:45,680
+estimates our growth is maybe about 10x
+
+74
+00:02:43,480 --> 00:02:48,480
+every 5 years and so we have this huge
+
+75
+00:02:45,680 --> 00:02:50,519
+need of being able to map the the
+
+76
+00:02:48,480 --> 00:02:53,120
+tremendous amount of computing and the
+
+77
+00:02:50,519 --> 00:02:54,560
+increase in Computing demands with our
+
+78
+00:02:53,120 --> 00:02:56,879
+Computing systems which are not
+
+79
+00:02:54,560 --> 00:02:58,720
+necessarily growing as fast and in fact
+
+80
+00:02:56,879 --> 00:03:02,000
+that Gap is growing further and further
+
+81
+00:02:58,720 --> 00:03:03,560
+apart now the solution that a lot of
+
+82
+00:03:02,000 --> 00:03:05,720
+people have had is well just throw a
+
+83
+00:03:03,560 --> 00:03:08,360
+much larger system at the problem and
+
+84
+00:03:05,720 --> 00:03:10,840
+while that does satisfy uh you know
+
+85
+00:03:08,360 --> 00:03:13,519
+getting you this works that does help
+
+86
+00:03:10,840 --> 00:03:16,840
+you over there what it does not do is
+
+87
+00:03:13,519 --> 00:03:19,159
+solve an energy uh crisis or growing
+
+88
+00:03:16,840 --> 00:03:21,080
+problem that we're seeing in that space
+
+89
+00:03:19,159 --> 00:03:23,040
+and here are just some other uh I call
+
+90
+00:03:21,080 --> 00:03:25,400
+these like wild ass guesses because
+
+91
+00:03:23,040 --> 00:03:27,560
+really don't know um but this is what
+
+92
+00:03:25,400 --> 00:03:30,000
+you know you talk to to folks across you
+
+93
+00:03:27,560 --> 00:03:32,040
+know the iea and groups like that these
+
+94
+00:03:30,000 --> 00:03:35,720
+are some of the estimates that they have
+
+95
+00:03:32,040 --> 00:03:37,760
+um So currently data centers uh are you
+
+96
+00:03:35,720 --> 00:03:39,239
+know about 1 to 2% of global energy
+
+97
+00:03:37,760 --> 00:03:41,519
+demand I've heard people comparing it to
+
+98
+00:03:39,239 --> 00:03:43,360
+the airline industry so we use about as
+
+99
+00:03:41,519 --> 00:03:45,120
+much energy as the airline industry or
+
+100
+00:03:43,360 --> 00:03:48,159
+we have as much emissions as the airline
+
+101
+00:03:45,120 --> 00:03:49,680
+industry which is reasonably large and
+
+102
+00:03:48,159 --> 00:03:53,120
+that number is expected to increase
+
+103
+00:03:49,680 --> 00:03:55,280
+between this super accurate 8 to 21% uh
+
+104
+00:03:53,120 --> 00:03:56,599
+by 2030 right and a lot of this is
+
+105
+00:03:55,280 --> 00:03:58,400
+because we really don't know right
+
+106
+00:03:56,599 --> 00:04:00,599
+there's a lot of things that could occur
+
+107
+00:03:58,400 --> 00:04:02,799
+that could change this Trend in a in a
+
+108
+00:04:00,599 --> 00:04:04,799
+very significant way but I think what we
+
+109
+00:04:02,799 --> 00:04:07,959
+all agree upon is that this is going to
+
+110
+00:04:04,799 --> 00:04:11,120
+grow to be a pretty sizable amount of
+
+111
+00:04:07,959 --> 00:04:13,480
+energy use and a growing contributor to
+
+112
+00:04:11,120 --> 00:04:15,040
+uh emissions across the world there's a
+
+113
+00:04:13,480 --> 00:04:17,079
+lot of water that's being used by these
+
+114
+00:04:15,040 --> 00:04:19,519
+systems you have to cool them somehow uh
+
+115
+00:04:17,079 --> 00:04:20,959
+and as you're getting uh larger and
+
+116
+00:04:19,519 --> 00:04:22,880
+larger Footprints and Tighter and
+
+117
+00:04:20,959 --> 00:04:24,320
+Tighter spaces you need more and more
+
+118
+00:04:22,880 --> 00:04:25,800
+aggressive cooling technology so you
+
+119
+00:04:24,320 --> 00:04:28,120
+have a lot of water that's going into
+
+120
+00:04:25,800 --> 00:04:31,000
+these and we often just talk about the
+
+121
+00:04:28,120 --> 00:04:32,759
+operational side of these data centers
+
+122
+00:04:31,000 --> 00:04:35,199
+which is how much energy we're using to
+
+123
+00:04:32,759 --> 00:04:36,919
+power it on but we forget about is that
+
+124
+00:04:35,199 --> 00:04:38,120
+this new hardware comes at another cost
+
+125
+00:04:36,919 --> 00:04:40,080
+and we often refer to that as the
+
+126
+00:04:38,120 --> 00:04:41,400
+embodied carbon footprint but this is
+
+127
+00:04:40,080 --> 00:04:44,240
+how much carbon has gone into the
+
+128
+00:04:41,400 --> 00:04:45,600
+manufacturing of these processors and we
+
+129
+00:04:44,240 --> 00:04:47,880
+actually don't know anything about that
+
+130
+00:04:45,600 --> 00:04:49,840
+I actually lead a subgroup within uh an
+
+131
+00:04:47,880 --> 00:04:53,120
+organization called the open compute
+
+132
+00:04:49,840 --> 00:04:55,320
+project or the ocp and all we ended up
+
+133
+00:04:53,120 --> 00:04:56,759
+with is we don't know uh and we had
+
+134
+00:04:55,320 --> 00:04:58,600
+contributions from these different
+
+135
+00:04:56,759 --> 00:05:00,160
+organizations and there's a little bit
+
+136
+00:04:58,600 --> 00:05:01,680
+of people don't want to share there's a
+
+137
+00:05:00,160 --> 00:05:03,639
+lot of we don't know the full supply
+
+138
+00:05:01,680 --> 00:05:06,080
+chain and where it comes from but this
+
+139
+00:05:03,639 --> 00:05:08,199
+is another contributor and so while the
+
+140
+00:05:06,080 --> 00:05:09,639
+arguments often made that hey let's get
+
+141
+00:05:08,199 --> 00:05:11,840
+you know using a more efficient
+
+142
+00:05:09,639 --> 00:05:14,880
+processor right going from a V100 to an
+
+143
+00:05:11,840 --> 00:05:16,800
+h100 in theory should reduce the envir
+
+144
+00:05:14,880 --> 00:05:18,280
+operational environmental footprint we
+
+145
+00:05:16,800 --> 00:05:19,400
+don't know what the embodied cost of
+
+146
+00:05:18,280 --> 00:05:22,199
+that is to figure out when those
+
+147
+00:05:19,400 --> 00:05:24,600
+crossover points occur but I like to
+
+148
+00:05:22,199 --> 00:05:26,960
+think about this as you know I think in
+
+149
+00:05:24,600 --> 00:05:29,120
+a very conservative Way by using just
+
+150
+00:05:26,960 --> 00:05:31,560
+some of really simple techniques we
+
+151
+00:05:29,120 --> 00:05:33,720
+should be able or shave off you know 10
+
+152
+00:05:31,560 --> 00:05:35,800
+to 20% of this energy demand which would
+
+153
+00:05:33,720 --> 00:05:37,720
+then translate to roughly 1 to 2% of the
+
+154
+00:05:35,800 --> 00:05:39,720
+global electricity demand which I think
+
+155
+00:05:37,720 --> 00:05:42,560
+is pretty exciting and this is without
+
+156
+00:05:39,720 --> 00:05:45,400
+doing anything uh too crazy or too
+
+157
+00:05:42,560 --> 00:05:46,720
+wacky and the reason for this is and we
+
+158
+00:05:45,400 --> 00:05:48,400
+talk about this growth is because of
+
+159
+00:05:46,720 --> 00:05:50,160
+training and inference and there's a lot
+
+160
+00:05:48,400 --> 00:05:53,199
+of anecdotes and I have a few over here
+
+161
+00:05:50,160 --> 00:05:56,000
+you know training gpt3 emitted what 500
+
+162
+00:05:53,199 --> 00:05:57,440
+metric tons of carbon dioxide equivalent
+
+163
+00:05:56,000 --> 00:06:00,919
+um you know some great papers that have
+
+164
+00:05:57,440 --> 00:06:04,240
+come out using GPT 4 for every 100 words
+
+165
+00:06:00,919 --> 00:06:06,240
+consumes three bottles of water uh if
+
+166
+00:06:04,240 --> 00:06:09,199
+you have some of the work that we did if
+
+167
+00:06:06,240 --> 00:06:10,840
+you do about a million tokens of GPT
+
+168
+00:06:09,199 --> 00:06:13,440
+right which is about a bucks worth of
+
+169
+00:06:10,840 --> 00:06:15,440
+compute uh that's like driving a gas car
+
+170
+00:06:13,440 --> 00:06:18,080
+5 to 20 miles in terms of carbon
+
+171
+00:06:15,440 --> 00:06:20,199
+emissions um you know another great uh
+
+172
+00:06:18,080 --> 00:06:22,160
+anecdote that I love is every time you
+
+173
+00:06:20,199 --> 00:06:24,960
+mess around with stability or you try to
+
+174
+00:06:22,160 --> 00:06:27,680
+create an image on that uh that's like
+
+175
+00:06:24,960 --> 00:06:29,240
+charging your cell phone and so on the
+
+176
+00:06:27,680 --> 00:06:32,120
+training side while the numbers are
+
+177
+00:06:29,240 --> 00:06:33,840
+large on an individual case and so 500
+
+178
+00:06:32,120 --> 00:06:35,160
+metric tons of carbon dioxide obviously
+
+179
+00:06:33,840 --> 00:06:37,759
+is quite large and you look at some of
+
+180
+00:06:35,160 --> 00:06:41,520
+these newer models multiply that by 10
+
+181
+00:06:37,759 --> 00:06:42,840
+to 20x um the inference side is probably
+
+182
+00:06:41,520 --> 00:06:44,479
+the one that's going to cause us a lot
+
+183
+00:06:42,840 --> 00:06:46,520
+more trouble and heartache in the future
+
+184
+00:06:44,479 --> 00:06:48,759
+just for a couple of reasons one is the
+
+185
+00:06:46,520 --> 00:06:50,880
+scale at which it happens right charging
+
+186
+00:06:48,759 --> 00:06:53,280
+a cell phone you know making an image
+
+187
+00:06:50,880 --> 00:06:56,000
+how many millions or billions of times
+
+188
+00:06:53,280 --> 00:06:58,160
+does that action occur or how many
+
+189
+00:06:56,000 --> 00:07:00,639
+people are routinely interacting with a
+
+190
+00:06:58,160 --> 00:07:03,759
+large language model uh or creating a
+
+191
+00:07:00,639 --> 00:07:06,440
+new video right like using Sora and what
+
+192
+00:07:03,759 --> 00:07:08,440
+is the environmental impact of that and
+
+193
+00:07:06,440 --> 00:07:09,800
+a lot of this is we need to measure it
+
+194
+00:07:08,440 --> 00:07:11,039
+we need to get a better understanding so
+
+195
+00:07:09,800 --> 00:07:13,240
+there's some great anecdotes that you
+
+196
+00:07:11,039 --> 00:07:15,080
+can work with but at a large scale it's
+
+197
+00:07:13,240 --> 00:07:17,160
+still not fully
+
+198
+00:07:15,080 --> 00:07:19,560
+understood and I like to think of this
+
+199
+00:07:17,160 --> 00:07:22,160
+even beyond the environmental impact
+
+200
+00:07:19,560 --> 00:07:24,080
+it's always great when we're able to you
+
+201
+00:07:22,160 --> 00:07:26,440
+know and coming in from you know the the
+
+202
+00:07:24,080 --> 00:07:28,840
+startup side there is this huge
+
+203
+00:07:26,440 --> 00:07:32,440
+opportunity where we can reduce the
+
+204
+00:07:28,840 --> 00:07:34,639
+energy and environmental impact of AI
+
+205
+00:07:32,440 --> 00:07:36,759
+and also have economic incentives to do
+
+206
+00:07:34,639 --> 00:07:39,240
+so so this isn't a huge capex that you
+
+207
+00:07:36,759 --> 00:07:41,000
+need to invest to cut down your energy
+
+208
+00:07:39,240 --> 00:07:43,160
+emissions but you can employ some of
+
+209
+00:07:41,000 --> 00:07:45,039
+these techniques and cut your Opex cut
+
+210
+00:07:43,160 --> 00:07:47,759
+your cut your own bill and so there's
+
+211
+00:07:45,039 --> 00:07:50,400
+this great opportunity to align our
+
+212
+00:07:47,759 --> 00:07:52,080
+incentives in terms of making money
+
+213
+00:07:50,400 --> 00:07:53,680
+along with helping the environment and
+
+214
+00:07:52,080 --> 00:07:55,639
+this it's very rare that you see a
+
+215
+00:07:53,680 --> 00:07:57,240
+problem where you can do good and make
+
+216
+00:07:55,639 --> 00:07:59,240
+money at the same time and so I just
+
+217
+00:07:57,240 --> 00:08:03,159
+wanted to mention that uh for those that
+
+218
+00:07:59,240 --> 00:08:04,720
+are looking to move this up to chain uh
+
+219
+00:08:03,159 --> 00:08:06,720
+but it's often there's another argument
+
+220
+00:08:04,720 --> 00:08:09,840
+that you can make uh where you're able
+
+221
+00:08:06,720 --> 00:08:12,159
+to talk about cost savings uh or imp
+
+222
+00:08:09,840 --> 00:08:13,639
+Improvement of Roi rather than just
+
+223
+00:08:12,159 --> 00:08:16,000
+saving the environment which you know I
+
+224
+00:08:13,639 --> 00:08:17,680
+love to talk about the environment but a
+
+225
+00:08:16,000 --> 00:08:20,560
+lot of people you know it's it's a nice
+
+226
+00:08:17,680 --> 00:08:23,560
+end uh piece but not the first
+
+227
+00:08:20,560 --> 00:08:25,720
+one so I can tell you from my experience
+
+228
+00:08:23,560 --> 00:08:27,479
+I can't buy data center space anymore I
+
+229
+00:08:25,720 --> 00:08:29,520
+I often in the market for 1 to two
+
+230
+00:08:27,479 --> 00:08:30,879
+megawatts of power right we have
+
+231
+00:08:29,520 --> 00:08:33,519
+relatively small so we're not doing
+
+232
+00:08:30,879 --> 00:08:37,279
+gigawatt size deployments but it's very
+
+233
+00:08:33,519 --> 00:08:39,839
+tough to find them uh most Enterprises
+
+234
+00:08:37,279 --> 00:08:42,640
+including probably many of you here are
+
+235
+00:08:39,839 --> 00:08:44,039
+severely overpaying for the resources
+
+236
+00:08:42,640 --> 00:08:47,440
+that you're using you have overr
+
+237
+00:08:44,039 --> 00:08:48,680
+provisioned probably by 5 to 10x because
+
+238
+00:08:47,440 --> 00:08:50,880
+you don't know what you're uh
+
+239
+00:08:48,680 --> 00:08:52,880
+necessarily using and what the actual
+
+240
+00:08:50,880 --> 00:08:54,800
+mapping between the hardware and your
+
+241
+00:08:52,880 --> 00:08:56,399
+workloads are so you're often buying
+
+242
+00:08:54,800 --> 00:08:58,640
+something that's much larger and you're
+
+243
+00:08:56,399 --> 00:09:01,240
+grabbing it because you can and then
+
+244
+00:08:58,640 --> 00:09:03,640
+there is a a a break in this value chain
+
+245
+00:09:01,240 --> 00:09:05,720
+because all of these individual pieces
+
+246
+00:09:03,640 --> 00:09:07,920
+are separate from each other and there's
+
+247
+00:09:05,720 --> 00:09:10,240
+no interconnectivity across all of these
+
+248
+00:09:07,920 --> 00:09:12,560
+so you have energy companies that are
+
+249
+00:09:10,240 --> 00:09:15,279
+trying to work with data centers who are
+
+250
+00:09:12,560 --> 00:09:16,839
+then trying to work with AI companies
+
+251
+00:09:15,279 --> 00:09:18,800
+and none of these groups are actually
+
+252
+00:09:16,839 --> 00:09:20,360
+sharing information with each other and
+
+253
+00:09:18,800 --> 00:09:22,519
+so they're all making these sort of
+
+254
+00:09:20,360 --> 00:09:24,880
+Oddball assumptions that are not true
+
+255
+00:09:22,519 --> 00:09:27,000
+and everyone's dropping a lot of
+
+256
+00:09:24,880 --> 00:09:29,680
+resources on the floor because of
+
+257
+00:09:27,000 --> 00:09:32,200
+that but there are a few things that you
+
+258
+00:09:29,680 --> 00:09:34,560
+can do about this right so first of all
+
+259
+00:09:32,200 --> 00:09:37,720
+if we could get the energy Data Center
+
+260
+00:09:34,560 --> 00:09:39,160
+and uh AI companies together there is
+
+261
+00:09:37,720 --> 00:09:41,079
+this huge opportunity for cross
+
+262
+00:09:39,160 --> 00:09:42,640
+optimization across these and this is
+
+263
+00:09:41,079 --> 00:09:44,560
+some work that the hyperscalers are
+
+264
+00:09:42,640 --> 00:09:47,279
+doing so you're thinking of you know the
+
+265
+00:09:44,560 --> 00:09:49,200
+Amazon and the Googles but not something
+
+266
+00:09:47,279 --> 00:09:50,880
+that most other companies uh have the
+
+267
+00:09:49,200 --> 00:09:53,760
+ability because they don't actually cut
+
+268
+00:09:50,880 --> 00:09:55,120
+across all of those components as well
+
+269
+00:09:53,760 --> 00:09:56,600
+the second is that we can use
+
+270
+00:09:55,120 --> 00:09:59,160
+intelligent energy reduction and
+
+271
+00:09:56,600 --> 00:10:01,800
+scheduling systems uh I think this came
+
+272
+00:09:59,160 --> 00:10:03,600
+up in the in the last talk but a lot of
+
+273
+00:10:01,800 --> 00:10:05,720
+things are not time sensitive and you
+
+274
+00:10:03,600 --> 00:10:07,600
+can have some huge carbon savings or
+
+275
+00:10:05,720 --> 00:10:09,560
+environmental or Energy savings if
+
+276
+00:10:07,600 --> 00:10:12,399
+you're willing to move shift times or
+
+277
+00:10:09,560 --> 00:10:14,200
+shift Geographic zones also think that
+
+278
+00:10:12,399 --> 00:10:18,160
+you need to be able to make your
+
+279
+00:10:14,200 --> 00:10:21,160
+software uh and AI carbon aware there is
+
+280
+00:10:18,160 --> 00:10:24,720
+a huge variation in carbon uh emissions
+
+281
+00:10:21,160 --> 00:10:26,360
+and carbon uh uh impact through the day
+
+282
+00:10:24,720 --> 00:10:27,839
+through the year there's some great
+
+283
+00:10:26,360 --> 00:10:30,000
+opportunities there to make your
+
+284
+00:10:27,839 --> 00:10:31,360
+software platforms under understand that
+
+285
+00:10:30,000 --> 00:10:33,240
+and work with it and I'll give an
+
+286
+00:10:31,360 --> 00:10:35,200
+example of that and I think that there's
+
+287
+00:10:33,240 --> 00:10:37,000
+also you know using AI to help the
+
+288
+00:10:35,200 --> 00:10:38,760
+climate as well is another opportunity I
+
+289
+00:10:37,000 --> 00:10:41,279
+just wanted to highlight one which I
+
+290
+00:10:38,760 --> 00:10:42,240
+think is super cool this is actually a a
+
+291
+00:10:41,279 --> 00:10:44,000
+company that was working with our
+
+292
+00:10:42,240 --> 00:10:46,959
+startup they uh designed a model called
+
+293
+00:10:44,000 --> 00:10:49,279
+climate GPT uh and what they did is they
+
+294
+00:10:46,959 --> 00:10:51,200
+took a bunch of scientific literature
+
+295
+00:10:49,279 --> 00:10:53,920
+and they trained a model and they had
+
+296
+00:10:51,200 --> 00:10:55,519
+two sort of levels of impact here one
+
+297
+00:10:53,920 --> 00:10:57,079
+was they were able to achieve the same
+
+298
+00:10:55,519 --> 00:10:59,519
+level of performance with a model that
+
+299
+00:10:57,079 --> 00:11:01,639
+was about a tenth of the size of a
+
+300
+00:10:59,519 --> 00:11:04,000
+larger model which wasn't fine-tuned or
+
+301
+00:11:01,639 --> 00:11:06,000
+specifically trained on this data set
+
+302
+00:11:04,000 --> 00:11:08,240
+and the second is it is one of the only
+
+303
+00:11:06,000 --> 00:11:11,839
+models that's trained with scientific
+
+304
+00:11:08,240 --> 00:11:13,839
+data from the ground up in uh actually
+
+305
+00:11:11,839 --> 00:11:16,079
+answering questions related to climate
+
+306
+00:11:13,839 --> 00:11:19,079
+change and so helping shed a light and
+
+307
+00:11:16,079 --> 00:11:21,839
+answering questions uh with scientific
+
+308
+00:11:19,079 --> 00:11:24,680
+uh papers and references so people can
+
+309
+00:11:21,839 --> 00:11:27,320
+actually use that for for their
+
+310
+00:11:24,680 --> 00:11:28,639
+work all right so I just want to do a
+
+311
+00:11:27,320 --> 00:11:30,560
+quick thing on you know how do we even
+
+312
+00:11:28,639 --> 00:11:33,320
+measure the carbon footprint of a data
+
+313
+00:11:30,560 --> 00:11:35,320
+center uh I will uh you know uh be the
+
+314
+00:11:33,320 --> 00:11:36,720
+first to admit that this is high level
+
+315
+00:11:35,320 --> 00:11:38,680
+uh this is not meant to be super
+
+316
+00:11:36,720 --> 00:11:40,120
+detailed uh but if you kind of look at
+
+317
+00:11:38,680 --> 00:11:42,079
+the total carbon footprint of your
+
+318
+00:11:40,120 --> 00:11:43,800
+system at a high level you break it up
+
+319
+00:11:42,079 --> 00:11:46,000
+into two pieces which is what I call the
+
+320
+00:11:43,800 --> 00:11:48,920
+embodied from most organizations that
+
+321
+00:11:46,000 --> 00:11:50,959
+would be your ghd protocol scope 3 uh as
+
+322
+00:11:48,920 --> 00:11:52,519
+well as your operational footprint which
+
+323
+00:11:50,959 --> 00:11:54,639
+again for most organizations that are
+
+324
+00:11:52,519 --> 00:11:56,800
+not running these systems themselves
+
+325
+00:11:54,639 --> 00:11:58,839
+that's your scope to emissions within
+
+326
+00:11:56,800 --> 00:12:00,160
+the embodied footprint uh you have
+
+327
+00:11:58,839 --> 00:12:02,279
+things like chip
+
+328
+00:12:00,160 --> 00:12:04,680
+manufacturing um storage and memory
+
+329
+00:12:02,279 --> 00:12:06,160
+manufacturing component networking all
+
+330
+00:12:04,680 --> 00:12:08,639
+of those different so think of all of
+
+331
+00:12:06,160 --> 00:12:10,240
+the materials transportation all of that
+
+332
+00:12:08,639 --> 00:12:13,440
+falls into embodied and on the
+
+333
+00:12:10,240 --> 00:12:15,000
+operational side is your how much energy
+
+334
+00:12:13,440 --> 00:12:16,720
+is actually being used by your compute
+
+335
+00:12:15,000 --> 00:12:18,399
+or your data center what's the carbon
+
+336
+00:12:16,720 --> 00:12:20,279
+intensity of the grid what is the
+
+337
+00:12:18,399 --> 00:12:21,920
+specific application usage and how is
+
+338
+00:12:20,279 --> 00:12:24,279
+that varying over
+
+339
+00:12:21,920 --> 00:12:26,800
+time if you're trying to calculate the
+
+340
+00:12:24,279 --> 00:12:28,760
+operational footprint it's usually one
+
+341
+00:12:26,800 --> 00:12:31,560
+of the most common ratios you'll hear is
+
+342
+00:12:28,760 --> 00:12:33,600
+something called Pue or power usage
+
+343
+00:12:31,560 --> 00:12:35,320
+Effectiveness this is the amount of
+
+344
+00:12:33,600 --> 00:12:38,519
+energy that goes into operating a Data
+
+345
+00:12:35,320 --> 00:12:41,440
+Center and it's often a ratio that's
+
+346
+00:12:38,519 --> 00:12:44,000
+called Pue is often shared I have my
+
+347
+00:12:41,440 --> 00:12:45,560
+qualms with that particular metric but
+
+348
+00:12:44,000 --> 00:12:47,480
+it's it's a very common metric that's
+
+349
+00:12:45,560 --> 00:12:49,760
+used to indicate how efficient or
+
+350
+00:12:47,480 --> 00:12:51,199
+inefficient a system is one of the most
+
+351
+00:12:49,760 --> 00:12:53,639
+efficient data centers you'll you'll
+
+352
+00:12:51,199 --> 00:12:55,279
+come across will be close to about one
+
+353
+00:12:53,639 --> 00:12:57,519
+um probably a little bit over that and
+
+354
+00:12:55,279 --> 00:12:59,480
+then your global average is about 1.58
+
+355
+00:12:57,519 --> 00:13:02,040
+which means about 50% of the energ is
+
+356
+00:12:59,480 --> 00:13:04,440
+going towards non-computing tasks such
+
+357
+00:13:02,040 --> 00:13:07,360
+as cooling or other ancillary tasks that
+
+358
+00:13:04,440 --> 00:13:09,120
+a data center might have and so we talk
+
+359
+00:13:07,360 --> 00:13:10,440
+to a lot of organizations and like oh
+
+360
+00:13:09,120 --> 00:13:13,079
+that's easy I can cut my operational
+
+361
+00:13:10,440 --> 00:13:15,199
+footprint to zero and how how are you
+
+362
+00:13:13,079 --> 00:13:16,760
+doing that so they want to use renewable
+
+363
+00:13:15,199 --> 00:13:18,639
+energy or there's a lot of accounting
+
+364
+00:13:16,760 --> 00:13:20,360
+tricks that people can also do in order
+
+365
+00:13:18,639 --> 00:13:22,800
+to make that happen and I think that's
+
+366
+00:13:20,360 --> 00:13:26,880
+certainly a worthy Endeavor I do like to
+
+367
+00:13:22,800 --> 00:13:28,440
+argue though that at any given time
+
+368
+00:13:26,880 --> 00:13:30,920
+moving to Renewables is somewhat of a
+
+369
+00:13:28,440 --> 00:13:32,720
+zero sum game in that you using more
+
+370
+00:13:30,920 --> 00:13:35,279
+renewable for your data center just
+
+371
+00:13:32,720 --> 00:13:37,760
+makes it either more expensive or less
+
+372
+00:13:35,279 --> 00:13:39,399
+available uh at that given time so it's
+
+373
+00:13:37,760 --> 00:13:41,760
+not reducing the carbon emissions at
+
+374
+00:13:39,399 --> 00:13:44,240
+that moment it makes you feel good and
+
+375
+00:13:41,760 --> 00:13:45,800
+it is a demand signal to the energy grid
+
+376
+00:13:44,240 --> 00:13:48,639
+that hey we would like to invest in this
+
+377
+00:13:45,800 --> 00:13:50,240
+so I think it's absolutely worthwhile
+
+378
+00:13:48,639 --> 00:13:52,279
+but we think that that's shouldn't be
+
+379
+00:13:50,240 --> 00:13:53,800
+the only answer and in fact we think
+
+380
+00:13:52,279 --> 00:13:55,959
+that the aim should be to reduce the
+
+381
+00:13:53,800 --> 00:13:59,480
+energy use and not just shift to
+
+382
+00:13:55,959 --> 00:13:59,480
+renewable energy
+
+383
+00:14:00,000 --> 00:14:04,199
+and the other piece which I talked about
+
+384
+00:14:01,399 --> 00:14:06,000
+earlier is the embodied footprint uh so
+
+385
+00:14:04,199 --> 00:14:07,959
+one of the efforts that we've been
+
+386
+00:14:06,000 --> 00:14:10,680
+trying to to work and you know this is
+
+387
+00:14:07,959 --> 00:14:12,959
+with the open compute project uh is
+
+388
+00:14:10,680 --> 00:14:15,079
+actually lead a group in trying to
+
+389
+00:14:12,959 --> 00:14:16,759
+standardize some of this information it
+
+390
+00:14:15,079 --> 00:14:18,800
+turns out that it is possible to
+
+391
+00:14:16,759 --> 00:14:22,800
+calculate the embodied carbon footprint
+
+392
+00:14:18,800 --> 00:14:24,560
+to some level of accuracy um however
+
+393
+00:14:22,800 --> 00:14:27,560
+there is no standardized metric and so
+
+394
+00:14:24,560 --> 00:14:30,040
+we often make these very uh broad
+
+395
+00:14:27,560 --> 00:14:32,120
+assumptions about oh you must be in this
+
+396
+00:14:30,040 --> 00:14:33,800
+energy Grid in so that must be the or
+
+397
+00:14:32,120 --> 00:14:35,800
+you must be using this etching process
+
+398
+00:14:33,800 --> 00:14:36,800
+so that must be the footprint of that
+
+399
+00:14:35,800 --> 00:14:38,839
+what we're trying to work with the
+
+400
+00:14:36,800 --> 00:14:41,120
+industry in the community is to see if
+
+401
+00:14:38,839 --> 00:14:42,959
+we can standardize some of these terms
+
+402
+00:14:41,120 --> 00:14:45,120
+so that we can make more of these Apples
+
+403
+00:14:42,959 --> 00:14:47,320
+to Apples comparisons because a lot of
+
+404
+00:14:45,120 --> 00:14:49,440
+organizations would like to know hey
+
+405
+00:14:47,320 --> 00:14:51,120
+should I be upgrading my uh processors
+
+406
+00:14:49,440 --> 00:14:53,279
+or should I keep it at the same here's
+
+407
+00:14:51,120 --> 00:14:56,360
+how much usage I have and here's the
+
+408
+00:14:53,279 --> 00:14:57,680
+carbon cost of a new one uh that's the
+
+409
+00:14:56,360 --> 00:14:59,839
+kind of information that we're trying to
+
+410
+00:14:57,680 --> 00:15:01,720
+get off of organizations still I think
+
+411
+00:14:59,839 --> 00:15:03,680
+work to go there um but there is an
+
+412
+00:15:01,720 --> 00:15:06,360
+opportunity and especially for people
+
+413
+00:15:03,680 --> 00:15:08,680
+that are buying a lot of processors to
+
+414
+00:15:06,360 --> 00:15:10,320
+tell your vendors that this is
+
+415
+00:15:08,680 --> 00:15:12,880
+information you want it's again it's
+
+416
+00:15:10,320 --> 00:15:15,160
+about creating that demand signal uh and
+
+417
+00:15:12,880 --> 00:15:17,320
+ensuring that while there's been this
+
+418
+00:15:15,160 --> 00:15:19,839
+arms race of building larger and larger
+
+419
+00:15:17,320 --> 00:15:21,560
+systems can we actually convince them to
+
+420
+00:15:19,839 --> 00:15:24,199
+like hey just pause for a second and
+
+421
+00:15:21,560 --> 00:15:26,759
+give us some of this additional
+
+422
+00:15:24,199 --> 00:15:28,160
+information all right so I I know I just
+
+423
+00:15:26,759 --> 00:15:30,399
+covered a whole bunch of stuff there
+
+424
+00:15:28,160 --> 00:15:33,240
+real quick um but now I want to talk to
+
+425
+00:15:30,399 --> 00:15:35,399
+you about all right AI sucks it's bad
+
+426
+00:15:33,240 --> 00:15:37,399
+for the environment okay there's a lot
+
+427
+00:15:35,399 --> 00:15:39,880
+of ways that it it hurts us but are
+
+428
+00:15:37,399 --> 00:15:42,120
+there things that we can actually do to
+
+429
+00:15:39,880 --> 00:15:44,480
+reduce this footprint and I'm going to
+
+430
+00:15:42,120 --> 00:15:46,880
+just pick a few things over here there's
+
+431
+00:15:44,480 --> 00:15:48,560
+obviously dozens of things or hundreds
+
+432
+00:15:46,880 --> 00:15:50,560
+of things that you could possibly do in
+
+433
+00:15:48,560 --> 00:15:52,240
+this space I just wanted to talk about a
+
+434
+00:15:50,560 --> 00:15:55,040
+few things that we're doing within my
+
+435
+00:15:52,240 --> 00:15:56,959
+group at MIT to actually reduce the data
+
+436
+00:15:55,040 --> 00:15:59,480
+center footprint a lot of this was
+
+437
+00:15:56,959 --> 00:16:02,079
+actually was created by necessity about
+
+438
+00:15:59,480 --> 00:16:04,440
+a few this is somewhere Co so what four
+
+439
+00:16:02,079 --> 00:16:06,040
+years ago now we had a huge heat wave in
+
+440
+00:16:04,440 --> 00:16:09,240
+the summer and we were struggling to
+
+441
+00:16:06,040 --> 00:16:11,040
+keep our super computer running um and
+
+442
+00:16:09,240 --> 00:16:13,360
+the cooling demand was growing very
+
+443
+00:16:11,040 --> 00:16:15,560
+quickly uh and so we started to think
+
+444
+00:16:13,360 --> 00:16:17,440
+about can we do something for ourselves
+
+445
+00:16:15,560 --> 00:16:19,680
+because this is is kind of nuts right uh
+
+446
+00:16:17,440 --> 00:16:21,319
+it was one of those hot jues and so we
+
+447
+00:16:19,680 --> 00:16:23,319
+started to investigate different
+
+448
+00:16:21,319 --> 00:16:26,360
+techniques and that sort of kicked off
+
+449
+00:16:23,319 --> 00:16:29,319
+this whole area of research which we
+
+450
+00:16:26,360 --> 00:16:31,600
+absolutely you know dog food ourselves
+
+451
+00:16:29,319 --> 00:16:32,480
+uh but has also had value even outside
+
+452
+00:16:31,600 --> 00:16:35,399
+of our
+
+453
+00:16:32,480 --> 00:16:36,959
+organization and so you know some really
+
+454
+00:16:35,399 --> 00:16:39,279
+highlevel ways right if you want to
+
+455
+00:16:36,959 --> 00:16:41,639
+reduce your data center footprint what
+
+456
+00:16:39,279 --> 00:16:43,800
+can you do reduce the amount of compute
+
+457
+00:16:41,639 --> 00:16:45,440
+that you have okay there's obvious many
+
+458
+00:16:43,800 --> 00:16:47,880
+ways in which you could do that you
+
+459
+00:16:45,440 --> 00:16:49,319
+could reduce the energy intensity of the
+
+460
+00:16:47,880 --> 00:16:51,079
+compute right so you're trying to do the
+
+461
+00:16:49,319 --> 00:16:54,040
+same task but maybe make it a little bit
+
+462
+00:16:51,079 --> 00:16:57,519
+more energy efficient replace that uh
+
+463
+00:16:54,040 --> 00:16:59,639
+bulb with an LED bulb for example or you
+
+464
+00:16:57,519 --> 00:17:02,800
+could use lower carbon power maybe I can
+
+465
+00:16:59,639 --> 00:17:04,799
+Tri shift my uh training to a geographic
+
+466
+00:17:02,800 --> 00:17:06,919
+location that has less carbon intensity
+
+467
+00:17:04,799 --> 00:17:08,400
+or maybe I could find a time of day
+
+468
+00:17:06,919 --> 00:17:10,480
+that's a little less carbon intense if
+
+469
+00:17:08,400 --> 00:17:13,480
+it's a short task or maybe I could
+
+470
+00:17:10,480 --> 00:17:16,240
+switch in a a cheaper model instead of
+
+471
+00:17:13,480 --> 00:17:17,799
+uh using this huge model at when I'm at
+
+472
+00:17:16,240 --> 00:17:20,280
+these carbon intense
+
+473
+00:17:17,799 --> 00:17:21,839
+times so I'll just give you a couple of
+
+474
+00:17:20,280 --> 00:17:23,199
+really quick examples we have a lot of
+
+475
+00:17:21,839 --> 00:17:24,640
+papers that we've written about this
+
+476
+00:17:23,199 --> 00:17:27,160
+topic most of the software is open
+
+477
+00:17:24,640 --> 00:17:29,720
+source uh and happy to to share this or
+
+478
+00:17:27,160 --> 00:17:31,320
+have a discussion after this as well
+
+479
+00:17:29,720 --> 00:17:33,280
+so I just want to talk about the model
+
+480
+00:17:31,320 --> 00:17:34,640
+training process that many of us go
+
+481
+00:17:33,280 --> 00:17:36,320
+through and the example that I'm going
+
+482
+00:17:34,640 --> 00:17:38,480
+to use here was used for a drug
+
+483
+00:17:36,320 --> 00:17:40,760
+Discovery problem and so we were
+
+484
+00:17:38,480 --> 00:17:42,640
+training you know graph neural networks
+
+485
+00:17:40,760 --> 00:17:43,880
+uh for material Discovery and Drug
+
+486
+00:17:42,640 --> 00:17:45,559
+Discovery right so you're trying to find
+
+487
+00:17:43,880 --> 00:17:47,919
+you know what molecules or what
+
+488
+00:17:45,559 --> 00:17:50,400
+materials do you put next to each other
+
+489
+00:17:47,919 --> 00:17:52,600
+uh in order to make a viable drug or a
+
+490
+00:17:50,400 --> 00:17:54,960
+viable material given certain properties
+
+491
+00:17:52,600 --> 00:17:57,640
+that you'd like to satisfy traditional
+
+492
+00:17:54,960 --> 00:17:59,760
+way we do this is we take a thousand of
+
+493
+00:17:57,640 --> 00:18:01,640
+these candidates and we run them all and
+
+494
+00:17:59,760 --> 00:18:04,200
+see what happens and oh yep that that
+
+495
+00:18:01,640 --> 00:18:06,120
+one model was really good let's keep it
+
+496
+00:18:04,200 --> 00:18:08,520
+the rest yeah sure I learned a lesson
+
+497
+00:18:06,120 --> 00:18:12,120
+but I I I really didn't need that
+
+498
+00:18:08,520 --> 00:18:14,200
+information and so we had this idea that
+
+499
+00:18:12,120 --> 00:18:18,039
+look there's a lot that goes on in this
+
+500
+00:18:14,200 --> 00:18:20,600
+training process could we not determine
+
+501
+00:18:18,039 --> 00:18:23,039
+much earlier that your models are
+
+502
+00:18:20,600 --> 00:18:24,720
+unlikely to yield success and so we
+
+503
+00:18:23,039 --> 00:18:27,120
+built this tool called training speed
+
+504
+00:18:24,720 --> 00:18:29,280
+estimation in which we actually track
+
+505
+00:18:27,120 --> 00:18:30,799
+the loss curve of the models that we're
+
+506
+00:18:29,280 --> 00:18:32,679
+training so instead of training now
+
+507
+00:18:30,799 --> 00:18:34,880
+these hundreds or thousands of models to
+
+508
+00:18:32,679 --> 00:18:36,640
+convergence or to completion we actually
+
+509
+00:18:34,880 --> 00:18:39,559
+train them partway usually about 10 to
+
+510
+00:18:36,640 --> 00:18:41,440
+20% but we track how the loss curve is
+
+511
+00:18:39,559 --> 00:18:43,360
+progressing and we can make some pretty
+
+512
+00:18:41,440 --> 00:18:45,840
+good predictions about what that
+
+513
+00:18:43,360 --> 00:18:48,640
+endstate converged accuracy is going to
+
+514
+00:18:45,840 --> 00:18:50,760
+look like so what that allows us to do
+
+515
+00:18:48,640 --> 00:18:53,520
+is only after about 10 to 20% of the
+
+516
+00:18:50,760 --> 00:18:55,080
+runs be able to eliminate essentially
+
+517
+00:18:53,520 --> 00:18:57,200
+all of the runs that are unlikely to
+
+518
+00:18:55,080 --> 00:18:59,120
+yield high performance unlikely to yield
+
+519
+00:18:57,200 --> 00:19:01,600
+good performance to instead f Fus our
+
+520
+00:18:59,120 --> 00:19:04,280
+computation on that 10 to 20% of the
+
+521
+00:19:01,600 --> 00:19:05,840
+models that are likely to yield higher
+
+522
+00:19:04,280 --> 00:19:08,679
+performance and so what that allows us
+
+523
+00:19:05,840 --> 00:19:09,400
+to do is quickly shave off about 80% of
+
+524
+00:19:08,679 --> 00:19:12,120
+the
+
+525
+00:19:09,400 --> 00:19:13,280
+compute with no impact to the end model
+
+526
+00:19:12,120 --> 00:19:15,400
+because again we're trying to highlight
+
+527
+00:19:13,280 --> 00:19:18,200
+that one or two different models that
+
+528
+00:19:15,400 --> 00:19:21,280
+are of value to us and so we've applied
+
+529
+00:19:18,200 --> 00:19:22,799
+this to a variety of problems and it's
+
+530
+00:19:21,280 --> 00:19:26,039
+actually given us some some really
+
+531
+00:19:22,799 --> 00:19:28,120
+exciting results uh and so this is a
+
+532
+00:19:26,039 --> 00:19:30,840
+graph neural network called schnet uh
+
+533
+00:19:28,120 --> 00:19:32,520
+which is used in material Discovery uh
+
+534
+00:19:30,840 --> 00:19:35,000
+what we have on this plot over here is
+
+535
+00:19:32,520 --> 00:19:38,000
+if you look at the this never works uh
+
+536
+00:19:35,000 --> 00:19:39,679
+on the uh xaxis here is the true loss so
+
+537
+00:19:38,000 --> 00:19:41,720
+if we actually ran this model to
+
+538
+00:19:39,679 --> 00:19:43,840
+convergence what would the loss be and
+
+539
+00:19:41,720 --> 00:19:46,720
+on the y- AIS is the predicted loss
+
+540
+00:19:43,840 --> 00:19:48,840
+after about 20% of the runs and so if we
+
+541
+00:19:46,720 --> 00:19:51,120
+were doing perfectly you should see all
+
+542
+00:19:48,840 --> 00:19:52,760
+the dots line up on that green line but
+
+543
+00:19:51,120 --> 00:19:54,120
+you can see that most of the dots are
+
+544
+00:19:52,760 --> 00:19:56,919
+right around that green line which means
+
+545
+00:19:54,120 --> 00:19:59,159
+in most cases we're able to pretty
+
+546
+00:19:56,919 --> 00:20:01,360
+closely predict what that true LW
+
+547
+00:19:59,159 --> 00:20:02,919
+would be with only about 10 to 20% of
+
+548
+00:20:01,360 --> 00:20:05,480
+the runs I think in this particular use
+
+549
+00:20:02,919 --> 00:20:07,919
+case it was 20% of the runs and so what
+
+550
+00:20:05,480 --> 00:20:09,640
+that allows us to do now is focus all
+
+551
+00:20:07,919 --> 00:20:11,919
+our computation just on these four or
+
+552
+00:20:09,640 --> 00:20:13,440
+five models that are in that lower box
+
+553
+00:20:11,919 --> 00:20:14,720
+right because they're still within that
+
+554
+00:20:13,440 --> 00:20:17,000
+error margin so we don't want to just
+
+555
+00:20:14,720 --> 00:20:18,559
+pick the top one but we can pick now the
+
+556
+00:20:17,000 --> 00:20:20,360
+the just three or four that are in that
+
+557
+00:20:18,559 --> 00:20:22,200
+little box where we believe that the
+
+558
+00:20:20,360 --> 00:20:25,280
+true loss and the predicted loss will be
+
+559
+00:20:22,200 --> 00:20:25,280
+as close to zero as
+
+560
+00:20:25,440 --> 00:20:30,559
+possible right so that's just one way so
+
+561
+00:20:28,840 --> 00:20:32,200
+you can think of that as let me just how
+
+562
+00:20:30,559 --> 00:20:33,520
+do I reduce the Demand right how do I
+
+563
+00:20:32,200 --> 00:20:35,840
+just reduce the amount of computing I
+
+564
+00:20:33,520 --> 00:20:38,200
+need to even build my models from now on
+
+565
+00:20:35,840 --> 00:20:40,280
+right so that's one approach uh another
+
+566
+00:20:38,200 --> 00:20:41,919
+thing that you can do is reduce the
+
+567
+00:20:40,280 --> 00:20:43,960
+intensity or the energy intensity this
+
+568
+00:20:41,919 --> 00:20:47,240
+is the replacing your bulb with an LED
+
+569
+00:20:43,960 --> 00:20:49,159
+bulb equivalent of uh things right so
+
+570
+00:20:47,240 --> 00:20:51,159
+one way you could do that is to make
+
+571
+00:20:49,159 --> 00:20:54,000
+your existing Hardware just magically
+
+572
+00:20:51,159 --> 00:20:55,440
+use less energy or less power um uh the
+
+573
+00:20:54,000 --> 00:20:57,559
+second thing that you can do is probably
+
+574
+00:20:55,440 --> 00:20:58,880
+use more efficient hardware and there's
+
+575
+00:20:57,559 --> 00:21:00,159
+I think both are are excellent
+
+576
+00:20:58,880 --> 00:21:02,799
+opportunities depending on what you're
+
+577
+00:21:00,159 --> 00:21:04,919
+trying to do we were really surprised
+
+578
+00:21:02,799 --> 00:21:06,840
+that that first one which is just making
+
+579
+00:21:04,919 --> 00:21:08,840
+existing Hardware use less energy
+
+580
+00:21:06,840 --> 00:21:10,440
+there's a very simple way of doing that
+
+581
+00:21:08,840 --> 00:21:13,480
+we just limit the amount of power that
+
+582
+00:21:10,440 --> 00:21:15,400
+goes to our processor we just tell it
+
+583
+00:21:13,480 --> 00:21:16,679
+I'm sorry you want 250 Watts we're going
+
+584
+00:21:15,400 --> 00:21:19,120
+to let you we're not going to let you
+
+585
+00:21:16,679 --> 00:21:20,760
+cross 150 watts for example and
+
+586
+00:21:19,120 --> 00:21:23,200
+obviously using more efficient Hardware
+
+587
+00:21:20,760 --> 00:21:25,120
+means newer systems that are better
+
+588
+00:21:23,200 --> 00:21:26,559
+designed for the workload uh that you're
+
+589
+00:21:25,120 --> 00:21:29,720
+trying to
+
+590
+00:21:26,559 --> 00:21:32,039
+process and so one of the super simple
+
+591
+00:21:29,720 --> 00:21:34,320
+techniques that you could like go home
+
+592
+00:21:32,039 --> 00:21:36,919
+and do today is something that we call
+
+593
+00:21:34,320 --> 00:21:38,520
+power capping uh and what we do here is
+
+594
+00:21:36,919 --> 00:21:41,640
+basically limit the amount of power
+
+595
+00:21:38,520 --> 00:21:43,200
+that's available to a processor and we
+
+596
+00:21:41,640 --> 00:21:45,760
+thought this is there's no way this can
+
+597
+00:21:43,200 --> 00:21:47,240
+work this is way too easy turns out it
+
+598
+00:21:45,760 --> 00:21:49,000
+works extremely well and we've been
+
+599
+00:21:47,240 --> 00:21:51,360
+running this on our supercomputer for
+
+600
+00:21:49,000 --> 00:21:52,799
+about two years now we've had a group
+
+601
+00:21:51,360 --> 00:21:54,600
+complain and it happens to one of the
+
+602
+00:21:52,799 --> 00:21:56,720
+groups we collaborate with so they
+
+603
+00:21:54,600 --> 00:21:58,640
+caught us but no one actually noticed
+
+604
+00:21:56,720 --> 00:22:00,440
+that we did this when we turned it on
+
+605
+00:21:58,640 --> 00:22:03,679
+and what we do by default is we actually
+
+606
+00:22:00,440 --> 00:22:06,240
+limit our uh processors our gpus which
+
+607
+00:22:03,679 --> 00:22:09,159
+is the vast majority about 70 to 80% of
+
+608
+00:22:06,240 --> 00:22:12,559
+the power goes to our gpus within our
+
+609
+00:22:09,159 --> 00:22:17,000
+system we we limit those to about 60 to
+
+610
+00:22:12,559 --> 00:22:19,640
+80% um of their total power so rather
+
+611
+00:22:17,000 --> 00:22:22,320
+than letting them go to to 100% we kind
+
+612
+00:22:19,640 --> 00:22:24,559
+of limit them and in many cases 150 to
+
+613
+00:22:22,320 --> 00:22:27,279
+250 Watts depending on which processor
+
+614
+00:22:24,559 --> 00:22:30,000
+we're using uh We've applied these to a
+
+615
+00:22:27,279 --> 00:22:32,080
+variety of both training and inference
+
+616
+00:22:30,000 --> 00:22:34,679
+uh and not only does it reduce the
+
+617
+00:22:32,080 --> 00:22:37,159
+overall power and energy consumption of
+
+618
+00:22:34,679 --> 00:22:39,360
+the workloads but it also reduces the
+
+619
+00:22:37,159 --> 00:22:40,720
+operating temperatures and we did a we
+
+620
+00:22:39,360 --> 00:22:42,559
+actually had an economist on the team
+
+621
+00:22:40,720 --> 00:22:44,400
+last year and did like a year-long
+
+622
+00:22:42,559 --> 00:22:46,880
+analysis of this power capping and how
+
+623
+00:22:44,400 --> 00:22:49,760
+it worked on our system um we were able
+
+624
+00:22:46,880 --> 00:22:52,799
+to show that uh we our gpus on average
+
+625
+00:22:49,760 --> 00:22:54,400
+run about 40° Fahrenheit cooler uh than
+
+626
+00:22:52,799 --> 00:22:56,400
+you would find if you didn't have this
+
+627
+00:22:54,400 --> 00:22:59,080
+technique installed or this technique
+
+628
+00:22:56,400 --> 00:23:01,159
+running and what that also allows us to
+
+629
+00:22:59,080 --> 00:23:02,360
+do is obviously reduce our cooling costs
+
+630
+00:23:01,159 --> 00:23:03,919
+but more importantly improves the
+
+631
+00:23:02,360 --> 00:23:05,919
+hardware reliability because running
+
+632
+00:23:03,919 --> 00:23:07,840
+your processor cooler means that they
+
+633
+00:23:05,919 --> 00:23:09,640
+can last a little bit longer which means
+
+634
+00:23:07,840 --> 00:23:11,960
+now our embodied carbon footprint goes
+
+635
+00:23:09,640 --> 00:23:14,640
+down so it's this wonderful little cycle
+
+636
+00:23:11,960 --> 00:23:16,000
+that we're able to see doing this uh and
+
+637
+00:23:14,640 --> 00:23:18,240
+we've you know applied this to a bunch
+
+638
+00:23:16,000 --> 00:23:19,559
+of problems and it's just it's it's
+
+639
+00:23:18,240 --> 00:23:21,240
+funny how this is such a simple
+
+640
+00:23:19,559 --> 00:23:23,720
+technique it was funny because I was
+
+641
+00:23:21,240 --> 00:23:26,200
+talking to you know we buy a lot of uh
+
+642
+00:23:23,720 --> 00:23:28,120
+pretty beefy gear in my startup right so
+
+643
+00:23:26,200 --> 00:23:29,400
+these are six U boxes that usually have
+
+644
+00:23:28,120 --> 00:23:32,279
+about
+
+645
+00:23:29,400 --> 00:23:34,360
+kilow in them power capping is Now
+
+646
+00:23:32,279 --> 00:23:36,159
+default when you're buying these dgx
+
+647
+00:23:34,360 --> 00:23:37,640
+type boxes because it turned out the
+
+648
+00:23:36,159 --> 00:23:39,799
+warranty Replacements because the
+
+649
+00:23:37,640 --> 00:23:42,400
+reliability was so bad so some of this
+
+650
+00:23:39,799 --> 00:23:43,840
+research is actually helping uh people
+
+651
+00:23:42,400 --> 00:23:45,960
+like y they actually come in with a
+
+652
+00:23:43,840 --> 00:23:47,559
+default power cap because what was
+
+653
+00:23:45,960 --> 00:23:49,360
+happening is one of the gpus would often
+
+654
+00:23:47,559 --> 00:23:50,880
+get unseated it turns into a warranty
+
+655
+00:23:49,360 --> 00:23:52,200
+thing and so they come with default you
+
+656
+00:23:50,880 --> 00:23:54,600
+can obviously turn it off it's a simple
+
+657
+00:23:52,200 --> 00:23:55,960
+setting uh that you can undo if you want
+
+658
+00:23:54,600 --> 00:23:57,919
+but we're seeing that people are
+
+659
+00:23:55,960 --> 00:23:59,480
+starting to actually send these boxes
+
+660
+00:23:57,919 --> 00:24:01,320
+out with some of this capping now
+
+661
+00:23:59,480 --> 00:24:03,960
+installed because it really does have
+
+662
+00:24:01,320 --> 00:24:05,520
+minimal impact uh to the workload but it
+
+663
+00:24:03,960 --> 00:24:07,279
+does have a very large impact to the
+
+664
+00:24:05,520 --> 00:24:09,080
+hardware and for those who are wondering
+
+665
+00:24:07,279 --> 00:24:11,600
+like how does this work it's like
+
+666
+00:24:09,080 --> 00:24:13,480
+driving a car uh at least that's the
+
+667
+00:24:11,600 --> 00:24:15,200
+analogy that we saw you can there's two
+
+668
+00:24:13,480 --> 00:24:16,960
+ways to get your gas mileage right if
+
+669
+00:24:15,200 --> 00:24:19,320
+you're trying to make a certain distance
+
+670
+00:24:16,960 --> 00:24:21,159
+you can go fast slow fast slow or you
+
+671
+00:24:19,320 --> 00:24:23,279
+can drive at a somewhat constant speed
+
+672
+00:24:21,159 --> 00:24:25,640
+and both might get you there about the
+
+673
+00:24:23,279 --> 00:24:27,320
+same amount of time but one of them has
+
+674
+00:24:25,640 --> 00:24:29,320
+far better efficiency and sort of the
+
+675
+00:24:27,320 --> 00:24:30,799
+same intuition behind what's going on
+
+676
+00:24:29,320 --> 00:24:33,120
+here but it has to do with like thermal
+
+677
+00:24:30,799 --> 00:24:34,840
+power caps and aggressive clocking that
+
+678
+00:24:33,120 --> 00:24:37,720
+the processors
+
+679
+00:24:34,840 --> 00:24:39,159
+have and then another thing obviously is
+
+680
+00:24:37,720 --> 00:24:41,320
+you could just find more efficient
+
+681
+00:24:39,159 --> 00:24:42,840
+Hardware if you're using a processor
+
+682
+00:24:41,320 --> 00:24:44,279
+that's 15 years old there's a good
+
+683
+00:24:42,840 --> 00:24:46,480
+chance that a modern processor will be
+
+684
+00:24:44,279 --> 00:24:49,080
+able to perform the same task at a much
+
+685
+00:24:46,480 --> 00:24:50,919
+better rate and this is a um this is a
+
+686
+00:24:49,080 --> 00:24:52,600
+survey that my group at MIT has been
+
+687
+00:24:50,919 --> 00:24:55,720
+running for the past four years where we
+
+688
+00:24:52,600 --> 00:24:58,799
+track various Hardware accelerators and
+
+689
+00:24:55,720 --> 00:25:00,559
+what we have is the peak power here as
+
+690
+00:24:58,799 --> 00:25:03,120
+well as the Peak Performance in Giga
+
+691
+00:25:00,559 --> 00:25:06,159
+operations per second
+
+692
+00:25:03,120 --> 00:25:08,760
+um uh and what we're able to do is
+
+693
+00:25:06,159 --> 00:25:11,360
+basically track these Trends and so if
+
+694
+00:25:08,760 --> 00:25:13,320
+your processor is on this line you might
+
+695
+00:25:11,360 --> 00:25:15,720
+find more performance by moving up one
+
+696
+00:25:13,320 --> 00:25:16,960
+of the lines if you're able to uh if
+
+697
+00:25:15,720 --> 00:25:18,840
+you're able to do that for your
+
+698
+00:25:16,960 --> 00:25:21,080
+processor There's an opportunity here as
+
+699
+00:25:18,840 --> 00:25:22,720
+well to replace older Hardware with
+
+700
+00:25:21,080 --> 00:25:24,360
+newer Hardware that is just inherently
+
+701
+00:25:22,720 --> 00:25:28,600
+more efficient that can perform more
+
+702
+00:25:24,360 --> 00:25:29,960
+operations per watt of computation
+
+703
+00:25:28,600 --> 00:25:31,600
+and then I just finally wanted to talk
+
+704
+00:25:29,960 --> 00:25:35,080
+really quickly about the final one which
+
+705
+00:25:31,600 --> 00:25:37,039
+is using lower carbon power um it turns
+
+706
+00:25:35,080 --> 00:25:39,440
+out if you're not familiar that your
+
+707
+00:25:37,039 --> 00:25:41,120
+carbon intensity varies significantly
+
+708
+00:25:39,440 --> 00:25:43,440
+over time and location so this is a
+
+709
+00:25:41,120 --> 00:25:46,640
+couple of plots over a 48 hour period
+
+710
+00:25:43,440 --> 00:25:48,080
+just showing the carbon intensity of two
+
+711
+00:25:46,640 --> 00:25:50,039
+sites one's in the United States the
+
+712
+00:25:48,080 --> 00:25:51,440
+other's in the United Kingdom uh over
+
+713
+00:25:50,039 --> 00:25:53,120
+two times of the year and you can see
+
+714
+00:25:51,440 --> 00:25:54,679
+that there is this probably not a huge
+
+715
+00:25:53,120 --> 00:25:56,840
+surprise a hot summer day tends to be
+
+716
+00:25:54,679 --> 00:25:58,640
+more carbon intense uh than a cold
+
+717
+00:25:56,840 --> 00:26:00,600
+winter day if you're in Boston and you
+
+718
+00:25:58,640 --> 00:26:03,520
+have you know hydroelectric and solar
+
+719
+00:26:00,600 --> 00:26:06,440
+and stuff like that so what we were
+
+720
+00:26:03,520 --> 00:26:08,159
+thinking about is can I actually like we
+
+721
+00:26:06,440 --> 00:26:09,480
+got to do something about our software
+
+722
+00:26:08,159 --> 00:26:11,039
+right like our software doesn't know any
+
+723
+00:26:09,480 --> 00:26:13,640
+of this our software pretends that it's
+
+724
+00:26:11,039 --> 00:26:16,880
+all the same can our software actually
+
+725
+00:26:13,640 --> 00:26:18,679
+start to use this in designing in in in
+
+726
+00:26:16,880 --> 00:26:20,919
+the way that it operates and so we built
+
+727
+00:26:18,679 --> 00:26:23,520
+a couple of tools uh one of them is
+
+728
+00:26:20,919 --> 00:26:26,640
+called Clover and the core idea is this
+
+729
+00:26:23,520 --> 00:26:29,200
+if it's super carbon intense outside use
+
+730
+00:26:26,640 --> 00:26:31,679
+either a lower quality model
+
+731
+00:26:29,200 --> 00:26:33,960
+slow down your answers do something
+
+732
+00:26:31,679 --> 00:26:35,320
+about it and if it's not carbon intense
+
+733
+00:26:33,960 --> 00:26:37,320
+it's a nice day you know great
+
+734
+00:26:35,320 --> 00:26:41,600
+Renewables you got a good mix Going On
+
+735
+00:26:37,320 --> 00:26:44,840
+sure use your use your model and that
+
+736
+00:26:41,600 --> 00:26:46,799
+actually has a a fairly large impact and
+
+737
+00:26:44,840 --> 00:26:48,480
+it's this is just the starting of This
+
+738
+00:26:46,799 --> 00:26:50,000
+research area to be completely honest
+
+739
+00:26:48,480 --> 00:26:52,360
+but I think the opportunities are very
+
+740
+00:26:50,000 --> 00:26:54,520
+large so we did one experiment with
+
+741
+00:26:52,360 --> 00:26:56,880
+computer vision uh and so this was an
+
+742
+00:26:54,520 --> 00:26:59,120
+object detection problem uh we took a
+
+743
+00:26:56,880 --> 00:27:01,080
+few different models one model was I
+
+744
+00:26:59,120 --> 00:27:02,640
+think YOLO V8 which is you know
+
+745
+00:27:01,080 --> 00:27:04,039
+state-of-the-art computer vision model
+
+746
+00:27:02,640 --> 00:27:05,760
+for object detection you know beats
+
+747
+00:27:04,039 --> 00:27:07,360
+humans all of that stuff and then we
+
+748
+00:27:05,760 --> 00:27:11,120
+took another model which is probably a
+
+749
+00:27:07,360 --> 00:27:12,919
+few years older not as good but
+
+750
+00:27:11,120 --> 00:27:15,880
+reasonable but definitely a smaller
+
+751
+00:27:12,919 --> 00:27:17,360
+model less energy intensive and what we
+
+752
+00:27:15,880 --> 00:27:19,240
+did was we took that data that I showed
+
+753
+00:27:17,360 --> 00:27:20,559
+you on the previous slide uh of the
+
+754
+00:27:19,240 --> 00:27:22,960
+energy intensity and said look if you're
+
+755
+00:27:20,559 --> 00:27:25,240
+in that Peak energy intensity period use
+
+756
+00:27:22,960 --> 00:27:27,520
+the lower quality model if you're not in
+
+757
+00:27:25,240 --> 00:27:28,720
+that Peak energy intensity time use the
+
+758
+00:27:27,520 --> 00:27:30,760
+full model
+
+759
+00:27:28,720 --> 00:27:32,440
+and what we were able to show in this
+
+760
+00:27:30,760 --> 00:27:34,760
+experiment is that we can reduce the
+
+761
+00:27:32,440 --> 00:27:38,279
+carbon intensity for different types of
+
+762
+00:27:34,760 --> 00:27:40,120
+operations by about 80 to 90% so it's
+
+763
+00:27:38,279 --> 00:27:41,760
+the carbon emissions with an overall
+
+764
+00:27:40,120 --> 00:27:45,240
+reduction and accuracy of this model
+
+765
+00:27:41,760 --> 00:27:47,399
+over a 48 hour period by about 2 to 4%
+
+766
+00:27:45,240 --> 00:27:48,840
+and you could obviously adjust these uh
+
+767
+00:27:47,399 --> 00:27:51,480
+up and down a little bit if you're like
+
+768
+00:27:48,840 --> 00:27:53,279
+well I can't lose 2% I can only lose 1%
+
+769
+00:27:51,480 --> 00:27:56,519
+sure you could do that also and you'd
+
+770
+00:27:53,279 --> 00:27:57,919
+still see uh similar you your uh carbon
+
+771
+00:27:56,519 --> 00:28:00,000
+reduction might go down a little bit but
+
+772
+00:27:57,919 --> 00:28:02,240
+it would still be non-trivial or pretty
+
+773
+00:28:00,000 --> 00:28:03,760
+significant and obviously large language
+
+774
+00:28:02,240 --> 00:28:05,640
+models are the coolest things and so we
+
+775
+00:28:03,760 --> 00:28:07,640
+did the same we took the same idea and
+
+776
+00:28:05,640 --> 00:28:09,600
+applied it to a large language model
+
+777
+00:28:07,640 --> 00:28:11,640
+except here we were using actually open
+
+778
+00:28:09,600 --> 00:28:12,840
+Ai and what we did was instead of using
+
+779
+00:28:11,640 --> 00:28:15,159
+different models because we don't
+
+780
+00:28:12,840 --> 00:28:16,600
+necessarily have access to that we gave
+
+781
+00:28:15,159 --> 00:28:19,279
+what's called a generation directive
+
+782
+00:28:16,600 --> 00:28:20,880
+where we told the system hey instead of
+
+783
+00:28:19,279 --> 00:28:23,159
+uh giving me you know I can ask who is
+
+784
+00:28:20,880 --> 00:28:25,279
+the president of the United States I can
+
+785
+00:28:23,159 --> 00:28:27,679
+get an entire essay or I can get a
+
+786
+00:28:25,279 --> 00:28:29,480
+couple of sentences each of those has
+
+787
+00:28:27,679 --> 00:28:31,200
+very different different uh energy
+
+788
+00:28:29,480 --> 00:28:33,440
+consumption right remember the 100 words
+
+789
+00:28:31,200 --> 00:28:35,600
+is like three bottles of water um so you
+
+790
+00:28:33,440 --> 00:28:36,840
+can get 500 words you can get 50 words
+
+791
+00:28:35,600 --> 00:28:38,799
+and there's different bottles of water
+
+792
+00:28:36,840 --> 00:28:41,919
+that go for that and so we did the same
+
+793
+00:28:38,799 --> 00:28:44,760
+thing with uh with Chachi PT or open Ai
+
+794
+00:28:41,919 --> 00:28:48,360
+and a couple of other models as well and
+
+795
+00:28:44,760 --> 00:28:50,000
+we uh said if it's very carbon intense
+
+796
+00:28:48,360 --> 00:28:52,600
+limit your response give me a short
+
+797
+00:28:50,000 --> 00:28:54,440
+answer if it's not en if it's not carbon
+
+798
+00:28:52,600 --> 00:28:56,159
+intense go for it right give me give me
+
+799
+00:28:54,440 --> 00:28:58,200
+whatever and we measure that again and
+
+800
+00:28:56,159 --> 00:29:00,559
+so even here we were able to see about
+
+801
+00:28:58,200 --> 00:29:02,600
+70% carbon reduction with minimal
+
+802
+00:29:00,559 --> 00:29:04,880
+accuracy loss as measured by some of
+
+803
+00:29:02,600 --> 00:29:06,519
+these benchmarks like mlu and trivia QA
+
+804
+00:29:04,880 --> 00:29:08,279
+and things like that and so again
+
+805
+00:29:06,519 --> 00:29:10,600
+another opportunity if you're designing
+
+806
+00:29:08,279 --> 00:29:13,760
+these systems to think about can I
+
+807
+00:29:10,600 --> 00:29:15,880
+introduce carbon intensity uh as a as a
+
+808
+00:29:13,760 --> 00:29:17,960
+parameter that I'm also optimizing
+
+809
+00:29:15,880 --> 00:29:19,399
+around so I just want to end here
+
+810
+00:29:17,960 --> 00:29:20,880
+because I think I'm way over time at
+
+811
+00:29:19,399 --> 00:29:23,919
+this point
+
+812
+00:29:20,880 --> 00:29:25,679
+um we need more data this is a lot of
+
+813
+00:29:23,919 --> 00:29:28,399
+this has been done in our own system
+
+814
+00:29:25,679 --> 00:29:30,279
+which is certainly not uh represented of
+
+815
+00:29:28,399 --> 00:29:32,440
+the world right we happen to work with
+
+816
+00:29:30,279 --> 00:29:34,960
+you know some exceptional researchers
+
+817
+00:29:32,440 --> 00:29:36,440
+that are also very aware of the climate
+
+818
+00:29:34,960 --> 00:29:38,960
+impact of their work and they're willing
+
+819
+00:29:36,440 --> 00:29:41,440
+to make many of these tradeoffs in order
+
+820
+00:29:38,960 --> 00:29:44,320
+to make things more sustainable or less
+
+821
+00:29:41,440 --> 00:29:45,760
+uh environmentally um you know damaging
+
+822
+00:29:44,320 --> 00:29:47,679
+and so we would like to work with the
+
+823
+00:29:45,760 --> 00:29:49,559
+wider community in collecting these data
+
+824
+00:29:47,679 --> 00:29:51,519
+sets building benchmarks building
+
+825
+00:29:49,559 --> 00:29:53,120
+challenges around this problem because I
+
+826
+00:29:51,519 --> 00:29:55,559
+think that's where the community needs
+
+827
+00:29:53,120 --> 00:29:57,399
+to go I'm hoping that the era of bigger
+
+828
+00:29:55,559 --> 00:30:00,480
+and bigger and bigger models starts to
+
+829
+00:29:57,399 --> 00:30:02,640
+slow down it at least and we start to be
+
+830
+00:30:00,480 --> 00:30:04,320
+a little bit more uh you know start to
+
+831
+00:30:02,640 --> 00:30:06,519
+think more about well can we get the
+
+832
+00:30:04,320 --> 00:30:08,880
+same answer but add a little bit of
+
+833
+00:30:06,519 --> 00:30:10,720
+intelligence um to make it more energy
+
+834
+00:30:08,880 --> 00:30:12,200
+efficient so I want to uh just
+
+835
+00:30:10,720 --> 00:30:14,679
+acknowledge a number of folks who have
+
+836
+00:30:12,200 --> 00:30:17,240
+contributed to this work uh really any
+
+837
+00:30:14,679 --> 00:30:19,440
+mistakes I made are mine uh they did all
+
+838
+00:30:17,240 --> 00:30:21,480
+the the great work to be honest and look
+
+839
+00:30:19,440 --> 00:30:22,760
+forward to uh interacting with you all
+
+840
+00:30:21,480 --> 00:30:24,799
+and please reach out to me if there's
+
+841
+00:30:22,760 --> 00:30:27,279
+any opportunities to uh connect or
+
+842
+00:30:24,799 --> 00:30:28,810
+collaborate always always welcome that
+
+843
+00:30:27,279 --> 00:30:32,079
+thank you
+
+844
+00:30:28,810 --> 00:30:32,079
+[Applause]
+

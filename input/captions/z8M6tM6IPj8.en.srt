@@ -1,0 +1,712 @@
+1
+00:00:00,760 --> 00:00:05,680
+hello the goal of this tutorial is to
+
+2
+00:00:03,560 --> 00:00:08,200
+showcase the downstream large- scale
+
+3
+00:00:05,680 --> 00:00:10,960
+application of apis integrated with in
+
+4
+00:00:08,200 --> 00:00:13,679
+the genomics to proteins portal note
+
+5
+00:00:10,960 --> 00:00:16,560
+that the data accessible via these apis
+
+6
+00:00:13,679 --> 00:00:18,359
+are also accessible via the portal for
+
+7
+00:00:16,560 --> 00:00:21,480
+example through the gene protein lookup
+
+8
+00:00:18,359 --> 00:00:23,160
+module and interactive mapping module
+
+9
+00:00:21,480 --> 00:00:26,039
+but through the portal they're only
+
+10
+00:00:23,160 --> 00:00:28,480
+available on a gene by Gene basis the
+
+11
+00:00:26,039 --> 00:00:30,960
+purpose of these apis is to allow for
+
+12
+00:00:28,480 --> 00:00:33,760
+large scale access of the data for
+
+13
+00:00:30,960 --> 00:00:36,399
+example for the entire human proteome
+
+14
+00:00:33,760 --> 00:00:38,440
+this tutorial is aimed for exactly that
+
+15
+00:00:36,399 --> 00:00:41,360
+and targeted for users with a coding or
+
+16
+00:00:38,440 --> 00:00:41,360
+bioinformatics
+
+17
+00:00:41,480 --> 00:00:48,680
+background the apis that we'll talk
+
+18
+00:00:43,760 --> 00:00:51,440
+about today are the g2p 3D API which
+
+19
+00:00:48,680 --> 00:00:54,879
+provides a gene to transcript to protein
+
+20
+00:00:51,440 --> 00:00:58,399
+isopor to structure mapping for the
+
+21
+00:00:54,879 --> 00:01:01,120
+ident for all of the corresponding
+
+22
+00:00:58,399 --> 00:01:04,360
+identifiers and the g g2p protein
+
+23
+00:01:01,120 --> 00:01:06,880
+feature API which provides a rich
+
+24
+00:01:04,360 --> 00:01:10,720
+protein feature set at the amino acid
+
+25
+00:01:06,880 --> 00:01:13,520
+level which includes structural sequence
+
+26
+00:01:10,720 --> 00:01:13,520
+and functional
+
+27
+00:01:14,200 --> 00:01:18,400
+properties through the Swagger through
+
+28
+00:01:16,400 --> 00:01:21,720
+the Swagger page we can directly access
+
+29
+00:01:18,400 --> 00:01:23,040
+the apis for example by providing a gene
+
+30
+00:01:21,720 --> 00:01:27,119
+and unipro
+
+31
+00:01:23,040 --> 00:01:29,320
+ID and we can easily execute the API and
+
+32
+00:01:27,119 --> 00:01:33,159
+view the result in a spreadsheet format
+
+33
+00:01:29,320 --> 00:01:37,119
+for example with Excel so here we can
+
+34
+00:01:33,159 --> 00:01:41,119
+clearly see this um the g2p 3D API
+
+35
+00:01:37,119 --> 00:01:45,840
+provided mapping and here we have listed
+
+36
+00:01:41,119 --> 00:01:48,320
+the unipro IDS Associated isoforms Gene
+
+37
+00:01:45,840 --> 00:01:50,719
+transcript and the associated pdb
+
+38
+00:01:48,320 --> 00:01:52,960
+structures so here we can clearly see
+
+39
+00:01:50,719 --> 00:01:57,520
+the associated pdb structures match to
+
+40
+00:01:52,960 --> 00:01:57,520
+the canonical unip protein
+
+41
+00:01:57,799 --> 00:02:05,479
+isopor so how how will we apply this for
+
+42
+00:02:01,399 --> 00:02:09,039
+our analysis so as an example um let's
+
+43
+00:02:05,479 --> 00:02:11,440
+take the shoper own the shoper own
+
+44
+00:02:09,039 --> 00:02:14,040
+proteins so the panther protein
+
+45
+00:02:11,440 --> 00:02:15,959
+classification system identified over
+
+46
+00:02:14,040 --> 00:02:18,519
+100 chaperon
+
+47
+00:02:15,959 --> 00:02:21,840
+genes and we'd like to characterize
+
+48
+00:02:18,519 --> 00:02:25,280
+those genes to better understand um the
+
+49
+00:02:21,840 --> 00:02:27,360
+available data and um and functional
+
+50
+00:02:25,280 --> 00:02:30,160
+properties so to do this we're first
+
+51
+00:02:27,360 --> 00:02:31,560
+going to get a list of the of the list
+
+52
+00:02:30,160 --> 00:02:33,760
+of the genes and proteins which we can
+
+53
+00:02:31,560 --> 00:02:36,200
+do from the feros portal by filtering on
+
+54
+00:02:33,760 --> 00:02:39,519
+the panther protein class and then
+
+55
+00:02:36,200 --> 00:02:42,560
+downloading um a list of the associated
+
+56
+00:02:39,519 --> 00:02:45,640
+genes then we can Leverage The g2p
+
+57
+00:02:42,560 --> 00:02:48,200
+Client API which is a python Library
+
+58
+00:02:45,640 --> 00:02:50,879
+where we could just where we can easily
+
+59
+00:02:48,200 --> 00:02:53,239
+access the g2p API
+
+60
+00:02:50,879 --> 00:02:55,280
+programmatically and get the results as
+
+61
+00:02:53,239 --> 00:02:57,480
+Panda's data frames which are easy to
+
+62
+00:02:55,280 --> 00:03:00,760
+use for Downstream
+
+63
+00:02:57,480 --> 00:03:03,519
+analysis okay so let let's jump into our
+
+64
+00:03:00,760 --> 00:03:06,640
+analysis so here we have a jupyter
+
+65
+00:03:03,519 --> 00:03:09,640
+notebook where we can easily install and
+
+66
+00:03:06,640 --> 00:03:09,640
+import the g2p
+
+67
+00:03:09,680 --> 00:03:13,599
+API and here we'll load in our list of
+
+68
+00:03:12,040 --> 00:03:16,879
+shop runs that we downloaded from the
+
+69
+00:03:13,599 --> 00:03:19,159
+feros portal and you can see here um we
+
+70
+00:03:16,879 --> 00:03:21,799
+have all the shoper own proteins we've
+
+71
+00:03:19,159 --> 00:03:23,640
+listed the first five and available
+
+72
+00:03:21,799 --> 00:03:27,000
+annotation
+
+73
+00:03:23,640 --> 00:03:30,239
+data okay now we're going to use the g2p
+
+74
+00:03:27,000 --> 00:03:32,159
+API to systematically get all of the
+
+75
+00:03:30,239 --> 00:03:35,959
+transcript information for the shop
+
+76
+00:03:32,159 --> 00:03:39,159
+runes so here we'll get the unipro ID
+
+77
+00:03:35,959 --> 00:03:44,000
+and G name for each shoppr and then
+
+78
+00:03:39,159 --> 00:03:46,840
+we'll call the this g2p 3D API directly
+
+79
+00:03:44,000 --> 00:03:46,840
+using the client
+
+80
+00:03:50,120 --> 00:03:56,239
+Library so now we can inspect our
+
+81
+00:03:53,120 --> 00:04:00,640
+results from the call and we can see
+
+82
+00:03:56,239 --> 00:04:04,480
+that we have all of these we have 3 70
+
+83
+00:04:00,640 --> 00:04:09,120
+entries across the 110 chaperon
+
+84
+00:04:04,480 --> 00:04:11,200
+jeans and we we can see the the mappings
+
+85
+00:04:09,120 --> 00:04:14,079
+for each of those entries now in one
+
+86
+00:04:11,200 --> 00:04:16,840
+large data frame with transcript
+
+87
+00:04:14,079 --> 00:04:19,479
+information Gene protein isopor and
+
+88
+00:04:16,840 --> 00:04:22,360
+structure as
+
+89
+00:04:19,479 --> 00:04:25,120
+expected okay so now let's do some
+
+90
+00:04:22,360 --> 00:04:27,400
+analysis we'd like to see how frequently
+
+91
+00:04:25,120 --> 00:04:30,639
+the main select
+
+92
+00:04:27,400 --> 00:04:33,400
+transcript maps onto the iCal protein
+
+93
+00:04:30,639 --> 00:04:34,639
+isopor so to do this we're going to map
+
+94
+00:04:33,400 --> 00:04:37,479
+we're going to
+
+95
+00:04:34,639 --> 00:04:39,919
+filter for rows that contain the main
+
+96
+00:04:37,479 --> 00:04:42,759
+select transcript and the canonical
+
+97
+00:04:39,919 --> 00:04:46,360
+protein isopor to identify what fraction
+
+98
+00:04:42,759 --> 00:04:46,360
+of genes have that
+
+99
+00:04:46,600 --> 00:04:51,840
+mapping um this is um this is important
+
+100
+00:04:49,639 --> 00:04:55,120
+for structure mapping because variants
+
+101
+00:04:51,840 --> 00:04:57,720
+that are annotated onto the main select
+
+102
+00:04:55,120 --> 00:04:59,120
+transcript um because variants are
+
+103
+00:04:57,720 --> 00:05:01,320
+frequently annotated onto the main
+
+104
+00:04:59,120 --> 00:05:02,960
+select transcrip script and if it's
+
+105
+00:05:01,320 --> 00:05:06,160
+associated with the canonical protein
+
+106
+00:05:02,960 --> 00:05:08,039
+isopor which is frequently the isopor
+
+107
+00:05:06,160 --> 00:05:09,840
+for which structures are available then
+
+108
+00:05:08,039 --> 00:05:13,880
+we can easily map those variants onto
+
+109
+00:05:09,840 --> 00:05:15,960
+the protein structure so here we just
+
+110
+00:05:13,880 --> 00:05:16,800
+went through and we identified that of
+
+111
+00:05:15,960 --> 00:05:19,520
+the
+
+112
+00:05:16,800 --> 00:05:23,000
+110 um chaperon genes
+
+113
+00:05:19,520 --> 00:05:24,880
+95 had a main select transcript that
+
+114
+00:05:23,000 --> 00:05:27,000
+mapped onto the protein the canonical
+
+115
+00:05:24,880 --> 00:05:29,240
+protein isopor and we can easily plot
+
+116
+00:05:27,000 --> 00:05:31,120
+this in our Jupiter notebook so here we
+
+117
+00:05:29,240 --> 00:05:33,960
+can see
+
+118
+00:05:31,120 --> 00:05:36,240
+95 of the main select transcripts mapped
+
+119
+00:05:33,960 --> 00:05:39,319
+successfully onto the canonical protein
+
+120
+00:05:36,240 --> 00:05:42,520
+isopor now let's move on to the protein
+
+121
+00:05:39,319 --> 00:05:48,039
+structure characterization so now we'll
+
+122
+00:05:42,520 --> 00:05:50,880
+again use the g2p API to call um the g2p
+
+123
+00:05:48,039 --> 00:05:53,120
+API client Library excuse me to
+
+124
+00:05:50,880 --> 00:05:55,479
+systematically call the Gap protein
+
+125
+00:05:53,120 --> 00:05:57,919
+feature API and get the rich amino acid
+
+126
+00:05:55,479 --> 00:06:00,880
+wide protein features for every one of
+
+127
+00:05:57,919 --> 00:06:05,280
+The Chaperone genes
+
+128
+00:06:00,880 --> 00:06:06,960
+so here we'll again use the library to
+
+129
+00:06:05,280 --> 00:06:09,960
+make the API
+
+130
+00:06:06,960 --> 00:06:12,000
+call and now we're going to look for
+
+131
+00:06:09,960 --> 00:06:13,919
+each of the proteins we're going to look
+
+132
+00:06:12,000 --> 00:06:17,039
+at the secondary structure
+
+133
+00:06:13,919 --> 00:06:20,840
+propensity and so here one of the
+
+134
+00:06:17,039 --> 00:06:22,919
+features here we have is the dssp three
+
+135
+00:06:20,840 --> 00:06:25,000
+state secondary structure computed on
+
+136
+00:06:22,919 --> 00:06:28,599
+Alpha fold
+
+137
+00:06:25,000 --> 00:06:30,240
+structure and so we can plot the we can
+
+138
+00:06:28,599 --> 00:06:32,720
+plot the propensity
+
+139
+00:06:30,240 --> 00:06:36,560
+of each of these and we can see that 45%
+
+140
+00:06:32,720 --> 00:06:40,240
+of amino acids are Helix residues 43%
+
+141
+00:06:36,560 --> 00:06:42,560
+are coil and 11% are strand note that we
+
+142
+00:06:40,240 --> 00:06:45,199
+also have sift secondary structure
+
+143
+00:06:42,560 --> 00:06:48,599
+computed on the pdb structures if you'd
+
+144
+00:06:45,199 --> 00:06:51,599
+like to look at pdb structure
+
+145
+00:06:48,599 --> 00:06:54,560
+propensity um
+
+146
+00:06:51,599 --> 00:06:57,759
+and um over and you can conduct a
+
+147
+00:06:54,560 --> 00:07:01,520
+variety of other Downstream
+
+148
+00:06:57,759 --> 00:07:04,280
+analysis Okay so in conclusion we saw
+
+149
+00:07:01,520 --> 00:07:07,800
+the g2p 3D
+
+150
+00:07:04,280 --> 00:07:09,560
+API and the protein feature API
+
+151
+00:07:07,800 --> 00:07:13,319
+available through the
+
+152
+00:07:09,560 --> 00:07:16,520
+portal um and we could access these apis
+
+153
+00:07:13,319 --> 00:07:18,199
+through two Avenues one through the one
+
+154
+00:07:16,520 --> 00:07:21,400
+we can access them through the Swagger
+
+155
+00:07:18,199 --> 00:07:24,520
+page where we can test out the apis and
+
+156
+00:07:21,400 --> 00:07:26,599
+experiment and secondly we can access
+
+157
+00:07:24,520 --> 00:07:29,840
+them through the python client
+
+158
+00:07:26,599 --> 00:07:32,160
+Library where we can import um we can
+
+159
+00:07:29,840 --> 00:07:35,039
+import the library and scale up our
+
+160
+00:07:32,160 --> 00:07:38,039
+workflows we can also access notebooks
+
+161
+00:07:35,039 --> 00:07:41,360
+from previous tutorials inside inside
+
+162
+00:07:38,039 --> 00:07:41,360
+the client Library GitHub
+
+163
+00:07:42,280 --> 00:07:47,639
+repository and and in that way we can
+
+164
+00:07:44,840 --> 00:07:49,720
+characterize different sets of genes for
+
+165
+00:07:47,639 --> 00:07:52,919
+Downstream
+
+166
+00:07:49,720 --> 00:07:53,960
+analysis in addition we also have
+
+167
+00:07:52,919 --> 00:07:57,000
+previous
+
+168
+00:07:53,960 --> 00:07:59,599
+tutorials on the gene lookup module
+
+169
+00:07:57,000 --> 00:08:02,240
+interactive mapping and a variety of CAS
+
+170
+00:07:59,599 --> 00:08:04,159
+studies so if you navigate to the
+
+171
+00:08:02,240 --> 00:08:06,960
+documentation page within the portal
+
+172
+00:08:04,159 --> 00:08:09,840
+here or to our YouTube
+
+173
+00:08:06,960 --> 00:08:13,879
+channel you can you can see previous
+
+174
+00:08:09,840 --> 00:08:16,759
+tutorials and review um other
+
+175
+00:08:13,879 --> 00:08:18,639
+functionality and last but not least
+
+176
+00:08:16,759 --> 00:08:20,440
+please leave us any feedback that you
+
+177
+00:08:18,639 --> 00:08:23,440
+may have and thank you for your
+
+178
+00:08:20,440 --> 00:08:23,440
+attention
+

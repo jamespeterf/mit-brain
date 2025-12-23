@@ -1,0 +1,2558 @@
+1
+00:00:01,000 --> 00:00:03,400
+Good afternoon, everyone.
+
+2
+00:00:03,400 --> 00:00:04,720
+Welcome.
+
+3
+00:00:04,720 --> 00:00:08,039
+So my name is Kaiming
+He, and I'm currently
+
+4
+00:00:08,039 --> 00:00:11,400
+an associate professor
+in the EECS department.
+
+5
+00:00:11,400 --> 00:00:14,960
+And I have been working on
+computer vision, deep learning,
+
+6
+00:00:14,960 --> 00:00:17,800
+and AI for about 20 years.
+
+7
+00:00:17,800 --> 00:00:23,040
+And I'm fortunate enough to
+see how deep learning AI has
+
+8
+00:00:23,040 --> 00:00:26,380
+completely revolutionized
+computer vision,
+
+9
+00:00:26,380 --> 00:00:28,480
+and then later this
+trend has been propagated
+
+10
+00:00:28,480 --> 00:00:32,060
+into many other sibling
+areas such as language,
+
+11
+00:00:32,060 --> 00:00:33,840
+robotics, speech.
+
+12
+00:00:33,840 --> 00:00:36,760
+And then today, maybe
+it's propagating more
+
+13
+00:00:36,760 --> 00:00:38,680
+to many other scientific areas.
+
+14
+00:00:38,680 --> 00:00:40,520
+So in the next 10
+minutes, I want
+
+15
+00:00:40,520 --> 00:00:42,660
+to mainly convey two messages.
+
+16
+00:00:42,660 --> 00:00:45,840
+First, some of the most
+successful generative AI models
+
+17
+00:00:45,840 --> 00:00:49,400
+today were heavily inspired
+by some formulations
+
+18
+00:00:49,400 --> 00:00:51,120
+from science and physics.
+
+19
+00:00:51,120 --> 00:00:54,280
+And then in return, some of
+the most successful practice
+
+20
+00:00:54,280 --> 00:00:58,800
+of gen AI today can make
+significant influence
+
+21
+00:00:58,800 --> 00:01:01,410
+to some scientific problems.
+
+22
+00:01:01,410 --> 00:01:05,570
+So, first, we have been talking
+about gen AI but mathematically
+
+23
+00:01:05,570 --> 00:01:08,330
+or theoretically, so what
+is a generative model?
+
+24
+00:01:08,330 --> 00:01:10,650
+Well, conceptually
+a generative model
+
+25
+00:01:10,650 --> 00:01:13,410
+is a model that maps
+from one distribution
+
+26
+00:01:13,410 --> 00:01:14,750
+to another distribution.
+
+27
+00:01:14,750 --> 00:01:15,990
+Let's say you have some
+noise distribution,
+
+28
+00:01:15,990 --> 00:01:18,615
+you have some data distribution,
+and you train a neural network
+
+29
+00:01:18,615 --> 00:01:21,250
+to connect these
+two distributions.
+
+30
+00:01:21,250 --> 00:01:24,297
+Then conceptually you can
+sample from one distribution,
+
+31
+00:01:24,297 --> 00:01:26,130
+and then you can map
+to another distribution
+
+32
+00:01:26,130 --> 00:01:27,950
+by this magical neural network.
+
+33
+00:01:27,950 --> 00:01:30,850
+So this is the
+mathematical formulation.
+
+34
+00:01:30,850 --> 00:01:33,290
+And then this formulation
+and a solution
+
+35
+00:01:33,290 --> 00:01:36,370
+to the generative
+modeling problem
+
+36
+00:01:36,370 --> 00:01:39,490
+is heavily inspired by
+some physical models.
+
+37
+00:01:39,490 --> 00:01:40,850
+Let's say diffusion.
+
+38
+00:01:40,850 --> 00:01:44,330
+So diffusion process can
+be thought of let's say--
+
+39
+00:01:44,330 --> 00:01:48,530
+you drop an ink into a bottle
+of water, and then after a while
+
+40
+00:01:48,530 --> 00:01:52,090
+the ink will diffuse
+inside the bottle.
+
+41
+00:01:52,090 --> 00:01:54,350
+And then we can do
+the same on an image.
+
+42
+00:01:54,350 --> 00:01:56,830
+We have an image and then
+we gradually add noise
+
+43
+00:01:56,830 --> 00:01:59,060
+and then it becomes
+completely the noise and then
+
+44
+00:01:59,060 --> 00:02:02,040
+if we describe this in
+the distribution space,
+
+45
+00:02:02,040 --> 00:02:06,740
+if you turn a data distribution
+into some noise distribution.
+
+46
+00:02:06,740 --> 00:02:11,100
+So we can also formulate this
+problem as a probability flow.
+
+47
+00:02:11,100 --> 00:02:14,120
+Let's say you have a data
+space, you have a noise space,
+
+48
+00:02:14,120 --> 00:02:16,020
+every single point
+here could be think
+
+49
+00:02:16,020 --> 00:02:19,120
+of as the states in a very
+high dimensional space,
+
+50
+00:02:19,120 --> 00:02:21,500
+and you can sample one
+thing from the data space.
+
+51
+00:02:21,500 --> 00:02:23,360
+You can sample noise
+in the noise space,
+
+52
+00:02:23,360 --> 00:02:26,340
+and then you can connect
+them by a trajectory
+
+53
+00:02:26,340 --> 00:02:28,140
+let's say a straight line.
+
+54
+00:02:28,140 --> 00:02:29,460
+So very simple.
+
+55
+00:02:29,460 --> 00:02:31,420
+And then you can do
+this many, many times
+
+56
+00:02:31,420 --> 00:02:35,220
+by just randomly sample things
+from these two distributions,
+
+57
+00:02:35,220 --> 00:02:39,380
+and then conceptually you are
+building a velocity field.
+
+58
+00:02:39,380 --> 00:02:41,720
+But this velocity
+field looks stochastic.
+
+59
+00:02:41,720 --> 00:02:43,060
+It looks noisy.
+
+60
+00:02:43,060 --> 00:02:46,300
+We can marginalize it,
+and if you do that,
+
+61
+00:02:46,300 --> 00:02:51,060
+it provides us a way to
+connect every single data point
+
+62
+00:02:51,060 --> 00:02:53,940
+to a point in the noise space.
+
+63
+00:02:53,940 --> 00:02:56,790
+And then if we do
+that, we connect--
+
+64
+00:02:56,790 --> 00:03:00,390
+we build a trajectory that can
+connect an image to a noise map,
+
+65
+00:03:00,390 --> 00:03:02,870
+so conceptually very simple.
+
+66
+00:03:02,870 --> 00:03:06,910
+But the question is how can
+we solve on this trajectory.
+
+67
+00:03:06,910 --> 00:03:10,030
+So conceptually this is an
+ordinary differential equation
+
+68
+00:03:10,030 --> 00:03:13,510
+or an ODE in a very
+high dimensional space.
+
+69
+00:03:13,510 --> 00:03:17,770
+And we want to find a solution
+and represent it as z here,
+
+70
+00:03:17,770 --> 00:03:21,570
+which need to satisfy
+this equation.
+
+71
+00:03:21,570 --> 00:03:25,310
+Then conceptually if we
+follow this trajectory,
+
+72
+00:03:25,310 --> 00:03:27,690
+we can connect an
+image to a noise map,
+
+73
+00:03:27,690 --> 00:03:30,470
+and usually every single
+step in this trajectory
+
+74
+00:03:30,470 --> 00:03:34,350
+is done by a neural network,
+which could be very slow.
+
+75
+00:03:34,350 --> 00:03:36,790
+So in one of our
+recent work, we try
+
+76
+00:03:36,790 --> 00:03:38,790
+to address this
+problem by learning
+
+77
+00:03:38,790 --> 00:03:41,990
+to do fast forward by a
+single neural network.
+
+78
+00:03:41,990 --> 00:03:43,650
+So the core idea is very simple.
+
+79
+00:03:43,650 --> 00:03:46,230
+We just try to set
+up another velocity
+
+80
+00:03:46,230 --> 00:03:48,990
+field which is conceptually
+the average velocity.
+
+81
+00:03:48,990 --> 00:03:52,110
+So think about a starting
+point R and an ending point
+
+82
+00:03:52,110 --> 00:03:56,070
+T. We can just set up the
+average velocity, which is just
+
+83
+00:03:56,070 --> 00:03:59,430
+simply the integration between
+these two time steps divided
+
+84
+00:03:59,430 --> 00:04:00,730
+by the time interval.
+
+85
+00:04:00,730 --> 00:04:02,270
+So conceptually very simple.
+
+86
+00:04:02,270 --> 00:04:05,350
+Then for some starting--
+for some ending points
+
+87
+00:04:05,350 --> 00:04:08,950
+in the middle, the velocity
+field would look like this,
+
+88
+00:04:08,950 --> 00:04:12,190
+and if we move the ending point
+the velocity field will change.
+
+89
+00:04:12,190 --> 00:04:14,870
+And if we move the ending
+point to the entire end
+
+90
+00:04:14,870 --> 00:04:17,510
+of the entire trajectory,
+it will look like this.
+
+91
+00:04:17,510 --> 00:04:21,269
+Then conceptually, we can show
+that this average velocity
+
+92
+00:04:21,269 --> 00:04:25,150
+field would be connected to
+the original velocity field
+
+93
+00:04:25,150 --> 00:04:26,930
+by this equation.
+
+94
+00:04:26,930 --> 00:04:30,670
+And this equation can
+provide us a principle
+
+95
+00:04:30,670 --> 00:04:33,270
+to learn a neural
+network that can directly
+
+96
+00:04:33,270 --> 00:04:35,830
+map between two points
+in this trajectory
+
+97
+00:04:35,830 --> 00:04:39,990
+without solving the ordinary
+differential equation.
+
+98
+00:04:39,990 --> 00:04:42,190
+So if we can do that,
+then conceptually we
+
+99
+00:04:42,190 --> 00:04:45,070
+can directly go from the
+starting point of trajectory
+
+100
+00:04:45,070 --> 00:04:46,190
+to the endpoint.
+
+101
+00:04:46,190 --> 00:04:49,750
+This means we can sample a
+noise, and if we go back,
+
+102
+00:04:49,750 --> 00:04:51,130
+we arrive at an image.
+
+103
+00:04:51,130 --> 00:04:54,600
+So this is how we can do one
+step generation using the latest
+
+104
+00:04:54,600 --> 00:04:57,400
+generative models.
+
+105
+00:04:57,400 --> 00:05:00,340
+So these are some of the
+images generated by this model,
+
+106
+00:05:00,340 --> 00:05:01,580
+and they look pretty good.
+
+107
+00:05:01,580 --> 00:05:05,120
+And if we zoom into
+some of these examples,
+
+108
+00:05:05,120 --> 00:05:10,080
+here I compare the results
+between solving the original ODE
+
+109
+00:05:10,080 --> 00:05:13,580
+versus the fast forward dunder
+binary-- by the neural network.
+
+110
+00:05:13,580 --> 00:05:15,660
+Actually these two
+images are not the same.
+
+111
+00:05:15,660 --> 00:05:17,560
+They look similar, but
+they are not the same.
+
+112
+00:05:17,560 --> 00:05:20,340
+So they are similar at
+the high level semantics.
+
+113
+00:05:20,340 --> 00:05:22,880
+For example, both are the fish.
+
+114
+00:05:22,880 --> 00:05:24,460
+Both are the fish
+of the same kind.
+
+115
+00:05:24,460 --> 00:05:26,560
+They have a similar pose.
+
+116
+00:05:26,560 --> 00:05:28,080
+They are under the sea.
+
+117
+00:05:28,080 --> 00:05:30,040
+But if you look at
+their tails, there
+
+118
+00:05:30,040 --> 00:05:32,040
+are fins and the
+background, they
+
+119
+00:05:32,040 --> 00:05:35,300
+are different in some of
+the low level neurons.
+
+120
+00:05:35,300 --> 00:05:37,480
+So actually these
+are the properties
+
+121
+00:05:37,480 --> 00:05:40,900
+that we may desire for
+many other applications.
+
+122
+00:05:40,900 --> 00:05:45,280
+That is we want to be
+accurate at high level
+
+123
+00:05:45,280 --> 00:05:48,680
+at a macroscopic
+level, and we also
+
+124
+00:05:48,680 --> 00:05:52,810
+want to tolerate some low
+level and fine level neurons.
+
+125
+00:05:52,810 --> 00:05:57,950
+So this is what neural
+networks are really good at.
+
+126
+00:05:57,950 --> 00:05:59,810
+Now it's time to go
+back to the physics
+
+127
+00:05:59,810 --> 00:06:01,490
+and scientific scenarios.
+
+128
+00:06:01,490 --> 00:06:07,530
+So we have seen how some
+of the most effective image
+
+129
+00:06:07,530 --> 00:06:12,150
+generative models are connected
+to some of the physics models,
+
+130
+00:06:12,150 --> 00:06:14,570
+but the same idea
+can also be applied
+
+131
+00:06:14,570 --> 00:06:17,810
+to some of these original
+physics problems.
+
+132
+00:06:17,810 --> 00:06:20,230
+We want to solve
+an ODE equation,
+
+133
+00:06:20,230 --> 00:06:23,710
+but we don't want to
+do it numerically.
+
+134
+00:06:23,710 --> 00:06:26,370
+We want to learn a neural
+network to do that.
+
+135
+00:06:26,370 --> 00:06:31,170
+So if we do that, we will
+have a generation counterpart
+
+136
+00:06:31,170 --> 00:06:33,890
+of the simulation scenario.
+
+137
+00:06:33,890 --> 00:06:37,170
+So here is just a very
+simple toy example
+
+138
+00:06:37,170 --> 00:06:38,810
+to illustrate the concept.
+
+139
+00:06:38,810 --> 00:06:41,910
+So on the left hand side is
+the result of simulation.
+
+140
+00:06:41,910 --> 00:06:44,410
+On the right hand side
+is a generative model
+
+141
+00:06:44,410 --> 00:06:45,970
+which can do fast forward.
+
+142
+00:06:45,970 --> 00:06:49,910
+So it is worth noting that these
+two solutions are not the same.
+
+143
+00:06:49,910 --> 00:06:51,650
+You can notice that
+they are different.
+
+144
+00:06:51,650 --> 00:06:55,700
+All the particles are different,
+but the generative model
+
+145
+00:06:55,700 --> 00:06:59,640
+can preserve some of the high
+level and macro level properties
+
+146
+00:06:59,640 --> 00:07:02,440
+so such as a wave in this case.
+
+147
+00:07:02,440 --> 00:07:05,140
+So this is really
+a desired property.
+
+148
+00:07:05,140 --> 00:07:09,180
+So then actually the success
+of these gen AI models
+
+149
+00:07:09,180 --> 00:07:11,500
+in computer vision
+in image generation
+
+150
+00:07:11,500 --> 00:07:14,640
+can actually bring up
+many good opportunities.
+
+151
+00:07:14,640 --> 00:07:18,020
+So first of all, it
+provides us some machine
+
+152
+00:07:18,020 --> 00:07:22,000
+learning models that can model
+the data with probability.
+
+153
+00:07:22,000 --> 00:07:26,280
+That means the model is not only
+able to produce one solution.
+
+154
+00:07:26,280 --> 00:07:31,860
+It is also able to produce many
+possibilities, many modalities.
+
+155
+00:07:31,860 --> 00:07:34,340
+So it also has the
+ability to guess
+
+156
+00:07:34,340 --> 00:07:37,060
+what is the probability
+of each solution.
+
+157
+00:07:37,060 --> 00:07:41,560
+And what's more, there is a very
+good, very desirable property.
+
+158
+00:07:41,560 --> 00:07:43,580
+That is these
+neural networks are
+
+159
+00:07:43,580 --> 00:07:46,820
+very good at preserving
+and predicting
+
+160
+00:07:46,820 --> 00:07:50,270
+the high level, the microscopic
+level, and sometimes
+
+161
+00:07:50,270 --> 00:07:54,230
+the mesoscopic level
+attributes such as if I
+
+162
+00:07:54,230 --> 00:07:57,310
+want to generate an image,
+I want it to be a fish.
+
+163
+00:07:57,310 --> 00:08:00,350
+So if I want to
+predict whether there
+
+164
+00:08:00,350 --> 00:08:03,270
+will be a storm in
+one week, I just
+
+165
+00:08:03,270 --> 00:08:05,670
+want to know there
+will be a storm.
+
+166
+00:08:05,670 --> 00:08:10,610
+The model is able to tolerate
+some of the finer nuances,
+
+167
+00:08:10,610 --> 00:08:12,990
+so it doesn't matter
+whether the fish has
+
+168
+00:08:12,990 --> 00:08:16,390
+a fin or a tail in that exact
+same way it doesn't matter what
+
+169
+00:08:16,390 --> 00:08:18,650
+exactly the texture
+that the fish is.
+
+170
+00:08:18,650 --> 00:08:21,650
+So it's just like when I
+try to predict the weather,
+
+171
+00:08:21,650 --> 00:08:24,270
+I don't need to the
+exact temperature
+
+172
+00:08:24,270 --> 00:08:28,870
+or humidity of a certain
+day or of a certain second.
+
+173
+00:08:28,870 --> 00:08:32,990
+So this is really the
+power of neural networks
+
+174
+00:08:32,990 --> 00:08:35,429
+and some of the latest
+generative models.
+
+175
+00:08:35,429 --> 00:08:40,070
+So now a little bit today's
+most powerful neural network
+
+176
+00:08:40,070 --> 00:08:43,110
+and gen AI models are
+good at preserving
+
+177
+00:08:43,110 --> 00:08:45,250
+the attributes of interests.
+
+178
+00:08:45,250 --> 00:08:48,650
+And if we can make
+use of this property,
+
+179
+00:08:48,650 --> 00:08:52,240
+we can turn some of the
+infeasible problems that
+
+180
+00:08:52,240 --> 00:08:56,240
+may take a long time to
+simulate into some problems that
+
+181
+00:08:56,240 --> 00:08:57,720
+are very tractable.
+
+182
+00:08:57,720 --> 00:08:59,780
+And with that, this
+concludes my talk
+
+183
+00:08:59,780 --> 00:09:01,620
+and thank you for
+your attention.
+
+184
+00:09:01,620 --> 00:09:03,920
+[APPLAUSE]
+
+185
+00:09:03,920 --> 00:09:04,500
+Hello.
+
+186
+00:09:04,500 --> 00:09:05,600
+Thank you very much.
+
+187
+00:09:05,600 --> 00:09:07,160
+My name is Phiala
+Shanahan, and I'm
+
+188
+00:09:07,160 --> 00:09:10,280
+very happy to tell you a little
+bit about physical predictions
+
+189
+00:09:10,280 --> 00:09:13,800
+from physical generative AI.
+
+190
+00:09:13,800 --> 00:09:16,160
+So I'm a theoretical
+physicist, and so the problems
+
+191
+00:09:16,160 --> 00:09:18,640
+I'm interested in
+are physics problems.
+
+192
+00:09:18,640 --> 00:09:20,400
+How can we understand
+the physical systems
+
+193
+00:09:20,400 --> 00:09:22,640
+that describe the
+structure of matter
+
+194
+00:09:22,640 --> 00:09:24,960
+at the most fundamental
+level and the interactions
+
+195
+00:09:24,960 --> 00:09:27,880
+of that matter?
+
+196
+00:09:27,880 --> 00:09:29,600
+A perspective I want
+to leave you with
+
+197
+00:09:29,600 --> 00:09:34,778
+is that a physical system is
+itself a generative model.
+
+198
+00:09:34,778 --> 00:09:36,320
+So you can think
+about the collisions
+
+199
+00:09:36,320 --> 00:09:39,320
+in a particle collider, for
+example, at the Large Hadron
+
+200
+00:09:39,320 --> 00:09:41,720
+Collider at CERN,
+colliding particles,
+
+201
+00:09:41,720 --> 00:09:44,740
+and the output of that
+generative model if you like
+
+202
+00:09:44,740 --> 00:09:48,170
+is what we observe in the
+detectors after the collision.
+
+203
+00:09:48,170 --> 00:09:51,130
+From a theory perspective,
+we can see the same thing
+
+204
+00:09:51,130 --> 00:09:53,450
+if we look at the
+equations that describe
+
+205
+00:09:53,450 --> 00:09:56,810
+the measurement of some
+quantum observable in nature.
+
+206
+00:09:56,810 --> 00:10:00,210
+So here I'm interested in
+a quantum observable, F,
+
+207
+00:10:00,210 --> 00:10:02,410
+and on the right hand
+side of this equation,
+
+208
+00:10:02,410 --> 00:10:07,250
+I can write that mathematically
+as an integral equation where
+
+209
+00:10:07,250 --> 00:10:09,190
+I have a multidimensional
+variable,
+
+210
+00:10:09,190 --> 00:10:11,650
+I apply F that
+describes my quantum
+
+211
+00:10:11,650 --> 00:10:13,490
+observable to that
+variable, and I
+
+212
+00:10:13,490 --> 00:10:15,650
+integrate with a
+known probability
+
+213
+00:10:15,650 --> 00:10:18,210
+density inside my integrand.
+
+214
+00:10:18,210 --> 00:10:20,730
+By known, I mean that
+probability density
+
+215
+00:10:20,730 --> 00:10:23,890
+is described by equations that
+I can write down that describe
+
+216
+00:10:23,890 --> 00:10:26,290
+the structure of our universe.
+
+217
+00:10:26,290 --> 00:10:32,650
+Now a way of rewriting this in a
+sampling or Monte Carlo picture
+
+218
+00:10:32,650 --> 00:10:36,490
+is to say that computing this
+quantum observable F really
+
+219
+00:10:36,490 --> 00:10:40,650
+just looks like evaluating
+my function on samples
+
+220
+00:10:40,650 --> 00:10:44,510
+that have been drawn with
+that probability distribution.
+
+221
+00:10:44,510 --> 00:10:48,060
+So computing this boils
+down to a generative model
+
+222
+00:10:48,060 --> 00:10:51,050
+generating samples according
+to a known probability density.
+
+223
+00:10:54,380 --> 00:10:56,900
+So from this perspective,
+this leads us
+
+224
+00:10:56,900 --> 00:11:00,820
+to physical generative AI.
+
+225
+00:11:00,820 --> 00:11:02,320
+So that is approaches
+to generative
+
+226
+00:11:02,320 --> 00:11:06,280
+AI that include guarantees
+of, for example,
+
+227
+00:11:06,280 --> 00:11:09,780
+asymptotic exactness that I
+will generate samples according
+
+228
+00:11:09,780 --> 00:11:13,860
+to my exactly known probability
+distribution that encode
+
+229
+00:11:13,860 --> 00:11:16,860
+properties of my physical
+systems such as symmetries
+
+230
+00:11:16,860 --> 00:11:20,340
+and conservation laws and as we
+saw in the previous talk that
+
+231
+00:11:20,340 --> 00:11:23,020
+exploit various
+features of physics
+
+232
+00:11:23,020 --> 00:11:24,960
+to improve the
+generative AI model.
+
+233
+00:11:24,960 --> 00:11:28,460
+So I'll mention Hamiltonian
+mechanics in particular.
+
+234
+00:11:28,460 --> 00:11:31,200
+So asymptotic exactness
+is in some sense
+
+235
+00:11:31,200 --> 00:11:33,180
+an unusual requirement
+for generative AI.
+
+236
+00:11:33,180 --> 00:11:36,740
+So I'll belabor this
+point just slightly.
+
+237
+00:11:36,740 --> 00:11:42,220
+What I'm interested in
+here are solving equations.
+
+238
+00:11:42,220 --> 00:11:45,720
+And so there's only one
+thing that any sort of AI,
+
+239
+00:11:45,720 --> 00:11:47,420
+generative or otherwise,
+can do for me,
+
+240
+00:11:47,420 --> 00:11:50,820
+and that is solve the
+equations faster or perhaps
+
+241
+00:11:50,820 --> 00:11:52,460
+even more importantly
+solve equations
+
+242
+00:11:52,460 --> 00:11:55,140
+that I otherwise can't solve.
+
+243
+00:11:55,140 --> 00:11:57,740
+But the requirement of
+exactness is still there
+
+244
+00:11:57,740 --> 00:11:58,840
+at the fundamental level.
+
+245
+00:11:58,840 --> 00:12:01,540
+If I'm solving an integral
+and the answer is 2,
+
+246
+00:12:01,540 --> 00:12:06,560
+I had better get 2 no matter
+what I do to solve my equation.
+
+247
+00:12:06,560 --> 00:12:09,080
+So we require mathematical
+guarantees of exactness.
+
+248
+00:12:09,080 --> 00:12:13,440
+There is no room for
+modeling approximations
+
+249
+00:12:13,440 --> 00:12:17,660
+or any sort of uncertainty that
+we can't systematically improve
+
+250
+00:12:17,660 --> 00:12:22,140
+or remove in the limit say an
+infinite number of samples.
+
+251
+00:12:22,140 --> 00:12:24,420
+So that means that we
+have to create scenarios
+
+252
+00:12:24,420 --> 00:12:26,460
+where if the generative
+AI algorithm is
+
+253
+00:12:26,460 --> 00:12:29,100
+poorly trained or
+not optimized at all,
+
+254
+00:12:29,100 --> 00:12:31,380
+I'm still guaranteed to
+get the right answer.
+
+255
+00:12:31,380 --> 00:12:33,260
+Presumably it will be very slow.
+
+256
+00:12:33,260 --> 00:12:35,140
+If it's well
+optimized, I'm still
+
+257
+00:12:35,140 --> 00:12:36,862
+guaranteed to get
+the right answer,
+
+258
+00:12:36,862 --> 00:12:38,320
+but it will be much
+more efficient.
+
+259
+00:12:38,320 --> 00:12:41,940
+And that's really what
+enables us to do new science.
+
+260
+00:12:41,940 --> 00:12:44,230
+We've had great
+success with this kind
+
+261
+00:12:44,230 --> 00:12:47,510
+of provably exact generative
+AI in applications
+
+262
+00:12:47,510 --> 00:12:49,830
+to, for example, lattice
+quantum field theory
+
+263
+00:12:49,830 --> 00:12:52,150
+calculations in nuclear
+and particle physics.
+
+264
+00:12:52,150 --> 00:12:55,430
+So this is starting from the
+equations that describe matter
+
+265
+00:12:55,430 --> 00:12:58,350
+at the most fundamental level,
+and solving them exactly
+
+266
+00:12:58,350 --> 00:13:00,870
+using numerical approaches.
+
+267
+00:13:00,870 --> 00:13:03,010
+One way of doing that
+is via flow models.
+
+268
+00:13:03,010 --> 00:13:06,190
+You saw some examples of
+generative models mapping
+
+269
+00:13:06,190 --> 00:13:08,950
+between probability
+distributions in the last talk.
+
+270
+00:13:08,950 --> 00:13:11,510
+You can do a similar thing,
+and with certain requirements
+
+271
+00:13:11,510 --> 00:13:12,990
+on those models,
+you can guarantee
+
+272
+00:13:12,990 --> 00:13:16,550
+asymptotic exactness and
+mathematically rigorous ways.
+
+273
+00:13:16,550 --> 00:13:18,390
+But there are challenges
+in applications
+
+274
+00:13:18,390 --> 00:13:21,010
+like this that are not the
+same as those, for example,
+
+275
+00:13:21,010 --> 00:13:22,430
+in image generation.
+
+276
+00:13:22,430 --> 00:13:25,747
+So you can see a comparison
+here on the right hand--
+
+277
+00:13:25,747 --> 00:13:27,830
+right hand part of the
+slide from your perspective
+
+278
+00:13:27,830 --> 00:13:31,590
+of quantum field generation
+compared to image generation.
+
+279
+00:13:31,590 --> 00:13:35,150
+And what I'd like you to note
+is that not only do we have
+
+280
+00:13:35,150 --> 00:13:38,190
+to guarantee asymptotically
+the probability distribution
+
+281
+00:13:38,190 --> 00:13:40,510
+of my samples, which
+is quite different--
+
+282
+00:13:40,510 --> 00:13:43,975
+an image is a good image or not
+on its own merits, but for me,
+
+283
+00:13:43,975 --> 00:13:46,600
+it's the distribution of all the
+samples that must be precisely
+
+284
+00:13:46,600 --> 00:13:47,480
+right--
+
+285
+00:13:47,480 --> 00:13:51,240
+but we have an extreme inversion
+of a typical data hierarchy.
+
+286
+00:13:51,240 --> 00:13:53,540
+So in the quantum field
+generation example,
+
+287
+00:13:53,540 --> 00:13:56,160
+we have something like 10 to
+the 12 degrees of freedom per
+
+288
+00:13:56,160 --> 00:14:01,240
+sample, but I might have only
+one or 10,000 samples available.
+
+289
+00:14:01,240 --> 00:14:04,920
+The ratio of those two numbers
+is extremely different to that
+
+290
+00:14:04,920 --> 00:14:06,960
+in an image
+generation case where
+
+291
+00:14:06,960 --> 00:14:09,680
+I might have samples
+described by just millions
+
+292
+00:14:09,680 --> 00:14:12,920
+or billions of numbers, but
+I might have many billions
+
+293
+00:14:12,920 --> 00:14:15,040
+of samples of those images.
+
+294
+00:14:15,040 --> 00:14:16,755
+So it is quite a
+different regime,
+
+295
+00:14:16,755 --> 00:14:18,880
+which means that many of
+the applications to things
+
+296
+00:14:18,880 --> 00:14:22,880
+like image generation can't
+apply in this context.
+
+297
+00:14:22,880 --> 00:14:24,440
+Symmetries and
+conservation laws,
+
+298
+00:14:24,440 --> 00:14:27,082
+again, look very different
+in these kinds of settings
+
+299
+00:14:27,082 --> 00:14:29,040
+and need to be built into
+the generative models
+
+300
+00:14:29,040 --> 00:14:31,440
+from the ground up.
+
+301
+00:14:31,440 --> 00:14:33,880
+So in this same
+setting of applications
+
+302
+00:14:33,880 --> 00:14:36,600
+to what is called lattice
+quantum field theory, so solving
+
+303
+00:14:36,600 --> 00:14:39,040
+particle and nuclear
+physics from the ground up,
+
+304
+00:14:39,040 --> 00:14:42,250
+you do see symmetries that
+have some analogs in the world
+
+305
+00:14:42,250 --> 00:14:45,050
+of images, such as rotations
+and translations with boundary
+
+306
+00:14:45,050 --> 00:14:47,690
+conditions in, for example,
+a four-dimensional space,
+
+307
+00:14:47,690 --> 00:14:49,970
+but we have other much
+more complicated symmetries
+
+308
+00:14:49,970 --> 00:14:52,790
+that must be respected
+by the models exactly.
+
+309
+00:14:52,790 --> 00:14:56,250
+So one example of that is what's
+called gauge symmetry, where
+
+310
+00:14:56,250 --> 00:14:59,403
+I'd like you to imagine a grid.
+
+311
+00:14:59,403 --> 00:15:01,070
+In fact, it's a grid
+in four dimensions,
+
+312
+00:15:01,070 --> 00:15:05,330
+so a hyper-cubic grid, where
+on every edge I have a matrix.
+
+313
+00:15:05,330 --> 00:15:07,810
+And there is a
+symmetry transformation
+
+314
+00:15:07,810 --> 00:15:09,530
+that will change a
+configuration which
+
+315
+00:15:09,530 --> 00:15:12,090
+has the same matrix
+on every edge to one
+
+316
+00:15:12,090 --> 00:15:14,510
+which has a different
+matrix on every edge.
+
+317
+00:15:14,510 --> 00:15:16,530
+Every single edge is
+different, but those two
+
+318
+00:15:16,530 --> 00:15:18,870
+are exactly the same from
+the physics perspective
+
+319
+00:15:18,870 --> 00:15:22,050
+and must be generated with
+precisely the same probability,
+
+320
+00:15:22,050 --> 00:15:26,210
+so deep internal symmetries
+that the generative AI
+
+321
+00:15:26,210 --> 00:15:29,330
+algorithms have to respect.
+
+322
+00:15:29,330 --> 00:15:31,350
+I won't tell you how
+you can achieve this.
+
+323
+00:15:31,350 --> 00:15:35,510
+I can point you to references
+where this can be achieved.
+
+324
+00:15:35,510 --> 00:15:40,020
+So the last point here
+on Hamiltonian mechanics,
+
+325
+00:15:40,020 --> 00:15:43,020
+we can also leverage as we
+heard in the previous talk
+
+326
+00:15:43,020 --> 00:15:46,220
+various properties, the
+structures of physical systems
+
+327
+00:15:46,220 --> 00:15:48,820
+to help develop new
+generative AI algorithms.
+
+328
+00:15:48,820 --> 00:15:51,700
+For example, it's a
+fact that following
+
+329
+00:15:51,700 --> 00:15:53,680
+some classical
+mechanics trajectory,
+
+330
+00:15:53,680 --> 00:15:58,380
+so F equals MA, that we
+teach in 801, 809, 8223,
+
+331
+00:15:58,380 --> 00:16:00,460
+you can, in fact, map
+out any probability
+
+332
+00:16:00,460 --> 00:16:03,500
+distribution with the right
+momenta in the system.
+
+333
+00:16:03,500 --> 00:16:06,860
+And so using these
+kinds of structures
+
+334
+00:16:06,860 --> 00:16:08,520
+can help control
+numerical artifacts,
+
+335
+00:16:08,520 --> 00:16:11,380
+it can help with scaling,
+and it has applications
+
+336
+00:16:11,380 --> 00:16:14,820
+both in physics, where we have
+these various requirements
+
+337
+00:16:14,820 --> 00:16:16,660
+and guarantees that
+we need to preserve
+
+338
+00:16:16,660 --> 00:16:20,020
+and in applications beyond.
+
+339
+00:16:20,020 --> 00:16:23,340
+I've given you just
+a tiny hint at how
+
+340
+00:16:23,340 --> 00:16:25,940
+generative AI can be applied
+in the physical sciences.
+
+341
+00:16:25,940 --> 00:16:28,140
+There's also a very
+good white paper
+
+342
+00:16:28,140 --> 00:16:30,260
+written by colleagues
+in the NSF Institute
+
+343
+00:16:30,260 --> 00:16:33,180
+for Artificial Intelligence and
+Fundamental Interactions that
+
+344
+00:16:33,180 --> 00:16:37,480
+really maps out
+this virtuous cycle,
+
+345
+00:16:37,480 --> 00:16:39,790
+this feedback loop that
+we also saw a little bit
+
+346
+00:16:39,790 --> 00:16:42,790
+in the last talk of the
+challenges presented
+
+347
+00:16:42,790 --> 00:16:45,630
+by physical systems
+and physics problems
+
+348
+00:16:45,630 --> 00:16:48,270
+that lead to new innovations
+in generative AI that then lead
+
+349
+00:16:48,270 --> 00:16:50,670
+to new scientific discovery.
+
+350
+00:16:50,670 --> 00:16:54,070
+And so we've seen this
+not just in my area
+
+351
+00:16:54,070 --> 00:16:58,230
+of nuclear and particle physics
+but across the physical sciences
+
+352
+00:16:58,230 --> 00:17:02,830
+that building generative
+models with various constraints
+
+353
+00:17:02,830 --> 00:17:07,190
+and requirements and conditions
+and theory built in--
+
+354
+00:17:07,190 --> 00:17:10,230
+so we can call that
+inductive biases--
+
+355
+00:17:10,230 --> 00:17:14,589
+as well as important
+features such as uncertainty
+
+356
+00:17:14,589 --> 00:17:16,390
+quantification or
+in the case I talked
+
+357
+00:17:16,390 --> 00:17:20,109
+about before asymptotic
+guarantees of exactness
+
+358
+00:17:20,109 --> 00:17:23,190
+feeds back in to new
+generative architectures that
+
+359
+00:17:23,190 --> 00:17:25,750
+lead to new discoveries both
+in the physical sciences
+
+360
+00:17:25,750 --> 00:17:26,690
+and elsewhere.
+
+361
+00:17:29,210 --> 00:17:31,150
+So the idea I want
+to leave you with
+
+362
+00:17:31,150 --> 00:17:33,150
+is that physics
+problems like those
+
+363
+00:17:33,150 --> 00:17:37,800
+I was discussing present both
+challenges and opportunities.
+
+364
+00:17:37,800 --> 00:17:41,280
+They can be in many ways
+very different in nature
+
+365
+00:17:41,280 --> 00:17:43,020
+from other generative
+applications.
+
+366
+00:17:43,020 --> 00:17:45,000
+I had a comparison of
+say image generation
+
+367
+00:17:45,000 --> 00:17:46,680
+compared to quantum
+field generation
+
+368
+00:17:46,680 --> 00:17:49,040
+with a hierarchy of data
+scales was extremely
+
+369
+00:17:49,040 --> 00:17:50,958
+different and extreme inverse.
+
+370
+00:17:50,958 --> 00:17:53,500
+We have asymptotic guarantees
+of exactness that are required.
+
+371
+00:17:53,500 --> 00:17:55,560
+We have complicated symmetries.
+
+372
+00:17:55,560 --> 00:17:58,273
+But building all of that
+in to generative models
+
+373
+00:17:58,273 --> 00:18:00,440
+can lead you to New and
+more efficient architectures
+
+374
+00:18:00,440 --> 00:18:02,640
+that then also have
+applications elsewhere.
+
+375
+00:18:02,640 --> 00:18:05,000
+So this is the idea of
+physical generative AI
+
+376
+00:18:05,000 --> 00:18:09,240
+to achieve robustness,
+precision, interpretability
+
+377
+00:18:09,240 --> 00:18:13,000
+taking inspiration from the
+fact that physical systems are
+
+378
+00:18:13,000 --> 00:18:16,240
+generative models, and so
+building generative models
+
+379
+00:18:16,240 --> 00:18:18,120
+with the structures of
+those physical systems
+
+380
+00:18:18,120 --> 00:18:21,260
+in is not only a natural way
+to study physical systems
+
+381
+00:18:21,260 --> 00:18:23,640
+but can have
+applications beyond.
+
+382
+00:18:23,640 --> 00:18:24,660
+Thank you very much.
+
+383
+00:18:24,660 --> 00:18:26,240
+[APPLAUSE]
+
+384
+00:18:26,240 --> 00:18:27,560
+Hi.
+
+385
+00:18:27,560 --> 00:18:32,320
+So we're going to switch gears
+a bit and talk about music.
+
+386
+00:18:32,320 --> 00:18:36,200
+Yeah, in my past life,
+I was a composer.
+
+387
+00:18:36,200 --> 00:18:40,960
+I wrote for a lot of my
+friends, acoustic chamber music,
+
+388
+00:18:40,960 --> 00:18:43,600
+and then I started
+doing computer music.
+
+389
+00:18:43,600 --> 00:18:45,240
+And then I realized,
+yeah, there was
+
+390
+00:18:45,240 --> 00:18:47,460
+a lot of things
+creatively I wanted to do,
+
+391
+00:18:47,460 --> 00:18:51,280
+but I felt like in terms
+of my engineering skills
+
+392
+00:18:51,280 --> 00:18:54,420
+or my, yeah,
+technological skills,
+
+393
+00:18:54,420 --> 00:18:58,560
+I felt like I wasn't there
+to bring my vision and--
+
+394
+00:18:58,560 --> 00:19:00,900
+yeah, creative vision
+into realization.
+
+395
+00:19:00,900 --> 00:19:03,920
+So I ended up doing a PhD
+in machine learning and also
+
+396
+00:19:03,920 --> 00:19:06,120
+human computer interaction.
+
+397
+00:19:06,120 --> 00:19:08,605
+So today I'm going to talk--
+
+398
+00:19:08,605 --> 00:19:09,230
+[MUSIC PLAYING]
+
+399
+00:19:09,230 --> 00:19:11,200
+Oh, sound check.
+
+400
+00:19:11,200 --> 00:19:14,300
+Awesome.
+
+401
+00:19:14,300 --> 00:19:21,240
+So today I'm going to talk
+about my recent eight year
+
+402
+00:19:21,240 --> 00:19:28,440
+of an arc going from the lab to
+really bringing this technology
+
+403
+00:19:28,440 --> 00:19:30,280
+into the concert hall.
+
+404
+00:19:30,280 --> 00:19:32,580
+And what's really interesting
+about this process,
+
+405
+00:19:32,580 --> 00:19:39,210
+it has been multiple years of
+me finding my way is it really--
+
+406
+00:19:39,210 --> 00:19:41,970
+in additional to
+thinking about music
+
+407
+00:19:41,970 --> 00:19:45,130
+as modeling all the
+amazing structure,
+
+408
+00:19:45,130 --> 00:19:48,490
+it makes us think more
+about human AI interaction
+
+409
+00:19:48,490 --> 00:19:54,130
+and what is needed to build
+systems that can be partners
+
+410
+00:19:54,130 --> 00:19:55,540
+in this co-creative process.
+
+411
+00:19:59,290 --> 00:20:04,170
+So I'm going to start
+from 2017 around June.
+
+412
+00:20:04,170 --> 00:20:07,493
+The transformer paper
+appeared on the archive.
+
+413
+00:20:07,493 --> 00:20:09,910
+At the time, there was-- it
+was really, really impressive,
+
+414
+00:20:09,910 --> 00:20:12,030
+but there was still a
+lot of uncertainty about,
+
+415
+00:20:12,030 --> 00:20:16,210
+oh, what could this be useful
+for and how far it be-- can
+
+416
+00:20:16,210 --> 00:20:17,410
+we bring it.
+
+417
+00:20:17,410 --> 00:20:20,030
+I felt it was the
+perfect model for music
+
+418
+00:20:20,030 --> 00:20:23,170
+because in music we have
+a lot of self-reference
+
+419
+00:20:23,170 --> 00:20:24,110
+within the piece.
+
+420
+00:20:24,110 --> 00:20:26,690
+That's how we build the meaning.
+
+421
+00:20:26,690 --> 00:20:30,930
+So I thought, yeah, we have
+a chance here to really model
+
+422
+00:20:30,930 --> 00:20:32,500
+that long-term structure.
+
+423
+00:20:32,500 --> 00:20:35,260
+And how do people
+come into this picture
+
+424
+00:20:35,260 --> 00:20:39,780
+is we wanted also to model
+the pianist's expressive
+
+425
+00:20:39,780 --> 00:20:41,300
+interpretation of
+the piece, so all
+
+426
+00:20:41,300 --> 00:20:44,580
+the micro dynamics
+and timing, we
+
+427
+00:20:44,580 --> 00:20:46,900
+want to be able to model that.
+
+428
+00:20:46,900 --> 00:20:50,953
+So that is-- after a year
+of getting it to work,
+
+429
+00:20:50,953 --> 00:20:52,620
+there was a lot of
+architectural changes
+
+430
+00:20:52,620 --> 00:20:54,780
+we needed to do
+to better align it
+
+431
+00:20:54,780 --> 00:21:00,060
+to the kinds of multi-level
+structure that was in music.
+
+432
+00:21:00,060 --> 00:21:01,300
+And, yeah, at the--
+
+433
+00:21:01,300 --> 00:21:03,780
+when it started working,
+we were seeing it
+
+434
+00:21:03,780 --> 00:21:06,420
+generate an amazing structure.
+
+435
+00:21:06,420 --> 00:21:10,680
+For example, here you see
+these grayed out areas,
+
+436
+00:21:10,680 --> 00:21:13,820
+so this is a sample
+generated from the model.
+
+437
+00:21:13,820 --> 00:21:17,060
+It's able to take these
+motifs this, broken lines
+
+438
+00:21:17,060 --> 00:21:21,300
+tremolo gesture and repeat it
+and add variation and really
+
+439
+00:21:21,300 --> 00:21:22,420
+build out an arc.
+
+440
+00:21:22,420 --> 00:21:24,753
+So I will play some of that.
+
+441
+00:21:24,753 --> 00:21:26,420
+So this is going to
+be an animation what
+
+442
+00:21:26,420 --> 00:21:31,790
+you see in real time how the
+model is thinking and looking
+
+443
+00:21:31,790 --> 00:21:35,000
+back as it's generating forward.
+
+444
+00:21:35,000 --> 00:21:37,970
+[MUSIC PLAYING]
+
+445
+00:22:10,190 --> 00:22:14,390
+So, yeah, this was 2018.
+
+446
+00:22:14,390 --> 00:22:18,870
+Fast forward to this past year.
+
+447
+00:22:18,870 --> 00:22:21,590
+I've joined MIT, and
+I'm really excited to be
+
+448
+00:22:21,590 --> 00:22:24,590
+both in the music department
+in the engineering school.
+
+449
+00:22:24,590 --> 00:22:30,570
+And this has really allowed
+us to work with musicians
+
+450
+00:22:30,570 --> 00:22:32,240
+on a day-to-day level.
+
+451
+00:22:32,240 --> 00:22:36,240
+So this past summer, we
+recruited three MIT jazz
+
+452
+00:22:36,240 --> 00:22:38,080
+musicians.
+
+453
+00:22:38,080 --> 00:22:42,620
+And it has been really,
+really phenomenal,
+
+454
+00:22:42,620 --> 00:22:44,260
+and it's been a lot of fun.
+
+455
+00:22:44,260 --> 00:22:47,840
+And I think there's this
+unique situation where
+
+456
+00:22:47,840 --> 00:22:50,120
+these musicians are also
+very technologically
+
+457
+00:22:50,120 --> 00:22:52,080
+savvy and curious.
+
+458
+00:22:52,080 --> 00:22:55,000
+So we were able to do a summer
+long of co-design session
+
+459
+00:22:55,000 --> 00:22:57,980
+with them to really
+take these systems
+
+460
+00:22:57,980 --> 00:23:01,540
+and see how we can bring
+it into the concert hall.
+
+461
+00:23:01,540 --> 00:23:05,600
+And, of course, there's
+a lot of challenges.
+
+462
+00:23:05,600 --> 00:23:10,280
+So previously Lancelot and
+Perry from the Media Lab,
+
+463
+00:23:10,280 --> 00:23:14,040
+we worked on this system
+that in collaboration
+
+464
+00:23:14,040 --> 00:23:16,380
+with a Grammy-winning
+keyboardist,
+
+465
+00:23:16,380 --> 00:23:18,800
+very virtuosic, to
+think about, yeah,
+
+466
+00:23:18,800 --> 00:23:20,340
+how do you make this happen.
+
+467
+00:23:20,340 --> 00:23:26,000
+How do you go from a language
+model to an agent, a jambot
+
+468
+00:23:26,000 --> 00:23:27,880
+that the musician
+feels like they
+
+469
+00:23:27,880 --> 00:23:30,050
+have some kind of
+agency and partnership
+
+470
+00:23:30,050 --> 00:23:34,152
+over in this live setting?
+
+471
+00:23:34,152 --> 00:23:35,610
+So some of the
+things we have to do
+
+472
+00:23:35,610 --> 00:23:39,590
+is think about
+this improvisation
+
+473
+00:23:39,590 --> 00:23:42,210
+so we're all
+improvising on the fly
+
+474
+00:23:42,210 --> 00:23:46,210
+and what kind of coordination
+needs to happen in order
+
+475
+00:23:46,210 --> 00:23:50,035
+to make this duet work.
+
+476
+00:23:50,035 --> 00:23:51,910
+There's different
+relationships, for example.
+
+477
+00:23:51,910 --> 00:23:54,450
+I can play something and
+then you play something
+
+478
+00:23:54,450 --> 00:23:56,030
+or we want to be
+playing together.
+
+479
+00:23:56,030 --> 00:23:59,110
+Yeah, in music, a lot is like
+I'm playing different parts
+
+480
+00:23:59,110 --> 00:24:01,450
+in the piece.
+
+481
+00:24:01,450 --> 00:24:05,810
+And, of course, this took a lot
+of system and engineering design
+
+482
+00:24:05,810 --> 00:24:08,250
+to get the system to be
+embedded in this kind
+
+483
+00:24:08,250 --> 00:24:10,450
+of real-time setting.
+
+484
+00:24:10,450 --> 00:24:12,190
+It had to be able to listen.
+
+485
+00:24:12,190 --> 00:24:14,810
+It had to be able to
+prompt and schedule
+
+486
+00:24:14,810 --> 00:24:18,660
+everything that was happening
+seamlessly on stage.
+
+487
+00:24:21,290 --> 00:24:28,260
+So here I'll play you one of
+the early encounters we had,
+
+488
+00:24:28,260 --> 00:24:31,580
+and you can see how
+are these models
+
+489
+00:24:31,580 --> 00:24:35,420
+are still trained on piano
+music where you tend to play
+
+490
+00:24:35,420 --> 00:24:37,680
+in the middle of the piano.
+
+491
+00:24:37,680 --> 00:24:42,180
+So you're fighting for
+space a little bit.
+
+492
+00:24:42,180 --> 00:24:43,710
+So we'll see it.
+
+493
+00:24:43,710 --> 00:24:46,530
+[MUSIC PLAYING]
+
+494
+00:25:16,796 --> 00:25:19,540
+So this was our summer, yeah.
+
+495
+00:25:19,540 --> 00:25:20,680
+Doing this every week.
+
+496
+00:25:20,680 --> 00:25:23,674
+[MUSIC PLAYING]
+
+497
+00:25:27,670 --> 00:25:29,518
+I have the pedal for it.
+
+498
+00:25:29,518 --> 00:25:31,148
+[LAUGHTER]
+
+499
+00:25:31,148 --> 00:25:32,690
+Yeah, the model
+doesn't how to pedal.
+
+500
+00:25:32,690 --> 00:25:34,390
+So naturally, the
+piano is sitting
+
+501
+00:25:34,390 --> 00:25:37,940
+in front of the piano
+pedals for the model.
+
+502
+00:25:43,450 --> 00:25:45,550
+So you see it there,
+yeah, trying to trade
+
+503
+00:25:45,550 --> 00:25:48,150
+and trying to make
+space for each other.
+
+504
+00:25:48,150 --> 00:25:50,770
+And then later on in--
+a couple minutes later,
+
+505
+00:25:50,770 --> 00:25:54,430
+the musician found maybe
+a little local optima
+
+506
+00:25:54,430 --> 00:25:56,430
+in terms of how to
+interact with the model.
+
+507
+00:25:56,430 --> 00:25:58,328
+So let's see it.
+
+508
+00:25:58,328 --> 00:26:01,322
+[MUSIC PLAYING]
+
+509
+00:26:56,270 --> 00:26:59,110
+Thank you.
+
+510
+00:26:59,110 --> 00:27:04,496
+So notice that the pianist in
+this local optima setting was--
+
+511
+00:27:04,496 --> 00:27:08,750
+ended up just using one hand
+because, yeah, the jam bot
+
+512
+00:27:08,750 --> 00:27:10,110
+was taking--
+
+513
+00:27:10,110 --> 00:27:13,210
+yeah, the role of the other
+things that are happening.
+
+514
+00:27:13,210 --> 00:27:16,750
+So if we wanted to
+do a three-hand piano
+
+515
+00:27:16,750 --> 00:27:19,670
+or a four-hand piano,
+how would we do that?
+
+516
+00:27:19,670 --> 00:27:22,470
+So some of the things
+we tried on the fly
+
+517
+00:27:22,470 --> 00:27:27,320
+is, yeah, what we gave
+the pianist more controls.
+
+518
+00:27:27,320 --> 00:27:32,480
+For example, it could tell the
+jambot which part of the piano
+
+519
+00:27:32,480 --> 00:27:37,423
+they want the jambot to be
+playing or what kind of rhythm,
+
+520
+00:27:37,423 --> 00:27:38,840
+and at the same
+time, we want this
+
+521
+00:27:38,840 --> 00:27:42,750
+to be a two-way conversation,
+a two-way communication.
+
+522
+00:27:42,750 --> 00:27:44,500
+So the musician's
+communicating something,
+
+523
+00:27:44,500 --> 00:27:48,420
+and then we want the model
+to also let the musician,
+
+524
+00:27:48,420 --> 00:27:51,060
+yes, I'm going to be
+playing around here
+
+525
+00:27:51,060 --> 00:27:54,320
+and this is the density of
+what I'm going to be playing.
+
+526
+00:27:54,320 --> 00:27:57,400
+So I'm going to play
+you this last clip.
+
+527
+00:27:57,400 --> 00:28:01,360
+It is-- it just happened
+two Fridays ago where
+
+528
+00:28:01,360 --> 00:28:04,940
+we had this jambot in concert.
+
+529
+00:28:04,940 --> 00:28:07,456
+And this is a
+musician Andrew Lee.
+
+530
+00:28:07,456 --> 00:28:10,444
+[MUSIC PLAYING]
+
+531
+00:29:15,110 --> 00:29:16,050
+I'll stop there.
+
+532
+00:29:16,050 --> 00:29:18,870
+Thank you all for listening.
+
+533
+00:29:18,870 --> 00:29:21,920
+[APPLAUSE]
+

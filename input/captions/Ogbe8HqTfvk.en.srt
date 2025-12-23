@@ -1,0 +1,944 @@
+1
+00:00:00,000 --> 00:00:03,000
+Our
+
+2
+00:00:04,880 --> 00:00:12,400
+next speaker is Vir Shvet who is a
+
+3
+00:00:09,200 --> 00:00:16,080
+professor at the MIT computer science
+
+4
+00:00:12,400 --> 00:00:19,119
+and AI lab. He is also a co-founder of a
+
+5
+00:00:16,080 --> 00:00:20,960
+company called Neurom Neurom Magic which
+
+6
+00:00:19,119 --> 00:00:23,519
+uh right now I believe is part of Red
+
+7
+00:00:20,960 --> 00:00:26,640
+Hat and also which is part of IBM. So
+
+8
+00:00:23,519 --> 00:00:30,080
+let's uh join me in welcoming Shamir.
+
+9
+00:00:26,640 --> 00:00:32,480
+>> Hi everybody. Um yeah, so uh I'm going
+
+10
+00:00:30,080 --> 00:00:34,399
+to tell you a little bit about um
+
+11
+00:00:32,480 --> 00:00:36,079
+inference. AI inference sounds boring
+
+12
+00:00:34,399 --> 00:00:39,440
+relative to all these fantastic things
+
+13
+00:00:36,079 --> 00:00:43,040
+that people do with real materials. Um
+
+14
+00:00:39,440 --> 00:00:45,600
+so um
+
+15
+00:00:43,040 --> 00:00:48,239
+um you know
+
+16
+00:00:45,600 --> 00:00:51,440
+AI models especially open AI models have
+
+17
+00:00:48,239 --> 00:00:55,520
+been just through a fantastic journey in
+
+18
+00:00:51,440 --> 00:00:57,360
+the last um couple of years and people
+
+19
+00:00:55,520 --> 00:01:01,039
+use them everywhere and I think this is
+
+20
+00:00:57,360 --> 00:01:04,640
+just going to keep on going. Now these
+
+21
+00:01:01,039 --> 00:01:08,640
+models kind of belong to a different
+
+22
+00:01:04,640 --> 00:01:10,799
+family of um software.
+
+23
+00:01:08,640 --> 00:01:13,840
+Um there's been like a fundamental
+
+24
+00:01:10,799 --> 00:01:16,159
+change in how what the software is that
+
+25
+00:01:13,840 --> 00:01:19,759
+we're building. In the past we used to
+
+26
+00:01:16,159 --> 00:01:21,840
+build software that I would say was kind
+
+27
+00:01:19,759 --> 00:01:23,840
+of input driven.
+
+28
+00:01:21,840 --> 00:01:26,240
+You have a small program with a few
+
+29
+00:01:23,840 --> 00:01:28,400
+parameters and then you know you run the
+
+30
+00:01:26,240 --> 00:01:30,400
+program and it is the data right the
+
+31
+00:01:28,400 --> 00:01:33,040
+huge data that you run on whether it's a
+
+32
+00:01:30,400 --> 00:01:34,720
+database or or another application that
+
+33
+00:01:33,040 --> 00:01:36,479
+determines you know how much time it
+
+34
+00:01:34,720 --> 00:01:38,560
+takes you to run this thing. So
+
+35
+00:01:36,479 --> 00:01:40,479
+everything is proportional to the amount
+
+36
+00:01:38,560 --> 00:01:42,079
+of input
+
+37
+00:01:40,479 --> 00:01:44,240
+and this is kind of fundamentally
+
+38
+00:01:42,079 --> 00:01:47,840
+changed because now we have these AI
+
+39
+00:01:44,240 --> 00:01:50,479
+models and these models actually the
+
+40
+00:01:47,840 --> 00:01:52,560
+program is enormous right the number of
+
+41
+00:01:50,479 --> 00:01:55,439
+parameters actually determines your
+
+42
+00:01:52,560 --> 00:01:57,840
+performance and so we've now gone from
+
+43
+00:01:55,439 --> 00:02:00,719
+what I call input driven to parameter
+
+44
+00:01:57,840 --> 00:02:03,119
+driven and this kind of means that we
+
+45
+00:02:00,719 --> 00:02:06,320
+have to change the way we actually
+
+46
+00:02:03,119 --> 00:02:08,239
+orchestrate running these programs
+
+47
+00:02:06,320 --> 00:02:11,599
+in particular, right? This has to do
+
+48
+00:02:08,239 --> 00:02:13,920
+with what we call um AI inference. So I
+
+49
+00:02:11,599 --> 00:02:16,480
+want to go back for a second and think
+
+50
+00:02:13,920 --> 00:02:18,080
+not about AI inference but about
+
+51
+00:02:16,480 --> 00:02:19,599
+inference in general. What we think
+
+52
+00:02:18,080 --> 00:02:21,920
+about inference which is running
+
+53
+00:02:19,599 --> 00:02:25,280
+software in data centers, right? And if
+
+54
+00:02:21,920 --> 00:02:27,680
+you look at um you know the historical
+
+55
+00:02:25,280 --> 00:02:29,200
+way that we run software is we have
+
+56
+00:02:27,680 --> 00:02:31,680
+essentially this thing called an
+
+57
+00:02:29,200 --> 00:02:34,080
+operating system, right? So the
+
+58
+00:02:31,680 --> 00:02:36,000
+operating system is a layer that sits
+
+59
+00:02:34,080 --> 00:02:38,400
+between the applications which are
+
+60
+00:02:36,000 --> 00:02:41,440
+historically I I guess mostly databases
+
+61
+00:02:38,400 --> 00:02:44,319
+but also other types of servers and u
+
+62
+00:02:41,440 --> 00:02:48,239
+web servers things like that right and
+
+63
+00:02:44,319 --> 00:02:50,160
+the hardware which are CPUs
+
+64
+00:02:48,239 --> 00:02:52,319
+and this has been like that for many
+
+65
+00:02:50,160 --> 00:02:55,360
+many years and we're at a kind of
+
+66
+00:02:52,319 --> 00:02:57,040
+beautiful stable point if you you know
+
+67
+00:02:55,360 --> 00:02:59,599
+we have brilliant operating systems
+
+68
+00:02:57,040 --> 00:03:02,800
+researchers at MIT but kind of their
+
+69
+00:02:59,599 --> 00:03:05,440
+work now is kind of boring for industry.
+
+70
+00:03:02,800 --> 00:03:08,400
+Okay, I'm not I I don't wish to insult
+
+71
+00:03:05,440 --> 00:03:10,879
+anybody, right? But everything's stable.
+
+72
+00:03:08,400 --> 00:03:12,640
+Okay, there's not much changes in the
+
+73
+00:03:10,879 --> 00:03:14,319
+hardware. There's not much changes in
+
+74
+00:03:12,640 --> 00:03:15,760
+the software and therefore there doesn't
+
+75
+00:03:14,319 --> 00:03:18,080
+have to be a lot of change in the
+
+76
+00:03:15,760 --> 00:03:19,920
+operating system. We're pretty happy.
+
+77
+00:03:18,080 --> 00:03:22,720
+The thing that the operating system is
+
+78
+00:03:19,920 --> 00:03:25,440
+doing for the software is kind of giving
+
+79
+00:03:22,720 --> 00:03:28,000
+us this buffer, right? where the writers
+
+80
+00:03:25,440 --> 00:03:29,760
+of the um you know the applications the
+
+81
+00:03:28,000 --> 00:03:32,159
+databases they just have to write to the
+
+82
+00:03:29,760 --> 00:03:34,159
+operating system or the virtualization
+
+83
+00:03:32,159 --> 00:03:36,239
+layer right and then the people that
+
+84
+00:03:34,159 --> 00:03:38,400
+design the hardware they just write
+
+85
+00:03:36,239 --> 00:03:40,159
+drivers for the operating system you
+
+86
+00:03:38,400 --> 00:03:42,319
+know and comes a company like Red Hat
+
+87
+00:03:40,159 --> 00:03:45,040
+IBM right sits in the middle and
+
+88
+00:03:42,319 --> 00:03:46,480
+provides you this kind of smooth way of
+
+89
+00:03:45,040 --> 00:03:48,879
+running everything so that you can
+
+90
+00:03:46,480 --> 00:03:50,879
+change the hund hardware underneath you
+
+91
+00:03:48,879 --> 00:03:52,640
+can change the software above and it
+
+92
+00:03:50,879 --> 00:03:54,640
+doesn't really matter to you that's
+
+93
+00:03:52,640 --> 00:03:56,319
+really what an oper operating system is
+
+94
+00:03:54,640 --> 00:03:58,000
+doing.
+
+95
+00:03:56,319 --> 00:03:59,760
+And now the world has changed and we
+
+96
+00:03:58,000 --> 00:04:02,319
+have these parameter-driven
+
+97
+00:03:59,760 --> 00:04:05,760
+um you know algorithms this all this Gen
+
+98
+00:04:02,319 --> 00:04:09,200
+AI inference right and now right we have
+
+99
+00:04:05,760 --> 00:04:12,319
+a different game the applications are no
+
+100
+00:04:09,200 --> 00:04:16,079
+longer databases they are actually you
+
+101
+00:04:12,319 --> 00:04:19,519
+know um you know kind of uh models
+
+102
+00:04:16,079 --> 00:04:22,079
+bigger and bigger models as we go along
+
+103
+00:04:19,519 --> 00:04:24,880
+with all kinds of agentic applications
+
+104
+00:04:22,079 --> 00:04:27,919
+and things are kind of moving right
+
+105
+00:04:24,880 --> 00:04:32,240
+moving really really fast here, right?
+
+106
+00:04:27,919 --> 00:04:34,960
+And in the same at the same time because
+
+107
+00:04:32,240 --> 00:04:37,360
+our demands in terms of the software are
+
+108
+00:04:34,960 --> 00:04:39,840
+changing so rapidly, the hardware is
+
+109
+00:04:37,360 --> 00:04:42,479
+also trying to catch up. So we've got
+
+110
+00:04:39,840 --> 00:04:44,720
+all these types of new accelerators. You
+
+111
+00:04:42,479 --> 00:04:46,160
+know, every other every few months
+
+112
+00:04:44,720 --> 00:04:48,000
+there's a new version of some
+
+113
+00:04:46,160 --> 00:04:50,720
+accelerator, some piece of hardware that
+
+114
+00:04:48,000 --> 00:04:54,400
+somebody's designed.
+
+115
+00:04:50,720 --> 00:04:56,960
+And so what we need right is a new layer
+
+116
+00:04:54,400 --> 00:05:01,680
+there in between something that will
+
+117
+00:04:56,960 --> 00:05:04,800
+play the same exact role that you know
+
+118
+00:05:01,680 --> 00:05:07,360
+that that uh the operating system played
+
+119
+00:05:04,800 --> 00:05:09,280
+this time for the models and the um and
+
+120
+00:05:07,360 --> 00:05:12,000
+the hardware that they run on top of.
+
+121
+00:05:09,280 --> 00:05:13,360
+Okay. And the the beautiful thing about
+
+122
+00:05:12,000 --> 00:05:16,320
+this game, the thing that makes it
+
+123
+00:05:13,360 --> 00:05:18,639
+interesting, right, for scientists,
+
+124
+00:05:16,320 --> 00:05:20,800
+right, for developers is that it's
+
+125
+00:05:18,639 --> 00:05:23,840
+rapidly changing.
+
+126
+00:05:20,800 --> 00:05:27,039
+Okay. And this means that this layer,
+
+127
+00:05:23,840 --> 00:05:30,000
+okay, is changing like I I want to say
+
+128
+00:05:27,039 --> 00:05:32,320
+every week, okay, new versions of
+
+129
+00:05:30,000 --> 00:05:34,960
+things. We need to invent invent
+
+130
+00:05:32,320 --> 00:05:37,680
+technology. Now, it's kind of funny
+
+131
+00:05:34,960 --> 00:05:40,000
+because a lot of this technology, okay,
+
+132
+00:05:37,680 --> 00:05:41,919
+is are these are just variations of what
+
+133
+00:05:40,000 --> 00:05:43,919
+we already have done in operating
+
+134
+00:05:41,919 --> 00:05:45,840
+systems research. So we have to thank
+
+135
+00:05:43,919 --> 00:05:48,000
+you know people like like France Kashuk
+
+136
+00:05:45,840 --> 00:05:50,960
+at MIT who have already given us
+
+137
+00:05:48,000 --> 00:05:53,199
+wonderful ways of actually designing
+
+138
+00:05:50,960 --> 00:05:56,000
+scheduling and control and all these
+
+139
+00:05:53,199 --> 00:05:58,240
+other things. Okay. And now though we
+
+140
+00:05:56,000 --> 00:06:01,199
+have to apply them in a different way to
+
+141
+00:05:58,240 --> 00:06:03,759
+a different problem. Okay. And so this
+
+142
+00:06:01,199 --> 00:06:09,120
+is actually what's happening in this um
+
+143
+00:06:03,759 --> 00:06:13,199
+in this space. Um and you know and um
+
+144
+00:06:09,120 --> 00:06:16,400
+the kind of reason why um Red Hat IBM
+
+145
+00:06:13,199 --> 00:06:18,960
+bought my my my startup Neural Magic. I
+
+146
+00:06:16,400 --> 00:06:22,240
+started that company in 2018. We started
+
+147
+00:06:18,960 --> 00:06:26,560
+doing inference and um with the advent
+
+148
+00:06:22,240 --> 00:06:29,520
+of LLMs. Okay. Things just exploded.
+
+149
+00:06:26,560 --> 00:06:32,240
+Okay. And the reason right is because
+
+150
+00:06:29,520 --> 00:06:34,319
+suddenly we need a replacement. A
+
+151
+00:06:32,240 --> 00:06:37,039
+replacement for this operating system
+
+152
+00:06:34,319 --> 00:06:40,800
+paradigm. We need a new way of
+
+153
+00:06:37,039 --> 00:06:43,039
+insulating the models from the hardware
+
+154
+00:06:40,800 --> 00:06:46,240
+so that any new player in the
+
+155
+00:06:43,039 --> 00:06:49,440
+accelerator space can join in and
+
+156
+00:06:46,240 --> 00:06:51,520
+replace an Nvidia GPU without a problem
+
+157
+00:06:49,440 --> 00:06:53,840
+that you can have a data center that is
+
+158
+00:06:51,520 --> 00:06:55,840
+not uniform all Nvidia GPUs. I mean,
+
+159
+00:06:53,840 --> 00:06:57,199
+it's nice to do it with a uniform thing
+
+160
+00:06:55,840 --> 00:06:58,639
+if you're doing, you know, if you're
+
+161
+00:06:57,199 --> 00:07:00,319
+doing training, but if you're doing
+
+162
+00:06:58,639 --> 00:07:02,080
+inference and you're doing this in a
+
+163
+00:07:00,319 --> 00:07:04,000
+modern data center, you want to let the
+
+164
+00:07:02,080 --> 00:07:06,400
+customer pick what type of hardware he
+
+165
+00:07:04,000 --> 00:07:08,479
+wants to run on. Okay? You want
+
+166
+00:07:06,400 --> 00:07:11,680
+competition. You want to encourage that
+
+167
+00:07:08,479 --> 00:07:15,199
+below. Okay?
+
+168
+00:07:11,680 --> 00:07:17,039
+And so if you build this intermediate
+
+169
+00:07:15,199 --> 00:07:19,840
+layer, you're allowing any changes you
+
+170
+00:07:17,039 --> 00:07:22,800
+want underneath. And in the same time
+
+171
+00:07:19,840 --> 00:07:25,120
+right the applications the actual models
+
+172
+00:07:22,800 --> 00:07:28,479
+can change very rapidly. All they have
+
+173
+00:07:25,120 --> 00:07:31,199
+to do right is fit to this intermediate
+
+174
+00:07:28,479 --> 00:07:33,840
+layer right they only need to fit to the
+
+175
+00:07:31,199 --> 00:07:35,759
+inferencing layer. And if we achieve
+
+176
+00:07:33,840 --> 00:07:38,319
+this okay and we're very by the way
+
+177
+00:07:35,759 --> 00:07:43,199
+we're very far from achieving it. Okay
+
+178
+00:07:38,319 --> 00:07:46,080
+but if we do we'll be golden. And so VLM
+
+179
+00:07:43,199 --> 00:07:49,520
+okay which is kind of the specialtity of
+
+180
+00:07:46,080 --> 00:07:52,319
+my company. We are the core uh
+
+181
+00:07:49,520 --> 00:07:56,080
+developers of the VLM kernels and the
+
+182
+00:07:52,319 --> 00:07:59,919
+VLM internals. Okay. What VLM gives you
+
+183
+00:07:56,080 --> 00:08:03,759
+is one of those um you know kind of
+
+184
+00:07:59,919 --> 00:08:05,759
+operating systems for ML and this is
+
+185
+00:08:03,759 --> 00:08:07,599
+really I think this is where we're
+
+186
+00:08:05,759 --> 00:08:10,400
+going. So we're going to have open
+
+187
+00:08:07,599 --> 00:08:13,120
+software above a variation a variety of
+
+188
+00:08:10,400 --> 00:08:16,400
+hardware below and we're going to have
+
+189
+00:08:13,120 --> 00:08:19,120
+um you know VLM style um intermediate
+
+190
+00:08:16,400 --> 00:08:22,400
+layers that are essentially going to um
+
+191
+00:08:19,120 --> 00:08:26,319
+you know replace the operating system.
+
+192
+00:08:22,400 --> 00:08:29,520
+So a modern kind of um operating system
+
+193
+00:08:26,319 --> 00:08:32,399
+replacement right um the the inference
+
+194
+00:08:29,520 --> 00:08:35,120
+server will be able to connect any type
+
+195
+00:08:32,399 --> 00:08:38,320
+of software any type of model with any
+
+196
+00:08:35,120 --> 00:08:40,800
+type of hardware and make it you know a
+
+197
+00:08:38,320 --> 00:08:42,880
+level playing field for everyone to to
+
+198
+00:08:40,800 --> 00:08:44,640
+kind of exist in and there's incredible
+
+199
+00:08:42,880 --> 00:08:47,680
+buyin from all of the hardware and
+
+200
+00:08:44,640 --> 00:08:49,920
+software providers for this kind of a
+
+201
+00:08:47,680 --> 00:08:52,000
+solution
+
+202
+00:08:49,920 --> 00:08:56,680
+and I think with that I'll finish and
+
+203
+00:08:52,000 --> 00:08:56,680
+Um, you're welcome to ask any questions.
+
+204
+00:09:01,680 --> 00:09:05,240
+>> Questions for near.
+
+205
+00:09:07,760 --> 00:09:10,760
+>> Yeah.
+
+206
+00:09:11,920 --> 00:09:18,880
+>> Hi. Um, so I was I was also like I I
+
+207
+00:09:15,440 --> 00:09:21,360
+know a little about like VRM and uh I
+
+208
+00:09:18,880 --> 00:09:24,320
+read like there was a opensource
+
+209
+00:09:21,360 --> 00:09:26,480
+community out there that was uh they
+
+210
+00:09:24,320 --> 00:09:30,160
+have like all the codes auditable and
+
+211
+00:09:26,480 --> 00:09:34,000
+everything. Uh so like what does your
+
+212
+00:09:30,160 --> 00:09:36,399
+company do like uh in this field?
+
+213
+00:09:34,000 --> 00:09:38,720
+>> Great question. So, so when you have a
+
+214
+00:09:36,399 --> 00:09:42,320
+piece of open- source software like
+
+215
+00:09:38,720 --> 00:09:45,680
+Linux an operating system or VLM a uh
+
+216
+00:09:42,320 --> 00:09:48,240
+you know runtime right so the open
+
+217
+00:09:45,680 --> 00:09:51,600
+source developer developed this uh
+
+218
+00:09:48,240 --> 00:09:54,720
+software but enterprise companies cannot
+
+219
+00:09:51,600 --> 00:09:57,600
+rely on the open-source software to run
+
+220
+00:09:54,720 --> 00:10:01,279
+missionritical applications and so
+
+221
+00:09:57,600 --> 00:10:04,080
+companies like Red Hat, IBM, Oracle etc.
+
+222
+00:10:01,279 --> 00:10:06,240
+companies like that provide right a
+
+223
+00:10:04,080 --> 00:10:08,560
+solution that is stable and so for the
+
+224
+00:10:06,240 --> 00:10:11,600
+business world the stability of the
+
+225
+00:10:08,560 --> 00:10:14,000
+software right is the thing that is
+
+226
+00:10:11,600 --> 00:10:16,880
+given and of course you know there's a
+
+227
+00:10:14,000 --> 00:10:19,040
+there's a little bit of a kind of a also
+
+228
+00:10:16,880 --> 00:10:22,160
+uh uh when when you say open source
+
+229
+00:10:19,040 --> 00:10:24,800
+right uh VLM is an open-source uh
+
+230
+00:10:22,160 --> 00:10:27,600
+product developed by I would say three
+
+231
+00:10:24,800 --> 00:10:29,120
+companies really together so yes there
+
+232
+00:10:27,600 --> 00:10:30,720
+are developers out there that are
+
+233
+00:10:29,120 --> 00:10:33,839
+sitting at home and coding for the fun
+
+234
+00:10:30,720 --> 00:10:35,600
+of But mostly it's done within companies
+
+235
+00:10:33,839 --> 00:10:40,040
+that have an interest in the success of
+
+236
+00:10:35,600 --> 00:10:40,040
+the product. Yeah.
+

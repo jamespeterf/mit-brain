@@ -1,0 +1,6724 @@
+1
+00:00:12,240 --> 00:00:17,039
+Hello class. Uh welcome to 18200. So if
+
+2
+00:00:15,440 --> 00:00:19,600
+you're in the right place, uh this is
+
+3
+00:00:17,039 --> 00:00:21,439
+principles of discrete applied math. Uh
+
+4
+00:00:19,600 --> 00:00:23,519
+I'll be one of your co- lectures. I'm
+
+5
+00:00:21,439 --> 00:00:26,000
+Ankor Mitra and the other co-lecture is
+
+6
+00:00:23,519 --> 00:00:28,400
+Peter Shore. So Peter, you want to stand
+
+7
+00:00:26,000 --> 00:00:30,240
+up and take a bow? [laughter]
+
+8
+00:00:28,400 --> 00:00:32,000
+So the basic topics that we're going to
+
+9
+00:00:30,240 --> 00:00:34,160
+be covering is we're going to top cover
+
+10
+00:00:32,000 --> 00:00:36,160
+topics like probability counting. This
+
+11
+00:00:34,160 --> 00:00:37,520
+will be the beginning part of the class.
+
+12
+00:00:36,160 --> 00:00:39,920
+Some of you have may have seen these
+
+13
+00:00:37,520 --> 00:00:41,520
+topics before, but really in the later
+
+14
+00:00:39,920 --> 00:00:43,680
+parts of the class, we're going to cover
+
+15
+00:00:41,520 --> 00:00:45,280
+some quite new things. We'll talk a lot
+
+16
+00:00:43,680 --> 00:00:48,719
+about generating functions, number
+
+17
+00:00:45,280 --> 00:00:51,600
+theory, uh cryptography, coding theory,
+
+18
+00:00:48,719 --> 00:00:53,199
+things like noless coding, uh linear
+
+19
+00:00:51,600 --> 00:00:55,920
+programming, and lots of other fun
+
+20
+00:00:53,199 --> 00:00:57,760
+topics. You know, I want to mention that
+
+21
+00:00:55,920 --> 00:00:59,680
+um I mean the goal for this class is to
+
+22
+00:00:57,760 --> 00:01:02,239
+try and teach you how to express proofs
+
+23
+00:00:59,680 --> 00:01:05,360
+in an understandable way. This is one of
+
+24
+00:01:02,239 --> 00:01:07,439
+these skills at MIT that uh you know you
+
+25
+00:01:05,360 --> 00:01:09,680
+can kind of pick up a little bit from
+
+26
+00:01:07,439 --> 00:01:11,280
+various classes along the way. But
+
+27
+00:01:09,680 --> 00:01:13,040
+sitting down and conscientiously
+
+28
+00:01:11,280 --> 00:01:15,520
+thinking about you know what makes a
+
+29
+00:01:13,040 --> 00:01:17,520
+proof easy to follow. you know, how to
+
+30
+00:01:15,520 --> 00:01:19,280
+make it more modular and understandable
+
+31
+00:01:17,520 --> 00:01:21,680
+for the audience is something that's
+
+32
+00:01:19,280 --> 00:01:24,320
+going to help you a lot with other uh
+
+33
+00:01:21,680 --> 00:01:26,080
+parts of math and also other parts of
+
+34
+00:01:24,320 --> 00:01:28,000
+computer science in general. A lot of
+
+35
+00:01:26,080 --> 00:01:30,720
+the things that go into good coding
+
+36
+00:01:28,000 --> 00:01:32,720
+practices in terms of modularity are the
+
+37
+00:01:30,720 --> 00:01:35,360
+same types of things we think about when
+
+38
+00:01:32,720 --> 00:01:38,640
+we're writing good proofs.
+
+39
+00:01:35,360 --> 00:01:40,720
+So, uh that's enough boilerplate uh for
+
+40
+00:01:38,640 --> 00:01:43,119
+me. Uh I can only go so long without
+
+41
+00:01:40,720 --> 00:01:45,680
+talking about math. So what we're going
+
+42
+00:01:43,119 --> 00:01:47,840
+to be talking about today is um we're
+
+43
+00:01:45,680 --> 00:01:49,920
+going to talk about uh the pigeon hole
+
+44
+00:01:47,840 --> 00:01:51,439
+principle. Actually first let me hand it
+
+45
+00:01:49,920 --> 00:01:53,360
+off to Susan who's going to tell you a
+
+46
+00:01:51,439 --> 00:01:56,320
+little bit more about the recitations
+
+47
+00:01:53,360 --> 00:01:59,040
+and then I'll take it away after that.
+
+48
+00:01:56,320 --> 00:02:01,920
+>> Thank you very much Anker. So as Anker
+
+49
+00:01:59,040 --> 00:02:03,680
+noted this is a CIM a communication
+
+50
+00:02:01,920 --> 00:02:07,680
+intensive class in the major and the
+
+51
+00:02:03,680 --> 00:02:09,920
+purpose of CAM is to help you to
+
+52
+00:02:07,680 --> 00:02:13,200
+communicate effectively as
+
+53
+00:02:09,920 --> 00:02:16,879
+mathematicians. That's for CIM. CIM's in
+
+54
+00:02:13,200 --> 00:02:18,959
+the math department. So, communicating
+
+55
+00:02:16,879 --> 00:02:21,200
+successfully in a new discipline
+
+56
+00:02:18,959 --> 00:02:23,360
+requires expertise in several different
+
+57
+00:02:21,200 --> 00:02:26,400
+domains. This is based on a model by
+
+58
+00:02:23,360 --> 00:02:28,800
+Anne Bowfort and we will give you we
+
+59
+00:02:26,400 --> 00:02:30,560
+will teach you in these different
+
+60
+00:02:28,800 --> 00:02:32,879
+domains over the course of this semester
+
+61
+00:02:30,560 --> 00:02:35,519
+in the recitations. So you need
+
+62
+00:02:32,879 --> 00:02:37,920
+expertise of course with the content and
+
+63
+00:02:35,519 --> 00:02:40,160
+so the recitations will be designed to
+
+64
+00:02:37,920 --> 00:02:42,959
+help you reinforce your understanding of
+
+65
+00:02:40,160 --> 00:02:45,760
+the mathematics in addition to other
+
+66
+00:02:42,959 --> 00:02:47,440
+aspects of communication. To communicate
+
+67
+00:02:45,760 --> 00:02:50,319
+successfully as a mathematician, you
+
+68
+00:02:47,440 --> 00:02:52,800
+need to know the norms of mathematics
+
+69
+00:02:50,319 --> 00:02:55,120
+because they vary. There are differences
+
+70
+00:02:52,800 --> 00:02:57,360
+between norms in core six and course and
+
+71
+00:02:55,120 --> 00:02:58,800
+norms in mathematics and you'll become
+
+72
+00:02:57,360 --> 00:03:00,400
+familiar with some of those. For
+
+73
+00:02:58,800 --> 00:03:02,239
+example,
+
+74
+00:03:00,400 --> 00:03:04,879
+what goes into the introduction of a
+
+75
+00:03:02,239 --> 00:03:07,519
+paper for the term paper. That'll be
+
+76
+00:03:04,879 --> 00:03:09,760
+basically a multi-page proof and we'll
+
+77
+00:03:07,519 --> 00:03:12,319
+tell you the differences what goes in
+
+78
+00:03:09,760 --> 00:03:15,200
+the introduction there. Um, also norms
+
+79
+00:03:12,319 --> 00:03:18,080
+of wording like how to use the word we.
+
+80
+00:03:15,200 --> 00:03:20,720
+Mathematicians use we in different ways
+
+81
+00:03:18,080 --> 00:03:23,120
+than some other disciplines.
+
+82
+00:03:20,720 --> 00:03:26,080
+You also to communicate successfully as
+
+83
+00:03:23,120 --> 00:03:29,440
+a mathematician. You also need expertise
+
+84
+00:03:26,080 --> 00:03:31,360
+with processes for generating effective
+
+85
+00:03:29,440 --> 00:03:33,200
+communication. That includes drafting.
+
+86
+00:03:31,360 --> 00:03:36,159
+We'll have multiple drafts built into
+
+87
+00:03:33,200 --> 00:03:38,000
+the term paper as well as things like
+
+88
+00:03:36,159 --> 00:03:39,840
+how to use latte and you'll start
+
+89
+00:03:38,000 --> 00:03:42,480
+learning that right off with the first
+
+90
+00:03:39,840 --> 00:03:44,239
+pet. If you're unfamiliar with latte,
+
+91
+00:03:42,480 --> 00:03:46,400
+please reach out. We can help you in
+
+92
+00:03:44,239 --> 00:03:49,120
+office hours.
+
+93
+00:03:46,400 --> 00:03:54,080
+You also need expertise
+
+94
+00:03:49,120 --> 00:03:56,400
+with rhetoric. And by this I mean um
+
+95
+00:03:54,080 --> 00:03:58,720
+rhetorical strategies, strategies for
+
+96
+00:03:56,400 --> 00:04:00,480
+accomplishing your goals as a
+
+97
+00:03:58,720 --> 00:04:02,640
+communicator.
+
+98
+00:04:00,480 --> 00:04:05,040
+For example, if mathematicians if they
+
+99
+00:04:02,640 --> 00:04:08,159
+have a complicated proof, one way to
+
+100
+00:04:05,040 --> 00:04:11,040
+communicate the logic clearly is to use
+
+101
+00:04:08,159 --> 00:04:14,319
+modularity, break the proof apart, pull
+
+102
+00:04:11,040 --> 00:04:19,519
+out a lema. Other strategies that you'll
+
+103
+00:04:14,319 --> 00:04:22,560
+learn in recitation are um how to
+
+104
+00:04:19,519 --> 00:04:24,639
+structure the um the ordering of
+
+105
+00:04:22,560 --> 00:04:27,520
+information within sentences within
+
+106
+00:04:24,639 --> 00:04:30,080
+sections within the paper to make the
+
+107
+00:04:27,520 --> 00:04:33,040
+paper flow well to reveal the flow of
+
+108
+00:04:30,080 --> 00:04:35,600
+the underlying logic so that readers can
+
+109
+00:04:33,040 --> 00:04:37,919
+easily follow the logic and also how to
+
+110
+00:04:35,600 --> 00:04:40,800
+use what we call guiding text to guide
+
+111
+00:04:37,919 --> 00:04:42,639
+readers through the logic. and we'll
+
+112
+00:04:40,800 --> 00:04:45,639
+give other strategies in recitation
+
+113
+00:04:42,639 --> 00:04:45,639
+also.
+
+114
+00:04:46,479 --> 00:04:50,800
+>> All right. Uh so back to me. So I'm
+
+115
+00:04:48,639 --> 00:04:52,560
+going to tell you the uh about one of
+
+116
+00:04:50,800 --> 00:04:55,600
+the first topics we're going to cover uh
+
+117
+00:04:52,560 --> 00:04:58,800
+in class which is um you know very
+
+118
+00:04:55,600 --> 00:05:00,720
+simple but powerful idea. We're going to
+
+119
+00:04:58,800 --> 00:05:03,268
+be discussing something called the
+
+120
+00:05:00,720 --> 00:05:04,320
+pigeon hole principle.
+
+121
+00:05:03,268 --> 00:05:06,320
+[clears throat] Now the pigeon hole
+
+122
+00:05:04,320 --> 00:05:08,720
+principle uh let me tell you the main
+
+123
+00:05:06,320 --> 00:05:11,199
+takeaways before we get into it. It's a
+
+124
+00:05:08,720 --> 00:05:13,280
+very simple idea. I'll tell you what
+
+125
+00:05:11,199 --> 00:05:16,880
+exactly it is and then we'll go through
+
+126
+00:05:13,280 --> 00:05:19,199
+some neat applications of it. Uh it
+
+127
+00:05:16,880 --> 00:05:21,600
+turns out to be shockingly powerful even
+
+128
+00:05:19,199 --> 00:05:24,080
+though you'll think of it as a very
+
+129
+00:05:21,600 --> 00:05:26,160
+obvious statement. I guess the other
+
+130
+00:05:24,080 --> 00:05:27,919
+thing which you know uh is important to
+
+131
+00:05:26,160 --> 00:05:29,440
+keep in mind it's also quite oddly
+
+132
+00:05:27,919 --> 00:05:31,280
+named.
+
+133
+00:05:29,440 --> 00:05:32,479
+I don't really know the entomology of
+
+134
+00:05:31,280 --> 00:05:35,840
+why it's called the pigeon hole
+
+135
+00:05:32,479 --> 00:05:37,759
+principle but um you know the basic idea
+
+136
+00:05:35,840 --> 00:05:38,960
+let's explain it through an example and
+
+137
+00:05:37,759 --> 00:05:42,160
+then I'll tell you about where the
+
+138
+00:05:38,960 --> 00:05:44,880
+pigeons come in. So uh here's a problem
+
+139
+00:05:42,160 --> 00:05:48,479
+that many of us face every day. So,
+
+140
+00:05:44,880 --> 00:05:51,039
+imagine that we have five colors of
+
+141
+00:05:48,479 --> 00:05:54,440
+socks
+
+142
+00:05:51,039 --> 00:05:54,440
+in your drawer
+
+143
+00:05:56,560 --> 00:05:59,520
+and it's, you know, early in the
+
+144
+00:05:58,080 --> 00:06:01,360
+morning, so you're trying to find a
+
+145
+00:05:59,520 --> 00:06:04,720
+match that you can get dressed and go to
+
+146
+00:06:01,360 --> 00:06:07,919
+work. And um you know, one of the basic
+
+147
+00:06:04,720 --> 00:06:10,160
+problems you could ask is how many socks
+
+148
+00:06:07,919 --> 00:06:13,120
+do you have to pick out from your drawer
+
+149
+00:06:10,160 --> 00:06:15,520
+to guarantee that even if you're very
+
+150
+00:06:13,120 --> 00:06:18,240
+very unlucky, no matter what, you must
+
+151
+00:06:15,520 --> 00:06:19,840
+have a match.
+
+152
+00:06:18,240 --> 00:06:22,880
+So this is really an example of the
+
+153
+00:06:19,840 --> 00:06:24,400
+pigeonal principle in action. Uh we'll
+
+154
+00:06:22,880 --> 00:06:26,960
+see why exactly it's the pigeonal
+
+155
+00:06:24,400 --> 00:06:29,039
+principle in a minute, but um any ideas?
+
+156
+00:06:26,960 --> 00:06:30,319
+So how many pairs how many socks do I
+
+157
+00:06:29,039 --> 00:06:31,440
+have to pull out so that I'm guaranteed
+
+158
+00:06:30,319 --> 00:06:32,560
+a pair?
+
+159
+00:06:31,440 --> 00:06:35,039
+>> Yeah.
+
+160
+00:06:32,560 --> 00:06:36,560
+six. Perfect. Because you know, you
+
+161
+00:06:35,039 --> 00:06:38,880
+could get very unlucky in the beginning
+
+162
+00:06:36,560 --> 00:06:40,479
+and your first five could be each
+
+163
+00:06:38,880 --> 00:06:42,319
+different colors and then no matter what
+
+164
+00:06:40,479 --> 00:06:44,160
+the sixth one is, it's going to match
+
+165
+00:06:42,319 --> 00:06:47,919
+with one of the ones you've selected so
+
+166
+00:06:44,160 --> 00:06:49,600
+far. This is, you know, really uh an
+
+167
+00:06:47,919 --> 00:06:51,919
+example of a much more general
+
+168
+00:06:49,600 --> 00:06:54,400
+principle. So, let me explain it with
+
+169
+00:06:51,919 --> 00:06:56,880
+pigeons and then we'll talk about some
+
+170
+00:06:54,400 --> 00:06:59,880
+more fun applications. So more
+
+171
+00:06:56,880 --> 00:06:59,880
+generally,
+
+172
+00:07:02,080 --> 00:07:07,080
+we can imagine that we've got n pigeons.
+
+173
+00:07:07,120 --> 00:07:14,319
+I'll even draw them for you.
+
+174
+00:07:11,120 --> 00:07:18,680
+And we're placing them
+
+175
+00:07:14,319 --> 00:07:18,680
+in m pigeon holes.
+
+176
+00:07:21,199 --> 00:07:25,520
+I don't know why they want to go in the
+
+177
+00:07:22,560 --> 00:07:27,680
+pigeon holes, but they do.
+
+178
+00:07:25,520 --> 00:07:30,560
+And let's imagine that n, our number of
+
+179
+00:07:27,680 --> 00:07:35,479
+pigeons, is strictly larger than m. Then
+
+180
+00:07:30,560 --> 00:07:35,479
+what I claim is that there must
+
+181
+00:07:35,919 --> 00:07:41,440
+be
+
+182
+00:07:37,680 --> 00:07:44,639
+at least two pigeons
+
+183
+00:07:41,440 --> 00:07:48,599
+in the same pigeon hole.
+
+184
+00:07:44,639 --> 00:07:48,599
+That's the pigeon hole principle.
+
+185
+00:07:49,039 --> 00:07:52,639
+Now, we're going to talk a lot about,
+
+186
+00:07:50,639 --> 00:07:55,039
+you know, how to write good proofs. And
+
+187
+00:07:52,639 --> 00:07:56,479
+honestly, a lot of us professors spend a
+
+188
+00:07:55,039 --> 00:07:58,160
+lot of time thinking about, you know,
+
+189
+00:07:56,479 --> 00:08:00,800
+how to teach in class and make it
+
+190
+00:07:58,160 --> 00:08:03,199
+engaging. I remember back when I used to
+
+191
+00:08:00,800 --> 00:08:04,560
+teach 042, you know, when I covered
+
+192
+00:08:03,199 --> 00:08:06,319
+things like the pigeonal principle,
+
+193
+00:08:04,560 --> 00:08:07,919
+there was a bit of an arms race between
+
+194
+00:08:06,319 --> 00:08:10,639
+faculty to come up with, you know, the
+
+195
+00:08:07,919 --> 00:08:12,879
+best props for, you know, how to explain
+
+196
+00:08:10,639 --> 00:08:14,639
+simple things. And I borrowed from one
+
+197
+00:08:12,879 --> 00:08:17,919
+of my colleagues, you know, a whole box
+
+198
+00:08:14,639 --> 00:08:19,599
+of fake dead pigeons, which was very
+
+199
+00:08:17,919 --> 00:08:21,440
+strange, right? because I was going down
+
+200
+00:08:19,599 --> 00:08:24,479
+the elevators in the status center with
+
+201
+00:08:21,440 --> 00:08:26,319
+my box of dead pigeons and I got a lot
+
+202
+00:08:24,479 --> 00:08:28,479
+of strange looks. You know, people would
+
+203
+00:08:26,319 --> 00:08:29,919
+ask me what's going on. And then I had
+
+204
+00:08:28,479 --> 00:08:31,360
+to explain to them that I'm teaching the
+
+205
+00:08:29,919 --> 00:08:33,279
+pigeon hole principle. I don't know why
+
+206
+00:08:31,360 --> 00:08:34,800
+it's called the pigeon hole principle.
+
+207
+00:08:33,279 --> 00:08:36,159
+But then someone asked me when I was on
+
+208
+00:08:34,800 --> 00:08:37,680
+the elevator, does that really help
+
+209
+00:08:36,159 --> 00:08:39,680
+people understand the pigeon hole
+
+210
+00:08:37,680 --> 00:08:41,360
+principle? And I got to say, I don't
+
+211
+00:08:39,680 --> 00:08:42,959
+think it does. You know, once you get
+
+212
+00:08:41,360 --> 00:08:45,360
+that question, you have to re-evaluate
+
+213
+00:08:42,959 --> 00:08:47,600
+your teaching preferences and
+
+214
+00:08:45,360 --> 00:08:49,200
+priorities. But in any case, this is the
+
+215
+00:08:47,600 --> 00:08:50,800
+pigeon hole principle. I don't know why
+
+216
+00:08:49,200 --> 00:08:53,680
+the pigeons want to go into the pigeon
+
+217
+00:08:50,800 --> 00:08:56,399
+holes, but you know, you can see how the
+
+218
+00:08:53,680 --> 00:08:58,560
+simple example of socks and finding a a
+
+219
+00:08:56,399 --> 00:09:00,399
+pair is an example of the pigeon hole
+
+220
+00:08:58,560 --> 00:09:02,160
+principle. You just have to be careful
+
+221
+00:09:00,399 --> 00:09:03,680
+about what are the pigeons and what are
+
+222
+00:09:02,160 --> 00:09:06,320
+the holes. In this case, it's pretty
+
+223
+00:09:03,680 --> 00:09:08,320
+obvious that, you know, the um the
+
+224
+00:09:06,320 --> 00:09:10,560
+pigeons are individual socks and the
+
+225
+00:09:08,320 --> 00:09:12,640
+holes are, you know, colors of different
+
+226
+00:09:10,560 --> 00:09:14,000
+socks. But there are other applications
+
+227
+00:09:12,640 --> 00:09:15,839
+that we're going to see where it's a
+
+228
+00:09:14,000 --> 00:09:17,920
+little bit more subtle how exactly to
+
+229
+00:09:15,839 --> 00:09:19,839
+get this principle to work. Let me tell
+
+230
+00:09:17,920 --> 00:09:22,240
+you one generalization which is also
+
+231
+00:09:19,839 --> 00:09:24,240
+powerful which is in general you know
+
+232
+00:09:22,240 --> 00:09:26,560
+imagine I had way more pigeons than
+
+233
+00:09:24,240 --> 00:09:28,399
+pigeon holes. It turns out you can
+
+234
+00:09:26,560 --> 00:09:32,000
+guarantee that there's at least the
+
+235
+00:09:28,399 --> 00:09:34,800
+ceiling of n over m pigeons in the same
+
+236
+00:09:32,000 --> 00:09:37,279
+pigeon hole. So this is a very simple
+
+237
+00:09:34,800 --> 00:09:40,080
+idea. Let's actually try and prove it
+
+238
+00:09:37,279 --> 00:09:41,839
+even though it might seem obvious. So it
+
+239
+00:09:40,080 --> 00:09:44,480
+turns out there's a very simple way to
+
+240
+00:09:41,839 --> 00:09:46,320
+prove it. Um you know this is one
+
+241
+00:09:44,480 --> 00:09:48,800
+example of a proof technique we're going
+
+242
+00:09:46,320 --> 00:09:53,480
+to see you know all throughout class
+
+243
+00:09:48,800 --> 00:09:53,480
+which is a proof by contradiction.
+
+244
+00:09:54,560 --> 00:09:57,440
+And you know I'm going to try and
+
+245
+00:09:55,920 --> 00:09:59,279
+practice what I preach in today's
+
+246
+00:09:57,440 --> 00:10:02,000
+lecture and show you what are the right
+
+247
+00:09:59,279 --> 00:10:03,760
+ways to write up proofs. Uh you know
+
+248
+00:10:02,000 --> 00:10:05,519
+this won't be quite as formal as you do
+
+249
+00:10:03,760 --> 00:10:07,680
+for your writing exercise but pretty
+
+250
+00:10:05,519 --> 00:10:09,120
+close. You know, you can see that the
+
+251
+00:10:07,680 --> 00:10:11,440
+first thing I'm doing when I write a
+
+252
+00:10:09,120 --> 00:10:13,040
+proof by contradiction is I'm putting,
+
+253
+00:10:11,440 --> 00:10:15,279
+you know, very clearly the fact that
+
+254
+00:10:13,040 --> 00:10:17,360
+it's a proof by contradiction. You don't
+
+255
+00:10:15,279 --> 00:10:18,880
+want your readers to be confused until
+
+256
+00:10:17,360 --> 00:10:21,040
+the very end where the pieces come
+
+257
+00:10:18,880 --> 00:10:22,880
+together. You want as much as possible
+
+258
+00:10:21,040 --> 00:10:25,200
+that they see the blueprint of how the
+
+259
+00:10:22,880 --> 00:10:27,760
+proof is supposed to go before they get
+
+260
+00:10:25,200 --> 00:10:28,640
+through all of it. Right? And so what
+
+261
+00:10:27,760 --> 00:10:30,640
+we're going to do is we're going to
+
+262
+00:10:28,640 --> 00:10:34,320
+suppose not we'll suppose that the
+
+263
+00:10:30,640 --> 00:10:37,360
+pigeon hole principle is false. Right?
+
+264
+00:10:34,320 --> 00:10:39,360
+Then what I can do is I can really just
+
+265
+00:10:37,360 --> 00:10:41,200
+count the number of pigeons and the
+
+266
+00:10:39,360 --> 00:10:43,839
+number of holes in two different ways,
+
+267
+00:10:41,200 --> 00:10:46,800
+right? So what I can do is, you know, n
+
+268
+00:10:43,839 --> 00:10:48,800
+is my number of pigeons. Now each pigeon
+
+269
+00:10:46,800 --> 00:10:51,440
+has to be assigned to some hole. So I
+
+270
+00:10:48,800 --> 00:10:54,720
+can sum over all of the different holes
+
+271
+00:10:51,440 --> 00:10:58,880
+h that I'm interested in. And I can look
+
+272
+00:10:54,720 --> 00:11:02,079
+at NH where NH here is just defined to
+
+273
+00:10:58,880 --> 00:11:05,519
+be the number of pigeons
+
+274
+00:11:02,079 --> 00:11:07,200
+that are in some particular hole h.
+
+275
+00:11:05,519 --> 00:11:10,240
+Right? So it's just a count of how many
+
+276
+00:11:07,200 --> 00:11:11,839
+pigeons ended up in that hole. And all
+
+277
+00:11:10,240 --> 00:11:13,440
+I'm doing is I'm just counting the
+
+278
+00:11:11,839 --> 00:11:16,480
+different pigeons in a different way. So
+
+279
+00:11:13,440 --> 00:11:18,079
+that's definitely equal to n. But now by
+
+280
+00:11:16,480 --> 00:11:20,720
+assumption, you know, since the pigeon
+
+281
+00:11:18,079 --> 00:11:24,800
+hole principle is false, I'm assuming
+
+282
+00:11:20,720 --> 00:11:28,720
+that each one of the holes
+
+283
+00:11:24,800 --> 00:11:30,959
+has at most one pigeon in it. Right? And
+
+284
+00:11:28,720 --> 00:11:34,079
+then the total number of holes I get is
+
+285
+00:11:30,959 --> 00:11:36,560
+m. So now what I claim is I have a
+
+286
+00:11:34,079 --> 00:11:38,079
+contradiction. Why? Because I've just
+
+287
+00:11:36,560 --> 00:11:41,120
+shown for you that if the pigeonal
+
+288
+00:11:38,079 --> 00:11:43,920
+principle is false, then n is less than
+
+289
+00:11:41,120 --> 00:11:46,240
+or equal to m. But what was my starting
+
+290
+00:11:43,920 --> 00:11:49,040
+assumption was just that n is strictly
+
+291
+00:11:46,240 --> 00:11:51,600
+larger than m. Right? So this is my
+
+292
+00:11:49,040 --> 00:11:54,079
+proof. But
+
+293
+00:11:51,600 --> 00:11:56,000
+m is larger than n. That's one of the
+
+294
+00:11:54,079 --> 00:11:59,000
+assumptions. And so we get a
+
+295
+00:11:56,000 --> 00:11:59,000
+contradiction.
+
+296
+00:12:02,560 --> 00:12:06,560
+That's it. That's our first proof in
+
+297
+00:12:04,480 --> 00:12:07,920
+this class. This is an example of how
+
+298
+00:12:06,560 --> 00:12:09,680
+you might write up a proof by
+
+299
+00:12:07,920 --> 00:12:11,279
+contradiction. A lot of times in class,
+
+300
+00:12:09,680 --> 00:12:13,200
+they'll be a lot more complicated than
+
+301
+00:12:11,279 --> 00:12:16,639
+this, but they all follow this basic
+
+302
+00:12:13,200 --> 00:12:18,880
+blueprint. Yes.
+
+303
+00:12:16,639 --> 00:12:22,880
+>> Ah, sorry. N is greater than m. Thank
+
+304
+00:12:18,880 --> 00:12:24,639
+you. n is greater than m.
+
+305
+00:12:22,880 --> 00:12:26,800
+Any other questions or that was it?
+
+306
+00:12:24,639 --> 00:12:29,279
+Okay, good. Feel free to interject any
+
+307
+00:12:26,800 --> 00:12:31,360
+time with questions. All right, let me
+
+308
+00:12:29,279 --> 00:12:32,880
+show you one other principle in action.
+
+309
+00:12:31,360 --> 00:12:34,160
+So, let's talk about some cooler
+
+310
+00:12:32,880 --> 00:12:36,320
+applications of the pigeon hole
+
+311
+00:12:34,160 --> 00:12:38,480
+principle. Now that we know what it is
+
+312
+00:12:36,320 --> 00:12:41,519
+and we know why it's true and we've seen
+
+313
+00:12:38,480 --> 00:12:43,519
+some simple illustrations of it,
+
+314
+00:12:41,519 --> 00:12:46,800
+um you know what I claim is that a lot
+
+315
+00:12:43,519 --> 00:12:49,279
+of times uh writing a good proof is also
+
+316
+00:12:46,800 --> 00:12:50,800
+about finding the right abstraction for
+
+317
+00:12:49,279 --> 00:12:53,200
+how to think about something, how to
+
+318
+00:12:50,800 --> 00:12:56,959
+model it, right? So let me give you a
+
+319
+00:12:53,200 --> 00:12:59,120
+simple lema that we're going to prove.
+
+320
+00:12:56,959 --> 00:13:00,800
+So first this lema isn't going to sound
+
+321
+00:12:59,120 --> 00:13:02,320
+like the pigeon hole principle, but
+
+322
+00:13:00,800 --> 00:13:05,279
+we'll turn it into the pigeon hole
+
+323
+00:13:02,320 --> 00:13:07,040
+principle. Let's imagine you're going to
+
+324
+00:13:05,279 --> 00:13:09,920
+a party. Let's say you're going to the
+
+325
+00:13:07,040 --> 00:13:13,519
+Super Bowl party this weekend. And
+
+326
+00:13:09,920 --> 00:13:15,279
+you've got n people.
+
+327
+00:13:13,519 --> 00:13:18,480
+There are n total people including
+
+328
+00:13:15,279 --> 00:13:21,680
+yourself at the party. What I claim is
+
+329
+00:13:18,480 --> 00:13:24,959
+that no matter, you know, who's there,
+
+330
+00:13:21,680 --> 00:13:27,120
+there are always two people, at least
+
+331
+00:13:24,959 --> 00:13:31,160
+two people
+
+332
+00:13:27,120 --> 00:13:31,160
+who know
+
+333
+00:13:31,440 --> 00:13:35,160
+the same number
+
+334
+00:13:35,600 --> 00:13:39,320
+of other people.
+
+335
+00:13:39,600 --> 00:13:44,560
+This is a mathematical fact about
+
+336
+00:13:41,760 --> 00:13:46,720
+parties, right? This doesn't quite look
+
+337
+00:13:44,560 --> 00:13:49,760
+like the pigeonal principle, but I claim
+
+338
+00:13:46,720 --> 00:13:51,839
+it is. And moreover, what we really need
+
+339
+00:13:49,760 --> 00:13:54,480
+is we need the right way to think about
+
+340
+00:13:51,839 --> 00:13:57,519
+this, right? And we'll practice this
+
+341
+00:13:54,480 --> 00:13:59,040
+type of skill a lot in recitations. You
+
+342
+00:13:57,519 --> 00:14:00,880
+know, this is an example of something
+
+343
+00:13:59,040 --> 00:14:03,440
+which is a lot easier to prove when you
+
+344
+00:14:00,880 --> 00:14:05,839
+have the right way to visualize it. So
+
+345
+00:14:03,440 --> 00:14:11,360
+it turns out that the right way to you
+
+346
+00:14:05,839 --> 00:14:13,839
+know visualize it is to draw a graph
+
+347
+00:14:11,360 --> 00:14:15,760
+namely something with nodes that
+
+348
+00:14:13,839 --> 00:14:18,399
+represent people at the party. So there
+
+349
+00:14:15,760 --> 00:14:20,240
+are n different nodes in my graph and
+
+350
+00:14:18,399 --> 00:14:22,160
+then there are edges that represent
+
+351
+00:14:20,240 --> 00:14:24,880
+different relationships whether the two
+
+352
+00:14:22,160 --> 00:14:27,279
+people know each other or not. So for
+
+353
+00:14:24,880 --> 00:14:29,760
+example, you know, I could have that the
+
+354
+00:14:27,279 --> 00:14:31,839
+people in my party look like they define
+
+355
+00:14:29,760 --> 00:14:35,199
+this graph. I've got four people in my
+
+356
+00:14:31,839 --> 00:14:38,320
+party. N equals 4. Again, as I
+
+357
+00:14:35,199 --> 00:14:41,279
+mentioned, each of these nodes are
+
+358
+00:14:38,320 --> 00:14:43,519
+people. They're individual people. And
+
+359
+00:14:41,279 --> 00:14:45,120
+these edges
+
+360
+00:14:43,519 --> 00:14:49,240
+represent
+
+361
+00:14:45,120 --> 00:14:49,240
+people who know each other.
+
+362
+00:14:50,320 --> 00:14:54,880
+And then when I draw in all my edges,
+
+363
+00:14:53,040 --> 00:14:57,360
+you know, maybe I'll end up with a graph
+
+364
+00:14:54,880 --> 00:14:59,440
+like this, right? And you can see that
+
+365
+00:14:57,360 --> 00:15:01,839
+there are two people who know the same
+
+366
+00:14:59,440 --> 00:15:03,519
+number of people at the party like this
+
+367
+00:15:01,839 --> 00:15:05,839
+node right here and this node right
+
+368
+00:15:03,519 --> 00:15:07,680
+here. The number of edges that are
+
+369
+00:15:05,839 --> 00:15:09,839
+incident to that node which represents
+
+370
+00:15:07,680 --> 00:15:12,560
+how many other people they know is both
+
+371
+00:15:09,839 --> 00:15:14,800
+two. So my lema is true in this simple
+
+372
+00:15:12,560 --> 00:15:17,519
+example. And now I can understand
+
+373
+00:15:14,800 --> 00:15:20,160
+through this visual you know how exactly
+
+374
+00:15:17,519 --> 00:15:23,279
+a graph relates to this lema that I
+
+375
+00:15:20,160 --> 00:15:25,600
+asserted to begin with.
+
+376
+00:15:23,279 --> 00:15:28,639
+So now uh we can actually prove it once
+
+377
+00:15:25,600 --> 00:15:31,680
+we have this abstraction in hand. So
+
+378
+00:15:28,639 --> 00:15:33,680
+let's talk about how that works.
+
+379
+00:15:31,680 --> 00:15:36,399
+Let me define one more quantity which
+
+380
+00:15:33,680 --> 00:15:38,480
+will be of interest for us today just
+
+381
+00:15:36,399 --> 00:15:40,560
+called the degree. That's just the
+
+382
+00:15:38,480 --> 00:15:43,880
+number of n uh edges that are incident
+
+383
+00:15:40,560 --> 00:15:43,880
+to a node.
+
+384
+00:15:47,040 --> 00:15:50,600
+So the degree
+
+385
+00:15:51,199 --> 00:15:54,600
+of a node
+
+386
+00:15:55,199 --> 00:16:02,600
+is the number of edges
+
+387
+00:15:58,880 --> 00:16:02,600
+incident to it
+
+388
+00:16:04,399 --> 00:16:09,279
+that share an endpoint that have that
+
+389
+00:16:06,480 --> 00:16:12,000
+node as an endpoint. So now let's try
+
+390
+00:16:09,279 --> 00:16:14,800
+and prove this using the pigeonal
+
+391
+00:16:12,000 --> 00:16:16,320
+principle. In fact, the crucial thing in
+
+392
+00:16:14,800 --> 00:16:18,079
+applying the pigeon hole principle is to
+
+393
+00:16:16,320 --> 00:16:21,120
+figure out what are the pigeons and what
+
+394
+00:16:18,079 --> 00:16:22,959
+are the holes. Does anyone have any idea
+
+395
+00:16:21,120 --> 00:16:25,040
+what we should make the pigeons be and
+
+396
+00:16:22,959 --> 00:16:28,519
+what we should make the holes be to try
+
+397
+00:16:25,040 --> 00:16:28,519
+and prove this lema?
+
+398
+00:16:31,600 --> 00:16:35,320
+>> Yeah,
+
+399
+00:16:32,320 --> 00:16:35,320
+>> maybe.
+
+400
+00:16:38,240 --> 00:16:43,759
+>> Okay, that's uh we could try that way. I
+
+401
+00:16:42,320 --> 00:16:47,240
+might have a little bit of difficulty
+
+402
+00:16:43,759 --> 00:16:47,240
+that way. Yeah.
+
+403
+00:16:47,279 --> 00:16:52,720
+>> Yeah. Exactly. Okay. Because you know
+
+404
+00:16:50,079 --> 00:16:54,480
+where do I want the collision, right? So
+
+405
+00:16:52,720 --> 00:16:56,880
+the collision happens between two
+
+406
+00:16:54,480 --> 00:16:59,440
+pigeons who land in the same hole. So
+
+407
+00:16:56,880 --> 00:17:01,519
+what I want is I want two people to
+
+408
+00:16:59,440 --> 00:17:03,839
+collide. And what does it mean to
+
+409
+00:17:01,519 --> 00:17:06,079
+collide? I want them to have the same
+
+410
+00:17:03,839 --> 00:17:07,360
+degree. So that tells me what should be
+
+411
+00:17:06,079 --> 00:17:10,240
+the pigeons and what should be the
+
+412
+00:17:07,360 --> 00:17:13,120
+holes. So what I claim is that the
+
+413
+00:17:10,240 --> 00:17:13,120
+degree
+
+414
+00:17:13,360 --> 00:17:17,079
+of each note.
+
+415
+00:17:17,679 --> 00:17:25,039
+Well, first of all, it's an integer
+
+416
+00:17:20,640 --> 00:17:29,200
+that's in this set from zero one all the
+
+417
+00:17:25,039 --> 00:17:32,799
+way up to n minus one.
+
+418
+00:17:29,200 --> 00:17:34,960
+And uh you know each node is going to be
+
+419
+00:17:32,799 --> 00:17:36,720
+this
+
+420
+00:17:34,960 --> 00:17:38,880
+pigeon,
+
+421
+00:17:36,720 --> 00:17:42,480
+right? And the way that I'm going to
+
+422
+00:17:38,880 --> 00:17:44,880
+choose which particular hole it gets
+
+423
+00:17:42,480 --> 00:17:48,640
+mapped to is what the associated degree
+
+424
+00:17:44,880 --> 00:17:51,840
+is. So I have a hole. Each name is an
+
+425
+00:17:48,640 --> 00:17:53,440
+integer from 0 up to n minus one. And
+
+426
+00:17:51,840 --> 00:17:55,200
+then each particular node that
+
+427
+00:17:53,440 --> 00:17:57,760
+represents a person is going to get
+
+428
+00:17:55,200 --> 00:18:02,880
+mapped to whatever their degree is.
+
+429
+00:17:57,760 --> 00:18:04,880
+Right? So uh sounds like I'm done. Uh am
+
+430
+00:18:02,880 --> 00:18:06,559
+I done here? Can I just appeal to the
+
+431
+00:18:04,880 --> 00:18:10,360
+pigeon hole principle and say that two
+
+432
+00:18:06,559 --> 00:18:10,360
+nodes must collide?
+
+433
+00:18:12,480 --> 00:18:15,480
+>> Yeah,
+
+434
+00:18:16,799 --> 00:18:20,640
+>> set of possibility.
+
+435
+00:18:18,880 --> 00:18:22,960
+>> That's right. So, I'm definitely not
+
+436
+00:18:20,640 --> 00:18:25,120
+done right now. Right. Because the
+
+437
+00:18:22,960 --> 00:18:27,840
+pigeon hole principle only works when n
+
+438
+00:18:25,120 --> 00:18:29,840
+is strictly larger than m. That's when I
+
+439
+00:18:27,840 --> 00:18:32,480
+picked out six socks for my drawer and I
+
+440
+00:18:29,840 --> 00:18:34,480
+had five colors. I really needed one
+
+441
+00:18:32,480 --> 00:18:36,160
+more pigeon than the number of holes.
+
+442
+00:18:34,480 --> 00:18:38,080
+And the trouble is here, how many
+
+443
+00:18:36,160 --> 00:18:40,000
+pigeons do I have? Well, it's each node
+
+444
+00:18:38,080 --> 00:18:42,320
+in the graph. That's the number of the
+
+445
+00:18:40,000 --> 00:18:44,240
+people at the party. That's n. How many
+
+446
+00:18:42,320 --> 00:18:47,120
+holes do I have? Well, unfortunately,
+
+447
+00:18:44,240 --> 00:18:50,960
+that's also n because it's the integers
+
+448
+00:18:47,120 --> 00:18:55,039
+from 0 to n minus one. But now we need a
+
+449
+00:18:50,960 --> 00:18:58,320
+clever idea. So I wonder is it possible
+
+450
+00:18:55,039 --> 00:19:03,480
+to have a node of degree zero and a node
+
+451
+00:18:58,320 --> 00:19:03,480
+of degree n minus one at the same time.
+
+452
+00:19:04,320 --> 00:19:09,120
+So who can help me out? Yeah.
+
+453
+00:19:07,280 --> 00:19:10,880
+>> Well, that means you know everybody and
+
+454
+00:19:09,120 --> 00:19:11,919
+then
+
+455
+00:19:10,880 --> 00:19:14,080
+that's a cross prediction.
+
+456
+00:19:11,919 --> 00:19:16,400
+>> That's perfect. Exactly right. Let me
+
+457
+00:19:14,080 --> 00:19:17,919
+say it again because I have the mic. So
+
+458
+00:19:16,400 --> 00:19:20,640
+if there's someone at the party who
+
+459
+00:19:17,919 --> 00:19:22,880
+knows n minus one people, well there's
+
+460
+00:19:20,640 --> 00:19:25,280
+nodes and that means he's connected to
+
+461
+00:19:22,880 --> 00:19:27,760
+every other node and that means there
+
+462
+00:19:25,280 --> 00:19:30,559
+isn't anyone at the party who knows no
+
+463
+00:19:27,760 --> 00:19:34,320
+one. So actually these two end points
+
+464
+00:19:30,559 --> 00:19:37,360
+are mutually exclusive, right? They
+
+465
+00:19:34,320 --> 00:19:39,120
+can't both happen.
+
+466
+00:19:37,360 --> 00:19:40,720
+So if I wanted to write this out
+
+467
+00:19:39,120 --> 00:19:43,360
+formally as a proof, I would actually
+
+468
+00:19:40,720 --> 00:19:45,919
+have to do a case analysis here, right?
+
+469
+00:19:43,360 --> 00:19:47,760
+In order to create my contradiction, I
+
+470
+00:19:45,919 --> 00:19:50,880
+would say, you know, case number one,
+
+471
+00:19:47,760 --> 00:19:52,720
+there is a node of degree n minus one.
+
+472
+00:19:50,880 --> 00:19:55,280
+In which case, that means there's no
+
+473
+00:19:52,720 --> 00:19:57,760
+node of degree zero. And I'm back down
+
+474
+00:19:55,280 --> 00:19:59,360
+to having n minus one holes and n
+
+475
+00:19:57,760 --> 00:20:01,679
+pigeons. And then I can appeal to the
+
+476
+00:19:59,360 --> 00:20:03,760
+pigeon hole principle and call it a day.
+
+477
+00:20:01,679 --> 00:20:06,960
+And in case two, where there's no node
+
+478
+00:20:03,760 --> 00:20:09,280
+of degree n minus one, again, I only
+
+479
+00:20:06,960 --> 00:20:11,520
+have n minus one possibilities for the
+
+480
+00:20:09,280 --> 00:20:13,520
+holes. So, you know, I'm not going to be
+
+481
+00:20:11,520 --> 00:20:15,919
+able to write up the full-blown proofs
+
+482
+00:20:13,520 --> 00:20:18,000
+when we do them in lecture, but you can
+
+483
+00:20:15,919 --> 00:20:20,320
+see that to really make this a full
+
+484
+00:20:18,000 --> 00:20:22,640
+bulletproof proof, there are a lot of
+
+485
+00:20:20,320 --> 00:20:26,000
+steps that go into how exactly you can
+
+486
+00:20:22,640 --> 00:20:29,200
+lay out the proof, right? So, I'll just
+
+487
+00:20:26,000 --> 00:20:32,480
+stop here and say that, you know, can't
+
+488
+00:20:29,200 --> 00:20:37,679
+be both
+
+489
+00:20:32,480 --> 00:20:39,280
+degree n minus one and zero. And that
+
+490
+00:20:37,679 --> 00:20:40,880
+lets us appeal to the pigeon hole
+
+491
+00:20:39,280 --> 00:20:42,320
+principle.
+
+492
+00:20:40,880 --> 00:20:43,919
+So we're good. So this is another
+
+493
+00:20:42,320 --> 00:20:46,080
+example of the pigeon hole principle in
+
+494
+00:20:43,919 --> 00:20:47,679
+action even though it doesn't look like
+
+495
+00:20:46,080 --> 00:20:49,679
+it at first because you have to figure
+
+496
+00:20:47,679 --> 00:20:51,840
+out what's the right abstraction, namely
+
+497
+00:20:49,679 --> 00:20:54,240
+a graph for how to think about and
+
+498
+00:20:51,840 --> 00:20:56,480
+visualize what's actually happening
+
+499
+00:20:54,240 --> 00:20:58,400
+underneath this lema.
+
+500
+00:20:56,480 --> 00:21:01,600
+Let's do another example. We're going to
+
+501
+00:20:58,400 --> 00:21:03,520
+get harder and harder unfortunately.
+
+502
+00:21:01,600 --> 00:21:05,120
+Uh so let me give you another of my
+
+503
+00:21:03,520 --> 00:21:08,320
+favorite examples of the pigeon hole
+
+504
+00:21:05,120 --> 00:21:10,559
+principle in action.
+
+505
+00:21:08,320 --> 00:21:13,840
+which is a very easy to state problem
+
+506
+00:21:10,559 --> 00:21:17,640
+but turns out to be very difficult from
+
+507
+00:21:13,840 --> 00:21:17,640
+a complexity standpoint.
+
+508
+00:21:19,280 --> 00:21:24,000
+So let's imagine let me tell you the
+
+509
+00:21:21,520 --> 00:21:26,240
+statement of this lema and then we'll
+
+510
+00:21:24,000 --> 00:21:29,360
+get into how exactly to prove it.
+
+511
+00:21:26,240 --> 00:21:31,200
+Suppose I give you
+
+512
+00:21:29,360 --> 00:21:34,960
+20
+
+513
+00:21:31,200 --> 00:21:38,440
+fourdigit numbers,
+
+514
+00:21:34,960 --> 00:21:38,440
+positive numbers.
+
+515
+00:21:41,919 --> 00:21:48,960
+Let's just call them x1 up to x20.
+
+516
+00:21:46,240 --> 00:21:51,840
+Right? Then what I claim is that there
+
+517
+00:21:48,960 --> 00:21:55,840
+are
+
+518
+00:21:51,840 --> 00:21:59,320
+two disjoint
+
+519
+00:21:55,840 --> 00:21:59,320
+sets of them
+
+520
+00:21:59,840 --> 00:22:09,000
+and I'll say specifically non-MPT
+
+521
+00:22:04,080 --> 00:22:09,000
+sets with the same sum.
+
+522
+00:22:10,000 --> 00:22:15,200
+So what am I asking here? Right? So I
+
+523
+00:22:12,480 --> 00:22:17,520
+give you any 24-digit numbers. they have
+
+524
+00:22:15,200 --> 00:22:20,080
+to be strictly positive.
+
+525
+00:22:17,520 --> 00:22:23,120
+And what I'm going to do is um I'm going
+
+526
+00:22:20,080 --> 00:22:26,880
+to take some subset of them, maybe x1
+
+527
+00:22:23,120 --> 00:22:28,559
+plus x3 plus x5. And then I'll take some
+
+528
+00:22:26,880 --> 00:22:32,000
+other subset of them that doesn't
+
+529
+00:22:28,559 --> 00:22:35,200
+overlap in any of those integers, x2 and
+
+530
+00:22:32,000 --> 00:22:37,200
+x4 and x6. And what I claim is that
+
+531
+00:22:35,200 --> 00:22:40,159
+there's a way of doing this so that the
+
+532
+00:22:37,200 --> 00:22:42,320
+sum of the integers in one set is equal
+
+533
+00:22:40,159 --> 00:22:43,760
+to the sum of the integers in the other
+
+534
+00:22:42,320 --> 00:22:45,600
+set.
+
+535
+00:22:43,760 --> 00:22:48,080
+Now, moreover, this would be sort of a
+
+536
+00:22:45,600 --> 00:22:49,600
+trivial lema if I let these sets be
+
+537
+00:22:48,080 --> 00:22:51,679
+empty because I could just take the
+
+538
+00:22:49,600 --> 00:22:53,600
+empty set for one and the empty set for
+
+539
+00:22:51,679 --> 00:22:55,679
+the other. They're definitely disjoint.
+
+540
+00:22:53,600 --> 00:22:58,240
+They don't share anything in common. And
+
+541
+00:22:55,679 --> 00:23:00,080
+their sum is zero. So, this would be a
+
+542
+00:22:58,240 --> 00:23:02,640
+really boring way for this lema to be
+
+543
+00:23:00,080 --> 00:23:04,640
+true. What I'm saying by non-empt is I'm
+
+544
+00:23:02,640 --> 00:23:06,960
+ruling out that trivial case. There's
+
+545
+00:23:04,640 --> 00:23:08,960
+always an interesting way to do this
+
+546
+00:23:06,960 --> 00:23:10,960
+where you've really created a positive
+
+547
+00:23:08,960 --> 00:23:13,200
+sum for these integers two different
+
+548
+00:23:10,960 --> 00:23:15,120
+ways.
+
+549
+00:23:13,200 --> 00:23:16,559
+All right. So let's try and prove this
+
+550
+00:23:15,120 --> 00:23:19,120
+and then I'll tell you some interesting
+
+551
+00:23:16,559 --> 00:23:20,799
+facts about this uh this very simple
+
+552
+00:23:19,120 --> 00:23:22,960
+statement.
+
+553
+00:23:20,799 --> 00:23:25,360
+And again what we have to do to you know
+
+554
+00:23:22,960 --> 00:23:26,880
+write up a proof here is we have to do
+
+555
+00:23:25,360 --> 00:23:29,520
+the usual things where we have to figure
+
+556
+00:23:26,880 --> 00:23:32,159
+out what the pigeons are what the holes
+
+557
+00:23:29,520 --> 00:23:34,480
+are but moreover we have to figure out
+
+558
+00:23:32,159 --> 00:23:36,880
+the right you know mathematical notation
+
+559
+00:23:34,480 --> 00:23:39,440
+for expressing what's going on in this
+
+560
+00:23:36,880 --> 00:23:41,919
+problem. Right?
+
+561
+00:23:39,440 --> 00:23:45,039
+And so in fact a lot of times the first
+
+562
+00:23:41,919 --> 00:23:47,760
+step is really to figure out some
+
+563
+00:23:45,039 --> 00:23:49,280
+mathematical way to express the
+
+564
+00:23:47,760 --> 00:23:52,320
+statement right here that I've written
+
+565
+00:23:49,280 --> 00:23:56,320
+out in English. So another way to think
+
+566
+00:23:52,320 --> 00:24:00,720
+about this is that I claim there are
+
+567
+00:23:56,320 --> 00:24:03,600
+sets I and J which are subsets of the
+
+568
+00:24:00,720 --> 00:24:05,679
+integers from one up to 20. What are
+
+569
+00:24:03,600 --> 00:24:08,080
+these subsets supposed to represent?
+
+570
+00:24:05,679 --> 00:24:11,360
+just which of the numbers I'm taking in
+
+571
+00:24:08,080 --> 00:24:16,080
+my sum. I want that, you know, these
+
+572
+00:24:11,360 --> 00:24:19,520
+sets are both non-mpt. So I and J had
+
+573
+00:24:16,080 --> 00:24:21,600
+better not be equal to the empty set. I
+
+574
+00:24:19,520 --> 00:24:25,039
+need that they're disjoint, which just
+
+575
+00:24:21,600 --> 00:24:28,480
+says that the intersection between I and
+
+576
+00:24:25,039 --> 00:24:30,640
+J is equal to the empty set. So this is
+
+577
+00:24:28,480 --> 00:24:33,120
+just the mathematical way of expressing
+
+578
+00:24:30,640 --> 00:24:34,880
+all of the things I have here. And now
+
+579
+00:24:33,120 --> 00:24:38,640
+for the most important piece of the
+
+580
+00:24:34,880 --> 00:24:43,039
+puzzle. I want that the sum over all of
+
+581
+00:24:38,640 --> 00:24:46,720
+the x subi in this first set is equal to
+
+582
+00:24:43,039 --> 00:24:49,679
+the sum of all of the x subjs in the
+
+583
+00:24:46,720 --> 00:24:51,840
+second set. Right? So a lot of times
+
+584
+00:24:49,679 --> 00:24:53,840
+it's hard to write a mathematical proof
+
+585
+00:24:51,840 --> 00:24:56,480
+unless you have the right mathematical
+
+586
+00:24:53,840 --> 00:24:58,159
+notation to begin with because even
+
+587
+00:24:56,480 --> 00:25:00,000
+though I could have expressed this in
+
+588
+00:24:58,159 --> 00:25:01,679
+English now to actually prove this
+
+589
+00:25:00,000 --> 00:25:04,320
+statement I'm going to have to do a
+
+590
+00:25:01,679 --> 00:25:06,080
+bunch of manipulations on these sets and
+
+591
+00:25:04,320 --> 00:25:08,720
+this will be a lot easier with this
+
+592
+00:25:06,080 --> 00:25:09,840
+notation in hand. So, you know, another
+
+593
+00:25:08,720 --> 00:25:12,080
+thing that we're going to teach you a
+
+594
+00:25:09,840 --> 00:25:14,640
+lot in recitation is how exactly to set
+
+595
+00:25:12,080 --> 00:25:19,720
+up convenient notation so that your
+
+596
+00:25:14,640 --> 00:25:19,720
+proofs will be easier to write, right?
+
+597
+00:25:19,840 --> 00:25:25,159
+All right. So now, how exactly are we
+
+598
+00:25:21,679 --> 00:25:25,159
+going to prove this?
+
+599
+00:25:28,640 --> 00:25:31,440
+Let's see if you guys have any
+
+600
+00:25:29,840 --> 00:25:32,960
+intuition. So, obviously, we're going to
+
+601
+00:25:31,440 --> 00:25:34,960
+be using the pigeonal principle because
+
+602
+00:25:32,960 --> 00:25:37,760
+I've only taught you one thing so far,
+
+603
+00:25:34,960 --> 00:25:40,400
+so we better use it. Um but what should
+
+604
+00:25:37,760 --> 00:25:42,480
+we use as
+
+605
+00:25:40,400 --> 00:25:45,480
+you know the pigeons?
+
+606
+00:25:42,480 --> 00:25:45,480
+Yeah.
+
+607
+00:25:49,760 --> 00:25:54,000
+>> Ah [sighs]
+
+608
+00:25:51,039 --> 00:25:55,919
+okay you're right but for the holes I
+
+609
+00:25:54,000 --> 00:25:57,279
+think. So let's be care. Yeah. So I'll
+
+610
+00:25:55,919 --> 00:25:58,960
+take your answer for the holes because
+
+611
+00:25:57,279 --> 00:26:01,520
+the way to think about it is that we
+
+612
+00:25:58,960 --> 00:26:03,600
+want a collision among the pigeons. So
+
+613
+00:26:01,520 --> 00:26:05,520
+we really want a collision among what
+
+614
+00:26:03,600 --> 00:26:08,159
+objects? Was there a answer in the back?
+
+615
+00:26:05,520 --> 00:26:10,720
+Yeah.
+
+616
+00:26:08,159 --> 00:26:13,039
+Yeah. Uh, I like that. I'm going to
+
+617
+00:26:10,720 --> 00:26:15,840
+strike number of and let's just say
+
+618
+00:26:13,039 --> 00:26:18,159
+subsets because really it's the subsets
+
+619
+00:26:15,840 --> 00:26:20,480
+that I care about. Each one of them is a
+
+620
+00:26:18,159 --> 00:26:22,960
+pigeon. But perfect. All right. So,
+
+621
+00:26:20,480 --> 00:26:26,640
+that's exactly what the pigeons will be.
+
+622
+00:26:22,960 --> 00:26:28,799
+They'll just be the appropriate subsets.
+
+623
+00:26:26,640 --> 00:26:31,919
+So, in particular, I want them to be
+
+624
+00:26:28,799 --> 00:26:34,240
+non-MPY subsets. You know, that's
+
+625
+00:26:31,919 --> 00:26:36,799
+definitely one of the constraints I have
+
+626
+00:26:34,240 --> 00:26:38,720
+in this uh constraint on I and J right
+
+627
+00:26:36,799 --> 00:26:40,720
+here. I'll have to worry about this
+
+628
+00:26:38,720 --> 00:26:43,760
+disjointness constraint later and we'll
+
+629
+00:26:40,720 --> 00:26:45,520
+get to that. And then exactly as you
+
+630
+00:26:43,760 --> 00:26:47,840
+guys already mentioned, the holes are
+
+631
+00:26:45,520 --> 00:26:50,320
+going to be the possible sums. That's
+
+632
+00:26:47,840 --> 00:26:52,080
+exactly right.
+
+633
+00:26:50,320 --> 00:26:55,520
+So, you know, what can we say about the
+
+634
+00:26:52,080 --> 00:26:57,840
+possible sums, right? So let's say that
+
+635
+00:26:55,520 --> 00:27:00,400
+um the number of possible sums let's
+
+636
+00:26:57,840 --> 00:27:02,400
+just call that m I can just come up with
+
+637
+00:27:00,400 --> 00:27:04,240
+an upper bound right because I just need
+
+638
+00:27:02,400 --> 00:27:06,880
+to show that the number of holes is
+
+639
+00:27:04,240 --> 00:27:10,400
+smaller than the number of pigeons and
+
+640
+00:27:06,880 --> 00:27:12,400
+definitely an upper bound on this is you
+
+641
+00:27:10,400 --> 00:27:16,320
+know the largest that the sum can be
+
+642
+00:27:12,400 --> 00:27:19,840
+which is the sum from i= 1 to 20 of x
+
+643
+00:27:16,320 --> 00:27:24,640
+subi and this is comfortably less than
+
+644
+00:27:19,840 --> 00:27:29,200
+you know uh 20 *
+
+645
+00:27:24,640 --> 00:27:31,919
+10 4 which is strictly less than 10 6.
+
+646
+00:27:29,200 --> 00:27:34,000
+Was there a question here? No. Okay. All
+
+647
+00:27:31,919 --> 00:27:35,840
+right. So now we're in business because
+
+648
+00:27:34,000 --> 00:27:38,159
+we can try and appeal to the pigeon hole
+
+649
+00:27:35,840 --> 00:27:40,960
+principle again, right? But we have to
+
+650
+00:27:38,159 --> 00:27:43,360
+be a little bit careful here, right? So
+
+651
+00:27:40,960 --> 00:27:47,600
+what this is going to do is that um you
+
+652
+00:27:43,360 --> 00:27:50,720
+know the number of uh non-MPT subsets
+
+653
+00:27:47,600 --> 00:27:54,320
+well this is equal to
+
+654
+00:27:50,720 --> 00:27:56,000
+2 to the 20 minus one. So the way to
+
+655
+00:27:54,320 --> 00:27:58,399
+think about this and we'll talk more
+
+656
+00:27:56,000 --> 00:28:00,080
+about this when we get into counting is
+
+657
+00:27:58,399 --> 00:28:02,480
+really through what's called a bjection.
+
+658
+00:28:00,080 --> 00:28:04,880
+We'll do lots of examples of bjections,
+
+659
+00:28:02,480 --> 00:28:08,880
+but the way to think about that is that
+
+660
+00:28:04,880 --> 00:28:11,440
+each subset of the integers from 1 to 20
+
+661
+00:28:08,880 --> 00:28:13,279
+is really associated with a bit string.
+
+662
+00:28:11,440 --> 00:28:14,720
+The first coordinate, which is one or
+
+663
+00:28:13,279 --> 00:28:17,679
+zero, tells you whether the first
+
+664
+00:28:14,720 --> 00:28:19,440
+element is in the set or not. The second
+
+665
+00:28:17,679 --> 00:28:22,159
+entry in that string tells you whether
+
+666
+00:28:19,440 --> 00:28:24,399
+the second element is in it and so on.
+
+667
+00:28:22,159 --> 00:28:26,159
+So app priori there are 2 to the 20
+
+668
+00:28:24,399 --> 00:28:28,159
+possibilities because for each
+
+669
+00:28:26,159 --> 00:28:30,080
+coordinate I have the choice of whether
+
+670
+00:28:28,159 --> 00:28:33,440
+I include it or don't include it in my
+
+671
+00:28:30,080 --> 00:28:36,159
+subset. This minus one is because I want
+
+672
+00:28:33,440 --> 00:28:38,880
+the subset to be non-mpy. So I have to
+
+673
+00:28:36,159 --> 00:28:42,399
+rule out the subset that takes nothing.
+
+674
+00:28:38,880 --> 00:28:45,760
+Right? So this is still comfortably much
+
+675
+00:28:42,399 --> 00:28:48,159
+larger than 10 the 6. So now I'm in good
+
+676
+00:28:45,760 --> 00:28:51,600
+shape because n is strictly larger than
+
+677
+00:28:48,159 --> 00:28:54,799
+m. But there's a catch. So what exactly
+
+678
+00:28:51,600 --> 00:28:56,960
+does this imply? It implies when I use
+
+679
+00:28:54,799 --> 00:29:01,960
+the pigeon hole principle that there
+
+680
+00:28:56,960 --> 00:29:01,960
+exists non empty
+
+681
+00:29:02,000 --> 00:29:07,279
+A which is not equal to B, right?
+
+682
+00:29:05,360 --> 00:29:09,840
+Because there are different pigeons that
+
+683
+00:29:07,279 --> 00:29:14,159
+end up in the same pigeon hole. And yet
+
+684
+00:29:09,840 --> 00:29:17,679
+the sum is equal. The sum of all of the
+
+685
+00:29:14,159 --> 00:29:23,520
+X I's in the set A is equal to the sum
+
+686
+00:29:17,679 --> 00:29:28,000
+of all of the XJS in the set B. Right?
+
+687
+00:29:23,520 --> 00:29:29,440
+So I'm not done yet. Why am I not done?
+
+688
+00:29:28,000 --> 00:29:31,200
+Yes,
+
+689
+00:29:29,440 --> 00:29:33,679
+>> because the sets might not be
+
+690
+00:29:31,200 --> 00:29:35,840
+>> the sets might not be disjoint. Right?
+
+691
+00:29:33,679 --> 00:29:38,000
+So I haven't proven what I promised you
+
+692
+00:29:35,840 --> 00:29:39,919
+because I didn't meet this condition.
+
+693
+00:29:38,000 --> 00:29:43,760
+Also notice something about how I wrote
+
+694
+00:29:39,919 --> 00:29:46,760
+this proof, right? So I did not use I
+
+695
+00:29:43,760 --> 00:29:46,760
+injist
+
+696
+00:29:50,080 --> 00:29:56,240
+this inj and I already know that I'm not
+
+697
+00:29:53,279 --> 00:29:58,960
+done. So I left myself some slack in the
+
+698
+00:29:56,240 --> 00:30:01,279
+notation for me to later choose what I
+
+699
+00:29:58,960 --> 00:30:03,679
+inj should be. You know if I had made
+
+700
+00:30:01,279 --> 00:30:06,960
+these things be INJ, I would have really
+
+701
+00:30:03,679 --> 00:30:09,120
+confused my audience, right?
+
+702
+00:30:06,960 --> 00:30:11,200
+So, how exactly can we now make these
+
+703
+00:30:09,120 --> 00:30:14,159
+things disjoint? I claim we're almost
+
+704
+00:30:11,200 --> 00:30:17,120
+home. We just have to fix what A and B
+
+705
+00:30:14,159 --> 00:30:21,440
+are. So, anyone who hasn't answered yet,
+
+706
+00:30:17,120 --> 00:30:23,120
+have a fix for how I can fix A and B.
+
+707
+00:30:21,440 --> 00:30:26,320
+So, I've gotten most of it, they're non-
+
+708
+00:30:23,120 --> 00:30:27,840
+empty. Uh, have you answered yet? No.
+
+709
+00:30:26,320 --> 00:30:31,360
+Okay. All right.
+
+710
+00:30:27,840 --> 00:30:32,799
+>> Take the intersection of A and B and you
+
+711
+00:30:31,360 --> 00:30:35,200
+intersection from both sets.
+
+712
+00:30:32,799 --> 00:30:36,960
+>> That's right. That's right. So here,
+
+713
+00:30:35,200 --> 00:30:38,640
+let's think about a baby version of this
+
+714
+00:30:36,960 --> 00:30:40,799
+first before we explain it, you know,
+
+715
+00:30:38,640 --> 00:30:43,279
+with all of the full-blown mathematical
+
+716
+00:30:40,799 --> 00:30:45,279
+notation, right? You know, A and B might
+
+717
+00:30:43,279 --> 00:30:48,000
+not be disjoint because maybe they share
+
+718
+00:30:45,279 --> 00:30:50,000
+one element in common. Maybe they both
+
+719
+00:30:48,000 --> 00:30:51,520
+contain X1.
+
+720
+00:30:50,000 --> 00:30:53,520
+But then the point is that, you know,
+
+721
+00:30:51,520 --> 00:30:56,159
+these two sums are equal and they both
+
+722
+00:30:53,520 --> 00:30:57,919
+have an X1 in them. So I can just remove
+
+723
+00:30:56,159 --> 00:31:00,559
+that common element and then I'm
+
+724
+00:30:57,919 --> 00:31:02,240
+removing that X1 from the sum. when I
+
+725
+00:31:00,559 --> 00:31:04,080
+take it out, I've made the sets be
+
+726
+00:31:02,240 --> 00:31:06,399
+disjoint because they no longer share
+
+727
+00:31:04,080 --> 00:31:08,080
+that element in common. And yet, I
+
+728
+00:31:06,399 --> 00:31:10,000
+haven't changed the fact that the sums
+
+729
+00:31:08,080 --> 00:31:13,200
+are equal even though I've changed the
+
+730
+00:31:10,000 --> 00:31:14,559
+sums themselves. Right? So, that's, you
+
+731
+00:31:13,200 --> 00:31:16,799
+know, the rest of the proof. You're
+
+732
+00:31:14,559 --> 00:31:20,200
+exactly right. So, let's uh finish up
+
+733
+00:31:16,799 --> 00:31:20,200
+with that proof.
+
+734
+00:31:23,039 --> 00:31:26,679
+So the problem
+
+735
+00:31:27,440 --> 00:31:34,480
+is
+
+736
+00:31:29,279 --> 00:31:36,720
+A and B need not
+
+737
+00:31:34,480 --> 00:31:38,640
+be disjoint.
+
+738
+00:31:36,720 --> 00:31:40,240
+Now I'm deliberately trying to explain
+
+739
+00:31:38,640 --> 00:31:42,480
+you know a bit of like how I think about
+
+740
+00:31:40,240 --> 00:31:44,960
+the pedagogy of explaining these proofs
+
+741
+00:31:42,480 --> 00:31:47,679
+not just the proofs themselves. See one
+
+742
+00:31:44,960 --> 00:31:49,840
+of the things I could have done you know
+
+743
+00:31:47,679 --> 00:31:52,559
+for proving this is I could have just
+
+744
+00:31:49,840 --> 00:31:56,000
+told you what I want
+
+745
+00:31:52,559 --> 00:31:57,360
+you know a i and j to be. So in fact
+
+746
+00:31:56,000 --> 00:31:59,039
+what I'm going to do is I'm going to
+
+747
+00:31:57,360 --> 00:32:02,159
+define
+
+748
+00:31:59,039 --> 00:32:05,600
+uh you know i is equal to a minus b and
+
+749
+00:32:02,159 --> 00:32:09,039
+b j is equal to b minus a. So what this
+
+750
+00:32:05,600 --> 00:32:11,679
+notation means is I take my set A and I
+
+751
+00:32:09,039 --> 00:32:14,399
+remove every element that shows up in B
+
+752
+00:32:11,679 --> 00:32:17,360
+from that set and whatever I have left
+
+753
+00:32:14,399 --> 00:32:19,120
+over with is I. Now notice B does not
+
+754
+00:32:17,360 --> 00:32:22,559
+have to be a subset of A for this to
+
+755
+00:32:19,120 --> 00:32:24,640
+make sense. If B contains an element
+
+756
+00:32:22,559 --> 00:32:26,480
+that isn't an A, I just ignore that
+
+757
+00:32:24,640 --> 00:32:29,279
+element. It wasn't there before and I
+
+758
+00:32:26,480 --> 00:32:31,840
+keep it out of my set. But if B and A
+
+759
+00:32:29,279 --> 00:32:34,000
+both contain the element, then I I
+
+760
+00:32:31,840 --> 00:32:36,240
+remove it. So you can think about this
+
+761
+00:32:34,000 --> 00:32:38,720
+pictorially, right? You know, maybe
+
+762
+00:32:36,240 --> 00:32:41,919
+these two sets, you know, A and B, they
+
+763
+00:32:38,720 --> 00:32:43,519
+look like this. And so what is my set I
+
+764
+00:32:41,919 --> 00:32:46,240
+going to look like? It's going to be
+
+765
+00:32:43,519 --> 00:32:47,600
+exactly this shaded region right here
+
+766
+00:32:46,240 --> 00:32:49,600
+because they're, you know, I'm taking
+
+767
+00:32:47,600 --> 00:32:51,679
+out everything that belongs to B and
+
+768
+00:32:49,600 --> 00:32:54,240
+removing it from my set so that I create
+
+769
+00:32:51,679 --> 00:32:56,960
+two disjoint things. So this right here
+
+770
+00:32:54,240 --> 00:32:58,880
+would be I and this right here would be
+
+771
+00:32:56,960 --> 00:33:00,240
+J.
+
+772
+00:32:58,880 --> 00:33:03,279
+So let's think a little bit about
+
+773
+00:33:00,240 --> 00:33:06,000
+pedagogy again, right? You see how this
+
+774
+00:33:03,279 --> 00:33:08,720
+visual helps me understand what's going
+
+775
+00:33:06,000 --> 00:33:11,600
+on mathematically in the notation. If I
+
+776
+00:33:08,720 --> 00:33:13,679
+just define for you what a minus b is.
+
+777
+00:33:11,600 --> 00:33:15,679
+That's a perfectly valid definition,
+
+778
+00:33:13,679 --> 00:33:17,360
+right? But a lot of times these visuals
+
+779
+00:33:15,679 --> 00:33:19,519
+can help people understand them more
+
+780
+00:33:17,360 --> 00:33:21,360
+easily. And if you notice the other
+
+781
+00:33:19,519 --> 00:33:23,600
+thing I did in terms of writing up this
+
+782
+00:33:21,360 --> 00:33:26,159
+proof, I could have actually skipped
+
+783
+00:33:23,600 --> 00:33:28,480
+this entire discussion about what
+
+784
+00:33:26,159 --> 00:33:31,519
+happens when I choose A and B. I could
+
+785
+00:33:28,480 --> 00:33:33,200
+have jumped first to I and J, right? I
+
+786
+00:33:31,519 --> 00:33:34,640
+could have said A and B come from this
+
+787
+00:33:33,200 --> 00:33:37,600
+pigeonal principle and then I could have
+
+788
+00:33:34,640 --> 00:33:39,840
+defined I as A minus B and J as B minus
+
+789
+00:33:37,600 --> 00:33:42,480
+A. But then you would have missed the
+
+790
+00:33:39,840 --> 00:33:44,240
+point about why I needed to do that. So
+
+791
+00:33:42,480 --> 00:33:45,760
+in fact when you're writing up proofs
+
+792
+00:33:44,240 --> 00:33:48,159
+not everything you write is
+
+793
+00:33:45,760 --> 00:33:50,720
+mathematically necessary but a lot of
+
+794
+00:33:48,159 --> 00:33:53,440
+times it's pedagogically very useful
+
+795
+00:33:50,720 --> 00:33:55,679
+because you can walk the reader through
+
+796
+00:33:53,440 --> 00:33:58,080
+not just the formal verification that
+
+797
+00:33:55,679 --> 00:34:00,559
+the statement is true but how exactly
+
+798
+00:33:58,080 --> 00:34:02,640
+you arrived at the proof yourself.
+
+799
+00:34:00,559 --> 00:34:04,640
+Right? And the missteps you made along
+
+800
+00:34:02,640 --> 00:34:07,279
+the way, but that led you to the right
+
+801
+00:34:04,640 --> 00:34:09,200
+answer. All right? So, finishing this
+
+802
+00:34:07,279 --> 00:34:12,000
+up, we can just, you know, the rest of
+
+803
+00:34:09,200 --> 00:34:16,240
+it is just notation. So, when we look at
+
+804
+00:34:12,000 --> 00:34:19,119
+this expression, the sum over all x i in
+
+805
+00:34:16,240 --> 00:34:22,560
+the set a, we can break this up into two
+
+806
+00:34:19,119 --> 00:34:26,879
+pieces, right? It's the sum for all i
+
+807
+00:34:22,560 --> 00:34:31,359
+that are in both a and b of x i. And
+
+808
+00:34:26,879 --> 00:34:35,440
+it's the sum of all x i for i that
+
+809
+00:34:31,359 --> 00:34:37,520
+belongs to my set a i. capital i, which
+
+810
+00:34:35,440 --> 00:34:39,520
+is the things that belong here. So I'm
+
+811
+00:34:37,520 --> 00:34:41,440
+just taking the sum over this entire set
+
+812
+00:34:39,520 --> 00:34:44,879
+a and I'm breaking it up into this piece
+
+813
+00:34:41,440 --> 00:34:47,359
+right here and this piece right here.
+
+814
+00:34:44,879 --> 00:34:49,839
+But now by assumption I know using the
+
+815
+00:34:47,359 --> 00:34:52,800
+pigeon hole principle that this is the
+
+816
+00:34:49,839 --> 00:34:56,480
+same thing as the sum from
+
+817
+00:34:52,800 --> 00:34:59,119
+all i and b of x i. And I can break this
+
+818
+00:34:56,480 --> 00:35:01,680
+sum up the same way. It's the sum of all
+
+819
+00:34:59,119 --> 00:35:05,680
+I in the intersection
+
+820
+00:35:01,680 --> 00:35:09,440
+of X I plus the sum of all of these
+
+821
+00:35:05,680 --> 00:35:11,040
+things in my set capital J. Right? So
+
+822
+00:35:09,440 --> 00:35:13,599
+I'm just breaking up the sum two
+
+823
+00:35:11,040 --> 00:35:15,359
+different ways. And now when I take this
+
+824
+00:35:13,599 --> 00:35:17,440
+equation that the whole thing is equal,
+
+825
+00:35:15,359 --> 00:35:19,839
+I can just cross off these two pieces
+
+826
+00:35:17,440 --> 00:35:23,200
+because they're the same thing. And that
+
+827
+00:35:19,839 --> 00:35:25,040
+gives me what I want. These sets I and J
+
+828
+00:35:23,200 --> 00:35:27,119
+are definitely disjoint because I've
+
+829
+00:35:25,040 --> 00:35:29,520
+made them be disjoint and they have the
+
+830
+00:35:27,119 --> 00:35:31,760
+same sum. You should double check that
+
+831
+00:35:29,520 --> 00:35:34,160
+you never end up with these things being
+
+832
+00:35:31,760 --> 00:35:36,160
+non-MP and you know that's a
+
+833
+00:35:34,160 --> 00:35:39,680
+technicality you have to check but it is
+
+834
+00:35:36,160 --> 00:35:42,160
+true and it follows from the assumptions
+
+835
+00:35:39,680 --> 00:35:45,680
+but that's you know the end of our next
+
+836
+00:35:42,160 --> 00:35:47,760
+proof right so are there any questions
+
+837
+00:35:45,680 --> 00:35:48,960
+make sense?
+
+838
+00:35:47,760 --> 00:35:51,520
+Yeah,
+
+839
+00:35:48,960 --> 00:35:52,720
+>> the like
+
+840
+00:35:51,520 --> 00:35:55,280
+the minimum like number
+
+841
+00:35:52,720 --> 00:35:56,480
+>> it's about the minimum. Uh but since you
+
+842
+00:35:55,280 --> 00:35:58,480
+asked, let me tell you something
+
+843
+00:35:56,480 --> 00:36:00,640
+interesting about this, right? This lema
+
+844
+00:35:58,480 --> 00:36:02,800
+is very easy to state. It's not so bad
+
+845
+00:36:00,640 --> 00:36:04,640
+to prove. We proved it pretty quickly.
+
+846
+00:36:02,800 --> 00:36:08,560
+What's kind of shocking is, you know, I
+
+847
+00:36:04,640 --> 00:36:11,040
+can write down 24digit numbers for you.
+
+848
+00:36:08,560 --> 00:36:13,520
+And you would have no you could prove to
+
+849
+00:36:11,040 --> 00:36:15,599
+yourself using this proof right here
+
+850
+00:36:13,520 --> 00:36:18,160
+that there are two subsets whose sum is
+
+851
+00:36:15,599 --> 00:36:20,640
+the same. But it would be very hard to
+
+852
+00:36:18,160 --> 00:36:22,640
+actually find them. So you can do this
+
+853
+00:36:20,640 --> 00:36:25,280
+for example with like populations of
+
+854
+00:36:22,640 --> 00:36:27,520
+different countries. We know that there
+
+855
+00:36:25,280 --> 00:36:30,240
+are you know subsets of countries that
+
+856
+00:36:27,520 --> 00:36:32,880
+have literally the same number of people
+
+857
+00:36:30,240 --> 00:36:35,440
+but you know it would be exhaustive to
+
+858
+00:36:32,880 --> 00:36:38,079
+try and search all possible subsets to
+
+859
+00:36:35,440 --> 00:36:39,680
+figure out which pair collide and we
+
+860
+00:36:38,079 --> 00:36:42,000
+don't actually know any faster
+
+861
+00:36:39,680 --> 00:36:43,920
+algorithms and you know it's related to
+
+862
+00:36:42,000 --> 00:36:45,839
+some things in cryptography. All right
+
+863
+00:36:43,920 --> 00:36:50,400
+any other questions?
+
+864
+00:36:45,839 --> 00:36:52,960
+Make sense? so far. All right.
+
+865
+00:36:50,400 --> 00:36:57,680
+All right. So, we got to do our hardest
+
+866
+00:36:52,960 --> 00:36:59,520
+result today and then I'll do a uh fun
+
+867
+00:36:57,680 --> 00:37:01,680
+end for one of my favorite applications,
+
+868
+00:36:59,520 --> 00:37:04,320
+the pigeon hole principle.
+
+869
+00:37:01,680 --> 00:37:05,920
+So, let's do our hardest theorem. Uh,
+
+870
+00:37:04,320 --> 00:37:07,280
+and I'm going to, you know, tell you
+
+871
+00:37:05,920 --> 00:37:09,520
+it's the hardest result because I'm
+
+872
+00:37:07,280 --> 00:37:11,359
+going to call it a theorem.
+
+873
+00:37:09,520 --> 00:37:13,280
+And we'll be talking about extensions of
+
+874
+00:37:11,359 --> 00:37:14,880
+this, you know, on your first pet set.
+
+875
+00:37:13,280 --> 00:37:16,480
+So, you'll get more practice with this
+
+876
+00:37:14,880 --> 00:37:18,079
+proof.
+
+877
+00:37:16,480 --> 00:37:20,240
+But let me tell you about a beautiful
+
+878
+00:37:18,079 --> 00:37:24,640
+result in combinotaurics.
+
+879
+00:37:20,240 --> 00:37:26,800
+Right? What I claim is that in any
+
+880
+00:37:24,640 --> 00:37:28,320
+permutation,
+
+881
+00:37:26,800 --> 00:37:29,920
+I'll tell you what I mean by that in a
+
+882
+00:37:28,320 --> 00:37:33,599
+second. We'll be talking much more about
+
+883
+00:37:29,920 --> 00:37:38,079
+permutations later. Any permutation of
+
+884
+00:37:33,599 --> 00:37:42,960
+the integers 1 2 3 all the way up to
+
+885
+00:37:38,079 --> 00:37:45,520
+something n * m + one. What I claim is
+
+886
+00:37:42,960 --> 00:37:49,720
+that there is
+
+887
+00:37:45,520 --> 00:37:49,720
+an increasing subsequence
+
+888
+00:37:54,720 --> 00:37:58,040
+of length
+
+889
+00:37:58,800 --> 00:38:04,280
+m + one or a decreasing
+
+890
+00:38:04,720 --> 00:38:07,720
+subsequence
+
+891
+00:38:08,480 --> 00:38:11,040
+of length.
+
+892
+00:38:11,520 --> 00:38:16,560
+n + one. Okay, so I owe you a bunch of
+
+893
+00:38:14,880 --> 00:38:20,000
+things to explain what this theorem
+
+894
+00:38:16,560 --> 00:38:22,400
+means. Yes,
+
+895
+00:38:20,000 --> 00:38:24,160
+>> I'll get to that, but no, it's not. So
+
+896
+00:38:22,400 --> 00:38:25,520
+that's one of the things I owe you. But
+
+897
+00:38:24,160 --> 00:38:28,079
+first, let's start with the simpler
+
+898
+00:38:25,520 --> 00:38:30,640
+thing. So I owe you this, right? What do
+
+899
+00:38:28,079 --> 00:38:33,440
+I mean by a permutation? So what I mean
+
+900
+00:38:30,640 --> 00:38:37,359
+is you can take these integers 1 2 3 all
+
+901
+00:38:33,440 --> 00:38:38,960
+the way up to nm + one, right? n and m
+
+902
+00:38:37,359 --> 00:38:41,200
+are just parameters in this theorem
+
+903
+00:38:38,960 --> 00:38:43,359
+statement and instead of considering
+
+904
+00:38:41,200 --> 00:38:45,760
+them all in increasing order I can put
+
+905
+00:38:43,359 --> 00:38:47,599
+all of the numbers in any order I want.
+
+906
+00:38:45,760 --> 00:38:49,680
+So basically I take this deck of cards
+
+907
+00:38:47,599 --> 00:38:52,000
+and I shuffle it and I consider any
+
+908
+00:38:49,680 --> 00:38:53,680
+possible ordering. That's what I mean by
+
+909
+00:38:52,000 --> 00:38:56,240
+permutation. We'll talk more about them
+
+910
+00:38:53,680 --> 00:38:58,160
+formally later when we get to counting.
+
+911
+00:38:56,240 --> 00:39:00,880
+But you know I take any ordering for
+
+912
+00:38:58,160 --> 00:39:02,960
+these integers. And what I claim is that
+
+913
+00:39:00,880 --> 00:39:05,760
+there's some sort of subsequence where
+
+914
+00:39:02,960 --> 00:39:09,040
+the where the numbers are going up by
+
+915
+00:39:05,760 --> 00:39:12,480
+one at least at least one each time and
+
+916
+00:39:09,040 --> 00:39:15,040
+that's long or if not there's some long
+
+917
+00:39:12,480 --> 00:39:18,400
+subsequence where the numbers are going
+
+918
+00:39:15,040 --> 00:39:20,160
+down at least by one each time. So let's
+
+919
+00:39:18,400 --> 00:39:22,079
+do an example because I should really be
+
+920
+00:39:20,160 --> 00:39:25,119
+more precise by what I mean by a
+
+921
+00:39:22,079 --> 00:39:29,359
+subsequence. So let's take for example
+
+922
+00:39:25,119 --> 00:39:31,599
+m= n= 3. So then I'm really just asking
+
+923
+00:39:29,359 --> 00:39:33,760
+for a permutation of the integers from
+
+924
+00:39:31,599 --> 00:39:37,040
+one up to 10. So some shuffling of that
+
+925
+00:39:33,760 --> 00:39:43,760
+deck of cards. Let's take an example. We
+
+926
+00:39:37,040 --> 00:39:49,280
+could take 3 2 1 6 5 4
+
+927
+00:39:43,760 --> 00:39:53,280
+9 8 7 and then 10.
+
+928
+00:39:49,280 --> 00:39:56,240
+So now an example of a long increasing
+
+929
+00:39:53,280 --> 00:39:59,760
+sequence is this one right here. I take
+
+930
+00:39:56,240 --> 00:40:03,359
+three, then I take six, then I take
+
+931
+00:39:59,760 --> 00:40:05,359
+nine, and then I take 10. So this
+
+932
+00:40:03,359 --> 00:40:07,359
+sequence does not have to be contiguous.
+
+933
+00:40:05,359 --> 00:40:08,800
+These these positions I'm interested in
+
+934
+00:40:07,359 --> 00:40:11,119
+don't have to be right next to each
+
+935
+00:40:08,800 --> 00:40:13,119
+other. But what I want is that when I
+
+936
+00:40:11,119 --> 00:40:14,720
+consider the sequence of integers just
+
+937
+00:40:13,119 --> 00:40:17,359
+in those positions where I've put the
+
+938
+00:40:14,720 --> 00:40:20,079
+arrows, that the corresponding sequence
+
+939
+00:40:17,359 --> 00:40:22,560
+I get is strictly increasing as I go up
+
+940
+00:40:20,079 --> 00:40:24,240
+the arrows. So that's an increasing
+
+941
+00:40:22,560 --> 00:40:27,359
+subsequence. So I can also think about
+
+942
+00:40:24,240 --> 00:40:28,880
+having a decreasing one like 321 and
+
+943
+00:40:27,359 --> 00:40:31,599
+that's the longest decreasing
+
+944
+00:40:28,880 --> 00:40:33,920
+subsequence I can get here. So you can
+
+945
+00:40:31,599 --> 00:40:36,240
+see that this example illustrates a you
+
+946
+00:40:33,920 --> 00:40:39,040
+know it helps me understand what exactly
+
+947
+00:40:36,240 --> 00:40:40,720
+these abstract definitions mean like a
+
+948
+00:40:39,040 --> 00:40:43,200
+permutation and an increasing
+
+949
+00:40:40,720 --> 00:40:45,440
+subsequence. It also tells me something
+
+950
+00:40:43,200 --> 00:40:48,079
+even more powerful which is that this
+
+951
+00:40:45,440 --> 00:40:51,760
+theorem really is tight. Right? Because
+
+952
+00:40:48,079 --> 00:40:55,599
+in the case where n= m= 3, what I'm
+
+953
+00:40:51,760 --> 00:40:57,920
+promising you is that there is a length
+
+954
+00:40:55,599 --> 00:41:01,040
+for increasing subsequence or there's a
+
+955
+00:40:57,920 --> 00:41:03,200
+length for decreasing subsequence. And
+
+956
+00:41:01,040 --> 00:41:06,079
+even though I found one that has length
+
+957
+00:41:03,200 --> 00:41:08,000
+four and is increasing, what I claim in
+
+958
+00:41:06,079 --> 00:41:10,960
+this simple example is that I can't
+
+959
+00:41:08,000 --> 00:41:13,359
+create anything longer. And I can't even
+
+960
+00:41:10,960 --> 00:41:16,480
+create a decreasing subsequence that's
+
+961
+00:41:13,359 --> 00:41:18,880
+longer than three. Right? Because if I
+
+962
+00:41:16,480 --> 00:41:21,839
+did 321, then I'm in trouble. Everything
+
+963
+00:41:18,880 --> 00:41:23,599
+after it is larger. If I do 654 again,
+
+964
+00:41:21,839 --> 00:41:27,839
+I'm in trouble. Everything after it is
+
+965
+00:41:23,599 --> 00:41:29,760
+larger. All right, any questions?
+
+966
+00:41:27,839 --> 00:41:31,599
+So, I claim that we can prove this using
+
+967
+00:41:29,760 --> 00:41:33,280
+the pigeon hole principle, but we're
+
+968
+00:41:31,599 --> 00:41:35,440
+going to have the same difficulties we
+
+969
+00:41:33,280 --> 00:41:37,680
+usually have, which is where are the
+
+970
+00:41:35,440 --> 00:41:39,760
+pigeons and where are the holes. In
+
+971
+00:41:37,680 --> 00:41:41,440
+fact, it'll be even more abstract
+
+972
+00:41:39,760 --> 00:41:43,680
+because if you try and guess things
+
+973
+00:41:41,440 --> 00:41:45,200
+like, you know, the sequences are the
+
+974
+00:41:43,680 --> 00:41:47,119
+pigeons or the positions are the
+
+975
+00:41:45,200 --> 00:41:48,880
+pigeons, you're going to have a hard
+
+976
+00:41:47,119 --> 00:41:51,359
+time. That's not how this proof is going
+
+977
+00:41:48,880 --> 00:41:54,960
+to go. Instead, we're going to need a
+
+978
+00:41:51,359 --> 00:41:58,240
+very delicate definition to tell us
+
+979
+00:41:54,960 --> 00:41:59,760
+where the pigeons are and you know how
+
+980
+00:41:58,240 --> 00:42:02,760
+this relates to the pigeon hole
+
+981
+00:41:59,760 --> 00:42:02,760
+principle.
+
+982
+00:42:04,800 --> 00:42:10,480
+And the idea basically is that um you
+
+983
+00:42:08,480 --> 00:42:11,920
+know I can't like this theorem if you
+
+984
+00:42:10,480 --> 00:42:13,760
+think about it is not telling me which
+
+985
+00:42:11,920 --> 00:42:15,440
+of them I have whether I have a long
+
+986
+00:42:13,760 --> 00:42:17,839
+increasing or a long decreasing
+
+987
+00:42:15,440 --> 00:42:19,680
+sequence. So in some sense what I want
+
+988
+00:42:17,839 --> 00:42:22,400
+to do is I want to keep track of my
+
+989
+00:42:19,680 --> 00:42:24,640
+progress on both of them. How long is my
+
+990
+00:42:22,400 --> 00:42:27,520
+largest increasing subsequence? How long
+
+991
+00:42:24,640 --> 00:42:29,200
+is my largest decreasing sequence? And I
+
+992
+00:42:27,520 --> 00:42:30,560
+want to see how those progress measures
+
+993
+00:42:29,200 --> 00:42:32,319
+grow.
+
+994
+00:42:30,560 --> 00:42:35,599
+So the proof is going to involve this
+
+995
+00:42:32,319 --> 00:42:38,880
+very careful you know definition
+
+996
+00:42:35,599 --> 00:42:41,119
+is you know let's consider
+
+997
+00:42:38,880 --> 00:42:43,200
+these integers in order and let's
+
+998
+00:42:41,119 --> 00:42:47,359
+consider the
+
+999
+00:42:43,200 --> 00:42:50,839
+sith elements
+
+1000
+00:42:47,359 --> 00:42:50,839
+in the sequence
+
+1001
+00:42:53,599 --> 00:42:58,400
+and what we're going to do
+
+1002
+00:42:56,480 --> 00:43:02,240
+is we're going to define these helper
+
+1003
+00:42:58,400 --> 00:43:05,680
+variables. So we're going to let I subs
+
+1004
+00:43:02,240 --> 00:43:09,440
+denote the length
+
+1005
+00:43:05,680 --> 00:43:11,200
+of the longest
+
+1006
+00:43:09,440 --> 00:43:14,200
+increasing
+
+1007
+00:43:11,200 --> 00:43:14,200
+subsequence
+
+1008
+00:43:16,720 --> 00:43:24,200
+ending
+
+1009
+00:43:19,040 --> 00:43:24,200
+at the eth ess.
+
+1010
+00:43:24,880 --> 00:43:30,880
+Okay, that's one progress measure. I is
+
+1011
+00:43:28,480 --> 00:43:33,280
+for increasing. So I've chosen, you
+
+1012
+00:43:30,880 --> 00:43:36,160
+know, notation that uh at least has a
+
+1013
+00:43:33,280 --> 00:43:38,720
+pneummonic associated with it. I have DS
+
+1014
+00:43:36,160 --> 00:43:43,240
+is going to be the same thing, but it'll
+
+1015
+00:43:38,720 --> 00:43:43,240
+be the longest decreasing
+
+1016
+00:43:44,560 --> 00:43:50,000
+subsequence, but again ending at the
+
+1017
+00:43:47,599 --> 00:43:52,319
+Sith location.
+
+1018
+00:43:50,000 --> 00:43:54,800
+Okay,
+
+1019
+00:43:52,319 --> 00:43:57,280
+so uh this is my progress measure. In
+
+1020
+00:43:54,800 --> 00:43:59,119
+fact, this is a little bit abstract. So
+
+1021
+00:43:57,280 --> 00:44:02,319
+let's see what it looks like in this
+
+1022
+00:43:59,119 --> 00:44:05,319
+particular example just to make sense of
+
+1023
+00:44:02,319 --> 00:44:05,319
+it.
+
+1024
+00:44:07,119 --> 00:44:12,880
+So for example in the example we already
+
+1025
+00:44:09,200 --> 00:44:15,880
+did I can plot you know how I and D
+
+1026
+00:44:12,880 --> 00:44:15,880
+change
+
+1027
+00:44:18,079 --> 00:44:25,040
+as a function of uh
+
+1028
+00:44:22,240 --> 00:44:29,200
+oh let's see okay so what I can do is
+
+1029
+00:44:25,040 --> 00:44:34,560
+I'm going to consider this sequence 5 2
+
+1030
+00:44:29,200 --> 00:44:36,880
+4 3 6 1 just to keep it interesting.
+
+1031
+00:44:34,560 --> 00:44:39,520
+And now what I can do is when I look at
+
+1032
+00:44:36,880 --> 00:44:41,359
+each one of these positions, I can look
+
+1033
+00:44:39,520 --> 00:44:43,839
+at this progress measure of what's the
+
+1034
+00:44:41,359 --> 00:44:46,079
+longest increasing sequence that ends at
+
+1035
+00:44:43,839 --> 00:44:48,079
+that position. So when I start off,
+
+1036
+00:44:46,079 --> 00:44:50,160
+what's the longest increasing sequence
+
+1037
+00:44:48,079 --> 00:44:53,359
+that ends at this first position
+
+1038
+00:44:50,160 --> 00:44:56,079
+occupied by five? One.
+
+1039
+00:44:53,359 --> 00:44:59,200
+What's the longest decreasing? It's one,
+
+1040
+00:44:56,079 --> 00:45:02,079
+right? And now if I instead, you know,
+
+1041
+00:44:59,200 --> 00:45:03,680
+consider the position two. So if I
+
+1042
+00:45:02,079 --> 00:45:06,079
+consider the second position that has
+
+1043
+00:45:03,680 --> 00:45:08,560
+the element two in it, what is the
+
+1044
+00:45:06,079 --> 00:45:11,520
+longest increasing subsequence that ends
+
+1045
+00:45:08,560 --> 00:45:15,119
+at that position that includes this
+
+1046
+00:45:11,520 --> 00:45:17,119
+value two? Any ideas? This just a matter
+
+1047
+00:45:15,119 --> 00:45:18,480
+of using the definition, but the
+
+1048
+00:45:17,119 --> 00:45:21,480
+definition requires a little bit of
+
+1049
+00:45:18,480 --> 00:45:21,480
+unwrapping.
+
+1050
+00:45:23,200 --> 00:45:29,440
+Any ideas?
+
+1051
+00:45:25,599 --> 00:45:31,359
+One. Perfect. That's one.
+
+1052
+00:45:29,440 --> 00:45:33,920
+because the longest increasing sequence
+
+1053
+00:45:31,359 --> 00:45:36,079
+that ends and includes two. Well, if I
+
+1054
+00:45:33,920 --> 00:45:38,000
+include two, I can't include five
+
+1055
+00:45:36,079 --> 00:45:39,839
+because it's supposed to be increasing.
+
+1056
+00:45:38,000 --> 00:45:41,440
+What about this position right here? So,
+
+1057
+00:45:39,839 --> 00:45:45,119
+what should I fill in for this entry in
+
+1058
+00:45:41,440 --> 00:45:47,440
+the table? Two. Perfect. So, I can keep
+
+1059
+00:45:45,119 --> 00:45:49,520
+track of this, right? If instead I end
+
+1060
+00:45:47,440 --> 00:45:53,520
+at the position four, then I can include
+
+1061
+00:45:49,520 --> 00:45:57,119
+two. So, I'm fine. Uh here my longest
+
+1062
+00:45:53,520 --> 00:45:58,800
+decreasing would be 54. And I can keep
+
+1063
+00:45:57,119 --> 00:46:06,240
+track of this progress measure. I'll get
+
+1064
+00:45:58,800 --> 00:46:08,319
+2 3 3 1 1 4. Okay. And now you know
+
+1065
+00:46:06,240 --> 00:46:10,720
+here's the key for how it relates to the
+
+1066
+00:46:08,319 --> 00:46:14,000
+pigeon hole principle. What I claim is
+
+1067
+00:46:10,720 --> 00:46:17,119
+that for two locations S and T that are
+
+1068
+00:46:14,000 --> 00:46:22,079
+different from each other. I claim that
+
+1069
+00:46:17,119 --> 00:46:27,200
+this pair is S Ds is not equal to the
+
+1070
+00:46:22,079 --> 00:46:29,920
+pair it T DT. Okay,
+
+1071
+00:46:27,200 --> 00:46:31,599
+so that's the key
+
+1072
+00:46:29,920 --> 00:46:34,160
+and if we can show this, this is really
+
+1073
+00:46:31,599 --> 00:46:36,640
+the heart of the proof because you know
+
+1074
+00:46:34,160 --> 00:46:40,240
+this sequence goes on for you know
+
+1075
+00:46:36,640 --> 00:46:42,400
+roughly n * m length
+
+1076
+00:46:40,240 --> 00:46:44,960
+and you know if my pigeon hole principle
+
+1077
+00:46:42,400 --> 00:46:47,440
+if my the sequence statement were false
+
+1078
+00:46:44,960 --> 00:46:50,000
+and I could only get a value of like n
+
+1079
+00:46:47,440 --> 00:46:52,560
+here and a value of m here then I just
+
+1080
+00:46:50,000 --> 00:46:55,119
+wouldn't have enough possibilities to
+
+1081
+00:46:52,560 --> 00:46:56,640
+pre you know to avoid a collision.
+
+1082
+00:46:55,119 --> 00:46:58,160
+So you can put the pieces of it
+
+1083
+00:46:56,640 --> 00:47:01,520
+together, but this is really the heart
+
+1084
+00:46:58,160 --> 00:47:03,920
+of the proof is proving this statement.
+
+1085
+00:47:01,520 --> 00:47:05,440
+So let's prove this. This is not a hard
+
+1086
+00:47:03,920 --> 00:47:07,440
+statement to prove, but it's a hard
+
+1087
+00:47:05,440 --> 00:47:09,920
+statement to guess is the right way to
+
+1088
+00:47:07,440 --> 00:47:13,040
+go about it. So how are we going to
+
+1089
+00:47:09,920 --> 00:47:16,440
+prove this thing?
+
+1090
+00:47:13,040 --> 00:47:16,440
+So first,
+
+1091
+00:47:18,079 --> 00:47:23,200
+does anyone know what this term right
+
+1092
+00:47:19,760 --> 00:47:25,440
+here means? WLG.
+
+1093
+00:47:23,200 --> 00:47:28,240
+Just out of curiosity. Yeah. Without
+
+1094
+00:47:25,440 --> 00:47:30,480
+loserelli. Okay. So, you know, I told
+
+1095
+00:47:28,240 --> 00:47:32,560
+you that when I was proving things with
+
+1096
+00:47:30,480 --> 00:47:33,839
+um you know, the number of people in a
+
+1097
+00:47:32,560 --> 00:47:36,560
+party that I had to do this case
+
+1098
+00:47:33,839 --> 00:47:38,720
+analysis. Well, to prevent my proof from
+
+1099
+00:47:36,560 --> 00:47:41,040
+being too long, let me just pretend s is
+
+1100
+00:47:38,720 --> 00:47:42,480
+larger than t because you know, if it
+
+1101
+00:47:41,040 --> 00:47:46,319
+was the other way around, I would just
+
+1102
+00:47:42,480 --> 00:47:49,319
+switch what's s and what's t. So yeah,
+
+1103
+00:47:46,319 --> 00:47:49,319
+>> why
+
+1104
+00:47:49,760 --> 00:47:54,960
+wouldn't the most the longest increasing
+
+1105
+00:47:52,160 --> 00:47:55,839
+one with six as the last one be six and
+
+1106
+00:47:54,960 --> 00:47:59,280
+two?
+
+1107
+00:47:55,839 --> 00:48:00,480
+>> Sorry. Uh which entry in the table here?
+
+1108
+00:47:59,280 --> 00:48:02,000
+Yeah.
+
+1109
+00:48:00,480 --> 00:48:05,839
+>> Yeah. Three and six.
+
+1110
+00:48:02,000 --> 00:48:08,480
+>> Okay. All right. So here, right? So uh
+
+1111
+00:48:05,839 --> 00:48:13,040
+we want the longest increasing sequence
+
+1112
+00:48:08,480 --> 00:48:14,880
+that ends at three. that six.
+
+1113
+00:48:13,040 --> 00:48:17,680
+>> So do you want this entry in the table?
+
+1114
+00:48:14,880 --> 00:48:22,119
+Okay. So the longest increasing one that
+
+1115
+00:48:17,680 --> 00:48:22,119
+ends at six. So what would it be?
+
+1116
+00:48:24,079 --> 00:48:28,720
+>> Yeah. Yeah. So it's not required to be
+
+1117
+00:48:26,640 --> 00:48:31,440
+contiguous but it has to include that
+
+1118
+00:48:28,720 --> 00:48:33,760
+end point. So that's why these numbers
+
+1119
+00:48:31,440 --> 00:48:36,720
+you know are not u monotonically
+
+1120
+00:48:33,760 --> 00:48:39,440
+increasing right. So when I have the
+
+1121
+00:48:36,720 --> 00:48:42,160
+longest decreasing sequence that ends at
+
+1122
+00:48:39,440 --> 00:48:45,359
+three, you know, that's pretty long,
+
+1123
+00:48:42,160 --> 00:48:47,839
+right? Because I could go 5 43 and end
+
+1124
+00:48:45,359 --> 00:48:50,160
+there. But as soon as I move over to
+
+1125
+00:48:47,839 --> 00:48:52,880
+this next column right here, if I have
+
+1126
+00:48:50,160 --> 00:48:54,800
+to end at six, that that that makes the
+
+1127
+00:48:52,880 --> 00:48:56,880
+longest decreasing sequence only of
+
+1128
+00:48:54,800 --> 00:48:59,200
+length one. So the key is that I'm
+
+1129
+00:48:56,880 --> 00:49:01,680
+fixing that my end point has to belong
+
+1130
+00:48:59,200 --> 00:49:03,440
+to that subsequence and I'm considering
+
+1131
+00:49:01,680 --> 00:49:05,280
+progress as I go, you know, left to
+
+1132
+00:49:03,440 --> 00:49:06,880
+right. So any other questions? This is a
+
+1133
+00:49:05,280 --> 00:49:08,480
+crucial part. If you don't understand
+
+1134
+00:49:06,880 --> 00:49:13,359
+the table, you won't understand the
+
+1135
+00:49:08,480 --> 00:49:18,160
+proof. Good. All right. So without loss
+
+1136
+00:49:13,359 --> 00:49:22,640
+generality, S is larger than T, right?
+
+1137
+00:49:18,160 --> 00:49:25,599
+And so let's do the following. So if the
+
+1138
+00:49:22,640 --> 00:49:30,920
+element
+
+1139
+00:49:25,599 --> 00:49:30,920
+at the Sith location
+
+1140
+00:49:31,359 --> 00:49:39,440
+is strictly larger than the elements
+
+1141
+00:49:36,640 --> 00:49:42,319
+at the tth
+
+1142
+00:49:39,440 --> 00:49:48,400
+location,
+
+1143
+00:49:42,319 --> 00:49:51,400
+what I claim is that is at least it t +
+
+1144
+00:49:48,400 --> 00:49:51,400
+1.
+
+1145
+00:49:51,760 --> 00:49:55,440
+It's the morning and I'm lazy. So, who
+
+1146
+00:49:53,520 --> 00:49:58,240
+can prove this for me and and justify
+
+1147
+00:49:55,440 --> 00:50:00,720
+this? Why is this true? Someone who
+
+1148
+00:49:58,240 --> 00:50:04,200
+hasn't answered. Especially my back row
+
+1149
+00:50:00,720 --> 00:50:04,200
+is very quiet.
+
+1150
+00:50:12,800 --> 00:50:15,800
+Yeah,
+
+1151
+00:50:18,480 --> 00:50:23,119
+that's exactly right. So, let me say
+
+1152
+00:50:20,640 --> 00:50:25,760
+that again. Right. So, we can just use
+
+1153
+00:50:23,119 --> 00:50:28,880
+the increasing sequence subsequence that
+
+1154
+00:50:25,760 --> 00:50:31,680
+ended at the tth location. And because
+
+1155
+00:50:28,880 --> 00:50:33,599
+the element at the sth location is after
+
+1156
+00:50:31,680 --> 00:50:35,760
+the one that happens at the tth location
+
+1157
+00:50:33,599 --> 00:50:38,480
+because s is larger than t and the
+
+1158
+00:50:35,760 --> 00:50:40,720
+element itself is bigger too. I can just
+
+1159
+00:50:38,480 --> 00:50:44,400
+append that element and make my
+
+1160
+00:50:40,720 --> 00:50:48,160
+subsequence longer. Right? All right. So
+
+1161
+00:50:44,400 --> 00:50:49,760
+how does the rest of the proof go? Um
+
+1162
+00:50:48,160 --> 00:50:51,440
+who can fill in the rest of the proof
+
+1163
+00:50:49,760 --> 00:50:53,040
+for me?
+
+1164
+00:50:51,440 --> 00:50:55,359
+So this is one case in the case
+
+1165
+00:50:53,040 --> 00:50:59,040
+analysis. Right? I've said without loss
+
+1166
+00:50:55,359 --> 00:51:00,800
+generality s is larger than t and um you
+
+1167
+00:50:59,040 --> 00:51:02,800
+know if the element at the sith location
+
+1168
+00:51:00,800 --> 00:51:07,520
+is larger than the element at the tth
+
+1169
+00:51:02,800 --> 00:51:08,880
+location my is at least it t + one
+
+1170
+00:51:07,520 --> 00:51:11,760
+>> uh yeah
+
+1171
+00:51:08,880 --> 00:51:15,040
+>> uh you do the same thing with generality
+
+1172
+00:51:11,760 --> 00:51:17,280
+s instead the element at the s location
+
+1173
+00:51:15,040 --> 00:51:20,319
+is less than the element at e location
+
+1174
+00:51:17,280 --> 00:51:21,280
+then you can do the same for um
+
+1175
+00:51:20,319 --> 00:51:24,000
+ds and d
+
+1176
+00:51:21,280 --> 00:51:24,000
+>> perfect that's
+
+1177
+00:51:24,480 --> 00:51:28,160
+And it's basically the same reasoning
+
+1178
+00:51:26,319 --> 00:51:30,079
+but backwards. So otherwise in
+
+1179
+00:51:28,160 --> 00:51:32,319
+particular if the element at the sith
+
+1180
+00:51:30,079 --> 00:51:34,800
+location is strictly less than the
+
+1181
+00:51:32,319 --> 00:51:37,119
+element at the tth location, I can just
+
+1182
+00:51:34,800 --> 00:51:40,160
+take the decreasing subsequence that
+
+1183
+00:51:37,119 --> 00:51:41,920
+ends at the tth location and append what
+
+1184
+00:51:40,160 --> 00:51:43,760
+happens at the sith location. That's
+
+1185
+00:51:41,920 --> 00:51:47,359
+smaller. So that's a valid decreasing
+
+1186
+00:51:43,760 --> 00:51:49,599
+sequence. And that's the proof, right? I
+
+1187
+00:51:47,359 --> 00:51:52,880
+just proved for you that these two pairs
+
+1188
+00:51:49,599 --> 00:51:54,480
+of integers are different because I
+
+1189
+00:51:52,880 --> 00:51:57,200
+showed you that either this one is
+
+1190
+00:51:54,480 --> 00:52:00,240
+larger than this or this one is larger
+
+1191
+00:51:57,200 --> 00:52:01,839
+than this. Right? And now we're in good
+
+1192
+00:52:00,240 --> 00:52:03,920
+shape because you know how does the
+
+1193
+00:52:01,839 --> 00:52:06,319
+entire thing you know work. So just
+
+1194
+00:52:03,920 --> 00:52:09,319
+returning to the proof putting it all
+
+1195
+00:52:06,319 --> 00:52:09,319
+together
+
+1196
+00:52:10,559 --> 00:52:16,440
+even though I sort of said it in words
+
+1197
+00:52:12,160 --> 00:52:16,440
+let's just be precise about it.
+
+1198
+00:52:17,839 --> 00:52:21,800
+So returning to the proof.
+
+1199
+00:52:23,920 --> 00:52:29,240
+Let's suppose the theorem is false
+
+1200
+00:52:31,280 --> 00:52:36,960
+for the purposes of contradiction.
+
+1201
+00:52:33,200 --> 00:52:39,520
+Right? Then what I claim is that there
+
+1202
+00:52:36,960 --> 00:52:45,480
+are
+
+1203
+00:52:39,520 --> 00:52:45,480
+at most nm possible
+
+1204
+00:52:46,160 --> 00:52:54,079
+values
+
+1205
+00:52:49,119 --> 00:52:55,680
+for these pairs is ds, right? Because
+
+1206
+00:52:54,079 --> 00:52:59,200
+that's what it means for the theorem to
+
+1207
+00:52:55,680 --> 00:53:01,760
+be false. There's no n +1 length
+
+1208
+00:52:59,200 --> 00:53:03,760
+increasing subsequence. There's no
+
+1209
+00:53:01,760 --> 00:53:06,240
+length m plus one decreasing
+
+1210
+00:53:03,760 --> 00:53:10,079
+subsequence. When I look at my pairs of
+
+1211
+00:53:06,240 --> 00:53:12,880
+integers, is never becomes larger than n
+
+1212
+00:53:10,079 --> 00:53:17,440
+and ds never becomes larger than m.
+
+1213
+00:53:12,880 --> 00:53:19,599
+Right? And these are, you know, my holes
+
+1214
+00:53:17,440 --> 00:53:22,559
+is because each one of the possible
+
+1215
+00:53:19,599 --> 00:53:24,400
+positions is going to get mapped just by
+
+1216
+00:53:22,559 --> 00:53:27,839
+this definition that I gave you right
+
+1217
+00:53:24,400 --> 00:53:30,240
+here of isds to the signature of these
+
+1218
+00:53:27,839 --> 00:53:34,079
+pair of integers. That just tells me the
+
+1219
+00:53:30,240 --> 00:53:39,040
+name of my hole. But you know how long
+
+1220
+00:53:34,079 --> 00:53:41,839
+is my sequence? There are n m + one
+
+1221
+00:53:39,040 --> 00:53:43,760
+values in the sequence. These are all my
+
+1222
+00:53:41,839 --> 00:53:50,240
+pigeons.
+
+1223
+00:53:43,760 --> 00:53:55,599
+Which by the pigeon hole principle means
+
+1224
+00:53:50,240 --> 00:54:00,240
+there is s not equal to t with
+
+1225
+00:53:55,599 --> 00:54:04,480
+that collide in some hole with is ds
+
+1226
+00:54:00,240 --> 00:54:06,400
+equal to it dt. That's what it means for
+
+1227
+00:54:04,480 --> 00:54:08,400
+them to collide to the same hole because
+
+1228
+00:54:06,400 --> 00:54:10,960
+they get mapped to the same thing. And
+
+1229
+00:54:08,400 --> 00:54:14,400
+we know that that's impossible, right?
+
+1230
+00:54:10,960 --> 00:54:17,359
+But this is impossible.
+
+1231
+00:54:14,400 --> 00:54:19,359
+So that contradicts the assumption we
+
+1232
+00:54:17,359 --> 00:54:21,520
+made at the beginning which was just
+
+1233
+00:54:19,359 --> 00:54:23,520
+that the theorem was false. Yes.
+
+1234
+00:54:21,520 --> 00:54:26,160
+>> Without loss of generality step, why are
+
+1235
+00:54:23,520 --> 00:54:28,000
+we comparing um if I plus one instead of
+
+1236
+00:54:26,160 --> 00:54:30,000
+directive?
+
+1237
+00:54:28,000 --> 00:54:32,000
+>> Uh sorry, say it again. So why are we
+
+1238
+00:54:30,000 --> 00:54:36,079
+comparing uh
+
+1239
+00:54:32,000 --> 00:54:38,559
+>> compare that to I of T + one instead of
+
+1240
+00:54:36,079 --> 00:54:41,680
+tot? Okay, so just to be careful right
+
+1241
+00:54:38,559 --> 00:54:43,119
+here, this is I subt and then plus one
+
+1242
+00:54:41,680 --> 00:54:45,359
+is outside.
+
+1243
+00:54:43,119 --> 00:54:47,440
+>> Yeah. So this is really just saying that
+
+1244
+00:54:45,359 --> 00:54:50,240
+whatever my length of my increasing
+
+1245
+00:54:47,440 --> 00:54:53,119
+sequence is right here, this value right
+
+1246
+00:54:50,240 --> 00:54:55,520
+here, I can add one to the length. So
+
+1247
+00:54:53,119 --> 00:54:56,720
+the plus one is not in the subscript.
+
+1248
+00:54:55,520 --> 00:54:59,680
+>> Does that make sense?
+
+1249
+00:54:56,720 --> 00:55:01,359
+>> Um why not?
+
+1250
+00:54:59,680 --> 00:55:02,880
+>> Would it hold true that is is strictly
+
+1251
+00:55:01,359 --> 00:55:04,640
+greater than I or
+
+1252
+00:55:02,880 --> 00:55:06,640
+>> uh is is strictly greater? Yes,
+
+1253
+00:55:04,640 --> 00:55:08,559
+definitely. is is definitely strictly
+
+1254
+00:55:06,640 --> 00:55:09,599
+greater than it because these are
+
+1255
+00:55:08,559 --> 00:55:12,240
+integers.
+
+1256
+00:55:09,599 --> 00:55:15,280
+>> Yeah. In fact, you know, is is not
+
+1257
+00:55:12,240 --> 00:55:17,119
+necessarily equal to it + one because
+
+1258
+00:55:15,280 --> 00:55:20,079
+there might be some totally different
+
+1259
+00:55:17,119 --> 00:55:21,760
+other subsequence that's way longer that
+
+1260
+00:55:20,079 --> 00:55:24,480
+just doesn't involve what happens at the
+
+1261
+00:55:21,760 --> 00:55:26,480
+tth location. But all right, any other
+
+1262
+00:55:24,480 --> 00:55:30,040
+questions? This was our hardest proof
+
+1263
+00:55:26,480 --> 00:55:30,040
+for today. Yeah.
+
+1264
+00:55:30,079 --> 00:55:32,720
+>> Yeah. So, the pigeons, this is why I
+
+1265
+00:55:31,760 --> 00:55:34,640
+told you you have to be a little bit
+
+1266
+00:55:32,720 --> 00:55:37,359
+careful with this, right? The pigeons
+
+1267
+00:55:34,640 --> 00:55:39,760
+are actually the positions.
+
+1268
+00:55:37,359 --> 00:55:42,160
+So what's happening here is each one of
+
+1269
+00:55:39,760 --> 00:55:43,760
+these positions, the first element, the
+
+1270
+00:55:42,160 --> 00:55:45,680
+second element, the third element, the
+
+1271
+00:55:43,760 --> 00:55:47,920
+fourth element, the fifth, the sixth,
+
+1272
+00:55:45,680 --> 00:55:50,559
+these are my pigeons. How are they
+
+1273
+00:55:47,920 --> 00:55:53,440
+getting mapped to a hole? Is I map them
+
+1274
+00:55:50,559 --> 00:55:56,680
+to the hole whose name is this integer,
+
+1275
+00:55:53,440 --> 00:55:56,680
+this integer.
+
+1276
+00:55:57,119 --> 00:56:01,920
+>> It's just the Paris right here.
+
+1277
+00:55:59,359 --> 00:56:04,559
+>> It's the Paris. So my holes that's why I
+
+1278
+00:56:01,920 --> 00:56:07,599
+drew the little hole right there is that
+
+1279
+00:56:04,559 --> 00:56:10,960
+this is the name of the hole and by
+
+1280
+00:56:07,599 --> 00:56:14,720
+assumption if the theorem is false is
+
+1281
+00:56:10,960 --> 00:56:17,920
+doesn't go larger than N ds doesn't go
+
+1282
+00:56:14,720 --> 00:56:21,920
+larger than m so there are at most n*
+
+1283
+00:56:17,920 --> 00:56:24,000
+you know m possibilities for this
+
+1284
+00:56:21,920 --> 00:56:25,599
+yeah
+
+1285
+00:56:24,000 --> 00:56:27,440
+>> maybe you could have guessed this kind
+
+1286
+00:56:25,599 --> 00:56:28,960
+of thing
+
+1287
+00:56:27,440 --> 00:56:30,880
+as a product
+
+1288
+00:56:28,960 --> 00:56:32,720
+>> but like if
+
+1289
+00:56:30,880 --> 00:56:34,799
+I guess if it didn't have this like nice
+
+1290
+00:56:32,720 --> 00:56:35,520
+type.
+
+1291
+00:56:34,799 --> 00:56:38,000
+>> Yeah.
+
+1292
+00:56:35,520 --> 00:56:40,640
+>> How how would you
+
+1293
+00:56:38,000 --> 00:56:42,640
+>> math is hard? [laughter]
+
+1294
+00:56:40,640 --> 00:56:44,720
+I mean, we're teaching you things which
+
+1295
+00:56:42,640 --> 00:56:46,640
+like, you know, we're not going to give
+
+1296
+00:56:44,720 --> 00:56:49,280
+you this on a test and ask you to
+
+1297
+00:56:46,640 --> 00:56:51,920
+miraculously guess it. But for example,
+
+1298
+00:56:49,280 --> 00:56:53,760
+we will ask you on the pet set to do a
+
+1299
+00:56:51,920 --> 00:56:56,000
+version of this with, you know, three
+
+1300
+00:56:53,760 --> 00:56:58,799
+types of subsequences. and you're gonna
+
+1301
+00:56:56,000 --> 00:57:00,400
+have this as a blueprint to go off of to
+
+1302
+00:56:58,799 --> 00:57:02,079
+try and understand, you know, what's
+
+1303
+00:57:00,400 --> 00:57:03,920
+going on. So, this would be
+
+1304
+00:57:02,079 --> 00:57:06,000
+extraordinarily clever if you just came
+
+1305
+00:57:03,920 --> 00:57:07,839
+up with this on the spot. There are also
+
+1306
+00:57:06,000 --> 00:57:10,960
+twists to very simple problems that will
+
+1307
+00:57:07,839 --> 00:57:13,680
+make things very difficult and open, but
+
+1308
+00:57:10,960 --> 00:57:16,400
+um yeah, let's go with it. All right,
+
+1309
+00:57:13,680 --> 00:57:20,760
+any other questions?
+
+1310
+00:57:16,400 --> 00:57:20,760
+Good. All right. Yeah.
+
+1311
+00:57:24,079 --> 00:57:30,000
+>> Well, okay. That's maybe a bit of um a
+
+1312
+00:57:26,880 --> 00:57:32,160
+digression but you know basically if I
+
+1313
+00:57:30,000 --> 00:57:34,079
+like this really mimics if you've taken
+
+1314
+00:57:32,160 --> 00:57:36,640
+algorithms classes like a dynamic
+
+1315
+00:57:34,079 --> 00:57:38,319
+programming type of solution because you
+
+1316
+00:57:36,640 --> 00:57:40,799
+know if I want to know what is the
+
+1317
+00:57:38,319 --> 00:57:42,480
+longest subsequence that ends here I
+
+1318
+00:57:40,799 --> 00:57:45,119
+really want to piece it together by
+
+1319
+00:57:42,480 --> 00:57:47,359
+answers to sub problems before and this
+
+1320
+00:57:45,119 --> 00:57:48,720
+often has this structure is that you
+
+1321
+00:57:47,359 --> 00:57:51,040
+know once I tell you that the
+
+1322
+00:57:48,720 --> 00:57:53,280
+subsequence includes this element and
+
+1323
+00:57:51,040 --> 00:57:55,440
+it's increasing I don't actually have to
+
+1324
+00:57:53,280 --> 00:57:57,440
+know anything else about which elements
+
+1325
+00:57:55,440 --> 00:57:59,200
+belong to it. I just have to know it's
+
+1326
+00:57:57,440 --> 00:58:01,359
+increasing and its length and the fact
+
+1327
+00:57:59,200 --> 00:58:03,040
+that it belongs to it in order to be
+
+1328
+00:58:01,359 --> 00:58:05,440
+able to piece together what happens to
+
+1329
+00:58:03,040 --> 00:58:07,280
+the rest. So this you know a lot of
+
+1330
+00:58:05,440 --> 00:58:09,599
+these things in mathematics they really
+
+1331
+00:58:07,280 --> 00:58:11,119
+mimic what we do algorithmically in
+
+1332
+00:58:09,599 --> 00:58:13,200
+terms of how we would go about finding
+
+1333
+00:58:11,119 --> 00:58:14,880
+it. And we'll see that more and more in
+
+1334
+00:58:13,200 --> 00:58:18,319
+class. That's true even when it comes to
+
+1335
+00:58:14,880 --> 00:58:23,440
+like writing proof and writing code.
+
+1336
+00:58:18,319 --> 00:58:26,319
+Okay. Good. All right. So, let's do uh
+
+1337
+00:58:23,440 --> 00:58:30,000
+one of my favorite examples
+
+1338
+00:58:26,319 --> 00:58:34,400
+um of the pigeon hole principle.
+
+1339
+00:58:30,000 --> 00:58:36,160
+Does anyone want to be my victim?
+
+1340
+00:58:34,400 --> 00:58:38,000
+Oh, boy. You guys volunteered very
+
+1341
+00:58:36,160 --> 00:58:39,839
+quickly. [laughter]
+
+1342
+00:58:38,000 --> 00:58:41,599
+All right. Uh sure. Can you tell me
+
+1343
+00:58:39,839 --> 00:58:43,599
+about You can stay there. Uh can you
+
+1344
+00:58:41,599 --> 00:58:44,960
+tell me something about yourself? Um you
+
+1345
+00:58:43,599 --> 00:58:47,839
+know, where you're from, what your name
+
+1346
+00:58:44,960 --> 00:58:50,079
+is, introduce yourself to the class.
+
+1347
+00:58:47,839 --> 00:58:53,520
+>> I'm Anthony. I'm from St. Louis,
+
+1348
+00:58:50,079 --> 00:58:55,119
+Missouri. Um
+
+1349
+00:58:53,520 --> 00:58:57,680
+uh I don't know.
+
+1350
+00:58:55,119 --> 00:59:00,400
+>> Do you have any hobbies?
+
+1351
+00:58:57,680 --> 00:59:04,319
+>> Uh
+
+1352
+00:59:00,400 --> 00:59:06,480
+oh. Um I have a two letter curve.
+
+1353
+00:59:04,319 --> 00:59:10,079
+>> Okay.
+
+1354
+00:59:06,480 --> 00:59:11,520
+Wow. All right. [laughter]
+
+1355
+00:59:10,079 --> 00:59:14,160
+There are not many possibilities for
+
+1356
+00:59:11,520 --> 00:59:17,760
+that one. All right. Now I can uh just
+
+1357
+00:59:14,160 --> 00:59:20,240
+based on that using my MIT superpowers
+
+1358
+00:59:17,760 --> 00:59:23,359
+I can tell you something deeply personal
+
+1359
+00:59:20,240 --> 00:59:27,040
+about your you know life history
+
+1360
+00:59:23,359 --> 00:59:29,440
+in your family tree. It's not a tree and
+
+1361
+00:59:27,040 --> 00:59:30,720
+I know that for a fact. So we're going
+
+1362
+00:59:29,440 --> 00:59:33,040
+to prove that using the pigeon hole
+
+1363
+00:59:30,720 --> 00:59:35,520
+principle. I should confess that I once
+
+1364
+00:59:33,040 --> 00:59:37,359
+used this in 042 and I asked for a
+
+1365
+00:59:35,520 --> 00:59:40,079
+volunteer or a victim. That's why I call
+
+1366
+00:59:37,359 --> 00:59:41,839
+it a victim now. And uh you know the
+
+1367
+00:59:40,079 --> 00:59:43,680
+girl raised her hand and told me a bit
+
+1368
+00:59:41,839 --> 00:59:46,000
+about herself and I told her you know
+
+1369
+00:59:43,680 --> 00:59:48,480
+your family tree is not a family tree.
+
+1370
+00:59:46,000 --> 00:59:50,960
+And then she got very red and she said I
+
+1371
+00:59:48,480 --> 00:59:52,640
+know.
+
+1372
+00:59:50,960 --> 00:59:54,400
+And I've been a little bit scared to use
+
+1373
+00:59:52,640 --> 00:59:57,040
+this since then. So that's why I call it
+
+1374
+00:59:54,400 --> 00:59:58,640
+a victim. So you signed up for it. But
+
+1375
+00:59:57,040 --> 01:00:01,119
+it's not really just true about you.
+
+1376
+00:59:58,640 --> 01:00:03,040
+It's true about everyone in class. It's
+
+1377
+01:00:01,119 --> 01:00:06,240
+just a mathematical fact that follows
+
+1378
+01:00:03,040 --> 01:00:08,799
+from some very basic axioms of biology.
+
+1379
+01:00:06,240 --> 01:00:10,720
+things which are you know
+
+1380
+01:00:08,799 --> 01:00:13,040
+you really can't poke holes in and it's
+
+1381
+01:00:10,720 --> 01:00:14,799
+true for all of us. So let me tell you
+
+1382
+01:00:13,040 --> 01:00:16,559
+about this fun application of the pigeon
+
+1383
+01:00:14,799 --> 01:00:19,200
+hole principle. First let me state you
+
+1384
+01:00:16,559 --> 01:00:21,440
+know the lema and then we'll figure out
+
+1385
+01:00:19,200 --> 01:00:23,520
+as usual like how to model it and how
+
+1386
+01:00:21,440 --> 01:00:28,960
+exactly to think about it as pigeons and
+
+1387
+01:00:23,520 --> 01:00:34,040
+holes. So you know what I claim
+
+1388
+01:00:28,960 --> 01:00:34,040
+is that everyone everyone's
+
+1389
+01:00:34,559 --> 01:00:37,960
+family tree
+
+1390
+01:00:38,960 --> 01:00:41,960
+contains
+
+1391
+01:00:42,319 --> 01:00:49,160
+someone
+
+1392
+01:00:44,880 --> 01:00:49,160
+whose parents are blood relatives.
+
+1393
+01:00:49,520 --> 01:00:53,319
+It's just true.
+
+1394
+01:00:57,760 --> 01:01:03,680
+Okay. So now I'm just going to assert
+
+1395
+01:01:00,799 --> 01:01:06,160
+some you know very incontrovertible
+
+1396
+01:01:03,680 --> 01:01:07,680
+things biologically that are pretty safe
+
+1397
+01:01:06,160 --> 01:01:10,640
+but this will be enough to be able to
+
+1398
+01:01:07,680 --> 01:01:13,920
+prove this fact.
+
+1399
+01:01:10,640 --> 01:01:16,640
+So let's you know do the setup for this.
+
+1400
+01:01:13,920 --> 01:01:21,000
+So what are the axioms we're using? So
+
+1401
+01:01:16,640 --> 01:01:21,000
+first of all, you know, everyone
+
+1402
+01:01:21,040 --> 01:01:27,559
+has
+
+1403
+01:01:22,640 --> 01:01:27,559
+two biological parents.
+
+1404
+01:01:29,200 --> 01:01:32,319
+Of course, if I removed biological, it
+
+1405
+01:01:30,880 --> 01:01:34,400
+would be more complicated, but I'm just
+
+1406
+01:01:32,319 --> 01:01:36,960
+saying this biologically. Everyone has
+
+1407
+01:01:34,400 --> 01:01:40,000
+two biological parents.
+
+1408
+01:01:36,960 --> 01:01:43,839
+Uh, no one
+
+1409
+01:01:40,000 --> 01:01:46,160
+has children
+
+1410
+01:01:43,839 --> 01:01:49,440
+after 100.
+
+1411
+01:01:46,160 --> 01:01:53,400
+Seems pretty safe.
+
+1412
+01:01:49,440 --> 01:01:53,400
+Uh, the human race
+
+1413
+01:01:55,920 --> 01:02:04,480
+is at least 4,000 years old.
+
+1414
+01:02:01,520 --> 01:02:06,640
+That's a very safe assumption.
+
+1415
+01:02:04,480 --> 01:02:09,440
+And this is something that can be you
+
+1416
+01:02:06,640 --> 01:02:11,920
+know checked by a bi biologist is that
+
+1417
+01:02:09,440 --> 01:02:13,599
+um you know we have upper bounds for the
+
+1418
+01:02:11,920 --> 01:02:15,920
+number of total humans who've ever
+
+1419
+01:02:13,599 --> 01:02:20,559
+lived. What I claim is that there are at
+
+1420
+01:02:15,920 --> 01:02:24,280
+most 10 the 12 humans who've lived all
+
+1421
+01:02:20,559 --> 01:02:24,280
+throughout history
+
+1422
+01:02:24,559 --> 01:02:29,359
+and just from these axioms I claim that
+
+1423
+01:02:26,960 --> 01:02:31,760
+we can prove this.
+
+1424
+01:02:29,359 --> 01:02:33,760
+So let's prove it
+
+1425
+01:02:31,760 --> 01:02:35,680
+and we have to figure out the right
+
+1426
+01:02:33,760 --> 01:02:38,160
+mathematical abstraction for how to
+
+1427
+01:02:35,680 --> 01:02:40,640
+think about this. Right? It's the same
+
+1428
+01:02:38,160 --> 01:02:43,760
+way as the you know friends at a party
+
+1429
+01:02:40,640 --> 01:02:48,160
+where we had this way of thinking about
+
+1430
+01:02:43,760 --> 01:02:49,760
+it as degrees in a graph right and what
+
+1431
+01:02:48,160 --> 01:02:51,680
+we can do here is we can do the same
+
+1432
+01:02:49,760 --> 01:02:56,280
+kind of thing but we can trace back our
+
+1433
+01:02:51,680 --> 01:02:56,280
+family tree right
+
+1434
+01:03:00,960 --> 01:03:05,520
+in essence what I'm doing when I trace
+
+1435
+01:03:02,799 --> 01:03:08,079
+back this family tree is I'm defining a
+
+1436
+01:03:05,520 --> 01:03:11,040
+whole bunch of nodes who have jobs or
+
+1437
+01:03:08,079 --> 01:03:14,000
+roles in your family tree. So there's
+
+1438
+01:03:11,040 --> 01:03:19,039
+you at the start. Then if I trace it
+
+1439
+01:03:14,000 --> 01:03:23,160
+back, you have your parents.
+
+1440
+01:03:19,039 --> 01:03:23,160
+If I trace it back further,
+
+1441
+01:03:23,920 --> 01:03:27,559
+I have your grandparents.
+
+1442
+01:03:32,160 --> 01:03:38,559
+And when I do this, right,
+
+1443
+01:03:34,960 --> 01:03:41,839
+I'm going to trace this back at least
+
+1444
+01:03:38,559 --> 01:03:44,960
+40 generations, right? Because human
+
+1445
+01:03:41,839 --> 01:03:47,119
+history is at least 4,000 years old and
+
+1446
+01:03:44,960 --> 01:03:51,200
+no one has children, you know, after a
+
+1447
+01:03:47,119 --> 01:03:54,240
+100. So I get at least that my depth,
+
+1448
+01:03:51,200 --> 01:03:57,240
+you know, is at least 40. So what this
+
+1449
+01:03:54,240 --> 01:03:57,240
+means
+
+1450
+01:03:59,200 --> 01:04:05,599
+is that there are at least 2 to the 40
+
+1451
+01:04:02,319 --> 01:04:08,559
+nodes in this abstract family tree which
+
+1452
+01:04:05,599 --> 01:04:12,240
+are just job descriptions right you know
+
+1453
+01:04:08,559 --> 01:04:14,400
+your maternal father of your you know I
+
+1454
+01:04:12,240 --> 01:04:16,559
+mean all the way back of uh tracing all
+
+1455
+01:04:14,400 --> 01:04:20,480
+the possibilities
+
+1456
+01:04:16,559 --> 01:04:23,440
+and the trouble is that um you know but
+
+1457
+01:04:20,480 --> 01:04:27,920
+2 to the 40 is larger
+
+1458
+01:04:23,440 --> 01:04:31,039
+is strictly larger than 10 cub raised to
+
+1459
+01:04:27,920 --> 01:04:33,200
+the 4th power, right? Because 2 10 is
+
+1460
+01:04:31,039 --> 01:04:35,760
+larger than a thousand.
+
+1461
+01:04:33,200 --> 01:04:38,400
+And so this is larger than the number of
+
+1462
+01:04:35,760 --> 01:04:41,119
+nodes all of the possibilities all the
+
+1463
+01:04:38,400 --> 01:04:43,359
+possible humans in human history. So by
+
+1464
+01:04:41,119 --> 01:04:46,920
+the pigeonal principle what we get is
+
+1465
+01:04:43,359 --> 01:04:46,920
+that at least
+
+1466
+01:04:46,960 --> 01:04:55,160
+two nodes two jobs get mapped
+
+1467
+01:04:51,520 --> 01:04:55,160
+to the same person.
+
+1468
+01:04:58,720 --> 01:05:03,280
+So that's pretty cool. This is just a
+
+1469
+01:05:00,799 --> 01:05:06,400
+mathematical fact that uh you can use on
+
+1470
+01:05:03,280 --> 01:05:08,079
+your friends to annoy them. Um please
+
+1471
+01:05:06,400 --> 01:05:09,839
+don't do that.
+
+1472
+01:05:08,079 --> 01:05:12,000
+Uh so this is what I wanted to tell you
+
+1473
+01:05:09,839 --> 01:05:13,440
+about the pigeon hole principle. Now as
+
+1474
+01:05:12,000 --> 01:05:15,280
+I told you we're going to be covering a
+
+1475
+01:05:13,440 --> 01:05:17,440
+bunch of introductory topics in the
+
+1476
+01:05:15,280 --> 01:05:19,599
+first few lectures. So you know pigeon
+
+1477
+01:05:17,440 --> 01:05:21,920
+hole principle will get more practice on
+
+1478
+01:05:19,599 --> 01:05:23,680
+the pet sets. Uh we're actually going to
+
+1479
+01:05:21,920 --> 01:05:26,160
+be spending the next couple of lectures
+
+1480
+01:05:23,680 --> 01:05:28,000
+on probability and then counting. So
+
+1481
+01:05:26,160 --> 01:05:29,760
+we'll also be talking a little bit about
+
+1482
+01:05:28,000 --> 01:05:32,559
+elementary probability in the first
+
+1483
+01:05:29,760 --> 01:05:34,319
+recitation the first homework. So let me
+
+1484
+01:05:32,559 --> 01:05:35,520
+tell you at least about the formalisms
+
+1485
+01:05:34,319 --> 01:05:38,000
+for probability and then we're going to
+
+1486
+01:05:35,520 --> 01:05:41,119
+go into a lot more detail over the next
+
+1487
+01:05:38,000 --> 01:05:42,640
+couple lectures that I'll be explaining.
+
+1488
+01:05:41,119 --> 01:05:45,359
+So let me tell you about you know
+
+1489
+01:05:42,640 --> 01:05:46,880
+probability just as an intro for later
+
+1490
+01:05:45,359 --> 01:05:48,799
+lectures.
+
+1491
+01:05:46,880 --> 01:05:53,799
+Um and we're going to connect all of
+
+1492
+01:05:48,799 --> 01:05:53,799
+this obviously to counting as well.
+
+1493
+01:05:54,160 --> 01:05:58,079
+So basically in class especially for our
+
+1494
+01:05:56,400 --> 01:06:01,359
+later topics everything is going to be
+
+1495
+01:05:58,079 --> 01:06:02,799
+built on counting one way or another.
+
+1496
+01:06:01,359 --> 01:06:06,280
+uh we're going to use it for all kinds
+
+1497
+01:06:02,799 --> 01:06:06,280
+of fun things,
+
+1498
+01:06:06,880 --> 01:06:10,960
+but let me give you a little bit of
+
+1499
+01:06:08,400 --> 01:06:13,039
+motivation before we get there. So,
+
+1500
+01:06:10,960 --> 01:06:17,000
+we're going to be focusing mostly on
+
+1501
+01:06:13,039 --> 01:06:17,000
+discrete probability.
+
+1502
+01:06:18,000 --> 01:06:23,200
+So, why study discrete probability?
+
+1503
+01:06:20,720 --> 01:06:26,240
+Well, it's very useful for things like,
+
+1504
+01:06:23,200 --> 01:06:28,960
+you know, counting.
+
+1505
+01:06:26,240 --> 01:06:31,599
+uh you want to understand you know basic
+
+1506
+01:06:28,960 --> 01:06:33,760
+setups like um you know what are the
+
+1507
+01:06:31,599 --> 01:06:36,000
+chances of creating certain kinds of
+
+1508
+01:06:33,760 --> 01:06:38,640
+objects that are nice when you choose an
+
+1509
+01:06:36,000 --> 01:06:40,559
+object at random. Uh that's very related
+
+1510
+01:06:38,640 --> 01:06:41,920
+to counting and it's intertwined with
+
+1511
+01:06:40,559 --> 01:06:44,400
+you know basic questions about
+
+1512
+01:06:41,920 --> 01:06:46,720
+probability. You know, later when we do
+
+1513
+01:06:44,400 --> 01:06:49,839
+more advanced topics, we're going to use
+
+1514
+01:06:46,720 --> 01:06:52,559
+probability in really cool ways to show
+
+1515
+01:06:49,839 --> 01:06:55,359
+the existence of very strange, you know,
+
+1516
+01:06:52,559 --> 01:06:57,359
+objects that are otherwise hard to
+
+1517
+01:06:55,359 --> 01:06:58,799
+construct. And we're going to be doing
+
+1518
+01:06:57,359 --> 01:07:01,599
+this through something called the
+
+1519
+01:06:58,799 --> 01:07:03,680
+probabilistic method.
+
+1520
+01:07:01,599 --> 01:07:05,599
+It's another example where you can use
+
+1521
+01:07:03,680 --> 01:07:08,079
+the language of probability to show that
+
+1522
+01:07:05,599 --> 01:07:09,920
+these very strange objects exist even
+
+1523
+01:07:08,079 --> 01:07:12,400
+though no one knows how to find any
+
+1524
+01:07:09,920 --> 01:07:14,799
+particular one. So it's kind of like the
+
+1525
+01:07:12,400 --> 01:07:18,160
+way that we reasoned about those subsets
+
+1526
+01:07:14,799 --> 01:07:20,079
+of sums of 20 of uh four-digit numbers
+
+1527
+01:07:18,160 --> 01:07:22,160
+that we knew that there were subsets
+
+1528
+01:07:20,079 --> 01:07:24,799
+whose sum was the same without actually
+
+1529
+01:07:22,160 --> 01:07:26,880
+knowing which ones.
+
+1530
+01:07:24,799 --> 01:07:28,880
+Uh later when we talk a little bit more
+
+1531
+01:07:26,880 --> 01:07:31,880
+about, you know, some topics in
+
+1532
+01:07:28,880 --> 01:07:31,880
+algorithms,
+
+1533
+01:07:33,200 --> 01:07:40,640
+you know, things like primality testing
+
+1534
+01:07:37,280 --> 01:07:43,119
+using some of the elementary number
+
+1535
+01:07:40,640 --> 01:07:45,760
+theory that we do, deciding whether a
+
+1536
+01:07:43,119 --> 01:07:47,599
+given huge integer is prime or not.
+
+1537
+01:07:45,760 --> 01:07:49,520
+It'll turn out that fundamentally these
+
+1538
+01:07:47,599 --> 01:07:50,960
+algorithms are randomized. So really to
+
+1539
+01:07:49,520 --> 01:07:54,160
+reason about it, we'll have to have the
+
+1540
+01:07:50,960 --> 01:07:56,880
+language of probability to begin with.
+
+1541
+01:07:54,160 --> 01:07:58,480
+And you know much later in class uh when
+
+1542
+01:07:56,880 --> 01:08:00,880
+we talk about things like you know
+
+1543
+01:07:58,480 --> 01:08:04,000
+coding theory we're going to use
+
+1544
+01:08:00,880 --> 01:08:06,480
+probability intrinsically to model types
+
+1545
+01:08:04,000 --> 01:08:08,079
+of communication
+
+1546
+01:08:06,480 --> 01:08:10,079
+for example when there's noise between
+
+1547
+01:08:08,079 --> 01:08:12,400
+us like when a satellite is sending
+
+1548
+01:08:10,079 --> 01:08:14,799
+images back to earth you know what are
+
+1549
+01:08:12,400 --> 01:08:17,120
+ways to reliably communicate in the face
+
+1550
+01:08:14,799 --> 01:08:18,960
+of you know errors that are introduced
+
+1551
+01:08:17,120 --> 01:08:21,279
+when one party's communicating with the
+
+1552
+01:08:18,960 --> 01:08:23,679
+other so we're going to use probability
+
+1553
+01:08:21,279 --> 01:08:25,199
+in all of these different contexts.
+
+1554
+01:08:23,679 --> 01:08:28,000
+I want to give you a little bit of the
+
+1555
+01:08:25,199 --> 01:08:31,199
+setup for um you know probability before
+
+1556
+01:08:28,000 --> 01:08:34,880
+we get into a lot of the you know key
+
+1557
+01:08:31,199 --> 01:08:37,679
+rules and definitions next time.
+
+1558
+01:08:34,880 --> 01:08:38,400
+So probability
+
+1559
+01:08:37,679 --> 01:08:41,839
+even though [clears throat] it's
+
+1560
+01:08:38,400 --> 01:08:44,640
+familiar to all of us it uses some very
+
+1561
+01:08:41,839 --> 01:08:46,400
+powerful abstractions and definitions.
+
+1562
+01:08:44,640 --> 01:08:49,120
+So the most important of which is what's
+
+1563
+01:08:46,400 --> 01:08:51,520
+called the sample space.
+
+1564
+01:08:49,120 --> 01:08:53,759
+So in a basic probabilistic setup the
+
+1565
+01:08:51,520 --> 01:08:58,279
+way to think about it is that you know
+
+1566
+01:08:53,759 --> 01:08:58,279
+points in the sample space.
+
+1567
+01:08:59,920 --> 01:09:04,640
+We associate them with you know possible
+
+1568
+01:09:02,719 --> 01:09:07,920
+outcomes
+
+1569
+01:09:04,640 --> 01:09:11,359
+things that can happen
+
+1570
+01:09:07,920 --> 01:09:13,679
+out of the range of all possibilities.
+
+1571
+01:09:11,359 --> 01:09:15,359
+You know, just to do a familiar example,
+
+1572
+01:09:13,679 --> 01:09:18,839
+we could do something like, you know,
+
+1573
+01:09:15,359 --> 01:09:18,839
+roll a dieice.
+
+1574
+01:09:19,600 --> 01:09:24,080
+And if it's a,
+
+1575
+01:09:22,000 --> 01:09:26,560
+you know, normal die, we have six
+
+1576
+01:09:24,080 --> 01:09:28,080
+possibilities. That's our sample space
+
+1577
+01:09:26,560 --> 01:09:29,839
+because that describes all of the
+
+1578
+01:09:28,080 --> 01:09:31,920
+possible things that could happen. What
+
+1579
+01:09:29,839 --> 01:09:33,679
+number shows up?
+
+1580
+01:09:31,920 --> 01:09:35,759
+Now, the important thing is not just
+
+1581
+01:09:33,679 --> 01:09:37,359
+what's the range of possibilities, but
+
+1582
+01:09:35,759 --> 01:09:39,920
+really, you know, what's the likelihood
+
+1583
+01:09:37,359 --> 01:09:44,839
+of each of these different outcomes.
+
+1584
+01:09:39,920 --> 01:09:44,839
+Um so to each point
+
+1585
+01:09:45,600 --> 01:09:50,719
+X in the sample space we're going to
+
+1586
+01:09:48,480 --> 01:09:54,480
+assign
+
+1587
+01:09:50,719 --> 01:09:57,040
+some probability P of X which has the
+
+1588
+01:09:54,480 --> 01:09:58,320
+following properties. These are all very
+
+1589
+01:09:57,040 --> 01:10:01,120
+intuitive. So we need that the
+
+1590
+01:09:58,320 --> 01:10:03,199
+probability is non- negative and this
+
+1591
+01:10:01,120 --> 01:10:06,480
+should be true for all points in the
+
+1592
+01:10:03,199 --> 01:10:08,640
+sample space. And we want that in total
+
+1593
+01:10:06,480 --> 01:10:11,360
+the sum of all the probabilities over
+
+1594
+01:10:08,640 --> 01:10:15,199
+the entire sample space
+
+1595
+01:10:11,360 --> 01:10:17,520
+is one. So these are the things that
+
+1596
+01:10:15,199 --> 01:10:19,120
+define you know the setup for basic
+
+1597
+01:10:17,520 --> 01:10:21,360
+probability. We have a sample space and
+
+1598
+01:10:19,120 --> 01:10:23,360
+we have this probability associated with
+
+1599
+01:10:21,360 --> 01:10:25,040
+each one of the outcomes. We can
+
+1600
+01:10:23,360 --> 01:10:27,760
+certainly do simple examples like
+
+1601
+01:10:25,040 --> 01:10:29,600
+rolling a dice. If it's a fair die then
+
+1602
+01:10:27,760 --> 01:10:31,840
+each one of these possibilities has one
+
+1603
+01:10:29,600 --> 01:10:33,840
+sixth probability. We're going to do a
+
+1604
+01:10:31,840 --> 01:10:35,280
+lot more exotic examples in class. you
+
+1605
+01:10:33,840 --> 01:10:36,960
+know, things where the sample space
+
+1606
+01:10:35,280 --> 01:10:38,800
+might be infinite. That's perfectly
+
+1607
+01:10:36,960 --> 01:10:41,600
+fine. We can still have these axioms
+
+1608
+01:10:38,800 --> 01:10:43,600
+hold. Um, you know, an example of
+
+1609
+01:10:41,600 --> 01:10:45,760
+something we might be interested in is
+
+1610
+01:10:43,600 --> 01:10:48,640
+the number of times we flip a coin
+
+1611
+01:10:45,760 --> 01:10:50,640
+before we see our first heads. That in
+
+1612
+01:10:48,640 --> 01:10:52,480
+principle can go on, you know, forever.
+
+1613
+01:10:50,640 --> 01:10:55,120
+There's no bound on how large that
+
+1614
+01:10:52,480 --> 01:10:57,040
+sample space is. And we can still talk
+
+1615
+01:10:55,120 --> 01:11:00,719
+about all of the basic axioms of
+
+1616
+01:10:57,040 --> 01:11:03,520
+probability and and reason about things.
+
+1617
+01:11:00,719 --> 01:11:07,800
+Um, and we'll be particularly interested
+
+1618
+01:11:03,520 --> 01:11:07,800
+in what are called events.
+
+1619
+01:11:12,800 --> 01:11:17,920
+So events are just subsets of the sample
+
+1620
+01:11:15,600 --> 01:11:19,280
+space.
+
+1621
+01:11:17,920 --> 01:11:21,920
+They're just some subset of
+
+1622
+01:11:19,280 --> 01:11:24,320
+possibilities. And in that case we can
+
+1623
+01:11:21,920 --> 01:11:27,280
+think about this probability of the
+
+1624
+01:11:24,320 --> 01:11:29,840
+entire event as just the sum of all of
+
+1625
+01:11:27,280 --> 01:11:33,040
+the individual outcomes that land in
+
+1626
+01:11:29,840 --> 01:11:36,040
+this event their total probability.
+
+1627
+01:11:33,040 --> 01:11:36,040
+Right?
+
+1628
+01:11:37,679 --> 01:11:42,080
+So for example you could think about an
+
+1629
+01:11:39,440 --> 01:11:45,080
+event like uh you know rolling an even
+
+1630
+01:11:42,080 --> 01:11:45,080
+number.
+
+1631
+01:11:48,000 --> 01:11:52,640
+That's not just one possible outcome in
+
+1632
+01:11:50,480 --> 01:11:55,520
+the sample space, but you know it's the
+
+1633
+01:11:52,640 --> 01:11:58,560
+set 2 46.
+
+1634
+01:11:55,520 --> 01:12:02,000
+And uh you know the last you know little
+
+1635
+01:11:58,560 --> 01:12:03,760
+baby piece of um you know background is
+
+1636
+01:12:02,000 --> 01:12:05,760
+that we'll also be interested in you
+
+1637
+01:12:03,760 --> 01:12:08,320
+know complements
+
+1638
+01:12:05,760 --> 01:12:10,800
+of events.
+
+1639
+01:12:08,320 --> 01:12:14,000
+So for example I could look at the
+
+1640
+01:12:10,800 --> 01:12:16,560
+probability of you know t bar. Sometimes
+
+1641
+01:12:14,000 --> 01:12:19,360
+you'll see it written as not T as well.
+
+1642
+01:12:16,560 --> 01:12:21,520
+And that's just you know everything that
+
+1643
+01:12:19,360 --> 01:12:24,000
+you know is in the sample space outside
+
+1644
+01:12:21,520 --> 01:12:26,320
+the set T. So for example this is
+
+1645
+01:12:24,000 --> 01:12:28,640
+defined as all of the points and the
+
+1646
+01:12:26,320 --> 01:12:31,040
+outcome space that don't occur in this
+
+1647
+01:12:28,640 --> 01:12:32,880
+original event. Um so we can define this
+
+1648
+01:12:31,040 --> 01:12:34,960
+notion of complimentary events which is
+
+1649
+01:12:32,880 --> 01:12:38,480
+you know everything else besides the
+
+1650
+01:12:34,960 --> 01:12:40,000
+events in T. Uh you know basic fact is
+
+1651
+01:12:38,480 --> 01:12:42,000
+that a lot of these things behave the
+
+1652
+01:12:40,000 --> 01:12:44,000
+way you'd expect them to. So the
+
+1653
+01:12:42,000 --> 01:12:46,960
+probability of the complement is just
+
+1654
+01:12:44,000 --> 01:12:50,719
+one minus the probability of the event
+
+1655
+01:12:46,960 --> 01:12:52,719
+itself. There's a very simple proof. Um
+
+1656
+01:12:50,719 --> 01:12:53,920
+we can we're going to stop now but I'll
+
+1657
+01:12:52,719 --> 01:12:56,320
+tell you a little bit about what we're
+
+1658
+01:12:53,920 --> 01:12:58,400
+going to be doing next time. So now that
+
+1659
+01:12:56,320 --> 01:13:00,239
+we know at least the basic definitions
+
+1660
+01:12:58,400 --> 01:13:02,000
+for probability theory, we're going to
+
+1661
+01:13:00,239 --> 01:13:03,760
+be talking about conditional probability
+
+1662
+01:13:02,000 --> 01:13:05,760
+which is always something that's very
+
+1663
+01:13:03,760 --> 01:13:07,280
+counterintuitive. So we're going to
+
+1664
+01:13:05,760 --> 01:13:08,719
+define what conditional probabilities
+
+1665
+01:13:07,280 --> 01:13:11,040
+are. I'll tell you some of the basic
+
+1666
+01:13:08,719 --> 01:13:12,400
+results in conditional probability and
+
+1667
+01:13:11,040 --> 01:13:15,199
+then I'm going to give you a lot of fun
+
+1668
+01:13:12,400 --> 01:13:17,280
+examples of um you know how people get
+
+1669
+01:13:15,199 --> 01:13:18,640
+conditional probability wrong. So there
+
+1670
+01:13:17,280 --> 01:13:20,480
+are a lot of famous examples like the
+
+1671
+01:13:18,640 --> 01:13:22,800
+Monty Hall problem that many of you may
+
+1672
+01:13:20,480 --> 01:13:25,040
+have seen. Uh you know for me this was
+
+1673
+01:13:22,800 --> 01:13:27,280
+always a little bit abstract like it's a
+
+1674
+01:13:25,040 --> 01:13:29,600
+cute mathematical puzzle but I'm going
+
+1675
+01:13:27,280 --> 01:13:31,440
+to give you some scarier examples of you
+
+1676
+01:13:29,600 --> 01:13:33,600
+know real world things that happen with
+
+1677
+01:13:31,440 --> 01:13:35,679
+doctors where they misinterpret
+
+1678
+01:13:33,600 --> 01:13:37,040
+conditional probabilities. So, we'll do
+
+1679
+01:13:35,679 --> 01:13:39,360
+that next time and I'll tell you some
+
+1680
+01:13:37,040 --> 01:13:42,679
+personal stories about that one. So, see
+
+1681
+01:13:39,360 --> 01:13:42,679
+you on Thursday.
+

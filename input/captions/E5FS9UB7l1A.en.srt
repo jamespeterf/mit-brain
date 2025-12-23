@@ -1,0 +1,2024 @@
+1
+00:00:05,920 --> 00:00:11,679
+Next we have a short talk delivered by
+
+2
+00:00:08,800 --> 00:00:14,080
+Joey uh from Michael Bronston's lab from
+
+3
+00:00:11,679 --> 00:00:16,800
+University of Oxford on painless
+
+4
+00:00:14,080 --> 00:00:18,960
+simulation of multiple pre-trained
+
+5
+00:00:16,800 --> 00:00:22,680
+protein generative models through the
+
+6
+00:00:18,960 --> 00:00:22,680
+superposition principle.
+
+7
+00:00:22,800 --> 00:00:27,119
+All right. Uh yeah, thanks for having me
+
+8
+00:00:25,359 --> 00:00:28,800
+over here. So I'm super excited to talk
+
+9
+00:00:27,119 --> 00:00:30,640
+to you about a very recent paper that
+
+10
+00:00:28,800 --> 00:00:32,559
+was presented last week at Icleair as a
+
+11
+00:00:30,640 --> 00:00:34,160
+spotlight on how do you combine
+
+12
+00:00:32,559 --> 00:00:36,800
+pre-train generative models in a more
+
+13
+00:00:34,160 --> 00:00:38,719
+principled manner. Um to motivate this a
+
+14
+00:00:36,800 --> 00:00:40,160
+little bit let's talk about where we are
+
+15
+00:00:38,719 --> 00:00:43,200
+in terms of generative modeling and the
+
+16
+00:00:40,160 --> 00:00:44,480
+sciences more broadly. So far we've seen
+
+17
+00:00:43,200 --> 00:00:45,600
+tons of generative models. In fact you
+
+18
+00:00:44,480 --> 00:00:47,360
+could say it's a Cambrian explosion of
+
+19
+00:00:45,600 --> 00:00:49,120
+generative models and it's not
+
+20
+00:00:47,360 --> 00:00:51,200
+restricted to any particular domain
+
+21
+00:00:49,120 --> 00:00:52,640
+necessarily. For instance for images you
+
+22
+00:00:51,200 --> 00:00:54,320
+might have already been familiar with a
+
+23
+00:00:52,640 --> 00:00:56,239
+lot of existing models out there. These
+
+24
+00:00:54,320 --> 00:00:57,760
+frontier models like image and dolly
+
+25
+00:00:56,239 --> 00:01:00,719
+stable diffusion they're doing a lot of
+
+26
+00:00:57,760 --> 00:01:02,320
+miraculous things and just going on from
+
+27
+00:01:00,719 --> 00:01:04,159
+images to video. We've already seen
+
+28
+00:01:02,320 --> 00:01:06,240
+photorealistic videos that you can even
+
+29
+00:01:04,159 --> 00:01:08,080
+use as commercials if you wanted to. So
+
+30
+00:01:06,240 --> 00:01:09,520
+in all these spaces there are a bunch of
+
+31
+00:01:08,080 --> 00:01:12,000
+different models that are sort of sort
+
+32
+00:01:09,520 --> 00:01:14,240
+of uh in some ways experts in var
+
+33
+00:01:12,000 --> 00:01:15,920
+variety of different domains. But in the
+
+34
+00:01:14,240 --> 00:01:18,240
+case of life sciences we've also seen a
+
+35
+00:01:15,920 --> 00:01:20,640
+similar revolution where in proteins
+
+36
+00:01:18,240 --> 00:01:22,560
+we've seen Rosetta diffusion alpha 3 is
+
+37
+00:01:20,640 --> 00:01:24,720
+a generative model as well and so on and
+
+38
+00:01:22,560 --> 00:01:26,960
+so forth. But because these models are
+
+39
+00:01:24,720 --> 00:01:29,119
+so different and and specialist, one
+
+40
+00:01:26,960 --> 00:01:31,119
+natural question arises is well, how do
+
+41
+00:01:29,119 --> 00:01:34,560
+we get the best of all models in some
+
+42
+00:01:31,119 --> 00:01:37,360
+sense? So more specifically, wouldn't it
+
+43
+00:01:34,560 --> 00:01:39,680
+be make a lot more sense to say, can we
+
+44
+00:01:37,360 --> 00:01:42,000
+just train bigger and bigger models? And
+
+45
+00:01:39,680 --> 00:01:43,840
+and in in some ways, this is a very
+
+46
+00:01:42,000 --> 00:01:45,439
+poisoned question because obviously we
+
+47
+00:01:43,840 --> 00:01:47,040
+can't do this because a lot of the times
+
+48
+00:01:45,439 --> 00:01:48,720
+these models are chained on proprietary
+
+49
+00:01:47,040 --> 00:01:52,560
+data or data sets that we don't have
+
+50
+00:01:48,720 --> 00:01:53,920
+easy access to. So moreover, a lot of
+
+51
+00:01:52,560 --> 00:01:55,840
+these models are also available through
+
+52
+00:01:53,920 --> 00:01:58,079
+only API access. So you don't even know
+
+53
+00:01:55,840 --> 00:01:59,200
+have the internals of these models. But
+
+54
+00:01:58,079 --> 00:02:02,159
+at the same time, you kind of want to
+
+55
+00:01:59,200 --> 00:02:03,360
+get the best of all worlds. So in many
+
+56
+00:02:02,159 --> 00:02:05,680
+cases, it's not really easy to just
+
+57
+00:02:03,360 --> 00:02:08,879
+train a bigger and bigger model. So what
+
+58
+00:02:05,680 --> 00:02:11,280
+do we actually do? So let's taking a
+
+59
+00:02:08,879 --> 00:02:12,720
+step back, we can ask the question of if
+
+60
+00:02:11,280 --> 00:02:14,319
+we were to combine different frontier
+
+61
+00:02:12,720 --> 00:02:16,560
+models, what would that actually look
+
+62
+00:02:14,319 --> 00:02:18,400
+like? So suppose you had models one,
+
+63
+00:02:16,560 --> 00:02:20,239
+two, and three and up to model N. And
+
+64
+00:02:18,400 --> 00:02:22,879
+each of these models is in some case a
+
+65
+00:02:20,239 --> 00:02:25,160
+specialist or an expert in a a variety
+
+66
+00:02:22,879 --> 00:02:27,120
+of subdomains. And you could ask the
+
+67
+00:02:25,160 --> 00:02:29,040
+question, what does it mean to actually
+
+68
+00:02:27,120 --> 00:02:30,879
+build a mixture of expert model in the
+
+69
+00:02:29,040 --> 00:02:32,560
+first place? Historically in machine
+
+70
+00:02:30,879 --> 00:02:34,000
+learning, mixture of expert models have
+
+71
+00:02:32,560 --> 00:02:36,080
+actually been state-of-the-art models.
+
+72
+00:02:34,000 --> 00:02:38,000
+In fact, GPT4 itself was a mixture of
+
+73
+00:02:36,080 --> 00:02:40,879
+expert model. So in some sense, we do
+
+74
+00:02:38,000 --> 00:02:42,319
+want to build an expert model. But it's
+
+75
+00:02:40,879 --> 00:02:44,879
+unclear how to do this in a more
+
+76
+00:02:42,319 --> 00:02:46,319
+methodologically principled manner.
+
+77
+00:02:44,879 --> 00:02:48,800
+So in this talk I really want to
+
+78
+00:02:46,319 --> 00:02:51,239
+motivate how do we build or compose
+
+79
+00:02:48,800 --> 00:02:53,360
+models from first
+
+80
+00:02:51,239 --> 00:02:56,560
+principles. So the research question I'm
+
+81
+00:02:53,360 --> 00:02:58,400
+kind of want to paint towards is uh can
+
+82
+00:02:56,560 --> 00:03:00,800
+we combine pre-train diffusion models
+
+83
+00:02:58,400 --> 00:03:02,080
+specifically at inference time and why
+
+84
+00:03:00,800 --> 00:03:04,000
+do we want to maybe combine them in
+
+85
+00:03:02,080 --> 00:03:05,440
+inference time? Inference over here
+
+86
+00:03:04,000 --> 00:03:07,360
+means just simulating using the model
+
+87
+00:03:05,440 --> 00:03:09,280
+and this has the the the nice benefit
+
+88
+00:03:07,360 --> 00:03:11,120
+that you don't have to train a model.
+
+89
+00:03:09,280 --> 00:03:12,800
+Um, and this is particularly interesting
+
+90
+00:03:11,120 --> 00:03:14,920
+because it allows you to kind of take
+
+91
+00:03:12,800 --> 00:03:17,519
+existing models out there without
+
+92
+00:03:14,920 --> 00:03:19,200
+necessarily building a new model but but
+
+93
+00:03:17,519 --> 00:03:21,480
+getting the benefits of acting of having
+
+94
+00:03:19,200 --> 00:03:24,560
+a much larger model in the first
+
+95
+00:03:21,480 --> 00:03:26,720
+place. So to give a a bit more of a
+
+96
+00:03:24,560 --> 00:03:28,640
+picture pictorial overview, what could
+
+97
+00:03:26,720 --> 00:03:30,319
+this actually look like? So imagine you
+
+98
+00:03:28,640 --> 00:03:32,560
+have a data set as follows where you
+
+99
+00:03:30,319 --> 00:03:34,319
+have training data A and training data B
+
+100
+00:03:32,560 --> 00:03:35,599
+and different colors. If you had
+
+101
+00:03:34,319 --> 00:03:37,280
+diffusion models that are trained on
+
+102
+00:03:35,599 --> 00:03:40,480
+each respective data set, you could ask
+
+103
+00:03:37,280 --> 00:03:41,760
+the question, how would we compose them?
+
+104
+00:03:40,480 --> 00:03:43,360
+Naively, you could say, let's just
+
+105
+00:03:41,760 --> 00:03:44,879
+average the outputs of the models. But
+
+106
+00:03:43,360 --> 00:03:46,720
+if you did that, you'd get something in
+
+107
+00:03:44,879 --> 00:03:48,720
+the middle like this, where the orange
+
+108
+00:03:46,720 --> 00:03:50,400
+points over here are generated samples.
+
+109
+00:03:48,720 --> 00:03:51,920
+But these generated samples don't have
+
+110
+00:03:50,400 --> 00:03:53,959
+the benefit of either data set. So you
+
+111
+00:03:51,920 --> 00:03:56,560
+haven't really accomplished a whole
+
+112
+00:03:53,959 --> 00:03:58,560
+lot. Instead, you could instead what you
+
+113
+00:03:56,560 --> 00:04:00,879
+could do is maybe you could do a
+
+114
+00:03:58,560 --> 00:04:02,560
+sampling of the mixture of densities. In
+
+115
+00:04:00,879 --> 00:04:04,640
+this case, you would get a model that
+
+116
+00:04:02,560 --> 00:04:06,400
+kind of acts as if it was a mixture of
+
+117
+00:04:04,640 --> 00:04:08,720
+models. So you get samples that are from
+
+118
+00:04:06,400 --> 00:04:10,319
+all the different modes. Intuitively,
+
+119
+00:04:08,720 --> 00:04:12,200
+this is like a doing a logical or
+
+120
+00:04:10,319 --> 00:04:14,319
+operation between
+
+121
+00:04:12,200 --> 00:04:16,160
+models. Alternatively, what you could do
+
+122
+00:04:14,319 --> 00:04:18,079
+is you can also sample from equal
+
+123
+00:04:16,160 --> 00:04:19,440
+densities. That is to say that
+
+124
+00:04:18,079 --> 00:04:21,440
+generating samples that have equal
+
+125
+00:04:19,440 --> 00:04:23,680
+densities under each model. Now in this
+
+126
+00:04:21,440 --> 00:04:25,680
+case, the different models over here uh
+
+127
+00:04:23,680 --> 00:04:28,000
+green and purple don't have any shared
+
+128
+00:04:25,680 --> 00:04:30,639
+overlap. So an equal density region
+
+129
+00:04:28,000 --> 00:04:32,960
+would be a density of low region low
+
+130
+00:04:30,639 --> 00:04:34,400
+density region rather. So this is kind
+
+131
+00:04:32,960 --> 00:04:37,360
+of similar to saying this is a logical
+
+132
+00:04:34,400 --> 00:04:39,759
+and operation. So how do we build these
+
+133
+00:04:37,360 --> 00:04:41,919
+logical or and operations from existing
+
+134
+00:04:39,759 --> 00:04:43,120
+models. So this is going to be the focus
+
+135
+00:04:41,919 --> 00:04:44,720
+of this talk which is going to be the
+
+136
+00:04:43,120 --> 00:04:45,919
+superposition of diffusion models and
+
+137
+00:04:44,720 --> 00:04:48,280
+we're going to introduce an algorithm
+
+138
+00:04:45,919 --> 00:04:51,040
+called super diff that allows us to do
+
+139
+00:04:48,280 --> 00:04:52,479
+this. So to understand how to do this
+
+140
+00:04:51,040 --> 00:04:53,759
+from first principles we need to get a
+
+141
+00:04:52,479 --> 00:04:55,440
+shared understanding of what a diffusion
+
+142
+00:04:53,759 --> 00:04:56,960
+model is. I'm sure many of you in the
+
+143
+00:04:55,440 --> 00:04:59,840
+audience already know this but it's good
+
+144
+00:04:56,960 --> 00:05:01,919
+to recap a little bit. So a diffusion
+
+145
+00:04:59,840 --> 00:05:04,800
+model as you may know takes initial data
+
+146
+00:05:01,919 --> 00:05:06,720
+distribution P data and constructs a
+
+147
+00:05:04,800 --> 00:05:08,560
+forward noising process where you take a
+
+148
+00:05:06,720 --> 00:05:10,240
+scastic differential equation
+
+149
+00:05:08,560 --> 00:05:11,840
+characterized by a drift which is the
+
+150
+00:05:10,240 --> 00:05:12,800
+average direction you move in with a
+
+151
+00:05:11,840 --> 00:05:14,639
+little bit of noise which is the
+
+152
+00:05:12,800 --> 00:05:16,560
+brownian motion scaled by a diffusion
+
+153
+00:05:14,639 --> 00:05:19,199
+coefficient and you propagate this
+
+154
+00:05:16,560 --> 00:05:20,720
+process forward in time until you hit a
+
+155
+00:05:19,199 --> 00:05:23,600
+terminal distribution which is going to
+
+156
+00:05:20,720 --> 00:05:25,759
+be a standard normal distribution. Now,
+
+157
+00:05:23,600 --> 00:05:28,080
+importantly, this process that I
+
+158
+00:05:25,759 --> 00:05:30,240
+described over here has a very nice time
+
+159
+00:05:28,080 --> 00:05:32,000
+reversal in the sense that you can
+
+160
+00:05:30,240 --> 00:05:34,080
+characterize exactly the reverse process
+
+161
+00:05:32,000 --> 00:05:35,120
+that takes you from this gausian
+
+162
+00:05:34,080 --> 00:05:37,680
+distribution back to your data
+
+163
+00:05:35,120 --> 00:05:39,479
+distribution. And in this case, this
+
+164
+00:05:37,680 --> 00:05:41,919
+reverse process is also going to be an
+
+165
+00:05:39,479 --> 00:05:43,759
+SD. And in particular, the vector field
+
+166
+00:05:41,919 --> 00:05:46,080
+that moves you in this reverse process
+
+167
+00:05:43,759 --> 00:05:47,919
+is given to you in analytic form with
+
+168
+00:05:46,080 --> 00:05:49,440
+this expression over here. So the key
+
+169
+00:05:47,919 --> 00:05:51,199
+quantity of interest over here that
+
+170
+00:05:49,440 --> 00:05:53,520
+diffusion models end up all estimating
+
+171
+00:05:51,199 --> 00:05:56,080
+is this score function which tells you
+
+172
+00:05:53,520 --> 00:05:57,840
+the the direction of higher likelihood
+
+173
+00:05:56,080 --> 00:05:59,919
+the reverse process needs to navigate
+
+174
+00:05:57,840 --> 00:06:01,600
+until you hit the data distribution and
+
+175
+00:05:59,919 --> 00:06:03,440
+diffusion models typically estimate this
+
+176
+00:06:01,600 --> 00:06:04,800
+score function using a neural network
+
+177
+00:06:03,440 --> 00:06:06,680
+and they estimate the score function
+
+178
+00:06:04,800 --> 00:06:10,960
+everywhere in space and
+
+179
+00:06:06,680 --> 00:06:13,520
+time. So given a a a trained diffusion
+
+180
+00:06:10,960 --> 00:06:15,360
+model with access to its score function
+
+181
+00:06:13,520 --> 00:06:17,440
+how do we kind of build this logical or
+
+182
+00:06:15,360 --> 00:06:19,360
+operation? So remember our logical or
+
+183
+00:06:17,440 --> 00:06:21,199
+operation was essentially getting a
+
+184
+00:06:19,360 --> 00:06:23,120
+mixture of densities. That is to say
+
+185
+00:06:21,199 --> 00:06:24,560
+that you want to essentially combine or
+
+186
+00:06:23,120 --> 00:06:26,639
+compose existing diffusion models is
+
+187
+00:06:24,560 --> 00:06:28,080
+that you have one model that samples
+
+188
+00:06:26,639 --> 00:06:29,919
+from all different modes at inference
+
+189
+00:06:28,080 --> 00:06:32,160
+time. And for the ease of presentation
+
+190
+00:06:29,919 --> 00:06:33,840
+I'm going to focus on this setting but
+
+191
+00:06:32,160 --> 00:06:35,240
+similar analogies will extend to the end
+
+192
+00:06:33,840 --> 00:06:38,639
+setting as
+
+193
+00:06:35,240 --> 00:06:39,919
+well. So the or setting
+
+194
+00:06:38,639 --> 00:06:41,680
+uh I promise this is going to be
+
+195
+00:06:39,919 --> 00:06:43,440
+probably the last slide of complex math
+
+196
+00:06:41,680 --> 00:06:46,560
+and then we're going to go into a little
+
+197
+00:06:43,440 --> 00:06:47,840
+bit more pictures again. Uh so if you
+
+198
+00:06:46,560 --> 00:06:50,000
+give me a diffusion model, we can look
+
+199
+00:06:47,840 --> 00:06:52,080
+at essentially the time evolution of all
+
+200
+00:06:50,000 --> 00:06:54,080
+the particles. So that's the density.
+
+201
+00:06:52,080 --> 00:06:55,919
+This tells us how the model is changing
+
+202
+00:06:54,080 --> 00:06:57,759
+over time. Now because this is a
+
+203
+00:06:55,919 --> 00:06:59,759
+stoastic differential equation, this
+
+204
+00:06:57,759 --> 00:07:02,000
+this time evolution has to satisfy the
+
+205
+00:06:59,759 --> 00:07:03,840
+Fauler plank equation. Uh in particular,
+
+206
+00:07:02,000 --> 00:07:05,840
+the Fauler plank equation tells you the
+
+207
+00:07:03,840 --> 00:07:07,440
+first term on the first equation is
+
+208
+00:07:05,840 --> 00:07:08,720
+essentially the continuity equation
+
+209
+00:07:07,440 --> 00:07:10,319
+which tells you how the drift is
+
+210
+00:07:08,720 --> 00:07:12,400
+changing. Well, the second term is the
+
+211
+00:07:10,319 --> 00:07:14,880
+lelassian associated with adding the
+
+212
+00:07:12,400 --> 00:07:17,280
+noise. Now, if you had a mixture model,
+
+213
+00:07:14,880 --> 00:07:18,960
+what you really want to say is that QT,
+
+214
+00:07:17,280 --> 00:07:21,039
+which is the the time evolution of the
+
+215
+00:07:18,960 --> 00:07:23,199
+the mixture process, how does that
+
+216
+00:07:21,039 --> 00:07:24,479
+evolve over time? Well, it turns out if
+
+217
+00:07:23,199 --> 00:07:25,360
+you have a mixture model, it's also
+
+218
+00:07:24,479 --> 00:07:27,039
+going to be another stoastic
+
+219
+00:07:25,360 --> 00:07:29,440
+differential equation. And in
+
+220
+00:07:27,039 --> 00:07:31,840
+particular, the reverse SD is going to
+
+221
+00:07:29,440 --> 00:07:33,599
+be characterized by this new UT where UT
+
+222
+00:07:31,840 --> 00:07:35,599
+is your velocity. So, different
+
+223
+00:07:33,599 --> 00:07:37,360
+operations, you can build UT from first
+
+224
+00:07:35,599 --> 00:07:39,440
+principles. So, in this case, I'm
+
+225
+00:07:37,360 --> 00:07:42,080
+showing how to build UT as a as a
+
+226
+00:07:39,440 --> 00:07:43,520
+combination of different uh models
+
+227
+00:07:42,080 --> 00:07:45,919
+itself. So the last equation at the
+
+228
+00:07:43,520 --> 00:07:47,280
+bottom tells you the weighted average of
+
+229
+00:07:45,919 --> 00:07:49,039
+the different likelihoods assigned by
+
+230
+00:07:47,280 --> 00:07:51,440
+each diffusion model at everywhere in
+
+231
+00:07:49,039 --> 00:07:53,280
+time tells you a way to move of
+
+232
+00:07:51,440 --> 00:07:55,440
+combining these models. So let's intuit
+
+233
+00:07:53,280 --> 00:07:57,280
+it what exactly is happening a bit. So
+
+234
+00:07:55,440 --> 00:07:59,440
+the last equation is essentially
+
+235
+00:07:57,280 --> 00:08:01,360
+different weights that you multiply that
+
+236
+00:07:59,440 --> 00:08:02,960
+the vector field that that kind of
+
+237
+00:08:01,360 --> 00:08:04,560
+forces you to go in different
+
+238
+00:08:02,960 --> 00:08:06,720
+directions. Now this weights is
+
+239
+00:08:04,560 --> 00:08:10,479
+controlled by each individual diffusion
+
+240
+00:08:06,720 --> 00:08:12,319
+model's own density. So this qi of t. So
+
+241
+00:08:10,479 --> 00:08:14,560
+if I have m different models, I have m
+
+242
+00:08:12,319 --> 00:08:16,960
+different densities. So this immediately
+
+243
+00:08:14,560 --> 00:08:20,560
+poses a a potential problem. The problem
+
+244
+00:08:16,960 --> 00:08:22,800
+is that we need access to this q of t
+
+245
+00:08:20,560 --> 00:08:24,479
+and and this q of t is the density. Now
+
+246
+00:08:22,800 --> 00:08:26,000
+naively this is very this is very
+
+247
+00:08:24,479 --> 00:08:27,919
+difficult to get access to your fusion
+
+248
+00:08:26,000 --> 00:08:29,120
+model because to get access to the
+
+249
+00:08:27,919 --> 00:08:30,720
+density we would have to kind of
+
+250
+00:08:29,120 --> 00:08:32,680
+simulate the model in the first place
+
+251
+00:08:30,720 --> 00:08:35,279
+and that's a very expensive
+
+252
+00:08:32,680 --> 00:08:36,640
+operation. So how do we get these
+
+253
+00:08:35,279 --> 00:08:39,120
+densities for free if you want to build
+
+254
+00:08:36,640 --> 00:08:40,880
+these vector fields?
+
+255
+00:08:39,120 --> 00:08:42,560
+Now, naively what you would kind of do
+
+256
+00:08:40,880 --> 00:08:44,240
+to build these these vector fields and
+
+257
+00:08:42,560 --> 00:08:46,480
+these densities is to kind of integrate
+
+258
+00:08:44,240 --> 00:08:47,920
+the change in density over time. And
+
+259
+00:08:46,480 --> 00:08:50,080
+this change in density is given to you
+
+260
+00:08:47,920 --> 00:08:51,920
+by this term which is the log density
+
+261
+00:08:50,080 --> 00:08:53,920
+plus this second term over here which is
+
+262
+00:08:51,920 --> 00:08:55,320
+how the change happens incrementally as
+
+263
+00:08:53,920 --> 00:08:58,399
+I move along this
+
+264
+00:08:55,320 --> 00:09:00,000
+process. Now it turns out this change of
+
+265
+00:08:58,399 --> 00:09:02,399
+density because it satisfies the
+
+266
+00:09:00,000 --> 00:09:04,399
+continuity equation. You can account for
+
+267
+00:09:02,399 --> 00:09:07,120
+it by take just taking the time
+
+268
+00:09:04,399 --> 00:09:08,000
+derivative of this log function. So if I
+
+269
+00:09:07,120 --> 00:09:09,440
+remind you when you take the time
+
+270
+00:09:08,000 --> 00:09:12,080
+derivative of a function of of two
+
+271
+00:09:09,440 --> 00:09:13,519
+different uh variables time and space
+
+272
+00:09:12,080 --> 00:09:15,200
+you have to account for how it changes
+
+273
+00:09:13,519 --> 00:09:17,360
+in time which is the first term over
+
+274
+00:09:15,200 --> 00:09:19,040
+here and how it changes in position. Now
+
+275
+00:09:17,360 --> 00:09:21,120
+you can apply this analogy by just
+
+276
+00:09:19,040 --> 00:09:23,200
+differentiating this log density from
+
+277
+00:09:21,120 --> 00:09:24,880
+first principles and I'll spare the
+
+278
+00:09:23,200 --> 00:09:26,959
+derivation but what ends up happening is
+
+279
+00:09:24,880 --> 00:09:29,519
+that you get a couple of terms. The
+
+280
+00:09:26,959 --> 00:09:31,440
+first term tells you how the the the
+
+281
+00:09:29,519 --> 00:09:33,120
+change in time happens. The last couple
+
+282
+00:09:31,440 --> 00:09:36,080
+of terms tells you how this change in
+
+283
+00:09:33,120 --> 00:09:37,440
+space happens. Now to give a bit more
+
+284
+00:09:36,080 --> 00:09:40,000
+intuition for what's happening here,
+
+285
+00:09:37,440 --> 00:09:42,560
+this is coming from the celebrated Edo's
+
+286
+00:09:40,000 --> 00:09:44,880
+lema in stocastic calculus. So in some
+
+287
+00:09:42,560 --> 00:09:46,640
+sense it's saying how does the stocastic
+
+288
+00:09:44,880 --> 00:09:48,800
+process if you take the tailor
+
+289
+00:09:46,640 --> 00:09:50,640
+approximation for it and apply it to the
+
+290
+00:09:48,800 --> 00:09:52,240
+tailor approximation to this change of
+
+291
+00:09:50,640 --> 00:09:54,480
+density, how does that actually look
+
+292
+00:09:52,240 --> 00:09:56,880
+like? Now if you expand and collect
+
+293
+00:09:54,480 --> 00:09:59,040
+these terms, what ends up happening is
+
+294
+00:09:56,880 --> 00:10:00,640
+that you get this very initially
+
+295
+00:09:59,040 --> 00:10:02,240
+complicated looking expression, but it's
+
+296
+00:10:00,640 --> 00:10:04,399
+actually going to be very simple for us.
+
+297
+00:10:02,240 --> 00:10:05,839
+This expression has two different terms.
+
+298
+00:10:04,399 --> 00:10:08,240
+And what you'll notice is that none of
+
+299
+00:10:05,839 --> 00:10:10,160
+these terms have this very complicated
+
+300
+00:10:08,240 --> 00:10:11,440
+divergence operator. So this divergence
+
+301
+00:10:10,160 --> 00:10:13,600
+operator is kind of what you would
+
+302
+00:10:11,440 --> 00:10:15,519
+initially have had to use to compute the
+
+303
+00:10:13,600 --> 00:10:18,399
+change in density. But if you just apply
+
+304
+00:10:15,519 --> 00:10:21,680
+this little bit of this math uh math
+
+305
+00:10:18,399 --> 00:10:23,000
+lema, you get this essentially for free
+
+306
+00:10:21,680 --> 00:10:25,200
+a way to calculate the change in
+
+307
+00:10:23,000 --> 00:10:27,839
+density. So this is going to be a lot
+
+308
+00:10:25,200 --> 00:10:29,760
+faster for you to compute than any other
+
+309
+00:10:27,839 --> 00:10:31,680
+previous methods of computing density.
+
+310
+00:10:29,760 --> 00:10:33,360
+And what this allows us to kind of do is
+
+311
+00:10:31,680 --> 00:10:35,519
+say when we simulate each diffusion
+
+312
+00:10:33,360 --> 00:10:37,519
+model at inference, we can automatically
+
+313
+00:10:35,519 --> 00:10:40,320
+get the change in density associated
+
+314
+00:10:37,519 --> 00:10:41,920
+with each model almost for free. And one
+
+315
+00:10:40,320 --> 00:10:43,760
+of the main results of this paper is
+
+316
+00:10:41,920 --> 00:10:46,240
+this new density estimator which we call
+
+317
+00:10:43,760 --> 00:10:48,399
+EDOS's density estimator. And you'll
+
+318
+00:10:46,240 --> 00:10:50,079
+notice that you can plug in any velocity
+
+319
+00:10:48,399 --> 00:10:51,600
+field in this expression over here and
+
+320
+00:10:50,079 --> 00:10:53,839
+get the equation equivalent change of
+
+321
+00:10:51,600 --> 00:10:55,920
+density. So what does that actually
+
+322
+00:10:53,839 --> 00:10:58,480
+mean? It means that when we solve the
+
+323
+00:10:55,920 --> 00:11:00,720
+inference problem, we can uh essentially
+
+324
+00:10:58,480 --> 00:11:02,320
+paint any path for the model to follow.
+
+325
+00:11:00,720 --> 00:11:03,640
+And this tells you the density along
+
+326
+00:11:02,320 --> 00:11:07,519
+this
+
+327
+00:11:03,640 --> 00:11:09,360
+path. So taking a step back, what are
+
+328
+00:11:07,519 --> 00:11:11,200
+the benefits? The benefits of this
+
+329
+00:11:09,360 --> 00:11:12,800
+density estimator is that it's very
+
+330
+00:11:11,200 --> 00:11:14,560
+agnostic. You can apply it for any
+
+331
+00:11:12,800 --> 00:11:16,640
+diffusion model you have regardless of
+
+332
+00:11:14,560 --> 00:11:19,240
+domain, regardless of architecture and
+
+333
+00:11:16,640 --> 00:11:22,000
+it can work for any number of
+
+334
+00:11:19,240 --> 00:11:24,079
+models. But there is one uh point of
+
+335
+00:11:22,000 --> 00:11:25,680
+caution. The point of caution being that
+
+336
+00:11:24,079 --> 00:11:27,279
+because you need to compute the score
+
+337
+00:11:25,680 --> 00:11:29,440
+function, if you don't have access to
+
+338
+00:11:27,279 --> 00:11:30,880
+the learn score or essentially the
+
+339
+00:11:29,440 --> 00:11:32,560
+ground score, you're going to have a
+
+340
+00:11:30,880 --> 00:11:34,040
+bias estimate. But in certain
+
+341
+00:11:32,560 --> 00:11:36,480
+applications, this is not an
+
+342
+00:11:34,040 --> 00:11:37,600
+issue. So to motivate this even more,
+
+343
+00:11:36,480 --> 00:11:39,360
+let's look at some experiments and how
+
+344
+00:11:37,600 --> 00:11:40,880
+you could actually use this new density
+
+345
+00:11:39,360 --> 00:11:43,519
+estimator to build new different
+
+346
+00:11:40,880 --> 00:11:45,360
+composition rules. So let's look at
+
+347
+00:11:43,519 --> 00:11:47,120
+unconditional protein generation for a
+
+348
+00:11:45,360 --> 00:11:49,040
+minute.
+
+349
+00:11:47,120 --> 00:11:50,959
+Now the question I want to answer with
+
+350
+00:11:49,040 --> 00:11:52,560
+this experiment is to say I have two
+
+351
+00:11:50,959 --> 00:11:54,160
+different protein generative models that
+
+352
+00:11:52,560 --> 00:11:56,079
+are trained on maybe different data sets
+
+353
+00:11:54,160 --> 00:11:58,720
+and have different architectures. How do
+
+354
+00:11:56,079 --> 00:12:01,120
+I combine them? So if you know anything
+
+355
+00:11:58,720 --> 00:12:02,560
+about protein generative models uh one
+
+356
+00:12:01,120 --> 00:12:04,000
+common class of models are protein
+
+357
+00:12:02,560 --> 00:12:05,680
+backbone models which generates 3D
+
+358
+00:12:04,000 --> 00:12:06,959
+coordinates. So in this case what you
+
+359
+00:12:05,680 --> 00:12:08,720
+would have is a forward process that
+
+360
+00:12:06,959 --> 00:12:10,399
+takes you from a backbone to pure noise
+
+361
+00:12:08,720 --> 00:12:11,680
+and the reverse process which is being
+
+362
+00:12:10,399 --> 00:12:14,480
+learned by the diffusion model that
+
+363
+00:12:11,680 --> 00:12:16,720
+takes you from noise back to data. Now
+
+364
+00:12:14,480 --> 00:12:19,040
+two popular model choices historically
+
+365
+00:12:16,720 --> 00:12:20,720
+have been Proteus and frame diff where
+
+366
+00:12:19,040 --> 00:12:23,360
+frame diff is a diffusion model that
+
+367
+00:12:20,720 --> 00:12:25,120
+came out of MIT and you could ask the
+
+368
+00:12:23,360 --> 00:12:26,639
+question well these data these models
+
+369
+00:12:25,120 --> 00:12:29,079
+are trained on different datas can we
+
+370
+00:12:26,639 --> 00:12:32,160
+get the best of both
+
+371
+00:12:29,079 --> 00:12:33,680
+models so to evaluate this this new
+
+372
+00:12:32,160 --> 00:12:34,959
+inference process of composing models
+
+373
+00:12:33,680 --> 00:12:37,519
+we're going to look at a couple of
+
+374
+00:12:34,959 --> 00:12:39,360
+incilico metrics so designability which
+
+375
+00:12:37,519 --> 00:12:41,519
+tells us how likely the generated
+
+376
+00:12:39,360 --> 00:12:43,839
+structure can refold into another
+
+377
+00:12:41,519 --> 00:12:45,320
+structure which is based on a
+
+378
+00:12:43,839 --> 00:12:48,240
+off-the-shelf refolding
+
+379
+00:12:45,320 --> 00:12:50,000
+algorithm, novelty, which tells us how
+
+380
+00:12:48,240 --> 00:12:51,839
+similar the protein sequences are to the
+
+381
+00:12:50,000 --> 00:12:53,959
+training data set. And finally,
+
+382
+00:12:51,839 --> 00:12:56,000
+diversity, which is kind of trying to
+
+383
+00:12:53,959 --> 00:12:58,480
+characterize the generations and how
+
+384
+00:12:56,000 --> 00:13:00,800
+similar they are to each other. So, here
+
+385
+00:12:58,480 --> 00:13:03,279
+are the baseline numbers for the models
+
+386
+00:13:00,800 --> 00:13:05,760
+that exist. Now, if you naively average
+
+387
+00:13:03,279 --> 00:13:07,120
+the scores of these models, you get a a
+
+388
+00:13:05,760 --> 00:13:08,880
+model that's not particularly good at
+
+389
+00:13:07,120 --> 00:13:10,560
+anything.
+
+390
+00:13:08,880 --> 00:13:12,000
+Now if you apply these composition rules
+
+391
+00:13:10,560 --> 00:13:13,760
+that I've been building towards the or
+
+392
+00:13:12,000 --> 00:13:14,959
+and and operations, you essentially get
+
+393
+00:13:13,760 --> 00:13:17,320
+models that are going to be slightly
+
+394
+00:13:14,959 --> 00:13:20,160
+more diverse or slightly more uh
+
+395
+00:13:17,320 --> 00:13:21,920
+designable. And if you play with the
+
+396
+00:13:20,160 --> 00:13:23,440
+hyperparameters a little bit, it turns
+
+397
+00:13:21,920 --> 00:13:25,760
+out you can tweak the designability of
+
+398
+00:13:23,440 --> 00:13:27,399
+these models to a much greater uh number
+
+399
+00:13:25,760 --> 00:13:30,160
+than either of these models to begin
+
+400
+00:13:27,399 --> 00:13:33,279
+with. And this kind of really highlights
+
+401
+00:13:30,160 --> 00:13:35,200
+one of the benefits of composing models.
+
+402
+00:13:33,279 --> 00:13:39,600
+almost for free you get a a superior
+
+403
+00:13:35,200 --> 00:13:39,600
+model uh without actually doing any more
+
+404
+00:13:39,880 --> 00:13:45,519
+training. So here's an example of of the
+
+405
+00:13:42,639 --> 00:13:48,000
+umap structures of these models. So uh
+
+406
+00:13:45,519 --> 00:13:49,920
+the the the green and the orange are the
+
+407
+00:13:48,000 --> 00:13:51,440
+existing models while the purple ones
+
+408
+00:13:49,920 --> 00:13:53,360
+are the super div generated structures
+
+409
+00:13:51,440 --> 00:13:55,519
+only at inference time. You can kind of
+
+410
+00:13:53,360 --> 00:13:57,920
+get a feeling for the fact that the the
+
+411
+00:13:55,519 --> 00:14:00,240
+generated structures have more coverage
+
+412
+00:13:57,920 --> 00:14:02,560
+in some sense compared to any individual
+
+413
+00:14:00,240 --> 00:14:04,480
+model.
+
+414
+00:14:02,560 --> 00:14:06,360
+Uh so let's look at another application.
+
+415
+00:14:04,480 --> 00:14:08,480
+Let's look at conditional molecule
+
+416
+00:14:06,360 --> 00:14:10,079
+generation. So suppose you want to do
+
+417
+00:14:08,480 --> 00:14:11,839
+multiple property generation which is to
+
+418
+00:14:10,079 --> 00:14:14,720
+say that I want a molecule that let's
+
+419
+00:14:11,839 --> 00:14:16,600
+say inhibits this enzyme GSK3 beta and
+
+420
+00:14:14,720 --> 00:14:18,720
+high has high drug
+
+421
+00:14:16,600 --> 00:14:20,560
+likeness. Now to do this we're going to
+
+422
+00:14:18,720 --> 00:14:22,639
+use a pre-trained uh latent diffusion
+
+423
+00:14:20,560 --> 00:14:24,399
+model called LD mole and we're going to
+
+424
+00:14:22,639 --> 00:14:25,519
+prompt it with these following prompts
+
+425
+00:14:24,399 --> 00:14:26,800
+and then we're going to prompt it in
+
+426
+00:14:25,519 --> 00:14:29,440
+natural language. We're going to say
+
+427
+00:14:26,800 --> 00:14:31,440
+this molecule inhibits GSK3 beta and as
+
+428
+00:14:29,440 --> 00:14:32,480
+well this molecule looks like a drug.
+
+429
+00:14:31,440 --> 00:14:34,560
+And we're going to try to look at the
+
+430
+00:14:32,480 --> 00:14:36,240
+last column over here which tells us how
+
+431
+00:14:34,560 --> 00:14:38,199
+faithful is the generation to both
+
+432
+00:14:36,240 --> 00:14:41,120
+properties or the product of
+
+433
+00:14:38,199 --> 00:14:43,279
+properties. Now if you create a joint
+
+434
+00:14:41,120 --> 00:14:46,399
+prompt which essentially tells you let's
+
+435
+00:14:43,279 --> 00:14:48,000
+do property A and property B, you get a
+
+436
+00:14:46,399 --> 00:14:50,600
+model that kind of does a bit of both
+
+437
+00:14:48,000 --> 00:14:52,800
+but not quite well on each on either of
+
+438
+00:14:50,600 --> 00:14:54,399
+them. Now if you average the scores
+
+439
+00:14:52,800 --> 00:14:57,199
+again, you also get something that's
+
+440
+00:14:54,399 --> 00:14:59,040
+mediocre. However, if you do super n,
+
+441
+00:14:57,199 --> 00:15:00,399
+you get a model that more readily
+
+442
+00:14:59,040 --> 00:15:03,079
+satisfies both properties
+
+443
+00:15:00,399 --> 00:15:05,040
+simultaneously, again without
+
+444
+00:15:03,079 --> 00:15:06,399
+training. And of course, when you do
+
+445
+00:15:05,040 --> 00:15:08,639
+this, you get molecules that are much
+
+446
+00:15:06,399 --> 00:15:10,320
+more valid and unique as well. So, I'm
+
+447
+00:15:08,639 --> 00:15:11,920
+going to end with this final slide over
+
+448
+00:15:10,320 --> 00:15:14,160
+here, which gives you a visual picture
+
+449
+00:15:11,920 --> 00:15:15,920
+of uh of what these models look like or
+
+450
+00:15:14,160 --> 00:15:17,519
+the generated samples. And the last
+
+451
+00:15:15,920 --> 00:15:20,079
+column over here, you can see the the
+
+452
+00:15:17,519 --> 00:15:22,000
+generation has higher uh property scores
+
+453
+00:15:20,079 --> 00:15:23,760
+than either of the individual uh
+
+454
+00:15:22,000 --> 00:15:25,560
+composing strategies of joint prompting
+
+455
+00:15:23,760 --> 00:15:29,310
+or averaging the
+
+456
+00:15:25,560 --> 00:15:33,760
+scores. And I'll end there.
+
+457
+00:15:29,310 --> 00:15:36,800
+[Applause]
+
+458
+00:15:33,760 --> 00:15:40,639
+Yeah, thank you Joey.
+
+459
+00:15:36,800 --> 00:15:44,160
+So if you go back to slide 24.
+
+460
+00:15:40,639 --> 00:15:45,920
+When you separate the time and the space
+
+461
+00:15:44,160 --> 00:15:49,040
+processes.
+
+462
+00:15:45,920 --> 00:15:52,480
+One second. I think it was 24. It might
+
+463
+00:15:49,040 --> 00:15:54,240
+have been this one or Yeah, probably
+
+464
+00:15:52,480 --> 00:15:57,240
+this one. I believe I think it was that
+
+465
+00:15:54,240 --> 00:15:57,240
+one
+
+466
+00:15:57,600 --> 00:16:02,160
+over here. Yeah.
+
+467
+00:15:59,240 --> 00:16:05,040
+Down. Yeah. like well when you separate
+
+468
+00:16:02,160 --> 00:16:06,560
+time and the spatial variation and then
+
+469
+00:16:05,040 --> 00:16:07,839
+you know you s sort of go forward and
+
+470
+00:16:06,560 --> 00:16:09,759
+reverse these processes is that an
+
+471
+00:16:07,839 --> 00:16:12,000
+assumption or is that analytically true
+
+472
+00:16:09,759 --> 00:16:14,320
+for all that's analytically true for any
+
+473
+00:16:12,000 --> 00:16:16,639
+diffusion model uh the way that this
+
+474
+00:16:14,320 --> 00:16:17,920
+breakdown happens you have to assume one
+
+475
+00:16:16,639 --> 00:16:19,440
+specific property of your diffusion
+
+476
+00:16:17,920 --> 00:16:21,440
+model that that the drift is going to be
+
+477
+00:16:19,440 --> 00:16:23,360
+aphine which is generally true for all
+
+478
+00:16:21,440 --> 00:16:25,440
+existing diffusion models we use in ML
+
+479
+00:16:23,360 --> 00:16:26,639
+but if you have a more complicated SD
+
+480
+00:16:25,440 --> 00:16:29,040
+then this is going to be a more
+
+481
+00:16:26,639 --> 00:16:31,440
+complicated expression right so I mean
+
+482
+00:16:29,040 --> 00:16:33,279
+where do you think That's so that's the
+
+483
+00:16:31,440 --> 00:16:34,320
+model. You formulate the model, you fit
+
+484
+00:16:33,279 --> 00:16:36,959
+things into it, and then that's
+
+485
+00:16:34,320 --> 00:16:39,120
+analytically true, you know, for the the
+
+486
+00:16:36,959 --> 00:16:42,000
+optimization side of things. Where do
+
+487
+00:16:39,120 --> 00:16:44,320
+you think that doesn't fit reality most?
+
+488
+00:16:42,000 --> 00:16:46,720
+Well, well, where doesn't fit reality is
+
+489
+00:16:44,320 --> 00:16:49,360
+the fact that again, what this assumes
+
+490
+00:16:46,720 --> 00:16:51,759
+access to is the gradient of log Q. And
+
+491
+00:16:49,360 --> 00:16:53,920
+this assumes access to the true score.
+
+492
+00:16:51,759 --> 00:16:55,199
+And you will never have the true score.
+
+493
+00:16:53,920 --> 00:16:56,800
+In practice, you'll only have an
+
+494
+00:16:55,199 --> 00:16:58,320
+estimate to the score which is learned
+
+495
+00:16:56,800 --> 00:16:59,920
+by your model. So you're going to always
+
+496
+00:16:58,320 --> 00:17:01,759
+have a biased estimate of this change of
+
+497
+00:16:59,920 --> 00:17:03,600
+density and for applications where you
+
+498
+00:17:01,759 --> 00:17:05,720
+really need the exact likelihood this is
+
+499
+00:17:03,600 --> 00:17:07,679
+going to fail you. But for guiding
+
+500
+00:17:05,720 --> 00:17:09,039
+generation uh in this case that I've
+
+501
+00:17:07,679 --> 00:17:10,959
+shown this is totally okay even if you
+
+502
+00:17:09,039 --> 00:17:12,880
+have under like a bias estimate but if
+
+503
+00:17:10,959 --> 00:17:15,039
+you wanted to do reweing of samples or
+
+504
+00:17:12,880 --> 00:17:17,199
+correction through reweing then this is
+
+505
+00:17:15,039 --> 00:17:20,000
+going to probably fail you. Okay, cool.
+
+506
+00:17:17,199 --> 00:17:20,000
+Thanks,
+

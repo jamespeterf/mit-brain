@@ -1,0 +1,3488 @@
+1
+00:00:00,000 --> 00:00:07,040
+Our next speaker is Johannes Lintner. Um
+
+2
+00:00:04,720 --> 00:00:08,400
+Johannes um if you please come down
+
+3
+00:00:07,040 --> 00:00:10,719
+here. Yeah. Set on your computer.
+
+4
+00:00:08,400 --> 00:00:15,120
+Johannes, as Jesse was mentioning, did
+
+5
+00:00:10,719 --> 00:00:18,560
+his postto studies with um Anul Kundi
+
+6
+00:00:15,120 --> 00:00:21,760
+at Stanford and now works as a machine
+
+7
+00:00:18,560 --> 00:00:24,880
+learning scientist at Kelly Co Life
+
+8
+00:00:21,760 --> 00:00:28,000
+Sciences with David Kelly and several
+
+9
+00:00:24,880 --> 00:00:30,160
+others. And um so we are very pleased to
+
+10
+00:00:28,000 --> 00:00:32,399
+have you here today, Johannes. and um
+
+11
+00:00:30,160 --> 00:00:35,440
+your title is predicting gene regulatory
+
+12
+00:00:32,399 --> 00:00:37,120
+function from DNA sequence with deep
+
+13
+00:00:35,440 --> 00:00:39,680
+learning.
+
+14
+00:00:37,120 --> 00:00:41,920
+>> Great. Thank you for that introduction
+
+15
+00:00:39,680 --> 00:00:45,120
+and thank you for the organizers for
+
+16
+00:00:41,920 --> 00:00:48,840
+inviting me today to give a talk. Um see
+
+17
+00:00:45,120 --> 00:00:48,840
+I'll be using this one.
+
+18
+00:00:50,640 --> 00:00:58,000
+Great. Okay. So uh this is my disclosure
+
+19
+00:00:55,680 --> 00:01:00,800
+and so um today I'll be sharing some of
+
+20
+00:00:58,000 --> 00:01:03,039
+our work in David Kelly's group um where
+
+21
+00:01:00,800 --> 00:01:04,799
+we develop sort of these u machine
+
+22
+00:01:03,039 --> 00:01:06,320
+learning models that allow us to predict
+
+23
+00:01:04,799 --> 00:01:09,520
+various types of gene regulatory
+
+24
+00:01:06,320 --> 00:01:11,360
+function uh from DNA sequence and sort
+
+25
+00:01:09,520 --> 00:01:14,159
+of what we aim to do with these models
+
+26
+00:01:11,360 --> 00:01:17,040
+is to functionally interpret uh genetic
+
+27
+00:01:14,159 --> 00:01:20,479
+variation to aid us in interpretation of
+
+28
+00:01:17,040 --> 00:01:22,720
+of various uh variant data sets. Um so
+
+29
+00:01:20,479 --> 00:01:25,759
+as we all know the human genome consists
+
+30
+00:01:22,720 --> 00:01:27,200
+of these various um regulatory layers
+
+31
+00:01:25,759 --> 00:01:28,720
+ranging from you know chromatin
+
+32
+00:01:27,200 --> 00:01:31,040
+accessibility to transcriptional
+
+33
+00:01:28,720 --> 00:01:33,280
+activation to post- transanscriptional
+
+34
+00:01:31,040 --> 00:01:37,119
+processing like isoform processing and
+
+35
+00:01:33,280 --> 00:01:38,640
+other u regulatory steps and um in
+
+36
+00:01:37,119 --> 00:01:40,159
+Dave's group we developed these uh
+
+37
+00:01:38,640 --> 00:01:42,640
+parametric machine learning models that
+
+38
+00:01:40,159 --> 00:01:45,040
+take you know the genomic sequence as
+
+39
+00:01:42,640 --> 00:01:47,280
+input and are then trained on various
+
+40
+00:01:45,040 --> 00:01:50,000
+data sets to predict these regulatory
+
+41
+00:01:47,280 --> 00:01:51,520
+functions from sequence and there many
+
+42
+00:01:50,000 --> 00:01:53,600
+you know uh interesting and important
+
+43
+00:01:51,520 --> 00:01:55,920
+downstream applications uh for these
+
+44
+00:01:53,600 --> 00:01:57,280
+kinds of models in Jesse's excellent
+
+45
+00:01:55,920 --> 00:01:59,280
+talk you know one really cool
+
+46
+00:01:57,280 --> 00:02:02,479
+application is to actually denovo design
+
+47
+00:01:59,280 --> 00:02:04,240
+or or edit uh regulatory sequences uh
+
+48
+00:02:02,479 --> 00:02:05,920
+the the application I'll be focusing on
+
+49
+00:02:04,240 --> 00:02:08,399
+today is to actually use these models to
+
+50
+00:02:05,920 --> 00:02:11,399
+to functionally interpret uh genetic
+
+51
+00:02:08,399 --> 00:02:11,399
+variation
+
+52
+00:02:11,840 --> 00:02:15,920
+so as a as a brief overview I'll start
+
+53
+00:02:13,760 --> 00:02:17,760
+by describing uh a neural network model
+
+54
+00:02:15,920 --> 00:02:19,840
+that we developed called Borsoy that
+
+55
+00:02:17,760 --> 00:02:22,319
+allows us to predict raw RNA seek
+
+56
+00:02:19,840 --> 00:02:24,080
+coverage patterns from DNA sequence and
+
+57
+00:02:22,319 --> 00:02:26,000
+then hopefully I'll have time to
+
+58
+00:02:24,080 --> 00:02:28,319
+highlight some of our uh most recent
+
+59
+00:02:26,000 --> 00:02:30,080
+work where we extend the this modeling
+
+60
+00:02:28,319 --> 00:02:33,519
+framework to actually predict uh
+
+61
+00:02:30,080 --> 00:02:36,080
+pseudabbulk cell type specific uh single
+
+62
+00:02:33,519 --> 00:02:38,000
+cell RNA seek coverage patterns and sort
+
+63
+00:02:36,080 --> 00:02:40,080
+of adding a cell type specific spin to
+
+64
+00:02:38,000 --> 00:02:42,319
+to the model.
+
+65
+00:02:40,080 --> 00:02:44,000
+So beginning with Borsoid and as a
+
+66
+00:02:42,319 --> 00:02:46,720
+general introduction to the problem that
+
+67
+00:02:44,000 --> 00:02:48,000
+we're trying to to tackle here uh you
+
+68
+00:02:46,720 --> 00:02:50,480
+know the human genome consists of more
+
+69
+00:02:48,000 --> 00:02:52,160
+than three billion base pairs. The vast
+
+70
+00:02:50,480 --> 00:02:54,560
+majority of these nucleotides do not
+
+71
+00:02:52,160 --> 00:02:56,480
+actually code for a particular protein.
+
+72
+00:02:54,560 --> 00:02:58,959
+Instead these nucleotides make up a
+
+73
+00:02:56,480 --> 00:03:00,640
+complex uh sequence regulatory code that
+
+74
+00:02:58,959 --> 00:03:02,720
+governs gene expression through multiple
+
+75
+00:03:00,640 --> 00:03:04,959
+layers of regulation. You know, for
+
+76
+00:03:02,720 --> 00:03:06,560
+example, at the layer of chromatin, uh
+
+77
+00:03:04,959 --> 00:03:07,920
+we have enhancer and repressor elements
+
+78
+00:03:06,560 --> 00:03:09,840
+spread out throughout the genome that
+
+79
+00:03:07,920 --> 00:03:14,599
+control the transcriptional activity of
+
+80
+00:03:09,840 --> 00:03:14,599
+genes that can be very far away.
+
+81
+00:03:15,120 --> 00:03:18,720
+Then as a gene is transcribed into
+
+82
+00:03:16,800 --> 00:03:21,040
+premrna, it's further subjected to
+
+83
+00:03:18,720 --> 00:03:23,280
+additional regulatory processes
+
+84
+00:03:21,040 --> 00:03:25,200
+including splicing and polyinhilation.
+
+85
+00:03:23,280 --> 00:03:27,840
+And to some extent, these processes are
+
+86
+00:03:25,200 --> 00:03:31,200
+themselves regulated by a sequence code
+
+87
+00:03:27,840 --> 00:03:33,040
+embedded in the primr molecule.
+
+88
+00:03:31,200 --> 00:03:34,720
+Finally this uh now mature MRA
+
+89
+00:03:33,040 --> 00:03:36,799
+transcript can go on and become protein
+
+90
+00:03:34,720 --> 00:03:38,640
+product and along that journey it's
+
+91
+00:03:36,799 --> 00:03:41,120
+again uh further subjected to these
+
+92
+00:03:38,640 --> 00:03:44,080
+various regulatory steps such as MR&A
+
+93
+00:03:41,120 --> 00:03:45,920
+degradation or control you know mediated
+
+94
+00:03:44,080 --> 00:03:48,159
+by translation efficiency or other
+
+95
+00:03:45,920 --> 00:03:49,920
+mechanisms and and these mechanisms are
+
+96
+00:03:48,159 --> 00:03:52,400
+themselves controlled by by a sequence
+
+97
+00:03:49,920 --> 00:03:54,159
+code at least to some extent that in
+
+98
+00:03:52,400 --> 00:03:57,120
+this case now is you know embedded in
+
+99
+00:03:54,159 --> 00:03:58,959
+the mature mRNA transcript
+
+100
+00:03:57,120 --> 00:04:01,599
+and you know it's well known by now that
+
+101
+00:03:58,959 --> 00:04:03,680
+numerous non-coding genetic variants are
+
+102
+00:04:01,599 --> 00:04:06,879
+you know implicated in genetic disease
+
+103
+00:04:03,680 --> 00:04:09,040
+by uh disrupting these various um
+
+104
+00:04:06,879 --> 00:04:10,959
+regulatory functions.
+
+105
+00:04:09,040 --> 00:04:13,040
+But you know to this day it remains
+
+106
+00:04:10,959 --> 00:04:16,000
+extremely complicated to take any given
+
+107
+00:04:13,040 --> 00:04:18,079
+genetic you know non-coding mutation and
+
+108
+00:04:16,000 --> 00:04:21,120
+understand at a sufficiently detailed
+
+109
+00:04:18,079 --> 00:04:23,120
+level how that mutation is potentially
+
+110
+00:04:21,120 --> 00:04:25,280
+impacting each of these regulatory
+
+111
+00:04:23,120 --> 00:04:27,280
+functions. And to make things more
+
+112
+00:04:25,280 --> 00:04:28,720
+complicated, you know, these mutations
+
+113
+00:04:27,280 --> 00:04:30,639
+may have cell and tissue specific
+
+114
+00:04:28,720 --> 00:04:32,160
+effects.
+
+115
+00:04:30,639 --> 00:04:33,520
+So in Dave's lab, we're trying to
+
+116
+00:04:32,160 --> 00:04:36,720
+approach this by training these
+
+117
+00:04:33,520 --> 00:04:39,680
+high-capacity uh machine learning models
+
+118
+00:04:36,720 --> 00:04:41,680
+um on on large scale molecular data in
+
+119
+00:04:39,680 --> 00:04:43,919
+order to predict these regulatory steps
+
+120
+00:04:41,680 --> 00:04:45,840
+from sequence alone. And with those
+
+121
+00:04:43,919 --> 00:04:48,479
+kinds of models, we can then use them as
+
+122
+00:04:45,840 --> 00:04:51,440
+kind of simulation engines to simulate
+
+123
+00:04:48,479 --> 00:04:53,520
+um the impact of any individual mutation
+
+124
+00:04:51,440 --> 00:04:54,880
+in isolation. And really by applying
+
+125
+00:04:53,520 --> 00:04:56,800
+interpretation techniques to these
+
+126
+00:04:54,880 --> 00:04:59,040
+trained models and to their predictions,
+
+127
+00:04:56,800 --> 00:05:00,880
+we can try to elucidate what in the
+
+128
+00:04:59,040 --> 00:05:04,320
+underlying sequence grammar was actually
+
+129
+00:05:00,880 --> 00:05:06,320
+disrupted by by that mutation.
+
+130
+00:05:04,320 --> 00:05:07,600
+And you know, as a as a brief motivation
+
+131
+00:05:06,320 --> 00:05:09,680
+for why we're interested in doing this
+
+132
+00:05:07,600 --> 00:05:11,199
+at Calico Life Sciences, you know, we're
+
+133
+00:05:09,680 --> 00:05:13,680
+very interested in studying the the
+
+134
+00:05:11,199 --> 00:05:16,000
+hallmarks and and mechanisms of aging
+
+135
+00:05:13,680 --> 00:05:18,240
+and aging related disease. And one
+
+136
+00:05:16,000 --> 00:05:20,639
+powerful uh way to do that is to to
+
+137
+00:05:18,240 --> 00:05:23,039
+study genomewide association studies uh
+
+138
+00:05:20,639 --> 00:05:26,639
+as many other people in in this uh room
+
+139
+00:05:23,039 --> 00:05:28,240
+do. Um but as we all know it's can be
+
+140
+00:05:26,639 --> 00:05:30,560
+extremely complicated because you can
+
+141
+00:05:28,240 --> 00:05:32,720
+get hundreds to thousands of significant
+
+142
+00:05:30,560 --> 00:05:36,160
+hits and you know these snips can be
+
+143
+00:05:32,720 --> 00:05:37,840
+confounded by linkage disequilibrium. Um
+
+144
+00:05:36,160 --> 00:05:40,080
+meaning that it's it's very hard to to
+
+145
+00:05:37,840 --> 00:05:41,600
+tear apart the actual causal variance.
+
+146
+00:05:40,080 --> 00:05:43,520
+Not to mention actually functionally
+
+147
+00:05:41,600 --> 00:05:45,199
+understanding how those mechanisms are
+
+148
+00:05:43,520 --> 00:05:46,639
+acting. And so that's where we're hoping
+
+149
+00:05:45,199 --> 00:05:49,039
+these machine learning models can come
+
+150
+00:05:46,639 --> 00:05:50,400
+in and help us, you know, prioritize
+
+151
+00:05:49,039 --> 00:05:52,479
+variants that are more likely to be
+
+152
+00:05:50,400 --> 00:05:54,160
+causal and by giving us grounded
+
+153
+00:05:52,479 --> 00:05:56,960
+interpretation of what in the sequence
+
+154
+00:05:54,160 --> 00:05:59,840
+was disturbed.
+
+155
+00:05:56,960 --> 00:06:02,160
+So one um rather flexible and and quite
+
+156
+00:05:59,840 --> 00:06:04,639
+powerful approach for modeling many of
+
+157
+00:06:02,160 --> 00:06:06,479
+these regulatory functions um is to
+
+158
+00:06:04,639 --> 00:06:08,479
+reduce the problem to that of learning
+
+159
+00:06:06,479 --> 00:06:10,800
+to predict genomewide sequencing
+
+160
+00:06:08,479 --> 00:06:13,360
+coverage essays as kind of
+
+161
+00:06:10,800 --> 00:06:15,120
+one-dimensional coverage profiles given
+
+162
+00:06:13,360 --> 00:06:17,280
+only you know the genomic sequence as
+
+163
+00:06:15,120 --> 00:06:19,120
+input and this approach was popularized
+
+164
+00:06:17,280 --> 00:06:21,840
+by the informer model that was developed
+
+165
+00:06:19,120 --> 00:06:26,000
+by by DeepMind and and by my PI David
+
+166
+00:06:21,840 --> 00:06:28,160
+Kelly at Calico. Um and uh recently in
+
+167
+00:06:26,000 --> 00:06:30,639
+Dave's lab, we developed this new model
+
+168
+00:06:28,160 --> 00:06:35,120
+called Borsoy that takes that idea kind
+
+169
+00:06:30,639 --> 00:06:36,960
+of one step further where we're now um
+
+170
+00:06:35,120 --> 00:06:39,039
+teaching the model to actually predict
+
+171
+00:06:36,960 --> 00:06:41,360
+raw RNA seek coverage patterns in a
+
+172
+00:06:39,039 --> 00:06:44,080
+tissue specific manner uh from sequence
+
+173
+00:06:41,360 --> 00:06:46,160
+alone. The intuition here is that if a
+
+174
+00:06:44,080 --> 00:06:47,840
+parametric model can learn to predict
+
+175
+00:06:46,160 --> 00:06:50,080
+RNA seek coverage patterns, you know,
+
+176
+00:06:47,840 --> 00:06:51,919
+over the exxons of a gene, it must have
+
+177
+00:06:50,080 --> 00:06:54,319
+implicitly learned about many different
+
+178
+00:06:51,919 --> 00:06:56,000
+regulatory steps sort of in one single
+
+179
+00:06:54,319 --> 00:06:57,600
+model, right? It must have learned about
+
+180
+00:06:56,000 --> 00:06:59,199
+transcriptional activation and chromatin
+
+181
+00:06:57,600 --> 00:07:01,599
+accessibility. It must have learned
+
+182
+00:06:59,199 --> 00:07:04,479
+about, you know, uh, splicing and
+
+183
+00:07:01,599 --> 00:07:07,280
+polyation in order to to identify the
+
+184
+00:07:04,479 --> 00:07:08,639
+the exxons and the relative magnitudes.
+
+185
+00:07:07,280 --> 00:07:10,639
+So, we think that here you're learning
+
+186
+00:07:08,639 --> 00:07:12,800
+about many regulatory layers in sort of
+
+187
+00:07:10,639 --> 00:07:14,479
+one go.
+
+188
+00:07:12,800 --> 00:07:16,319
+So architecturally speaking, the model
+
+189
+00:07:14,479 --> 00:07:18,720
+borrows from many different ideas in the
+
+190
+00:07:16,319 --> 00:07:20,080
+ML literature uh but of course builds on
+
+191
+00:07:18,720 --> 00:07:22,800
+many of the successful components from
+
+192
+00:07:20,080 --> 00:07:25,039
+the predecessor and former model. So to
+
+193
+00:07:22,800 --> 00:07:27,680
+start off with the the Borsa model is
+
+194
+00:07:25,039 --> 00:07:30,319
+shaped as kind of like a unit basically.
+
+195
+00:07:27,680 --> 00:07:32,880
+Um it takes in this huge chunk of
+
+196
+00:07:30,319 --> 00:07:35,599
+genomic sequence uh roughly half a
+
+197
+00:07:32,880 --> 00:07:36,639
+megabase. The sequence is is then
+
+198
+00:07:35,599 --> 00:07:38,800
+transformed through a number of
+
+199
+00:07:36,639 --> 00:07:40,720
+convolutional layers interspersed with
+
+200
+00:07:38,800 --> 00:07:42,560
+with subsampling layers. The
+
+201
+00:07:40,720 --> 00:07:44,560
+convolutional layers are sort of
+
+202
+00:07:42,560 --> 00:07:46,960
+learning different you know salient
+
+203
+00:07:44,560 --> 00:07:48,639
+regulatory motifs and the subsampling
+
+204
+00:07:46,960 --> 00:07:50,880
+layers are reducing the sequence length
+
+205
+00:07:48,639 --> 00:07:53,520
+into a manageable length such that we
+
+206
+00:07:50,880 --> 00:07:56,479
+can then apply uh these um self
+
+207
+00:07:53,520 --> 00:07:58,080
+attention blocks that allow us to quite
+
+208
+00:07:56,479 --> 00:08:00,080
+efficiently transmit long range
+
+209
+00:07:58,080 --> 00:08:02,560
+information from one position to every
+
+210
+00:08:00,080 --> 00:08:05,919
+other position in just sort of one one
+
+211
+00:08:02,560 --> 00:08:07,919
+layer of computation. Um
+
+212
+00:08:05,919 --> 00:08:09,840
+and then finally to actually predict RNC
+
+213
+00:08:07,919 --> 00:08:11,440
+coverage we want to do that at a
+
+214
+00:08:09,840 --> 00:08:12,879
+reasonably fine resolution you know
+
+215
+00:08:11,440 --> 00:08:16,240
+because some Exxons can actually be
+
+216
+00:08:12,879 --> 00:08:19,120
+quite thin. Uh so then we borrow these
+
+217
+00:08:16,240 --> 00:08:20,800
+um unit uh the approach of of of unit
+
+218
+00:08:19,120 --> 00:08:22,720
+layers from the computer vision
+
+219
+00:08:20,800 --> 00:08:24,479
+literature where we're now upsampling
+
+220
+00:08:22,720 --> 00:08:26,080
+the signal signal again with
+
+221
+00:08:24,479 --> 00:08:28,800
+convolutional layers and these kind of
+
+222
+00:08:26,080 --> 00:08:30,960
+skip connections. uh now finally
+
+223
+00:08:28,800 --> 00:08:33,960
+predicting coverage at 32 base pair
+
+224
+00:08:30,960 --> 00:08:33,960
+resolution.
+
+225
+00:08:34,080 --> 00:08:38,320
+So to train the model we're using both
+
+226
+00:08:36,240 --> 00:08:40,880
+human and mouse data. So we're training
+
+227
+00:08:38,320 --> 00:08:44,720
+the model in sort of alternating batches
+
+228
+00:08:40,880 --> 00:08:48,320
+of human sequence and mouse sequence and
+
+229
+00:08:44,720 --> 00:08:50,080
+we uh curated uh u basically
+
+230
+00:08:48,320 --> 00:08:53,200
+one-dimensional coverage profiles to
+
+231
+00:08:50,080 --> 00:08:55,680
+train on. Uh so so basically the input
+
+232
+00:08:53,200 --> 00:08:59,680
+to the model is this very large sequence
+
+233
+00:08:55,680 --> 00:09:01,760
+and the output is a collection of uh
+
+234
+00:08:59,680 --> 00:09:03,760
+one-dimensional coverage profiles a very
+
+235
+00:09:01,760 --> 00:09:08,560
+large collection of coverage profiles
+
+236
+00:09:03,760 --> 00:09:10,880
+and uh we collected I think almost 1,000
+
+237
+00:09:08,560 --> 00:09:13,680
+uh human RNA seek experiments from both
+
+238
+00:09:10,880 --> 00:09:15,200
+the incode and GTEx consortia which are
+
+239
+00:09:13,680 --> 00:09:17,120
+you know these amazing resources that
+
+240
+00:09:15,200 --> 00:09:19,519
+have these um coverage profiles
+
+241
+00:09:17,120 --> 00:09:20,720
+basically made available for for public
+
+242
+00:09:19,519 --> 00:09:23,440
+consumption.
+
+243
+00:09:20,720 --> 00:09:26,560
+Um we coupled the training of the model
+
+244
+00:09:23,440 --> 00:09:29,440
+with um we trained the model to jointly
+
+245
+00:09:26,560 --> 00:09:31,120
+also predict various epigenomic coverage
+
+246
+00:09:29,440 --> 00:09:33,440
+essays which we noticed improve the
+
+247
+00:09:31,120 --> 00:09:35,200
+model's ability to generalize and make
+
+248
+00:09:33,440 --> 00:09:36,720
+better RNA coverage predictions because
+
+249
+00:09:35,200 --> 00:09:40,080
+it's then learning to rely on more
+
+250
+00:09:36,720 --> 00:09:42,720
+salient features. Um and then we also of
+
+251
+00:09:40,080 --> 00:09:44,080
+course included um cage uh data
+
+252
+00:09:42,720 --> 00:09:45,360
+measuring expression at the five prime
+
+253
+00:09:44,080 --> 00:09:48,320
+ends of genes from the phantom
+
+254
+00:09:45,360 --> 00:09:51,279
+consortium.
+
+255
+00:09:48,320 --> 00:09:53,920
+So after having trained the model on um
+
+256
+00:09:51,279 --> 00:09:56,720
+on human and mouse sequences, uh we can
+
+257
+00:09:53,920 --> 00:09:59,200
+now apply it to predict RNAC coverage in
+
+258
+00:09:56,720 --> 00:10:01,120
+held out sequences of the genome that
+
+259
+00:09:59,200 --> 00:10:02,800
+the model didn't see during training.
+
+260
+00:10:01,120 --> 00:10:05,040
+And qualitatively you can see that the
+
+261
+00:10:02,800 --> 00:10:07,120
+model can quite accurately you know
+
+262
+00:10:05,040 --> 00:10:10,480
+identify the exxons and place coverage
+
+263
+00:10:07,120 --> 00:10:12,080
+over those exxons uh roughly on par with
+
+264
+00:10:10,480 --> 00:10:14,160
+you know with what the measurements look
+
+265
+00:10:12,080 --> 00:10:15,920
+like. And now if you were to sum the
+
+266
+00:10:14,160 --> 00:10:18,399
+total amount of predicted coverage over
+
+267
+00:10:15,920 --> 00:10:20,560
+the exxons uh of the predicted track for
+
+268
+00:10:18,399 --> 00:10:22,640
+a given gene, we can drive a single you
+
+269
+00:10:20,560 --> 00:10:24,560
+know scalar gene expression prediction.
+
+270
+00:10:22,640 --> 00:10:27,440
+And if we compare predicted to measured
+
+271
+00:10:24,560 --> 00:10:29,600
+gene expression values uh we actually
+
+272
+00:10:27,440 --> 00:10:32,399
+observe quite good concordance on on
+
+273
+00:10:29,600 --> 00:10:34,079
+held out test genes across these various
+
+274
+00:10:32,399 --> 00:10:36,480
+uh sequencing experiments that we train
+
+275
+00:10:34,079 --> 00:10:38,560
+to predict.
+
+276
+00:10:36,480 --> 00:10:40,560
+So what's nice with these kinds of
+
+277
+00:10:38,560 --> 00:10:42,720
+machine learning models is that uh
+
+278
+00:10:40,560 --> 00:10:45,120
+they're not necessarily just a blackbox
+
+279
+00:10:42,720 --> 00:10:46,959
+uh predictor. But now when we can make
+
+280
+00:10:45,120 --> 00:10:48,959
+these RNA coverage predictions, we can
+
+281
+00:10:46,959 --> 00:10:51,440
+apply various interpretation techniques
+
+282
+00:10:48,959 --> 00:10:54,640
+to those predictions in order to
+
+283
+00:10:51,440 --> 00:10:57,040
+elucidate what features in the original
+
+284
+00:10:54,640 --> 00:11:00,160
+you know huge input sequence actually
+
+285
+00:10:57,040 --> 00:11:02,399
+contributed to the RNA seek prediction.
+
+286
+00:11:00,160 --> 00:11:04,880
+So to illustrate that what we did here
+
+287
+00:11:02,399 --> 00:11:07,360
+is that we centered the borsoy uh you
+
+288
+00:11:04,880 --> 00:11:10,800
+know half a megabase input window on the
+
+289
+00:11:07,360 --> 00:11:13,040
+liver specific CFHR2 gene which is known
+
+290
+00:11:10,800 --> 00:11:14,959
+to be liver specific and we then
+
+291
+00:11:13,040 --> 00:11:17,680
+predicted RNA seek coverage in five
+
+292
+00:11:14,959 --> 00:11:20,959
+distinct tissues including liver and a
+
+293
+00:11:17,680 --> 00:11:22,640
+few other offtarget tissues. We then um
+
+294
+00:11:20,959 --> 00:11:24,880
+what we do then is we sum the total
+
+295
+00:11:22,640 --> 00:11:26,480
+coverage over the exxons of the CFHR2
+
+296
+00:11:24,880 --> 00:11:28,880
+gene. So we get like a scalar gene
+
+297
+00:11:26,480 --> 00:11:30,480
+expression prediction per tissue. We
+
+298
+00:11:28,880 --> 00:11:32,320
+then apply this interpretation technique
+
+299
+00:11:30,480 --> 00:11:34,640
+where we rely on the differentiability
+
+300
+00:11:32,320 --> 00:11:37,200
+of the neural network model and we back
+
+301
+00:11:34,640 --> 00:11:40,320
+propagate the gradient of the RNAC
+
+302
+00:11:37,200 --> 00:11:43,040
+coverage prediction per tissue down all
+
+303
+00:11:40,320 --> 00:11:44,640
+the way to the sequence level so that we
+
+304
+00:11:43,040 --> 00:11:46,720
+estimate the gradient of the prediction
+
+305
+00:11:44,640 --> 00:11:48,160
+with respect to the sequence. So you can
+
+306
+00:11:46,720 --> 00:11:50,240
+think of that sort of as a as a
+
+307
+00:11:48,160 --> 00:11:52,560
+sensitivity map that tells you how much
+
+308
+00:11:50,240 --> 00:11:54,480
+the the RNA coverage prediction in that
+
+309
+00:11:52,560 --> 00:11:57,279
+tissue is perturbed given a slight
+
+310
+00:11:54,480 --> 00:11:59,680
+perturbation to the input sequence. And
+
+311
+00:11:57,279 --> 00:12:02,000
+if we do that, what you see in the upper
+
+312
+00:11:59,680 --> 00:12:04,880
+figure there is basically um the the
+
+313
+00:12:02,000 --> 00:12:08,160
+most salient region that occurs a bit
+
+314
+00:12:04,880 --> 00:12:10,560
+outside of the the CFHR2 gene. And what
+
+315
+00:12:08,160 --> 00:12:12,720
+we find is basically all these you know
+
+316
+00:12:10,560 --> 00:12:14,720
+well-known liver specific uh
+
+317
+00:12:12,720 --> 00:12:16,800
+transcription factor motifs that are
+
+318
+00:12:14,720 --> 00:12:19,600
+effectively predicted to drive the
+
+319
+00:12:16,800 --> 00:12:21,360
+expression of this of this gene. Now if
+
+320
+00:12:19,600 --> 00:12:23,120
+you you know repeat that exercise for
+
+321
+00:12:21,360 --> 00:12:25,760
+many different genes by you know
+
+322
+00:12:23,120 --> 00:12:28,079
+recomputing the input gradients for for
+
+323
+00:12:25,760 --> 00:12:30,399
+for many different genes and you cluster
+
+324
+00:12:28,079 --> 00:12:33,040
+these uh gradient scores with a denovo
+
+325
+00:12:30,399 --> 00:12:35,360
+motif discovery tool called TF modiscoco
+
+326
+00:12:33,040 --> 00:12:37,519
+we recapitulate many known you know
+
+327
+00:12:35,360 --> 00:12:39,680
+transcription factor binding motifs and
+
+328
+00:12:37,519 --> 00:12:42,000
+one thing that's quite nice is that you
+
+329
+00:12:39,680 --> 00:12:44,800
+know um if you look at the motifs that
+
+330
+00:12:42,000 --> 00:12:46,720
+are are known to be tissue specific uh
+
+331
+00:12:44,800 --> 00:12:49,120
+the model really only places high
+
+332
+00:12:46,720 --> 00:12:51,040
+importance on those motifs in the
+
+333
+00:12:49,120 --> 00:12:52,399
+original input sequence when making
+
+334
+00:12:51,040 --> 00:12:54,160
+predictions for the corresponding
+
+335
+00:12:52,399 --> 00:12:55,680
+tissue. So the model is sort of relying
+
+336
+00:12:54,160 --> 00:12:59,040
+on these sequence features in a tissue
+
+337
+00:12:55,680 --> 00:13:01,120
+specific way.
+
+338
+00:12:59,040 --> 00:13:02,959
+Another really nice thing uh now when
+
+339
+00:13:01,120 --> 00:13:04,720
+you have a parametric model of RNA
+
+340
+00:13:02,959 --> 00:13:06,639
+coverage prediction is that you can use
+
+341
+00:13:04,720 --> 00:13:08,399
+this model to simulate the effect of in
+
+342
+00:13:06,639 --> 00:13:10,000
+theory any sequence that you input to
+
+343
+00:13:08,399 --> 00:13:12,320
+the model of course to varying degrees
+
+344
+00:13:10,000 --> 00:13:13,839
+of accuracy perhaps. Um but now we can
+
+345
+00:13:12,320 --> 00:13:15,839
+use this as a tool to actually simulate
+
+346
+00:13:13,839 --> 00:13:18,560
+the impact of genetic variation in
+
+347
+00:13:15,839 --> 00:13:20,880
+isolation. So to illustrate that here
+
+348
+00:13:18,560 --> 00:13:23,600
+I'm showing you a particular gene that
+
+349
+00:13:20,880 --> 00:13:25,120
+has a fine map causal EQL snip uh sort
+
+350
+00:13:23,600 --> 00:13:26,720
+of it's kind of a deep intronic snip
+
+351
+00:13:25,120 --> 00:13:28,240
+that occurs at the center of this gene.
+
+352
+00:13:26,720 --> 00:13:30,079
+It's kind of marked by that the black
+
+353
+00:13:28,240 --> 00:13:32,560
+star and then I'm showing you two
+
+354
+00:13:30,079 --> 00:13:33,920
+different RNA seek coverage predictions.
+
+355
+00:13:32,560 --> 00:13:35,920
+So these are coverage predictions made
+
+356
+00:13:33,920 --> 00:13:37,440
+by the borsa model in whole blood. In
+
+357
+00:13:35,920 --> 00:13:40,320
+blue I'm showing you the prediction for
+
+358
+00:13:37,440 --> 00:13:42,720
+the reference uh sequence and in high
+
+359
+00:13:40,320 --> 00:13:44,880
+sort of overlaid in red is the predicted
+
+360
+00:13:42,720 --> 00:13:46,480
+RNC coverage for the mutated sequence.
+
+361
+00:13:44,880 --> 00:13:48,000
+So as you can see the borso model
+
+362
+00:13:46,480 --> 00:13:50,240
+predicts higher coverage almost
+
+363
+00:13:48,000 --> 00:13:52,079
+uniformly across the exxons meaning that
+
+364
+00:13:50,240 --> 00:13:54,959
+the model thinks this is sort of a gain
+
+365
+00:13:52,079 --> 00:13:57,120
+of expression u snip
+
+366
+00:13:54,959 --> 00:13:59,519
+and now if you actually go out and and
+
+367
+00:13:57,120 --> 00:14:02,000
+uh you know curate and and aggregate RNA
+
+368
+00:13:59,519 --> 00:14:04,639
+coverage in individuals from geeks that
+
+369
+00:14:02,000 --> 00:14:06,399
+either have or don't have this mutation
+
+370
+00:14:04,639 --> 00:14:07,920
+um we recapitulate the same trend
+
+371
+00:14:06,399 --> 00:14:09,600
+meaning that the borsa model could quite
+
+372
+00:14:07,920 --> 00:14:12,000
+accurately predict the effect of this of
+
+373
+00:14:09,600 --> 00:14:13,920
+this snip
+
+374
+00:14:12,000 --> 00:14:15,920
+and then of course we can we can again
+
+375
+00:14:13,920 --> 00:14:17,680
+now apply interpretation technique in
+
+376
+00:14:15,920 --> 00:14:19,440
+this case uh in silicone saturation
+
+377
+00:14:17,680 --> 00:14:21,519
+mutagenesis where we just systematically
+
+378
+00:14:19,440 --> 00:14:23,519
+mutate every nucleotide surrounding the
+
+379
+00:14:21,519 --> 00:14:25,120
+mutation and we can then get a picture
+
+380
+00:14:23,519 --> 00:14:27,199
+of what you know this mutation is
+
+381
+00:14:25,120 --> 00:14:29,040
+potentially creating or destroying at
+
+382
+00:14:27,199 --> 00:14:30,399
+the sequence level. And in this case,
+
+383
+00:14:29,040 --> 00:14:32,720
+you know, this motif or sorry, this
+
+384
+00:14:30,399 --> 00:14:35,040
+mutation is creating a transcription
+
+385
+00:14:32,720 --> 00:14:38,079
+factor binding motif that is predicted
+
+386
+00:14:35,040 --> 00:14:40,000
+to work in synergy with nearby um
+
+387
+00:14:38,079 --> 00:14:42,000
+previously sort of dormant regulatory
+
+388
+00:14:40,000 --> 00:14:43,600
+motifs that now together kind of create
+
+389
+00:14:42,000 --> 00:14:46,560
+this strong enhancer element and and
+
+390
+00:14:43,600 --> 00:14:48,160
+that's what's driving expression here.
+
+391
+00:14:46,560 --> 00:14:51,120
+And so going beyond just one single
+
+392
+00:14:48,160 --> 00:14:55,279
+example, you know, if you then create a
+
+393
+00:14:51,120 --> 00:14:57,440
+set of possible of of um positive GTEx,
+
+394
+00:14:55,279 --> 00:14:58,639
+you know, fine mapped causal EQL snips
+
+395
+00:14:57,440 --> 00:15:00,320
+and you task the model with
+
+396
+00:14:58,639 --> 00:15:03,839
+distinguishing between, you know,
+
+397
+00:15:00,320 --> 00:15:07,040
+finemapped causal uh EQLs versus a
+
+398
+00:15:03,839 --> 00:15:08,480
+mashed set of of neutral snips. Um the
+
+399
+00:15:07,040 --> 00:15:10,079
+the Borso model could basically
+
+400
+00:15:08,480 --> 00:15:12,079
+distinguish between those two sets based
+
+401
+00:15:10,079 --> 00:15:13,360
+on its prediction more accurately than
+
+402
+00:15:12,079 --> 00:15:15,600
+the previous state-of-the-art models
+
+403
+00:15:13,360 --> 00:15:17,279
+could. Now of course very recently I
+
+404
+00:15:15,600 --> 00:15:19,199
+think deep deep mind came out with this
+
+405
+00:15:17,279 --> 00:15:21,199
+new model called alpha genome that seems
+
+406
+00:15:19,199 --> 00:15:23,760
+to improve upon this even further. So
+
+407
+00:15:21,199 --> 00:15:25,440
+that's very exciting.
+
+408
+00:15:23,760 --> 00:15:27,920
+But then another thing that I want to uh
+
+409
+00:15:25,440 --> 00:15:29,680
+emphasize uh about modeling raw RNAC
+
+410
+00:15:27,920 --> 00:15:31,839
+coverage patterns as opposed to scalar
+
+411
+00:15:29,680 --> 00:15:33,360
+gene expression predictions is that it
+
+412
+00:15:31,839 --> 00:15:35,600
+gives us the opportunity to reason about
+
+413
+00:15:33,360 --> 00:15:37,279
+a genetic variant not just in terms of
+
+414
+00:15:35,600 --> 00:15:40,560
+how much it affects the total gene
+
+415
+00:15:37,279 --> 00:15:43,760
+expression val amount but also how the
+
+416
+00:15:40,560 --> 00:15:45,680
+relative coverage profile may change due
+
+417
+00:15:43,760 --> 00:15:47,600
+to a mutation allowing us to actually
+
+418
+00:15:45,680 --> 00:15:50,240
+reason about how a mutation may impact
+
+419
+00:15:47,600 --> 00:15:52,079
+isoform processing and other events. So
+
+420
+00:15:50,240 --> 00:15:55,199
+to illustrate that here I'm showing you
+
+421
+00:15:52,079 --> 00:15:57,600
+a fine mapped causal polyadonilation QTL
+
+422
+00:15:55,199 --> 00:15:59,920
+uh highlighted in black that occurs sort
+
+423
+00:15:57,600 --> 00:16:02,480
+of in in this um very long threep prime
+
+424
+00:15:59,920 --> 00:16:04,320
+UTR of this gene and this snip is
+
+425
+00:16:02,480 --> 00:16:06,240
+basically estimated to have an impact on
+
+426
+00:16:04,320 --> 00:16:08,480
+threep prime processing and and
+
+427
+00:16:06,240 --> 00:16:11,040
+polyonilation basically increasing
+
+428
+00:16:08,480 --> 00:16:13,040
+cleavage efficiency and the Borsa model
+
+429
+00:16:11,040 --> 00:16:14,639
+at the top coverage plot predicts an
+
+430
+00:16:13,040 --> 00:16:17,279
+increase in coverage upstream of the
+
+431
+00:16:14,639 --> 00:16:18,720
+mutation and a decrease in coverage as
+
+432
+00:16:17,279 --> 00:16:21,279
+you can see because the blue is higher
+
+433
+00:16:18,720 --> 00:16:22,959
+than the red downstream of the mutation.
+
+434
+00:16:21,279 --> 00:16:24,800
+Meaning that the model basically thinks
+
+435
+00:16:22,959 --> 00:16:27,040
+that this this mutation is indeed
+
+436
+00:16:24,800 --> 00:16:28,639
+increasing cleavage efficiency and and
+
+437
+00:16:27,040 --> 00:16:31,040
+if you look at the bottom plot coverage
+
+438
+00:16:28,639 --> 00:16:32,959
+plot uh that's basically recapitulated
+
+439
+00:16:31,040 --> 00:16:36,240
+in individuals that have or or don't
+
+440
+00:16:32,959 --> 00:16:38,000
+have this mutation.
+
+441
+00:16:36,240 --> 00:16:39,759
+Finally, if we apply an interpretation
+
+442
+00:16:38,000 --> 00:16:42,000
+technique, but now instead of, you know,
+
+443
+00:16:39,759 --> 00:16:44,000
+checking the sensitivity with respect to
+
+444
+00:16:42,000 --> 00:16:45,680
+just total gene expression amount, we're
+
+445
+00:16:44,000 --> 00:16:48,480
+now computing the interpretation, the
+
+446
+00:16:45,680 --> 00:16:51,040
+ISM with respect to the ratio of
+
+447
+00:16:48,480 --> 00:16:54,160
+coverage upstream versus downstream of
+
+448
+00:16:51,040 --> 00:16:56,959
+the mutation. And we can see that uh now
+
+449
+00:16:54,160 --> 00:16:59,040
+we're getting an
+
+450
+00:16:56,959 --> 00:17:01,680
+in in the sequence we're getting an
+
+451
+00:16:59,040 --> 00:17:03,360
+interpretation that highlights a CSTF
+
+452
+00:17:01,680 --> 00:17:07,919
+binding motif which is sort of a
+
+453
+00:17:03,360 --> 00:17:10,240
+canonical polyation efficiency element
+
+454
+00:17:07,919 --> 00:17:11,199
+and yeah if if you uh take the borsa
+
+455
+00:17:10,240 --> 00:17:13,360
+model and you task it with
+
+456
+00:17:11,199 --> 00:17:16,480
+distinguishing between finemapped causal
+
+457
+00:17:13,360 --> 00:17:18,079
+polyqtls versus matched negative snips
+
+458
+00:17:16,480 --> 00:17:19,600
+uh the model is you know outperforming
+
+459
+00:17:18,079 --> 00:17:21,839
+the the previous state-of-the-art models
+
+460
+00:17:19,600 --> 00:17:23,760
+at that task and with a similar
+
+461
+00:17:21,839 --> 00:17:26,640
+reasoning about how the predicted you
+
+462
+00:17:23,760 --> 00:17:28,000
+know relative RNA seek shape changes you
+
+463
+00:17:26,640 --> 00:17:29,919
+can reason about splice altering
+
+464
+00:17:28,000 --> 00:17:33,760
+variance as well quite accurately but I
+
+465
+00:17:29,919 --> 00:17:35,520
+won't have time to to go into that here
+
+466
+00:17:33,760 --> 00:17:36,960
+okay so now I want to highlight some of
+
+467
+00:17:35,520 --> 00:17:38,720
+our uh more recent work where we
+
+468
+00:17:36,960 --> 00:17:40,559
+extending the this modeling framework to
+
+469
+00:17:38,720 --> 00:17:43,200
+predict cell type specific expression
+
+470
+00:17:40,559 --> 00:17:46,640
+profiles
+
+471
+00:17:43,200 --> 00:17:48,480
+so yeah the motivation is is um very
+
+472
+00:17:46,640 --> 00:17:51,200
+very simple you know the borsa model was
+
+473
+00:17:48,480 --> 00:17:53,360
+trained on all these you know uh diverse
+
+474
+00:17:51,200 --> 00:17:55,440
+uh collections of RNA seek experiments
+
+475
+00:17:53,360 --> 00:17:58,720
+in tissues as well as you know cell
+
+476
+00:17:55,440 --> 00:18:01,520
+lines from from encode and from GTEx. Um
+
+477
+00:17:58,720 --> 00:18:03,360
+but it was not trained on any cell type
+
+478
+00:18:01,520 --> 00:18:05,600
+specific data at least not in terms of
+
+479
+00:18:03,360 --> 00:18:07,120
+you know um primary primary cell types
+
+480
+00:18:05,600 --> 00:18:09,039
+which is of course a big limitation
+
+481
+00:18:07,120 --> 00:18:10,960
+seeing as I said that we wanted to use
+
+482
+00:18:09,039 --> 00:18:13,280
+this model to interpret G-W was studies
+
+483
+00:18:10,960 --> 00:18:15,200
+but as we all know many G-W was losi
+
+484
+00:18:13,280 --> 00:18:17,520
+have you know are thought to have cell
+
+485
+00:18:15,200 --> 00:18:20,400
+type specific effects and so that's a
+
+486
+00:18:17,520 --> 00:18:23,919
+big problem so to remedy that we went
+
+487
+00:18:20,400 --> 00:18:26,799
+out and we um curated and downloaded uh
+
+488
+00:18:23,919 --> 00:18:29,039
+many different uh publicly accessible um
+
+489
+00:18:26,799 --> 00:18:32,640
+single cell earning seek data sets and
+
+490
+00:18:29,039 --> 00:18:35,440
+generated basically bigwig tracks of um
+
+491
+00:18:32,640 --> 00:18:37,360
+you know pseudabbulk uh coverage for
+
+492
+00:18:35,440 --> 00:18:40,000
+distinct cell clusters based on the
+
+493
+00:18:37,360 --> 00:18:42,480
+original annotations from these studies.
+
+494
+00:18:40,000 --> 00:18:45,120
+So we downloaded single cell data from
+
+495
+00:18:42,480 --> 00:18:48,320
+uh table sapiens from tableau muris and
+
+496
+00:18:45,120 --> 00:18:50,400
+tableau mirror scenis as well as an
+
+497
+00:18:48,320 --> 00:18:53,039
+adult brain atlas from the big
+
+498
+00:18:50,400 --> 00:18:54,720
+consortium.
+
+499
+00:18:53,039 --> 00:18:56,960
+And we now train this new model that we
+
+500
+00:18:54,720 --> 00:18:59,919
+call borsoy prime. We call it borsoy
+
+501
+00:18:56,960 --> 00:19:01,679
+prime. Uh well the prime word comes as a
+
+502
+00:18:59,919 --> 00:19:04,480
+nod to the fact that all of these single
+
+503
+00:19:01,679 --> 00:19:06,080
+cell RNA seek data sets are generated
+
+504
+00:19:04,480 --> 00:19:07,520
+with a threep prime end sequencing
+
+505
+00:19:06,080 --> 00:19:09,280
+protocol. So you know you're getting
+
+506
+00:19:07,520 --> 00:19:11,840
+coverage pileups now at the site of
+
+507
+00:19:09,280 --> 00:19:13,600
+polyonilation. Uh so that's that's where
+
+508
+00:19:11,840 --> 00:19:15,360
+that name comes from. Architecturally
+
+509
+00:19:13,600 --> 00:19:18,160
+the model is very similar to the the
+
+510
+00:19:15,360 --> 00:19:19,360
+original Borso model but now with the
+
+511
+00:19:18,160 --> 00:19:22,400
+bigger distinction that we're training
+
+512
+00:19:19,360 --> 00:19:24,240
+the model now to predict um single cell
+
+513
+00:19:22,400 --> 00:19:28,240
+RNA seek you know suitable coverage
+
+514
+00:19:24,240 --> 00:19:31,200
+tracks for 850 distinct uh human amount
+
+515
+00:19:28,240 --> 00:19:33,200
+cell clusters.
+
+516
+00:19:31,200 --> 00:19:36,000
+So after having trained the Borso prime
+
+517
+00:19:33,200 --> 00:19:38,400
+model, we can now use it to predict RNAC
+
+518
+00:19:36,000 --> 00:19:40,240
+coverage at a cell type resolution. So
+
+519
+00:19:38,400 --> 00:19:42,400
+here I'm showing you uh predicted
+
+520
+00:19:40,240 --> 00:19:45,440
+coverage in micro GA as well as two
+
+521
+00:19:42,400 --> 00:19:47,919
+other u sort of offtarget cell types uh
+
+522
+00:19:45,440 --> 00:19:50,320
+for the CIBB gene which was kind of a
+
+523
+00:19:47,919 --> 00:19:53,200
+gene in in the held out portion of of
+
+524
+00:19:50,320 --> 00:19:54,720
+the data um that we didn't train on. And
+
+525
+00:19:53,200 --> 00:19:56,480
+as you can see the model is correctly
+
+526
+00:19:54,720 --> 00:19:59,679
+you know predicting high coverage in
+
+527
+00:19:56,480 --> 00:20:02,640
+microglea but low coverage in other um
+
+528
+00:19:59,679 --> 00:20:05,600
+cell types. And if we aggregate total
+
+529
+00:20:02,640 --> 00:20:08,080
+coverage in um you know the predicted
+
+530
+00:20:05,600 --> 00:20:09,919
+bins overlapping exxons of individual
+
+531
+00:20:08,080 --> 00:20:12,320
+genes we can derive scalar gene
+
+532
+00:20:09,919 --> 00:20:14,480
+expression values uh and for held out
+
+533
+00:20:12,320 --> 00:20:16,400
+genes these predicted cell type specific
+
+534
+00:20:14,480 --> 00:20:18,720
+predictions are matching up quite nicely
+
+535
+00:20:16,400 --> 00:20:20,400
+with the measurements. And then finally
+
+536
+00:20:18,720 --> 00:20:22,160
+of course again if we apply
+
+537
+00:20:20,400 --> 00:20:23,840
+interpretation techniques such as input
+
+538
+00:20:22,160 --> 00:20:26,080
+gradients and we apply them to these
+
+539
+00:20:23,840 --> 00:20:28,480
+cell type specific predictions we now
+
+540
+00:20:26,080 --> 00:20:30,640
+end up with um you know cell type
+
+541
+00:20:28,480 --> 00:20:33,120
+specific input gradients that we can
+
+542
+00:20:30,640 --> 00:20:35,600
+cluster with TF modiscoco and recover
+
+543
+00:20:33,120 --> 00:20:37,840
+you know u motifs and and drivers for
+
+544
+00:20:35,600 --> 00:20:39,919
+individual cell types like for microglea
+
+545
+00:20:37,840 --> 00:20:43,280
+you know we're finding spi1 and subp
+
+546
+00:20:39,919 --> 00:20:44,720
+motifs for example
+
+547
+00:20:43,280 --> 00:20:47,200
+okay and this is probably the final
+
+548
+00:20:44,720 --> 00:20:48,799
+slide I think so uh the you know the
+
+549
+00:20:47,200 --> 00:20:51,120
+final power here now comes in the fact
+
+550
+00:20:48,799 --> 00:20:53,520
+that we can uh interpret and reason
+
+551
+00:20:51,120 --> 00:20:55,679
+about um genetic variation at a cell
+
+552
+00:20:53,520 --> 00:20:56,960
+type level. So to illustrate that here
+
+553
+00:20:55,679 --> 00:20:59,840
+I'm showing you the predictions in
+
+554
+00:20:56,960 --> 00:21:02,400
+microglea for a particular snip that is
+
+555
+00:20:59,840 --> 00:21:05,360
+fine mapped and causal specifically in
+
+556
+00:21:02,400 --> 00:21:07,679
+microglea and the the interpretation of
+
+557
+00:21:05,360 --> 00:21:10,640
+the snip highlights this sort of weak uh
+
+558
+00:21:07,679 --> 00:21:13,679
+ETSs- like motif that seems to increase
+
+559
+00:21:10,640 --> 00:21:16,320
+expression of this gene.
+
+560
+00:21:13,679 --> 00:21:20,240
+So beyond one example, we we benchmarked
+
+561
+00:21:16,320 --> 00:21:22,640
+uh the model on a few different um EQL
+
+562
+00:21:20,240 --> 00:21:24,640
+uh data sets, fine map EQL data sets at
+
+563
+00:21:22,640 --> 00:21:27,679
+cell type resolution, including two
+
+564
+00:21:24,640 --> 00:21:30,960
+smaller studies with EQLs estimated from
+
+565
+00:21:27,679 --> 00:21:34,159
+from in micro GA and in neurons and then
+
+566
+00:21:30,960 --> 00:21:37,679
+a larger um single cell EQL data set
+
+567
+00:21:34,159 --> 00:21:39,919
+from the 1K1K as well in PBMC's. I think
+
+568
+00:21:37,679 --> 00:21:42,799
+maybe one one uh plot that I want to
+
+569
+00:21:39,919 --> 00:21:45,360
+maybe emphasize is the scatter plot for
+
+570
+00:21:42,799 --> 00:21:50,080
+the microglea data set to the bottom
+
+571
+00:21:45,360 --> 00:21:52,000
+left um there. So as you can see on the
+
+572
+00:21:50,080 --> 00:21:54,000
+x- axis you have the predicted uh
+
+573
+00:21:52,000 --> 00:21:57,120
+variant effects of these fine mapped
+
+574
+00:21:54,000 --> 00:21:58,960
+causal uh eql snips with a high pip and
+
+575
+00:21:57,120 --> 00:22:01,039
+on the y- axis you have the estimated
+
+576
+00:21:58,960 --> 00:22:03,760
+beta coefficients from the fine mapping
+
+577
+00:22:01,039 --> 00:22:05,760
+and you know it's true that the sample
+
+578
+00:22:03,760 --> 00:22:07,440
+size here is quite small but still the
+
+579
+00:22:05,760 --> 00:22:09,120
+model is the the variant effect scores
+
+580
+00:22:07,440 --> 00:22:11,200
+derived from the model predicted tracks
+
+581
+00:22:09,120 --> 00:22:13,200
+are quite concordant with the estimated
+
+582
+00:22:11,200 --> 00:22:16,080
+beta coefficients. Now, crucially, if
+
+583
+00:22:13,200 --> 00:22:18,240
+you look at the bar chart, oh, sorry, if
+
+584
+00:22:16,080 --> 00:22:19,679
+you look at the bar chart to the right,
+
+585
+00:22:18,240 --> 00:22:21,280
+you're seeing that actually it's only
+
+586
+00:22:19,679 --> 00:22:23,679
+the variant effect scores that are
+
+587
+00:22:21,280 --> 00:22:26,080
+derived from the micro GA predicted
+
+588
+00:22:23,679 --> 00:22:27,919
+tracks that are concordant with the
+
+589
+00:22:26,080 --> 00:22:29,440
+estimated beta coefficients in the cell
+
+590
+00:22:27,919 --> 00:22:31,840
+type. If you look at variant effect
+
+591
+00:22:29,440 --> 00:22:33,520
+scores derived from some other brain
+
+592
+00:22:31,840 --> 00:22:35,200
+cell type and some other predicted
+
+593
+00:22:33,520 --> 00:22:37,600
+track, the variant effect scores have
+
+594
+00:22:35,200 --> 00:22:39,760
+basically zero concordance which kind of
+
+595
+00:22:37,600 --> 00:22:42,240
+emphasizes the model emphasizes that the
+
+596
+00:22:39,760 --> 00:22:44,000
+model is now truly sort of making cell
+
+597
+00:22:42,240 --> 00:22:47,000
+type specific predictions of variant
+
+598
+00:22:44,000 --> 00:22:47,000
+effects.
+
+599
+00:22:47,360 --> 00:22:51,200
+Okay, so in summary, the Borsa model uh
+
+600
+00:22:49,520 --> 00:22:52,880
+learns to predict several different
+
+601
+00:22:51,200 --> 00:22:56,000
+layers of gene regulation from DNA
+
+602
+00:22:52,880 --> 00:22:57,600
+sequence and u the Borso prime model
+
+603
+00:22:56,000 --> 00:22:59,919
+sort of extends these capabilities by
+
+604
+00:22:57,600 --> 00:23:02,559
+learning to predict sort of cell type
+
+605
+00:22:59,919 --> 00:23:04,799
+specific um suitable single cell RNA
+
+606
+00:23:02,559 --> 00:23:06,880
+coverage profiles
+
+607
+00:23:04,799 --> 00:23:10,000
+and I just want to end by highlighting
+
+608
+00:23:06,880 --> 00:23:12,320
+some other work uh uh from our group uh
+
+609
+00:23:10,000 --> 00:23:14,240
+for example Diani's method for including
+
+610
+00:23:12,320 --> 00:23:16,320
+these borso variant effect predictions
+
+611
+00:23:14,240 --> 00:23:17,440
+to improve functionally informed genetic
+
+612
+00:23:16,320 --> 00:23:20,000
+find mapping
+
+613
+00:23:17,440 --> 00:23:22,320
+or Hans's work on uh transfer learning
+
+614
+00:23:20,000 --> 00:23:23,600
+approaches for actually fine-tuning the
+
+615
+00:23:22,320 --> 00:23:26,320
+Borsa model towards your own
+
+616
+00:23:23,600 --> 00:23:28,720
+experimental uh data sets to get sort of
+
+617
+00:23:26,320 --> 00:23:31,360
+a custom model uh for for a particular
+
+618
+00:23:28,720 --> 00:23:32,799
+new data set. And we also recently
+
+619
+00:23:31,360 --> 00:23:34,159
+included uh more post-
+
+620
+00:23:32,799 --> 00:23:36,000
+transanscriptional regulatory essays
+
+621
+00:23:34,159 --> 00:23:38,159
+into this modeling framework. For
+
+622
+00:23:36,000 --> 00:23:41,840
+example, we now have the uh capability
+
+623
+00:23:38,159 --> 00:23:43,280
+of u predicting RNA seek half-life time
+
+624
+00:23:41,840 --> 00:23:45,120
+course experiments like transcriptional
+
+625
+00:23:43,280 --> 00:23:46,720
+shut off experiments in this sort of
+
+626
+00:23:45,120 --> 00:23:48,880
+profile prediction framework which
+
+627
+00:23:46,720 --> 00:23:52,000
+allows us to sort of uh you know
+
+628
+00:23:48,880 --> 00:23:55,760
+estimate MRA decay rates and and those
+
+629
+00:23:52,000 --> 00:23:57,120
+effects uh in terms of genetic variance.
+
+630
+00:23:55,760 --> 00:23:58,080
+Okay, so that's all. So thank you for
+
+631
+00:23:57,120 --> 00:23:59,500
+listening and I'm happy to take
+
+632
+00:23:58,080 --> 00:24:05,600
+questions.
+
+633
+00:23:59,500 --> 00:24:08,320
+[Applause]
+
+634
+00:24:05,600 --> 00:24:11,279
+Thank you very much um Johannes for a
+
+635
+00:24:08,320 --> 00:24:14,080
+fantastic talk. We have time for an a
+
+636
+00:24:11,279 --> 00:24:17,400
+few questions um with Millina. Do you
+
+637
+00:24:14,080 --> 00:24:17,400
+want to stop?
+
+638
+00:24:21,919 --> 00:24:27,200
+>> Really beautiful talk. Thank you so much
+
+639
+00:24:24,000 --> 00:24:28,880
+for sharing. Um there there's a lot to
+
+640
+00:24:27,200 --> 00:24:30,720
+talk about. I wonder about one question.
+
+641
+00:24:28,880 --> 00:24:33,039
+wanted to seek your input particularly
+
+642
+00:24:30,720 --> 00:24:36,320
+in the context of looking at the
+
+643
+00:24:33,039 --> 00:24:40,080
+benchmarking against the fine map EQTLs
+
+644
+00:24:36,320 --> 00:24:43,760
+>> where the difference between EQTLs and
+
+645
+00:24:40,080 --> 00:24:46,720
+JVAS fine mapping or JVAS variants is
+
+646
+00:24:43,760 --> 00:24:49,440
+that the EQTLs are typically much larger
+
+647
+00:24:46,720 --> 00:24:51,360
+in effect size compared to actual JVAS
+
+648
+00:24:49,440 --> 00:24:52,960
+detected um variants that have more
+
+649
+00:24:51,360 --> 00:24:56,320
+common subtle effects.
+
+650
+00:24:52,960 --> 00:24:58,880
+>> Yeah. the examples that so just to back
+
+651
+00:24:56,320 --> 00:25:01,440
+up when in in our work when we retrained
+
+652
+00:24:58,880 --> 00:25:04,720
+Basset back then or used onformer and
+
+653
+00:25:01,440 --> 00:25:07,440
+Borzoy more recently you know they seem
+
+654
+00:25:04,720 --> 00:25:10,159
+to up to line up super well with crisper
+
+655
+00:25:07,440 --> 00:25:12,240
+validations for large effect variants
+
+656
+00:25:10,159 --> 00:25:14,960
+and less so for subtle effect size
+
+657
+00:25:12,240 --> 00:25:16,559
+variants. So I wonder I wonder are you
+
+658
+00:25:14,960 --> 00:25:18,159
+thinking about this and what are what
+
+659
+00:25:16,559 --> 00:25:21,679
+are your five cents?
+
+660
+00:25:18,159 --> 00:25:23,760
+>> Yeah, I I think that's a great point. Um
+
+661
+00:25:21,679 --> 00:25:26,320
+and that's also very much what we see in
+
+662
+00:25:23,760 --> 00:25:28,640
+that you know when the model is making
+
+663
+00:25:26,320 --> 00:25:30,240
+very confident high effect predictions
+
+664
+00:25:28,640 --> 00:25:33,200
+the you know the sign of the prediction
+
+665
+00:25:30,240 --> 00:25:35,919
+is almost always correct and um it's
+
+666
+00:25:33,200 --> 00:25:37,840
+it's it's really in in these small
+
+667
+00:25:35,919 --> 00:25:40,159
+effect size variants where there seems
+
+668
+00:25:37,840 --> 00:25:42,240
+to be a lot of uh wobble in the in the
+
+669
+00:25:40,159 --> 00:25:44,640
+interpretations and you know I think one
+
+670
+00:25:42,240 --> 00:25:46,559
+one really big um thing that we noticed
+
+671
+00:25:44,640 --> 00:25:49,200
+maybe going from informer to the borso
+
+672
+00:25:46,559 --> 00:25:50,720
+model was that there's tremendous amount
+
+673
+00:25:49,200 --> 00:25:52,400
+of epistemic uncertainty In these
+
+674
+00:25:50,720 --> 00:25:54,880
+models, you know, there's only 20,000
+
+675
+00:25:52,400 --> 00:25:56,799
+protein coding genes to learn these
+
+676
+00:25:54,880 --> 00:25:58,640
+relationships from. And so from one
+
+677
+00:25:56,799 --> 00:26:00,320
+model replicate to another model
+
+678
+00:25:58,640 --> 00:26:02,400
+replicate train on the same data but
+
+679
+00:26:00,320 --> 00:26:03,919
+just different random initializations,
+
+680
+00:26:02,400 --> 00:26:05,520
+you know, some motifs can even flip
+
+681
+00:26:03,919 --> 00:26:08,240
+direction, right? Because the model is
+
+682
+00:26:05,520 --> 00:26:10,880
+uncertain about uh the connection. And
+
+683
+00:26:08,240 --> 00:26:12,880
+so I think ensembling these models more
+
+684
+00:26:10,880 --> 00:26:14,880
+more and more and more going from you
+
+685
+00:26:12,880 --> 00:26:17,039
+know informer to boroy we'd now you know
+
+686
+00:26:14,880 --> 00:26:19,200
+ensemble the model with four different
+
+687
+00:26:17,039 --> 00:26:22,480
+replicate models and I think alpha
+
+688
+00:26:19,200 --> 00:26:24,320
+genome now is ensembling up to 50 model
+
+689
+00:26:22,480 --> 00:26:26,559
+replicates or or something like that and
+
+690
+00:26:24,320 --> 00:26:28,720
+and they're clearly getting improved
+
+691
+00:26:26,559 --> 00:26:31,120
+variant effect concordance by that. So
+
+692
+00:26:28,720 --> 00:26:33,440
+so that seems to be one approach
+
+693
+00:26:31,120 --> 00:26:35,440
+forward. Um,
+
+694
+00:26:33,440 --> 00:26:38,080
+I think ultimately we're still kind of
+
+695
+00:26:35,440 --> 00:26:39,279
+data limited and we need more training
+
+696
+00:26:38,080 --> 00:26:42,000
+sequences.
+
+697
+00:26:39,279 --> 00:26:44,480
+>> Great, Brad. Oh, that was a terrific
+
+698
+00:26:42,000 --> 00:26:47,760
+talk. Thank you. Uh, I kind of have two
+
+699
+00:26:44,480 --> 00:26:50,720
+related questions. The first is what
+
+700
+00:26:47,760 --> 00:26:52,640
+kind of data do you think is most, you
+
+701
+00:26:50,720 --> 00:26:55,520
+know, powers your model the best? What
+
+702
+00:26:52,640 --> 00:26:57,279
+do you want? Do you want knockouts? Do
+
+703
+00:26:55,520 --> 00:26:59,840
+you want sequence variation? Do you want
+
+704
+00:26:57,279 --> 00:27:01,520
+other data types? and you know what
+
+705
+00:26:59,840 --> 00:27:04,159
+what's needed for your next generation
+
+706
+00:27:01,520 --> 00:27:06,720
+of models. And the second question is
+
+707
+00:27:04,159 --> 00:27:08,400
+how important was the metadata knowing
+
+708
+00:27:06,720 --> 00:27:10,000
+you know exactly the cell type the
+
+709
+00:27:08,400 --> 00:27:11,360
+conditions it was grown in and all this
+
+710
+00:27:10,000 --> 00:27:12,960
+other stuff and do you think the
+
+711
+00:27:11,360 --> 00:27:15,919
+importance of metadata will will
+
+712
+00:27:12,960 --> 00:27:18,240
+decrease over time when your AI models
+
+713
+00:27:15,919 --> 00:27:19,840
+can sort of impute it?
+
+714
+00:27:18,240 --> 00:27:22,480
+>> Yeah, that's a great question regarding
+
+715
+00:27:19,840 --> 00:27:24,880
+the first question. So we observed a
+
+716
+00:27:22,480 --> 00:27:26,880
+really really big gain in performance
+
+717
+00:27:24,880 --> 00:27:28,559
+for a number of tasks but in in
+
+718
+00:27:26,880 --> 00:27:30,240
+particular for variant effect scoring
+
+719
+00:27:28,559 --> 00:27:33,679
+when we jointly trained the model to
+
+720
+00:27:30,240 --> 00:27:35,919
+predict both RNA seek coverage and DNA
+
+721
+00:27:33,679 --> 00:27:37,919
+or taxi coverage in matched tissues or
+
+722
+00:27:35,919 --> 00:27:40,640
+cell types probably because you're kind
+
+723
+00:27:37,919 --> 00:27:42,320
+of pushing the model to look towards
+
+724
+00:27:40,640 --> 00:27:45,039
+enhanced regions and other salient
+
+725
+00:27:42,320 --> 00:27:48,159
+features to to better generalized RNA
+
+726
+00:27:45,039 --> 00:27:50,720
+coverage predictions. So like yeah
+
+727
+00:27:48,159 --> 00:27:52,080
+adding more modalities and more essays
+
+728
+00:27:50,720 --> 00:27:54,480
+definitely seem to be an approach for
+
+729
+00:27:52,080 --> 00:27:56,720
+improving the model further. I'm really
+
+730
+00:27:54,480 --> 00:27:57,919
+not sure to like at some point I feel
+
+731
+00:27:56,720 --> 00:28:00,000
+like there's going to be a saturation
+
+732
+00:27:57,919 --> 00:28:02,240
+effect. We're probably covering many
+
+733
+00:28:00,000 --> 00:28:05,279
+cell states already in the you know
+
+734
+00:28:02,240 --> 00:28:08,399
+training data that we have. Um but yeah
+
+735
+00:28:05,279 --> 00:28:10,480
+like individual perturbations of various
+
+736
+00:28:08,399 --> 00:28:12,480
+you know transcription factors or like a
+
+737
+00:28:10,480 --> 00:28:14,320
+yeah genomewide you know perturbation
+
+738
+00:28:12,480 --> 00:28:18,080
+that data sets that could probably be
+
+739
+00:28:14,320 --> 00:28:19,520
+great for teasing apart you know um you
+
+740
+00:28:18,080 --> 00:28:21,200
+can imagine you know you have one
+
+741
+00:28:19,520 --> 00:28:22,640
+coverage profile that really shows you
+
+742
+00:28:21,200 --> 00:28:24,320
+what gene expression should be if you
+
+743
+00:28:22,640 --> 00:28:26,480
+knock out each individual transcription
+
+744
+00:28:24,320 --> 00:28:29,679
+factor that could help the model link
+
+745
+00:28:26,480 --> 00:28:33,440
+that observation down to the to each
+
+746
+00:28:29,679 --> 00:28:36,720
+regulatory motif um more stringently I
+
+747
+00:28:33,440 --> 00:28:39,840
+Think another axis where we really need
+
+748
+00:28:36,720 --> 00:28:41,840
+to grow more is just we need more unique
+
+749
+00:28:39,840 --> 00:28:43,760
+sequences to train on to make these
+
+750
+00:28:41,840 --> 00:28:46,159
+models more accurate and people have
+
+751
+00:28:43,760 --> 00:28:48,720
+been exploring you know personal custom
+
+752
+00:28:46,159 --> 00:28:52,880
+genome fine-tuning now with limited
+
+753
+00:28:48,720 --> 00:28:55,679
+success. Um there's also this big trend
+
+754
+00:28:52,880 --> 00:28:57,600
+now in and self-supervised learning of
+
+755
+00:28:55,679 --> 00:28:59,360
+many different genomes from other you
+
+756
+00:28:57,600 --> 00:29:01,360
+know related species that could help us
+
+757
+00:28:59,360 --> 00:29:03,120
+improve these models further. I think
+
+758
+00:29:01,360 --> 00:29:05,360
+that was the answer to question one and
+
+759
+00:29:03,120 --> 00:29:07,039
+then did you have a second question
+
+760
+00:29:05,360 --> 00:29:09,039
+>> just about where do you think how
+
+761
+00:29:07,039 --> 00:29:11,440
+important is metadata going forward?
+
+762
+00:29:09,039 --> 00:29:13,679
+>> Right. Right. I you know I think
+
+763
+00:29:11,440 --> 00:29:17,360
+metadata is important for the tracks
+
+764
+00:29:13,679 --> 00:29:18,559
+that we ultimately want to use when
+
+765
+00:29:17,360 --> 00:29:20,720
+scoring genetic variants and
+
+766
+00:29:18,559 --> 00:29:22,159
+interpreting them. But like in terms of
+
+767
+00:29:20,720 --> 00:29:24,720
+adding more data for the sake of
+
+768
+00:29:22,159 --> 00:29:27,440
+improving model quality in terms of you
+
+769
+00:29:24,720 --> 00:29:28,720
+know adding this all this attack data
+
+770
+00:29:27,440 --> 00:29:30,240
+over here even though maybe we don't
+
+771
+00:29:28,720 --> 00:29:32,240
+have perfect annotations for it or
+
+772
+00:29:30,240 --> 00:29:34,159
+perfect metadata it might still have
+
+773
+00:29:32,240 --> 00:29:37,279
+positive interactions in making us do
+
+774
+00:29:34,159 --> 00:29:38,720
+better for predicting RNC coverage um if
+
+775
+00:29:37,279 --> 00:29:42,240
+we can rely on correlations from that
+
+776
+00:29:38,720 --> 00:29:43,600
+attack data. So I think it's a mixed
+
+777
+00:29:42,240 --> 00:29:47,600
+mixed bag.
+
+778
+00:29:43,600 --> 00:29:50,080
+>> Great. We have a fi two final questions.
+
+779
+00:29:47,600 --> 00:29:53,679
+So uh I have a two questions. So first
+
+780
+00:29:50,080 --> 00:29:56,159
+question did you use your model to test
+
+781
+00:29:53,679 --> 00:29:58,240
+the you know known disease causing
+
+782
+00:29:56,159 --> 00:30:00,000
+mutation to see whether you know your
+
+783
+00:29:58,240 --> 00:30:02,960
+predictions are consistent with the
+
+784
+00:30:00,000 --> 00:30:06,000
+known uh effects. The second question is
+
+785
+00:30:02,960 --> 00:30:09,760
+did you uh let's say compare your model
+
+786
+00:30:06,000 --> 00:30:11,760
+to alpha genome to see uh if your model
+
+787
+00:30:09,760 --> 00:30:13,360
+works better than our genome or is it
+
+788
+00:30:11,760 --> 00:30:15,200
+comparable?
+
+789
+00:30:13,360 --> 00:30:18,240
+Yeah, good questions. Regarding the the
+
+790
+00:30:15,200 --> 00:30:20,960
+first question, um we we have started,
+
+791
+00:30:18,240 --> 00:30:24,720
+you know, applying and using the model
+
+792
+00:30:20,960 --> 00:30:27,120
+um for you know specific use cases
+
+793
+00:30:24,720 --> 00:30:29,840
+related to genetic disease. In terms of
+
+794
+00:30:27,120 --> 00:30:32,960
+benchmarking, we've relied mostly on
+
+795
+00:30:29,840 --> 00:30:34,640
+EQTL studies so far just because those
+
+796
+00:30:32,960 --> 00:30:36,240
+are typically great resources and you
+
+797
+00:30:34,640 --> 00:30:39,520
+can you can set up these classification
+
+798
+00:30:36,240 --> 00:30:44,000
+tasks and and comparisons against beta
+
+799
+00:30:39,520 --> 00:30:45,600
+coefficients uh to to really quite well
+
+800
+00:30:44,000 --> 00:30:47,760
+you you have a pretty good benchmark
+
+801
+00:30:45,600 --> 00:30:49,520
+capability there. Uh regarding the
+
+802
+00:30:47,760 --> 00:30:51,279
+second question, we haven't yet you know
+
+803
+00:30:49,520 --> 00:30:53,039
+the the Borsa model came out a couple
+
+804
+00:30:51,279 --> 00:30:55,120
+years ago and alpha genome came out a
+
+805
+00:30:53,039 --> 00:30:57,840
+few months ago. So we haven't had a
+
+806
+00:30:55,120 --> 00:30:59,840
+chance to to uh use the alpha genome
+
+807
+00:30:57,840 --> 00:31:01,840
+model yet. It's also we're a company so
+
+808
+00:30:59,840 --> 00:31:04,880
+we're not allowed to just yet use that
+
+809
+00:31:01,840 --> 00:31:08,799
+model. Um yeah
+
+810
+00:31:04,880 --> 00:31:10,159
+>> great sorry Liz I overlooked um we had a
+
+811
+00:31:08,799 --> 00:31:11,440
+question up there maybe you might you
+
+812
+00:31:10,159 --> 00:31:15,279
+will need to take your question in the
+
+813
+00:31:11,440 --> 00:31:18,960
+break actually. Um hey here
+
+814
+00:31:15,279 --> 00:31:21,679
+>> so quick question on this um similar to
+
+815
+00:31:18,960 --> 00:31:24,399
+the more data approach there is also a
+
+816
+00:31:21,679 --> 00:31:27,279
+parallel line of models being developed
+
+817
+00:31:24,399 --> 00:31:31,600
+recently shorter context uh single
+
+818
+00:31:27,279 --> 00:31:34,799
+modality from an lab and also deep star
+
+819
+00:31:31,600 --> 00:31:37,760
+MP screens uh do you think these two
+
+820
+00:31:34,799 --> 00:31:40,559
+approaches short context long context uh
+
+821
+00:31:37,760 --> 00:31:43,360
+and NP will they be unified in the
+
+822
+00:31:40,559 --> 00:31:45,760
+future in a single model.
+
+823
+00:31:43,360 --> 00:31:47,919
+>> Yeah, I think that's a good question.
+
+824
+00:31:45,760 --> 00:31:50,080
+And you know, I think these shorter
+
+825
+00:31:47,919 --> 00:31:53,600
+sequence models trained either on MPAs
+
+826
+00:31:50,080 --> 00:31:55,919
+or or endogenous essays are really nice
+
+827
+00:31:53,600 --> 00:31:57,760
+models. And
+
+828
+00:31:55,919 --> 00:31:59,440
+you know I I think one one thing with
+
+829
+00:31:57,760 --> 00:32:01,840
+this approach of doing you know kind of
+
+830
+00:31:59,440 --> 00:32:04,960
+massive multitask learning like with
+
+831
+00:32:01,840 --> 00:32:06,799
+Boriso and former alpha genome is that
+
+832
+00:32:04,960 --> 00:32:08,320
+it's computationally efficient in the
+
+833
+00:32:06,799 --> 00:32:09,760
+sense that you can you can score genetic
+
+834
+00:32:08,320 --> 00:32:12,399
+variation with regard to many different
+
+835
+00:32:09,760 --> 00:32:14,640
+outputs in one forward pass which makes
+
+836
+00:32:12,399 --> 00:32:18,080
+them quite nice when you're wanting to
+
+837
+00:32:14,640 --> 00:32:20,720
+investigate some you know genetic uh
+
+838
+00:32:18,080 --> 00:32:22,640
+data set where you're broadly interested
+
+839
+00:32:20,720 --> 00:32:24,559
+in in variant effect scores across many
+
+840
+00:32:22,640 --> 00:32:26,080
+different types of cell states.
+
+841
+00:32:24,559 --> 00:32:27,840
+um
+
+842
+00:32:26,080 --> 00:32:29,760
+which may be harder to do with models
+
+843
+00:32:27,840 --> 00:32:30,960
+that are strictly single task. On the
+
+844
+00:32:29,760 --> 00:32:32,559
+other hand, those models are way more
+
+845
+00:32:30,960 --> 00:32:34,320
+efficient in terms of having a shorter
+
+846
+00:32:32,559 --> 00:32:36,960
+sequence window. So each prediction on
+
+847
+00:32:34,320 --> 00:32:40,960
+its own is is um computationally
+
+848
+00:32:36,960 --> 00:32:43,279
+retractable. Um, in terms of combining
+
+849
+00:32:40,960 --> 00:32:44,799
+uh these data sets,
+
+850
+00:32:43,279 --> 00:32:47,519
+maybe I mean, you know, if you if you
+
+851
+00:32:44,799 --> 00:32:49,440
+trust that MP measurements work the same
+
+852
+00:32:47,519 --> 00:32:51,919
+way in an indogenous context, it would
+
+853
+00:32:49,440 --> 00:32:56,480
+make sense to try to say fine-tune these
+
+854
+00:32:51,919 --> 00:32:57,919
+models on MP measurements. I think very
+
+855
+00:32:56,480 --> 00:32:59,679
+recently there's been some really cool
+
+856
+00:32:57,919 --> 00:33:01,279
+data sets, new technologies coming out
+
+857
+00:32:59,679 --> 00:33:03,039
+where it's, you know, it's MPAS, but
+
+858
+00:33:01,279 --> 00:33:05,279
+it's actually in the indogenous genome
+
+859
+00:33:03,039 --> 00:33:07,279
+like the the big in platform and and
+
+860
+00:33:05,279 --> 00:33:08,559
+dark matter DNA, you know, where they're
+
+861
+00:33:07,279 --> 00:33:10,320
+they're actually doing these really
+
+862
+00:33:08,559 --> 00:33:11,919
+large rearrangements of the genome and
+
+863
+00:33:10,320 --> 00:33:13,679
+measuring that out synthetically and in
+
+864
+00:33:11,919 --> 00:33:15,120
+reasonably high throughput. And I think
+
+865
+00:33:13,679 --> 00:33:17,039
+those types of data sets are definitely
+
+866
+00:33:15,120 --> 00:33:18,799
+worth, you know, thinking about how to
+
+867
+00:33:17,039 --> 00:33:19,200
+combine into here.
+
+868
+00:33:18,799 --> 00:33:21,600
+>> Thank you.
+
+869
+00:33:19,200 --> 00:33:23,760
+>> Great. Thank you. I think our brains are
+
+870
+00:33:21,600 --> 00:33:25,600
+ready for a break. So please join me in
+
+871
+00:33:23,760 --> 00:33:28,840
+thanking all speakers from those two
+
+872
+00:33:25,600 --> 00:33:28,840
+great sessions.
+

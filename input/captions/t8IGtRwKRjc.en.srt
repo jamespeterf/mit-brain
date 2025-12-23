@@ -1,0 +1,1812 @@
+1
+00:00:05,920 --> 00:00:12,400
+As you know, machine learning is
+
+2
+00:00:09,160 --> 00:00:16,720
+transforming healthc care but at the
+
+3
+00:00:12,400 --> 00:00:20,800
+same time risk amplifying the biases.
+
+4
+00:00:16,720 --> 00:00:24,439
+Our next speaker, Professor Mazia
+
+5
+00:00:20,800 --> 00:00:28,800
+Gasami, uh, associate professor in MIT
+
+6
+00:00:24,439 --> 00:00:31,760
+ECS and MIT Institute, Institute of
+
+7
+00:00:28,800 --> 00:00:37,320
+Medical Engineering and Science will
+
+8
+00:00:31,760 --> 00:00:37,320
+address next topic. Let's welcome.
+
+9
+00:00:40,640 --> 00:00:45,760
+Hi everyone. This is a 25m minute talk
+
+10
+00:00:43,440 --> 00:00:48,239
+that will be done in 15 minutes. So, I
+
+11
+00:00:45,760 --> 00:00:50,160
+hope you had coffee and you're awake.
+
+12
+00:00:48,239 --> 00:00:51,440
+I'm going to talk about ethical machine
+
+13
+00:00:50,160 --> 00:00:53,039
+learning. I'm going to focus on
+
+14
+00:00:51,440 --> 00:00:54,960
+healthcare, but these lessons apply
+
+15
+00:00:53,039 --> 00:00:58,079
+really broadly to any human-facing
+
+16
+00:00:54,960 --> 00:00:59,760
+setting. Okay. My lab is the healthy
+
+17
+00:00:58,079 --> 00:01:01,520
+machine learning lab. We focus on
+
+18
+00:00:59,760 --> 00:01:03,600
+understanding whether we need AI in a
+
+19
+00:01:01,520 --> 00:01:05,280
+health setting. If we do, developing a
+
+20
+00:01:03,600 --> 00:01:07,200
+robust health model and then
+
+21
+00:01:05,280 --> 00:01:09,600
+understanding how humans might use that
+
+22
+00:01:07,200 --> 00:01:11,119
+model in practice. Let's go through an
+
+23
+00:01:09,600 --> 00:01:12,880
+example. Let's say some doctors
+
+24
+00:01:11,119 --> 00:01:14,640
+approached me last year because they did
+
+25
+00:01:12,880 --> 00:01:17,200
+and said that they wanted to make a
+
+26
+00:01:14,640 --> 00:01:18,960
+triage system for Mass General. Okay, so
+
+27
+00:01:17,200 --> 00:01:20,479
+it's Friday night. They want to make
+
+28
+00:01:18,960 --> 00:01:21,920
+sure that when somebody comes in and
+
+29
+00:01:20,479 --> 00:01:24,560
+they take a chest X-ray and it's going
+
+30
+00:01:21,920 --> 00:01:26,479
+to be hours before a doctor can see them
+
+31
+00:01:24,560 --> 00:01:27,920
+that they can be triaged and go home if
+
+32
+00:01:26,479 --> 00:01:30,080
+they're healthy. This is important
+
+33
+00:01:27,920 --> 00:01:31,840
+because we have SARS, COVID, MRSA, all
+
+34
+00:01:30,080 --> 00:01:34,159
+those good things in the hospital. So,
+
+35
+00:01:31,840 --> 00:01:36,000
+can we do this? Yes, we can. There's
+
+36
+00:01:34,159 --> 00:01:37,439
+this pipeline that every single person
+
+37
+00:01:36,000 --> 00:01:39,600
+who's ever trained a machine learning
+
+38
+00:01:37,439 --> 00:01:41,600
+system walks through where you get uh
+
+39
+00:01:39,600 --> 00:01:44,159
+you define a problem, you get some data,
+
+40
+00:01:41,600 --> 00:01:45,840
+you uh create a label for yourself, and
+
+41
+00:01:44,159 --> 00:01:47,920
+then you optimize your model and deploy
+
+42
+00:01:45,840 --> 00:01:49,840
+it. And we already did the first thing.
+
+43
+00:01:47,920 --> 00:01:51,759
+We're doing this model-based chest X-ray
+
+44
+00:01:49,840 --> 00:01:54,720
+triage system. So, let's do the rest of
+
+45
+00:01:51,759 --> 00:01:56,479
+them. Data is easy. We have over 700,000
+
+46
+00:01:54,720 --> 00:01:58,560
+publicly available chest X-rays in the
+
+47
+00:01:56,479 --> 00:02:01,360
+United States alone that you can train a
+
+48
+00:01:58,560 --> 00:02:04,399
+model on. Check. We want to optimize for
+
+49
+00:02:01,360 --> 00:02:06,320
+a no finding label. That means I looked
+
+50
+00:02:04,399 --> 00:02:08,239
+at this chest X-ray and there's no
+
+51
+00:02:06,320 --> 00:02:09,440
+pneumonia, no pneumthorax, no nothing.
+
+52
+00:02:08,239 --> 00:02:11,440
+There's no finding. They're healthy.
+
+53
+00:02:09,440 --> 00:02:12,879
+They can go home. Okay, I'm going to
+
+54
+00:02:11,440 --> 00:02:14,560
+train a denset that's a kind of
+
+55
+00:02:12,879 --> 00:02:16,400
+convolutional neural network. And when I
+
+56
+00:02:14,560 --> 00:02:20,080
+finish this optimization, I get to
+
+57
+00:02:16,400 --> 00:02:22,160
+report my metric, which is an AU, right?
+
+58
+00:02:20,080 --> 00:02:23,599
+And that goes from 0.5, which is random,
+
+59
+00:02:22,160 --> 00:02:25,040
+to one, which is perfect. If your
+
+60
+00:02:23,599 --> 00:02:26,319
+model's perfect, then the graduate
+
+61
+00:02:25,040 --> 00:02:30,160
+student messed up. Make them do it
+
+62
+00:02:26,319 --> 00:02:31,520
+again. So 08 is pretty good. 085 is uh
+
+63
+00:02:30,160 --> 00:02:33,200
+something that we're very proud of. This
+
+64
+00:02:31,520 --> 00:02:35,920
+is a nature medicine paper. That's
+
+65
+00:02:33,200 --> 00:02:37,599
+great. The problem is we're not the only
+
+66
+00:02:35,920 --> 00:02:39,840
+people who have done this. This is
+
+67
+00:02:37,599 --> 00:02:41,840
+actually broadly done in a variety of
+
+68
+00:02:39,840 --> 00:02:44,319
+settings across uh different healthcare
+
+69
+00:02:41,840 --> 00:02:46,400
+subsp specialties and the FDA actually
+
+70
+00:02:44,319 --> 00:02:48,560
+clears these models to be used in a
+
+71
+00:02:46,400 --> 00:02:50,640
+medical setting. Okay, that's really
+
+72
+00:02:48,560 --> 00:02:52,560
+exciting. But it also leads to questions
+
+73
+00:02:50,640 --> 00:02:54,160
+about the deployments and how we're
+
+74
+00:02:52,560 --> 00:02:56,160
+evaluating whether those deployments
+
+75
+00:02:54,160 --> 00:02:58,239
+work well for everybody. By show of
+
+76
+00:02:56,160 --> 00:02:59,599
+hands, who here would be very excited to
+
+77
+00:02:58,239 --> 00:03:01,360
+have this state-of-the-art nature
+
+78
+00:02:59,599 --> 00:03:04,319
+medicine model triage them at Mass
+
+79
+00:03:01,360 --> 00:03:04,319
+General on Friday
+
+80
+00:03:04,599 --> 00:03:10,319
+night? Really? Didn't you hear about AI
+
+81
+00:03:07,840 --> 00:03:13,280
+all day? I thought I thought you guys
+
+82
+00:03:10,319 --> 00:03:17,599
+are believers. No. Okay. Okay. Well,
+
+83
+00:03:13,280 --> 00:03:19,519
+different crowd. Wow. Okay. Um well in a
+
+84
+00:03:17,599 --> 00:03:22,480
+normal setting many of you would have
+
+85
+00:03:19,519 --> 00:03:24,239
+raised your hands and then I in fact
+
+86
+00:03:22,480 --> 00:03:26,080
+would have said uh but for those
+
+87
+00:03:24,239 --> 00:03:29,840
+skeptics among you of which there would
+
+88
+00:03:26,080 --> 00:03:32,319
+have been few um they did not set me up
+
+89
+00:03:29,840 --> 00:03:34,560
+well for this uh that I would say okay
+
+90
+00:03:32,319 --> 00:03:37,120
+but for you skeptics maybe a reason that
+
+91
+00:03:34,560 --> 00:03:39,200
+you're skeptical is because you worry it
+
+92
+00:03:37,120 --> 00:03:40,959
+might not work on a person like you and
+
+93
+00:03:39,200 --> 00:03:44,159
+a way that you can check that is by
+
+94
+00:03:40,959 --> 00:03:46,720
+looking at the false positive rate for
+
+95
+00:03:44,159 --> 00:03:48,959
+this model in different subopuls. Why a
+
+96
+00:03:46,720 --> 00:03:50,599
+false positive rate? Because a false
+
+97
+00:03:48,959 --> 00:03:52,720
+positive in this setting is under
+
+98
+00:03:50,599 --> 00:03:54,560
+diagnosis. It means that you falsely
+
+99
+00:03:52,720 --> 00:03:56,640
+positively said that one subgroup was
+
+100
+00:03:54,560 --> 00:03:58,400
+healthy when it was actually sick. And
+
+101
+00:03:56,640 --> 00:04:00,879
+when I audit my state-of-the-art model,
+
+102
+00:03:58,400 --> 00:04:02,560
+I find that's true for female patients,
+
+103
+00:04:00,879 --> 00:04:05,120
+young patients, black patients, and
+
+104
+00:04:02,560 --> 00:04:06,480
+patients on Medicaid insurance. Okay?
+
+105
+00:04:05,120 --> 00:04:08,239
+And so, if you belong to one of those
+
+106
+00:04:06,480 --> 00:04:09,760
+groups, maybe you wouldn't have raised
+
+107
+00:04:08,239 --> 00:04:12,400
+your hand and said you felt comfortable
+
+108
+00:04:09,760 --> 00:04:15,120
+using this model.
+
+109
+00:04:12,400 --> 00:04:17,440
+Um, and so it's very important as we
+
+110
+00:04:15,120 --> 00:04:18,720
+look at these models where often in many
+
+111
+00:04:17,440 --> 00:04:20,799
+human facing settings, not just
+
+112
+00:04:18,720 --> 00:04:22,400
+healthcare, one number gets reported for
+
+113
+00:04:20,799 --> 00:04:24,240
+performance across a very large
+
+114
+00:04:22,400 --> 00:04:25,600
+population, that we make sure we
+
+115
+00:04:24,240 --> 00:04:27,360
+understand where these models might
+
+116
+00:04:25,600 --> 00:04:29,120
+fail. And I'm going to walk through a
+
+117
+00:04:27,360 --> 00:04:30,720
+couple of examples of how you can do
+
+118
+00:04:29,120 --> 00:04:32,560
+these audits and what the implications
+
+119
+00:04:30,720 --> 00:04:34,400
+are. The first one is when you're
+
+120
+00:04:32,560 --> 00:04:36,240
+collecting your data. Now, if you've
+
+121
+00:04:34,400 --> 00:04:38,560
+ever trained a machine learning system,
+
+122
+00:04:36,240 --> 00:04:40,479
+you know about this uh particular hack,
+
+123
+00:04:38,560 --> 00:04:42,960
+which is machine learning models like
+
+124
+00:04:40,479 --> 00:04:45,199
+human students are lazy and they really
+
+125
+00:04:42,960 --> 00:04:47,680
+like to use shortcuts. But shortcuts are
+
+126
+00:04:45,199 --> 00:04:49,680
+actually not great um in all situations
+
+127
+00:04:47,680 --> 00:04:51,840
+because again, they make you lazy. So,
+
+128
+00:04:49,680 --> 00:04:53,680
+in this case, if you see a cow on grass,
+
+129
+00:04:51,840 --> 00:04:56,000
+you know it's a cow. If you see this
+
+130
+00:04:53,680 --> 00:04:59,280
+mole on skin, you know it's a benign
+
+131
+00:04:56,000 --> 00:05:01,840
+mole. But, uh or or sorry, a non-ben
+
+132
+00:04:59,280 --> 00:05:03,919
+mole. Uh, but if you see a cow on a
+
+133
+00:05:01,840 --> 00:05:05,520
+beach, most state-of-the-art machine
+
+134
+00:05:03,919 --> 00:05:08,960
+learning models think it's an orca, not
+
+135
+00:05:05,520 --> 00:05:10,639
+a cow. And if you see uh the same mole,
+
+136
+00:05:08,960 --> 00:05:12,800
+that's exactly the same mole, but I've
+
+137
+00:05:10,639 --> 00:05:14,479
+put some markings on there. Those are
+
+138
+00:05:12,800 --> 00:05:15,840
+the markers that dermatologists usually
+
+139
+00:05:14,479 --> 00:05:17,840
+use when they're watching a mole to make
+
+140
+00:05:15,840 --> 00:05:20,280
+sure it's not growing. Now, suddenly,
+
+141
+00:05:17,840 --> 00:05:23,039
+it's changed its classification for the
+
+142
+00:05:20,280 --> 00:05:25,280
+mole, right? And so, this is this cow is
+
+143
+00:05:23,039 --> 00:05:27,840
+no less of a cow because it's on the
+
+144
+00:05:25,280 --> 00:05:30,560
+beach. And this mole is no more or less
+
+145
+00:05:27,840 --> 00:05:32,400
+benign because of these markings. But
+
+146
+00:05:30,560 --> 00:05:35,120
+that's not what the model thinks. And
+
+147
+00:05:32,400 --> 00:05:36,720
+this is a very well-known thing in all
+
+148
+00:05:35,120 --> 00:05:38,800
+vision machine learning systems that
+
+149
+00:05:36,720 --> 00:05:41,039
+they rely on these shortcuts, these
+
+150
+00:05:38,800 --> 00:05:43,199
+contextual biases. And maybe this is
+
+151
+00:05:41,039 --> 00:05:44,800
+cute in this situation because you and I
+
+152
+00:05:43,199 --> 00:05:47,199
+can all look at that and say it's not an
+
+153
+00:05:44,800 --> 00:05:50,240
+Orca silly model. But what happens when
+
+154
+00:05:47,199 --> 00:05:52,080
+we look at healthcare data where humans
+
+155
+00:05:50,240 --> 00:05:53,919
+can't actually tell what those spirious
+
+156
+00:05:52,080 --> 00:05:56,080
+shortcuts are, but machine learning
+
+157
+00:05:53,919 --> 00:05:57,680
+models can use them. What do I mean? We
+
+158
+00:05:56,080 --> 00:05:59,680
+wrote two papers a couple years ago
+
+159
+00:05:57,680 --> 00:06:01,280
+where we showed that if you take all of
+
+160
+00:05:59,680 --> 00:06:03,360
+the demographic information out of
+
+161
+00:06:01,280 --> 00:06:05,199
+somebody's notes, a machine learning
+
+162
+00:06:03,360 --> 00:06:08,080
+model can still tell their demographics,
+
+163
+00:06:05,199 --> 00:06:10,400
+but human doctors cannot. Even worse, if
+
+164
+00:06:08,080 --> 00:06:12,479
+you take chest X-rays, no radiologist we
+
+165
+00:06:10,400 --> 00:06:14,240
+evaluated could look at a chest X-ray
+
+166
+00:06:12,479 --> 00:06:15,680
+and estimate somebody's self-reported
+
+167
+00:06:14,240 --> 00:06:17,680
+race, for example, because there's no
+
+168
+00:06:15,680 --> 00:06:20,639
+biological reason you should be able to.
+
+169
+00:06:17,680 --> 00:06:23,280
+But machine learning models can. Why?
+
+170
+00:06:20,639 --> 00:06:24,960
+Because X-rays are a form of radiation.
+
+171
+00:06:23,280 --> 00:06:26,000
+If you self-report different races, you
+
+172
+00:06:24,960 --> 00:06:27,919
+probably have different levels of
+
+173
+00:06:26,000 --> 00:06:30,800
+melanination. What does melanination do
+
+174
+00:06:27,919 --> 00:06:32,160
+to radiation impacts it slightly, right?
+
+175
+00:06:30,800 --> 00:06:34,400
+There's like slight protective effects
+
+176
+00:06:32,160 --> 00:06:36,560
+of having more melanin. Um, and while
+
+177
+00:06:34,400 --> 00:06:38,240
+our eyes can't do a band pass filter and
+
+178
+00:06:36,560 --> 00:06:39,919
+notice that there's a slight difference
+
+179
+00:06:38,240 --> 00:06:42,240
+in the noise spectrum at the high end of
+
+180
+00:06:39,919 --> 00:06:44,720
+the frequency range, a neural network
+
+181
+00:06:42,240 --> 00:06:46,400
+can do that trivially. Why is that scary
+
+182
+00:06:44,720 --> 00:06:48,400
+and important? Well, if we think about
+
+183
+00:06:46,400 --> 00:06:49,919
+the fact that models can uh use
+
+184
+00:06:48,400 --> 00:06:52,080
+shortcuts to make bad decisions
+
+185
+00:06:49,919 --> 00:06:54,479
+sometimes. And now think about shortcuts
+
+186
+00:06:52,080 --> 00:06:56,479
+that are invisible to us but perfectly
+
+187
+00:06:54,479 --> 00:06:58,720
+obvious to machine learning models.
+
+188
+00:06:56,479 --> 00:07:00,400
+Where does that take us? We wanted to
+
+189
+00:06:58,720 --> 00:07:01,919
+actually motivate this in uh three
+
+190
+00:07:00,400 --> 00:07:04,240
+medical vision settings. So we're
+
+191
+00:07:01,919 --> 00:07:06,240
+looking at chest X-rays, dermatology,
+
+192
+00:07:04,240 --> 00:07:07,599
+and retinopathy screening. And in each
+
+193
+00:07:06,240 --> 00:07:09,039
+of these cases, we're going to train a
+
+194
+00:07:07,599 --> 00:07:11,120
+deep learning model to predict a
+
+195
+00:07:09,039 --> 00:07:13,280
+clinical outcome. And then we're going
+
+196
+00:07:11,120 --> 00:07:15,919
+to test what happens when it learns more
+
+197
+00:07:13,280 --> 00:07:18,319
+about whose demographics are whose. And
+
+198
+00:07:15,919 --> 00:07:19,759
+so here we see that yes, all of these
+
+199
+00:07:18,319 --> 00:07:22,160
+deep learning models when we train them
+
+200
+00:07:19,759 --> 00:07:24,479
+to predict a disease can actually
+
+201
+00:07:22,160 --> 00:07:27,680
+predict who you are, your demographics,
+
+202
+00:07:24,479 --> 00:07:30,560
+your age, your race, your sex. And the
+
+203
+00:07:27,680 --> 00:07:32,800
+more you can predict that, the higher
+
+204
+00:07:30,560 --> 00:07:34,880
+correlated that is with doing worse in
+
+205
+00:07:32,800 --> 00:07:36,960
+those subgroups. Put another way, the
+
+206
+00:07:34,880 --> 00:07:38,319
+more I learn to predict who is female in
+
+207
+00:07:36,960 --> 00:07:40,160
+a chest X-ray when I'm predicting
+
+208
+00:07:38,319 --> 00:07:42,639
+pneumonia, the worse I will do at
+
+209
+00:07:40,160 --> 00:07:45,039
+predicting pneumonia in female patients.
+
+210
+00:07:42,639 --> 00:07:47,120
+Okay?
+
+211
+00:07:45,039 --> 00:07:50,000
+Can you fix this? Yes. Beloved by all
+
+212
+00:07:47,120 --> 00:07:51,840
+economists, this is a paro plot uh which
+
+213
+00:07:50,000 --> 00:07:54,960
+was demanded by a reviewer. So here it
+
+214
+00:07:51,840 --> 00:07:57,840
+is. Um on the x- axis you can see this
+
+215
+00:07:54,960 --> 00:08:00,560
+is the overall AU averaged across the
+
+216
+00:07:57,840 --> 00:08:03,039
+population. And on the y ais this is the
+
+217
+00:08:00,560 --> 00:08:04,639
+level of fairness gap. So where do we
+
+218
+00:08:03,039 --> 00:08:06,960
+want our models to be? Bottom right hand
+
+219
+00:08:04,639 --> 00:08:09,280
+corner very very like performant on
+
+220
+00:08:06,960 --> 00:08:11,039
+average and then very low fairness gap.
+
+221
+00:08:09,280 --> 00:08:12,960
+Right? And you can see for the one I
+
+222
+00:08:11,039 --> 00:08:16,639
+have boxed predicting cardomegaly in
+
+223
+00:08:12,960 --> 00:08:18,879
+patients of different ages, right? The
+
+224
+00:08:16,639 --> 00:08:20,800
+uh normal models that people usually
+
+225
+00:08:18,879 --> 00:08:23,039
+train with empirical risk minimization,
+
+226
+00:08:20,800 --> 00:08:25,120
+those are in sort of that teal color,
+
+227
+00:08:23,039 --> 00:08:26,800
+which is bad. That means that on average
+
+228
+00:08:25,120 --> 00:08:28,080
+they do great, but if you're an older
+
+229
+00:08:26,800 --> 00:08:30,240
+patient, they won't work for you.
+
+230
+00:08:28,080 --> 00:08:32,159
+They're very unfair. But you can see if
+
+231
+00:08:30,240 --> 00:08:34,080
+we use some of these distraust uh
+
+232
+00:08:32,159 --> 00:08:36,240
+distributionally robust optimization
+
+233
+00:08:34,080 --> 00:08:38,000
+techniques like group DRRO you can get
+
+234
+00:08:36,240 --> 00:08:39,360
+those dots those model performance
+
+235
+00:08:38,000 --> 00:08:41,200
+results that are all the way in the
+
+236
+00:08:39,360 --> 00:08:43,399
+bottom right hand corner which is great.
+
+237
+00:08:41,200 --> 00:08:45,600
+So you can preserve most of the overall
+
+238
+00:08:43,399 --> 00:08:47,200
+performance very little change and then
+
+239
+00:08:45,600 --> 00:08:50,800
+you can reduce this fairness gap by
+
+240
+00:08:47,200 --> 00:08:53,200
+almost all of the 20%.
+
+241
+00:08:50,800 --> 00:08:54,720
+This is what happens when you use modern
+
+242
+00:08:53,200 --> 00:08:57,600
+machine learning techniques that are
+
+243
+00:08:54,720 --> 00:09:00,000
+aware of these distributional changes in
+
+244
+00:08:57,600 --> 00:09:02,320
+a data set in Massachusetts for training
+
+245
+00:09:00,000 --> 00:09:04,080
+and then you test it in data from the
+
+246
+00:09:02,320 --> 00:09:06,160
+same hospital in Massachusetts, new
+
+247
+00:09:04,080 --> 00:09:07,760
+patient data from Massachusetts. What
+
+248
+00:09:06,160 --> 00:09:09,519
+happens when we train the model to be
+
+249
+00:09:07,760 --> 00:09:11,519
+fair in Massachusetts and then use it in
+
+250
+00:09:09,519 --> 00:09:14,720
+Stamford? Well, suddenly it's not so
+
+251
+00:09:11,519 --> 00:09:16,959
+fair anymore. And so whereas right now
+
+252
+00:09:14,720 --> 00:09:19,279
+what happens is the FDA certifies your
+
+253
+00:09:16,959 --> 00:09:21,680
+model to work well across the United
+
+254
+00:09:19,279 --> 00:09:23,440
+States, across the world, that's not
+
+255
+00:09:21,680 --> 00:09:25,920
+actually true. That's not something that
+
+256
+00:09:23,440 --> 00:09:27,360
+works for certifying results. So if you
+
+257
+00:09:25,920 --> 00:09:29,760
+want a model to work well in your
+
+258
+00:09:27,360 --> 00:09:32,000
+situation, in your school, in your bank,
+
+259
+00:09:29,760 --> 00:09:33,839
+in your hospital, you actually have to
+
+260
+00:09:32,000 --> 00:09:36,000
+test that it works well in your
+
+261
+00:09:33,839 --> 00:09:37,760
+distribution, in the selection of humans
+
+262
+00:09:36,000 --> 00:09:40,240
+that it will be operating on in your
+
+263
+00:09:37,760 --> 00:09:42,640
+setting.
+
+264
+00:09:40,240 --> 00:09:45,360
+I'm going to briefly talk through some
+
+265
+00:09:42,640 --> 00:09:48,160
+of this algorithm section. Uh not all of
+
+266
+00:09:45,360 --> 00:09:50,640
+it. Um the first thing you might want to
+
+267
+00:09:48,160 --> 00:09:52,640
+know is whether this is an AI problem.
+
+268
+00:09:50,640 --> 00:09:54,720
+It's not an AI problem. This has been
+
+269
+00:09:52,640 --> 00:09:57,040
+happening for a very long time. This
+
+270
+00:09:54,720 --> 00:09:59,200
+happens with logistic regression models.
+
+271
+00:09:57,040 --> 00:10:01,440
+And so uh what people have known for a
+
+272
+00:09:59,200 --> 00:10:04,240
+very long time is that if we use a group
+
+273
+00:10:01,440 --> 00:10:06,000
+attribute a demographic attribute in a
+
+274
+00:10:04,240 --> 00:10:08,399
+risk score even a simple score like
+
+275
+00:10:06,000 --> 00:10:10,399
+logistic regression you can get worse
+
+276
+00:10:08,399 --> 00:10:13,040
+subgroup performance even though overall
+
+277
+00:10:10,399 --> 00:10:15,360
+your model will be better. So here if I
+
+278
+00:10:13,040 --> 00:10:18,720
+try to predict sleep apnnea and I use
+
+279
+00:10:15,360 --> 00:10:20,959
+sex and age it's 1% better on average
+
+280
+00:10:18,720 --> 00:10:23,279
+but it is worse for younger male and
+
+281
+00:10:20,959 --> 00:10:24,560
+older female patients. Why does this
+
+282
+00:10:23,279 --> 00:10:26,880
+happen? And this happens because we
+
+283
+00:10:24,560 --> 00:10:28,480
+either have model misspecification, your
+
+284
+00:10:26,880 --> 00:10:30,079
+model is not high capacity enough to
+
+285
+00:10:28,480 --> 00:10:32,800
+capture some interaction between a
+
+286
+00:10:30,079 --> 00:10:34,800
+feature, some attribute that exists, or
+
+287
+00:10:32,800 --> 00:10:37,040
+because you've selected a model to do
+
+288
+00:10:34,800 --> 00:10:39,600
+best on average. And if it just so
+
+289
+00:10:37,040 --> 00:10:41,040
+happens that it does that on average by
+
+290
+00:10:39,600 --> 00:10:43,600
+destroying performance in a smaller
+
+291
+00:10:41,040 --> 00:10:47,760
+subgroup and they all happen to be older
+
+292
+00:10:43,600 --> 00:10:49,760
+or female or black, so be it. Okay? And
+
+293
+00:10:47,760 --> 00:10:51,600
+this gets worse when we think about very
+
+294
+00:10:49,760 --> 00:10:53,440
+large billion parameter vision language
+
+295
+00:10:51,600 --> 00:10:55,360
+models like diffusion models, right?
+
+296
+00:10:53,440 --> 00:10:57,600
+That can do image generation, zeroot
+
+297
+00:10:55,360 --> 00:10:58,880
+classification or zeroot retrieval
+
+298
+00:10:57,600 --> 00:11:00,399
+because while they can do all these
+
+299
+00:10:58,880 --> 00:11:02,399
+things and that's very technically
+
+300
+00:11:00,399 --> 00:11:04,040
+fascinating, they also have very
+
+301
+00:11:02,399 --> 00:11:06,480
+problematic
+
+302
+00:11:04,040 --> 00:11:08,000
+biases. And another uh thing we've
+
+303
+00:11:06,480 --> 00:11:10,480
+noticed repeatedly is when you try to
+
+304
+00:11:08,000 --> 00:11:12,720
+remove these biases in ways that work
+
+305
+00:11:10,480 --> 00:11:15,040
+maybe for prior models, they don't work
+
+306
+00:11:12,720 --> 00:11:16,720
+because they assume linearity. We assume
+
+307
+00:11:15,040 --> 00:11:18,640
+that there's one place in the latent
+
+308
+00:11:16,720 --> 00:11:20,240
+space that is male, one place in the
+
+309
+00:11:18,640 --> 00:11:22,640
+latent space that is female. And if we
+
+310
+00:11:20,240 --> 00:11:24,480
+could just orthogonalize those, we could
+
+311
+00:11:22,640 --> 00:11:26,560
+project out that difference and collapse
+
+312
+00:11:24,480 --> 00:11:28,000
+it so everything is fair. But that's not
+
+313
+00:11:26,560 --> 00:11:30,079
+actually what these models look like.
+
+314
+00:11:28,000 --> 00:11:32,160
+The mind map or latent space of large
+
+315
+00:11:30,079 --> 00:11:34,240
+very uh very large language and vision
+
+316
+00:11:32,160 --> 00:11:36,399
+language models is complex and
+
+317
+00:11:34,240 --> 00:11:38,640
+nonlinear. And so if you debias in a
+
+318
+00:11:36,399 --> 00:11:39,680
+direction for male female pilot, it
+
+319
+00:11:38,640 --> 00:11:41,440
+might be different than the direction
+
+320
+00:11:39,680 --> 00:11:43,920
+you would want to debias for male and
+
+321
+00:11:41,440 --> 00:11:45,839
+female manager, for example.
+
+322
+00:11:43,920 --> 00:11:48,160
+And so a way to get around this is to
+
+323
+00:11:45,839 --> 00:11:50,320
+respect the nonlinearity of the space,
+
+324
+00:11:48,160 --> 00:11:52,160
+right? And so we have recent work where
+
+325
+00:11:50,320 --> 00:11:54,240
+uh we looked at what that would uh maybe
+
+326
+00:11:52,160 --> 00:11:56,320
+accomplish. And so here if we embed a
+
+327
+00:11:54,240 --> 00:11:59,200
+query for doctor that lands in this
+
+328
+00:11:56,320 --> 00:12:01,040
+solidly male part of the space, if I ask
+
+329
+00:11:59,200 --> 00:12:02,959
+then where is male doctor and female
+
+330
+00:12:01,040 --> 00:12:04,880
+doctor so that I can orthogonalize and
+
+331
+00:12:02,959 --> 00:12:06,480
+project that out, I can move to this
+
+332
+00:12:04,880 --> 00:12:08,480
+point. And that's what a standard
+
+333
+00:12:06,480 --> 00:12:10,079
+debising technique would do. But this is
+
+334
+00:12:08,480 --> 00:12:12,240
+sub-optimal because I'm still much
+
+335
+00:12:10,079 --> 00:12:14,560
+closer physically in the retrieval space
+
+336
+00:12:12,240 --> 00:12:16,160
+in the model's mind map to male images
+
+337
+00:12:14,560 --> 00:12:18,240
+than female images, which is not
+
+338
+00:12:16,160 --> 00:12:20,880
+something I want. Instead, you have to
+
+339
+00:12:18,240 --> 00:12:22,800
+crawl along this nonlinear surface,
+
+340
+00:12:20,880 --> 00:12:25,200
+right? To a point that's actually
+
+341
+00:12:22,800 --> 00:12:26,959
+optimally between these two attributes
+
+342
+00:12:25,200 --> 00:12:28,240
+that you might want to balance between.
+
+343
+00:12:26,959 --> 00:12:29,760
+Okay? And you can do this for any
+
+344
+00:12:28,240 --> 00:12:32,160
+attribute and for any class you're
+
+345
+00:12:29,760 --> 00:12:34,000
+trying to retrieve. Um, it's nice
+
+346
+00:12:32,160 --> 00:12:35,600
+because it's an analytical solution that
+
+347
+00:12:34,000 --> 00:12:38,320
+you can do at test time. You don't have
+
+348
+00:12:35,600 --> 00:12:40,240
+to train the model. And uh this results
+
+349
+00:12:38,320 --> 00:12:42,000
+in better classification and retrieval
+
+350
+00:12:40,240 --> 00:12:46,000
+performance. But the last thing I want
+
+351
+00:12:42,000 --> 00:12:47,279
+to go through before I run away is uh
+
+352
+00:12:46,000 --> 00:12:49,440
+does this mean that we can fix
+
+353
+00:12:47,279 --> 00:12:51,519
+everything in models uh at test time?
+
+354
+00:12:49,440 --> 00:12:53,360
+Not really. Because you may have played
+
+355
+00:12:51,519 --> 00:12:55,040
+with a vision language model and notice
+
+356
+00:12:53,360 --> 00:12:57,040
+that if you ask it to give you a
+
+357
+00:12:55,040 --> 00:12:59,200
+specific image, sometimes it really
+
+358
+00:12:57,040 --> 00:13:01,440
+struggles with negation. So if I say
+
+359
+00:12:59,200 --> 00:13:02,959
+give me a picture of a table, but
+
+360
+00:13:01,440 --> 00:13:05,360
+there's no chairs for the people there,
+
+361
+00:13:02,959 --> 00:13:07,279
+there will be chairs. You guys can try
+
+362
+00:13:05,360 --> 00:13:09,440
+this. It's a little annoying and it's
+
+363
+00:13:07,279 --> 00:13:12,560
+also true for image retrieval and visual
+
+364
+00:13:09,440 --> 00:13:14,160
+question answering. Okay. And while this
+
+365
+00:13:12,560 --> 00:13:15,680
+is again cute and funny in this
+
+366
+00:13:14,160 --> 00:13:17,440
+situation that it's giving you pictures
+
+367
+00:13:15,680 --> 00:13:19,760
+of dogs on grass when you want dogs not
+
+368
+00:13:17,440 --> 00:13:21,360
+on grass, it's not funny in medicine
+
+369
+00:13:19,760 --> 00:13:23,519
+because if I say that I want you to
+
+370
+00:13:21,360 --> 00:13:25,279
+retrieve uh images of chest X-rays with
+
+371
+00:13:23,519 --> 00:13:27,519
+evidence of lung opacity, I do want
+
+372
+00:13:25,279 --> 00:13:29,120
+this. But if I want evidence of lung
+
+373
+00:13:27,519 --> 00:13:30,800
+opacity with no edema, I don't want
+
+374
+00:13:29,120 --> 00:13:33,240
+this. And the model can't tell those
+
+375
+00:13:30,800 --> 00:13:35,760
+things apart.
+
+376
+00:13:33,240 --> 00:13:38,560
+Okay. Why is this happening? This is
+
+377
+00:13:35,760 --> 00:13:40,399
+happening because uh this is the the uh
+
+378
+00:13:38,560 --> 00:13:42,079
+thing that most of these models are
+
+379
+00:13:40,399 --> 00:13:44,240
+trained on, right? It's trained on these
+
+380
+00:13:42,079 --> 00:13:46,160
+matching pairs of images on the internet
+
+381
+00:13:44,240 --> 00:13:48,399
+and then the text that was generated to
+
+382
+00:13:46,160 --> 00:13:50,240
+describe them. And uh here we see this
+
+383
+00:13:48,399 --> 00:13:52,800
+nice picture of this dog, black and
+
+384
+00:13:50,240 --> 00:13:54,720
+white dog jumps over the bar. We
+
+385
+00:13:52,800 --> 00:13:57,000
+wouldn't describe that online as black
+
+386
+00:13:54,720 --> 00:13:59,199
+and white dog jumps over the bar, no
+
+387
+00:13:57,000 --> 00:14:01,360
+helicopters. But that's essentially what
+
+388
+00:13:59,199 --> 00:14:03,680
+we're asking this model to know how to
+
+389
+00:14:01,360 --> 00:14:07,040
+do, right? We're saying you've never
+
+390
+00:14:03,680 --> 00:14:08,800
+seen an example of somebody describe an
+
+391
+00:14:07,040 --> 00:14:11,760
+image as the negation of certain
+
+392
+00:14:08,800 --> 00:14:14,000
+objects, but do that, right? It can't do
+
+393
+00:14:11,760 --> 00:14:15,519
+that. And this is again even worse in a
+
+394
+00:14:14,000 --> 00:14:17,440
+medical setting where often you really
+
+395
+00:14:15,519 --> 00:14:19,199
+want a long list of things that aren't
+
+396
+00:14:17,440 --> 00:14:21,839
+present and maybe there's only one thing
+
+397
+00:14:19,199 --> 00:14:24,240
+you're looking for. And so here what we
+
+398
+00:14:21,839 --> 00:14:27,120
+did is we built a really aggressive
+
+399
+00:14:24,240 --> 00:14:28,959
+benchmark uh for evaluating whether
+
+400
+00:14:27,120 --> 00:14:32,160
+state-of-the-art models, vision language
+
+401
+00:14:28,959 --> 00:14:34,240
+models can actually do negation. Um, and
+
+402
+00:14:32,160 --> 00:14:36,560
+so we built an easy one where it's very
+
+403
+00:14:34,240 --> 00:14:38,399
+templated, a hard one where it sounds
+
+404
+00:14:36,560 --> 00:14:40,880
+more like the negations humans might
+
+405
+00:14:38,399 --> 00:14:42,399
+use, and then a medical one. And what we
+
+406
+00:14:40,880 --> 00:14:43,920
+found is that state-of-the-art vision
+
+407
+00:14:42,399 --> 00:14:46,560
+language models fail in all of these
+
+408
+00:14:43,920 --> 00:14:49,680
+cases. On the easy negations, they fail
+
+409
+00:14:46,560 --> 00:14:52,800
+in the 7% range. In the hard negations,
+
+410
+00:14:49,680 --> 00:14:54,959
+they fail in the almost uh 20 over 20%
+
+411
+00:14:52,800 --> 00:14:56,880
+range. And for medical vision language
+
+412
+00:14:54,959 --> 00:15:02,199
+models, the loss you get by just adding
+
+413
+00:14:56,880 --> 00:15:02,199
+a negation to a query is over 30%.
+
+414
+00:15:02,519 --> 00:15:07,040
+Okay, why is this happening? Let's try
+
+415
+00:15:04,720 --> 00:15:08,560
+to get some intuition. What if I ask the
+
+416
+00:15:07,040 --> 00:15:11,040
+model to embed a bunch of different
+
+417
+00:15:08,560 --> 00:15:13,600
+objects like dog, cat, car, bicycle,
+
+418
+00:15:11,040 --> 00:15:15,120
+airplane, and if I say there is a dog,
+
+419
+00:15:13,600 --> 00:15:16,959
+I'm going to put it as a circle in that
+
+420
+00:15:15,120 --> 00:15:18,480
+color. And if I say there's not a dog,
+
+421
+00:15:16,959 --> 00:15:19,839
+I'm going to put it as a triangle in the
+
+422
+00:15:18,480 --> 00:15:21,680
+same color. This is what
+
+423
+00:15:19,839 --> 00:15:22,680
+state-of-the-art models look like. What
+
+424
+00:15:21,680 --> 00:15:25,360
+do you
+
+425
+00:15:22,680 --> 00:15:28,160
+notice? All the colors are together,
+
+426
+00:15:25,360 --> 00:15:31,120
+guys. Right? So there is a flower is
+
+427
+00:15:28,160 --> 00:15:33,440
+really close to there is not a flower.
+
+428
+00:15:31,120 --> 00:15:35,440
+Okay, which is not a desirable behavior
+
+429
+00:15:33,440 --> 00:15:36,720
+in our setting. And even worse, if you
+
+430
+00:15:35,440 --> 00:15:39,600
+take some of the models that have been
+
+431
+00:15:36,720 --> 00:15:41,680
+trained contrastively to actually avoid
+
+432
+00:15:39,600 --> 00:15:43,519
+having negations close to the
+
+433
+00:15:41,680 --> 00:15:45,600
+affirmations, you get something worse,
+
+434
+00:15:43,519 --> 00:15:47,440
+which is this funny thing. All of the
+
+435
+00:15:45,600 --> 00:15:49,759
+objects are on these separate axes and
+
+436
+00:15:47,440 --> 00:15:51,600
+in that very small red circled region of
+
+437
+00:15:49,759 --> 00:15:53,440
+the model's mind is the negation of
+
+438
+00:15:51,600 --> 00:15:55,279
+everything. That's not a flower, not a
+
+439
+00:15:53,440 --> 00:15:58,560
+dog, not a helicopter. It's every
+
+440
+00:15:55,279 --> 00:16:00,720
+negation right there. Okay. And so
+
+441
+00:15:58,560 --> 00:16:02,560
+really what we need is to have models
+
+442
+00:16:00,720 --> 00:16:04,639
+that we can't just, you know, edit or
+
+443
+00:16:02,560 --> 00:16:05,920
+audit at test time. We need to realize
+
+444
+00:16:04,639 --> 00:16:08,399
+that there are going to be some
+
+445
+00:16:05,920 --> 00:16:10,399
+fundamental gaps in their capacities
+
+446
+00:16:08,399 --> 00:16:12,880
+that maybe we won't realize until we
+
+447
+00:16:10,399 --> 00:16:15,920
+test them and they fail and then we need
+
+448
+00:16:12,880 --> 00:16:18,880
+to improve them. Um, and with that I'll
+
+449
+00:16:15,920 --> 00:16:20,720
+close. Uh hopefully this uh convinces
+
+450
+00:16:18,880 --> 00:16:22,160
+you that if we move forward with ethical
+
+451
+00:16:20,720 --> 00:16:24,160
+AI and health, we need to think
+
+452
+00:16:22,160 --> 00:16:28,199
+holistically about our actions in that
+
+453
+00:16:24,160 --> 00:16:28,199
+entire pipeline. Thank you.
+

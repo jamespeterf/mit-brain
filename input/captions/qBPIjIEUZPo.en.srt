@@ -1,0 +1,5580 @@
+1
+00:00:06,400 --> 00:00:11,679
+All right, let's get started. Welcome
+
+2
+00:00:08,720 --> 00:00:14,080
+everyone. Uh so excited to kickstart the
+
+3
+00:00:11,679 --> 00:00:17,199
+semester with the first robotics seminar
+
+4
+00:00:14,080 --> 00:00:18,880
+of the fall with Professor Trevor Daryl.
+
+5
+00:00:17,199 --> 00:00:21,039
+Uh I'll be introducing the speaker and
+
+6
+00:00:18,880 --> 00:00:23,359
+then uh I'll pass on the mic to him. Uh
+
+7
+00:00:21,039 --> 00:00:25,760
+so Professor Daryl is on the faculty of
+
+8
+00:00:23,359 --> 00:00:28,000
+the CS and E divisions of the ECS
+
+9
+00:00:25,760 --> 00:00:31,039
+department at UC Berkeley. He founded
+
+10
+00:00:28,000 --> 00:00:33,280
+and co-leads the Berkeley uh artificial
+
+11
+00:00:31,039 --> 00:00:35,760
+intelligence lab or the bear lab, the
+
+12
+00:00:33,280 --> 00:00:38,640
+Berkeley deep drive or BDD industrial
+
+13
+00:00:35,760 --> 00:00:40,320
+consortia and the bear comments program.
+
+14
+00:00:38,640 --> 00:00:41,920
+Daryl's group develops algorithms for
+
+15
+00:00:40,320 --> 00:00:43,280
+large scale perceptual learning
+
+16
+00:00:41,920 --> 00:00:45,520
+including object and activity
+
+17
+00:00:43,280 --> 00:00:47,600
+recognition and detection for a variety
+
+18
+00:00:45,520 --> 00:00:50,239
+of applications including autonomous
+
+19
+00:00:47,600 --> 00:00:51,840
+vehicles, media search, and multimodal
+
+20
+00:00:50,239 --> 00:00:54,239
+interaction with robots and mobile
+
+21
+00:00:51,840 --> 00:00:56,079
+devices. His areas of interest include
+
+22
+00:00:54,239 --> 00:00:57,840
+computer vision, machine learning, and
+
+23
+00:00:56,079 --> 00:00:59,440
+multimodal natural language processing.
+
+24
+00:00:57,840 --> 00:01:01,199
+And we're so excited to hear from you,
+
+25
+00:00:59,440 --> 00:01:04,400
+Trevor. Take it away.
+
+26
+00:01:01,199 --> 00:01:06,000
+>> Cool. I think this will work. Um,
+
+27
+00:01:04,400 --> 00:01:08,400
+thanks, Sandrea, for the wonderful
+
+28
+00:01:06,000 --> 00:01:10,560
+introduction. Uh, it's great to be here
+
+29
+00:01:08,400 --> 00:01:13,280
+and be in this new building, in this new
+
+30
+00:01:10,560 --> 00:01:15,840
+auditorium. I've uh uh great to see all
+
+31
+00:01:13,280 --> 00:01:18,320
+the new infrastructure at Berkeley, at
+
+32
+00:01:15,840 --> 00:01:21,439
+at Berkeley, at MIT. Uh, we have
+
+33
+00:01:18,320 --> 00:01:23,600
+wonderful new buildings, too. Um uh and
+
+34
+00:01:21,439 --> 00:01:25,680
+it's this is a fun talk to give. I'm
+
+35
+00:01:23,600 --> 00:01:27,600
+really excited about everything that's
+
+36
+00:01:25,680 --> 00:01:31,119
+happening in vision and language and
+
+37
+00:01:27,600 --> 00:01:35,360
+robotics uh and also to give this uh u
+
+38
+00:01:31,119 --> 00:01:36,799
+talk at MIT. Um and there's a structure
+
+39
+00:01:35,360 --> 00:01:38,320
+uh to my talk. I'm going to actually
+
+40
+00:01:36,799 --> 00:01:41,280
+spend the first part talking a little
+
+41
+00:01:38,320 --> 00:01:43,759
+bit about philosophy uh and what does it
+
+42
+00:01:41,280 --> 00:01:46,720
+mean to be vision uh and language and
+
+43
+00:01:43,759 --> 00:01:48,560
+robotics and which dominates the other.
+
+44
+00:01:46,720 --> 00:01:50,000
+Uh hopefully I'll provoke some MIT
+
+45
+00:01:48,560 --> 00:01:52,479
+people in the room. We'll see if that
+
+46
+00:01:50,000 --> 00:01:54,240
+happens or not. And then maybe most
+
+47
+00:01:52,479 --> 00:01:57,200
+useful will be some of the new tools and
+
+48
+00:01:54,240 --> 00:02:00,399
+tricks that I'll talk about that uh
+
+49
+00:01:57,200 --> 00:02:02,479
+we've been building uh Berkeley that I
+
+50
+00:02:00,399 --> 00:02:04,880
+think are driving new capabilities for
+
+51
+00:02:02,479 --> 00:02:06,960
+robotics that are really exciting. Uh
+
+52
+00:02:04,880 --> 00:02:09,759
+and then last I'll tell you the
+
+53
+00:02:06,960 --> 00:02:12,000
+direction that my lab is uh betting on
+
+54
+00:02:09,759 --> 00:02:17,440
+for the future uh which is sort of
+
+55
+00:02:12,000 --> 00:02:20,720
+trying to uh blend the um paradigm of
+
+56
+00:02:17,440 --> 00:02:23,760
+largecale uh pre-training with uh
+
+57
+00:02:20,720 --> 00:02:26,400
+bottomup structure from traditional
+
+58
+00:02:23,760 --> 00:02:29,360
+computer vision and computer graphics.
+
+59
+00:02:26,400 --> 00:02:31,120
+Uh sort of a 4D conjecture. But first
+
+60
+00:02:29,360 --> 00:02:33,200
+let's talk about philosophy and let's
+
+61
+00:02:31,120 --> 00:02:35,920
+you know really get to the heart of the
+
+62
+00:02:33,200 --> 00:02:38,640
+triggering you know what what who you
+
+63
+00:02:35,920 --> 00:02:43,280
+know existential angst of what is
+
+64
+00:02:38,640 --> 00:02:45,200
+robotics and does like uh uh does vision
+
+65
+00:02:43,280 --> 00:02:48,640
+a subset of robotics or is robotics a
+
+66
+00:02:45,200 --> 00:02:51,840
+subset of vision right which uh which is
+
+67
+00:02:48,640 --> 00:02:55,120
+it which contains the other right um
+
+68
+00:02:51,840 --> 00:02:56,720
+we've seen so much now uh so many so
+
+69
+00:02:55,120 --> 00:03:00,720
+many vision people are actually moving
+
+70
+00:02:56,720 --> 00:03:03,120
+to robotics it's kind of crazy. Uh, and
+
+71
+00:03:00,720 --> 00:03:04,800
+uh, why is this happening? Why are like
+
+72
+00:03:03,120 --> 00:03:09,120
+all the computer vision people suddenly
+
+73
+00:03:04,800 --> 00:03:11,599
+becoming roboticists? Uh, is it because
+
+74
+00:03:09,120 --> 00:03:13,840
+robotics has all the unsolved problems?
+
+75
+00:03:11,599 --> 00:03:15,680
+You know, data at scales solve vision,
+
+76
+00:03:13,840 --> 00:03:19,120
+so let's go see if data at scale solves
+
+77
+00:03:15,680 --> 00:03:21,200
+robotics. Um, is it because vision
+
+78
+00:03:19,120 --> 00:03:22,800
+people want scary demos like we want,
+
+79
+00:03:21,200 --> 00:03:25,360
+you know, humanoids stomping around our
+
+80
+00:03:22,800 --> 00:03:27,360
+lab, looking anonymous, creating the
+
+81
+00:03:25,360 --> 00:03:30,000
+fear in our funders just like the
+
+82
+00:03:27,360 --> 00:03:32,799
+roboticists? Uh, or I I just gave this
+
+83
+00:03:30,000 --> 00:03:34,560
+talk at RSS as a keynote and I was like,
+
+84
+00:03:32,799 --> 00:03:37,040
+or you guys still have conferences that
+
+85
+00:03:34,560 --> 00:03:40,159
+fit in one room and this is amazing. I
+
+86
+00:03:37,040 --> 00:03:42,080
+this is like ECCV was uh, you know, less
+
+87
+00:03:40,159 --> 00:03:43,680
+than 10 years ago and I loved it and and
+
+88
+00:03:42,080 --> 00:03:46,560
+I like the I like the sense of
+
+89
+00:03:43,680 --> 00:03:50,879
+community. Um
+
+90
+00:03:46,560 --> 00:03:53,040
+uh it and at that conference there was a
+
+91
+00:03:50,879 --> 00:03:54,799
+distinct sense of worry. The day before
+
+92
+00:03:53,040 --> 00:03:58,400
+I gave my keynote, there was a panel on
+
+93
+00:03:54,799 --> 00:04:01,120
+the future of RSS and one and and uh and
+
+94
+00:03:58,400 --> 00:04:03,439
+they were conjuring up future visions
+
+95
+00:04:01,120 --> 00:04:06,879
+and one of the future visions was why
+
+96
+00:04:03,439 --> 00:04:09,519
+IRA was acquired by CVPR and RSS was
+
+97
+00:04:06,879 --> 00:04:11,519
+acquired by Nurips, right? Is are vision
+
+98
+00:04:09,519 --> 00:04:13,680
+and ML going to just dominate robotics
+
+99
+00:04:11,519 --> 00:04:16,239
+in the future? There's no just like they
+
+100
+00:04:13,680 --> 00:04:21,919
+maybe did for computer vision uh and
+
+101
+00:04:16,239 --> 00:04:26,080
+NLP. Um uh or conversely will I argue
+
+102
+00:04:21,919 --> 00:04:28,960
+that um uh you know vision is just a you
+
+103
+00:04:26,080 --> 00:04:31,520
+know uh contained within robotics right
+
+104
+00:04:28,960 --> 00:04:34,160
+robotics is actually the larger problem.
+
+105
+00:04:31,520 --> 00:04:36,400
+Well, what do you think? This is uh the
+
+106
+00:04:34,160 --> 00:04:38,400
+beautiful image of a state-of-the-art
+
+107
+00:04:36,400 --> 00:04:41,040
+humanoid robot humanoid robot, right?
+
+108
+00:04:38,400 --> 00:04:43,280
+This is currently the future in 2025.
+
+109
+00:04:41,040 --> 00:04:46,560
+Everyone's diving into humanoid
+
+110
+00:04:43,280 --> 00:04:48,080
+robotics. Um uh I wonder how many people
+
+111
+00:04:46,560 --> 00:04:50,240
+actually recognize this image. There's
+
+112
+00:04:48,080 --> 00:04:52,479
+only one person in the room for sure who
+
+113
+00:04:50,240 --> 00:04:55,840
+maybe two who actually know where this
+
+114
+00:04:52,479 --> 00:04:58,240
+image came from. And and so hold your
+
+115
+00:04:55,840 --> 00:05:00,240
+comment for a second. You know, is this
+
+116
+00:04:58,240 --> 00:05:03,280
+in fact it looks to me like it just came
+
+117
+00:05:00,240 --> 00:05:05,040
+out of a Genai midjourney renderer of
+
+118
+00:05:03,280 --> 00:05:08,040
+what what was the prompt? Humanoid robot
+
+119
+00:05:05,040 --> 00:05:08,040
+2025.
+
+120
+00:05:08,320 --> 00:05:14,240
+No, this is actually the cover of a
+
+121
+00:05:11,199 --> 00:05:18,919
+book. Anybody aside from professors in
+
+122
+00:05:14,240 --> 00:05:18,919
+the room know what the book was?
+
+123
+00:05:18,960 --> 00:05:24,639
+By a famous MIT professor, Bertld Horn.
+
+124
+00:05:22,880 --> 00:05:26,800
+This is in fact the textbook that I
+
+125
+00:05:24,639 --> 00:05:30,560
+learned computer vision from. so many
+
+126
+00:05:26,800 --> 00:05:34,320
+decades ago and this was what we called
+
+127
+00:05:30,560 --> 00:05:37,039
+robot vision clearly for humanoids or in
+
+128
+00:05:34,320 --> 00:05:38,240
+the direction of humanoids far far away
+
+129
+00:05:37,039 --> 00:05:42,560
+I don't think anyone this was like
+
+130
+00:05:38,240 --> 00:05:44,720
+science fiction back then uh and machine
+
+131
+00:05:42,560 --> 00:05:46,479
+vision then clearly didn't have anything
+
+132
+00:05:44,720 --> 00:05:48,880
+to do with robotics the way we would
+
+133
+00:05:46,479 --> 00:05:51,919
+call it robotics today right that this
+
+134
+00:05:48,880 --> 00:05:53,600
+is the syllabus from I guess 20 2004
+
+135
+00:05:51,919 --> 00:05:56,320
+this is all just like meat and potatoes
+
+136
+00:05:53,600 --> 00:05:58,000
+computer vision no humanoid robot out of
+
+137
+00:05:56,320 --> 00:06:02,080
+control yet. This is called robot
+
+138
+00:05:58,000 --> 00:06:05,039
+vision. So, so what happened? Uh, you
+
+139
+00:06:02,080 --> 00:06:06,800
+know, vision was part of robotics way
+
+140
+00:06:05,039 --> 00:06:09,440
+back in the day, back in the day when I
+
+141
+00:06:06,800 --> 00:06:10,960
+was originally trained. Um, but it all
+
+142
+00:06:09,440 --> 00:06:13,919
+changed just around the turn of the
+
+143
+00:06:10,960 --> 00:06:16,160
+millennium when social media and the
+
+144
+00:06:13,919 --> 00:06:19,680
+internet redefined it. Uh, and and in
+
+145
+00:06:16,160 --> 00:06:21,360
+some sense redefined it usefully. uh
+
+146
+00:06:19,680 --> 00:06:24,240
+without the internet we wouldn't have
+
+147
+00:06:21,360 --> 00:06:28,479
+had all the progress in machine learning
+
+148
+00:06:24,240 --> 00:06:30,479
+and computer vision both imageet and
+
+149
+00:06:28,479 --> 00:06:34,240
+common crawl and the resulting vision
+
+150
+00:06:30,479 --> 00:06:37,759
+and language models that they uh led to
+
+151
+00:06:34,240 --> 00:06:39,600
+um but now maybe we're seeing everything
+
+152
+00:06:37,759 --> 00:06:42,080
+come back together which I think is a
+
+153
+00:06:39,600 --> 00:06:44,319
+useful thing the unification of vision
+
+154
+00:06:42,080 --> 00:06:47,360
+and language and robotics and and I'm
+
+155
+00:06:44,319 --> 00:06:49,840
+pretty happy about that so so I wouldn't
+
+156
+00:06:47,360 --> 00:06:52,080
+worry too much which one sub you know
+
+157
+00:06:49,840 --> 00:06:53,680
+contains the other subsumes the other I
+
+158
+00:06:52,080 --> 00:06:55,919
+think it's all the same thing and the
+
+159
+00:06:53,680 --> 00:06:58,639
+and the core challenges
+
+160
+00:06:55,919 --> 00:07:02,639
+of each sub field are still quite
+
+161
+00:06:58,639 --> 00:07:04,720
+apparent um so that's one first you know
+
+162
+00:07:02,639 --> 00:07:07,680
+bit of philosophy that that I wanted to
+
+163
+00:07:04,720 --> 00:07:09,840
+deliver don't worry about which is which
+
+164
+00:07:07,680 --> 00:07:13,440
+um the second bit of philosophy I wanted
+
+165
+00:07:09,840 --> 00:07:15,039
+to uh discuss is um actually somewhat
+
+166
+00:07:13,440 --> 00:07:16,720
+inspired by a lot of the conversations
+
+167
+00:07:15,039 --> 00:07:18,560
+I've had with Phil Solo over the years
+
+168
+00:07:16,720 --> 00:07:21,919
+we've each independently and thinking of
+
+169
+00:07:18,560 --> 00:07:24,639
+these ideas. Um, and it's before we even
+
+170
+00:07:21,919 --> 00:07:28,160
+get into the nitty-gritty of multimodal
+
+171
+00:07:24,639 --> 00:07:31,440
+models, let's just imagine
+
+172
+00:07:28,160 --> 00:07:34,960
+what to actually blind model see. What
+
+173
+00:07:31,440 --> 00:07:39,520
+is what is a texton model see? Are you
+
+174
+00:07:34,960 --> 00:07:43,280
+know can blind models just a regular LLM
+
+175
+00:07:39,520 --> 00:07:45,440
+text LLM that's never seen pixels? Is it
+
+176
+00:07:43,280 --> 00:07:47,280
+visually grounded?
+
+177
+00:07:45,440 --> 00:07:49,199
+Well, if you had asked me this like
+
+178
+00:07:47,280 --> 00:07:51,440
+three years ago, I would have been like,
+
+179
+00:07:49,199 --> 00:07:53,039
+"Nope." Uh, like I don't I don't know
+
+180
+00:07:51,440 --> 00:07:54,800
+what you're talking about. Grounded. I
+
+181
+00:07:53,039 --> 00:07:57,599
+know what grounded meant. Grounded is
+
+182
+00:07:54,800 --> 00:07:59,120
+like a language person's term to say it
+
+183
+00:07:57,599 --> 00:08:01,919
+is something connected to a real signal
+
+184
+00:07:59,120 --> 00:08:03,680
+in the real world like a robot, right?
+
+185
+00:08:01,919 --> 00:08:06,960
+And these LLMs, they might have been
+
+186
+00:08:03,680 --> 00:08:09,520
+really cool back in 2022. They were like
+
+187
+00:08:06,960 --> 00:08:12,319
+amazing at textual trans translation and
+
+188
+00:08:09,520 --> 00:08:13,919
+reasoning. And like while there were
+
+189
+00:08:12,319 --> 00:08:15,599
+some vision people who were really anti-
+
+190
+00:08:13,919 --> 00:08:19,039
+vision especially at Berke anti-
+
+191
+00:08:15,599 --> 00:08:20,960
+language especially at Berkeley um you
+
+192
+00:08:19,039 --> 00:08:23,759
+know even they would admit that language
+
+193
+00:08:20,960 --> 00:08:25,120
+was useful to define tasks like you know
+
+194
+00:08:23,759 --> 00:08:27,280
+you don't want to refer to category
+
+195
+00:08:25,120 --> 00:08:30,479
+number 25 you'd rather refer to orange
+
+196
+00:08:27,280 --> 00:08:33,279
+ball um but they're not grounded in any
+
+197
+00:08:30,479 --> 00:08:35,360
+real way you know we then would refer to
+
+198
+00:08:33,279 --> 00:08:37,839
+some Chinese room or stochastic parrot
+
+199
+00:08:35,360 --> 00:08:40,479
+arguments that I I won't go into in
+
+200
+00:08:37,839 --> 00:08:43,200
+detail but then surprisingly over Over
+
+201
+00:08:40,479 --> 00:08:46,320
+the last three years, my view has
+
+202
+00:08:43,200 --> 00:08:47,680
+changed. And it started and so apologies
+
+203
+00:08:46,320 --> 00:08:50,160
+for this detour into language for a
+
+204
+00:08:47,680 --> 00:08:51,839
+while if this is a robotics uh seminar,
+
+205
+00:08:50,160 --> 00:08:53,920
+but you might find it interesting. It
+
+206
+00:08:51,839 --> 00:08:56,800
+started off with a bunch of my students
+
+207
+00:08:53,920 --> 00:08:59,279
+co-advised by uh the colleagues you see
+
+208
+00:08:56,800 --> 00:09:02,800
+there um who were interested in
+
+209
+00:08:59,279 --> 00:09:05,600
+multimodality in parsing. and they were
+
+210
+00:09:02,800 --> 00:09:09,360
+all excited by a recent series of
+
+211
+00:09:05,600 --> 00:09:11,600
+award-winning papers in EMNLP and ACL
+
+212
+00:09:09,360 --> 00:09:13,839
+and conferences like that which had
+
+213
+00:09:11,600 --> 00:09:17,120
+shown that when you're trying to solve
+
+214
+00:09:13,839 --> 00:09:21,040
+parsing tasks, it turned out that having
+
+215
+00:09:17,120 --> 00:09:22,959
+pixels as a feature just dramatically
+
+216
+00:09:21,040 --> 00:09:25,839
+improved the performance over all the
+
+217
+00:09:22,959 --> 00:09:28,560
+previous methods, the traditional um NLP
+
+218
+00:09:25,839 --> 00:09:30,880
+methods. And you can see why it's cool
+
+219
+00:09:28,560 --> 00:09:33,360
+to think that like perception of the
+
+220
+00:09:30,880 --> 00:09:35,920
+world could help even in a task like
+
+221
+00:09:33,360 --> 00:09:38,240
+like parsing like do we know whether the
+
+222
+00:09:35,920 --> 00:09:40,480
+cat is on the table or the cup is on the
+
+223
+00:09:38,240 --> 00:09:41,920
+table or both. It turns out prior about
+
+224
+00:09:40,480 --> 00:09:44,640
+the world are useful and you could get
+
+225
+00:09:41,920 --> 00:09:46,080
+those through pixels. Um and so my
+
+226
+00:09:44,640 --> 00:09:47,680
+students knew a good thing when they saw
+
+227
+00:09:46,080 --> 00:09:49,680
+it. They all these other award-winning
+
+228
+00:09:47,680 --> 00:09:51,200
+papers they got on the hunt for another
+
+229
+00:09:49,680 --> 00:09:53,200
+award-winning paper and they said what
+
+230
+00:09:51,200 --> 00:09:55,600
+we can do we can bring more powerful
+
+231
+00:09:53,200 --> 00:09:57,760
+features. We can bring LLM embeddings.
+
+232
+00:09:55,600 --> 00:10:00,080
+clearly everything will get better. It
+
+233
+00:09:57,760 --> 00:10:02,080
+did. They were very happy until they
+
+234
+00:10:00,080 --> 00:10:05,200
+actually looked closely at the results
+
+235
+00:10:02,080 --> 00:10:07,440
+and they actually saw that once you
+
+236
+00:10:05,200 --> 00:10:09,279
+added semantic features like these
+
+237
+00:10:07,440 --> 00:10:12,640
+features that were coming out of BERT
+
+238
+00:10:09,279 --> 00:10:14,399
+and then eventually more powerful models
+
+239
+00:10:12,640 --> 00:10:16,560
+actually just the semantic features
+
+240
+00:10:14,399 --> 00:10:19,279
+alone the text features alone blew away
+
+241
+00:10:16,560 --> 00:10:22,800
+the vision features or in fact adding
+
+242
+00:10:19,279 --> 00:10:26,399
+the vision feature back didn't even help
+
+243
+00:10:22,800 --> 00:10:28,640
+uh hurt. So that was weird. It kind of
+
+244
+00:10:26,399 --> 00:10:30,640
+was a real like for a person who's
+
+245
+00:10:28,640 --> 00:10:33,600
+interested in multimodal models kind of
+
+246
+00:10:30,640 --> 00:10:35,040
+hurt. I I like I I want my pixels to to
+
+247
+00:10:33,600 --> 00:10:37,760
+matter. And here they started not to
+
+248
+00:10:35,040 --> 00:10:41,519
+matter. Oh well, maybe that's just this
+
+249
+00:10:37,760 --> 00:10:42,959
+one little thing. Except it wasn't. Um
+
+250
+00:10:41,519 --> 00:10:44,480
+as I'll show you in the next few slides,
+
+251
+00:10:42,959 --> 00:10:47,200
+the next project that we went down in
+
+252
+00:10:44,480 --> 00:10:49,440
+this direction um was a little bit of
+
+253
+00:10:47,200 --> 00:10:51,839
+accidental result. We were trying to
+
+254
+00:10:49,440 --> 00:10:53,279
+make diffusion models back in the day.
+
+255
+00:10:51,839 --> 00:10:57,600
+Okay, this was about two or three years
+
+256
+00:10:53,279 --> 00:11:00,079
+ago. Not not be as as um I should just
+
+257
+00:10:57,600 --> 00:11:02,160
+say suck as much as they did right back
+
+258
+00:11:00,079 --> 00:11:04,959
+then. Diffusion models, state-of-the-art
+
+259
+00:11:02,160 --> 00:11:07,440
+models often really didn't do attribute
+
+260
+00:11:04,959 --> 00:11:09,040
+binding very well. They would like you
+
+261
+00:11:07,440 --> 00:11:11,360
+asked for an orange dog, it would throw
+
+262
+00:11:09,040 --> 00:11:14,399
+some orange object in the scene, but no,
+
+263
+00:11:11,360 --> 00:11:17,360
+not even a dog. They were very poor on
+
+264
+00:11:14,399 --> 00:11:19,360
+spatial relations. Um they would have a
+
+265
+00:11:17,360 --> 00:11:21,360
+hard time with attribute binding and and
+
+266
+00:11:19,360 --> 00:11:23,760
+gender in this example. they would just
+
+267
+00:11:21,360 --> 00:11:27,440
+never dress the woman in in blue, always
+
+268
+00:11:23,760 --> 00:11:29,519
+in red. Um, and so on and so forth. And
+
+269
+00:11:27,440 --> 00:11:31,600
+so this was a problem. And one of my
+
+270
+00:11:29,519 --> 00:11:35,040
+students actually in a class project
+
+271
+00:11:31,600 --> 00:11:37,920
+very quickly found of he's like, "Wait a
+
+272
+00:11:35,040 --> 00:11:40,399
+minute. I I I see that even LLM can
+
+273
+00:11:37,920 --> 00:11:42,720
+sometimes talk about the world and know
+
+274
+00:11:40,399 --> 00:11:45,519
+what's bound with which. What maybe I
+
+275
+00:11:42,720 --> 00:11:48,160
+could just combine those two things."
+
+276
+00:11:45,519 --> 00:11:49,680
+And it he turns out like actually just
+
+277
+00:11:48,160 --> 00:11:54,240
+conjuring
+
+278
+00:11:49,680 --> 00:11:55,600
+a prompt from an LLM could really help a
+
+279
+00:11:54,240 --> 00:11:58,000
+diffusion model that was generating
+
+280
+00:11:55,600 --> 00:12:01,040
+pixels. Now the diffusion model had been
+
+281
+00:11:58,000 --> 00:12:02,880
+trained on tons of pixels, but the LLM
+
+282
+00:12:01,040 --> 00:12:04,720
+has never seen a pixel. It's only seen
+
+283
+00:12:02,880 --> 00:12:07,920
+text
+
+284
+00:12:04,720 --> 00:12:09,440
+and and it's outputting some structure
+
+285
+00:12:07,920 --> 00:12:13,279
+which turns out to be very similar to
+
+286
+00:12:09,440 --> 00:12:16,240
+what I would call a scene graph. Um, and
+
+287
+00:12:13,279 --> 00:12:18,880
+so this is a first in a series of papers
+
+288
+00:12:16,240 --> 00:12:21,120
+from 2023. You can see there are called
+
+289
+00:12:18,880 --> 00:12:23,839
+LLM grounded diffusion where we
+
+290
+00:12:21,120 --> 00:12:27,279
+basically showed that you could take an
+
+291
+00:12:23,839 --> 00:12:30,079
+LLM and very lightly prompt it to
+
+292
+00:12:27,279 --> 00:12:32,560
+generate structures that were scene
+
+293
+00:12:30,079 --> 00:12:34,800
+graphs and then you could condition
+
+294
+00:12:32,560 --> 00:12:37,760
+diffusion models on those scene graphs
+
+295
+00:12:34,800 --> 00:12:39,760
+and get much more high fidelity um,
+
+296
+00:12:37,760 --> 00:12:41,760
+generations. Now current obviously this
+
+297
+00:12:39,760 --> 00:12:43,680
+was two years ago. This field's moving
+
+298
+00:12:41,760 --> 00:12:46,560
+fast. By now these enormous models have
+
+299
+00:12:43,680 --> 00:12:48,399
+been trained on this and certainly you
+
+300
+00:12:46,560 --> 00:12:51,279
+don't need this hack to make current
+
+301
+00:12:48,399 --> 00:12:53,680
+models succeed. Um but we we were
+
+302
+00:12:51,279 --> 00:12:57,519
+state-of-the-art for a couple weeks or
+
+303
+00:12:53,680 --> 00:12:59,200
+days or months. Um and uh and now it's
+
+304
+00:12:57,519 --> 00:13:01,120
+still an interesting point is to look
+
+305
+00:12:59,200 --> 00:13:04,000
+back and say wait a minute that's
+
+306
+00:13:01,120 --> 00:13:06,079
+evidence that the texton model kind of
+
+307
+00:13:04,000 --> 00:13:08,000
+could generate a scene graph which again
+
+308
+00:13:06,079 --> 00:13:10,079
+three years ago if you'd given me a
+
+309
+00:13:08,000 --> 00:13:11,600
+checklist or if I was defining the word
+
+310
+00:13:10,079 --> 00:13:14,240
+grounding in front of a class I'd be
+
+311
+00:13:11,600 --> 00:13:15,839
+like nope grounding you know texton
+
+312
+00:13:14,240 --> 00:13:17,440
+models aren't grounded don't know about
+
+313
+00:13:15,839 --> 00:13:18,959
+scene graphs they don't know that planes
+
+314
+00:13:17,440 --> 00:13:20,560
+are in the sky they don't know that
+
+315
+00:13:18,959 --> 00:13:22,880
+boats are in the ocean they don't know
+
+316
+00:13:20,560 --> 00:13:24,720
+what the texture of the ocean looks like
+
+317
+00:13:22,880 --> 00:13:26,240
+so on and so forth of course I could get
+
+318
+00:13:24,720 --> 00:13:27,760
+into details about how you take a scene
+
+319
+00:13:26,240 --> 00:13:29,360
+graph as conditioning to improve a
+
+320
+00:13:27,760 --> 00:13:31,200
+diffusion model. There are a lot of
+
+321
+00:13:29,360 --> 00:13:33,120
+papers on that out there, including the
+
+322
+00:13:31,200 --> 00:13:36,959
+one that we published. But once you do
+
+323
+00:13:33,120 --> 00:13:38,880
+that, it it all gets uh better. So
+
+324
+00:13:36,959 --> 00:13:40,320
+suddenly we would have attribute binding
+
+325
+00:13:38,880 --> 00:13:43,680
+just by adding this conditioning that
+
+326
+00:13:40,320 --> 00:13:46,399
+came from a texton model. Um which now I
+
+327
+00:13:43,680 --> 00:13:48,399
+have to conclude kind of does know about
+
+328
+00:13:46,399 --> 00:13:51,200
+scene graphs. somehow from all the text
+
+329
+00:13:48,399 --> 00:13:55,360
+it's read, it understands how to reason
+
+330
+00:13:51,200 --> 00:13:57,600
+about the world and generate uh
+
+331
+00:13:55,360 --> 00:14:00,240
+women dressed in blue. Uh and it also
+
+332
+00:13:57,600 --> 00:14:02,639
+worked for video. Again, this was pre
+
+333
+00:14:00,240 --> 00:14:04,399
+Neo and pre all the latest ones. So, the
+
+334
+00:14:02,639 --> 00:14:07,519
+state-of-the-art models were incredibly
+
+335
+00:14:04,399 --> 00:14:09,920
+bad and ours were just way less bad. But
+
+336
+00:14:07,519 --> 00:14:12,399
+the art models couldn't even put one
+
+337
+00:14:09,920 --> 00:14:14,800
+object on top of another or make the
+
+338
+00:14:12,399 --> 00:14:16,560
+thing fly in the right direction or this
+
+339
+00:14:14,800 --> 00:14:19,440
+was its Pikachu and you know didn't
+
+340
+00:14:16,560 --> 00:14:23,360
+really look like a Pikachu. Um and so
+
+341
+00:14:19,440 --> 00:14:25,440
+our uh just a simple combination of a
+
+342
+00:14:23,360 --> 00:14:27,120
+model that had never seen a pixel and
+
+343
+00:14:25,440 --> 00:14:30,480
+models that could generate pixels but
+
+344
+00:14:27,120 --> 00:14:32,560
+didn't understand uh structure uh seemed
+
+345
+00:14:30,480 --> 00:14:35,199
+to give a lot of leverage. So now I'm
+
+346
+00:14:32,560 --> 00:14:37,360
+concluding that these textonly LLMs know
+
+347
+00:14:35,199 --> 00:14:40,560
+about scene layouts and they know about
+
+348
+00:14:37,360 --> 00:14:43,120
+motion graphs. And so uh it makes me
+
+349
+00:14:40,560 --> 00:14:46,320
+really question what does what kind of
+
+350
+00:14:43,120 --> 00:14:51,600
+visual perception is already in an LLM?
+
+351
+00:14:46,320 --> 00:14:54,959
+Uh and um and so what you know of course
+
+352
+00:14:51,600 --> 00:14:57,680
+I can't go too far right like
+
+353
+00:14:54,959 --> 00:14:59,279
+po human pose and pose tracking that's a
+
+354
+00:14:57,680 --> 00:15:01,279
+computer visions person computer vision
+
+355
+00:14:59,279 --> 00:15:03,440
+person problem. you know, we're never
+
+356
+00:15:01,279 --> 00:15:04,720
+going to have that the the you know, if
+
+357
+00:15:03,440 --> 00:15:06,320
+you talk to Aliosha at Berkeley, he's
+
+358
+00:15:04,720 --> 00:15:08,639
+like ah he doesn't know about stepping
+
+359
+00:15:06,320 --> 00:15:11,519
+upstairs and it doesn't know about one
+
+360
+00:15:08,639 --> 00:15:14,079
+hand touching the other interacting,
+
+361
+00:15:11,519 --> 00:15:16,079
+but or does it? And so the very last
+
+362
+00:15:14,079 --> 00:15:19,279
+paper in this series is uh something we
+
+363
+00:15:16,079 --> 00:15:21,519
+published uh I think at CDPR this past
+
+364
+00:15:19,279 --> 00:15:24,880
+summer um but it's been out on archive
+
+365
+00:15:21,519 --> 00:15:28,320
+for a year uh which um actually asked
+
+366
+00:15:24,880 --> 00:15:30,240
+that question. Do textonly LLMs know
+
+367
+00:15:28,320 --> 00:15:32,720
+about human pose interactions in a way
+
+368
+00:15:30,240 --> 00:15:35,600
+that can usefully improve perception of
+
+369
+00:15:32,720 --> 00:15:37,600
+human pose over conventional computer
+
+370
+00:15:35,600 --> 00:15:39,279
+vision baselines. And I wouldn't be
+
+371
+00:15:37,600 --> 00:15:41,440
+showing this slide if it weren't the
+
+372
+00:15:39,279 --> 00:15:43,199
+case. And after the fact, it's not
+
+373
+00:15:41,440 --> 00:15:44,720
+surprising to me at all. Like
+
+374
+00:15:43,199 --> 00:15:45,920
+traditional computer vision folks and
+
+375
+00:15:44,720 --> 00:15:47,519
+probably even traditional roboticists
+
+376
+00:15:45,920 --> 00:15:51,199
+would be like, "How do I estimate human
+
+377
+00:15:47,519 --> 00:15:53,040
+pose? I well I got to do some sort of uh
+
+378
+00:15:51,199 --> 00:15:55,600
+structure structure and multiv- view
+
+379
+00:15:53,040 --> 00:15:59,120
+reconstruction. I probably have human
+
+380
+00:15:55,600 --> 00:16:00,480
+prior uh shape prior. Um maybe multi
+
+381
+00:15:59,120 --> 00:16:02,000
+cameras. I'm going to collect a data
+
+382
+00:16:00,480 --> 00:16:04,079
+set. I'm going to go read Michael
+
+383
+00:16:02,000 --> 00:16:06,639
+Black's papers. I'm going to He's I'm
+
+384
+00:16:04,079 --> 00:16:08,000
+going to have people in a dome. Great.
+
+385
+00:16:06,639 --> 00:16:09,279
+So, let's start putting pairs of people
+
+386
+00:16:08,000 --> 00:16:11,199
+in a dome. I think there's one of those
+
+387
+00:16:09,279 --> 00:16:13,759
+at CMU and one of those in Michael's
+
+388
+00:16:11,199 --> 00:16:16,399
+lab. And great. Let's collect How many
+
+389
+00:16:13,759 --> 00:16:20,240
+times have I put a a bride and groom in
+
+390
+00:16:16,399 --> 00:16:22,079
+those? Probably zero or a small number.
+
+391
+00:16:20,240 --> 00:16:24,800
+So there aren't even data sets to go
+
+392
+00:16:22,079 --> 00:16:27,440
+learn from traditionally. And so once I
+
+393
+00:16:24,800 --> 00:16:29,839
+say all that, it doesn't surprise me
+
+394
+00:16:27,440 --> 00:16:31,519
+anymore to realize actually if you go
+
+395
+00:16:29,839 --> 00:16:34,399
+read a lot of text, you're going to find
+
+396
+00:16:31,519 --> 00:16:37,360
+a lot of descriptions about human pose
+
+397
+00:16:34,399 --> 00:16:39,680
+and how people interact. So maybe these
+
+398
+00:16:37,360 --> 00:16:42,480
+texton models actually do know a little
+
+399
+00:16:39,680 --> 00:16:45,680
+bit about interaction of body pose and
+
+400
+00:16:42,480 --> 00:16:47,680
+certain configur certain actions and
+
+401
+00:16:45,680 --> 00:16:51,519
+multi-person configurations. And that's
+
+402
+00:16:47,680 --> 00:16:54,320
+what we showed in this recent um CVPR
+
+403
+00:16:51,519 --> 00:16:57,839
+paper. Um here we're using an LLM, but
+
+404
+00:16:54,320 --> 00:17:02,160
+there are ablations with LLMs. Um to see
+
+405
+00:16:57,839 --> 00:17:04,240
+that just using a a VLM alone can get
+
+406
+00:17:02,160 --> 00:17:05,760
+you a significant amount of signal. It
+
+407
+00:17:04,240 --> 00:17:07,839
+can tell you some important constraints
+
+408
+00:17:05,760 --> 00:17:10,640
+or what to pay attention to. And you can
+
+409
+00:17:07,839 --> 00:17:12,559
+then add that to a traditional uh uh
+
+410
+00:17:10,640 --> 00:17:15,919
+pose estimator which will get more
+
+411
+00:17:12,559 --> 00:17:17,760
+accurate uh multi-party pose and contact
+
+412
+00:17:15,919 --> 00:17:20,240
+and information like that. So if you're
+
+413
+00:17:17,760 --> 00:17:23,600
+interested in that the paper was called
+
+414
+00:17:20,240 --> 00:17:26,160
+pose priors from language models um and
+
+415
+00:17:23,600 --> 00:17:27,679
+uh it's on archive and uh I believe it's
+
+416
+00:17:26,160 --> 00:17:28,960
+CVPR.
+
+417
+00:17:27,679 --> 00:17:32,080
+So that's kind of rounding out the
+
+418
+00:17:28,960 --> 00:17:33,919
+philosophy part of of today which is
+
+419
+00:17:32,080 --> 00:17:35,360
+first of all don't worry vision language
+
+420
+00:17:33,919 --> 00:17:36,400
+and robotics it's all the same. we're
+
+421
+00:17:35,360 --> 00:17:38,720
+all going to be competing with each
+
+422
+00:17:36,400 --> 00:17:41,840
+other and um and that's probably a good
+
+423
+00:17:38,720 --> 00:17:46,240
+thing and it's historically consistent
+
+424
+00:17:41,840 --> 00:17:48,480
+to return to our roots and and actually
+
+425
+00:17:46,240 --> 00:17:50,080
+you can poo poo language models and but
+
+426
+00:17:48,480 --> 00:17:53,520
+we don't even it's very hard to prove
+
+427
+00:17:50,080 --> 00:17:55,840
+what they can't do and so it I'm more
+
+428
+00:17:53,520 --> 00:17:58,799
+convinced by experimental evidence than
+
+429
+00:17:55,840 --> 00:18:01,039
+argument uh about the power of different
+
+430
+00:17:58,799 --> 00:18:04,000
+kinds of models out there and there's a
+
+431
+00:18:01,039 --> 00:18:05,039
+lot of signal in some of these text
+
+432
+00:18:04,000 --> 00:18:07,440
+models
+
+433
+00:18:05,039 --> 00:18:09,679
+that common sense knowledge and
+
+434
+00:18:07,440 --> 00:18:12,400
+knowledge about what I would have said
+
+435
+00:18:09,679 --> 00:18:14,240
+uh is grounding uh than I previously
+
+436
+00:18:12,400 --> 00:18:18,320
+expected. Maybe I've convinced you as
+
+437
+00:18:14,240 --> 00:18:20,000
+well. So that's cool. That's philosophy.
+
+438
+00:18:18,320 --> 00:18:22,640
+Um now I'm going to spend the next maybe
+
+439
+00:18:20,000 --> 00:18:24,720
+20 minutes uh telling you about just
+
+440
+00:18:22,640 --> 00:18:26,720
+cool stuff. Cool stuff that's hopefully
+
+441
+00:18:24,720 --> 00:18:29,280
+useful to roboticists, definitely useful
+
+442
+00:18:26,720 --> 00:18:32,240
+for our robotics projects. And it's
+
+443
+00:18:29,280 --> 00:18:37,039
+gonna kind of be on this continuum
+
+444
+00:18:32,240 --> 00:18:38,880
+of trying to make VLMs uh and VAS either
+
+445
+00:18:37,039 --> 00:18:41,840
+more robust
+
+446
+00:18:38,880 --> 00:18:45,039
+um able to work at higher resolution
+
+447
+00:18:41,840 --> 00:18:48,559
+um uh and then pushing towards some of
+
+448
+00:18:45,039 --> 00:18:51,440
+the major paradigms of learning and
+
+449
+00:18:48,559 --> 00:18:53,520
+control either world modeling in the
+
+450
+00:18:51,440 --> 00:18:57,360
+first in the first instance in
+
+451
+00:18:53,520 --> 00:19:00,160
+datadriven imagination or um behavior
+
+452
+00:18:57,360 --> 00:19:04,080
+cloning uh with explicit reconstruction
+
+453
+00:19:00,160 --> 00:19:06,480
+of 3D structure and um human motion and
+
+454
+00:19:04,080 --> 00:19:10,080
+that'll be video mimic before I close
+
+455
+00:19:06,480 --> 00:19:12,640
+with a sort of 4D pre-training uh and
+
+456
+00:19:10,080 --> 00:19:15,840
+some of our work called Star Trek uh and
+
+457
+00:19:12,640 --> 00:19:18,799
+Armor. Uh so this will be a little bit
+
+458
+00:19:15,840 --> 00:19:20,640
+of of a kind of set of spotlights and
+
+459
+00:19:18,799 --> 00:19:22,160
+whichever one you're interested in feel
+
+460
+00:19:20,640 --> 00:19:25,120
+free to ask me a question or read the
+
+461
+00:19:22,160 --> 00:19:27,440
+paper. Um once you start using these
+
+462
+00:19:25,120 --> 00:19:29,520
+models, I just said the power of these
+
+463
+00:19:27,440 --> 00:19:31,840
+models is how strong these priors are
+
+464
+00:19:29,520 --> 00:19:34,160
+because the textonly models seem to
+
+465
+00:19:31,840 --> 00:19:36,320
+already know a lot. As soon as you do
+
+466
+00:19:34,160 --> 00:19:38,640
+that, you start noticing and then
+
+467
+00:19:36,320 --> 00:19:41,280
+worrying about hallucination because
+
+468
+00:19:38,640 --> 00:19:44,080
+these the text prior are so strong,
+
+469
+00:19:41,280 --> 00:19:45,440
+they'll just start to make stuff up. Or
+
+470
+00:19:44,080 --> 00:19:47,200
+it's not even making it up. It's quite
+
+471
+00:19:45,440 --> 00:19:49,440
+reasonable that there's a refrigerator
+
+472
+00:19:47,200 --> 00:19:51,360
+in the kitchen, right? There probably
+
+473
+00:19:49,440 --> 00:19:52,320
+is. It's just not in that image. And
+
+474
+00:19:51,360 --> 00:19:54,720
+when we're talking about an image
+
+475
+00:19:52,320 --> 00:19:56,320
+caption, we usually want stuff that's in
+
+476
+00:19:54,720 --> 00:19:58,640
+the actual there's some pixels to
+
+477
+00:19:56,320 --> 00:20:00,960
+support that, right? Or at least we
+
+478
+00:19:58,640 --> 00:20:04,400
+could that could how how we define this
+
+479
+00:20:00,960 --> 00:20:06,640
+problem. Um and and so you want to try
+
+480
+00:20:04,400 --> 00:20:10,160
+and find places where the prior is
+
+481
+00:20:06,640 --> 00:20:12,960
+dominating the the pixels, the
+
+482
+00:20:10,160 --> 00:20:16,400
+observation. Uh and perhaps you want to
+
+483
+00:20:12,960 --> 00:20:19,039
+undo that. Uh here I'm intentionally
+
+484
+00:20:16,400 --> 00:20:21,600
+giving you a very small image. So you're
+
+485
+00:20:19,039 --> 00:20:27,360
+probably suffering just like a VLM with
+
+486
+00:20:21,600 --> 00:20:29,840
+a 225x 225 uh you know encoded feature
+
+487
+00:20:27,360 --> 00:20:32,480
+and the boy is sharing his umbrella with
+
+488
+00:20:29,840 --> 00:20:33,679
+what? With a dog, right? Isn't that what
+
+489
+00:20:32,480 --> 00:20:38,159
+always happens? Except if you really
+
+490
+00:20:33,679 --> 00:20:44,240
+look closely, it's not uh a dog. Um and
+
+491
+00:20:38,159 --> 00:20:48,400
+it's not uh um uh uh yeah. So um and
+
+492
+00:20:44,240 --> 00:20:51,200
+these models can you can ask it after
+
+493
+00:20:48,400 --> 00:20:54,880
+the fact. Sorry I'm missing a slide
+
+494
+00:20:51,200 --> 00:20:57,520
+here. Um so uh it the first pass through
+
+495
+00:20:54,880 --> 00:20:59,360
+the VLM would say the boy is sharing his
+
+496
+00:20:57,520 --> 00:21:01,919
+his umbrella with a dog but it's
+
+497
+00:20:59,360 --> 00:21:04,880
+actually not a dog. It's a cat. Um and
+
+498
+00:21:01,919 --> 00:21:08,320
+then if you after the fact say well kind
+
+499
+00:21:04,880 --> 00:21:10,080
+VLM are you sure? Even just asking the
+
+500
+00:21:08,320 --> 00:21:11,840
+same VLM are you sure that that's
+
+501
+00:21:10,080 --> 00:21:14,880
+actually a cat? It'll probably say, "Oh,
+
+502
+00:21:11,840 --> 00:21:17,840
+wait. Sorry, kind sir. Uh, no. I I was I
+
+503
+00:21:14,880 --> 00:21:19,360
+was so wrong. I humbly request you let
+
+504
+00:21:17,840 --> 00:21:21,840
+me correct myself. That's actually
+
+505
+00:21:19,360 --> 00:21:24,559
+obviously a cat and a Frisbee or
+
+506
+00:21:21,840 --> 00:21:26,799
+something like that." Um, so the same
+
+507
+00:21:24,559 --> 00:21:28,320
+model actually can notice that it's
+
+508
+00:21:26,799 --> 00:21:31,440
+wrong even when it generated something
+
+509
+00:21:28,320 --> 00:21:34,799
+that's correct. That motivated us to try
+
+510
+00:21:31,440 --> 00:21:36,640
+and find an inline architecture which
+
+511
+00:21:34,799 --> 00:21:39,520
+could on the fly as it's generating
+
+512
+00:21:36,640 --> 00:21:41,280
+tokens generate confidence tokens that
+
+513
+00:21:39,520 --> 00:21:44,000
+say wait am I sure about what I just
+
+514
+00:21:41,280 --> 00:21:47,919
+said and when I'm not sure backtrack
+
+515
+00:21:44,000 --> 00:21:50,000
+until I am sure and and regenerate. So
+
+516
+00:21:47,919 --> 00:21:52,320
+um we'd like to do that and and it's
+
+517
+00:21:50,000 --> 00:21:54,400
+inspired by some of the ideas that were
+
+518
+00:21:52,320 --> 00:21:58,080
+called retrospective uh thinking. Oh,
+
+519
+00:21:54,400 --> 00:22:00,880
+here's the slide that I was uh um
+
+520
+00:21:58,080 --> 00:22:03,200
+thinking about. Uh no, so never mind.
+
+521
+00:22:00,880 --> 00:22:07,120
+So, so we build this architecture called
+
+522
+00:22:03,200 --> 00:22:11,120
+reverse where we generate tokens. In
+
+523
+00:22:07,120 --> 00:22:13,520
+this case, perhaps we generate uh an uh
+
+524
+00:22:11,120 --> 00:22:15,919
+incorrect token. The boy is sharing his
+
+525
+00:22:13,520 --> 00:22:17,200
+umbrella with a girl. Um, and we would
+
+526
+00:22:15,919 --> 00:22:18,880
+like the model to then immediately say,
+
+527
+00:22:17,200 --> 00:22:20,960
+"Wait a minute, that I have low
+
+528
+00:22:18,880 --> 00:22:25,360
+confidence about that." And I should
+
+529
+00:22:20,960 --> 00:22:27,600
+backtrack uh and keep backtracking until
+
+530
+00:22:25,360 --> 00:22:30,000
+I generate a token which appears
+
+531
+00:22:27,600 --> 00:22:31,760
+confident and I know it's confident
+
+532
+00:22:30,000 --> 00:22:35,360
+because it generates a token that says
+
+533
+00:22:31,760 --> 00:22:37,840
+it's confident. So, so this is kind of
+
+534
+00:22:35,360 --> 00:22:39,679
+magical. I've defined the goal. How do
+
+535
+00:22:37,840 --> 00:22:42,159
+we actually build that? Well, we
+
+536
+00:22:39,679 --> 00:22:44,880
+actually turns out once you describe
+
+537
+00:22:42,159 --> 00:22:47,039
+this idea, you can actually build it in
+
+538
+00:22:44,880 --> 00:22:48,559
+a straightforward way just by
+
+539
+00:22:47,039 --> 00:22:50,880
+constructing a training set that has
+
+540
+00:22:48,559 --> 00:22:53,760
+that property and training a model to do
+
+541
+00:22:50,880 --> 00:22:56,000
+it. That was sort of surprising to me.
+
+542
+00:22:53,760 --> 00:22:57,840
+Um so
+
+543
+00:22:56,000 --> 00:23:01,360
+the key idea is to go out and collect
+
+544
+00:22:57,840 --> 00:23:03,360
+have data tag the noun phrases in the
+
+545
+00:23:01,360 --> 00:23:06,720
+data and of course in the ground truth
+
+546
+00:23:03,360 --> 00:23:08,320
+data we tag the noun phrases with
+
+547
+00:23:06,720 --> 00:23:10,480
+something that says this is confident
+
+548
+00:23:08,320 --> 00:23:13,840
+because it is confident.
+
+549
+00:23:10,480 --> 00:23:17,840
+uh and we go out and construct negative
+
+550
+00:23:13,840 --> 00:23:19,919
+data where we change the noun phrase to
+
+551
+00:23:17,840 --> 00:23:22,480
+be something that's not in the image and
+
+552
+00:23:19,919 --> 00:23:24,720
+we label that as an unconfident or
+
+553
+00:23:22,480 --> 00:23:25,919
+incorrect uh object. And we can do this
+
+554
+00:23:24,720 --> 00:23:27,200
+for a variety of different things. You
+
+555
+00:23:25,919 --> 00:23:29,440
+can change the number of baseball
+
+556
+00:23:27,200 --> 00:23:31,440
+players in a baseball image. You can
+
+557
+00:23:29,440 --> 00:23:33,919
+change the style of an object, for
+
+558
+00:23:31,440 --> 00:23:36,159
+example, in this airplane image. You can
+
+559
+00:23:33,919 --> 00:23:39,280
+change a fact like the author in the in
+
+560
+00:23:36,159 --> 00:23:42,240
+the of the book. Uh, and so now I have a
+
+561
+00:23:39,280 --> 00:23:44,000
+data set where when things are wrong,
+
+562
+00:23:42,240 --> 00:23:45,520
+the model says it's wrong. And when
+
+563
+00:23:44,000 --> 00:23:48,559
+things are right, the model says it's
+
+564
+00:23:45,520 --> 00:23:52,240
+right. And I can then fine-tune a model
+
+565
+00:23:48,559 --> 00:23:55,280
+with this structure. And lo and behold,
+
+566
+00:23:52,240 --> 00:23:57,840
+the model will generalize. And now when
+
+567
+00:23:55,280 --> 00:24:01,120
+it's not quite sure, it'll actually tell
+
+568
+00:23:57,840 --> 00:24:03,120
+us it's unconfident about this. And then
+
+569
+00:24:01,120 --> 00:24:06,000
+we can train we can then at inference
+
+570
+00:24:03,120 --> 00:24:08,880
+time as something is generated we can
+
+571
+00:24:06,000 --> 00:24:11,039
+monitor the likelihood that the next
+
+572
+00:24:08,880 --> 00:24:14,000
+token that's going to be produced is
+
+573
+00:24:11,039 --> 00:24:16,559
+that unconfident token.
+
+574
+00:24:14,000 --> 00:24:19,679
+And whenever it suddenly pops up to be
+
+575
+00:24:16,559 --> 00:24:22,240
+high, we can say let's skip that and try
+
+576
+00:24:19,679 --> 00:24:24,559
+again and generate a different token.
+
+577
+00:24:22,240 --> 00:24:26,159
+And suddenly it generates a token that
+
+578
+00:24:24,559 --> 00:24:27,919
+then the next token is not going to be
+
+579
+00:24:26,159 --> 00:24:29,840
+the unconfident token. It's going to be
+
+580
+00:24:27,919 --> 00:24:31,840
+the confident token and keep going. And
+
+581
+00:24:29,840 --> 00:24:36,320
+you can either use rejection sampling or
+
+582
+00:24:31,840 --> 00:24:39,600
+query writing. Um, and it works in a lot
+
+583
+00:24:36,320 --> 00:24:42,880
+of good uh useful cases where otherwise
+
+584
+00:24:39,600 --> 00:24:45,520
+models would have hallucinated. Um, and
+
+585
+00:24:42,880 --> 00:24:48,080
+you can trade off the expressivity
+
+586
+00:24:45,520 --> 00:24:50,480
+versus groundedness. Um, and we also
+
+587
+00:24:48,080 --> 00:24:55,039
+have some extensions of this to u
+
+588
+00:24:50,480 --> 00:24:57,120
+robotics. And um when you um ask for
+
+589
+00:24:55,039 --> 00:24:59,840
+something that's not there, the model
+
+590
+00:24:57,120 --> 00:25:02,400
+should um be aware that the object's not
+
+591
+00:24:59,840 --> 00:25:03,600
+there and u backtrack to something else.
+
+592
+00:25:02,400 --> 00:25:05,679
+I'm going to skip over that in the
+
+593
+00:25:03,600 --> 00:25:07,520
+interest of time.
+
+594
+00:25:05,679 --> 00:25:10,880
+Um so if you're interested in that in
+
+595
+00:25:07,520 --> 00:25:12,960
+more detail, uh check out uh this uh
+
+596
+00:25:10,880 --> 00:25:15,120
+paper. The algorithm is called reverse
+
+597
+00:25:12,960 --> 00:25:17,120
+and the title is generate but verify
+
+598
+00:25:15,120 --> 00:25:19,200
+reducing visual hallucination in vision
+
+599
+00:25:17,120 --> 00:25:21,919
+language models with retrospective
+
+600
+00:25:19,200 --> 00:25:23,679
+resampling. Uh and I think the robotics
+
+601
+00:25:21,919 --> 00:25:26,159
+extension is going to be on archive soon
+
+602
+00:25:23,679 --> 00:25:27,200
+if it's not already. So that's one cool
+
+603
+00:25:26,159 --> 00:25:31,200
+thing like I think reducing
+
+604
+00:25:27,200 --> 00:25:35,679
+hallucinations gets us um a significant
+
+605
+00:25:31,200 --> 00:25:40,880
+way towards acceptance of these classes
+
+606
+00:25:35,679 --> 00:25:43,520
+of of VLMs in um real hard problems like
+
+607
+00:25:40,880 --> 00:25:45,760
+in real robotics problems. Uh another
+
+608
+00:25:43,520 --> 00:25:49,919
+thing we probably need to do is not be
+
+609
+00:25:45,760 --> 00:25:52,960
+limited to relatively narrow views of
+
+610
+00:25:49,919 --> 00:25:55,679
+the world. I think like my earliest work
+
+611
+00:25:52,960 --> 00:25:59,440
+in robotics was building depth cameras
+
+612
+00:25:55,679 --> 00:26:02,080
+for uh robotic sensors, robotic systems.
+
+613
+00:25:59,440 --> 00:26:04,480
+Um, and we knew you need to have lots of
+
+614
+00:26:02,080 --> 00:26:06,799
+pixels to get accurate information. And
+
+615
+00:26:04,480 --> 00:26:09,600
+if you're looking out at the world, we'd
+
+616
+00:26:06,799 --> 00:26:11,919
+like to not just be limited to 224 x
+
+617
+00:26:09,600 --> 00:26:15,520
+224. Let's we should probably be able to
+
+618
+00:26:11,919 --> 00:26:18,080
+take 4K by 4K or 8K by 8K. Uh, this is
+
+619
+00:26:15,520 --> 00:26:20,720
+work led by my student by Fangg Xi as
+
+620
+00:26:18,080 --> 00:26:23,919
+part of a collaboration with Nvidia. Um,
+
+621
+00:26:20,720 --> 00:26:26,799
+and I don't probably have to uh convince
+
+622
+00:26:23,919 --> 00:26:29,760
+you that it's going to be hard to brute
+
+623
+00:26:26,799 --> 00:26:31,120
+force scale your way to this. Like, even
+
+624
+00:26:29,760 --> 00:26:33,279
+if you believe in data space scale,
+
+625
+00:26:31,120 --> 00:26:36,400
+let's eventually these exponential
+
+626
+00:26:33,279 --> 00:26:39,760
+things catch up with you. If my if I'm
+
+627
+00:26:36,400 --> 00:26:41,679
+trying to scale to 4K by 4K and I want
+
+628
+00:26:39,760 --> 00:26:43,600
+to ask questions about little details in
+
+629
+00:26:41,679 --> 00:26:45,600
+the scene, like what's the name of that
+
+630
+00:26:43,600 --> 00:26:46,960
+sailboat? First of all, you're not going
+
+631
+00:26:45,600 --> 00:26:49,279
+to be able to answer the question that
+
+632
+00:26:46,960 --> 00:26:51,039
+low res. And if you try and just brute
+
+633
+00:26:49,279 --> 00:26:53,200
+force run it at high- res or you've got
+
+634
+00:26:51,039 --> 00:26:56,480
+some robotic scene and you want to, you
+
+635
+00:26:53,200 --> 00:26:58,000
+know, count how many um protrusions
+
+636
+00:26:56,480 --> 00:27:02,240
+there are from an object that you need
+
+637
+00:26:58,000 --> 00:27:03,760
+to manipulate. Um well, clearly we're
+
+638
+00:27:02,240 --> 00:27:06,240
+not going to do this with brute force.
+
+639
+00:27:03,760 --> 00:27:08,720
+And clearly anyone who's been around
+
+640
+00:27:06,240 --> 00:27:10,640
+vision for more than a few decades
+
+641
+00:27:08,720 --> 00:27:12,559
+knows, well, come on, think about how
+
+642
+00:27:10,640 --> 00:27:14,080
+every other vision biological vision
+
+643
+00:27:12,559 --> 00:27:15,200
+system solves this problem or how we've
+
+644
+00:27:14,080 --> 00:27:16,880
+been thinking about it for decades in
+
+645
+00:27:15,200 --> 00:27:18,720
+computer vision. We should be attending
+
+646
+00:27:16,880 --> 00:27:21,440
+to the things that matter, looking at
+
+647
+00:27:18,720 --> 00:27:23,440
+them at higher resolution and processing
+
+648
+00:27:21,440 --> 00:27:25,279
+them. Except that's hard to integrate
+
+649
+00:27:23,440 --> 00:27:27,440
+with our that it just sounds like I
+
+650
+00:27:25,279 --> 00:27:29,919
+bought a whole bag of inductive bias
+
+651
+00:27:27,440 --> 00:27:32,159
+that nobody wanted to have. And so that
+
+652
+00:27:29,919 --> 00:27:33,679
+that hasn't been fashionable lately. And
+
+653
+00:27:32,159 --> 00:27:35,760
+we already know what attention means.
+
+654
+00:27:33,679 --> 00:27:37,600
+Attention is the cross attention of a
+
+655
+00:27:35,760 --> 00:27:39,679
+transformer that's fully connected to
+
+656
+00:27:37,600 --> 00:27:41,760
+everything, right? Um but here I want to
+
+657
+00:27:39,679 --> 00:27:44,320
+have a different kind of attention. I I
+
+658
+00:27:41,760 --> 00:27:46,159
+want to attend to attention. So I want
+
+659
+00:27:44,320 --> 00:27:49,679
+to actually have computer vision or
+
+660
+00:27:46,159 --> 00:27:52,000
+human uh psychopysics style perception
+
+661
+00:27:49,679 --> 00:27:55,279
+and say let's figure out where I should
+
+662
+00:27:52,000 --> 00:27:58,240
+look so that I can actually have higher
+
+663
+00:27:55,279 --> 00:27:59,919
+resolution. Um and yet do this all in a
+
+664
+00:27:58,240 --> 00:28:02,640
+data driven end toend way based on
+
+665
+00:27:59,919 --> 00:28:04,080
+transformers. Um so there's a lot of
+
+666
+00:28:02,640 --> 00:28:05,840
+data. I won't go into this in the
+
+667
+00:28:04,080 --> 00:28:08,799
+interest of time in this talk, but it's
+
+668
+00:28:05,840 --> 00:28:11,919
+not hard to go out and construct very
+
+669
+00:28:08,799 --> 00:28:14,080
+overly annotated uh images at high
+
+670
+00:28:11,919 --> 00:28:16,720
+resolution with detailed descriptions
+
+671
+00:28:14,080 --> 00:28:20,480
+all over the place. Uh and once you have
+
+672
+00:28:16,720 --> 00:28:23,520
+that to train a model that basically can
+
+673
+00:28:20,480 --> 00:28:25,279
+have multi-resolution tokens. So, I can
+
+674
+00:28:23,520 --> 00:28:28,320
+have low resolution tokens that are
+
+675
+00:28:25,279 --> 00:28:32,399
+essentially 224 x24, but I can also chip
+
+676
+00:28:28,320 --> 00:28:36,159
+up my image and send the the um 4K 4K
+
+677
+00:28:32,399 --> 00:28:38,640
+image into almost the same uh encoder
+
+678
+00:28:36,159 --> 00:28:41,760
+and get high resolution tokens
+
+679
+00:28:38,640 --> 00:28:43,520
+corresponding to sub regions. Uh, and
+
+680
+00:28:41,760 --> 00:28:45,919
+now the game is which of those should I
+
+681
+00:28:43,520 --> 00:28:47,520
+decode? I can't put them all into I
+
+682
+00:28:45,919 --> 00:28:51,520
+can't train with all of them. That gets
+
+683
+00:28:47,520 --> 00:28:54,559
+that explosion of complexity.
+
+684
+00:28:51,520 --> 00:28:56,720
+Uh, uh I want to discover which are the
+
+685
+00:28:54,559 --> 00:28:59,600
+ones that are salient
+
+686
+00:28:56,720 --> 00:29:03,120
+either for this image or for the task
+
+687
+00:28:59,600 --> 00:29:07,279
+the prompt and selectively decode those
+
+688
+00:29:03,120 --> 00:29:09,919
+and put them into uh uh into an
+
+689
+00:29:07,279 --> 00:29:11,279
+inference paths. Uh and so this is the
+
+690
+00:29:09,919 --> 00:29:15,679
+figure that I like the most that
+
+691
+00:29:11,279 --> 00:29:18,559
+summarizes this VA HD model um with the
+
+692
+00:29:15,679 --> 00:29:20,240
+sort of PS3 architecture which takes an
+
+693
+00:29:18,559 --> 00:29:24,000
+image at low resolution. Those are the
+
+694
+00:29:20,240 --> 00:29:27,200
+tokens uh on the left, the kind of cyan
+
+695
+00:29:24,000 --> 00:29:29,600
+green tokens and some text question or
+
+696
+00:29:27,200 --> 00:29:31,840
+query. And then it decides based on all
+
+697
+00:29:29,600 --> 00:29:35,200
+of that where to look and it generates a
+
+698
+00:29:31,840 --> 00:29:37,440
+token that then goes out and causes
+
+699
+00:29:35,200 --> 00:29:40,080
+other tokens to be put into the decoding
+
+700
+00:29:37,440 --> 00:29:43,039
+stream. These highresolution orange
+
+701
+00:29:40,080 --> 00:29:45,360
+tokens, right? So we now have an
+
+702
+00:29:43,039 --> 00:29:48,640
+integrated architecture that's endtoend
+
+703
+00:29:45,360 --> 00:29:50,320
+trainable that um you generates a token.
+
+704
+00:29:48,640 --> 00:29:52,960
+It's actually similar to the previous
+
+705
+00:29:50,320 --> 00:29:55,520
+idea. This we have a a retrospect token
+
+706
+00:29:52,960 --> 00:29:56,960
+that or a confident unconfident token
+
+707
+00:29:55,520 --> 00:29:59,360
+that decides whether or not to
+
+708
+00:29:56,960 --> 00:30:02,080
+backtrack. Here I'm generating a token
+
+709
+00:29:59,360 --> 00:30:03,760
+that decides what other tokens to to
+
+710
+00:30:02,080 --> 00:30:07,120
+insert into this stream. It's kind of
+
+711
+00:30:03,760 --> 00:30:08,720
+like a rag architecture um but it's in a
+
+712
+00:30:07,120 --> 00:30:11,679
+course defi you know multi-resolution
+
+713
+00:30:08,720 --> 00:30:15,279
+perception uh architecture and this
+
+714
+00:30:11,679 --> 00:30:17,440
+scales uh elegantly and has the desired
+
+715
+00:30:15,279 --> 00:30:19,200
+properties that you would like. I'll
+
+716
+00:30:17,440 --> 00:30:22,640
+refer you to the paper to look in detail
+
+717
+00:30:19,200 --> 00:30:24,640
+at these uh results. Um and I'll just
+
+718
+00:30:22,640 --> 00:30:26,240
+show you this video which I think is one
+
+719
+00:30:24,640 --> 00:30:28,799
+of the Nvidia is interested in
+
+720
+00:30:26,240 --> 00:30:30,399
+autonomous driving. And you know you
+
+721
+00:30:28,799 --> 00:30:32,000
+might want to ask questions about the
+
+722
+00:30:30,399 --> 00:30:34,159
+driving environment. So you're you're
+
+723
+00:30:32,000 --> 00:30:36,480
+racing down the road. You want to ask a
+
+724
+00:30:34,159 --> 00:30:38,640
+question about the exit upcoming. You
+
+725
+00:30:36,480 --> 00:30:40,559
+need to read what's on the sign. And you
+
+726
+00:30:38,640 --> 00:30:43,279
+know if you use a baseline system the
+
+727
+00:30:40,559 --> 00:30:46,000
+baseline system either is operating at
+
+728
+00:30:43,279 --> 00:30:48,399
+too low resolution and can't see you
+
+729
+00:30:46,000 --> 00:30:50,640
+know can't figure out the answer to the
+
+730
+00:30:48,399 --> 00:30:52,559
+question until it's too late or it's
+
+731
+00:30:50,640 --> 00:30:55,200
+running too slow and it can figure it
+
+732
+00:30:52,559 --> 00:30:56,960
+out but also too late. Only with this
+
+733
+00:30:55,200 --> 00:31:00,240
+kind of architecture can you operate at
+
+734
+00:30:56,960 --> 00:31:03,240
+a super high resolution and do so uh
+
+735
+00:31:00,240 --> 00:31:03,240
+efficiently.
+
+736
+00:31:04,080 --> 00:31:10,000
+So that's cool. I think we have two
+
+737
+00:31:05,760 --> 00:31:12,640
+ideas now that really push forward VLMs
+
+738
+00:31:10,000 --> 00:31:14,960
+for the for real world tasks like
+
+739
+00:31:12,640 --> 00:31:17,840
+robotics task reducing hallucinations
+
+740
+00:31:14,960 --> 00:31:20,240
+running at high resolution. Um now let's
+
+741
+00:31:17,840 --> 00:31:23,360
+move on to sort of what are the dominant
+
+742
+00:31:20,240 --> 00:31:25,360
+paradigms of vision for robotics and
+
+743
+00:31:23,360 --> 00:31:28,240
+I'll show you actually three different
+
+744
+00:31:25,360 --> 00:31:31,600
+ideas. Uh the first being world models,
+
+745
+00:31:28,240 --> 00:31:34,799
+the second being kind of explicit like
+
+746
+00:31:31,600 --> 00:31:38,240
+behavior cloning in detail. uh and then
+
+747
+00:31:34,799 --> 00:31:42,640
+this 40 pre-training future. Um so this
+
+748
+00:31:38,240 --> 00:31:45,360
+is a CVPR paper uh I think won a best
+
+749
+00:31:42,640 --> 00:31:46,799
+runner up for some for best uh student
+
+750
+00:31:45,360 --> 00:31:48,720
+paper or something I can't remember just
+
+751
+00:31:46,799 --> 00:31:51,519
+a spotlight I apologize if I overclaimed
+
+752
+00:31:48,720 --> 00:31:54,559
+there um navigation world models led by
+
+753
+00:31:51,519 --> 00:31:57,279
+Amir Bar and uh collaboration with Meta
+
+754
+00:31:54,559 --> 00:31:59,519
+and Yan Lun and others
+
+755
+00:31:57,279 --> 00:32:01,200
+um and I think this is like you know
+
+756
+00:31:59,519 --> 00:32:03,519
+this world model story is somewhat
+
+757
+00:32:01,200 --> 00:32:06,159
+controversial um but I also think it's
+
+758
+00:32:03,519 --> 00:32:07,919
+interesting and it scales it's a real
+
+759
+00:32:06,159 --> 00:32:10,240
+scaling hypothe hypothesis it's saying
+
+760
+00:32:07,919 --> 00:32:12,880
+we're building these models diffusion
+
+761
+00:32:10,240 --> 00:32:14,240
+models that can predict images and they
+
+762
+00:32:12,880 --> 00:32:17,039
+can predict images conditioned on
+
+763
+00:32:14,240 --> 00:32:20,159
+previous images in time and now that I
+
+764
+00:32:17,039 --> 00:32:23,600
+can do that how far can I push this if I
+
+765
+00:32:20,159 --> 00:32:26,480
+train it on just images of this in video
+
+766
+00:32:23,600 --> 00:32:28,240
+of this room can I then predict what an
+
+767
+00:32:26,480 --> 00:32:31,039
+arbitrary viewpoint of this room looks
+
+768
+00:32:28,240 --> 00:32:33,919
+like without doing slam without doing
+
+769
+00:32:31,039 --> 00:32:35,519
+any explicit 3D reconstruction no nerfs
+
+770
+00:32:33,919 --> 00:32:37,120
+um but just like train a model to
+
+771
+00:32:35,519 --> 00:32:41,120
+predict the next view conditioned on an
+
+772
+00:32:37,120 --> 00:32:43,120
+action. Um, and increasingly we're we're
+
+773
+00:32:41,120 --> 00:32:44,720
+seeing that we can do that. And further,
+
+774
+00:32:43,120 --> 00:32:47,200
+if I can condition on an action, I can
+
+775
+00:32:44,720 --> 00:32:49,760
+now, you know, do MPC or the equivalent,
+
+776
+00:32:47,200 --> 00:32:51,840
+roll out multiple futures, decide which
+
+777
+00:32:49,760 --> 00:32:54,240
+future looks like the one that I want,
+
+778
+00:32:51,840 --> 00:32:58,320
+and take that action and then keep
+
+779
+00:32:54,240 --> 00:33:00,559
+going. Um, and uh, don't worry, I'm not
+
+780
+00:32:58,320 --> 00:33:02,880
+going to say this is solved or the only
+
+781
+00:33:00,559 --> 00:33:04,640
+way to do robotics, but I do think it's
+
+782
+00:33:02,880 --> 00:33:08,320
+exciting to see the the progress that's
+
+783
+00:33:04,640 --> 00:33:09,840
+being made. And um, I think eventually
+
+784
+00:33:08,320 --> 00:33:11,440
+these models will converge with some of
+
+785
+00:33:09,840 --> 00:33:14,000
+the other ideas, but here's where the
+
+786
+00:33:11,440 --> 00:33:16,159
+state-of-the-art is. Um, obviously this
+
+787
+00:33:14,000 --> 00:33:19,679
+world, this condition video model as
+
+788
+00:33:16,159 --> 00:33:23,440
+world model idea has been out there for
+
+789
+00:33:19,679 --> 00:33:26,240
+quite a while. Um and uh the sort of
+
+790
+00:33:23,440 --> 00:33:29,600
+dreamer architecture popularized it uh
+
+791
+00:33:26,240 --> 00:33:31,919
+recently. Um and we train a model to
+
+792
+00:33:29,600 --> 00:33:34,240
+predict predict the next frame of a
+
+793
+00:33:31,919 --> 00:33:36,720
+video conditioned on an action uh
+
+794
+00:33:34,240 --> 00:33:41,840
+navigation action and a time point uh
+
+795
+00:33:36,720 --> 00:33:45,519
+and train that just from from data uh of
+
+796
+00:33:41,840 --> 00:33:49,279
+either closed worlds or open worlds. So
+
+797
+00:33:45,519 --> 00:33:52,480
+we then give it a start image and a goal
+
+798
+00:33:49,279 --> 00:33:54,960
+image and we see can the model
+
+799
+00:33:52,480 --> 00:33:59,120
+hallucinate into the world and decide
+
+800
+00:33:54,960 --> 00:34:01,600
+what actions to take to get to uh a goal
+
+801
+00:33:59,120 --> 00:34:03,919
+image. And if it's a relatively simple
+
+802
+00:34:01,600 --> 00:34:07,120
+environment like a fixed room, it's
+
+803
+00:34:03,919 --> 00:34:10,480
+actually it works pretty well. uh and
+
+804
+00:34:07,120 --> 00:34:12,720
+it's a you know probably you could solve
+
+805
+00:34:10,480 --> 00:34:14,879
+this with slam but it's interesting you
+
+806
+00:34:12,720 --> 00:34:17,599
+can solve this purely with a datadriven
+
+807
+00:34:14,879 --> 00:34:19,520
+uh architecture uh as well. What makes
+
+808
+00:34:17,599 --> 00:34:21,359
+it feasible right now because otherwise
+
+809
+00:34:19,520 --> 00:34:23,599
+it would have been just like incredibly
+
+810
+00:34:21,359 --> 00:34:26,639
+computationally prohibitive
+
+811
+00:34:23,599 --> 00:34:29,040
+uh is to not to train a diffusion
+
+812
+00:34:26,639 --> 00:34:32,639
+transform a typical diffusion
+
+813
+00:34:29,040 --> 00:34:36,079
+transformer on video where we're like
+
+814
+00:34:32,639 --> 00:34:40,000
+sampling a new uh denoising a new image
+
+815
+00:34:36,079 --> 00:34:42,000
+sample based on the previous um frames.
+
+816
+00:34:40,000 --> 00:34:46,639
+But to do it in an architecture that's
+
+817
+00:34:42,000 --> 00:34:49,359
+only conditioned on the past um only
+
+818
+00:34:46,639 --> 00:34:52,000
+fully conditioned on the current frame
+
+819
+00:34:49,359 --> 00:34:54,879
+uh and linearly conditioned on all the
+
+820
+00:34:52,000 --> 00:34:56,159
+previous frames. So that's uh that's
+
+821
+00:34:54,879 --> 00:34:58,240
+important. There's a lot of data we can
+
+822
+00:34:56,159 --> 00:35:01,359
+train from. Here's the illustration of
+
+823
+00:34:58,240 --> 00:35:03,280
+this diffusion process where each frame
+
+824
+00:35:01,359 --> 00:35:07,440
+is denoised. That would have been the
+
+825
+00:35:03,280 --> 00:35:11,119
+the prior baseline method. In our new uh
+
+826
+00:35:07,440 --> 00:35:14,000
+attent uh attention in our CDT the
+
+827
+00:35:11,119 --> 00:35:16,800
+architecture is only fully is only
+
+828
+00:35:14,000 --> 00:35:18,640
+quadratic on the current image and it's
+
+829
+00:35:16,800 --> 00:35:20,880
+linear in the number of frames for the
+
+830
+00:35:18,640 --> 00:35:23,599
+previous image and that you know makes
+
+831
+00:35:20,880 --> 00:35:26,240
+it scale much more favorably than the
+
+832
+00:35:23,599 --> 00:35:28,400
+than the prior diffusion transformer for
+
+833
+00:35:26,240 --> 00:35:29,920
+this kind of thing.
+
+834
+00:35:28,400 --> 00:35:32,800
+Um, so this model can follow
+
+835
+00:35:29,920 --> 00:35:35,280
+trajectories in known environments.
+
+836
+00:35:32,800 --> 00:35:37,200
+That's pretty cool.
+
+837
+00:35:35,280 --> 00:35:41,760
+Uh, I mean some of the visualization,
+
+838
+00:35:37,200 --> 00:35:43,359
+it's not photorealistic perfect. Uh, and
+
+839
+00:35:41,760 --> 00:35:45,520
+I don't think we have any, we're not
+
+840
+00:35:43,359 --> 00:35:47,280
+reporting evidence yet that you can do
+
+841
+00:35:45,520 --> 00:35:50,079
+very precise manipulation or anything
+
+842
+00:35:47,280 --> 00:35:52,079
+like that. But it's interesting to see
+
+843
+00:35:50,079 --> 00:35:54,320
+how well it works and how that it also
+
+844
+00:35:52,079 --> 00:35:55,520
+works in unknown environments, right?
+
+845
+00:35:54,320 --> 00:35:57,200
+like you actually can totally
+
+846
+00:35:55,520 --> 00:35:59,839
+hallucinate what it would look like if I
+
+847
+00:35:57,200 --> 00:36:01,359
+move to the right here. And who knows if
+
+848
+00:35:59,839 --> 00:36:03,280
+that's a what it should look like
+
+849
+00:36:01,359 --> 00:36:05,520
+because this is all imagined, but it
+
+850
+00:36:03,280 --> 00:36:08,720
+gives you something
+
+851
+00:36:05,520 --> 00:36:11,119
+uh kind of crazy. So this is sort of at
+
+852
+00:36:08,720 --> 00:36:13,520
+the boundary of real robotics and
+
+853
+00:36:11,119 --> 00:36:15,280
+hallucination. Um you can use it for
+
+854
+00:36:13,520 --> 00:36:17,839
+planning and navigation as I said with
+
+855
+00:36:15,280 --> 00:36:21,119
+MPC and rollouts and those results are
+
+856
+00:36:17,839 --> 00:36:24,160
+are in the paper. Um, and I think I this
+
+857
+00:36:21,119 --> 00:36:26,000
+is probably obvious. You can use MPC and
+
+858
+00:36:24,160 --> 00:36:30,160
+uh or architectures like this Nomad
+
+859
+00:36:26,000 --> 00:36:32,079
+architecture from 2024 and just use the
+
+860
+00:36:30,160 --> 00:36:34,640
+hallucinated rollouts. Now, this is all
+
+861
+00:36:32,079 --> 00:36:37,280
+in known worlds and pick the one that
+
+862
+00:36:34,640 --> 00:36:41,119
+looks closest to the goal and get
+
+863
+00:36:37,280 --> 00:36:43,119
+state-of-the-art performance on uh c
+
+864
+00:36:41,119 --> 00:36:46,079
+current challenges.
+
+865
+00:36:43,119 --> 00:36:48,079
+Okay, so the takeaway from from this are
+
+866
+00:36:46,079 --> 00:36:50,480
+generative world models, conditional
+
+867
+00:36:48,079 --> 00:36:52,400
+diffusion transformers, computationally
+
+868
+00:36:50,480 --> 00:36:57,839
+efficient. So you can train this and
+
+869
+00:36:52,400 --> 00:37:00,640
+scale this uh and um this without having
+
+870
+00:36:57,839 --> 00:37:02,480
+explicit structure learning to act in
+
+871
+00:37:00,640 --> 00:37:06,400
+the world.
+
+872
+00:37:02,480 --> 00:37:07,920
+So the last of these sort of um nuggets
+
+873
+00:37:06,400 --> 00:37:09,599
+is
+
+874
+00:37:07,920 --> 00:37:11,440
+if you were if you don't like world
+
+875
+00:37:09,599 --> 00:37:13,359
+models, you probably like this. So, I'm
+
+876
+00:37:11,440 --> 00:37:15,280
+going to give you both bets, whoever,
+
+877
+00:37:13,359 --> 00:37:17,520
+you know, uh, we're we're doing all the
+
+878
+00:37:15,280 --> 00:37:19,440
+work at Berkeley right now. Um, this is
+
+879
+00:37:17,520 --> 00:37:22,000
+much more a computer vision person's
+
+880
+00:37:19,440 --> 00:37:24,160
+robotics, humanoid robotics talk. This
+
+881
+00:37:22,000 --> 00:37:27,040
+is like I'm going to watch humans move
+
+882
+00:37:24,160 --> 00:37:29,359
+in the world. I'm going to watch and
+
+883
+00:37:27,040 --> 00:37:30,720
+recover the structure of the world and
+
+884
+00:37:29,359 --> 00:37:32,320
+I'm going to learn how to act in the
+
+885
+00:37:30,720 --> 00:37:33,839
+world just purely through passive
+
+886
+00:37:32,320 --> 00:37:36,160
+observation
+
+887
+00:37:33,839 --> 00:37:38,400
+um by constructing that world and a
+
+888
+00:37:36,160 --> 00:37:41,200
+simulated environment with reward and
+
+889
+00:37:38,400 --> 00:37:44,160
+training robotic humanoid policy from
+
+890
+00:37:41,200 --> 00:37:45,839
+watching how people act, right? Uh
+
+891
+00:37:44,160 --> 00:37:48,240
+obviously a vision person argues that
+
+892
+00:37:45,839 --> 00:37:50,560
+it's easier to do data collection by
+
+893
+00:37:48,240 --> 00:37:54,880
+watching the world than explicitly going
+
+894
+00:37:50,560 --> 00:37:57,680
+out and trying to collect data. And um
+
+895
+00:37:54,880 --> 00:38:01,680
+and also you can collect data naturally
+
+896
+00:37:57,680 --> 00:38:04,480
+uh through um you know by just watching.
+
+897
+00:38:01,680 --> 00:38:06,720
+And so here is a kind of result we have
+
+898
+00:38:04,480 --> 00:38:08,560
+by watching Berkeley students wander
+
+899
+00:38:06,720 --> 00:38:09,839
+through the environment. We and maybe
+
+900
+00:38:08,560 --> 00:38:12,000
+they're a little bit drunk. I don't
+
+901
+00:38:09,839 --> 00:38:13,599
+know. We get we get hum we get robots
+
+902
+00:38:12,000 --> 00:38:15,599
+that also mimic them and walk through
+
+903
+00:38:13,599 --> 00:38:18,960
+the environment. uh and we call this
+
+904
+00:38:15,599 --> 00:38:20,720
+particular algorithm or the we call the
+
+905
+00:38:18,960 --> 00:38:22,320
+um capability that this particular
+
+906
+00:38:20,720 --> 00:38:25,760
+algorithm
+
+907
+00:38:22,320 --> 00:38:27,440
+uh provides contextual control because
+
+908
+00:38:25,760 --> 00:38:30,960
+as you'll see as I go through the
+
+909
+00:38:27,440 --> 00:38:33,440
+following slides, we're training a model
+
+910
+00:38:30,960 --> 00:38:34,720
+conditioned on the specific environment.
+
+911
+00:38:33,440 --> 00:38:37,040
+So it's going to be conditioned on the
+
+912
+00:38:34,720 --> 00:38:38,800
+3D structure of those stairs. It's going
+
+913
+00:38:37,040 --> 00:38:41,760
+to have observed human beings walking
+
+914
+00:38:38,800 --> 00:38:44,000
+around. And so it's kind of the opposite
+
+915
+00:38:41,760 --> 00:38:45,839
+of what many people in humanoid robotics
+
+916
+00:38:44,000 --> 00:38:48,480
+are doing right now, which is to try and
+
+917
+00:38:45,839 --> 00:38:50,800
+construct a single policy that can work
+
+918
+00:38:48,480 --> 00:38:53,520
+anywhere. Actually, in the the results
+
+919
+00:38:50,800 --> 00:38:55,839
+in this paper that's just been released,
+
+920
+00:38:53,520 --> 00:38:58,240
+I think it'll be presented at Coral uh
+
+921
+00:38:55,839 --> 00:39:00,880
+next month. We're training a policy just
+
+922
+00:38:58,240 --> 00:39:02,320
+for this specific environment. Condition
+
+923
+00:39:00,880 --> 00:39:03,920
+on observations for that environment. As
+
+924
+00:39:02,320 --> 00:39:06,480
+the robot walks around, it's going to do
+
+925
+00:39:03,920 --> 00:39:08,000
+whatever people did in that spot. So, I
+
+926
+00:39:06,480 --> 00:39:11,359
+think in a moment this robot's going to
+
+927
+00:39:08,000 --> 00:39:13,839
+go back and sit on that bench because
+
+928
+00:39:11,359 --> 00:39:16,560
+that's what if a person was at the
+
+929
+00:39:13,839 --> 00:39:18,640
+bench, it would sit down. And this was
+
+930
+00:39:16,560 --> 00:39:20,960
+all learned just by watching people
+
+931
+00:39:18,640 --> 00:39:24,560
+moving in this environment.
+
+932
+00:39:20,960 --> 00:39:26,160
+Uh there's no control. Well, there's the
+
+933
+00:39:24,560 --> 00:39:27,760
+right now the person's just saying what
+
+934
+00:39:26,160 --> 00:39:30,079
+joystick controlling what direction to
+
+935
+00:39:27,760 --> 00:39:33,119
+go and whatever direction it goes, it
+
+936
+00:39:30,079 --> 00:39:36,800
+does the action that's natural for that
+
+937
+00:39:33,119 --> 00:39:38,320
+location in the environment.
+
+938
+00:39:36,800 --> 00:39:40,560
+Uh,
+
+939
+00:39:38,320 --> 00:39:43,280
+and so how do we do this? We do this by
+
+940
+00:39:40,560 --> 00:39:46,240
+tracking uh all the things that we can
+
+941
+00:39:43,280 --> 00:39:49,760
+track. We can watch people move in the
+
+942
+00:39:46,240 --> 00:39:52,160
+environment, multiple people as well,
+
+943
+00:39:49,760 --> 00:39:54,720
+watch how they interact with each other.
+
+944
+00:39:52,160 --> 00:39:57,280
+uh we can reconstruct the environment uh
+
+945
+00:39:54,720 --> 00:40:02,720
+and then we in the environment train a
+
+946
+00:39:57,280 --> 00:40:05,440
+simulated uh uh robot to act in the
+
+947
+00:40:02,720 --> 00:40:07,839
+appropriate way at that spot being as
+
+948
+00:40:05,440 --> 00:40:10,640
+consistent with the observed human
+
+949
+00:40:07,839 --> 00:40:14,000
+behavior as possible. We call this video
+
+950
+00:40:10,640 --> 00:40:16,320
+mimic. This is sort of a highle snapshot
+
+951
+00:40:14,000 --> 00:40:20,560
+of the whole thing. It's driven purely
+
+952
+00:40:16,320 --> 00:40:23,599
+by moninocular video input. We have um
+
+953
+00:40:20,560 --> 00:40:25,599
+from Anju Kanazawa's lab uh 3D
+
+954
+00:40:23,599 --> 00:40:28,160
+reconstructions of human bodies over
+
+955
+00:40:25,599 --> 00:40:30,240
+time. This is a collaboration with
+
+956
+00:40:28,160 --> 00:40:32,560
+Anju's lab, Peter Beiel's lab, my lab
+
+957
+00:40:30,240 --> 00:40:34,880
+and Jendra's lab. A lot of students
+
+958
+00:40:32,560 --> 00:40:37,359
+getting together to bring this to
+
+959
+00:40:34,880 --> 00:40:40,320
+reality. Very exciting work. And we of
+
+960
+00:40:37,359 --> 00:40:43,040
+course track the pose. We recover the 3D
+
+961
+00:40:40,320 --> 00:40:46,480
+reconstruction of the environment. We
+
+962
+00:40:43,040 --> 00:40:49,599
+align those two. uh we retarget the
+
+963
+00:40:46,480 --> 00:40:53,280
+human motion onto a robotic uh form
+
+964
+00:40:49,599 --> 00:40:56,079
+factor um and then uh can render what
+
+965
+00:40:53,280 --> 00:40:58,400
+the robot looks like if it was mimicking
+
+966
+00:40:56,079 --> 00:41:02,560
+the human behavior and then we can train
+
+967
+00:40:58,400 --> 00:41:05,119
+a policy to match that model given the
+
+968
+00:41:02,560 --> 00:41:08,000
+act given the simulated uh observations
+
+969
+00:41:05,119 --> 00:41:10,400
+that the real robot will see uh at
+
+970
+00:41:08,000 --> 00:41:12,400
+inference time. So this video kind of
+
+971
+00:41:10,400 --> 00:41:14,640
+gives you the sort of sums up everything
+
+972
+00:41:12,400 --> 00:41:17,359
+that's happening in one shot,
+
+973
+00:41:14,640 --> 00:41:19,200
+reconstructing the reconstructing the
+
+974
+00:41:17,359 --> 00:41:22,480
+world, reconstructing the motion of a
+
+975
+00:41:19,200 --> 00:41:24,640
+person retargeted to the humanoid robot
+
+976
+00:41:22,480 --> 00:41:26,800
+form, and then simulating what the
+
+977
+00:41:24,640 --> 00:41:28,319
+sensors on the humanoid robot can see.
+
+978
+00:41:26,800 --> 00:41:31,119
+And now we're going to train a policy
+
+979
+00:41:28,319 --> 00:41:33,280
+based on those sensors to cause the
+
+980
+00:41:31,119 --> 00:41:37,839
+robot to behave as close as the person
+
+981
+00:41:33,280 --> 00:41:43,119
+did in the real world. Uh and we have um
+
+982
+00:41:37,839 --> 00:41:47,440
+uh the variety of um uh uh policy
+
+983
+00:41:43,119 --> 00:41:49,119
+learning strategies here um um you know
+
+984
+00:41:47,440 --> 00:41:50,960
+pre-training with just the mocap and
+
+985
+00:41:49,119 --> 00:41:54,000
+then doing geometry aware tracking and
+
+986
+00:41:50,960 --> 00:41:56,240
+distilling with the root motion and
+
+987
+00:41:54,000 --> 00:41:59,200
+finally fine-tuning with RL on all of
+
+988
+00:41:56,240 --> 00:42:00,800
+those observations. Uh and so here's
+
+989
+00:41:59,200 --> 00:42:04,480
+again some results of walking around
+
+990
+00:42:00,800 --> 00:42:06,960
+indoors in the uh bear lab building up
+
+991
+00:42:04,480 --> 00:42:09,440
+and down the stairs and up and down the
+
+992
+00:42:06,960 --> 00:42:12,160
+stairs of the Bankro Library uh at
+
+993
+00:42:09,440 --> 00:42:14,160
+Berkeley. Um you know I think you look
+
+994
+00:42:12,160 --> 00:42:17,440
+at results like this and it looks
+
+995
+00:42:14,160 --> 00:42:20,160
+amazing and cool how much we have also
+
+996
+00:42:17,440 --> 00:42:23,599
+still how much there is left to be done.
+
+997
+00:42:20,160 --> 00:42:26,079
+Uh, and also as I said, these results
+
+998
+00:42:23,599 --> 00:42:27,599
+are for a specific environment. And
+
+999
+00:42:26,079 --> 00:42:29,760
+obviously, we're going to have to figure
+
+1000
+00:42:27,599 --> 00:42:31,359
+out how to train a policy that
+
+1001
+00:42:29,760 --> 00:42:33,200
+automatically generalizes to any
+
+1002
+00:42:31,359 --> 00:42:35,280
+environment as a either a mixture of
+
+1003
+00:42:33,200 --> 00:42:38,319
+these policies or by distilling them
+
+1004
+00:42:35,280 --> 00:42:40,240
+into a super policy. And for that, I
+
+1005
+00:42:38,319 --> 00:42:43,200
+would say just stay tuned for the
+
+1006
+00:42:40,240 --> 00:42:48,400
+future. Uh, Arthur, Hongac, David, and
+
+1007
+00:42:43,200 --> 00:42:51,520
+and Junhi were the lead um uh uh
+
+1008
+00:42:48,400 --> 00:42:55,200
+students on this project. amazing work.
+
+1009
+00:42:51,520 --> 00:42:56,720
+Okay, so in the last 10 or so minutes,
+
+1010
+00:42:55,200 --> 00:42:58,720
+um
+
+1011
+00:42:56,720 --> 00:43:00,880
+let me push a little bit farther. I
+
+1012
+00:42:58,720 --> 00:43:03,520
+think the two things that I just the two
+
+1013
+00:43:00,880 --> 00:43:05,920
+kind of paradigms I just uh showed you
+
+1014
+00:43:03,520 --> 00:43:09,440
+our latest results on the kind of model
+
+1015
+00:43:05,920 --> 00:43:11,280
+based world model based approach
+
+1016
+00:43:09,440 --> 00:43:12,720
+uh and the sort of full 3D
+
+1017
+00:43:11,280 --> 00:43:14,560
+reconstruction behavior cloning
+
+1018
+00:43:12,720 --> 00:43:16,160
+approach. They're both they're like
+
+1019
+00:43:14,560 --> 00:43:17,920
+extremes. It's cool that we have
+
+1020
+00:43:16,160 --> 00:43:19,440
+state-of-the-art results in both, but
+
+1021
+00:43:17,920 --> 00:43:21,760
+they also kind of feel a little bit
+
+1022
+00:43:19,440 --> 00:43:25,520
+limiting to me. They're they're they're
+
+1023
+00:43:21,760 --> 00:43:27,680
+either too general in one sense or too
+
+1024
+00:43:25,520 --> 00:43:29,119
+constrained in another. And so I'd like
+
+1025
+00:43:27,680 --> 00:43:30,800
+to propose something that's a little bit
+
+1026
+00:43:29,119 --> 00:43:34,319
+in the middle. And I'm going to call it
+
+1027
+00:43:30,800 --> 00:43:37,680
+the 4D pre-training uh hypothesis or
+
+1028
+00:43:34,319 --> 00:43:38,880
+conjecture or bet. Um, and first I'm
+
+1029
+00:43:37,680 --> 00:43:42,800
+going to do a little bit of history
+
+1030
+00:43:38,880 --> 00:43:45,359
+again back into the past and we see the
+
+1031
+00:43:42,800 --> 00:43:47,040
+the progression of uh training of
+
+1032
+00:43:45,359 --> 00:43:50,240
+robotic visual learning models. Actually
+
+1033
+00:43:47,040 --> 00:43:53,520
+this early work that uh Peter uh and I
+
+1034
+00:43:50,240 --> 00:43:56,160
+with Chelsea and uh Sergey uh pioneered
+
+1035
+00:43:53,520 --> 00:43:58,240
+back in 2015 one of the first like deep
+
+1036
+00:43:56,160 --> 00:44:00,160
+networks that was end to end trainable.
+
+1037
+00:43:58,240 --> 00:44:02,640
+And actually one of the small facts that
+
+1038
+00:44:00,160 --> 00:44:05,119
+I think led to this model success that
+
+1039
+00:44:02,640 --> 00:44:07,359
+might be overlooked by some is it
+
+1040
+00:44:05,119 --> 00:44:09,839
+actually wasn't the the reason this
+
+1041
+00:44:07,359 --> 00:44:12,480
+model I think worked was it was actually
+
+1042
+00:44:09,839 --> 00:44:13,440
+estimating trajectories in a sense I'll
+
+1043
+00:44:12,480 --> 00:44:14,880
+get back we didn't call them
+
+1044
+00:44:13,440 --> 00:44:19,440
+trajectories back then but there was an
+
+1045
+00:44:14,880 --> 00:44:22,319
+argmax function in that model that made
+
+1046
+00:44:19,440 --> 00:44:23,760
+it trainable with small amounts of data
+
+1047
+00:44:22,319 --> 00:44:25,440
+otherwise if you look back like how
+
+1048
+00:44:23,760 --> 00:44:27,760
+could you have trained a model there
+
+1049
+00:44:25,440 --> 00:44:29,760
+with the with the posity of data that
+
+1050
+00:44:27,760 --> 00:44:32,160
+you had turns out that the architecture
+
+1051
+00:44:29,760 --> 00:44:35,280
+there found the peaks of distributions
+
+1052
+00:44:32,160 --> 00:44:37,599
+and and really returned them over time
+
+1053
+00:44:35,280 --> 00:44:40,960
+and that that'll turn out to be relevant
+
+1054
+00:44:37,599 --> 00:44:42,319
+I think as I look to the future. Then
+
+1055
+00:44:40,960 --> 00:44:44,240
+people removed that from the
+
+1056
+00:44:42,319 --> 00:44:46,480
+architecture and tried to train more
+
+1057
+00:44:44,240 --> 00:44:49,760
+general approaches for pre-training with
+
+1058
+00:44:46,480 --> 00:44:52,240
+some success um including mass
+
+1059
+00:44:49,760 --> 00:44:55,280
+autoenccoder style models which echo our
+
+1060
+00:44:52,240 --> 00:44:59,440
+also our previous work uh that Deepo Pak
+
+1061
+00:44:55,280 --> 00:45:01,040
+led on uh context encoders um and these
+
+1062
+00:44:59,440 --> 00:45:03,440
+started to be used for general
+
+1063
+00:45:01,040 --> 00:45:07,040
+pre-training representations
+
+1064
+00:45:03,440 --> 00:45:09,119
+um and of course now using transformer
+
+1065
+00:45:07,040 --> 00:45:10,560
+uh representations both for encoders and
+
+1066
+00:45:09,119 --> 00:45:12,079
+for LLMs.
+
+1067
+00:45:10,560 --> 00:45:15,040
+and we kind of arrive at the
+
+1068
+00:45:12,079 --> 00:45:17,280
+state-of-the-art. And in terms of pixel
+
+1069
+00:45:15,040 --> 00:45:19,520
+processing,
+
+1070
+00:45:17,280 --> 00:45:22,480
+the the brute force approaches on pixels
+
+1071
+00:45:19,520 --> 00:45:26,240
+still seem to have a tough time scaling
+
+1072
+00:45:22,480 --> 00:45:28,800
+as efficiently as text scales. I haven't
+
+1073
+00:45:26,240 --> 00:45:32,560
+seen that emergent video model. I mean,
+
+1074
+00:45:28,800 --> 00:45:35,359
+maybe the latest kind of Neo and Genie
+
+1075
+00:45:32,560 --> 00:45:38,240
+and VO and all those models. I guess the
+
+1076
+00:45:35,359 --> 00:45:41,119
+jury is still out on some of those, but
+
+1077
+00:45:38,240 --> 00:45:43,119
+um for most of the models out there and
+
+1078
+00:45:41,119 --> 00:45:45,520
+certainly all the open models, we we
+
+1079
+00:45:43,119 --> 00:45:50,079
+haven't seen pre-training just on pixel
+
+1080
+00:45:45,520 --> 00:45:53,280
+features be easy, you know, except maybe
+
+1081
+00:45:50,079 --> 00:45:56,400
+at, you know, the most
+
+1082
+00:45:53,280 --> 00:45:57,760
+um biggest corporate scales. We'll see.
+
+1083
+00:45:56,400 --> 00:46:00,720
+We'll see. And the jury is still out on
+
+1084
+00:45:57,760 --> 00:46:02,400
+that. And that's because I think all of
+
+1085
+00:46:00,720 --> 00:46:04,560
+the work we've been doing has been just
+
+1086
+00:46:02,400 --> 00:46:08,240
+too focused on texture.
+
+1087
+00:46:04,560 --> 00:46:09,599
+envision. Uh, and I'll hearken back to
+
+1088
+00:46:08,240 --> 00:46:12,240
+the past, the tradition of computer
+
+1089
+00:46:09,599 --> 00:46:15,119
+vision, and say these pixel features,
+
+1090
+00:46:12,240 --> 00:46:17,520
+either 2D or 3D, ignore the most
+
+1091
+00:46:15,119 --> 00:46:18,800
+important problem in computer vision.
+
+1092
+00:46:17,520 --> 00:46:20,560
+Actually, they ignore the three most
+
+1093
+00:46:18,800 --> 00:46:21,760
+important problems in computer vision,
+
+1094
+00:46:20,560 --> 00:46:24,000
+which again, I wonder if any of the
+
+1095
+00:46:21,760 --> 00:46:27,119
+old-timers in the room know what I'm
+
+1096
+00:46:24,000 --> 00:46:29,440
+referring to. Actually, was a CMU phrase
+
+1097
+00:46:27,119 --> 00:46:30,960
+from our friend Teo Kennady, who would
+
+1098
+00:46:29,440 --> 00:46:32,720
+say, "What's the most important problem
+
+1099
+00:46:30,960 --> 00:46:35,359
+in computer vision?" Well, the most
+
+1100
+00:46:32,720 --> 00:46:36,720
+important problem is correspondence.
+
+1101
+00:46:35,359 --> 00:46:38,800
+Does anybody know what the second most
+
+1102
+00:46:36,720 --> 00:46:41,839
+important problem is?
+
+1103
+00:46:38,800 --> 00:46:44,960
+>> That's right. And the third is also like
+
+1104
+00:46:41,839 --> 00:46:46,480
+real estate. So, um, again, this was a
+
+1105
+00:46:44,960 --> 00:46:48,960
+phrase I heard when I was a grad student
+
+1106
+00:46:46,480 --> 00:46:50,720
+or uh, and I'm going to say they're I
+
+1107
+00:46:48,960 --> 00:46:53,760
+think arguably also the three most
+
+1108
+00:46:50,720 --> 00:46:56,079
+important ones in robotics. Uh, and we
+
+1109
+00:46:53,760 --> 00:46:57,839
+sort of have been missing that except to
+
+1110
+00:46:56,079 --> 00:47:00,000
+the extent that we're pre-training on
+
+1111
+00:46:57,839 --> 00:47:01,839
+trajectories or building models that
+
+1112
+00:47:00,000 --> 00:47:03,920
+pre-train trajectories.
+
+1113
+00:47:01,839 --> 00:47:06,480
+And um and so that's what I'm sort of
+
+1114
+00:47:03,920 --> 00:47:08,960
+excited about right now is to find ways
+
+1115
+00:47:06,480 --> 00:47:11,599
+to use this datadriven pre-training
+
+1116
+00:47:08,960 --> 00:47:13,359
+model uh because I like models that
+
+1117
+00:47:11,599 --> 00:47:16,000
+don't have too much inductive bias that
+
+1118
+00:47:13,359 --> 00:47:19,200
+are task independent um and don't have
+
+1119
+00:47:16,000 --> 00:47:22,079
+too many quirky parts and interfaces and
+
+1120
+00:47:19,200 --> 00:47:24,400
+can be somewhat endto-end trained. But I
+
+1121
+00:47:22,079 --> 00:47:27,040
+don't want to be beholden just to a
+
+1122
+00:47:24,400 --> 00:47:29,920
+pixel. I want to try and have
+
+1123
+00:47:27,040 --> 00:47:31,760
+trajectories. Uh obviously if we can go
+
+1124
+00:47:29,920 --> 00:47:34,160
+all the way to objects I'd be happy too.
+
+1125
+00:47:31,760 --> 00:47:37,280
+Maybe eventually we get there. We've you
+
+1126
+00:47:34,160 --> 00:47:38,720
+sort of tried that. And
+
+1127
+00:47:37,280 --> 00:47:41,920
+so right now I like this idea of a
+
+1128
+00:47:38,720 --> 00:47:46,000
+particle based trajectory. So we want to
+
+1129
+00:47:41,920 --> 00:47:48,800
+find um models that can pay attention to
+
+1130
+00:47:46,000 --> 00:47:50,880
+how things are moving over time and
+
+1131
+00:47:48,800 --> 00:47:54,480
+learn from that. Because if you have
+
+1132
+00:47:50,880 --> 00:47:56,079
+these particlebased representations,
+
+1133
+00:47:54,480 --> 00:47:58,560
+if you can figure if you can somehow get
+
+1134
+00:47:56,079 --> 00:48:01,760
+them from the video, you're very very
+
+1135
+00:47:58,560 --> 00:48:03,599
+close to state in many robotic tasks.
+
+1136
+00:48:01,760 --> 00:48:06,480
+Like if I need to figure out how to move
+
+1137
+00:48:03,599 --> 00:48:09,040
+this uh
+
+1138
+00:48:06,480 --> 00:48:11,599
+AV clicker and put it over here into
+
+1139
+00:48:09,040 --> 00:48:14,000
+this holder, I mean, that's a pretty
+
+1140
+00:48:11,599 --> 00:48:16,240
+hard task if I'm just doing from pixels
+
+1141
+00:48:14,000 --> 00:48:18,560
+and texture. But if I tell you the you
+
+1142
+00:48:16,240 --> 00:48:21,520
+know front and end key point of this and
+
+1143
+00:48:18,560 --> 00:48:23,760
+I tell you the two key points here kind
+
+1144
+00:48:21,520 --> 00:48:26,559
+of almost any learning algorithm can get
+
+1145
+00:48:23,760 --> 00:48:29,520
+me from here to there u by servoing or
+
+1146
+00:48:26,559 --> 00:48:31,200
+search or something. Um and it does seem
+
+1147
+00:48:29,520 --> 00:48:34,400
+we're getting very close in computer
+
+1148
+00:48:31,200 --> 00:48:35,920
+vision to having a kind of bottomup just
+
+1149
+00:48:34,400 --> 00:48:38,720
+getting that from the pixels. These are
+
+1150
+00:48:35,920 --> 00:48:42,880
+like results from just moninocular video
+
+1151
+00:48:38,720 --> 00:48:45,599
+which can do 3D optic flow or 3D optic
+
+1152
+00:48:42,880 --> 00:48:47,440
+flow plus correspondence over a long
+
+1153
+00:48:45,599 --> 00:48:50,960
+range correspondence that we call 4D
+
+1154
+00:48:47,440 --> 00:48:54,640
+vision. This is one paper that u uh
+
+1155
+00:48:50,960 --> 00:48:56,079
+Shenan Wang uh and and Anju's group uh
+
+1156
+00:48:54,640 --> 00:48:58,559
+pioneered. There are a bunch of other
+
+1157
+00:48:56,079 --> 00:49:00,559
+similar techniques at the bottom. And
+
+1158
+00:48:58,559 --> 00:49:02,319
+I'll briefly mention one of the latest
+
+1159
+00:49:00,559 --> 00:49:04,720
+versions that some of my students also
+
+1160
+00:49:02,319 --> 00:49:06,480
+helped Anju's group with called Star
+
+1161
+00:49:04,720 --> 00:49:08,960
+Trek. I think that is just the code has
+
+1162
+00:49:06,480 --> 00:49:11,119
+just been released quite recently. Uh
+
+1163
+00:49:08,960 --> 00:49:13,680
+lots of great collaborators on this
+
+1164
+00:49:11,119 --> 00:49:16,240
+paper. Um and and basically we're
+
+1165
+00:49:13,680 --> 00:49:18,640
+solving the full monocular 3D
+
+1166
+00:49:16,240 --> 00:49:21,839
+reconstruction correspondence track
+
+1167
+00:49:18,640 --> 00:49:24,720
+everything over time uh largely in a
+
+1168
+00:49:21,839 --> 00:49:29,040
+feed forward process uh with suitable
+
+1169
+00:49:24,720 --> 00:49:31,119
+training data and okay cool. Sometimes
+
+1170
+00:49:29,040 --> 00:49:33,280
+PowerPoint blows up here because these
+
+1171
+00:49:31,119 --> 00:49:35,119
+videos are so large but it seemed to
+
+1172
+00:49:33,280 --> 00:49:38,400
+blow up and then catch its breath and
+
+1173
+00:49:35,119 --> 00:49:40,240
+come back to life. So that was nice. Um
+
+1174
+00:49:38,400 --> 00:49:43,599
+uh so you can see the scenes being
+
+1175
+00:49:40,240 --> 00:49:46,960
+aligned and reconstructed uh and we both
+
+1176
+00:49:43,599 --> 00:49:49,359
+get reconstruction over time but also an
+
+1177
+00:49:46,960 --> 00:49:51,680
+implicit representation. So every point
+
+1178
+00:49:49,359 --> 00:49:54,240
+is aligned back to the 3D coordinate
+
+1179
+00:49:51,680 --> 00:49:56,000
+system implied by the first frame and
+
+1180
+00:49:54,240 --> 00:49:58,160
+every point it then has correspondence
+
+1181
+00:49:56,000 --> 00:50:00,800
+throughout the whole video. So you know
+
+1182
+00:49:58,160 --> 00:50:04,319
+where every point is in 3D
+
+1183
+00:50:00,800 --> 00:50:09,240
+and it and its identity. Uh and that's
+
+1184
+00:50:04,319 --> 00:50:09,240
+uh cool. So,
+
+1185
+00:50:09,599 --> 00:50:15,960
+was cool until PowerPoint died. So,
+
+1186
+00:50:11,920 --> 00:50:15,960
+let's try if I can get it back.
+
+1187
+00:50:26,079 --> 00:50:31,280
+Good. Got through it there. Um, so this
+
+1188
+00:50:28,880 --> 00:50:34,240
+Star Trek u algorithm is sort of in a
+
+1189
+00:50:31,280 --> 00:50:36,079
+series that originates from Duster and
+
+1190
+00:50:34,240 --> 00:50:37,440
+Monster. Many of you will be familiar
+
+1191
+00:50:36,079 --> 00:50:39,599
+with those terms, but basically it's
+
+1192
+00:50:37,440 --> 00:50:42,079
+this new class of methods that's doing
+
+1193
+00:50:39,599 --> 00:50:46,640
+feed forward reconstruction from
+
+1194
+00:50:42,079 --> 00:50:48,400
+multiple views um and um kind of working
+
+1195
+00:50:46,640 --> 00:50:51,599
+very well. So I think this class of
+
+1196
+00:50:48,400 --> 00:50:53,520
+architecture can drive particle based
+
+1197
+00:50:51,599 --> 00:50:55,839
+representations that I'm going to argue
+
+1198
+00:50:53,520 --> 00:50:57,680
+are the cool way to do pre-training. And
+
+1199
+00:50:55,839 --> 00:51:00,079
+maybe I'll mostly talk about the second
+
+1200
+00:50:57,680 --> 00:51:03,599
+paper here called armor. And so we want
+
+1201
+00:51:00,079 --> 00:51:06,240
+to basically take these representations
+
+1202
+00:51:03,599 --> 00:51:09,200
+that I call 4D representations
+
+1203
+00:51:06,240 --> 00:51:11,119
+uh which are 3D plus time
+
+1204
+00:51:09,200 --> 00:51:13,599
+uh and just pre-train on those the same
+
+1205
+00:51:11,119 --> 00:51:16,640
+way we were pre-training on pixels. Uh
+
+1206
+00:51:13,599 --> 00:51:19,359
+we're going to essentially do MAE style
+
+1207
+00:51:16,640 --> 00:51:21,760
+uh reconstructions and predict the
+
+1208
+00:51:19,359 --> 00:51:24,079
+future. And and that's this paper we
+
+1209
+00:51:21,760 --> 00:51:26,000
+presented at ICML this year called Armor
+
+1210
+00:51:24,079 --> 00:51:28,400
+pre-training autogressive robotic models
+
+1211
+00:51:26,000 --> 00:51:30,160
+with 40 representations. And the basic
+
+1212
+00:51:28,400 --> 00:51:31,680
+punch line here, I think I think we've
+
+1213
+00:51:30,160 --> 00:51:33,520
+we've solved a few things. We've
+
+1214
+00:51:31,680 --> 00:51:34,880
+certainly not solved most of the
+
+1215
+00:51:33,520 --> 00:51:39,280
+problems in the space. I think this is
+
+1216
+00:51:34,880 --> 00:51:40,880
+just the first kind of um assault on the
+
+1217
+00:51:39,280 --> 00:51:42,960
+beach head, if you will, of this in this
+
+1218
+00:51:40,880 --> 00:51:45,680
+direction, and more will be coming soon.
+
+1219
+00:51:42,960 --> 00:51:47,200
+Um but the basic idea of this result is
+
+1220
+00:51:45,680 --> 00:51:50,160
+you've all probably seen people
+
+1221
+00:51:47,200 --> 00:51:52,960
+pre-train on EGO 4D and use those
+
+1222
+00:51:50,160 --> 00:51:56,000
+representations to drive um large
+
+1223
+00:51:52,960 --> 00:51:57,599
+robotic models or VALAs. Uh we've done
+
+1224
+00:51:56,000 --> 00:51:59,599
+that in the past, too. Here we basically
+
+1225
+00:51:57,599 --> 00:52:02,559
+did the same thing, but instead of doing
+
+1226
+00:51:59,599 --> 00:52:04,960
+it on the pixels from Ego 4D, we trained
+
+1227
+00:52:02,559 --> 00:52:07,520
+it on the 4D representations from Ego
+
+1228
+00:52:04,960 --> 00:52:09,520
+4D. And so naturally now, not only do I
+
+1229
+00:52:07,520 --> 00:52:11,680
+see the texture of the hand, but I
+
+1230
+00:52:09,520 --> 00:52:14,000
+actually have the 3D and 4D structure of
+
+1231
+00:52:11,680 --> 00:52:16,079
+the hand as it moves through the world.
+
+1232
+00:52:14,000 --> 00:52:19,040
+And predicting those trajectories, I
+
+1233
+00:52:16,079 --> 00:52:20,559
+argue, is really close to the task. for
+
+1234
+00:52:19,040 --> 00:52:23,119
+example, if you're trying to have an
+
+1235
+00:52:20,559 --> 00:52:25,040
+endeeace mimic the human action in a
+
+1236
+00:52:23,119 --> 00:52:27,839
+kitchen. And those are the early results
+
+1237
+00:52:25,040 --> 00:52:30,960
+that we have that just training on ego
+
+1238
+00:52:27,839 --> 00:52:33,200
+40 alone without substantial in-domain
+
+1239
+00:52:30,960 --> 00:52:35,359
+robotic data. If you use these 40
+
+1240
+00:52:33,200 --> 00:52:37,520
+representations, you get a pretty nice
+
+1241
+00:52:35,359 --> 00:52:40,000
+result. As you can see in our paper, if
+
+1242
+00:52:37,520 --> 00:52:41,359
+you if you uh look at the results in
+
+1243
+00:52:40,000 --> 00:52:42,640
+detail there, I only have one or two
+
+1244
+00:52:41,359 --> 00:52:45,119
+minutes left, so I'm not going to go
+
+1245
+00:52:42,640 --> 00:52:48,240
+through all of this. I'll just spotlight
+
+1246
+00:52:45,119 --> 00:52:50,240
+the overall architecture which is a uh
+
+1247
+00:52:48,240 --> 00:52:52,160
+you know transformerbased
+
+1248
+00:52:50,240 --> 00:52:53,839
+auto reggressive decoder that's trying
+
+1249
+00:52:52,160 --> 00:52:56,079
+to predict the next trajectory element
+
+1250
+00:52:53,839 --> 00:52:58,960
+in this 4D sequence given the image
+
+1251
+00:52:56,079 --> 00:53:01,760
+input and other things like text prompts
+
+1252
+00:52:58,960 --> 00:53:04,640
+and and whatnot and this is a LLM
+
+1253
+00:53:01,760 --> 00:53:06,800
+languagebased model I think you could
+
+1254
+00:53:04,640 --> 00:53:08,160
+sorry this is not an LLM uh
+
+1255
+00:53:06,800 --> 00:53:10,480
+languagebased model I think you could
+
+1256
+00:53:08,160 --> 00:53:11,839
+extend this also to such models and
+
+1257
+00:53:10,480 --> 00:53:14,000
+that's one of the things that we're
+
+1258
+00:53:11,839 --> 00:53:17,359
+working on in the future Um and the
+
+1259
+00:53:14,000 --> 00:53:19,680
+results uh comparing um to baseline
+
+1260
+00:53:17,359 --> 00:53:24,319
+methods including MVP and Octo and
+
+1261
+00:53:19,680 --> 00:53:27,040
+OpenVLA are in our uh ICML paper. Uh
+
+1262
+00:53:24,319 --> 00:53:30,880
+with that, I'm gonna wind down with uh
+
+1263
+00:53:27,040 --> 00:53:32,160
+like 90 seconds left and just say I hope
+
+1264
+00:53:30,880 --> 00:53:35,839
+I've given you this argument about the
+
+1265
+00:53:32,160 --> 00:53:38,640
+4D future uh and sort of a middle ground
+
+1266
+00:53:35,839 --> 00:53:40,319
+between extreme reconstruction and
+
+1267
+00:53:38,640 --> 00:53:44,160
+behavior cloning that I showed you in
+
+1268
+00:53:40,319 --> 00:53:46,960
+video mimic or pure datadriven world
+
+1269
+00:53:44,160 --> 00:53:49,280
+models. Um these VALAs really are
+
+1270
+00:53:46,960 --> 00:53:51,599
+useful. You can make them run at high
+
+1271
+00:53:49,280 --> 00:53:53,680
+resolution and deh hallucinate them if
+
+1272
+00:53:51,599 --> 00:53:55,760
+you're worried about those two things.
+
+1273
+00:53:53,680 --> 00:53:57,280
+And as we come to this unified
+
+1274
+00:53:55,760 --> 00:53:59,680
+perspective that we're all doing the
+
+1275
+00:53:57,280 --> 00:54:01,440
+same thing in AI, whether it's vision or
+
+1276
+00:53:59,680 --> 00:54:02,640
+language or robotics and haptics should
+
+1277
+00:54:01,440 --> 00:54:04,480
+definitely play a role. I didn't get a
+
+1278
+00:54:02,640 --> 00:54:06,160
+chance to mention any of that, but it's
+
+1279
+00:54:04,480 --> 00:54:07,440
+uh you know, a lot of TED's pioneering
+
+1280
+00:54:06,160 --> 00:54:09,599
+work I think is going to be very
+
+1281
+00:54:07,440 --> 00:54:12,720
+relevant there. That's another modality
+
+1282
+00:54:09,599 --> 00:54:14,000
+that is in the mix. Um you know, we need
+
+1283
+00:54:12,720 --> 00:54:15,440
+to always remember that the the
+
+1284
+00:54:14,000 --> 00:54:17,680
+knowledge and the data can come from
+
+1285
+00:54:15,440 --> 00:54:20,400
+anywhere. And right now, since there's
+
+1286
+00:54:17,680 --> 00:54:22,960
+so much text, even these blind models
+
+1287
+00:54:20,400 --> 00:54:26,400
+know a lot. And I wonder how much in the
+
+1288
+00:54:22,960 --> 00:54:29,280
+text already knows what a gel site will
+
+1289
+00:54:26,400 --> 00:54:31,119
+sense. And I'll ask that over coffee
+
+1290
+00:54:29,280 --> 00:54:33,520
+with Ted later on and see if he has an
+
+1291
+00:54:31,119 --> 00:54:39,000
+opinion. Uh with that, I think I will
+
+1292
+00:54:33,520 --> 00:54:39,000
+close. Uh and thank you for your time.
+
+1293
+00:54:44,079 --> 00:54:49,720
+Thank you, Trevor. Do we have any
+
+1294
+00:54:46,000 --> 00:54:49,720
+questions from the audience?
+
+1295
+00:54:55,520 --> 00:54:58,960
+Oh yeah, thank you so much for the talk.
+
+1296
+00:54:57,359 --> 00:55:00,880
+I just had a question about the deh
+
+1297
+00:54:58,960 --> 00:55:02,800
+hallucination thing. So you mentioned
+
+1298
+00:55:00,880 --> 00:55:05,280
+that there would be confidence tokens
+
+1299
+00:55:02,800 --> 00:55:07,920
+that are generated. So is it more likely
+
+1300
+00:55:05,280 --> 00:55:10,000
+for them to generate more confident
+
+1301
+00:55:07,920 --> 00:55:11,920
+tokens or is it like uh it's very
+
+1302
+00:55:10,000 --> 00:55:14,640
+equally likely that it generates like a
+
+1303
+00:55:11,920 --> 00:55:16,880
+low confidence token versus a high
+
+1304
+00:55:14,640 --> 00:55:19,680
+confidence token. So is there anything
+
+1305
+00:55:16,880 --> 00:55:22,000
+in on that front because if it's trying
+
+1306
+00:55:19,680 --> 00:55:23,280
+to if it just generates unconfident
+
+1307
+00:55:22,000 --> 00:55:25,520
+tokens then that's kind of
+
+1308
+00:55:23,280 --> 00:55:28,880
+>> well it generates a token uh based on
+
+1309
+00:55:25,520 --> 00:55:30,559
+the general the model the prior implicit
+
+1310
+00:55:28,880 --> 00:55:32,720
+in the model and then it generates a
+
+1311
+00:55:30,559 --> 00:55:33,680
+token that essentially is the check
+
+1312
+00:55:32,720 --> 00:55:34,400
+pass. It's like
+
+1313
+00:55:33,680 --> 00:55:36,480
+>> right
+
+1314
+00:55:34,400 --> 00:55:38,720
+>> it's another token that gets to you know
+
+1315
+00:55:36,480 --> 00:55:40,240
+it's like in that example where you let
+
+1316
+00:55:38,720 --> 00:55:41,839
+the whole you generate the whole string
+
+1317
+00:55:40,240 --> 00:55:43,839
+and you say wait a minute was there
+
+1318
+00:55:41,839 --> 00:55:46,319
+actually a dog and the model can somehow
+
+1319
+00:55:43,839 --> 00:55:48,640
+figure out on a second pass that there
+
+1320
+00:55:46,319 --> 00:55:51,440
+wasn't a dog the generation of this
+
+1321
+00:55:48,640 --> 00:55:54,000
+extra token allows the model to have a
+
+1322
+00:55:51,440 --> 00:55:57,680
+second look at what it just did and
+
+1323
+00:55:54,000 --> 00:55:59,359
+apparently that gives it more signal and
+
+1324
+00:55:57,680 --> 00:56:00,960
+the confidence of that token or the
+
+1325
+00:55:59,359 --> 00:56:05,920
+likelihood of that token being generated
+
+1326
+00:56:00,960 --> 00:56:07,920
+as CN versus un um is powerful enough to
+
+1327
+00:56:05,920 --> 00:56:10,079
+let you decide to backtrack and try
+
+1328
+00:56:07,920 --> 00:56:12,960
+again until you get something that the
+
+1329
+00:56:10,079 --> 00:56:15,599
+model both generates and confirms
+
+1330
+00:56:12,960 --> 00:56:19,040
+>> as in a token sequence. Did I ask could
+
+1331
+00:56:15,599 --> 00:56:20,640
+I ask? Okay. So I meant so there's no
+
+1332
+00:56:19,040 --> 00:56:23,440
+current uh at least in that
+
+1333
+00:56:20,640 --> 00:56:25,520
+implementation where the confident
+
+1334
+00:56:23,440 --> 00:56:27,520
+tokens like let's say there's a token
+
+1335
+00:56:25,520 --> 00:56:28,880
+which is actually very it should be very
+
+1336
+00:56:27,520 --> 00:56:30,799
+confident in or it's actually more
+
+1337
+00:56:28,880 --> 00:56:33,200
+accurate. So there's no way that it
+
+1338
+00:56:30,799 --> 00:56:34,559
+would actually uh generate that as
+
+1339
+00:56:33,200 --> 00:56:36,799
+opposed to something which it is
+
+1340
+00:56:34,559 --> 00:56:38,559
+actually uh low confidence.
+
+1341
+00:56:36,799 --> 00:56:40,799
+>> Well I mean it will eventually get there
+
+1342
+00:56:38,559 --> 00:56:42,160
+because it will reject uh until it gets
+
+1343
+00:56:40,799 --> 00:56:43,599
+there. Yeah. Yeah, I think the whole
+
+1344
+00:56:42,160 --> 00:56:46,799
+point of this is we haven't figured that
+
+1345
+00:56:43,599 --> 00:56:48,480
+out yet. I mean, of course, I think
+
+1346
+00:56:46,799 --> 00:56:50,319
+future work could be, well, why don't I
+
+1347
+00:56:48,480 --> 00:56:51,440
+take all this data to retrain the model?
+
+1348
+00:56:50,319 --> 00:56:52,559
+Maybe it'll get better.
+
+1349
+00:56:51,440 --> 00:56:53,760
+>> Yeah, sure.
+
+1350
+00:56:52,559 --> 00:56:54,400
+>> It's probably the next paper in the
+
+1351
+00:56:53,760 --> 00:56:56,480
+series.
+
+1352
+00:56:54,400 --> 00:56:56,960
+>> Okay. Uh hopefully I'll see it. Thank
+
+1353
+00:56:56,480 --> 00:57:00,000
+you so much.
+
+1354
+00:56:56,960 --> 00:57:02,400
+>> Or you can do it.
+
+1355
+00:57:00,000 --> 00:57:06,280
+>> Okay. Thank you so much. Uh maybe I'll
+
+1356
+00:57:02,400 --> 00:57:06,280
+take one more question.
+
+1357
+00:57:11,359 --> 00:57:15,760
+Hey, thanks for the great talk. Um, my
+
+1358
+00:57:13,760 --> 00:57:17,680
+question was uh from the very last
+
+1359
+00:57:15,760 --> 00:57:20,640
+slide. I was hoping that the middle
+
+1360
+00:57:17,680 --> 00:57:23,359
+ground between the completely datadriven
+
+1361
+00:57:20,640 --> 00:57:25,760
+world models versus um database world
+
+1362
+00:57:23,359 --> 00:57:28,160
+models would be something like where we
+
+1363
+00:57:25,760 --> 00:57:30,400
+use uh slam plus diffusion models in
+
+1364
+00:57:28,160 --> 00:57:31,920
+conjunction to together because um for
+
+1365
+00:57:30,400 --> 00:57:33,599
+example in a start track the example
+
+1366
+00:57:31,920 --> 00:57:36,000
+that you showed where the train moves
+
+1367
+00:57:33,599 --> 00:57:37,680
+away there is a hole in the map there
+
+1368
+00:57:36,000 --> 00:57:40,160
+and which could be filled with diffusion
+
+1369
+00:57:37,680 --> 00:57:41,680
+model which you have already proven at
+
+1370
+00:57:40,160 --> 00:57:43,920
+the beginning of the slides that if you
+
+1371
+00:57:41,680 --> 00:57:46,480
+provide structure to any generative
+
+1372
+00:57:43,920 --> 00:57:48,720
+model it produces very good results.
+
+1373
+00:57:46,480 --> 00:57:51,839
+So what are your thoughts on that? Yeah,
+
+1374
+00:57:48,720 --> 00:57:54,559
+I think that's if I'm mapping your
+
+1375
+00:57:51,839 --> 00:57:57,280
+question correctly onto the following
+
+1376
+00:57:54,559 --> 00:57:58,960
+question of I mean diffusion models at
+
+1377
+00:57:57,280 --> 00:58:01,440
+scale, especially the very powerful ones
+
+1378
+00:57:58,960 --> 00:58:03,200
+that are coming out may be implicitly
+
+1379
+00:58:01,440 --> 00:58:05,839
+reconstructing 4D representations
+
+1380
+00:58:03,200 --> 00:58:08,240
+internally. Um there might be an
+
+1381
+00:58:05,839 --> 00:58:11,200
+alternate pathway to this pre-trained
+
+1382
+00:58:08,240 --> 00:58:13,839
+future. Um and so I think we have a few
+
+1383
+00:58:11,200 --> 00:58:15,760
+projects on trying to introspect or
+
+1384
+00:58:13,839 --> 00:58:19,680
+distill internal structures out of
+
+1385
+00:58:15,760 --> 00:58:22,240
+diffusion models and they that might
+
+1386
+00:58:19,680 --> 00:58:23,599
+also be a way to get to this kind of
+
+1387
+00:58:22,240 --> 00:58:26,160
+representation of the story but we don't
+
+1388
+00:58:23,599 --> 00:58:28,960
+have any results on that yet. So I think
+
+1389
+00:58:26,160 --> 00:58:30,480
+it's still TBD and be interested to hear
+
+1390
+00:58:28,960 --> 00:58:31,280
+of other people who are trying similar
+
+1391
+00:58:30,480 --> 00:58:34,760
+things.
+
+1392
+00:58:31,280 --> 00:58:34,760
+>> Great. Thank you.
+
+1393
+00:58:34,880 --> 00:58:38,640
+>> Okay. Uh that's all the time we have for
+
+1394
+00:58:36,960 --> 00:58:41,640
+questions. So, let's thank the speaker
+
+1395
+00:58:38,640 --> 00:58:41,640
+again.
+
