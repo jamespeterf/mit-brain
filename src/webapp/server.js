@@ -16,7 +16,8 @@ import * as fsSync from "fs";  // Synchronous fs for alerts
 import { fileURLToPath } from "url";
 import OpenAI from "openai";
 import dotenv from "dotenv";
-import transcriptsRouter from "./routes/transcripts.routes.js";
+
+const { default: transcriptsRouter } = await import("./routes/transcripts.routes.js");
 
 // Setup __dirname for ES modules (must be before dotenv.config)
 const __filename = fileURLToPath(import.meta.url);
@@ -53,6 +54,10 @@ if (EMAIL_CONFIG.user && EMAIL_CONFIG.password) {
 } else {
   console.log("⚠️  Email not configured (set EMAIL_USER and EMAIL_PASSWORD in .env)");
 }
+
+console.log("dotenv loaded, DROPBOX_REFRESH_TOKEN?", !!process.env.DROPBOX_REFRESH_TOKEN);
+console.log("dotenv loaded, DROPBOX_ACCESS_TOKEN?", !!process.env.DROPBOX_ACCESS_TOKEN);
+console.log("cwd:", process.cwd());
 
 // ---------- Load MIT Brain JSONL data ----------
 // JSONL data file - configurable via environment variable
@@ -711,6 +716,8 @@ const publicDir = path.join(__dirname, "public");
 app.use(express.static(publicDir));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
+
+app.use("/api/transcripts", transcriptsRouter({ openai, webappDir: __dirname }));
 
 // ============================================================
 // CSV PARSER + MEMBER LOADER

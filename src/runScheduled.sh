@@ -28,6 +28,9 @@ if [ -z "$START_DATE" ]; then
     fi
 fi
 
+# Start Dae Override
+#export START_DATE="2025-12-10"
+
 # Brain filename (without extension)
 export MIT_BRAIN="mit_brain_test17"
 

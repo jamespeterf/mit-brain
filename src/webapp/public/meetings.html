@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MIT Brain - Meetings</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body{ font-family: Arial, sans-serif; margin:0; background:#f8f8f8;  padding-top: 90px;}
+    .page-wrapper { max-width: 1400px; margin:0 auto; padding: 0 20px 20px 20px; }
+    .panel { background:#fff; padding:16px; margin: 16px 0; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,0.15); }
+    .row { display:flex; gap:16px; }
+    .col { flex:1; }
+    table { width:100%; border-collapse: collapse; }
+    td, th { border-bottom:1px solid #eee; padding:8px; font-size: 14px; }
+    a { color:#0065a4; text-decoration:none; }
+    textarea, input, select { width:100%; padding:8px; font-size:14px; box-sizing:border-box; }
+    textarea { min-height: 220px; }
+    button { padding:10px 14px; margin-right:8px; cursor:pointer; }
+    .small { font-size: 12px; color:#666; }
+    .tagbox { min-height: 70px; }
+    pre { white-space: pre-wrap; background:#fafafa; padding:12px; border-radius:6px; border:1px solid #ddd; }
+    .pill { display:inline-block; padding:2px 8px; border-radius: 999px; background:#eee; font-size:12px; }
+    .loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.loading-overlay.hidden { display: none; }
+
+.loading-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px 20px;
+  width: min(520px, 92vw);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  text-align: center;
+}
+
+.spinner {
+  width: 34px;
+  height: 34px;
+  border: 4px solid rgba(0,0,0,0.12);
+  border-top-color: rgba(0,0,0,0.65);
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-msg {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.loading-sub {
+  font-size: 0.95rem;
+  opacity: 0.75;
+}
+
+.summary-wrap h3 { margin: 14px 0 6px; }
+.summary-wrap ul { margin: 6px 0 10px 20px; }
+.summary-wrap li { margin: 3px 0; }
+.muted { opacity: 0.7; }
+.action-group { margin: 8px 0 12px; padding: 10px 12px; border: 1px solid rgba(0,0,0,0.08); border-radius: 10px; }
+.action-owner { font-weight: 700; margin-bottom: 6px; }
+.email-pre { white-space: pre-wrap; }
+
+  </style>
+  <link rel="stylesheet" href="css/mit-brain-nav.css" />
+</head>
+<body class="has-fixed-nav">
+
+<!-- UNIVERSAL NAVIGATION - NO INLINE STYLES -->
+<nav class="mit-brain-nav">
+  <div class="mit-brain-nav-container">
+    <a href="/" class="mit-brain-logo">
+      <span class="mit-brain-logo-icon">🧠</span>
+      <div>
+        <div class="mit-brain-logo-text">MIT Brain</div>
+        <div class="mit-brain-logo-subtitle">Corporate Relations Intelligence</div>
+      </div>
+    </a>
+    
+    <div class="mit-brain-nav-links">
+      <a href="/" class="mit-brain-nav-link nav-home">
+        🏠 <span>Home</span>
+      </a>
+      <a href="/alerts-dashboard.html" class="mit-brain-nav-link nav-alerts">
+        🔔 <span>Alerts</span>
+      </a>
+      <a href="/create-alert.html" class="mit-brain-nav-link nav-create">
+        ➕ <span>Create Alert</span>
+      </a>
+      <a href="/meetings.html" class="mit-brain-nav-link nav-meetings active">
+        📝 <span>Meetings</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div style="height:72px"></div>
+  <div class="page-wrapper">
+    <div class="panel">
+      <h1>Meetings</h1>
+      <div class="small">Dropbox folder: <span class="pill" id="dropboxDirHint">/Transcripts</span></div>
+    </div>
+
+    <div class="panel">
+      <h2>Transcript List</h2>
+      <table>
+        <thead>
+          <tr><th>Name</th><th>Modified</th><th>Size</th></tr>
+        </thead>
+        <tbody id="transcriptsTbody"></tbody>
+      </table>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="panel">
+          <h2>Transcript</h2>
+          <div class="small" id="currentSource"></div>
+          <textarea id="transcriptText" placeholder="Select a transcript..."></textarea>
+          <div style="margin-top:10px;">
+            <button id="summarizeBtn">Summarize + Action Items</button>
+            <button id="saveAllBtn">Save All</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Generated Output</h2>
+          <pre id="outputPre">(nothing yet)</pre>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="panel">
+          <h2>Meeting Metadata</h2>
+
+          <label>Company / Org</label>
+          <input id="company" />
+
+          <div class="row" style="margin-top:10px;">
+            <div class="col">
+              <label>Meeting Type</label>
+              <select id="meetingType"><option value=""></option>
+                <option value="prospect">prospect</option>
+                <option value="member">member</option>
+                <option value="faculty">faculty</option>
+                <option value="internal">internal</option>
+          <option value="briefing">Briefing</option>
+          <option value="other">Other</option>
+        </select>
+            </div>
+            <div class="col">
+              <label>Goal</label>
+              <select id="goal">
+                <option value=""></option>
+                          <option value="member_service">Member service</option>
+<option value="ILP_join">ILP_join</option>
+                <option value="renewal">renewal</option>
+                <option value="research_sponsorship">research_sponsorship</option>
+                <option value="campus_visit">campus_visit</option>
+                <option value="pilot_project">pilot_project</option>
+                <option value="faculty_intro">faculty_intro</option>
+                <option value="startup_engagement">startup_engagement</option>
+                <option value="internal_alignment">internal_alignment</option>
+              </select>
+            </div>
+            <div class="col">
+              <label>Stage</label>
+              <select id="stage">
+                <option value=""></option>
+                <option value="lead">lead</option>
+                <option value="discovery">discovery</option>
+                <option value="solution_fit">solution_fit</option>
+                <option value="internal_alignment">internal_alignment</option>
+                <option value="legal_procurement">legal_procurement</option>
+                <option value="closed_won">closed_won</option>
+                <option value="onboarding">onboarding</option>
+              </select>
+            </div>
+          </div>
+
+          <label style="margin-top:10px;">Desired Outcome (1–2 sentences)</label>
+          <textarea id="desiredOutcome" class="tagbox"></textarea>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:10px;"><label>Signals (one per line)</label><button type="button" id="suggestSignalsBtn" class="btn btn-secondary" style="padding:6px 10px; font-size:0.9em;">Suggest</button></div>
+          <textarea id="signals" class="tagbox" placeholder="e.g., Asked about LOA&#10;Wants campus visit in March"></textarea>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:10px;"><label>Objections (one per line)</label><button type="button" id="suggestObjectionsBtn" class="btn btn-secondary" style="padding:6px 10px; font-size:0.9em;">Suggest</button></div>
+          <textarea id="objections" class="tagbox" placeholder="e.g., IT approval required&#10;Budget timing"></textarea>
+        </div>
+
+          <div class="field-row">
+            <label for="criticalNextSteps">Critical Next Steps</label>
+            <div class="field-actions">
+              <button id="suggestNextStepsBtn" class="btn small" type="button">Suggest</button>
+            </div>
+      <div class="field" style="margin-top: 10px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+          <label>Participants (map raw transcript IDs to real people)</label>
+          <button type="button" id="extractParticipantsBtn" class="btn btn-secondary" style="padding:6px 10px; font-size:0.9em;">Extract from transcript</button>
+        </div>
+        <div style="font-size: 0.85em; opacity: 0.85; margin: 6px 0 10px;">
+          Example raw IDs: <code>shanker.tv@gmail.com</code> or <code>+1617...</code>. You can map to name (and optionally company, work email, LinkedIn).
+        </div>
+        <div style="overflow:auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;">
+          <table style="width:100%; border-collapse: collapse;">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.12);">Raw ID</th>
+                <th style="text-align:left; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.12);">Name</th>
+                <th style="text-align:left; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.12);">Company</th>
+                <th style="text-align:left; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.12);">Work Email</th>
+                <th style="text-align:left; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.12);">LinkedIn URL</th>
+              </tr>
+            </thead>
+            <tbody id="participantsTbody">
+              <tr><td colspan="5" style="padding: 10px; opacity: 0.8;">(Load a meeting to populate)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+            <textarea id="criticalNextSteps" rows="6" placeholder="What should happen next (and who owns it)?"></textarea>
+          </div>
+
+
+        <div class="panel">
+          <h2>Program Director Coaching</h2>
+          <label>Insights (one per line)</label>
+          <textarea id="insights" class="tagbox"></textarea>
+
+          <label style="margin-top:10px;">Recommended Moves (one per line)</label>
+          <textarea id="moves" class="tagbox"></textarea>
+
+          <label style="margin-top:10px;">Email Angle (optional)</label>
+          <textarea id="emailAngle" class="tagbox"></textarea>
+
+          <div class="row" style="margin-top:10px;">
+            <div class="col">
+              <label>Confidence</label>
+              <select id="confidence">
+                <option value="low">low</option>
+                <option value="med" selected>med</option>
+                <option value="high">high</option>
+              </select>
+            </div>
+            <div class="col" style="display:flex; align-items:flex-end;">
+              <button id="saveRecBtn">Save PD Recommendation</button>
+            </div>
+          </div>
+
+          <div class="small" id="saveStatus"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- Loading overlay -->
+<div id="loadingOverlay" class="loading-overlay hidden" aria-live="polite" aria-busy="true">
+  <div class="loading-card">
+    <div class="spinner"></div>
+    <div id="loadingMsg" class="loading-msg">Working…</div>
+    <div class="loading-sub">Calling OpenAI (this can take a few seconds).</div>
+  </div>
+</div>
+
+
+  <script src="/js/meetings.js"></script>
+</body>
+</html>

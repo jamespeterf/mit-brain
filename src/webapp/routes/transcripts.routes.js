@@ -203,5 +203,57 @@ ${text}
     }
   });
 
+// Suggest helper fields (signals, objections, critical_next_steps) from the meeting transcript
+router.post('/suggest', async (req, res) => {
+  try {
+    const schema = z.object({
+      text: z.string().min(1),
+      context: z.any().optional(),
+      field: z.enum(['signals', 'objections', 'critical_next_steps'])
+    });
+    const { text, context, field } = schema.parse(req.body);
+
+    const sys = `You help an MIT ILP Program Director extract useful structured notes from meeting transcripts.
+Return ONLY a JSON object with an array field called "items". No markdown, no extra keys.`;
+
+    const user = `Field to suggest: ${field}
+
+Meeting context (may be partial):
+${JSON.stringify(context || {}, null, 2)}
+
+Transcript:
+${text}
+
+Instructions:
+- items must be 5-12 short bullet points (each 4-18 words).
+- Make them specific when supported by the transcript.
+- No hallucinations: if unknown, keep generic but still useful.
+- signals: buying intent, urgency, budget, authority, priorities, constraints.
+- objections: friction, concerns, blockers, unanswered questions, skepticism.
+- critical_next_steps: concrete actions, owners (if known), and deadlines (if implied).`;
+
+    const completion = await openai.chat.completions.create({
+      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+      temperature: 0.2,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: sys },
+        { role: 'user', content: user }
+      ]
+    });
+
+    const raw = completion.choices?.[0]?.message?.content || '{}';
+    let parsed = null;
+    try { parsed = JSON.parse(raw); } catch {}
+    const items = Array.isArray(parsed?.items) ? parsed.items.map(String) : [];
+
+    return res.json({ ok: true, items });
+  } catch (err) {
+    return res.status(400).json({ ok: false, error: err?.message || String(err) });
+  }
+});
+
   return router;
 }
+
+
