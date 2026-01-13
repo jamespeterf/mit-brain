@@ -140,6 +140,19 @@ class MITBrainSchema {
       "ilpAdmission",
       "eventTime",
       "eventNote",
+      // NEW: MIT People fields
+      "firstName",
+      "lastName",
+      "city",
+      "state",
+      "mobile",
+      "email",
+      "dlc",
+      "mitPeopleCategory",
+      "assistant",
+      "officeLocation",
+      "linkedIn",
+      "keywords",
     ];
 
     this.records = [];
@@ -189,11 +202,14 @@ class MITBrainSchema {
 
       this._loadExistingRecords();
 
-      if (!this.existingUrls.has(url) && this._existingRecordsByUrl.has(url)) {
-        this.existingUrls.add(url);
+      // Use custom deduplication key if provided (for people with shared URLs)
+      const dedupeKey = normalized._dedupeKey || url;
+      
+      if (!this.existingUrls.has(dedupeKey) && this._existingRecordsByUrl.has(url)) {
+        this.existingUrls.add(dedupeKey);
       }
 
-      if (this.existingUrls.has(url) || this.sessionUrls.has(url)) {
+      if (this.existingUrls.has(dedupeKey) || this.sessionUrls.has(dedupeKey)) {
         const updated = this._updateExistingRecord(url, normalized);
         if (updated) this.stats.updated += 1;
         else this.stats.skipped += 1;
@@ -201,7 +217,7 @@ class MITBrainSchema {
       }
 
       this.records.push(normalized);
-      this.sessionUrls.add(url);
+      this.sessionUrls.add(dedupeKey);
       this.stats.written += 1;
       this.recordsSinceLastFlush += 1;
 
@@ -451,6 +467,11 @@ class MITBrainSchema {
       normalized.dateAddedToBrain = new Date().toISOString().split('T')[0];
     }
 
+    // Preserve custom deduplication key (if provided) for internal use
+    if (record._dedupeKey) {
+      normalized._dedupeKey = record._dedupeKey;
+    }
+
     return normalized;
   }
 
@@ -548,14 +569,24 @@ class MITBrainSchema {
 
   _appendToJsonl(jsonlPath, records) {
     if (!records || !records.length) return;
-    const lines = records.map((r) => JSON.stringify(r));
+    // Remove internal _dedupeKey before writing
+    const cleanRecords = records.map(r => {
+      const { _dedupeKey, ...clean } = r;
+      return clean;
+    });
+    const lines = cleanRecords.map((r) => JSON.stringify(r));
     fs.appendFileSync(jsonlPath, lines.join("\n") + "\n", "utf8");
   }
 
   // CRITICAL FIX: Add method to completely rewrite JSONL (for updates)
   _rewriteJsonl(jsonlPath, records) {
     if (!records || !records.length) return;
-    const lines = records.map((r) => JSON.stringify(r));
+    // Remove internal _dedupeKey before writing
+    const cleanRecords = records.map(r => {
+      const { _dedupeKey, ...clean } = r;
+      return clean;
+    });
+    const lines = cleanRecords.map((r) => JSON.stringify(r));
     fs.writeFileSync(jsonlPath, lines.join("\n") + "\n", "utf8");
   }
 
