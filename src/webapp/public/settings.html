@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - MIT Brain</title>
+  <link rel="stylesheet" href="css/mit-brain-nav.css" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f5f7;
+      padding-top: 90px;
+    }
+
+    .page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .page-header {
+      background: linear-gradient(135deg, #2980b9, #3498db);
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+    .page-header h1 { margin: 0 0 10px; font-size: 2em; }
+    .page-header p { margin: 0; opacity: 0.9; }
+
+    .tabs {
+      display: flex;
+      gap: 4px;
+      background: #e0e0e0;
+      padding: 4px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: 600;
+      color: #666;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .tab:hover { background: rgba(255,255,255,0.5); }
+    .tab.active {
+      background: white;
+      color: #2980b9;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .tab-content {
+      display: none;
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .tab-content.active { display: block; }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #eee;
+    }
+
+    .section-header h2 { margin: 0; color: #2c3e50; }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: #3498db;
+      color: white;
+    }
+
+    .btn-primary:hover { background: #2980b9; }
+
+    .btn-secondary {
+      background: #e0e0e0;
+      color: #333;
+    }
+
+    .btn-secondary:hover { background: #d0d0d0; }
+
+    .btn-danger {
+      background: #e74c3c;
+      color: white;
+    }
+
+    .btn-danger:hover { background: #c0392b; }
+
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 0.9em;
+    }
+
+    /* My Voice */
+    .voice-editor {
+      width: 100%;
+      min-height: 500px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      resize: vertical;
+    }
+
+    .voice-editor:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+
+    /* Member Profiles */
+    .profiles-table-container {
+      overflow-x: auto;
+      margin-top: 15px;
+    }
+
+    .profiles-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9em;
+    }
+
+    .profiles-table th, .profiles-table td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .profiles-table th {
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #2c3e50;
+      position: sticky;
+      top: 0;
+    }
+
+    .profiles-table tr:hover { background: #f8f9fa; }
+
+    .profiles-table input {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+
+    .profiles-table input:focus {
+      outline: none;
+      border-color: #3498db;
+    }
+
+    /* Templates */
+    .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .template-card {
+      background: #f8f9fa;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 20px;
+      transition: all 0.2s;
+    }
+
+    .template-card:hover {
+      border-color: #3498db;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .template-name {
+      font-weight: 600;
+      font-size: 1.1em;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    .template-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-overlay.visible { display: flex; }
+
+    .modal {
+      background: white;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 700px;
+      max-height: 90vh;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .modal-header {
+      background: #2c3e50;
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 { margin: 0; }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5em;
+      cursor: pointer;
+      opacity: 0.8;
+    }
+
+    .modal-close:hover { opacity: 1; }
+
+    .modal-body { padding: 20px; overflow-y: auto; max-height: calc(90vh - 140px); }
+
+    .modal-footer {
+      padding: 15px 20px;
+      background: #f8f9fa;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .form-group { margin-bottom: 15px; }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #2c3e50;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1em;
+    }
+
+    .form-group textarea {
+      min-height: 300px;
+      font-family: monospace;
+    }
+
+    .status-message {
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    .status-message.success {
+      background: #d4edda;
+      color: #155724;
+      display: block;
+    }
+
+    .status-message.error {
+      background: #f8d7da;
+      color: #721c24;
+      display: block;
+    }
+
+    .info-box {
+      background: #e8f4f8;
+      border-left: 4px solid #3498db;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .info-box code {
+      background: rgba(0,0,0,0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="has-fixed-nav">
+
+<!-- UNIVERSAL NAVIGATION -->
+<nav class="mit-brain-nav">
+  <div class="mit-brain-nav-container">
+    <a href="/" class="mit-brain-logo">
+      <span class="mit-brain-logo-icon">🧠</span>
+      <div>
+        <div class="mit-brain-logo-text">MIT Brain</div>
+        <div class="mit-brain-logo-subtitle">Corporate Relations Intelligence</div>
+      </div>
+    </a>
+
+    <div class="mit-brain-nav-links">
+      <a href="/" class="mit-brain-nav-link nav-home">
+        🏠 <span>Home</span>
+      </a>
+      <a href="/search.html" class="mit-brain-nav-link nav-search">
+        🔍 <span>Search MIT Brain</span>
+      </a>
+      <a href="/alerts-dashboard.html" class="mit-brain-nav-link nav-alerts">
+        🔔 <span>Alerts</span>
+      </a>
+      <a href="/create-alert.html" class="mit-brain-nav-link nav-create">
+        ➕ <span>Create Alert</span>
+      </a>
+      <a href="/meetings.html" class="mit-brain-nav-link nav-meetings">
+        📝 <span>Meetings</span>
+      </a>
+      <a href="/virtual-pd.html" class="mit-brain-nav-link nav-virtualpd">
+        🎓 <span>Virtual PD</span>
+      </a>
+      <a href="/settings.html" class="mit-brain-nav-link nav-settings active">
+        ⚙️ <span>Settings</span>
+      </a>
+      <a href="/admin.html" class="mit-brain-nav-link nav-admin">
+        🛠️ <span>Admin</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-container">
+  <div class="page-header">
+    <h1>⚙️ My Settings</h1>
+    <p>Configure your personal preferences, member profiles, and templates</p>
+  </div>
+
+  <div id="statusMessage" class="status-message"></div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="voice">🎤 My Voice</button>
+    <button class="tab" data-tab="profiles">🏢 Member Profiles</button>
+    <button class="tab" data-tab="templates">📝 Templates</button>
+    <button class="tab" data-tab="dropbox">📂 Dropbox</button>
+  </div>
+
+  <!-- My Voice Tab -->
+  <div id="voiceTab" class="tab-content active">
+    <div class="section-header">
+      <h2>My Voice - Personal Writing Preferences</h2>
+      <button class="btn btn-primary" onclick="saveMyVoice()">Save Changes</button>
+    </div>
+
+    <div class="info-box">
+      <strong>What is My Voice?</strong> These are your personal writing style preferences that AI will use when generating content for you. Define your tone, words to avoid, preferred phrases, and email structure. By default, we initially set your personal My Voice prompt to one that we have found best represents how MIT staff should communicate.
+    </div>
+
+    <textarea id="voiceEditor" class="voice-editor" placeholder="Loading..."></textarea>
+  </div>
+
+  <!-- Member Profiles Tab -->
+  <div id="profilesTab" class="tab-content">
+    <div class="section-header">
+      <h2>Member Profiles</h2>
+      <div>
+        <button class="btn btn-secondary" onclick="addMemberRow()">+ Add Member</button>
+        <button class="btn btn-primary" onclick="saveMemberProfiles()">Save Changes</button>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>Member Profiles</strong> define the companies you work with. Include key phrases and interests so the system can find relevant MIT content for each member.
+    </div>
+
+    <div class="profiles-table-container">
+      <table class="profiles-table" id="profilesTable">
+        <thead id="profilesHeader"></thead>
+        <tbody id="profilesBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Templates Tab -->
+  <div id="templatesTab" class="tab-content">
+    <div class="section-header">
+      <h2>Email Templates</h2>
+      <button class="btn btn-primary" onclick="showTemplateModal()">+ New Template</button>
+    </div>
+
+    <div class="info-box">
+      <strong>Templates</strong> are reusable email formats. Use variables like <code>{{Point-of-Contact}}</code> and <code>{{knowledge-list}}</code> that will be replaced when generating emails.
+    </div>
+
+    <div class="templates-grid" id="templatesGrid">
+      <div style="text-align: center; padding: 40px; color: #888;">Loading templates...</div>
+    </div>
+  </div>
+
+  <!-- Dropbox Tab -->
+  <div id="dropboxTab" class="tab-content">
+    <div class="section-header">
+      <h2>Dropbox Connection</h2>
+      <div>
+        <button class="btn btn-secondary" onclick="testDropbox()">Test Connection</button>
+        <button class="btn btn-primary" onclick="saveDropbox()">Save Settings</button>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>Dropbox Integration</strong> connects to your Dropbox account to access meeting transcripts. You need a Dropbox App with a refresh token for long-lived access.
+    </div>
+
+    <div id="dropboxTestResult" class="status-message" style="display:none;"></div>
+
+    <div class="form-group">
+      <label>Refresh Token</label>
+      <input type="password" id="dbxRefreshToken" placeholder="Enter your Dropbox refresh token">
+      <small style="color:#888; display:block; margin-top:4px;">Long-lived token for automatic access. Preferred over static access tokens.</small>
+    </div>
+
+    <div class="form-group">
+      <label>Access Token (fallback)</label>
+      <input type="password" id="dbxAccessToken" placeholder="Short-lived access token (optional if refresh token is set)">
+      <small style="color:#888; display:block; margin-top:4px;">Only used if no refresh token is configured. Expires after a few hours.</small>
+    </div>
+
+    <div class="form-group">
+      <label>App Key</label>
+      <input type="text" id="dbxAppKey" placeholder="e.g., 78xpgl8kegb3jq9">
+    </div>
+
+    <div class="form-group">
+      <label>App Secret</label>
+      <input type="password" id="dbxAppSecret" placeholder="Your Dropbox app secret">
+    </div>
+
+    <div class="form-group">
+      <label>Transcripts Folder Path</label>
+      <input type="text" id="dbxTranscriptsDir" placeholder="/Transcripts" value="/Transcripts">
+      <small style="color:#888; display:block; margin-top:4px;">Dropbox folder path where your meeting transcripts are stored.</small>
+    </div>
+  </div>
+</div>
+
+<!-- Template Editor Modal -->
+<div id="templateModal" class="modal-overlay" onclick="closeTemplateModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3 id="templateModalTitle">New Template</h3>
+      <button class="modal-close" onclick="closeTemplateModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Template Name</label>
+        <input type="text" id="templateName" placeholder="e.g., news-update">
+      </div>
+      <div class="form-group">
+        <label>Template Content</label>
+        <textarea id="templateContent" placeholder="Hello, {{Point-of-Contact}}.
+
+Here's some relevant MIT content:
+
+{{knowledge-list}}
+
+Best regards,
+[Your name]"></textarea>
+      </div>
+      <div class="info-box" style="margin-top: 15px;">
+        <strong>Available Variables:</strong><br>
+        <code>{{Point-of-Contact}}</code> - Contact's first name<br>
+        <code>{{knowledge-list}}</code> - Generated list of articles/content<br>
+        <code>{{company}}</code> - Company name
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeTemplateModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveTemplate()">Save Template</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/auth.js"></script>
+<script>
+  let profileHeaders = [];
+  let profileRows = [];
+  let editingTemplate = null;
+
+  // Tab switching
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.tab + 'Tab').classList.add('active');
+    });
+  });
+
+  // Load all data on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    loadMyVoice();
+    loadMemberProfiles();
+    loadTemplates();
+    loadDropbox();
+  });
+
+  function showStatus(message, type) {
+    const el = document.getElementById('statusMessage');
+    el.textContent = message;
+    el.className = 'status-message ' + type;
+    setTimeout(() => el.className = 'status-message', 3000);
+  }
+
+  // === MY VOICE ===
+  async function loadMyVoice() {
+    try {
+      const res = await fetch('/api/settings/my-voice');
+      const data = await res.json();
+      document.getElementById('voiceEditor').value = data.content || '';
+    } catch (err) {
+      console.error('Failed to load My Voice:', err);
+    }
+  }
+
+  async function saveMyVoice() {
+    try {
+      const content = document.getElementById('voiceEditor').value;
+      const res = await fetch('/api/settings/my-voice', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content })
+      });
+      if (!res.ok) throw new Error('Failed to save');
+      showStatus('My Voice saved successfully!', 'success');
+    } catch (err) {
+      showStatus('Error saving: ' + err.message, 'error');
+    }
+  }
+
+  // === MEMBER PROFILES ===
+  async function loadMemberProfiles() {
+    try {
+      const res = await fetch('/api/settings/member-profiles');
+      const data = await res.json();
+      profileHeaders = data.headers || [];
+      profileRows = data.rows || [];
+      renderProfilesTable();
+    } catch (err) {
+      console.error('Failed to load profiles:', err);
+    }
+  }
+
+  function renderProfilesTable() {
+    const headerRow = document.getElementById('profilesHeader');
+    const body = document.getElementById('profilesBody');
+
+    if (profileHeaders.length === 0) {
+      profileHeaders = ['Member', 'PocFirstName', 'Common Name 1', 'Main Industry', 'Key Phrase 1', 'Key Phrase 2', 'Key Phrase 3'];
+    }
+
+    headerRow.innerHTML = '<tr>' + profileHeaders.map(h => `<th>${h}</th>`).join('') + '<th>Actions</th></tr>';
+
+    body.innerHTML = profileRows.map((row, idx) => `
+      <tr>
+        ${profileHeaders.map(h => `<td><input type="text" value="${escapeHtml(row[h] || '')}" onchange="updateProfileCell(${idx}, '${h}', this.value)"></td>`).join('')}
+        <td><button class="btn btn-danger btn-small" onclick="deleteProfileRow(${idx})">Delete</button></td>
+      </tr>
+    `).join('');
+  }
+
+  function updateProfileCell(rowIdx, header, value) {
+    profileRows[rowIdx][header] = value;
+  }
+
+  function addMemberRow() {
+    const newRow = { _id: profileRows.length };
+    profileHeaders.forEach(h => newRow[h] = '');
+    profileRows.push(newRow);
+    renderProfilesTable();
+  }
+
+  function deleteProfileRow(idx) {
+    if (confirm('Delete this member profile?')) {
+      profileRows.splice(idx, 1);
+      renderProfilesTable();
+    }
+  }
+
+  async function saveMemberProfiles() {
+    try {
+      const res = await fetch('/api/settings/member-profiles', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ headers: profileHeaders, rows: profileRows })
+      });
+      if (!res.ok) throw new Error('Failed to save');
+      showStatus('Member profiles saved successfully!', 'success');
+    } catch (err) {
+      showStatus('Error saving: ' + err.message, 'error');
+    }
+  }
+
+  // === TEMPLATES ===
+  async function loadTemplates() {
+    try {
+      const res = await fetch('/api/settings/templates');
+      const data = await res.json();
+      renderTemplates(data.templates || []);
+    } catch (err) {
+      console.error('Failed to load templates:', err);
+    }
+  }
+
+  function renderTemplates(templates) {
+    const grid = document.getElementById('templatesGrid');
+
+    if (templates.length === 0) {
+      grid.innerHTML = '<div style="text-align: center; padding: 40px; color: #888; grid-column: 1/-1;">No templates yet. Click "+ New Template" to create one.</div>';
+      return;
+    }
+
+    grid.innerHTML = templates.map(t => `
+      <div class="template-card">
+        <div class="template-name">${escapeHtml(t.name)}</div>
+        <div class="template-actions">
+          <button class="btn btn-secondary btn-small" onclick="editTemplate('${escapeHtml(t.name)}')">Edit</button>
+          <button class="btn btn-danger btn-small" onclick="deleteTemplate('${escapeHtml(t.name)}')">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function showTemplateModal(name = null) {
+    editingTemplate = name;
+    document.getElementById('templateModalTitle').textContent = name ? 'Edit Template' : 'New Template';
+    document.getElementById('templateName').value = name || '';
+    document.getElementById('templateName').disabled = !!name;
+    document.getElementById('templateContent').value = '';
+
+    if (name) {
+      fetch(`/api/settings/templates/${encodeURIComponent(name)}`)
+        .then(r => r.json())
+        .then(data => {
+          document.getElementById('templateContent').value = data.content || '';
+        });
+    }
+
+    document.getElementById('templateModal').classList.add('visible');
+  }
+
+  function closeTemplateModal(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('templateModal').classList.remove('visible');
+    editingTemplate = null;
+  }
+
+  async function editTemplate(name) {
+    showTemplateModal(name);
+  }
+
+  async function saveTemplate() {
+    const name = document.getElementById('templateName').value.trim();
+    const content = document.getElementById('templateContent').value;
+
+    if (!name) {
+      alert('Please enter a template name');
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/settings/templates/${encodeURIComponent(name)}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content })
+      });
+      if (!res.ok) throw new Error('Failed to save');
+      closeTemplateModal();
+      loadTemplates();
+      showStatus('Template saved successfully!', 'success');
+    } catch (err) {
+      alert('Error saving template: ' + err.message);
+    }
+  }
+
+  async function deleteTemplate(name) {
+    if (!confirm(`Delete template "${name}"?`)) return;
+
+    try {
+      const res = await fetch(`/api/settings/templates/${encodeURIComponent(name)}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Failed to delete');
+      loadTemplates();
+      showStatus('Template deleted.', 'success');
+    } catch (err) {
+      alert('Error deleting template: ' + err.message);
+    }
+  }
+
+  // === DROPBOX ===
+  async function loadDropbox() {
+    try {
+      const res = await fetch('/api/settings/dropbox');
+      const data = await res.json();
+      document.getElementById('dbxRefreshToken').value = data.refreshToken || '';
+      document.getElementById('dbxAccessToken').value = data.accessToken || '';
+      document.getElementById('dbxAppKey').value = data.appKey || '';
+      document.getElementById('dbxAppSecret').value = data.appSecret || '';
+      document.getElementById('dbxTranscriptsDir').value = data.transcriptsDir || '/Transcripts';
+    } catch (err) {
+      console.error('Failed to load Dropbox settings:', err);
+    }
+  }
+
+  async function saveDropbox() {
+    try {
+      const body = {
+        refreshToken: document.getElementById('dbxRefreshToken').value.trim(),
+        accessToken: document.getElementById('dbxAccessToken').value.trim(),
+        appKey: document.getElementById('dbxAppKey').value.trim(),
+        appSecret: document.getElementById('dbxAppSecret').value.trim(),
+        transcriptsDir: document.getElementById('dbxTranscriptsDir').value.trim() || '/Transcripts'
+      };
+
+      const res = await fetch('/api/settings/dropbox', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      if (!res.ok) throw new Error('Failed to save');
+      showStatus('Dropbox settings saved!', 'success');
+    } catch (err) {
+      showStatus('Error saving Dropbox settings: ' + err.message, 'error');
+    }
+  }
+
+  async function testDropbox() {
+    const resultEl = document.getElementById('dropboxTestResult');
+    resultEl.style.display = 'block';
+    resultEl.className = 'status-message';
+    resultEl.textContent = 'Testing connection...';
+
+    try {
+      const res = await fetch('/api/settings/dropbox/test', { method: 'POST' });
+      const data = await res.json();
+
+      if (data.ok) {
+        resultEl.className = 'status-message success';
+        resultEl.textContent = `Connected! Found ${data.fileCount} file(s) in ${data.folder}`;
+      } else {
+        resultEl.className = 'status-message error';
+        resultEl.textContent = 'Connection failed: ' + (data.error || 'Unknown error');
+      }
+    } catch (err) {
+      resultEl.className = 'status-message error';
+      resultEl.textContent = 'Test failed: ' + err.message;
+    }
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+</script>
+</body>
+</html>

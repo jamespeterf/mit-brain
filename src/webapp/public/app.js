@@ -421,22 +421,54 @@ function checkMatchedBoxes(matches) {
     console.error("Results container not found");
     return;
   }
-  
-  // Extract URLs from matches
-  const matchedUrls = matches.map(m => m.url);
-  
+
+  // Normalize URL for comparison (trim whitespace, handle encoding)
+  const normalizeUrl = (url) => {
+    if (!url) return "";
+    return url.trim();
+  };
+
+  // Extract URLs from matches and create a Set for fast lookup
+  const matchedUrls = matches.map(m => normalizeUrl(m.url));
+  const matchedUrlSet = new Set(matchedUrls);
+  console.log("🔍 checkMatchedBoxes - matchedUrls:", matchedUrls.length, "items");
+
   let checkedCount = 0;
   const boxes = container.querySelectorAll("input.article-select");
+  console.log("🔍 Total checkboxes in results:", boxes.length);
+
+  // Build a map of normalized box URLs for reverse lookup
+  const boxUrlMap = new Map();
   boxes.forEach((box) => {
-    const url = box.dataset.url;
-    if (url && matchedUrls.includes(url)) {
+    const normalizedUrl = normalizeUrl(box.dataset.url);
+    boxUrlMap.set(normalizedUrl, box);
+  });
+
+  // FIRST: Deselect all boxes
+  boxes.forEach((box) => {
+    box.checked = false;
+  });
+
+  // THEN: Select boxes that match
+  const unmatchedUrls = [];
+  matchedUrls.forEach((url) => {
+    const box = boxUrlMap.get(url);
+    if (box) {
       box.checked = true;
       checkedCount++;
+    } else {
+      unmatchedUrls.push(url);
     }
   });
-  
+
+  // Log unmatched URLs for debugging
+  if (unmatchedUrls.length > 0) {
+    console.warn(`⚠️ ${unmatchedUrls.length} URLs from Smart Match not found in results:`);
+    unmatchedUrls.forEach(url => console.warn("   Missing:", url));
+  }
+
   showStatus(`Smart Match complete: ${checkedCount} items selected.`);
-  console.log(`✅ Checked ${checkedCount} boxes`);
+  console.log(`✅ Checked ${checkedCount} of ${matchedUrls.length} matched boxes`);
 }
 
 function createArticleCard(article, index) {
@@ -450,7 +482,18 @@ function createArticleCard(article, index) {
   link.href = article.url;
   link.target = "_blank";
   link.rel = "noopener noreferrer";
-  link.textContent = stripXML(article.title) || "(No title)";
+
+  // For person kind, prepend first and last name
+  if (article.kind === 'person' && (article.firstName || article.lastName)) {
+    const firstName = article.firstName || '';
+    const lastName = article.lastName || '';
+    const fullName = `${firstName} ${lastName}`.trim();
+    const title = stripXML(article.title) || "(No title)";
+    link.textContent = fullName ? `${fullName}, ${title}` : title;
+  } else {
+    link.textContent = stripXML(article.title) || "(No title)";
+  }
+
   titleDiv.appendChild(link);
   
   // Add kind in parentheses next to title (not hyperlinked)
@@ -540,9 +583,9 @@ function createArticleCard(article, index) {
     eventDetailsDiv.style.background = "#f0f8ff";
     eventDetailsDiv.style.borderLeft = "3px solid #0065a4";
     eventDetailsDiv.style.fontSize = "0.9rem";
-    
+
     const eventParts = [];
-    
+
     // Format date properly
     if (article.futureEventDate) {
       let dateStr = article.futureEventDate;
@@ -563,7 +606,7 @@ function createArticleCard(article, index) {
         }
       }
     }
-    
+
     // MIT Groups
     if (article.mitGroups) {
       const mitGroupsStr = parseMitGroups(article.mitGroups);
@@ -571,17 +614,45 @@ function createArticleCard(article, index) {
         eventParts.push(`MIT Groups: ${mitGroupsStr}`);
       }
     }
-    
+
     if (article.location) {
       eventParts.push(`Location: ${article.location}`);
     }
     if (article.eventType) {
       eventParts.push(`Event Type: ${article.eventType}`);
     }
-    
+
     if (eventParts.length > 0) {
       eventDetailsDiv.textContent = eventParts.join(' | ');
       card.appendChild(eventDetailsDiv);
+    }
+  }
+
+  // Add person details for person items
+  if (article.kind === 'person') {
+    const personDetailsDiv = document.createElement("div");
+    personDetailsDiv.className = "article-person-details";
+    personDetailsDiv.style.marginTop = "8px";
+    personDetailsDiv.style.padding = "8px";
+    personDetailsDiv.style.background = "#f9f3ff";
+    personDetailsDiv.style.borderLeft = "3px solid #9b59b6";
+    personDetailsDiv.style.fontSize = "0.9rem";
+
+    const personParts = [];
+
+    if (article.dlc) {
+      personParts.push(`DLC: ${article.dlc}`);
+    }
+    if (article.mitPeopleCategory) {
+      personParts.push(`Role: ${article.mitPeopleCategory}`);
+    }
+    if (article.email) {
+      personParts.push(`Email: ${article.email}`);
+    }
+
+    if (personParts.length > 0) {
+      personDetailsDiv.textContent = personParts.join(' | ');
+      card.appendChild(personDetailsDiv);
     }
   }
 
@@ -744,7 +815,8 @@ async function handleSearchClick() {
     'article': document.getElementById('kindNews'),
     'paper': document.getElementById('kindPaper'),
     'startup': document.getElementById('kindStartup'),
-    'event': document.getElementById('kindEvent')
+    'event': document.getElementById('kindEvent'),
+    'person': document.getElementById('kindPerson')
   };
 
   // Check which kinds are selected
@@ -1131,10 +1203,11 @@ function handleClearFormClick() {
 function handleSelectAllKinds() {
   const checkboxes = [
     'kindVideo',
-    'kindNews', 
+    'kindNews',
     'kindPaper',
     'kindStartup',
-    'kindEvent'
+    'kindEvent',
+    'kindPerson'
   ];
   
   checkboxes.forEach(id => {
@@ -1151,9 +1224,10 @@ function handleDeselectAllKinds() {
   const checkboxes = [
     'kindVideo',
     'kindNews',
-    'kindPaper', 
+    'kindPaper',
     'kindStartup',
-    'kindEvent'
+    'kindEvent',
+    'kindPerson'
   ];
   
   checkboxes.forEach(id => {
@@ -1405,7 +1479,8 @@ async function handleCreateAlert() {
     'article': document.getElementById('kindNews'),
     'paper': document.getElementById('kindPaper'),
     'startup': document.getElementById('kindStartup'),
-    'event': document.getElementById('kindEvent')
+    'event': document.getElementById('kindEvent'),
+    'person': document.getElementById('kindPerson')
   };
   
   for (const [kind, checkbox] of Object.entries(kindCheckboxes)) {

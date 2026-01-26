@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - MIT Brain</title>
+  <link rel="stylesheet" href="css/mit-brain-nav.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8f8f8;
+      padding-top: 90px;
+    }
+
+    .page-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .admin-header {
+      background: linear-gradient(135deg, #2c3e50, #34495e);
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+    .admin-header h1 {
+      margin: 0 0 10px 0;
+      font-size: 2em;
+    }
+
+    .admin-header p {
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    .admin-section {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .admin-section h2 {
+      margin: 0 0 20px 0;
+      color: #2c3e50;
+      font-size: 1.4em;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .load-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #e0e0e0;
+      transition: all 0.2s;
+    }
+
+    .load-card:hover {
+      border-color: #3498db;
+      background: #f5f9fc;
+    }
+
+    .load-card:last-child {
+      margin-bottom: 0;
+    }
+
+    .load-card-info {
+      flex: 1;
+    }
+
+    .load-card-title {
+      font-size: 1.2em;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .load-card-title .icon {
+      font-size: 1.4em;
+    }
+
+    .load-card-description {
+      color: #666;
+      font-size: 0.95em;
+    }
+
+    .load-card-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: #3498db;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #2980b9;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:disabled {
+      background: #95a5a6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: #95a5a6;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #7f8c8d;
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+
+    .status-ready {
+      background: #27ae60;
+    }
+
+    .status-running {
+      background: #f39c12;
+      animation: pulse 1s infinite;
+    }
+
+    .status-error {
+      background: #e74c3c;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .log-output {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+      font-size: 13px;
+      padding: 15px;
+      border-radius: 8px;
+      max-height: 300px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      display: none;
+      margin-top: 15px;
+    }
+
+    .log-output.visible {
+      display: block;
+    }
+
+    .log-output .success {
+      color: #27ae60;
+    }
+
+    .log-output .error {
+      color: #e74c3c;
+    }
+
+    .log-output .info {
+      color: #3498db;
+    }
+
+    .info-banner {
+      background: #e8f4f8;
+      border-left: 4px solid #3498db;
+      padding: 15px 20px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 20px;
+    }
+
+    .info-banner strong {
+      color: #2c3e50;
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: none;
+    }
+
+    .btn-primary:disabled .spinner {
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Modal styles */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-overlay.visible {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 85vh;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, #2c3e50, #34495e);
+      color: white;
+      padding: 20px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 1.4em;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.8em;
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+
+    .modal-close:hover {
+      opacity: 1;
+    }
+
+    .modal-body {
+      padding: 25px;
+      overflow-y: auto;
+      max-height: calc(85vh - 70px);
+    }
+
+    .report-section {
+      margin-bottom: 25px;
+    }
+
+    .report-section h3 {
+      color: #2c3e50;
+      font-size: 1.1em;
+      margin: 0 0 12px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #eee;
+    }
+
+    .report-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .report-stat {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #3498db;
+    }
+
+    .report-stat-label {
+      font-size: 0.85em;
+      color: #666;
+      margin-bottom: 4px;
+    }
+
+    .report-stat-value {
+      font-size: 1.4em;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .report-stat-detail {
+      font-size: 0.8em;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    .report-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95em;
+    }
+
+    .report-table th,
+    .report-table td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .report-table th {
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .report-table tr:hover {
+      background: #f8f9fa;
+    }
+
+    .kind-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.85em;
+      font-weight: 500;
+    }
+
+    .kind-article { background: #e3f2fd; color: #1565c0; }
+    .kind-video { background: #fce4ec; color: #c2185b; }
+    .kind-paper { background: #e8f5e9; color: #2e7d32; }
+    .kind-person { background: #fff3e0; color: #ef6c00; }
+    .kind-startup { background: #f3e5f5; color: #7b1fa2; }
+    .kind-future_event { background: #e0f7fa; color: #00838f; }
+    .kind-unknown { background: #eceff1; color: #546e7a; }
+
+    .btn-info {
+      background: #9b59b6;
+      color: white;
+    }
+
+    .btn-info:hover {
+      background: #8e44ad;
+      transform: translateY(-1px);
+    }
+
+    .loading-spinner-large {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    .loading-spinner-large::before {
+      content: '';
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border: 3px solid #eee;
+      border-top-color: #3498db;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 15px;
+    }
+
+    .progress-bar-container {
+      background: #e0e0e0;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 20px;
+      margin-top: 8px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #3498db, #2980b9);
+      border-radius: 10px;
+      transition: width 0.3s;
+    }
+
+    /* Events Upload Modal */
+    .file-upload-area {
+      border: 2px dashed #ccc;
+      border-radius: 8px;
+      padding: 30px;
+      text-align: center;
+      background: #f9f9f9;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 20px;
+    }
+
+    .file-upload-area:hover {
+      border-color: #3498db;
+      background: #f0f7fc;
+    }
+
+    .file-upload-area.has-file {
+      border-color: #27ae60;
+      background: #f0fdf4;
+    }
+
+    .file-upload-area .upload-icon {
+      font-size: 3em;
+      margin-bottom: 10px;
+    }
+
+    .file-upload-area .upload-text {
+      color: #666;
+      font-size: 1.1em;
+    }
+
+    .file-upload-area .file-name {
+      color: #27ae60;
+      font-weight: 600;
+      margin-top: 10px;
+      font-size: 1.1em;
+    }
+
+    .progress-section {
+      margin-top: 20px;
+      display: none;
+    }
+
+    .progress-section.visible {
+      display: block;
+    }
+
+    .progress-step {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      background: #f8f8f8;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      border-left: 4px solid #ccc;
+    }
+
+    .progress-step.active {
+      border-left-color: #f39c12;
+      background: #fffaf0;
+    }
+
+    .progress-step.completed {
+      border-left-color: #27ae60;
+      background: #f0fdf4;
+    }
+
+    .progress-step.error {
+      border-left-color: #e74c3c;
+      background: #fdf0f0;
+    }
+
+    .progress-step-icon {
+      font-size: 1.3em;
+      margin-right: 12px;
+      width: 30px;
+      text-align: center;
+    }
+
+    .progress-step-text {
+      flex: 1;
+      color: #333;
+    }
+
+    .progress-step-detail {
+      color: #666;
+      font-size: 0.9em;
+    }
+
+    .modal-footer {
+      padding: 20px 25px;
+      background: #f8f8f8;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .btn-cancel {
+      background: #95a5a6;
+      color: white;
+    }
+
+    .btn-cancel:hover {
+      background: #7f8c8d;
+    }
+  </style>
+</head>
+<body class="has-fixed-nav">
+
+<!-- UNIVERSAL NAVIGATION - NO INLINE STYLES -->
+<nav class="mit-brain-nav">
+  <div class="mit-brain-nav-container">
+    <a href="/" class="mit-brain-logo">
+      <span class="mit-brain-logo-icon">🧠</span>
+      <div>
+        <div class="mit-brain-logo-text">MIT Brain</div>
+        <div class="mit-brain-logo-subtitle">Corporate Relations Intelligence</div>
+      </div>
+    </a>
+
+    <div class="mit-brain-nav-links">
+      <a href="/" class="mit-brain-nav-link nav-home">
+        🏠 <span>Home</span>
+      </a>
+      <a href="/search.html" class="mit-brain-nav-link nav-search">
+        🔍 <span>Search MIT Brain</span>
+      </a>
+      <a href="/alerts-dashboard.html" class="mit-brain-nav-link nav-alerts">
+        🔔 <span>Alerts</span>
+      </a>
+      <a href="/create-alert.html" class="mit-brain-nav-link nav-create">
+        ➕ <span>Create Alert</span>
+      </a>
+      <a href="/meetings.html" class="mit-brain-nav-link nav-meetings">
+        📝 <span>Meetings</span>
+      </a>
+      <a href="/virtual-pd.html" class="mit-brain-nav-link nav-virtualpd">
+        🎓 <span>Virtual PD</span>
+      </a>
+      <a href="/settings.html" class="mit-brain-nav-link nav-settings">
+        ⚙️ <span>Settings</span>
+      </a>
+      <a href="/admin.html" class="mit-brain-nav-link nav-admin active">
+        🛠️ <span>Admin</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- Spacer for fixed nav -->
+<div style="height: 80px;"></div>
+
+<div class="page-container">
+  <div class="admin-header">
+    <h1>⚙️ Admin Dashboard</h1>
+    <p>Load and manage MIT Brain data sources</p>
+  </div>
+
+  <div class="info-banner">
+    <strong>Note:</strong> Data loading operations run background scripts to import data into the MIT Brain knowledge base.
+    Loading may take several minutes depending on the data source.
+  </div>
+
+  <div class="admin-section">
+    <h2>Data Loaders</h2>
+
+    <!-- MIT People -->
+    <div class="load-card">
+      <div class="load-card-info">
+        <div class="load-card-title">
+          <span class="icon">👥</span>
+          MIT People
+        </div>
+        <div class="load-card-description">
+          Import MIT faculty and researcher profiles from the MIT People Excel file (mitPeople.xlsx)
+        </div>
+      </div>
+      <div class="load-card-actions">
+        <button class="btn btn-primary" id="loadPeopleBtn" onclick="loadData('people')">
+          <span class="spinner"></span>
+          <span class="btn-text">Load MIT People</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Events -->
+    <div class="load-card">
+      <div class="load-card-info">
+        <div class="load-card-title">
+          <span class="icon">📅</span>
+          Events
+        </div>
+        <div class="load-card-description">
+          Import upcoming MIT events from an Excel spreadsheet
+        </div>
+      </div>
+      <div class="load-card-actions">
+        <button class="btn btn-primary" id="loadEventsBtn" onclick="showEventsModal()">
+          <span class="btn-text">Load Events</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Startups -->
+    <div class="load-card">
+      <div class="load-card-info">
+        <div class="load-card-title">
+          <span class="icon">🚀</span>
+          Startups
+        </div>
+        <div class="load-card-description">
+          Import MIT startup companies from the Startup Exchange CSV file (mit_startup_exchange.csv)
+        </div>
+      </div>
+      <div class="load-card-actions">
+        <button class="btn btn-primary" id="loadStartupsBtn" onclick="loadData('startups')">
+          <span class="spinner"></span>
+          <span class="btn-text">Load Startups</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alert Operations Section -->
+  <div class="admin-section">
+    <h2>Alert Operations</h2>
+
+    <div class="load-card">
+      <div class="load-card-info">
+        <div class="load-card-title">
+          <span class="icon">🔔</span>
+          Run Alerts
+        </div>
+        <div class="load-card-description">
+          Manually trigger alert processing for all users. Normally runs automatically at 9:00 AM daily.
+        </div>
+      </div>
+      <div class="load-card-actions">
+        <button class="btn btn-primary" id="runAlertsBtn" onclick="runAlerts()" style="background: #e67e22;">
+          <span class="spinner"></span>
+          <span class="btn-text">Run Alerts Now</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reports Section -->
+  <div class="admin-section">
+    <h2>Reports</h2>
+
+    <div class="load-card">
+      <div class="load-card-info">
+        <div class="load-card-title">
+          <span class="icon">📊</span>
+          JSONL Data Report
+        </div>
+        <div class="load-card-description">
+          View detailed statistics about objects in the current MIT Brain JSONL file, including counts by kind, sources, and more.
+        </div>
+      </div>
+      <div class="load-card-actions">
+        <button class="btn btn-info" id="jsonlReportBtn" onclick="showJsonlReport()">
+          <span class="btn-text">View Report</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Management Section (Admin Only) -->
+  <div class="admin-section" id="userManagementSection" style="display: none;">
+    <h2>User Management</h2>
+    <div class="info-banner" style="margin-bottom: 20px;">
+      <strong>Manage authorized users.</strong> Check the "Enabled" box to allow a user to log in. They'll use the temp password <code>mitbrain2025</code>, then set a new password and confirm their email before full access.
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <button class="btn btn-primary" onclick="showAddUserModal()">
+        <span class="btn-text">+ Add New User</span>
+      </button>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table class="report-table" id="usersTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Enabled</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="usersTableBody">
+          <tr><td colspan="6" style="text-align: center; padding: 20px;">Loading users...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Log Output Section -->
+  <div class="admin-section" id="logSection" style="display: none;">
+    <h2>Operation Log</h2>
+    <div class="log-output visible" id="logOutput"></div>
+  </div>
+</div>
+
+<!-- JSONL Report Modal -->
+<div class="modal-overlay" id="reportModal" onclick="closeReportModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h2>MIT Brain JSONL Report</h2>
+      <button class="modal-close" onclick="closeReportModal()">&times;</button>
+    </div>
+    <div class="modal-body" id="reportContent">
+      <div class="loading-spinner-large">Loading report...</div>
+    </div>
+  </div>
+</div>
+
+<!-- Events Upload Modal -->
+<div class="modal-overlay" id="eventsModal" onclick="closeEventsModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 600px;">
+    <div class="modal-header">
+      <h2>Load Events</h2>
+      <button class="modal-close" onclick="closeEventsModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="info-banner" style="margin-bottom: 20px;">
+        <strong>Note:</strong> This will remove all existing events from the Brain and replace them with events from the selected spreadsheet.
+      </div>
+
+      <input type="file" id="eventsFileInput" accept=".xlsx,.xls,.csv" style="display: none;" onchange="handleEventsFileSelect(event)">
+
+      <div class="file-upload-area" id="eventsUploadArea" onclick="document.getElementById('eventsFileInput').click()">
+        <div class="upload-icon">📁</div>
+        <div class="upload-text">Click to browse for an events spreadsheet</div>
+        <div class="upload-text" style="font-size: 0.85em; color: #999; margin-top: 5px;">Supports .xlsx, .xls, or .csv files</div>
+        <div class="file-name" id="selectedFileName" style="display: none;"></div>
+      </div>
+
+      <div class="progress-section" id="eventsProgressSection">
+        <div class="progress-step" id="stepDelete">
+          <div class="progress-step-icon">⏳</div>
+          <div class="progress-step-text">
+            <div>Deleting existing events</div>
+            <div class="progress-step-detail" id="stepDeleteDetail">Waiting...</div>
+          </div>
+        </div>
+        <div class="progress-step" id="stepLoad">
+          <div class="progress-step-icon">⏳</div>
+          <div class="progress-step-text">
+            <div>Loading new events</div>
+            <div class="progress-step-detail" id="stepLoadDetail">Waiting...</div>
+          </div>
+        </div>
+        <div class="progress-step" id="stepReload">
+          <div class="progress-step-icon">⏳</div>
+          <div class="progress-step-text">
+            <div>Reloading Brain</div>
+            <div class="progress-step-detail" id="stepReloadDetail">Waiting...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" id="eventsModalFooter">
+      <button class="btn btn-cancel" onclick="closeEventsModal()">Cancel</button>
+      <button class="btn btn-primary" id="startEventsLoadBtn" onclick="startEventsLoad()" disabled>
+        <span class="spinner"></span>
+        <span class="btn-text">Load Events</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit User Modal -->
+<div class="modal-overlay" id="userModal" onclick="closeUserModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 500px;">
+    <div class="modal-header">
+      <h2 id="userModalTitle">Add New User</h2>
+      <button class="modal-close" onclick="closeUserModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="userForm">
+        <input type="hidden" id="userId" name="id">
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div class="form-group">
+            <label>First Name *</label>
+            <input type="text" id="userFirstName" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+          </div>
+          <div class="form-group">
+            <label>Last Name *</label>
+            <input type="text" id="userLastName" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 15px;">
+          <label>Email *</label>
+          <input type="email" id="userEmail" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+        </div>
+
+        <div class="form-group" style="margin-top: 15px;">
+          <label>Title</label>
+          <input type="text" id="userTitle" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+        </div>
+
+        <div class="form-group" style="margin-top: 15px;">
+          <label>Role</label>
+          <select id="userRole" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
+        <div id="userFormError" style="color: #c00; margin-top: 15px; display: none;"></div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeUserModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveUser()">
+        <span class="btn-text">Save User</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let isLoading = false;
+  let currentUser = null;
+
+  // Check if user is admin and load user management
+  async function checkUserRole() {
+    try {
+      const res = await fetch('/api/me');
+      if (res.ok) {
+        const data = await res.json();
+        currentUser = data.user;
+        if (currentUser.role === 'admin') {
+          document.getElementById('userManagementSection').style.display = 'block';
+          loadUsers();
+        }
+      }
+    } catch (err) {
+      console.error('Failed to check user role:', err);
+    }
+  }
+
+  async function loadUsers() {
+    try {
+      const res = await fetch('/api/users');
+      if (!res.ok) throw new Error('Failed to load users');
+      const users = await res.json();
+
+      const tbody = document.getElementById('usersTableBody');
+      tbody.innerHTML = users.map(user => {
+        const isAdmin = user.role === 'admin';
+        const enabledChecked = user.enabled ? 'checked' : '';
+        const enabledDisabled = isAdmin ? 'disabled title="Admins are always enabled"' : '';
+
+        let statusHtml = '';
+        if (isAdmin) {
+          statusHtml = '<span style="background:#e8f5e9;color:#2e7d32;padding:3px 8px;border-radius:10px;font-size:0.8em;">Active (Admin)</span>';
+        } else if (user.enabled && user.confirmed) {
+          statusHtml = '<span style="background:#e3f2fd;color:#1565c0;padding:3px 8px;border-radius:10px;font-size:0.8em;">Confirmed</span>';
+        } else if (user.enabled && !user.confirmed) {
+          statusHtml = '<span style="background:#fff3e0;color:#e65100;padding:3px 8px;border-radius:10px;font-size:0.8em;">Awaiting Confirmation</span>';
+        } else {
+          statusHtml = '<span style="background:#fce4ec;color:#c62828;padding:3px 8px;border-radius:10px;font-size:0.8em;">Disabled</span>';
+        }
+
+        let actionsHtml = `
+          <button onclick="editUser(${user.id})" style="padding:5px 10px;margin-right:5px;cursor:pointer;">Edit</button>
+          <button onclick="resetUserPassword(${user.id})" style="padding:5px 10px;margin-right:5px;cursor:pointer;">Reset PW</button>
+          <button onclick="deleteUser(${user.id}, '${escapeHtml(user.firstName)} ${escapeHtml(user.lastName)}')" style="padding:5px 10px;cursor:pointer;color:#c00;">Delete</button>
+        `;
+        if (user.enabled && !user.confirmed && !isAdmin) {
+          actionsHtml += `<button onclick="resendConfirmation(${user.id})" style="padding:5px 10px;margin-left:5px;cursor:pointer;color:#e67e22;">Resend</button>`;
+        }
+
+        return `
+          <tr>
+            <td><strong>${escapeHtml(user.firstName)} ${escapeHtml(user.lastName)}</strong></td>
+            <td>${escapeHtml(user.email)}</td>
+            <td><span style="background:${user.role === 'admin' ? '#e74c3c' : '#3498db'};color:white;padding:2px 8px;border-radius:10px;font-size:0.85em;">${user.role}</span></td>
+            <td style="text-align:center;">
+              <input type="checkbox" style="cursor:pointer;width:18px;height:18px;" ${enabledChecked} ${enabledDisabled}
+                onchange="toggleUserEnabled(${user.id}, this.checked)" />
+            </td>
+            <td>${statusHtml}</td>
+            <td>${actionsHtml}</td>
+          </tr>
+        `;
+      }).join('');
+    } catch (err) {
+      console.error('Failed to load users:', err);
+      document.getElementById('usersTableBody').innerHTML = '<tr><td colspan="6" style="color: #c00;">Failed to load users</td></tr>';
+    }
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function showAddUserModal() {
+    document.getElementById('userModalTitle').textContent = 'Add New User';
+    document.getElementById('userId').value = '';
+    document.getElementById('userFirstName').value = '';
+    document.getElementById('userLastName').value = '';
+    document.getElementById('userEmail').value = '';
+    document.getElementById('userEmail').disabled = false;
+    document.getElementById('userTitle').value = '';
+    document.getElementById('userRole').value = 'user';
+    document.getElementById('userFormError').style.display = 'none';
+    document.getElementById('userModal').classList.add('visible');
+  }
+
+  async function editUser(userId) {
+    try {
+      const res = await fetch('/api/users');
+      const users = await res.json();
+      const user = users.find(u => u.id === userId);
+      if (!user) return alert('User not found');
+
+      document.getElementById('userModalTitle').textContent = 'Edit User';
+      document.getElementById('userId').value = user.id;
+      document.getElementById('userFirstName').value = user.firstName;
+      document.getElementById('userLastName').value = user.lastName;
+      document.getElementById('userEmail').value = user.email;
+      document.getElementById('userEmail').disabled = true;
+      document.getElementById('userTitle').value = user.title || '';
+      document.getElementById('userRole').value = user.role;
+      document.getElementById('userFormError').style.display = 'none';
+      document.getElementById('userModal').classList.add('visible');
+    } catch (err) {
+      alert('Failed to load user: ' + err.message);
+    }
+  }
+
+  async function saveUser() {
+    const userId = document.getElementById('userId').value;
+    const userData = {
+      firstName: document.getElementById('userFirstName').value,
+      lastName: document.getElementById('userLastName').value,
+      email: document.getElementById('userEmail').value,
+      title: document.getElementById('userTitle').value,
+      role: document.getElementById('userRole').value
+    };
+
+    try {
+      let res;
+      if (userId) {
+        res = await fetch(`/api/users/${userId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(userData)
+        });
+      } else {
+        res = await fetch('/api/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(userData)
+        });
+      }
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to save user');
+
+      if (data.tempPassword) {
+        alert(`User created successfully!\n\nTemporary password: ${data.tempPassword}\n\nThe user must change this on first login.`);
+      }
+
+      closeUserModal();
+      loadUsers();
+    } catch (err) {
+      document.getElementById('userFormError').textContent = err.message;
+      document.getElementById('userFormError').style.display = 'block';
+    }
+  }
+
+  async function resetUserPassword(userId) {
+    if (!confirm('Reset this user\'s password to the temporary password?')) return;
+
+    try {
+      const res = await fetch(`/api/users/${userId}/reset-password`, { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to reset password');
+
+      alert(`Password reset to: ${data.tempPassword}\n\nThe user will need to change this on next login.`);
+    } catch (err) {
+      alert('Error: ' + err.message);
+    }
+  }
+
+  async function deleteUser(userId, userName) {
+    if (!confirm(`Are you sure you want to delete "${userName}"?\n\nThis cannot be undone.`)) return;
+
+    try {
+      const res = await fetch(`/api/users/${userId}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to delete user');
+
+      loadUsers();
+    } catch (err) {
+      alert('Error: ' + err.message);
+    }
+  }
+
+  async function toggleUserEnabled(userId, enabled) {
+    const action = enabled ? 'enable' : 'disable';
+    const confirmMsg = enabled
+      ? 'Enable this user? They will be able to log in and set their password.'
+      : 'Disable this user? They will no longer be able to log in.';
+
+    if (!confirm(confirmMsg)) {
+      loadUsers();
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/users/${userId}/${action}`, { method: 'PUT' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || `Failed to ${action} user`);
+
+      loadUsers();
+    } catch (err) {
+      alert('Error: ' + err.message);
+      loadUsers();
+    }
+  }
+
+  async function resendConfirmation(userId) {
+    if (!confirm('Resend confirmation email to this user?')) return;
+
+    try {
+      const res = await fetch(`/api/users/${userId}/resend-confirm`, { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to resend');
+
+      alert(data.message || 'Confirmation email resent!');
+    } catch (err) {
+      alert('Error: ' + err.message);
+    }
+  }
+
+  function closeUserModal(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('userModal').classList.remove('visible');
+  }
+
+  // Call on page load
+  checkUserRole();
+
+  async function loadData(type) {
+    if (isLoading) {
+      alert('A loading operation is already in progress. Please wait.');
+      return;
+    }
+
+    const btn = document.getElementById(`load${capitalize(type)}Btn`);
+    const logSection = document.getElementById('logSection');
+    const logOutput = document.getElementById('logOutput');
+
+    // Confirm the action
+    const typeLabels = {
+      people: 'MIT People',
+      events: 'Events',
+      startups: 'Startups'
+    };
+
+    if (!confirm(`Are you sure you want to load ${typeLabels[type]}?\n\nThis may take several minutes.`)) {
+      return;
+    }
+
+    // Set loading state
+    isLoading = true;
+    btn.disabled = true;
+    btn.querySelector('.btn-text').textContent = 'Loading...';
+
+    // Show log section
+    logSection.style.display = 'block';
+    logOutput.innerHTML = `<span class="info">[${new Date().toLocaleTimeString()}] Starting ${typeLabels[type]} load...</span>\n`;
+
+    try {
+      const response = await fetch(`/api/admin/load/${type}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        logOutput.innerHTML += `<span class="success">[${new Date().toLocaleTimeString()}] ${result.message || 'Load completed successfully!'}</span>\n`;
+        if (result.count !== undefined) {
+          logOutput.innerHTML += `<span class="info">[${new Date().toLocaleTimeString()}] Records processed: ${result.count}</span>\n`;
+        }
+        if (result.details) {
+          logOutput.innerHTML += `<span class="info">[${new Date().toLocaleTimeString()}] ${result.details}</span>\n`;
+        }
+      } else {
+        logOutput.innerHTML += `<span class="error">[${new Date().toLocaleTimeString()}] Error: ${result.error || 'Unknown error occurred'}</span>\n`;
+        if (result.details) {
+          logOutput.innerHTML += `<span class="error">[${new Date().toLocaleTimeString()}] Details: ${result.details}</span>\n`;
+        }
+      }
+    } catch (error) {
+      logOutput.innerHTML += `<span class="error">[${new Date().toLocaleTimeString()}] Network error: ${error.message}</span>\n`;
+    } finally {
+      // Reset button state
+      isLoading = false;
+      btn.disabled = false;
+      btn.querySelector('.btn-text').textContent = `Load ${typeLabels[type]}`;
+
+      // Scroll log to bottom
+      logOutput.scrollTop = logOutput.scrollHeight;
+    }
+  }
+
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  async function runAlerts() {
+    if (isLoading) {
+      alert('An operation is already in progress. Please wait.');
+      return;
+    }
+
+    const btn = document.getElementById('runAlertsBtn');
+    const logSection = document.getElementById('logSection');
+    const logOutput = document.getElementById('logOutput');
+
+    if (!confirm('Run all alerts now?\n\nThis will process alerts for all users and send emails for any new matches.')) {
+      return;
+    }
+
+    // Set loading state
+    isLoading = true;
+    btn.disabled = true;
+    btn.querySelector('.btn-text').textContent = 'Running...';
+
+    // Show log section
+    logSection.style.display = 'block';
+    logOutput.innerHTML = `<span class="info">[${new Date().toLocaleTimeString()}] Starting alert processing...</span>\n`;
+
+    try {
+      const response = await fetch('/api/admin/run-alerts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        logOutput.innerHTML += `<span class="success">[${new Date().toLocaleTimeString()}] ${result.message || 'Alerts processed successfully!'}</span>\n`;
+        if (result.summary) {
+          logOutput.innerHTML += `<span class="info">[${new Date().toLocaleTimeString()}] People processed: ${result.summary.peopleProcessed}</span>\n`;
+          logOutput.innerHTML += `<span class="info">[${new Date().toLocaleTimeString()}] Alerts checked: ${result.summary.alertsChecked}</span>\n`;
+          logOutput.innerHTML += `<span class="info">[${new Date().toLocaleTimeString()}] Emails sent: ${result.summary.emailsSent}</span>\n`;
+        }
+        if (result.details && result.details.length > 0) {
+          logOutput.innerHTML += `<span class="info">[${new Date().toLocaleTimeString()}] Details:</span>\n`;
+          result.details.forEach(d => {
+            const statusClass = d.matches > 0 ? 'success' : 'info';
+            logOutput.innerHTML += `<span class="${statusClass}">  - ${d.alertName}: ${d.matches} matches</span>\n`;
+          });
+        }
+      } else {
+        logOutput.innerHTML += `<span class="error">[${new Date().toLocaleTimeString()}] Error: ${result.error || 'Unknown error occurred'}</span>\n`;
+        if (result.details) {
+          logOutput.innerHTML += `<span class="error">[${new Date().toLocaleTimeString()}] Details: ${result.details}</span>\n`;
+        }
+      }
+    } catch (error) {
+      logOutput.innerHTML += `<span class="error">[${new Date().toLocaleTimeString()}] Network error: ${error.message}</span>\n`;
+    } finally {
+      // Reset button state
+      isLoading = false;
+      btn.disabled = false;
+      btn.querySelector('.btn-text').textContent = 'Run Alerts Now';
+
+      // Scroll log to bottom
+      logOutput.scrollTop = logOutput.scrollHeight;
+    }
+  }
+
+  // JSONL Report Functions
+  function closeReportModal(event) {
+    if (event && event.target !== event.currentTarget) return;
+    document.getElementById('reportModal').classList.remove('visible');
+  }
+
+  async function showJsonlReport() {
+    const modal = document.getElementById('reportModal');
+    const content = document.getElementById('reportContent');
+
+    // Show modal with loading state
+    modal.classList.add('visible');
+    content.innerHTML = '<div class="loading-spinner-large">Loading report...</div>';
+
+    try {
+      const response = await fetch('/api/admin/jsonl-report');
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to load report');
+      }
+
+      content.innerHTML = renderReport(data.report);
+    } catch (error) {
+      content.innerHTML = `
+        <div style="color: #e74c3c; text-align: center; padding: 40px;">
+          <div style="font-size: 2em; margin-bottom: 10px;">Error</div>
+          <div>${error.message}</div>
+        </div>
+      `;
+    }
+  }
+
+  function renderReport(report) {
+    const { file, summary, byKind, topSources, dateRange, contentStats, kindSpecific } = report;
+
+    // Format dates
+    const lastModified = new Date(file.lastModified).toLocaleString();
+    const reportGenerated = new Date(summary.reportGeneratedAt).toLocaleString();
+
+    let html = `
+      <!-- File Information -->
+      <div class="report-section">
+        <h3>File Information</h3>
+        <div class="report-grid">
+          <div class="report-stat">
+            <div class="report-stat-label">File Name</div>
+            <div class="report-stat-value" style="font-size: 1em;">${file.name}</div>
+          </div>
+          <div class="report-stat">
+            <div class="report-stat-label">File Size</div>
+            <div class="report-stat-value">${file.sizeMB} MB</div>
+          </div>
+          <div class="report-stat">
+            <div class="report-stat-label">Last Modified</div>
+            <div class="report-stat-value" style="font-size: 0.9em;">${lastModified}</div>
+          </div>
+          <div class="report-stat">
+            <div class="report-stat-label">Report Generated</div>
+            <div class="report-stat-value" style="font-size: 0.9em;">${reportGenerated}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary Statistics -->
+      <div class="report-section">
+        <h3>Summary</h3>
+        <div class="report-grid">
+          <div class="report-stat" style="border-left-color: #27ae60;">
+            <div class="report-stat-label">Total Objects</div>
+            <div class="report-stat-value">${summary.totalObjects.toLocaleString()}</div>
+          </div>
+          <div class="report-stat" style="border-left-color: #9b59b6;">
+            <div class="report-stat-label">Content with Full Text</div>
+            <div class="report-stat-value">${contentStats.withFullText.toLocaleString()}</div>
+            <div class="report-stat-detail">${((contentStats.withFullText / summary.totalObjects) * 100).toFixed(1)}% of total</div>
+          </div>
+          <div class="report-stat" style="border-left-color: #f39c12;">
+            <div class="report-stat-label">With Summary</div>
+            <div class="report-stat-value">${contentStats.withSummary.toLocaleString()}</div>
+          </div>
+          <div class="report-stat" style="border-left-color: #e74c3c;">
+            <div class="report-stat-label">With Keywords</div>
+            <div class="report-stat-value">${contentStats.withKeywords.toLocaleString()}</div>
+          </div>
+        </div>
+        <div style="margin-top: 15px; color: #666; font-size: 0.9em;">
+          <strong>Date Range:</strong> ${dateRange.earliest || 'N/A'} to ${dateRange.latest || 'N/A'}
+        </div>
+      </div>
+
+      <!-- Objects by Kind -->
+      <div class="report-section">
+        <h3>Objects by Kind</h3>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Kind</th>
+              <th style="text-align: right;">Count</th>
+              <th style="text-align: right;">Percentage</th>
+              <th style="width: 40%;">Distribution</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${byKind.map(item => `
+              <tr>
+                <td><span class="kind-badge kind-${item.kind}">${formatKindName(item.kind)}</span></td>
+                <td style="text-align: right; font-weight: 600;">${item.count.toLocaleString()}</td>
+                <td style="text-align: right;">${item.percentage}%</td>
+                <td>
+                  <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: ${item.percentage}%;"></div>
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Top Sources -->
+      <div class="report-section">
+        <h3>Top Sources</h3>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th style="text-align: right;">Count</th>
+              <th style="width: 40%;">Distribution</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${topSources.map(item => `
+              <tr>
+                <td>${item.source}</td>
+                <td style="text-align: right; font-weight: 600;">${item.count.toLocaleString()}</td>
+                <td>
+                  <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: ${(item.count / summary.totalObjects * 100)}%; background: linear-gradient(90deg, #9b59b6, #8e44ad);"></div>
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+
+    // Kind-specific statistics
+    if (Object.keys(kindSpecific).length > 0) {
+      html += `<div class="report-section"><h3>Kind-Specific Details</h3><div class="report-grid">`;
+
+      if (kindSpecific.videos) {
+        html += `
+          <div class="report-stat" style="border-left-color: #c2185b;">
+            <div class="report-stat-label">Videos</div>
+            <div class="report-stat-value">${kindSpecific.videos.totalDurationHours} hrs</div>
+            <div class="report-stat-detail">Total duration</div>
+          </div>
+          <div class="report-stat" style="border-left-color: #c2185b;">
+            <div class="report-stat-label">Video Views</div>
+            <div class="report-stat-value">${kindSpecific.videos.totalViews}</div>
+            <div class="report-stat-detail">Total views</div>
+          </div>
+          <div class="report-stat" style="border-left-color: #c2185b;">
+            <div class="report-stat-label">With Transcripts</div>
+            <div class="report-stat-value">${kindSpecific.videos.withTranscripts}</div>
+            <div class="report-stat-detail">Videos with full text</div>
+          </div>
+        `;
+      }
+
+      if (kindSpecific.papers) {
+        html += `
+          <div class="report-stat" style="border-left-color: #2e7d32;">
+            <div class="report-stat-label">Papers with Abstract</div>
+            <div class="report-stat-value">${kindSpecific.papers.withAbstract.toLocaleString()}</div>
+          </div>
+          <div class="report-stat" style="border-left-color: #2e7d32;">
+            <div class="report-stat-label">Papers with Authors</div>
+            <div class="report-stat-value">${kindSpecific.papers.withAuthors.toLocaleString()}</div>
+          </div>
+        `;
+      }
+
+      if (kindSpecific.events) {
+        html += `
+          <div class="report-stat" style="border-left-color: #00838f;">
+            <div class="report-stat-label">Next Event</div>
+            <div class="report-stat-value" style="font-size: 0.95em;">${kindSpecific.events.nextEvent}</div>
+          </div>
+          <div class="report-stat" style="border-left-color: #00838f;">
+            <div class="report-stat-label">Last Event</div>
+            <div class="report-stat-value" style="font-size: 0.95em;">${kindSpecific.events.lastEvent}</div>
+          </div>
+        `;
+      }
+
+      html += `</div>`;
+
+      // Top departments for people
+      if (kindSpecific.people && kindSpecific.people.topDepartments) {
+        html += `
+          <div style="margin-top: 20px;">
+            <h4 style="margin: 0 0 10px 0; color: #666; font-size: 0.95em;">Top Departments (People)</h4>
+            <table class="report-table">
+              <thead>
+                <tr>
+                  <th>Department</th>
+                  <th style="text-align: right;">Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${kindSpecific.people.topDepartments.map(d => `
+                  <tr>
+                    <td>${d.name}</td>
+                    <td style="text-align: right; font-weight: 600;">${d.count}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      // Top sectors for startups
+      if (kindSpecific.startups && kindSpecific.startups.topSectors) {
+        html += `
+          <div style="margin-top: 20px;">
+            <h4 style="margin: 0 0 10px 0; color: #666; font-size: 0.95em;">Top Sectors (Startups)</h4>
+            <table class="report-table">
+              <thead>
+                <tr>
+                  <th>Sector</th>
+                  <th style="text-align: right;">Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${kindSpecific.startups.topSectors.map(s => `
+                  <tr>
+                    <td>${s.name}</td>
+                    <td style="text-align: right; font-weight: 600;">${s.count}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      html += `</div>`;
+    }
+
+    return html;
+  }
+
+  function formatKindName(kind) {
+    const names = {
+      'article': 'Article',
+      'video': 'Video',
+      'paper': 'Paper',
+      'person': 'Person',
+      'startup': 'Startup',
+      'future_event': 'Event',
+      'unknown': 'Unknown'
+    };
+    return names[kind] || kind;
+  }
+
+  // Close modal on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeReportModal();
+      closeEventsModal();
+    }
+  });
+
+  // Events Upload Modal Functions
+  let selectedEventsFile = null;
+  let eventsLoadInProgress = false;
+
+  function showEventsModal() {
+    if (isLoading) {
+      alert('An operation is already in progress. Please wait.');
+      return;
+    }
+
+    // Reset modal state
+    selectedEventsFile = null;
+    eventsLoadInProgress = false;
+    document.getElementById('eventsFileInput').value = '';
+    document.getElementById('selectedFileName').style.display = 'none';
+    document.getElementById('eventsUploadArea').classList.remove('has-file');
+    document.getElementById('eventsProgressSection').classList.remove('visible');
+    document.getElementById('startEventsLoadBtn').disabled = true;
+    document.getElementById('startEventsLoadBtn').querySelector('.btn-text').textContent = 'Load Events';
+    document.getElementById('eventsModalFooter').style.display = 'flex';
+
+    // Reset progress steps
+    resetProgressStep('stepDelete', 'Waiting...');
+    resetProgressStep('stepLoad', 'Waiting...');
+    resetProgressStep('stepReload', 'Waiting...');
+
+    document.getElementById('eventsModal').classList.add('visible');
+  }
+
+  function closeEventsModal(event) {
+    if (event && event.target !== event.currentTarget) return;
+    if (eventsLoadInProgress) {
+      if (!confirm('Loading is in progress. Are you sure you want to close?')) {
+        return;
+      }
+    }
+    document.getElementById('eventsModal').classList.remove('visible');
+  }
+
+  function handleEventsFileSelect(event) {
+    const file = event.target.files[0];
+    if (file) {
+      selectedEventsFile = file;
+      document.getElementById('selectedFileName').textContent = file.name;
+      document.getElementById('selectedFileName').style.display = 'block';
+      document.getElementById('eventsUploadArea').classList.add('has-file');
+      document.getElementById('startEventsLoadBtn').disabled = false;
+    }
+  }
+
+  function resetProgressStep(stepId, detail) {
+    const step = document.getElementById(stepId);
+    step.classList.remove('active', 'completed', 'error');
+    step.querySelector('.progress-step-icon').textContent = '⏳';
+    step.querySelector('.progress-step-detail').textContent = detail;
+  }
+
+  function updateProgressStep(stepId, status, detail) {
+    const step = document.getElementById(stepId);
+    step.classList.remove('active', 'completed', 'error');
+
+    if (status === 'active') {
+      step.classList.add('active');
+      step.querySelector('.progress-step-icon').textContent = '⏳';
+    } else if (status === 'completed') {
+      step.classList.add('completed');
+      step.querySelector('.progress-step-icon').textContent = '✅';
+    } else if (status === 'error') {
+      step.classList.add('error');
+      step.querySelector('.progress-step-icon').textContent = '❌';
+    }
+
+    step.querySelector('.progress-step-detail').textContent = detail;
+  }
+
+  async function startEventsLoad() {
+    if (!selectedEventsFile) {
+      alert('Please select a file first.');
+      return;
+    }
+
+    eventsLoadInProgress = true;
+    isLoading = true;
+
+    const btn = document.getElementById('startEventsLoadBtn');
+    btn.disabled = true;
+    btn.querySelector('.btn-text').textContent = 'Loading...';
+
+    // Show progress section
+    document.getElementById('eventsProgressSection').classList.add('visible');
+
+    // Step 1: Deleting existing events
+    updateProgressStep('stepDelete', 'active', 'Removing all existing events from the Brain...');
+
+    try {
+      // Create form data for file upload
+      const formData = new FormData();
+      formData.append('eventsFile', selectedEventsFile);
+
+      // Make the API call
+      const response = await fetch('/api/admin/load/events/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Update progress based on response
+        updateProgressStep('stepDelete', 'completed', `Removed ${result.eventsDeleted || 0} existing events`);
+        updateProgressStep('stepLoad', 'completed', `Loaded ${result.eventsLoaded || 0} new events`);
+        updateProgressStep('stepReload', 'completed', `Brain reloaded with ${result.totalArticles || 0} total articles`);
+
+        btn.querySelector('.btn-text').textContent = 'Complete!';
+
+        // Hide footer after success
+        setTimeout(() => {
+          document.getElementById('eventsModalFooter').innerHTML = `
+            <button class="btn btn-primary" onclick="closeEventsModal()">Done</button>
+          `;
+        }, 500);
+
+      } else {
+        // Handle error
+        updateProgressStep('stepDelete', 'error', result.error || 'Failed');
+        updateProgressStep('stepLoad', 'error', result.details || 'Operation failed');
+        btn.querySelector('.btn-text').textContent = 'Failed';
+        btn.disabled = false;
+      }
+
+    } catch (error) {
+      updateProgressStep('stepDelete', 'error', 'Network error');
+      updateProgressStep('stepLoad', 'error', error.message);
+      btn.querySelector('.btn-text').textContent = 'Failed';
+      btn.disabled = false;
+    } finally {
+      eventsLoadInProgress = false;
+      isLoading = false;
+    }
+  }
+</script>
+<script src="/js/auth.js"></script>
+</body>
+</html>

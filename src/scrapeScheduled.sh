@@ -1,24 +1,53 @@
 #!/bin/bash
 
 # ============================================================
-# MIT Brain Data Collection Script
+# MIT Brain Daily Scheduled Script
 # ============================================================
-# This script orchestrates scheduled MIT Brain data collection scrapers.
-# Comment out sections you don't want to run.
+# This script runs daily via cron to:
+#   1. Scrape new content (videos, news, papers)
+#   2. Pre-enrich new records
+#   3. Enrich with AI-generated ILP summaries and keywords
 #
-# REQUIRED ENVIRONMENT VARIABLES (set before running):
-#   YOUTUBE_API_KEY - For public YouTube channel scraping (Step S02)
-#                     Get from: https://console.cloud.google.com/
+# NOTE: MIT People, Events, and Startups are loaded on-demand
+#       via the Admin page, NOT by this scheduled script.
+#
+# Configuration is loaded from ../.env file
 # ============================================================
 
+# Note: We don't use 'set -e' because individual scraper failures
+# should not stop the entire pipeline. Each step handles its own errors.
+
 # ============================================================
-# Global Configuration
+# Load Configuration from .env
 # ============================================================
 
-export START_DATE="2024-09-01"  # Filter out news older than this date
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ENV_FILE="$SCRIPT_DIR/../.env"
 
-# Brain filename (without extension)
-export MIT_BRAIN="mit_brain_test17"
+if [ -f "$ENV_FILE" ]; then
+    echo "📂 Loading configuration from $ENV_FILE"
+    set -a  # automatically export all variables
+    source "$ENV_FILE"
+    set +a
+else
+    echo "⚠️  Warning: .env file not found at $ENV_FILE"
+    echo "   Using default values..."
+fi
+
+# ============================================================
+# Global Configuration (defaults if not in .env)
+# ============================================================
+
+export MIT_BRAIN="${MIT_BRAIN:-mit_brain_test17}"
+
+# For daily runs, only look back 2 days for new content
+# This prevents re-scraping the entire history every day
+LOOKBACK_DAYS="${LOOKBACK_DAYS:-2}"
+export START_DATE=$(date -v-${LOOKBACK_DAYS}d +%Y-%m-%d 2>/dev/null || date -d "${LOOKBACK_DAYS} days ago" +%Y-%m-%d)
+echo "📅 Looking back ${LOOKBACK_DAYS} days (START_DATE: $START_DATE)"
+
+# Limit pages for scrapers that paginate (prevents scraping entire history)
+export MAX_PAGES="${MAX_PAGES:-10}"
 
 # Directories
 export DATA_DIR="data"
@@ -29,17 +58,25 @@ export LOGS_DIR="logs"
 export MIT_BRAIN_RUN_ID=$(date +"%Y%m%d_%H%M%S")
 
 # Create directories if they don't exist
+mkdir -p "$DATA_DIR"
 mkdir -p "$OUTPUT_DIR/csv"
 mkdir -p "$OUTPUT_DIR/jsonl"
 mkdir -p "$OUTPUT_DIR/captions"
 mkdir -p "$LOGS_DIR"
 
+# Log file for this run
+LOG_FILE="${LOGS_DIR}/${MIT_BRAIN}_${MIT_BRAIN_RUN_ID}.log"
+
+# Redirect all output to log file while also showing on console
+exec > >(tee -a "$LOG_FILE") 2>&1
+
 echo "============================================================"
-echo "MIT Brain Knowledge Collection"
+echo "MIT Brain Daily Scheduled Run"
 echo "============================================================"
+echo "Started: $(date)"
 echo "Brain: $MIT_BRAIN"
 echo "Run ID: $MIT_BRAIN_RUN_ID"
-echo "Log: ${LOGS_DIR}/${MIT_BRAIN}_${MIT_BRAIN_RUN_ID}.log"
+echo "Log: $LOG_FILE"
 echo "============================================================"
 echo ""
 
@@ -47,7 +84,6 @@ echo ""
 # Initialize Brain File
 # ============================================================
 
-# Create empty brain file if it doesn't exist
 BRAIN_FILE="${OUTPUT_DIR}/jsonl/${MIT_BRAIN}.jsonl"
 
 if [ ! -f "$BRAIN_FILE" ]; then
@@ -61,130 +97,155 @@ fi
 echo ""
 
 # ============================================================
-# YouTube Videos Configuration
+# PHASE 1: SCRAPING
 # ============================================================
-# Playlist scraping
-#export SCRAPE_ALL_PLAYLISTS=true
-export PLAYLIST_FILE="ilpPlaylists.csv"  # File in DATA_DIR
-# export YOUTUBE_PLAYLIST_ID="PLJvJ-6UyehQDPreynfUJ1iqr0YMV41TBW"  # Uncomment to scrape single playlist
+
+echo ""
+echo "########################################################"
+echo "# PHASE 1: SCRAPING NEW CONTENT"
+echo "########################################################"
+echo ""
+
+# ------------------------------------------------------------
+# YouTube Videos - ILP and STEX Playlists
+# ------------------------------------------------------------
+export PLAYLIST_FILE="ilpPlaylists.csv"
 
 echo "============================================================"
 echo "Step S01: Scraping ILP and STEX YouTube Videos"
 echo "============================================================"
-#node scrapers/scrapeIlpVideos.js
+if [ -f "$DATA_DIR/$PLAYLIST_FILE" ]; then
+    node scrapers/scrapeIlpVideos.js || echo "⚠️  S01 failed, continuing..."
+else
+    echo "⏭️  Skipped: $DATA_DIR/$PLAYLIST_FILE not found"
+fi
 
-# ============================================================
-# Public YouTube Channels Configuration
-# ============================================================
-# export YOUTUBE_API_KEY="YOUR_API_KEY_HERE"  # Set your YouTube Data API key
-export CHANNEL_FILE="publicYouTubeChannels.txt"  # File in DATA_DIR
-# export MAX_CHANNELS=5  # Uncomment to limit number of channels
-# export MAX_PLAYLISTS=10  # Uncomment to limit playlists per channel
-# export MAX_VIDEOS=100  # Uncomment to limit videos per channel
+# ------------------------------------------------------------
+# YouTube Videos - Public MIT Channels
+# ------------------------------------------------------------
+export CHANNEL_FILE="publicYouTubeChannels.txt"
 
 echo ""
 echo "============================================================"
 echo "Step S02: Scraping Public MIT YouTube Channels"
 echo "============================================================"
-#node scrapers/scrapePublicYouTube.js
-YOUTUBE_API_KEY="AIzaSyBhHk5Vwl8JOUemyf2AfJIcPfX1NDD-xnQ" node scrapers/testVideo.js
+if [ -f "$DATA_DIR/$CHANNEL_FILE" ]; then
+    node scrapers/scrapePublicYouTube.js || echo "⚠️  S02 failed, continuing..."
+else
+    echo "⏭️  Skipped: $DATA_DIR/$CHANNEL_FILE not found"
+fi
 
-# Download captions
+# ------------------------------------------------------------
+# YouTube Captions
+# ------------------------------------------------------------
 echo ""
 echo "============================================================"
-echo "Step 03: Downloading YouTube Captions - No Brain updates"
+echo "Step S03: Downloading YouTube Captions"
 echo "============================================================"
-python3 scrapers/downloadYoutubeSrts.py
+python3 scrapers/downloadYoutubeSrts.py || echo "⚠️  S03 failed, continuing..."
 
-# Load captions into CSV/JSON
 echo ""
 echo "============================================================"
-echo "Step 04: Loading Captions into MIT Brain"
+echo "Step S04: Loading Captions into MIT Brain"
 echo "============================================================"
-node scrapers/loadSrts.js
+node scrapers/loadSrts.js || echo "⚠️  S04 failed, continuing..."
 
-# ============================================================
-# News Scraping Configuration
-# ============================================================
-
+# ------------------------------------------------------------
+# News - MIT RSS Feeds
+# ------------------------------------------------------------
 echo ""
 echo "============================================================"
 echo "Step S05: Scraping MIT News RSS Feeds"
 echo "============================================================"
-#node scrapers/scrapeNewsFromRss.js
+node scrapers/scrapeNewsFromRss.js || echo "⚠️  S05 failed, continuing..."
 
+# ------------------------------------------------------------
+# News - External Media Coverage
+# ------------------------------------------------------------
 echo ""
 echo "============================================================"
 echo "Step S06: Scraping External Media Coverage"
 echo "============================================================"
-#node scrapers/scrapeExternalNews.js
+node scrapers/scrapeExternalNews.js || echo "⚠️  S06 failed, continuing..."
 
-# ============================================================
-# Startups Configuration
-# ============================================================
-
-export STARTUP_CSV_FILE="mit_startup_exchange.csv"  # File in DATA_DIR
-# export UPDATE_MODE="true"  # Uncomment to overwrite existing startups
-
-echo ""
-echo "============================================================"
-echo "Step S07: Importing Startups"
-echo "============================================================"
-#node scrapers/scrapeStartups.js
-
-# ============================================================
-# Papers Configuration
-# ============================================================
-
+# ------------------------------------------------------------
+# Academic Papers
+# ------------------------------------------------------------
 export MAX_PAPERS=6700  # ~1 year of papers
 export OPENALEX_INSTITUTION_ID="I63966007"  # MIT's OpenAlex ID
 
 echo ""
 echo "============================================================"
-echo "Step S08: Scraping Academic Papers & Scholarly Articles"
+echo "Step S07: Scraping Academic Papers & Scholarly Articles"
 echo "============================================================"
-#node scrapers/scrapePapers.js
+node scrapers/scrapePapers.js || echo "⚠️  S07 failed, continuing..."
 
 echo ""
-echo "============================================================"
-echo "Step S09: Scraping Events"
-echo "============================================================"
-#node scrapers/scrapeEvents.mjs  data/events.xlsx 
-
-# ============================================================
-# MIT Persons Configuration
-# ============================================================
-export MAX_PERSONS=50  # Uncomment to limit for testing
-
+echo "########################################################"
+echo "# PHASE 1 COMPLETE: Scraping finished"
+echo "########################################################"
 echo ""
-echo "============================================================"
-echo "Step S10: Scraping MIT Persons Directory"
-echo "============================================================"
-#node scrapers/scrapeMITPersons.js
-
-
-# Optional Repair Brain
-#node util/repairBrain.js
-
-# Optional: repair titles for external news
-#node util/repair_external_news_titles.js
-
-# Optional: Create test brain with 10 records of each kind
-#node util/createTestBrain.js 100
 
 # ============================================================
-# Completion
+# PHASE 2: PRE-ENRICHMENT
 # ============================================================
 
 echo ""
+echo "########################################################"
+echo "# PHASE 2: PRE-ENRICHMENT"
+echo "########################################################"
+echo ""
+
 echo "============================================================"
-echo "✅ Scraping Complete!"
+echo "Step E01: Pre-Enrich (prepare records for AI enrichment)"
 echo "============================================================"
+OPENAI_MODEL=gpt-4o-mini node enrichers/preEnrich.js || echo "⚠️  E01 failed, continuing..."
+
+echo ""
+echo "########################################################"
+echo "# PHASE 2 COMPLETE: Pre-enrichment finished"
+echo "########################################################"
+echo ""
+
+# ============================================================
+# PHASE 3: AI ENRICHMENT
+# ============================================================
+
+echo ""
+echo "########################################################"
+echo "# PHASE 3: AI ENRICHMENT"
+echo "########################################################"
+echo ""
+
+echo "============================================================"
+echo "Step E02: AI-Generate ILP Summaries and Keywords"
+echo "============================================================"
+export PROMPT="ilpFields.txt"
+node enrichers/enrichIlpFields.js || echo "⚠️  E02 failed, continuing..."
+
+echo ""
+echo "########################################################"
+echo "# PHASE 3 COMPLETE: AI enrichment finished"
+echo "########################################################"
+echo ""
+
+# ============================================================
+# COMPLETION
+# ============================================================
+
+echo ""
+echo "============================================================"
+echo "✅ DAILY SCHEDULED RUN COMPLETE!"
+echo "============================================================"
+echo "Finished: $(date)"
+echo ""
 echo "Data files:"
-echo "  📊 CSV: ${OUTPUT_DIR}/csv/${MIT_BRAIN}.csv"
-echo "  📄 JSON: ${OUTPUT_DIR}/json/${MIT_BRAIN}.json"
+echo "  📄 Brain: ${OUTPUT_DIR}/jsonl/${MIT_BRAIN}.jsonl"
 echo "  📹 Captions: ${OUTPUT_DIR}/captions/*.srt"
 echo ""
 echo "Session log:"
-echo "  📝 ${LOGS_DIR}/${MIT_BRAIN}_${MIT_BRAIN_RUN_ID}.log"
+echo "  📝 $LOG_FILE"
+echo ""
+echo "NOTE: MIT People, Events, and Startups are loaded"
+echo "      on-demand via the Admin page."
 echo "============================================================"

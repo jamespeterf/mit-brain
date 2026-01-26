@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Virtual Program Director - MIT Brain</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="css/mit-brain-nav.css" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f5f7;
+      color: #111827;
+      padding-top: 90px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 24px auto;
+      padding: 0 16px 32px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .page-header h1 {
+      margin: 0 0 8px;
+      font-size: 1.8rem;
+      color: #0f172a;
+    }
+
+    .page-header p {
+      margin: 0;
+      color: #6b7280;
+      font-size: 1rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+      padding: 24px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #374151;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-family: inherit;
+      font-size: 1rem;
+      resize: vertical;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    button {
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: #1d4ed8;
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: #d1d5db;
+    }
+
+    button:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    .status {
+      margin-top: 12px;
+      font-size: 0.9rem;
+      color: #6b7280;
+      min-height: 20px;
+    }
+
+    .status.error {
+      color: #dc2626;
+    }
+
+    .answer-section {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid #e5e7eb;
+      display: none;
+    }
+
+    .answer-section.visible {
+      display: block;
+    }
+
+    .answer-section h3 {
+      margin: 0 0 12px;
+      font-size: 1rem;
+      color: #374151;
+    }
+
+    .answer {
+      white-space: pre-wrap;
+      line-height: 1.6;
+      font-size: 1rem;
+      color: #111827;
+    }
+
+    .answer a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .answer a:hover {
+      text-decoration: underline;
+    }
+
+    .hints {
+      margin-top: 20px;
+      padding: 16px;
+      background: #f9fafb;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .hints h4 {
+      margin: 0 0 10px;
+      font-size: 0.9rem;
+      color: #6b7280;
+    }
+
+    .hint-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .hint-btn {
+      text-align: left;
+      padding: 10px 14px;
+      background: #fff;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      color: #374151;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .hint-btn:hover {
+      background: #f3f4f6;
+      border-color: #9ca3af;
+    }
+
+    .conversation-history {
+      margin-top: 24px;
+    }
+
+    .conversation-item {
+      padding: 16px;
+      background: #f9fafb;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      border-left: 3px solid #2563eb;
+    }
+
+    .conversation-item .question {
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 10px;
+    }
+
+    .conversation-item .answer-text {
+      white-space: pre-wrap;
+      line-height: 1.6;
+      color: #111827;
+    }
+
+    .conversation-item .answer-text a {
+      color: #2563eb;
+    }
+  </style>
+</head>
+<body class="has-fixed-nav">
+
+<!-- UNIVERSAL NAVIGATION - NO INLINE STYLES -->
+<nav class="mit-brain-nav">
+  <div class="mit-brain-nav-container">
+    <a href="/" class="mit-brain-logo">
+      <span class="mit-brain-logo-icon">🧠</span>
+      <div>
+        <div class="mit-brain-logo-text">MIT Brain</div>
+        <div class="mit-brain-logo-subtitle">Corporate Relations Intelligence</div>
+      </div>
+    </a>
+
+    <div class="mit-brain-nav-links">
+      <a href="/" class="mit-brain-nav-link nav-home">
+        🏠 <span>Home</span>
+      </a>
+      <a href="/search.html" class="mit-brain-nav-link nav-search">
+        🔍 <span>Search MIT Brain</span>
+      </a>
+      <a href="/alerts-dashboard.html" class="mit-brain-nav-link nav-alerts">
+        🔔 <span>Alerts</span>
+      </a>
+      <a href="/create-alert.html" class="mit-brain-nav-link nav-create">
+        ➕ <span>Create Alert</span>
+      </a>
+      <a href="/meetings.html" class="mit-brain-nav-link nav-meetings">
+        📝 <span>Meetings</span>
+      </a>
+      <a href="/virtual-pd.html" class="mit-brain-nav-link nav-virtualpd active">
+        🎓 <span>Virtual PD</span>
+      </a>
+      <a href="/settings.html" class="mit-brain-nav-link nav-settings">
+        ⚙️ <span>Settings</span>
+      </a>
+      <a href="/admin.html" class="mit-brain-nav-link nav-admin">
+        🛠️ <span>Admin</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <h1>🎓 Virtual Program Director</h1>
+    <p>Ask questions grounded in thousands of MIT news, labs, startups, people, and ILP-related items</p>
+  </div>
+
+  <div class="card">
+    <label for="question">Ask a question</label>
+    <textarea
+      id="question"
+      placeholder="e.g., What are 3 big themes in AI and data centers in this corpus?"
+    ></textarea>
+
+    <div class="btn-row">
+      <button id="askBtn" class="btn-primary">Ask MIT Brain</button>
+      <button id="clearBtn" class="btn-secondary">Clear History</button>
+    </div>
+
+    <div class="status" id="status"></div>
+
+    <div class="hints">
+      <h4>Try these example questions:</h4>
+      <div class="hint-list">
+        <button class="hint-btn" data-question="Which MIT labs and startups in this corpus are most relevant for data centers and AI?">
+          Which MIT labs and startups are most relevant for data centers and AI?
+        </button>
+        <button class="hint-btn" data-question="What MIT research is most relevant for manufacturing and supply chain optimization?">
+          What MIT research is most relevant for manufacturing and supply chain?
+        </button>
+        <button class="hint-btn" data-question="Who are the leading MIT faculty working on climate and sustainability?">
+          Who are the leading MIT faculty working on climate and sustainability?
+        </button>
+        <button class="hint-btn" data-question="What MIT startups are working on healthcare and medical AI?">
+          What MIT startups are working on healthcare and medical AI?
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="conversation-history" id="conversationHistory"></div>
+</main>
+
+<script>
+  const askBtn = document.getElementById("askBtn");
+  const clearBtn = document.getElementById("clearBtn");
+  const questionEl = document.getElementById("question");
+  const statusEl = document.getElementById("status");
+  const historyEl = document.getElementById("conversationHistory");
+
+  // Load conversation history from localStorage
+  let conversationHistory = JSON.parse(localStorage.getItem('virtualPdHistory') || '[]');
+  renderHistory();
+
+  // Handle hint button clicks
+  document.querySelectorAll('.hint-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      questionEl.value = btn.dataset.question;
+      questionEl.focus();
+    });
+  });
+
+  askBtn.addEventListener("click", async () => {
+    const question = questionEl.value.trim();
+    if (!question) {
+      statusEl.textContent = "Please enter a question.";
+      statusEl.className = "status error";
+      return;
+    }
+
+    askBtn.disabled = true;
+    statusEl.textContent = "Thinking with MIT Brain...";
+    statusEl.className = "status";
+
+    try {
+      const res = await fetch("/api/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || err.details || "Request failed");
+      }
+
+      const data = await res.json();
+      const answer = data.answer || "[No answer returned]";
+
+      // Add to history
+      conversationHistory.unshift({ question, answer, timestamp: new Date().toISOString() });
+      if (conversationHistory.length > 20) conversationHistory.pop(); // Keep last 20
+      localStorage.setItem('virtualPdHistory', JSON.stringify(conversationHistory));
+
+      renderHistory();
+      questionEl.value = "";
+      statusEl.textContent = "Done.";
+    } catch (err) {
+      console.error(err);
+      statusEl.textContent = "Error: " + err.message;
+      statusEl.className = "status error";
+    } finally {
+      askBtn.disabled = false;
+    }
+  });
+
+  clearBtn.addEventListener("click", () => {
+    if (confirm("Clear all conversation history?")) {
+      conversationHistory = [];
+      localStorage.removeItem('virtualPdHistory');
+      renderHistory();
+      statusEl.textContent = "History cleared.";
+    }
+  });
+
+  function renderHistory() {
+    if (conversationHistory.length === 0) {
+      historyEl.innerHTML = "";
+      return;
+    }
+
+    historyEl.innerHTML = conversationHistory.map(item => {
+      // Convert markdown links [text](url) to clickable <a> tags
+      const rendered = item.answer
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+      return `
+        <div class="conversation-item">
+          <div class="question">Q: ${escapeHtml(item.question)}</div>
+          <div class="answer-text">${rendered}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // Allow Enter key to submit (Shift+Enter for newline)
+  questionEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      askBtn.click();
+    }
+  });
+</script>
+<script src="/js/auth.js"></script>
+</body>
+</html>

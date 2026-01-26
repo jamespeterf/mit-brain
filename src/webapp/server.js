@@ -14,10 +14,16 @@ import path from "path";
 import fs from "fs/promises";
 import * as fsSync from "fs";  // Synchronous fs for alerts
 import { fileURLToPath } from "url";
+import { spawn } from "child_process";
 import OpenAI from "openai";
 import dotenv from "dotenv";
+import multer from "multer";
+import session from "express-session";
+import bcrypt from "bcryptjs";
+import crypto from "crypto";
 
 const { default: transcriptsRouter } = await import("./routes/transcripts.routes.js");
+const { default: peopleRouter } = await import("./routes/people.routes.js");
 
 // Setup __dirname for ES modules (must be before dotenv.config)
 const __filename = fileURLToPath(import.meta.url);
@@ -60,8 +66,9 @@ console.log("dotenv loaded, DROPBOX_ACCESS_TOKEN?", !!process.env.DROPBOX_ACCESS
 console.log("cwd:", process.cwd());
 
 // ---------- Load MIT Brain JSONL data ----------
-// JSONL data file - configurable via environment variable
-const JSONL_FILENAME = process.env.MIT_BRAIN_JSONL || "mit_brain_test17.jsonl";
+// JSONL data file - configurable via MIT_BRAIN environment variable
+const MIT_BRAIN = process.env.MIT_BRAIN || "mit_brain_test17";
+const JSONL_FILENAME = `${MIT_BRAIN}.jsonl`;
 const jsonlPath = path.join(__dirname, "../../brain", JSONL_FILENAME);
 let articles = [];
 let articlesByKind = {}; // Track article counts by kind
@@ -710,14 +717,551 @@ function detectHallucinations(generatedText, articleData) {
 // ============================================================
 
 const app = express();
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+// ============================================================
+// Session Configuration
+// ============================================================
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'mit-brain-secret-key-change-in-production',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
+
+// ============================================================
+// User Authentication
+// ============================================================
+const usersFilePath = path.join(__dirname, "../../people/authorized-users.json");
+
+function loadUsers() {
+  try {
+    const content = fsSync.readFileSync(usersFilePath, 'utf8');
+    return JSON.parse(content);
+  } catch (err) {
+    console.error("Failed to load authorized users:", err.message);
+    return [];
+  }
+}
+
+function saveUsers(users) {
+  fsSync.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
+}
+
+// Helper: Get user's directory path (create if doesn't exist)
+function getUserDir(email) {
+  const users = loadUsers();
+  const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+  if (!user) return null;
+
+  const folderName = `${user.firstName}-${user.lastName}`.replace(/\s+/g, '-');
+  const userDir = path.join(__dirname, "../../people", folderName);
+
+  // Create directory structure if it doesn't exist
+  if (!fsSync.existsSync(userDir)) {
+    fsSync.mkdirSync(userDir, { recursive: true });
+    fsSync.mkdirSync(path.join(userDir, 'alerts'), { recursive: true });
+    fsSync.mkdirSync(path.join(userDir, 'templates'), { recursive: true });
+    // Copy the shared MIT voice template as the user's starting my-voice.txt
+    const mitVoicePath = path.join(__dirname, "../../people/mit-voice.txt");
+    if (fsSync.existsSync(mitVoicePath)) {
+      fsSync.copyFileSync(mitVoicePath, path.join(userDir, 'my-voice.txt'));
+    } else {
+      fsSync.writeFileSync(path.join(userDir, 'my-voice.txt'), '# My Voice - Personal Writing Preferences\n\nAdd your personal writing style preferences here.\n');
+    }
+    fsSync.writeFileSync(path.join(userDir, 'member-profiles.csv'), 'Member,PocFirstName,Common Name 1,Common Name 2,Main Industry,Description,Geographic considerations,Key Phrase 1,Key Phrase 2,Key Phrase 3,Key Phrase 4,Key Phrase 5,Key Phrase 6,Key Phrase 7,Key Phrase 8,Key Phrase 9,Key Phrase 10\n');
+    fsSync.writeFileSync(path.join(userDir, 'alerts', 'alerts.json'), '{"alerts":[]}');
+    console.log(`Created user directory: ${userDir}`);
+  }
+
+  return userDir;
+}
+
+// Authentication middleware
+function requireAuth(req, res, next) {
+  // Allow login page and login API without auth
+  const publicPaths = ['/login.html', '/api/login', '/api/logout', '/api/confirm/', '/css/', '/js/'];
+  const isPublic = publicPaths.some(p => req.path.startsWith(p) || req.path === '/login.html');
+
+  if (isPublic) {
+    return next();
+  }
+
+  if (!req.session || !req.session.user) {
+    // For API requests, return 401
+    if (req.path.startsWith('/api/')) {
+      return res.status(401).json({ error: 'Not authenticated' });
+    }
+    // For page requests, redirect to login
+    return res.redirect('/login.html');
+  }
+
+  // Admin-only pages
+  const adminOnlyPages = ['/admin.html'];
+  if (adminOnlyPages.includes(req.path) && req.session.user.role !== 'admin') {
+    return res.status(403).send(`
+      <!DOCTYPE html>
+      <html><head><title>Access Denied</title></head>
+      <body style="font-family: system-ui; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f5f5f5;">
+        <div style="text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+          <h1 style="color: #e74c3c; margin: 0 0 10px;">Access Denied</h1>
+          <p style="color: #666;">You don't have permission to access this page.</p>
+          <a href="/" style="color: #3498db;">Return to Home</a>
+        </div>
+      </body></html>
+    `);
+  }
+
+  return next();
+}
+
+// Apply auth middleware before static files
+app.use(requireAuth);
 
 const publicDir = path.join(__dirname, "public");
 app.use(express.static(publicDir));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
-app.use("/api/transcripts", transcriptsRouter({ openai, webappDir: __dirname }));
+// ============================================================
+// Auth API Endpoints
+// ============================================================
+
+// Login
+app.post("/api/login", express.json(), async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password required" });
+  }
+
+  const users = loadUsers();
+  const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+
+  if (!user) {
+    return res.status(401).json({ error: "Invalid email or password" });
+  }
+
+  const validPassword = bcrypt.compareSync(password, user.passwordHash);
+  if (!validPassword) {
+    return res.status(401).json({ error: "Invalid email or password" });
+  }
+
+  // Check activation status
+  if (user.enabled !== true) {
+    return res.status(403).json({ error: "Your account has not been enabled by an administrator. Please contact your admin." });
+  }
+  // Allow through if they still need to change password (so they can do that first)
+  if (user.confirmed !== true && !user.mustChangePassword) {
+    return res.status(403).json({ error: "Please confirm your email address before logging in. Check your inbox for a confirmation link." });
+  }
+
+  // Set session
+  req.session.user = {
+    id: user.id,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    role: user.role,
+    mustChangePassword: user.mustChangePassword
+  };
+
+  res.json({
+    success: true,
+    user: req.session.user
+  });
+});
+
+// Logout
+app.post("/api/logout", (req, res) => {
+  req.session.destroy();
+  res.json({ success: true });
+});
+
+// Get current user
+app.get("/api/me", (req, res) => {
+  if (req.session && req.session.user) {
+    res.json({ user: req.session.user });
+  } else {
+    res.status(401).json({ error: "Not authenticated" });
+  }
+});
+
+// Change password
+app.post("/api/change-password", express.json(), async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  if (!req.session || !req.session.user) {
+    return res.status(401).json({ error: "Not authenticated" });
+  }
+
+  if (!newPassword || newPassword.length < 6) {
+    return res.status(400).json({ error: "Password must be at least 6 characters" });
+  }
+
+  const users = loadUsers();
+  const userIdx = users.findIndex(u => u.id === req.session.user.id);
+
+  if (userIdx === -1) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  // Verify current password (unless it's a forced change)
+  if (!users[userIdx].mustChangePassword) {
+    const validPassword = bcrypt.compareSync(currentPassword, users[userIdx].passwordHash);
+    if (!validPassword) {
+      return res.status(401).json({ error: "Current password is incorrect" });
+    }
+  }
+
+  // Update password
+  const wasForced = users[userIdx].mustChangePassword;
+  users[userIdx].passwordHash = bcrypt.hashSync(newPassword, 10);
+  users[userIdx].mustChangePassword = false;
+
+  // If this was a forced password change and user isn't confirmed yet, send confirmation email
+  if (wasForced && !users[userIdx].confirmed) {
+    const confirmToken = crypto.randomUUID();
+    users[userIdx].confirmToken = confirmToken;
+    saveUsers(users);
+
+    // Send confirmation email
+    let emailSent = false;
+    if (emailTransporter) {
+      try {
+        const host = req.get('host');
+        const protocol = req.protocol;
+        const confirmLink = `${protocol}://${host}/api/confirm/${confirmToken}`;
+
+        const htmlContent = `
+          <div style="max-width:600px;margin:0 auto;font-family:Arial,sans-serif;">
+            <div style="background:linear-gradient(135deg,#2c3e50,#34495e);color:white;padding:30px;text-align:center;border-radius:12px 12px 0 0;">
+              <h1 style="margin:0;">MIT Brain</h1>
+              <p style="margin:10px 0 0;opacity:0.9;">Corporate Relations Intelligence</p>
+            </div>
+            <div style="background:#f9f9f9;padding:30px;border:1px solid #e0e0e0;border-top:none;border-radius:0 0 12px 12px;">
+              <h2 style="color:#2c3e50;margin-top:0;">Almost there, ${users[userIdx].firstName}!</h2>
+              <p style="color:#555;line-height:1.6;">Your password has been set. Please confirm your email address to activate your account:</p>
+              <p style="text-align:center;margin:30px 0;">
+                <a href="${confirmLink}" style="display:inline-block;padding:14px 28px;background:#3498db;color:white;text-decoration:none;border-radius:8px;font-weight:600;font-size:16px;">Confirm My Email</a>
+              </p>
+              <p style="color:#888;font-size:0.9em;">If the button doesn't work, copy this link:<br><a href="${confirmLink}" style="color:#3498db;word-break:break-all;">${confirmLink}</a></p>
+            </div>
+          </div>`;
+
+        await emailTransporter.sendMail({
+          from: EMAIL_CONFIG.from,
+          to: users[userIdx].email,
+          subject: "MIT Brain - Confirm Your Email",
+          html: htmlContent,
+        });
+        console.log(`\u2709\uFE0F  Confirmation email sent to ${users[userIdx].email}`);
+        emailSent = true;
+      } catch (err) {
+        console.error("\u274C Error sending confirmation email:", err.message);
+      }
+    }
+
+    // Log them out so they must confirm email before using the app
+    req.session.destroy();
+    return res.json({
+      success: true,
+      requiresConfirmation: true,
+      message: "Password changed! Please check your email to confirm your account."
+    });
+  }
+
+  saveUsers(users);
+  req.session.user.mustChangePassword = false;
+
+  res.json({ success: true });
+});
+
+// ============================================================
+// Email Confirmation (public - no auth required)
+// ============================================================
+
+function confirmationPage(message, success) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Confirmation - MIT Brain</title>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
+    .card { background: white; border-radius: 16px; padding: 40px;
+      max-width: 450px; width: 90%; text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .icon { font-size: 48px; margin-bottom: 16px; }
+    h1 { color: ${success ? '#27ae60' : '#e74c3c'}; margin: 0 0 16px; font-size: 1.5em; }
+    p { color: #555; line-height: 1.6; margin: 0 0 24px; }
+    a { display: inline-block; padding: 12px 24px;
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white; text-decoration: none; border-radius: 8px; font-weight: 600; }
+    a:hover { box-shadow: 0 4px 15px rgba(52,152,219,0.4); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">${success ? '&#10004;' : '&#10008;'}</div>
+    <h1>${success ? 'Email Confirmed' : 'Confirmation Failed'}</h1>
+    <p>${message}</p>
+    <a href="/login.html">Go to Login</a>
+  </div>
+</body>
+</html>`;
+}
+
+app.get("/api/confirm/:token", (req, res) => {
+  const { token } = req.params;
+
+  if (!token) {
+    return res.status(400).send(confirmationPage("Invalid confirmation link.", false));
+  }
+
+  const users = loadUsers();
+  const userIdx = users.findIndex(u => u.confirmToken === token);
+
+  if (userIdx === -1) {
+    return res.status(404).send(confirmationPage("Invalid or expired confirmation link.", false));
+  }
+
+  if (users[userIdx].confirmed) {
+    return res.send(confirmationPage("Your email has already been confirmed. You can log in now.", true));
+  }
+
+  users[userIdx].confirmed = true;
+  users[userIdx].confirmToken = null;
+  saveUsers(users);
+
+  console.log(`\u2705 Email confirmed for user: ${users[userIdx].email}`);
+
+  res.send(confirmationPage(`Thank you, ${users[userIdx].firstName}! Your email has been confirmed. You can now log in.`, true));
+});
+
+// ============================================================
+// User Management API (Admin only)
+// ============================================================
+
+function requireAdmin(req, res, next) {
+  if (!req.session || !req.session.user) {
+    return res.status(401).json({ error: "Not authenticated" });
+  }
+  if (req.session.user.role !== 'admin') {
+    return res.status(403).json({ error: "Admin access required" });
+  }
+  next();
+}
+
+// List all users
+app.get("/api/users", requireAdmin, (req, res) => {
+  const users = loadUsers();
+  // Don't send password hashes or confirmation tokens
+  const safeUsers = users.map(({ passwordHash, confirmToken, ...user }) => user);
+  res.json(safeUsers);
+});
+
+// Add new user
+app.post("/api/users", requireAdmin, express.json(), (req, res) => {
+  const { email, firstName, lastName, title, role } = req.body;
+
+  if (!email || !firstName || !lastName) {
+    return res.status(400).json({ error: "Email, first name, and last name required" });
+  }
+
+  const users = loadUsers();
+
+  if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+    return res.status(400).json({ error: "User with this email already exists" });
+  }
+
+  const tempPassword = 'mitbrain2025';
+  const isAdmin = (role || 'user') === 'admin';
+  const newUser = {
+    id: Math.max(0, ...users.map(u => u.id)) + 1,
+    email: email.toLowerCase().trim(),
+    firstName,
+    lastName,
+    title: title || '',
+    role: role || 'user',
+    passwordHash: bcrypt.hashSync(tempPassword, 10),
+    mustChangePassword: true,
+    createdAt: new Date().toISOString(),
+    enabled: isAdmin,
+    confirmed: isAdmin,
+    confirmToken: null
+  };
+
+  users.push(newUser);
+  saveUsers(users);
+
+  const { passwordHash, ...safeUser } = newUser;
+  res.json({ success: true, user: safeUser, tempPassword });
+});
+
+// Update user
+app.put("/api/users/:id", requireAdmin, express.json(), (req, res) => {
+  const userId = parseInt(req.params.id);
+  const { firstName, lastName, title, role } = req.body;
+
+  const users = loadUsers();
+  const userIdx = users.findIndex(u => u.id === userId);
+
+  if (userIdx === -1) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  if (firstName) users[userIdx].firstName = firstName;
+  if (lastName) users[userIdx].lastName = lastName;
+  if (title !== undefined) users[userIdx].title = title;
+  if (role) users[userIdx].role = role;
+
+  // If role changed to admin, auto-activate
+  if (role === 'admin') {
+    users[userIdx].enabled = true;
+    users[userIdx].confirmed = true;
+    users[userIdx].confirmToken = null;
+  }
+
+  saveUsers(users);
+
+  const { passwordHash, ...safeUser } = users[userIdx];
+  res.json({ success: true, user: safeUser });
+});
+
+// Delete user
+app.delete("/api/users/:id", requireAdmin, (req, res) => {
+  const userId = parseInt(req.params.id);
+
+  // Prevent self-deletion
+  if (req.session.user.id === userId) {
+    return res.status(400).json({ error: "Cannot delete your own account" });
+  }
+
+  const users = loadUsers();
+  const userIdx = users.findIndex(u => u.id === userId);
+
+  if (userIdx === -1) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  users.splice(userIdx, 1);
+  saveUsers(users);
+
+  res.json({ success: true });
+});
+
+// Reset user password
+app.post("/api/users/:id/reset-password", requireAdmin, (req, res) => {
+  const userId = parseInt(req.params.id);
+
+  const users = loadUsers();
+  const userIdx = users.findIndex(u => u.id === userId);
+
+  if (userIdx === -1) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  const tempPassword = 'mitbrain2025';
+  users[userIdx].passwordHash = bcrypt.hashSync(tempPassword, 10);
+  users[userIdx].mustChangePassword = true;
+  saveUsers(users);
+
+  res.json({ success: true, tempPassword });
+});
+
+// Enable user
+app.put("/api/users/:id/enable", requireAdmin, (req, res) => {
+  const userId = parseInt(req.params.id);
+
+  const users = loadUsers();
+  const userIdx = users.findIndex(u => u.id === userId);
+
+  if (userIdx === -1) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  users[userIdx].enabled = true;
+  saveUsers(users);
+
+  const { passwordHash, confirmToken: _t, ...safeUser } = users[userIdx];
+  res.json({ success: true, user: safeUser });
+});
+
+// Disable user
+app.put("/api/users/:id/disable", requireAdmin, (req, res) => {
+  const userId = parseInt(req.params.id);
+
+  if (req.session.user.id === userId) {
+    return res.status(400).json({ error: "Cannot disable your own account" });
+  }
+
+  const users = loadUsers();
+  const userIdx = users.findIndex(u => u.id === userId);
+
+  if (userIdx === -1) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  users[userIdx].enabled = false;
+  saveUsers(users);
+
+  const { passwordHash, confirmToken: _t, ...safeUser } = users[userIdx];
+  res.json({ success: true, user: safeUser });
+});
+
+// Resend confirmation email
+app.post("/api/users/:id/resend-confirm", requireAdmin, async (req, res) => {
+  const userId = parseInt(req.params.id);
+
+  const users = loadUsers();
+  const userIdx = users.findIndex(u => u.id === userId);
+
+  if (userIdx === -1) {
+    return res.status(404).json({ error: "User not found" });
+  }
+  if (!users[userIdx].enabled) {
+    return res.status(400).json({ error: "User must be enabled first" });
+  }
+  if (users[userIdx].confirmed) {
+    return res.status(400).json({ error: "User has already confirmed their email" });
+  }
+  if (!emailTransporter) {
+    return res.status(500).json({ error: "Email not configured on server" });
+  }
+
+  const confirmToken = crypto.randomUUID();
+  users[userIdx].confirmToken = confirmToken;
+  saveUsers(users);
+
+  try {
+    const host = req.get('host');
+    const protocol = req.protocol;
+    const confirmLink = `${protocol}://${host}/api/confirm/${confirmToken}`;
+
+    await emailTransporter.sendMail({
+      from: EMAIL_CONFIG.from,
+      to: users[userIdx].email,
+      subject: "MIT Brain - Confirm Your Email (Resent)",
+      html: `<p>Hi ${users[userIdx].firstName},</p><p>Please confirm your email by clicking: <a href="${confirmLink}">${confirmLink}</a></p>`,
+    });
+    res.json({ success: true, message: `Confirmation email resent to ${users[userIdx].email}` });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to send email: " + err.message });
+  }
+});
+
+app.use("/api/transcripts", transcriptsRouter({ openai, webappDir: __dirname, getUserDir }));
+app.use("/api/people", peopleRouter({ articles }));
 
 // ============================================================
 // CSV PARSER + MEMBER LOADER
@@ -951,35 +1495,22 @@ function deleteAlert(personId, alertId) {
 
 async function processAlert(alert, personId) {
   console.log(`\n🔔 Processing alert: ${alert.alertName}`);
-  
+
   try {
     // 1. Run search with alert's search params
-    
-    // Get today's date for filtering by dateAddedToBrain
-    const today = new Date().toISOString().split('T')[0];
-    
-    console.log(`   📅 Filtering by dateAddedToBrain: ${today} (items added today)`);
-    
-    // Search without publish date filter (we'll filter by dateAddedToBrain instead)
     const allResults = searchArticlesByPhrase(
       alert.searchParams.phrase,
       {
         minScore: alert.searchParams.minScore
       }
     );
-    
-    // Filter to only items added to brain TODAY
-    const todayResults = allResults.filter(article => {
-      return article.dateAddedToBrain === today;
-    });
-    
+
     console.log(`   🔍 Found ${allResults.length} total matches`);
-    console.log(`   ✅ ${todayResults.length} were added to brain today`);
-    
+
     // 2. Filter by content types
-    let filteredResults = todayResults;
+    let filteredResults = allResults;
     if (alert.searchParams.contentTypes && alert.searchParams.contentTypes.length > 0) {
-      filteredResults = todayResults.filter(a => {
+      filteredResults = allResults.filter(a => {
         const kind = (a.kind || '').toLowerCase();
         // Handle event -> future_event mapping
         return alert.searchParams.contentTypes.some(selectedKind => {
@@ -2002,16 +2533,19 @@ Event Location: ${a.location || "N/A"}
 
 ${memberProfileText}
 
-TASK: Select the TOP 10 MOST RELEVANT articles from the list below for ${memberName}.
+TASK: Select the TOP 10 MOST RELEVANT articles from the numbered list below for ${memberName}.
 
 NOTE: All ILP and STEX events have already been automatically included. You only need to pick the 10 best additional articles from this list.
 
 Respond ONLY with valid JSON in this exact format:
 {
   "matches": [
-    { "url": "article_url", "title": "article_title", "reason": "Why this is relevant (1 sentence)" }
+    { "articleNumber": 1, "reason": "Why this is relevant (1 sentence)" },
+    { "articleNumber": 5, "reason": "Why this is relevant (1 sentence)" }
   ]
 }
+
+Use the exact article numbers (1, 2, 3, etc.) as shown in the list. Do NOT include URLs.
 
 Articles:
 ${articlesText}
@@ -2022,7 +2556,7 @@ ${articlesText}
       const completion = await openai.chat.completions.create({
         model: "gpt-4.1-mini",
         messages: [
-          { role: "system", content: "You match content to interests and return ONLY valid JSON." },
+          { role: "system", content: "You match content to interests and return ONLY valid JSON with article numbers." },
           { role: "user", content: prompt },
         ],
         temperature: 0.5,
@@ -2032,8 +2566,31 @@ ${articlesText}
       try {
         const cleanJson = responseText.replaceAll("```json", "").replaceAll("```", "").trim();
         const parsed = JSON.parse(cleanJson);
-        aiMatches = (parsed.matches || []).slice(0, 10);
-      } catch {
+        const rawMatches = (parsed.matches || []).slice(0, 10);
+
+        // Map article numbers back to actual article data
+        aiMatches = rawMatches
+          .filter(match => {
+            const idx = match.articleNumber - 1; // Convert 1-based to 0-based
+            if (idx >= 0 && idx < filteredOtherArticles.length) {
+              return true;
+            } else {
+              console.warn(`   ⚠️ AI returned invalid article number: ${match.articleNumber}`);
+              return false;
+            }
+          })
+          .map(match => {
+            const article = filteredOtherArticles[match.articleNumber - 1];
+            return {
+              url: article.url,
+              title: article.title,
+              reason: match.reason
+            };
+          });
+
+        console.log(`   ✅ AI selected ${aiMatches.length} valid articles`);
+      } catch (e) {
+        console.error(`   ❌ Failed to parse AI response:`, e.message);
         aiMatches = [];
       }
     }
@@ -2922,6 +3479,1053 @@ cron.schedule('0 9 * * *', async () => {
 });
 
 console.log('⏰ Daily alert cron job scheduled (9:00 AM)');
+
+// ============================================================
+// Admin API Routes - Data Loading
+// ============================================================
+
+/**
+ * POST /api/admin/load/:type
+ * Load data from various sources (people, events, startups)
+ */
+app.post('/api/admin/load/:type', async (req, res) => {
+  const { type } = req.params;
+
+  // Define scraper configurations
+  const scrapers = {
+    people: {
+      script: 'scrapers/scrapeMitPeople.js',
+      dataFile: 'input/mitPeople.xlsx',
+      description: 'MIT People'
+    },
+    events: {
+      script: 'scrapers/scrapeEvents.mjs',
+      dataFile: 'input/events.xlsx',
+      description: 'Events'
+    },
+    startups: {
+      script: 'scrapers/scrapeStartups.js',
+      dataFile: 'data/mit_startup_exchange.csv',
+      description: 'Startups'
+    }
+  };
+
+  const scraper = scrapers[type];
+  if (!scraper) {
+    return res.status(400).json({
+      error: `Invalid load type: ${type}`,
+      validTypes: Object.keys(scrapers)
+    });
+  }
+
+  const scraperDir = path.join(__dirname, '..');
+  const scriptPath = path.join(scraperDir, scraper.script);
+  const dataPath = path.join(scraperDir, '..', scraper.dataFile);
+
+  // Check if script exists
+  if (!fsSync.existsSync(scriptPath)) {
+    return res.status(500).json({
+      error: `Scraper script not found: ${scraper.script}`,
+      details: `Expected at: ${scriptPath}`
+    });
+  }
+
+  // Check if data file exists
+  if (!fsSync.existsSync(dataPath)) {
+    return res.status(400).json({
+      error: `Data file not found: ${scraper.dataFile}`,
+      details: `Expected at: ${dataPath}`
+    });
+  }
+
+  console.log(`\n⚙️  Admin: Starting ${scraper.description} load...`);
+  console.log(`   Script: ${scriptPath}`);
+  console.log(`   Data: ${dataPath}`);
+
+  try {
+    // Build command arguments
+    const args = [scriptPath];
+    if (type === 'events') {
+      args.push(dataPath);
+    }
+
+    // Set environment variables for the scraper
+    const env = {
+      ...process.env,
+      MIT_BRAIN: MIT_BRAIN,  // Use the server's configured brain file
+      DATA_DIR: path.join(scraperDir, '..', 'data'),
+      OUTPUT_DIR: path.join(scraperDir, '..', 'output')
+    };
+
+    // Run the scraper script
+    const result = await new Promise((resolve, reject) => {
+      const child = spawn('node', args, {
+        cwd: scraperDir,
+        env: env,
+        stdio: ['pipe', 'pipe', 'pipe']
+      });
+
+      let stdout = '';
+      let stderr = '';
+
+      child.stdout.on('data', (data) => {
+        stdout += data.toString();
+        console.log(`   [${type}] ${data.toString().trim()}`);
+      });
+
+      child.stderr.on('data', (data) => {
+        stderr += data.toString();
+        console.error(`   [${type} ERR] ${data.toString().trim()}`);
+      });
+
+      child.on('close', (code) => {
+        if (code === 0) {
+          resolve({ stdout, stderr, code });
+        } else {
+          reject(new Error(`Script exited with code ${code}: ${stderr || stdout}`));
+        }
+      });
+
+      child.on('error', (err) => {
+        reject(err);
+      });
+
+      // Timeout after 5 minutes
+      setTimeout(() => {
+        child.kill();
+        reject(new Error('Script timed out after 5 minutes'));
+      }, 5 * 60 * 1000);
+    });
+
+    // Try to extract count from output
+    let count = 0;
+    const countMatch = result.stdout.match(/(\d+)\s+(records?|items?|entries?|people|events?|startups?)/i);
+    if (countMatch) {
+      count = parseInt(countMatch[1], 10);
+    }
+
+    // Reload articles after successful import
+    console.log(`   Reloading articles...`);
+    await loadArticles();
+
+    res.json({
+      success: true,
+      message: `${scraper.description} loaded successfully`,
+      count: count,
+      details: `Brain reloaded with ${articles.length} total articles`
+    });
+
+  } catch (err) {
+    console.error(`   ❌ Error loading ${scraper.description}:`, err.message);
+    res.status(500).json({
+      error: `Failed to load ${scraper.description}`,
+      details: err.message
+    });
+  }
+});
+
+/**
+ * POST /api/admin/load/events/upload
+ * Load events from an uploaded Excel file
+ * - Removes all existing future_event records
+ * - Parses the uploaded spreadsheet
+ * - Adds new events to the Brain
+ */
+const upload = multer({
+  dest: path.join(__dirname, '../../input/uploads/'),
+  limits: { fileSize: 50 * 1024 * 1024 } // 50MB limit
+});
+
+app.post('/api/admin/load/events/upload', upload.single('eventsFile'), async (req, res) => {
+  console.log('\n========================================');
+  console.log('📅 EVENTS UPLOAD - ' + new Date().toLocaleString());
+  console.log('========================================\n');
+
+  if (!req.file) {
+    return res.status(400).json({
+      error: 'No file uploaded',
+      details: 'Please select an events spreadsheet file'
+    });
+  }
+
+  const uploadedFilePath = req.file.path;
+  const originalName = req.file.originalname;
+  console.log(`📁 Uploaded file: ${originalName}`);
+  console.log(`   Temp path: ${uploadedFilePath}`);
+
+  try {
+    // Import required modules for processing
+    const xlsxModule = await import('xlsx');
+    const XLSX = xlsxModule.default || xlsxModule;
+
+    // Step 1: Count existing events to be deleted
+    console.log('\nStep 1: Reading existing Brain data...');
+    const brainPath = path.join(__dirname, "../../brain", JSONL_FILENAME);
+    console.log(`   Brain file: ${brainPath}`);
+    let existingRecords = [];
+    let eventsDeleted = 0;
+
+    if (fsSync.existsSync(brainPath)) {
+      const fileContent = await fs.readFile(brainPath, 'utf-8');
+      const lines = fileContent.trim().split('\n').filter(line => line.trim());
+      existingRecords = lines.map(line => JSON.parse(line));
+      eventsDeleted = existingRecords.filter(r => r.kind === 'future_event').length;
+      console.log(`   Found ${eventsDeleted} existing events to remove`);
+      console.log(`   Keeping ${existingRecords.length - eventsDeleted} other records`);
+    }
+
+    // Step 2: Read the uploaded Excel file
+    console.log('\nStep 2: Reading uploaded spreadsheet...');
+    const workbook = XLSX.readFile(uploadedFilePath);
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    const rows = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+    console.log(`   Loaded ${rows.length} rows from sheet: ${sheetName}`);
+
+    // Extract hyperlinks
+    const range = XLSX.utils.decode_range(sheet['!ref']);
+    const headers = {};
+    for (let col = range.s.c; col <= range.e.c; col++) {
+      const cellAddress = XLSX.utils.encode_cell({ r: range.s.r, c: col });
+      const cell = sheet[cellAddress];
+      if (cell && cell.v) {
+        headers[col] = cell.v;
+      }
+    }
+
+    for (let rowIdx = 0; rowIdx < rows.length; rowIdx++) {
+      const excelRowNum = rowIdx + range.s.r + 1;
+      for (let col = range.s.c; col <= range.e.c; col++) {
+        const cellAddress = XLSX.utils.encode_cell({ r: excelRowNum, c: col });
+        const cell = sheet[cellAddress];
+        if (cell && cell.l && cell.l.Target) {
+          const headerName = headers[col];
+          if (headerName) {
+            rows[rowIdx][`${headerName}_LINK`] = cell.l.Target;
+          }
+        }
+      }
+    }
+
+    // Step 3: Create new event records
+    console.log('\nStep 3: Creating new event records...');
+    const nonEventRecords = existingRecords.filter(r => r.kind !== 'future_event');
+    const newEvents = [];
+
+    // Helper function to normalize dates
+    const normalizeExcelDate = (dateVal) => {
+      if (!dateVal) return "";
+      if (dateVal instanceof Date) {
+        return dateVal.toISOString().split('T')[0];
+      }
+      if (typeof dateVal === 'number') {
+        const excelEpoch = new Date(1899, 11, 30);
+        const date = new Date(excelEpoch.getTime() + dateVal * 86400000);
+        return date.toISOString().split('T')[0];
+      }
+      if (typeof dateVal === 'string') {
+        try {
+          const date = new Date(dateVal);
+          if (!isNaN(date.getTime()) && date.getFullYear() >= 2000 && date.getFullYear() <= 2100) {
+            return date.toISOString().split('T')[0];
+          }
+        } catch (e) {}
+      }
+      return "";
+    };
+
+    const fixText = (str) => {
+      if (!str) return "";
+      return String(str).trim().replace(/\s+/g, ' ');
+    };
+
+    for (const row of rows) {
+      const title = fixText(row['MIT Upcoming Events'] || "");
+      if (!title) continue;
+
+      const eventDate = normalizeExcelDate(row['DATE']);
+      let url = row['MIT Upcoming Events_LINK'] || "";
+      if (!url) {
+        const titleSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 50);
+        url = `https://events.mit.edu/${eventDate}/${titleSlug}`;
+      }
+
+      newEvents.push({
+        kind: "future_event",
+        source: "MIT Events",
+        sourceType: "spreadsheet",
+        title: title,
+        url: url,
+        publishedAt: "",
+        rawDate: row['DATE']?.toString() || "",
+        summary: fixText(row['Description'] || ""),
+        fullText: "",
+        tags: [],
+        authors: [],
+        mitGroups: row['MIT DLCIs'] ? String(row['MIT DLCIs']).split(',').map(s => s.trim()).filter(Boolean) : [],
+        mitAuthors: [],
+        eventName: title,
+        ilpSummary: "",
+        ilpKeywords: "",
+        rssFeed: "",
+        citationCount: 0,
+        venue: "",
+        doi: "",
+        arxivId: "",
+        pdfUrl: "",
+        grants: [],
+        videoId: "",
+        durationSeconds: 0,
+        thumbnailUrl: "",
+        recordingDate: "",
+        speakers: [],
+        viewCount: 0,
+        likeCount: 0,
+        commentCount: 0,
+        futureEventDate: eventDate || "",
+        location: fixText(row['Location'] || ""),
+        eventType: fixText(row['In-Person / Virtual / Hybrid'] || ""),
+        generalAdmission: fixText(row['General Public Admission'] || ""),
+        ilpAdmission: fixText(row['ILP Member Admission'] || ""),
+        eventTime: fixText(String(row['Time (EST)'] || "")),
+        eventNote: fixText(row['Note '] || ""),
+      });
+    }
+
+    console.log(`   Created ${newEvents.length} event records`);
+
+    // Step 4: Write to JSONL file
+    console.log('\nStep 4: Writing to Brain JSONL file...');
+    console.log(`   Writing to: ${brainPath}`);
+    const allRecords = [...nonEventRecords, ...newEvents];
+    const jsonlContent = allRecords.map(r => JSON.stringify(r)).join('\n') + '\n';
+    await fs.writeFile(brainPath, jsonlContent, 'utf-8');
+    console.log(`   Wrote ${allRecords.length} total records`);
+
+    // Step 5: Reload articles
+    console.log('\nStep 5: Reloading articles...');
+    await loadArticles();
+    console.log(`   Reloaded ${articles.length} articles`);
+
+    // Clean up uploaded file
+    await fs.unlink(uploadedFilePath);
+
+    console.log('\n========================================');
+    console.log('✅ EVENTS UPLOAD COMPLETED');
+    console.log(`   Events deleted: ${eventsDeleted}`);
+    console.log(`   Events loaded: ${newEvents.length}`);
+    console.log(`   Total articles: ${articles.length}`);
+    console.log('========================================\n');
+
+    res.json({
+      success: true,
+      message: 'Events loaded successfully',
+      eventsDeleted: eventsDeleted,
+      eventsLoaded: newEvents.length,
+      totalArticles: articles.length
+    });
+
+  } catch (err) {
+    console.error('❌ Events upload failed:', err.message);
+    // Clean up uploaded file on error
+    try {
+      await fs.unlink(uploadedFilePath);
+    } catch (e) {}
+
+    res.status(500).json({
+      error: 'Failed to load events',
+      details: err.message
+    });
+  }
+});
+
+/**
+ * POST /api/admin/run-alerts
+ * Manually trigger alert processing for all users
+ */
+app.post('/api/admin/run-alerts', async (req, res) => {
+  console.log('\n========================================');
+  console.log('🔔 MANUAL ALERT RUN - ' + new Date().toLocaleString());
+  console.log('========================================\n');
+
+  const summary = {
+    peopleProcessed: 0,
+    alertsChecked: 0,
+    emailsSent: 0
+  };
+  const details = [];
+
+  try {
+    // Get all person directories
+    const peopleDir = path.join(__dirname, '../../people');
+    if (!fsSync.existsSync(peopleDir)) {
+      return res.json({
+        success: true,
+        message: 'No people directory found - no alerts to process',
+        summary,
+        details
+      });
+    }
+
+    const people = fsSync.readdirSync(peopleDir);
+
+    // Process each person
+    for (const personId of people) {
+      const personPath = path.join(peopleDir, personId);
+      if (!fsSync.statSync(personPath).isDirectory()) continue;
+
+      summary.peopleProcessed++;
+      const alerts = loadAlertsForPerson(personId);
+
+      if (alerts.length === 0) {
+        console.log(`\n👤 ${personId}: No alerts configured`);
+        continue;
+      }
+
+      console.log(`\n👤 ${personId}: Processing ${alerts.length} alerts...`);
+
+      // Collect all matches for this person
+      const allMatchesByAlert = [];
+
+      for (const alert of alerts) {
+        // Skip inactive alerts
+        if (!alert.active) {
+          console.log(`   ⏸  Skipped (paused): ${alert.alertName}`);
+          details.push({ alertName: alert.alertName, matches: 0, status: 'paused' });
+          continue;
+        }
+
+        summary.alertsChecked++;
+        console.log(`   ▶ Running: ${alert.alertName}`);
+
+        try {
+          const result = await processAlert(alert, personId);
+
+          details.push({
+            alertName: alert.alertName,
+            matches: result.matches.length,
+            status: result.matches.length > 0 ? 'matches_found' : 'no_matches'
+          });
+
+          if (result.matches.length > 0) {
+            allMatchesByAlert.push({
+              alert: alert,
+              matches: result.matches
+            });
+            console.log(`     ✅ Found ${result.matches.length} new matches`);
+          } else {
+            console.log(`     ℹ️  No new matches`);
+          }
+
+        } catch (err) {
+          console.error(`     ❌ Error: ${err.message}`);
+          details.push({ alertName: alert.alertName, matches: 0, status: 'error', error: err.message });
+        }
+      }
+
+      // Send consolidated email if there are any matches
+      if (allMatchesByAlert.length > 0) {
+        const totalMatches = allMatchesByAlert.reduce((sum, item) => sum + item.matches.length, 0);
+        console.log(`\n   📧 Sending consolidated email: ${allMatchesByAlert.length} alerts, ${totalMatches} total matches`);
+
+        const recipientEmail = allMatchesByAlert[0].alert.emailSettings.recipientEmail;
+        const emailSent = await sendConsolidatedAlertEmail(personId, allMatchesByAlert, recipientEmail);
+
+        if (emailSent) {
+          summary.emailsSent++;
+          console.log(`   ✅ Email sent to ${recipientEmail}`);
+        } else {
+          console.log(`   ⚠️  Email failed to send`);
+        }
+      }
+    }
+
+    console.log('\n========================================');
+    console.log('📊 MANUAL ALERT RUN COMPLETE');
+    console.log(`   People processed: ${summary.peopleProcessed}`);
+    console.log(`   Alerts checked: ${summary.alertsChecked}`);
+    console.log(`   Emails sent: ${summary.emailsSent}`);
+    console.log('========================================\n');
+
+    res.json({
+      success: true,
+      message: 'Alert processing complete',
+      summary,
+      details
+    });
+
+  } catch (err) {
+    console.error('❌ Error in manual alert run:', err);
+    res.status(500).json({
+      error: 'Failed to process alerts',
+      details: err.message,
+      summary,
+      details
+    });
+  }
+});
+
+// ============================================================
+// JSONL Report Endpoint
+// ============================================================
+
+/**
+ * GET /api/admin/jsonl-report
+ * Generate a comprehensive report about the current MIT Brain JSONL file
+ */
+app.get('/api/admin/jsonl-report', async (req, res) => {
+  try {
+    // Get file stats
+    const stats = await fs.stat(jsonlPath);
+    const fileSizeBytes = stats.size;
+    const fileSizeMB = (fileSizeBytes / (1024 * 1024)).toFixed(2);
+    const lastModified = stats.mtime.toISOString();
+
+    // Calculate statistics from loaded articles
+    const totalObjects = articles.length;
+
+    // Count by kind
+    const byKind = {};
+    articles.forEach(article => {
+      const kind = article.kind || 'unknown';
+      byKind[kind] = (byKind[kind] || 0) + 1;
+    });
+
+    // Count by source (top 15)
+    const bySource = {};
+    articles.forEach(article => {
+      const source = article.source || 'unknown';
+      bySource[source] = (bySource[source] || 0) + 1;
+    });
+    const topSources = Object.entries(bySource)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 15)
+      .map(([source, count]) => ({ source, count }));
+
+    // Date range
+    const dates = articles
+      .map(a => a.publishedAt || a.date)
+      .filter(d => d && d.length > 0)
+      .sort();
+    const dateRange = {
+      earliest: dates[0] || 'N/A',
+      latest: dates[dates.length - 1] || 'N/A'
+    };
+
+    // Content statistics
+    const contentStats = {
+      withFullText: articles.filter(a => a.fullText && a.fullText.length > 100).length,
+      withSummary: articles.filter(a => a.summary || a.ilpSummary).length,
+      withKeywords: articles.filter(a => a.ilpKeywords || a.tags).length,
+      withUrl: articles.filter(a => a.url).length
+    };
+
+    // Kind-specific stats
+    const kindSpecific = {};
+
+    // Videos
+    const videos = articles.filter(a => a.kind === 'video');
+    if (videos.length > 0) {
+      const totalDuration = videos.reduce((sum, v) => sum + (v.durationSeconds || 0), 0);
+      const totalViews = videos.reduce((sum, v) => sum + (v.viewCount || 0), 0);
+      kindSpecific.videos = {
+        totalDurationHours: (totalDuration / 3600).toFixed(1),
+        totalViews: totalViews.toLocaleString(),
+        withTranscripts: videos.filter(v => v.fullText && v.fullText.length > 500).length
+      };
+    }
+
+    // People
+    const people = articles.filter(a => a.kind === 'person');
+    if (people.length > 0) {
+      const departments = {};
+      people.forEach(p => {
+        const dept = p.department || 'Unknown';
+        departments[dept] = (departments[dept] || 0) + 1;
+      });
+      const topDepartments = Object.entries(departments)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(([name, count]) => ({ name, count }));
+      kindSpecific.people = {
+        topDepartments
+      };
+    }
+
+    // Startups
+    const startups = articles.filter(a => a.kind === 'startup');
+    if (startups.length > 0) {
+      const sectors = {};
+      startups.forEach(s => {
+        const sector = s.sector || s.industry || 'Unknown';
+        sectors[sector] = (sectors[sector] || 0) + 1;
+      });
+      const topSectors = Object.entries(sectors)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(([name, count]) => ({ name, count }));
+      kindSpecific.startups = {
+        topSectors
+      };
+    }
+
+    // Events
+    const events = articles.filter(a => a.kind === 'future_event');
+    if (events.length > 0) {
+      const upcomingDates = events
+        .map(e => e.date || e.publishedAt)
+        .filter(d => d)
+        .sort();
+      kindSpecific.events = {
+        nextEvent: upcomingDates[0] || 'N/A',
+        lastEvent: upcomingDates[upcomingDates.length - 1] || 'N/A'
+      };
+    }
+
+    // Papers
+    const papers = articles.filter(a => a.kind === 'paper');
+    if (papers.length > 0) {
+      const withAbstract = papers.filter(p => p.summary || p.abstract || p.ilpSummary).length;
+      kindSpecific.papers = {
+        withAbstract,
+        withAuthors: papers.filter(p => p.authors || p.mitAuthors).length
+      };
+    }
+
+    res.json({
+      success: true,
+      report: {
+        file: {
+          name: JSONL_FILENAME,
+          path: jsonlPath,
+          sizeMB: fileSizeMB,
+          sizeBytes: fileSizeBytes,
+          lastModified: lastModified
+        },
+        summary: {
+          totalObjects,
+          serverStartTime,
+          reportGeneratedAt: new Date().toISOString()
+        },
+        byKind: Object.entries(byKind)
+          .sort((a, b) => b[1] - a[1])
+          .map(([kind, count]) => ({
+            kind,
+            count,
+            percentage: ((count / totalObjects) * 100).toFixed(1)
+          })),
+        topSources,
+        dateRange,
+        contentStats,
+        kindSpecific
+      }
+    });
+
+  } catch (err) {
+    console.error('Error generating JSONL report:', err);
+    res.status(500).json({
+      error: 'Failed to generate report',
+      details: err.message
+    });
+  }
+});
+
+// ============================================================
+// User Settings API
+// ============================================================
+
+// Get My Voice
+app.get("/api/settings/my-voice", (req, res) => {
+  if (!req.session?.user) return res.status(401).json({ error: "Not authenticated" });
+
+  const userDir = getUserDir(req.session.user.email);
+  if (!userDir) return res.status(404).json({ error: "User directory not found" });
+
+  const filePath = path.join(userDir, 'my-voice.txt');
+  try {
+    const content = fsSync.existsSync(filePath) ? fsSync.readFileSync(filePath, 'utf8') : '';
+    res.json({ content });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Save My Voice
+app.put("/api/settings/my-voice", (req, res) => {
+  if (!req.session?.user) return res.status(401).json({ error: "Not authenticated" });
+
+  const userDir = getUserDir(req.session.user.email);
+  if (!userDir) return res.status(404).json({ error: "User directory not found" });
+
+  const filePath = path.join(userDir, 'my-voice.txt');
+  try {
+    fsSync.writeFileSync(filePath, req.body.content || '');
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get Member Profiles
+app.get("/api/settings/member-profiles", (req, res) => {
+  if (!req.session?.user) return res.status(401).json({ error: "Not authenticated" });
+
+  const userDir = getUserDir(req.session.user.email);
+  if (!userDir) return res.status(404).json({ error: "User directory not found" });
+
+  const filePath = path.join(userDir, 'member-profiles.csv');
+  try {
+    if (!fsSync.existsSync(filePath)) {
+      return res.json({ headers: [], rows: [] });
+    }
+    const content = fsSync.readFileSync(filePath, 'utf8');
+    const lines = content.split(/\r?\n/).filter(l => l.trim());
+    if (lines.length === 0) return res.json({ headers: [], rows: [] });
+
+    const headers = lines[0].split(',').map(h => h.trim());
+    const rows = lines.slice(1).map((line, idx) => {
+      const cols = line.split(',');
+      const row = { _id: idx };
+      headers.forEach((h, i) => row[h] = (cols[i] || '').trim());
+      return row;
+    });
+    res.json({ headers, rows });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Save Member Profiles
+app.put("/api/settings/member-profiles", (req, res) => {
+  if (!req.session?.user) return res.status(401).json({ error: "Not authenticated" });
+
+  const userDir = getUserDir(req.session.user.email);
+  if (!userDir) return res.status(404).json({ error: "User directory not found" });
+
+  const filePath = path.join(userDir, 'member-profiles.csv');
+  try {
+    const { headers, rows } = req.body;
+    const lines = [headers.join(',')];
+    rows.forEach(row => {
+      const cols = headers.map(h => (row[h] || '').replace(/,/g, ';'));
+      lines.push(cols.join(','));
+    });
+    fsSync.writeFileSync(filePath, lines.join('\n'));
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get Templates
+app.get("/api/settings/templates", (req, res) => {
+  if (!req.session?.user) return res.status(401).json({ error: "Not authenticated" });
+
+  const userDir = getUserDir(req.session.user.email);
+  if (!userDir) return res.status(404).json({ error: "User directory not found" });
+
+  const templatesDir = path.join(userDir, 'templates');
+  try {
+    if (!fsSync.existsSync(templatesDir)) {
+      return res.json({ templates: [] });
+    }
+    const files = fsSync.readdirSync(templatesDir).filter(f => f.endsWith('.txt'));
+    const templates = files.map(f => ({
+      name: f.replace('.txt', ''),
+      filename: f
+    }));
+    res.json({ templates });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get single template
+app.get("/api/settings/templates/:name", (req, res) => {
+  if (!req.session?.user) return res.status(401).json({ error: "Not authenticated" });
+
+  const userDir = getUserDir(req.session.user.email);
+  if (!userDir) return res.status(404).json({ error: "User directory not found" });
+
+  const filePath = path.join(userDir, 'templates', `${req.params.name}.txt`);
+  try {
+    if (!fsSync.existsSync(filePath)) {
+      return res.status(404).json({ error: "Template not found" });
+    }
+    const content = fsSync.readFileSync(filePath, 'utf8');
+    res.json({ name: req.params.name, content });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Create/Update template
+app.put("/api/settings/templates/:name", (req, res) => {
+  if (!req.session?.user) return res.status(401).json({ error: "Not authenticated" });
+
+  const userDir = getUserDir(req.session.user.email);
+  if (!userDir) return res.status(404).json({ error: "User directory not found" });
+
+  // Sanitize filename
+  const safeName = req.params.name.replace(/[^a-zA-Z0-9\-_ ]/g, '');
+  if (!safeName) return res.status(400).json({ error: "Invalid template name" });
+
+  const filePath = path.join(userDir, 'templates', `${safeName}.txt`);
+  try {
+    fsSync.writeFileSync(filePath, req.body.content || '');
+    res.json({ success: true, name: safeName });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Delete template
+app.delete("/api/settings/templates/:name", (req, res) => {
+  if (!req.session?.user) return res.status(401).json({ error: "Not authenticated" });
+
+  const userDir = getUserDir(req.session.user.email);
+  if (!userDir) return res.status(404).json({ error: "User directory not found" });
+
+  const filePath = path.join(userDir, 'templates', `${req.params.name}.txt`);
+  try {
+    if (fsSync.existsSync(filePath)) {
+      fsSync.unlinkSync(filePath);
+    }
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get user's settings summary (for settings page)
+app.get("/api/settings/summary", (req, res) => {
+  if (!req.session?.user) return res.status(401).json({ error: "Not authenticated" });
+
+  const userDir = getUserDir(req.session.user.email);
+  if (!userDir) return res.status(404).json({ error: "User directory not found" });
+
+  try {
+    const myVoicePath = path.join(userDir, 'my-voice.txt');
+    const profilesPath = path.join(userDir, 'member-profiles.csv');
+    const templatesDir = path.join(userDir, 'templates');
+    const alertsPath = path.join(userDir, 'alerts', 'alerts.json');
+
+    const myVoiceLength = fsSync.existsSync(myVoicePath) ? fsSync.readFileSync(myVoicePath, 'utf8').length : 0;
+
+    let profileCount = 0;
+    if (fsSync.existsSync(profilesPath)) {
+      const lines = fsSync.readFileSync(profilesPath, 'utf8').split('\n').filter(l => l.trim());
+      profileCount = Math.max(0, lines.length - 1);
+    }
+
+    let templateCount = 0;
+    if (fsSync.existsSync(templatesDir)) {
+      templateCount = fsSync.readdirSync(templatesDir).filter(f => f.endsWith('.txt')).length;
+    }
+
+    let alertCount = 0;
+    if (fsSync.existsSync(alertsPath)) {
+      const alertsData = JSON.parse(fsSync.readFileSync(alertsPath, 'utf8'));
+      alertCount = alertsData.alerts?.length || 0;
+    }
+
+    res.json({
+      userDir: path.basename(userDir),
+      myVoiceConfigured: myVoiceLength > 100,
+      myVoiceLength,
+      profileCount,
+      templateCount,
+      alertCount
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get Dropbox settings
+app.get("/api/settings/dropbox", (req, res) => {
+  if (!req.session?.user) return res.status(401).json({ error: "Not authenticated" });
+
+  const userDir = getUserDir(req.session.user.email);
+  if (!userDir) return res.status(404).json({ error: "User directory not found" });
+
+  const filePath = path.join(userDir, 'dropbox-settings.json');
+  try {
+    if (!fsSync.existsSync(filePath)) {
+      return res.json({ refreshToken: '', accessToken: '', appKey: '', appSecret: '', transcriptsDir: '/Transcripts' });
+    }
+    const settings = JSON.parse(fsSync.readFileSync(filePath, 'utf8'));
+    // Mask sensitive fields for display (return last 4 chars only)
+    res.json({
+      refreshToken: settings.refreshToken ? '••••' + settings.refreshToken.slice(-4) : '',
+      accessToken: settings.accessToken ? '••••' + settings.accessToken.slice(-4) : '',
+      appKey: settings.appKey || '',
+      appSecret: settings.appSecret ? '••••' + settings.appSecret.slice(-4) : '',
+      transcriptsDir: settings.transcriptsDir || '/Transcripts',
+      configured: !!(settings.refreshToken || settings.accessToken)
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Save Dropbox settings
+app.put("/api/settings/dropbox", (req, res) => {
+  if (!req.session?.user) return res.status(401).json({ error: "Not authenticated" });
+
+  const userDir = getUserDir(req.session.user.email);
+  if (!userDir) return res.status(404).json({ error: "User directory not found" });
+
+  const filePath = path.join(userDir, 'dropbox-settings.json');
+  try {
+    // Load existing settings to preserve fields not being updated
+    let existing = {};
+    if (fsSync.existsSync(filePath)) {
+      existing = JSON.parse(fsSync.readFileSync(filePath, 'utf8'));
+    }
+
+    const body = req.body || {};
+    const updated = {
+      refreshToken: body.refreshToken !== undefined && !body.refreshToken.startsWith('••••')
+        ? body.refreshToken : existing.refreshToken || '',
+      accessToken: body.accessToken !== undefined && !body.accessToken.startsWith('••••')
+        ? body.accessToken : existing.accessToken || '',
+      appKey: body.appKey !== undefined ? body.appKey : existing.appKey || '',
+      appSecret: body.appSecret !== undefined && !body.appSecret.startsWith('••••')
+        ? body.appSecret : existing.appSecret || '',
+      transcriptsDir: body.transcriptsDir || existing.transcriptsDir || '/Transcripts'
+    };
+
+    fsSync.writeFileSync(filePath, JSON.stringify(updated, null, 2));
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Test Dropbox connection
+app.post("/api/settings/dropbox/test", async (req, res) => {
+  if (!req.session?.user) return res.status(401).json({ error: "Not authenticated" });
+
+  const userDir = getUserDir(req.session.user.email);
+  if (!userDir) return res.status(404).json({ error: "User directory not found" });
+
+  const filePath = path.join(userDir, 'dropbox-settings.json');
+  try {
+    if (!fsSync.existsSync(filePath)) {
+      return res.json({ ok: false, error: "No Dropbox settings configured" });
+    }
+    const userConfig = JSON.parse(fsSync.readFileSync(filePath, 'utf8'));
+    const { dropboxEnvStatus } = await import("../shared/dropbox.js");
+    const status = dropboxEnvStatus(userConfig);
+
+    if (!status.hasRefreshToken && !status.hasAccessToken) {
+      return res.json({ ok: false, error: "No token configured. Add a Refresh Token or Access Token." });
+    }
+
+    // Try listing the transcripts folder
+    const { listTranscripts } = await import("../shared/dropbox.js");
+    const result = await listTranscripts(userConfig.transcriptsDir || '/Transcripts', userConfig);
+    res.json({ ok: true, fileCount: result.items.length, folder: userConfig.transcriptsDir || '/Transcripts' });
+  } catch (err) {
+    res.json({ ok: false, error: err.message });
+  }
+});
+
+// ============================================================
+// Virtual Program Director API (OpenAI Assistants + Vector Store)
+// ============================================================
+
+const VECTOR_STORE_ID = process.env.VECTOR_STORE_ID;
+
+app.post("/api/ask", async (req, res) => {
+  const question = (req.body && req.body.question) || "";
+  if (!question.trim()) {
+    return res.status(400).json({ error: "Question is required." });
+  }
+
+  if (!VECTOR_STORE_ID) {
+    return res.status(500).json({ error: "VECTOR_STORE_ID not configured in .env" });
+  }
+
+  try {
+    console.log("❓ Virtual PD question:", question);
+
+    // 1) Create a short-lived assistant wired to MIT Brain vector store
+    const assistant = await openai.beta.assistants.create({
+      name: "MIT Brain – Virtual Faculty",
+      instructions:
+        "You are an MIT-savvy assistant grounded in a custom corpus of MIT news, " +
+        "lab pages, technical reports, Startup Exchange profiles, and ILP-related videos. " +
+        "Answer concisely but with enough context for senior executives. " +
+        "When possible, base your answer on the retrieved documents. " +
+        "FORMATTING: Never use markdown bold (**). " +
+        "When mentioning a person by name, make their name a hyperlink like [Pattie Maes](https://www.mit.edu/search/?q=Pattie+Maes).",
+      model: "gpt-4.1-mini",
+      tools: [{ type: "file_search" }],
+      tool_resources: {
+        file_search: {
+          vector_store_ids: [VECTOR_STORE_ID],
+        },
+      },
+    });
+
+    // 2) Create a thread for this question
+    const thread = await openai.beta.threads.create({
+      messages: [
+        {
+          role: "user",
+          content: question,
+        },
+      ],
+    });
+
+    // 3) Run the assistant on that thread, polling until completed
+    const run = await openai.beta.threads.runs.createAndPoll(thread.id, {
+      assistant_id: assistant.id,
+    });
+
+    console.log("🏁 Virtual PD run status:", run.status);
+
+    if (run.status !== "completed") {
+      return res.status(500).json({
+        error: `Run did not complete successfully: ${run.status}`,
+      });
+    }
+
+    // 4) Get the messages and extract the assistant's reply
+    const messages = await openai.beta.threads.messages.list(thread.id, {
+      limit: 10,
+    });
+
+    const assistantMessage = messages.data.find(
+      (m) => m.role === "assistant"
+    );
+
+    if (!assistantMessage) {
+      return res
+        .status(500)
+        .json({ error: "No assistant message found in thread." });
+    }
+
+    const parts = assistantMessage.content || [];
+    const textParts = parts
+      .filter((p) => p.type === "text")
+      .map((p) => p.text?.value || "");
+    const answer = textParts.join("\n\n").trim();
+
+    console.log("✅ Virtual PD answered successfully");
+    return res.json({
+      answer,
+    });
+  } catch (err) {
+    console.error("❌ Error in /api/ask:", err);
+    return res.status(500).json({
+      error: "Server error",
+      details: err?.message || String(err),
+    });
+  }
+});
 
 // ============================================================
 // Start server

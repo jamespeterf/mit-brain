@@ -279,6 +279,31 @@ async function loadList() {
   try {
     const res = await fetch("/api/transcripts/list");
     raw = await res.json();
+
+    // If Dropbox not configured, show setup instructions
+    if (raw.notConfigured) {
+      const panel = tbody.closest('.panel') || tbody.parentElement;
+      panel.innerHTML = `
+        <h2>Connect Your Dropbox</h2>
+        <div style="padding: 20px; background: #f0f7ff; border-radius: 8px; border-left: 4px solid #3498db;">
+          <p style="margin: 0 0 12px; font-size: 1.05em; color: #2c3e50;">
+            <strong>Dropbox integration is not configured for your account.</strong>
+          </p>
+          <p style="margin: 0 0 16px; color: #555; line-height: 1.6;">
+            To use the Meetings feature, you need to connect your Dropbox account where your meeting transcripts are stored.
+          </p>
+          <h3 style="margin: 0 0 10px; color: #2c3e50; font-size: 1em;">Setup Steps:</h3>
+          <ol style="margin: 0 0 16px; padding-left: 20px; color: #555; line-height: 1.8;">
+            <li>Go to <a href="/settings.html" style="color: #3498db; font-weight: 600;">Settings</a> and click the <strong>Dropbox</strong> tab</li>
+            <li>Enter your Dropbox App Key and Refresh Token</li>
+            <li>Set the folder path where your transcripts are stored (default: /Transcripts)</li>
+            <li>Click "Test Connection" to verify, then "Save Settings"</li>
+          </ol>
+          <a href="/settings.html" style="display: inline-block; padding: 10px 20px; background: #3498db; color: white; text-decoration: none; border-radius: 6px; font-weight: 600;">Go to Settings</a>
+        </div>
+      `;
+      return;
+    }
   } catch (e) {
     tbody.innerHTML = `<tr><td colspan="3">Error: failed to fetch list</td></tr>`;
     return;
@@ -334,18 +359,27 @@ async function loadList() {
         srcEl.textContent = `Source: ${current.filename} (${current.dropbox_path})`;
       }
 
+      const headingEl = document.getElementById("transcriptHeading");
+      if (headingEl) {
+        headingEl.textContent = `Transcript: ${current.filename}`;
+      }
+
       let data;
       try {
+        setLoading(true, "Loading transcript…");
+
         const res = await fetch(
           `/api/transcripts/get?path=${encodeURIComponent(current.dropbox_path)}`
         );
         data = await res.json();
       } catch (err) {
+        setLoading(false);
         alert("Error loading meeting: failed to fetch /api/transcripts/get");
         return;
       }
 
       if (!data.ok) {
+        setLoading(false);
         alert("Error loading meeting: " + (data.error || "Unknown error"));
         return;
       }
@@ -363,6 +397,7 @@ async function loadList() {
       if (outEl) outEl.textContent = "(nothing yet)";
 
       setStatus("");
+      setLoading(false);
     });
   });
 }

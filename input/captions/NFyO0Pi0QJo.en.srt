@@ -1,0 +1,600 @@
+1
+00:00:02,280 --> 00:00:08,360
+the gex portal provides an API for
+
+2
+00:00:04,680 --> 00:00:11,519
+accessing gex data this tutorial will
+
+3
+00:00:08,360 --> 00:00:15,000
+demonstrate how to use the gex API to
+
+4
+00:00:11,519 --> 00:00:18,400
+retrieve gene expression Data before
+
+5
+00:00:15,000 --> 00:00:21,199
+using the gex API you should think about
+
+6
+00:00:18,400 --> 00:00:23,880
+your use case and carefully consider
+
+7
+00:00:21,199 --> 00:00:27,000
+whether the GX API is suitable for your
+
+8
+00:00:23,880 --> 00:00:30,039
+application the gex API is not meant for
+
+9
+00:00:27,000 --> 00:00:32,480
+high 3w applications for example if if
+
+10
+00:00:30,039 --> 00:00:35,920
+you need to perform a computation for
+
+11
+00:00:32,480 --> 00:00:38,520
+all 56,000 genes you might be better
+
+12
+00:00:35,920 --> 00:00:41,399
+served by downloading the needed data
+
+13
+00:00:38,520 --> 00:00:44,320
+files from the gex portal and either
+
+14
+00:00:41,399 --> 00:00:46,760
+Computing on those files directly or
+
+15
+00:00:44,320 --> 00:00:50,000
+loading the data from those files into
+
+16
+00:00:46,760 --> 00:00:53,359
+your own local database performing
+
+17
+00:00:50,000 --> 00:00:55,840
+56,000 round trips to our API server
+
+18
+00:00:53,359 --> 00:00:59,120
+would probably not be
+
+19
+00:00:55,840 --> 00:01:03,359
+performant the gex API is called via a
+
+20
+00:00:59,120 --> 00:01:06,439
+URL which returns data in Json format
+
+21
+00:01:03,359 --> 00:01:09,479
+you can query the gex web services by
+
+22
+00:01:06,439 --> 00:01:12,320
+submitting your url via a browser or a
+
+23
+00:01:09,479 --> 00:01:14,600
+scripting language of your choice any
+
+24
+00:01:12,320 --> 00:01:16,479
+scripting language can directly parse
+
+25
+00:01:14,600 --> 00:01:20,040
+Json formatted
+
+26
+00:01:16,479 --> 00:01:21,159
+data we can think of the URL as having
+
+27
+00:01:20,040 --> 00:01:24,320
+two main
+
+28
+00:01:21,159 --> 00:01:28,439
+portions the base URL which identifies
+
+29
+00:01:24,320 --> 00:01:31,280
+the web service and then the
+
+30
+00:01:28,439 --> 00:01:34,320
+parameters in the G Tex portal most of
+
+31
+00:01:31,280 --> 00:01:36,759
+the web services take query
+
+32
+00:01:34,320 --> 00:01:39,040
+parameters which have two parts the the
+
+33
+00:01:36,759 --> 00:01:41,000
+query parameter name and then the query
+
+34
+00:01:39,040 --> 00:01:43,360
+parameter
+
+35
+00:01:41,000 --> 00:01:47,520
+value the delimiter in front of the
+
+36
+00:01:43,360 --> 00:01:50,840
+first query parameter is a question mark
+
+37
+00:01:47,520 --> 00:01:53,560
+the delimiter for subsequent query
+
+38
+00:01:50,840 --> 00:01:56,920
+parameters is an
+
+39
+00:01:53,560 --> 00:01:59,960
+aent let's use the GX API to retrieve
+
+40
+00:01:56,920 --> 00:02:01,960
+gene expression data
+
+41
+00:01:59,960 --> 00:02:06,640
+you can find a link to the API
+
+42
+00:02:01,960 --> 00:02:10,319
+documentation on the gex portal select
+
+43
+00:02:06,640 --> 00:02:16,000
+documentation API for data access and
+
+44
+00:02:10,319 --> 00:02:18,959
+then the link for the gex API
+
+45
+00:02:16,000 --> 00:02:22,720
+V2 as you can see the documentation for
+
+46
+00:02:18,959 --> 00:02:24,920
+the web services are separated into
+
+47
+00:02:22,720 --> 00:02:27,319
+groups we want to retrieve gene
+
+48
+00:02:24,920 --> 00:02:30,840
+expression data so we will Ex we will
+
+49
+00:02:27,319 --> 00:02:33,480
+select expression data endpoints
+
+50
+00:02:30,840 --> 00:02:33,480
+get gene
+
+51
+00:02:34,400 --> 00:02:40,040
+expression if we look in the upper right
+
+52
+00:02:36,720 --> 00:02:43,440
+corner of the page we can see the base
+
+53
+00:02:40,040 --> 00:02:47,560
+URL for the endpoint so we will copy
+
+54
+00:02:43,440 --> 00:02:49,480
+that and in the center pane we can see
+
+55
+00:02:47,560 --> 00:02:51,879
+the documentation for the query
+
+56
+00:02:49,480 --> 00:02:55,599
+parameters for the gene expression web
+
+57
+00:02:51,879 --> 00:02:57,280
+service we can see that the Gen code ID
+
+58
+00:02:55,599 --> 00:03:01,400
+is a required
+
+59
+00:02:57,280 --> 00:03:04,159
+parameter so let's construct the UR Ur
+
+60
+00:03:01,400 --> 00:03:07,599
+L we'll open up a new
+
+61
+00:03:04,159 --> 00:03:10,599
+tab we'll paste in the base
+
+62
+00:03:07,599 --> 00:03:12,319
+URL and all of these URLs will be down
+
+63
+00:03:10,599 --> 00:03:14,560
+uh in the
+
+64
+00:03:12,319 --> 00:03:16,519
+description and let's just send the base
+
+65
+00:03:14,560 --> 00:03:17,640
+URL without the required parameter and
+
+66
+00:03:16,519 --> 00:03:20,200
+see what
+
+67
+00:03:17,640 --> 00:03:23,560
+happens as you can see we get an error
+
+68
+00:03:20,200 --> 00:03:23,560
+message which is not
+
+69
+00:03:24,159 --> 00:03:28,319
+surprising so let's add the query
+
+70
+00:03:26,319 --> 00:03:30,400
+parameter we start with the question
+
+71
+00:03:28,319 --> 00:03:34,280
+mark delimiter and then
+
+72
+00:03:30,400 --> 00:03:41,400
+gen code ID which is the query parameter
+
+73
+00:03:34,280 --> 00:03:44,360
+name an equal sign and now we will paste
+
+74
+00:03:41,400 --> 00:03:47,000
+in a gen code
+
+75
+00:03:44,360 --> 00:03:49,680
+ID and as you can see we received
+
+76
+00:03:47,000 --> 00:03:49,680
+results this
+
+77
+00:03:49,840 --> 00:03:55,480
+time the resulting data for the web
+
+78
+00:03:52,360 --> 00:03:57,799
+service is returned in Json format any
+
+79
+00:03:55,480 --> 00:03:59,840
+scripting language can directly parse
+
+80
+00:03:57,799 --> 00:04:03,519
+Json data
+
+81
+00:03:59,840 --> 00:04:07,120
+as you can see the result has two
+
+82
+00:04:03,519 --> 00:04:11,040
+attributes data and paging
+
+83
+00:04:07,120 --> 00:04:13,599
+info GX web services are paginated so if
+
+84
+00:04:11,040 --> 00:04:15,760
+your query results in large amounts of
+
+85
+00:04:13,599 --> 00:04:18,199
+data then you'll have to retrieve the
+
+86
+00:04:15,760 --> 00:04:19,000
+results one page at a time just like a
+
+87
+00:04:18,199 --> 00:04:22,040
+Google
+
+88
+00:04:19,000 --> 00:04:24,120
+search if we expand the paging info you
+
+89
+00:04:22,040 --> 00:04:27,280
+can see there's just a single page of
+
+90
+00:04:24,120 --> 00:04:30,400
+data for this query so we've got all the
+
+91
+00:04:27,280 --> 00:04:33,160
+data that we need
+
+92
+00:04:30,400 --> 00:04:37,280
+if we expand data you'll see that this
+
+93
+00:04:33,160 --> 00:04:40,840
+has 54 entries that's one entry per
+
+94
+00:04:37,280 --> 00:04:45,240
+tissue GX has 54 tissue
+
+95
+00:04:40,840 --> 00:04:45,240
+types we can expand the first
+
+96
+00:04:45,320 --> 00:04:51,600
+result and see
+
+97
+00:04:47,720 --> 00:04:54,520
+that this contains data for the tissue
+
+98
+00:04:51,600 --> 00:04:56,479
+thyroid and within the tissue thyroid
+
+99
+00:04:54,520 --> 00:05:01,400
+there's another data attribute which
+
+100
+00:04:56,479 --> 00:05:01,400
+contains the actual expression values
+
+101
+00:05:03,520 --> 00:05:08,080
+now you probably don't know the Gen code
+
+102
+00:05:05,400 --> 00:05:11,160
+identifier for your Gene of interest but
+
+103
+00:05:08,080 --> 00:05:13,600
+instead you probably have an hgnc Gene
+
+104
+00:05:11,160 --> 00:05:16,440
+symbol if we go back to the gene
+
+105
+00:05:13,600 --> 00:05:20,680
+expression web service documentation you
+
+106
+00:05:16,440 --> 00:05:24,240
+can see that it does not accept an hgnc
+
+107
+00:05:20,680 --> 00:05:27,560
+G symol so how can we retrieve the Gen
+
+108
+00:05:24,240 --> 00:05:30,880
+code ID for a particular Gene
+
+109
+00:05:27,560 --> 00:05:35,919
+symbol let's go back over to the
+
+110
+00:05:30,880 --> 00:05:38,639
+groups and select the reference genome
+
+111
+00:05:35,919 --> 00:05:41,919
+endpoints and then we will select the
+
+112
+00:05:38,639 --> 00:05:44,080
+get genes web
+
+113
+00:05:41,919 --> 00:05:46,840
+service once again we'll look in the
+
+114
+00:05:44,080 --> 00:05:49,280
+upper right hand corner to get the base
+
+115
+00:05:46,840 --> 00:05:52,479
+URL and copy
+
+116
+00:05:49,280 --> 00:05:56,360
+that and we'll see here in the center
+
+117
+00:05:52,479 --> 00:06:00,840
+pane that this takes a gene ID as a
+
+118
+00:05:56,360 --> 00:06:04,759
+query parameter so let's construct URL
+
+119
+00:06:00,840 --> 00:06:04,759
+will'll paste in the base
+
+120
+00:06:04,919 --> 00:06:14,919
+URL add the question mark then a gene
+
+121
+00:06:10,199 --> 00:06:17,880
+ID equals and let's search for
+
+122
+00:06:14,919 --> 00:06:22,440
+egfr and as you can see there's a single
+
+123
+00:06:17,880 --> 00:06:25,560
+batch so now we have the Gen code ID for
+
+124
+00:06:22,440 --> 00:06:28,599
+egfr we can then use that gen code ID to
+
+125
+00:06:25,560 --> 00:06:31,560
+query the gene expression web service as
+
+126
+00:06:28,599 --> 00:06:31,560
+we demonstrated prev
+
+127
+00:06:33,680 --> 00:06:39,800
+iously now what if we want to retrieve
+
+128
+00:06:36,360 --> 00:06:43,479
+expression data for the gene egfr but
+
+129
+00:06:39,800 --> 00:06:45,960
+only for a particular tissue say lung
+
+130
+00:06:43,479 --> 00:06:48,680
+let's go back to the documentation for
+
+131
+00:06:45,960 --> 00:06:50,240
+the get gene expression web service and
+
+132
+00:06:48,680 --> 00:06:54,000
+you can see that it takes a query
+
+133
+00:06:50,240 --> 00:06:58,639
+parameter called tissue site detail
+
+134
+00:06:54,000 --> 00:07:00,919
+ID and if we select the details for this
+
+135
+00:06:58,639 --> 00:07:03,720
+query parameter we can see the allowed
+
+136
+00:07:00,919 --> 00:07:08,560
+values for tissue site detail
+
+137
+00:07:03,720 --> 00:07:11,560
+ID so let's construct the URL we
+
+138
+00:07:08,560 --> 00:07:14,360
+will
+
+139
+00:07:11,560 --> 00:07:18,120
+again copy the base
+
+140
+00:07:14,360 --> 00:07:18,120
+URL open a new
+
+141
+00:07:23,599 --> 00:07:29,199
+tab add the Gen code ID
+
+142
+00:07:38,800 --> 00:07:44,919
+and now you remember that uh after the
+
+143
+00:07:42,360 --> 00:07:47,240
+first qu parameter the delimeter changes
+
+144
+00:07:44,919 --> 00:07:48,879
+to an Amper sand so now we will add
+
+145
+00:07:47,240 --> 00:07:54,639
+tissue
+
+146
+00:07:48,879 --> 00:07:57,280
+site detail ID equal
+
+147
+00:07:54,639 --> 00:08:00,560
+long and as you can see
+
+148
+00:07:57,280 --> 00:08:02,599
+now we only return returned the web
+
+149
+00:08:00,560 --> 00:08:06,240
+service only returned data for the
+
+150
+00:08:02,599 --> 00:08:06,240
+single tissue
+

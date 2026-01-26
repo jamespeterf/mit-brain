@@ -2,6 +2,7 @@
 import express from "express";
 import path from "path";
 import fs from "fs/promises";
+import * as fsSync from "fs";
 import crypto from "crypto";
 import { listTranscripts, downloadTranscript } from "../../shared/dropbox.js";
 
@@ -26,16 +27,35 @@ function tryParseJson(text) {
   }
 }
 
-export default function transcriptsRouter({ openai, webappDir }) {
+export default function transcriptsRouter({ openai, webappDir, getUserDir }) {
   const router = express.Router();
 
   const repoRoot = repoRootFromWebappDir(webappDir);
   const dataRoot = path.join(repoRoot, "data", "transcripts");
 
+  // Helper: load per-user Dropbox config from their people directory
+  function getUserDropboxConfig(req) {
+    if (!req.session?.user?.email) return null;
+    const userDir = getUserDir(req.session.user.email);
+    if (!userDir) return null;
+    const settingsPath = path.join(userDir, 'dropbox-settings.json');
+    try {
+      if (!fsSync.existsSync(settingsPath)) return null;
+      return JSON.parse(fsSync.readFileSync(settingsPath, 'utf8'));
+    } catch {
+      return null;
+    }
+  }
+
   router.get("/list", async (req, res) => {
     try {
-      const items = await listTranscripts();
-      res.json({ ok: true, items });
+      const userConfig = getUserDropboxConfig(req);
+      if (!userConfig) {
+        return res.status(403).json({ ok: false, notConfigured: true, error: "Dropbox not configured. Go to Settings > Dropbox to connect your account." });
+      }
+      const folderPath = userConfig.transcriptsDir || '/Transcripts';
+      const result = await listTranscripts(folderPath, userConfig);
+      res.json({ ok: true, items: result.items });
     } catch (err) {
       res.status(500).json({ ok: false, error: String(err?.message || err) });
     }
@@ -46,8 +66,12 @@ export default function transcriptsRouter({ openai, webappDir }) {
       const { path: dropboxPath } = req.query;
       if (!dropboxPath) return res.status(400).json({ ok: false, error: "Missing path" });
 
-      const text = await downloadTranscript(dropboxPath);
-      res.json({ ok: true, text });
+      const userConfig = getUserDropboxConfig(req);
+      if (!userConfig) {
+        return res.status(403).json({ ok: false, notConfigured: true, error: "Dropbox not configured" });
+      }
+      const result = await downloadTranscript(dropboxPath, userConfig);
+      res.json({ ok: true, text: result.content });
     } catch (err) {
       res.status(500).json({ ok: false, error: String(err?.message || err) });
     }

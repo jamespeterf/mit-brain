@@ -1,266 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MIT Brain</title>
-  <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="css/mit-brain-nav.css" />
   <style>
-    body{
+    body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
       background: #f8f8f8;
-     padding-top: 90px;}
-    
-    .page-wrapper {
-      max-width: 1400px;
+      padding-top: 90px;
+    }
+
+    .page-container {
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 0 20px 20px 20px;
-    }
-
-    h1 {
-      margin-top: 0;
-    }
-
-    #searchPanel, #resultsPanel, #emailPanel {
-      background: white;
       padding: 20px;
+    }
+
+    .page-header {
+      background: linear-gradient(135deg, #8e44ad, #9b59b6);
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
       margin-bottom: 30px;
-      border-radius: 8px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     }
 
-    #resultsContainer .article-card {
-      border: 1px solid #ddd;
-      background: #fafafa;
-      margin-bottom: 12px;
-      padding: 12px;
-      border-radius: 6px;
+    .page-header h1 {
+      margin: 0 0 10px 0;
+      font-size: 2em;
     }
 
-    .article-title a {
-      font-weight: bold;
-      font-size: 1.1rem;
-      text-decoration: none;
-      color: #0065a4;
+    .page-header p {
+      margin: 0;
+      opacity: 0.9;
     }
 
-    .article-meta {
-      color: #666;
-      font-size: 0.85rem;
-      margin-top: 2px;
-      margin-bottom: 8px;
+    .widgets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 20px;
     }
 
-    .article-summary {
-      margin-bottom: 6px;
-      font-size: 0.95rem;
-      line-height: 1.4;
+    .widget-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      overflow: hidden;
     }
 
-    .article-ilp-keywords {
-      margin-bottom: 6px;
-      font-style: italic;
-      color: #333;
-      font-size: 0.9rem;
-    }
-
-    .article-tags {
-      font-size: 0.8rem;
-      color: #555;
-    }
-
-    #emailOutput {
-      background: #ffffff;
-      padding: 16px;
-      min-height: 200px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      margin-top: 10px;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      line-height: 1.6;
-      overflow-y: auto;
-      max-height: 600px;
-    }
-    
-    #emailOutput a {
-      color: #0065a4;
-    }
-    
-    #emailOutput strong {
-      font-weight: bold;
-    }
-
-    #progressOverlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 999;
-      justify-content: center;
+    .widget-header {
+      background: #f8f9fa;
+      padding: 15px 20px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
     }
 
-    #progressModal {
-      background: white;
-      padding: 20px 30px;
-      border-radius: 8px;
+    .widget-title {
+      font-weight: 600;
+      color: #2c3e50;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .widget-body {
+      padding: 20px;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+
+    .stat-label {
+      color: #666;
+    }
+
+    .stat-value {
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .recent-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .recent-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .recent-list li:last-child {
+      border-bottom: none;
+    }
+
+    .recent-list a {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .recent-list a:hover {
+      text-decoration: underline;
+    }
+
+    .recent-list .meta {
+      font-size: 0.85em;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    .kind-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      font-weight: 500;
+    }
+
+    .kind-article { background: #e3f2fd; color: #1565c0; }
+    .kind-video { background: #fce4ec; color: #c2185b; }
+    .kind-paper { background: #e8f5e9; color: #2e7d32; }
+    .kind-person { background: #fff3e0; color: #ef6c00; }
+    .kind-startup { background: #f3e5f5; color: #7b1fa2; }
+    .kind-future_event { background: #e0f7fa; color: #00838f; }
+
+    .loading {
       text-align: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+      padding: 30px;
+      color: #888;
     }
 
-    .spinner {
-      border: 4px solid #eee;
-      border-top: 4px solid #0077cc;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      margin: 0 auto 12px auto;
-      animation: spin 1s linear infinite;
+    .error {
+      color: #e74c3c;
+      text-align: center;
+      padding: 20px;
     }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    button {
+    .refresh-btn {
+      background: none;
+      border: 1px solid #ddd;
+      border-radius: 6px;
       padding: 6px 12px;
       cursor: pointer;
-      background: #0065a4;
-      color: white;
-      border: none;
-      border-radius: 4px;
-    }
-
-    button:hover {
-      background: #00548a;
-    }
-
-    #copyEmailButton {
-      background: #5d9b3d;
-    }
-
-    #copyEmailButton:hover {
-      background: #4c842f;
-    }
-
-    #copyPlainTextButton {
-      background: #607d8b;
-      margin-left: 8px;
-    }
-
-    #copyPlainTextButton:hover {
-      background: #546e7a;
-    }
-
-    #clearFormButton {
-      background: #999;
-    }
-    #clearFormButton:hover {
-      background: #777;
-    }
-
-    #selectAllButton, #deselectAllButton {
-      background: #444;
-    }
-    #selectAllButton:hover, #deselectAllButton:hover {
-      background: #222;
-    }
-
-    #smartMatchButton {
-      background: #9b59b6;
-    }
-    #smartMatchButton:hover {
-      background: #8e44ad;
-    }
-
-    /* Smart Match Results Dialog */
-    #smartMatchOverlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-    }
-
-    #smartMatchDialog {
-      background: white;
-      padding: 24px;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-      max-width: 600px;
-      max-height: 80vh;
-      overflow-y: auto;
-    }
-
-    #smartMatchDialog h3 {
-      margin-top: 0;
-      color: #9b59b6;
-    }
-
-    #smartMatchList {
-      margin: 16px 0;
-    }
-
-    .match-item {
-      padding: 10px;
-      margin-bottom: 8px;
-      background: #f5f5f5;
-      border-radius: 4px;
-      border-left: 4px solid #9b59b6;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .match-item-checkbox {
-      margin-top: 2px;
-      width: 18px;
-      height: 18px;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .match-item-content {
-      flex: 1;
-    }
-
-    .match-item-title {
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 4px;
-    }
-
-    .match-item-reason {
-      font-size: 0.9rem;
       color: #666;
-      font-style: italic;
+      font-size: 0.85em;
+      transition: all 0.2s;
     }
 
-    #smartMatchCloseButton {
-      background: #9b59b6;
-      padding: 8px 20px;
-      margin-top: 12px;
+    .refresh-btn:hover {
+      background: #f8f9fa;
+      border-color: #3498db;
+      color: #3498db;
     }
 
-    #smartMatchCloseButton:hover {
-      background: #8e44ad;
+    .chart-container {
+      height: 200px;
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      padding: 10px 0;
     }
 
+    .chart-bar {
+      flex: 1;
+      background: linear-gradient(180deg, #3498db, #2980b9);
+      border-radius: 4px 4px 0 0;
+      min-height: 10px;
+      position: relative;
+    }
+
+    .chart-bar:hover {
+      opacity: 0.8;
+    }
+
+    .chart-bar .tooltip {
+      display: none;
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2c3e50;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 0.8em;
+      white-space: nowrap;
+      margin-bottom: 5px;
+    }
+
+    .chart-bar:hover .tooltip {
+      display: block;
+    }
+
+    .chart-labels {
+      display: flex;
+      gap: 8px;
+    }
+
+    .chart-labels span {
+      flex: 1;
+      text-align: center;
+      font-size: 0.75em;
+      color: #888;
+    }
   </style>
 </head>
 <body class="has-fixed-nav">
 
-  <!-- UNIVERSAL NAVIGATION - NO INLINE STYLES -->
+<!-- UNIVERSAL NAVIGATION -->
 <nav class="mit-brain-nav">
   <div class="mit-brain-nav-container">
     <a href="/" class="mit-brain-logo">
@@ -270,10 +232,13 @@
         <div class="mit-brain-logo-subtitle">Corporate Relations Intelligence</div>
       </div>
     </a>
-    
+
     <div class="mit-brain-nav-links">
       <a href="/" class="mit-brain-nav-link nav-home active">
         🏠 <span>Home</span>
+      </a>
+      <a href="/search.html" class="mit-brain-nav-link nav-search">
+        🔍 <span>Search MIT Brain</span>
       </a>
       <a href="/alerts-dashboard.html" class="mit-brain-nav-link nav-alerts">
         🔔 <span>Alerts</span>
@@ -284,503 +249,384 @@
       <a href="/meetings.html" class="mit-brain-nav-link nav-meetings">
         📝 <span>Meetings</span>
       </a>
+      <a href="/virtual-pd.html" class="mit-brain-nav-link nav-virtualpd">
+        🎓 <span>Virtual PD</span>
+      </a>
+      <a href="/settings.html" class="mit-brain-nav-link nav-settings">
+        ⚙️ <span>Settings</span>
+      </a>
+      <a href="/admin.html" class="mit-brain-nav-link nav-admin">
+        🛠️ <span>Admin</span>
+      </a>
     </div>
   </div>
 </nav>
 
-  <!-- Spacer for fixed nav -->
-  <div style="height: 80px;"></div>
+<!-- Spacer for fixed nav -->
+<div style="height: 80px;"></div>
 
-  <div class="page-wrapper">
-  <!-- Search Panel -->
-  <div id="searchPanel">
-    <h2>Find Relevant MIT Knowledge</h2>
-
-    <div id="searchControls">
-      <input id="phraseInput" type="text" placeholder="Search phrase (e.g., data centers)" style="width: 260px; padding: 6px;" />
-      <input id="minScoreInput" type="number" placeholder="Min score (default 1)" value="1" style="width: 150px; padding: 6px;" />
-
-      <button id="searchButton">Search Knowledge Base</button>
-      <button id="clearFormButton" style="margin-left: 8px;">Clear Form</button>
-    </div>
-
-    <!-- Date Range Filter -->
-    <div style="margin-top: 12px; display: flex; align-items: center; gap: 8px;">
-      <label style="font-weight: bold;">Date Range:</label>
-      <input id="dateFrom" type="date" style="padding: 6px; font-size: 0.9rem;" placeholder="From" />
-      <span style="color: #777;">to</span>
-      <input id="dateTo" type="date" style="padding: 6px; font-size: 0.9rem;" placeholder="To" />
-      <button id="clearDateRangeButton" type="button" style="padding: 6px 12px; font-size: 0.9rem; background: #95a5a6; color: white; border: none; border-radius: 3px; cursor: pointer;">Clear</button>
-      <span style="margin-left: 8px; color: #666; font-size: 0.85rem;">
-        (Filters by publish date for articles/papers/videos, event date for events)
-      </span>
-    </div>
-
-    <!-- Search Hints -->
-    <div style="margin-top: 10px; padding: 8px; background: #e8f4f8; border-left: 3px solid #0065a4; border-radius: 4px; font-size: 0.85rem;">
-      <strong>💡 Search Tips:</strong>
-      <ul style="margin: 5px 0 0 0; padding-left: 20px;">
-        <li><strong>AND</strong> - Find items matching ALL terms: <code style="background: #fff; padding: 2px 4px; border-radius: 2px;">pharmaceutical AND manufacturing</code></li>
-        <li><strong>OR</strong> - Find items matching ANY term: <code style="background: #fff; padding: 2px 4px; border-radius: 2px;">AI OR robotics</code></li>
-        <li><strong>Simple</strong> - Find exact phrase: <code style="background: #fff; padding: 2px 4px; border-radius: 2px;">data centers</code></li>
-      </ul>
-    </div>
-
-    <div id="kindFilters" style="margin-top: 15px; padding: 10px; background: #f5f5f5; border-radius: 4px;">
-      <div style="margin-bottom: 8px;">
-        <strong>Filter by Type:</strong>
-        <button id="selectAllKinds" style="margin-left: 10px; padding: 4px 12px; font-size: 0.9em;">Select All</button>
-        <button id="deselectAllKinds" style="margin-left: 5px; padding: 4px 12px; font-size: 0.9em;">Deselect All</button>
-      </div>
-      <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-        <label style="display: flex; align-items: center; cursor: pointer;">
-          <input type="checkbox" id="kindVideo" value="video" checked style="margin-right: 5px;" />
-          Videos
-        </label>
-        <label style="display: flex; align-items: center; cursor: pointer;">
-          <input type="checkbox" id="kindNews" value="news" checked style="margin-right: 5px;" />
-          Article
-        </label>
-        <label style="display: flex; align-items: center; cursor: pointer;">
-          <input type="checkbox" id="kindPaper" value="paper" checked style="margin-right: 5px;" />
-          Academic Papers
-        </label>
-        <label style="display: flex; align-items: center; cursor: pointer;">
-          <input type="checkbox" id="kindStartup" value="startup" checked style="margin-right: 5px;" />
-          Startups
-        </label>
-        <label style="display: flex; align-items: center; cursor: pointer;">
-          <input type="checkbox" id="kindEvent" value="event" checked style="margin-right: 5px;" />
-          Events
-        </label>
-      </div>
-    </div>
-
-    <div id="status" style="margin-top: 10px; color: #333;"></div>
+<div class="page-container">
+  <div class="page-header">
+    <h1>🧠 MIT Brain Dashboard</h1>
+    <p>Quick insights and statistics from your MIT Brain data</p>
   </div>
 
-  <!-- Results Panel -->
-  <div id="resultsPanel">
-    <h2>Matching Knowledge</h2>
-
-    <div id="resultsToolbar" style="margin-bottom: 8px; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-      <div>
-        <button id="selectAllButton" type="button">Select All</button>
-        <button id="deselectAllButton" type="button" style="margin-left: 6px;">Deselect All</button>
+  <div class="widgets-grid">
+    <!-- Data Overview Widget -->
+    <div class="widget-card">
+      <div class="widget-header">
+        <div class="widget-title">📊 MIT Brain Data Overview</div>
+        <button class="refresh-btn" onclick="loadOverview()">Refresh</button>
       </div>
-      <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
-        <label for="sortSelect" style="font-weight: normal;">Sort by:</label>
-        <select id="sortSelect" style="padding: 4px 8px; font-size: 0.9rem;">
-          <option value="score-desc">Score (High to Low)</option>
-          <option value="date-asc">Publish Date (Oldest First)</option>
-          <option value="event-asc">Event Date (Soonest First)</option>
-        </select>
-
-
+      <div class="widget-body" id="overviewWidget">
+        <div class="loading">Loading...</div>
       </div>
     </div>
 
-    <div id="resultsContainer"></div>
-  </div>
-
-  <!-- Email Panel -->
-  <div id="emailPanel">
-    <h2>Generate Text</h2>
-
-    <div style="margin-bottom: 15px;">
-      <label><strong>Program Director: </strong></label>
-      <select id="personSelect" style="min-width: 180px; padding: 4px;">
-        <option value="">Select a person...</option>
-      </select>
+    <!-- Content by Kind Widget -->
+    <div class="widget-card">
+      <div class="widget-header">
+        <div class="widget-title">📈 Content Distribution</div>
+      </div>
+      <div class="widget-body" id="distributionWidget">
+        <div class="loading">Loading...</div>
+      </div>
     </div>
 
-    <div id="personOptions" style="display: none;">
-      <div style="margin-bottom: 10px;">
-        <label>Template: </label>
-        <select id="templateSelect" style="min-width: 220px; padding: 4px;">
-          <option value="">Select a template...</option>
-        </select>
-
-        <label style="margin-left: 20px;">ILP Member: </label>
-        <select id="memberSelect" style="min-width: 220px; padding: 4px;">
-          <option value="">(Optional: tailor to member)</option>
-        </select>
-        <button id="addTempMemberButton" style="margin-left: 8px; padding: 4px 12px; background: #3498db; border: none; color: white; border-radius: 4px; cursor: pointer; font-size: 0.9rem;" title="Add a temporary prospect">
-          ➕ Add Temp
-        </button>
-        <button id="smartMatchButton" style="margin-left: 10px; padding: 4px 12px; background: #9b59b6; border: none; color: white; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">
-          🤖 Smart Match
-        </button>
-        <button id="createAlertButton" style="margin-left: 10px; padding: 4px 12px; background: #e67e22; border: none; color: white; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">
-          📬 Create Alert
-        </button>
+    <!-- Recent Articles Widget -->
+    <div class="widget-card">
+      <div class="widget-header">
+        <div class="widget-title">📰 Recent Articles</div>
+        <button class="refresh-btn" onclick="loadRecentArticles()">Refresh</button>
       </div>
-
-      <!-- Temp Member Modal -->
-      <div id="tempMemberModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
-        <div style="background: white; padding: 30px; border-radius: 8px; max-width: 500px; width: 90%; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-          <h3 style="margin-top: 0; color: #2c3e50;">Add Temporary Prospect</h3>
-          <p style="color: #666; font-size: 0.9rem; margin-bottom: 20px;">This prospect will appear in your member list for this session only.</p>
-          
-          <div style="margin-bottom: 15px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Company Name *</label>
-            <input type="text" id="tempCompanyName" placeholder="e.g., Acme Corp" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95rem;">
-          </div>
-          
-          <div style="margin-bottom: 15px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Industry/Focus</label>
-            <input type="text" id="tempIndustry" placeholder="e.g., AI, Clean Energy, Biotech" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95rem;">
-          </div>
-          
-          <div style="margin-bottom: 20px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Key Interests/Technologies</label>
-            <textarea id="tempInterests" rows="3" placeholder="e.g., machine learning, robotics, quantum computing..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95rem; font-family: Arial, sans-serif;"></textarea>
-          </div>
-          
-          <div style="display: flex; gap: 10px; justify-content: flex-end;">
-            <button id="cancelTempMemberButton" style="padding: 8px 20px; background: #95a5a6; color: white; border: none; border-radius: 4px; cursor: pointer;">
-              Cancel
-            </button>
-            <button id="saveTempMemberButton" style="padding: 8px 20px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer;">
-              ✓ Add Prospect
-            </button>
-          </div>
-        </div>
+      <div class="widget-body" id="recentArticlesWidget">
+        <div class="loading">Loading...</div>
       </div>
-
-      <div style="margin-bottom: 10px;">
-        <label>Tone: </label>
-        <select id="toneSelect" style="min-width: 140px; padding: 4px;">
-          <option value="familiar" selected>Familiar</option>
-          <option value="formal">Formal</option>
-          <option value="funny">Funny</option>
-          <option value="myvoice">My Voice</option>
-        </select>
-
-        <label style="margin-left: 20px;">Language: </label>
-        <select id="languageSelect" style="min-width: 140px; padding: 4px;">
-          <option value="chinese">Chinese</option>
-          <option value="english" selected>English</option>
-          <option value="french">French</option>
-          <option value="german">German</option>
-          <option value="hindi">Hindi</option>
-          <option value="italian">Italian</option>
-          <option value="japanese">Japanese</option>
-          <option value="korean">Korean</option>
-          <option value="portuguese">Portuguese</option>
-          <option value="spanish">Spanish</option>
-        </select>
-
-        <button id="generateEmailButton" style="margin-left: 15px;">Generate Text</button>
-      </div>
-
-      <div style="margin-bottom: 10px;">
-        <label style="font-size: 0.9rem;">
-          <input type="checkbox" id="excludeItemTypeCheckbox" style="margin-right: 5px;" />
-          Exclude item type from text (e.g., hide "(future_event)")
-        </label>
-      </div>
-
-      <div id="emailHint" style="color: #555; margin-bottom: 10px;">
-        Select one or more items above, then click "Generate Text".
-      </div>
-
-      <!-- Subject Line Section -->
-      <div id="subjectSection" style="display: none; margin-bottom: 20px; padding: 15px; background: #f0f8ff; border: 1px solid #b3d9ff; border-radius: 6px;">
-        <h3 style="margin-top: 0; margin-bottom: 10px; font-size: 1em; color: #333;">Suggested Subject Line</h3>
-        <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
-          <input 
-            type="text" 
-            id="subjectLine" 
-            readonly
-            style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.95em; background: white;"
-          />
-          <button id="regenerateSubjectButton" style="padding: 8px 15px; white-space: nowrap;">🔄 Regenerate</button>
-          <button id="copySubjectButton" style="padding: 8px 15px; white-space: nowrap;">📋 Copy</button>
-        </div>
-        <div style="font-size: 0.85em; color: #666;">
-          Click "Regenerate" for a different suggestion, or "Copy" to copy to clipboard.
-        </div>
-      </div>
-      
-      <button id="copyEmailButton" style="margin-bottom: 10px;">Copy HTML</button>
-      <button id="copyPlainTextButton" style="margin-bottom: 10px;">Copy Plain Text</button>
-      
-      <div id="emailOutput"></div>
     </div>
-  </div>
 
-  <!-- Progress Modal -->
-  <div id="progressOverlay">
-    <div id="progressModal">
-      <div class="spinner"></div>
-      <div id="progressText">Working…</div>
-    </div>
-  </div>
-
-  <!-- Smart Match Results Dialog -->
-  <div id="smartMatchOverlay">
-    <div id="smartMatchDialog">
-      <h3>🤖 Smart Match Results</h3>
-      <p style="margin-top: -8px; margin-bottom: 16px; color: #666; font-size: 0.9rem;">
-        Review the matches below. Uncheck any you don't want to include.
-      </p>
-      <div id="smartMatchList"></div>
-      <button id="smartMatchCloseButton">Got it</button>
-    </div>
-  </div>
-
-  <script src="app.js"></script>
-
-  <!-- Alert Creation Dialog -->
-  <div id="createAlertOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
-    <div style="background: white; border-radius: 8px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-      <div style="padding: 20px; border-bottom: 2px solid #e67e22;">
-        <h2 style="margin: 0; color: #e67e22;">📬 Create Alert</h2>
+    <!-- Recent Videos Widget -->
+    <div class="widget-card">
+      <div class="widget-header">
+        <div class="widget-title">🎬 Recent Videos</div>
+        <button class="refresh-btn" onclick="loadRecentVideos()">Refresh</button>
       </div>
-      
-      <div style="padding: 20px;">
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; font-weight: bold; margin-bottom: 5px;">Alert Name:</label>
-          <input id="alertName" type="text" placeholder="e.g., Oshkosh - Autonomous Vehicles" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;" />
-        </div>
-
-        <div style="margin-bottom: 20px; padding: 15px; background: #f5f5f5; border-radius: 4px;">
-          <h4 style="margin: 0 0 10px 0; color: #555;">Current Search Configuration</h4>
-          <div id="alertCurrentSearch" style="font-size: 0.9em; color: #666;"></div>
-        </div>
-
-        <div style="margin-bottom: 20px; padding: 15px; background: #f5f5f5; border-radius: 4px;">
-          <h4 style="margin: 0 0 10px 0; color: #555;">Selected Member Profile</h4>
-          <div id="alertMemberProfile" style="font-size: 0.9em; color: #666;"></div>
-        </div>
-
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; font-weight: bold; margin-bottom: 5px;">Email Recipient:</label>
-          <div style="display: flex; gap: 8px;">
-            <input id="alertEmail" type="email" placeholder="your.email@mit.edu" style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;" />
-            <button id="testEmailButton" type="button" style="padding: 8px 16px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; white-space: nowrap;">
-              📧 Test Email
-            </button>
-          </div>
-          <div style="font-size: 0.85em; color: #666; margin-top: 5px;">
-            Click "Test Email" to verify your email configuration is working
-          </div>
-        </div>
-
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; font-weight: bold; margin-bottom: 5px;">Frequency:</label>
-          <select id="alertFrequency" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-            <option value="daily">Daily</option>
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
-          </select>
-        </div>
-
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; font-weight: bold; margin-bottom: 5px;">Send Time:</label>
-          <input id="alertSendTime" type="time" value="09:00" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" />
-        </div>
-
-        <div style="margin-bottom: 20px;">
-          <label style="display: flex; align-items: center; cursor: pointer;">
-            <input id="alertUseSmartMatch" type="checkbox" checked style="margin-right: 8px;" />
-            <span>Use Smart Match filtering (AI-powered relevance)</span>
-          </label>
-        </div>
-
-        <div id="thresholdSection" style="margin-bottom: 20px; padding: 15px; background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px;">
-          <label style="display: block; font-weight: bold; margin-bottom: 10px;">Minimum Relevance Threshold:</label>
-          <input id="alertRelevanceThreshold" type="range" min="1" max="10" value="7" style="width: 100%;" />
-          <div style="display: flex; justify-content: space-between; margin-top: 5px; font-size: 0.85em; color: #666;">
-            <span>1 (Any relevance)</span>
-            <span id="thresholdValue" style="font-weight: bold; color: #e67e22;">7</span>
-            <span>10 (Only exceptional)</span>
-          </div>
-          <div style="margin-top: 10px; font-size: 0.85em; color: #666; font-style: italic;">
-            💡 For wildcard searches, set higher (7-8) to avoid noise. For specific searches, can be lower (5-6).
-          </div>
-        </div>
+      <div class="widget-body" id="recentVideosWidget">
+        <div class="loading">Loading...</div>
       </div>
+    </div>
 
-      <div style="padding: 15px 20px; background: #f9f9f9; border-top: 1px solid #ddd; display: flex; gap: 10px; justify-content: flex-end;">
-        <button id="cancelAlertButton" style="padding: 8px 20px; background: #95a5a6; color: white; border: none; border-radius: 4px; cursor: pointer;">
-          Cancel
-        </button>
-        <button id="saveAlertButton" style="padding: 8px 20px; background: #e67e22; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
-          Create Alert
-        </button>
+    <!-- Recent Papers Widget -->
+    <div class="widget-card">
+      <div class="widget-header">
+        <div class="widget-title">📄 Recent Papers</div>
+        <button class="refresh-btn" onclick="loadRecentPapers()">Refresh</button>
+      </div>
+      <div class="widget-body" id="recentPapersWidget">
+        <div class="loading">Loading...</div>
+      </div>
+    </div>
+
+    <!-- Top Sources Widget -->
+    <div class="widget-card">
+      <div class="widget-header">
+        <div class="widget-title">🌐 Top Sources</div>
+      </div>
+      <div class="widget-body" id="topSourcesWidget">
+        <div class="loading">Loading...</div>
+      </div>
+    </div>
+
+    <!-- Upcoming Events Widget -->
+    <div class="widget-card">
+      <div class="widget-header">
+        <div class="widget-title">📅 Upcoming Events</div>
+        <button class="refresh-btn" onclick="loadUpcomingEvents()">Refresh</button>
+      </div>
+      <div class="widget-body" id="upcomingEventsWidget">
+        <div class="loading">Loading...</div>
       </div>
     </div>
   </div>
-
-  <!-- Alerts Management Panel -->
-  <div id="alertsPanel" style="display: none; margin: 20px; padding: 20px; background: #fff; border: 2px solid #e67e22; border-radius: 5px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-      <h2 style="margin: 0; color: #e67e22;">📬 My Alerts</h2>
-      <button id="refreshAlertsButton" style="padding: 6px 12px; background: #3498db; color: white; border: none; border-radius: 3px; cursor: pointer;">
-        🔄 Refresh
-      </button>
-    </div>
-    <div id="alertsList"></div>
-  </div>
-
+</div>
 
 <script>
-// Update threshold value display when slider changes
-document.addEventListener('DOMContentLoaded', function() {
-  const slider = document.getElementById('alertRelevanceThreshold');
-  const display = document.getElementById('thresholdValue');
-  const useSmartMatch = document.getElementById('alertUseSmartMatch');
-  const thresholdSection = document.getElementById('thresholdSection');
-  
-  if (slider && display) {
-    slider.addEventListener('input', function() {
-      display.textContent = this.value;
-    });
-  }
-  
-  // Show/hide threshold section based on Smart Match checkbox
-  if (useSmartMatch && thresholdSection) {
-    useSmartMatch.addEventListener('change', function() {
-      thresholdSection.style.display = this.checked ? 'block' : 'none';
-    });
-  }
-  
-  // =============================================================================
-  // TEMP MEMBER MODAL
-  // =============================================================================
-  
-  const addTempButton = document.getElementById('addTempMemberButton');
-  const tempModal = document.getElementById('tempMemberModal');
-  const cancelTempButton = document.getElementById('cancelTempMemberButton');
-  const saveTempButton = document.getElementById('saveTempMemberButton');
-  const memberSelect = document.getElementById('memberSelect');
-  
-  // Open modal
-  if (addTempButton) {
-    addTempButton.addEventListener('click', function() {
-      tempModal.style.display = 'flex';
-      // Clear previous values
-      document.getElementById('tempCompanyName').value = '';
-      document.getElementById('tempIndustry').value = '';
-      document.getElementById('tempInterests').value = '';
-    });
-  }
-  
-  // Close modal
-  if (cancelTempButton) {
-    cancelTempButton.addEventListener('click', function() {
-      tempModal.style.display = 'none';
-    });
-  }
-  
-  // Close on background click
-  if (tempModal) {
-    tempModal.addEventListener('click', function(e) {
-      if (e.target === tempModal) {
-        tempModal.style.display = 'none';
+  let reportData = null;
+  let allArticles = null; // Cache for all articles
+
+  // Load all widgets on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    loadAllWidgets();
+  });
+
+  async function loadAllWidgets() {
+    try {
+      // Fetch report data for overview stats
+      const reportResponse = await fetch('/api/admin/jsonl-report');
+      const reportJson = await reportResponse.json();
+
+      if (!reportResponse.ok) {
+        throw new Error(reportJson.error || 'Failed to load report data');
       }
-    });
+
+      reportData = reportJson.report;
+
+      // Fetch all articles once for the content widgets
+      const articlesResponse = await fetch('/api/matches?phrase=*&minScore=0');
+      allArticles = await articlesResponse.json();
+      if (!Array.isArray(allArticles)) allArticles = [];
+
+      renderOverview();
+      renderDistribution();
+      renderTopSources();
+      renderRecentArticles();
+      renderRecentVideos();
+      renderRecentPapers();
+      renderUpcomingEvents();
+    } catch (error) {
+      console.error('Error loading widgets:', error);
+      document.querySelectorAll('.widget-body').forEach(el => {
+        el.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+      });
+    }
   }
-  
-  // Save temp member
-  if (saveTempButton) {
-    saveTempButton.addEventListener('click', async function() {
-      const companyName = document.getElementById('tempCompanyName').value.trim();
-      const industry = document.getElementById('tempIndustry').value.trim();
-      const interests = document.getElementById('tempInterests').value.trim();
-      
-      if (!companyName) {
-        alert('Please enter a company name');
-        return;
-      }
-      
-      // Get current personId
-      const personSelect = document.getElementById('personSelect');
-      const personId = personSelect ? personSelect.value : 'default';
-      
-      if (!personId) {
-        alert('Please select a person first');
-        return;
-      }
-      
-      try {
-        // Send to server (match the API's expected format)
-        const response = await fetch('/api/temp-prospect', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            personId: personId,
-            memberName: companyName,
-            pointOfContact: 'Prospect', // Required by API
-            mainIndustry: industry || 'Not specified',
-            phrases: interests ? interests.split(',').map(s => s.trim()).filter(Boolean) : []
-          })
-        });
-        
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Failed to add temp prospect');
-        }
-        
-        const result = await response.json();
-        console.log('✅ Temp prospect added:', result);
-        
-        // Create temp prospect object with ALL fields needed for Smart Match
-        const tempProspect = {
-          memberName: companyName,
-          Member: companyName,
-          commonName1: companyName,
-          commonName2: '',
-          pointOfContact: 'Prospect',
-          PocFirstName: 'Prospect',
-          mainIndustry: industry || 'Not specified',
-          description: interests || (industry ? `${industry} company` : ''),
-          phrases: interests ? interests.split(',').map(s => s.trim()).filter(Boolean) : [],
-          geographicConsiderations: '',
-          isTemp: true
-        };
-        
-        // CRITICAL: Add to currentMembers array (used by Smart Match)
-        if (window.currentMembers) {
-          window.currentMembers.unshift(tempProspect);
-          console.log('✅ Added to currentMembers array, total members:', window.currentMembers.length);
-        } else {
-          console.warn('⚠️ currentMembers not found');
-        }
-        
-        // Add to member select dropdown at the top
-        const option = document.createElement('option');
-        option.value = companyName;
-        option.textContent = `🔷 ${companyName} (Temp)`;
-        option.dataset.temp = 'true';
-        option.dataset.memberData = JSON.stringify(tempProspect);
-        
-        // Insert at position 1 (after the default option)
-        if (memberSelect.options.length > 1) {
-          memberSelect.insertBefore(option, memberSelect.options[1]);
-        } else {
-          memberSelect.appendChild(option);
-        }
-        
-        // Select the new temp member
-        memberSelect.value = companyName;
-        
-        // Close modal
-        tempModal.style.display = 'none';
-        
-        // Show success message
-        alert(`✓ Added temporary prospect: ${companyName}\n\nYou can now use Smart Match or generate content for this prospect.`);
-        
-      } catch (err) {
-        console.error('Error adding temp prospect:', err);
-        alert(`Error: ${err.message}\n\nPlease try again.`);
-      }
-    });
+
+  function loadOverview() {
+    if (reportData) {
+      renderOverview();
+    } else {
+      loadAllWidgets();
+    }
   }
-});
+
+  function renderOverview() {
+    const el = document.getElementById('overviewWidget');
+    const { summary, file, dateRange, contentStats } = reportData;
+
+    el.innerHTML = `
+      <div class="stat-row">
+        <span class="stat-label">Total Objects</span>
+        <span class="stat-value">${summary.totalObjects.toLocaleString()}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">File Size</span>
+        <span class="stat-value">${file.sizeMB} MB</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">With Full Text</span>
+        <span class="stat-value">${contentStats.withFullText.toLocaleString()}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">With Summary</span>
+        <span class="stat-value">${contentStats.withSummary.toLocaleString()}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Date Range</span>
+        <span class="stat-value" style="font-size: 0.85em;">${dateRange.earliest || 'N/A'} - ${dateRange.latest || 'N/A'}</span>
+      </div>
+    `;
+  }
+
+  function renderDistribution() {
+    const el = document.getElementById('distributionWidget');
+    const { byKind, summary } = reportData;
+
+    const maxCount = Math.max(...byKind.map(k => k.count));
+
+    el.innerHTML = `
+      <div class="chart-container">
+        ${byKind.map(k => `
+          <div class="chart-bar" style="height: ${(k.count / maxCount) * 100}%;">
+            <div class="tooltip">${formatKindName(k.kind)}: ${k.count.toLocaleString()} (${k.percentage}%)</div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="chart-labels">
+        ${byKind.map(k => `<span>${formatKindName(k.kind).substring(0, 6)}</span>`).join('')}
+      </div>
+    `;
+  }
+
+  function renderTopSources() {
+    const el = document.getElementById('topSourcesWidget');
+    const { topSources } = reportData;
+
+    el.innerHTML = topSources.slice(0, 8).map(s => `
+      <div class="stat-row">
+        <span class="stat-label">${s.source}</span>
+        <span class="stat-value">${s.count.toLocaleString()}</span>
+      </div>
+    `).join('');
+  }
+
+  function loadRecentArticles() {
+    renderRecentArticles();
+  }
+
+  function loadRecentVideos() {
+    renderRecentVideos();
+  }
+
+  function loadUpcomingEvents() {
+    renderUpcomingEvents();
+  }
+
+  function renderRecentArticles() {
+    const el = document.getElementById('recentArticlesWidget');
+    if (!allArticles) {
+      el.innerHTML = '<div class="loading">Loading...</div>';
+      return;
+    }
+
+    // Filter to articles only and sort by publish date (newest first)
+    const articles = allArticles
+      .filter(item => item.kind === 'article')
+      .filter(item => item.publishedAt) // Only items with dates
+      .sort((a, b) => (b.publishedAt || '').localeCompare(a.publishedAt || ''))
+      .slice(0, 5);
+
+    if (articles.length > 0) {
+      el.innerHTML = `
+        <ul class="recent-list">
+          ${articles.map(item => `
+            <li>
+              <a href="${item.url || '#'}" target="_blank">${truncate(item.title, 60)}</a>
+              <div class="meta">${item.source || 'Unknown'} • ${item.publishedAt || 'No date'}</div>
+            </li>
+          `).join('')}
+        </ul>
+      `;
+    } else {
+      el.innerHTML = '<div class="loading">No recent articles found</div>';
+    }
+  }
+
+  function renderRecentVideos() {
+    const el = document.getElementById('recentVideosWidget');
+    if (!allArticles) {
+      el.innerHTML = '<div class="loading">Loading...</div>';
+      return;
+    }
+
+    // Filter to videos only and sort by publish date (newest first)
+    const videos = allArticles
+      .filter(item => item.kind === 'video')
+      .filter(item => item.publishedAt) // Only items with dates
+      .sort((a, b) => (b.publishedAt || '').localeCompare(a.publishedAt || ''))
+      .slice(0, 5);
+
+    if (videos.length > 0) {
+      el.innerHTML = `
+        <ul class="recent-list">
+          ${videos.map(item => `
+            <li>
+              <a href="${item.url || '#'}" target="_blank">${truncate(item.title, 60)}</a>
+              <div class="meta">${item.source || 'YouTube'} • ${formatDuration(item.durationSeconds)}</div>
+            </li>
+          `).join('')}
+        </ul>
+      `;
+    } else {
+      el.innerHTML = '<div class="loading">No recent videos found</div>';
+    }
+  }
+
+  function loadRecentPapers() {
+    renderRecentPapers();
+  }
+
+  function renderRecentPapers() {
+    const el = document.getElementById('recentPapersWidget');
+    if (!allArticles) {
+      el.innerHTML = '<div class="loading">Loading...</div>';
+      return;
+    }
+
+    // Filter to papers only and sort by publish date (newest first)
+    const papers = allArticles
+      .filter(item => item.kind === 'paper')
+      .filter(item => item.publishedAt) // Only items with dates
+      .sort((a, b) => (b.publishedAt || '').localeCompare(a.publishedAt || ''))
+      .slice(0, 5);
+
+    if (papers.length > 0) {
+      el.innerHTML = `
+        <ul class="recent-list">
+          ${papers.map(item => `
+            <li>
+              <a href="${item.url || '#'}" target="_blank">${truncate(item.title, 60)}</a>
+              <div class="meta">${item.source || 'arXiv'} • ${item.publishedAt || 'No date'}</div>
+            </li>
+          `).join('')}
+        </ul>
+      `;
+    } else {
+      el.innerHTML = '<div class="loading">No recent papers found</div>';
+    }
+  }
+
+  function renderUpcomingEvents() {
+    const el = document.getElementById('upcomingEventsWidget');
+    if (!allArticles) {
+      el.innerHTML = '<div class="loading">Loading...</div>';
+      return;
+    }
+
+    const today = new Date().toISOString().split('T')[0];
+
+    // Filter to future_event kind and get upcoming events sorted by date
+    const events = allArticles
+      .filter(item => item.kind === 'future_event')
+      .filter(item => {
+        const eventDate = item.futureEventDate || item.date || item.publishedAt || '';
+        return eventDate >= today; // Only future events
+      })
+      .sort((a, b) => {
+        const dateA = a.futureEventDate || a.date || a.publishedAt || '';
+        const dateB = b.futureEventDate || b.date || b.publishedAt || '';
+        return dateA.localeCompare(dateB); // Soonest first
+      })
+      .slice(0, 5);
+
+    if (events.length > 0) {
+      el.innerHTML = `
+        <ul class="recent-list">
+          ${events.map(item => `
+            <li>
+              <a href="${item.url || '#'}" target="_blank">${truncate(item.title, 60)}</a>
+              <div class="meta">${item.futureEventDate || item.date || item.publishedAt || 'TBD'}${item.location ? ' • ' + item.location : ''}</div>
+            </li>
+          `).join('')}
+        </ul>
+      `;
+    } else {
+      el.innerHTML = '<div class="loading">No upcoming events</div>';
+    }
+  }
+
+  function formatKindName(kind) {
+    const names = {
+      'article': 'Articles',
+      'video': 'Videos',
+      'paper': 'Papers',
+      'person': 'People',
+      'startup': 'Startups',
+      'future_event': 'Events'
+    };
+    return names[kind] || kind;
+  }
+
+  function truncate(str, len) {
+    if (!str) return '';
+    return str.length > len ? str.substring(0, len) + '...' : str;
+  }
+
+  function formatDuration(seconds) {
+    if (!seconds) return 'Unknown duration';
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  }
 </script>
-</div> <!-- end page-wrapper -->
+<script src="/js/auth.js"></script>
 </body>
 </html>

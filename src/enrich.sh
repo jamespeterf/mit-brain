@@ -5,16 +5,35 @@
 # ============================================================
 # This script orchestrates all data enrichment programs.
 # Comment out sections you don't want to run.
+#
+# Configuration is loaded from ../.env file
 # ============================================================
 
-# ============================================================
-# Global Configuration
-# ============================================================
-export START_DATE="2024-09-01"  # Filter out news older than this date
+set -e  # Exit on error
 
-# Brain filename (without extension)
-export MIT_BRAIN="mit_brain_test17"
-#export MIT_BRAIN="TestBrain"
+# ============================================================
+# Load Configuration from .env
+# ============================================================
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ENV_FILE="$SCRIPT_DIR/../.env"
+
+if [ -f "$ENV_FILE" ]; then
+    echo "📂 Loading configuration from $ENV_FILE"
+    set -a  # automatically export all variables
+    source "$ENV_FILE"
+    set +a
+else
+    echo "⚠️  Warning: .env file not found at $ENV_FILE"
+    echo "   Using default values..."
+fi
+
+# ============================================================
+# Global Configuration (defaults if not in .env)
+# ============================================================
+
+export START_DATE="${START_DATE:-2024-09-01}"
+export MIT_BRAIN="${MIT_BRAIN:-mit_brain_test17}"
 
 # Directories
 export DATA_DIR="data"

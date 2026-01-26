@@ -1,0 +1,4764 @@
+1
+00:00:00,520 --> 00:00:06,520
+good morning everybody Welcome to the
+
+2
+00:00:02,639 --> 00:00:09,559
+mpg primer series um today we have the
+
+3
+00:00:06,520 --> 00:00:11,920
+pleasure of having R speaking Jordan is
+
+4
+00:00:09,559 --> 00:00:13,559
+a fifth year PhD student in Alex Price
+
+5
+00:00:11,920 --> 00:00:16,400
+research group in the department of
+
+6
+00:00:13,559 --> 00:00:18,760
+epidemiology at Harvard School of Public
+
+7
+00:00:16,400 --> 00:00:21,320
+Health Jordan's current research focuses
+
+8
+00:00:18,760 --> 00:00:24,359
+on methods development for caal variant
+
+9
+00:00:21,320 --> 00:00:27,320
+identification using
+
+10
+00:00:24,359 --> 00:00:30,240
+multi- before his PhD Jordan was an
+
+11
+00:00:27,320 --> 00:00:32,719
+associate computational biologist with a
+
+12
+00:00:30,240 --> 00:00:36,239
+data science group here at the Bro
+
+13
+00:00:32,719 --> 00:00:38,000
+Institute um with that he's talking
+
+14
+00:00:36,239 --> 00:00:41,000
+about population structure and AD
+
+15
+00:00:38,000 --> 00:00:44,360
+mixture today do we have some slides
+
+16
+00:00:41,000 --> 00:00:46,039
+up thank you oh um feel free to raise
+
+17
+00:00:44,360 --> 00:00:47,879
+your hand and ask questions throughout
+
+18
+00:00:46,039 --> 00:00:49,520
+the talk there's a microphone in the
+
+19
+00:00:47,879 --> 00:00:52,840
+middle and I could also bring you one if
+
+20
+00:00:49,520 --> 00:00:54,239
+you raise your hand so yeah I'm Jordan
+
+21
+00:00:52,840 --> 00:00:55,960
+uh and I used to be an associate
+
+22
+00:00:54,239 --> 00:00:58,079
+computational biologist here now would
+
+23
+00:00:55,960 --> 00:01:00,160
+come to this lecture and the other MPG
+
+24
+00:00:58,079 --> 00:01:01,239
+lecture pretty often and it kind of help
+
+25
+00:01:00,160 --> 00:01:03,840
+me like figure out what I want to do for
+
+26
+00:01:01,239 --> 00:01:08,320
+my PhD so it's uh exciting to come back
+
+27
+00:01:03,840 --> 00:01:10,280
+and give back um and today we'll be
+
+28
+00:01:08,320 --> 00:01:11,280
+talking about uh population structure
+
+29
+00:01:10,280 --> 00:01:13,280
+and AD
+
+30
+00:01:11,280 --> 00:01:15,520
+mixture and so this is the outline for
+
+31
+00:01:13,280 --> 00:01:16,720
+the presentation um we're probably not
+
+32
+00:01:15,520 --> 00:01:18,080
+going to get through it all like we'll
+
+33
+00:01:16,720 --> 00:01:20,240
+probably just get through the population
+
+34
+00:01:18,080 --> 00:01:21,680
+structure part and like feel free to ask
+
+35
+00:01:20,240 --> 00:01:23,079
+questions because I'd much rather have
+
+36
+00:01:21,680 --> 00:01:25,880
+us get through a little bit of this
+
+37
+00:01:23,079 --> 00:01:27,520
+lecture and uh have us all actually
+
+38
+00:01:25,880 --> 00:01:29,320
+understand what's going on and uh get
+
+39
+00:01:27,520 --> 00:01:31,280
+through all the floods first we'll talk
+
+40
+00:01:29,320 --> 00:01:32,399
+about population structure uh some
+
+41
+00:01:31,280 --> 00:01:33,960
+background and then go through three
+
+42
+00:01:32,399 --> 00:01:36,200
+different approaches towards inferring
+
+43
+00:01:33,960 --> 00:01:37,479
+population structure um and then if we
+
+44
+00:01:36,200 --> 00:01:39,079
+have time we'll get to population ad
+
+45
+00:01:37,479 --> 00:01:41,720
+mixture talk about an interesting
+
+46
+00:01:39,079 --> 00:01:43,240
+phenomenon that is caused by ad mixture
+
+47
+00:01:41,720 --> 00:01:44,240
+um and then talk about how to infer
+
+48
+00:01:43,240 --> 00:01:47,840
+local
+
+49
+00:01:44,240 --> 00:01:49,759
+ancestry and so without further Ado uh
+
+50
+00:01:47,840 --> 00:01:52,399
+population structure you can find it in
+
+51
+00:01:49,759 --> 00:01:54,000
+different ways uh but it can refer to GE
+
+52
+00:01:52,399 --> 00:01:55,759
+genetic differences due to Geographic
+
+53
+00:01:54,000 --> 00:01:58,119
+ancestry another definition is
+
+54
+00:01:55,759 --> 00:02:00,079
+differences in alal frequencies or hype
+
+55
+00:01:58,119 --> 00:02:02,159
+frequencies among different groups or
+
+56
+00:02:00,079 --> 00:02:04,039
+populations within a species and then
+
+57
+00:02:02,159 --> 00:02:05,960
+population ad mixture an admix
+
+58
+00:02:04,039 --> 00:02:08,479
+population is a population with recent
+
+59
+00:02:05,960 --> 00:02:10,399
+ancestry from two or more uh continents
+
+60
+00:02:08,479 --> 00:02:12,920
+or groups that were uh previously
+
+61
+00:02:10,399 --> 00:02:14,879
+isolated so why study population ad
+
+62
+00:02:12,920 --> 00:02:16,800
+mixture um the first reason is that
+
+63
+00:02:14,879 --> 00:02:19,080
+helps us understand human migratory uh
+
+64
+00:02:16,800 --> 00:02:20,920
+patterns and ancient history uh the
+
+65
+00:02:19,080 --> 00:02:23,360
+second reason is to improve our power to
+
+66
+00:02:20,920 --> 00:02:25,840
+identify and localize disease genes and
+
+67
+00:02:23,360 --> 00:02:28,000
+understand mutations that cause disease
+
+68
+00:02:25,840 --> 00:02:29,040
+um I won't really talk about gwos
+
+69
+00:02:28,000 --> 00:02:30,599
+because that's the subject of the primer
+
+70
+00:02:29,040 --> 00:02:31,760
+for next week but understanding
+
+71
+00:02:30,599 --> 00:02:33,319
+population structure and kind of
+
+72
+00:02:31,760 --> 00:02:36,200
+handling it appropriately is a
+
+73
+00:02:33,319 --> 00:02:40,720
+prerequisite for doing effective
+
+74
+00:02:36,200 --> 00:02:42,840
+Vios um okay so one of the definitions
+
+75
+00:02:40,720 --> 00:02:44,840
+for population to structure talked about
+
+76
+00:02:42,840 --> 00:02:46,080
+alal frequencies and so to kind of
+
+77
+00:02:44,840 --> 00:02:47,319
+understand what's going on here we
+
+78
+00:02:46,080 --> 00:02:49,400
+should just start with this object
+
+79
+00:02:47,319 --> 00:02:51,319
+that's called a genotype Matrix uh each
+
+80
+00:02:49,400 --> 00:02:53,480
+row of the genotype Matrix contains data
+
+81
+00:02:51,319 --> 00:02:55,720
+for an individual uh that we have
+
+82
+00:02:53,480 --> 00:02:57,720
+mutation calls for then each column of
+
+83
+00:02:55,720 --> 00:02:59,560
+the genotype Matrix corresponds to a
+
+84
+00:02:57,720 --> 00:03:02,120
+specific mutation that might occur in
+
+85
+00:02:59,560 --> 00:03:04,319
+each person person's genome one zero one
+
+86
+00:03:02,120 --> 00:03:07,400
+or two times and so this first entry
+
+87
+00:03:04,319 --> 00:03:09,040
+zero uh in the one one that has a zero
+
+88
+00:03:07,400 --> 00:03:11,959
+here uh that's saying that individual
+
+89
+00:03:09,040 --> 00:03:14,080
+one has zero copies of mutation one and
+
+90
+00:03:11,959 --> 00:03:16,360
+then if we go down one we can see that
+
+91
+00:03:14,080 --> 00:03:19,120
+individual two has two copies of
+
+92
+00:03:16,360 --> 00:03:21,040
+mutation one um and so we're going to
+
+93
+00:03:19,120 --> 00:03:22,560
+see a lot of this genotype Matrix today
+
+94
+00:03:21,040 --> 00:03:24,200
+but if we look at this we might start to
+
+95
+00:03:22,560 --> 00:03:25,720
+notice something and and it's that some
+
+96
+00:03:24,200 --> 00:03:27,680
+of the rows are colored red and some of
+
+97
+00:03:25,720 --> 00:03:28,840
+the rows are colored blue uh but really
+
+98
+00:03:27,680 --> 00:03:31,000
+what we're supposed to see is that like
+
+99
+00:03:28,840 --> 00:03:33,080
+the red rows tend to have a similar
+
+100
+00:03:31,000 --> 00:03:34,280
+pattern of genotypes and the blue rows
+
+101
+00:03:33,080 --> 00:03:35,799
+tend to have a similar pattern of
+
+102
+00:03:34,280 --> 00:03:37,159
+genotypes and so just going into a
+
+103
+00:03:35,799 --> 00:03:39,680
+little bit more detail we can see that
+
+104
+00:03:37,159 --> 00:03:41,680
+in the first two columns uh the red rows
+
+105
+00:03:39,680 --> 00:03:43,519
+tend to have zeros and maybe a couple
+
+106
+00:03:41,680 --> 00:03:45,760
+ones in the first two columns and the
+
+107
+00:03:43,519 --> 00:03:47,319
+blue rows tend to have twos and maybe a
+
+108
+00:03:45,760 --> 00:03:48,720
+couple of ones in the first two columns
+
+109
+00:03:47,319 --> 00:03:51,080
+this corresponds to us saying that
+
+110
+00:03:48,720 --> 00:03:53,439
+mutations one and two are pretty common
+
+111
+00:03:51,080 --> 00:03:55,120
+in the blue rows and mutations one and
+
+112
+00:03:53,439 --> 00:03:58,159
+two are pretty rare in the red rows then
+
+113
+00:03:55,120 --> 00:04:00,519
+it switches at mutation three um and so
+
+114
+00:03:58,159 --> 00:04:02,079
+now red has high Valu blue has values
+
+115
+00:04:00,519 --> 00:04:05,519
+and so if we want we can now just
+
+116
+00:04:02,079 --> 00:04:08,079
+directly compute simal frequencies um
+
+117
+00:04:05,519 --> 00:04:10,599
+and so to do that uh we can group all
+
+118
+00:04:08,079 --> 00:04:12,599
+the red individuals and then uh sum the
+
+119
+00:04:10,599 --> 00:04:14,200
+number of mut times we observe each
+
+120
+00:04:12,599 --> 00:04:16,079
+mutation and then divide it by the
+
+121
+00:04:14,200 --> 00:04:17,359
+number of chromosomes and so that's two
+
+122
+00:04:16,079 --> 00:04:19,919
+times the number of people so here we're
+
+123
+00:04:17,359 --> 00:04:21,120
+going to sum up this column we get one
+
+124
+00:04:19,919 --> 00:04:22,840
+and then we divide it by eight because
+
+125
+00:04:21,120 --> 00:04:24,240
+there's four times two people or
+
+126
+00:04:22,840 --> 00:04:25,639
+chromosomes and so that's how we get
+
+127
+00:04:24,240 --> 00:04:28,240
+this alal frequency and that just tells
+
+128
+00:04:25,639 --> 00:04:30,400
+us how common a mutation is in a
+
+129
+00:04:28,240 --> 00:04:31,600
+population um
+
+130
+00:04:30,400 --> 00:04:33,039
+and so what we can see here is that we
+
+131
+00:04:31,600 --> 00:04:34,440
+have these patterns where all the red
+
+132
+00:04:33,039 --> 00:04:36,199
+people seem similar all the blue people
+
+133
+00:04:34,440 --> 00:04:38,720
+seem similar one potential explanation
+
+134
+00:04:36,199 --> 00:04:40,680
+for this is that uh these two groups of
+
+135
+00:04:38,720 --> 00:04:43,039
+people have ancest have distinct
+
+136
+00:04:40,680 --> 00:04:44,919
+ancestries or uh have descendants that
+
+137
+00:04:43,039 --> 00:04:46,240
+from distinct continents and that's one
+
+138
+00:04:44,919 --> 00:04:47,560
+thing that could cause this pattern Neal
+
+139
+00:04:46,240 --> 00:04:49,199
+frequencies and this is exactly what
+
+140
+00:04:47,560 --> 00:04:51,680
+we're talking about when we talk about
+
+141
+00:04:49,199 --> 00:04:51,680
+population
+
+142
+00:04:51,800 --> 00:04:55,919
+structure and so to take uh make things
+
+143
+00:04:54,280 --> 00:04:59,759
+just kind of more concrete you can look
+
+144
+00:04:55,919 --> 00:05:01,560
+at a very specific mutation RS 10913
+
+145
+00:04:59,759 --> 00:05:03,960
+before then look at three populations
+
+146
+00:05:01,560 --> 00:05:06,280
+that have been sequenced in this uh hmap
+
+147
+00:05:03,960 --> 00:05:08,919
+project so we have Northern Europeans
+
+148
+00:05:06,280 --> 00:05:10,639
+from Utah uh uin individuals from
+
+149
+00:05:08,919 --> 00:05:12,680
+Nigeria and Han Chinese individuals from
+
+150
+00:05:10,639 --> 00:05:14,240
+Beijing we can see that this mutation
+
+151
+00:05:12,680 --> 00:05:15,960
+has different frequencies in these three
+
+152
+00:05:14,240 --> 00:05:17,280
+populations there's nothing particularly
+
+153
+00:05:15,960 --> 00:05:18,400
+interesting about this mutation but it's
+
+154
+00:05:17,280 --> 00:05:20,400
+like an example of how we might have
+
+155
+00:05:18,400 --> 00:05:22,639
+different alal frequencies but if
+
+156
+00:05:20,400 --> 00:05:24,319
+instead of looking at just one mutation
+
+157
+00:05:22,639 --> 00:05:25,680
+uh we choose to look across the genome
+
+158
+00:05:24,319 --> 00:05:28,479
+we can look at these three different
+
+159
+00:05:25,680 --> 00:05:31,000
+populations and kind of quantify the
+
+160
+00:05:28,479 --> 00:05:32,600
+degree of uh genc Divergence between
+
+161
+00:05:31,000 --> 00:05:35,960
+these three three populations and that's
+
+162
+00:05:32,600 --> 00:05:38,560
+what's happening um in this FST metric
+
+163
+00:05:35,960 --> 00:05:41,160
+where uh High values mean that two
+
+164
+00:05:38,560 --> 00:05:42,800
+populations have diverged uh have lots
+
+165
+00:05:41,160 --> 00:05:44,440
+of Divergence genetically low values
+
+166
+00:05:42,800 --> 00:05:45,680
+mean that there's very little Divergence
+
+167
+00:05:44,440 --> 00:05:48,039
+so we can do this and kind of do this
+
+168
+00:05:45,680 --> 00:05:51,960
+pairwise analysis across these three
+
+169
+00:05:48,039 --> 00:05:53,840
+populations but uh so if we want we can
+
+170
+00:05:51,960 --> 00:05:55,280
+pick any two populations and say what is
+
+171
+00:05:53,840 --> 00:05:56,759
+the genetic Divergence between these two
+
+172
+00:05:55,280 --> 00:05:58,360
+populations maybe that's interesting or
+
+173
+00:05:56,759 --> 00:06:00,400
+not but it's important to understand
+
+174
+00:05:58,360 --> 00:06:01,880
+that uh kind of the variation the
+
+175
+00:06:00,400 --> 00:06:04,440
+genetic variation that exists between
+
+176
+00:06:01,880 --> 00:06:06,000
+populations is much smaller than genetic
+
+177
+00:06:04,440 --> 00:06:08,440
+variation that exists within populations
+
+178
+00:06:06,000 --> 00:06:09,720
+and so Rosenberg at all 2002 science
+
+179
+00:06:08,440 --> 00:06:11,919
+takes a crack at estimating these
+
+180
+00:06:09,720 --> 00:06:13,880
+quantities and they say that 5 to s% of
+
+181
+00:06:11,919 --> 00:06:15,160
+worldwide human genetic variation is due
+
+182
+00:06:13,880 --> 00:06:17,759
+to genetic differences between
+
+183
+00:06:15,160 --> 00:06:19,639
+populations the remaining 93 to 95% of
+
+184
+00:06:17,759 --> 00:06:21,919
+human genetic variation due to genetic
+
+185
+00:06:19,639 --> 00:06:25,080
+variation within
+
+186
+00:06:21,919 --> 00:06:27,319
+populations um and so given that uh
+
+187
+00:06:25,080 --> 00:06:29,280
+maybe these population labels are are
+
+188
+00:06:27,319 --> 00:06:30,120
+unable to explain most of the genetic
+
+189
+00:06:29,280 --> 00:06:32,039
+Vari
+
+190
+00:06:30,120 --> 00:06:33,720
+why consider this at all and so in
+
+191
+00:06:32,039 --> 00:06:35,680
+genetic analyses individuals are often
+
+192
+00:06:33,720 --> 00:06:38,400
+classified based on their Continental
+
+193
+00:06:35,680 --> 00:06:40,520
+genetic ancestry this is this warer to
+
+194
+00:06:38,400 --> 00:06:42,520
+the continents or subcontinent from
+
+195
+00:06:40,520 --> 00:06:44,080
+which individuals distant ancestors have
+
+196
+00:06:42,520 --> 00:06:46,560
+historically resided and so this is
+
+197
+00:06:44,080 --> 00:06:50,319
+really based on oops
+
+198
+00:06:46,560 --> 00:06:52,120
+um where your genome has come from uh
+
+199
+00:06:50,319 --> 00:06:55,199
+and it's distinct from self-identified
+
+200
+00:06:52,120 --> 00:06:56,319
+race or ethnicity um and so however this
+
+201
+00:06:55,199 --> 00:06:57,960
+approach of kind of classifying
+
+202
+00:06:56,319 --> 00:07:00,560
+individuals based on their Continental
+
+203
+00:06:57,960 --> 00:07:02,759
+genetic ancestry glosses over lots of
+
+204
+00:07:00,560 --> 00:07:04,160
+within continent genetic heterogeneity
+
+205
+00:07:02,759 --> 00:07:06,160
+but it does capture some extremely
+
+206
+00:07:04,160 --> 00:07:08,560
+important historical migratory patterns
+
+207
+00:07:06,160 --> 00:07:11,440
+so this model like obviously loses lots
+
+208
+00:07:08,560 --> 00:07:14,400
+of detail and isn't objectively correct
+
+209
+00:07:11,440 --> 00:07:15,800
+but it captures some may still be useful
+
+210
+00:07:14,400 --> 00:07:17,360
+um and there exist alternative
+
+211
+00:07:15,800 --> 00:07:20,120
+approaches that allow us to understand
+
+212
+00:07:17,360 --> 00:07:23,960
+genetic structure on a much finer
+
+213
+00:07:20,120 --> 00:07:26,199
+scale and those are really important um
+
+214
+00:07:23,960 --> 00:07:28,400
+but to continue let's just look at an
+
+215
+00:07:26,199 --> 00:07:30,360
+example of kind of one approach towards
+
+216
+00:07:28,400 --> 00:07:32,240
+classifying or anal izing population
+
+217
+00:07:30,360 --> 00:07:34,400
+structure uh this is the output from a
+
+218
+00:07:32,240 --> 00:07:36,319
+modelbased clustering program such as uh
+
+219
+00:07:34,400 --> 00:07:38,879
+structure and so the way that we should
+
+220
+00:07:36,319 --> 00:07:41,479
+interpret this plot is that uh each
+
+221
+00:07:38,879 --> 00:07:45,120
+super skinny colored bar corresponds to
+
+222
+00:07:41,479 --> 00:07:48,479
+a single individual um and
+
+223
+00:07:45,120 --> 00:07:51,039
+uh I can't use this to move can I okay
+
+224
+00:07:48,479 --> 00:07:52,759
+um each super skinny uh colored bar
+
+225
+00:07:51,039 --> 00:07:54,879
+corresponds to a single individual and
+
+226
+00:07:52,759 --> 00:07:56,639
+then the colors of that of that bar
+
+227
+00:07:54,879 --> 00:07:58,919
+correspond to the ancestry contribution
+
+228
+00:07:56,639 --> 00:08:00,240
+from different groups so uh for example
+
+229
+00:07:58,919 --> 00:08:01,159
+in the European individuals we can see
+
+230
+00:08:00,240 --> 00:08:03,360
+that there's lots of blue that
+
+231
+00:08:01,159 --> 00:08:04,639
+corresponds to European ancestry however
+
+232
+00:08:03,360 --> 00:08:08,080
+we can see that in some group in the
+
+233
+00:08:04,639 --> 00:08:10,280
+middle uh there's a lot of sizable
+
+234
+00:08:08,080 --> 00:08:11,720
+proportion amount of orange contribution
+
+235
+00:08:10,280 --> 00:08:14,240
+so that corresponds to their these
+
+236
+00:08:11,720 --> 00:08:18,039
+individuals having a sizable uh amount
+
+237
+00:08:14,240 --> 00:08:19,879
+of uh African genetic ancestry in
+
+238
+00:08:18,039 --> 00:08:21,000
+addition to their European genetic
+
+239
+00:08:19,879 --> 00:08:22,360
+ancestry
+
+240
+00:08:21,000 --> 00:08:24,720
+[Music]
+
+241
+00:08:22,360 --> 00:08:28,120
+um
+
+242
+00:08:24,720 --> 00:08:30,479
+yeah and so I mean this is like a very
+
+243
+00:08:28,120 --> 00:08:31,840
+coarse grain approach where we've kind
+
+244
+00:08:30,479 --> 00:08:33,479
+of just said let's just Suppose there
+
+245
+00:08:31,840 --> 00:08:35,279
+are six ancestry groups in this
+
+246
+00:08:33,479 --> 00:08:37,279
+population that we're analyzing however
+
+247
+00:08:35,279 --> 00:08:39,279
+if we want we can be much more granular
+
+248
+00:08:37,279 --> 00:08:42,279
+about things so this is from a recent
+
+249
+00:08:39,279 --> 00:08:44,279
+bioarchive preprint who at all 2023 um
+
+250
+00:08:42,279 --> 00:08:45,880
+and in this paper they instead of uh
+
+251
+00:08:44,279 --> 00:08:47,720
+just classifying individuals based on
+
+252
+00:08:45,880 --> 00:08:49,600
+their Continental genetic ancestry they
+
+253
+00:08:47,720 --> 00:08:52,600
+take the UK biobank resource and try to
+
+254
+00:08:49,600 --> 00:08:55,000
+classify the individuals uh based on
+
+255
+00:08:52,600 --> 00:08:58,079
+much smaller regions they divide the UK
+
+256
+00:08:55,000 --> 00:09:03,160
+and Ireland into 23 different regions um
+
+257
+00:08:58,079 --> 00:09:06,720
+and then in each region they uh classify
+
+258
+00:09:03,160 --> 00:09:08,959
+the individuals or they they uh estimate
+
+259
+00:09:06,720 --> 00:09:10,440
+the genetic ancestry using these these
+
+260
+00:09:08,959 --> 00:09:11,920
+very small regions in addition to some
+
+261
+00:09:10,440 --> 00:09:13,880
+other Global regions and so we can see
+
+262
+00:09:11,920 --> 00:09:15,959
+here this plot is basically just all the
+
+263
+00:09:13,880 --> 00:09:18,680
+individuals that are from Cumbria and so
+
+264
+00:09:15,959 --> 00:09:20,200
+we can see kind of which color each
+
+265
+00:09:18,680 --> 00:09:22,200
+region is we have to match the color
+
+266
+00:09:20,200 --> 00:09:25,240
+from the region from the map to the
+
+267
+00:09:22,200 --> 00:09:26,800
+color in uh our ad mixture plot but here
+
+268
+00:09:25,240 --> 00:09:29,040
+we can see there's a lot of individuals
+
+269
+00:09:26,800 --> 00:09:30,279
+that have primarily auman ancestors
+
+270
+00:09:29,040 --> 00:09:31,920
+however there's a sizable portion of
+
+271
+00:09:30,279 --> 00:09:33,480
+individuals that have primarily
+
+272
+00:09:31,920 --> 00:09:34,800
+Northumberland ancestry which makes a
+
+273
+00:09:33,480 --> 00:09:36,480
+lot of sense because Northland is right
+
+274
+00:09:34,800 --> 00:09:38,680
+next to kumria and we can tell like a
+
+275
+00:09:36,480 --> 00:09:40,120
+similar story about North Yorkshire um
+
+276
+00:09:38,680 --> 00:09:41,440
+and so like that's that's pretty cool
+
+277
+00:09:40,120 --> 00:09:44,480
+but the point of this slide is just to
+
+278
+00:09:41,440 --> 00:09:46,560
+show that we don't have to use uh these
+
+279
+00:09:44,480 --> 00:09:48,360
+super large Continental ancestry groups
+
+280
+00:09:46,560 --> 00:09:51,440
+to understand our ancestry we can be
+
+281
+00:09:48,360 --> 00:09:52,800
+much more granular about things um so
+
+282
+00:09:51,440 --> 00:09:55,720
+that's kind of the background for
+
+283
+00:09:52,800 --> 00:09:57,720
+population structure uh feel free to ask
+
+284
+00:09:55,720 --> 00:09:59,480
+any kind of broad questions about our
+
+285
+00:09:57,720 --> 00:10:01,480
+understanding of it but if there aren't
+
+286
+00:09:59,480 --> 00:10:03,440
+any of those we're going to go into the
+
+287
+00:10:01,480 --> 00:10:05,120
+inference so we're going to talk about
+
+288
+00:10:03,440 --> 00:10:08,320
+three different approaches for uh
+
+289
+00:10:05,120 --> 00:10:09,399
+inferring population structure and uh so
+
+290
+00:10:08,320 --> 00:10:10,480
+we'll start with these tree based
+
+291
+00:10:09,399 --> 00:10:13,320
+approaches these are some of the
+
+292
+00:10:10,480 --> 00:10:16,519
+earliest approaches and
+
+293
+00:10:13,320 --> 00:10:17,680
+um they're kind of well we'll see
+
+294
+00:10:16,519 --> 00:10:19,279
+they're simpler than the other ones and
+
+295
+00:10:17,680 --> 00:10:23,000
+so what we see here is this is a big
+
+296
+00:10:19,279 --> 00:10:24,760
+tree um and all the leaf nodes at the
+
+297
+00:10:23,000 --> 00:10:26,480
+very end of the tree the the periphery
+
+298
+00:10:24,760 --> 00:10:28,279
+of the tree correspond to individuals
+
+299
+00:10:26,480 --> 00:10:31,160
+that we uh have genotyped and are
+
+300
+00:10:28,279 --> 00:10:33,399
+analyzing um and then we can interpret
+
+301
+00:10:31,160 --> 00:10:35,240
+this tree roughly as a a tree Will Group
+
+302
+00:10:33,399 --> 00:10:37,760
+individuals that have similar genetic
+
+303
+00:10:35,240 --> 00:10:42,000
+ancestry or or look similar genetically
+
+304
+00:10:37,760 --> 00:10:44,000
+um and we can roughly think of the
+
+305
+00:10:42,000 --> 00:10:46,839
+distance of the path between two leaves
+
+306
+00:10:44,000 --> 00:10:48,480
+of this tree so if I go up and then back
+
+307
+00:10:46,839 --> 00:10:50,800
+down we can think of the length of that
+
+308
+00:10:48,480 --> 00:10:53,120
+path as some approximation of uh the
+
+309
+00:10:50,800 --> 00:10:56,040
+genetic similarity or distance between
+
+310
+00:10:53,120 --> 00:10:57,959
+two individuals um and so now we'll talk
+
+311
+00:10:56,040 --> 00:11:01,160
+a bit about exactly how we get a tree
+
+312
+00:10:57,959 --> 00:11:01,160
+like this
+
+313
+00:11:01,200 --> 00:11:07,800
+so living in this certain region are
+
+314
+00:11:03,959 --> 00:11:07,800
+mixed have mixed ANW to
+
+315
+00:11:07,920 --> 00:11:13,720
+fromion does it mean we are referring to
+
+316
+00:11:10,480 --> 00:11:16,680
+a past where there was no mixture or was
+
+317
+00:11:13,720 --> 00:11:19,279
+there always a mixture and then they
+
+318
+00:11:16,680 --> 00:11:22,000
+start because it's looks like circular
+
+319
+00:11:19,279 --> 00:11:25,120
+the you say people from their areas but
+
+320
+00:11:22,000 --> 00:11:28,399
+when they all mix or when not mix yeah I
+
+321
+00:11:25,120 --> 00:11:30,440
+mean uh it's it's it's a very good point
+
+322
+00:11:28,399 --> 00:11:34,920
+kind of how you find
+
+323
+00:11:30,440 --> 00:11:36,720
+is of how far back we want to look or we
+
+324
+00:11:34,920 --> 00:11:40,480
+understand is like yeah these previously
+
+325
+00:11:36,720 --> 00:11:42,720
+isolated population so we get
+
+326
+00:11:40,480 --> 00:11:46,920
+some
+
+327
+00:11:42,720 --> 00:11:51,200
+uh information how make this fall based
+
+328
+00:11:46,920 --> 00:11:55,600
+on population that have been previously
+
+329
+00:11:51,200 --> 00:11:58,120
+isolated oh we think of European
+
+330
+00:11:55,600 --> 00:12:01,240
+individuals long
+
+331
+00:11:58,120 --> 00:12:01,240
+being uh
+
+332
+00:12:08,440 --> 00:12:14,120
+European so it's a tricky question to
+
+333
+00:12:11,000 --> 00:12:15,320
+answer um but and it requires some call
+
+334
+00:12:14,120 --> 00:12:18,399
+but it's kind
+
+335
+00:12:15,320 --> 00:12:20,360
+of it's true that if we go back far
+
+336
+00:12:18,399 --> 00:12:23,040
+enough all populations kind of have to
+
+337
+00:12:20,360 --> 00:12:26,000
+be ad mixed um but
+
+338
+00:12:23,040 --> 00:12:28,320
+these labels uh these kind of
+
+339
+00:12:26,000 --> 00:12:31,000
+Continental ancestry groups are still
+
+340
+00:12:28,320 --> 00:12:33,279
+useful for understanding population
+
+341
+00:12:31,000 --> 00:12:35,240
+structure because the populations have
+
+342
+00:12:33,279 --> 00:12:37,040
+been isolated for a long time as a
+
+343
+00:12:35,240 --> 00:12:39,120
+result there has been genetic Divergence
+
+344
+00:12:37,040 --> 00:12:42,000
+between them so taking that genetic
+
+345
+00:12:39,120 --> 00:12:43,760
+Divergence into account is important is
+
+346
+00:12:42,000 --> 00:12:46,760
+that is that that a decent answer yeah
+
+347
+00:12:43,760 --> 00:12:50,600
+thank you okay good cool
+
+348
+00:12:46,760 --> 00:12:53,320
+um cool so now we're back to our
+
+349
+00:12:50,600 --> 00:12:55,880
+genotype Matrix and so uh just to re re
+
+350
+00:12:53,320 --> 00:12:58,560
+interpret this again uh this one here
+
+351
+00:12:55,880 --> 00:13:01,360
+means that individual two has one copy
+
+352
+00:12:58,560 --> 00:13:03,360
+of mutation to um and so here we have
+
+353
+00:13:01,360 --> 00:13:05,959
+genotype Matrix for eight individuals
+
+354
+00:13:03,360 --> 00:13:08,519
+and 10 Snips just in our cartoon example
+
+355
+00:13:05,959 --> 00:13:10,760
+um and in order to turn this to turn
+
+356
+00:13:08,519 --> 00:13:12,079
+this genotype Matrix into uh some tree
+
+357
+00:13:10,760 --> 00:13:15,320
+structure that tells us about the
+
+358
+00:13:12,079 --> 00:13:17,480
+similarity between individuals uh the
+
+359
+00:13:15,320 --> 00:13:19,199
+first step is to compute differences
+
+360
+00:13:17,480 --> 00:13:20,680
+between genotypes and so kind of the
+
+361
+00:13:19,199 --> 00:13:23,600
+most straightforward approach to doing
+
+362
+00:13:20,680 --> 00:13:25,800
+this is to take one genotype subtract it
+
+363
+00:13:23,600 --> 00:13:28,120
+from the other genotype and then take
+
+364
+00:13:25,800 --> 00:13:30,399
+the absolute value of each of uh those
+
+365
+00:13:28,120 --> 00:13:31,760
+genotype terms so 0 minus one is
+
+366
+00:13:30,399 --> 00:13:33,639
+negative 1 and the absolute value of it
+
+367
+00:13:31,760 --> 00:13:35,480
+is one so we'll do that for every single
+
+368
+00:13:33,639 --> 00:13:37,160
+one of these columns then we'll sum up
+
+369
+00:13:35,480 --> 00:13:38,959
+the absolute difference and divide it by
+
+370
+00:13:37,160 --> 00:13:41,279
+the number of markers and so this just
+
+371
+00:13:38,959 --> 00:13:42,959
+tells us a kind of crude metric of
+
+372
+00:13:41,279 --> 00:13:44,880
+exactly how similar do these genotypes
+
+373
+00:13:42,959 --> 00:13:46,760
+look uh and then we'll do this for every
+
+374
+00:13:44,880 --> 00:13:47,760
+pair of individuals and so we'll end up
+
+375
+00:13:46,760 --> 00:13:49,320
+with like because they're eight
+
+376
+00:13:47,760 --> 00:13:52,800
+individuals in our data set we'll have
+
+377
+00:13:49,320 --> 00:13:54,480
+like an 8 by8 distance Matrix um and
+
+378
+00:13:52,800 --> 00:13:56,959
+then from here we just apply some
+
+379
+00:13:54,480 --> 00:13:59,320
+hierarchical clustering algorithm uh and
+
+380
+00:13:56,959 --> 00:14:01,320
+kind of like a hand wavy way the way to
+
+381
+00:13:59,320 --> 00:14:03,160
+think about these algorithms are uh
+
+382
+00:14:01,320 --> 00:14:05,160
+either we we start with all of our eight
+
+383
+00:14:03,160 --> 00:14:06,880
+individuals in one big cluster and then
+
+384
+00:14:05,160 --> 00:14:08,399
+we split it into two clusters and then
+
+385
+00:14:06,880 --> 00:14:09,959
+we the way that we decide that
+
+386
+00:14:08,399 --> 00:14:14,079
+partitioning of the individuals into two
+
+387
+00:14:09,959 --> 00:14:15,759
+clusters is we try to uh minimize some
+
+388
+00:14:14,079 --> 00:14:17,320
+like something like the sum of the
+
+389
+00:14:15,759 --> 00:14:18,880
+distance between individuals in the two
+
+390
+00:14:17,320 --> 00:14:20,880
+clusters so we kind of have two groups
+
+391
+00:14:18,880 --> 00:14:22,199
+that looks similar to each other then
+
+392
+00:14:20,880 --> 00:14:23,959
+we'll continue to divide those two
+
+393
+00:14:22,199 --> 00:14:26,360
+clusters until everybody has their own
+
+394
+00:14:23,959 --> 00:14:28,279
+cluster or alternatively we'll start
+
+395
+00:14:26,360 --> 00:14:30,120
+with uh everybody in their own cluster
+
+396
+00:14:28,279 --> 00:14:32,720
+then we'll kind of merge these clusters
+
+397
+00:14:30,120 --> 00:14:35,160
+based on the distances to each other um
+
+398
+00:14:32,720 --> 00:14:37,079
+and so I'm I'm kind of not doing a great
+
+399
+00:14:35,160 --> 00:14:38,639
+job like explaining this component of
+
+400
+00:14:37,079 --> 00:14:39,839
+the inference in detail but I'm doing
+
+401
+00:14:38,639 --> 00:14:41,199
+that because I think the rest of the
+
+402
+00:14:39,839 --> 00:14:43,880
+inference methods are more interesting
+
+403
+00:14:41,199 --> 00:14:45,360
+and so uh but it's it's uh definitely
+
+404
+00:14:43,880 --> 00:14:49,240
+like if you're interested in this read
+
+405
+00:14:45,360 --> 00:14:51,160
+more into it it's cool um but so now if
+
+406
+00:14:49,240 --> 00:14:52,920
+we do that for a larger data set than
+
+407
+00:14:51,160 --> 00:14:55,560
+our eight individuals we might end up
+
+408
+00:14:52,920 --> 00:14:57,519
+with the tree uh diagram like this and
+
+409
+00:14:55,560 --> 00:14:59,199
+so um in order to kind of let's look at
+
+410
+00:14:57,519 --> 00:15:01,920
+this tree diagram for a second we can
+
+411
+00:14:59,199 --> 00:15:04,560
+see here um it's kind of hard to see
+
+412
+00:15:01,920 --> 00:15:07,480
+here but uh the oh maybe I should go
+
+413
+00:15:04,560 --> 00:15:12,839
+back so like in this picture we can see
+
+414
+00:15:07,480 --> 00:15:15,440
+uh the legend for this figure uh tells
+
+415
+00:15:12,839 --> 00:15:17,079
+us kind of what geographic region these
+
+416
+00:15:15,440 --> 00:15:19,160
+individuals were sampled from and then
+
+417
+00:15:17,079 --> 00:15:21,320
+they code it based on the shape of these
+
+418
+00:15:19,160 --> 00:15:23,199
+uh nodes so we can see here that mostly
+
+419
+00:15:21,320 --> 00:15:24,959
+we have circles together over here and
+
+420
+00:15:23,199 --> 00:15:26,480
+mostly we have squares or diamonds
+
+421
+00:15:24,959 --> 00:15:28,000
+together over here that corresponds to
+
+422
+00:15:26,480 --> 00:15:30,279
+individuals that were sampled from the J
+
+423
+00:15:28,000 --> 00:15:33,319
+same geographic region having similar
+
+424
+00:15:30,279 --> 00:15:34,720
+genetic ancestries to each other um so
+
+425
+00:15:33,319 --> 00:15:36,199
+that's what we see here but there's a
+
+426
+00:15:34,720 --> 00:15:38,880
+few other interesting observations that
+
+427
+00:15:36,199 --> 00:15:40,560
+we can take from this tree structure uh
+
+428
+00:15:38,880 --> 00:15:42,639
+the first is that as I mentioned before
+
+429
+00:15:40,560 --> 00:15:44,000
+we can think of the distance of or the
+
+430
+00:15:42,639 --> 00:15:45,920
+length of the path between two
+
+431
+00:15:44,000 --> 00:15:47,639
+individuals as being an approximation of
+
+432
+00:15:45,920 --> 00:15:49,360
+the distance between those individuals
+
+433
+00:15:47,639 --> 00:15:51,279
+and so we can see here is that the
+
+434
+00:15:49,360 --> 00:15:52,600
+distance uh of the length of the path
+
+435
+00:15:51,279 --> 00:15:56,040
+between two individuals from the same
+
+436
+00:15:52,600 --> 00:15:58,240
+population is similar to uh is only a
+
+437
+00:15:56,040 --> 00:15:59,759
+little bit smaller than the length of
+
+438
+00:15:58,240 --> 00:16:01,079
+the path between to individuals from
+
+439
+00:15:59,759 --> 00:16:02,440
+different ancestries or different
+
+440
+00:16:01,079 --> 00:16:03,800
+populations and that's kind of
+
+441
+00:16:02,440 --> 00:16:06,360
+Illustrated in the cartoon and the right
+
+442
+00:16:03,800 --> 00:16:07,519
+like the distance between uh a to a is
+
+443
+00:16:06,360 --> 00:16:09,720
+only a little bit smaller than the
+
+444
+00:16:07,519 --> 00:16:11,120
+distance we from A to B this is kind of
+
+445
+00:16:09,720 --> 00:16:13,959
+consistent with that slide earlier where
+
+446
+00:16:11,120 --> 00:16:16,160
+I was claiming that uh Continental or
+
+447
+00:16:13,959 --> 00:16:19,480
+population labels are unable to explain
+
+448
+00:16:16,160 --> 00:16:20,720
+most of the human genetic variation um
+
+449
+00:16:19,480 --> 00:16:23,399
+feel there's one other thing that I
+
+450
+00:16:20,720 --> 00:16:26,720
+wanted to say about this
+
+451
+00:16:23,399 --> 00:16:28,959
+figure um oh and one other thing just to
+
+452
+00:16:26,720 --> 00:16:30,800
+notice is that we aren't able like the
+
+453
+00:16:28,959 --> 00:16:33,720
+output of this uh inference method
+
+454
+00:16:30,800 --> 00:16:36,160
+doesn't give us a number of like uh what
+
+455
+00:16:33,720 --> 00:16:38,120
+is the percent ancestry from this group
+
+456
+00:16:36,160 --> 00:16:39,199
+for this individual uh and so we can
+
+457
+00:16:38,120 --> 00:16:41,040
+kind of see it and kind of understand
+
+458
+00:16:39,199 --> 00:16:42,839
+what's going on in the data but uh
+
+459
+00:16:41,040 --> 00:16:45,160
+having an explicit estimate of this
+
+460
+00:16:42,839 --> 00:16:47,000
+quantity which is uh what portion of
+
+461
+00:16:45,160 --> 00:16:48,800
+your genome comes from a given ancestry
+
+462
+00:16:47,000 --> 00:16:50,120
+group will be really helpful in some
+
+463
+00:16:48,800 --> 00:16:55,000
+applications and we don't get it from
+
+464
+00:16:50,120 --> 00:16:57,880
+this type of method um so uh with that
+
+465
+00:16:55,000 --> 00:16:59,560
+motivation we can move on to uh a group
+
+466
+00:16:57,880 --> 00:17:01,120
+of methods which we'll refer to as
+
+467
+00:16:59,560 --> 00:17:03,319
+model-based population structure
+
+468
+00:17:01,120 --> 00:17:04,799
+inference and so uh one good thing about
+
+469
+00:17:03,319 --> 00:17:06,520
+these methods is that they will give us
+
+470
+00:17:04,799 --> 00:17:08,640
+that number of what portion of an
+
+471
+00:17:06,520 --> 00:17:11,160
+individual's ancestry came from a given
+
+472
+00:17:08,640 --> 00:17:14,160
+group um and so so this kind of group of
+
+473
+00:17:11,160 --> 00:17:15,240
+methods is a little bit uh the I think
+
+474
+00:17:14,160 --> 00:17:16,640
+the name is kind of deceptive because
+
+475
+00:17:15,240 --> 00:17:18,600
+like a lot of these approaches assume
+
+476
+00:17:16,640 --> 00:17:20,439
+some kind of model but here the model
+
+477
+00:17:18,600 --> 00:17:22,760
+what we mean by modelbased clustering or
+
+478
+00:17:20,439 --> 00:17:24,520
+uh population structure inference is
+
+479
+00:17:22,760 --> 00:17:26,559
+that uh we're going to propose an
+
+480
+00:17:24,520 --> 00:17:28,640
+explicit generative model for our
+
+481
+00:17:26,559 --> 00:17:30,919
+genetic data that's kind of based on our
+
+482
+00:17:28,640 --> 00:17:32,600
+understanding of genetics um and then
+
+483
+00:17:30,919 --> 00:17:36,880
+use that genetic model to do our
+
+484
+00:17:32,600 --> 00:17:39,880
+inference and so here uh let's just get
+
+485
+00:17:36,880 --> 00:17:40,919
+ourselves familiar with the uh data
+
+486
+00:17:39,880 --> 00:17:44,080
+objects that we're going to be working
+
+487
+00:17:40,919 --> 00:17:45,960
+with so G is our genotype Matrix and uh
+
+488
+00:17:44,080 --> 00:17:49,120
+that's the same object that we've
+
+489
+00:17:45,960 --> 00:17:51,960
+already interpreted a couple times g l
+
+490
+00:17:49,120 --> 00:17:54,679
+is the number of mutations of number of
+
+491
+00:17:51,960 --> 00:17:56,240
+times mutation L occurs in individual I
+
+492
+00:17:54,679 --> 00:17:58,480
+and then we have these other two objects
+
+493
+00:17:56,240 --> 00:18:00,640
+uh there's this P Matrix and so the
+
+494
+00:17:58,480 --> 00:18:02,280
+dimension of p is uh the number of
+
+495
+00:18:00,640 --> 00:18:04,600
+populations that we have contributing to
+
+496
+00:18:02,280 --> 00:18:07,159
+our individuals in G uh by the number of
+
+497
+00:18:04,600 --> 00:18:11,919
+snips and so each individual and or each
+
+498
+00:18:07,159 --> 00:18:14,360
+entry in L tells us how common snip uh L
+
+499
+00:18:11,919 --> 00:18:17,840
+is in population k sorry I think I said
+
+500
+00:18:14,360 --> 00:18:20,039
+something wrong there uh each entry in P
+
+501
+00:18:17,840 --> 00:18:24,039
+is uh tells us about how often mutation
+
+502
+00:18:20,039 --> 00:18:25,240
+L occurs in population k um and this is
+
+503
+00:18:24,039 --> 00:18:26,400
+just what we were Computing on that
+
+504
+00:18:25,240 --> 00:18:28,880
+first slide where we had the blue and
+
+505
+00:18:26,400 --> 00:18:32,080
+the red individuals um and then we have
+
+506
+00:18:28,880 --> 00:18:34,840
+this Q object and so uh the the the Q
+
+507
+00:18:32,080 --> 00:18:38,200
+object we can think of as our ancestry
+
+508
+00:18:34,840 --> 00:18:42,360
+proportion Matrix um and so each entry
+
+509
+00:18:38,200 --> 00:18:48,159
+in Q tells us what the proportion of
+
+510
+00:18:42,360 --> 00:18:50,320
+ancestry uh K is an individual I so uh
+
+511
+00:18:48,159 --> 00:18:53,200
+if this if if if
+
+512
+00:18:50,320 --> 00:18:56,039
+q11 is one then we're saying that
+
+513
+00:18:53,200 --> 00:18:59,000
+individual ones ancestry is all from
+
+514
+00:18:56,039 --> 00:19:00,080
+population one um and so for now just to
+
+515
+00:18:59,000 --> 00:19:02,840
+make things simple we're going to assume
+
+516
+00:19:00,080 --> 00:19:05,520
+that Q is binary and that each row has a
+
+517
+00:19:02,840 --> 00:19:07,000
+single one and uh all the rest of them
+
+518
+00:19:05,520 --> 00:19:08,679
+are zeros and so this corresponds the
+
+519
+00:19:07,000 --> 00:19:11,799
+assumption that all of our individuals
+
+520
+00:19:08,679 --> 00:19:14,360
+have ancestry from uh one group each so
+
+521
+00:19:11,799 --> 00:19:17,640
+there's no ad mixture this isn't a good
+
+522
+00:19:14,360 --> 00:19:20,360
+assumption uh but we'll relax it in a
+
+523
+00:19:17,640 --> 00:19:22,559
+second um and so just to really drive
+
+524
+00:19:20,360 --> 00:19:25,320
+home exactly what Q is this is like a a
+
+525
+00:19:22,559 --> 00:19:27,080
+sample 23 and me report and for Jamie it
+
+526
+00:19:25,320 --> 00:19:30,080
+says that they have 74% European
+
+527
+00:19:27,080 --> 00:19:32,280
+ancestry 17.5% subsaharan African
+
+528
+00:19:30,080 --> 00:19:34,640
+ancestry and so these are example values
+
+529
+00:19:32,280 --> 00:19:36,559
+that might go in Q like Jamie would just
+
+530
+00:19:34,640 --> 00:19:39,320
+be one row across this way and they
+
+531
+00:19:36,559 --> 00:19:40,480
+would it be four numbers in here um
+
+532
+00:19:39,320 --> 00:19:43,480
+except it wouldn't fit our current
+
+533
+00:19:40,480 --> 00:19:46,520
+structure because uh Q has only one one
+
+534
+00:19:43,480 --> 00:19:48,000
+right now and all the rest are zeros um
+
+535
+00:19:46,520 --> 00:19:49,880
+okay so now we're going to talk about
+
+536
+00:19:48,000 --> 00:19:52,679
+our infant strategy kind of at a very
+
+537
+00:19:49,880 --> 00:19:54,760
+high level uh this is kind of this is a
+
+538
+00:19:52,679 --> 00:19:56,240
+an outline for how to do uh comput a
+
+539
+00:19:54,760 --> 00:19:57,840
+maximum likelihood estimator which is
+
+540
+00:19:56,240 --> 00:19:59,440
+kind of a general statistical thing
+
+541
+00:19:57,840 --> 00:20:02,080
+you'll probably run into
+
+542
+00:19:59,440 --> 00:20:03,400
+um but the first step in doing this
+
+543
+00:20:02,080 --> 00:20:05,080
+inference is going to be propos a
+
+544
+00:20:03,400 --> 00:20:07,039
+generative model that relates our
+
+545
+00:20:05,080 --> 00:20:09,440
+observed data oh I I forgot to say
+
+546
+00:20:07,039 --> 00:20:11,039
+something um here there's a dash line in
+
+547
+00:20:09,440 --> 00:20:12,400
+the middle uh and so we're asking
+
+548
+00:20:11,039 --> 00:20:13,960
+ourselves what's up with this dashed
+
+549
+00:20:12,400 --> 00:20:15,880
+line and so the things on the left of
+
+550
+00:20:13,960 --> 00:20:16,960
+the dashed line are the object is the
+
+551
+00:20:15,880 --> 00:20:18,799
+data that we're assuming that we've
+
+552
+00:20:16,960 --> 00:20:21,200
+observed and have access to so we can
+
+553
+00:20:18,799 --> 00:20:22,480
+like load G and P directly into memory
+
+554
+00:20:21,200 --> 00:20:26,679
+in our computer and mess around with
+
+555
+00:20:22,480 --> 00:20:28,840
+them but Q is uh uh what we want to find
+
+556
+00:20:26,679 --> 00:20:30,280
+out this is our unobserved variable that
+
+557
+00:20:28,840 --> 00:20:33,400
+we want to under that we want to do
+
+558
+00:20:30,280 --> 00:20:35,360
+inference on um and so the first step in
+
+559
+00:20:33,400 --> 00:20:36,840
+our inference strategy is to propose a
+
+560
+00:20:35,360 --> 00:20:38,919
+generative model that relates our
+
+561
+00:20:36,840 --> 00:20:40,600
+observed data to are object of in
+
+562
+00:20:38,919 --> 00:20:42,679
+inference and so in words this is going
+
+563
+00:20:40,600 --> 00:20:45,600
+to be relate our genotype and alal
+
+564
+00:20:42,679 --> 00:20:47,360
+frequencies to uh the unobserved
+
+565
+00:20:45,600 --> 00:20:50,679
+ancestry proportions that we want to
+
+566
+00:20:47,360 --> 00:20:52,640
+infer um the Second Step will be to use
+
+567
+00:20:50,679 --> 00:20:54,559
+the generative model to write out the
+
+568
+00:20:52,640 --> 00:20:56,480
+probability of The observed data given
+
+569
+00:20:54,559 --> 00:20:58,240
+the unobserved data and so this is going
+
+570
+00:20:56,480 --> 00:20:59,159
+to be we're going to write out the
+
+571
+00:20:58,240 --> 00:21:03,880
+probability
+
+572
+00:20:59,159 --> 00:21:06,760
+of our observed genotypes given uh the
+
+573
+00:21:03,880 --> 00:21:10,159
+ancestry uh the ancestry proportion
+
+574
+00:21:06,760 --> 00:21:12,720
+Matrix q and then finally uh we're going
+
+575
+00:21:10,159 --> 00:21:14,640
+to find the values of q that maximize
+
+576
+00:21:12,720 --> 00:21:16,320
+the probability of our observed data and
+
+577
+00:21:14,640 --> 00:21:19,279
+those will be our favorite values of Q
+
+578
+00:21:16,320 --> 00:21:21,960
+so this is very not specific and we'll
+
+579
+00:21:19,279 --> 00:21:24,039
+go into this in in more detail so the
+
+580
+00:21:21,960 --> 00:21:26,600
+first step is to propose a generative
+
+581
+00:21:24,039 --> 00:21:29,559
+model that relates our genetic uh or
+
+582
+00:21:26,600 --> 00:21:31,480
+observed data to the unobserved data and
+
+583
+00:21:29,559 --> 00:21:35,120
+so here our generative model is going to
+
+584
+00:21:31,480 --> 00:21:38,159
+be that uh the genotype for individual I
+
+585
+00:21:35,120 --> 00:21:41,279
+at mutation L given that they're in
+
+586
+00:21:38,159 --> 00:21:44,720
+ancestry K is binomially distributed
+
+587
+00:21:41,279 --> 00:21:47,679
+with parameters p k l and 2 and so to
+
+588
+00:21:44,720 --> 00:21:51,679
+make that kind of less mathy uh we can
+
+589
+00:21:47,679 --> 00:21:53,559
+say that if individual I uh we're trying
+
+590
+00:21:51,679 --> 00:21:56,279
+to say what is the distribution of
+
+591
+00:21:53,559 --> 00:21:58,600
+mutations for an individual that is in
+
+592
+00:21:56,279 --> 00:22:01,440
+ancestry K we're basically going to flip
+
+593
+00:21:58,600 --> 00:22:03,080
+coin twice uh and then we'll take the
+
+594
+00:22:01,440 --> 00:22:06,039
+sum of the number of times that that
+
+595
+00:22:03,080 --> 00:22:08,559
+coin comes comes up heads and the coin
+
+596
+00:22:06,039 --> 00:22:11,720
+comes up heads
+
+597
+00:22:08,559 --> 00:22:13,640
+uh with a probability equal to the alal
+
+598
+00:22:11,720 --> 00:22:16,279
+frequency and so kind of intuitively
+
+599
+00:22:13,640 --> 00:22:17,320
+each individual has two chromosomes uh
+
+600
+00:22:16,279 --> 00:22:19,960
+if I tell you that both of those
+
+601
+00:22:17,320 --> 00:22:21,320
+chromosomes come from a given ancestry
+
+602
+00:22:19,960 --> 00:22:23,960
+then we would expect those chromosomes
+
+603
+00:22:21,320 --> 00:22:26,840
+to have a given mutation based on the
+
+604
+00:22:23,960 --> 00:22:29,320
+alal frequency of that uh mutation in
+
+605
+00:22:26,840 --> 00:22:31,240
+that population and so hopefully this
+
+606
+00:22:29,320 --> 00:22:34,600
+this first statement is is kind of clear
+
+607
+00:22:31,240 --> 00:22:35,799
+now um so the second step is going to be
+
+608
+00:22:34,600 --> 00:22:38,640
+write out the probability of our
+
+609
+00:22:35,799 --> 00:22:40,960
+observed data for individual eye so here
+
+610
+00:22:38,640 --> 00:22:43,080
+this equates to uh writing out the
+
+611
+00:22:40,960 --> 00:22:45,159
+probability of an individual ey's
+
+612
+00:22:43,080 --> 00:22:48,240
+genotype given that they're from
+
+613
+00:22:45,159 --> 00:22:51,360
+population or that they have ancestry K
+
+614
+00:22:48,240 --> 00:22:53,320
+and so here this GI corresponds to one
+
+615
+00:22:51,360 --> 00:22:55,720
+row of that genotype Matrix and we can
+
+616
+00:22:53,320 --> 00:22:57,279
+write out the full probability for GI as
+
+617
+00:22:55,720 --> 00:22:59,159
+the product of each of the probability
+
+618
+00:22:57,279 --> 00:23:00,600
+of the individual mutations and so we're
+
+619
+00:22:59,159 --> 00:23:02,520
+making some assumption here saying that
+
+620
+00:23:00,600 --> 00:23:04,240
+the mutations are like independently
+
+621
+00:23:02,520 --> 00:23:06,159
+distributed uh but we're not going to
+
+622
+00:23:04,240 --> 00:23:08,440
+worry about that for now but basically
+
+623
+00:23:06,159 --> 00:23:10,760
+yeah let's just go back to this so we're
+
+624
+00:23:08,440 --> 00:23:12,400
+looking at the probability of one row of
+
+625
+00:23:10,760 --> 00:23:14,880
+this G Matrix and we're going to say
+
+626
+00:23:12,400 --> 00:23:16,880
+what's the probability of GI i1 and
+
+627
+00:23:14,880 --> 00:23:18,840
+multiply it by probability of gi2 do
+
+628
+00:23:16,880 --> 00:23:19,880
+this for the entire row of this Matrix
+
+629
+00:23:18,840 --> 00:23:22,080
+this gives us the probability of
+
+630
+00:23:19,880 --> 00:23:24,880
+individual's observed genotype so now
+
+631
+00:23:22,080 --> 00:23:26,559
+we'll notice that g l given Qi K is
+
+632
+00:23:24,880 --> 00:23:29,559
+equal to one that's exactly what we have
+
+633
+00:23:26,559 --> 00:23:31,200
+up here and so uh uh we can just go to
+
+634
+00:23:29,559 --> 00:23:33,000
+Wikipedia and look up what is the
+
+635
+00:23:31,200 --> 00:23:34,200
+probability for a binomial distribution
+
+636
+00:23:33,000 --> 00:23:36,080
+like what's the equation for the
+
+637
+00:23:34,200 --> 00:23:38,080
+probability of a given outcome from a
+
+638
+00:23:36,080 --> 00:23:41,480
+binomial distribution and just plug that
+
+639
+00:23:38,080 --> 00:23:42,840
+in for p of G given Qi K is equal to one
+
+640
+00:23:41,480 --> 00:23:44,120
+and so that's exactly what we've done to
+
+641
+00:23:42,840 --> 00:23:47,679
+get to this next line is we've just
+
+642
+00:23:44,120 --> 00:23:49,640
+replaced this pgil with the Wikipedia
+
+643
+00:23:47,679 --> 00:23:52,000
+probabilities uh for a binomial
+
+644
+00:23:49,640 --> 00:23:54,480
+distribution so now the third step is we
+
+645
+00:23:52,000 --> 00:23:56,799
+just have to ask ourselves uh is this
+
+646
+00:23:54,480 --> 00:23:58,840
+quantity maximized when we have
+
+647
+00:23:56,799 --> 00:24:02,480
+individual coming from ancestry one or
+
+648
+00:23:58,840 --> 00:24:04,760
+ancestry 2 or ancestry 3 um and so now
+
+649
+00:24:02,480 --> 00:24:06,279
+we'll just go into a workout example of
+
+650
+00:24:04,760 --> 00:24:07,880
+this we're doing we're assuming that we
+
+651
+00:24:06,279 --> 00:24:09,360
+have two populations we're going to try
+
+652
+00:24:07,880 --> 00:24:11,400
+to figure out whether this individual
+
+653
+00:24:09,360 --> 00:24:14,039
+has ancestry from population one or
+
+654
+00:24:11,400 --> 00:24:16,039
+population two and so the end of the
+
+655
+00:24:14,039 --> 00:24:17,480
+first row of equations is just that
+
+656
+00:24:16,039 --> 00:24:20,080
+exact
+
+657
+00:24:17,480 --> 00:24:21,960
+um equation from the last slide and then
+
+658
+00:24:20,080 --> 00:24:23,320
+we just plugged in the numbers and so
+
+659
+00:24:21,960 --> 00:24:25,880
+like
+
+660
+00:24:23,320 --> 00:24:30,399
+G11 is this individual's genotype at
+
+661
+00:24:25,880 --> 00:24:33,279
+snip one P1 L is the population one a
+
+662
+00:24:30,399 --> 00:24:34,360
+Leo frequency at snip one um and that
+
+663
+00:24:33,279 --> 00:24:35,600
+those are all the things we have to plug
+
+664
+00:24:34,360 --> 00:24:38,320
+in here and so we'll just do that for
+
+665
+00:24:35,600 --> 00:24:40,000
+each snip and then we end up with some
+
+666
+00:24:38,320 --> 00:24:41,399
+uh equation which we can evaluate
+
+667
+00:24:40,000 --> 00:24:43,240
+numerically and we get
+
+668
+00:24:41,399 --> 00:24:45,159
+022 so that's the probability that
+
+669
+00:24:43,240 --> 00:24:47,080
+individual one's genotype would occur if
+
+670
+00:24:45,159 --> 00:24:48,559
+they're in population one and then we'll
+
+671
+00:24:47,080 --> 00:24:51,520
+do the exact same thing for population
+
+672
+00:24:48,559 --> 00:24:53,559
+two so now we're just plugging in these
+
+673
+00:24:51,520 --> 00:24:54,840
+alal frequencies from population two
+
+674
+00:24:53,559 --> 00:24:56,000
+instead of the IL frequencies from
+
+675
+00:24:54,840 --> 00:24:59,240
+population
+
+676
+00:24:56,000 --> 00:25:01,440
+one and uh then we just just compute
+
+677
+00:24:59,240 --> 00:25:05,320
+what that number actually is we get
+
+678
+00:25:01,440 --> 00:25:06,520
+068 and so uh we have these two numbers
+
+679
+00:25:05,320 --> 00:25:08,960
+and we can see that the probability of
+
+680
+00:25:06,520 --> 00:25:11,720
+indiv individual ones genotype is higher
+
+681
+00:25:08,960 --> 00:25:13,200
+if they're in population two and so our
+
+682
+00:25:11,720 --> 00:25:17,679
+estimate is that this individual is
+
+683
+00:25:13,200 --> 00:25:18,760
+probably from population to um okay so
+
+684
+00:25:17,679 --> 00:25:20,840
+this approach assumes that each
+
+685
+00:25:18,760 --> 00:25:22,120
+individual belongs to a single ancestry
+
+686
+00:25:20,840 --> 00:25:23,559
+we just compared the individual the
+
+687
+00:25:22,120 --> 00:25:25,080
+probability of individual ones genotype
+
+688
+00:25:23,559 --> 00:25:26,559
+if they're in population one the
+
+689
+00:25:25,080 --> 00:25:28,640
+probability of individual ones genotype
+
+690
+00:25:26,559 --> 00:25:31,480
+if they're in population two however we
+
+691
+00:25:28,640 --> 00:25:32,840
+know that admx populations uh exist and
+
+692
+00:25:31,480 --> 00:25:34,240
+and have genetic ancestry from
+
+693
+00:25:32,840 --> 00:25:36,080
+populations that were previously
+
+694
+00:25:34,240 --> 00:25:38,720
+isolated so can we change our generative
+
+695
+00:25:36,080 --> 00:25:40,279
+model to uh no longer have this
+
+696
+00:25:38,720 --> 00:25:42,480
+assumption that individuals belong to a
+
+697
+00:25:40,279 --> 00:25:44,039
+single ancestry group and so here we
+
+698
+00:25:42,480 --> 00:25:46,159
+have the exact same data objects as
+
+699
+00:25:44,039 --> 00:25:47,440
+before G and P are on the Le hand side
+
+700
+00:25:46,159 --> 00:25:49,320
+indicating that these are observed
+
+701
+00:25:47,440 --> 00:25:50,600
+objects Q is on the right hand side but
+
+702
+00:25:49,320 --> 00:25:53,600
+now we're goingon to assume that each
+
+703
+00:25:50,600 --> 00:25:56,440
+row of Q has values between zero and one
+
+704
+00:25:53,600 --> 00:25:58,760
+that sum to one uh I guess there's an
+
+705
+00:25:56,440 --> 00:26:00,840
+extra this whatever um
+
+706
+00:25:58,760 --> 00:26:02,480
+and but so it's the same as I mean now
+
+707
+00:26:00,840 --> 00:26:05,399
+it's now we're actually in a case where
+
+708
+00:26:02,480 --> 00:26:08,039
+we can give Jam's 23m report where here
+
+709
+00:26:05,399 --> 00:26:12,840
+now we have contributions from multiple
+
+710
+00:26:08,039 --> 00:26:15,440
+different ancestry groups um and
+
+711
+00:26:12,840 --> 00:26:17,000
+so in our inference kind of at a high
+
+712
+00:26:15,440 --> 00:26:18,880
+level strategy is going to be exactly
+
+713
+00:26:17,000 --> 00:26:20,120
+the same Ros Model A generative model
+
+714
+00:26:18,880 --> 00:26:21,919
+that relates our observe data to the
+
+715
+00:26:20,120 --> 00:26:23,320
+object of inference use the generative
+
+716
+00:26:21,919 --> 00:26:25,000
+model to write the probability of the
+
+717
+00:26:23,320 --> 00:26:26,600
+probability of The observed data and
+
+718
+00:26:25,000 --> 00:26:28,919
+then to find the values of q that
+
+719
+00:26:26,600 --> 00:26:32,000
+maximize the probability of The observed
+
+720
+00:26:28,919 --> 00:26:33,120
+data and so first let's just I mean the
+
+721
+00:26:32,000 --> 00:26:34,840
+hard part of this is just going to be
+
+722
+00:26:33,120 --> 00:26:37,039
+kind of Transforming Our generative
+
+723
+00:26:34,840 --> 00:26:38,640
+model so before we assumed uh this
+
+724
+00:26:37,039 --> 00:26:41,720
+distribution for the genotypes of
+
+725
+00:26:38,640 --> 00:26:44,919
+individual L at mutation or individual I
+
+726
+00:26:41,720 --> 00:26:46,840
+mutation L um but then here this assumes
+
+727
+00:26:44,919 --> 00:26:49,760
+just that q i k is equal to one which is
+
+728
+00:26:46,840 --> 00:26:52,120
+saying individuals I only has the K
+
+729
+00:26:49,760 --> 00:26:54,000
+ancestry group uh but this doesn't isn't
+
+730
+00:26:52,120 --> 00:26:57,720
+going to work anymore so intuitively if
+
+731
+00:26:54,000 --> 00:26:59,440
+individual I has 25% ancestry 1 and 75%
+
+732
+00:26:57,720 --> 00:27:01,039
+ancestry two then you expect their
+
+733
+00:26:59,440 --> 00:27:02,799
+genotype to look like a weighted average
+
+734
+00:27:01,039 --> 00:27:06,200
+of the Leal frequencies from ancestries
+
+735
+00:27:02,799 --> 00:27:09,120
+1 and two with weights 25 for ancestry 1
+
+736
+00:27:06,200 --> 00:27:11,799
+and 75 for ancestry 2 so the weighted
+
+737
+00:27:09,120 --> 00:27:13,399
+average of the Le frequencies at snip L
+
+738
+00:27:11,799 --> 00:27:16,200
+is just going to be this thing so we've
+
+739
+00:27:13,399 --> 00:27:18,760
+taken this is the the Leal frequency at
+
+740
+00:27:16,200 --> 00:27:22,880
+snip L 25% of that and then this is the
+
+741
+00:27:18,760 --> 00:27:25,279
+Leal frequency at uh in population two
+
+742
+00:27:22,880 --> 00:27:27,440
+75% of that and so we just have to take
+
+743
+00:27:25,279 --> 00:27:29,000
+this number and plug it in for our our
+
+744
+00:27:27,440 --> 00:27:31,399
+old ilal frequen that's exactly what
+
+745
+00:27:29,000 --> 00:27:32,640
+we've done here so here we've just taken
+
+746
+00:27:31,399 --> 00:27:35,039
+the old binomial distribution that we're
+
+747
+00:27:32,640 --> 00:27:37,520
+using before changed the first parameter
+
+748
+00:27:35,039 --> 00:27:40,519
+to reflect individuals like indiv
+
+749
+00:27:37,520 --> 00:27:44,000
+individual eyes personal weighted alal
+
+750
+00:27:40,519 --> 00:27:46,600
+frequency based on their ancestry
+
+751
+00:27:44,000 --> 00:27:48,320
+proportions so now our strategy is going
+
+752
+00:27:46,600 --> 00:27:52,120
+to be basically the same all we have to
+
+753
+00:27:48,320 --> 00:27:53,880
+do is now uh change our generative model
+
+754
+00:27:52,120 --> 00:27:56,200
+up here that now has individual eyes
+
+755
+00:27:53,880 --> 00:27:59,159
+personal alal frequency based on their
+
+756
+00:27:56,200 --> 00:28:01,840
+uh weighted uh ancestry
+
+757
+00:27:59,159 --> 00:28:03,120
+proportions and then we're basically
+
+758
+00:28:01,840 --> 00:28:05,640
+going to do the exact same procedure
+
+759
+00:28:03,120 --> 00:28:07,960
+down here de like like right individual
+
+760
+00:28:05,640 --> 00:28:10,080
+eyes uh the probability of individual
+
+761
+00:28:07,960 --> 00:28:12,120
+eyes genotype as the product of all the
+
+762
+00:28:10,080 --> 00:28:14,360
+mutations and then we'll just plug in
+
+763
+00:28:12,120 --> 00:28:18,120
+our our Wikipedia binomial uh
+
+764
+00:28:14,360 --> 00:28:19,600
+probability equation down here um and so
+
+765
+00:28:18,120 --> 00:28:22,080
+here this Alpha parameter is what we're
+
+766
+00:28:19,600 --> 00:28:25,159
+doing what we're using to quantify the
+
+767
+00:28:22,080 --> 00:28:27,240
+proportion of individual eyes ancestry
+
+768
+00:28:25,159 --> 00:28:29,559
+from population one and then one minus
+
+769
+00:28:27,240 --> 00:28:32,120
+Alpha would just be uh the proportion of
+
+770
+00:28:29,559 --> 00:28:33,960
+individual eyes ancestry from population
+
+771
+00:28:32,120 --> 00:28:36,679
+to and then we just have to figure out
+
+772
+00:28:33,960 --> 00:28:39,360
+exactly what value of alpha maximizes
+
+773
+00:28:36,679 --> 00:28:43,360
+this equation for each individual and so
+
+774
+00:28:39,360 --> 00:28:47,480
+here uh we have a worked out example
+
+775
+00:28:43,360 --> 00:28:49,799
+um I've yeah here so we're just going to
+
+776
+00:28:47,480 --> 00:28:51,360
+figure out exactly we we we can uh plug
+
+777
+00:28:49,799 --> 00:28:53,240
+in our values for individual eyes
+
+778
+00:28:51,360 --> 00:28:54,960
+genotype and the different minor or the
+
+779
+00:28:53,240 --> 00:28:57,679
+different alal frequencies into that
+
+780
+00:28:54,960 --> 00:29:00,440
+equation from before and now we have uh
+
+781
+00:28:57,679 --> 00:29:01,840
+an and the only variable here is Alpha
+
+782
+00:29:00,440 --> 00:29:03,880
+and so this is just going to be the the
+
+783
+00:29:01,840 --> 00:29:06,519
+probability of individual eyes genotype
+
+784
+00:29:03,880 --> 00:29:08,880
+at different ad mixture proportions and
+
+785
+00:29:06,519 --> 00:29:11,159
+we can just graph this out and so here
+
+786
+00:29:08,880 --> 00:29:13,480
+this is the uh numerical value for that
+
+787
+00:29:11,159 --> 00:29:17,039
+last equation where we vary Alpha across
+
+788
+00:29:13,480 --> 00:29:21,279
+many values and we can see that
+
+789
+00:29:17,039 --> 00:29:23,760
+uh individual eyes genotype is uh much
+
+790
+00:29:21,279 --> 00:29:25,799
+higher sorry uh we maximize this
+
+791
+00:29:23,760 --> 00:29:26,919
+quantity when Alpha is equal to 0 22
+
+792
+00:29:25,799 --> 00:29:30,039
+which corresponds to individual
+
+793
+00:29:26,919 --> 00:29:31,200
+individual I having 22% ancestry from
+
+794
+00:29:30,039 --> 00:29:35,360
+population
+
+795
+00:29:31,200 --> 00:29:37,600
+one and so now
+
+796
+00:29:35,360 --> 00:29:39,960
+um up until now we've assumed that we
+
+797
+00:29:37,600 --> 00:29:42,080
+have access to some a Leo frequency
+
+798
+00:29:39,960 --> 00:29:44,080
+panel where we know the Leo frequency
+
+799
+00:29:42,080 --> 00:29:46,279
+for each individual or sorry we know the
+
+800
+00:29:44,080 --> 00:29:49,039
+Leal frequency for each mutation in each
+
+801
+00:29:46,279 --> 00:29:51,320
+population um that's this P Matrix
+
+802
+00:29:49,039 --> 00:29:52,840
+however um and so this is like there are
+
+803
+00:29:51,320 --> 00:29:56,240
+many resources that we can use to get
+
+804
+00:29:52,840 --> 00:29:58,200
+this alal frequency reference panel um
+
+805
+00:29:56,240 --> 00:29:59,840
+however there's maybe maybe that's not
+
+806
+00:29:58,200 --> 00:30:01,320
+so good if we don't really know exactly
+
+807
+00:29:59,840 --> 00:30:05,159
+what populations are contributing to
+
+808
+00:30:01,320 --> 00:30:06,360
+each individual um in our uh like maybe
+
+809
+00:30:05,159 --> 00:30:09,440
+there's some population that isn't
+
+810
+00:30:06,360 --> 00:30:11,120
+included in our reference panel that has
+
+811
+00:30:09,440 --> 00:30:13,440
+contributed ancestry to our genotype
+
+812
+00:30:11,120 --> 00:30:14,799
+Matrix G um and so now we're going to
+
+813
+00:30:13,440 --> 00:30:16,880
+try to do this exact same inference
+
+814
+00:30:14,799 --> 00:30:18,640
+problem but move p over to the right
+
+815
+00:30:16,880 --> 00:30:20,480
+hand side of the dash line and so that
+
+816
+00:30:18,640 --> 00:30:22,200
+means that now instead of assuming that
+
+817
+00:30:20,480 --> 00:30:25,519
+we have access to some alal frequency
+
+818
+00:30:22,200 --> 00:30:27,480
+reference panel um we're going to assume
+
+819
+00:30:25,519 --> 00:30:28,960
+we're going to infer our Alo frequencies
+
+820
+00:30:27,480 --> 00:30:32,640
+from the dat
+
+821
+00:30:28,960 --> 00:30:34,760
+um and so now our inference approach is
+
+822
+00:30:32,640 --> 00:30:37,120
+a little bit more complicated um because
+
+823
+00:30:34,760 --> 00:30:39,880
+we have to infer both Q the ancestry
+
+824
+00:30:37,120 --> 00:30:42,760
+proportions and P the alal frequencies
+
+825
+00:30:39,880 --> 00:30:45,760
+of each ancestry
+
+826
+00:30:42,760 --> 00:30:48,679
+um and so at a really high level our
+
+827
+00:30:45,760 --> 00:30:50,640
+approach is going to be just alternate
+
+828
+00:30:48,679 --> 00:30:52,360
+between estimating the alal frequency
+
+829
+00:30:50,640 --> 00:30:56,039
+Matrix assuming that we have the
+
+830
+00:30:52,360 --> 00:30:58,559
+ancestry proportions and then uh go on
+
+831
+00:30:56,039 --> 00:31:00,039
+to estimating the ancestry proportions
+
+832
+00:30:58,559 --> 00:31:02,480
+uh given that we have the Le frequency
+
+833
+00:31:00,039 --> 00:31:05,360
+Matrix and so this is uh similar to an
+
+834
+00:31:02,480 --> 00:31:07,519
+approach used by software uh such as
+
+835
+00:31:05,360 --> 00:31:09,000
+structure and AD mixture but it's it's a
+
+836
+00:31:07,519 --> 00:31:10,559
+simplified version of this but it kind
+
+837
+00:31:09,000 --> 00:31:13,679
+of gives you the intuition behind what's
+
+838
+00:31:10,559 --> 00:31:15,480
+going on um and so to do this approach
+
+839
+00:31:13,679 --> 00:31:17,480
+we're first going to take in each value
+
+840
+00:31:15,480 --> 00:31:19,679
+of Q basically just randomly assign
+
+841
+00:31:17,480 --> 00:31:21,760
+ancestry proportions so say individual
+
+842
+00:31:19,679 --> 00:31:23,480
+one is in is in population one
+
+843
+00:31:21,760 --> 00:31:25,679
+individual two is in population three
+
+844
+00:31:23,480 --> 00:31:28,399
+randomly assigned q and then we'll use
+
+845
+00:31:25,679 --> 00:31:31,000
+that randomly assigned Q to estimate a
+
+846
+00:31:28,399 --> 00:31:33,000
+frequencies um given our current
+
+847
+00:31:31,000 --> 00:31:34,720
+estimates of the ancestry proportions
+
+848
+00:31:33,000 --> 00:31:36,679
+and then proceed to estimating uh
+
+849
+00:31:34,720 --> 00:31:37,760
+individual ancestry proportions based on
+
+850
+00:31:36,679 --> 00:31:41,279
+the current estimates of ilal
+
+851
+00:31:37,760 --> 00:31:44,440
+frequencies uh and so like this P update
+
+852
+00:31:41,279 --> 00:31:47,639
+P given QEP is just taking the means of
+
+853
+00:31:44,440 --> 00:31:50,360
+all of the uh ancestry of the genotype
+
+854
+00:31:47,639 --> 00:31:52,519
+Matrix what's
+
+855
+00:31:50,360 --> 00:31:56,679
+up
+
+856
+00:31:52,519 --> 00:31:56,679
+yes thank you
+
+857
+00:32:02,639 --> 00:32:08,039
+um do you have to provide this approach
+
+858
+00:32:05,600 --> 00:32:11,840
+with the number of populations that you
+
+859
+00:32:08,039 --> 00:32:14,000
+think yeah okay that's and they're SL on
+
+860
+00:32:11,840 --> 00:32:15,559
+it in a second
+
+861
+00:32:14,000 --> 00:32:18,880
+oh
+
+862
+00:32:15,559 --> 00:32:20,880
+um yeah I mean here in all of these
+
+863
+00:32:18,880 --> 00:32:28,240
+mates you can
+
+864
+00:32:20,880 --> 00:32:31,279
+see one how that's a tricky question um
+
+865
+00:32:28,240 --> 00:32:32,760
+okay so here um we just take turns
+
+866
+00:32:31,279 --> 00:32:34,880
+estimating the frequencies given the
+
+867
+00:32:32,760 --> 00:32:37,279
+ancestry proportions then estim ancestry
+
+868
+00:32:34,880 --> 00:32:40,080
+proportions given the legal frequencies
+
+869
+00:32:37,279 --> 00:32:42,600
+this updating legal frequencies just
+
+870
+00:32:40,080 --> 00:32:43,880
+taking means of our genotype Matrix uh
+
+871
+00:32:42,600 --> 00:32:46,600
+and then
+
+872
+00:32:43,880 --> 00:32:48,720
+updating an portions even our new
+
+873
+00:32:46,600 --> 00:32:51,039
+frequencies is exactly the procedure
+
+874
+00:32:48,720 --> 00:32:52,679
+that we went over like three slides ago
+
+875
+00:32:51,039 --> 00:32:53,960
+so we're going to do like this thing a
+
+876
+00:32:52,679 --> 00:32:56,639
+bunch of times until we reach some
+
+877
+00:32:53,960 --> 00:32:59,000
+stable solution um and it's kind of
+
+878
+00:32:56,639 --> 00:33:00,519
+wacking that we can like find the true
+
+879
+00:32:59,000 --> 00:33:02,120
+anti just starting from random
+
+880
+00:33:00,519 --> 00:33:03,960
+assignments because like initially this
+
+881
+00:33:02,120 --> 00:33:09,080
+frequency Matrix isn't telling us very
+
+882
+00:33:03,960 --> 00:33:12,679
+much but it works out which is cool um
+
+883
+00:33:09,080 --> 00:33:14,159
+so yeah as as you just asked uh do we
+
+884
+00:33:12,679 --> 00:33:17,240
+have to provide this method with the
+
+885
+00:33:14,159 --> 00:33:20,399
+overall number and S population and the
+
+886
+00:33:17,240 --> 00:33:23,679
+answer yes um so here we run this
+
+887
+00:33:20,399 --> 00:33:26,000
+algorith on a big dat varing number of
+
+888
+00:33:23,679 --> 00:33:28,320
+populations and uh you can see that when
+
+889
+00:33:26,000 --> 00:33:30,159
+we set the number po
+
+890
+00:33:28,320 --> 00:33:33,760
+the method basically spits out ancestry
+
+891
+00:33:30,159 --> 00:33:36,360
+proportion that correspond to like
+
+892
+00:33:33,760 --> 00:33:39,720
+African like European ancestry vers
+
+893
+00:33:36,360 --> 00:33:41,159
+Asian plus American Oceanic an that's
+
+894
+00:33:39,720 --> 00:33:43,000
+kind of the main division that we get
+
+895
+00:33:41,159 --> 00:33:45,919
+from but then as we increase K all the
+
+896
+00:33:43,000 --> 00:33:49,200
+way you start to get much more granular
+
+897
+00:33:45,919 --> 00:33:52,440
+an definition and like you get the
+
+898
+00:33:49,200 --> 00:33:54,240
+smaller group of individual uh that have
+
+899
+00:33:52,440 --> 00:33:58,559
+their own kind of
+
+900
+00:33:54,240 --> 00:34:00,080
+end uh category and so it's not at all
+
+901
+00:33:58,559 --> 00:34:01,320
+obvious which of these answers is
+
+902
+00:34:00,080 --> 00:34:03,159
+actually right and that's a major
+
+903
+00:34:01,320 --> 00:34:04,799
+disadvantage of this kind of method so
+
+904
+00:34:03,159 --> 00:34:06,600
+maybe we have some ground truth about
+
+905
+00:34:04,799 --> 00:34:09,119
+how many intersections we expect to use
+
+906
+00:34:06,600 --> 00:34:10,520
+to see the data this will be good but
+
+907
+00:34:09,119 --> 00:34:15,720
+It's Tricky it's not obvious what the
+
+908
+00:34:10,520 --> 00:34:17,679
+cor K is here um so uh that's a good
+
+909
+00:34:15,720 --> 00:34:18,720
+motivation for moving on to PPA based
+
+910
+00:34:17,679 --> 00:34:23,520
+population
+
+911
+00:34:18,720 --> 00:34:25,320
+structure so uh phal component analysis
+
+912
+00:34:23,520 --> 00:34:27,520
+uh is a very general data analysis
+
+913
+00:34:25,320 --> 00:34:29,399
+technique you'll in all kinds of fields
+
+914
+00:34:27,520 --> 00:34:31,639
+kind just try to get intuition behind
+
+915
+00:34:29,399 --> 00:34:35,320
+what's going on we have a data set with
+
+916
+00:34:31,639 --> 00:34:37,200
+two features X1 and X2 um the first
+
+917
+00:34:35,320 --> 00:34:40,040
+principal component is going to be the
+
+918
+00:34:37,200 --> 00:34:42,560
+feature along which the data varies to
+
+919
+00:34:40,040 --> 00:34:44,639
+or we'll kind of try to consider all the
+
+920
+00:34:42,560 --> 00:34:46,480
+potential axes in our data and then find
+
+921
+00:34:44,639 --> 00:34:49,440
+the one that spread the the data out the
+
+922
+00:34:46,480 --> 00:34:52,639
+most along this active um so then on WE
+
+923
+00:34:49,440 --> 00:34:57,400
+computed component one proceed to
+
+924
+00:34:52,639 --> 00:34:59,400
+identify the a which explained uh the
+
+925
+00:34:57,400 --> 00:35:01,000
+max variation kind of taking into
+
+926
+00:34:59,400 --> 00:35:03,200
+account the first principal component
+
+927
+00:35:01,000 --> 00:35:06,520
+and so here I in this example with two
+
+928
+00:35:03,200 --> 00:35:10,119
+uh features it's kind of silly like
+
+929
+00:35:06,520 --> 00:35:13,560
+there only one compon but we can do this
+
+930
+00:35:10,119 --> 00:35:15,720
+with much larger uh dat here this is
+
+931
+00:35:13,560 --> 00:35:18,160
+what component analysis will look like
+
+932
+00:35:15,720 --> 00:35:22,160
+when we do it on gen we have I
+
+933
+00:35:18,160 --> 00:35:23,839
+individuals and L mut um and then
+
+934
+00:35:22,160 --> 00:35:26,440
+basically our first principal component
+
+935
+00:35:23,839 --> 00:35:28,320
+will try to capture as much of the
+
+936
+00:35:26,440 --> 00:35:31,560
+variation uh
+
+937
+00:35:28,320 --> 00:35:32,880
+in G is possible and so basically what
+
+938
+00:35:31,560 --> 00:35:37,640
+the first princial component will
+
+939
+00:35:32,880 --> 00:35:41,040
+capture corresponding to this well this
+
+940
+00:35:37,640 --> 00:35:44,720
+first Matrix uh going to be many
+
+941
+00:35:41,040 --> 00:35:46,480
+mutations that co- kind the maximal
+
+942
+00:35:44,720 --> 00:35:49,200
+combination of mutations that coar
+
+943
+00:35:46,480 --> 00:35:52,319
+together and if we think about it like
+
+944
+00:35:49,200 --> 00:35:55,560
+what group of mutations are veryy likely
+
+945
+00:35:52,319 --> 00:35:58,560
+to co together uh a reasonable guess is
+
+946
+00:35:55,560 --> 00:36:01,119
+something like because of individuals
+
+947
+00:35:58,560 --> 00:36:03,040
+have uh an from group one they're going
+
+948
+00:36:01,119 --> 00:36:04,960
+to have a bunch of special bu mutations
+
+949
+00:36:03,040 --> 00:36:06,920
+that aren't about high frequency in mut
+
+950
+00:36:04,960 --> 00:36:08,680
+in population two and similarly
+
+951
+00:36:06,920 --> 00:36:10,359
+individuals from population two have a
+
+952
+00:36:08,680 --> 00:36:11,920
+bunch mutations that aren't seen in
+
+953
+00:36:10,359 --> 00:36:14,079
+population one so we're going get lots
+
+954
+00:36:11,920 --> 00:36:17,240
+of shared mutations that are varing
+
+955
+00:36:14,079 --> 00:36:19,119
+together and uh that might be what you
+
+956
+00:36:17,240 --> 00:36:22,560
+expect and unfortunately it's exactly
+
+957
+00:36:19,119 --> 00:36:26,079
+what you and so this is uh PCA run on
+
+958
+00:36:22,560 --> 00:36:28,480
+one of the really early population um
+
+959
+00:36:26,079 --> 00:36:31,200
+SEC data sets called
+
+960
+00:36:28,480 --> 00:36:32,920
+um we have European Nigerian Chinese and
+
+961
+00:36:31,200 --> 00:36:36,319
+Japanese ancestry individuals and you
+
+962
+00:36:32,920 --> 00:36:38,480
+can see that when we do PCA on it pc1
+
+963
+00:36:36,319 --> 00:36:43,480
+captures primarily captures differen
+
+964
+00:36:38,480 --> 00:36:45,160
+between uh the African uh the Nigerian
+
+965
+00:36:43,480 --> 00:36:47,800
+and the non- Nigerian individuals and
+
+966
+00:36:45,160 --> 00:36:49,800
+then PC2 captur primarily captur between
+
+967
+00:36:47,800 --> 00:36:53,119
+the European and the non European
+
+968
+00:36:49,800 --> 00:36:56,119
+individuals IND kind of these uh
+
+969
+00:36:53,119 --> 00:36:58,200
+population structure uh maximally cap
+
+970
+00:36:56,119 --> 00:37:02,119
+lot of variation of the
+
+971
+00:36:58,200 --> 00:37:04,440
+Matrix um and so interestingly uhal
+
+972
+00:37:02,119 --> 00:37:07,800
+component analysis can also capture
+
+973
+00:37:04,440 --> 00:37:10,359
+continental adure and so here um in this
+
+974
+00:37:07,800 --> 00:37:13,640
+figure the authors have compated Native
+
+975
+00:37:10,359 --> 00:37:16,040
+American European AR data uh with
+
+976
+00:37:13,640 --> 00:37:18,119
+Hispanic genotype Hispanic Latino
+
+977
+00:37:16,040 --> 00:37:20,599
+individuals as well as africanamerican
+
+978
+00:37:18,119 --> 00:37:23,359
+individuals um and so what we can see
+
+979
+00:37:20,599 --> 00:37:25,640
+here is that uh many of these
+
+980
+00:37:23,359 --> 00:37:28,440
+populations kind of occupy these
+
+981
+00:37:25,640 --> 00:37:30,079
+distinct regions of this plot and also
+
+982
+00:37:28,440 --> 00:37:32,720
+see that like
+
+983
+00:37:30,079 --> 00:37:34,200
+uh but there's also lots of variation
+
+984
+00:37:32,720 --> 00:37:37,000
+Within These groups and so individuals
+
+985
+00:37:34,200 --> 00:37:39,160
+that identify as uh Dominican uh from
+
+986
+00:37:37,000 --> 00:37:41,760
+from being from the Dominican Republic
+
+987
+00:37:39,160 --> 00:37:43,599
+uh have kind of this unique ad mixture
+
+988
+00:37:41,760 --> 00:37:45,280
+profile so we can interpret the
+
+989
+00:37:43,599 --> 00:37:49,000
+intermediate values between these far
+
+990
+00:37:45,280 --> 00:37:52,079
+groups as uh these individuals having um
+
+991
+00:37:49,000 --> 00:37:55,440
+contributions from different continental
+
+992
+00:37:52,079 --> 00:37:59,440
+ancestries and uh so here it's probably
+
+993
+00:37:55,440 --> 00:38:01,079
+like it's important to say um a lot of
+
+994
+00:37:59,440 --> 00:38:02,800
+this ad mixture like for example in the
+
+995
+00:38:01,079 --> 00:38:04,800
+African-American individuals or between
+
+996
+00:38:02,800 --> 00:38:07,839
+the African and the European individuals
+
+997
+00:38:04,800 --> 00:38:09,079
+this reflects uh some Legacy of slavery
+
+998
+00:38:07,839 --> 00:38:12,079
+that
+
+999
+00:38:09,079 --> 00:38:14,079
+uh appears in our genetic data and so
+
+1000
+00:38:12,079 --> 00:38:15,800
+it's probably good to not just treat
+
+1001
+00:38:14,079 --> 00:38:18,920
+this uh with complete Detachment and
+
+1002
+00:38:15,800 --> 00:38:22,040
+kind of acknowledge uh the historical
+
+1003
+00:38:18,920 --> 00:38:24,240
+events that have led to this
+
+1004
+00:38:22,040 --> 00:38:28,359
+um
+
+1005
+00:38:24,240 --> 00:38:30,440
+so the next figure is uh
+
+1006
+00:38:28,359 --> 00:38:32,119
+it's like everyone's favorite figure um
+
+1007
+00:38:30,440 --> 00:38:34,000
+and so it's it's from November at all
+
+1008
+00:38:32,119 --> 00:38:36,000
+2008 nature and what the authors do is
+
+1009
+00:38:34,000 --> 00:38:39,040
+they take a bunch of different European
+
+1010
+00:38:36,000 --> 00:38:42,160
+uh ancestry individuals and do PCA on it
+
+1011
+00:38:39,040 --> 00:38:45,079
+and uh on the left they have PCA so this
+
+1012
+00:38:42,160 --> 00:38:47,240
+is just uh basically the maximal axes of
+
+1013
+00:38:45,079 --> 00:38:49,000
+variation in the genotype Matrix and if
+
+1014
+00:38:47,240 --> 00:38:50,520
+you compare the figure on the left to a
+
+1015
+00:38:49,000 --> 00:38:52,560
+real map of Europe on the right they
+
+1016
+00:38:50,520 --> 00:38:54,319
+look kind of similar right so it's like
+
+1017
+00:38:52,560 --> 00:38:56,480
+Portugal and Spain are like down here
+
+1018
+00:38:54,319 --> 00:38:58,240
+like it is on a real map um you have
+
+1019
+00:38:56,480 --> 00:39:00,160
+like Great Britain and SC Scotland up
+
+1020
+00:38:58,240 --> 00:39:02,319
+here like in a real map and we go to the
+
+1021
+00:39:00,160 --> 00:39:04,240
+East and like there's some France uh and
+
+1022
+00:39:02,319 --> 00:39:06,079
+so like how crazy it's like we just have
+
+1023
+00:39:04,240 --> 00:39:07,319
+the genotype Matrix and we remade a map
+
+1024
+00:39:06,079 --> 00:39:12,079
+of where these individuals are from
+
+1025
+00:39:07,319 --> 00:39:13,440
+based on it um so this like really uh
+
+1026
+00:39:12,079 --> 00:39:15,119
+these last two examples have really
+
+1027
+00:39:13,440 --> 00:39:16,520
+showing us some of the advantages of
+
+1028
+00:39:15,119 --> 00:39:18,119
+principal component analysis where it's
+
+1029
+00:39:16,520 --> 00:39:20,040
+like here we're able to like get
+
+1030
+00:39:18,119 --> 00:39:21,000
+estimates for adure portions I guess we
+
+1031
+00:39:20,040 --> 00:39:24,640
+could get that from the model based
+
+1032
+00:39:21,000 --> 00:39:26,520
+framework too but here um we rather than
+
+1033
+00:39:24,640 --> 00:39:28,359
+having like super distinct isolated
+
+1034
+00:39:26,520 --> 00:39:31,000
+populations we have kind of alal
+
+1035
+00:39:28,359 --> 00:39:33,200
+frequencies that vary with a gradient
+
+1036
+00:39:31,000 --> 00:39:35,079
+over space and so it's like there's
+
+1037
+00:39:33,200 --> 00:39:36,520
+probably small levels of migration a
+
+1038
+00:39:35,079 --> 00:39:38,560
+long time ago between people that live
+
+1039
+00:39:36,520 --> 00:39:39,720
+in France and Spain but not a lot and as
+
+1040
+00:39:38,560 --> 00:39:42,880
+a result we kind of have these
+
+1041
+00:39:39,720 --> 00:39:45,560
+continuous Clines of of of uh alal
+
+1042
+00:39:42,880 --> 00:39:46,839
+frequency differences um and so PCA it
+
+1043
+00:39:45,560 --> 00:39:48,640
+would be really hard to decide like what
+
+1044
+00:39:46,839 --> 00:39:50,520
+are the correct populations or what's
+
+1045
+00:39:48,640 --> 00:39:53,319
+the what's the right value of K to use
+
+1046
+00:39:50,520 --> 00:39:55,000
+here uh but PCA uh makes it easier so
+
+1047
+00:39:53,319 --> 00:39:56,880
+that we don't have to think about that
+
+1048
+00:39:55,000 --> 00:39:59,000
+so much uh we're able to capture these
+
+1049
+00:39:56,880 --> 00:40:00,800
+continu with differences in Le frequency
+
+1050
+00:39:59,000 --> 00:40:03,920
+across Geographic
+
+1051
+00:40:00,800 --> 00:40:07,119
+space um and so a pretty important
+
+1052
+00:40:03,920 --> 00:40:10,200
+question oh there's a chat is this okay
+
+1053
+00:40:07,119 --> 00:40:12,720
+um okay uh
+
+1054
+00:40:10,200 --> 00:40:14,880
+so relevant question here is is
+
+1055
+00:40:12,720 --> 00:40:18,000
+modelbased ancestry inference or PCA
+
+1056
+00:40:14,880 --> 00:40:19,880
+better um and so uh model-based
+
+1057
+00:40:18,000 --> 00:40:22,280
+inference approaches are motivated by
+
+1058
+00:40:19,880 --> 00:40:24,119
+explicit genetic models uh with distinct
+
+1059
+00:40:22,280 --> 00:40:25,640
+ancestry groups and as a result they
+
+1060
+00:40:24,119 --> 00:40:28,440
+impose corresponding constraints so it's
+
+1061
+00:40:25,640 --> 00:40:30,480
+like the uh the an C proportions are
+
+1062
+00:40:28,440 --> 00:40:32,359
+guaranteed to sum to one they can't be
+
+1063
+00:40:30,480 --> 00:40:35,040
+greater than zero or or or less than
+
+1064
+00:40:32,359 --> 00:40:37,040
+zero or greater than one and the just
+
+1065
+00:40:35,040 --> 00:40:38,440
+immediately spits out exact estimates
+
+1066
+00:40:37,040 --> 00:40:39,800
+the quantities that we're interested in
+
+1067
+00:40:38,440 --> 00:40:42,040
+so that's an advantage for model-based
+
+1068
+00:40:39,800 --> 00:40:43,920
+inference approaches um and they also
+
+1069
+00:40:42,040 --> 00:40:45,240
+allow us to impose like some prior
+
+1070
+00:40:43,920 --> 00:40:46,960
+knowledge on the data like if we know
+
+1071
+00:40:45,240 --> 00:40:48,280
+that there are three Source populations
+
+1072
+00:40:46,960 --> 00:40:50,520
+we want to think about it that way we
+
+1073
+00:40:48,280 --> 00:40:53,880
+can impose that understanding of the
+
+1074
+00:40:50,520 --> 00:40:55,520
+data on our inference uh however PCA May
+
+1075
+00:40:53,880 --> 00:40:57,800
+better capture situations where
+
+1076
+00:40:55,520 --> 00:41:00,040
+population structures uh where structure
+
+1077
+00:40:57,800 --> 00:41:02,000
+varies continuously if we don't want to
+
+1078
+00:41:00,040 --> 00:41:03,920
+specify that number of populations then
+
+1079
+00:41:02,000 --> 00:41:05,640
+we can we'll just compute a bunch of PCS
+
+1080
+00:41:03,920 --> 00:41:06,720
+and kind of see like where they stop
+
+1081
+00:41:05,640 --> 00:41:09,079
+capturing things that look like
+
+1082
+00:41:06,720 --> 00:41:13,040
+population structure
+
+1083
+00:41:09,079 --> 00:41:14,599
+um yeah so those are advantages of PCA
+
+1084
+00:41:13,040 --> 00:41:17,200
+over mbased inference but really both
+
+1085
+00:41:14,599 --> 00:41:19,160
+are useful uh and if you're doing this
+
+1086
+00:41:17,200 --> 00:41:21,160
+kind of research you uh will find
+
+1087
+00:41:19,160 --> 00:41:24,040
+instances where you want to use each of
+
+1088
+00:41:21,160 --> 00:41:26,960
+them there's no these chats do I need to
+
+1089
+00:41:24,040 --> 00:41:28,640
+worry cool no um so how much time do I
+
+1090
+00:41:26,960 --> 00:41:31,480
+have left
+
+1091
+00:41:28,640 --> 00:41:33,359
+that is a great question I think we are
+
+1092
+00:41:31,480 --> 00:41:34,720
+it would be wonderful to have some Q&A
+
+1093
+00:41:33,359 --> 00:41:36,760
+we're about four minutes before we have
+
+1094
+00:41:34,720 --> 00:41:38,800
+to do the change over and we're kind of
+
+1095
+00:41:36,760 --> 00:41:43,160
+at a natural stopping point definitely
+
+1096
+00:41:38,800 --> 00:41:48,480
+um let me do one last like yes
+
+1097
+00:41:43,160 --> 00:41:51,079
+oh there's like uh this slide um and so
+
+1098
+00:41:48,480 --> 00:41:53,160
+this is GNA be my question to you great
+
+1099
+00:41:51,079 --> 00:41:54,079
+um so I think if you want like this is
+
+1100
+00:41:53,160 --> 00:41:56,359
+interesting and you want to learn more
+
+1101
+00:41:54,079 --> 00:41:57,359
+about MPG like when I was a computation
+
+1102
+00:41:56,359 --> 00:41:58,680
+biologist I didn't really know anything
+
+1103
+00:41:57,359 --> 00:42:00,359
+about this and I got excited about it by
+
+1104
+00:41:58,680 --> 00:42:01,920
+coming to these the first is you should
+
+1105
+00:42:00,359 --> 00:42:05,040
+keep coming to the mpg primer and the
+
+1106
+00:42:01,920 --> 00:42:07,599
+mpg seminar uh the next is that my pii
+
+1107
+00:42:05,040 --> 00:42:10,599
+uh teaches this ep511 class at hsph in
+
+1108
+00:42:07,599 --> 00:42:13,240
+the spring and he'll let you um probably
+
+1109
+00:42:10,599 --> 00:42:15,160
+let you just uh audit it if you don't if
+
+1110
+00:42:13,240 --> 00:42:16,440
+you can actually take a credit and I I
+
+1111
+00:42:15,160 --> 00:42:17,599
+think it's an awesome class you go over
+
+1112
+00:42:16,440 --> 00:42:19,960
+like lots of stuff like this in more
+
+1113
+00:42:17,599 --> 00:42:21,640
+detail and he also shares his slides
+
+1114
+00:42:19,960 --> 00:42:23,280
+online freely right yeah yeah and so
+
+1115
+00:42:21,640 --> 00:42:24,599
+like a lot of the slides from his class
+
+1116
+00:42:23,280 --> 00:42:26,200
+I stole for this and they're all free
+
+1117
+00:42:24,599 --> 00:42:27,880
+online so you can go check those out and
+
+1118
+00:42:26,200 --> 00:42:30,319
+like I use those as resource all the
+
+1119
+00:42:27,880 --> 00:42:31,800
+time and then this book is uh pretty new
+
+1120
+00:42:30,319 --> 00:42:33,240
+and like not actually finished but
+
+1121
+00:42:31,800 --> 00:42:35,160
+there's like the first three chapters
+
+1122
+00:42:33,240 --> 00:42:36,760
+from it and a lot of the slides I also
+
+1123
+00:42:35,160 --> 00:42:41,480
+stole from that and this book is awesome
+
+1124
+00:42:36,760 --> 00:42:43,720
+too so check sto with appropriate
+
+1125
+00:42:41,480 --> 00:42:48,000
+credit but yeah uh are there any
+
+1126
+00:42:43,720 --> 00:42:50,079
+questions about the subject matter for
+
+1127
+00:42:48,000 --> 00:42:54,160
+presentation let's first give a a round
+
+1128
+00:42:50,079 --> 00:42:54,160
+of applause for for Jordan
+
+1129
+00:43:02,359 --> 00:43:06,240
+thanks Jordan that was such a good
+
+1130
+00:43:03,640 --> 00:43:08,720
+primer um I was wondering do people like
+
+1131
+00:43:06,240 --> 00:43:10,839
+combine PCA and model based so if you
+
+1132
+00:43:08,720 --> 00:43:13,440
+say if you want to get the ancestry
+
+1133
+00:43:10,839 --> 00:43:16,079
+proportions could you look at the
+
+1134
+00:43:13,440 --> 00:43:18,319
+PCA like and identify how many KS you
+
+1135
+00:43:16,079 --> 00:43:23,160
+want to specify and then put
+
+1136
+00:43:18,319 --> 00:43:23,160
+that um five
+
+1137
+00:43:28,160 --> 00:43:36,000
+that seem real and then sees that as k
+
+1138
+00:43:33,040 --> 00:43:38,520
+um I know in some of the modelbased
+
+1139
+00:43:36,000 --> 00:43:41,520
+clustering literature there is
+
+1140
+00:43:38,520 --> 00:43:43,319
+discussion of how to choose K and it's
+
+1141
+00:43:41,520 --> 00:43:46,559
+possible this is suggested as an
+
+1142
+00:43:43,319 --> 00:43:48,680
+approach but I don't know if it is that
+
+1143
+00:43:46,559 --> 00:43:51,280
+it's a cool idea I think it I like it
+
+1144
+00:43:48,680 --> 00:43:51,280
+thanks
+
+1145
+00:43:51,839 --> 00:43:56,559
+nice I've got a question um while other
+
+1146
+00:43:54,680 --> 00:43:58,599
+people might want to come up to the mic
+
+1147
+00:43:56,559 --> 00:44:01,640
+uh for the I had a question about the
+
+1148
+00:43:58,599 --> 00:44:03,760
+Assumption about assuming Independence
+
+1149
+00:44:01,640 --> 00:44:06,079
+between Snips for the generative models
+
+1150
+00:44:03,760 --> 00:44:09,640
+and given that we know that assumption
+
+1151
+00:44:06,079 --> 00:44:11,839
+is not true and um do these models still
+
+1152
+00:44:09,640 --> 00:44:14,480
+perform well or when when do they
+
+1153
+00:44:11,839 --> 00:44:17,640
+perform not as well yeah
+
+1154
+00:44:14,480 --> 00:44:19,000
+so it's true that it's typically if we
+
+1155
+00:44:17,640 --> 00:44:22,000
+just kind of use every snip in the
+
+1156
+00:44:19,000 --> 00:44:23,599
+genome oftentimes Snips one and two will
+
+1157
+00:44:22,000 --> 00:44:27,400
+be in linkage dise equilibrium which
+
+1158
+00:44:23,599 --> 00:44:31,200
+means they co-occur or uh never co-occur
+
+1159
+00:44:27,400 --> 00:44:34,319
+um and that violates our methodological
+
+1160
+00:44:31,200 --> 00:44:41,319
+or our generative data assumption that
+
+1161
+00:44:34,319 --> 00:44:43,240
+GI G G11 is independent from G2 g12 um
+
+1162
+00:44:41,319 --> 00:44:46,000
+and so typically I think the advice is
+
+1163
+00:44:43,240 --> 00:44:48,760
+to just prune your genotype data such
+
+1164
+00:44:46,000 --> 00:44:52,720
+that you don't have adjacent Snips in LD
+
+1165
+00:44:48,760 --> 00:44:58,119
+or or or close uh yeah yeah nearby Snips
+
+1166
+00:44:52,720 --> 00:44:58,119
+in LD um but
+
+1167
+00:44:58,440 --> 00:45:02,720
+I bet that kind of to what extent you do
+
+1168
+00:45:00,280 --> 00:45:05,040
+that pruning how strict about it you are
+
+1169
+00:45:02,720 --> 00:45:07,200
+um
+
+1170
+00:45:05,040 --> 00:45:08,880
+and you can probably get away with not
+
+1171
+00:45:07,200 --> 00:45:10,599
+being perfect about things and it'll
+
+1172
+00:45:08,880 --> 00:45:13,760
+still come out mostly right because kind
+
+1173
+00:45:10,599 --> 00:45:16,319
+of the dominating factors in uh your
+
+1174
+00:45:13,760 --> 00:45:17,680
+genot type Matrix will be these ancestry
+
+1175
+00:45:16,319 --> 00:45:19,760
+proportions not this kind of small
+
+1176
+00:45:17,680 --> 00:45:21,200
+region of LD but it probably you
+
+1177
+00:45:19,760 --> 00:45:23,240
+probably get better estimates if you
+
+1178
+00:45:21,200 --> 00:45:26,280
+prune your Snips better and I think that
+
+1179
+00:45:23,240 --> 00:45:28,520
+some of these methods also do relax this
+
+1180
+00:45:26,280 --> 00:45:30,800
+assumption that there uh is Independence
+
+1181
+00:45:28,520 --> 00:45:32,520
+between adjacent Snips uh but I'm
+
+1182
+00:45:30,800 --> 00:45:33,880
+actually not that sure that about that
+
+1183
+00:45:32,520 --> 00:45:36,839
+the approach might just be you have to
+
+1184
+00:45:33,880 --> 00:45:38,880
+do some pruning based onage dis
+
+1185
+00:45:36,839 --> 00:45:41,520
+equilibrium that sounds that sounds
+
+1186
+00:45:38,880 --> 00:45:43,559
+great um we're almost at we basically
+
+1187
+00:45:41,520 --> 00:45:46,040
+we're at time but we don't have to move
+
+1188
+00:45:43,559 --> 00:45:48,720
+today the prime the seminar will be in
+
+1189
+00:45:46,040 --> 00:45:50,240
+here so you guys can get your breakfast
+
+1190
+00:45:48,720 --> 00:45:54,400
+um and then let's just thank Jordan one
+
+1191
+00:45:50,240 --> 00:45:54,400
+more time for his wonderful primer
+

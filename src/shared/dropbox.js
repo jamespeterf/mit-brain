@@ -1,35 +1,46 @@
 // dropbox.js (ESM)
-// Lazy-reads env at call time so it works even if dotenv loads after imports.
+// Supports per-user config or falls back to env vars.
 // Supports refresh-token flow and falls back to access token if provided.
 
 const TOKEN_URL = "https://api.dropboxapi.com/oauth2/token";
 const API_URL = "https://api.dropboxapi.com/2";
 const CONTENT_URL = "https://content.dropboxapi.com/2";
 
-let cachedAccessToken = null;
-let cachedAccessTokenExpiryMs = 0; // epoch ms
+// Per-user token cache: key = refreshToken, value = { token, expiryMs }
+const tokenCache = new Map();
 
 function env(name, fallback = "") {
   return (process.env[name] || fallback).toString().trim();
 }
 
-function getDropboxConfig() {
+function getDropboxConfig(userConfig = null) {
+  // If user config is provided, use it; otherwise read from env
+  if (userConfig) {
+    return {
+      refreshToken: userConfig.refreshToken || '',
+      accessToken: userConfig.accessToken || '',
+      appKey: userConfig.appKey || '',
+      appSecret: userConfig.appSecret || '',
+      transcriptsDir: userConfig.transcriptsDir || '/Transcripts'
+    };
+  }
+
   // Read at call-time (NOT module load time)
   const refreshToken = env("DROPBOX_REFRESH_TOKEN");
   const accessToken = env("DROPBOX_ACCESS_TOKEN");
   const appKey = env("DROPBOX_APP_KEY");
   const appSecret = env("DROPBOX_APP_SECRET");
 
-  return { refreshToken, accessToken, appKey, appSecret };
+  return { refreshToken, accessToken, appKey, appSecret, transcriptsDir: env("DROPBOX_TRANSCRIPTS_DIR", "/Transcripts") };
 }
 
 function nowMs() {
   return Date.now();
 }
 
-function isTokenStillValid() {
-  return cachedAccessToken && cachedAccessTokenExpiryMs && nowMs() < cachedAccessTokenExpiryMs - 30_000;
-  // 30s safety buffer
+function isTokenStillValid(cacheKey) {
+  const cached = tokenCache.get(cacheKey);
+  return cached && cached.token && cached.expiryMs && nowMs() < cached.expiryMs - 30_000;
 }
 
 async function fetchJson(url, { method = "POST", headers = {}, body } = {}) {
@@ -44,17 +55,16 @@ async function fetchJson(url, { method = "POST", headers = {}, body } = {}) {
   return { res, text, json };
 }
 
-async function refreshAccessToken() {
-  const { refreshToken, appKey, appSecret } = getDropboxConfig();
+async function refreshAccessToken(config) {
+  const { refreshToken, appKey, appSecret } = config;
 
   if (!refreshToken) {
-    throw new Error("Missing DROPBOX_REFRESH_TOKEN (set it in .env)");
+    throw new Error("Missing Dropbox Refresh Token. Configure it in Settings.");
   }
   if (!appKey) {
-    throw new Error("Missing DROPBOX_APP_KEY (set it in .env)");
+    throw new Error("Missing Dropbox App Key. Configure it in Settings.");
   }
-  // If your app is configured as PKCE-only/no secret, appSecret may be blank.
-  // If you have it, we’ll use it. If not, Dropbox will still accept client_id-only for some app types.
+
   const params = new URLSearchParams();
   params.set("grant_type", "refresh_token");
   params.set("refresh_token", refreshToken);
@@ -68,41 +78,43 @@ async function refreshAccessToken() {
   });
 
   if (!res.ok) {
-    // Dropbox often returns JSON with error_summary
     const msg = json?.error_summary || json?.error_description || text || `HTTP ${res.status}`;
     throw new Error(`Dropbox token refresh failed (${res.status}): ${msg}`);
   }
 
   const token = json?.access_token;
-  const expiresIn = Number(json?.expires_in || 14_400); // Dropbox typically returns 4 hours
+  const expiresIn = Number(json?.expires_in || 14_400);
 
   if (!token) {
     throw new Error("Dropbox token refresh succeeded but no access_token was returned");
   }
 
-  cachedAccessToken = token;
-  cachedAccessTokenExpiryMs = nowMs() + expiresIn * 1000;
+  const cacheKey = refreshToken;
+  tokenCache.set(cacheKey, { token, expiryMs: nowMs() + expiresIn * 1000 });
 
-  return cachedAccessToken;
+  return token;
 }
 
-async function getAccessToken() {
-  const { accessToken, refreshToken } = getDropboxConfig();
+async function getAccessToken(userConfig = null) {
+  const config = getDropboxConfig(userConfig);
+  const { accessToken, refreshToken } = config;
 
-  // Prefer refresh-token flow (so you stop getting expired_access_token)
+  // Prefer refresh-token flow
   if (refreshToken) {
-    if (isTokenStillValid()) return cachedAccessToken;
-    return await refreshAccessToken();
+    if (isTokenStillValid(refreshToken)) {
+      return tokenCache.get(refreshToken).token;
+    }
+    return await refreshAccessToken(config);
   }
 
-  // Fallback to static access token if user insists (will expire eventually)
+  // Fallback to static access token
   if (accessToken) return accessToken;
 
-  throw new Error("Missing DROPBOX_REFRESH_TOKEN (set it in .env)");
+  throw new Error("Missing Dropbox Refresh Token. Configure it in Settings.");
 }
 
-async function dropboxApi(endpoint, payload) {
-  const token = await getAccessToken();
+async function dropboxApi(endpoint, payload, userConfig = null) {
+  const token = await getAccessToken(userConfig);
 
   const { res, text, json } = await fetchJson(`${API_URL}${endpoint}`, {
     method: "POST",
@@ -121,8 +133,8 @@ async function dropboxApi(endpoint, payload) {
   return json;
 }
 
-async function dropboxContent(endpoint, args, { responseType = "text" } = {}) {
-  const token = await getAccessToken();
+async function dropboxContent(endpoint, args, { responseType = "text" } = {}, userConfig = null) {
+  const token = await getAccessToken(userConfig);
 
   const res = await fetch(`${CONTENT_URL}${endpoint}`, {
     method: "POST",
@@ -149,17 +161,15 @@ async function dropboxContent(endpoint, args, { responseType = "text" } = {}) {
 // Public helpers you likely use
 // ==========================
 
-export async function listTranscripts(folderPath = "/transcripts") {
-  // files/list_folder requires files.metadata.read
+export async function listTranscripts(folderPath = "/transcripts", userConfig = null) {
   const data = await dropboxApi("/files/list_folder", {
     path: folderPath,
     recursive: false,
     include_deleted: false,
     include_mounted_folders: true,
     include_non_downloadable_files: false
-  });
+  }, userConfig);
 
-  // Normalize for your UI
   const entries = Array.isArray(data?.entries) ? data.entries : [];
   const items = entries
     .filter((e) => e[".tag"] === "file")
@@ -175,27 +185,24 @@ export async function listTranscripts(folderPath = "/transcripts") {
   return { ok: true, items };
 }
 
-export async function downloadTranscript(pathLower) {
-  // files/download returns raw file bytes as text
+export async function downloadTranscript(pathLower, userConfig = null) {
   const content = await dropboxContent(
     "/files/download",
     { path: pathLower },
-    { responseType: "text" }
+    { responseType: "text" },
+    userConfig
   );
 
-  // match what your route is likely expecting
   return { ok: true, path: pathLower, content };
 }
 
-
-
-// Optional: quick sanity check endpoint can call this
-export function dropboxEnvStatus() {
-  const { refreshToken, accessToken, appKey, appSecret } = getDropboxConfig();
+// Quick sanity check
+export function dropboxEnvStatus(userConfig = null) {
+  const config = getDropboxConfig(userConfig);
   return {
-    hasRefreshToken: !!refreshToken,
-    hasAccessToken: !!accessToken,
-    hasAppKey: !!appKey,
-    hasAppSecret: !!appSecret,
+    hasRefreshToken: !!config.refreshToken,
+    hasAccessToken: !!config.accessToken,
+    hasAppKey: !!config.appKey,
+    hasAppSecret: !!config.appSecret,
   };
 }

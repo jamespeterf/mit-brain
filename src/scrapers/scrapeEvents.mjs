@@ -13,7 +13,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const XLSX = require("xlsx");
-const { MITBrainSchema, fixText, normalizeDate } = require("../shared/MITBrainSchema.js");
+const { MITBrainSchema, fixText, normalizeDate } = require("../shared/MITBrainSchema.cjs");
 
 const eventsPath = process.argv[2] || path.join(__dirname, "../input/events.xlsx");
 
