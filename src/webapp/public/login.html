@@ -193,6 +193,29 @@
         </div>
 
         <button type="submit" class="btn" id="loginBtn">Sign In</button>
+
+        <div style="text-align: center; margin-top: 15px;">
+          <a href="#" id="forgotPasswordLink" style="color: #8e44ad; text-decoration: none; font-size: 0.9em;">Forgot Password?</a>
+        </div>
+      </form>
+
+      <!-- Forgot Password Form (hidden by default) -->
+      <form id="forgotPasswordForm" style="display: none;">
+        <p style="margin-bottom: 20px; color: #666;">Enter your email address and we'll send you a link to reset your password.</p>
+
+        <div id="forgotPasswordError" class="error-message"></div>
+        <div id="forgotPasswordSuccess" class="success-message" style="display: none; background: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 15px;"></div>
+
+        <div class="form-group">
+          <label for="forgotEmail">Email</label>
+          <input type="email" id="forgotEmail" name="forgotEmail" placeholder="your.email@mit.edu" required autocomplete="email">
+        </div>
+
+        <button type="submit" class="btn" id="forgotPasswordBtn">Send Reset Link</button>
+
+        <div style="text-align: center; margin-top: 15px;">
+          <a href="#" id="backToLoginLink" style="color: #8e44ad; text-decoration: none; font-size: 0.9em;">Back to Sign In</a>
+        </div>
       </form>
 
       <div class="footer-text">
@@ -316,6 +339,63 @@
       } catch (err) {
         changePasswordError.textContent = err.message;
         changePasswordError.classList.add('visible');
+      }
+    });
+
+    // Forgot Password handling
+    const loginForm = document.getElementById('loginForm');
+    const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+    const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+    const backToLoginLink = document.getElementById('backToLoginLink');
+    const forgotPasswordError = document.getElementById('forgotPasswordError');
+    const forgotPasswordSuccess = document.getElementById('forgotPasswordSuccess');
+    const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
+
+    forgotPasswordLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      loginForm.style.display = 'none';
+      forgotPasswordForm.style.display = 'block';
+      forgotPasswordError.classList.remove('visible');
+      forgotPasswordSuccess.style.display = 'none';
+    });
+
+    backToLoginLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      forgotPasswordForm.style.display = 'none';
+      loginForm.style.display = 'block';
+    });
+
+    forgotPasswordForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      forgotPasswordError.classList.remove('visible');
+      forgotPasswordSuccess.style.display = 'none';
+      forgotPasswordBtn.disabled = true;
+      forgotPasswordBtn.textContent = 'Sending...';
+
+      try {
+        const res = await fetch('/api/forgot-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: document.getElementById('forgotEmail').value
+          })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || 'Failed to send reset link');
+        }
+
+        forgotPasswordSuccess.textContent = data.message || 'If that email exists, a reset link has been sent.';
+        forgotPasswordSuccess.style.display = 'block';
+        document.getElementById('forgotEmail').value = '';
+      } catch (err) {
+        forgotPasswordError.textContent = err.message;
+        forgotPasswordError.classList.add('visible');
+      } finally {
+        forgotPasswordBtn.disabled = false;
+        forgotPasswordBtn.textContent = 'Send Reset Link';
       }
     });
   </script>

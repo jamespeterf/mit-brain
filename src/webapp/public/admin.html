@@ -1064,6 +1064,25 @@
     }
   }
 
+  async function resetUserPassword(userId) {
+    if (!confirm('Reset this user\'s password? They will receive an email with a temporary password.')) return;
+
+    try {
+      const res = await fetch(`/api/users/${userId}/reset-password`, { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to reset password');
+
+      if (data.tempPassword) {
+        // Email failed or not configured - show the temp password
+        alert(`Password reset!\n\nTemporary password: ${data.tempPassword}\n\nPlease share this with the user securely.`);
+      } else {
+        alert(data.message || 'Password reset! User will receive an email with their temporary password.');
+      }
+    } catch (err) {
+      alert('Error: ' + err.message);
+    }
+  }
+
   function closeUserModal(e) {
     if (e && e.target !== e.currentTarget) return;
     document.getElementById('userModal').classList.remove('visible');

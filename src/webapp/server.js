@@ -832,7 +832,7 @@ function getUserDir(email) {
 // Authentication middleware
 function requireAuth(req, res, next) {
   // Allow login page and login API without auth
-  const publicPaths = ['/login.html', '/api/login', '/api/logout', '/api/confirm/', '/css/', '/js/'];
+  const publicPaths = ['/login.html', '/api/login', '/api/logout', '/api/confirm/', '/api/forgot-password', '/api/reset-password', '/reset-password.html', '/css/', '/js/'];
   const isPublic = publicPaths.some(p => req.path.startsWith(p) || req.path === '/login.html');
 
   if (isPublic) {
@@ -1303,6 +1303,155 @@ app.post("/api/users/:id/resend-confirm", requireAdmin, async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: "Failed to send email: " + err.message });
   }
+});
+
+// Admin: Reset user password to a temporary one
+app.post("/api/users/:id/reset-password", requireAdmin, async (req, res) => {
+  const userId = parseInt(req.params.id);
+
+  const users = loadUsers();
+  const userIdx = users.findIndex(u => u.id === userId);
+
+  if (userIdx === -1) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  // Generate a temporary password
+  const tempPassword = 'Temp' + crypto.randomUUID().slice(0, 8);
+  const hashedPassword = bcrypt.hashSync(tempPassword, 10);
+
+  users[userIdx].password = hashedPassword;
+  users[userIdx].mustChangePassword = true;
+  saveUsers(users);
+
+  // Send email with temporary password if email is configured
+  if (emailTransporter) {
+    try {
+      const host = req.get('host');
+      const protocol = req.protocol;
+      const loginLink = `${protocol}://${host}/login.html`;
+
+      await emailTransporter.sendMail({
+        from: EMAIL_CONFIG.from,
+        to: users[userIdx].email,
+        subject: "MIT Brain - Your Password Has Been Reset",
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #8e44ad;">MIT Brain - Password Reset</h2>
+            <p>Hi ${users[userIdx].firstName},</p>
+            <p>Your password has been reset by an administrator. Here is your temporary password:</p>
+            <p style="background: #f5f5f5; padding: 15px; font-family: monospace; font-size: 18px; text-align: center; border-radius: 5px;">
+              <strong>${tempPassword}</strong>
+            </p>
+            <p>Please <a href="${loginLink}">log in</a> and you will be prompted to create a new password.</p>
+            <p style="color: #666; font-size: 12px; margin-top: 30px;">
+              If you did not expect this email, please contact your administrator.
+            </p>
+          </div>
+        `,
+      });
+      res.json({ success: true, message: `Password reset. Temporary password sent to ${users[userIdx].email}` });
+    } catch (err) {
+      // Password was reset but email failed - still return success with the temp password
+      res.json({ success: true, tempPassword, message: `Password reset but email failed: ${err.message}. Temporary password: ${tempPassword}` });
+    }
+  } else {
+    // No email configured - return the temp password directly
+    res.json({ success: true, tempPassword, message: `Password reset. Email not configured. Temporary password: ${tempPassword}` });
+  }
+});
+
+// Public: Forgot password - request reset link
+app.post("/api/forgot-password", async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: "Email is required" });
+  }
+
+  const users = loadUsers();
+  const userIdx = users.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
+
+  // Always return success to prevent email enumeration
+  if (userIdx === -1) {
+    return res.json({ success: true, message: "If that email exists, a reset link has been sent." });
+  }
+
+  if (!emailTransporter) {
+    return res.status(500).json({ error: "Email not configured on server. Contact an administrator." });
+  }
+
+  // Generate reset token
+  const resetToken = crypto.randomUUID();
+  users[userIdx].resetToken = resetToken;
+  users[userIdx].resetTokenExpires = Date.now() + 60 * 60 * 1000; // 1 hour
+  saveUsers(users);
+
+  try {
+    const host = req.get('host');
+    const protocol = req.protocol;
+    const resetLink = `${protocol}://${host}/reset-password.html?token=${resetToken}`;
+
+    await emailTransporter.sendMail({
+      from: EMAIL_CONFIG.from,
+      to: users[userIdx].email,
+      subject: "MIT Brain - Password Reset Request",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #8e44ad;">MIT Brain - Password Reset</h2>
+          <p>Hi ${users[userIdx].firstName},</p>
+          <p>We received a request to reset your password. Click the button below to create a new password:</p>
+          <p style="text-align: center; margin: 30px 0;">
+            <a href="${resetLink}" style="background: #8e44ad; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">
+              Reset Password
+            </a>
+          </p>
+          <p style="color: #666; font-size: 12px;">
+            This link expires in 1 hour. If you didn't request this, you can ignore this email.
+          </p>
+          <p style="color: #666; font-size: 12px;">
+            Or copy this link: ${resetLink}
+          </p>
+        </div>
+      `,
+    });
+    res.json({ success: true, message: "If that email exists, a reset link has been sent." });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to send email: " + err.message });
+  }
+});
+
+// Public: Reset password with token
+app.post("/api/reset-password", async (req, res) => {
+  const { token, newPassword } = req.body;
+
+  if (!token || !newPassword) {
+    return res.status(400).json({ error: "Token and new password are required" });
+  }
+
+  if (newPassword.length < 8) {
+    return res.status(400).json({ error: "Password must be at least 8 characters" });
+  }
+
+  const users = loadUsers();
+  const userIdx = users.findIndex(u => u.resetToken === token);
+
+  if (userIdx === -1) {
+    return res.status(400).json({ error: "Invalid or expired reset link" });
+  }
+
+  if (users[userIdx].resetTokenExpires < Date.now()) {
+    return res.status(400).json({ error: "Reset link has expired. Please request a new one." });
+  }
+
+  // Update password
+  users[userIdx].password = bcrypt.hashSync(newPassword, 10);
+  users[userIdx].mustChangePassword = false;
+  users[userIdx].resetToken = null;
+  users[userIdx].resetTokenExpires = null;
+  saveUsers(users);
+
+  res.json({ success: true, message: "Password has been reset. You can now log in." });
 });
 
 app.use("/api/transcripts", transcriptsRouter({ openai, webappDir: __dirname, getUserDir }));
