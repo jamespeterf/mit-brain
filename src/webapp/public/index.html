@@ -351,12 +351,14 @@
 
 <script>
   let reportData = null;
-  let allArticles = null; // Cache for all articles
+  // Dashboard data loaded from pre-calculated server cache
 
   // Load all widgets on page load
   document.addEventListener('DOMContentLoaded', () => {
     loadAllWidgets();
   });
+
+  let dashboardRecent = null; // Cached recent items from server
 
   async function loadAllWidgets() {
     try {
@@ -370,10 +372,9 @@
 
       reportData = reportJson.report;
 
-      // Fetch all articles once for the content widgets
-      const articlesResponse = await fetch('/api/matches?phrase=*&minScore=0');
-      allArticles = await articlesResponse.json();
-      if (!Array.isArray(allArticles)) allArticles = [];
+      // Fetch pre-calculated recent items (fast, lightweight endpoint)
+      const recentResponse = await fetch('/api/dashboard-recent');
+      dashboardRecent = await recentResponse.json();
 
       renderOverview();
       renderDistribution();
@@ -472,17 +473,12 @@
 
   function renderRecentArticles() {
     const el = document.getElementById('recentArticlesWidget');
-    if (!allArticles) {
+    if (!dashboardRecent) {
       el.innerHTML = '<div class="loading">Loading...</div>';
       return;
     }
 
-    // Filter to articles only and sort by publish date (newest first)
-    const articles = allArticles
-      .filter(item => item.kind === 'article')
-      .filter(item => item.publishedAt) // Only items with dates
-      .sort((a, b) => (b.publishedAt || '').localeCompare(a.publishedAt || ''))
-      .slice(0, 5);
+    const articles = dashboardRecent.recentArticles || [];
 
     if (articles.length > 0) {
       el.innerHTML = `
@@ -502,17 +498,12 @@
 
   function renderRecentVideos() {
     const el = document.getElementById('recentVideosWidget');
-    if (!allArticles) {
+    if (!dashboardRecent) {
       el.innerHTML = '<div class="loading">Loading...</div>';
       return;
     }
 
-    // Filter to videos only and sort by publish date (newest first)
-    const videos = allArticles
-      .filter(item => item.kind === 'video')
-      .filter(item => item.publishedAt) // Only items with dates
-      .sort((a, b) => (b.publishedAt || '').localeCompare(a.publishedAt || ''))
-      .slice(0, 5);
+    const videos = dashboardRecent.recentVideos || [];
 
     if (videos.length > 0) {
       el.innerHTML = `
@@ -536,17 +527,12 @@
 
   function renderRecentPapers() {
     const el = document.getElementById('recentPapersWidget');
-    if (!allArticles) {
+    if (!dashboardRecent) {
       el.innerHTML = '<div class="loading">Loading...</div>';
       return;
     }
 
-    // Filter to papers only and sort by publish date (newest first)
-    const papers = allArticles
-      .filter(item => item.kind === 'paper')
-      .filter(item => item.publishedAt) // Only items with dates
-      .sort((a, b) => (b.publishedAt || '').localeCompare(a.publishedAt || ''))
-      .slice(0, 5);
+    const papers = dashboardRecent.recentPapers || [];
 
     if (papers.length > 0) {
       el.innerHTML = `
@@ -566,26 +552,12 @@
 
   function renderUpcomingEvents() {
     const el = document.getElementById('upcomingEventsWidget');
-    if (!allArticles) {
+    if (!dashboardRecent) {
       el.innerHTML = '<div class="loading">Loading...</div>';
       return;
     }
 
-    const today = new Date().toISOString().split('T')[0];
-
-    // Filter to future_event kind and get upcoming events sorted by date
-    const events = allArticles
-      .filter(item => item.kind === 'future_event')
-      .filter(item => {
-        const eventDate = item.futureEventDate || item.date || item.publishedAt || '';
-        return eventDate >= today; // Only future events
-      })
-      .sort((a, b) => {
-        const dateA = a.futureEventDate || a.date || a.publishedAt || '';
-        const dateB = b.futureEventDate || b.date || b.publishedAt || '';
-        return dateA.localeCompare(dateB); // Soonest first
-      })
-      .slice(0, 5);
+    const events = dashboardRecent.upcomingEvents || [];
 
     if (events.length > 0) {
       el.innerHTML = `
@@ -593,7 +565,7 @@
           ${events.map(item => `
             <li>
               <a href="${item.url || '#'}" target="_blank">${truncate(item.title, 60)}</a>
-              <div class="meta">${item.futureEventDate || item.date || item.publishedAt || 'TBD'}${item.location ? ' • ' + item.location : ''}</div>
+              <div class="meta">${item.date || 'TBD'}${item.location ? ' • ' + item.location : ''}</div>
             </li>
           `).join('')}
         </ul>

@@ -72,6 +72,7 @@ const JSONL_FILENAME = `${MIT_BRAIN}.jsonl`;
 const jsonlPath = path.join(__dirname, "../../brain", JSONL_FILENAME);
 let articles = [];
 let articlesByKind = {}; // Track article counts by kind
+let dashboardCache = null; // Pre-calculated dashboard data
 const serverStartTime = new Date().toISOString(); // Track when server started
 
 // ---------- Temp Prospect Profiles (in-memory storage) ----------
@@ -85,6 +86,46 @@ function calculateArticlesByKind(articles) {
     counts[kind] = (counts[kind] || 0) + 1;
   }
   return counts;
+}
+
+// Helper function to calculate dashboard cache (recent items by kind)
+function calculateDashboardCache(articles) {
+  const getRecent = (kind, limit = 5) => {
+    return articles
+      .filter(a => a.kind === kind && a.publishedAt)
+      .sort((a, b) => (b.publishedAt || '').localeCompare(a.publishedAt || ''))
+      .slice(0, limit)
+      .map(a => ({
+        title: a.title,
+        url: a.url,
+        source: a.source,
+        publishedAt: a.publishedAt,
+        durationSeconds: a.durationSeconds
+      }));
+  };
+
+  const getUpcomingEvents = (limit = 10) => {
+    const now = new Date().toISOString().split('T')[0];
+    return articles
+      .filter(a => a.kind === 'future_event' || a.kind === 'event')
+      .filter(a => a.date >= now || a.eventDate >= now)
+      .sort((a, b) => (a.date || a.eventDate || '').localeCompare(b.date || b.eventDate || ''))
+      .slice(0, limit)
+      .map(a => ({
+        title: a.title,
+        url: a.url,
+        date: a.date || a.eventDate,
+        location: a.location
+      }));
+  };
+
+  return {
+    recentArticles: getRecent('article', 5),
+    recentVideos: getRecent('video', 5),
+    recentPapers: getRecent('paper', 5),
+    upcomingEvents: getUpcomingEvents(10),
+    calculatedAt: new Date().toISOString()
+  };
 }
 
 async function loadArticles() {
@@ -107,8 +148,12 @@ async function loadArticles() {
     // Calculate article counts by kind
     articlesByKind = calculateArticlesByKind(articles);
 
+    // Pre-calculate dashboard data
+    dashboardCache = calculateDashboardCache(articles);
+
     console.log(`✅ Loaded ${articles.length} articles from JSONL`);
     console.log(`📊 Articles by kind:`, articlesByKind);
+    console.log(`📊 Dashboard cache: ${dashboardCache.recentArticles.length} articles, ${dashboardCache.recentVideos.length} videos, ${dashboardCache.recentPapers.length} papers, ${dashboardCache.upcomingEvents.length} events`);
     return articles;
   } catch (err) {
     console.error("❌ Error loading mit_brain_test17.jsonl:", err.message);
@@ -3365,6 +3410,14 @@ app.get("/api/status", (req, res) => {
     loadedAt: serverStartTime,
     uptime: process.uptime()
   });
+});
+
+// Dashboard recent items (pre-calculated at startup for fast loading)
+app.get("/api/dashboard-recent", (req, res) => {
+  if (!dashboardCache) {
+    return res.status(503).json({ error: "Dashboard data not yet loaded" });
+  }
+  res.json(dashboardCache);
 });
 
 // ============================================================
